@@ -1,0 +1,710 @@
+[
+  {
+    "id": "vita_health_power",
+    "type": "SPELL",
+    "name": "[Ψ]Healthy Glow (C)",
+    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Healthy Glow <color_red>cannot be active</color> with Leucocyte Acculumation",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_HEALTH_POWER_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_health_power') * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_health_power') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 75)), 1000)" ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : max((100 -(u_spell_level('vita_health_power') * 7.5)), 25)" ]
+    }
+  },
+  {
+    "id": "vita_slow_bleeding",
+    "type": "SPELL",
+    "name": "[Ψ]Coagulation (C)",
+    "description": "By increasing the efficiency of your platelets and speeding their movement, you can slow your rate of bleeding and even prevent it before it starts.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SLOW_BLEEDING_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_slow_bleeding') * 1800) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_slow_bleeding') * 16300) + 117400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 0 : max((2500 - (u_spell_level('vita_health_power') * 95)), 1250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vitakin_slow_bleeding') > -1 ? 10 : max((200 -(u_spell_level('vita_health_power') * 6.5)), 50)"
+      ]
+    }
+  },
+  {
+    "id": "vita_stop_bleeding",
+    "type": "SPELL",
+    "name": "[Ψ]Staunch Wound",
+    "description": "You concentrate on your injuries, and they close and the blood flow stops.",
+    "message": "You summon up the energy to close your wounds!",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_STOP_BLEEDING_EOC",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 1200,
+    "max_duration": 1200,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3000,
+    "final_energy_cost": 750,
+    "energy_increment": -125,
+    "base_casting_time": 50,
+    "final_casting_time": 20,
+    "casting_time_increment": -3
+  },
+  {
+    "id": "vita_stop_bleeding_01",
+    "type": "SPELL",
+    "name": "[Ψ]Staunch Wound #1",
+    "description": "The first of the Staunch Wound spells.  This summons a low-power bandage--it's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "vita_bandage_01",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "id": "vita_stop_bleeding_02",
+    "type": "SPELL",
+    "name": "[Ψ]Staunch Wound #2",
+    "description": "The first of the Staunch Wound spells.  This summons a medium-power bandage--it's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "vita_bandages_02",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "id": "vita_stop_bleeding_03",
+    "type": "SPELL",
+    "name": "[Ψ]Staunch Wound #3",
+    "description": "The first of the Staunch Wound spells.  This summons a high-power bandage--it's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "vita_bandages_03",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "id": "vita_concentrated_healing",
+    "type": "SPELL",
+    "name": "[Ψ]Leukocyte Accumulation (C)",
+    "description": "By rerouting blood and stem cells from more lightly damaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Leucocyte Acculumation <color_red>cannot be active</color> with Healthy Glow",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_CONCENTRATED_HEALING_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_concentrated_healing') * 7300) + 46300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_concentrated_healing') * 28400) + 103400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_concentrated_healing') * 80)), 1350)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max((250 -(u_spell_level('vita_concentrated_healing') * 9.5)), 35)"
+      ]
+    }
+  },
+  {
+    "id": "vita_hurt_touch",
+    "type": "SPELL",
+    "name": "[Ψ]Enervating Touch",
+    "description": "With but a touch you can cause your target to begin deteriorating slowly.  This is most effective on targets with preternatural means of healing but has some effect on anyone.",
+    "message": "You touch your target and leave an angry red weal behind.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_vitakin_hurt",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_dot": 1,
+    "max_dot": 1,
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_hurt_touch') * 50) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_hurt_touch') * 150) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 950,
+    "energy_increment": -65,
+    "base_casting_time": 85,
+    "final_casting_time": 55,
+    "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vita_health_power_ally",
+    "type": "SPELL",
+    "name": "[Ψ]Medicinal Touch",
+    "description": "You can apply your Healthy Glow power to a follower or ally.  This can stop an asthma attack.",
+    "message": "Your touch your target and they seem to perk up.",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_vita_health",
+    "shape": "blast",
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_health_power_ally') * 2100) + 35400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_health_power_ally') * 29800) + 155000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 2000,
+    "energy_increment": -75,
+    "base_casting_time": 100,
+    "final_casting_time": 25,
+    "casting_time_increment": -7.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vita_remove_poison",
+    "type": "SPELL",
+    "name": "[Ψ]Detoxification",
+    "description": "When poisoned, you can isolate the poison and move it to your sweat glands where you will harmlessly sweat it out.  While doing so, your flesh will be toxic to any creatures that take a bite.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_remove_poison') * 400) + 15600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_remove_poison') * 3200) + 41800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1750,
+    "energy_increment": -115,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "vita_sleeping_trance",
+    "type": "SPELL",
+    "name": "[Ψ]Wakeful Rest",
+    "description": "In lieu of sleep, you can meditate.  As long as you maintain your meditations, you will rarely need to spend a night sleeping.",
+    "message": "You begin meditating.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SLEEP",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1000,
+    "base_casting_time": 100
+  },
+  {
+    "id": "vita_cure_disease",
+    "type": "SPELL",
+    "name": "[Ψ]Immunostimulus (C)",
+    "description": "Kick your immune system into overdrive in order to overcome any illnesses you may be suffering from.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_CURE_DISEASE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_cure_disease') * 4800) + 114800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_cure_disease') * 31100) + 283400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 0 : max((5500 - (u_spell_level('vita_cure_disease') * 125)), 2500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vita_cure_disease') > -1 ? 10 : max((500 -(u_spell_level('vita_cure_disease') * 18)), 50)"
+      ]
+    }
+  },
+  {
+    "id": "vita_stop_infection",
+    "type": "SPELL",
+    "name": "[Ψ]Allay Infection",
+    "description": "Before you could stop your bleeding with but a thought.  Now, you can treat infected wounds with your powers as well.",
+    "message": "You concentrate on the injuries, and the itching eases.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_STOP_INFECTION_SWITCH",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2250,
+    "energy_increment": -145,
+    "base_casting_time": 350,
+    "final_casting_time": 125,
+    "casting_time_increment": -14
+  },
+  {
+    "id": "vita_stop_infection_01",
+    "type": "SPELL",
+    "name": "[Ψ]SAllay Infection #1",
+    "description": "The first of the Allay Infection spells.  This summons a low-power disinfectant/antibiotic--it's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "vita_disinfectant_01",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "id": "vita_stop_infection_02",
+    "type": "SPELL",
+    "name": "[Ψ]SAllay Infection #2",
+    "description": "The second of the Allay Infection spells.  This summons a medium-power disinfectant/antibiotic--it's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "vita_disinfectant_02",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "id": "vita_stop_infection_03",
+    "type": "SPELL",
+    "name": "[Ψ]SAllay Infection #3",
+    "description": "The third of the Allay Infection spells.  This summons a high-power disinfectant/antibiotic--it's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "spawn_item",
+    "effect_str": "vita_disinfectant_03",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 200,
+    "max_duration": 200
+  },
+  {
+    "id": "vita_healing_trance",
+    "type": "SPELL",
+    "name": "[Ψ]Revitalizing Meditation",
+    "description": "Enter a trance state and heal your injuries many times faster than they would heal naturally.",
+    "message": "You enter a trance and submerge your awareness into your body.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_HEALING_TRANCE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "base_casting_time": 500
+  },
+  {
+    "id": "vita_attack_touch",
+    "type": "SPELL",
+    "name": "[Ψ]Lacerating Touch",
+    "description": "With an inverse of vitakinesis's healing powers, you randomly tear flesh and cut blood vessels, causing significant damage in your target.",
+    "message": "You touch your target and wounds open on their flesh.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "biological",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('vita_attack_touch') * 2) + 12) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('vita_attack_touch') * 4) + 35) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_dot": 1,
+    "max_dot": 1,
+    "min_range": 1,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_attack_touch') * 50) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_attack_touch') * 150) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 2350,
+    "energy_increment": -115,
+    "base_casting_time": 85,
+    "final_casting_time": 55,
+    "casting_time_increment": -3,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "vita_purge_rads",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Decontamination",
+    "description": "Use your powers to isolate and flush radiation from your body.  Depending on your level of contamination, this power may have serious side effects.",
+    "message": "You focus your powers on the corruption infusing your flesh.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RAD_PURGE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7000,
+    "final_energy_cost": 4500,
+    "energy_increment": -135,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "vita_blood_purge",
+    "type": "SPELL",
+    "name": "[Ψ]Blood Purge",
+    "description": "You submerge your mind into your bloodstream and remove the impurities you find there.",
+    "message": "Your power flows through your veins, cleansing your blood.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "cureall",
+    "extra_effects": [ { "id": "vita_blood_purge_no_mutagens", "hit_self": true } ],
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8500,
+    "final_energy_cost": 4500,
+    "energy_increment": -145,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -8
+  },
+  {
+    "id": "vita_blood_purge_no_mutagens",
+    "type": "SPELL",
+    "name": "[Ψ]Blood Purge Remove Mutagens",
+    "description": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "shape": "blast"
+  },
+  {
+    "id": "vita_banish_illness",
+    "type": "SPELL",
+    "name": "[Ψ]Banish Illness",
+    "description": "Enter a deep meditative trance and purge your body of illness, even serious ones like cancer or multiple sclerosis.  It will not cure mutation.  Some illnesses are more difficult to successfully eradicate than others.",
+    "message": "You attempt to cure your afflictions.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "base_casting_time": 500
+  },
+  {
+    "id": "vita_super_heal",
+    "type": "SPELL",
+    "name": "[Ψ]Anabolic Rejuvenation (C)",
+    "description": "You draw on your body's reserves to speed your healing a hundredfold.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_SUPER_HEAL_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_super_heal') * 2900) + 14600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_super_heal') * 11000) + 37200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_super_heal') > -1 ? 0 : max((10000 - (u_spell_level('vita_super_heal') * 150)), 6500)"
+      ]
+    },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 1000" ] }
+  },
+  {
+    "id": "vita_super_heal_healing",
+    "type": "SPELL",
+    "name": "Anabolic Rejuvenation Heal",
+    "description": "The healing part of Anabolic Rejuvenation.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
+    "max_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "flags": [ "PSIONIC", "SILENT" ]
+  },
+  {
+    "id": "vita_super_heal_drain",
+    "type": "SPELL",
+    "name": "Anabolic Rejuvenation draining",
+    "description": "The draining part of Anabolic Rejuvenation.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "shape": "blast",
+    "flags": [ "PSIONIC", "SILENT" ]
+  },
+  {
+    "id": "vita_limb_restore",
+    "type": "SPELL",
+    "name": "[Ψ]Ameliorate Extremity",
+    "description": "You sink your mind the deepest within yourself you can possibly get and enter a meditative trance to rejuvenate lost limbs, one at a time.  Be sure to remove any prosthetics before doing this, it's hard to work around them.",
+    "message": "You sink your mind deep within your body and enter a trance.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_limb_restore') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_limb_restore') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 1200
+  },
+  {
+    "id": "vita_return_from_death",
+    "type": "SPELL",
+    "name": "[Ψ]Accelerated Resuscitation (C)",
+    "description": "While this power is active, if you suffer potentially fatal damage, your vitakinesis will go into overdrive to keep you alive.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_RETURN_FROM_DEATH_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_return_from_death') * 96200) + 397800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_return_from_death') * 281900) + 1236000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_return_from_death') > -1 ? 0 : max((9000 - (u_spell_level('vita_return_from_death') * 125)), 6000)"
+      ]
+    },
+    "base_casting_time": { "math": [ "u_effect_intensity('effect_vita_health') > -1 ? 10 : 3000" ] }
+  }
+]

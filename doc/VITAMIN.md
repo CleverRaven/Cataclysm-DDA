@@ -1,4 +1,4 @@
-# vitamin
+# Vitamins
 
 ## definition
 
@@ -12,6 +12,7 @@
   "deficiency": "anemia",
   "min": -12000,
   "max": 3600,
+  "weight_per_unit": "1 mg",
   "rate": "15 m",
   "flags": [ "FOO" ],
   "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ],
@@ -26,20 +27,20 @@ Mandatory. The id of the vitamin.
 Mandatory. Must be `vitamin`.
 
 ### `vit_type`
-The type of the vitamin. Valid values are:
+Mandatory. The type of the vitamin. Valid values are:
 
 #### `vitamin`
 When simplified nutrition is enabled, this vitamin will not be added to any items and any time the game attempts to retrieve it from the player it will give 0.
-Only nutritional vitamins should have this type. **Vitamins are inputed in JSON as RDA everything else is a constant value**
+Only nutritional vitamins should have this type. **Vitamins are inputted in JSON as RDA everything else is a constant value**
 
 #### `toxin`
 This is some toxic chemical or component. This currently has no effect.
 
-#### `drug`
-This is a drug. This currently has no effect.
-
 #### `counter`
 This is a counter for something, that is neither a toxin, vitamin, or drug.
+
+#### `drug`
+This is a drug. This currently acts as a 'counter', except that it takes 30 minutes (1 stomach cycle) to effect the player character, in order to simulate slow digestion and metabolism of drugs. In order to properly make use of this delay effect, make sure to add it to the base drug item itself, and not it's use effect(s). Look at ibuprofen at med.json for an example.
 
 ### `name`
 What the vitamin shows up as where vitamins are displayed, such as the vitamins display in the item menu.
@@ -55,6 +56,10 @@ The smallest amount of this vitamin that the player can have.
 
 ### `max`
 The highest amount of this vitamin that the avatar can have.
+
+### `weight_per_unit`
+Allows specifying this vitamin in foods in terms of the amount of that vitamin in that food by weight.
+The weight specified for the food will be divided by this quantity to determine the units of this vitamin the food has.
 
 ### `rate`
 How long it takes to lose one unit of this vitamin.

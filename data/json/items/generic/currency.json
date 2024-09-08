@@ -5,14 +5,14 @@
     "id": "FMCNote",
     "name": { "str_sp": "merch" },
     "description": "The Free Merchant Certified Note, also known by names such as a 'c-note' or 'merch', is a currency based on old American bills.  Fifty dollar bills and larger are printed with a promissory note signed by the treasurer of the Free Merchants, along with a complex design.  The note explains that this can be exchanged for food, water, and other services through the Free Merchants in the Refugee Center.",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "//": "$50 bills have substantial pre-Cataclysm value, but are worth 1 meat jerky",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "$",
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "material": [ "paper" ]
   },
   {
@@ -21,14 +21,14 @@
     "id": "RobofacCoin",
     "name": { "str": "Hub 01 Gold Coin" },
     "description": "A small but surprisingly heavy gold coin.  One side is etched with circuitry and the other side reads 'Hub 01 exchange currency'.",
-    "price": 90000,
-    "price_postapoc": 5000,
+    "price": "900 USD",
+    "price_postapoc": "50 USD",
     "//": "Low carat gold alloy for hardness, but it's still the best part of an ounce of gold.  Yes, the weight is correct for the volume.",
     "weight": "28 g",
     "volume": "2ml",
-    "to_hit": -3,
     "color": "yellow",
     "symbol": "$",
+    "flags": [ "COIN_SHAPED" ],
     "material": [ "gold" ]
   },
   {
@@ -37,13 +37,13 @@
     "id": "FlatCoin",
     "name": { "str": "FlatCoin" },
     "description": "A coin that has been flattened in a novelty coin flattening machine.  The machine has been somewhat crudely altered so that the design - which appears to once have been Mickey Mouse - is overlaid with a hand-drawn emblem of a book.  There is some text that faintly reads 'Campus Exchange Token'.",
-    "price": 5,
-    "price_postapoc": 250,
+    "price": "5 cent",
+    "price_postapoc": "2 USD 50 cent",
     "weight": "18 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "brown",
     "symbol": "$",
+    "flags": [ "COIN_SHAPED" ],
     "material": [ "copper" ]
   },
   {
@@ -52,13 +52,13 @@
     "id": "signed_chit",
     "name": { "str": "chit" },
     "description": "A slip of paper signed by the issuer.",
-    "price": 5,
-    "price_postapoc": 250,
+    "price": "5 cent",
+    "price_postapoc": "2 USD 50 cent",
     "weight": "1 g",
     "volume": "1 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "$",
+    "flags": [ "BANK_NOTE_SHAPED" ],
     "material": [ "paper" ]
   },
   {
@@ -67,13 +67,13 @@
     "id": "icon",
     "name": { "str": "icon" },
     "description": "A small picture, about the size of an ID card, symbolizing a religious figure.  On the back, there is text that faintly reads 'New England Church Community'.",
-    "price": 200,
-    "price_postapoc": 250,
+    "price": "2 USD",
+    "price_postapoc": "2 USD 50 cent",
     "weight": "1 g",
     "volume": "2 ml",
-    "to_hit": -3,
     "color": "white",
     "symbol": "$",
+    "flags": [ "CREDIT_CARD_SHAPED" ],
     "material": [ "paper" ]
   },
   {
@@ -84,12 +84,12 @@
     "description": "A one-cent coin, featuring a portrait of Abraham Lincoln.  You could flip it.",
     "weight": "3 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 1,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "brown",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -100,12 +100,12 @@
     "description": "A five-cent coin, featuring a portrait of Thomas Jefferson.  You could flip it.",
     "weight": "5 g",
     "volume": "1 ml",
-    "price": 5,
-    "price_postapoc": 1,
+    "price": "5 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -116,12 +116,12 @@
     "description": "A ten-cent coin, featuring a portrait of Franklin D Roosevelt.  You could flip it.",
     "weight": "2 g",
     "volume": "1 ml",
-    "price": 10,
-    "price_postapoc": 1,
+    "price": "10 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -132,12 +132,12 @@
     "description": "A twenty-five-cent coin, featuring a portrait of George Washington.  You could flip it.",
     "weight": "6 g",
     "volume": "1 ml",
-    "price": 25,
-    "price_postapoc": 1,
+    "price": "25 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -148,12 +148,12 @@
     "description": "A fifty-cent coin, featuring a portrait of John F Kennedy.  You could flip it.",
     "weight": "11 g",
     "volume": "1 ml",
-    "price": 50,
-    "price_postapoc": 1,
+    "price": "50 cent",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -164,12 +164,12 @@
     "description": "A one-dollar coin, featuring a portrait of Susan B Anthony.  You could flip it.",
     "weight": "8 g",
     "volume": "1 ml",
-    "price": 100,
-    "price_postapoc": 1,
+    "price": "1 USD",
+    "price_postapoc": "1 cent",
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
-    "flags": [ "OLD_CURRENCY" ],
+    "flags": [ "OLD_CURRENCY", "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -180,11 +180,12 @@
     "description": "The official silver bullion coin of the United States, it has a nominal face value of one dollar and is guaranteed to contain one troy ounce of 99.9% pure silver.",
     "weight": "31 g",
     "volume": "1 ml",
-    "price": 2300,
-    "price_postapoc": 310,
+    "price": "23 USD",
+    "price_postapoc": "3 USD 10 cent",
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -195,11 +196,12 @@
     "description": "The official 24-karat bullion coin of the United States, it has a nominal face value of fifty dollars and is guaranteed to contain one troy ounce of 99.99% pure gold.",
     "weight": "31 g",
     "volume": "1 ml",
-    "price": 175000,
-    "price_postapoc": 600,
+    "price": "1 kUSD 750 USD",
+    "price_postapoc": "6 USD",
     "material": [ "gold" ],
     "symbol": "o",
     "color": "yellow",
+    "flags": [ "COIN_SHAPED" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -210,8 +212,8 @@
     "description": "A coin wrapper capable of holding between twenty and fifty coins, depending on denomination, in accordance with American Banking Standards.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 1,
-    "price_postapoc": 0,
+    "price": "1 cent",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": "$",
     "color": "dark_gray",
@@ -232,13 +234,12 @@
     "description": "A one-dollar bill, featuring a portrait of George Washington.",
     "weight": "1 g",
     "volume": "1 ml",
-    "price": 100,
-    "price_postapoc": 0,
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
     "material": [ "paper" ],
     "symbol": "$",
     "color": "green",
-    "to_hit": -3,
-    "flags": [ "OLD_CURRENCY" ]
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -249,9 +250,9 @@
     "copy-from": "money_one",
     "color": "green",
     "symbol": "$",
-    "price": 200,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -262,9 +263,9 @@
     "copy-from": "money_one",
     "color": "green",
     "symbol": "$",
-    "price": 500,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "5 USD",
+    "price_postapoc": "0 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -275,9 +276,9 @@
     "copy-from": "money_one",
     "color": "green",
     "symbol": "$",
-    "price": 1000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "10 USD",
+    "price_postapoc": "0 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -288,9 +289,9 @@
     "copy-from": "money_one",
     "color": "green",
     "symbol": "$",
-    "price": 2000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "20 USD",
+    "price_postapoc": "0 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -301,9 +302,9 @@
     "copy-from": "money_one",
     "color": "green",
     "symbol": "$",
-    "price": 5000,
-    "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "50 USD",
+    "price_postapoc": "1 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -314,9 +315,9 @@
     "copy-from": "money_one",
     "color": "green",
     "symbol": "$",
-    "price": 10000,
-    "price_postapoc": 1,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "100 USD",
+    "price_postapoc": "1 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -327,13 +328,12 @@
     "looks_like": "money_one",
     "weight": "100 g",
     "volume": "113 ml",
-    "to_hit": -3,
     "color": "green",
     "symbol": "$",
     "material": [ "paper" ],
-    "price": 10000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price": "100 USD",
+    "price_postapoc": "0 cent",
+    "flags": [ "OLD_CURRENCY", "BANK_NOTE_STRAP_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -344,8 +344,8 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 20000,
-    "price_postapoc": 0
+    "price": "200 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -356,8 +356,8 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 50000,
-    "price_postapoc": 0
+    "price": "500 USD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -368,8 +368,8 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 100000,
-    "price_postapoc": 0
+    "price": "1 kUSD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -380,8 +380,8 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 200000,
-    "price_postapoc": 0
+    "price": "2 kUSD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -392,8 +392,8 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 500000,
-    "price_postapoc": 100
+    "price": "5 kUSD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -404,8 +404,8 @@
     "copy-from": "money_strap_one",
     "color": "green",
     "symbol": "$",
-    "price": 1000000,
-    "price_postapoc": 100
+    "price": "10 kUSD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
@@ -413,11 +413,13 @@
     "name": { "str": "merch currency strap" },
     "description": "A hundred Free Merchant Certified Notes held together by an improvised currency strap.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_strap_one",
-    "copy-from": "money_strap_one",
+    "copy-from": "FMCNote",
     "color": "white",
-    "symbol": "$",
-    "price": 500000,
-    "price_postapoc": 25000
+    "price": "5 kUSD",
+    "price_postapoc": "250 USD",
+    "weight": "100 g",
+    "volume": "113 ml",
+    "flags": [ "BANK_NOTE_STRAP_SHAPED" ]
   },
   {
     "type": "GENERIC",
@@ -426,14 +428,13 @@
     "name": { "str": "one-dollar currency bundle" },
     "description": "A thousand one-dollar bills, divided evenly between ten blue currency straps, and bundled together with rubber bands.",
     "looks_like": "money_one",
-    "weight": "1000 g",
+    "weight": "1 kg",
     "volume": "1129 ml",
-    "to_hit": -3,
     "color": "green",
     "symbol": "$",
     "material": [ "paper" ],
-    "price": 100000,
-    "price_postapoc": 0,
+    "price": "1 kUSD",
+    "price_postapoc": "0 cent",
     "flags": [ "OLD_CURRENCY" ]
   },
   {
@@ -445,8 +446,8 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 200000,
-    "price_postapoc": 0
+    "price": "2 kUSD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -457,8 +458,8 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 500000,
-    "price_postapoc": 0
+    "price": "5 kUSD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -469,8 +470,8 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 1000000,
-    "price_postapoc": 0
+    "price": "10 kUSD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -481,8 +482,8 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 2000000,
-    "price_postapoc": 0
+    "price": "20 kUSD",
+    "price_postapoc": "0 cent"
   },
   {
     "type": "GENERIC",
@@ -493,8 +494,8 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 5000000,
-    "price_postapoc": 1000
+    "price": "50 kUSD",
+    "price_postapoc": "10 USD"
   },
   {
     "type": "GENERIC",
@@ -505,8 +506,8 @@
     "copy-from": "money_bundle_one",
     "color": "green",
     "symbol": "$",
-    "price": 10000000,
-    "price_postapoc": 1000
+    "price": "100 kUSD",
+    "price_postapoc": "10 USD"
   },
   {
     "type": "GENERIC",
@@ -514,11 +515,12 @@
     "name": { "str": "merch currency bundle" },
     "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with rubber bands.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_bundle_one",
-    "copy-from": "money_bundle_one",
+    "copy-from": "money_strap_FMCNote",
     "color": "green",
-    "symbol": "$",
-    "price": 5000000,
-    "price_postapoc": 250000
+    "price": "50 kUSD",
+    "price_postapoc": "2 kUSD 500 USD",
+    "weight": "1 kg",
+    "volume": "1129 ml"
   },
   {
     "type": "GENERIC",
@@ -526,13 +528,12 @@
     "id": "tacoma_drink_token",
     "name": { "str": "Tacoma drink token" },
     "description": "A ordinary-looking bottle cap with a stamped logo of the Tacoma ranch on the inside.  You can take it back to the bartender with your glass for a small refund.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "//": "Dimensions of a bottle cap",
     "weight": "2 g",
     "volume": "6 ml",
     "longest_side": "32 mm",
-    "to_hit": -3,
     "color": "light_gray",
     "symbol": "o",
     "material": [ "tin" ]

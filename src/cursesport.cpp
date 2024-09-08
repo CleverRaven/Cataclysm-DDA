@@ -1,5 +1,5 @@
-#if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
+#ifndef TUI
 
 #include <cstdint>
 #include <memory>
@@ -393,7 +393,6 @@ void catacurses::werase( const window &win_ )
     }
     win->draw = true;
     wmove( win_, point_zero );
-    handle_additional_window_clear( win );
 }
 
 //erases the main window of all text and attributes

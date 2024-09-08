@@ -7,7 +7,7 @@
     "name": { "str": "Druid composite bow" },
     "//": "Equivalent to composite bow for dispersion/reload/weight/range/encumb/bash, with two mod slots added equivalent to other weapons getting techniques",
     "description": "A bow made of multiple materials to maximize energy efficiency.  There are two Druid runes embedded at the tips.",
-    "price": 32000,
+    "price": "320 USD",
     "material": [ "wood", "bone" ],
     "flags": [
       "FIRE_TWOHAND",
@@ -35,7 +35,7 @@
         }
       ]
     },
-    "valid_mod_locations": [ [ "sights", 1 ], [ "accessories", 1 ], [ "dampening", 1 ] ],
+    "valid_mod_locations": [ [ "sights", 1 ], [ "dampening", 1 ] ],
     "ranged_damage": { "damage_type": "stab", "amount": 9 },
     "range": 13,
     "dispersion": 855
@@ -49,9 +49,8 @@
     "weight": "1333 g",
     "volume": "450 ml",
     "longest_side": "25 cm",
-    "price": 74000,
+    "price": "740 USD",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -63,7 +62,6 @@
     "loudness": 23,
     "clip_size": 6,
     "valid_mod_locations": [
-      [ "accessories", 1 ],
       [ "mechanism", 1 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
@@ -73,7 +71,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9mm": 6, "380": 6, "357mag": 6, "38": 6 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "enchanted_blackpowder_pistol",
@@ -81,10 +80,9 @@
     "type": "GUN",
     "name": { "str": "Pistolet modèle Gardes de la Marine", "str_pl": "several Pistolet modèle Gardes de la Marine" },
     "description": "These beautifully-made enchanted flintlock pistols were specially made for young noble scions in the Gardes de la Marine.  They still exist today as unspeakably-rare heirlooms that remain combat-worthy due to their magical nature.",
-    "price": 74000,
-    "price_postapoc": 25750,
+    "price": "740 USD",
+    "price_postapoc": "257 USD 50 cent",
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "iron", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -96,16 +94,10 @@
     "durability": 7,
     "loudness": 23,
     "reload": 600,
-    "valid_mod_locations": [
-      [ "accessories", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 1 } } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "gunblade",
@@ -115,10 +107,7 @@
     "weight": "1539 g",
     "volume": "1750 ml",
     "longest_side": "90 cm",
-    "price": 8000,
-    "to_hit": 2,
-    "bashing": 10,
-    "cutting": 32,
+    "price": "80 USD",
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
@@ -140,7 +129,8 @@
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "flags": [ "RELOAD_ONE", "PUMP_ACTION", "DURABLE_MELEE", "SHEATH_SWORD" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 3 } } ],
+    "melee_damage": { "bash": 10, "cut": 32 }
   },
   {
     "id": "boreal_mosin",
@@ -153,11 +143,10 @@
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -167,7 +156,7 @@
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "308": 5 }, "allowed_speedloaders": [ "borealmosin_clip" ] } ],
-    "proportional": { "price": 3, "price_postapoc": 3, "bashing": 1.1, "weight": 0.9, "dispersion": 0.9 },
+    "proportional": { "price": 3, "price_postapoc": 3, "weight": 0.9, "dispersion": 0.9, "melee_damage": { "bash": 1.1 } },
     "relative": { "to_hit": 1 }
   },
   {
@@ -183,7 +172,6 @@
       "NEVER_JAMS",
       "NONCONDUCTIVE",
       "WATERPROOF_GUN",
-      "NO_SALVAGE",
       "NO_UNLOAD",
       "RELOAD_AND_SHOOT",
       "MAGIC_FOCUS",
@@ -196,7 +184,6 @@
     "longest_side": "130 cm",
     "ammo": [ "barb" ],
     "clip_size": 1,
-    "bashing": 5,
     "to_hit": 1,
     "ranged_damage": { "damage_type": "bullet", "amount": 24 },
     "reload_noise_volume": 2,
@@ -213,13 +200,14 @@
       "need_wielding": true,
       "ammo_scale": 0,
       "moves": 400
-    }
+    },
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
     "id": "sharped_bone",
     "category": "spare_parts",
-    "price": 1000,
+    "price": "10 USD",
     "name": { "str": "sharpened bone" },
     "symbol": "=",
     "color": "dark_gray",
@@ -227,13 +215,67 @@
     "flags": [ "TRADER_AVOID" ],
     "volume": "250ml",
     "weight": "37 g",
-    "bashing": 6,
-    "cutting": 2,
     "ammo_type": "barb",
     "damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 10 },
     "dispersion": 120,
     "loudness": 0,
     "count": 10,
-    "show_stats": true
+    "show_stats": true,
+    "melee_damage": { "bash": 6, "cut": 2 }
+  },
+  {
+    "id": "bow_of_elvenkind",
+    "looks_like": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "bow of elvenkind", "str_pl": "bows of elvenkind" },
+    "description": "One of the traditional items of the ancient elven warrior societies, this bow is enchanted to fire further, hit harder, and last longer than any normal wooden bow of its design could.  Before the Cataclysm they were still made in small quantities for ceremonial purposes but no longer saw battlefield use, since the special forces of Tokoyo, Hy-Brasil, Alfheim, and the other elven nations long ago switched to using firearms.",
+    "price": "420 USD",
+    "//": "based on a light composite bow.  The actual enchantments are 50% increased range and higher damage and durability, the relic_data is just to make it purple.",
+    "material": [ "wood" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "DURABLE_MELEE",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "archery",
+    "ammo": [ "arrow" ],
+    "min_strength": 8,
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "longest_side": "183 cm",
+    "price_postapoc": "300 USD",
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
+          "encumbrance": 14,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": { "damage_type": "stab", "amount": 8 },
+    "range": 18,
+    "dispersion": 950,
+    "sight_dispersion": 3000,
+    "durability": 8,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "melee_damage": { "bash": 12 },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]

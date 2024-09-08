@@ -10,12 +10,13 @@ def transform_result(result):
     if type(result) is str:
         return result
     elif type(result) is list:
-        results = set()
+        # Using a list to reserve order and ensure stability across runs
+        results = []
         for r in result:
-            if type(r) is str:
-                results.add(r)
-            elif type(r) is list:
-                results.add(r[0])
+            if type(r) is str and r not in results:
+                results.append(r)
+            elif type(r) is list and r[0] not in results:
+                results.append(r[0])
         return ", ".join(results)
 
 

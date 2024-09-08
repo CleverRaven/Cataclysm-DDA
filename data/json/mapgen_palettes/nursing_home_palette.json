@@ -33,6 +33,7 @@
       "s": "t_sidewalk",
       "t": "t_carpet_red",
       "v": "t_ladder_down",
+      "V": "t_floor",
       "W": "t_wall",
       "X": "t_door_metal_pickable",
       "y": "t_pavement_y",
@@ -89,7 +90,8 @@
     "vehicles": {
       "3": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 270 },
-      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 }
+      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
+      "V": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 }
     }
   },
   {
@@ -126,6 +128,7 @@
       "s": "t_sidewalk",
       "t": "t_carpet_red",
       "v": "t_ladder_down",
+      "V": "t_floor",
       "W": "t_wall",
       "X": "t_door_metal_pickable",
       "y": "t_pavement_y",
@@ -187,31 +190,8 @@
     "vehicles": {
       "3": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 270 },
-      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 }
-    }
-  },
-  {
-    "type": "palette",
-    "id": "nursing_home_roof_palette",
-    "terrain": {
-      " ": "t_open_air",
-      "-": "t_gutter_south",
-      "#": "t_grate",
-      ".": "t_flat_roof",
-      "|": "t_gutter_west",
-      "2": "t_gutter_north",
-      "3": "t_gutter_east",
-      "4": "t_gutter_drop",
-      "o": "t_glass_roof",
-      "v": "t_ladder_down"
-    },
-    "furniture": {
-      "&": "f_roof_turbine_vent",
-      "A": "f_air_conditioner",
-      "N": "f_TV_antenna",
-      "s": "f_solar_unit",
-      "X": "f_small_satelitte_dish",
-      "Я": "f_standing_tank"
+      "w": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
+      "V": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 }
     }
   },
   {
@@ -291,6 +271,7 @@
     },
     "toilets": { "&": {  } },
     "nested": { "~": { "chunks": [ "nursing_home_sci" ] } },
+    "items": { "V": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vehicles": {
       "7": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 270 },

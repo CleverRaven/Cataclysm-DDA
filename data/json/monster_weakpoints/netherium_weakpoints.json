@@ -1,0 +1,17 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_netherium_abomination",
+    "//": "A fallback for netherium abominations for use when no specific ones exist (which are none when this comment is written)",
+    "weakpoints": [
+      {
+        "id": "vulnerable spot",
+        "name": "a spot that's more vulnerable than the rest",
+        "coverage": 5,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "coverage_mult": { "point": 0.25 },
+        "armor_mult": { "all": 0.75 }
+      }
+    ]
+  }
+]

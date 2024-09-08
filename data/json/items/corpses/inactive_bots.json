@@ -4,13 +4,11 @@
     "type": "TOOL",
     "name": { "str": "inactive EMP hack" },
     "description": "An inactive EMP hack.  Manhacks are fist-sized robots that fly through the air.  This one contains an EMP grenade and attacks by flying at its target and detonating.  Use this item to reprogram and release the EMP hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "4700 g",
+    "weight": "2000 g",
     "volume": "750 ml",
-    "price": 64500,
-    "price_postapoc": 3000,
+    "price": "645 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "cyan",
@@ -24,20 +22,19 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_c4_hack",
     "type": "TOOL",
     "name": { "str": "inactive C-4 hack" },
     "description": "An inactive C-4 hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a C-4 demolition charge and attacks by flying at its target and detonating.  Use this item to reprogram and activate the C-4 hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "5870 g",
+    "weight": "3750 g",
     "volume": "250 ml",
-    "price": 67500,
-    "price_postapoc": 3000,
+    "price": "675 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_gray",
@@ -51,20 +48,19 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_flashbang_hack",
     "type": "TOOL",
     "name": { "str": "inactive flashbang hack" },
     "description": "An inactive flashbang hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a flashbang and attacks by flying at its target and detonating.  Use this item to reprogram and activate the flashbang hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "4536 g",
+    "weight": "1750 g",
     "volume": "750 ml",
-    "price": 59500,
-    "price_postapoc": 500,
+    "price": "595 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -78,20 +74,19 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_gasbomb_hack",
     "type": "TOOL",
     "name": { "str": "inactive tear gas hack" },
     "description": "An inactive tear gas hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a tear gas canister and attacks by flying at its target and releasing the gas.  Use this item to reprogram and activate the tear gas hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "5360 g",
+    "weight": "3000 g",
     "volume": "750 ml",
-    "price": 60500,
-    "price_postapoc": 500,
+    "price": "605 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -105,20 +100,19 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_grenade_hack",
     "type": "TOOL",
     "name": { "str": "inactive grenade hack" },
     "description": "An inactive grenade hack.  Manhacks are fist-sized robots that fly through the air.  This one contains a grenade and attacks by flying at its target and detonating.  Use this item to reprogram and activate the grenade hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "4480 g",
+    "weight": "2000 g",
     "volume": "250 ml",
-    "price": 60000,
-    "price_postapoc": 1000,
+    "price": "600 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "green",
@@ -132,19 +126,19 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_antimateriel",
     "type": "TOOL",
     "name": { "str": "inactive M2HB autonomous CROWS II", "str_pl": "inactive M2HB autonomous CROWS II turrets" },
-    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
+    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded .50 BMG rounds in your inventory (if you wish to divide your ammunition, set aside whatever .50 BMG rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M2HB.",
     "weight": "172 kg",
     "volume": "30 L",
-    "price": 500500,
-    "price_postapoc": 8000,
+    "price": "5 kUSD 5 USD",
+    "price_postapoc": "80 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
@@ -155,20 +149,19 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_manhack",
     "type": "TOOL",
     "name": { "str": "inactive manhack" },
     "description": "An inactive manhack, a fist-sized robot that flies through the air.  This one is covered with whirring blades and attacks by throwing itself against its target.  Use this item to reprogram and activate the manhack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "5400 g",
+    "weight": "1500 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 500,
+    "price": "600 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -182,46 +175,19 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
-  },
-  {
-    "id": "bot_mininuke_hack",
-    "type": "TOOL",
-    "name": { "str": "inactive mininuke hack" },
-    "description": "An inactive mininuke hack.  Many times as large as a normal manhack, a mininuke hack contains a mininuke and attacks by flying at its target and detonating.  Use this item to reprogram and activate the mininuke hack.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
-    "weight": "25000 g",
-    "volume": "18750 ml",
-    "price": 2677500,
-    "price_postapoc": 10000,
-    "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ",",
-    "color": "magenta",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_mininuke_hack",
-      "friendly_msg": "The mininuke hack floats from your hand and surveys the area!",
-      "hostile_msg": "You misprogram the mininuke hack.  Pray.",
-      "difficulty": 5,
-      "moves": 60,
-      "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE", "ROBOFAC_ROBOT_SMALL" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_rifleturret",
     "type": "TOOL",
     "name": { "str": "inactive autonomous M249 CROWS II", "str_pl": "inactive autonomous M249 CROWS II turrets" },
-    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M249.",
+    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M249.",
     "weight": "172 kg",
     "volume": "30 L",
-    "price": 500000,
+    "price": "5 kUSD",
     "to_hit": -3,
-    "price_postapoc": 5000,
-    "bashing": 8,
+    "price_postapoc": "50 USD",
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -232,19 +198,19 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_crows_m240",
     "type": "TOOL",
     "name": { "str": "inactive autonomous M240 CROWS II", "str_pl": "inactive autonomous M240 CROWS II turrets" },
-    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M240.",
+    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 7.62x51mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 7.62x51mm rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its M240.",
     "weight": "172 kg",
     "volume": "30 L",
-    "price": 500000,
-    "price_postapoc": 6000,
+    "price": "5 kUSD",
+    "price_postapoc": "60 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "green",
@@ -255,19 +221,19 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_turret_riot",
     "type": "TOOL",
     "name": { "str": "inactive riot control turret" },
-    "description": "An inactive riot control turret.  Using this item involves loading the unit with the 40x46mm M1006 sponge rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret) turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
+    "description": "An inactive riot control turret.  Using this item involves loading the unit with the 40x46mm M1006 sponge rounds in your inventory (if you wish to divide your ammunition, set aside whatever beanbag rounds you do NOT want to give the turret), turning it on, and placing it on the ground, where it will attach itself.  If programmed successfully, the turret will then identify you as a friendly, and attack all enemies with its riot control gun.",
     "weight": "125000 g",
     "volume": "60 L",
-    "price": 200500,
-    "price_postapoc": 2000,
+    "price": "2 kUSD 5 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
@@ -278,19 +244,19 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_turret",
     "type": "TOOL",
     "name": { "str": "inactive turret" },
-    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the turret will then identify you as a friendly, and attack all enemies with its SMG.",
+    "description": "An inactive turret.  Using this item involves loading the unit with the factory-loaded 9x19mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 9x19mm you do NOT want to give the turret), turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the turret will then identify you as a friendly, and attack all enemies with its SMG.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 400000,
-    "price_postapoc": 3000,
+    "price": "4 kUSD",
+    "price_postapoc": "30 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
@@ -301,19 +267,19 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_secubot",
     "type": "TOOL",
     "name": { "str": "inactive TALON UGV" },
-    "description": "An inactive TALON UGV equipped with an M16A4.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm you do NOT want to give the robot) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its rifle.",
+    "description": "An inactive TALON UGV equipped with an M16A4.  Using this item involves loading the unit with the factory-loaded 5.56x45mm rounds in your inventory (if you wish to divide your ammunition, set aside whatever 5.56x45mm you do NOT want to give the robot), turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its rifle.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 750000,
-    "price_postapoc": 4000,
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "40 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -326,19 +292,19 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_talon_m202a1",
     "type": "TOOL",
     "name": { "str": "inactive M202A1 TALON UGV" },
-    "description": "An inactive TALON UGV equipped with an M202A1.  Using this item involves loading the unit with the M235 rockets in your inventory (if you wish to divide your ammunition, set aside whatever M235 rockets you do NOT want to give the robot) turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its M202A1.",
+    "description": "An inactive TALON UGV equipped with an M202A1.  Using this item involves loading the unit with the M235 rockets in your inventory (if you wish to divide your ammunition, set aside whatever M235 rockets you do NOT want to give the robot), turning it on, and placing it on the ground.  If reprogrammed and rewired successfully, the security bot will then identify you as a friendly, roam around or follow you, and attack all enemies with its M202A1.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 750000,
-    "price_postapoc": 3000,
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -351,7 +317,33 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "bot_secubot_liberty",
+    "type": "TOOL",
+    "name": { "str": "inactive TALON UGV Liberty Edition", "str_pl": "inactive TALON UGVs Liberty Edition" },
+    "description": "This bot has had tubes welded above the original guns that allow it to shoot fireworks in order to blind and stun attackers.  With fireworks being harder to come by then the ammo for the original weapons, the best option would be to convert it back to it's original guns.  It should be easy enough to give it back the use of the original M16A4.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "25 USD",
+    "to_hit": -3,
+    "material": [ "steel" ],
+    "symbol": "F",
+    "color": "light_gray",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_secubot_america_refurbished",
+      "friendly_msg": "The security bot beeps affirmatively and begins scanning for hostiles.",
+      "hostile_msg": "You misprogram the security bot and it trains its gun on you.  RUN!",
+      "difficulty": 6,
+      "moves": 150,
+      "skills": [ "electronics", "computer", "fabrication" ]
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_nursebot",
@@ -360,10 +352,9 @@
     "description": "An inactive nurse bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.",
     "volume": "62500 ml",
     "weight": "81500 g",
-    "price": 750000,
-    "price_postapoc": 2000,
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_blue",
@@ -376,7 +367,8 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_grocerybot",
@@ -385,10 +377,9 @@
     "description": "An inactive grocery bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the grocery bot will then identify you as a friendly, roam around or follow you.",
     "volume": "62500 ml",
     "weight": "81500 g",
-    "price": 750000,
-    "price_postapoc": 250,
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "white",
@@ -401,7 +392,8 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_grocerybot_busted",
@@ -410,10 +402,9 @@
     "description": "An inactive grocery bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully, the grocery bot will then identify you as a friendly, roam around or follow you.",
     "volume": "62500 ml",
     "weight": "81500 g",
-    "price": 750000,
-    "price_postapoc": 100,
+    "price": "7 kUSD 500 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "white",
@@ -426,7 +417,8 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_broken_cyborg",
@@ -436,10 +428,9 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "//": "It is a disgusting mass of rotting flesh and jagged metal pieces, no one will buy it.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "flesh" ],
     "symbol": ";",
     "color": "light_green",
@@ -453,7 +444,8 @@
       "moves": 250,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_prototype_cyborg",
@@ -463,10 +455,9 @@
     "weight": "81500 g",
     "volume": "62500 ml",
     "//": "It is an affront to humanity, no one will buy it.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel", "flesh" ],
     "symbol": ";",
     "color": "light_green",
@@ -480,61 +471,8 @@
       "moves": 250,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
-  },
-  {
-    "id": "bot_copbot",
-    "looks_like": "broken_copbot",
-    "type": "TOOL",
-    "name": { "str": "inactive police bot" },
-    "description": "An inactive police robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the police bot will then identify you as law enforcement, roam around or follow you, and attempt to detain lawbreakers.",
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "price": 100000,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_copbot",
-      "friendly_msg": "The police bot rolls into action, ready to pursue criminals.",
-      "hostile_msg": "A siren howls and lights flash as the police bot prepares to arrest you!",
-      "//": "Wheeled and must be easy-to-use for police deployment",
-      "difficulty": 3,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ]
-  },
-  {
-    "id": "bot_eyebot",
-    "looks_like": "broken_eyebot",
-    "type": "TOOL",
-    "name": { "str": "inactive eyebot" },
-    "description": "An inactive eyebot.  Using this item involves turning it on and launching the UAV.  If reprogrammed and rewired successfully, the eyebot will then keep watch for intruders.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 10000,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_eyebot",
-      "friendly_msg": "The eyebot hums and takes to the sky.",
-      "hostile_msg": "The eyebot beeps disapprovingly and focuses its camera on your face.  Say cheese!",
-      "//": "Like most surveillance tech these likely have poor security. Secure the wifi!",
-      "difficulty": 1,
-      "moves": 100,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_hazmatbot",
@@ -543,10 +481,9 @@
     "description": "An inactive cleaner bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the cleaner bot will respond to future commands.",
     "weight": "81500 g",
     "volume": "62500 ml",
-    "price": 10000,
-    "price_postapoc": 500,
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -560,61 +497,35 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_molebot",
     "looks_like": "broken_molebot",
     "type": "TOOL",
-    "name": { "str": "inactive miner bot" },
-    "description": "An inactive mining robot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the miner bot will respond to future commands.",
+    "name": { "str": "inactive demining bot" },
+    "description": "An inactive demining robot.  Using this item involves placing it on the ground and turning it on.",
     "weight": "81500 g",
     "volume": "62500 ml",
-    "price": 25000,
-    "price_postapoc": 1000,
+    "price": "250 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_molebot",
-      "friendly_msg": "The miner bot whirrs and tunnels into the ground.",
-      "hostile_msg": "The miner bot spins out of control and lunges at you.  Make way!",
+      "friendly_msg": "The demining bot whirrs and tunnels into the ground.",
+      "hostile_msg": "The demining bot spins out of control and lunges at you.  Make way!",
       "//": "Digging parameters need special attention but no (intentional) lethal weapons",
       "difficulty": 3,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
-  },
-  {
-    "id": "bot_riotbot",
-    "looks_like": "broken_riotbot",
-    "type": "TOOL",
-    "name": { "str": "inactive riot control bot" },
-    "description": "An inactive riot control bot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will bring order and peace to the horde.",
-    "weight": "81500 g",
-    "volume": "62500 ml",
-    "price": 35000,
-    "price_postapoc": 1500,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
-    "symbol": ";",
-    "color": "light_green",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_riotbot",
-      "friendly_msg": "The riot control bot rolls into action.",
-      "hostile_msg": "The riot control bot gasses you and approaches with a pair of handcuffs!",
-      "//": "Pretty easy but you want to be careful with the gas",
-      "difficulty": 4,
-      "moves": 150,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_skitterbot",
@@ -622,26 +533,55 @@
     "type": "TOOL",
     "name": { "str": "inactive skitterbot" },
     "description": "An inactive skitterbot.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and shock them.",
-    "weight": "40750 g",
-    "volume": "30 L",
-    "price": 80000,
-    "price_postapoc": 1000,
+    "//": "Volume and weight based on Boston Dynamics Spot.",
+    "weight": "32700 g",
+    "volume": "105 L",
+    "price": "800 USD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
-    "bashing": 8,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_green",
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_skitterbot",
       "friendly_msg": "The skitterbot gives a quick bow and scurries away.",
-      "hostile_msg": "The skitterbot darts around you and menacingly clicks its tazers.",
+      "hostile_msg": "The skitterbot darts around you and menacingly clicks its tasers.",
       "//": "Same as hacks",
       "difficulty": 4,
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "bot_robofac_skittergun",
+    "looks_like": "broken_skitterbot",
+    "type": "TOOL",
+    "name": { "str": "inactive exterminatron" },
+    "description": "An inactive Hub 01 exterminatron.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and reloaded successfully, the robot will track you while providing fire-support.",
+    "//": "Volume and weight based on Boston Dynamics Spot.",
+    "volume": "125 L",
+    "weight": "36000 g",
+    "price": "800 USD",
+    "price_postapoc": "250 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_skittergun",
+      "friendly_msg": "The exterminatron gives a quick bow and starts scanning the horizon for threats.",
+      "hostile_msg": "You misprogram the exterminatron and it trains its gun on you.  RUN!",
+      "//": "Hub tries to make this easy.",
+      "difficulty": 1,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_MEDIUM" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_science_bot",
@@ -651,10 +591,9 @@
     "description": "An inactive experimental robot plundered from a science lab.  It resembles a human-sized spider and was designed to deploy manhacks.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the robot will race towards enemies and deploy a variety of experimental devices.",
     "weight": "100000 g",
     "volume": "65000 ml",
-    "price": 80000,
-    "price_postapoc": 1500,
+    "price": "800 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -668,7 +607,8 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_turret_searchlight",
@@ -677,10 +617,9 @@
     "description": "An inactive military-grade automated searchlight.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the searchlight will then identify you as an ally, survey the area, and illuminate approaching hostiles.  Seems to have an unhealthy fascination with you.",
     "weight": "120000 g",
     "volume": "92500 ml",
-    "price": 500000,
-    "price_postapoc": 1000,
+    "price": "5 kUSD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -694,7 +633,8 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_dispatch",
@@ -703,10 +643,9 @@
     "description": "An inactive Northrop Dispatch, guard model, serving as a mobile assembler and deployer of kamikaze manhacks for defense.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "250 kg",
-    "price": 10000000,
-    "price_postapoc": 10000,
+    "price": "100 kUSD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "yellow",
@@ -719,7 +658,8 @@
       "moves": 300,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "bot_dispatch_military",
@@ -728,10 +668,9 @@
     "description": "An inactive Northrop Dispatch, military model, serving as a mobile assembler and deployer of lethal manhacks for combat situations.  Activate it to place it onto the ground; due to a one-way switch triggered during deactivation, however, it will be nonaggressive, and serves only as a distraction.",
     "volume": "95 L",
     "weight": "300 kg",
-    "price": 100000000,
-    "price_postapoc": 25000,
+    "price": "1000 kUSD",
+    "price_postapoc": "250 USD",
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
@@ -744,19 +683,19 @@
       "moves": 300,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "bot_turret_speaker",
     "type": "TOOL",
     "name": { "str": "inactive loudspeaker" },
-    "description": "This is an inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
+    "description": "An inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
     "weight": "100 kg",
     "volume": "50500 ml",
-    "price": 500000,
-    "price_postapoc": 10000,
+    "price": "5 kUSD",
+    "price_postapoc": "100 USD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -769,61 +708,51 @@
       "moves": 150,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_tazer_hack",
     "type": "TOOL",
-    "name": { "str": "inactive tazer hack" },
-    "description": "An inactive tazer hack.  Manhacks are fist-sized robots that fly through the air.  This one has a tazer and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the tazer hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
-    "weight": "4700 g",
+    "name": { "str": "inactive taser hack" },
+    "description": "An inactive taser hack.  Manhacks are fist-sized robots that fly through the air.  This one has a taser and attacks by flying at its target and delivering an electric shock.  Use this item to reprogram and release the taser hack.  Electronics and computer skills determine if the targeting matrix is reprogrammed successfully.",
+    "weight": "1600 g",
     "volume": "750 ml",
-    "price": 64500,
-    "price_postapoc": 3000,
+    "price": "645 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "cyan",
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_tazer_hack",
-      "friendly_msg": "The tazer hack flies from your hand and surveys the area!",
-      "hostile_msg": "You misprogram the tazer hack; run!",
+      "friendly_msg": "The taser hack flies from your hand and surveys the area!",
+      "hostile_msg": "You misprogram the taser hack; run!",
       "difficulty": 3,
       "moves": 60,
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "ROBOFAC_ROBOT_SMALL" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_yrax_trifacet",
     "type": "TOOL",
     "name": { "str": "inactive trifacet" },
-    "description": "A featureless quartz pyramid that, although obviously artificial, shows no real indication of ever having been an advanced robot.  Although this trifacet could probably be reactivated, it's unlikely to recognize you as an ally.",
+    "description": "A featureless quartz pyramid that, although obviously artificial, shows no real indication of ever having been an advanced robot.  Perhaps you could try reactivating it?",
     "weight": "30 kg",
     "volume": "50 L",
-    "price": 64500,
-    "price_postapoc": 3000,
+    "price": "645 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "steel", "ceramic" ],
     "symbol": ",",
     "color": "cyan",
-    "use_action": {
-      "type": "place_monster",
-      "monster_id": "mon_yrax_trifacet",
-      "friendly_msg": "Your attempt at reprogramming the trifacet is somehow successful!",
-      "hostile_msg": "The hostile trifacet violently unfolds just clear of your hand!",
-      "difficulty": 12,
-      "moves": 60,
-      "place_randomly": true,
-      "skills": [ "electronics", "computer" ]
-    },
-    "flags": [ "SINGLE_USE" ]
+    "use_action": { "type": "effect_on_conditions", "menu_text": "Activate", "effect_on_conditions": [ "yrax_trifacet_activation" ] },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_lab_security_drone_GR",
@@ -832,11 +761,9 @@
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 800,
+    "price": "600 USD",
+    "price_postapoc": "8 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -850,7 +777,8 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_lab_security_drone_GM",
@@ -859,11 +787,9 @@
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 800,
+    "price": "600 USD",
+    "price_postapoc": "8 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "light_green",
@@ -877,7 +803,8 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_lab_security_drone_YM",
@@ -886,11 +813,9 @@
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 800,
+    "price": "600 USD",
+    "price_postapoc": "8 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "yellow",
@@ -904,7 +829,8 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_lab_security_drone_BM",
@@ -913,11 +839,9 @@
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 800,
+    "price": "600 USD",
+    "price_postapoc": "8 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "blue",
@@ -931,7 +855,8 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_lab_security_drone_BM2",
@@ -940,11 +865,9 @@
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 800,
+    "price": "600 USD",
+    "price_postapoc": "8 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "cyan",
@@ -958,7 +881,8 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "bot_lab_security_drone_BS",
@@ -967,11 +891,9 @@
     "description": "An inactive security drone.  They are fist-sized robots that fly through the air.  They have a scanner, lens and speaker.  Use this item to reprogram and activate the security drone.  Electronics and computer skill determines if the targeting matrix is reprogrammed successfully.",
     "weight": "5400 g",
     "volume": "750 ml",
-    "price": 60000,
-    "price_postapoc": 800,
+    "price": "600 USD",
+    "price_postapoc": "8 USD",
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 6,
     "material": [ "aluminum", "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
@@ -985,6 +907,33 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
+  },
+  {
+    "id": "bot_robofac_camspy",
+    "looks_like": "broken_robofac_camspy",
+    "type": "TOOL",
+    "name": { "str": "inactive camspy", "str_pl": "inactive camspies" },
+    "description": "An inactive camspy.  Using this item involves turning it on and launching it.  If reprogrammed and rewired successfully, the camspy will then keep watch for intruders.",
+    "weight": "40750 g",
+    "volume": "30 L",
+    "price": "100 USD",
+    "price_postapoc": "5 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_robofac_camspy",
+      "friendly_msg": "The camspy hums and takes to the sky.",
+      "hostile_msg": "The camspy hums and appears to reconnect to whoever was piloting it before.",
+      "difficulty": 3,
+      "moves": 100,
+      "skills": [ "electronics", "computer" ]
+    },
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 8 }
   }
 ]

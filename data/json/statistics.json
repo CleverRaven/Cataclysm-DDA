@@ -2,9 +2,16 @@
   {
     "id": "avatar_id",
     "type": "event_statistic",
-    "stat_type": "unique_value",
-    "event_type": "game_start",
+    "stat_type": "last_value",
+    "event_type": "game_avatar_new",
     "field": "avatar_id"
+  },
+  {
+    "id": "last_words",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_type": "game_avatar_death",
+    "field": "last_words"
   },
   {
     "id": "avatar_wakes_up",
@@ -391,6 +398,291 @@
     "description": { "str_sp": "minimum z level reached underwater" }
   },
   {
+    "id": "vehicle_moves_with_abs_velocity",
+    "type": "event_transformation",
+    "event_type": "vehicle_moves",
+    "new_fields": { "abs_velocity": { "math_abs": "velocity" } }
+  },
+  {
+    "id": "moves_veh_onboard",
+    "type": "event_transformation",
+    "event_transformation": "vehicle_moves_with_abs_velocity",
+    "value_constraints": { "avatar_on_board": { "equals": true } },
+    "drop_fields": [ "avatar_on_board" ]
+  },
+  {
+    "id": "num_moves_veh_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_onboard",
+    "description": { "str": "square traveled on board vehicles", "str_pl": "squares traveled on board vehicles" }
+  },
+  {
+    "id": "min_move_veh_onboard_z",
+    "type": "event_statistic",
+    "stat_type": "minimum",
+    "field": "z",
+    "event_transformation": "moves_veh_onboard",
+    "description": { "str_sp": "minimum z level reached in a vehicle" }
+  },
+  {
+    "id": "max_move_veh_onboard_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_transformation": "moves_veh_onboard",
+    "description": { "str_sp": "maximum z level reached in a vehicle" }
+  },
+  {
+    "id": "moves_veh_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "vehicle_moves_with_abs_velocity",
+    "value_constraints": { "avatar_is_driving": { "equals": true } },
+    "drop_fields": [ "avatar_is_driving" ]
+  },
+  {
+    "id": "num_moves_veh_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "description": { "str": "square traveled while controlling vehicle", "str_pl": "squares traveled while controlling vehicle" }
+  },
+  {
+    "id": "moves_veh_ctrl_remote",
+    "type": "event_transformation",
+    "event_transformation": "vehicle_moves_with_abs_velocity",
+    "value_constraints": { "avatar_remote_control": { "equals": true } },
+    "drop_fields": [ "avatar_remote_control" ]
+  },
+  {
+    "id": "num_moves_veh_ctrl_remote",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_ctrl_remote",
+    "description": { "str": "square traversed by remote controlled vehicles", "str_pl": "squares traversed by remote controlled vehicles" }
+  },
+  {
+    "id": "moves_veh_onboard_ctrl_remote",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "avatar_remote_control": { "equals": true } },
+    "drop_fields": [ "avatar_remote_control" ]
+  },
+  {
+    "id": "num_moves_veh_onboard_ctrl_remote",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_onboard_ctrl_remote",
+    "description": {
+      "str": "square traveled on board remote controlled vehicle",
+      "str_pl": "squares traveled on board remote controlled vehicle"
+    }
+  },
+  {
+    "id": "moves_veh_onboard_ctrl_none",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "avatar_is_driving": { "equals": false }, "avatar_remote_control": { "equals": false } },
+    "drop_fields": [ "avatar_is_driving", "avatar_remote_control" ]
+  },
+  {
+    "id": "num_moves_veh_onboard_ctrl_none",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_onboard_ctrl_none",
+    "description": { "str": "square traveled as vehicle passenger", "str_pl": "squares traveled as vehicle passenger" }
+  },
+  {
+    "id": "moves_acft_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "is_flying_aircraft": { "equals": true } },
+    "drop_fields": [ "is_flying_aircraft" ]
+  },
+  {
+    "id": "num_moves_acft_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_acft_onboard",
+    "description": { "str": "square traveled on board aircraft", "str_pl": "squares traveled on board aircraft" }
+  },
+  {
+    "id": "moves_acft_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": { "is_flying_aircraft": { "equals": true } },
+    "drop_fields": [ "is_flying_aircraft" ]
+  },
+  {
+    "id": "num_moves_acft_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_acft_ctrl_direct",
+    "description": { "str": "square traveled while piloting aircraft", "str_pl": "squares traveled while piloting aircraft" }
+  },
+  {
+    "id": "max_velocity_acft",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "abs_velocity",
+    "event_transformation": "moves_acft_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while piloting an aircraft" }
+  },
+  {
+    "id": "max_move_acft_ctrl_direct_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_transformation": "moves_acft_ctrl_direct",
+    "description": { "str_sp": "maximum z level reached while piloting an aircraft" }
+  },
+  {
+    "id": "moves_boat_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "is_floating_watercraft": { "equals": true } },
+    "drop_fields": [ "is_floating_watercraft" ]
+  },
+  {
+    "id": "num_moves_boat_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_boat_onboard",
+    "description": { "str": "square traveled on board watercraft", "str_pl": "squares traveled on board watercraft" }
+  },
+  {
+    "id": "moves_boat_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": { "is_floating_watercraft": { "equals": true } },
+    "drop_fields": [ "is_floating_watercraft" ]
+  },
+  {
+    "id": "num_moves_boat_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_boat_ctrl_direct",
+    "description": { "str": "square traveled while sailing watercraft", "str_pl": "squares traveled while sailing watercraft" }
+  },
+  {
+    "id": "max_velocity_boat",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "abs_velocity",
+    "event_transformation": "moves_boat_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while sailing a watercraft" }
+  },
+  {
+    "id": "moves_rail_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "is_on_rails": { "equals": true } },
+    "drop_fields": [ "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_rail_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_rail_onboard",
+    "description": { "str": "square traveled on board rail vehicles", "str_pl": "squares traveled on board rail vehicles" }
+  },
+  {
+    "id": "moves_rail_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": { "is_on_rails": { "equals": true } },
+    "drop_fields": [ "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_rail_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_rail_ctrl_direct",
+    "description": { "str": "square traveled while driving rail vehicles", "str_pl": "squares traveled while driving rail vehicles" }
+  },
+  {
+    "id": "max_velocity_rail",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "abs_velocity",
+    "event_transformation": "moves_rail_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while driving a rail vehicle" }
+  },
+  {
+    "id": "moves_gndv_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": {
+      "is_flying_aircraft": { "equals": false },
+      "is_floating_watercraft": { "equals": false },
+      "is_on_rails": { "equals": false }
+    },
+    "drop_fields": [ "is_flying_aircraft", "is_floating_watercraft", "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_gndv_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_gndv_onboard",
+    "description": { "str": "square traveled on board land vehicles", "str_pl": "squares traveled on board land vehicles" }
+  },
+  {
+    "id": "moves_gndv_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": {
+      "is_flying_aircraft": { "equals": false },
+      "is_floating_watercraft": { "equals": false },
+      "is_on_rails": { "equals": false }
+    },
+    "drop_fields": [ "is_flying_aircraft", "is_floating_watercraft", "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_gndv_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "description": { "str": "square traveled while driving land vehicles", "str_pl": "squares traveled while driving land vehicles" }
+  },
+  {
+    "id": "max_velocity_gndv",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "abs_velocity",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while driving a land vehicle" }
+  },
+  {
+    "id": "max_move_gndv_ctrl_direct_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "description": { "str_sp": "maximum z level reached while driving a land vehicle" }
+  },
+  {
+    "id": "moves_gndv_skidding",
+    "type": "event_transformation",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "value_constraints": { "is_skidding": { "equals": true } },
+    "drop_fields": [ "is_skidding" ]
+  },
+  {
+    "id": "num_moves_gndv_skidding",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_gndv_skidding",
+    "description": { "str": "square skidded while driving land vehicles", "str_pl": "squares skidded while driving land vehicles" }
+  },
+  {
+    "id": "max_velocity_skidding",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "abs_velocity",
+    "event_transformation": "moves_gndv_skidding",
+    "description": { "str_sp": "maximum velocity that a driven vehicle skidded at" }
+  },
+  {
     "id": "avatar_wields_item",
     "type": "event_transformation",
     "event_type": "character_wields_item",
@@ -436,7 +728,7 @@
     "id": "avatar_wears_power_armor_heavy",
     "type": "event_transformation",
     "event_transformation": "avatar_wears_item",
-    "value_constraints": { "itype": { "equals": [ "itype_id", "power_armor_heavy" ] } },
+    "value_constraints": { "itype": { "equals": [ "itype_id", "combat_exoskeleton_heavy" ] } },
     "drop_fields": [ "itype" ]
   },
   {
@@ -767,6 +1059,465 @@
     "stat_type": "count",
     "event_transformation": "avatar_gains_skill_level",
     "description": { "str": "skill level gained", "str_pl": "skill levels gained" }
+  },
+  {
+    "id": "avatar_gains_speech_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "speech" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_speech_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_speech_level_4"
+  },
+  {
+    "id": "avatar_gains_computer_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "computer" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_computer_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_computer_level_4"
+  },
+  {
+    "id": "avatar_gains_firstaid_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "firstaid" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_firstaid_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_firstaid_level_4"
+  },
+  {
+    "id": "avatar_gains_mechanics_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "mechanics" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_mechanics_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_mechanics_level_4"
+  },
+  {
+    "id": "avatar_gains_traps_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "traps" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_traps_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_traps_level_4"
+  },
+  {
+    "id": "avatar_gains_driving_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "driving" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_driving_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_driving_level_4"
+  },
+  {
+    "id": "avatar_gains_swimming_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "swimming" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_swimming_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_swimming_level_4"
+  },
+  {
+    "id": "avatar_gains_fabrication_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "fabrication" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_fabrication_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_fabrication_level_4"
+  },
+  {
+    "id": "avatar_gains_cooking_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "cooking" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_cooking_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_cooking_level_4"
+  },
+  {
+    "id": "avatar_gains_tailor_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "tailor" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_tailor_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_tailor_level_4"
+  },
+  {
+    "id": "avatar_gains_survival_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "survival" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_survival_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_survival_level_4"
+  },
+  {
+    "id": "avatar_gains_electronics_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "electronics" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_electronics_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_electronics_level_4"
+  },
+  {
+    "id": "avatar_gains_archery_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "archery" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_archery_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_archery_level_4"
+  },
+  {
+    "id": "avatar_gains_gun_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "gun" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_gun_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_gun_level_4"
+  },
+  {
+    "id": "avatar_gains_launcher_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "launcher" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_launcher_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_launcher_level_4"
+  },
+  {
+    "id": "avatar_gains_pistol_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "pistol" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_pistol_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_pistol_level_4"
+  },
+  {
+    "id": "avatar_gains_rifle_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "rifle" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_rifle_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_rifle_level_4"
+  },
+  {
+    "id": "avatar_gains_shotgun_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "shotgun" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_shotgun_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_shotgun_level_4"
+  },
+  {
+    "id": "avatar_gains_smg_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "smg" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_smg_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_smg_level_4"
+  },
+  {
+    "id": "avatar_gains_throw_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "throw" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_throw_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_throw_level_4"
+  },
+  {
+    "id": "avatar_gains_melee_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "melee" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_melee_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_melee_level_4"
+  },
+  {
+    "id": "avatar_gains_bashing_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "bashing" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_bashing_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_bashing_level_4"
+  },
+  {
+    "id": "avatar_gains_cutting_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "cutting" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_cutting_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_cutting_level_4"
+  },
+  {
+    "id": "avatar_gains_dodge_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "dodge" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_dodge_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_dodge_level_4"
+  },
+  {
+    "id": "avatar_gains_stabbing_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "stabbing" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_stabbing_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_stabbing_level_4"
+  },
+  {
+    "id": "avatar_gains_unarmed_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "unarmed" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_unarmed_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_unarmed_level_4"
+  },
+  {
+    "id": "avatar_gains_chemistry_level_4",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": {
+      "character": { "equals_statistic": "avatar_id" },
+      "skill": { "equals": [ "skill_id", "chemistry" ] },
+      "new_level": { "equals": [ "int", "4" ] }
+    },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_chemistry_level_4",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_chemistry_level_4"
   },
   {
     "id": "avatar_gains_speech_level_7",
@@ -1712,5 +2463,268 @@
     "stat_type": "count",
     "event_transformation": "portal_storm_happened",
     "description": { "str_sp": "portal storms seen" }
+  },
+  {
+    "id": "avatar_enters_hospital",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": {
+        "equals_any": [
+          "oter_type_str_id",
+          [
+            "hospital_1",
+            "hospital_2",
+            "hospital_3",
+            "hospital_4",
+            "hospital_5",
+            "hospital_6",
+            "hospital_7",
+            "hospital_8",
+            "hospital_9",
+            "hospital_1_roof",
+            "hospital_2_roof",
+            "hospital_3_roof",
+            "hospital_4_roof",
+            "hospital_5_roof",
+            "hospital_6_roof",
+            "hospital_7_roof",
+            "hospital_8_roof",
+            "hospital_9_roof",
+            "urban_35_1",
+            "urban_35_2",
+            "urban_35_3",
+            "urban_35_4",
+            "urban_35_5",
+            "urban_35_6",
+            "urban_35_7",
+            "urban_35_8",
+            "urban_35_9",
+            "urban_35_10",
+            "urban_35_11",
+            "urban_35_12",
+            "urban_35_13",
+            "urban_35_14",
+            "urban_35_15",
+            "urban_35_16",
+            "urban_35_17",
+            "urban_35_18",
+            "urban_35_19",
+            "urban_35_20",
+            "urban_35_21",
+            "urban_35_22",
+            "urban_35_23",
+            "urban_35_24",
+            "urban_35_25",
+            "urban_35_26",
+            "urban_35_27",
+            "urban_35_28",
+            "urban_35_29",
+            "urban_35_30",
+            "urban_35_31",
+            "urban_35_32",
+            "urban_35_33",
+            "urban_35_34",
+            "urban_35_35"
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "id": "num_avatar_enters_hospital",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_hospital",
+    "description": { "str": "hospital entered", "str_pl": "hospitals entered" }
+  },
+  {
+    "id": "avatar_enters_mansion",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": {
+        "equals_any": [
+          "oter_type_str_id",
+          [
+            "mansion_+1",
+            "mansion_+1d",
+            "mansion_+1u",
+            "mansion_+1_roof",
+            "mansion_+2",
+            "mansion_+2d",
+            "mansion_+2u",
+            "mansion_+2_roof",
+            "mansion_+3",
+            "mansion_+3u",
+            "mansion_+3_roof",
+            "mansion_+4",
+            "mansion_+4d",
+            "mansion_+4u",
+            "mansion_+4_roof",
+            "mansion_boarded_c1",
+            "mansion_c1",
+            "mansion_c1d",
+            "mansion_boarded_c1u",
+            "mansion_c1u",
+            "mansion_c1_roof",
+            "mansion_boarded_c2",
+            "mansion_c2",
+            "mansion_c2d",
+            "mansion_boarded_c2u",
+            "mansion_c2u",
+            "mansion_c2_roof",
+            "mansion_boarded_c3",
+            "mansion_c3",
+            "mansion_c3d",
+            "mansion_boarded_c3u",
+            "mansion_c3u",
+            "mansion_c3_roof",
+            "mansion_boarded_c4",
+            "mansion_c4",
+            "mansion_c4d",
+            "mansion_boarded_c4u",
+            "mansion_c4u",
+            "mansion_c4_roof",
+            "mansion_c5",
+            "mansion_c5d",
+            "mansion_c5u",
+            "mansion_c5_roof",
+            "mansion_e1d",
+            "mansion_boarded_e1u",
+            "mansion_e1u",
+            "mansion_e1_roof",
+            "mansion_e2d",
+            "mansion_e2u",
+            "mansion_e2_roof",
+            "mansion_t1",
+            "mansion_t1d",
+            "mansion_t1u",
+            "mansion_t1_roof",
+            "mansion_boarded_t2",
+            "mansion_boarded_t2_start",
+            "mansion_t2",
+            "mansion_boarded_t2d",
+            "mansion_boarded_t2d_start",
+            "mansion_t2d",
+            "mansion_boarded_t2u",
+            "mansion_t2u",
+            "mansion_t2_roof",
+            "mansion_boarded_t4",
+            "mansion_t4",
+            "mansion_t4d",
+            "mansion_boarded_t4u",
+            "mansion_t4u",
+            "mansion_t4_roof",
+            "mansion_t5",
+            "mansion_t5d",
+            "mansion_t5u",
+            "mansion_t5_roof",
+            "mansion_t6",
+            "mansion_t6d",
+            "mansion_t6u",
+            "mansion_t6_roof",
+            "mansion_t7",
+            "mansion_t7d",
+            "mansion_t7u",
+            "mansion_t7_roof"
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "id": "num_avatar_enters_mansion",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_mansion",
+    "description": { "str": "mansion entered", "str_pl": "mansions entered" }
+  },
+  {
+    "id": "avatar_enters_mine",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "mine_entrance", "mine_entrance_loading_zone" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_mine",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_mine",
+    "description": { "str": "mine entered", "str_pl": "mines entered" }
+  },
+  {
+    "id": "avatar_enters_police_station",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": { "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "police", "police_1", "police_2" ] ] } }
+  },
+  {
+    "id": "num_avatar_enters_police_station",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_police_station",
+    "description": { "str": "Police Station entered", "str_pl": "Police Stations entered" }
+  },
+  {
+    "id": "avatar_enters_trans_lab",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": {
+        "equals_any": [
+          "oter_type_str_id",
+          [
+            "lab_surface_parking_blockA0",
+            "lab_surface_parking_blockB0",
+            "lab_surface_parking_blockC0",
+            "lab_surface_parking_blockD0",
+            "lab_surface_parking_blockE0",
+            "lab_surface_parking_blockA1",
+            "lab_surface_parking_blockB1",
+            "lab_surface_parking_blockC1",
+            "lab_surface_parking_blockD1",
+            "lab_surface_parking_blockE1",
+            "lab_surface_parking_blockA2",
+            "lab_surface_parking_blockE2",
+            "lab_security_z0",
+            "lab_security_z0N",
+            "lab_security_z0S",
+            "lab_res_8_SWD_ground",
+            "lab_res_8_SED_ground",
+            "lab_res_8_SWU_ground",
+            "lab_res_8_SEU_ground",
+            "lab_CORE_2x1_SED_ground",
+            "lab_CORE_2x1_SWD_ground",
+            "lab_CORE_2x1_NED_ground",
+            "lab_CORE_2x1_NWD_ground",
+            "lab_CORE_2x1_WC_ground",
+            "lab_CORE_2x1_EC_ground"
+          ]
+        ]
+      }
+    }
+  },
+  {
+    "id": "num_avatar_enters_trans_lab",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_trans_lab",
+    "description": { "str": "Trans Coastal Lab entered", "str_pl": "Trans Coastal Labs entered" }
+  },
+  {
+    "id": "avatar_enters_LIXA",
+    "type": "event_transformation",
+    "event_transformation": "avatar_enters_oter_type",
+    "value_constraints": {
+      "oter_type_id": { "equals_any": [ "oter_type_str_id", [ "LIXA_surface_1a", "LIXA_surface_1b", "LIXA_surface_2a", "LIXA_surface_2b" ] ] }
+    }
+  },
+  {
+    "id": "num_avatar_enters_LIXA",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_enters_LIXA",
+    "description": { "str": "LIXA entered", "str_pl": "LIXAs entered" }
   }
 ]

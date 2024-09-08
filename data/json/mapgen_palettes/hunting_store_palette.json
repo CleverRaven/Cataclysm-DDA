@@ -1,0 +1,60 @@
+[
+  {
+    "type": "palette",
+    "id": "hunting_store_palette",
+    "toilets": { "&": {  } },
+    "terrain": {
+      ".": "t_region_groundcover",
+      " ": "t_floor",
+      "s": "t_sidewalk",
+      ",": "t_thconc_floor",
+      "y": "t_thconc_floor",
+      "&": "t_thconc_floor",
+      "%": "t_thconc_floor",
+      "r": "t_thconc_floor",
+      "O": "t_thconc_floor",
+      "o": "t_thconc_floor",
+      "'": "t_pavement",
+      "`": "t_pavement_y",
+      "+": "t_door_c",
+      "*": "t_door_metal_pickable",
+      "|": "t_wall_w",
+      "-": "t_wall_w",
+      "~": "t_window_bars_alarm",
+      "4": "t_gutter_downspout"
+    },
+    "furniture": {
+      "#": "f_counter",
+      "C": "f_counter_gate_c",
+      "%": "f_sink",
+      "R": "f_rack",
+      "r": "f_warehouse_shelf",
+      "O": [ [ "f_crate_c", 3 ], "f_cardboard_box", "f_crate_o" ],
+      "o": [ [ "f_crate_c", 3 ], "f_cardboard_box", "f_crate_o" ],
+      "X": [ [ "f_gunsafe_ml", 3 ], "f_gunsafe_o", "f_gunsafe_c" ],
+      "x": "f_locker",
+      "B": "f_bulletin",
+      "^": "f_indoor_plant",
+      "F": "f_filing_cabinet",
+      "c": "f_chair",
+      "f": "f_fridge",
+      "I": "f_desk",
+      "Y": "f_trashcan",
+      "L": "f_locker",
+      "m": "f_mannequin"
+    },
+    "items": {
+      "O": { "item": "clothing_hunting", "chance": 50 },
+      "o": { "item": "tools_hunting", "chance": 50 },
+      "r": { "item": "clothing_hunting", "chance": 50 },
+      "f": { "item": "fridgesnacks", "chance": 80, "repeat": [ 2, 3 ] },
+      "L": { "item": "jackets", "chance": 50 },
+      "F": { "item": "office_supplies", "chance": 80, "repeat": [ 2, 4 ] },
+      "X": { "item": "ammo_hunting", "chance": 80, "repeat": [ 4, 6 ] },
+      "x": { "item": "mags_hunting", "chance": 80, "repeat": [ 4, 6 ] },
+      "Y": { "item": "trash_cart", "chance": 70, "repeat": [ 1, 2 ] },
+      "I": { "item": "office_supplies", "chance": 50 },
+      "m": { "item": "clothing_hunting", "chance": 80, "repeat": [ 2, 3 ] }
+    }
+  }
+]

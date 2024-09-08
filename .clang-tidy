@@ -7,6 +7,9 @@
 #
 # Comments on the checks we have decided are not worthwhile:
 #
+# * bugprone-throw-keyword-missing
+# This check is too time consuming.  Disable it for now to save CI time.
+#
 # * cert-dcl21-cpp (postfix operator++ and operator-- should return const objects)
 # This is an unconventional code style, and conflicts with
 # readability-const-return-type.
@@ -14,9 +17,17 @@
 # * cert-env33-c (calls to system, popen)
 # Unlikely to catch bugs, and using system is convenient for portability.
 #
+# * cert-dcl37-c and cert-dcl-51-cpp (reserved identifiers)
+# These two checks are aliases for bugprone-reserved-identifier.
+# Don't repeatedly run the same check for three times.
+#
 # * cert-err58-cpp (exceptions from static variable declarations)
 # We have lots of memory allocations in static variable declarations, and
 # that's fine.
+#
+# * clang-analyzer-core.{DivideZero,NonNullParamChecker,UndefinedBinaryOperatorResult}
+# * clang-analyzer-cplusplus.NewDelete
+# They report too many false positives.
 #
 # * modernize-use-auto
 # We prefer an almost-always-avoid-auto style.
@@ -24,9 +35,9 @@
 # * modernize-use-trailing-return-type
 # An arbitrary style convention we haven't adopted.
 #
-# * readability-braces-around-statements
-# Covered by astyle and buggy in clang-tidy 8.  Can enable once we have a newer
-# clang-tidy.
+# * readability-identifier-naming
+# We are not enforcing a standard identifier naming scheme in the code base.
+# This check does not bring much value at the moment and consumes a lot of CPU time.
 
 Checks: "\
 bugprone-*,\
@@ -34,7 +45,14 @@ cata-*,\
 cert-*,\
 -cert-dcl21-cpp,\
 -cert-env33-c,\
+-cert-dcl37-c,\
+-cert-dcl51-cpp,\
 -cert-err58-cpp,\
+-clang-analyzer-core.CallAndMessage,\
+-clang-analyzer-core.DivideZero,\
+-clang-analyzer-core.NonNullParamChecker,\
+-clang-analyzer-core.UndefinedBinaryOperatorResult,\
+-clang-analyzer-cplusplus.NewDelete,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
 google-explicit-constructor,\
@@ -45,19 +63,43 @@ modernize-*,\
 -modernize-use-trailing-return-type,\
 performance-*,\
 readability-*,\
--readability-braces-around-statements,\
+-bugprone-assignment-in-if-condition,\
+-bugprone-easily-swappable-parameters,\
+-bugprone-empty-catch,\
+-bugprone-implicit-widening-of-multiplication-result,\
 -bugprone-narrowing-conversions,\
+-bugprone-switch-missing-default-case,\
+-bugprone-throw-keyword-missing,\
+-bugprone-unchecked-optional-access,\
+-bugprone-unhandled-exception-at-new,\
+-misc-confusable-identifiers,\
+-misc-const-correctness,\
+-misc-header-include-cycle,\
+-misc-include-cleaner,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
+-misc-use-anonymous-namespace,\
+-modernize-concat-nested-namespaces,\
+-modernize-macro-to-enum,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
+-modernize-use-nodiscard,\
+-performance-avoid-endl,\
+-performance-noexcept-swap,\
+-performance-no-automatic-move,\
+-readability-avoid-unconditional-preprocessor-if,\
+-readability-container-data-pointer,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\
+-readability-identifier-length,\
+-readability-identifier-naming,\
 -readability-implicit-bool-conversion,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
+-readability-simplify-boolean-expr,\
+-readability-suspicious-call-argument,\
 -readability-use-anyofallof,\
 "
 WarningsAsErrors: '*'

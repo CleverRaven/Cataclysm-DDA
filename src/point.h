@@ -2,10 +2,6 @@
 #ifndef CATA_SRC_POINT_H
 #define CATA_SRC_POINT_H
 
-// The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
-// can include this header when compiling with -nostdinc++
-#ifndef CATA_NO_STL
-
 #include <array>
 #include <climits>
 #include <cstddef>
@@ -16,17 +12,6 @@
 #include <vector>
 
 #include "cata_assert.h"
-#else
-
-#define cata_assert(...)
-
-namespace std
-{
-class string;
-class ostream;
-}
-
-#endif // CATA_NO_STL
 
 class JsonArray;
 class JsonOut;
@@ -76,11 +61,9 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
-#ifndef CATA_NO_STL
     point abs() const {
         return point( std::abs( x ), std::abs( y ) );
     }
-#endif
 
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
@@ -109,10 +92,8 @@ struct point {
         return !( a == b );
     }
 
-#ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const point & );
     friend std::istream &operator>>( std::istream &, point & );
-#endif
 };
 
 inline int divide_round_to_minus_infinity( int n, int d )
@@ -136,6 +117,12 @@ inline point divide_xy_round_to_minus_infinity( const point &p, int d )
 {
     return point( divide_round_to_minus_infinity( p.x, d ),
                   divide_round_to_minus_infinity( p.y, d ) );
+}
+
+inline point divide_xy_round_to_minus_infinity_non_negative( const point &p, int d )
+{
+    // This results in code only being generated for the case where x/y are positive.
+    return point( static_cast<unsigned int>( p.x ) / d, static_cast<unsigned int>( p.y ) / d );
 }
 
 // NOLINTNEXTLINE(cata-xy)
@@ -208,11 +195,9 @@ struct tripoint {
         return *this;
     }
 
-#ifndef CATA_NO_STL
     tripoint abs() const {
         return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
     }
-#endif
 
     constexpr point xy() const {
         return point( x, y );
@@ -231,10 +216,8 @@ struct tripoint {
     void serialize( JsonOut &jsout ) const;
     void deserialize( const JsonArray &jsin );
 
-#ifndef CATA_NO_STL
     friend std::ostream &operator<<( std::ostream &, const tripoint & );
     friend std::istream &operator>>( std::istream &, tripoint & );
-#endif
 
     friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
         return a.x == b.x && a.y == b.y && a.z == b.z;
@@ -242,11 +225,9 @@ struct tripoint {
     friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
         return !( a == b );
     }
-#ifndef CATA_NO_STL
     friend inline bool operator<( const tripoint &a, const tripoint &b ) {
         return std::tie( a.x, a.y, a.z ) < std::tie( b.x, b.y, b.z );
     }
-#endif
 };
 
 inline tripoint multiply_xy( const tripoint &p, int f )
@@ -261,29 +242,34 @@ inline tripoint divide_xy_round_to_minus_infinity( const tripoint &p, int d )
                      p.z );
 }
 
-static constexpr tripoint tripoint_zero{};
-static constexpr point point_zero{};
+inline tripoint divide_xy_round_to_minus_infinity_non_negative( const tripoint &p, int d )
+{
+    return tripoint( divide_xy_round_to_minus_infinity_non_negative( p.xy(), d ), p.z );
+}
 
-static constexpr point point_north{ 0, -1 };
-static constexpr point point_north_east{ 1, -1 };
-static constexpr point point_east{ 1, 0 };
-static constexpr point point_south_east{ 1, 1 };
-static constexpr point point_south{ 0, 1 };
-static constexpr point point_south_west{ -1, 1 };
-static constexpr point point_west{ -1, 0 };
-static constexpr point point_north_west{ -1, -1 };
+inline constexpr tripoint tripoint_zero{};
+inline constexpr point point_zero{};
 
-static constexpr tripoint tripoint_north{ point_north, 0 };
-static constexpr tripoint tripoint_north_east{ point_north_east, 0 };
-static constexpr tripoint tripoint_east{ point_east, 0 };
-static constexpr tripoint tripoint_south_east{ point_south_east, 0 };
-static constexpr tripoint tripoint_south{ point_south, 0 };
-static constexpr tripoint tripoint_south_west{ point_south_west, 0 };
-static constexpr tripoint tripoint_west{ point_west, 0 };
-static constexpr tripoint tripoint_north_west{ point_north_west, 0 };
+inline constexpr point point_north{ 0, -1 };
+inline constexpr point point_north_east{ 1, -1 };
+inline constexpr point point_east{ 1, 0 };
+inline constexpr point point_south_east{ 1, 1 };
+inline constexpr point point_south{ 0, 1 };
+inline constexpr point point_south_west{ -1, 1 };
+inline constexpr point point_west{ -1, 0 };
+inline constexpr point point_north_west{ -1, -1 };
 
-static constexpr tripoint tripoint_above{ 0, 0, 1 };
-static constexpr tripoint tripoint_below{ 0, 0, -1 };
+inline constexpr tripoint tripoint_north{ point_north, 0 };
+inline constexpr tripoint tripoint_north_east{ point_north_east, 0 };
+inline constexpr tripoint tripoint_east{ point_east, 0 };
+inline constexpr tripoint tripoint_south_east{ point_south_east, 0 };
+inline constexpr tripoint tripoint_south{ point_south, 0 };
+inline constexpr tripoint tripoint_south_west{ point_south_west, 0 };
+inline constexpr tripoint tripoint_west{ point_west, 0 };
+inline constexpr tripoint tripoint_north_west{ point_north_west, 0 };
+
+inline constexpr tripoint tripoint_above{ 0, 0, 1 };
+inline constexpr tripoint tripoint_below{ 0, 0, -1 };
 
 struct sphere {
     int radius = 0;
@@ -293,8 +279,6 @@ struct sphere {
     explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
     explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
 };
-
-#ifndef CATA_NO_STL
 
 /**
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
@@ -306,11 +290,11 @@ std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
 
-static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
+inline constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+inline constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 
-static constexpr point point_min{ tripoint_min.xy() };
-static constexpr point point_max{ tripoint_max.xy() };
+inline constexpr point point_min{ tripoint_min.xy() };
+inline constexpr point point_max{ tripoint_max.xy() };
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
@@ -319,11 +303,20 @@ namespace std
 template <>
 struct hash<point> {
     std::size_t operator()( const point &k ) const noexcept {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.y;
-        result *= a;
-        result += k.x;
-        return result;
+        // We cast k.y to uint32_t because otherwise when promoting to uint64_t for binary `or` it
+        // will sign extend and turn the upper 32 bits into all 1s.
+        uint64_t x = static_cast<uint64_t>( k.x ) << 32 | static_cast<uint32_t>( k.y );
+
+        // Found through https://nullprogram.com/blog/2018/07/31/
+        // Public domain source from https://xoshiro.di.unimi.it/splitmix64.c
+        x ^= x >> 30;
+        x *= 0xbf58476d1ce4e5b9U;
+        x ^= x >> 27;
+        x *= 0x94d049bb133111ebU;
+        x ^= x >> 31;
+        return x;
+
+        return x;
     }
 };
 } // namespace std
@@ -335,39 +328,47 @@ namespace std
 template <>
 struct hash<tripoint> {
     std::size_t operator()( const tripoint &k ) const noexcept {
-        constexpr uint64_t a = 2862933555777941757;
-        size_t result = k.z;
-        result *= a;
-        result += k.y;
-        result *= a;
-        result += k.x;
-        return result;
+        // We cast k.y to uint32_t because otherwise when promoting to uint64_t for binary `or` it
+        // will sign extend and turn the upper 32 bits into all 1s.
+        uint64_t x = static_cast<uint64_t>( k.x ) << 32 | static_cast<uint32_t>( k.y );
+
+        // Found through https://nullprogram.com/blog/2018/07/31/
+        // Public domain source from https://xoshiro.di.unimi.it/splitmix64.c
+        x ^= x >> 30;
+        x *= 0xbf58476d1ce4e5b9U;
+        x ^= x >> 27;
+
+        // Sprinkle in z now.
+        x ^= static_cast<uint64_t>( k.z );
+        x *= 0x94d049bb133111ebU;
+        x ^= x >> 31;
+        return x;
     }
 };
 } // namespace std
 
-static constexpr std::array<point, 4> four_adjacent_offsets{{
+inline constexpr std::array<point, 4> four_adjacent_offsets{{
         point_north, point_east, point_south, point_west
     }};
 
-static constexpr std::array<point, 4> neighborhood{ {
+inline constexpr std::array<point, 4> neighborhood{ {
         point_south, point_east, point_west, point_north
     }};
 
-static constexpr std::array<point, 4> offsets = {{
+inline constexpr std::array<point, 4> offsets = {{
         point_south, point_east, point_west, point_north
     }
 };
 
-static constexpr std::array<point, 4> four_cardinal_directions{{
+inline constexpr std::array<point, 4> four_cardinal_directions{{
         point_west, point_east, point_north, point_south
     }};
 
-static constexpr std::array<point, 5> five_cardinal_directions{{
+inline constexpr std::array<point, 5> five_cardinal_directions{{
         point_west, point_east, point_north, point_south, point_zero
     }};
 
-static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+inline const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_north_west },
         { tripoint_north },
         { tripoint_north_east },
@@ -378,7 +379,5 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_south_east },
     }
 };
-
-#endif // CATA_NO_STL
 
 #endif // CATA_SRC_POINT_H

@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "prepnet_orchard" ],
-    "weight": 100,
     "object": {
       "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [
@@ -77,7 +76,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "prepnet_orchard" ],
-    "weight": 100,
     "object": {
       "faction_owner": [ { "id": "Prepnet_Phyle", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rows": [

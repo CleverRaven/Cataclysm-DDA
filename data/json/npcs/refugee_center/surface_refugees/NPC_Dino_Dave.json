@@ -2,11 +2,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_1",
-    "dynamic_line": "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.  \"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\"",
+    "dynamic_line": {
+      "concatenate": [
+        "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.",
+        {
+          "compare_string": [ "finished", { "u_val": "dialogue_dave_u_cardboard_gift" } ],
+          "yes": "  \"We hope our gift to you will help repay our great debt.\"",
+          "no": "  \"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\""
+        }
+      ]
+    },
     "responses": [
       { "text": "Hi Dave.  You seem different.", "topic": "TALK_DINODAVE_Different" },
       { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },
-      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+      { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" },
+      {
+        "text": "You said something about a gift?",
+        "topic": "TALK_DINODAVE_Gift_Given",
+        "effect": [ { "u_add_var": "dialogue_dave_u_cardboard_gift", "value": "finished" } ],
+        "condition": {
+          "and": [
+            { "compare_string": [ "in_progress", { "u_val": "dialogue_dave_u_cardboard_gift" } ] },
+            { "math": [ "time_since(u_timer_dave_creating_gift)", ">", "time('1 d')" ] }
+          ]
+        }
+      }
     ]
   },
   {
@@ -15,7 +35,7 @@
     "dynamic_line": "*nods deeply.  \"We are, for where we once were in chaos, now we are at peace.  In time, this shall bring wisdom, but we must ponder on these great changes.\"",
     "responses": [
       {
-        "text": "Were you like this, uh, before?  Did you used to have a doctor or anything?",
+        "text": "Were you like this, uh, before?  Did you use to have a doctor or anything?",
         "topic": "TALK_DINODAVE_Different2"
       },
       { "text": "How are things going up here on the roof?", "topic": "TALK_DINODAVE_Roof" },
@@ -25,7 +45,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Different2",
-    "dynamic_line": "\"We were… I… we can scarcely remember those times.\"  Dave looks pained.  \"No, we had no doctor.  We didn't need one.  We had a job and… and… we don't like to talk about this.\"",
+    "dynamic_line": "We were… I… we can scarcely remember those times.\"  Dave looks pained.  \"No, we had no doctor.  We didn't need one.  We had a job and… and… we don't like to talk about this.",
     "responses": [
       {
         "text": "Come on, Dave.  We're friends.  I won't use this against you or anything.",
@@ -50,7 +70,51 @@
     "dynamic_line": "*gestures about his new home.  \"We have everything we wanted.  They cannot see us here, and our mind is at peace.  We go outside as we need, and the safety we have received here stays with us, as long as we are careful about it.  In time, perhaps we will again have need of your noble services.\"",
     "responses": [
       { "text": "You seem different.", "topic": "TALK_DINODAVE_Different" },
+      {
+        "text": "You know, this place is surprisingly nice, for a cardboard fortress.",
+        "topic": "TALK_DINODAVE_Cardboard",
+        "effect": [
+          { "u_add_var": "dialogue_dave_u_cardboard_gift", "value": "in_progress" },
+          { "math": [ "u_timer_dave_creating_gift", "=", "time('now')" ] }
+        ],
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "finished", { "u_val": "dialogue_dave_u_cardboard_gift" } ] } },
+            { "not": { "compare_string": [ "in_progress", { "u_val": "dialogue_dave_u_cardboard_gift" } ] } }
+          ]
+        }
+      },
       { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Cardboard",
+    "dynamic_line": "*bows deeply.  \"Thank you.  Our expertise with the most sacred of materials comes from a past long gone.\"  He gazes off into the distance, lost in thought.  You wait, but he doesn't talk again.",
+    "responses": [ { "text": "Uh, you there?", "topic": "TALK_DINODAVE_Gift" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Gift",
+    "dynamic_line": "You've given us an idea, a way we could repay a small fraction of your aid.  Come back in a day, and your blessing will be here for you.",
+    "responses": [ { "text": "See you in a day, then.", "topic": "TALK_DINODAVE_Gift_Bye" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Gift_Bye",
+    "dynamic_line": "Make sure you don't let the sandman in.  He can't be trusted.",
+    "responses": [ { "text": "Always good to catch up, Dave.  Keep on being you.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_DINODAVE_Gift_Given",
+    "dynamic_line": "Indeed, my knight.  I was hesitant to grant you this power, but you have proven your worth and fealty many times over.  Make sure it does not fall into the wrong hands.  May it help you on your journey.",
+    "responses": [
+      {
+        "text": "[Take the gift.]",
+        "topic": "TALK_DINODAVE_Gift_Bye",
+        "effect": [ { "u_spawn_item": "recipe_dave_manual" }, { "u_spawn_item": "badge_cardboard" } ]
+      }
     ]
   }
 ]

@@ -8,7 +8,7 @@
 #include <functional>
 #include <iosfwd>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "game_constants.h"
 #include "lightmap.h"
 #include "mdarray.h"
@@ -121,13 +121,13 @@ template<typename T, typename Out, T( *calc )( const T &, const T &, const int &
          T( *accumulate )( const T &, const T &, const int & )>
 void castLightAll( cata::mdarray<Out, point_bub_ms> &output_cache,
                    const cata::mdarray<T, point_bub_ms> &input_array,
-                   const point &offset, int offsetDistance = 0,
+                   const point_bub_ms &offset, int offsetDistance = 0,
                    T numerator = 1.0 );
 
 template<typename T>
 using array_of_grids_of =
     std::conditional_t <
-    std::is_const<T>::value,
+    std::is_const_v<T>,
     std::array<const cata::mdarray<std::remove_const_t<T>, point_bub_ms>*, OVERMAP_LAYERS>,
     std::array<cata::mdarray<T, point_bub_ms>*, OVERMAP_LAYERS>
     >;
@@ -140,7 +140,7 @@ void cast_zlight(
     const array_of_grids_of<T> &output_caches,
     const array_of_grids_of<const T> &input_arrays,
     const array_of_grids_of<const bool> &floor_caches,
-    const tripoint &origin, int offset_distance, T numerator,
+    const tripoint_bub_ms &origin, int offset_distance, T numerator,
     vertical_direction dir = vertical_direction::BOTH );
 
 #endif // CATA_SRC_SHADOWCASTING_H

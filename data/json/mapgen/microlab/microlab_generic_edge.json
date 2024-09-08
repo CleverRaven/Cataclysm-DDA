@@ -11,6 +11,15 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "concrete_wall_hole_ew",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "line": "terrain", "id": "t_strconc_floor", "x": 11, "y": 0, "x2": 12, "y2": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "concrete_corner",
     "object": { "mapgensize": [ 1, 1 ], "set": [ { "point": "terrain", "id": "t_concrete_wall", "x": 0, "y": 0 } ] }
   },
@@ -26,23 +35,55 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "microlab_generic_edge", "microlab_ratkin_edge" ],
+    "nested_mapgen_id": "concrete_wall_hole_ns",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "line": "terrain", "id": "t_strconc_floor", "x": 0, "y": 11, "x2": 0, "y2": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "microlab_generic_edge" ],
     "object": {
       "fill_ter": "t_strconc_floor",
       "place_nested": [
         { "chunks": [ "microlab_generic_edge_tile" ], "x": 0, "y": 0 },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab_rock_border" } },
-        { "chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab_rock_border" } },
+        {
+          "chunks": [
+            {
+              "switch": { "param": "labtype", "fallback": "microlab_generic" },
+              "cases": { "microlab_meat": "micolab_meat_pools", "microlab_generic": "null" }
+            }
+          ],
+          "x": 0,
+          "y": 0
+        },
+        { "chunks": [ { "param": "unique_foe", "fallback": "mnm_more_density" } ], "x": 0, "y": 0 },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": "microlab" } },
         { "else_chunks": [ "concrete_wall_ns" ], "x": 23, "y": 0, "neighbors": { "east": "microlab" } },
         { "else_chunks": [ "concrete_wall_ew" ], "x": 0, "y": 23, "neighbors": { "south": "microlab" } },
         { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "west": "microlab" } },
+        { "chunks": [ "concrete_wall_hole_ew" ], "x": 0, "y": 0, "neighbors": { "north": "mlb_generic_subhallway" } },
+        { "chunks": [ "concrete_wall_hole_ns" ], "x": 23, "y": 0, "neighbors": { "east": "mlb_generic_subhallway" } },
+        { "chunks": [ "concrete_wall_hole_ew" ], "x": 0, "y": 23, "neighbors": { "south": "mlb_generic_subhallway" } },
+        { "chunks": [ "concrete_wall_hole_ns" ], "x": 0, "y": 0, "neighbors": { "west": "mlb_generic_subhallway" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 0, "neighbors": { "north_west": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 0, "neighbors": { "north_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 23, "y": 23, "neighbors": { "south_east": "microlab" } },
         { "else_chunks": [ "concrete_corner" ], "x": 0, "y": 23, "neighbors": { "south_west": "microlab" } }
+      ],
+      "place_monster": [
+        {
+          "group": {
+            "switch": { "param": "labtype", "fallback": "microlab_generic" },
+            "cases": { "microlab_meat": "GROUP_MEATLAB", "microlab_generic": "GROUP_MICROLAB" }
+          },
+          "chance": 80,
+          "x": [ 0, 23 ],
+          "y": [ 0, 23 ],
+          "repeat": [ 1, 5 ]
+        }
       ]
     }
   },
@@ -216,7 +257,7 @@
         " c  6|^ dh=  = hdhB|c   ",
         " c  c||||||  |||||||c   ",
         " c  c|    2  2    F|c   ",
-        "     |    |  |     |    "
+        "     |    |  |    ||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -228,7 +269,7 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "   |      |  |    |     ",
+        "     |UUUU|  |    |     ",
         "  U||||||||  |tt  2     ",
         "  U|D@D@D@|  |||||||||||",
         "  U| @ @ @|   htth  ^V |",
@@ -251,7 +292,7 @@
         "  U| @ @ @|  |     |U   ",
         "  U|D@D@D@|  |@   h|U   ",
         "  U||||||||  |@D  t|U   ",
-        "   |      |  |||||||    "
+        "     |UUUU|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -298,9 +339,9 @@
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
-        "          |  |     |    ",
-        "   U   h U|  |U   U|U   ",
-        "   U ccc U|  |U   U|U  |",
+        "          |  |          ",
+        "   U   h U|  |U  U|U    ",
+        "   U ccc U|  |U  U|U   |",
         "   ||||||||22|U        |",
         "   2      2  |6h  UU   |",
         "||||(((((((  |||||||((2|",
@@ -320,8 +361,8 @@
         "    Uc  UU(  |    R|U   ",
         " c        2  |yyyyy|U   ",
         " c        (  |     |U   ",
-        " c |c cc c|  |     |U   ",
-        "   |      |  |||||||    "
+        " c   |cc c|  |     |U   ",
+        "     |    |  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -390,8 +431,8 @@
         "  U|       YY|22(((|U   ",
         "  U|       YY|  cc6|U   ",
         "  U|2|||2||22|   h |U   ",
-        "   | c|U U|  |FFFFF|U   ",
-        "   |      |  |||||||    "
+        "     |U  U|  |FFFFF|U   ",
+        "     |U  U|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -424,9 +465,9 @@
         "|2||  |||2|  |    6|((2|",
         "  U|       YY|22(((|6   ",
         "  U|       YY|  666|c   ",
-        "  U|2|||2||22|   h |c   ",
-        "   | c|U U|  |^BBB^|U   ",
-        "   |      |  |||||||    "
+        "  U|||||2||22|   h |c   ",
+        "    i|U  U|  |^BBB^|U   ",
+        "    c|U  U|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }
@@ -460,8 +501,8 @@
         "  U|       Y^|22(((|6   ",
         "  U|  ^^   Y^|  666|c   ",
         "  U|2|||2||2||   h |c   ",
-        "   U |UU U|  |^BBB^|U   ",
-        "     |    |  |||||||    "
+        "    i|U  U|  |^BBB^|U   ",
+        "    c|U  U|  |||||||    "
       ],
       "palettes": [ "microlab" ]
     }

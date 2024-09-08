@@ -42,6 +42,10 @@ Please first search if something like what you have on mind has been already pro
 
 Remember to take part in the discussion of your suggestions.
 
+### Labels
+
+You can update issues with labels using comment-commands. First, open a PR adding your username to a list of allowed users [here](.github/comment-commands.yml), under the `active` section. Then you can add labels to issues, such as marking them confirmed with `/confirmed`, or requesting help with `/help-wanted`. A list of comments you can use is under the `keywords` section [here](.github/comment-commands.yml), and what each of these comment-commands do is described [here](.github/workflows/comment-commands.yml).
+
 ### Questions
 
 You should direct your questions to the forum or ask on IRC. You should also read the included documentation and additional text files, e.g. [COMPILING.md](doc/COMPILING/COMPILING.md) if you have problems building.

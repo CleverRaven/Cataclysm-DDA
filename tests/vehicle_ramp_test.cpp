@@ -2,6 +2,7 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -15,7 +16,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -25,7 +25,7 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id pseudo_debug_mon( "pseudo_debug_mon" );
 
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
@@ -134,10 +134,11 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
 
     std::set<tripoint> vpts = veh.get_points();
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles < 10 ) {
+        clear_creatures();
         CAPTURE( cycles );
         for( const tripoint &checkpt : vpts ) {
             int partnum = 0;
-            vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            vehicle *check_veh = here.veh_at_internal( tripoint_bub_ms( checkpt ), partnum );
             CAPTURE( veh_ptr->global_pos3() );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
@@ -171,11 +172,12 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         vpts = veh.get_points();
         cycles++;
     }
-    const cata::optional<vpart_reference> vp = here.veh_at( player_character.pos() ).part_with_feature(
+    const std::optional<vpart_reference> vp = here.veh_at(
+                player_character.pos_bub() ).part_with_feature(
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {
-        const int z_change = map_starting_point.z - player_character.pos().z;
+        const int z_change = map_starting_point.z - player_character.pos_bub().z();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
         player_character.setpos( map_starting_point );
@@ -291,7 +293,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
         CAPTURE( existing_creature->is_monster() );
         REQUIRE( !existing_creature );
     }
-    monster *dmon_p = g->place_critter_at( debug_mon, map_starting_point );
+    monster *dmon_p = g->place_critter_at( pseudo_debug_mon, map_starting_point );
     REQUIRE( dmon_p );
     monster &dmon = *dmon_p;
 

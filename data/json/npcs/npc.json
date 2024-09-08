@@ -1,25 +1,14 @@
 [
   {
     "type": "npc",
-    "id": "thug",
-    "//": "Generic melee focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Thug",
-    "class": "NC_THUG",
-    "attitude": 0,
-    "mission": 8,
+    "id": "deserter",
+    "//": "Generic hostile military deserter.",
+    "name_suffix": "Deserter",
+    "class": "NC_SOLDIER",
+    "attitude": 10,
+    "mission": 0,
     "chat": "TALK_DONE",
-    "faction": "hells_raiders"
-  },
-  {
-    "type": "npc",
-    "id": "bandit",
-    "//": "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Bandit",
-    "class": "NC_SCAVENGER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_DONE",
-    "faction": "hells_raiders"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -116,7 +105,7 @@
     "type": "npc",
     "id": "survivor_camper",
     "name_suffix": "camper",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_CAMPER_SURVIVOR",
@@ -126,7 +115,7 @@
     "type": "npc",
     "id": "apartment_survivor",
     "name_suffix": "scavenger",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_APARTMENT_SURVIVOR",
@@ -136,51 +125,70 @@
     "type": "npc",
     "id": "prepper_survivor",
     "name_suffix": "prepper",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_PREPPER",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_PREPPER_SURVIVOR",
-    "shopkeeper_item_group": [
-      { "group": "homeguns", "rigid": true },
-      { "group": "lmoe_guns", "rigid": true },
-      { "group": "ammo_reloaded", "rigid": true },
-      { "group": "magazines", "rigid": true },
-      { "group": "gear_survival", "rigid": true }
-    ],
     "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "survivor_moonshiner",
     "name_suffix": "moonshiner",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_MOONSHINER",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_NPC_MOONSHINER",
-    "shopkeeper_item_group": [ { "group": "still_alcohol", "rigid": true }, { "group": "keg_wine_intact", "rigid": true } ],
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_gun_store_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "marksman",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_GUN_STORE_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_animal_shelter_survivor",
+    "class": "NC_VETERINARIAN",
+    "name_suffix": "veterinarian",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_park_survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_STRANGER_NEUTRAL",
     "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "NPC_evac_shelter_survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
     "attitude": 1,
     "mission": 8,
     "chat": "TALK_NPC_EVAC_SURVIVOR",
-    "faction": "no_faction",
-    "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "NPC_homeless_survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_STATIC",
     "name_suffix": "scavenger",
     "attitude": 1,
     "mission": 8,
     "chat": "TALK_NPC_HOMELESS_SURVIVOR",
-    "faction": "no_faction",
-    "mission_offered": "MISSION_LEARN_ABOUT_CATTAIL_JELLY"
+    "faction": "no_faction"
   },
   {
     "type": "npc",
@@ -196,7 +204,7 @@
   {
     "type": "npc",
     "id": "NPC_homeless_group_survivor",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_NOMOVE",
     "name_suffix": "scavenger",
     "attitude": 0,
     "mission": 7,
@@ -213,5 +221,17 @@
     "mission_offered": "MISSION_JOIN_TRACKER",
     "chat": "TALK_STRANGER_FRIENDLY",
     "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_debug",
+    "//": "Someone helps you test the game.",
+    "name_suffix": "Debug",
+    "class": "NC_NONE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "no_faction",
+    "death_eocs": [ "EOC_event_NPC_DEATH_test" ]
   }
 ]

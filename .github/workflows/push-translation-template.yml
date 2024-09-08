@@ -9,6 +9,9 @@ on:
       - completed
 
 
+permissions:
+  contents: read
+
 jobs:
   push-template:
     runs-on: ubuntu-latest
@@ -22,13 +25,13 @@ jobs:
         run: sudo apt install gettext
       - name: "Install Transifex CLI"
         run: |
-          curl -sL https://github.com/transifex/cli/releases/download/v1.0.0/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
+          curl -sL https://github.com/transifex/cli/releases/download/v1.6.4/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
       - name: "Install Python3"
         run: |
           sudo apt install python3-pip
           sudo pip3 install polib
       - name: "Checkout"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: "Generate translation template"
         run: |
           lang/update_pot.sh

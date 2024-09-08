@@ -27,9 +27,8 @@
     "description": "This is an inactive chicken walker.  Using this item involves placing it on the ground, loading the unit with the factory-loaded 5.56 rounds and 40mm cartridge grenades in your inventory (if you wish to divide your ammunition, set aside whatever ammunition you do NOT want to give the robot) and turning it on.  If reprogrammed and rewired successfully the chicken walker will then identify you as a friendly, roam around or follow you, and attack all enemies with a built-in firearm and grenade launcher.",
     "weight": "120000 g",
     "volume": "92500 ml",
-    "price": 50000000,
+    "price": "500 kUSD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -43,7 +42,8 @@
       "moves": 250,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "bot_tankbot",
@@ -54,9 +54,8 @@
     "weight": "200000 g",
     "//": "cheating a bit with the volume due to lack of proper vehicle storage options",
     "volume": "250 L",
-    "price": 100000000,
+    "price": "1000 kUSD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -70,7 +69,8 @@
       "moves": 500,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -81,12 +81,11 @@
     "name": { "str": "broken chickenbot" },
     "category": "other",
     "description": "A broken chicken walker.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "1023850 g",
-    "volume": "1100 L",
-    "bashing": 20,
-    "cutting": 15,
+    "//": "Former volume: 1100 L. Adjusted to 1000L so it can actually be placed. TODO(?): Re-add old volume with some sort of flag",
+    "volume": "1000 L",
     "to_hit": -3,
     "use_action": {
       "type": "place_monster",
@@ -98,7 +97,8 @@
       "moves": 500,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
     "id": "bot_tripod",
@@ -108,9 +108,8 @@
     "description": "This is an inactive Honda Regnal.  Using this item involves placing it on the ground, wondering how it fuels its flamethrower and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
     "weight": "120000 g",
     "volume": "92500 ml",
-    "price": 100000000,
+    "price": "1000 kUSD",
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_green",
@@ -124,7 +123,8 @@
       "moves": 500,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -134,14 +134,12 @@
     "name": { "str": "broken tribot" },
     "category": "other",
     "description": "A broken tribot.  Now that its legs lie broken and immobile, the world seems a little less threatening.  Could be gutted for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "430000 g",
     "volume": "187500 ml",
-    "bashing": 10,
-    "cutting": 6,
-    "to_hit": -2,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 10, "cut": 6 }
   },
   {
     "type": "GENERIC",
@@ -151,14 +149,13 @@
     "name": { "str": "broken tank drone" },
     "category": "other",
     "description": "A broken tank drone.  Still looks intimidating despite being permanently inoperative, possibly due to the sheer size and mass.  Could be gutted for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "steel", "plastic" ],
     "weight": "1223850 g",
     "volume": "875 L",
-    "bashing": 20,
-    "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
   },
   {
     "type": "GENERIC",
@@ -169,7 +166,7 @@
     "color": "light_gray",
     "weight": "40000 g",
     "volume": "70000 ml",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -182,7 +179,7 @@
     "color": "light_gray",
     "weight": "60000 g",
     "volume": "80000 ml",
-    "price": 300000,
+    "price": "3 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -195,7 +192,7 @@
     "color": "light_gray",
     "weight": "150000 g",
     "volume": "575000 ml",
-    "price": 1000000,
+    "price": "10 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -207,20 +204,20 @@
     "color": "green",
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
-    "price": 99999999,
+    "price": "999 kUSD 999 USD 99 cent",
     "material": [ "steel" ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
-    "bashing": 6,
     "to_hit": -3,
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
     "loudness": 300,
     "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -231,7 +228,7 @@
     "color": "light_gray",
     "weight": "40000 g",
     "volume": "20 L",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel" ],
     "category": "spare_parts"
   },
@@ -242,10 +239,8 @@
     "description": "This is an inactive laser turret.  Using this item involves turning it on and placing it on the ground, where it will attach itself.  If reprogrammed and rewired successfully the turret will identify you as a friendly, and attack all enemies with its revolving laser cannons.  It requires sunlight in order to fire.",
     "weight": "40750 g",
     "volume": "30 L",
-    "price": 600000,
-    "price_postapoc": 12000,
-    "to_hit": -3,
-    "bashing": 8,
+    "price": "6 kUSD",
+    "price_postapoc": "120 USD",
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "white",
@@ -256,7 +251,8 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -266,5 +262,71 @@
     "name": { "str": "broken laser turret" },
     "weight": "110 kg",
     "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
+    "id": "reverse_jointed_legs",
+    "name": { "str": "set of reverse-jointed legs", "str_pl": "sets of reverse-jointed legs" },
+    "description": "A set of reverse-jointed legs, like the ones found under a chicken walker.",
+    "symbol": "k",
+    "color": "light_gray",
+    "weight": "60000 g",
+    "volume": "20 L",
+    "price": "5 kUSD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "id": "lobotomizer_weapon",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "lobotomizer" },
+    "description": "A hand-forged collapsible tool with two axe heads and a sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
+    "weight": "2722 g",
+    "volume": "1750 ml",
+    "price": "250 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "melee_damage": { "bash": 18, "cut": 37 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "necropolis_leaflet",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "vault leaflet" },
+    "snippet_category": "necropolis_intro",
+    "description": "A folded glossy handout that appears to be an introduction to living in a massive underground complex.",
+    "looks_like": "flyer",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "1 g",
+    "volume": "1 ml"
+  },
+  {
+    "id": "necropolis_freq",
+    "type": "BOOK",
+    "name": { "str": "frequency list" },
+    "description": "A notepad with a number of frequencies scribbled on it.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "pocket_firstaid",
+    "color": "light_cyan",
+    "intelligence": 2,
+    "time": "10 m"
   }
 ]

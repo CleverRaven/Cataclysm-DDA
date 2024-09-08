@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -11,7 +12,6 @@
 #include <vector>
 
 #include "item.h"
-#include "optional.h"
 #include "relic.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -84,6 +84,10 @@ std::set<const itype *> every_possible_item_from( const item_group_id &group_id 
  */
 bool group_is_defined( const item_group_id &group_id );
 /**
+ * Return the corresponding Item_spawn_data for an item_group_id as .obj() is undefined
+ */
+Item_spawn_data *spawn_data_from_group( const item_group_id &group_id );
+/**
  * Shows an menu to debug the item groups.
  */
 void debug_spawn();
@@ -149,6 +153,11 @@ class Item_spawn_data
          */
         virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                                     spawn_flags = spawn_flags::none ) const = 0;
+        /**
+        * Instead of calculating at run-time, give a step to finalize those item_groups that has count-min but not count-max.
+        * The reason is
+        */
+        virtual void finalize( const itype_id & ) = 0;
         std::size_t create( ItemList &list, const time_point &birthday,
                             spawn_flags = spawn_flags::none ) const;
         /**
@@ -161,7 +170,7 @@ class Item_spawn_data
          * Check item / spawn settings for consistency. Includes
          * checking for valid item types and valid settings.
          */
-        virtual void check_consistency() const;
+        virtual void check_consistency( bool actually_spawn ) const;
         /**
          * For item blacklisted, remove the given item from this and
          * all linked groups.
@@ -169,9 +178,9 @@ class Item_spawn_data
         virtual bool remove_item( const itype_id &itemid ) = 0;
         virtual void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
-        void set_container_item( const itype_id &container );
 
         virtual std::set<const itype *> every_item() const = 0;
+        virtual std::map<const itype *, std::pair<int, int>> every_item_min_max() const = 0;
 
         const std::string &context() const {
             return context_;
@@ -188,9 +197,15 @@ class Item_spawn_data
         /**
          * The group spawns contained in this item
          */
-        cata::optional<itype_id> container_item;
+        std::optional<itype_id> container_item;
+        std::optional<std::string> container_item_variant;
         overflow_behaviour on_overflow = overflow_behaviour::none;
+        /**
+         * These item(s) are spawned as components
+         */
+        std::optional<std::vector<itype_id>> components_items;
         bool sealed = true;
+        std::optional<bool> active = std::nullopt;
 
         struct relic_generator {
             relic_procgen_data::generation_rules rules;
@@ -257,7 +272,6 @@ class Item_modifier
          */
         std::unique_ptr<Item_spawn_data> contents;
         bool sealed = true;
-
         /**
          * Custom flags to be added to the item.
          */
@@ -320,19 +334,22 @@ class Single_item_creator : public Item_spawn_data
          */
         std::string id;
         Type type;
-        cata::optional<Item_modifier> modifier;
+        std::optional<Item_modifier> modifier;
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
+        void finalize( const itype_id &container = itype_id::NULL_ID() ) override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
+        item create_single_without_container( const time_point &birthday, RecursionList &rec ) const;
+        void check_consistency( bool actually_spawn ) const override;
         bool remove_item( const itype_id &itemid ) override;
         void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
 
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        std::map<const itype *, std::pair<int, int>> every_item_min_max() const override;
 };
 
 /**
@@ -372,15 +389,16 @@ class Item_group : public Item_spawn_data
          * a Single_item_creator or Item_group to @ref items.
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
-
+        void finalize( const itype_id &container = itype_id::NULL_ID() )override;
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
                             spawn_flags ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
-        void check_consistency() const override;
+        void check_consistency( bool actually_spawn ) const override;
         bool remove_item( const itype_id &itemid ) override;
         void replace_items( const std::unordered_map<itype_id, itype_id> &replacements ) override;
         bool has_item( const itype_id &itemid ) const override;
         std::set<const itype *> every_item() const override;
+        std::map<const itype *, std::pair<int, int>> every_item_min_max() const override;
 
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"

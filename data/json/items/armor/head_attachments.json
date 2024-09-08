@@ -1,15 +1,14 @@
 [
   {
     "id": "attachable_ear_muffs",
-    "repairs_like": "helmet_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "attachable ear muffs" },
     "description": "A pair of ear muffs attachable to a hard hat or helmet to reduce noise exposures to safe levels.  Activate to put ear muffs into a working position, blocking most sounds.",
     "weight": "290 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 80,
+    "price": "10 USD",
+    "price_postapoc": "80 cent",
     "material": [ "thermo_resin", "cotton" ],
     "symbol": "[",
     "color": "yellow",
@@ -49,15 +48,14 @@
   },
   {
     "id": "ballistic_mandible_guard",
-    "repairs_like": "helmet_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "ballistic mandible guard" },
     "description": "A ballistic jaw guard designed to be attached on a military helmet, but easily adjustable to helmets with any kind of rail system installed.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 6000,
-    "price_postapoc": 250,
+    "price": "60 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "thermo_resin" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -67,15 +65,14 @@
   },
   {
     "id": "plastic_mandible_guard",
-    "repairs_like": "mouthpiece",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "plastic mandible guard" },
     "description": "A plastic jaw guard designed to be strapped to any common hard hat or helmet, it was probably part of some costume before the world ended.",
     "weight": "250 g",
     "volume": "200 ml",
-    "price": 4000,
-    "price_postapoc": 50,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
@@ -85,15 +82,14 @@
   },
   {
     "id": "plastic_chin_guard",
-    "repairs_like": "mouthpiece",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "plastic chin guard" },
     "description": "A common plastic chin guard designed to be attached to the straps of any common hard hat or helmet.",
     "weight": "5 g",
     "volume": "10 ml",
-    "price": 100,
-    "price_postapoc": 1,
+    "price": "1 USD",
+    "price_postapoc": "1 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_gray",
@@ -103,15 +99,14 @@
   },
   {
     "id": "counterweight_pouch",
-    "repairs_like": "ankle_wallet_pouch",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "counterweight pouch" },
     "description": "A counterweight pouch attachable to the back of a hard hat or helmet to balance the weight on your head.  You can store batteries or some other very small items in it.",
     "weight": "150 g",
     "volume": "150 ml",
-    "price": 400,
-    "price_postapoc": 10,
+    "price": "4 USD",
+    "price_postapoc": "10 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "green",
@@ -130,15 +125,14 @@
   },
   {
     "id": "sun_shield",
-    "repairs_like": "glasses_safety",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "sun shield" },
     "description": "A common sun shield intended to be put over a hard hat to protect the user from the sun.",
     "weight": "98 g",
     "volume": "250 ml",
-    "price": 200,
-    "price_postapoc": 10,
+    "price": "2 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_gray",
@@ -146,15 +140,14 @@
   },
   {
     "id": "shield_visor",
-    "repairs_like": "glasses_safety",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "shield visor" },
     "description": "A common shield visor intended to be attached on a hard hat or helmet.",
     "weight": "40 g",
     "volume": "150 ml",
-    "price": 600,
-    "price_postapoc": 50,
+    "price": "6 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
@@ -164,15 +157,14 @@
   },
   {
     "id": "face_shield",
-    "repairs_like": "helmet_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "face shield" },
     "description": "A thermoplastic face shield with a mounting bracket intended to be attached over a hard hat or helmet.",
     "weight": "170 g",
     "volume": "250 ml",
-    "price": 800,
-    "price_postapoc": 100,
+    "price": "8 USD",
+    "price_postapoc": "1 USD",
     "material": [ "thermo_resin" ],
     "symbol": "[",
     "color": "light_blue",
@@ -181,16 +173,32 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
+    "id": "face_shield_eod",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "EOD face shield" },
+    "description": "A thick polycarbonate and plexiglass face shield with a mounting bracket intended to be attached to a ballistic helmet for protection from blast and fragmentation in 'non-permissive environments'.",
+    "weight": "229 g",
+    "volume": "250 ml",
+    "price": "836 USD",
+    "price_postapoc": "24 USD",
+    "material": [ "thermo_resin" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "material_thickness": 4.5,
+    "flags": [ "HELMET_FACE_SHIELD", "CANT_WEAR", "OUTER" ],
+    "armor": [ { "encumbrance": 14, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
+  },
+  {
     "id": "face_shield_plastic",
-    "repairs_like": "glasses_safety",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "plastic face shield" },
     "description": "A plastic face shield with a mounting bracket intended to be attached over a hard hat or helmet.  It doesn't protects you as much as one made from thermoplastic, but it's cheaper and more common.",
     "weight": "120 g",
     "volume": "250 ml",
-    "price": 650,
-    "price_postapoc": 50,
+    "price": "6 USD 50 cent",
+    "price_postapoc": "50 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
@@ -199,16 +207,208 @@
     "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
+    "id": "military_nvg",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "night vision goggles" },
+    "description": "Last generation double-tube night vision device, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
+    "weight": "680 g",
+    "volume": "1200 ml",
+    "price": "10000 USD",
+    "price_postapoc": "150 USD",
+    "material": [ "plastic", "steel", "glass" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "to_hit": -3,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "military_nvg_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_battery_cell"
+      }
+    ],
+    "relic_data": { "passive_effects": [ { "id": "nvg_normal" } ] },
+    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
+      { "covers": [ "head" ], "encumbrance": 8, "coverage": 70, "specifically_covers": [ "head_forehead" ] }
+    ]
+  },
+  {
+    "id": "military_nvg_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "military_nvg",
+    "name": { "str_sp": "night vision goggles (on)" },
+    "description": "Last generation single-tube night vision device, designed to be mounted on a compatible helmet.  Limited field of view while activated.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "//": "AN/PVS-7",
+    "extend": { "flags": [ "NVG_GREEN" ] },
+    "power_draw": "140 mW",
+    "revert_to": "military_nvg",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "military_nvg"
+    },
+    "armor": [ { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20, "rigid_layer_only": true } ]
+  },
+  {
+    "id": "advanced_gpnvg",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "panoramic night vision goggles" },
+    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  Currently raised up and out of the way.",
+    "weight": "765 g",
+    "volume": "1600 ml",
+    "price": "47000 USD",
+    "price_postapoc": "300 USD",
+    "material": [ "plastic", "steel", "glass" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "to_hit": -3,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "advanced_gpnvg_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
+    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
+      {
+        "covers": [ "head" ],
+        "encumbrance": 12,
+        "coverage": 80,
+        "specifically_covers": [ "head_forehead", "head_crown" ]
+      }
+    ]
+  },
+  {
+    "id": "advanced_gpnvg_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "advanced_gpnvg",
+    "name": { "str_sp": "panoramic night vision goggles (on)" },
+    "description": "Advanced GPNVG with four image intensifier tubes, allowing for a large field of view at night, designed to be mounted on a compatible helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "//": "GPNVG-18",
+    "extend": { "flags": [ "NVG_GREEN" ] },
+    "power_draw": "180 mW",
+    "revert_to": "advanced_gpnvg",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "advanced_gpnvg"
+    },
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 15, "rigid_layer_only": true },
+      { "covers": [ "head" ], "encumbrance": 3, "coverage": 80, "specifically_covers": [ "head_crown" ] }
+    ]
+  },
+  {
+    "id": "enhanced_nvg",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "enhanced night vision goggles" },
+    "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  Currently raised up and out of the way.",
+    "weight": "720 g",
+    "volume": "1400 ml",
+    "price": "10000 USD",
+    "price_postapoc": "350 USD",
+    "material": [ "plastic", "steel", "glass" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "to_hit": -3,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "enhanced_nvg_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "relic_data": { "passive_effects": [ { "id": "nvg_good" } ] },
+    "flags": [ "HELMET_FRONT_ATTACHMENT", "CANT_WEAR", "OUTER", "ELECTRONIC", "MUNDANE" ],
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 10, "encumbrance": 0, "rigid_layer_only": true },
+      {
+        "covers": [ "head" ],
+        "encumbrance": 10,
+        "coverage": 70,
+        "specifically_covers": [ "head_forehead", "head_crown" ]
+      }
+    ]
+  },
+  {
+    "id": "enhanced_nvg_on",
+    "type": "TOOL_ARMOR",
+    "copy-from": "enhanced_nvg",
+    "name": { "str_sp": "enhanced night vision goggles (on)" },
+    "description": "New and rare high-resolution thermal NVG device, designed to be mounted on a compatible helmet.  Lets you see in the dark, and detects heat signatures emitted by (un)living organisms.  It is turned on, and continually draining batteries.  Use it to turn it off.",
+    "//": "AN/PSQ-42",
+    "extend": { "flags": [ "NVG_GREEN", "IR_EFFECT" ] },
+    "power_draw": "320 mW",
+    "revert_to": "enhanced_nvg",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "enhanced_nvg"
+    },
+    "armor": [
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 10, "rigid_layer_only": true },
+      { "covers": [ "head" ], "encumbrance": 3, "coverage": 80, "specifically_covers": [ "head_crown" ] }
+    ]
+  },
+  {
     "id": "nape_protector",
-    "repairs_like": "bandana",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "nape protector" },
     "description": "A common nape protector intended to be attached on a hard hat or helmet to protect against the sun and dust.",
     "weight": "15 g",
     "volume": "150 ml",
-    "price": 50,
-    "price_postapoc": 10,
+    "price": "50 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "cyan",
@@ -226,15 +426,14 @@
   },
   {
     "id": "mesh_nape_protector",
-    "repairs_like": "bandana",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mesh nape protector" },
     "description": "A common mesh nape protector intended to be attached on a hard hat or helmet to protect against the sun while letting the cold wind refresh your nape.",
     "weight": "10 g",
     "volume": "100 ml",
-    "price": 50,
-    "price_postapoc": 10,
+    "price": "50 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "yellow",
@@ -257,8 +456,8 @@
     "description": "A custom-made Kevlar strengthened nape protector intended to be attached on a hard hat or helmet to protect your nape against cuts and slashing attacks.",
     "weight": "40 g",
     "volume": "500 ml",
-    "price": 6500,
-    "price_postapoc": 100,
+    "price": "65 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -276,5 +475,560 @@
         "specifically_covers": [ "head_nape", "head_ear_r", "head_ear_l" ]
       }
     ]
+  },
+  {
+    "id": "lc_chainmail_face",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel chainmail partial aventail" },
+    "description": "A wide chainmail ring designed to attach to a cap helmet, hanging down to extend protection to the face and neck.",
+    "weight": "1000 g",
+    "volume": "300 ml",
+    "price": "50 USD 12 cent",
+    "price_postapoc": "10 USD",
+    "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
+    "symbol": "[",
+    "warmth": 3,
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "HELMET_AVENTAIL", "CANT_WEAR" ],
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 5,
+        "coverage": 90
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 5,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "name": { "str": "mild steel chainmail partial aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_lc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "name": { "str": "mild steel chainmail partial aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "mc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "name": { "str": "medium steel chainmail partial aventail" },
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
+  },
+  {
+    "id": "xl_mc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_face",
+    "name": { "str": "medium steel chainmail partial aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_mc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_face",
+    "name": { "str": "medium steel chainmail partial aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "hc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "name": { "str": "high steel chainmail partial aventail" },
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
+  },
+  {
+    "id": "xl_hc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_face",
+    "name": { "str": "high steel chainmail partial aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_hc_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_face",
+    "name": { "str": "high steel chainmail partial aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "qt_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "name": { "str": "tempered steel chainmail partial aventail" },
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
+  },
+  {
+    "id": "xl_qt_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_face",
+    "name": { "str": "tempered steel chainmail partial aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_qt_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_face",
+    "name": { "str": "tempered steel chainmail partial aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "ch_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_face",
+    "material": [ "ch_steel_chain" ],
+    "name": { "str": "hardened steel chainmail partial aventail" },
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
+  },
+  {
+    "id": "xl_ch_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_face",
+    "name": { "str": "hardened steel chainmail partial aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_ch_chainmail_face",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_face",
+    "name": { "str": "hardened steel chainmail partial aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "lc_chainmail_aventail",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel chainmail aventail" },
+    "description": "A wide chainmail draping designed to attach to a cap helmet, hanging down to extend protection to the face, neck and shoulders.",
+    "weight": "1300 g",
+    "volume": "450 ml",
+    "price": "50 USD 12 cent",
+    "price_postapoc": "13 USD",
+    "to_hit": -1,
+    "material": [ "lc_steel_chain" ],
+    "symbol": "[",
+    "warmth": 3,
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "HELMET_AVENTAIL", "CANT_WEAR" ],
+    "armor": [
+      {
+        "covers": [ "head", "arm_l", "arm_r" ],
+        "specifically_covers": [ "head_nape", "head_throat", "arm_shoulder_r", "arm_shoulder_l" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 5,
+        "coverage": 90
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 5,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "name": { "str": "mild steel chainmail aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_lc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "name": { "str": "mild steel chainmail aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "mc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "name": { "str": "medium steel chainmail aventail" },
+    "replace_materials": { "lc_steel_chain": "mc_steel_chain" }
+  },
+  {
+    "id": "xl_mc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_aventail",
+    "name": { "str": "medium steel chainmail aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_mc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "mc_chainmail_aventail",
+    "name": { "str": "medium steel chainmail aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "hc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "name": { "str": "high steel chainmail aventail" },
+    "replace_materials": { "lc_steel_chain": "hc_steel_chain" }
+  },
+  {
+    "id": "xl_hc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_aventail",
+    "name": { "str": "high steel chainmail aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_hc_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "hc_chainmail_aventail",
+    "name": { "str": "high steel chainmail aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "qt_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "name": { "str": "tempered steel chainmail aventail" },
+    "replace_materials": { "lc_steel_chain": "qt_steel_chain" }
+  },
+  {
+    "id": "xl_qt_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_aventail",
+    "name": { "str": "tempered steel chainmail aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_qt_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "qt_chainmail_aventail",
+    "name": { "str": "tempered steel chainmail aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "ch_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "lc_chainmail_aventail",
+    "name": { "str": "hardened steel chainmail aventail" },
+    "replace_materials": { "lc_steel_chain": "ch_steel_chain" }
+  },
+  {
+    "id": "xl_ch_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_aventail",
+    "name": { "str": "hardened steel chainmail aventail" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_ch_chainmail_aventail",
+    "type": "ARMOR",
+    "copy-from": "ch_chainmail_aventail",
+    "name": { "str": "hardened steel chainmail aventail" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "lc_steel_facemask",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "mild steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This is a crude, dull facsimile of the original masterpieces made of mild steel.",
+    "weight": "2000 g",
+    "volume": "300 ml",
+    "price": "50 USD 12 cent",
+    "price_postapoc": "13 USD",
+    "to_hit": -1,
+    "material": [ "lc_steel" ],
+    "symbol": "[",
+    "warmth": 3,
+    "color": "light_red",
+    "flags": [ "VARSIZE", "STURDY", "HELMET_AVENTAIL", "CANT_WEAR" ],
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [ { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_lc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "name": { "str": "mild steel armored face mask" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_lc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "name": { "str": "mild steel armored face mask" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "mc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "name": { "str": "medium steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of medium steel, and at least has some ornamentation, but not much.",
+    "replace_materials": { "lc_steel": "mc_steel" }
+  },
+  {
+    "id": "xl_mc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "mc_steel_facemask",
+    "name": { "str": "medium steel armored face mask" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_mc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "mc_steel_facemask",
+    "name": { "str": "medium steel armored face mask" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "hc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "name": { "str": "high steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of high steel, and you've got it with a fancy mustache and everything.",
+    "replace_materials": { "lc_steel": "hc_steel" }
+  },
+  {
+    "id": "xl_hc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "hc_steel_facemask",
+    "name": { "str": "high steel armored face mask" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_hc_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "hc_steel_facemask",
+    "name": { "str": "high steel armored face mask" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "qt_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "ch_steel_facemask",
+    "name": { "str": "tempered steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of tempered steel with gold inlays and a setting for a gemstone.  This isn't just surviving the apocalypse, this is about living truly apocalypse fancy.",
+    "replace_materials": { "ch_steel": "qt_steel" },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": false,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "500 mg",
+        "moves": 250,
+        "description": "Socket for a gemstone.",
+        "flag_restriction": [ "GEMSTONE" ]
+      }
+    ]
+  },
+  {
+    "id": "xl_qt_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "qt_steel_facemask",
+    "name": { "str": "tempered steel armored face mask" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_qt_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "qt_steel_facemask",
+    "name": { "str": "tempered steel armored face mask" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "ch_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "lc_steel_facemask",
+    "material": [ "ch_steel", "gold" ],
+    "name": { "str": "hardened steel armored face mask" },
+    "description": "A metal face mask designed to attach to a cap helmet to protect the lower half.  This one is made of hardened steel with fancy gold inlays, who says armor can't be stylish!",
+    "armor": [
+      {
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      },
+      {
+        "covers": [ "mouth" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "gold", "covered_by_mat": 25, "thickness": 0.1 }
+        ],
+        "encumbrance": 7,
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_ch_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "ch_steel_facemask",
+    "name": { "str": "hardened steel armored face mask" },
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_ch_steel_facemask",
+    "type": "ARMOR",
+    "copy-from": "ch_steel_facemask",
+    "name": { "str": "hardened steel armored face mask" },
+    "proportional": { "weight": 0.75, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "outsert_clear",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "clear outsert lens", "str_pl": "clear outsert lenses" },
+    "description": "A simple and flexible transparent lens of plastic that clips into place over a panoramic gas mask's solitary eyepiece, providing extra protection from scratches, abrasions, and ballistic threats.",
+    "weight": "55 g",
+    "volume": "46 ml",
+    "longest_side": "17 cm",
+    "price": "69 USD 50 cent",
+    "price_postapoc": "1 USD",
+    "//": "Simulating https://shop.avon-protection.com/products/clear-outsert?variant=44365968310509",
+    "material": [ "hard_plastic_transp" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "material_thickness": 2.5,
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "flags": [ "PANORAMIC_OUTSERT", "CANT_WEAR", "OUTER" ]
+  },
+  {
+    "id": "outsert_sunlight",
+    "type": "ARMOR",
+    "copy-from": "outsert_clear",
+    "name": { "str": "sunlight outsert lens", "str_pl": "sunlight outsert lenses" },
+    "description": "A tinted and flexible plastic outsert intended to be mounted over the eyepiece of a panoramic-view gas mask to protect the wearer from high-level UV light, sudden flashes, and overly bright flares.",
+    "weight": "37 g",
+    "volume": "31 ml",
+    "price": "80 USD 75 cent",
+    "//": "Simulating https://shop.avon-protection.com/products/sunlight-outsert?variant=44366007730413",
+    "material_thickness": 1,
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 2,
+        "coverage": 100,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "extend": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] }
+  },
+  {
+    "id": "outsert_breach",
+    "type": "ARMOR",
+    "copy-from": "outsert_clear",
+    "name": { "str": "breach outsert lens", "str_pl": "breach outsert lenses" },
+    "description": "A specialized lens designed to clip into place over the solitary eyepiece of a panoramic gas mask, providing eye protection to users deploying a cutting torch while also improving impact resistance.",
+    "weight": "43 g",
+    "volume": "36 ml",
+    "price": "170 USD 34 cent",
+    "price_postapoc": "1 USD 10 cent",
+    "//": "Simulating https://danasafetysupply.com/avon-protection-70501-688-breach-shade-5-outsert-fits-fm53-and-fm54-masks/",
+    "material_thickness": 1.5,
+    "armor": [
+      {
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
+        "encumbrance": 40,
+        "coverage": 100,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "qualities": [ [ "GLARE", 1 ] ],
+    "extend": { "flags": [ "SUN_GLASSES", "FLASH_PROTECTION" ] }
+  },
+  {
+    "id": "insert_vision_correction",
+    "type": "ARMOR",
+    "copy-from": "outsert_clear",
+    "name": { "str": "vision correction assembly", "str_pl": "vision correction assemblies" },
+    "description": "A detachable frame of prescription lenses intended for installation behind a panoramic gas mask's visor, providing an alternative vision-correcting solution to users with inherent eye issues rather than contact lenses.",
+    "weight": "33 g",
+    "volume": "17 ml",
+    "longest_side": "10 cm",
+    "//": "Simulating https://www.avon-protection.com/media/drxes0hg/avon-protection_vision-correction-assembly_data-sheet_en.pdf",
+    "//2": "According to Avon's datasheet, the weight of the frame, without any lenses, is 8-gramms. Calculating the mass of 2 glass lenses of 4.6x3.7x0.3mm with a cubic density of 2500 kg per m3 and adding that to the weight of the frame yields our final result.",
+    "//3": "According to Avon's datasheet, the individual lenses are 46mm in horizontal width and 50mm in diagonal width, with 64mm inter-pupillary. Adding the horizontal width of two lenses doesn't add up to the total weight of the frame with the nose bridge factored in, so we sum it up to a round ten cm for the overall length.",
+    "price": "119 USD 70 cent",
+    "price_postapoc": "1 USD 25 cent",
+    "material": [ { "type": "glass", "portion": 6 }, { "type": "hard_plastic_transp", "portion": 4 } ],
+    "material_thickness": 3,
+    "armor": [
+      {
+        "material": [ { "type": "glass", "covered_by_mat": 100, "thickness": 3.0 } ],
+        "encumbrance": 0,
+        "coverage": 75,
+        "covers": [ "eyes" ]
+      }
+    ],
+    "delete": { "flags": [ "PANORAMIC_OUTSERT" ] },
+    "extend": { "flags": [ "PANORAMIC_INSERT", "FIX_NEARSIGHT", "FIX_FARSIGHT", "SKINTIGHT" ] }
   }
 ]

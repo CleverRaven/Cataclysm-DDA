@@ -1,7 +1,15 @@
 #include "assign.h"
 
+#include <algorithm>
+#include <cstdint>
+#include <vector>
+
+#include "color.h"
+#include "debug.h"
+#include "json_error.h"
+
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string &name )
+                              const std::string_view name )
 {
     try {
         // Let the json class do the formatting, it includes the context of the JSON data.
@@ -12,7 +20,7 @@ void report_strict_violation( const JsonObject &jo, const std::string &message,
     }
 }
 
-bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict )
+bool assign( const JsonObject &jo, const std::string_view name, bool &val, bool strict )
 {
     bool out;
 
@@ -30,31 +38,17 @@ bool assign( const JsonObject &jo, const std::string &name, bool &val, bool stri
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::volume &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::volume &val, bool strict,
              const units::volume lo, const units::volume hi )
 {
-    const auto parse = [&name]( const JsonObject & obj, units::volume & out ) {
+    const auto parse = [name]( const JsonObject & obj, units::volume & out ) {
         if( obj.has_int( name ) ) {
             out = obj.get_int( name ) * units::legacy_volume_factor;
             return true;
         }
 
         if( obj.has_string( name ) ) {
-            units::volume::value_type tmp;
-            std::string suffix;
-            std::istringstream str( obj.get_string( name ) );
-            str.imbue( std::locale::classic() );
-            str >> tmp >> suffix;
-            if( str.peek() != std::istringstream::traits_type::eof() ) {
-                obj.throw_error_at( name, "syntax error when specifying volume" );
-            }
-            if( suffix == "ml" ) {
-                out = units::from_milliliter( tmp );
-            } else if( suffix == "L" ) {
-                out = units::from_milliliter( tmp * 1000 );
-            } else {
-                obj.throw_error_at( name, "unrecognized volumetric unit" );
-            }
+            out = read_from_json_string<units::volume>( obj.get_member( name ), units::volume_units );
             return true;
         }
 
@@ -109,7 +103,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::volume &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::mass &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::mass &val, bool strict,
              const units::mass lo, const units::mass hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::mass & out ) {
@@ -173,7 +167,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::mass &val, bo
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::length &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::length &val, bool strict,
              const units::length lo, const units::length hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::length & out ) {
@@ -237,7 +231,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::length &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::money &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::money &val, bool strict,
              const units::money lo, const units::money hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::money & out ) {
@@ -301,7 +295,7 @@ bool assign( const JsonObject &jo, const std::string &name, units::money &val, b
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, units::energy &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, units::energy &val, bool strict,
              const units::energy lo, const units::energy hi )
 {
     const auto parse = [&name]( const JsonObject & obj, units::energy & out ) {
@@ -370,7 +364,76 @@ bool assign( const JsonObject &jo, const std::string &name, units::energy &val, 
     return true;
 }
 
-bool assign( const JsonObject &jo, const std::string &name, nc_color &val )
+bool assign( const JsonObject &jo, const std::string_view name, units::power &val, bool strict,
+             const units::power lo, const units::power hi )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::power & out ) {
+        if( obj.has_int( name ) ) {
+            const std::int64_t tmp = obj.get_int( name );
+            if( tmp > units::to_kilowatt( units::power_max ) ) {
+                out = units::power_max;
+            } else {
+                out = units::from_kilowatt( tmp );
+            }
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::power>( obj.get_member( name ), units::power_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::power out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    const JsonObject *err = &jo;
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        units::power tmp;
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error_at( name, "invalid relative value specified" );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error_at( name, "multiplier must be a positive number other than 1" );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err->throw_error_at( name, "value outside supported range" );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
+    }
+
+    val = out;
+
+    return true;
+}
+
+bool assign( const JsonObject &jo, const std::string &name, nc_color &val, bool strict )
 {
     if( !jo.has_member( name ) ) {
         return false;
@@ -379,6 +442,13 @@ bool assign( const JsonObject &jo, const std::string &name, nc_color &val )
     if( out == c_unset ) {
         jo.throw_error_at( name, "invalid color name" );
     }
+
+    if( strict && out == val ) {
+        report_strict_violation( jo,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
+    }
+
     val = out;
     return true;
 }
@@ -426,12 +496,16 @@ static void assign_dmg_relative( damage_instance &out, const damage_instance &va
             out_dmg.unconditional_damage_mult = tmp.unconditional_damage_mult +
                                                 val_dmg.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount + tmp.amount );
+            }
+
             out.add( out_dmg );
         }
     }
 }
 
-static void assign_dmg_proportional( const JsonObject &jo, const std::string &name,
+static void assign_dmg_proportional( const JsonObject &jo, const std::string_view name,
                                      damage_instance &out,
                                      const damage_instance &val,
                                      damage_instance proportional, bool &strict )
@@ -501,23 +575,27 @@ static void assign_dmg_proportional( const JsonObject &jo, const std::string &na
             out_dmg.unconditional_damage_mult = val_dmg.unconditional_damage_mult *
                                                 scalar.unconditional_damage_mult;
 
+            for( const barrel_desc &bd : val_dmg.barrels ) {
+                out_dmg.barrels.emplace_back( bd.barrel_length, bd.amount * scalar.amount );
+            }
+
             out.add( out_dmg );
         }
     }
 }
 
-static void check_assigned_dmg( const JsonObject &err, const std::string &name,
+static void check_assigned_dmg( const JsonObject &err, const std::string_view name,
                                 const damage_instance &out, const damage_instance &lo_inst, const damage_instance &hi_inst )
 {
     for( const damage_unit &out_dmg : out.damage_units ) {
         auto lo_iter = std::find_if( lo_inst.damage_units.begin(),
         lo_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == damage_type::NONE;
+            return du.type == out_dmg.type || du.type.is_null();
         } );
 
         auto hi_iter = std::find_if( hi_inst.damage_units.begin(),
         hi_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == damage_type::NONE;
+            return du.type == out_dmg.type || du.type.is_null();
         } );
 
         if( lo_iter == lo_inst.damage_units.end() ) {
@@ -546,7 +624,7 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
     }
 }
 
-bool assign( const JsonObject &jo, const std::string &name, damage_instance &val, bool strict,
+bool assign( const JsonObject &jo, const std::string_view name, damage_instance &val, bool strict,
              const damage_instance &lo, const damage_instance &hi )
 {
     // What we'll eventually be returning for the damage instance
@@ -566,34 +644,6 @@ bool assign( const JsonObject &jo, const std::string &name, damage_instance &val
     } else if( jo.has_object( name ) ) {
         out = load_damage_instance_inherit( jo.get_object( name ), val );
         assigned = true;
-    } else {
-        // Legacy: remove after 0.F
-        float amount = 0.0f;
-        float arpen = 0.0f;
-        float unc_dmg_mult = 1.0f;
-        bool with_legacy = false;
-
-        // There will always be either a prop_damage or damage (name)
-        if( jo.has_member( name ) ) {
-            with_legacy = true;
-            amount = jo.get_float( name );
-        } else if( jo.has_member( "prop_damage" ) ) {
-            with_legacy = true;
-            unc_dmg_mult = jo.get_float( "prop_damage" );
-        }
-        // And there may or may not be armor penetration
-        if( jo.has_member( "pierce" ) ) {
-            with_legacy = true;
-            arpen = jo.get_float( "pierce" );
-        }
-
-        if( with_legacy ) {
-            // Give a load warning, it's likely anything loading damage this way
-            // is a gun, and as such is using the wrong damage type
-            debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
-            out.add_damage( damage_type::STAB, amount, arpen, 1.0f, 1.0f, 1.0f, unc_dmg_mult );
-            assigned = true;
-        }
     }
 
     // Object via which to report errors which differs for proportional/relative values
@@ -621,60 +671,8 @@ bool assign( const JsonObject &jo, const std::string &name, damage_instance &val
                                  load_damage_instance( proportional.get_array( name ) ),
                                  strict );
         assigned = true;
-    } else if( relative.has_member( name ) || relative.has_member( "pierce" ) ||
-               relative.has_member( "prop_damage" ) ) {
-        // Legacy: Remove after 0.F
-        // It is valid for relative to adjust any of pierce, prop_damage, or damage
-        // So check for what it's modifying, and modify that
-        float amt = 0.0f;
-        float arpen = 0.0f;
-        float unc_dmg_mul = 1.0f;
-
-        if( relative.has_member( name ) ) {
-            amt = relative.get_float( name );
-        }
-        if( relative.has_member( "pierce" ) ) {
-            arpen = relative.get_float( "pierce" );
-        }
-        if( relative.has_member( "prop_damage" ) ) {
-            unc_dmg_mul = relative.get_float( "prop_damage" );
-        }
-
-        // Give a load warning, it's likely anything loading damage this way
-        // is a gun, and as such is using the wrong damage type
-        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
-
-        assign_dmg_relative( out, val, damage_instance( damage_type::STAB, amt, arpen, 1.0f, 1.0f, 1.0f,
-                             unc_dmg_mul ), strict );
-        assigned = true;
-    } else if( proportional.has_member( name ) || proportional.has_member( "pierce" ) ||
-               proportional.has_member( "prop_damage" ) ) {
-        // Legacy: Remove after 0.F
-        // It is valid for proportional to adjust any of pierce, prop_damage, or damage
-        // So check if it's modifying any of the things before going on to modify it
-        float amt = 0.0f;
-        float arpen = 0.0f;
-        float unc_dmg_mul = 1.0f;
-
-        if( proportional.has_member( name ) ) {
-            amt = proportional.get_float( name );
-        }
-        if( proportional.has_member( "pierce" ) ) {
-            arpen = proportional.get_float( "pierce" );
-        }
-        if( proportional.has_member( "prop_damage" ) ) {
-            unc_dmg_mul = proportional.get_float( "prop_damage" );
-        }
-
-        // Give a load warning, it's likely anything loading damage this way
-        // is a gun, and as such is using the wrong damage type
-        debugmsg( "Warning: %s loads damage using legacy methods - damage type may be wrong", id_err );
-
-        assign_dmg_proportional( proportional, name, out, val, damage_instance( damage_type::STAB, amt,
-                                 arpen, 1.0f,
-                                 1.0f, 1.0f, unc_dmg_mul ), strict );
-        assigned = true;
     }
+
     if( !assigned ) {
         // Straight copy-from, not modified by proportional or relative
         out = val;

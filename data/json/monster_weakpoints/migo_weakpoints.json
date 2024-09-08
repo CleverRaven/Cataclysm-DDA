@@ -1,0 +1,90 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_mi-go",
+    "weakpoints": [
+      {
+        "id": "arm",
+        "name": "the arm",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is knocked off-balance!", "damage_required": [ 10, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is knocked off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 6
+      },
+      {
+        "id": "leg",
+        "name": "the leg",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 10, "message": "The %s is tripped off-balance!", "damage_required": [ 15, 30 ] },
+          {
+            "effect": "staggered",
+            "chance": 20,
+            "message": "The %s is tripped off-balance!",
+            "damage_required": [ 31, 100 ]
+          }
+        ],
+        "coverage": 15
+      },
+      {
+        "id": "wing",
+        "name": "the wing",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 4, "melee": 3 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [
+          { "effect": "staggered", "chance": 15, "message": "The %s is pushed off-balance!", "damage_required": [ 20, 40 ] },
+          {
+            "effect": "staggered",
+            "chance": 25,
+            "message": "The %s is pushed off-balance!",
+            "damage_required": [ 51, 100 ]
+          }
+        ],
+        "coverage": 2
+      },
+      {
+        "id": "head",
+        "name": "the head",
+        "coverage": 5,
+        "crit_mult": { "all": 1.1 },
+        "armor_mult": { "physical": 0.75 },
+        "difficulty": { "ranged": 5, "melee": 4 },
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 1 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 5, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 1 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 1 ],
+            "chance": 45,
+            "message": "The %s is stunned!",
+            "damage_required": [ 51, 100 ]
+          }
+        ]
+      }
+    ]
+  }
+]

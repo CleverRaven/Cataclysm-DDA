@@ -668,7 +668,7 @@
         "........|-gggg-|........",
         "........................",
         ".........cxc6cc.........",
-        ".........ch.h.c.........",
+        ".........ch.hjc.........",
         "........................",
         ".ccxcc............ccxcc.",
         ".c.h.c............c.h.c.",
@@ -681,7 +681,8 @@
       "terrain": { "C": "t_floor_blue", "7": "t_floor_blue", ",": "t_floor_blue" },
       "mapping": {
         "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
-        "l": { "items": [ { "item": "science", "chance": 60 } ] }
+        "l": { "items": [ { "item": "science", "chance": 60 } ] },
+        "j": { "items": [ { "item": "guns_launcher_flame_xedra", "chance": 20 } ] }
       },
       "computers": {
         "6": {

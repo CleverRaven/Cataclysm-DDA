@@ -1,111 +1,107 @@
 [
   {
-    "id": "base_silverware",
-    "name": { "str": "generic silverware" },
+    "abstract": "base_silverware",
+    "name": { "str_sp": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
-    "price": 100,
-    "price_postapoc": 0,
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
     "weight": "48 g",
     "volume": "25 ml",
     "material": [ "steel" ],
-    "bashing": 2,
-    "cutting": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2, "cut": 1 }
   },
   {
-    "id": "base_utensil",
+    "abstract": "base_utensil",
     "name": { "str": "generic utensil" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
-    "price": 200,
-    "price_postapoc": 0,
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
     "weight": "158 g",
     "volume": "75 ml",
     "material": [ "steel" ],
-    "bashing": 3,
-    "cutting": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3, "cut": 2 }
   },
   {
-    "id": "base_plastic_silverware",
-    "name": { "str": "generic silverware" },
+    "abstract": "base_plastic_silverware",
+    "name": { "str_sp": "generic silverware" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": ";",
     "color": "light_gray",
-    "price": 10,
-    "price_postapoc": 0,
+    "price": "10 cent",
+    "price_postapoc": "0 cent",
     "weight": "28 g",
     "volume": "25 ml",
     "material": [ "plastic" ],
-    "bashing": 1,
-    "cutting": 1,
-    "to_hit": -2
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
-    "id": "base_ceramic_dish",
+    "abstract": "base_ceramic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
     "color": "yellow",
-    "price": 1200,
-    "price_postapoc": 0,
+    "price": "12 USD",
+    "price_postapoc": "0 cent",
     "material": [ "ceramic" ],
     "weight": "375 g",
     "volume": "375 ml",
-    "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
-    "id": "base_glass_dish",
+    "abstract": "base_glass_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
     "color": "cyan",
-    "price": 1400,
-    "price_postapoc": 0,
+    "price": "14 USD",
+    "price_postapoc": "0 cent",
     "material": [ "glass" ],
     "weight": "322 g",
     "volume": "262 ml",
-    "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
-    "id": "base_tin_dish",
+    "abstract": "base_tin_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
-    "price": 400,
-    "price_postapoc": 0,
+    "price": "4 USD",
+    "price_postapoc": "0 cent",
     "material": [ "tin" ],
     "weight": "262 g",
     "volume": "262 ml",
-    "bashing": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2 }
   },
   {
-    "id": "base_plastic_dish",
+    "abstract": "base_plastic_dish",
     "name": { "str": "generic dish", "str_pl": "generic dishes" },
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
-    "price": 400,
-    "price_postapoc": 0,
+    "price": "4 USD",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "weight": "130 g",
     "volume": "262 ml",
-    "bashing": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "abstract": "base_cookpot",
@@ -113,10 +109,10 @@
     "description": "generic item template",
     "type": "GENERIC",
     "symbol": ")",
-    "to_hit": 1,
-    "price": 4500,
-    "price_postapoc": 10,
-    "use_action": [ "HEAT_FOOD" ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "price": "45 USD",
+    "price_postapoc": "10 cent",
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -149,6 +145,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -159,16 +156,25 @@
     "symbol": "u",
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
+    "weight": "254 g",
+    "//1": "Weight calculated proportionally from the coffee mug as I couldn't find detailed weight information for the product.",
+    "volume": "380 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "//2": "This isn't true. It should contain 150ml. But I can't lower it beyond this much because then it won't be able to hold common liquids. I love charges.",
+        "max_contains_weight": "300 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
+    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "//3": "Based on https://www.dimensions.com/element/ikea-vardagen-coffee-cup-saucer"
   },
   {
     "type": "GENERIC",
@@ -176,70 +182,226 @@
     "id": "ceramic_mug",
     "name": { "str": "coffee mug" },
     "symbol": "u",
-    "description": "A ceramic coffee cup with a logo on the side.",
+    "description": "A small, <color> ceramic coffee cup.",
+    "expand_snippets": true,
     "copy-from": "base_ceramic_dish",
+    "weight": "318 g",
+    "volume": "475 ml",
+    "longest_side": "12 cm",
+    "price": "5 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "250 ml",
+        "max_contains_volume": "330 ml",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "snippet_category": [
-      { "id": "mug1", "text": "The side of the mug reads 'World's Greatest Dad'." },
-      { "id": "mug2", "text": "The side of the mug reads 'World's Greatest Mom'." },
-      { "id": "mug3", "text": "The side of the mug has a picture of a happy-looking family." },
+    "variants": [
+      {
+        "id": "mug1",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'World's Greatest Dad'."
+      },
+      {
+        "id": "mug2",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'World's Greatest Mom'."
+      },
+      {
+        "id": "mug3",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a picture of a happy-looking family."
+      },
       {
         "id": "mug4",
-        "text": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a comical green face on it and says 'I'm a zombie without my coffee!'."
       },
-      { "id": "mug5", "text": "The side of the mug reads 'I'd rather be playing open source games'." },
-      { "id": "mug6", "text": "The side of the mug reads 'If you think I'm bad, look in a mirror'." },
-      { "id": "mug7", "text": "The side of the mug has a diagram of a caffeine molecule." },
-      { "id": "mug8", "text": "The side of the mug has a cute picture of a sleeping cat." },
-      { "id": "mug9", "text": "The mug is printed in leopard spots." },
-      { "id": "mug10", "text": "The mug is blue and looks like a TARDIS." },
-      { "id": "mug11", "text": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber." },
-      { "id": "mug12", "text": "The side of the mug reads 'House Stark' and depicts a fictional crest." },
-      { "id": "mug13", "text": "The side of the mug reads 'My fandom could beat up your fandom'. " },
+      {
+        "id": "mug5",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'I'd rather be playing open source games'."
+      },
+      {
+        "id": "mug6",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'If you think I'm bad, look in a mirror'."
+      },
+      {
+        "id": "mug7",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a diagram of a caffeine molecule."
+      },
+      {
+        "id": "mug8",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug has a cute picture of a sleeping cat."
+      },
+      {
+        "id": "mug9",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The mug is printed in leopard spots."
+      },
+      {
+        "id": "mug10",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The mug is blue and looks like a TARDIS."
+      },
+      {
+        "id": "mug11",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'STAR WARS' over a picture of a lightsaber."
+      },
+      {
+        "id": "mug12",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'House Stark' and depicts a fictional crest."
+      },
+      {
+        "id": "mug13",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'My fandom could beat up your fandom'. "
+      },
       {
         "id": "mug14",
-        "text": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'Do you even linux, bro?' and has a picture of a muscular penguin."
       },
-      { "id": "mug15", "text": "The side of the mug reads 'I wish this was wine!'" },
-      { "id": "mug16", "text": "The side of the mug reads 'CasUaL aLcoHoLiSm'" },
-      { "id": "mug17", "text": "A white ceramic coffee mug.  It says \"World's Best Dad!\" on the side." },
+      {
+        "id": "mug15",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'I wish this was wine!'"
+      },
+      {
+        "id": "mug16",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "The side of the mug reads 'CasUaL aLcoHoLiSm'"
+      },
+      {
+        "id": "mug17",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "It says \"World's Best Dad!\" on the side."
+      },
       {
         "id": "mug18",
-        "text": "A white ceramic coffee mug.  It says \"Great Ideas start with Great Coffee.\" on the side."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "It says \"Great Ideas start with Great Coffee.\" on the side."
       },
       {
         "id": "mug19",
-        "text": "A white ceramic coffee mug.  On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "On the side is a glass of wine and a cup of coffee both saying \"She loves me more!\""
       },
       {
         "id": "mug20",
-        "text": "A white ceramic coffee mug.  It says \"This is a designer mug.  It fuels designers.\" on the side."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "It says \"This is a designer mug.  It fuels designers.\" on the side."
       },
-      { "id": "mug21", "text": "A white ceramic coffee mug.  On the side is a winking woman in lingerie." },
+      {
+        "id": "mug21",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "On the side is a winking woman in lingerie."
+      },
       {
         "id": "mug22",
-        "text": "A white ceramic coffee mug.  It says \"You're my definition of perfect.  <3\" on the side."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "It says \"You're my definition of perfect.  <3\" on the side."
       },
       {
         "id": "mug23",
-        "text": "A white ceramic coffee mug.  It says \"You've been poisoned.\" on the bottom, inside of it."
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "It says \"You've been poisoned.\" on the bottom, inside of it."
       },
       {
         "id": "mug24",
-        "text": "A white ceramic coffee mug.  On the side is a dog wearing a hat, sitting in a burning room, saying \"This is fine.\""
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "On the side is a dog wearing a hat, sitting in a burning room, saying \"This is fine.\""
       },
-      { "id": "mug25", "text": "A white ceramic coffee mug.  There's a tiny dinosaur sculpture inside of it." },
-      { "id": "mug26", "text": "A white ceramic coffee mug.  It says \"I <3 Massachusetts.\" on the side." }
-    ]
+      {
+        "id": "mug25",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "There's a tiny dinosaur sculpture inside of it."
+      },
+      {
+        "id": "mug26",
+        "append": true,
+        "expand_snippets": true,
+        "name": "coffee mug",
+        "description": "It says \"I <3 Massachusetts.\" on the side."
+      },
+      {
+        "id": "mean_mug",
+        "description": "The side of the mug reads \"fuck you, <name_b>!\"",
+        "append": true,
+        "name": "coffee mug",
+        "expand_snippets": true,
+        "weight": 0
+      },
+      {
+        "id": "mean_mug2",
+        "description": "The side of the mug reads \"Worlds Worst Dad\".",
+        "expand_snippets": true,
+        "append": true,
+        "name": "coffee mug",
+        "weight": 0
+      }
+    ],
+    "//": "Based on https://www.amazon.com/dp/B0B6CWNKCP"
   },
   {
     "type": "GENERIC",
@@ -271,6 +433,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -278,7 +441,7 @@
     "category": "container",
     "id": "bowl_pewter",
     "name": { "str": "pewter bowl" },
-    "description": "A small pewter serving bowl without a lid.  Holds 250 ml of liquid.",
+    "description": "A small pewter serving bowl without a lid.  Holds 250 mL of liquid.",
     "copy-from": "base_tin_dish",
     "symbol": "u",
     "pocket_data": [
@@ -290,6 +453,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -321,28 +485,33 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "type": "GENERIC",
     "category": "container",
     "id": "wine_glass",
-    "volume": "262 ml",
+    "volume": "420 ml",
+    "weight": "130 g",
+    "longest_side": "20 cm",
+    "price": "13 USD",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
-    "proportional": { "weight": 0.5 },
     "symbol": "Y",
     "description": "A stemmed drinking glass that makes you feel very fancy when you drink from it.",
     "copy-from": "base_glass_dish",
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.com/dp/B01M4OEU65"
   },
   {
     "type": "GENERIC",
@@ -362,6 +531,7 @@
         "rigid": true
       }
     ],
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
@@ -399,19 +569,25 @@
     "category": "container",
     "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a matching watertight lid.  Holds 750 mL of liquid.",
     "copy-from": "base_plastic_dish",
-    "volume": "787 ml",
+    "volume": "1463 ml",
+    "weight": "57 g",
+    "longest_side": "20 cm",
+    "price": "132 cent",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "750 ml",
-        "max_contains_weight": "1 kg"
+        "max_contains_weight": "1 kg",
+        "max_item_length": "239 mm"
       }
     ],
-    "qualities": [ [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "//": "Based on https://www.amazon.co.uk/dp/B097HTDRNZ"
   },
   {
     "id": "plastic_bowl_kids",
@@ -474,8 +650,16 @@
     "id": "fork",
     "name": { "str": "fork" },
     "description": "A fork, if you stab something with it, you eat it right away.  Wait… nevermind.",
+    "weight": "43 g",
+    "volume": "45 ml",
+    "longest_side": "21 cm",
+    "price": "75 cent",
     "copy-from": "base_silverware",
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "weapon_category": [ "SHIVS" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//": "Based on https://www.amazon.com/dp/B086D4PV2G"
   },
   {
     "type": "GENERIC",
@@ -488,7 +672,9 @@
     "longest_side": "15 cm",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -496,8 +682,14 @@
     "id": "spoon",
     "name": { "str": "spoon" },
     "description": "Do not try to bend the spoon.  That is impossible.",
+    "weight": "43 g",
+    "volume": "70 ml",
+    "longest_side": "19 cm",
+    "price": "69 cent",
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B0886HQRD3"
   },
   {
     "type": "GENERIC",
@@ -510,7 +702,7 @@
     "longest_side": "15 cm",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -537,8 +729,16 @@
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
     "description": "A dull knife, absolutely worthless in combat.  Excellent for spreading soft things on bread.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "copy-from": "base_silverware"
+    "weight": "71 g",
+    "volume": "75 ml",
+    "longest_side": "21 cm",
+    "price": "4 USD",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "copy-from": "base_silverware",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "weapon_category": [ "SHIVS" ],
+    "//": "Based on https://www.amazon.com/dp/B08NFVGSRJ"
   },
   {
     "type": "GENERIC",
@@ -550,8 +750,10 @@
     "volume": "10 ml",
     "longest_side": "15 cm",
     "looks_like": "knife_butter",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "copy-from": "base_plastic_silverware"
+    "weapon_category": [ "SHIVS" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
+    "copy-from": "base_plastic_silverware",
+    "melee_damage": { "bash": 1, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -568,9 +770,17 @@
     "id": "corkscrew",
     "name": { "str": "corkscrew" },
     "description": "Many a pleasant date has been ruined by forgetting this important tool.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE" ],
     "looks_like": "fork",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weight": "130 g",
+    "volume": "800 ml",
+    "//1": "Lower than what the amazon link implies but I refuse to believe it's 1l of volume. 800ml is probably way overkill either way, since it has plenty of empty space that this calculation does not account for.",
+    "longest_side": "23 cm",
+    "price": "9 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "bash": 2, "stab": 1 },
+    "//2": "Based on https://www.amazon.com/dp/B081R28ZLP"
   },
   {
     "type": "GENERIC",
@@ -578,9 +788,16 @@
     "id": "peeler",
     "name": { "str": "vegetable peeler" },
     "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
-    "flags": [ "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "knife_butter",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weight": "82 g",
+    "volume": "138 ml",
+    "longest_side": "19 cm",
+    "material": [ { "type": "plastic", "portion": 17 }, { "type": "steel", "portion": 3 } ],
+    "price": "12 USD",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B00004OCIP"
   },
   {
     "type": "GENERIC",
@@ -588,8 +805,13 @@
     "id": "bottle_opener",
     "name": { "str": "bottle opener" },
     "description": "A simple lever for popping open bottles.",
+    "weight": "64 g",
+    "volume": "93 ml",
+    "longest_side": "18 cm",
+    "price": "4 USD",
     "looks_like": "fork",
     "copy-from": "base_silverware",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "bottleopener1", "text": "This bottle opener is shaped like a zombie head, the mouth pops open the bottle." },
       { "id": "bottleopener2", "text": "This bottle opener is shaped like a lightsaber." },
@@ -606,7 +828,8 @@
       { "id": "bottleopener7", "text": "This bottle opener reads 'I'd rather be drinking whiskey'." },
       { "id": "bottleopener8", "text": "This bottle opener is shaped like a phaser." },
       { "id": "bottleopener9", "text": "This novelty bottle opener is designed to look like a hobo clown." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B087QF9SWM"
   },
   {
     "type": "GENERIC",
@@ -614,9 +837,11 @@
     "id": "spork",
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "looks_like": "fork",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -624,9 +849,11 @@
     "id": "foon",
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "looks_like": "spork",
-    "copy-from": "base_silverware"
+    "copy-from": "base_silverware",
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 2, "stab": 1 }
   },
   {
     "type": "GENERIC",
@@ -634,18 +861,19 @@
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
-    "flags": [ "STAB" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "FRAGILE_MELEE" ],
     "symbol": "X",
     "color": "light_gray",
-    "price": 100,
-    "price_postapoc": 0,
-    "weight": "28 g",
-    "volume": "15 ml",
+    "price": "1 USD",
+    "price_postapoc": "0 cent",
+    "weight": "11 g",
+    "volume": "40 ml",
     "longest_side": "23 cm",
     "material": [ "wood" ],
-    "bashing": 1,
-    "cutting": 1,
-    "to_hit": -1
+    "weapon_category": [ "SHIVS" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 1 },
+    "//": "Based on https://www.amazon.com/dp/B07N47CN44"
   },
   {
     "type": "GENERIC",
@@ -662,8 +890,15 @@
     "id": "whisk",
     "name": { "str": "whisk" },
     "description": "A tool designed for finely mixing ingredients or introducing air into the blend.  Also known as a 'wire whip', but it's a less effective weapon than that name makes it sound.",
+    "weight": "90 g",
+    "volume": "220 ml",
+    "//1": "Volume calculated as a cylinder with ~3cm diameter and 30.5cm length",
+    "longest_side": "31 cm",
+    "price": "6 USD",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//2": "Based on https://www.dimensions.com/element/ikea-koncis-whisk"
   },
   {
     "type": "GENERIC",
@@ -681,7 +916,13 @@
     "name": { "str": "garlic press", "str_pl": "garlic presses" },
     "description": "A tool for squashing a clove or two of garlic into a fine paste.",
     "looks_like": "spoon",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "weight": "238 g",
+    "volume": "224 ml",
+    "longest_side": "17 cm",
+    "price": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B07N7KFHVH"
   },
   {
     "type": "GENERIC",
@@ -690,7 +931,13 @@
     "name": { "str": "can opener" },
     "description": "A tool for opening cans that lack pull-tabs.  Now that you think about it, you haven't seen any of those around lately.",
     "looks_like": "hand_crank_charger",
-    "copy-from": "base_utensil"
+    "copy-from": "base_utensil",
+    "price": "9 USD",
+    "weight": "204 g",
+    "volume": "364 ml",
+    "longest_side": "21 cm",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B087MSWH65 with the volume multiplied by 0.85 - otherwise the volume is way higher than it should be since Amazon lists package volume"
   },
   {
     "type": "GENERIC",
@@ -700,8 +947,15 @@
     "description": "A utensil used to hold meat still while you slice it.  It's like a tiny pitchfork, or a very large dinner fork.",
     "looks_like": "fork",
     "copy-from": "base_utensil",
-    "proportional": { "cutting": 2 },
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "weight": "90 g",
+    "volume": "180 ml",
+    "longest_side": "29 cm",
+    "price": "12 USD",
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "bash": 3, "stab": 2 },
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
+    "//": "Based on https://www.amazon.com/dp/B083FJXZM5"
   },
   {
     "type": "GENERIC",
@@ -710,26 +964,33 @@
     "name": { "str": "spatula" },
     "description": "A rubber scraper for making sure you get every last scrap of cookie dough.",
     "looks_like": "spoon",
-    "proportional": { "weight": 3.0, "volume": 2.0 },
+    "weight": "50 g",
+    "volume": "195 ml",
+    "longest_side": "24 cm",
+    "price": "4 USD 35 cent",
     "material": [ "rubber" ],
-    "copy-from": "base_plastic_silverware"
+    "copy-from": "base_plastic_silverware",
+    "//": "Based on https://www.amazon.com/dp/B001BKWXOY"
   },
   {
     "type": "GENERIC",
     "category": "other",
     "id": "rolling_pin",
     "name": { "str": "rolling pin" },
-    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as a very effective club.",
-    "weight": "725 g",
-    "longest_side": "45 cm",
+    "description": "A stout piece of hardwood, turned and sanded smooth, with rounded handles at the ends.  This timeless kitchen tool also doubles as an effective club.",
+    "weight": "318 g",
+    "longest_side": "46 cm",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "flags": [ "DURABLE_MELEE" ],
-    "volume": "600 ml",
-    "bashing": 7,
-    "price": 700
+    "volume": "1450 ml",
+    "price": "8 USD",
+    "price_postapoc": "5 cent",
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
+    "melee_damage": { "bash": 7 },
+    "//": "Based on https://www.amazon.com/dp/B000ARPJRM"
   },
   {
     "type": "GENERIC",
@@ -740,19 +1001,21 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "550 g",
-    "volume": "2100 ml",
-    "longest_side": "23 cm",
-    "bashing": 6,
+    "weight": "1 kg",
+    "volume": "3700 ml",
+    "longest_side": "19 cm",
+    "price": "31 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 },
+    "//": "Based on https://www.amazon.com/dp/B087PB2L83"
   },
   {
     "type": "GENERIC",
@@ -763,19 +1026,20 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "3000 g",
-    "volume": "2375 ml",
-    "longest_side": "24 cm",
-    "bashing": 10,
+    "weight": "2490 g",
+    "volume": "3980 ml",
+    "longest_side": "25 cm",
+    "price": "29 USD",
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "2 kg",
+        "max_contains_weight": "4 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -787,10 +1051,8 @@
     "material": [ "copper" ],
     "color": "light_red",
     "weight": "750 g",
-    "volume": "2100 ml",
+    "volume": "3500 ml",
     "longest_side": "23 cm",
-    "bashing": 6,
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -799,7 +1061,8 @@
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -810,19 +1073,21 @@
     "copy-from": "base_cookpot",
     "material": [ "ceramic" ],
     "color": "white",
-    "weight": "650 g",
-    "volume": "2100 ml",
-    "longest_side": "23 cm",
-    "bashing": 4,
+    "weight": "1400 g",
+    "volume": "3140 ml",
+    "longest_side": "22 cm",
+    "price": "20 USD",
     "pocket_data": [
       {
-        "max_contains_volume": "2 L",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 },
+    "//": "Based on https://www.amazon.com/dp/B08J7TPT98"
   },
   {
     "type": "GENERIC",
@@ -831,49 +1096,53 @@
     "name": { "str": "stock pot" },
     "description": "A large pot with 20 gauge walls and a thick aluminum bottom, used for making soup stocks.  You could fit a whole turkey in there, with a bit of shoving.",
     "copy-from": "base_cookpot",
-    "material": [ "steel", "aluminum" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "aluminum", "portion": 1 } ],
     "color": "light_gray",
-    "weight": "2490 g",
-    "volume": "12800 ml",
+    "weight": "2500 g",
+    "volume": "12700 ml",
     "longest_side": "25 cm",
-    "bashing": 8,
+    "price": "137 USD",
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
-        "max_contains_weight": "12 kg",
+        "max_contains_weight": "24 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 },
+    "//": "Based on https://www.amazon.com/dp/B08RD3RDYL"
   },
   {
     "id": "pot_canning",
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "canning pot" },
-    "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
-    "weight": "5625 g",
-    "volume": "26250 ml",
-    "longest_side": "32 cm",
-    "price": 20000,
-    "to_hit": -2,
-    "bashing": 10,
+    "description": "A very large 20 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
+    "weight": "4082 g",
+    "volume": "25400 ml",
+    "longest_side": "45 cm",
+    "price": "68 USD",
+    "price_postapoc": "8 USD 15 cent",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
     "pocket_data": [
       {
-        "max_contains_volume": "25 L",
-        "max_contains_weight": "25 kg",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "40 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "use_action": [ "HEAT_ALL_ITEMS" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 10 },
+    "//": "Based on https://www.amazon.com/dp/B0075O2Z34"
   },
   {
     "id": "pot_canning_clay",
@@ -884,9 +1153,8 @@
     "weight": "8440 g",
     "volume": "30 L",
     "longest_side": "35 cm",
-    "price": 10000,
-    "to_hit": -2,
-    "bashing": 9,
+    "price": "100 USD",
+    "price_postapoc": "3 USD",
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -900,8 +1168,9 @@
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "use_action": [ "HEAT_ALL_ITEMS" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "type": "GENERIC",
@@ -912,22 +1181,24 @@
     "copy-from": "base_cookpot",
     "material": [ "iron" ],
     "color": "dark_gray",
-    "weight": "2628 g",
-    "volume": "1335 ml",
-    "longest_side": "36 cm",
-    "bashing": 12,
-    "to_hit": -3,
+    "weight": "2427 g",
+    "volume": "2940 ml",
+    "longest_side": "41 cm",
+    "price": "20 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "clumsy" },
     "pocket_data": [
       {
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "HAMMER", 1 ], [ "COOK", 2 ] ] }
+    "extend": { "qualities": [ [ "HAMMER", 1 ] ] },
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
+    "melee_damage": { "bash": 12 },
+    "//": "Based on https://www.amazon.com/dp/B00006JSUA BUT volume calculated as a cylinder - 2 inches height x 10.68 inches diameter"
   },
   {
     "type": "GENERIC",
@@ -939,22 +1210,20 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "looks_like": "pan",
-    "weight": "528 g",
-    "volume": "1 L",
+    "weight": "660 g",
+    "volume": "3 L",
     "longest_side": "35 cm",
-    "bashing": 8,
-    "to_hit": -2,
     "pocket_data": [
       {
-        "max_contains_volume": "800 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -967,10 +1236,8 @@
     "color": "light_red",
     "looks_like": "pan",
     "weight": "628 g",
-    "volume": "1050 ml",
+    "volume": "3 L",
     "longest_side": "35 cm",
-    "bashing": 7,
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -980,8 +1247,8 @@
         "rigid": true
       }
     ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "relative": { "qualities": [ [ "COOK", -1 ] ] },
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "pot_makeshift",
@@ -992,10 +1259,9 @@
     "weight": "6000 g",
     "volume": "1050 ml",
     "longest_side": "20 cm",
-    "price": 200,
-    "price_postapoc": 5,
+    "price": "2 USD",
+    "price_postapoc": "5 cent",
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
@@ -1009,8 +1275,9 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "use_action": [ "HEAT_ALL_ITEMS" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "pot_makeshift_copper",
@@ -1018,13 +1285,12 @@
     "category": "tools",
     "name": { "str": "makeshift copper pot" },
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
-    "weight": "884 g",
-    "volume": "1050 ml",
+    "weight": "300 g",
+    "volume": "1100 ml",
     "longest_side": "20 cm",
-    "price": 200,
-    "price_postapoc": 5,
+    "price": "2 USD",
+    "price_postapoc": "5 cent",
     "to_hit": 1,
-    "bashing": 10,
     "material": [ "copper" ],
     "symbol": ")",
     "color": "light_red",
@@ -1038,8 +1304,9 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "use_action": [ "HEAT_ALL_ITEMS" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "type": "GENERIC",
@@ -1050,23 +1317,43 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "728 g",
-    "volume": "1575 ml",
-    "bashing": 5,
+    "weight": "508 g",
+    "volume": "3205 ml",
+    "//1": "Calculated as a cylinder of 7.44in diameter and 4.5in height. Calculating it from package dimensions of the amazon listing would give ridiculous volume.",
+    "longest_side": "19 cm",
+    "price": "13 USD",
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] }
+    "delete": { "qualities": [ "COOK" ] },
+    "melee_damage": { "bash": 5 },
+    "//2": "Based on https://www.amazon.com/dp/B0858VCYTB"
+  },
+  {
+    "type": "GENERIC",
+    "category": "tools",
+    "id": "coffeepot",
+    "name": { "str": "coffee pot" },
+    "description": "A glass pot for making a cup of joe.",
+    "copy-from": "base_cookpot",
+    "material": [ "glass" ],
+    "color": "light_gray",
+    "weight": "676 g",
+    "volume": "3100 ml",
+    "melee_damage": { "bash": 5 },
+    "pocket_data": [ { "max_contains_volume": "3000 ml", "max_contains_weight": "6 kg", "watertight": true, "rigid": true } ],
+    "delete": { "qualities": [ "COOK" ] }
   },
   {
     "id": "colander_steel",
     "name": { "str": "mesh colander" },
-    "category": "other",
+    "category": "tools",
     "description": "A stainless steel mesh colander, for washing rice and vegetables, or straining liquid off from noodles or other foods.",
     "type": "GENERIC",
     "volume": "500 ml",
     "weight": "318 g",
     "symbol": ")",
-    "price": 600,
-    "price_postapoc": 5
+    "qualities": [ [ "SIEVE", 2 ], [ "WINNOW", 1 ], [ "STRAIN", 1 ] ],
+    "price": "6 USD",
+    "price_postapoc": "5 cent"
   },
   {
     "id": "splatter_guard",
@@ -1076,8 +1363,9 @@
     "volume": "500 ml",
     "weight": "357 g",
     "symbol": ")",
-    "price": 600,
-    "price_postapoc": 5
+    "qualities": [ [ "SIEVE", 2 ], [ "STRAIN", 1 ] ],
+    "price": "6 USD",
+    "price_postapoc": "5 cent"
   },
   {
     "id": "cutting_board",
@@ -1085,16 +1373,19 @@
     "category": "other",
     "name": { "str": "cutting board" },
     "description": "A large, flat piece of wood for chopping vegetables on without ruining your knife or your countertop.",
-    "weight": "945 g",
-    "to_hit": -1,
+    "weight": "455 g",
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "DURABLE_MELEE" ],
-    "volume": "900 ml",
-    "bashing": 7,
-    "price": 200
+    "volume": "2625 ml",
+    "longest_side": "41 cm",
+    "price": "48 USD",
+    "price_postapoc": "5 cent",
+    "melee_damage": { "bash": 7 },
+    "//": "Based on https://www.amazon.com/dp/B00063QBL8"
   },
   {
     "id": "mess_tray",
@@ -1104,14 +1395,15 @@
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
-    "price": 10,
-    "price_postapoc": 0,
+    "price": "10 cent",
+    "price_postapoc": "0 cent",
     "material": [ "steel" ],
     "weight": "300 g",
     "volume": "250 ml",
-    "bashing": 2,
     "to_hit": -1,
-    "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "COOK", 1 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -1119,13 +1411,14 @@
     "id": "pizza_cutter",
     "name": { "str": "pizza cutter" },
     "description": "A utensil used for cutting pizza.  Practically useless in combat.",
-    "weight": "190 g",
-    "volume": "135 ml",
+    "price": "6 USD",
+    "weight": "186 g",
+    "volume": "350 ml",
     "longest_side": "23 cm",
-    "bashing": 1,
-    "cutting": 2,
-    "to_hit": -2,
-    "copy-from": "base_silverware"
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "neutral" },
+    "copy-from": "base_silverware",
+    "melee_damage": { "bash": 1, "cut": 2 },
+    "//": "Based on https://www.amazon.com/dp/B07YP2VL68"
   },
   {
     "type": "GENERIC",
@@ -1134,7 +1427,7 @@
     "name": { "str": "icecream scoop" },
     "description": "A utensil used for scooping icecream into bowls.  It has a spring powered lever to assist.",
     "looks_like": "spoon",
-    "flags": [ "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_silverware"
   },
   {
@@ -1158,9 +1451,9 @@
     "weight": "6210 g",
     "volume": "12152 ml",
     "longest_side": "31 cm",
-    "bashing": 8,
     "pocket_data": [ { "max_contains_volume": "6300 ml", "max_contains_weight": "6300 g", "watertight": true, "rigid": true } ],
-    "extend": { "qualities": [ [ "OVEN", 2 ] ] }
+    "extend": { "qualities": [ [ "OVEN", 2 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1174,7 +1467,6 @@
     "weight": "2490 g",
     "volume": "12800 ml",
     "longest_side": "25 cm",
-    "bashing": 8,
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
@@ -1184,7 +1476,8 @@
         "open_container": true
       }
     ],
-    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -1199,59 +1492,31 @@
     "weight": "11388 g",
     "volume": "30 L",
     "longest_side": "35 cm",
-    "bashing": 8,
     "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2100 g", "watertight": true, "rigid": true } ],
-    "extend": { "qualities": [ [ "OVEN", 1 ] ] }
+    "extend": { "qualities": [ [ "OVEN", 1 ] ] },
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
-    "category": "tools",
     "id": "aluminum_pan",
     "name": { "str": "aluminum frying pan" },
     "description": "An aluminum frying pan.  Makes a decent melee weapon, and is used for cooking.",
-    "copy-from": "base_cookpot",
+    "copy-from": "pan",
     "material": [ "aluminum" ],
-    "color": "light_gray",
-    "looks_like": "pan",
-    "weight": "200 g",
-    "volume": "1050 ml",
+    "weight": "400 g",
+    "volume": "3 L",
     "longest_side": "35 cm",
-    "bashing": 7,
-    "to_hit": -2,
-    "pocket_data": [
-      {
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
-        "watertight": true,
-        "open_container": true,
-        "rigid": true
-      }
-    ],
-    "delete": { "qualities": [ [ "COOK", 3 ] ] },
-    "extend": { "qualities": [ [ "COOK", 2 ] ] }
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
-    "category": "tools",
     "id": "pot_aluminum",
     "name": { "str": "aluminum pot" },
     "description": "A cooking pot, useful for boiling water and making all kinds of food.  Made from aluminum.",
-    "copy-from": "base_cookpot",
+    "copy-from": "pot",
     "material": [ "aluminum" ],
-    "color": "light_gray",
     "weight": "231 g",
     "volume": "2100 ml",
-    "longest_side": "23 cm",
-    "bashing": 6,
-    "to_hit": -2,
-    "pocket_data": [
-      {
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
-        "watertight": true,
-        "open_container": true,
-        "rigid": true
-      }
-    ]
+    "longest_side": "23 cm"
   }
 ]

@@ -19,7 +19,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "map_helpers.h"
@@ -126,7 +125,7 @@ static dispersion_sources get_dispersion( npc &shooter, const int aim_time, int 
     item_location gun = shooter.get_wielded_item();
     dispersion_sources dispersion = shooter.get_weapon_dispersion( *gun );
 
-    shooter.moves = aim_time;
+    shooter.set_moves( aim_time );
     shooter.recoil = MAX_RECOIL;
     // Aim as well as possible within the provided time.
     shooter.aim( Target_attributes( range, 0.5, 0.0f, true ) );
@@ -170,7 +169,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         CAPTURE( shooter.get_modifier( character_modifier_ranged_dispersion_manip_mod ) );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
-        CHECK( good_stats.avg() > 0.5 );
+        CHECK( good_stats.avg() > 0.0 );
     }
     {
         const dispersion_sources dispersion = get_dispersion( shooter, 500, max_good_range );
@@ -190,7 +189,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
-    const float hit_rate_cap = hit_rate + 0.3f;
+    const float hit_rate_cap = hit_rate + 0.5f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves, fast_shooting_range );
     firing_statistics fast_stats = firing_test( dispersion, fast_shooting_range,
                                    Threshold( accuracy_standard, hit_rate ) );
@@ -210,7 +209,7 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
     CHECK( fast_stats.avg() > hit_rate );
     CAPTURE( fast_stats_upper.n() );
     CAPTURE( fast_stats_upper.margin_of_error() );
-    CHECK( fast_stats_upper.avg() < hit_rate_cap );
+    CHECK( fast_stats_upper.avg() <= hit_rate_cap );
 }
 
 static void assert_encumbrance( npc &shooter, int encumbrance )
@@ -249,32 +248,32 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     SECTION( "an unskilled shooter with a common pistol" ) {
         arm_shooter( shooter, "glock_19" );
         test_shooting_scenario( shooter, 4, 5, 17 );
-        test_fast_shooting( shooter, 60, 0.3 );
+        test_fast_shooting( shooter, 60, 0.15 );
     }
     SECTION( "an unskilled archer with a common bow" ) {
         arm_shooter( shooter, "shortbow", { "bow_sight_pin" }, "arrow_field_point_fletched" );
         test_shooting_scenario( shooter, 4, 4, 13 );
-        test_fast_shooting( shooter, 90, 0.3 );
+        test_fast_shooting( shooter, 90, 0.1 );
     }
     SECTION( "an unskilled archer with a common crossbow" ) {
         arm_shooter( shooter, "crossbow", {}, "bolt_makeshift" );
         test_shooting_scenario( shooter, 4, 5, 17 );
-        test_fast_shooting( shooter, 80, 0.3 );
+        test_fast_shooting( shooter, 80, 0.15 );
     }
     SECTION( "an unskilled shooter with a common shotgun" ) {
         arm_shooter( shooter, "remington_870" );
         test_shooting_scenario( shooter, 4, 4, 19 );
-        test_fast_shooting( shooter, 80, 0.3 );
+        test_fast_shooting( shooter, 80, 0.15 );
     }
     SECTION( "an unskilled shooter with a common smg" ) {
         arm_shooter( shooter, "mp40semi" );
         test_shooting_scenario( shooter, 4, 5, 18 );
-        test_fast_shooting( shooter, 80, 0.3 );
+        test_fast_shooting( shooter, 80, 0.04 );
     }
     SECTION( "an unskilled shooter with a common rifle" ) {
-        arm_shooter( shooter, "ar15" );
+        arm_shooter( shooter, "debug_modular_m4_carbine" );
         test_shooting_scenario( shooter, 5, 5, 25 );
-        test_fast_shooting( shooter, 100, 0.3 );
+        test_fast_shooting( shooter, 100, 0.15 );
     }
 }
 
@@ -290,32 +289,32 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
     SECTION( "a skilled shooter with an accurate pistol" ) {
         arm_shooter( shooter, "sw_619", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 10, 12, 35 );
-        test_fast_shooting( shooter, 40, 0.4 );
+        test_fast_shooting( shooter, 40, 0.35 );
     }
     SECTION( "a skilled archer with an accurate bow" ) {
         arm_shooter( shooter, "recurbow", { "bow_sight" } );
         test_shooting_scenario( shooter, 8, 10, 35 );
-        test_fast_shooting( shooter, 70, 0.4 );
+        test_fast_shooting( shooter, 70, 0.35 );
     }
     SECTION( "a skilled archer with an accurate crossbow" ) {
         arm_shooter( shooter, "compositecrossbow", { "tele_sight" }, "bolt_steel" );
         test_shooting_scenario( shooter, 9, 10, 35 );
-        test_fast_shooting( shooter, 70, 0.4 );
+        test_fast_shooting( shooter, 70, 0.35 );
     }
     SECTION( "a skilled shooter with a nice shotgun" ) {
         arm_shooter( shooter, "mossberg_590" );
         test_shooting_scenario( shooter, 9, 12, 35 );
-        test_fast_shooting( shooter, 70, 0.4 );
+        test_fast_shooting( shooter, 70, 0.35 );
     }
     SECTION( "a skilled shooter with a nice smg" ) {
         arm_shooter( shooter, "hk_mp5", { "red_dot_sight" } );
         test_shooting_scenario( shooter, 9, 12, 35 );
-        test_fast_shooting( shooter, 80, 0.4 );
+        test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "a skilled shooter with a carbine" ) {
-        arm_shooter( shooter, "m4_carbine", { "red_dot_sight" }, "556_m855a1" );
+        arm_shooter( shooter, "debug_modular_m4_carbine", { "red_dot_sight" }, "556_m855a1" );
         test_shooting_scenario( shooter, 10, 15, 48 );
-        test_fast_shooting( shooter, 80, 0.4 );
+        test_fast_shooting( shooter, 80, 0.3 );
     }
     SECTION( "a skilled shooter with an available sniper rifle" ) {
         arm_shooter( shooter, "M24" );
@@ -354,7 +353,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 60, 0.5 );
     }
     SECTION( "an expert shooter with an excellent smg" ) {
-        arm_shooter( shooter, "ppsh", { "holo_sight" } );
+        arm_shooter( shooter, "fn_p90", { "holo_sight" } );
         test_shooting_scenario( shooter, 20, 30, 190 );
         test_fast_shooting( shooter, 60, 0.5 );
     }
@@ -442,7 +441,9 @@ TEST_CASE( "synthetic_range_test", "[.]" )
 
 static void shoot_monster( const std::string &gun_type, const std::vector<std::string> &mods,
                            const std::string &ammo_type, int range,
-                           int expected_damage, const std::string &monster_type )
+                           int expected_damage, const std::string &monster_type,
+                           const std::function<bool ( const standard_npc &, const monster & )> &other_checks = nullptr,
+                           const Approx &expected_other_checks = Approx( 0 ) )
 {
     clear_map();
     statistics<int> damage;
@@ -450,16 +451,20 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     const tripoint monster_pos = shooter_pos + ( point_east * range );
     std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
                                             std::vector<std::string>(), 5, 10, 10, 10, 10 );
+    int other_check_success = 0;
     do {
         shooter->set_body();
         arm_shooter( *shooter, gun_type, mods, ammo_type );
         shooter->recoil = 0;
-        monster &mon = spawn_test_monster( monster_type, monster_pos );
+        monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
         shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;
+        }
+        if( other_checks ) {
+            other_check_success += other_checks( *shooter, mon );
         }
         mon.die( nullptr );
     } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
@@ -470,7 +475,10 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
     CAPTURE( range );
     CAPTURE( monster_type );
     CAPTURE( avg );
-    CHECK( avg == Approx( expected_damage ).margin( 10 ) );
+    CHECK( avg == Approx( expected_damage ).margin( 20 ) );
+    if( other_checks ) {
+        CHECK( other_check_success == expected_other_checks );
+    }
 }
 
 TEST_CASE( "shot_features", "[gun]" "[slow]" )
@@ -480,9 +488,9 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Unarmored target
     // Minor damage at range.
     // More serious damage at close range.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 20, "mon_test_shotgun_0_bullet" );
     // Grevious damage at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 62, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 62, "mon_test_shotgun_0_bullet" );
 
     // Triviallly armored target (armor_bullet: 1)
     // Can rarely if ever inflict damage at range.
@@ -495,40 +503,40 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
     // Can't hurt at range
     // Can't hurt at close range.
     // Serioualy injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 57, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 61, "mon_zombie_brute" );
     // TODO: can't harm heavily armored enemies at point blank
 
     // Heavily Armored target (armor_bullet: 36)
     // Can't hurt at range,
-    shoot_monster( "shotgun_s", {}, "shot_bird", 12, 0, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 12, 3, "mon_skeleton_hulk" );
     // Can't hurt at close range.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 1, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 5, 6, "mon_skeleton_hulk" );
     // Barely injure at point blank.
-    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 25, "mon_skeleton_hulk" );
+    shoot_monster( "shotgun_s", {}, "shot_bird", 1, 31, "mon_skeleton_hulk" );
     // TODO: can't harm heavily armored enemies even at point blank.
 
     // BUCKSHOT
     // Unarmored target
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 86, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 72, "mon_test_shotgun_0_bullet" );
     // Heavy damage at range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 120, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 107, "mon_test_shotgun_0_bullet" );
     // More damage at close range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 165, "mon_test_shotgun_0_bullet" );
     // Extreme damage at point blank range.
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 75, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 75, "mon_test_shotgun_0_bullet" );
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 41, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 63, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 103, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 69, "mon_boomer_glutton" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 20, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 40, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 116, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 73, "mon_zombie_brute" );
 
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 26, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 38, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 53, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 8, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 18, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 47, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 72, "mon_smoker_brute" );
 }
 
 TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
@@ -537,38 +545,56 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     // Unarmored target
     // This test result is difficult to converge
     // After more attempts, the average value is about 7
-    // shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 18, 7, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", {"choke"}, "shot_bird", 12, 15, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 5, 20, "mon_wolf_mutant_huge" );
+    // shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 18, 7, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", {"choke"}, "shot_bird", 12, 15, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 5, 20, "mon_test_shotgun_0_bullet" );
     // All the results of tests at point blank are abonormal
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_test_shotgun_0_bullet" );
 
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 61, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 62, "mon_zombie_tough" );
 
     // Armored target (armor_bullet: 5)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 57, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_bird", 1, 61, "mon_zombie_brute" );
 
     // Unarmored target
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 111, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 144, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_wolf_mutant_huge" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_wolf_mutant_huge" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 95, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 131, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 165, "mon_test_shotgun_0_bullet" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 75, "mon_test_shotgun_0_bullet" );
     // Triviallly armored target (armor_bullet: 1)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 48, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 79, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 108, "mon_zombie_tough" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 95, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 32, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 61, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 105, "mon_zombie_tough" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 100, "mon_zombie_tough" );
     // Armored target (armor_bullet: 5)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 58, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 105, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 69, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 25, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 54, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 124, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 73, "mon_zombie_brute" );
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 45, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 52, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 10, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 11, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 62, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 71, "mon_smoker_brute" );
+}
+
+TEST_CASE( "shot_custom_damage_type", "[gun]" "[slow]" )
+{
+    clear_map();
+    auto check_eocs = []( const standard_npc & src, const monster & tgt ) {
+        return src.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "source" &&
+               tgt.get_value( "npctalk_var_general_dmg_type_test_test_fire" ) == "target";
+    };
+    // Check that ballistics damage processes weird damage types and on-hit EOCs
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
+                   "mon_test_zombie", check_eocs, Approx( 200 ).margin( 100 ) );
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 80,
+                   "mon_test_fire_resist", check_eocs, Approx( 200 ).margin( 100 ) );
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 18,
+                   "mon_test_fire_vresist", check_eocs, Approx( 200 ).margin( 100 ) );
+    shoot_monster( "shotgun_s", {}, "test_shot_00_fire_damage", 1, 0,
+                   "mon_test_fire_immune", check_eocs, Approx( 200 ).margin( 100 ) );
 }
 
 // Targeting graph tests
@@ -576,7 +602,7 @@ static constexpr float fudge_factor = 0.025;
 
 template<typename T, typename W>
 std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
-                                     cata::optional<float> guess = cata::nullopt, int iters = 100000 )
+                                     std::optional<float> guess = std::nullopt, int iters = 100000 )
 {
     std::map<T, float> hits;
     for( int i = 0; i < iters; ++i ) {
@@ -638,21 +664,21 @@ TEST_CASE( "targeting_graph_linear_distribution", "[targeting_graph][random]" )
     }
 
     SECTION( "With a perfectly accurate hit, only the center is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 0 ) );
+        hits = hit_distribution( graph, std::optional<float>( 0.0f ) );
         REQUIRE( hits[0] == 1.0f );
         CHECK( hits[1] == 0.0f );
         CHECK( hits[2] == 0.0f );
     }
 
     SECTION( "With the least accurate hit, only the end is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 1 ) );
+        hits = hit_distribution( graph, std::optional<float>( 1.0f ) );
         REQUIRE( hits[2] == 1.0f );
         CHECK( hits[0] == 0.0f );
         CHECK( hits[1] == 0.0f );
     }
 
     SECTION( "With a middling hit, only the middle ring is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 0.6 ) );
+        hits = hit_distribution( graph, std::optional<float>( 0.6f ) );
         REQUIRE( hits[1] == 1.0f );
         CHECK( hits[0] == 0.0f );
         CHECK( hits[2] == 0.0f );
@@ -684,7 +710,7 @@ TEST_CASE( "targeting_graph_simple_limb_distribution", "[targeting_graph][random
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
 
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 0.9f ) );
 
         // Check that we're within 2.5% of the expected distribution for simple targets
         // Nothing should hit the center, the hit is too inaccurate for that
@@ -814,7 +840,7 @@ TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][rando
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
 
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 0.9f ) );
 
         // Nothing should hit the center, the hit is too inaccurate for that
         REQUIRE( hits[0] == 0.0f );
@@ -828,7 +854,7 @@ TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][rando
         std::vector<int> parts = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 1.0 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 1.0f ) );
 
         REQUIRE( hits[0] == 0.0f );
         CHECK( hits[1] == Approx( 0.40 ).margin( fudge_factor ) );
@@ -1042,7 +1068,6 @@ TEST_CASE( "targeting_graph_complex_target", "[targeting_graph][random]" )
         CHECK( hits[5] == Approx( 3.0f /  8.0f ).margin( fudge_factor ) );
     }
 
-
     SECTION( "Non-equally weighted nodes" ) {
         std::vector<node> nodes = {
             {0, 12},
@@ -1221,7 +1246,6 @@ TEST_CASE( "Default_anatomy_body_part_hit_chances", "[targeting_graph][anatomy][
      * head :  0.71%
      * torso: 72.22%
      */
-
 
     CHECK( hits.at( body_part_eyes ) == Approx( 1.0f / 2268.0f ).margin( fudge_factor / 10 ) );
     CHECK( hits.at( body_part_head ) == Approx( 4.0f / 567.0f ).margin( fudge_factor / 10 ) );

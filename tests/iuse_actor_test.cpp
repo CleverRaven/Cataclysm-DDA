@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -14,7 +15,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -24,8 +24,8 @@
 #include "material.h"
 #include "monster.h"
 #include "mtype.h"
-#include "optional.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -34,7 +34,7 @@
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id itype_bot_manhack( "bot_manhack" );
-static const itype_id itype_light_battery_cell( "light_battery_cell" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
@@ -82,15 +82,15 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     g->clear_zombies();
 }
 
-TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
+TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 {
-    Character &dummy = get_avatar();
+    Character *dummy = &get_avatar();
     clear_avatar();
 
     GIVEN( "flashlight with a charged battery installed" ) {
         item flashlight( "flashlight" );
-        item bat_cell( "light_battery_cell" );
-        REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
+        item bat_cell( "medium_battery_cell" );
+        REQUIRE( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
 
         // Charge the battery
         const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
@@ -98,8 +98,8 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
+        ret_val<void> result = flashlight.put_in( bat_cell, pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
 
@@ -108,7 +108,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
             const use_function *use = flashlight.type->get_use( "transform" );
             REQUIRE( use != nullptr );
             const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
-            actor->use( dummy, flashlight, false, dummy.pos() );
+            actor->use( dummy, flashlight, dummy->pos() );
 
             THEN( "it becomes active" ) {
                 CHECK( flashlight.active );
@@ -136,13 +136,13 @@ static void cut_up_yields( const std::string &target )
     CAPTURE( target );
     salvage_actor test_actor;
     item cut_up_target{ target };
-    item tool{ "knife_butcher" };
+    item tool{ "knife_huge" };
     const std::map<material_id, int> &target_materials = cut_up_target.made_of();
     const float mat_total = cut_up_target.type->mat_portion_total == 0 ? 1 :
                             cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
     for( const auto &mater : target_materials ) {
-        if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
+        if( const std::optional<itype_id> item_id = mater.first->salvaged_into() ) {
             units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
             smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }
@@ -150,14 +150,14 @@ static void cut_up_yields( const std::string &target )
     REQUIRE( smallest_yield_mass != units::mass_max );
 
     units::mass cut_up_target_mass = cut_up_target.weight();
-    item &spawned_item = here.add_item_or_charges( guy.pos(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
+    item &spawned_item = here.add_item_or_charges( guy.pos_bub(), cut_up_target );
+    item_location item_loc( map_cursor( guy.get_location() ), &spawned_item );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 
     test_actor.try_to_cut_up( guy, tool, item_loc );
 
-    map_stack salvaged_items = here.i_at( guy.pos() );
+    map_stack salvaged_items = here.i_at( guy.pos_bub() );
     units::mass salvaged_mass = 0_gram;
     for( const item &salvage : salvaged_items ) {
         salvaged_mass += salvage.weight();

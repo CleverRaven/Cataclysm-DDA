@@ -4,9 +4,8 @@
 
 /**
  * Returns whether or not the given (ASCII) character is usable.
- * Called to check player name validity and world name validity.
- * Only printable symbols not reserved by the filesystem are
- * permitted.
+ * Called to check world name validity. Only printable symbols
+ * not reserved by the filesystem are permitted.
  * @param ch The char to check.
  * @return true if the char is allowed in a name, false if not.
  */
@@ -40,7 +39,8 @@ bool is_char_allowed( int ch )
     if( !std::isprint( ch ) ) {
         return false;
     }
-    if( ch == '\\' || ch == '/' ) {
+    if( ch == '\\' || ch == '/' || ch == ':' || ch == '*' || ch == '?' || ch == '"' || ch == '<' ||
+        ch == '>' || ch == '|' ) {
         // not valid in file names
         return false;
     }

@@ -26,8 +26,9 @@ TEST_CASE( "make_static_macro_test", "[make_static_macro]" )
     // entity with the same address should be returned
     CHECK( &get_static() == &get_static() );
 
+    // NOLINTNEXTLINE(cata-almost-never-auto)
     const auto test11 = STATIC( "test11" );
-    static_assert( std::is_same<std::decay_t<decltype( test11 )>, std::string>::value,
+    static_assert( std::is_same_v<std::decay_t<decltype( test11 )>, std::string>,
                    "type must be std::string" );
 
     CHECK( test11 == "test11" );

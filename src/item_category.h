@@ -3,11 +3,12 @@
 #define CATA_SRC_ITEM_CATEGORY_H
 
 #include <iosfwd>
+#include <map>
 #include <new>
+#include <optional>
 #include <vector>
 
 #include "flat_set.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -35,11 +36,12 @@ class item_category
 {
     private:
         /** Name of category for displaying to the user */
-        translation name_;
+        translation name_header_; // in inventory UI headers etc
+        translation name_noun_; // in descriptive text
         /** Used to sort categories when displaying.  Lower values are shown first. */
         int sort_rank_ = 0;
 
-        cata::optional<zone_type_id> zone_;
+        std::optional<zone_type_id> zone_;
         std::vector<zone_priority_data> zone_priority_;
 
     public:
@@ -50,24 +52,33 @@ class item_category
         item_category() = default;
         /**
          * @param id @ref id_
-         * @param name @ref name_
+         * @param name_header @ref name_header_
+         * @param name_noun @ref name_noun_
          * @param sort_rank @ref sort_rank_
          */
-        item_category( const item_category_id &id, const translation &name, int sort_rank )
-            : name_( name ), sort_rank_( sort_rank ), id( id ) {}
-        item_category( const std::string &id, const translation &name, int sort_rank )
-            : name_( name ), sort_rank_( sort_rank ), id( item_category_id( id ) ) {}
+        item_category( const item_category_id &id, const translation &name_header,
+                       const translation &name_noun, const int sort_rank )
+            : name_header_( name_header ), name_noun_( name_noun )
+            , sort_rank_( sort_rank ), id( id ) {}
+        item_category( const std::string &id, const translation &name_header,
+                       const translation &name_noun, const int sort_rank )
+            : name_header_( name_header ), name_noun_( name_noun )
+            , sort_rank_( sort_rank ), id( item_category_id( id ) ) {}
 
-        std::string name() const;
+        std::string name_header() const;
+        std::string name_noun( int count ) const;
         item_category_id get_id() const;
-        cata::optional<zone_type_id> priority_zone( const item &it ) const;
-        cata::optional<zone_type_id> zone() const;
+        std::optional<zone_type_id> priority_zone( const item &it ) const;
+        std::optional<zone_type_id> zone() const;
         int sort_rank() const;
+        void set_spawn_rate( const float &rate ) const;
+        float get_spawn_rate() const;
 
         /**
          * Comparison operators
          *
-         * Used for sorting.  Will result in sorting by @ref sort_rank, then by @ref name, then by @ref id.
+         * Used for sorting.  Will result in sorting by @ref sort_rank_, then by
+         * @ref name_header_, then by @ref id.
          */
         /*@{*/
         bool operator<( const item_category &rhs ) const;
@@ -81,7 +92,19 @@ class item_category
         static const std::vector<item_category> &get_all();
         static void load_item_cat( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
+};
+
+struct item_category_spawn_rates {
+        static item_category_spawn_rates &get_item_category_spawn_rates() {
+            static item_category_spawn_rates instance;
+            return instance;
+        }
+        void set_spawn_rate( const item_category_id &id, const float &rate );
+        float get_spawn_rate( const item_category_id &id );
+    private:
+        std::map<item_category_id, float> spawn_rates;
+        item_category_spawn_rates() { }
 };
 
 #endif // CATA_SRC_ITEM_CATEGORY_H

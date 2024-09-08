@@ -2,9 +2,9 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronics" ],
+    "om_terrain": "s_electronics",
+    "//": "Adds CBMs",
     "weight": 15000,
-    "//": "It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
     "object": {
       "fill_ter": "t_linoleum_gray",
       "rows": [
@@ -93,7 +93,6 @@
         { "item": "electronics", "x": [ 14, 17 ], "y": 14, "chance": 25 },
         { "item": "snacks", "x": 16, "y": 9, "chance": 25 },
         { "item": "magazines", "x": 16, "y": 9, "chance": 20 },
-        { "item": "autodoc_installation_programs", "x": 21, "y": [ 12, 13 ], "chance": 85, "repeat": [ 1, 4 ] },
         { "item": "trash", "x": 18, "y": 15, "chance": 65 },
         { "item": "trash", "x": [ 15, 17 ], "y": [ 20, 21 ], "chance": 80 }
       ],
@@ -107,7 +106,8 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "s_electronics_1" ],
+    "om_terrain": "s_electronics_1",
+    "//": "Adds CBMs",
     "weight": 100000,
     "object": {
       "fill_ter": "t_floor",

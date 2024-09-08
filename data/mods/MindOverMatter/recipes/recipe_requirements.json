@@ -1,0 +1,88 @@
+[
+  {
+    "id": "matrix_dust_refined",
+    "type": "requirement",
+    "components": [
+      [
+        [ "matrix_crystal_biokin_dust_refined", 1 ],
+        [ "matrix_crystal_clair_dust_refined", 1 ],
+        [ "matrix_crystal_pyrokin_dust_refined", 1 ],
+        [ "matrix_crystal_telekin_dust_refined", 1 ],
+        [ "matrix_crystal_telepath_dust_refined", 1 ],
+        [ "matrix_crystal_teleport_dust_refined", 1 ],
+        [ "matrix_crystal_vitakin_dust_refined", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "surface_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_torch_weld", -1 ] ] ] }
+  },
+  {
+    "id": "bullet_forming",
+    "type": "requirement",
+    "tools": [
+      [ [ "press", -1 ] ],
+      [ [ "fire", -1 ], [ "pyrokinetic_fire_tool", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
+    ]
+  },
+  {
+    "id": "earthenware_firing",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "pyrokinetic_fire_tool", -1 ] ] ] }
+  },
+  {
+    "id": "shot_forming",
+    "type": "requirement",
+    "//": "Forming of shot from raw materials",
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
+      [ [ "water", 1 ], [ "water_clean", -1 ], [ "salt_water", -1 ], [ "water_sewage", -1 ] ],
+      [
+        [ "ladle", -1 ],
+        [ "ceramic_mug", -1 ],
+        [ "ceramic_cup", -1 ],
+        [ "teapot", -1 ],
+        [ "clay_teapot", -1 ],
+        [ "can_food", -1 ]
+      ],
+      [ [ "fire", -1 ], [ "pyrokinetic_fire_tool", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
+    ]
+  },
+  {
+    "id": "eggs_bird",
+    "type": "requirement",
+    "extend": { "components": [ [ [ "egg_cockatrice", 1 ] ] ] }
+  }
+]

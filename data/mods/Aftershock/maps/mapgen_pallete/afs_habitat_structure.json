@@ -13,6 +13,11 @@
       " ": "t_region_groundcover_urban",
       ".": "t_metal_floor",
       ",": "t_metal_floor_olight",
+      "'": "t_metal_floor_olight_inactive",
+      "$": "t_grate",
+      "{": "t_linoleum_white",
+      "}": "t_linoleum_whitefloor_olight",
+      ";": "t_linoleum_white_olight_inactive",
       "/": "t_wall_prefab_metal",
       "=": [
         [ "t_wall_prefab_glass", 2 ],
@@ -22,6 +27,8 @@
       ],
       "-": "t_wall_metal",
       "|": "t_concrete_wall",
+      ")": "t_reinforced_glass",
+      "[": "t_metal_railing",
       "]": [ [ "t_door_glass_c", 5 ], "t_door_glass_o", 5 ],
       "+": [ [ "t_door_locked", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 1 ] ],
       ":": [ [ "t_door_locked_interior", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ] ],
@@ -30,7 +37,20 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up"
     },
-    "furniture": { "~": "f_shower", "^": "f_sink", "*": "f_sink" }
+    "furniture": { "~": "f_habitat_bathroom", "^": "f_sink", "*": "f_sink", "%": "f_fireman_cabinet" }
+  },
+  {
+    "type": "palette",
+    "id": "afs_habitat_exterior",
+    "terrain": {
+      "™": "t_region_groundcover_urban",
+      "℗": "t_region_shrub_decorative",
+      "©": "t_sidewalk",
+      "¢": "t_pavement",
+      "†": "t_pavement_y",
+      "°": "t_thconc_floor_no_roof",
+      "£": "t_flat_roof"
+    }
   },
   {
     "type": "palette",
@@ -54,8 +74,8 @@
     "terrain": { "p": "t_sewage_pipe" },
     "furniture": {
       "@": "f_bed",
-      "f": "f_table",
-      "y": "f_table",
+      "f": "f_workbench",
+      "y": "f_workbench",
       "c": "f_console_broken",
       "h": "f_chair",
       "P": "f_water_purifier",
@@ -64,13 +84,10 @@
       "E": "f_machinery_electronic",
       "L": "f_machinery_light",
       "H": "f_machinery_heavy",
-      "O": "f_machinery_old",
+      "O": "f_ECU",
+      "T": "f_cryofluid_pump",
       "p": "f_solar_unit",
-      "t": "f_toposcan_process",
-      "T": "f_toposcan_terminal",
-      "S": "f_toposcan_scanner",
       "F": "f_fridge",
-      "^": "f_sink",
       "j": "f_counter",
       "q": "f_rack",
       "r": "f_bookcase",
@@ -88,7 +105,59 @@
       "k": { "item": "SUS_office_desk", "chance": 60 },
       "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
       "@": { "item": "bed", "chance": 50 },
+      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
+      "%": { "item": "afs_tools_space_emergency" }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "afs_habitat_residential_furnishing",
+    "furniture": {
+      "@": "f_bed",
+      "S": "f_sleep_pod",
+      "f": "f_workbench",
+      "F": "f_fridge",
+      "y": "f_table",
+      "c": "f_console_broken",
+      "h": "f_chair",
+      "b": "f_bench",
+      "H": "f_armchair",
+      "j": "f_counter",
+      "J": "f_counter_gate_c",
+      "k": "f_desk",
+      "o": "f_habitat_kitchenette",
+      "W": "f_habitat_storage_board",
+      "U": "f_habitat_storage_board",
+      "n": "f_screenmirror",
+      "q": "f_rack",
+      "s": "f_sofa",
+      "v": "f_trashcan",
+      "l": "f_locker",
+      "p": "f_indoor_plant",
+      "e": "f_entertainment_center"
+    },
+    "items": {
+      "o": { "item": "afs_kitchenette", "chance": 60 },
+      "U": { "item": "afs_old_food_storage", "chance": 60 },
+      "F": { "item": "afs_old_food_storage", "chance": 60 },
+      "W": { "item": "afs_colonist_outfit", "chance": 60 },
+      "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
+      "@": { "item": "bed", "chance": 50 },
       "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
     }
+  },
+  {
+    "//": "Life Support furniture items for habbitats which is combinable with other palettes.",
+    "type": "palette",
+    "id": "afs_habitat_life_support",
+    "furniture": {
+      "❶": "f_ECU",
+      "❷": "f_air_filter",
+      "❸": "f_water_heater",
+      "❹": "f_water_purifier",
+      "❺": "f_atmospheric_control",
+      "❻": "f_cryofluid_pump"
+    },
+    "liquids": { "❸": { "liquid": "water_clean", "amount": [ 0, 100 ] } }
   }
 ]

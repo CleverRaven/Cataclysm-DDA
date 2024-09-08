@@ -31,6 +31,26 @@
   },
   {
     "type": "scenario",
+    "id": "last_mage_on_earth_start",
+    "name": "Last Mage on Earth",
+    "flags": [ "LONE_START" ],
+    "points": 3,
+    "description": "When the chaos that led up to the Cataclysm began, your teacher told you about a secret hideout they had prepared in the event of a terrible disaster and suggested that you go wait there for a couple weeks to wait out the worst of the riots.  As it turned out, things got much worse than you imagined, and as the weeks turned into months and your teacher grew more and more agitated, they prepared a ritual that they hoped would turn back time and allow you to return to the weeks before the Cataclysm to warn the world.\n\nWhile waiting in the library for the ritual to conclude, you just heard a scream from the ritual room and some rustling elsewhere in the shelter.  You're not sure you're so safe here anymore…",
+    "start_name": "Last Mage On Earth shelter",
+    "allowed_locs": [ "sloc_last_mage_on_earth" ],
+    "start_of_cataclysm": { "hour": 0, "day": 61, "season": "spring", "year": 1 },
+    "start_of_game": { "hour": 20, "day": 60, "season": "summer", "year": 1 },
+    "professions": [
+      "wizard_novice",
+      "novice_necromancer",
+      "novice_earthshaper",
+      "novice_technomancer",
+      "novice_stormshaper",
+      "academy_wizard"
+    ]
+  },
+  {
+    "type": "scenario",
     "id": "lake_retreat",
     "name": "The Wizard's Vacation",
     "flags": [ "LONE_START" ],
@@ -45,7 +65,8 @@
       "novice_technomancer",
       "novice_stormshaper",
       "academy_wizard"
-    ]
+    ],
+    "reveal_locale": false
   },
   {
     "type": "scenario",
@@ -55,8 +76,27 @@
     "points": 1,
     "description": "You are an exile, whether because of people shunning you because of who you are or from a personal choice.  The dead aren't willing to leave you be.",
     "start_name": "Exiled",
-    "allowed_locs": [ "sloc_hermit_shack", "sloc_cabin", "sloc_lmoe", "sloc_lighthouse_ground", "sloc_cabin_lake" ],
-    "professions": [ "druid", "novice_necromancer", "magic_grim_reaper" ]
+    "allowed_locs": [
+      "sloc_hermit_shack",
+      "sloc_cabin",
+      "sloc_lmoe",
+      "sloc_lighthouse_ground",
+      "sloc_lighthouse_small_ground",
+      "sloc_cabin_lake"
+    ],
+    "professions": [
+      "druid",
+      "novice_necromancer",
+      "ranger",
+      "vengpreacher",
+      "techno_prepper",
+      "fleshmender",
+      "moose_rider",
+      "wild_druid",
+      "archer_druid",
+      "magic_grim_reaper"
+    ],
+    "reveal_locale": false
   },
   {
     "copy-from": "alcatraz",
@@ -79,7 +119,31 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "professions": [ "whitedeath_expy" ] },
+    "extend": { "professions": [ "whitedeath_expy", "elven_ceremonial_guard" ] },
     "id": "heli_crash"
+  },
+  {
+    "copy-from": "presort",
+    "type": "scenario",
+    "extend": { "professions": [ "magic_vamp", "biomancer_musician", "magic_knifethrower", "freezing_dancer", "magic_maid" ] },
+    "id": "presort"
+  },
+  {
+    "copy-from": "Mansion",
+    "type": "scenario",
+    "extend": { "professions": [ "magic_vamp", "biomancer_musician", "freezing_dancer", "magic_maid", "magic_burglar" ] },
+    "id": "Mansion"
+  },
+  {
+    "copy-from": "Mine_bottom",
+    "type": "scenario",
+    "extend": { "professions": [ "magic_miner" ] },
+    "id": "Mine_bottom"
+  },
+  {
+    "copy-from": "portal_dependent",
+    "type": "scenario",
+    "extend": { "professions": [ "dimensionalist" ] },
+    "id": "portal_dependent"
   }
 ]

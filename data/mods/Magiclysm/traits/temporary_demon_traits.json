@@ -36,8 +36,8 @@
     "restricts_gear": [ "foot_l", "foot_r" ],
     "armor": [ { "parts": [ "foot_l", "foot_r" ], "bash": 1 }, { "parts": [ "leg_l", "leg_r" ], "cut": 1 } ],
     "attacks": {
-      "attack_text_u": "You kick %s with your hooves",
-      "attack_text_npc": "%1$s kicks %2$s with their hooves",
+      "attack_text_u": "You kick %s with your hooves!",
+      "attack_text_npc": "%1$s kicks %2$s with their hooves!",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 3 }
     }
@@ -51,8 +51,15 @@
     "starting_trait": false,
     "mixed_effect": true,
     "points": 0,
-    "crafting_speed_multiplier": 0.5,
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 }
+        ]
+      }
+    ],
     "flags": [ "NO_SPELLCASTING" ]
   },
   {
@@ -62,13 +69,11 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 4,
-    "cut_dmg_bonus": 10,
-    "butchering_quality": 4,
-    "flags": [ "UNARMED_BONUS" ],
     "valid": false,
     "starting_trait": false,
     "mixed_effect": true,
     "restricts_gear": [ "hand_l", "hand_r" ],
+    "integrated_armor": [ "integrated_demon_claws" ],
     "description": "Your index fingers have grown into huge talons.  After a bit of practice, you find that this does not affect your dexterity, but allows for a deadly unarmed attack.  They also prevent wearing gloves.",
     "types": [ "CLAWS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ]

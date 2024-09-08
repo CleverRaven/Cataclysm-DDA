@@ -57,6 +57,24 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_rad_away",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and flushing themselves from the host.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_rad_flush",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -5 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and containing all emmissions.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_mastodon",
     "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
     "desc": [
@@ -132,6 +150,34 @@
   },
   {
     "type": "effect_type",
+    "id": "afs_badpoison",
+    "name": [ "Fatally Poisoned" ],
+    "desc": [ "The world is spinning around you, and you feel like you're going to die." ],
+    "miss_messages": [ [ "You feel bad inside.", 2 ] ],
+    "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
+    "resist_traits": [ "POISRESIST" ],
+    "immune_flags": [ "BIOLOGICALPROOF", "BIO_IMMUNE" ],
+    "resist_effects": [ "prophylactic_antivenom", "synth_blood_perf", "synth_blood_permanent" ],
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2 ],
+      "dex_mod": [ -2 ],
+      "str_mod": [ -3, -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 1, 100 ],
+      "hurt_min": [ 11, 2 ],
+      "hurt_max": [ 20, 5 ],
+      "hurt_chance": [ 1, 200 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Poison"
+  },
+  {
+    "type": "effect_type",
     "id": "afs_generic_speed_bonus",
     "name": [ "Movement Optimization (1)", "Movement Optimization (2)", "Movement Optimization (3)", "Movement Optimization (4)" ],
     "desc": [ "You move with machine-guided precision." ],
@@ -162,10 +208,27 @@
   },
   {
     "type": "effect_type",
+    "id": "synth_blood_permanent",
+    "name": [ "Synthblood" ],
+    "desc": [
+      "Your breaths instinctively grow shallow as the synthetic blood carries oxygen throughout your body, increasing your speed, stamina, and general endurance."
+    ],
+    "removes_effects": [ "synth_blood_perf" ],
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 15 ], "str_mod": [ 1 ], "dex_mod": [ 1 ] },
+    "blood_analysis_description": "Synthetic blood",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
     "id": "afs_isohypsa_overwatch",
     "name": [ "Isohypsa Overwatch" ],
-    "//~": "This is just a fragment of machine code, it needs no translation.",
-    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "desc": [
+      {
+        "//~": "This is just a fragment of machine code, it needs no translation.",
+        "str": "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n"
+      }
+    ],
     "rating": "good",
     "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
     "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },
@@ -175,10 +238,39 @@
     "type": "effect_type",
     "id": "afs_rocket_flight",
     "name": [ "Rocket Flight" ],
-    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "desc": [ "You are flying with a rocket powered device." ],
     "rating": "good",
     "flags": [ "LEVITATION" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff_trigger"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_hack_done"
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_combat_stims",
+    "name": [ "Combat Stimulants" ],
+    "desc": [ "You are under the effects of powerful military combat stimulants" ],
+    "rating": "good",
+    "blocks_effects": [ "stim_overdose", "shakes" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_medigel_eff",
+    "rating": "good",
+    "name": [ "MediGel" ],
+    "desc": [ "The medical gel applied to your wounds is slowly healing them." ],
+    "main_parts_only": true,
+    "part_descs": true,
+    "max_duration": "4 d",
+    "base_mods": { "healing_rate": [ 4 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
+    "scaling_mods": { "healing_rate": [ 2 ] }
   },
   {
     "type": "effect_type",
@@ -212,7 +304,13 @@
     "rating": "bad",
     "int_dur_factor": "8 h",
     "max_duration": "24 h",
-    "base_mods": { "stim_amount": [ -5 ], "stim_max": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
+    "base_mods": {
+      "stim_min": [ -20 ],
+      "stim_min_val": [ -60 ],
+      "perspiration_min": [ 1 ],
+      "perspiration_chance": [ 60 ],
+      "stamina_min": [ -10 ]
+    },
     "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
     "show_in_info": true
   },
@@ -227,5 +325,11 @@
     "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -4 ], "dex_mod": [ -2 ] },
     "blood_analysis_description": "Dangerous levels of steroids.",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_cureall",
+    "removes_effects": [ "afs_badpoison" ],
+    "base_mods": { "pkill_min": [ 5 ] }
   }
 ]

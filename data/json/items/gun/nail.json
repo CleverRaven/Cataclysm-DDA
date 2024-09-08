@@ -9,10 +9,8 @@
     "weight": "3904 g",
     "volume": "750 ml",
     "longest_side": "45 cm",
-    "price": 13000,
-    "price_postapoc": 500,
-    "to_hit": -2,
-    "bashing": 6,
+    "price": "130 USD",
+    "price_postapoc": "5 USD",
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -24,12 +22,14 @@
     "clip_size": 20,
     "reload": 50,
     "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nail": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nail": 20 } } ],
+    "melee_damage": { "bash": 6 },
+    "flags": [ "WONT_TRAIN_MARKSMANSHIP" ]
   },
   {
     "id": "coilgun",
     "copy-from": "gun_base",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "coilgun" },
     "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
@@ -37,10 +37,8 @@
     "weight": "2041 g",
     "volume": "2750 ml",
     "longest_side": "80 cm",
-    "price": 75000,
-    "price_postapoc": 5000,
-    "to_hit": -2,
-    "bashing": 10,
+    "price": "750 USD",
+    "price_postapoc": "50 USD",
     "material": [ "copper", "steel" ],
     "ammo": [ "nail" ],
     "skill": "rifle",
@@ -49,16 +47,10 @@
     "dispersion": 180,
     "durability": 5,
     "loudness": 12,
-    "ups_charges": 2,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "nailmag" ] } ]
+    "energy_drain": "2 kJ",
+    "valid_mod_locations": [ [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "nailmag" ] } ],
+    "flags": [ "USE_UPS" ],
+    "melee_damage": { "bash": 10 }
   }
 ]

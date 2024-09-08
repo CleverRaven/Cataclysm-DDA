@@ -1,14 +1,13 @@
 [
   {
     "id": "10gal_hat",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "ten-gallon hat" },
     "description": "These may not be the Great Plains, but you can still be the Boss with this high-crowned, wide-brimmed hat.",
     "weight": "410 g",
     "volume": "2500 ml",
-    "price": 17900,
-    "price_postapoc": 250,
+    "price": "179 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -17,7 +16,14 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "bandana_head",
@@ -27,8 +33,8 @@
     "description": "A cotton bandana, worn over the head.",
     "weight": "42 g",
     "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 10,
+    "price": "6 USD",
+    "price_postapoc": "10 cent",
     "use_action": {
       "type": "transform",
       "msg": "You adjust the %s to cover your mouth.",
@@ -42,18 +48,24 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "beret",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "beret" },
     "description": "A soft cotton hat.  Commonly worn by armed forces and existentialists.",
     "weight": "120 g",
     "volume": "250 ml",
-    "price": 1200,
-    "price_postapoc": 50,
+    "price": "12 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -61,7 +73,14 @@
     "warmth": 3,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "beret_wool",
@@ -70,8 +89,8 @@
     "description": "A soft wool hat.  Commonly worn by armed forces and existentialists.",
     "weight": "160 g",
     "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 50,
+    "price": "15 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "beret",
@@ -79,18 +98,24 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "bowhat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "bowler hat" },
     "description": "The only hat for a made man.  Look like a real good fella while laughing in the face of your foes!",
     "weight": "213 g",
     "volume": "1250 ml",
-    "price": 4500,
-    "price_postapoc": 50,
+    "price": "45 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -99,7 +124,14 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "chaplet",
@@ -108,25 +140,47 @@
     "description": "A wreath headdress made from plant material woven into a ring.",
     "weight": "46 g",
     "volume": "150 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "dry_plant" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "dark_gray",
     "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "cowboy_hat",
     "type": "ARMOR",
     "name": { "str": "cowboy hat" },
     "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_cowboy_hat",
+        "name": { "str": "cowboy hat" },
+        "description": "Whether yer hunting varmints, fixing up the ranch, or heading into the sunset, this is the hat for the job.",
+        "weight": 30
+      },
+      {
+        "id": "flag_cowboy_hat",
+        "name": { "str_sp": "American cowboy hat" },
+        "description": "This hat has traded its original classic looks for a red, white, and blue pattern with a band of golden stars embossed about its lip; suitable headwear for only the most serious of patriots.",
+        "append": true
+      }
+    ],
     "weight": "390 g",
     "volume": "2 L",
-    "price": 9500,
-    "price_postapoc": 250,
+    "price": "95 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bowhat",
@@ -135,7 +189,14 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "drinking_hat",
@@ -145,26 +206,27 @@
     "color": "blue",
     "name": { "str": "drinking hat" },
     "description": "An improvised harness that can be worn over other headgear or by itself, made from two small liquid containers, a rubber hose, a bundle of steel wire, and some cordage.  A convenient and simple device for hands-free drinking, though it's not watertight and would spill if you put it into your backpack.",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton", "plastic" ],
     "weight": "733 g",
     "volume": "1500 ml",
     "material_thickness": 0.2,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 15, "covers": [ "head" ] } ]
+    "armor": [
+      { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+    ]
   },
   {
     "id": "eboshi",
-    "repairs_like": "balclava",
     "type": "ARMOR",
-    "name": { "str": "eboshi" },
+    "name": { "str_sp": "eboshi" },
     "description": "A high, black cap with a very narrow top.  Traditionally worn by Shinto priests.",
     "weight": "120 g",
     "volume": "500 ml",
-    "price": 7000,
-    "price_postapoc": 50,
+    "price": "70 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "bowhat",
@@ -172,7 +234,14 @@
     "warmth": 4,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "hat_navy",
@@ -181,8 +250,8 @@
     "description": "Also known as a utility cover or utility cap, this is an eight pointed hat with a baseball-style visor at the front.  Commonly worn by Marines and sailors, this hat is the standard headwear of both the United States Marine Corps and Navy.",
     "weight": "92 g",
     "volume": "500 ml",
-    "price": 1699,
-    "price_postapoc": 50,
+    "price": "16 USD 99 cent",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -191,7 +260,40 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
+  },
+  {
+    "id": "hat_field",
+    "type": "ARMOR",
+    "name": { "str": "patrol cap" },
+    "description": "A simple round cap in a camouflage pattern.  Often used by the military when helmets aren't needed.  Its brim helps keep the sun out of your eyes.",
+    "weight": "92 g",
+    "volume": "500 ml",
+    "price": "15 USD",
+    "price_postapoc": "80 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "cowboy_hat",
+    "color": "dark_gray",
+    "warmth": 5,
+    "material_thickness": 0.3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "SUN_GLASSES" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "hat_boonie",
@@ -200,8 +302,8 @@
     "description": "Also called a \"bucket hat.\" Often used in the military.  Its wide brim helps keep the sun out of your eyes.",
     "weight": "92 g",
     "volume": "500 ml",
-    "price": 1200,
-    "price_postapoc": 50,
+    "price": "12 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -210,19 +312,25 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "hat_ball",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "baseball cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
     "description": "A cotton cap with a rounded crown, an adjustable strap, and a long visor.  It shields your eyes from the sun and provides a little bit of warmth.  Traditionally worn by baseball players.",
     "weight": "88 g",
     "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -231,7 +339,14 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
     "variant_type": "generic",
     "variants": [
       {
@@ -249,21 +364,121 @@
       {
         "id": "football_fan_hatball",
         "name": { "str": "football fan cap" },
-        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "description": "A snapback baseball cap displaying the logo of a local football team.  It shields your eyes from the sun and provides a little bit of warmth."
+      },
+      {
+        "id": "dollar_hatball",
+        "name": { "str": "dollar sign cap" },
+        "description": "A snapback golden-colored baseball cap displaying a golden dollar sign symbol at the front.  It shields your eyes from the sun and provides a little bit of warmth.  Makes you fell like a rapper.",
         "weight": 1
+      },
+      {
+        "id": "pine_hatball1",
+        "name": { "str": "Lone Pine cap" },
+        "description": "A snapback baseball cap displaying the shape of a single pine tree at the front.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "sorcery_hatball",
+        "name": { "str": "sorcery baseball cap" },
+        "description": "A snapback baseball cap displaying the phrase 'Got Sorcery?', colored white in a cosmos black background.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "diamond_hatball",
+        "name": { "str": "diamond cap" },
+        "description": "A snapback baseball cap displaying the white-colored shape of a diamond in the front.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "blood_hatball",
+        "name": { "str": "blood donor cap" },
+        "description": "A snapback baseball cap displaying the image of bloodpack connected to a drop of blood in the front, and under that image, a text that reads: 'Donating Blood', in white, and 'Save Lives' in red.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "fema_hatball",
+        "name": { "str": "FEMA cap" },
+        "description": "A beige colored snapback baseball cap displaying the FEMA acronym, which denotes for the Federal Emergency Management Agency, in the front, and the official seal of the Federal Emergency Management Agency in the right side.  Commonly used by the government organization employees and volunteers.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "earth_hatball",
+        "name": { "str": "Planet Earth cap" },
+        "description": "A snapback baseball cap displaying the detailed image of a round Planet Earth right at the front.  The whole cap is black, with some white dots around, making the background looks like outer space.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "flatearth_hatball",
+        "name": { "str": "Flat Earth cap" },
+        "description": "A snapback baseball cap displaying the image of a flat, disk-like Earth, with the dome right above it, showing the sun illuminating one half of Flat Earth, and the moon, illuminating the night with moonlight (which is reflected light from the sun) on the other half, and besides it, a text that reads: 'Earth is Flat!'.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "vegan_hatball",
+        "name": { "str": "Go Vegan cap" },
+        "description": "A snapback baseball cap displaying the green icon of a leaf in the front, and a text on the top of it reading 'Go Vegan!'.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "meat_hatball",
+        "name": { "str": "Bacon is Life cap" },
+        "description": "A snapback baseball cap displaying the pinkish icon of a slice of bacon in the front, and a text on the top of it reading 'Bacon is Life!'.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "biohazard_hatball",
+        "name": { "str": "biohazard cap" },
+        "description": "A snapback baseball cap displaying the green icon of the well known symbol of biohazard and biological danger in the front, and a text reading 'Warning: Biohazard'.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "america_hatball",
+        "name": { "str": "American cap" },
+        "description": "A snapback baseball cap embossed with the pattern of the flag of the United States of America.  It shields your eyes from the sun, provides a little bit of warmth and also makes you feel like a real patriot.",
+        "weight": 5
+      },
+      {
+        "id": "soccer_fan_hatball",
+        "name": { "str": "soccer fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a popular soccer team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "basketball_fan_hatball",
+        "name": { "str": "basketball fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a popular basketball team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 1
+      },
+      {
+        "id": "hockey_fan_hatball",
+        "name": { "str": "hockey fan cap" },
+        "description": "A snapback baseball cap displaying the logo of a popular hockey team.  It shields your eyes from the sun and provides a little bit of warmth.",
+        "weight": 5
+      },
+      {
+        "id": "generic_truckball",
+        "name": { "str": "trucker cap" },
+        "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  The trucker hat came about in it's true form in the early 1970's as a promotional give-away from US feed or farming supply companies to farmers, truck drivers (hence the name) and other rural workers.  It is perfect for keeping your head cool and the sun out of your eyes.",
+        "weight": 2
+      },
+      {
+        "id": "hat_fbi",
+        "name": { "str": "FBI cap" },
+        "description": "A deep blue snapback baseball cap with \"FBI\" embroidered across the front in blocky, yet imposing yellow lettering.  Although very much illegal to impersonate a government official, most zombies tend to let it slide.  It shades your eyes from the sun, provides a little warmth, and makes you feel like an operator.",
+        "weight": 0
       }
     ]
   },
   {
     "id": "hat_chef",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "toque" },
     "description": "A traditional chef's hat, standing tall and proud against the vulgarities of the world.",
     "weight": "140 g",
     "volume": "500 ml",
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -271,7 +486,14 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
     "variant_type": "generic",
     "variants": [
       {
@@ -323,7 +545,7 @@
       },
       {
         "id": "camo_hat_chef",
-        "name": { "str": "camo chef's jacket" },
+        "name": { "str": "camo toque" },
         "description": "It has camouflage dye.",
         "color": "green",
         "weight": 2,
@@ -338,8 +560,8 @@
     "description": "A snug-fitting cotton hat.  Quite warm.",
     "weight": "78 g",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 50,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -348,7 +570,14 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "hat_fur",
@@ -357,8 +586,8 @@
     "description": "A hat made from the pelts of animals.  Extremely warm.",
     "weight": "246 g",
     "volume": "750 ml",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "hat_knit",
@@ -366,7 +595,14 @@
     "warmth": 60,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "hat_faux_fur",
@@ -385,9 +621,9 @@
     "description": "A hard plastic hat worn at construction and industrial sites.  Provides excellent protection from cuts and percussion.",
     "weight": "430 g",
     "volume": "2500 ml",
-    "price": 1200,
-    "price_postapoc": 250,
-    "bashing": 6,
+    "longest_side": "28 cm",
+    "price": "12 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -397,7 +633,15 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -448,6 +692,17 @@
         "moves": 250,
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
       }
     ],
     "variant_type": "generic",
@@ -567,22 +822,22 @@
         "name": { "str": "steampunk hard hat" },
         "description": "It's colored black, with industrial gear decorations and a steampunk design.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hat_hard_hooded",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "summer hard hat" },
-    "description": "A hard plastic hat worn at construction and industrial sites, with a cloth tucked under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
+    "description": "A hard plastic hat worn at construction and industrial sites, with a sun shield tucked on top to keep the glare out of your eyes.  Protects your eyes from the harsh sun, although it makes ear muffs unattachable to the hard hat itself.",
     "weight": "470 g",
     "volume": "2750 ml",
-    "price": 1200,
-    "price_postapoc": 300,
-    "bashing": 6,
+    "longest_side": "28 cm",
+    "price": "12 USD",
+    "price_postapoc": "3 USD",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -592,7 +847,15 @@
     "techniques": [ "WBLOCK_1" ],
     "environmental_protection": 1,
     "flags": [ "WATERPROOF", "PADDED", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -622,6 +885,17 @@
         "moves": 250,
         "description": "Pocket for a counterweight pouch.",
         "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
       }
     ],
     "variant_type": "generic",
@@ -741,10 +1015,10 @@
         "name": { "str": "steampunk summer hard hat" },
         "description": "It's colored black, with industrial gear decorations and a steampunk design.",
         "color": "dark_gray",
-        "weight": 1,
         "append": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hat_hunting",
@@ -753,8 +1027,8 @@
     "description": "A red plaid hunting cap with ear flaps.  Notably warm.",
     "weight": "206 g",
     "volume": "750 ml",
-    "price": 3000,
-    "price_postapoc": 50,
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -763,7 +1037,14 @@
     "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "hat_knit",
@@ -772,8 +1053,8 @@
     "description": "A snug-fitting wool hat.  Very warm.",
     "weight": "120 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 100,
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -782,18 +1063,24 @@
     "material_thickness": 0.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "hat_newsboy",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "newsboy cap" },
     "description": "A slouching wool cap with a short front brim, traditionally associated with newspaper delivery boys.  Quite warm.",
     "weight": "100 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 50,
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -802,7 +1089,14 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "hat_noise_cancelling",
@@ -811,8 +1105,8 @@
     "description": "Padding over your ears, kept in place by some string.  Blocks incoming sounds.",
     "weight": "72 g",
     "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -820,11 +1114,17 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "DEAF" ],
-    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 5, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "IMBALANCED" ],
+        "coverage": 25,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "hat_sombrero",
-    "repairs_like": "tricorne",
     "type": "ARMOR",
     "name": { "str": "sombrero" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
@@ -832,8 +1132,8 @@
     "description": "An orange felt sombrero with traditional white and yellow hand stitching.  The wide brim keeps the sun out of your eyes, and a thin strap hooks around your chin.",
     "weight": "140 g",
     "volume": "3500 ml",
-    "price": 5500,
-    "price_postapoc": 100,
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -842,36 +1142,62 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "OUTER", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "kippah",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "kippah" },
     "description": "A thin, rounded skullcap.  A traditional headdress in Judaism.",
     "weight": "80 g",
     "volume": "250 ml",
-    "price": 5000,
-    "price_postapoc": 50,
+    "price": "50 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "blue",
     "warmth": 2,
     "material_thickness": 0.1,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 30, "covers": [ "head" ] } ]
+    "armor": [
+      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+    ]
+  },
+  {
+    "id": "zucchetto",
+    "type": "ARMOR",
+    "name": { "str": "zucchetto" },
+    "description": "A small, crimson skullcap.  Traditionally worn by Catholic priests.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": "100 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "hat_cotton",
+    "color": "red",
+    "warmth": 3,
+    "material_thickness": 0.2,
+    "armor": [
+      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
+    ]
   },
   {
     "id": "kufi",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "kufi cap" },
     "description": "A brimless, short and rounded cap.",
     "weight": "88 g",
     "volume": "500 ml",
-    "price": 3000,
-    "price_postapoc": 50,
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -879,18 +1205,24 @@
     "warmth": 6,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "maid_hat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "French maid hat" },
     "description": "A frilly white headpiece.",
     "weight": "10 g",
     "volume": "250 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -898,18 +1230,40 @@
     "warmth": 2,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 25, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 55,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_ear_r", "head_ear_l" ]
+      }
+    ]
+  },
+  {
+    "id": "maid_hat_xl",
+    "copy-from": "maid_hat",
+    "type": "ARMOR",
+    "name": { "str": "French maid hat" },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 }
+  },
+  {
+    "id": "maid_hat_xs",
+    "copy-from": "maid_hat",
+    "type": "ARMOR",
+    "name": { "str": "French maid hat" },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 }
   },
   {
     "id": "porkpie",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "porkpie hat" },
     "description": "A flat-topped hat with circular indent and a narrow brim.  Most popular in the 40s and 50s, still common among those in the mod scene, hipsters, and people named Heisenberg.",
     "weight": "213 g",
     "volume": "1250 ml",
-    "price": 5500,
-    "price_postapoc": 50,
+    "price": "55 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "bowhat",
@@ -918,18 +1272,24 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "postman_hat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "mail carrier hat" },
     "description": "A traditional mail carrier's cap, with the US postal service logo embroidered on the front above the plastic brim.  A symbol of a bygone world.",
     "weight": "90 g",
     "volume": "750 ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -938,17 +1298,24 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "santa_hat",
     "type": "ARMOR",
-    "name": { "str": "santa hat" },
+    "name": { "str": "Santa hat" },
     "description": "A red hat with white faux fur trim, commonly used by bearded men on Christmas.",
     "weight": "200 g",
     "volume": "500 ml",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "hat_knit",
@@ -957,7 +1324,14 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "straw_hat",
@@ -966,8 +1340,8 @@
     "description": "A hat woven out of straw.  Its brim helps keep the sun out of your eyes.",
     "weight": "50 g",
     "volume": "750 ml",
-    "price": 300,
-    "price_postapoc": 100,
+    "price": "3 USD",
+    "price_postapoc": "1 USD",
     "material": [ "paper" ],
     "symbol": "[",
     "looks_like": "cowboy_hat",
@@ -976,7 +1350,14 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "tinfoil_hat",
@@ -986,27 +1367,33 @@
     "description": "A sheet of aluminum foil that has been molded into a form-fitting hat.  Perfect for protecting yourself from the government, Illuminati, aliens, and THEM.",
     "weight": "16 g",
     "volume": "250 ml",
-    "price": 16,
-    "price_postapoc": 10,
+    "price": "16 cent",
+    "price_postapoc": "10 cent",
     "material": [ "aluminum" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "warmth": 5,
     "color": "yellow",
     "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "tophat",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "top hat" },
     "//": "No, you're not wearing anything over your top hat.",
     "description": "The only hat for a gentleman.  Look exquisite while laughing in the face of danger!",
     "weight": "233 g",
     "volume": "2500 ml",
-    "price": 19500,
-    "price_postapoc": 250,
+    "price": "195 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "porkpie",
@@ -1015,7 +1402,14 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "tricorne",
@@ -1024,8 +1418,8 @@
     "description": "A classic design, the \"tricorne\", or three-cornered hat, simply pins a large and floppy brim out of the way, though this example adds well-embroidered designs and is oiled against water.  Whether you're the \"guvnah\" of a settlement, or the captain of a post-apocalyptic crew, this is the hat for you.",
     "weight": "490 g",
     "volume": "2 L",
-    "price": 2500,
-    "price_postapoc": 750,
+    "price": "25 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bowhat",
@@ -1033,20 +1427,25 @@
     "warmth": 7,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "turban",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "turban" },
     "description": "Cloth wound around the head, worn by people of many cultures worldwide.  Some historical examples could be huge and ostentatious, but this one is a very simple design.",
     "weight": "105 g",
     "volume": "250 ml",
-    "price": 85,
-    "price_postapoc": 10,
-    "to_hit": -1,
+    "price": "85 cent",
+    "price_postapoc": "10 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -1055,19 +1454,25 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "hat_golf",
-    "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "golf cap" },
     "//": "Head encumbrance stops you from wearing additional headgear.  No helmet over a ballcap, sorry.  But brimmed gear gets the anti-glare flag!",
     "description": "You're not actually sure if this is called a golf cap, but it's the stereotypical cap golfers wear.",
     "weight": "85 g",
     "volume": "500 ml",
-    "price": 2200,
-    "price_postapoc": 50,
+    "price": "22 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -1076,7 +1481,14 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead" ]
+      }
+    ]
   },
   {
     "id": "wizard_hat_costume",
@@ -1085,8 +1497,8 @@
     "description": "A blue pointed hat with stars stitched into it.  Wearing it makes you feel like a powerful wizard.",
     "weight": "300 g",
     "volume": "2 L",
-    "price": 4000,
-    "price_postapoc": 50,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
@@ -1094,17 +1506,24 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 80,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ]
   },
   {
     "id": "pointed_hat",
     "type": "ARMOR",
     "name": "pointed hat",
-    "description": "A black pointed hat suitable for a witch.",
+    "description": "A pointed hat suitable for a witch.",
     "weight": "40 g",
     "volume": "2 L",
-    "price": 3000,
-    "price_postapoc": 50,
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "dark_gray",
@@ -1112,6 +1531,44 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 80,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
+      }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_pointed_hat",
+        "name": { "str": "black pointed hat" },
+        "description": "It's colored black.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "green_pointed_hat",
+        "name": { "str": "green pointed hat" },
+        "description": "It's colored dark green.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "red_pointed_hat",
+        "name": { "str": "red pointed hat" },
+        "description": "It's colored dark red.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "purple_pointed_hat",
+        "name": { "str": "purple pointed hat" },
+        "description": "It's colored dark purple.",
+        "weight": 25,
+        "append": true
+      }
+    ]
   }
 ]

@@ -5,7 +5,7 @@
     "name": { "str": "Fleshmonger" },
     "//": "This mission is assigned and completed using dialogue and EOCs. As such, we don't have any goal, which would make it auto-complete under certain circumstances.",
     "goal": "MGOAL_NULL",
-    "description": "Deposit a human sample in a pit within the dead drop location.  Pick your reward at The Terminal once thats done.",
+    "description": "Deposit a human sample in a pit within the dead drop location.  Pick up your reward at the Terminal once that's done.",
     "difficulty": 1,
     "value": 0,
     "start": {
@@ -36,7 +36,10 @@
     "dynamic_line": {
       "u_has_mission": "BEM_human_sample_mission",
       "yes": "Not in the mood for a talk, sorry.",
-      "no": "&The mercenary stares at the window, and speaks in a quiet and terse manner.  \"I have a client looking for a medical-grade human biopsy sample, no questions asked.  Are you the right one for the job?"
+      "no": {
+        "gendered_line": "&The mercenary stares at the window, and speaks in a quiet and terse manner.  \"I have a client looking for a medical-grade human biopsy sample, no questions asked.  Are you the right one for the job?",
+        "relevant_genders": [ "npc" ]
+      }
     },
     "responses": [
       {
@@ -74,23 +77,26 @@
   {
     "id": "BEM_HUMAN_SAMPLE2",
     "type": "talk_topic",
-    "dynamic_line": "Most I can give is two gold coins.  I have arranged a drop in the nearby woods, put the goods there and you can get your cash with the barkeep here.",
+    "dynamic_line": "Most I can give is two gold coins.  I've arranged a drop in the nearby woods, put the goods there and you can get your cash with the barkeep here.",
     "responses": [
       {
-        "text": "It'll get done",
+        "text": "It'll get done.",
         "effect": [ { "assign_mission": "BEM_human_sample_mission" }, "end_conversation" ],
         "topic": "TALK_DONE"
       },
-      { "text": "Not interested after all", "topic": "TALK_DONE" }
+      { "text": "Not interested after all?", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BEM_HUMAN_SAMPLE_BUY",
     "type": "talk_topic",
-    "dynamic_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not?",
+    "dynamic_line": {
+      "gendered_line": "&The mercenary gives you a quick appraisal.  \"Five coins for three, special price just for you.  Pay in advance, and I'll arrange a drop in the subway rails here for you to pick within two days.  Deal or not?",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
-        "text": "[5 HGC] Its a deal",
+        "text": "[5 HGC] Its a deal.",
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "RobofacCoin", "count": 5 } },
         "effect": [
@@ -99,7 +105,7 @@
         ]
       },
       {
-        "text": "Sure, just let me find the cash",
+        "text": "Sure, just let me find the cash.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_has_items": { "item": "RobofacCoin", "count": 5 } } }
       },
@@ -109,8 +115,8 @@
   {
     "id": "BEM_HUMAN_SAMPLE_FINISH",
     "type": "talk_topic",
-    "dynamic_line": "&<mypronoun> quickly removes the offending piece of meat from your hand and places two golden coins in the table.  Apparently unshaken by the prospect of meeting someone who casually visits bars while carrying cuts of human flesh.  \"Now if you please, I have a meal to ger rid off.\" <mypronoun> says, between poorly masked bouts nausea.",
-    "speaker_effect": { "effect": { "u_spawn_item": "RobofacCoin", "count": 2 } },
+    "dynamic_line": "&<mypronoun> quickly removes the offending piece of meat from your hand and places two golden coins on the table, apparently unshaken by the prospect of meeting someone who casually visits bars while carrying cuts of human flesh.  \"Now if you please, I have a meal to get rid of.\" <mypronoun> says, between poorly masked bouts of nausea.",
+    "speaker_effect": { "effect": [ { "u_sell_item": "human_sample", "count": 1 }, { "u_spawn_item": "RobofacCoin", "count": 2 } ] },
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE", "effect": "end_conversation" } ]
   },
   {

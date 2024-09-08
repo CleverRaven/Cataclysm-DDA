@@ -4,19 +4,20 @@
 
 #include <array>
 #include <iosfwd>
+#include <optional>
 #include <set>
 #include <vector>
 
 #include "calendar.h"
+#include "coords_fwd.h"
 #include "enums.h" // IWYU pragma: keep
 #include "game_constants.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
 class JsonObject;
 
-static constexpr int SCENT_MAP_Z_REACH = 1;
+constexpr int SCENT_MAP_Z_REACH = 1;
 
 class game;
 class map;
@@ -30,7 +31,7 @@ class scent_type
 {
     public:
         static void load_scent_type( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         static const std::vector<scent_type> &get_all();
         static void check_scent_consistency();
         bool was_loaded = false;
@@ -49,7 +50,7 @@ class scent_map
 
         scent_array<int> grscent;
         scenttype_id typescent;
-        cata::optional<tripoint> player_last_position; // NOLINT(cata-serialize)
+        std::optional<tripoint> player_last_position; // NOLINT(cata-serialize)
         time_point player_last_moved = calendar::before_time_starts; // NOLINT(cata-serialize)
 
         const game &gm; // NOLINT(cata-serialize)
@@ -74,7 +75,9 @@ class scent_map
          */
         /**@{*/
         void set( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
+        // TODO: Get rid of untyped override
         int get( const tripoint &p ) const;
+        int get( const tripoint_bub_ms &p ) const;
         /**@}*/
         void set_unsafe( const tripoint &p, int value, const scenttype_id &type = scenttype_id() );
         int get_unsafe( const tripoint &p ) const;

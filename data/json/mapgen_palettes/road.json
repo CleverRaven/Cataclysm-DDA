@@ -1,40 +1,35 @@
 [
   {
     "type": "palette",
-    "id": "road",
+    "id": "road_palette",
+    "//": "mapgendata::first_predecessor doesn't work perfectly so use 9 to overwrite other nests",
     "terrain": {
-      " ": [ [ "t_region_groundcover", 8 ], "t_region_shrub" ],
-      "_": "t_pavement",
-      "!": "t_pavement",
-      ".": "t_floor",
-      "#": "t_wall_w",
-      "+": "t_door_c",
-      "~": "t_door_locked",
-      "/": "t_door_glass_c",
-      "x": "t_wall_glass",
-      ":": "t_pavement_y",
-      "]": "t_sidewalk",
-      "*": "t_tree",
-      "A": "t_atm"
+      ".": "t_pavement",
+      "_": "t_sidewalk",
+      "*": "t_pavement_y",
+      "│": "t_zebra_v",
+      "─": "t_zebra_h",
+      "c": "t_concrete",
+      "b": "t_concrete",
+      "x": "t_concrete",
+      "n": "t_concrete",
+      "O": "t_manhole_cover",
+      "g": "t_region_grass",
+      "f": "t_region_grass",
+      "#": "t_sconc_wall_halfway",
+      "~": "t_water_sh",
+      "s": "t_region_shrub_decorative",
+      "6": "t_region_tree",
+      "9": "t_region_groundcover_urban"
     },
     "furniture": {
-      "&": "f_trashcan",
-      "{": "f_glass_fridge",
-      "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "C": "f_counter",
-      "H": "f_sofa",
-      "c": "f_chair",
-      "s": "f_stool",
-      "t": "f_table",
-      "r": "f_rack",
-      "l": "f_locker",
-      "f": "f_fridge",
-      "o": "f_oven",
-      "S": "f_sink",
-      "T": "f_toilet"
+      "Y": "f_street_light",
+      "T": "f_traffic_light",
+      "f": [ [ "f_region_flower_decorative", 2 ], [ "f_null", 1 ] ],
+      "b": "f_bench",
+      "x": "f_trashcan",
+      "n": "f_bike_rack"
     },
-    "toilets": { "T": {  } },
-    "gaspumps": { "!": {  } },
-    "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
+    "signs": { "@": { "signage": "<statue_plaque>", "furniture": "f_statue" } }
   }
 ]

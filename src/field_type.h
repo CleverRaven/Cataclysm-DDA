@@ -57,6 +57,13 @@ struct enum_traits<description_affix> {
 
 generic_factory<field_type> &get_all_field_types();
 
+struct field_immunity_data {
+    std::vector<json_character_flag> immunity_data_flags;
+    std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
+    std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags;
+    std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags_any;
+};
+
 struct field_effect {
     efftype_id id;
     std::vector<std::pair<efftype_id, mod_id>> src;
@@ -64,6 +71,7 @@ struct field_effect {
     time_duration max_duration = 0_seconds;
     int intensity = 0;
     bodypart_str_id bp;
+    field_immunity_data immunity_data;
     bool is_environmental = true;
     bool immune_in_vehicle  = false;
     bool immune_inside_vehicle  = false;
@@ -110,6 +118,7 @@ struct field_intensity_level {
     float light_emitted = 0.0f;
     float local_light_override = -1.0f;
     float translucency = 0.0f;
+    int concentration = 0;
     int convection_temperature_mod = 0;
     int scent_neutralization = 0;
     std::vector<field_effect> field_effects;
@@ -118,60 +127,61 @@ struct field_intensity_level {
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
 extern const field_type_str_id fd_null;
-extern const field_type_str_id fd_fire;
-extern const field_type_str_id fd_blood;
-extern const field_type_str_id fd_bile;
-extern const field_type_str_id fd_extinguisher;
-extern const field_type_str_id fd_gibs_flesh;
-extern const field_type_str_id fd_gibs_veggy;
-extern const field_type_str_id fd_web;
-extern const field_type_str_id fd_slime;
 extern const field_type_str_id fd_acid;
-extern const field_type_str_id fd_sap;
-extern const field_type_str_id fd_sludge;
-extern const field_type_str_id fd_smoke;
-extern const field_type_str_id fd_toxic_gas;
-extern const field_type_str_id fd_tear_gas;
-extern const field_type_str_id fd_nuke_gas;
-extern const field_type_str_id fd_gas_vent;
-extern const field_type_str_id fd_fire_vent;
-extern const field_type_str_id fd_flame_burst;
-extern const field_type_str_id fd_electricity;
-extern const field_type_str_id fd_electricity_unlit;
-extern const field_type_str_id fd_fatigue;
-extern const field_type_str_id fd_push_items;
-extern const field_type_str_id fd_shock_vent;
 extern const field_type_str_id fd_acid_vent;
-extern const field_type_str_id fd_plasma;
-extern const field_type_str_id fd_laser;
-extern const field_type_str_id fd_dazzling;
-extern const field_type_str_id fd_blood_veggy;
+extern const field_type_str_id fd_bile;
+extern const field_type_str_id fd_blood;
 extern const field_type_str_id fd_blood_insect;
 extern const field_type_str_id fd_blood_invertebrate;
-extern const field_type_str_id fd_gibs_insect;
-extern const field_type_str_id fd_gibs_invertebrate;
-extern const field_type_str_id fd_bees;
-extern const field_type_str_id fd_incendiary;
-extern const field_type_str_id fd_relax_gas;
-extern const field_type_str_id fd_fungal_haze;
+extern const field_type_str_id fd_blood_veggy;
 extern const field_type_str_id fd_churned_earth;
+extern const field_type_str_id fd_construction_site;
 extern const field_type_str_id fd_cold_air2;
 extern const field_type_str_id fd_cold_air3;
 extern const field_type_str_id fd_cold_air4;
+extern const field_type_str_id fd_dazzling;
+extern const field_type_str_id fd_electricity;
+extern const field_type_str_id fd_electricity_unlit;
+extern const field_type_str_id fd_extinguisher;
+extern const field_type_str_id fd_fatigue;
+extern const field_type_str_id fd_fire;
+extern const field_type_str_id fd_fire_vent;
+extern const field_type_str_id fd_flame_burst;
+extern const field_type_str_id fd_fungal_haze;
+extern const field_type_str_id fd_fungicidal_gas;
+extern const field_type_str_id fd_gas_vent;
+extern const field_type_str_id fd_gibs_flesh;
+extern const field_type_str_id fd_gibs_insect;
+extern const field_type_str_id fd_gibs_invertebrate;
+extern const field_type_str_id fd_gibs_veggy;
 extern const field_type_str_id fd_hot_air1;
 extern const field_type_str_id fd_hot_air2;
 extern const field_type_str_id fd_hot_air3;
 extern const field_type_str_id fd_hot_air4;
-extern const field_type_str_id fd_fungicidal_gas;
+extern const field_type_str_id fd_incendiary;
 extern const field_type_str_id fd_insecticidal_gas;
+extern const field_type_str_id fd_laser;
+extern const field_type_str_id fd_last_known;
+extern const field_type_str_id fd_nuke_gas;
+extern const field_type_str_id fd_plasma;
+extern const field_type_str_id fd_push_items;
+extern const field_type_str_id fd_relax_gas;
+extern const field_type_str_id fd_sap;
+extern const field_type_str_id fd_shock_vent;
+extern const field_type_str_id fd_slime;
+extern const field_type_str_id fd_sludge;
+extern const field_type_str_id fd_smoke;
 extern const field_type_str_id fd_smoke_vent;
+extern const field_type_str_id fd_tear_gas;
 extern const field_type_str_id fd_tindalos_rift;
+extern const field_type_str_id fd_toxic_gas;
+extern const field_type_str_id fd_web;
 
 struct field_type;
 
 struct field_type {
     public:
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 
@@ -189,7 +199,7 @@ struct field_type {
         int decay_amount_factor = 0;
         int percent_spread = 0;
         int apply_slime_factor = 0;
-        int gas_absorption_factor = 0;
+        time_duration gas_absorption_factor = 0_turns;
         bool is_splattering = false;
         bool dirty_transparency_cache = false;
         bool has_fire = false;
@@ -200,12 +210,9 @@ struct field_type {
         map_bash_info bash_info;
 
         // chance, issue, duration, speech
-        std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
+        std::tuple<int, std::string, time_duration, translation> npc_complain_data;
+        field_immunity_data immunity_data;
 
-        std::vector<json_character_flag> immunity_data_flags;
-        std::vector<std::pair<body_part_type::type, int>> immunity_data_body_part_env_resistance;
-        std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags;
-        std::vector < std::pair<body_part_type::type, flag_id>> immunity_data_part_item_flags_any;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
@@ -266,6 +273,8 @@ void load( const JsonObject &jo, const std::string &src );
 void finalize_all();
 void check_consistency();
 void reset();
+
+void load_immunity( const JsonObject &jid, field_immunity_data &fd );
 
 const std::vector<field_type> &get_all();
 field_type get_field_type_by_legacy_enum( int legacy_enum_id );

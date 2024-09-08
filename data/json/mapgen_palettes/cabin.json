@@ -8,8 +8,8 @@
       "o": "t_column",
       "P": "t_water_pump",
       "R": "t_floor",
-      "r": "t_rock_floor",
-      "S": "t_rock_floor",
+      "r": "t_floor",
+      "S": "t_floor",
       "%": "t_gutter_downspout",
       "q": "t_water_sh",
       "Q": "t_water_dp",
@@ -60,7 +60,7 @@
       "-": [ [ "t_fence", 15 ], "t_region_groundcover" ],
       "w": [ [ { "param": "cabin_window_type", "fallback": "t_window_boarded" }, 6 ], "t_window_frame" ],
       "W": [ [ "t_window_boarded", 3 ], "t_window", "t_window_frame" ],
-      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 3 ], [ "t_door_b", 2 ] ],
+      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 4 ], [ "t_door_b", 2 ], [ "t_door_elocked", 2 ] ],
       "=": [ [ "t_door_c", 1 ], [ "t_door_o", 1 ], [ "t_door_b", 2 ] ]
     },
     "furniture": {
@@ -147,7 +147,7 @@
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 20 },
-        { "item": "harddrugs", "chance": 2 }
+        { "item": "harddrugs_residential", "chance": 2 }
       ],
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },

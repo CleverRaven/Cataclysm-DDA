@@ -19,11 +19,9 @@
     "id": "afs_crude_plating",
     "name": { "str": "crude plating" },
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
-    "symbol": ")",
     "looks_like": "steel_plate",
     "categories": [ "warfare" ],
     "color": "light_gray",
-    "broken_symbol": ")",
     "broken_color": "dark_gray",
     "durability": 300,
     "item": "sheet_metal",
@@ -35,24 +33,23 @@
     },
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 6 ] } ],
-    "damage_reduction": { "all": 4 }
+    "damage_reduction": { "all": 4 },
+    "variants": [ { "symbols": ")", "symbols_broken": ")" } ]
   },
   {
     "type": "vehicle_part",
     "id": "afs_control_station",
     "name": { "str": "control station" },
-    "symbol": "$",
     "looks_like": "vehicle_dashboard",
     "categories": [ "operations" ],
     "color": "red",
-    "broken_symbol": "$",
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 400,
     "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
     "bonus": 10,
     "item": "afs_control_station",
-    "epower": -125,
+    "epower": "-125 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -74,9 +71,10 @@
       { "item": "steel_chunk", "count": [ 2, 4 ] },
       { "item": "scrap", "count": [ 2, 4 ] },
       { "item": "cable", "charges": [ 5, 20 ] },
-      { "item": "RAM", "charges": [ 1, 4 ] },
-      { "item": "e_scrap", "charges": [ 3, 8 ] }
-    ]
+      { "item": "RAM", "count": [ 1, 4 ] },
+      { "item": "e_scrap", "count": [ 3, 8 ] }
+    ],
+    "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
   },
   {
     "id": "afs_mounted_external_tank",
@@ -85,18 +83,15 @@
     "type": "vehicle_part",
     "name": { "str": "mounted external tank (200L)" },
     "item": "55gal_drum",
-    "location": "center",
-    "size": 200000
+    "location": "center"
   },
   {
-    "abstract": "afs_lightweight_frame",
+    "id": "afs_lightweight_frame",
     "type": "vehicle_part",
+    "copy-from": "frame_abstract",
     "name": { "str": "ultralight frame" },
     "item": "afs_titanium_frame",
-    "location": "structure",
-    "categories": [ "hull" ],
     "color": "light_gray",
-    "symbol": "c",
     "durability": 100,
     "description": "An ultralight titanium framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
@@ -104,162 +99,19 @@
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "MOUNTABLE" ]
+    }
   },
   {
-    "id": "afs_lightweight_frame_cover",
+    "id": "afs_lightweight_foldable_frame",
+    "type": "vehicle_part",
     "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "^"
-  },
-  {
-    "id": "afs_lightweight_frame_cross",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
-  },
-  {
-    "id": "afs_lightweight_frame_horizontal",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "h"
-  },
-  {
-    "id": "afs_lightweight_frame_horizontal_2",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "="
-  },
-  {
-    "id": "afs_lightweight_frame_ne",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "u"
-  },
-  {
-    "id": "afs_lightweight_frame_nw",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "y"
-  },
-  {
-    "id": "afs_lightweight_frame_se",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "n"
-  },
-  {
-    "id": "afs_lightweight_frame_sw",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "b"
-  },
-  {
-    "id": "afs_lightweight_frame_vertical",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "j"
-  },
-  {
-    "id": "afs_lightweight_frame_vertical_2",
-    "copy-from": "afs_lightweight_frame",
-    "type": "vehicle_part",
-    "symbol": "H"
-  },
-  {
-    "abstract": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
     "name": { "str": "ultralight foldable frame" },
     "item": "afs_titanium_foldable_frame",
-    "location": "structure",
-    "categories": [ "hull" ],
-    "color": "light_gray",
     "durability": 75,
-    "symbol": "H",
     "folded_volume": "10 L",
     "folding_time": "1 minute",
     "unfolding_time": "1 minute",
-    "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
-    "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "INITIAL_PART", "MOUNTABLE" ]
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_cover",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_cover",
-    "symbol": "^"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_cross",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_cross",
-    "symbol": "c",
-    "extend": { "flags": [ "INITIAL_PART" ] }
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_horizontal",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_horizontal",
-    "symbol": "h"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_horizontal_2",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_horizontal_2",
-    "symbol": "="
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_ne",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_ne",
-    "symbol": "u"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_nw",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_nw",
-    "symbol": "y"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_se",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_se",
-    "symbol": "n"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_sw",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_sw",
-    "symbol": "b"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_vertical",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_vertical",
-    "symbol": "j"
-  },
-  {
-    "id": "afs_lightweight_foldable_frame_vertical_2",
-    "copy-from": "afs_lightweight_foldable_frame",
-    "type": "vehicle_part",
-    "looks_like": "afs_lightweight_frame_vertical_2",
-    "symbol": "H"
+    "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size."
   },
   {
     "type": "vehicle_part",
@@ -286,17 +138,57 @@
   },
   {
     "type": "vehicle_part",
+    "id": "minireactor",
+    "name": { "str": "minireactor" },
+    "categories": [ "energy" ],
+    "color": "light_green",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 580,
+    "description": "A small nuclear reactor.  When loaded with plutonium cells and turned on, will generate a lot of electrical power.",
+    "power": "100 W",
+    "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
+    "epower": "149200 W",
+    "fuel_type": "plut_cell",
+    "item": "minireactor",
+    "location": "fuel_source",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "30 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "repair_welding_alloys", 2 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "flags": [ "REACTOR" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 6, 11 ] },
+      { "item": "steel_chunk", "count": [ 6, 11 ] },
+      { "item": "scrap", "charges": [ 6, 11 ] }
+    ],
+    "damage_reduction": { "all": 50 },
+    "variants": [ { "symbols": "O", "symbols_broken": "#" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "robot_cargo",
     "name": "robot_carrier",
-    "symbol": "=",
     "categories": [ "cargo", "passengers" ],
     "color": "light_gray",
     "looks_like": "cargo_space",
-    "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying robots.  'e'xamine it to capture a robot next to you, or to release the robot currently contained.  When selecting a robot to capture, choose its tile relative to you, not the part.",
-    "size": 800,
+    "size": "200 L",
     "item": "robot_carrier",
     "location": "center",
     "requirements": {
@@ -309,24 +201,23 @@
       { "item": "steel_lump", "count": [ 6, 8 ] },
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
-    ]
+    ],
+    "variants": [ { "symbols": "=", "symbols_broken": "#" } ]
   },
   {
     "type": "vehicle_part",
     "id": "exo_gantry",
     "name": { "str": "exosuit maintenance gantry" },
-    "symbol": "T",
     "categories": [ "utility" ],
     "color": "light_gray",
-    "broken_symbol": "x",
     "broken_color": "light_gray",
-    "looks_like": "welding_rig",
+    "looks_like": "veh_tools_workshop",
     "damage_modifier": 10,
     "durability": 200,
     "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.",
-    "size": 800,
+    "size": "200 L",
     "bonus": 600,
-    "item": "afs_metal_rig",
+    "item": "veh_tools_workshop",
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -343,7 +234,17 @@
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] },
-      { "item": "welder", "charges": 0, "prob": 50 }
-    ]
+      { "item": "welder", "prob": 50 }
+    ],
+    "variants": [ { "symbols": "T", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "veh_tools_kitchen",
+    "type": "vehicle_part",
+    "copy-from": "veh_tools_kitchen",
+    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
+    "item": "veh_tools_kitchen",
+    "looks_like": "kitchen_unit",
+    "extend": { "allowed_tools": [ "afs_atompot" ] }
   }
 ]

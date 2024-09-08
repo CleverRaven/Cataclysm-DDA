@@ -2,31 +2,30 @@
   {
     "id": "mosin44",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Mosin carbine" },
-    "description": "A later produced and substantially shortened version of Imperial Russia’s original service rifle, this variant of the Mosin features a notably more compact barrel and an integral side-folding bayonet.  Produced during the latter days of the Second World War for the Soviet Union, the weapon exhibits less overall stopping power than its full-length older brother thanks to the former’s stubbier barrel.  Despite the arm being somewhat weaker than its forefather, the 7.62x54mm round that it chambers still packs a hefty punch, whilst its smaller size helps to make the weapon wieldier.",
+    "description": "A later produced and substantially shortened version of Imperial Russia's original service rifle, this variant of the Mosin features a notably more compact barrel and an integral side-folding bayonet.  Produced during the latter days of the Second World War for the Soviet Union, the weapon exhibits less overall stopping power than its full-length older brother thanks to the former's stubbier barrel.  Despite the arm being somewhat weaker than its forefather, the 7.62x54mm round that it chambers still packs a hefty punch, whilst its smaller size helps to make the weapon wieldier.",
     "weight": "4100 g",
     "volume": "2720 ml",
     "longest_side": "1015 mm",
-    "price": 23000,
-    "price_postapoc": 3000,
+    "barrel_length": "514 mm",
+    "price": "230 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mosin44",
-        "name": { "str_sp": "Mosin-Nagant M44" },
-        "description": "The Model 44 is the carbine-sized variant of the standard 1891/30.  It has a shorter barrel, making it weaker than the 1891/30, but easier to carry.  This weapon also comes with an integrated side-folding bayonet.",
-        "weight": 1
+        "name": { "str": "Mosin-Nagant M44 carbine" },
+        "description": "The Model 44 is the carbine-sized variant of the standard 1891/30.  It has a shorter barrel, making it weaker than the 1891/30, but easier to carry.  This weapon also comes with an integrated side-folding bayonet."
       },
       {
         "id": "mosin44_ebr",
-        "name": { "str_sp": "Mosin-Nagant M44-EBR" },
+        "name": { "str": "Mosin-Nagant M44-EBR carbine" },
         "description": "This carbine packs the classic Mosin-Nagant Model 44 action in a modern-day stock capable of accepting modifications."
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762R" ],
@@ -39,11 +38,11 @@
     "barrel_volume": "500 ml",
     "built_in_mods": [ "inter_bayonet" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -52,39 +51,39 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mosin91_30",
     "copy-from": "rifle_manual",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Mosin battle rifle" },
     "description": "Developed by the Russian Empire prior to the onset of the First World War, the Mosin is a bolt-action military battle rifle chambered for 7.62x54mm rounds.  Powerful, unwieldy, and prolific across the world as military surplus, this sizable rifle is a Soviet updated version of the venerable Mosin.",
     "weight": "4000 g",
     "volume": "3120 ml",
     "longest_side": "1241 mm",
-    "price": 19000,
-    "price_postapoc": 3000,
+    "barrel_length": "1232 mm",
+    "price": "190 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mosin91_30",
-        "name": { "str_sp": "Mosin-Nagant 1891/30" },
-        "description": "The Mosin-Nagant 1891/30 is a bolt-action, internal magazine-fed military rifle, developed by the Russian Empire and later used and perfected by the Soviet Union.",
-        "weight": 1
+        "name": { "str": "Mosin-Nagant 1891/30 rifle" },
+        "description": "The Mosin-Nagant 1891/30 is a bolt-action, internal magazine-fed military rifle, developed by the Russian Empire and later used and perfected by the Soviet Union."
       },
       {
         "id": "mosin91_30_ebr",
-        "name": { "str_sp": "Mosin-Nagant 1891/30-EBR" },
+        "name": { "str": "Mosin-Nagant 1891/30-EBR rifle" },
         "description": "This Mosin-Nagant has exchanged the classic wooden stock for a modern synthetic model, carefully balanced to the same weight and handling, to allow support for modern accessories."
       }
     ],
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "color": "brown",
     "ammo": [ "762R" ],
@@ -95,11 +94,11 @@
     "clip_size": 5,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -108,9 +107,57 @@
       [ "stock accessory", 2 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ],
+    "flags": [ "RELOAD_ONE", "NO_TURRET" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "id": "psl",
+    "copy-from": "rifle_semi",
+    "looks_like": "modular_ar15",
+    "//": "Mom can we have a McDragunov? Mom: we have McDragunov at home. The McDragunov at home:",
+    "type": "GUN",
+    "name": { "str": "PSL rifle" },
+    "description": "The Romanian PSL is a designated marksman's rifle developed by Romania after political tensions with Soviet Russia forced them to develop their own alternative to the SVD.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "psl",
+        "name": { "str": "Century Arms PSL 54" },
+        "description": "The PSL is a semi-automatic rifle chambered in 7.62x54mmR, created by Romania due to uneasy tensions arising between the USSR and Romania, which put pressure on Romania to manufacture their own firearms.  While it looks much like a Soviet SVD, mechanically it's akin to a scaled up AK-47.  This one has been imported from Romania by Century Arms."
+      }
+    ],
+    "weight": "4100 g",
+    "volume": "7339 ml",
+    "longest_side": "1150 mm",
+    "barrel_length": "620 mm",
+    "price": "2 kUSD 900 USD",
+    "price_postapoc": "40 USD",
+    "to_hit": -1,
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "762R" ],
+    "dispersion": 150,
+    "durability": 9,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "bayonet lug", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "default_mods": [ "sights_mount" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pslmag5", "pslmag10" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

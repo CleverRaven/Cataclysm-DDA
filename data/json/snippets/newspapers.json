@@ -12,10 +12,6 @@
         "text": "CELEBRATED PHYSICIST GOES MISSING.  Dr. Amy Takatoshi, a celebrated quantum physicist at MIT dubbed by some as \"the next Hawking\" has gone missing shortly before a press conference that was expected to be the announcement of her newest research results, rumored to be in the field of teleportation."
       },
       {
-        "id": "many_years_old_news_3",
-        "text": "FACIAL RECOGNITION ROLLS OUT.  Commissioner McConnaugh of the NYPD announced at a press conference today that a new wave of facial recognition drones would be employed by police services.  \"These new guys, we're calling them 'eyebots', they can move where stationary cameras can't, and can identify known troublemakers.  They lead to a much lower rate of false alarms, and a much higher rate of successful convictions without an increase in wrongful arrest.  I know there have been concerns, but overall these little guys make us all safer, not just from criminals but from human error as well.\""
-      },
-      {
         "id": "many_years_old_news_4",
         "text": "EDITORIAL: THE UN SHOULD PUT ON ITS BIG-BOY PANTS.  So, driven by decreasing regulation of radioactive materials in the US and China, the UN is pushing hard again for nuclear disarmament.  What a tired old litany this has become.  With deregulation, we've been able to slate three new green nuclear reactors in the Eastern US alone, bringing greenhouse-gas free power to millions of people.  Whatever happened to the UN's focus on global warming?  This is a classic situation of the world painting the USA as villains no matter what we do."
       },
@@ -53,7 +49,7 @@
       },
       {
         "id": "many_years_old_news_13",
-        "text": "STILL SEARCHING: The search for Brett Dong, the high school student who went missing three days ago, is still ongoing.  \"He could have played in the soccer game against Weston High School yesterday,\" Brett's sorrowful teammate said, \"[..] we've never stopped praying.\"  Despite the best efforts of the County Search & Rescue, Brett had still not been located at the time of this report."
+        "text": "STILL SEARCHING: The search for Brett Dong, the high school student who went missing three days ago, is still ongoing.  \"He could have played in the soccer game against Weston High School yesterday,\" Brett's sorrowful teammate said, \"[…] we've never stopped praying.\"  Despite the best efforts of the County Search & Rescue, Brett had still not been located at the time of this report."
       },
       {
         "id": "many_years_old_news_14",
@@ -84,6 +80,13 @@
           "str": "THE FACE BEHIND THE 'UNCANNY' MASK.  Everyone knows about James Hawthorne, projected to become America's newest and fastest rising billionaire by next month as stock value in his tech startup, Uncanny, grows at unprecedented speeds.  We decided to explore the names behind the rise you might not have heard.  Dr. Marc Silverstein, an MIT-trained researcher formerly involved with Leapfrog Industries, has been along for the ride the whole time, and has come out nearly as wealthy as Hawthorne himself.  Though impressively reclusive, we managed to snag some pretty interesting information about Dr. S.  Could he be the real mind behind the rise?  How much does James depend on his right-hand scientist?  Details on page 12.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "many_years_old_news_20",
+        "text": {
+          "str": "FORMER RCI DIVISION PURCHASED BY FOREIGN INVESTORS.  A former division of Rivet and Crimp Industries, a major subcontractor for national defense manufacturers, has recently been purchased by Taiwanese American tech billionaire Henry Gau.  CEO of Formosa OptoTech, Gau is known for his close relationship with Chinese suppliers and manufacturers. Branding the company Rivtech, the company will focus on competing in the US Next Generation Squad Weapons trial.  Rivet and Crimp Industries's former weapons manufactory division is previously known for manufacturing a pump-action grenade launcher entrant in the M32 Multiple Grenade Launcher Trial, embroiling RCI and tech partner Javelin Systems in a bitter, expensive legal battle.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   },
@@ -104,22 +107,6 @@
         "text": "DRIVING ON A WING AND A PRAYER: A New England man has proven it is possible to create a new car from scrap parts using almost nothing but duct tape.  When asked why he had done it, his answer was \"Well, I didn't have a welder.\""
       },
       {
-        "id": "years_old_news_4",
-        "text": "EYEBOTS SEE WIDESPREAD USE.  A recent survey of police departments in the Eastern US found that over 85% of police stations, even in small towns, now contain at least one flight of facial recognition drones.  \"They're awesome,\" Sheriff Mark Louis told a reporter from his office in Pontstown, Vermont.  \"We've got a flight of four eyebots on a solar dock on the roof.  They take hardly any maintenance, they respond to any suspicious business downtown, and they don't hurt anyone.  If it's just a minor scuffle they grab some photos and help keep things from escalating.  If it's a bigger deal, or if it's someone they know is trouble, they call us in right away.  They save us a lot of false alarms: if we get an eyebot call-in we know it's a big deal.\""
-      },
-      {
-        "id": "years_old_news_6",
-        "text": "MEET THE SOLDIER OF THE FUTURE.  [Photograph: Colonel Andrea Sylver poses in her powered combat exoskeleton.]  The new wave of military exoskeleton, or 'power armor', has been unveiled to the public after extensive testing on battlefields in Afghanistan and in police actions in South America and Indonesia.  \"These suits are like being a real-life super hero,\" Colonel Sylver announced to a gathered press.  \"I'm immune to all but the heaviest weapons, but just as mobile and light as any infantry soldier.  With an attached hauling rig, I can carry as much as a civilian cargo exoskeleton.  I'm basically a bulletproof forklift in a human-sized package.\"  We attempted to inquire about rumors of bionic-enhanced supersoldiers deploying alongside the new power armor, but Colonel Sylver declined to answer those questions."
-      },
-      {
-        "id": "years_old_news_8",
-        "text": "EDITORIAL: EYEBOTS ARE GOOD FOR US.  The controversy around increasing eyebot use by police forces has everyone worried, and I was on board for a long time.  Facial recognition databases under government control are something we should be worried about!  Then, my daughter was accosted on her way home from dance class.  Long before any police officer could have arrived, an eyebot had snagged video of her attackers and reported them to Central.  That, alone, probably saved her life: just knowing they'd been tagged sent the criminals packing before any real damage was done, and the information allowed us to press charges on a crime that would have gone unreported before.  All safety must come at a cost, and I'll gladly pay my privacy if it's the cost to keep my family safe."
-      },
-      {
-        "id": "years_old_news_9",
-        "text": "EDITORIAL: EYEBOTS REPRESENT A CONCERNING TREND.  There it is, as it always is: the endless buzz of eyebots cruising the streets, hunting for wrongdoing.  I've written many an article on these things, and read many more.  I've spoken to experts.  When we get to the bottom of it, there's a key disturbing truth to these ubiquitous robots… no one knows how they work.  The artificial intelligence used in the little drones is more than just facial recognition, it's also threat processing and decision making, and at its very heart is a new-wave deep learning AI that is, essentially, a wild card.  Without knowing how these things learn and make decisions, I don't think we can trust them in public, let alone handling our safety.  That's not even considering the dangers of letting them have access to our faces and criminal records."
-      },
-      {
         "id": "years_old_news_10",
         "text": "TECHWORLD NEWS: Toy company at the origin of the successful talking doll rebrands and becomes Uncanny.  A spokesperson from the newly formed Uncanny told the press, \"We think we can do more than just entertain.  We have new plans, big plans, plans that will shape the very fabric of reality!\"  Unconfirmed rumors suggest that Uncanny has already received large orders from the government."
       },
@@ -127,6 +114,12 @@
         "id": "years_old_news_11",
         "text": {
           "str": "THE 'UNCANNY' SUCCESS STORY.  Everyone's talking about the meteoric rise of tech startup \"Uncanny\" over the last few months.  From zero to household name, the company leapt to the public eye with its, well, uncanny line of talking toys.  Before we even knew what to expect, they were Wall Street's new darling, with the fastest rise in manufacturing capacity of any company in the last thirty years.  We spoke to James Hawthorne, America's newest billionaire and the man behind the name on everyone's lips.  Interview on page 3."
+        }
+      },
+      {
+        "id": "years_old_news_12",
+        "text": {
+          "str": "SOYPELUSA SUITS FIND NEW AMMO:  Following the infamous disaster of the DaiZoom product launch and the numerous lawsuits that sprung from its failure, research from Harvard's Cognitive Neuropsychology labs has brought new evidence in the ongoing litigation against the company.  We spoke with lead researcher Doctor Soren Eldridge who had this to say: \"The DaiZoom bar, beyond its notoriously bad taste, appears to cause in its consumers symptoms similar to those of a major depressive disorder.  There is an actual tangible impact on mood that lasts well beyond the initial consumption of even just a few bars in a short span of time - we suspect DaiZoom may actually be chemically inhibiting dopamine receptors.  This is unprecedented, and quite exciting, given that it consists entirely of otherwise biochemically bland ingredients.\"  Doctor Eldridge stated that further research would be needed to determine the full extent of the issue and whether consumption of DaiZoom had long-term health effects similar to existing dopamine blocking drugs, and if there is any role for it as a medical therapy in the future.  The full interview can be found on page 7."
         }
       }
     ]
@@ -193,7 +186,7 @@
       },
       {
         "id": "one_year_old_news_16",
-        "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
+        "text": "MAN EATING FLOWERS?  Italian biologist Dr. Flavio Bianchi responded to an ethics board denial of his work with an unusual announcement last Tuesday.  \"I do not need your permission to do my work,\" stated Dr. Bianchi in a letter to the University of Milan.  \"I will do my research in private, and when I am done, you will rue the day you defied me.\"  Dr. Bianchi's work?  Engineering Venus fly traps large enough to keep the local stray cat population at bay.  His tenure with the university is reported to have been suspended."
       },
       {
         "id": "one_year_old_news_17",
@@ -259,7 +252,7 @@
       },
       {
         "id": "months_old_news_10",
-        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMATIC DOES NOT WEAR ANY CLOTHES.  NOURISHMATIC IS SOFTWARE.  NOURISHMATIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
+        "text": "FOODPLACE PANTS FEUD.  An ongoing legal battle between popular fast food megalith Foodplace and the non-profit Concerned Consumers of Foodpeople has ended with the determination that the Foodperson costume will remain a gender-neutral, nonrevealing unitard.  \"Superheroes are meant to have exaggerated anatomy and revealing costumes,\" a spokesperson from CCF said in a press release.  \"This is a sad day not just for fans of Foodplace, but for consumers of the fast-food superhero genre overall.\"  A spokesperson from rival food company NourishMart sent out a press release just minutes after the ruling: \"NOURISHMART INFORMS THE PUBLIC THAT NOURISHMARTIC DOES NOT WEAR ANY CLOTHES.  NOURISHMARTIC IS SOFTWARE.  NOURISHMARTIC CAN PRESENT AN AVATAR OF WHATEVER APPEALING MEAT-FORM IS DESIRED BY THE PUBLIC.  EAT AT NOURISHMART.  OUR PRODUCTS CONTAIN A MIX OF FAT, SALT, AND PROTEIN THAT IS HIGHLY DESIRABLE TO HUMAN PALATES.\""
       },
       {
         "id": "months_old_news_11",
@@ -310,6 +303,7 @@
   {
     "type": "snippet",
     "category": "weeks_old_news",
+    "//": "Around the start of April",
     "text": [
       {
         "id": "weeks_old_news_1",
@@ -345,10 +339,6 @@
       },
       {
         "id": "weeks_old_news_9",
-        "text": "HELL ON EARTH?  Boston has been quarantined.  Prior to its complete lockdown, our journalists received a concerning email from a colleague within the city, describing horrendous and inhuman monsters walking the streets amidst the rioters.  \"I don't know who started it, but we call it Hastur.  After the horror novel.  The rioters fall in line behind it like soldiers, living and dead.  Yeah, some of them are dead.  They're lying to us, they've all been lying to us.\"  Our editor-in-chief demanded we keep this article from you.  He has been deposed.  Rise up against the lies."
-      },
-      {
-        "id": "weeks_old_news_10",
         "text": "YOUR BUG-OUT BAG.  In this issue we focus on tips and tricks to packing your bug-out bag.  Whether you're near an urban center or in a small town, if you don't already have an emergency kit, you need one while supplies are still available.  Don't be the one person caught without a lighter when you need a fire!"
       },
       {
@@ -386,12 +376,21 @@
       {
         "id": "weeks_old_news_19",
         "text": "UNCANNY VALLEY.  Faced with accusations of malfeasance in his AI designs, James Hawthorne appears to have *disappeared*.  Hawthorne could not be reached for comment by any major news centers, as questions and even lawsuits about dangerous flaws in his widespread law enforcement AI packages rise."
+      },
+      {
+        "id": "weeks_old_news_20",
+        "text": "ISS MUTINIES, ABANDONS STATION.  Making their demands known through amateur radio communications, all astronauts and cosmonauts aboard the International Space Station have demanded that NASA and ROSCOSMOS allow them to rejoin their families amidst the recent riots and instability.  Claims have been made that the agencies have shut them out of most controls aboard the station, endangering the lives of all aboard when they were unable to respond to a near-miss with orbital debris.  NASA officials have continued to make no public statements regarding the demands, or the unconfirmed reports that the docked spacecraft have been launched, *without* aid from ground control."
+      },
+      {
+        "id": "weeks_old_news_21",
+        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
       }
     ]
   },
   {
     "type": "snippet",
     "category": "newest_news",
+    "//": "Around April 15/16",
     "text": [
       {
         "id": "newest_news_1",
@@ -411,7 +410,7 @@
       },
       {
         "id": "newest_news_5",
-        "text": "RHODE ISLAND DECLARES SECESSION!  In the midst of a nation-wide disaster, the governor of Rhode Island has declared unilateral secession and war with the government of the US.  \"My loyal Rhodians are withdrawing to Aquidneck and Conanicut Islands,\" said governor Alex Ackerwith in a public announcement this morning.  \"The US government has failed us.  Any attempt by the US to intervene in our affairs will result in military action from the Narragansett Government.  Frankly, I don't think they can get their shit together enough to challenge us.\""
+        "text": "HELL ON EARTH?  Boston has been quarantined.  Prior to its complete lockdown, our journalists received a concerning email from a colleague within the city, describing horrendous and inhuman monsters walking the streets amidst the rioters.  \"I don't know who started it, but we call it Hastur.  After the horror novel.  The rioters fall in line behind it like soldiers, living and dead.  Yeah, some of them are dead.  They're lying to us, they've all been lying to us.\"  Our editor-in-chief demanded we keep this article from you.  He has been deposed.  Rise up against the lies."
       },
       {
         "id": "newest_news_6",

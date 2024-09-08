@@ -3,64 +3,53 @@
     "id": "camera",
     "type": "TOOL",
     "name": { "str": "camera" },
-    "description": "A point-and-shoot digital camera, with digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
+    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.",
     "weight": "907 g",
     "volume": "250 ml",
-    "price": 20000,
-    "price_postapoc": 50,
-    "bashing": 1,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "charges_per_use": 5,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "charges_per_use": 1,
     "use_action": [ "CAMERA" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
-      }
-    ]
+    "//": "swappable, but proprietary 80g Li-Ion battery",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "camera_pro",
     "type": "TOOL",
     "name": { "str": "professional camera" },
-    "description": "A 35mm digital SLR (single-lens reflex) camera, with optical and digital viewfinders, zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
+    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.",
     "weight": "2268 g",
     "volume": "1250 ml",
-    "price": 800000,
-    "price_postapoc": 100,
-    "bashing": 1,
+    "price": "8 kUSD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CAMERA" ],
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
-      }
-    ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "CAMERA_PRO", "ALWAYS_TWOHAND", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "//": "swappable, but proprietary 160g Li-Ion battery",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "cell_phone",
     "type": "TOOL",
     "name": { "str": "cellphone" },
-    "description": "This is a cellphone, an older cousin of a smartphone but still popular in certain circles due to its reliability, sturdiness and the ability to run on common batteries.  Using this cellphone will turn it on and provide light, assuming it is sufficiently charged.  It also has a clock app that includes an alarm.",
-    "weight": "200 g",
-    "volume": "150 ml",
-    "material": [ { "type": "aluminum", "portion": 25 }, { "type": "plastic" } ],
-    "price": 9000,
-    "price_postapoc": 100,
+    "description": "A cellphone, an older cousin of the smartphone that is still popular in certain circles due to its reliability and sturdiness.  Using the phone will turn it on and provide light, assuming it is sufficiently charged.  It also tells the time and has an alarm feature.",
+    "//": "Nokia 105 4G, 26g Li-Ion battery",
+    "weight": "95 g",
+    "volume": "88 ml",
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
+    "price": "90 USD",
+    "price_postapoc": "15 cent",
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
@@ -73,42 +62,35 @@
       "need_charges_msg": "The cellphone's batteries need more charge.",
       "type": "transform"
     },
-    "flags": [ "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
-      }
-    ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "ALARMCLOCK", "WATER_BREAK", "ELECTRONIC" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 17 } } ]
   },
   {
     "id": "cell_phone_flashlight",
     "copy-from": "cell_phone",
     "type": "TOOL",
     "name": { "str": "cellphone - Flashlight", "str_pl": "cellphones - Flashlight" },
-    "power_draw": "500 mJ",
+    "power_draw": "500 mW",
     "revert_to": "cell_phone",
     "use_action": {
       "ammo_scale": 0,
       "target": "cell_phone",
-      "msg": "You stop lighting up the screen.",
+      "msg": "You turn off the screen.",
       "menu_text": "Turn off",
       "type": "transform"
     },
-    "flags": [ "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_8", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "directional_antenna",
     "type": "TOOL",
     "name": { "str": "directional antenna" },
-    "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
+    "description": "An antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
     "weight": "454 g",
     "volume": "500 ml",
     "longest_side": "60 cm",
-    "price": 800,
-    "price_postapoc": 250,
+    "price": "8 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": 1,
     "material": [ "copper", "wood" ],
     "symbol": ",",
@@ -122,31 +104,33 @@
     "description": "A pair of electronic handcuffs, used by police and riot bots to detain captives.  Their continuous siren clearly identifies the wearer as an arrested criminal and alerts human police.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since the only police likely to respond are undead, you may have a long wait ahead, unless you get creative…",
     "weight": "2000 g",
     "volume": "500 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -8,
-    "cutting": 1,
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "white",
     "max_charges": 3000,
     "turns_per_charge": 1,
     "use_action": [ "EHANDCUFFS" ],
+    "tick_action": [ "EHANDCUFFS_TICK" ],
     "//": "Don't add ELECTRONIC flag here, since these handcuffs have their own behavior when affected by EMP blast",
-    "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID", "WATER_BREAK" ]
+    "flags": [ "ALWAYS_TWOHAND", "TRADER_AVOID", "WATER_BREAK" ],
+    "melee_damage": { "cut": 1 }
   },
   {
     "id": "eink_tablet_pc",
     "type": "TOOL",
     "name": { "str": "e-ink tablet PC" },
     "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
-    "weight": "250 g",
-    "volume": "250 ml",
-    "longest_side": "25 cm",
-    "price": 20000,
-    "price_postapoc": 100,
-    "to_hit": -1,
-    "material": [ "plastic" ],
+    "//": "amazon kindle, LIONX 6300mAh battery 42 ml",
+    "weight": "158 g",
+    "volume": "137 ml",
+    "longest_side": "158 mm",
+    "price": "85 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "neutral" },
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
@@ -154,7 +138,6 @@
     "use_action": [
       "EINKTABLETPC",
       "ELECTRICSTORAGE",
-      "EBOOKSAVE",
       "EBOOKREAD",
       {
         "type": "transform",
@@ -164,16 +147,12 @@
         "active": true,
         "need_charges": 1,
         "need_charges_msg": "The tablet batteries are dead."
-      }
-    ],
-    "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
       },
+      { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 85 } },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
@@ -188,12 +167,11 @@
     "id": "eink_tablet_pc_on",
     "copy-from": "eink_tablet_pc",
     "name": { "str": "e-ink tablet PC (on)", "str_pl": "e-ink tablet PCs (on)" },
-    "power_draw": "2 J",
+    "power_draw": "2 W",
     "revert_to": "eink_tablet_pc",
     "use_action": [
       "EINKTABLETPC",
       "ELECTRICSTORAGE",
-      "EBOOKSAVE",
       "EBOOKREAD",
       {
         "ammo_scale": 0,
@@ -201,23 +179,25 @@
         "menu_text": "Turn off the screen",
         "msg": "You power down the screen.",
         "target": "eink_tablet_pc"
-      }
+      },
+      { "type": "link_up", "cable_length": 4, "charge_rate": "10 W" }
     ],
+    "tick_action": [ "EPIC_MUSIC" ],
     "//": "LIGHT_10 is the bare minimum for reading without penalties",
-    "flags": [ "LIGHT_10", "TRADER_AVOID", "WATCH", "WATER_BREAK", "ELECTRONIC" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "LIGHT_10", "TRADER_AVOID", "WATCH", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "electrohack",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "electrohack" },
-    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.  It requires 25 charges of battery power per use.",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.",
+    "//": "hackrf one, + 300 ml for cables and antenna + slot for battery because real hackrf works from usb, not something we can emulate here",
     "weight": "114 g",
-    "volume": "500 ml",
-    "price": 40000,
-    "price_postapoc": 500,
-    "to_hit": 1,
-    "bashing": 5,
+    "volume": "478 ml",
+    "price": "340 USD",
+    "price_postapoc": "2 USD",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "plastic", "aluminum" ],
     "ascii_picture": "electrohack",
     "symbol": ",",
@@ -228,21 +208,24 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 5 },
+    "charges_per_use": 1,
+    "qualities": [ [ "HACK", 2 ] ]
   },
   {
     "id": "geiger_off",
     "type": "TOOL",
     "name": { "str": "geiger counter (off)", "str_pl": "geiger counters (off)" },
-    "description": "This is a tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn it on, which will provide continuous feedback on ambient radiation.  It is currently off.",
-    "weight": "225 g",
-    "volume": "500 ml",
-    "price": 15000,
-    "price_postapoc": 1000,
-    "bashing": 2,
+    "description": "A tool for measuring radiation.  Using it will prompt you to choose whether to scan yourself or the terrain, or to turn on continuous scan, which will provide continuous feedback on ambient radiation.  It is currently off.",
+    "//": "https://www.amazon.com/dp/B0B541D433 but AA instead of 14500",
+    "weight": "231 g",
+    "volume": "161 ml",
+    "price": "68 USD",
+    "price_postapoc": "20 cent",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "green",
@@ -254,32 +237,59 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "geiger_on",
     "copy-from": "geiger_off",
     "type": "TOOL",
     "name": { "str": "geiger counter (on)", "str_pl": "geiger counters (on)" },
-    "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
-    "power_draw": "200 mJ",
+    "description": "A tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.",
+    "power_draw": "200 mW",
     "revert_to": "geiger_off",
-    "use_action": [ "GEIGER" ],
+    "use_action": {
+      "target": "geiger_off",
+      "msg": "The geiger counter's SCANNING LED turns off.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "tick_action": [ "GEIGER_ACTIVE" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
+  },
+  {
+    "id": "resonance_measurement_device",
+    "type": "TOOL",
+    "name": { "str": "Otherworldy measuring device" },
+    "description": "This strange contraption appears to be little more than a laminated box built around a battery, a poorly backlit screen, and a wound spool of cloth netting.  The letters \"X E D R A\" are emblazoned on the side.  To operate the device, unfurl the netting and place it around the object to analyze.  Despite not appearing to do anything, it consumes an enormous amount of electricity and provides a brief numerical readout.",
+    "weight": "600 g",
+    "volume": "900 ml",
+    "price": "1500000 USD",
+    "price_postapoc": "15 USD",
+    "material": [ "plastic", "aluminum", "cotton" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
+    "charges_per_use": 2400,
+    "use_action": [ "MEASURE_RESONANCE" ],
+    "//": "Battery only, intentionally. Meant for field expeditions to other dimensions where grid power is unavailable. Too advanced for the player to make grid-useable.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "nre_recorder",
     "type": "TOOL",
     "name": { "str": "NRE recorder" },
-    "description": "A strange apparatus, seemingly consisting of a glass encased microphone linked to a small thermal printer and digital screen.  The screen remains perpetually blank, save for a battery indicator on its upper right, and on its left side lies a single red button: \"PRINT DATA\".",
+    "description": "A strange apparatus, seemingly consisting of a glass-encased microphone linked to a small thermal printer and digital screen.  The screen remains perpetually blank, save for a battery indicator on its upper right, and on its left side lies a single red button: \"PRINT DATA\".",
     "weight": "225 g",
     "volume": "2735 ml",
-    "price": 15000,
-    "price_postapoc": 100,
-    "bashing": 2,
+    "price": "150 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "red",
@@ -289,27 +299,28 @@
     "use_action": {
       "type": "effect_on_conditions",
       "description": "Activate the recorder's printer",
-      "effect_on_conditions": [ "print_portal_storm_data" ]
+      "effect_on_conditions": [ "print_nre_data" ]
     },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "hand_crank_charger",
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "hand-crank charger" },
-    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
+    "description": "A hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
     "weight": "2000 g",
     "volume": "500 ml",
-    "price": 1000,
-    "price_postapoc": 250,
+    "price": "10 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_gray",
@@ -320,7 +331,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
     ]
@@ -330,23 +341,30 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "laptop computer" },
-    "description": "A laptop computer with replaceable batteries.",
+    "description": "A portable computer, ubiquitous tool both before and after the cataclysm.  While it is little you can do with it nowadays, mostly from lack of internet, you still can load it with books (or even scan using frontal camera)",
+    "//": "https://www.amazon.com/dp/B0D6Z664QC, battery is FRANGWAT01",
     "symbol": ",",
     "color": "dark_gray",
-    "material": [ "plastic", "aluminum" ],
-    "weight": "2721 g",
-    "volume": "2500 ml",
-    "longest_side": "40 cm",
-    "price": 75000,
-    "price_postapoc": 250,
-    "bashing": 6,
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
+    "weight": "1319 g",
+    "volume": "703 ml",
+    "longest_side": "322 mm",
+    "price": "1049 USD",
+    "price_postapoc": "2 USD 50 cent",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [
       "EINKTABLETPC",
+      "EBOOKSAVE",
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this laptop.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
       {
         "target": "laptop_screen_lit",
         "msg": "You light up the screen.",
@@ -355,16 +373,12 @@
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
-      }
-    ],
-    "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
       },
+      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
+    ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 200 } },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
@@ -372,55 +386,60 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "laptop_screen_lit",
     "copy-from": "laptop",
     "type": "TOOL",
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
-    "power_draw": "1 J",
+    "power_draw": "1 W",
     "revert_to": "laptop",
     "use_action": [
       "EINKTABLETPC",
+      "EBOOKSAVE",
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this laptop.",
+        "//need_charges_msg": "The laptop's batteries need more charge.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
       {
         "ammo_scale": 0,
         "target": "laptop",
         "msg": "You stop lighting up the screen.",
         "menu_text": "Turn off",
         "type": "transform"
-      }
+      },
+      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
     ],
-    "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "tick_action": [ "EPIC_MUSIC" ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mp3",
     "type": "TOOL",
     "name": { "str": "mp3 player (off)", "str_pl": "mp3 players (off)" },
     "description": "This battery-powered device is loaded up with someone's music collection.  Fortunately, there's lots of songs you like, and listening to it will raise your morale slightly.  Use it to turn it on.",
-    "weight": "140 g",
-    "volume": "75 ml",
-    "price": 3000,
-    "price_postapoc": 100,
-    "material": [ { "type": "aluminum", "portion": 25 }, { "type": "plastic" } ],
+    "//": "Sony NWE394 Walkman",
+    "weight": "40 g",
+    "volume": "36 ml",
+    "price": "40 USD",
+    "price_postapoc": "2 cent",
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "use_action": [ "MP3" ],
+    "use_action": [ "MP3", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
     "charges_per_use": 1,
-    "flags": [ "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK_ACTIVE", "ELECTRONIC" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ]
   },
   {
     "id": "mp3_on",
@@ -428,124 +447,148 @@
     "type": "TOOL",
     "name": { "str": "mp3 player (on)", "str_pl": "mp3 players (on)" },
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "power_draw": "1 J",
+    "power_draw": "1 W",
     "revert_to": "mp3",
-    "use_action": [ "MP3_ON" ],
-    "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
+    "tick_action": [ "MP3_ON" ],
+    "use_action": [ "MP3_DEACTIVATE", { "type": "link_up", "cable_length": 2, "charge_rate": "5 W" } ],
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "noise_emitter",
     "type": "TOOL",
     "name": { "str": "noise emitter (off)", "str_pl": "noise emitters (off)" },
-    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract zombies.",
+    "description": "A device constructed by 'enhancing' a speaker with some amplifier circuits.  It has no other use besides emitting loud crackling static noise that could distract zombies.",
     "weight": "340 g",
     "volume": "1 L",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
     "to_hit": -1,
-    "bashing": 6,
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [ "NOISE_EMITTER_OFF" ],
+    "use_action": {
+      "target": "noise_emitter_on",
+      "msg": "You turn the noise emitter on.",
+      "menu_text": "Turn on",
+      "active": true,
+      "type": "transform"
+    },
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_HEAVY", "BATTERY_MEDIUM", "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "noise_emitter_on",
     "copy-from": "noise_emitter",
     "type": "TOOL",
     "name": { "str": "noise emitter (on)", "str_pl": "noise emitters (on)" },
-    "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "power_draw": "10 J",
+    "description": "A homemade device that is emitting horrible crackles, pops, and other loud static sounds.  Quick, get away from it before it draws zombies to you!",
+    "power_draw": "10 W",
     "revert_to": "noise_emitter",
-    "use_action": [ "NOISE_EMITTER_ON" ],
+    "use_action": {
+      "target": "noise_emitter",
+      "msg": "The infernal racket dies as the noise emitter turns off.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "active": false,
+      "type": "transform"
+    },
+    "tick_action": [ "NOISE_EMITTER_ON" ],
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "emf_detector",
-    "//": "Based off the TRIFIELD EMF Meter Model TF2",
+    "//": "Based off the TRIFIELD EMF Meter Model TF2.  Supposed to use 9volt, but uses medium battery instead",
     "type": "TOOL",
     "name": { "str": "EMF detector (off)", "str_pl": "EMF detectors (off)" },
     "description": "This device detects and reads out different electromagnetic wave lengths.  It beeps with proximity and is sensitive enough you could use it to get a sense of direction.",
     "weight": "240 g",
     "volume": "355 ml",
-    "price": 0,
-    "price_postapoc": 50,
-    "to_hit": -1,
-    "bashing": 6,
+    "price": "0 cent",
+    "price_postapoc": "50 cent",
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [ "EMF_PASSIVE_OFF" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the EMF detector on.",
+      "target": "emf_detector_on",
+      "active": true,
+      "need_charges_msg": "It's dead."
+    },
     "flags": [ "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "emf_detector_on",
     "copy-from": "emf_detector",
     "type": "TOOL",
     "name": { "str": "EMF detector (on)", "str_pl": "EMF detectors (on)" },
-    "description": "This device detects and reads out different wave lengths.  It currently is humming and beeps with proximity.  It is sensitive enough you could use it to get a sense of direction.",
+    "description": "This device detects and reads out different wave lengths.  It is currently on, humming and beeping with proximity.  It is sensitive enough you could use it to get a sense of direction.",
     "//": "lasts 12 hours with backlight off",
-    "power_draw": "6 J",
+    "power_draw": "1 W",
     "revert_to": "emf_detector",
-    "use_action": [ "EMF_PASSIVE_ON" ],
+    "use_action": {
+      "type": "transform",
+      "target": "emf_detector",
+      "msg": "The noise of your EMF detector slows to a halt.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off"
+    },
+    "tick_action": [ "EMF_PASSIVE_ON" ],
     "flags": [ "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
   {
     "id": "portable_game",
     "type": "TOOL",
     "name": { "str": "handheld game system" },
-    "description": "This is a portable games console in working condition, with a backlit screen allowing you to play in the dark.  You can use it to play it for a little while, but this requires batteries.  Multiple game systems can be linked together for multiplayer games.",
-    "weight": "200 g",
-    "volume": "230 ml",
-    "price": 12000,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
+    "description": "A portable video game console, with a backlit screen allowing you to play in the dark.  You can use it to play a game, but this requires batteries.  Multiple game systems can be linked together for multiplayer games.",
+    "//": "Nintendo Switch",
+    "weight": "362 g",
+    "volume": "341 ml",
+    "price": "292 USD",
+    "price_postapoc": "3 cent",
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "use_action": [ "PORTABLE_GAME" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
-      }
-    ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ],
+    "use_action": [ "PORTABLE_GAME", { "type": "link_up", "cable_length": 4, "charge_rate": "39 W" } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 48 } } ]
   },
   {
     "id": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone" },
     "description": "A popular, fancy smartphone.  Capable of taking photos with its integrated camera and illuminating an area with its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm and an app for tracking consumed calories.  Runs on a small, rechargeable power cell compatible with a Unified Power Supply.",
-    "weight": "200 g",
-    "volume": "100 ml",
-    "price": 20000,
-    "price_postapoc": 200,
-    "material": [ { "type": "aluminum", "portion": 25 }, { "type": "plastic" } ],
+    "//": "stats from samsung galaxy s24",
+    "weight": "233 g",
+    "volume": "111 ml",
+    "longest_side": "15 cm",
+    "price": "1299 USD",
+    "price_postapoc": "2 USD",
+    "material": [ { "type": "aluminum", "portion": 75 }, { "type": "plastic", "portion": 25 } ],
     "looks_like": "cell_phone",
     "symbol": ";",
     "color": "light_gray",
@@ -561,18 +604,25 @@
       "EBOOKSAVE",
       "EBOOKREAD",
       {
+        "type": "effect_on_conditions",
+        "menu_text": "Check the system",
+        "description": "Check another applications and files.",
+        "effect_on_conditions": [ "EOC_SMARTPHONE_EOCS" ]
+      },
+      {
         "target": "smart_phone_flashlight",
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
         "active": true,
-        "need_charges": 5,
+        "need_charges": 1,
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
-      }
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "CALORIES_INTAKE", "ELECTRONIC" ],
     "pocket_data": [
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } },
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 56 } },
       {
         "pocket_type": "EBOOK",
         "rigid": true,
@@ -588,9 +638,17 @@
     "type": "TOOL",
     "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
-    "power_draw": "300 mJ",
+    "power_draw": "300 mW",
     "revert_to": "smart_phone",
-    "use_action": [ "MP3_ON", "PORTABLE_GAME", "EINKTABLETPC", "EBOOKSAVE", "EBOOKREAD" ],
+    "use_action": [
+      "MP3_DEACTIVATE",
+      "PORTABLE_GAME",
+      "EINKTABLETPC",
+      "EBOOKSAVE",
+      "EBOOKREAD",
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
+    ],
+    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID" ] }
   },
   {
@@ -598,7 +656,7 @@
     "copy-from": "smart_phone",
     "type": "TOOL",
     "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
-    "power_draw": "1500 mJ",
+    "power_draw": "1500 mW",
     "revert_to": "smart_phone",
     "use_action": [
       "PORTABLE_GAME",
@@ -606,12 +664,20 @@
       "EBOOKSAVE",
       "EBOOKREAD",
       {
+        "type": "effect_on_conditions",
+        "menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this smartphone.",
+        "//need_charges_msg": "The smartphone's charge is too low.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
+      {
         "ammo_scale": 0,
         "target": "smart_phone",
         "msg": "You deactivate the flashlight app.",
         "menu_text": "Turn off flashlight",
         "type": "transform"
-      }
+      },
+      { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" }
     ],
     "extend": { "flags": [ "LIGHT_20", "CHARGEDIM", "TRADER_AVOID" ] }
   },
@@ -619,13 +685,12 @@
     "id": "UPS_off",
     "type": "TOOL",
     "name": { "str": "UPS", "str_pl": "UPSes" },
-    "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power bionics, armor and some guns, but drains batteries quickly.",
+    "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power tools, smartphones, armor, and some guns, but drains batteries quickly.",
     "weight": "680 g",
     "volume": "2500 ml",
-    "price": 280000,
-    "price_postapoc": 1500,
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -637,18 +702,86 @@
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "UPS_ON",
+    "type": "TOOL",
+    "name": { "str": "UPS (on)", "str_pl": "UPSes (on)" },
+    "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power tools, smartphones, armor, and some guns, but drains batteries quickly.",
+    "//": "Intended as an inverter that attaches to a battery, therefore it's volume will expand based on the size of battery attached.",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "15 USD",
+    "to_hit": -1,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "flags": [ "IS_UPS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "UPS_OFF",
+      "msg": "The charger is turned off.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "UPS_OFF",
+    "type": "TOOL",
+    "name": { "str": "UPS (off)", "str_pl": "UPSes (off)" },
+    "description": "A unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power tools, smartphones, armor, and some guns, but drains batteries quickly.  Use it to turn it on.",
+    "//": "Intended as an inverter that attaches to a battery, therefore it's volume will expand based on the size of battery attached.",
+    "weight": "680 g",
+    "volume": "2500 ml",
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "15 USD",
+    "to_hit": -1,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+        "default_magazine": "heavy_plus_battery_cell"
+      }
+    ],
+    "charges_per_use": 1,
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "UPS_ON",
+      "msg": "You turn the charger on.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The charger's battery is empty.",
+      "type": "transform"
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "methanol_fuel_cell",
     "type": "TOOL",
     "name": { "str": "methanol fuel cell UPS", "str_pl": "methanol fuel cell UPSes" },
-    "description": "This is a direct methanol fuel cell which can provide power to UPS-compatible electronic devices by oxidizing methanol supplied from a specialized fuel tank to produce electricity.",
+    "description": "A direct methanol fuel cell which can provide power to UPS-compatible electronic devices by oxidizing methanol supplied from a specialized fuel tank to produce electricity.",
     "weight": "7800 g",
     "volume": "24390 ml",
     "longest_side": "448 mm",
-    "price": 280000,
-    "price_postapoc": 1500,
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "15 USD",
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -661,24 +794,24 @@
     "type": "TOOL",
     "name": { "str": "vibrator" },
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
-    "weight": "453 g",
-    "volume": "500 ml",
-    "longest_side": "25 cm",
-    "price": 5500,
-    "price_postapoc": 100,
+    "weight": "181 g",
+    "volume": "327 ml",
+    "longest_side": "198 mm",
+    "price": "29 USD",
+    "price_postapoc": "3 cent",
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 1,
     "use_action": [ "VIBE" ],
     "flags": [ "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -686,13 +819,12 @@
     "id": "gas_charger",
     "type": "TOOL",
     "name": { "str": "gas-powered UPS (off)", "str_pl": "gas-powered UPSes (off)" },
-    "description": "This is a compact thermoelectric generator.  Burns gas to charge UPS devices.  Use it to turn it on.",
+    "description": "A compact thermoelectric generator.  Burns propane gas to charge UPS devices.  Use it to turn it on.",
     "weight": "680 g",
     "volume": "2500 ml",
-    "price": 280000,
-    "price_postapoc": 1500,
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "15 USD",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -714,15 +846,17 @@
       "need_charges": 1,
       "need_charges_msg": "The charger's tank is empty.",
       "type": "transform"
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "gas_charger_on",
     "copy-from": "gas_charger",
     "type": "TOOL",
     "name": { "str": "gas-powered UPS (on)", "str_pl": "gas-powered UPSes (on)" },
-    "description": "This is a compact thermoelectric generator.  When connected to a fuel tank, it will slowly charge UPS-compatible devices.",
-    "power_draw": "60 mJ",
+    "description": "A compact thermoelectric generator.  When connected to a propane tank, it will slowly charge UPS-compatible devices.",
+    "power_draw": "60 mW",
+    "fuel_efficiency": 0.3,
     "revert_to": "gas_charger",
     "use_action": {
       "ammo_scale": 0,
@@ -731,5 +865,75 @@
       "menu_text": "Turn off",
       "type": "transform"
     }
+  },
+  {
+    "id": "noise_emitter_super",
+    "type": "TOOL",
+    "name": { "str": "super noise emitter (off)", "str_pl": "super noise emitters (off)" },
+    "description": "This is a noisemaker that has been further enhanced with a series of amplifiers.  It's about as loud something can get without making you vomit from sound-induced nausea, and it's as sure to attract every zombie in town as it is to give you permanent hearing damage.",
+    "//": "I estimate this thing is about 130 decibels.  Commercial amps can hit similar noise levels at a 100-200w of power input, the survivor's is less efficient.",
+    "weight": "6000 g",
+    "volume": "4 L",
+    "longest_side": "30 cm",
+    "price": "0 cent",
+    "price_postapoc": "90 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "plastic", "aluminum", "steel" ],
+    "symbol": ";",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "use_action": {
+      "target": "noise_emitter_super_on",
+      "msg": "You turn the super noise emitter on.",
+      "menu_text": "Turn on",
+      "active": true,
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "WATER_BREAK" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "noise_emitter_super_on",
+    "copy-from": "noise_emitter_super",
+    "type": "TOOL",
+    "name": { "str": "super noise emitter (on)", "str_pl": "super noise emitters (on)" },
+    "description": "This is a noisemaker that has been further enhanced with a series of amplifiers.  It's currently making an extraordinary amount of noise - hopefully you have hearing protection.",
+    "power_draw": "250 W",
+    "revert_to": "noise_emitter_super",
+    "use_action": {
+      "target": "noise_emitter_super",
+      "msg": "The infernal racket dies as the super noise emitter turns off.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "active": false,
+      "type": "transform"
+    },
+    "tick_action": {
+      "type": "effect_on_conditions",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_toolweapon_running__supernoisemaker",
+          "effect": {
+            "run_eoc_with": "EOC_toolweapon_running",
+            "variables": {
+              "sound_chance": "0",
+              "sound_message": { "i18n": true, "str": "Your super noise emitter produces an unholy blast of sonic chaos." },
+              "volume": "300",
+              "revert_to": "noise_emitter_super"
+            }
+          }
+        }
+      ]
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "TRADER_AVOID", "WATER_BREAK", "POWERED" ]
   }
 ]

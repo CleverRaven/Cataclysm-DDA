@@ -1,12 +1,5 @@
 [
   {
-    "type": "enchantment",
-    "id": "afs_ench_esab",
-    "has": "WIELD",
-    "condition": "ACTIVE",
-    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 18 }, { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
-  },
-  {
     "id": "afs_energy_saber_off",
     "type": "TOOL",
     "name": { "str": "CE-4 \"The Claw\" (Non-Lethal)", "str_pl": "CE-4 \"The Claws\" (Non-Lethal)" },
@@ -14,17 +7,15 @@
     "weight": "760 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "price": 100000,
-    "price_postapoc": 2000,
+    "price": "1 kUSD",
+    "price_postapoc": "20 USD",
     "material": [ "superalloy", "qt_steel" ],
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
     "symbol": "[",
     "looks_like": "PR24-extended",
     "color": "light_gray",
     "ammo": [ "battery" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "charges_per_use": 1,
-    "bashing": 22,
     "to_hit": 3,
     "use_action": {
       "menu_text": "Activate",
@@ -42,17 +33,10 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "item_restriction": [ "light_battery_cell", "light_minus_battery_cell", "light_minus_disposable_cell" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 22 }
   },
   {
     "id": "afs_energy_saber_on",
@@ -66,9 +50,6 @@
     "color": "light_blue",
     "looks_like": "arming_sword",
     "turns_per_charge": 4,
-    "relic_data": { "passive_effects": [ { "id": "afs_ench_esab" } ] },
-    "to_hit": 2,
-    "bashing": 8,
     "flags": [ "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "revert_to": "afs_energy_saber_off",
@@ -77,7 +58,8 @@
       "type": "transform",
       "target": "afs_energy_saber_off",
       "msg": "The blade stops humming, and its edge dissipates into a smooth curve as it cools."
-    }
+    },
+    "melee_damage": { "bash": 8, "cut": 18, "afs_heat_melee": 35 }
   },
   {
     "id": "afs_hardlight_longbow",
@@ -87,8 +69,8 @@
     "color": "white",
     "name": { "str": "Alien lune" },
     "description": "A delicate strand of light links the antipodes of this crescent-shaped device.  If the strand is interrupted, the device clanks and shudders before violently emitting a bolt of plasma from its apex.",
-    "price": 1000000,
-    "price_postapoc": 20000,
+    "price": "10 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "superalloy", "qt_steel" ],
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "SLOW_WIELD", "WATERPROOF_GUN", "NEVER_JAMS" ],
     "skill": "archery",
@@ -96,14 +78,13 @@
     "weight": "500 g",
     "volume": "2700 ml",
     "longest_side": "90 cm",
-    "bashing": 8,
-    "to_hit": -2,
     "reload_noise_volume": 0,
     "loudness": 0,
     "ranged_damage": { "damage_type": "heat", "amount": 50, "armor_penetration": 15 },
     "ammo": [ "battery" ],
+    "ammo_to_fire": 0,
+    "energy_drain": "900 kJ",
     "ammo_effects": [ "LOW_RANGE_VAPORIZATION", "NEVER_MISFIRES" ],
-    "ammo_to_fire": 900,
     "range": 30,
     "dispersion": 80,
     "durability": 6,
@@ -116,25 +97,26 @@
         "max_contains_weight": "20 kg",
         "item_restriction": [ "alien_battery" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "afs_hydraulic_gauntlet",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "name": { "str": "hydraulic gauntlet" },
     "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": "3778 g",
     "volume": "2 L",
-    "price": 10000000,
-    "price_postapoc": 20000,
+    "price": "100 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "qt_steel" ],
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_gray",
-    "bashing": 50,
-    "to_hit": -2,
-    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM", "UNARMED_WEAPON" ],
-    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ]
+    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM" ],
+    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_r" ] } ],
+    "melee_damage": { "bash": 50 }
   },
   {
     "id": "afs_freeze_gauntlet",
@@ -143,21 +125,29 @@
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
     "volume": "2 L",
-    "price": 10000000,
-    "price_postapoc": 20000,
+    "price": "100 kUSD",
+    "price_postapoc": "200 USD",
     "material": [ "superalloy" ],
     "symbol": "[",
     "looks_like": "gauntlets_chitin",
     "color": "light_cyan",
-    "bashing": 3,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
+          "name": { "str": "Ice Fists" },
+          "description": "Strikes from this weapon can freeze targets solid."
+        }
+      ]
     },
     "to_hit": 0,
-    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
+    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_1" ],
     "material_thickness": 1,
-    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -172,9 +162,7 @@
     "name": { "str": "deployed grenade launcher" },
     "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": "2250 ml",
-    "price": 0,
-    "to_hit": -2,
-    "bashing": 9,
+    "price": "0 cent",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "looks_like": "bio_int_enhancer",
@@ -186,7 +174,8 @@
     "clip_size": 1,
     "reload": 150,
     "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "TANK",
@@ -196,20 +185,20 @@
     "color": "green",
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
-    "price": 99999999,
+    "price": "999 kUSD 999 USD 99 cent",
     "material": [ "steel" ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
     "weight": "2500 g",
     "volume": "2500 ml",
-    "bashing": 6,
     "to_hit": -3,
     "dispersion": 60,
     "durability": 9,
     "clip_size": 1,
     "loudness": 300,
     "flags": [ "NO_TURRET" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "120mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -222,9 +211,10 @@
     "color": "light_gray",
     "symbol": "/",
     "material": [ "titanium" ],
-    "bashing": 22,
-    "price": 20000,
-    "price_postapoc": 1750
+    "price": "200 USD",
+    "price_postapoc": "17 USD 50 cent",
+    "melee_damage": { "bash": 22 },
+    "weapon_category": [ "MACES" ]
   },
   {
     "id": "ceramic_knife",
@@ -234,14 +224,34 @@
     "description": "Designed to evade security measures, this knife is a must have for any Cataclysm dinner party.",
     "weight": "390 g",
     "volume": "250 ml",
-    "price": 4000,
-    "bashing": 2,
-    "cutting": 15,
+    "price": "40 USD",
     "material": [ "ceramic", "plastic" ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "line", "balance": "good" },
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
-    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE", "STAB" ]
+    "flags": [ "SHEATH_KNIFE", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 2, "stab": 15 },
+    "weapon_category": [ "KNIVES" ]
+  },
+  {
+    "id": "afs_toxic_knife",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "neurotoxic knife", "str_pl": "neurotoxic knives" },
+    "description": "A broad white-ceramic knife that is constantly kept coated in neurotoxic oil by a handle mounted reservoir.  Don't cut yourself.",
+    "weight": "390 g",
+    "volume": "250 ml",
+    "price": "40 USD",
+    "material": [ "ceramic", "plastic" ],
+    "symbol": "/",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ] ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK", "NO_SALVAGE" ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "weapon_category": [ "KNIVES" ],
+    "thrown_damage": [ { "damage_type": "afs_toxin_pierce", "amount": 14 } ],
+    "melee_damage": { "afs_toxin_pierce": 21 }
   },
   {
     "type": "GENERIC",
@@ -257,12 +267,13 @@
     "techniques": [ "WBLOCK_1", "DEF_DISARM" ],
     "volume": "1750 ml",
     "longest_side": "140 cm",
-    "bashing": 5,
-    "cutting": 28,
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "STAB" ],
-    "price": 7500,
-    "price_postapoc": 1200
+    "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
+    "price": "75 USD",
+    "price_postapoc": "12 USD",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
+    "melee_damage": { "bash": 5, "stab": 28 },
+    "weapon_category": [ "POLEARMS", "SPEARS" ]
   },
   {
     "id": "azabow_off",
@@ -272,10 +283,10 @@
     "copy-from": "compbow",
     "name": { "str": "Aztlani bow" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system currently disabled, firing it will require truly superhuman strength.  It can be activated to toggle it drawing assist functionality.",
-    "price": 50000,
+    "price": "500 USD",
     "material": [ "superalloy", "qt_steel", "wood" ],
     "min_strength": 40,
-    "price_postapoc": 40000,
+    "price_postapoc": "400 USD",
     "armor_data": {
       "armor": [
         {
@@ -311,7 +322,8 @@
     "name": { "str": "Aztlani bow (active)", "str_pl": "Aztlani bows (active)" },
     "description": "An ornate bow used by Aztlani nobility during hunting rituals.  Designed to fell the plated creatures of Aztlan, its articulated and power assisted limbs allow it to fire projectiles with a strength comparable to modern assault rifles.\n\nWith its drawing aid system enabled, it can be much more easily drawn, at the cost of a modest amount of UPS power consumption per arrow.  It can be activated to toggle it drawing assist functionality.",
     "min_strength": 20,
-    "ups_charges": 12,
+    "energy_drain": "12 kJ",
+    "extend": { "flags": [ "USE_UPS" ] },
     "use_action": {
       "menu_text": "Deactivate",
       "ammo_scale": 0,
@@ -327,19 +339,18 @@
     "color": "white",
     "name": { "str": "Aztlani hunting sword" },
     "description": "An ornate, single-handed sword used by Aztlani hunters to finish injured game.  Made from gleaming composite alloy, its tip and frontal blade have been sharpened to a monomolecular point, while its back features a serrated saw edge.",
-    "price": 100000,
-    "price_postapoc": 450000,
+    "price": "1 kUSD",
+    "price_postapoc": "4 kUSD 500 USD",
     "material": [ "superalloy", "qt_steel", "wood" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1360 g",
     "volume": "2 L",
     "longest_side": "90 cm",
-    "bashing": 10,
-    "cutting": 50,
-    "to_hit": 2,
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 10, "cut": 50 },
+    "weapon_category": [ "LONG_SWORDS" ]
   },
   {
     "id": "scrapbow",
@@ -348,14 +359,13 @@
     "type": "GUN",
     "name": { "str": "salvage bow" },
     "description": "A bow made from readily-available materials, and quickly and cheaply put together.  It is not made to be pretty, but to get a job done.  Its nocks and string are made of shape-memory alloy that help increase string tension in the string.  The memory alloy requires a UPS source to be activated.",
-    "price": 38000,
+    "price": "380 USD",
     "material": [ "steel", "plastic" ],
-    "ups_charges": 4,
+    "energy_drain": "4 kJ",
     "weight": "540 g",
     "volume": "2500 ml",
     "longest_side": "152 cm",
-    "price_postapoc": 2000,
-    "bashing": 12,
+    "price_postapoc": "20 USD",
     "armor_data": {
       "armor": [
         {
@@ -373,8 +383,10 @@
     "range": 14,
     "dispersion": 850,
     "durability": 6,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 }, "open_container": true } ],
+    "extend": { "flags": [ "USE_UPS" ] },
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "scrapcrossbow",
@@ -385,7 +397,7 @@
     "name": { "str": "salvage crossbow" },
     "reload_noise_volume": 4,
     "description": "A crossbow constructed of readily available materials, and quickly and cheaply put together.  While it isn't very pretty, it gets the job done, and its drawing mechanism is motorized allowing quick reloading.",
-    "price": 200000,
+    "price": "2 kUSD",
     "material": [ "steel", "plastic" ],
     "skill": "rifle",
     "min_strength": 7,
@@ -393,9 +405,8 @@
     "weight": "3000 g",
     "volume": "1750 ml",
     "longest_side": "69 cm",
-    "price_postapoc": 6000,
-    "ups_charges": 4,
-    "bashing": 11,
+    "price_postapoc": "60 USD",
+    "energy_drain": "4 kJ",
     "to_hit": 1,
     "ranged_damage": { "damage_type": "stab", "amount": 16 },
     "range": 22,
@@ -405,9 +416,8 @@
     "clip_size": 1,
     "reload": 900,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -415,7 +425,9 @@
       [ "underbarrel", 1 ],
       [ "dampening", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ],
+    "melee_damage": { "bash": 11 },
+    "extend": { "flags": [ "USE_UPS" ] }
   },
   {
     "id": "afs_bio_whip_weapon",
@@ -426,13 +438,22 @@
     "description": "A long filament of nested carbon nanotubes only a few microns in diameter.  In essence a very thin, very strong and very sharp blade that you throw at a moment's notice.",
     "weight": "40 g",
     "volume": "200 ml",
-    "price": 3500,
-    "price_postapoc": 500,
+    "price": "35 USD",
+    "price_postapoc": "5 USD",
     "material": [ "nanotubes" ],
-    "flags": [ "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "NONCONDUCTIVE",
+      "BIONIC_WEAPON",
+      "BIONIC_WEAPON_MELEE",
+      "UNBREAKABLE_MELEE",
+      "TRADER_AVOID",
+      "USE_UPS"
+    ],
     "techniques": [ "WBLOCK_1", "WIDE", "SPIN", "RAPID" ],
-    "cutting": 27,
     "to_hit": { "grip": "bad", "length": "long", "surface": "every", "balance": "clumsy" },
-    "weapon_category": [ "BIONIC_WEAPONRY" ]
+    "weapon_category": [ "BIONIC_WEAPONRY" ],
+    "melee_damage": { "cut": 27 }
   }
 ]

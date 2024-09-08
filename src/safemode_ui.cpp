@@ -1,11 +1,8 @@
 #include "safemode_ui.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <functional>
 #include <map>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "cata_utility.h"
@@ -14,7 +11,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
 #include "monstergenerator.h"
@@ -50,8 +47,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     auto global_rules_old = global_rules;
     auto character_rules_old = character_rules;
 
-    const int header_height = 4;
+    const int header_height = 5;
     int content_height = 0;
+    const int num_columns = 6;
 
     enum Columns : int {
         COLUMN_RULE,
@@ -62,16 +60,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         COLUMN_MOVEMENT_MODE
     };
 
-    std::map<int, int> column_pos;
-    column_pos[COLUMN_RULE] = 4;
-    column_pos[COLUMN_ATTITUDE] = column_pos[COLUMN_RULE] + 28;
-    column_pos[COLUMN_PROXIMITY] = column_pos[COLUMN_ATTITUDE] + 10;
-    column_pos[COLUMN_WHITE_BLACKLIST] = column_pos[COLUMN_PROXIMITY] + 6;
-    column_pos[COLUMN_CATEGORY] = column_pos[COLUMN_WHITE_BLACKLIST] + 11;
-    column_pos[COLUMN_MOVEMENT_MODE] = column_pos[COLUMN_CATEGORY] + 10;
-
-    const int num_columns = column_pos.size();
-
     catacurses::window w_border;
     catacurses::window w_header;
     catacurses::window w;
@@ -79,16 +67,14 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     ui_adaptor ui;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        content_height = FULL_SCREEN_HEIGHT - 2 - header_height;
+        content_height = TERMY - 2 - header_height;
+        const int min_screen_width = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int offset = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - min_screen_width ) / 2 : 0;
 
-        const point offset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                            TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
-
-        w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, offset );
-        w_header = catacurses::newwin( header_height, FULL_SCREEN_WIDTH - 2,
-                                       offset + point_south_east );
-        w = catacurses::newwin( content_height, FULL_SCREEN_WIDTH - 2,
-                                offset + point( 1, header_height + 1 ) );
+        w_border = catacurses::newwin( TERMY, min_screen_width, point( offset, 0 ) );
+        w_header = catacurses::newwin( 10, min_screen_width - 2, point( 1 + offset, 1 ) );
+        w = catacurses::newwin( content_height, min_screen_width - 2,
+                                point( 1 + offset, header_height + 1 ) );
 
         ui.position_from_window( w_border );
     };
@@ -101,9 +87,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     int start_pos = 0;
     bool changes_made = false;
     input_context ctxt( "SAFEMODE" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -126,14 +111,34 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
     Character &player_character = get_player_character();
     ui.on_redraw( [&]( const ui_adaptor & ) {
+
+        int free_space = ( getmaxx( w_border ) - FULL_SCREEN_WIDTH ) / 5;
+
+        std::map<int, int> column_width;
+        column_width[COLUMN_RULE] = std::min( 30, 27 + free_space );
+        column_width[COLUMN_ATTITUDE] = std::min( 15, 11 + free_space );
+        column_width[COLUMN_PROXIMITY] = 6;
+        column_width[COLUMN_WHITE_BLACKLIST] = std::min( 16, 11 + free_space );
+        column_width[COLUMN_CATEGORY] = std::min( 15, 11 + free_space );
+
+        std::map<int, int> column_pos;
+        column_pos[COLUMN_RULE] = 4;
+        column_pos[COLUMN_ATTITUDE] = column_pos[COLUMN_RULE] + column_width[COLUMN_RULE];
+        column_pos[COLUMN_PROXIMITY] = column_pos[COLUMN_ATTITUDE] + column_width[COLUMN_ATTITUDE];
+        column_pos[COLUMN_WHITE_BLACKLIST] = column_pos[COLUMN_PROXIMITY] + column_width[COLUMN_PROXIMITY];
+        column_pos[COLUMN_CATEGORY] = column_pos[COLUMN_WHITE_BLACKLIST] +
+                                      column_width[COLUMN_WHITE_BLACKLIST];
+        column_pos[COLUMN_MOVEMENT_MODE] = column_pos[COLUMN_CATEGORY] + column_width[COLUMN_CATEGORY];
+
+        column_width[COLUMN_MOVEMENT_MODE] = getmaxx( w_border ) - column_pos[COLUMN_MOVEMENT_MODE] - 2;
+
         draw_border( w_border, BORDER_COLOR, custom_name_in );
 
-        mvwputch( w_border, point( 0, 3 ), c_light_gray, LINE_XXXO ); // |-
-        mvwputch( w_border, point( 79, 3 ), c_light_gray, LINE_XOXX ); // -|
+        mvwputch( w_border, point( 0, 4 ), c_light_gray, LINE_XXXO ); // |-
+        mvwputch( w_border, point( getmaxx( w_border ) - 1, 4 ), c_light_gray, LINE_XOXX ); // -|
 
         for( auto &column : column_pos ) {
-            // _|_
-            mvwputch( w_border, point( column.second + 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
+            mvwputch( w_border, point( column.second + 1, TERMY - 1 ), c_light_gray, LINE_XXOX ); // _|_
         }
 
         wnoutrefresh( w_border );
@@ -158,53 +163,53 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                                 _( "<Enter>-Edit" ) ) + 2;
         shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
 
-        for( int i = 0; i < 78; i++ ) {
-            mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
+        for( int i = 0; i < getmaxx( w_header ); i++ ) {
+            mvwputch( w_header, point( i, 3 ), c_light_gray, LINE_OXOX ); // Draw line under header
         }
 
-        for( auto &pos : column_pos ) {
-            mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
-            mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
-        }
-
-        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
-        mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 3 ), c_white, pgettext( "category",
-                   "Cat" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_MOVEMENT_MODE] + 2, 3 ), c_white, _( "Mode" ) );
-
-        int locx = 17;
-        locx += shortcut_print( w_header, point( locx, 2 ), c_white,
-                                ( tab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
-        shortcut_print( w_header, point( locx, 2 ), c_white,
-                        ( tab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
-
-        locx = 55;
-        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Safe mode enabled:" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ),
+        int locx = 0;
+        const std::string safe_mode_enabled_text = _( "Safe mode enabled:" );
+        mvwprintz( w_header, point( locx, 2 ), c_white, safe_mode_enabled_text );
+        locx += utf8_width( safe_mode_enabled_text );
+        locx += shortcut_print( w_header, point( locx + 1, 2 ),
                                 ( get_option<bool>( "SAFEMODE" ) ? c_light_green : c_light_red ), c_white,
                                 ( get_option<bool>( "SAFEMODE" ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
-        shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, point( locx + 1, 2 ), c_white, c_light_green, "  " );
+        locx += shortcut_print( w_header, point( locx, 2 ), c_white, c_light_green, _( "<S>witch" ) );
+
+        for( auto &pos : column_pos ) {
+            mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_OXXX ); // ^|^
+            mvwputch( w_header, point( pos.second, 4 ), c_light_gray, LINE_XOXO ); // |
+        }
+
+        locx = getmaxx( w_header ) / 2 - 15;
+        locx += shortcut_print( w_header, point( locx, 3 ), c_white,
+                                ( tab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
+        shortcut_print( w_header, point( locx, 3 ), c_white,
+                        ( tab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
+
+        mvwprintz( w_header, point( 1, 4 ), c_white, " #" );
+        mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 4 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 4 ), c_white, _( "Attitude" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 4 ), c_white, _( "Dist" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 4 ), c_white, _( "B/W" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 4 ), c_white, _( "Category" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_MOVEMENT_MODE] + 2, 4 ), c_white, _( "Mode" ) );
 
         wnoutrefresh( w_header );
 
         // Clear the lines
         for( int i = 0; i < content_height; i++ ) {
-            for( int j = 0; j < 79; j++ ) {
+            for( int j = 0; j < getmaxx( w ) - 1; j++ ) {
                 mvwputch( w, point( j, i ), c_black, ' ' );
             }
 
             for( auto &pos : column_pos ) {
-                mvwputch( w, point( pos.second, i ), c_light_gray, LINE_XOXO );
+                mvwputch( w, point( pos.second, i ), c_light_gray, LINE_XOXO ); // |
             }
         }
 
-        auto &current_tab = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
+        auto &current_tab = tab == GLOBAL_TAB ? global_rules : character_rules;
 
         if( tab == CHARACTER_TAB && player_character.name.empty() ) {
             character_rules.clear();
@@ -215,7 +220,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             mvwprintz( w, point( 15, 10 ), c_white, _( "Press ~ to add a default ruleset to get started." ) );
         }
 
-        draw_scrollbar( w_border, line, content_height, current_tab.size(), point( 0, 5 ) );
+        draw_scrollbar( w_border, line, content_height, current_tab.size(), point( 0, 6 ) );
         wnoutrefresh( w_border );
 
         calcStartPos( start_pos, line, content_height, current_tab.size() );
@@ -229,14 +234,12 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
-                mvwprintz( w, point( 1, i - start_pos ), line_color, "%d", i + 1 );
-                mvwprintz( w, point( 5, i - start_pos ), c_yellow, ( line == i ) ? ">> " : "   " );
+                mvwprintz( w, point( 0, i - start_pos ), line_color, "%3d", i + 1 );
+                mvwprintz( w, point( 5, i - start_pos ), c_yellow, line == i ? ">> " : "   " );
 
                 auto draw_column = [&]( Columns column_in, const std::string & text_in ) {
-                    mvwprintz( w, point( column_pos[column_in] + 2, i - start_pos ),
-                               ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
-                               text_in
-                             );
+                    trim_and_print( w, point( column_pos[column_in] + 2, i - start_pos ), column_width[column_in] - 2,
+                                    ( line == i && column == column_in ) ? hilite( line_color ) : line_color, text_in );
                 };
 
                 draw_column( COLUMN_RULE, rule.rule.empty() ? _( "<empty rule>" ) : rule.rule );
@@ -257,7 +260,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     } );
 
     while( true ) {
-        auto &current_tab = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
+        auto &current_tab = tab == GLOBAL_TAB ? global_rules : character_rules;
 
         ui_manager::redraw();
 
@@ -279,34 +282,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             line = 0;
         } else if( action == "QUIT" ) {
             break;
-        } else if( tab == CHARACTER_TAB && player_character.name.empty() ) {
-            //Only allow loaded games to use the char sheet
-        } else if( action == "DOWN" ) {
-            line++;
-            if( line >= recmax ) {
-                line = 0;
-            }
-        } else if( action == "UP" ) {
-            line--;
-            if( line < 0 ) {
-                line = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( line == recmax - 1 ) {
-                line = 0;
-            } else if( line + scroll_rate >= recmax ) {
-                line = recmax - 1;
-            } else {
-                line += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( line == 0 ) {
-                line = recmax - 1;
-            } else if( line <= scroll_rate ) {
-                line = 0;
-            } else {
-                line += -scroll_rate;
-            }
+        } else if( ( tab == CHARACTER_TAB && player_character.name.empty() )
+                   || navigate_ui_list( action, line, scroll_rate, recmax, true ) ) {
+            // NO FURTHER ACTION REQUIRED
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
             current_tab.emplace_back( "*", true, false, Creature::Attitude::HOSTILE,
@@ -430,15 +408,15 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 }
             } else if( column == COLUMN_PROXIMITY && ( current_tab[line].category == Categories::SOUND ||
                        !current_tab[line].whitelist ) ) {
-                const auto text = string_input_popup()
-                                  .title( _( "Proximity Distance (0=max view distance)" ) )
-                                  .width( 4 )
-                                  .text( std::to_string( current_tab[line].proximity ) )
-                                  .description( _( "Option: " ) + std::to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
-                                                " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
-                                  .max_length( 3 )
-                                  .only_digits( true )
-                                  .query_string();
+                const std::string text = string_input_popup()
+                                         .title( _( "Proximity Distance (0=max view distance)" ) )
+                                         .width( 4 )
+                                         .text( std::to_string( current_tab[line].proximity ) )
+                                         .description( _( "Option: " ) + std::to_string( get_option<int>( "SAFEMODEPROXIMITY" ) ) +
+                                                       " " + get_options().get_option( "SAFEMODEPROXIMITY" ).getDefaultText() )
+                                         .max_length( 3 )
+                                         .only_digits( true )
+                                         .query_string();
                 if( text.empty() ) {
                     current_tab[line].proximity = get_option<int>( "SAFEMODEPROXIMITY" );
                 } else {
@@ -468,16 +446,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "DISABLE_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab[line].active = false;
-        } else if( action == "LEFT" ) {
-            column--;
-            if( column < 0 ) {
-                column = num_columns - 1;
-            }
-        } else if( action == "RIGHT" ) {
-            column++;
-            if( column >= num_columns ) {
-                column = 0;
-            }
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            column = inc_clamp_wrap( column, action == "RIGHT", num_columns );
         } else if( action == "MOVE_RULE_UP" && !current_tab.empty() ) {
             changes_made = true;
             if( line < static_cast<int>( current_tab.size() ) - 1 ) {
@@ -577,9 +547,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     int line = 0;
 
     input_context ctxt( "SAFEMODE_TEST" );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -624,32 +592,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         const int recmax = static_cast<int>( creature_list.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
-            line++;
-            if( line >= recmax ) {
-                line = 0;
-            }
-        } else if( action == "UP" ) {
-            line--;
-            if( line < 0 ) {
-                line = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( line == recmax - 1 ) {
-                line = 0;
-            } else if( line + scroll_rate >= recmax ) {
-                line = recmax - 1;
-            } else {
-                line += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( line == 0 ) {
-                line = recmax - 1;
-            } else if( line <= scroll_rate ) {
-                line = 0;
-            } else {
-                line += -scroll_rate;
-            }
+        if( navigate_ui_list( action, line, scroll_rate, recmax, true ) ) {
         } else if( action == "QUIT" ) {
             break;
         }
@@ -671,7 +614,7 @@ void safemode::add_rule( const std::string &rule_in, const Creature::Attitude at
     }
 }
 
-bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+bool safemode::has_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( safemode::rules_class &elem : character_rules ) {
         if( rule_in.length() == elem.rule.length()
@@ -683,7 +626,7 @@ bool safemode::has_rule( const std::string &rule_in, const Creature::Attitude at
     return false;
 }
 
-void safemode::remove_rule( const std::string &rule_in, const Creature::Attitude attitude_in )
+void safemode::remove_rule( const std::string_view rule_in, const Creature::Attitude attitude_in )
 {
     for( auto it = character_rules.begin();
          it != character_rules.end(); ++it ) {
@@ -872,7 +815,7 @@ void safemode::load( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    cata::ifstream fin;
+    std::ifstream fin;
     cata_path file = PATH_INFO::safemode();
     if( is_character ) {
         file = PATH_INFO::player_base_save_path_path() + ".sfm.json";

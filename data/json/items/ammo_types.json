@@ -7,9 +7,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "700nx",
-    "name": ".700 Nitro Express",
-    "default": "700nx"
+    "id": "458wm",
+    "name": ".458 Winchester Magnum",
+    "default": "458wm"
   },
   {
     "type": "ammunition_type",
@@ -22,6 +22,36 @@
     "id": "4570",
     "name": ".45-70",
     "default": "4570_sp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "50ae",
+    "name": ".50 AE",
+    "default": "50ae_jhp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "50beowulf",
+    "name": "12.7x42mm",
+    "default": "50beowulf_xtp"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "450",
+    "name": ".450 Bushmaster",
+    "default": "450_ftx"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "338lapua",
+    "name": ".338 Lapua",
+    "default": "338lapua_hpbt"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "77mm_arisaka",
+    "name": "7.7x58mm Japanese",
+    "default": "77mm_arisaka_jsp"
   },
   {
     "type": "ammunition_type",
@@ -43,9 +73,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "gene_sting",
+    "name": "yugg stinger",
+    "default": "gene_sting_barb"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "bolt_ballista",
+    "name": "ballista bolts",
+    "default": "bolt_ballista_steel"
   },
   {
     "type": "ammunition_type",
@@ -58,6 +100,18 @@
     "id": "arrow",
     "name": "arrows",
     "default": "arrow_wood"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "strange_arrow",
+    "name": "strange arrows",
+    "default": "arrow_meteor"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "atlatl",
+    "name": "atlatl spears",
+    "default": "steel_atlatl_spear"
   },
   {
     "type": "ammunition_type",
@@ -76,12 +130,6 @@
     "id": "shot",
     "name": "shot",
     "default": "shot_00"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "shotpaper",
-    "name": "20ga percussion",
-    "default": "shot_paper_00"
   },
   {
     "type": "ammunition_type",
@@ -189,7 +237,7 @@
     "type": "ammunition_type",
     "id": "45colt",
     "name": ".45 Colt",
-    "default": "45colt_jhp"
+    "default": "45colt_cowboy"
   },
   {
     "type": "ammunition_type",
@@ -213,7 +261,7 @@
     "type": "ammunition_type",
     "id": "762",
     "name": "7.62x39mm",
-    "default": "762_m43"
+    "default": "762_m87"
   },
   {
     "type": "ammunition_type",
@@ -226,6 +274,12 @@
     "id": "223",
     "name": ".223",
     "default": "556"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "303",
+    "name": ".303 British",
+    "default": "303_fmjbt"
   },
   {
     "type": "ammunition_type",
@@ -379,9 +433,27 @@
   },
   {
     "type": "ammunition_type",
+    "id": "hydrogen",
+    "name": "hydrogen",
+    "default": "hydrogen"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "nitrogen",
+    "name": "nitrogen",
+    "default": "nitrogen"
+  },
+  {
+    "type": "ammunition_type",
     "id": "motor_oil",
     "name": "motor oil",
     "default": "motor_oil"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "crude_oil",
+    "name": "crude oil",
+    "default": "crude_oil"
   },
   {
     "type": "ammunition_type",
@@ -406,6 +478,12 @@
     "id": "tape",
     "name": "duct tape",
     "default": "duct_tape"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "superglue",
+    "name": "super glue",
+    "default": "super_glue"
   },
   {
     "type": "ammunition_type",
@@ -469,6 +547,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "biogas",
+    "name": "biogas",
+    "default": "biogas"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"
@@ -493,12 +577,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "5x50",
-    "name": "5x50mm flechette",
-    "default": "5x50dart"
-  },
-  {
-    "type": "ammunition_type",
     "id": "signal_flare",
     "name": "signal flare",
     "default": "signal_flare"
@@ -511,9 +589,9 @@
   },
   {
     "type": "ammunition_type",
-    "id": "cac2powder",
-    "name": "powdered calcium carbide premix",
-    "default": "cac2powder"
+    "id": "coal",
+    "name": "coal",
+    "default": "coal_lump"
   },
   {
     "type": "ammunition_type",
@@ -535,6 +613,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "liq_bandage",
+    "name": "liquid bandage",
+    "default": "liq_bandage"
+  },
+  {
+    "type": "ammunition_type",
     "id": "stimpack_ammo",
     "name": "stimulant module",
     "default": "stimpack_ammo"
@@ -547,15 +631,15 @@
   },
   {
     "type": "ammunition_type",
-    "id": "RPG-7",
-    "name": "RPG-7 rocket",
-    "default": "RPG-7_ammo"
+    "id": "rebreather_filter",
+    "name": "rebreather CO2 scrubber",
+    "default": "rebreather_filler_soda_lime"
   },
   {
     "type": "ammunition_type",
-    "id": "rebreather_filter",
-    "name": "rebreather filter",
-    "default": "rebreather_filter"
+    "id": "rebreather_o2_regenerator",
+    "name": "rebreather O2 regenerator",
+    "default": "rebreather_filler_ko2"
   },
   {
     "type": "ammunition_type",
@@ -592,12 +676,6 @@
     "id": "flintlock",
     "name": "paper cartridge",
     "default": "flintlock_ammo"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "papershot",
-    "name": "20ga percussion",
-    "default": "nail"
   },
   {
     "type": "ammunition_type",
@@ -649,12 +727,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "unfinished_cac2",
-    "name": "partially burned calcium carbide",
-    "default": "unfinished_cac2"
-  },
-  {
-    "type": "ammunition_type",
     "id": "chemical_spray",
     "name": "sprayable chemical",
     "default": "gas_fungicidal"
@@ -696,6 +768,12 @@
     "default": "extinguishing_agent"
   },
   {
+    "type": "ammunition_type",
+    "id": "teargas_spray",
+    "name": "tear gas spray",
+    "default": "teargas_spray"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",
@@ -724,6 +802,24 @@
     "id": "123ln",
     "name": "12.3ln cartridge",
     "default": "123ln"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x110",
+    "name": "27.3x110 Diyua",
+    "default": "273x110canister"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x44",
+    "name": "27.3x44 Diyua",
+    "default": "273x44HE"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "273x44RG",
+    "name": "27.3x44 Diyua Grenade",
+    "default": "273x44RG"
   },
   {
     "type": "ammunition_type",
@@ -775,8 +871,20 @@
   },
   {
     "type": "ammunition_type",
+    "id": "notch",
+    "name": "notch",
+    "default": "notch"
+  },
+  {
+    "type": "ammunition_type",
     "id": "turpentine",
     "name": "turpentine",
     "default": "chem_turpentine"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "airgun_pellet",
+    "name": "airgun pellet",
+    "default": "airgun_pellet_target"
   }
 ]

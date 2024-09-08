@@ -23,17 +23,9 @@ if [ "$CATA_CLANG_TIDY" = "plugin" ]
 then
     cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
     # Need to specify the particular LLVM / Clang versions to use, lest it
-    # use the llvm-7 that comes by default on the Travis Xenial image.
-    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-12/lib/cmake/llvm")
-    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-12/lib/cmake/clang")
-fi
-
-if [ "$COMPILER" = "clang++-12" -a -n "$GITHUB_WORKFLOW" -a -n "$CATA_CLANG_TIDY" ]
-then
-    # This is a hacky workaround for the fact that the custom clang-tidy we are
-    # using is built for Travis CI, so it's not using the correct include directories
-    # for GitHub workflows.
-    cmake_extra_opts+=("-DCMAKE_CXX_FLAGS=-isystem /usr/include/clang/12.0.0/include")
+    # use the older LLVM that comes by default on Ubuntu.
+    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-17/lib/cmake/llvm")
+    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-17/lib/cmake/clang")
 fi
 
 mkdir -p build
@@ -74,14 +66,8 @@ ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
 "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
 
-# Run clang-tidy analysis instead of regular build & test
-# We could use CMake to create compile_commands.json, but that's super
-# slow, so use compiledb <https://github.com/nickdiego/compiledb>
-# instead.
-compiledb -n make
-
 cd ..
-rm -f compile_commands.json && ln -s build/compile_commands.json
+ln -s build/compile_commands.json
 
 # We want to first analyze all files that changed in this PR, then as
 # many others as possible, in a random order.
@@ -97,9 +83,7 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$( \
-    grep '"file": "' build/compile_commands.json | \
-    sed "s+.*$PWD/++;s+\"$++")"
+all_cpp_files="$(jq -r '.[].file | select(contains("third-party") | not)' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"
@@ -113,15 +97,31 @@ else
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed | grep -v third-party ) ) || \
         echo unknown )"
 
-    if [ "tidyable_cpp_files" == "unknown" ]
+    if [ "$tidyable_cpp_files" == "unknown" ]
     then
         echo "Unable to determine affected files, tidying all files"
         tidyable_cpp_files=$all_cpp_files
     fi
 fi
+
+printf "Subset to analyze: '%s'\n" "$CATA_CLANG_TIDY_SUBSET"
+
+# We might need to analyze only a subset of the files if they have been split
+# into multiple jobs for efficiency. The paths from `compile_commands.json` can
+# be absolute but the paths from `get_affected_files.py` are relative, so both
+# formats are matched. Exit code 1 from grep (meaning no match) is ignored in
+# case one subset contains no file to analyze.
+case "$CATA_CLANG_TIDY_SUBSET" in
+    ( src )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -E '(^|/)src/' || [[ $? == 1 ]])
+        ;;
+    ( other )
+        tidyable_cpp_files=$(printf '%s\n' "$tidyable_cpp_files" | grep -Ev '(^|/)src/' || [[ $? == 1 ]])
+        ;;
+esac
 
 function analyze_files_in_random_order
 {

@@ -1,8 +1,6 @@
 #include "scores_ui.h"
 
 #include <algorithm>
-#include <functional>
-#include <iosfwd>
 #include <iterator>
 #include <string>
 #include <tuple>
@@ -10,14 +8,14 @@
 #include <vector>
 
 #include "achievement.h"
-#include "cata_assert.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "event_statistics.h"
-#include "input.h"
+#include "input_context.h"
 #include "localized_comparator.h"
 #include "kill_tracker.h"
 #include "output.h"
+#include "past_games_info.h"
 #include "point.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
@@ -28,6 +26,9 @@
 static std::string get_achievements_text( const achievements_tracker &achievements,
         bool use_conducts, int width )
 {
+    // Load past game info beforehand because otherwise it may erase an `achievement_tracker`
+    // within a call to its method when lazy-loaded, causing dangling pointer.
+    get_past_games();
     std::string thing_name = use_conducts ? _( "conducts" ) : _( "achievements" );
     std::string cap_thing_name = use_conducts ? _( "Conducts" ) : _( "Achievements" );
     if( !achievements.is_enabled() ) {
@@ -167,17 +168,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         new_tab = false;
         if( view.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
-        } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
-            if( tab >= tab_mode::num_tabs ) {
-                tab = tab_mode::first_tab;
-            }
-            new_tab = true;
-        } else if( action == "LEFT" || action == "PREV_TAB" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
-            if( tab < tab_mode::first_tab ) {
-                tab = static_cast<tab_mode>( static_cast<int>( tab_mode::num_tabs ) - 1 );
-            }
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use inc_clamp_wrap
+            static_assert( static_cast<int>( tab_mode::first_tab ) == 0 );
+            tab = inc_clamp_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::num_tabs );
             new_tab = true;
         } else if( action == "CONFIRM" || action == "QUIT" ) {
             break;

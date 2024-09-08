@@ -28,6 +28,7 @@
     "batch_time_factors": [ 80, 1 ],
     "charges": 12,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "acetylene_machine", -1 ] ] ],
     "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
   },
@@ -71,23 +72,22 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "tools": [
-      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 30 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_intro_chemistry" } ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "flour_any", 1, "LIST" ], [ "paper", 3 ] ],
-      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_disposable_cell", 1 ] ],
+      [ [ "material_limestone", 1 ], [ "chem_manganese_dioxide", 1 ], [ "light_battery_cell", 1 ] ],
       [
         [ "rosin", 5 ],
-        [ "superglue", 1 ],
         [ "bone_glue", 1 ],
         [ "sugar", 1 ],
         [ "plastic_chunk", 1 ],
-        [ "wax", 1 ],
+        [ "wax_any", 1, "LIST" ],
         [ "candle", 1 ]
       ]
     ]
@@ -111,14 +111,18 @@
       { "id": "CHEM", "level": 1 }
     ],
     "tools": [
-      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 350 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "components": [
-      [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 15 ] ],
+      [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 15 ] ],
       [ [ "chem_sulphuric_acid", 1 ], [ "chem_aluminium_sulphate", 6 ], [ "chem_sulphur", 50 ] ],
       [ [ "salt", 12 ], [ "chem_potassium_chloride", 65 ], [ "material_rocksalt", 1 ] ],
       [ [ "lye_powder", 20 ], [ "lye", 1 ], [ "chem_potassium_hydroxide", 40 ] ],
@@ -138,13 +142,17 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [
-      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "forge", 240 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "electrolysis_kit", 100 ] ],
       [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "components": [
       [ [ "wire", 4 ] ],
       [ [ "copper", 1 ] ],
@@ -165,12 +173,12 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "tools": [
-      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
       [ [ "forge", 250 ], [ "oxy_torch", 50 ] ],
       [ [ "wire_draw_machine", 120 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 11 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
+    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 11 ] ] ]
   },
   {
     "type": "recipe",
@@ -185,12 +193,12 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 50 ] ]
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_intro_chemistry" }
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]
   },
   {
@@ -205,12 +213,47 @@
     "time": "2 h 45 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [
-      [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ],
-      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "forge", 200 ] ]
-    ],
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 200 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
-    "components": [ [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 13 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 13 ] ] ]
+  },
+  {
+    "result": "oxygen_tank",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "45 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
+    "components": [ [ [ "oxygen_tank", 1 ] ] ]
+  },
+  {
+    "result": "oxygen_cylinder",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "9 h 25 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 20250 ] ], [ [ "pseudo_app_hd_compressor_unit", 16875 ] ] ],
+    "components": [ [ [ "oxygen_cylinder", 1 ] ] ]
+  },
+  {
+    "result": "smoxygen_tank",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "25 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 810 ] ], [ [ "pseudo_app_hd_compressor_unit", 675 ] ] ],
+    "components": [ [ [ "smoxygen_tank", 1 ] ] ]
   }
 ]

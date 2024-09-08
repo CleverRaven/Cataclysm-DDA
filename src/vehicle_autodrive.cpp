@@ -8,6 +8,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <string>
 #include <unordered_set>
@@ -19,15 +20,16 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
+#include "flood_fill.h"
 #include "hash_utils.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "translations.h"
@@ -43,7 +45,7 @@
  * The main entry point is do_autodrive(), which is intended to be called from the do_turn() of
  * a long-running activity. This will cause the driver character to perform one or more driving
  * actions (as long as they have enough moves), which could be steering and/or changing the
- * cruise control speed. The driver may also do nothing if the vehicle is going in the right
+ * desired speed. The driver may also do nothing if the vehicle is going in the right
  * direction.
  *
  * Most of the logic is inside the private implementation class autodrive_controller, which is
@@ -125,7 +127,18 @@
  * that driving at night should only be possible through familiar terrain with limited
  * lights / night vision or through unfamiliar terrain but with good headlights / excellent
  * night vision.
+ *
+ * In order to keep the memory footprint small and constant, this implementation uses a different
+ * coordinate system for the navigation caches than on the game map. The "nav map" is always
+ * allocated to the size of two OMTs wide and one OMT high. Picture it like having one OMT `a` on
+ * the left and one OMT `b` on the right. The coordinates of the nav map are translated and
+ * rotated so that `a` is always the current OMT and `b` is the next OMT we are trying to reach.
+ * So even if, for example, we are planning a route south, the nav map is still allocated as two
+ * OMTs wide, but its coordinates are instead rotated when we want to deal with actual game map
+ * coordinates.
  */
+
+static const ter_str_id ter_t_open_air( "t_open_air" );
 
 static constexpr int OMT_SIZE = coords::map_squares_per( coords::omt );
 static constexpr int NAV_MAP_NUM_OMT = 2;
@@ -178,7 +191,6 @@ struct navigation_step {
     orientation steering_dir;
     int target_speed_tps;
 };
-
 
 /**
  * The address of a navigation node, i.e. a position and orientation on the nav map.
@@ -246,6 +258,21 @@ struct coord_transformation {
     coord_transformation inverse() const;
 };
 
+/*
+ * Collection of points for which there is still some check left to do, and a list of points
+ * that have already been visited. Used for remembering which points are up/down ramps when
+ * evaluating obstacles. Ramps will lead to obstacle-detection on another z-level
+ */
+struct point_queue {
+    std::queue<tripoint_bub_ms> to_check;
+    std::unordered_set<tripoint_bub_ms> visited;
+    void enqueue( const tripoint_bub_ms &p ) {
+        if( visited.find( p ) == visited.end() ) {
+            to_check.push( p );
+        }
+    }
+};
+
 /**
  * Data structure that caches all the data needed in order to navigate from one
  * OMT to the next OMT along the path to destination. Main components:
@@ -284,6 +311,9 @@ struct auto_navigation_data {
     std::array<vehicle_profile, NUM_ORIENTATIONS> profiles;
     // known obstacles on the view map
     cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y> is_obstacle;
+    // z-level of where the ground is per point on the view map
+    // Almost always same as the OMT's z, but might differ per mapsquare if we are driving up or down ramps
+    cata::mdarray<int, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y> ground_z;
     // where on the nav map the vehicle pivot may be placed
     std::array<cata::mdarray<bool, point, NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y>, NUM_ORIENTATIONS>
     valid_positions;
@@ -314,6 +344,17 @@ struct auto_navigation_data {
     bool valid_position( const node_address &addr ) const {
         return valid_position( addr.facing_dir, point( addr.x, addr.y ) );
     }
+    // transforms a point from map coords into view map coords
+    point to_view( const tripoint_abs_ms &p ) const {
+        return view_to_map.inverse().transform( p.raw().xy() );
+    }
+    // transforms a point from map bub coords into view map coords
+    point to_view( const tripoint_bub_ms &p ) const {
+        return to_view( get_map().getglobal( p ) );
+    }
+    // returns `p` adjusted so that the z-level is placed on the ground
+    template<typename Tripoint>
+    Tripoint adjust_z( const Tripoint &p ) const;
 };
 
 enum class collision_check_result : int {
@@ -334,7 +375,7 @@ class vehicle::autodrive_controller
             return data;
         }
         void check_safe_speed();
-        cata::optional<navigation_step> compute_next_step();
+        std::optional<navigation_step> compute_next_step();
         collision_check_result check_collision_zone( orientation turn_dir );
         void reduce_speed();
 
@@ -344,8 +385,10 @@ class vehicle::autodrive_controller
         auto_navigation_data data;
 
         void compute_coordinates();
-        bool check_drivable( tripoint pt ) const;
+        bool check_drivable( const tripoint_bub_ms &pt ) const;
         void compute_obstacles();
+        void enqueue_if_ramp( point_queue &ramp_points, const map &here, const tripoint_bub_ms &p ) const;
+        void compute_obstacles_from_enqueued_ramp_points( point_queue &ramp_points, const map &here );
         vehicle_profile compute_profile( orientation facing ) const;
         void compute_valid_positions();
         void compute_goal_zone();
@@ -354,9 +397,8 @@ class vehicle::autodrive_controller
         void compute_next_nodes( const node_address &addr, const navigation_node &node,
                                  int target_speed_tps,
                                  std::vector<std::pair<node_address, navigation_node>> &next_nodes ) const;
-        cata::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
+        std::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
 };
-
 
 static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
 {
@@ -558,6 +600,20 @@ static int signum( int val )
     return ( 0 < val ) - ( val < 0 );
 }
 
+template<typename Tripoint>
+Tripoint auto_navigation_data::adjust_z( const Tripoint &p ) const
+{
+    if( !land_ok ) {
+        return p;
+    }
+    const point pt_view = to_view( p );
+    if( !view_bounds.contains( pt_view ) ) {
+        debugmsg( "Autodrive tried to adjust zlevel on out-of-bounds point p=%s", p.to_string() );
+        return p; // shouldn't happen, but who knows.
+    }
+    return { p.xy(), ground_z[pt_view] };
+}
+
 void vehicle::autodrive_controller::compute_coordinates()
 {
     data.view_bounds = { point_zero, {NAV_VIEW_SIZE_X, NAV_VIEW_SIZE_Y} };
@@ -606,7 +662,7 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     }
     for( int part_num : driven_veh.rotors ) {
         const vehicle_part &part = driven_veh.part( part_num );
-        const int diameter = part.info().rotor_diameter();
+        const int diameter = part.info().rotor_info->rotor_diameter;
         const int radius = ( diameter + 1 ) / 2;
         if( radius > 0 ) {
             tripoint pos;
@@ -634,11 +690,10 @@ vehicle_profile vehicle::autodrive_controller::compute_profile( orientation faci
     return ret;
 }
 
-
 // Return true if the map tile at the given position (in map coordinates)
 // can be driven on (not an obstacle).
 // The logic should match what is in vehicle::part_collision().
-bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
+bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) const
 {
     const map &here = get_map();
 
@@ -653,7 +708,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         return &ovp->vehicle() == &driven_veh;
     }
 
-    const tripoint_abs_ms pt_abs( here.getabs( pt ) );
+    const tripoint_abs_ms pt_abs = here.getglobal( pt );
     const tripoint_abs_omt pt_omt = project_to<coords::omt>( pt_abs );
     // only check visibility for the current OMT, we'll check other OMTs when
     // we reach them
@@ -662,10 +717,16 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
         if( !driver.sees( pt ) ) {
             if( !driver.is_avatar() ) {
                 return false;
-            } else if( driver.as_avatar()->get_memorized_tile( pt_abs.raw() ) == mm_submap::default_tile ) {
+            }
+            const avatar &avatar = *driver.as_avatar();
+            if( !avatar.is_map_memory_valid() ) {
+                debugmsg( "autodrive querying uninitialized map memory at %s", pt_abs.to_string() );
+                return false;
+            }
+            if( avatar.get_memorized_tile( pt_abs ) == mm_submap::default_tile ) {
                 // apparently open air doesn't get memorized, so pretend it is or else
                 // we can't fly helicopters due to the many unseen tiles behind the driver
-                if( !( data.air_ok && here.ter( pt ) == t_open_air ) ) {
+                if( !( data.air_ok && here.ter( pt ) == ter_t_open_air ) ) {
                     return false;
                 }
             }
@@ -680,24 +741,24 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
     }
 
     // don't drive over visible traps
-    if( here.can_see_trap_at( pt, driver ) ) {
+    if( here.can_see_trap_at( pt.raw(), driver ) ) {
         return false;
     }
 
     // check for furniture that hinders movement; furniture with 0 move cost
     // can be driven on
     const furn_id furniture = here.furn( pt );
-    if( furniture != f_null && furniture.obj().movecost != 0 ) {
+    if( furniture != furn_str_id::NULL_ID() && furniture.obj().movecost != 0 ) {
         return false;
     }
 
     const ter_id terrain = here.ter( pt );
-    if( terrain == t_null ) {
+    if( terrain == ter_str_id::NULL_ID() ) {
         return false;
     }
     // open air is an obstacle to non-flying vehicles; it is drivable
     // for flying vehicles
-    if( terrain == t_open_air ) {
+    if( terrain == ter_t_open_air ) {
         return data.air_ok;
     }
     const ter_t &terrain_type = terrain.obj();
@@ -730,13 +791,69 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
 void vehicle::autodrive_controller::compute_obstacles()
 {
     const map &here = get_map();
+    const int z = data.current_omt.z();
+    point_queue ramp_points;
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
-            // TODO: store z-values in the nav map and retrieve here (needed for ramp navigation)
-            const tripoint abs_map_pt = data.view_to_map.transform( point( dx, dy ), data.current_omt.z() );
-            data.is_obstacle[dx][dy] = !check_drivable( here.getlocal( abs_map_pt ) );
+            const tripoint abs_map_pt = data.view_to_map.transform( point( dx, dy ), z );
+            const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
+            data.is_obstacle[dx][dy] = !check_drivable( p );
+            data.ground_z[dx][dy] = z;
+            enqueue_if_ramp( ramp_points, here, p );
         }
     }
+    compute_obstacles_from_enqueued_ramp_points( ramp_points, here );
+}
+
+// Checks whether `p` is a drivable ramp up or down,
+// and if so adds the ramp's destination tripoint to `ramp_points`
+void vehicle::autodrive_controller::enqueue_if_ramp( point_queue &ramp_points,
+        const map &here, const tripoint_bub_ms &p ) const
+{
+    if( !data.land_ok ) {
+        return;
+    }
+    ramp_points.visited.emplace( p );
+    if( p.z() < OVERMAP_HEIGHT && here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, p ) ) {
+        ramp_points.enqueue( p + tripoint_above );
+    }
+    if( p.z() > -OVERMAP_DEPTH && here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p ) ) {
+        ramp_points.enqueue( p + tripoint_below );
+    }
+}
+
+// Flood-fills from all enqueued points of up or down ramps. For each connected point, we
+// set `is_obstacle` and `ground_z` again, based on whether they are an obstacle or not on
+// this zlevel.
+void vehicle::autodrive_controller::compute_obstacles_from_enqueued_ramp_points(
+    point_queue &ramp_points, const map &here )
+{
+    auto is_drivable = [this, &here]( const tripoint_bub_ms & p ) {
+        return here.inbounds( p ) && check_drivable( p );
+    };
+    while( !ramp_points.to_check.empty() ) {
+        const tripoint_bub_ms ramp_point = ramp_points.to_check.front();
+        ramp_points.to_check.pop();
+        for( const tripoint_bub_ms &p : ff::point_flood_fill_4_connected( ramp_point, ramp_points.visited,
+                is_drivable ) ) {
+            const point pt_view = data.to_view( p );
+            if( !data.view_bounds.contains( pt_view ) ) {
+                continue;
+            }
+            // We now know that point p is drivable (and not an obstacle) on this zlevel, since
+            // it passed the is_drivable check.
+            if( data.is_obstacle[pt_view] ) {
+                // We have examined this point previously on a different zlevel but conluded
+                // that it was an obstacle at that zlevel. But on this zlevel it is apparently
+                // not an obstacle, so this must be our groundlevel.
+                data.ground_z[pt_view] = p.z();
+            } else {
+                data.ground_z[pt_view] = std::min( data.ground_z[pt_view], p.z() );
+            }
+            data.is_obstacle[pt_view] = false;
+            enqueue_if_ramp( ramp_points, here, p );
+        }
+    };
 }
 
 void vehicle::autodrive_controller::compute_valid_positions()
@@ -766,7 +883,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
 {
     data.goal_zone.clear();
     coord_transformation goal_transform;
-    if( data.next_next_omt != data.next_omt ) {
+    if( data.next_next_omt.xy() != data.next_omt.xy() ) {
         // set the goal at the edge of next_omt and next_next_omt (in next_omt
         // space, pointing towards next_next_omt)
         const point next_omt_middle( OMT_SIZE + OMT_SIZE / 2, OMT_SIZE / 2 );
@@ -810,7 +927,7 @@ void vehicle::autodrive_controller::precompute_data()
         // initialize car and driver properties
         data.land_ok = driven_veh.valid_wheel_config();
         data.water_ok = driven_veh.can_float();
-        data.air_ok = driven_veh.is_flyable();
+        data.air_ok = driven_veh.has_sufficient_rotorlift();
         data.max_speed_tps = std::min( MAX_SPEED_TPS, driven_veh.safe_velocity() / VMIPH_PER_TPS );
         data.acceleration.resize( data.max_speed_tps );
         for( int speed_tps = 0; speed_tps < data.max_speed_tps; speed_tps++ ) {
@@ -881,7 +998,6 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
     return ret;
 }
 
-
 void vehicle::autodrive_controller::compute_next_nodes( const node_address &addr,
         const navigation_node &node, int target_speed_tps,
         std::vector<std::pair<node_address, navigation_node>> &next_nodes )
@@ -944,11 +1060,11 @@ const
     }
 }
 
-cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
+std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
             int speed_tps ) const
 {
     if( speed_tps == 0 || speed_tps < -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     // TODO: tweak this
     constexpr int max_search_count = 10000;
@@ -975,7 +1091,7 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
                 const tripoint_abs_ms prev_loc( data.nav_to_map.transform( prev.get_point(),
                                                 data.current_omt.z() ) );
                 ret.emplace_back( navigation_step{
-                    prev_loc,
+                    data.adjust_z( prev_loc ),
                     data.nav_to_map.transform( addr.facing_dir ),
                     node.target_speed_tps
                 } );
@@ -1004,7 +1120,7 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
             }
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 vehicle::autodrive_controller::autodrive_controller( const vehicle &driven_veh,
@@ -1027,19 +1143,26 @@ void vehicle::autodrive_controller::check_safe_speed()
 
 collision_check_result vehicle::autodrive_controller::check_collision_zone( orientation turn_dir )
 {
-    const tripoint veh_pos = driven_veh.global_pos3();
+    const tripoint_bub_ms veh_pos = driven_veh.pos_bub();
 
     // first check if we have any visibility in front, to prevent blind driving
     tileray face_dir = driven_veh.face;
     face_dir.advance();
     const point forward_offset( face_dir.dx(), face_dir.dy() );
+    bool changed_zlevel = false;
     bool blind = true;
     for( const point &p : data.profile( to_orientation( face_dir.dir() ) ).collision_points ) {
-        if( driver.sees( veh_pos + forward_offset + p ) ) {
+        const tripoint_bub_ms next = data.adjust_z( veh_pos + forward_offset + p );
+        if( driver.sees( next ) ) {
             blind = false;
         }
+        // Known quirk: the player does not always see points above or below when driving
+        // up or down ramps, which makes this check think that we should stop pathfinding.
+        // So here we allow having no visibility in case the path changes zlevel.
+        // Checks further down below in this method will make sure that we instead slow down.
+        changed_zlevel |= ( next.z() != veh_pos.z() );
     }
-    if( blind ) {
+    if( blind && !changed_zlevel ) {
         return collision_check_result::no_visibility;
     }
 
@@ -1060,7 +1183,7 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
         collision_zone.insert( p + offset );
     }
     for( const point &p : collision_zone ) {
-        if( !check_drivable( veh_pos + p ) ) {
+        if( !check_drivable( data.adjust_z( veh_pos + p ) ) ) {
             return collision_check_result::close_obstacle;
         }
     }
@@ -1075,10 +1198,11 @@ collision_check_result vehicle::autodrive_controller::check_collision_zone( orie
         }
     }
     for( const point &p : collision_zone ) {
-        if( !driver.sees( veh_pos + p ) ) {
+        const tripoint_bub_ms next = data.adjust_z( veh_pos + p );
+        if( !driver.sees( next ) ) {
             return collision_check_result::slow_down;
         }
-        if( !check_drivable( veh_pos + p ) ) {
+        if( !check_drivable( next ) ) {
             return collision_check_result::slow_down;
         }
     }
@@ -1090,7 +1214,7 @@ void vehicle::autodrive_controller::reduce_speed()
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
-cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
+std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
@@ -1101,8 +1225,10 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
                                         navigation_step();
     bool maintain_speed = false;
     // If vehicle did not move as far as planned and direction is the same
-    // then it is still accelerating.
-    if( two_steps && square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) >
+    // then it is still accelerating. If the vehicle moved more than expected
+    // then we likely underestimated the acceleration when planning the path.
+    // If either of these happen, we should maintain speed but compute a new path.
+    if( two_steps && square_dist( first_step.pos.xy().raw(), second_step.pos.xy().raw() ) !=
         square_dist( first_step.pos.xy().raw(), veh_pos.xy().raw() ) &&
         first_step.steering_dir == second_step.steering_dir ) {
         data.path.pop_back();
@@ -1129,13 +1255,12 @@ cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step
             new_path = compute_path( data.max_speed_tps );
         }
         if( !new_path ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         data.path.swap( *new_path );
     }
     return data.path.back();
 }
-
 
 std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data() const
 {
@@ -1233,7 +1358,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     const tripoint_abs_ms veh_pos = global_square_location();
     const tripoint_abs_omt veh_omt = project_to<coords::omt>( veh_pos );
     std::vector<tripoint_abs_omt> &omt_path = driver.omt_path;
-    if( !omt_path.empty() && veh_omt == omt_path.back() ) {
+    while( !omt_path.empty() && veh_omt.xy() == omt_path.back().xy() ) {
         omt_path.pop_back();
     }
     if( omt_path.empty() ) {
@@ -1249,14 +1374,14 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::abort;
     }
     active_autodrive_controller->check_safe_speed();
-    cata::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
+    std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
         driver.add_msg_if_player( _( "Can't see a path forward." ) );
         stop_autodriving( false );
         return autodrive_result::abort;
     }
-    if( next_step->pos != veh_pos ) {
+    if( next_step->pos.xy() != veh_pos.xy() ) {
         debugmsg( "compute_next_step returned an invalid result" );
         stop_autodriving();
         return autodrive_result::abort;
@@ -1265,7 +1390,6 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         stop_autodriving( false );
         return autodrive_result::finished;
     }
-    cruise_on = true;
     cruise_velocity = next_step->target_speed_tps * VMIPH_PER_TPS;
 
     // check for collisions before we steer, since steering may end our turn
@@ -1293,7 +1417,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     // pldrive() does not handle steering multiple times in one call correctly
     // call it multiple times, matching how a player controls the vehicle
     for( int i = 0; i < std::abs( turn_delta ); i++ ) {
-        if( driver.moves <= 0 ) {
+        if( driver.get_moves() <= 0 ) {
             // we couldn't steer as many times as we wanted to but there's
             // nothing we can do about it now, hope we don't crash!
             break;
@@ -1313,7 +1437,6 @@ void vehicle::stop_autodriving( bool apply_brakes )
     }
     if( apply_brakes ) {
         cruise_velocity = 0;
-        cruise_on = true;
     }
     is_autodriving = false;
     is_patrolling = false;

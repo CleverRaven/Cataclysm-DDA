@@ -12,7 +12,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 
 
 | Combination     | Collection | Distribution |
-| ----------------|------------|------------- |
+| --------------- | ---------- | ------------ |
 | Neither A nor B | 56%        | 0%           |
 | Only A          | 24%        | 60%          |
 | Only B          | 14%        | 40%          |
@@ -23,7 +23,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 The format is this:
 
 ```json
-{
+  {
     "type": "item_group",
     "subtype": "<subtype>",
     "id": "<some name>",
@@ -32,16 +32,18 @@ The format is this:
     "container-item": "<container-item-id>",
     "on_overflow": "<discard|spill>",
     "entries": [ ... ]
-}
+  }
 ```
 
 `subtype` is optional. It can be `collection` or `distribution`.  If unspecified, it defaults to `old`, which denotes that this item group uses the old format (essentially a distribution).
 
-`container-item` causes all the items of the group to spawn in a container,
-rather than as separate top-level items.  If the items might not all fit in the
-container, you must specify how to deal with the overflow by setting
-`on_overflow` to either `discard` to discard items at random until they fit, or
-`spill` to have the excess items be spawned alongside the container.
+`container-item` causes all the items of the group to spawn in a container, rather than as separate top-level items.  If the items might not all fit in the container, you must specify how
+to deal with the overflow by setting `on_overflow` to either `discard` to discard items at random until they fit, or `spill` to have the excess items be spawned alongside the container.
+`container-item` can also be an object containing an `item` field specifying the container and a `variant` field specifying said container's variant. Eg.
+
+```json
+    "container-item": { "item": "<container-item-id>", "variant": "<container-item-variant-id>" },
+```
 
 There are [some caveats](#ammo-and-magazines) to watch out for when using `ammo` or `magazine`.
 
@@ -87,15 +89,20 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
+"components": "<array>",
 "contents-item": "<item-id>" (can be a string or an array of strings),
 "contents-group": "<group-id>" (can be a string or an array of strings),
 "ammo-item": "<ammo-item-id>",
 "ammo-group": "<group-id>",
 "container-group": "<group-id>",
+"entry-wrapper": "<item-id>",
 "sealed": <boolean>
+"active": <boolean>
+"custom-flags": <array of string>,
 "variant": <string>
 "artifact": <object>
 "event": <string>
+"snippets": <string>
 ```
 
 `contents` is added as contents of the created item.  It is not checked if they can be put into the item.  This allows water, that contains a book, that contains a steel frame, that contains a corpse.
@@ -106,9 +113,17 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
 
+`active`: If true, item would be spawned activated.  Be sure to use active versions of item, like `flashlight_on` instead of `flashlight`.  Default is `false`
+
+`custom-flags`: An array of flags that will be applied to this item.
+
 `variant`: A valid itype variant id for this item.
 
+`components`: Valid itype ids which are put into the item as its components, as may be done with in-game crafting. Note that there is no requirement for a matching recipe to exist, the components may be any existent item. You could define a spawned `hamburger` to have components of `[ "rock", "rock" ]` but it won't be good food... rocks contain no calories or nutrients!
+
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
+
+`snippets`: If item uses `snippet_category` instead of description, and snippets contain ids, allow to pick a specific description of an item to spawn; see [JSON_INFO.md#snippets](JSON_INFO.md#snippets)
 
 Current possible values are:
 - "none" (Not event-based. Same as omitting the "event" field.)
@@ -129,12 +144,14 @@ The procgen_id relates directly to a `relic_procgen_data` object's id. The `rule
 "damage-min": 0,
 "damage-max": 3,
 "count": 4
-"charges": [10, 100]
+"charges": [ 10, 100 ]
 ```
 
 This will create 4 items; they can have different damage levels as the damage value is rolled separately for each of these items.  Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you.  Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values.  In other words, `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
 
 The container is checked and the item is put inside the container, and the charges of the item are capped/increased to match the size of the container.
+
+`entry-wrapper`: Used for spawning lots of non-stackable items inside a container.  Instead of creating a dedicated itemgroup for that, you can use this field to define that inside an entry.  Note that you may want to set `container-item` to null to override the item's default container.
 
 ### Ammo and Magazines
 
@@ -179,32 +196,32 @@ This format does not support further properties of the created items - the proba
 The content of "entries", "items" and "groups" are all added if those members exist.  This will have the item `<id-1>` appear twice in the item group:
 
 ```json
-{
+  {
     "items": [ "<id-1>" ],
     "entries": [ { "item": "<id-1>" } ]
-}
+  }
 ```
 
 Another example: The group "milk" spawns a container (taken from milk_containers) that contains milk (the maximal amount that fits into the container, because there is no defined charges value).
 
 ```json
-{
+  {
     "type" : "item_group",
     "id": "milk_containers",
     "subtype": "distribution",
     "items": [
       "bottle_plastic", "bottle_glass", "flask_glass",
-      "jar_glass", "jar_3l_glass", "flask_hip", "55gal_drum"
+      "jar_glass_sealed", "jar_3l_glass_sealed", "flask_hip", "55gal_drum"
     ]
-},
-{
+  },
+  {
     "type" : "item_group",
     "id": "milk",
     "subtype": "distribution",
     "entries": [
-        { "item": "milk", "container-group": "milk_containers" }
+      { "item": "milk", "container-group": "milk_containers" }
     ]
-},
+  },
 ```
 
 ## Adding to item groups
@@ -212,7 +229,7 @@ Another example: The group "milk" spawns a container (taken from milk_containers
 Mods can add entries to item groups by specifying a group with the same id that copies-from the previous group (`"copy-from": group_id`), and encompassing the added items within an `extend` block, like so:
 
 ```json
-{
+  {
     "type" : "item_group",
     "id": "milk_containers",
     "copy-from": "milk_containers",
@@ -220,52 +237,52 @@ Mods can add entries to item groups by specifying a group with the same id that 
     "extend": {
       "items": [
         "bottle_plastic", "bottle_glass", "flask_glass",
-        "jar_glass", "jar_3l_glass", "flask_hip", "55gal_drum"
+        "jar_glass_sealed", "jar_3l_glass_sealed", "flask_hip", "55gal_drum"
       ]
     }
-},
-{
+  },
+  {
     "type" : "item_group",
     "id": "milk",
     "copy-from": "milk",
     "subtype": "distribution",
     "extend": {
       "entries": [
-          { "item": "milk", "container-group": "milk_containers" }
+        { "item": "milk", "container-group": "milk_containers" }
       ]
     }
-},
+  },
 ```
 
 ## Inlined item groups
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [JSON_INFO.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON_INFO.md)) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 
 ```json
-{
+  {
     "type": "item_group",
     "id": "specific_group_id",
     "subtype": "distribution",
     "items": [ "a", "b" ]
-},
-{
+  },
+  {
     "death_drops": "specific_group_id"
-}
+  }
 ```
 
 is equivalent to:
 
 ```json
-{
+  {
     "death_drops": {
-        "subtype": "distribution",
-        "items": [ "a", "b" ]
+      "subtype": "distribution",
+      "items": [ "a", "b" ]
     }
-}
+  }
 ```
 
 The inline group is read like any other group and one can use all the properties mentioned above.  Its `type` and `id` members are always ignored.
@@ -273,11 +290,11 @@ The inline group is read like any other group and one can use all the properties
 Instead of a full JSON object, one can also write a JSON array.  The default subtype is used and the array is read like the "entries" array (see above).  Each entry of that array must be a JSON object. Example:
 
 ```json
-{
+  {
     "death_drops": [
-        { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
+      { "item": "sheet_cotton", "damage": 2 }, { "item": "bowling_ball" }
     ]
-}
+  }
 ```
 
 ----

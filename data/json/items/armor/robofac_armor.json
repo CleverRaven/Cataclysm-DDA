@@ -3,15 +3,15 @@
     "id": "robofac_armor_rig",
     "type": "ARMOR",
     "category": "ARMOR",
-    "repairs_like": "coat_rain",
     "looks_like": "poncho",
     "name": { "str": "Hub 01 modular defense system" },
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  Striped in brown and blue, the white seal of Hub 01 is emblazoned proudly on the front.  It features several quick access pouches attached to a waist drawstring, and two waterproof dry bags for carrying liquids.  It also features several tight clamps and velcro strips around the waist and shoulders; perhaps something attaches to them.",
     "//": "at least 3x thicker than a normal poncho",
+    "//2": "Why no PALS? Fundamentally PALS is a decent system but adds a pile of additional weight in straps and fasteners, they also unless very well designed aren't particularly low profile and can catch on stuff. It's fun for a game but in the real world you can just buy a bag with the pockets and utility you want, or as the current fad in Tacticool Operators ™️  go with a micro rig or a dedicated pre pocketed harness. So for military use where you are expected to carry 270 rounds of ammo weight is a lot less splitting hairs. In an apocalypse scenario where you will be moving on foot, potentially with low calories to supplement and no chain of resupply that weight can really matter.",
     "weight": "960 g",
     "volume": "250 ml",
-    "price": 4000,
-    "price_postapoc": 750,
+    "price": "40 USD",
+    "price_postapoc": "7 USD 50 cent",
     "symbol": "[",
     "material": [ "nylon", "kevlar" ],
     "color": "light_gray",
@@ -23,6 +23,8 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "//": "more cylindrical",
+        "max_item_length": "200 mm",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -32,6 +34,8 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "//": "more cylindrical",
+        "max_item_length": "200 mm",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -57,8 +61,8 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "5000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "11 kg",
         "moves": 200,
         "description": "Hooks for an armored mantle.",
         "flag_restriction": [ "ABLATIVE_MANTLE" ]
@@ -68,7 +72,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "4000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_weight": "4 kg",
         "moves": 200,
         "description": "Hooks for an armored skirt.",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
@@ -81,7 +85,16 @@
         "moves": 200,
         "holster": true,
         "description": "Strap for a gun barrel.",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
+        "item_restriction": [
+          "robofac_gun_ar",
+          "robofac_gun_smg",
+          "robofac_gun_dmr",
+          "robofac_gun_shotgun",
+          "robofac_gun_shotgun_breach",
+          "robofac_gun_exodii",
+          "robofac_gun_57",
+          "robofac_gun_46"
+        ]
       }
     ],
     "armor": [
@@ -150,8 +163,8 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "5000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "11 kg",
         "moves": 200,
         "description": "Hooks for an armored mantle.",
         "flag_restriction": [ "ABLATIVE_MANTLE" ]
@@ -161,7 +174,7 @@
         "ablative": true,
         "volume_encumber_modifier": 0,
         "max_contains_volume": "4000 ml",
-        "max_contains_weight": "5 kg",
+        "max_contains_weight": "4 kg",
         "moves": 200,
         "description": "Hooks for an armored skirt.",
         "flag_restriction": [ "ABLATIVE_SKIRT" ]
@@ -174,9 +187,23 @@
         "moves": 200,
         "holster": true,
         "description": "Strap for a gun barrel.",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
+        "item_restriction": [
+          "robofac_gun_ar",
+          "robofac_gun_smg",
+          "robofac_gun_dmr",
+          "robofac_gun_shotgun",
+          "robofac_gun_shotgun_breach",
+          "robofac_gun_exodii",
+          "robofac_gun_57",
+          "robofac_gun_46"
+        ]
       },
-      { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "ammo": "battery",
     "use_action": {
@@ -228,7 +255,6 @@
   {
     "id": "robofac_armor_anchor_on",
     "copy-from": "robofac_armor_anchor",
-    "repairs_like": "robofac_armor_anchor",
     "type": "TOOL_ARMOR",
     "name": { "str": "Hub 01 modular defense anchor (on)", "str_pl": "Hub 01 modular defense anchors (on)" },
     "looks_like": "robofac_armor_anchor",
@@ -245,7 +271,6 @@
   },
   {
     "id": "robofac_head_rig",
-    "repairs_like": "coat_rain",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "Hub 01 modular recon headgear" },
@@ -254,9 +279,8 @@
     "//": "nv goggles weight 1020g.  hub armor rig weight 960g for full body.  figure this strikes a decent midpoint, esp.  since weight here becomes head encumb.  materials wise, same nylon/kevlar weave as the poncho; the visor is being handwaved per the riot helmet and motorcycle helmet visors as precedent.",
     "weight": "1200 g",
     "volume": "1200 ml",
-    "price": 10000,
-    "price_postapoc": 2000,
-    "to_hit": -1,
+    "price": "100 USD",
+    "price_postapoc": "20 USD",
     "material": [ "nylon", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -283,7 +307,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",
@@ -305,7 +329,7 @@
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing low power to provide light amplification by way of an infrared illuminator and detector.  Activate to switch to full IR scanning.",
     "copy-from": "robofac_head_rig",
     "extend": { "flags": [ "GNV_EFFECT" ] },
-    "power_draw": "375 mJ",
+    "power_draw": "375 mW",
     "revert_to": "robofac_head_rig",
     "use_action": [
       {
@@ -342,7 +366,7 @@
     "description": "Heavy duty hooded headwear for the true frontier explorer.  The visor has been lowered over the eyes, and is drawing moderate power to provide full infra-red scanning, allowing you to see warm blooded creatures in the dark.  Activate to turn the visor off again.",
     "copy-from": "robofac_head_rig",
     "extend": { "flags": [ "IR_EFFECT" ] },
-    "power_draw": "1 J",
+    "power_draw": "1 W",
     "revert_to": "robofac_head_rig",
     "use_action": [
       {
@@ -370,19 +394,133 @@
     ]
   },
   {
+    "id": "robofac_robotrig",
+    "type": "ARMOR",
+    "name": { "str_sp": "drone-tech harness" },
+    "description": "A modified army harness, repurposed to carry several small and a single medium sized drone alongside the tools to maintain them.",
+    "weight": "425 g",
+    "volume": "500 ml",
+    "price": "39 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "tool_belt",
+    "color": "dark_gray",
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "800 mm",
+        "name": "Medium drone strap",
+        "description": "A series of connectors meant to hold a medium sized drone on your back.",
+        "max_contains_volume": "150 L",
+        "max_contains_weight": "40 kg",
+        "moves": 400,
+        "flag_restriction": [ "ROBOFAC_ROBOT_MEDIUM" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.015
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "6 kg",
+        "name": "Small drone holder",
+        "description": "A series of connectors meant to store a small drone.",
+        "moves": 80,
+        "flag_restriction": [ "ROBOFAC_ROBOT_SMALL" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.03
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "6 kg",
+        "name": "Small drone holder",
+        "description": "A series of connectors meant to store a small drone.",
+        "moves": 80,
+        "flag_restriction": [ "ROBOFAC_ROBOT_SMALL" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.03
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "6 kg",
+        "name": "Small drone holder",
+        "description": "A series of connectors meant to store a small drone.",
+        "moves": 80,
+        "flag_restriction": [ "ROBOFAC_ROBOT_SMALL" ],
+        "holster": true,
+        "volume_encumber_modifier": 0.03
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Gadget pouch",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "15 cm",
+        "moves": 110,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "description": "Gadget pouch",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "15 cm",
+        "moves": 110,
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "description": "Quick access pouches.",
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "5 cm",
+        "moves": 80
+      },
+      {
+        "holster": true,
+        "description": "Tool clip",
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "description": "Tool clip",
+        "min_item_volume": "50 ml",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+        "transparent": true
+      }
+    ],
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "encumbrance": [ 1, 38 ], "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
+  },
+  {
     "abstract": "robofac_mantle",
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract mantle",
-    "repairs_like": "armor_lightplate",
-    "weight": "2 kg",
-    "volume": "4500 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "weight": "6853 g",
+    "volume": "6600 ml",
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 8,
+    "material_thickness": 7,
     "environmental_protection": 5,
     "warmth": 15,
     "flags": [ "ABLATIVE_MANTLE", "CANT_WEAR", "OUTER" ],
@@ -418,15 +556,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract armored skirt",
-    "repairs_like": "armor_lightplate",
-    "weight": "1800 g",
+    "weight": "2454 g",
     "volume": "3500 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 8,
+    "material_thickness": 7,
     "environmental_protection": 5,
     "warmth": 15,
     "flags": [ "ABLATIVE_SKIRT", "CANT_WEAR", "OUTER" ],
@@ -454,18 +591,17 @@
     "category": "armor",
     "name": { "str": "pair of abstract armored vambraces", "str_pl": "pairs of abstract armored vambraces" },
     "looks_like": "armguard_hard",
-    "repairs_like": "armguard_hard",
-    "weight": "1750 g",
+    "weight": "845 g",
     "volume": "4000 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 6,
+    "material_thickness": 5.25,
     "environmental_protection": 5,
     "warmth": 20,
-    "flags": [ "BLOCK_WHILE_WORN", "OUTER" ],
+    "flags": [ "BLOCK_WHILE_WORN", "OUTER", "PADDED" ],
     "armor": [
       {
         "encumbrance": 3,
@@ -482,18 +618,17 @@
     "category": "armor",
     "name": { "str": "pair of abstract armored greaves", "str_pl": "pairs of abstract armored greaves" },
     "looks_like": "legguard_hard",
-    "repairs_like": "legguard_hard",
-    "weight": "1750 g",
+    "weight": "1295 g",
     "volume": "5000 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 6,
+    "material_thickness": 5.25,
     "environmental_protection": 5,
     "warmth": 20,
-    "flags": [ "OUTER" ],
+    "flags": [ "OUTER", "PADDED" ],
     "armor": [
       {
         "encumbrance": 3,
@@ -509,15 +644,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "abstract helmet",
-    "repairs_like": "armor_lightplate",
-    "weight": "950 g",
+    "weight": "1176 g",
     "volume": "1750 ml",
-    "price": 60000,
-    "price_postapoc": 5000,
+    "price": "600 USD",
+    "price_postapoc": "50 USD",
     "material": [ "ceramic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "material_thickness": 8,
+    "material_thickness": 7,
     "environmental_protection": 5,
     "warmth": 15,
     "flags": [ "ABLATIVE_HELMET", "CANT_WEAR", "OUTER" ],
@@ -530,7 +664,7 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 prototype mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Several buckles and straps allow it to be adjusted to fit you comfortably.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
   {
     "//": "Tier 2 mantle",
@@ -539,8 +673,8 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 kinetic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model incorporates a rubber coating that diffuses impacts and provides excellent protection from blunt trauma, even if it does feel a bit like a rain coat.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
+    "proportional": { "weight": 1.576 }
   },
   {
     "//": "Tier 2 mantle",
@@ -549,8 +683,8 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 turnout mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  This model features heat-resistant materials in the construction, providing protection from extreme heat without sacrificing its overall performance.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
+    "proportional": { "weight": 1.356 }
   },
   {
     "//": "Tier 2 mantle",
@@ -559,8 +693,12 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 ballistic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Thanks to a slim under-layer of synthetic fibers, it provides fantastic defense from small-arms fire, and could take the edge off of a rifle bullet, too.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 3 mantle",
@@ -570,12 +708,12 @@
     "name": "Hub 01 soldier mantle",
     "description": "3D printed armor for the upper body, sporting a professional finish and stellar ergonomics.  Made of extremely tough UHMW polyethylene combined with treated aramid fabric, it provides military-grade defense against zombies, bullets, zombies with bullets, and plenty of other things that the Cataclysm can throw at you.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [
-      { "type": "thermo_resin", "portion": 1 },
-      { "type": "steel", "portion": 1 },
-      { "type": "kevlar_rigid", "portion": 2 }
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
     ],
     "extend": { "flags": [ "STURDY" ] },
-    "proportional": { "weight": 2 }
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 1 skirt",
@@ -584,7 +722,7 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 prototype skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It features a simple integrated belt to let it fit any waist size.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
   {
     "//": "Tier 2 skirt",
@@ -593,8 +731,8 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 kinetic skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  This model resembles scale armor, and provides excellent protection from blunt trauma.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
+    "proportional": { "weight": 1.576 }
   },
   {
     "//": "Tier 2 skirt",
@@ -603,8 +741,8 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 turnout skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  This version incorporates tight-fitting leggings that provide some protection from extreme heat.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
+    "proportional": { "weight": 1.365 }
   },
   {
     "//": "Tier 2 skirt",
@@ -613,8 +751,12 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 ballistic skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It includes a reinforcing layer of aramid fabric in addition to leg sleeves made of high-strength material, protecting your sensitive bits from small-arms fire.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 3 skirt",
@@ -624,12 +766,12 @@
     "name": "Hub 01 soldier skirt",
     "description": "3D printed armor for the thighs and knees, sporting a professional finish and stellar ergonomics.  Composed of segmented polyethylene armor plates featuring a dense metal core sandwiched between layers of composite-grade aramid fabric, it provides excellent protection for the upper legs to ensure that you'll stay on your feet when it really matters.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [
-      { "type": "thermo_resin", "portion": 1 },
-      { "type": "steel", "portion": 1 },
-      { "type": "kevlar_rigid", "portion": 2 }
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
     ],
     "extend": { "flags": [ "STURDY" ] },
-    "proportional": { "weight": 2 }
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 1 vambraces",
@@ -638,7 +780,7 @@
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  The end of each sheet features a clip and drawstring, to fit the armor to any size.  Despite the rough finish, it fits securely, and feels quite comfortable.",
-    "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
   {
     "//": "Tier 2 vambraces",
@@ -647,8 +789,8 @@
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 kinetic vambraces", "str_pl": "pairs of Hub 01 kinetic vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones are built in an overlapping pattern that diffuses impacts and provides excellent protection from blunt trauma.",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
+    "proportional": { "weight": 1.576 }
   },
   {
     "//": "Tier 2 vambraces",
@@ -657,8 +799,8 @@
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 turnout vambraces", "str_pl": "pairs of Hub 01 turnout vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include Nomex sleeves to protect your arms from extreme heat.",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
+    "proportional": { "weight": 1.365 }
   },
   {
     "//": "Tier 2 vambraces",
@@ -667,8 +809,12 @@
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 ballistic vambraces", "str_pl": "pairs of Hub 01 ballistic vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  These ones include aramid arm sleeves that do a great job of slowing down bullets and preventing them from shredding your arms.",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 3 vambraces",
@@ -678,12 +824,12 @@
     "name": { "str": "pair of Hub 01 soldier vambraces", "str_pl": "pairs of Hub 01 soldier vambraces" },
     "description": "3D printed arm guards, sporting a professional finish and stellar ergonomics.  With thick bullet-resistant arm sleeves, flexible but extremely tough thermoplastic plates, and special attention given to areas reflexively used to protect the face from attacks, it provides first-rate protection against all the horrors that the apocalypse has brought to bear.",
     "material": [
-      { "type": "thermo_resin", "portion": 1 },
-      { "type": "steel", "portion": 1 },
-      { "type": "kevlar_rigid", "portion": 2 }
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
     ],
     "extend": { "flags": [ "STURDY" ] },
-    "proportional": { "weight": 2 }
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 1 greaves",
@@ -692,7 +838,7 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
-    "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
   {
     "//": "Tier 2 greaves",
@@ -701,8 +847,8 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
+    "proportional": { "weight": 1.576 }
   },
   {
     "//": "Tier 2 greaves",
@@ -711,8 +857,8 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 turnout greaves", "str_pl": "pairs of Hub 01 turnout greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Heat-resistant leg sleeves and a breathable design provide adequate protection from extreme heat without sacrificing your mobility or core protection.",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
+    "proportional": { "weight": 1.365 }
   },
   {
     "//": "Tier 2 greaves",
@@ -721,8 +867,12 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 3 greaves",
@@ -732,12 +882,12 @@
     "name": { "str": "pair of Hub 01 soldier greaves", "str_pl": "pairs of Hub 01 soldier greaves" },
     "description": "3D printed leg guards, sporting a professional finish and stellar ergonomics.  Layered UHMW thermoplastic plates and bullet-resistant aramid padding combine to keep your lower leg bones protected and unbroken, even when knee-deep in the dead.",
     "material": [
-      { "type": "thermo_resin", "portion": 1 },
-      { "type": "steel", "portion": 1 },
-      { "type": "kevlar_rigid", "portion": 2 }
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
     ],
     "extend": { "flags": [ "STURDY" ] },
-    "proportional": { "weight": 2 }
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 1 helmet",
@@ -746,7 +896,7 @@
     "copy-from": "robofac_helmet",
     "name": "Hub 01 prototype helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
-    "material": [ { "type": "plastic", "portion": 3 }, { "type": "aluminum", "portion": 1 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
   },
   {
     "//": "Tier 2 helmet",
@@ -755,8 +905,8 @@
     "copy-from": "robofac_helmet",
     "name": "Hub 01 kinetic helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This model is covered in countless rubber hexagons, and offers superior protection against blunt trauma.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "rubber", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
+    "proportional": { "weight": 1.576 }
   },
   {
     "//": "Tier 2 helmet",
@@ -764,9 +914,9 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 turnout helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "nomex", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This version incorporates a tight fitting Nomex layer for some protection against heat.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "nomex", "portion": 4 } ],
+    "proportional": { "weight": 1.365 }
   },
   {
     "//": "Tier 2 helmet",
@@ -774,9 +924,13 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 ballistic helmet",
-    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
-    "material": [ { "type": "plastic", "portion": 1 }, { "type": "steel", "portion": 1 }, { "type": "kevlar", "portion": 2 } ],
-    "proportional": { "weight": 2.5 }
+    "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  This one has extra Kevlar and steel layering, to provide superior protection against small arms.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
+    "proportional": { "weight": 1.5 }
   },
   {
     "//": "Tier 3 helmet",
@@ -784,13 +938,13 @@
     "type": "ARMOR",
     "copy-from": "robofac_helmet",
     "name": "Hub 01 soldier helmet",
-    "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
+    "description": "3D printed armor for the head, sporting a professional finish and stellar ergonomics.  Composed of a dense metal shell sandwiched between layers of composite-grade aramid fabric, it provides excellent protection, ensuring you'll keep your head against whatever the Cataclysm throws at you.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
     "material": [
-      { "type": "thermo_resin", "portion": 1 },
-      { "type": "steel", "portion": 1 },
-      { "type": "kevlar_rigid", "portion": 2 }
+      { "type": "thermo_resin", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_rigid", "portion": 4 }
     ],
     "extend": { "flags": [ "STURDY" ] },
-    "proportional": { "weight": 2 }
+    "proportional": { "weight": 1.5 }
   }
 ]

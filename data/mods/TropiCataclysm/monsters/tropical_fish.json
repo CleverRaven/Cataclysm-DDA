@@ -20,7 +20,6 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "luminance": 0,
     "harvest": "shellfish",
     "dissect": "dissect_gastropod_sample_single",
     "reproduction": { "baby_monster": "mon_crab_manca", "baby_count": 1, "baby_timer": 21 },
@@ -81,14 +80,11 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
     "dodge": 4,
-    "armor_bash": 5,
-    "armor_cut": 1,
-    "armor_bullet": 1,
-    "luminance": 0,
     "harvest": "fish_large",
     "zombify_into": "mon_zhark",
     "reproduction": { "baby_monster": "mon_shark_pup", "baby_count": 8, "baby_timer": 364 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ],
+    "armor": { "bash": 5, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_shark_pup",
@@ -123,7 +119,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "electric eel" },
-    "description": "An electric eel.  A strange elongated fish known for its hability to use electricity to hunt prey, despite their name they are not actually eels.",
+    "description": "An electric eel.  A strange elongated fish known for its ability to use electricity to hunt prey, despite their name they are not actually eels.",
     "special_when_hit": [ "ZAPBACK", 100 ],
     "reproduction": { "baby_egg": "egg_eel_electric", "baby_count": 2, "baby_timer": 17 },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
@@ -288,7 +284,6 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "luminance": 0,
     "reproduction": { "baby_monster": "mon_fry_stingray", "baby_count": 8, "baby_timer": 364 },
     "harvest": "fish_small",
     "dissect": "dissect_fish_sample_single",
@@ -367,25 +362,10 @@
     "name": { "str_sp": "fry" }
   },
   {
-    "id": "mon_fish_goldfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fish_tiny",
-    "name": { "str_sp": "goldfish" },
-    "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 },
-    "description": "A tiny domestic fish related to the carp.  This one must be part of a feral population but still keeps the golden hue of its domestic counterpart."
-  },
-  {
-    "id": "mon_fry_goldfish",
-    "type": "MONSTER",
-    "copy-from": "mon_fry",
-    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
-    "name": { "str_sp": "fry" }
-  },
-  {
     "id": "mon_fish_koi",
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
-    "name": { "str": "koi" },
+    "name": { "str_sp": "koi" },
     "reproduction": { "baby_egg": "egg_koi", "baby_count": 2, "baby_timer": 17 },
     "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
   },

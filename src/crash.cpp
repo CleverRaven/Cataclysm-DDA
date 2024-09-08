@@ -7,12 +7,17 @@
 #include <csignal>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <exception>
 #include <initializer_list>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <typeinfo>
+
+#if !(defined(WIN32) || defined(TILES) || defined(CYGWIN))
+#include <curses.h>
+#endif
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -76,7 +81,7 @@ extern "C" {
 #if defined(TILES)
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error",
                                       log_text.str().c_str(), nullptr ) != 0 ) {
-            log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
+            log_text << "\nError creating SDL message box: " << SDL_GetError();
         }
 #endif
 #endif
@@ -85,8 +90,13 @@ extern "C" {
         std::cerr << log_text.str();
         FILE *file = fopen( crash_log_file.c_str(), "w" );
         if( file ) {
-            fwrite( log_text.str().data(), 1, log_text.str().size(), file );
-            fclose( file );
+            size_t written = fwrite( log_text.str().data(), 1, log_text.str().size(), file );
+            if( written < log_text.str().size() ) {
+                std::cerr << "Error: writing to log file failed: " << strerror( errno ) << "\n";
+            }
+            if( fclose( file ) ) {
+                std::cerr << "Error: closing log file failed: " << strerror( errno ) << "\n";
+            }
         }
 #if defined(__ANDROID__)
         // Create a placeholder dummy file "config/crash.log.prompt"
@@ -105,7 +115,7 @@ extern "C" {
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        signal( sig, SIG_DFL );
+        static_cast<void>( signal( sig, SIG_DFL ) );
 #pragma GCC diagnostic pop
         const char *msg;
         switch( sig ) {
@@ -129,12 +139,17 @@ extern "C" {
             default:
                 return;
         }
-        log_crash( "Signal", msg );
+#if !(defined(WIN32) || defined(TILES)) && !defined(CYGWIN)
+        endwin();
+#endif
+        if( !isDebuggerActive() ) {
+            log_crash( "Signal", msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        std::signal( SIGABRT, SIG_DFL );
+        static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
         abort(); // NOLINT(cata-assert)
     }
@@ -153,27 +168,31 @@ extern "C" {
             type = msg = "Unexpected termination";
         }
     } catch( const std::exception &e ) {
-        type = typeid( e ).name();
-        msg = e.what();
-        // call here to avoid `msg = e.what()` going out of scope
-        log_crash( type, msg );
+        if( !isDebuggerActive() ) {
+            type = typeid( e ).name();
+            msg = e.what();
+            // call here to avoid `msg = e.what()` going out of scope
+            log_crash( type, msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-        std::signal( SIGABRT, SIG_DFL );
+        static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
         abort(); // NOLINT(cata-assert)
     } catch( ... ) {
         type = "Unknown exception";
         msg = "Not derived from std::exception";
     }
-    log_crash( type, msg );
+    if( !isDebuggerActive() ) {
+        log_crash( type, msg );
+    }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-    std::signal( SIGABRT, SIG_DFL );
+    static_cast<void>( std::signal( SIGABRT, SIG_DFL ) );
 #pragma GCC diagnostic pop
     abort(); // NOLINT(cata-assert)
 }
@@ -191,7 +210,10 @@ void init_crash_handlers()
 #endif
          } ) {
 
-        std::signal( sig, signal_handler );
+        void ( *previous_handler )( int sig ) = std::signal( sig, signal_handler );
+        if( previous_handler == SIG_ERR ) {
+            std::cerr << "Failed to set signal handler for signal " << sig << "\n";
+        }
     }
     std::set_terminate( crash_terminate_handler );
 }

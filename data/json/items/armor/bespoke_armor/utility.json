@@ -6,8 +6,8 @@
     "description": "A custom-built leather belt covered with pouches, with a sheath to carry a smaller blade, a holster to carry a pistol and a loop for holding larger tools.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "weight": "1549 g",
     "volume": "2250 ml",
-    "price": 15000,
-    "price_postapoc": 2500,
+    "price": "150 USD",
+    "price_postapoc": "25 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -16,7 +16,6 @@
     "pocket_data": [
       {
         "holster": true,
-        "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
@@ -80,11 +79,12 @@
         "max_contains_weight": "6 kg",
         "max_item_length": "90 cm",
         "moves": 50,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Store item", "holster_msg": "You put your %1$s in your %2$s" },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": [ 2, 6 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
@@ -94,10 +94,9 @@
     "description": "A custom-built pair of armored goggles with tinted lenses.  Comfortable and built to last, they provide excellent protection from environmental dangers.",
     "weight": "212 g",
     "volume": "250 ml",
-    "price": 7500,
-    "price_postapoc": 3000,
-    "to_hit": -2,
-    "material": [ "kevlar", "leather" ],
+    "price": "75 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "hard_plastic_transp", "leather_treated" ],
     "symbol": "[",
     "looks_like": "glasses_bal",
     "color": "dark_gray",
@@ -105,7 +104,17 @@
     "material_thickness": 4,
     "environmental_protection": 15,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [
+      {
+        "material": [
+          { "type": "leather_treated", "covered_by_mat": 20, "thickness": 2 },
+          { "type": "hard_plastic_transp", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 100,
+        "encumbrance": 25
+      }
+    ]
   },
   {
     "id": "survivor_vest",
@@ -114,8 +123,8 @@
     "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
     "weight": "320 g",
     "volume": "1250 ml",
-    "price": 20000,
-    "price_postapoc": 4000,
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
     "material": [ "leather", "canvas" ],
     "symbol": "[",
     "looks_like": "tacvest",
@@ -173,19 +182,16 @@
     "id": "xl_survivor_vest",
     "type": "ARMOR",
     "copy-from": "survivor_vest",
-    "name": { "str": "XL survivor harness", "str_pl": "XL survivor harnesses" },
-    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear and fitting the largest forms.  Activate to holster/draw your weapon.",
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_survivor_vest",
     "type": "ARMOR",
     "copy-from": "survivor_vest",
-    "looks_like": "survivor_vest",
-    "name": { "str": "XS survivor harness", "str_pl": "XS survivor harnesses" },
-    "description": "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear for those with small stature.  Activate to holster/draw your weapon.",
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

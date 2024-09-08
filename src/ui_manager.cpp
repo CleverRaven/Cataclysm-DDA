@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <iterator>
+#include <optional>
 #include <vector>
 
 #include "cached_options.h"
@@ -10,33 +11,41 @@
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "game_ui.h"
-#include "optional.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
+#include "cata_imgui.h"
+
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
+static bool imgui_frame_started = false;
 static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
-static cata::optional<SDL_Rect> prev_clip_rect;
+static std::optional<SDL_Rect> prev_clip_rect;
 #endif
 static ui_stack_t ui_stack;
 
-ui_adaptor::ui_adaptor() : disabling_uis_below( false ), is_debug_message_ui( false ),
+ui_adaptor::ui_adaptor() : is_imgui( false ), disabling_uis_below( false ),
+    is_debug_message_ui( false ),
     invalidated( false ), deferred_resize( false )
 {
     ui_stack.emplace_back( *this );
 }
 
-ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : disabling_uis_below( true ),
+ui_adaptor::ui_adaptor( ui_adaptor::disable_uis_below ) : is_imgui( false ),
+    disabling_uis_below( true ),
     is_debug_message_ui( false ), invalidated( false ), deferred_resize( false )
 {
     ui_stack.emplace_back( *this );
 }
 
-ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( true ),
+ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
+    disabling_uis_below( true ),
     is_debug_message_ui( true ), invalidated( false ), deferred_resize( false )
 {
     cata_assert( !showing_debug_message );
@@ -58,18 +67,17 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
         SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
         SDL_RenderSetClipRect( renderer.get(), nullptr );
     } else {
-        prev_clip_rect = cata::nullopt;
+        prev_clip_rect = std::nullopt;
     }
 #endif
-    // The debug message might be shown during a normal UI's redraw callback,
-    // so we need to invalidate the frame buffer so it does not interfere
-    // with the display of the debug message.
-    reinitialize_framebuffer( true );
     ui_stack.emplace_back( *this );
 }
 
 ui_adaptor::~ui_adaptor()
 {
+    if( is_shutting_down ) {
+        return;
+    }
     if( is_debug_message_ui ) {
         cata_assert( showing_debug_message );
         showing_debug_message = false;
@@ -126,6 +134,15 @@ void ui_adaptor::position( const point &topleft, const point &size )
     ui_manager::invalidate( old_dimensions, false );
 }
 
+void ui_adaptor::position_absolute( const point &topleft, const point &size )
+{
+    const rectangle<point> old_dimensions = dimensions;
+    // ensure position is updated before calling invalidate
+    dimensions = rectangle<point>( topleft, topleft + size );
+    invalidated = true;
+    ui_manager::invalidate( old_dimensions, false );
+}
+
 void ui_adaptor::on_redraw( const redraw_callback_t &fun )
 {
     redraw_cb = fun;
@@ -163,7 +180,7 @@ void ui_adaptor::record_cursor( const catacurses::window &w )
 
 void ui_adaptor::record_term_cursor()
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     cursor_type = cursor::custom;
     cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
 #else
@@ -174,7 +191,7 @@ void ui_adaptor::record_term_cursor()
 
 void ui_adaptor::default_cursor()
 {
-#if !defined( TILES )
+#if defined( TUI )
     cursor_type = cursor::last;
 #else
     // Unimplemented
@@ -189,7 +206,7 @@ void ui_adaptor::disable_cursor()
 
 static void restore_cursor( const point &p )
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     wmove( catacurses::newscr, p );
 #else
     static_cast<void>( p );
@@ -292,6 +309,11 @@ void ui_adaptor::reset()
     position( point_zero, point_zero );
 }
 
+void ui_adaptor::shutdown()
+{
+    is_shutting_down = true;
+}
+
 void ui_adaptor::invalidate( const rectangle<point> &rect, const bool reenable_uis_below )
 {
     if( rect.p_min.x >= rect.p_max.x || rect.p_min.y >= rect.p_max.y ) {
@@ -313,6 +335,16 @@ void ui_adaptor::invalidate( const rectangle<point> &rect, const bool reenable_u
     invalidation_consistency_and_optimization();
 }
 
+bool ui_adaptor::has_imgui()
+{
+    for( auto ui : ui_stack ) {
+        if( ui.get().is_imgui ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void ui_adaptor::redraw()
 {
     if( !ui_stack.empty() ) {
@@ -321,11 +353,16 @@ void ui_adaptor::redraw()
     redraw_invalidated();
 }
 
-void ui_adaptor::redraw_invalidated()
+void ui_adaptor::redraw_invalidated( )
 {
     if( test_mode || ui_stack.empty() ) {
         return;
     }
+    // This boolean is needed when a debug error is thrown inside redraw_invalidated
+    if( !imgui_frame_started ) {
+        imclient->new_frame();
+    }
+    imgui_frame_started = true;
 
     restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
     restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
@@ -381,8 +418,6 @@ void ui_adaptor::redraw_invalidated()
                     }
                 }
             }
-            // Callbacks may have changed window sizes; reinitialize the frame buffer.
-            reinitialize_framebuffer();
         }
 
         // Redraw invalidated UIs.
@@ -390,7 +425,7 @@ void ui_adaptor::redraw_invalidated()
         if( !restart_redrawing ) {
             for( auto it = first_enabled; !needs_redraw && it != ui_stack_orig->end(); ++it ) {
                 const ui_adaptor &ui = *it;
-                if( ui.invalidated && ui.redraw_cb ) {
+                if( ( ui.invalidated || ui.is_imgui ) && ui.redraw_cb ) {
                     needs_redraw = true;
                 }
             }
@@ -402,10 +437,12 @@ void ui_adaptor::redraw_invalidated()
                 first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
                 ui_stack_orig = &*ui_stack_copy;
             }
-            cata::optional<point> cursor_pos;
+            std::optional<point> cursor_pos;
+            auto top_ui = std::prev( ui_stack_orig->end() );
             for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
                 ui_adaptor &ui = *it;
-                if( ui.invalidated ) {
+                ui.is_on_top = it == top_ui;
+                if( ui.invalidated || ui.is_imgui ) {
                     if( ui.redraw_cb ) {
                         ui.default_cursor();
                         ui.redraw_cb( ui );
@@ -427,6 +464,18 @@ void ui_adaptor::redraw_invalidated()
             }
         }
     } while( restart_redrawing );
+#if defined(EMSCRIPTEN)
+    emscripten_sleep( 1 );
+#endif
+
+    imclient->end_frame();
+    imgui_frame_started = false;
+
+    // if any ImGui window needed to calculate the size of its contents,
+    //  it needs an extra frame to draw. We do that here.
+    if( imclient->auto_size_frame_active() ) {
+        redraw_invalidated();
+    }
 }
 
 void ui_adaptor::screen_resized()
@@ -442,14 +491,16 @@ void ui_adaptor::screen_resized()
 
 background_pane::background_pane()
 {
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    if( !test_mode ) {
+        ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         ui.position_from_window( catacurses::stdscr );
-    } );
-    ui.position_from_window( catacurses::stdscr );
-    ui.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        wnoutrefresh( catacurses::stdscr );
-    } );
+        ui.on_redraw( []( const ui_adaptor & ) {
+            catacurses::erase();
+            wnoutrefresh( catacurses::stdscr );
+        } );
+    }
 }
 
 namespace ui_manager
@@ -474,5 +525,17 @@ void screen_resized()
 {
     ui_adaptor::screen_resized();
 }
+void invalidate_all_ui_adaptors()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.invalidate_ui();
+    }
+}
 
+void reset()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.shutdown();
+    }
+}
 } // namespace ui_manager

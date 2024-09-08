@@ -1,7 +1,6 @@
 [
   {
     "id": "afs_magellan_suit_helmet",
-    "repairs_like": "afs_magellan_suit",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "looks_like": "helmet_motor",
@@ -11,7 +10,6 @@
     "volume": "2250 ml",
     "price": "750 USD",
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -30,9 +28,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 5 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 }
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
     "warmth": 10,
     "material_thickness": 6,
@@ -49,26 +45,31 @@
       "RECHARGE",
       "NO_RELOAD",
       "NO_UNLOAD"
-    ]
+    ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "afs_magellan_suit_helmet_on",
     "copy-from": "afs_magellan_suit_helmet",
-    "repairs_like": "afs_magellan_suit",
     "type": "TOOL_ARMOR",
     "name": { "str": "Magellan helmet CA. (on)", "str_pl": "Magellan helmets CA. (on)" },
     "looks_like": "helmet_motor",
     "description": "The temperature control units and augmented reality overlays of this high-tech garment are currently active, and continuously draining battery power.  Use it to turn them off.",
-    "power_draw": "8170 mJ",
+    "power_draw": "8170 mW",
     "warmth": 150,
     "revert_to": "afs_magellan_suit_helmet",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_magellan_suit_helmet" },
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_magellan_suit_helmet"
+    },
     "extend": { "flags": [ "GAS_PROOF", "WATCH", "ALARMCLOCK", "THERMOMETER", "HYGROMETER", "PARTIAL_DEAF", "TRADER_AVOID" ] },
     "environmental_protection": 15
   },
   {
     "id": "afs_frontier_cryomask",
-    "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
     "looks_like": "helmet_motor",
@@ -78,7 +79,6 @@
     "volume": "2250 ml",
     "price": "750 USD",
     "to_hit": -1,
-    "bashing": 7,
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -96,9 +96,7 @@
       { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 15 },
       { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 20 }
     ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "afs_ench_climate_control_warm" } ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -110,19 +108,25 @@
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "SUN_GLASSES", "OUTER" ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "afs_frontier_cryomask_on",
     "copy-from": "afs_frontier_cryomask",
-    "repairs_like": "afs_frontier_cryomask",
     "type": "TOOL_ARMOR",
     "name": { "str": "frontier cryomask (on)", "str_pl": "frontier cryomasks (on)" },
     "looks_like": "helmet_motor",
     "description": "The heater of this high-tech garment is currently active, and continuously draining battery power.  Use it to turn the heat off.",
-    "power_draw": "6944 mJ",
+    "power_draw": "6944 mW",
     "warmth": 150,
     "revert_to": "afs_frontier_cryomask",
-    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "afs_frontier_cryomask" }
+    "use_action": {
+      "type": "transform",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "afs_frontier_cryomask"
+    }
   }
 ]

@@ -1,0 +1,25 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "combatnail",
+    "picture": [ "<color_light_gray>↓" ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "nail",
+    "picture": [
+      "<color_light_gray>┬",
+      "│",
+      "│"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "nuts_bolts",
+    "picture": [
+      "<color_light_gray>╦",
+      "╬",
+      "║"
+    ]
+  }
+]

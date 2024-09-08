@@ -2,13 +2,14 @@
   {
     "type": "GENERIC",
     "id": "altered_exposed_wiring_prototype",
+    "category": "artifacts",
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "scrap",
     "name": { "str": "exposed-wiring prototype" },
     "description": "Some kind of prototypical electronic device with exposed wiring.  Some of the wires have bare ends that could be connected together.",
-    "price": 1000,
-    "price_postapoc": 100,
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic", "copper" ],
     "weight": "32 g",
     "volume": "26 ml"
@@ -16,13 +17,14 @@
   {
     "type": "GENERIC",
     "id": "altered_phone",
+    "category": "artifacts",
     "symbol": ",",
     "color": "light_red",
     "looks_like": "toaster",
-    "name": { "str": "bakelite phone" },
-    "description": "A vintage, bright-red bakelite phone of famous swedish design.  It would look almost normal, were it not for the fact that its rotary dial has been replaced by a doorknob.",
-    "price": 1000,
-    "price_postapoc": 100,
+    "name": { "str": "Bakelite phone" },
+    "description": "A vintage, bright-red Bakelite phone of famous Swedish design.  It would look almost normal, if not for the fact that its rotary dial has been replaced with a doorknob.",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "iron", "plastic" ],
     "weight": "725 g",
     "volume": "750 ml"
@@ -30,13 +32,14 @@
   {
     "type": "GENERIC",
     "id": "altered_comb",
+    "category": "artifacts",
     "symbol": ",",
     "color": "yellow",
     "looks_like": "comb_pocket",
     "name": { "str": "golden comb" },
-    "description": "A small and delicate golden comb, it was once carefully engraved, but time has smoothed its designs to illegibility.",
-    "price": 1000,
-    "price_postapoc": 100,
+    "description": "A small, delicate golden comb.  It was once carefully engraved, but time has smoothed its designs to illegibility.",
+    "price": "10 USD",
+    "price_postapoc": "1 USD",
     "material": [ "gold" ],
     "weight": "650 g",
     "volume": "40 ml"
@@ -44,13 +47,14 @@
   {
     "type": "GENERIC",
     "id": "altered_keyring",
+    "category": "artifacts",
     "symbol": ",",
     "color": "yellow",
     "looks_like": "old_key",
     "name": { "str": "shifting keyring" },
     "description": "A smooth ring of steel, heavy under the weight of numerous keys.  The designs of the keys change over time, but none will fit any keyhole you have ever found.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "weight": "2000 g",
     "volume": "750 ml"
@@ -58,39 +62,91 @@
   {
     "type": "GENERIC",
     "id": "altered_rubicks_cube",
+    "category": "artifacts",
     "symbol": ",",
     "color": "light_gray",
     "looks_like": "art_lamp",
     "name": { "str": "engraved cube" },
-    "description": "A small cube of smooth rock.  An uniform grid of nine squares is engraved in each of its faces.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "description": "A small cube of smooth rock.  A uniform grid of nine squares is engraved in each of its faces.",
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "stone" ],
-    "weight": "1000 g",
+    "weight": "510 g",
     "volume": "185 ml"
   },
   {
     "type": "GENERIC",
     "id": "altered_teapot",
+    "category": "artifacts",
     "copy-from": "clay_teapot",
     "color": "light_gray",
-    "name": { "str": "utah teapot" },
+    "name": { "str": "Utah teapot" },
     "description": "A squat teapot with a minimalist design.  Its surface shines under the glow of unseen light sources.",
-    "price": 1000,
-    "price_postapoc": 10
+    "price": "10 USD",
+    "price_postapoc": "10 cent"
   },
   {
     "type": "GENERIC",
     "id": "altered_stopwatch",
+    "category": "artifacts",
     "symbol": ",",
     "color": "blue",
     "looks_like": "wristwatch",
     "name": { "str": "glitching stopwatch", "str_pl": "glitching stopwatches" },
     "description": "A small digital stopwatch, looking slightly old by today's standards.  Its digital display prints ever-changing gibberish.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "weight": "200 g",
+    "weight": "165 g",
     "volume": "165 ml"
+  },
+  {
+    "id": "altered_shirt",
+    "copy-from": "tshirt",
+    "type": "ARMOR",
+    "name": { "str": "Hawaiian shirt" },
+    "description": "A slightly worn button-down shirt with a tropical pattern, straight out of the 80's.  You swear that every time you look away and look back, the pattern changes subtly."
+  },
+  {
+    "id": "altered_badge",
+    "copy-from": "badge_deputy",
+    "type": "ARMOR",
+    "name": { "str": "defaced badge" },
+    "description": "A strange golden badge in the shape of a shield with scratched out lettering.  The faceless figures decorating the badge seem taller and thinner than ordinary humans."
+  },
+  {
+    "id": "altered_sunglasses",
+    "copy-from": "sunglasses",
+    "type": "ARMOR",
+    "name": { "str": "pair of strange sunglasses", "str_pl": "pairs of strange sunglasses" },
+    "description": "A pair of thin, round sunglasses.  The tinted glass seems to reflect the same shade of baleful orange light no matter what light it reflects."
+  },
+  {
+    "id": "altered_scissors",
+    "type": "TOOL",
+    "copy-from": "scissors",
+    "name": { "str": "pair of antique scissors", "str_pl": "pairs of antique scissors" },
+    "description": "A pair of ornately decorated steel scissors.  The handle is decorated with vicious-looking birds."
+  },
+  {
+    "id": "altered_necklace",
+    "copy-from": "silver_necklace",
+    "type": "ARMOR",
+    "name": { "str": "antique silver locket" },
+    "description": "A heart-shaped silver locket with an black-and-white image of a smiling woman in it.  Her eyes seem to follow you whenever you look at it."
+  },
+  {
+    "id": "altered_jacket",
+    "copy-from": "jacket_leather",
+    "type": "ARMOR",
+    "name": { "str": "varsity jacket" },
+    "description": "A jacket traditionally worn by school athletes.  The logo of the school has an oddly detailed fractal pattern that draws your eye in whenever you look at it."
+  },
+  {
+    "id": "altered_apron",
+    "copy-from": "waist_apron_long",
+    "type": "ARMOR",
+    "name": { "str": "ambiguous apron" },
+    "description": "A long apron with a plain pattern on it.  Your eyes can't seem to decide what color it is."
   }
 ]

@@ -46,7 +46,7 @@ static behavior::node_t make_test_node( const std::string &goal, const behavior:
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.add_predicate( [status]( const behavior::oracle_t *, const std::string & ) {
+    node.add_predicate( [status]( const behavior::oracle_t *, const std::string_view ) {
         return *status;
     } );
     return node;
@@ -314,7 +314,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CONTAINER );
+        corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
@@ -372,7 +372,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         CHECK( monster_goals.tick( &oracle ) == "idle" );
 
         item corpse = item( "corpse" );
-        corpse.force_insert_item( item( "pencil" ), item_pocket::pocket_type::CONTAINER );
+        corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
 
         here.add_item( test_monster.pos(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );

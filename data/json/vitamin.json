@@ -6,6 +6,11 @@
     "name": { "str": "Calcium" },
     "min": -48000,
     "max": 0,
+    "//": [
+      "96 units are consumed per day, with RDA of 1000mg / 96 = 10.42mg",
+      "1000mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/calcium-HealthProfessional/#h2"
+    ],
+    "weight_per_unit": "10 mg 420 μg",
     "rate": "15 m"
   },
   {
@@ -13,10 +18,15 @@
     "type": "vitamin",
     "vit_type": "vitamin",
     "name": { "str": "Iron" },
-    "excess": "hypervitaminosis",
     "deficiency": "anemia",
     "min": -24000,
     "max": 3600,
+    "//": [
+      "96 units are consumed per day, with RDA of 18mg / 96 = 0.1875mg",
+      "18mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/iron-HealthProfessional/#h2",
+      "As it varies with sex, the max value was chosen"
+    ],
+    "weight_per_unit": "188 ug",
     "rate": "15 m",
     "disease": [ [ -9600, -11200 ], [ -11201, -12800 ], [ -12801, -24000 ] ]
   },
@@ -28,8 +38,50 @@
     "deficiency": "scurvy",
     "min": -5600,
     "max": 0,
+    "//": [
+      "96 units are consumed per day, with RDA of 90mg / 96 = 0.9375mg",
+      "90mg for 19-50yr olds from https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/#h2",
+      "As it varies with sex, the max value was chosen"
+    ],
+    "weight_per_unit": "938 mcg",
     "rate": "15 m",
     "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
+  },
+  {
+    "id": "vit_betablocker",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Beta-Blocker" },
+    "excess": "betablock",
+    "min": 0,
+    "max": 864,
+    "//": [ "Takes 30 min to kick in, lasts 24 hours (or more)." ],
+    "rate": "100 s",
+    "disease_excess": [ [ 10, 864 ], [ 865, 1728 ], [ 1729, 2592 ] ]
+  },
+  {
+    "id": "vit_bloodthinner",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Blood thinner" },
+    "excess": "anticoagulant",
+    "min": 0,
+    "max": 4320,
+    "rate": "100 s",
+    "//": "Takes 30 min to kick in, lasts 5 days",
+    "disease_excess": [ [ 10, 4320 ] ]
+  },
+  {
+    "id": "vit_ibuprofen",
+    "type": "vitamin",
+    "vit_type": "drug",
+    "name": { "str": "Ibuprofen" },
+    "excess": "nsaid_eff",
+    "min": 0,
+    "max": 432,
+    "//": "Takes 30 min to kick in, lasts 6 hours",
+    "rate": "100 s",
+    "disease_excess": [ [ 10, 216 ] ]
   },
   {
     "id": "mutant_toxin",
@@ -54,19 +106,25 @@
     "disease_excess": [ [ 1, 2500 ] ],
     "decays_into": [
       [ "mutagen", 8 ],
+      [ "mutagen_batrachian", 1 ],
       [ "mutagen_bird", 1 ],
       [ "mutagen_cattle", 1 ],
+      [ "mutagen_cephalopod", 1 ],
+      [ "mutagen_crustacean", 1 ],
       [ "mutagen_feline", 1 ],
       [ "mutagen_fish", 1 ],
       [ "mutagen_gastropod", 1 ],
       [ "mutagen_insect", 1 ],
       [ "mutagen_lizard", 1 ],
       [ "mutagen_lupine", 1 ],
-      [ "mutagen_medical", 1 ],
       [ "mutagen_mouse", 1 ],
+      [ "mutagen_plant", 1 ],
+      [ "mutagen_rabbit", 1 ],
       [ "mutagen_rat", 1 ],
+      [ "mutagen_spider", 1 ],
       [ "mutagen_troglobite", 1 ],
-      [ "instability", 1 ],
+      [ "mutagen_chiropteran", 1 ],
+      [ "mutagen_ursine", 1 ],
       [ "mutant_toxin", 2 ]
     ]
   },
@@ -89,6 +147,7 @@
       [ "mutagen_cattle", -1 ],
       [ "mutagen_cephalopod", -1 ],
       [ "mutagen_chimera", -1 ],
+      [ "mutagen_crustacean", -1 ],
       [ "mutagen_elfa", -1 ],
       [ "mutagen_feline", -1 ],
       [ "mutagen_fish", -1 ],
@@ -127,9 +186,9 @@
     "name": { "str": "Alpha Primer" },
     "excess": "mutagen_alpha",
     "min": 0,
-    "max": 2500,
+    "max": 5000,
     "rate": "1 h",
-    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 5000 ] ]
   },
   {
     "id": "mutagen_batrachian",
@@ -192,6 +251,17 @@
     "vit_type": "counter",
     "name": { "str": "Chimera Primer" },
     "excess": "mutagen_chimera",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_crustacean",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Crustacean Primer" },
+    "excess": "mutagen_crustacean",
     "min": 0,
     "max": 2500,
     "rate": "1 h",
@@ -352,6 +422,17 @@
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
+    "id": "mutagen_chiropteran",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Chiropteran Primer" },
+    "excess": "mutagen_chiropteran",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
     "id": "mutagen_slime",
     "type": "vitamin",
     "vit_type": "counter",
@@ -396,18 +477,6 @@
     "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
   },
   {
-    "id": "instability",
-    "type": "vitamin",
-    "vit_type": "counter",
-    "name": { "str": "Instability" },
-    "excess": "genetics_damaged",
-    "min": 0,
-    "max": 8000,
-    "flags": [ "NO_DISPLAY" ],
-    "rate": "2 h",
-    "disease_excess": [ [ 1, 899 ], [ 900, 2799 ], [ 2800, 8000 ] ]
-  },
-  {
     "id": "bad_food",
     "type": "vitamin",
     "vit_type": "counter",
@@ -442,5 +511,116 @@
     "rate": "-12 s",
     "flags": [ "NO_DISPLAY" ],
     "disease": [ [ -7510, -20000 ], [ -20010, -35000 ], [ -35010, -50000 ] ]
+  },
+  {
+    "id": "human_flesh_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Consumed human flesh" },
+    "min": 0,
+    "max": 10000,
+    "rate": "1 h"
+  },
+  {
+    "id": "meat_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Meat" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "veggy_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Veggy" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "wheat_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Wheat" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "egg_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Egg" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "fruit_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Fruit" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "junk_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Fruit" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "nut_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Nut" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "bread_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Bread" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "milk_allergen",
+    "//": "used so allergies and restrictions could be inherited in cooking process",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Milk" },
+    "min": 0,
+    "max": 1,
+    "rate": "1 h"
+  },
+  {
+    "id": "dermatik_larva_size",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Dermatik Larva Size" },
+    "excess": "dermatik_visible",
+    "min": 0,
+    "max": 1440,
+    "rate": "48 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 60, 399 ], [ 400, 1079 ], [ 1080, 1440 ] ]
   }
 ]

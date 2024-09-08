@@ -3,31 +3,28 @@
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER",
     "dynamic_line": {
-      "npc_has_var": "talked_to_logger",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ],
       "yes": "Hello there.  Nice to see you, <name_g>.",
       "no": "A stranger out here?  Who are you?"
     },
-    "speaker_effect": { "effect": { "npc_add_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "npc_add_var": "dialogue_first_meeting_talked_to_logger", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
-        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] } }
       },
       {
         "text": "Hands up, <name_b>!",
         "trial": { "type": "INTIMIDATE", "difficulty": 30 },
         "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
         "failure": { "topic": "TALK_DONE", "effect": "hostile" },
-        "condition": { "not": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_LUMBERMILL_LOGGER_INTRO",
-        "condition": { "npc_has_var": "talked_to_logger", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -38,6 +35,27 @@
     "dynamic_line": "Do you need something?",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_trust()", ">=", "2" ] },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_logger" } ] }
+          ]
+        }
+      },
+      {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_NPC_LUMBERMILL_LOGGER_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
       { "text": "How do things work around here now?", "topic": "TALK_NPC_LUMBERMILL_LOGGER_TALK_TO_MANAGER" },
       {
         "text": "Any jobs you need done?",
@@ -45,6 +63,39 @@
         "topic": "TALK_MISSION_LIST"
       },
       { "text": "Nah, see ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_LUMBERMILL_LOGGER_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The logger considers for a moment",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": {
+            "gendered_line": ", then frowns.  \"I think I'd remember something like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"You know, around the time things really went bad, I remember a really awful portal storm.  A while later, I saw something like that in the distance.  Could be what you're talking about.\"",
+            "relevant_genders": [ "npc" ]
+          }
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
     ]
   },
   {
@@ -59,14 +110,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_LUMBERMILL_LOGGER_STORY",
-    "dynamic_line": [
-      "Not much to it.  I worked here as a logger before <the_cataclysm> began.  When all went to hell, I was on the job and had to hole up here with my coworkers.  Good news is we all came out fine, and the boss decided to keep the mill running.  I don't know how much longer we can last, though; not unless we make some contact with other people.  Customers, I guess you might call 'em.",
-      "Well, I'm a logger here.  Seasonal work but good pay… or it was, at least.  Before that first <zombie> showed up and made it clear how bad things were really getting.",
-      "I'm a lumberjack out here.  Things were quiet for a long time.  We're pretty far out in the woods so it was kind of a shock to find out just how bad it'd gotten in civilization.  We had a couple close run-ins ourselves.  My friend over there almost got eaten!  But we still have resources that I'm sure people can use.",
-      "My comrades and I were lucky to be in the right place at the right time, I suppose.  We keep really busy out here, so we didn't expect <the_cataclysm> to land right in our lap like that.  Luckily these axes can chop more than wood.  They'll take a good chunk out of anything nasty that threatens our mill.",
-      "Well, I work here.  Welcome to the mill.  Used to be trucks in and out of here all the time but you're the first face we've seen in a while.",
-      "New to the job… or, well, whatever's happening now.  I still cut trees and run logs through the saw from time to time, so I guess you'd call me a logger.  Things have only gotten weirder after those fucking <zombies> nearly killed us.  I'm not sure how much longer we'll last…"
-    ],
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_No_Past_2",
+      "yes": {
+        "gendered_line": "I'll be honest, I don't remember a whole lot about what I was doing here.  I know that I cut trees, but not much else.  Good thing I have friends here, they've helped me out a lot.",
+        "relevant_genders": [ "npc" ]
+      },
+      "no": {
+        "npc_has_trait": "BGSS_No_Past_3",
+        "yes": {
+          "gendered_line": "I'll be honest, I don't remember a whole lot about what I was doing here.  I know that I cut trees, but not much else.  Good thing I have friends here, they've helped me out a lot.",
+          "relevant_genders": [ "npc" ]
+        },
+        "no": [
+          {
+            "gendered_line": "Not much to it.  I worked here as a logger before <the_cataclysm> began.  When all went to hell, I was on the job and had to hole up here with my coworkers.  Good news is we all came out fine, and the boss decided to keep the mill running.  I don't know how much longer we can last, though; not unless we make some contact with other people.  Customers, I guess you might call 'em.",
+            "relevant_genders": [ "npc" ]
+          },
+          "Well, I'm a logger here.  Seasonal work but good pay… or it was, at least.  Before that first <zombie> showed up and made it clear how bad things were really getting.",
+          "I'm a lumberjack out here.  Things were quiet for a long time.  We're pretty far out in the woods so it was kind of a shock to find out just how bad it'd gotten in civilization.  We had a couple close run-ins ourselves.  My friend over there almost got eaten!  But we still have resources that I'm sure people can use.",
+          "My comrades and I were lucky to be in the right place at the right time, I suppose.  We keep really busy out here, so we didn't expect <the_cataclysm> to land right in our lap like that.  Luckily these axes can chop more than wood.  They'll take a good chunk out of anything nasty that threatens our mill.",
+          "Well, I work here.  Welcome to the mill.  Used to be trucks in and out of here all the time but you're the first face we've seen in a while.",
+          {
+            "gendered_line": "New to the job… or, well, whatever's happening now.  I still cut trees and run logs through the saw from time to time, so I guess you'd call me a logger.  Things have only gotten weirder after those fucking <zombies> nearly killed us.  I'm not sure how much longer we'll last…",
+            "relevant_genders": [ "npc" ]
+          }
+        ]
+      }
+    },
     "responses": [ { "text": "Hope it goes well.", "topic": "TALK_NONE" } ]
   }
 ]

@@ -25,6 +25,20 @@
     "components": [ [ [ "nail", 20 ] ] ]
   },
   {
+    "id": "vehicle_bolt_install",
+    "type": "requirement",
+    "//": "represents riveting and/or bolting plates together as a supplement for welding",
+    "qualities": [ { "id": "WRENCH", "level": 2 }, { "id": "DRILL", "level": 2 } ],
+    "components": [ [ [ "nuts_bolts", 20 ] ] ]
+  },
+  {
+    "id": "vehicle_bolt_install_simple",
+    "type": "requirement",
+    "//": "for simple installs that only require tightening bolts",
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "nuts_bolts", 4 ] ] ]
+  },
+  {
     "id": "vehicle_nail_removal",
     "type": "requirement",
     "//": "Compatible with legacy flag NAILABLE",
@@ -41,5 +55,11 @@
     "type": "requirement",
     "//": "Counterpart to welding_* installation requirements",
     "qualities": [ { "id": "SAW_M", "level": 2 } ]
+  },
+  {
+    "id": "vehicle_weld_removal_cut_resistant",
+    "type": "requirement",
+    "//": "Used for parts that can't be cut with hand tools",
+    "qualities": [ { "id": "SAW_M", "level": 3 } ]
   }
 ]

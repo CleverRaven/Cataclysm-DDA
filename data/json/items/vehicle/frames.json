@@ -11,10 +11,10 @@
     "material": [ "steel" ],
     "techniques": [ "DEF_DISARM" ],
     "volume": "10 L",
-    "bashing": 15,
     "category": "veh_parts",
-    "price": 4000,
-    "price_postapoc": 100
+    "price": "40 USD",
+    "price_postapoc": "1 USD",
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "GENERIC",
@@ -37,14 +37,15 @@
     "id": "frame",
     "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",
+    "material": [ "lc_steel" ],
     "weight": "20000 g",
     "to_hit": -5,
     "color": "cyan",
     "volume": "15 L",
-    "bashing": 20,
-    "price": 5500,
-    "price_postapoc": 100,
-    "copy-from": "foldframe"
+    "price": "55 USD",
+    "price_postapoc": "1 USD",
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 20 }
   },
   {
     "type": "GENERIC",
@@ -54,13 +55,13 @@
     "weight": "100000 g",
     "to_hit": -6,
     "color": "green",
-    "material": [ "qt_steel", "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "20 L",
-    "bashing": 25,
-    "price": 12000,
-    "price_postapoc": 250,
+    "price": "120 USD",
+    "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "ANVIL", 1 ] ],
-    "copy-from": "foldframe"
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 25 }
   },
   {
     "type": "GENERIC",
@@ -72,11 +73,10 @@
     "color": "brown",
     "material": [ "wood" ],
     "volume": "15 L",
-    "bashing": 16,
-    "cutting": 4,
-    "price": 3500,
-    "price_postapoc": 100,
-    "copy-from": "foldframe"
+    "price": "35 USD",
+    "price_postapoc": "1 USD",
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 16, "cut": 4 }
   },
   {
     "type": "GENERIC",
@@ -99,10 +99,36 @@
     "color": "brown",
     "material": [ "wood" ],
     "volume": "8750 ml",
-    "bashing": 8,
-    "cutting": 1,
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
+    "copy-from": "foldframe",
+    "melee_damage": { "bash": 8, "cut": 1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "frame_wood_deck",
+    "name": { "str": "skateboard deck" },
+    "description": "A small skateboard frame made of thin layers of wood glued together.",
+    "weight": "1500 g",
+    "to_hit": -5,
+    "color": "brown",
+    "material": [ "wood" ],
+    "volume": "8750 ml",
+    "longest_side": "75 cm",
+    "melee_damage": { "bash": 8, "cut": 1 },
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "copy-from": "foldframe"
+  },
+  {
+    "type": "GENERIC",
+    "id": "frame_concrete_mix",
+    "name": { "str_sp": "concrete mixer chassis" },
+    "description": "The chassis of a concrete mixer.",
+    "weight": "9700 g",
+    "volume": "10 L",
+    "color": "light_gray",
+    "symbol": "]",
+    "category": "veh_parts"
   }
 ]

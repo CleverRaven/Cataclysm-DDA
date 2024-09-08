@@ -50,6 +50,7 @@
           "t_shrub_lilac": 1,
           "t_shrub_peanut": 1
         },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_shrub_fruit": {
           "t_shrub_blueberry": 2,
           "t_shrub_strawberry": 3,
@@ -175,74 +176,6 @@
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
-    "river_scale": 1.0,
-    "field_coverage": {
-      "percent_coverage": 5,
-      "default_ter": "t_shrub",
-      "other": {
-        "t_region_tree": 1,
-        "t_region_shrub": 3,
-        "f_region_weed": 49,
-        "f_region_flower": 37,
-        "f_boulder_small": 5,
-        "f_boulder_medium": 4,
-        "f_boulder_large": 1
-      },
-      "boost_chance": 0.833,
-      "boosted_percent_coverage": 2.5,
-      "boosted_other": {
-        "t_tree_young": 0.2,
-        "t_tree": 0.1,
-        "t_tree_birch": 0.05,
-        "t_tree_elm": 0.05,
-        "t_tree_cottonwood": 0.05,
-        "t_tree_alder": 2,
-        "t_tree_pine": 0.1,
-        "t_tree_maple": 0.1,
-        "t_tree_willow": 0.1,
-        "t_tree_hickory": 0.1,
-        "t_tree_walnut": 0.05,
-        "t_tree_chestnut": 0.05,
-        "t_tree_hazelnut": 0.02,
-        "t_tree_beech": 0.02,
-        "t_tree_blackjack": 0.05,
-        "t_tree_coffee": 0.02,
-        "t_tree_apple": 0.02,
-        "t_tree_apricot": 0.02,
-        "t_tree_cherry": 0.02,
-        "t_tree_peach": 0.02,
-        "t_tree_juniper": 0.02,
-        "t_tree_pear": 0.02,
-        "t_tree_plum": 0.02,
-        "t_tree_elderberry": 0.02,
-        "t_tree_mulberry": 0.02,
-        "t_tree_deadpine": 0.05,
-        "t_tree_hickory_dead": 0.05,
-        "t_tree_dead": 0.05,
-        "t_shrub_blueberry": 8.0,
-        "t_shrub_strawberry": 5.0,
-        "t_shrub_blackberry": 5.0,
-        "t_shrub_raspberry": 8.0,
-        "t_shrub_huckleberry": 5.0,
-        "t_shrub_grape": 5.0,
-        "t_shrub_rose": 3,
-        "t_shrub_hydrangea": 3,
-        "t_shrub_lilac": 3,
-        "f_black_eyed_susan": 3,
-        "f_lily": 3,
-        "f_flower_tulip": 3,
-        "f_flower_spurge": 3.5,
-        "f_chicory": 3,
-        "f_mutpoppy": 3.5,
-        "f_bluebell": 3.5,
-        "f_dahlia": 3.5,
-        "f_datura": 0.2,
-        "f_dandelion": 5.0,
-        "f_sunflower": 3.5,
-        "f_mustard": 0.2
-      },
-      "boosted_other_percent": 50.0
-    },
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.25,
       "lake_size_min": 20,
@@ -255,6 +188,16 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
+    "overmap_ocean_settings": {
+      "noise_threshold_ocean": 0.25,
+      "ocean_size_min": 100,
+      "ocean_depth": -9,
+      "ocean_start_north": 500,
+      "ocean_start_east": 10,
+      "ocean_start_west": 1000,
+      "ocean_start_south": 0,
+      "sandy_beach_width": 6
+    },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.1,
@@ -263,6 +206,14 @@
       "noise_threshold_swamp_isolated": 0.6,
       "river_floodplain_buffer_distance_min": 3,
       "river_floodplain_buffer_distance_max": 15
+    },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
     },
     "forest_mapgen_settings": {
       "forest": {
@@ -388,6 +339,7 @@
         "terrain_furniture": { "t_water_murky": { "chance": 2, "clear_furniture": false, "furniture": { "f_region_water_plant": 1 } } }
       }
     },
+    "river_scale": 1.0,
     "forest_trail_settings": {
       "chance": 20,
       "border_point_chance": 2,
@@ -397,11 +349,6 @@
       "random_point_size_scalar": 100,
       "trailhead_chance": 1,
       "trailhead_road_distance": 6,
-      "trail_center_variance": 3,
-      "trail_width_offset_min": 1,
-      "trail_width_offset_max": 3,
-      "clear_trail_terrain": false,
-      "trail_terrain": { "t_dirt": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
@@ -439,7 +386,6 @@
           "mx_grass": 10,
           "mx_grass2": 20,
           "mx_fallen_shed": 5,
-          "mx_shia": 1,
           "mx_spider": 200,
           "mx_nest_wasp": 100,
           "mx_jabberwock": 1,
@@ -500,7 +446,8 @@
         "chance": 75,
         "extras": {
           "mx_helicopter": 25,
-          "mx_roadblock": 20,
+          "mx_roadblock": 15,
+          "mx_roadblock_mil": 5,
           "mx_bandits_block": 80,
           "mx_supplydrop": 1,
           "mx_portal": 5,
@@ -557,12 +504,10 @@
         "house_03": 50,
         "house_04": 50,
         "house_05": 50,
-        "house_05ab": 20,
         "house_06": 50,
         "house_07": 50,
         "house_08": 50,
-        "house_09": 20,
-        "house_09b": 50,
+        "house_09": 50,
         "house_10": 50,
         "house_11": 50,
         "house_12": 50,
@@ -631,8 +576,7 @@
         "emptyresidentiallot": 200,
         "house_vacant": 200,
         "house_vacant2": 200,
-        "motel_city": 5,
-        "trailerpark_city": 15
+        "motel_city": 5
       },
       "parks": {
         "s_gas": 200,
@@ -701,21 +645,7 @@
       "base_pressure": 1015.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "thunder",
-        "lightning",
-        "flurries",
-        "snowing",
-        "snowstorm",
-        "portal_storm"
-      ]
+      "base_wind_season_variation": 50
     },
     "overmap_feature_flag_settings": {
       "clear_blacklist": false,

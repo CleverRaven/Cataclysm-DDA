@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "morale_types.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -45,7 +44,7 @@ class player_morale
         /** Ticks down morale counters and removes them */
         void decay( const time_duration &ticks = 1_turns );
         /** Displays morale screen */
-        void display( int focus_eq, int pain_penalty, int fatigue_penalty );
+        void display( int focus_eq, int pain_penalty, int sleepiness_penalty );
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
@@ -78,7 +77,7 @@ class player_morale
         {
             public:
                 explicit morale_point(
-                    const morale_type &type = MORALE_NULL,
+                    const morale_type &type = morale_type::NULL_ID(),
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,
@@ -154,6 +153,7 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
+        void update_radiophile_bonus();
         void update_bodytemp_penalty( const time_duration &ticks );
         void update_constrained_penalty();
 
@@ -207,6 +207,7 @@ class player_morale
         bool took_prozac_bad;
         bool stylish;
         int perceived_pain;
+        int radiation;
 };
 
 #endif // CATA_SRC_MORALE_H

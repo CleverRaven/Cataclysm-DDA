@@ -1,0 +1,79 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "sling-ready_molotov",
+    "picture": [
+      " <color_white>,═┐",
+      " │|╢",
+      " |││",
+      " └╢║",
+      " /||\\",
+      "| /│ |",
+      "│ |\\ │",
+      "<color_yellow>│~\\~\\│",
+      "│  '^│",
+      "│    │",
+      "│    │",
+      "'<color_white>────</color>'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sling-ready_grenade",
+    "picture": [
+      "<color_dark_gray>.]≥<color_green>.",
+      "<color_green>/<color_dark_gray>'.</color>\\\\",
+      "\\__<color_dark_gray>>:"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sling-ready_small_homemade_grenade",
+    "picture": [
+      "   <color_dark_gray>.",
+      "   │",
+      "<color_light_gray>:===:",
+      "<color_light_blue>│<color_light_gray>≈≈≈</color>│",
+      "│   │",
+      "│   │</color>",
+      "'═══'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sling-ready_homemade_grenade",
+    "picture": [
+      "        <color_dark_gray>_",
+      "<color_light_gray>_<color_white>/==\\</color><color_dark_gray>.─'</color>",
+      "<color_red>│<color_white>│  │</color>│",
+      "│<color_white>│≈≈│</color>│</color>",
+      "<color_white>││<color_red>≈≈</color>││",
+      "<color_light_gray>┴<color_white>\\==/</color>┴"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sling-ready_small_homemade_grenade_2",
+    "picture": [
+      "  <color_green>,-.",
+      "  <color_dark_gray>}:{()</color>",
+      "<color_light_gray>:===:",
+      "<color_light_blue>│<color_light_gray>≈≈≈</color>│",
+      "│   │",
+      "│   │</color>",
+      "'═══'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "sling-ready_homemade_grenade_2",
+    "picture": [
+      "   <color_green>,-.",
+      "<color_light_gray>_<color_white>/==\\</color><color_dark_gray>{()</color>",
+      "<color_red>│<color_white>│  │</color>│",
+      "│<color_white>│≈≈│</color>│</color>",
+      "<color_white>││<color_red>≈≈</color>││",
+      "<color_light_gray>┴<color_white>\\==/</color>┴"
+    ]
+  }
+]

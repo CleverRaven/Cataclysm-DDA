@@ -1,0 +1,108 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLOAK_OF_ELVENKIND_TURN_ON",
+    "global": true,
+    "run_for_npcs": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_has_trait": "FOREST_STEALTH" } },
+        { "u_has_effect": "effect_elven_cloak_effect" },
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_add_trait": "FOREST_STEALTH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLOAK_OF_ELVENKIND_TURN_OFF",
+    "global": true,
+    "run_for_npcs": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "FOREST_STEALTH" },
+        {
+          "or": [
+            { "not": "u_is_outside" },
+            { "not": { "u_has_effect": "effect_elven_cloak_effect" } },
+            {
+              "and": [
+                { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                { "not": { "u_is_on_terrain": "t_tree_young" } },
+                { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                { "not": { "u_is_on_terrain": "t_grass_long" } },
+                { "not": { "u_at_om_location": "forest" } },
+                { "not": { "u_at_om_location": "forest_thick" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_trait": "FOREST_STEALTH" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_elven_cloak_effect",
+    "//": "This is a dummy effect because EoCs can't tell what you're wearing",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_WATER_WALKING",
+    "condition": { "u_is_on_terrain_with_flag": "LIQUID" },
+    "effect": { "u_cast_spell": { "id": "druid_water_walking_real", "hit_self": true } },
+    "false_effect": { "u_message": "You must be standing on water to cast Water Strider's Walk", "type": "bad" }
+  },
+  {
+    "id": "druid_water_walking_real",
+    "type": "SPELL",
+    "name": "Water Strider's Walk Real",
+    "description": "The actual spell that lets you walk on water.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_druid_waterwalk",
+    "shape": "blast",
+    "difficulty": 4,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
+    },
+    "max_duration": {
+      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_WATERWALKING_REMOVERE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "and": [ { "u_has_item": "aura_druid_waterwalk" }, { "not": { "u_is_on_terrain_with_flag": "LIQUID" } } ] },
+    "effect": [
+      { "u_remove_item_with": "aura_druid_waterwalk" },
+      { "u_message": "As you leave the water, your spell fades.", "type": "bad" }
+    ]
+  }
+]

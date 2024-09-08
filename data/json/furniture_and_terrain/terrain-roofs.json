@@ -3,116 +3,51 @@
     "type": "terrain",
     "id": "t_open_air_rooved_outside",
     "name": "open air",
-    "description": "This is open air.",
+    "description": "An area of open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {
     "id": "t_open_air_rooved",
     "type": "terrain",
     "name": "open air",
-    "description": "This is open air.",
+    "description": "An area of open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
     "trap": "tr_ledge",
     "roof": "t_flat_roof",
     "examine_action": "ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS" ]
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "INDOORS", "EMPTY_SPACE" ]
   },
   {
     "type": "terrain",
     "id": "t_open_air",
     "name": "open air",
-    "description": "This is open air.",
+    "description": "An area of open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {
     "type": "terrain",
-    "id": "t_gutter_north",
+    "id": "t_gutter",
     "description": "Channels water from the roof towards the ground, it looks flimsy.",
     "name": "rain gutter",
     "symbol": "LINE_OXOX",
     "looks_like": "t_metal_floor",
     "color": "white",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connect_groups": "RAILING",
-    "connects_to": "RAILING",
-    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "clang!",
-      "sound_fail": "clang.",
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gutter_south",
-    "description": "Channels water from the roof towards the ground, it looks flimsy.",
-    "name": "rain gutter",
-    "symbol": "LINE_OXOX",
-    "looks_like": "t_gutter_north",
-    "color": "white",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connect_groups": "RAILING",
-    "connects_to": "RAILING",
-    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "clang!",
-      "sound_fail": "clang.",
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gutter_east",
-    "description": "Channels water from the roof towards the ground, it looks flimsy.",
-    "name": "rain gutter",
-    "symbol": "LINE_OXOX",
-    "looks_like": "t_gutter_north",
-    "color": "white",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
-    "connect_groups": "RAILING",
-    "connects_to": "RAILING",
-    "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
-    "bash": {
-      "str_min": 5,
-      "str_max": 12,
-      "sound": "clang!",
-      "sound_fail": "clang.",
-      "ter_set": "t_flat_roof",
-      "items": [ { "item": "scrap_aluminum", "count": [ 4, 7 ] } ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gutter_west",
-    "description": "Channels water from the roof towards the ground, it looks flimsy.",
-    "name": "rain gutter",
-    "symbol": "LINE_OXOX",
-    "looks_like": "t_gutter_north",
-    "color": "white",
-    "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE" ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
@@ -129,12 +64,12 @@
     "type": "terrain",
     "id": "t_gutter_drop",
     "name": "gutter drop",
-    "description": "Funnels water from gutter system towards the ground, it looks flimsy.  You may be able to climb down here.",
+    "description": "A spot in the gutter where the water flows into a downspout.  It looks flimsy.  You may be able to climb down here.",
     "symbol": "o",
-    "looks_like": "t_gutter_north",
+    "looks_like": "t_gutter",
     "color": "white",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "MOUNTABLE", "TINY", "AUTO_WALL_SYMBOL", "UNSTABLE", "CLIMBABLE" ],
     "connect_groups": "RAILING",
     "connects_to": "RAILING",
     "deconstruct": { "ter_set": "t_flat_roof", "items": [ { "item": "scrap_aluminum", "count": 12 } ] },
@@ -178,7 +113,7 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
@@ -190,19 +125,19 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_shingle_flat_roof",
     "name": "shingle flat roof",
-    "description": "A flat section of rooftop covered in shingles.",
+    "description": "A flat section of rooftop covered with shingles.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
@@ -214,7 +149,7 @@
     "color": "yellow",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
@@ -226,25 +161,25 @@
     "color": "light_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_tile_flat_roof",
     "name": "tile flat roof",
-    "description": "A section of tiled, flat rooftop.",
+    "description": "A section of flat, tiled rooftop.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "FLAMMABLE" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_glass_roof",
     "name": "skylight",
-    "description": "A giant sheet of glass inserted into the roof, lets light pass through.",
+    "description": "A giant sheet of glass inserted into the roof to let light pass through.",
     "symbol": "o",
     "looks_like": "t_linoleum_white",
     "color": "cyan",
@@ -269,13 +204,13 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
-    "bash": { "str_min": 100, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 100, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_warped_roof",
     "name": "warped roof",
-    "description": "A section of flat stone like roof.  It's pattern of grooves and lines is constantly shifting.",
+    "description": "A section of flat, stone-like rooftop.  It is patterned with grooves and lines that constantly shift.",
     "symbol": ".",
     "color": "magenta",
     "move_cost": 2,
@@ -285,7 +220,7 @@
     "type": "terrain",
     "id": "t_roof_paper",
     "name": "flat roof",
-    "description": "A flat surface made of pulpy mass, covered in sticky wasp saliva.",
+    "description": "A flat surface made of ambiguous pulpy matter, covered in sticky wasp saliva.",
     "symbol": ".",
     "looks_like": "t_paper",
     "color": "white",
@@ -299,14 +234,14 @@
       "sound_vol": 8,
       "sound_fail_vol": 4,
       "ter_set": "t_hole",
-      "bash_below": true
+      "bash_below": false
     }
   },
   {
     "type": "terrain",
     "id": "t_roof_paper_hard",
     "name": "flat roof",
-    "description": "A flat surface made of hardened pulpy mass, covered in sticky wasp saliva.",
+    "description": "A flat surface made of hardened, ambiguous pulpy matter, covered in sticky wasp saliva.",
     "symbol": ".",
     "looks_like": "t_paper",
     "color": "white",
@@ -321,20 +256,20 @@
       "sound_vol": 15,
       "sound_fail_vol": 10,
       "ter_set": "t_hole",
-      "bash_below": true
+      "bash_below": false
     }
   },
   {
     "type": "terrain",
     "id": "t_concrete_roof",
     "name": "concrete roof",
-    "description": "A flat, concrete section of rooftop.",
+    "description": "A flat section of concrete rooftop.",
     "symbol": ".",
     "looks_like": "t_thconc_floor",
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": { "str_min": 100, "str_max": 400, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 100, "str_max": 400, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
@@ -346,19 +281,19 @@
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "FLAT" ],
-    "bash": { "str_min": 50, "str_max": 400, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 50, "str_max": 400, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_wood_treated_roof",
     "name": "treated wooden roof",
-    "description": "A flat section of flame resistant wooden rooftop.",
+    "description": "A flat section of flame-resistant wooden rooftop.",
     "looks_like": "t_floor",
     "symbol": ".",
     "color": "brown",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT" ],
-    "bash": { "str_min": 50, "str_max": 400, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 50, "str_max": 400, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
@@ -370,29 +305,92 @@
     "color": "dark_gray",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_metal_roof_red",
+    "name": "red metal roof",
+    "description": "A sturdy section of metallic rooftop, painted red for visibility and weather resistance.",
+    "symbol": ".",
+    "looks_like": "t_metal_roof",
+    "color": "red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "bash": { "str_min": 200, "str_max": 500, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_log_sod_roof",
     "name": "sod roof",
-    "description": "A section of roof made out of sod.",
+    "description": "A section of rooftop made out of sod.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE" ],
-    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 30, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
   },
   {
     "type": "terrain",
     "id": "t_brick_roof",
     "name": "brick roof",
-    "description": "A brick section of rooftop.",
+    "description": "A section of brick rooftop.",
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
-    "bash": { "str_min": 48, "str_max": 80, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": true }
+    "bash": { "str_min": 48, "str_max": 80, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_canvas_roof",
+    "name": "canvas roof",
+    "description": "A section of canvas rooftop.",
+    "symbol": ".",
+    "color": "blue",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD" ],
+    "bash": { "str_min": 1, "str_max": 8, "sound": "rrrrip!", "sound_fail": "slap!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop",
+    "name": "treetop",
+    "description": "The upper branches of a tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": [ "light_green", "green", "yellow_yellow", "brown" ],
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "CLIMBABLE", "SINGLE_SUPPORT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_evergreen",
+    "name": "treetop",
+    "description": "The upper branches of a tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": [ "green" ],
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_dead",
+    "name": "dead treetop",
+    "description": "The bare upper branches of a dead tree.  There's just enough room to perch here.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_treetop_giant_fern",
+    "name": "giant fern top",
+    "description": "The top of some unearthly gigantic fern.  There is enough room to perch up here, but only just.",
+    "symbol": "#",
+    "color": "red",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "UNSTABLE", "SINGLE_SUPPORT" ]
   }
 ]

@@ -1,0 +1,173 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "magus_booster_1",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "survival", 1 ] ],
+    "difficulty": 2,
+    "book_learn": [ [ "caster_boosts_info", 2 ] ],
+    "time": "20 m",
+    "autolearn": true,
+    "using": [ [ "cordage_short", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "stick", 2 ] ], [ [ "rune_magus", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "magus_booster_2",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 4 ] ],
+    "difficulty": 6,
+    "book_learn": [ [ "caster_boosts_info", 6 ] ],
+    "time": "8 h",
+    "autolearn": false,
+    "using": [ [ "cordage_short", 1 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_glassblowing" } ],
+    "tools": [
+      [ [ "metalworking_tongs", -1 ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 75 ] ]
+    ],
+    "components": [
+      [ [ "filament", 5, "LIST" ] ],
+      [ [ "rune_magus", 1 ] ],
+      [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "kelvinist_booster_1",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "book_learn": [ [ "caster_boosts_info", 0 ] ],
+    "skills_required": [ [ "spellcraft", 2 ] ],
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "flags": [ "FULL_MAGAZINE" ],
+    "tools": [ [ [ "lighter", 5 ], [ "ref_lighter", 5 ], [ "surface_heat", 2, "LIST" ] ], [ [ "rune_kelvinist", -1 ] ] ],
+    "components": [ [ [ "wax", 1 ], [ "any_tallow", 4, "LIST" ], [ "edible_lard", 1, "LIST" ] ], [ [ "cordage_short", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "kelvinist_booster_2",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "book_learn": [ [ "caster_boosts_info", 3 ] ],
+    "skills_required": [ [ "spellcraft", 4 ] ],
+    "time": "150 m",
+    "autolearn": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "cordage_superior_short", 1, "LIST" ] ],
+      [ [ "rune_kelvinist", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "technomancer_booster_1",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 2 ], [ "survival", 1 ] ],
+    "difficulty": 2,
+    "book_learn": [ [ "caster_boosts_info", 2 ] ],
+    "time": "60 m",
+    "batch_time_factors": [ 25, 3 ],
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_pottery" } ],
+    "using": [ [ "earthenware_firing", 120 ] ],
+    "tools": [ [ [ "rune_technomancer", -1 ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
+  },
+  {
+    "result": "technomancer_booster_2",
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "book_learn": [ [ "caster_boosts_info", 3 ] ],
+    "skills_required": [ [ "spellcraft", 4 ], [ "fabrication", 2 ] ],
+    "time": "2 h",
+    "autolearn": false,
+    "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_elec_soldering" },
+      { "proficiency": "prof_elec_circuits" },
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" }
+    ],
+    "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "rune_technomancer", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "biomancer_booster_1",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ [ "spellcraft", 2 ], [ "firstaid", 1 ] ],
+    "difficulty": 1,
+    "book_learn": [ [ "caster_boosts_info", 1 ] ],
+    "time": "25 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ], [ [ "rune_biomancer", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "biomancer_booster_2",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 4 ], [ "firstaid", 2 ] ],
+    "difficulty": 4,
+    "book_learn": [ [ "caster_boosts_info", 4 ] ],
+    "time": "6 h",
+    "autolearn": false,
+    "using": [ [ "welding_standard", 10 ], [ "blacksmithing_standard", 5 ], [ "steel_tiny", 1 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "FILE", "level": 2 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "rune_biomancer", 1 ] ] ]
+  }
+]

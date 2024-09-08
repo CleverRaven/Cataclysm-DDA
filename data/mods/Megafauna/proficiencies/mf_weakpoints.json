@@ -1,0 +1,14 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_wp_megafauna",
+    "category": "prof_weakpoint",
+    "name": { "str": "Megafaunal Biology" },
+    "description": "You are familiar with the general anatomy of megafauna, and can exploit potential weaknesses.",
+    "required_proficiencies": [ "prof_intro_biology" ],
+    "can_learn": true,
+    "time_to_learn": "6 h",
+    "default_weakpoint_bonus": 4,
+    "default_weakpoint_penalty": -2
+  }
+]

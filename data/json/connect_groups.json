@@ -35,6 +35,10 @@
   },
   {
     "type": "connect_group",
+    "id": "PAVEMENT_ZEBRA"
+  },
+  {
+    "type": "connect_group",
     "id": "RAIL"
   },
   {
@@ -43,11 +47,23 @@
   },
   {
     "type": "connect_group",
+    "id": "LIXATUBE"
+  },
+  {
+    "type": "connect_group",
     "id": "CANVAS_WALL"
   },
   {
     "type": "connect_group",
     "id": "SAND"
+  },
+  {
+    "type": "connect_group",
+    "id": "SANDMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "SANDGLASS"
   },
   {
     "type": "connect_group",
@@ -67,11 +83,31 @@
   },
   {
     "type": "connect_group",
+    "id": "BRICKFLOOR"
+  },
+  {
+    "type": "connect_group",
+    "id": "MARBLEFLOOR"
+  },
+  {
+    "type": "connect_group",
     "id": "CLAY"
   },
   {
     "type": "connect_group",
+    "id": "CLAYMOUND"
+  },
+  {
+    "type": "connect_group",
     "id": "DIRT"
+  },
+  {
+    "type": "connect_group",
+    "id": "DIRTMOUND"
+  },
+  {
+    "type": "connect_group",
+    "id": "MUD"
   },
   {
     "type": "connect_group",

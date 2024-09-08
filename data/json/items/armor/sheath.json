@@ -6,8 +6,8 @@
     "description": "A combination of leather and a metal ring to hold an axe on your waist.",
     "weight": "180 g",
     "volume": "600 ml",
-    "price": 3000,
-    "price_postapoc": 250,
+    "price": "30 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -20,23 +20,23 @@
         "max_contains_weight": "5 kg",
         "max_item_length": "100 cm",
         "holster": true,
-        "flag_restriction": [ "SHEATH_AXE" ]
+        "flag_restriction": [ "SHEATH_AXE" ],
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath axe", "holster_msg": "You sheath your %s" },
-    "flags": [ "NONCONDUCTIVE", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "NONCONDUCTIVE", "BELTED", "BELT_CLIP", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 0, "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "baldric",
     "type": "ARMOR",
-    "name": { "str": "baldric" },
-    "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured by a shoulder belt.  Activate to sheath/draw a sword.",
+    "name": { "str": "longsword scabbard" },
+    "description": "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured to the sturdy leather belt.  Activate to sheath/draw a sword.",
     "weight": "1625 g",
     "volume": "2 L",
-    "price": 7500,
-    "price_postapoc": 500,
-    "bashing": 4,
+    "price": "75 USD",
+    "price_postapoc": "5 USD",
     "material": [ "leather", "wood" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -50,12 +50,64 @@
         "max_item_length": "130 cm",
         "moves": 30,
         "holster": true,
-        "flag_restriction": [ "SHEATH_SWORD" ]
+        "flag_restriction": [ "SHEATH_SWORD" ],
+        "volume_encumber_modifier": 0.25
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped directly to side of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped directly to side of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "description": "Clipped directly to side of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 110,
+        "description": "Clipped directly to back of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "holster": true,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "1750 g",
+        "max_item_length": "70 cm",
+        "moves": 110,
+        "description": "Clipped directly to back of the belt.",
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 3, 5 ], "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "leg_sheath6",
@@ -64,8 +116,8 @@
     "description": "A nylon strap knife sheath worn on the thigh, made to hold 6 very small knives, such as throwing knives, close at hand.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
     "volume": "1000 ml",
-    "price": 5200,
-    "price_postapoc": 250,
+    "price": "52 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -147,8 +199,8 @@
     "description": "A small concealed garter knife sheath worn on the thigh.  Commonly used by assassins under a skirt or dress.  Activate to sheathe/draw a weapon.",
     "weight": "160 g",
     "volume": "500 ml",
-    "price": 5200,
-    "price_postapoc": 250,
+    "price": "52 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -185,8 +237,8 @@
     "description": "A small concealed garter double knife sheath worn on the thigh.  Commonly used by overly cautious assassins under a skirt or dress.  Activate to sheathe/draw a weapon.",
     "weight": "320 g",
     "volume": "1000 ml",
-    "price": 5200,
-    "price_postapoc": 250,
+    "price": "52 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -232,9 +284,8 @@
     "description": "A small concealed knife sheath worn on the ankle.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
     "weight": "160 g",
     "volume": "500 ml",
-    "price": 5200,
-    "price_postapoc": 250,
-    "to_hit": -1,
+    "price": "52 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sheath",
@@ -253,8 +304,17 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-    "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 25,
+        "encumbrance": [ 2, 3 ],
+        "layers": [ "BELTED" ]
+      }
+    ]
   },
   {
     "id": "bootsheath_birchbark",
@@ -263,9 +323,8 @@
     "description": "A handcrafted small concealed knife sheath worn on the ankle, made from birch bark.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
     "weight": "190 g",
     "volume": "500 ml",
-    "price": 1200,
-    "price_postapoc": 150,
-    "to_hit": -1,
+    "price": "12 USD",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "bootsheath",
@@ -284,8 +343,17 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-    "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 25,
+        "encumbrance": [ 2, 3 ],
+        "layers": [ "BELTED" ]
+      }
+    ]
   },
   {
     "id": "bscabbard",
@@ -294,9 +362,8 @@
     "description": "A leather scabbard, big enough for almost any sword.  Designed to be strapped to the back, it's very difficult to draw from without considerable practice.  Activate to sheath/draw a sword.",
     "weight": "1890 g",
     "volume": "2250 ml",
-    "price": 9000,
-    "price_postapoc": 750,
-    "bashing": 4,
+    "price": "90 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "leather", "wood" ],
     "symbol": "[",
     "looks_like": "baldric",
@@ -315,7 +382,8 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": [ 6, 10 ], "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "scabbard",
@@ -324,10 +392,47 @@
     "description": "A large, adjustable sheath for holding swords and other large blades.  Activate to sheathe/draw a weapon.",
     "weight": "1360 g",
     "volume": "1750 ml",
-    "price": 6000,
-    "price_postapoc": 500,
-    "bashing": 4,
+    "price": "60 USD",
+    "price_postapoc": "5 USD",
     "material": [ "leather", "wood" ],
+    "symbol": "[",
+    "looks_like": "holster",
+    "color": "brown",
+    "sided": true,
+    "material_thickness": 1,
+    "pocket_data": [
+      {
+        "magazine_well": "1250 ml",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "100 cm",
+        "holster": true,
+        "moves": 30,
+        "flag_restriction": [ "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath sword", "holster_msg": "You sheath your %s" },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "encumbrance": [ 3, 4 ],
+        "coverage": 15,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+      }
+    ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "nylon_scabbard",
+    "type": "ARMOR",
+    "name": { "str": "nylon scabbard" },
+    "description": "A large, adjustable sheath for holding swords and other large blades, made with nylon.  Activate to sheathe/draw a weapon.",
+    "weight": "1360 g",
+    "volume": "1750 ml",
+    "price": "60 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "nylon", "wood" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
@@ -362,8 +467,8 @@
     "description": "A leather sheath for holding knives and other small blades.  It is easy to use without much practice.  Activate to sheathe/draw a weapon.",
     "weight": "200 g",
     "volume": "500 ml",
-    "price": 3500,
-    "price_postapoc": 250,
+    "price": "35 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "|",
     "looks_like": "scabbard",
@@ -382,7 +487,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE", "WATER_FRIENDLY", "PALS_SMALL" ],
     "armor": [
       {
         "coverage": 5,
@@ -390,7 +495,8 @@
         "encumbrance": [ 0, 1 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sheath_birchbark",
@@ -399,8 +505,8 @@
     "description": "A handcrafted sheath made from birch bark, for holding knives and other small blades, with a strap attached.  Activate to sheathe/draw a weapon.",
     "weight": "250 g",
     "volume": "500 ml",
-    "price": 1500,
-    "price_postapoc": 200,
+    "price": "15 USD",
+    "price_postapoc": "2 USD",
     "material": [ "wood" ],
     "symbol": "|",
     "looks_like": "sheath",
@@ -436,9 +542,8 @@
     "description": "A leather strap tied around the torso for toting spears while keeping your hands free.  You have to duck to get through doors while one's in it, though.  Activate to holster/draw a weapon.",
     "weight": "160 g",
     "volume": "500 ml",
-    "price": 5200,
-    "price_postapoc": 250,
-    "to_hit": -1,
+    "price": "52 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "bscabbard",
@@ -450,12 +555,13 @@
         "moves": 30,
         "flag_restriction": [ "SHEATH_SPEAR" ],
         "max_contains_volume": "4000 ml",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "200 cm"
+        "max_contains_weight": "7 kg",
+        "max_item_length": "250 cm",
+        "volume_encumber_modifier": 0.5
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Holster spear", "holster_msg": "You holster your %s." },
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]

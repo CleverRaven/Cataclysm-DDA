@@ -6,8 +6,8 @@
 #include <chrono>
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <utility>
 
@@ -17,7 +17,7 @@
 #include "hash_utils.h"
 #include "point.h"
 #include "to_string_id.h"
-#include "type_id.h"
+#include "type_id.h"  // IWYU pragma: keep
 
 class JsonOut;
 class JsonValue;
@@ -36,6 +36,7 @@ enum class debug_menu_index : int;
 enum class cata_variant_type : int {
     void_, // Special type for empty variants
     achievement_id,
+    activity_id,
     addiction_id,
     bionic_id,
     body_part,
@@ -67,6 +68,7 @@ enum class cata_variant_type : int {
     palette_id,
     point,
     profession_id,
+    proficiency_id,
     skill_id,
     species_id,
     spell_id,
@@ -108,7 +110,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 {
     constexpr size_t num_types = static_cast<size_t>( cata_variant_type::num_types );
     constexpr std::array<bool, num_types> matches = {{
-            std::is_same<T, typename convert<static_cast<cata_variant_type>( I )>::type>::value...
+            std::is_same_v<T, typename convert<static_cast<cata_variant_type>( I )>::type>...
         }
     };
     for( size_t i = 0; i < num_types; ++i ) {
@@ -125,7 +127,7 @@ constexpr cata_variant_type type_for_impl( std::index_sequence<I...> )
 template<typename T>
 struct convert_string {
     using type = T;
-    static_assert( std::is_same<T, std::string>::value,
+    static_assert( std::is_same_v<T, std::string>,
                    "Intended for use only with string typedefs" );
     static std::string to_string( const T &v ) {
         return v;
@@ -133,7 +135,7 @@ struct convert_string {
     static T from_string( const std::string &v ) {
         return v;
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         return true;
     }
 };
@@ -187,20 +189,23 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 47,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 49,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
 template<>
 struct convert<cata_variant_type::void_> {
     using type = void;
-    static bool is_valid( const std::string &s ) {
+    static bool is_valid( const std::string_view s ) {
         return s.empty();
     }
 };
 
 template<>
 struct convert<cata_variant_type::achievement_id> : convert_string_id<achievement_id> {};
+
+template<>
+struct convert<cata_variant_type::activity_id> : convert_string_id<activity_id> {};
 
 template<>
 struct convert<cata_variant_type::addiction_id> : convert_string_id<addiction_id> {};
@@ -236,7 +241,7 @@ struct convert<cata_variant_type::character_id> {
     static character_id from_string( const std::string &v ) {
         return character_id( std::stoi( v ) );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -251,7 +256,7 @@ struct convert<cata_variant_type::chrono_seconds> {
     static std::chrono::seconds from_string( const std::string &v ) {
         return std::chrono::seconds( std::stoll( v ) );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -293,7 +298,7 @@ struct convert<cata_variant_type::int_> {
     static int from_string( const std::string &v ) {
         return std::stoi( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for int-ness
         return true;
     }
@@ -348,7 +353,7 @@ struct convert<cata_variant_type::point> {
     static point from_string( const std::string &v ) {
         return point::from_string( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for point-ness
         return true;
     }
@@ -356,6 +361,9 @@ struct convert<cata_variant_type::point> {
 
 template<>
 struct convert<cata_variant_type::profession_id> : convert_string_id<profession_id> {};
+
+template<>
+struct convert<cata_variant_type::proficiency_id> : convert_string_id<proficiency_id> {};
 
 template<>
 struct convert<cata_variant_type::skill_id> : convert_string_id<skill_id> {};
@@ -397,7 +405,7 @@ struct convert<cata_variant_type::tripoint> {
     static tripoint from_string( const std::string &v ) {
         return tripoint::from_string( v );
     }
-    static bool is_valid( const std::string & ) {
+    static bool is_valid( const std::string_view ) {
         // TODO: check for tripoint-ness
         return true;
     }

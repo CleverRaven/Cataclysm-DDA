@@ -20,18 +20,18 @@
       [ "can_corn", 35 ],
       [ "cooked_pumpkin", 20 ],
       [ "can_spam", 30 ],
-      [ "salt", 10 ],
-      [ "seasoning_salt", 5 ],
+      { "prob": 10, "group": "salt_various" },
+      { "prob": 5, "group": "seasoning_salt_various" },
       [ "vinegar", 10 ],
-      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 30, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "prob": 20, "group": "sauerkraut_jar_glass_sealed_2" },
       [ "con_milk", 10 ],
       [ "milk_evap", 10 ],
       [ "instant_coffee", 25 ],
-      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 26, "group": "fish_pickled_jar_glass_sealed_2" },
       [ "lutefisk", 1 ],
       [ "pemmican", 10 ],
-      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+      { "prob": 20, "group": "meat_pickled_jar_glass_sealed_2" }
     ]
   },
   {
@@ -55,30 +55,31 @@
     "type": "item_group",
     "id": "stash_drugs",
     "items": [
-      { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
-      { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
-      { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
-      { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
+      { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
+      { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
+      { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
+      { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },
+      { "prob": 10, "group": "xanax_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
       [ "pipe_tobacco", 2 ],
-      { "item": "tobacco", "prob": 2, "charges": [ 1, 20 ] },
+      { "prob": 2, "group": "tobacco_bag_plastic_1_20" },
       [ "adrenaline_injector", 2 ],
-      { "item": "weed", "prob": 50, "charges": [ 1, 5 ] },
+      { "item": "weed", "prob": 50, "count": [ 1, 5 ] },
       [ "joint", 10 ],
       [ "seed_weed", 35 ],
       [ "seed_tobacco", 15 ],
       [ "rolling_paper", 9 ],
       [ "pipe_glass", 17 ],
-      { "item": "coke", "prob": 8, "charges": [ 1, 8 ] },
-      { "item": "meth", "prob": 2, "charges": [ 1, 6 ] },
-      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
-      { "item": "crack", "prob": 4, "charges": [ 1, 4 ] },
+      { "prob": 8, "group": "coke_bag_zipper_1_8" },
+      { "prob": 2, "group": "meth_bag_zipper_1_6" },
+      { "prob": 1, "group": "heroin_bag_zipper_1_4" },
+      { "prob": 4, "group": "crack_bag_zipper_1_4" },
       [ "crackpipe", 7 ],
-      { "item": "antifungal", "prob": 1, "charges": [ 1, 5 ] },
-      { "item": "antiparasitic", "prob": 2, "charges": [ 1, 10 ] },
-      { "item": "diazepam", "prob": 1, "charges": [ 1, 10 ] },
-      { "item": "lsd", "prob": 6, "charges": [ 1, 5 ] }
+      { "prob": 1, "group": "antifungal_bottle_plastic_pill_prescription_1_5" },
+      { "prob": 2, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 1, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
+      { "item": "lsd", "prob": 6, "count": [ 1, 5 ] }
     ]
   },
   {
@@ -117,15 +118,22 @@
     "items": [ { "group": "small_bugout" } ]
   },
   {
+    "id": "small_bugout_bag_4",
+    "type": "item_group",
+    "container-item": "backpack_denim",
+    "on_overflow": "spill",
+    "items": [ { "group": "small_bugout" } ]
+  },
+  {
     "id": "small_bugout",
     "type": "item_group",
     "//": "a light bugout, stuff people would have on hand, not super full",
     "subtype": "collection",
     "entries": [
       { "group": "bugout_first_aid", "prob": 50 },
-      { "group": "bugout_small_gun", "prob": 90 },
-      { "group": "bugout_food", "prob": 100 },
-      { "group": "bugout_water", "prob": 100 },
+      { "group": "bugout_small_gun", "prob": 45 },
+      { "group": "bugout_food", "prob": 50 },
+      { "group": "bugout_water", "prob": 50 },
       { "group": "bugout_bad_pack", "prob": 100 }
     ]
   },
@@ -138,11 +146,11 @@
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "prob": 90 },
-      { "group": "bugout_gun", "prob": 100 },
-      { "group": "bugout_food", "prob": 100, "count": [ 1, 2 ] },
-      { "group": "bugout_water", "prob": 100, "count": [ 1, 2 ] },
+      { "group": "bugout_gun", "prob": 50 },
+      { "group": "bugout_food", "prob": 50, "count": [ 1, 2 ] },
+      { "group": "bugout_water", "prob": 50, "count": [ 1, 2 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 1, 4 ] },
-      { "group": "civilian_armor", "prob": 70 }
+      { "group": "civilian_armor", "prob": 35 }
     ]
   },
   {
@@ -154,12 +162,13 @@
     "on_overflow": "spill",
     "entries": [
       { "group": "bugout_first_aid", "count": 1, "prob": 90 },
-      { "group": "bugout_small_gun", "prob": 100 },
-      { "group": "bugout_long_gun", "prob": 80 },
-      { "group": "bugout_food", "prob": 100, "count": [ 1, 3 ] },
-      { "group": "bugout_water", "prob": 100, "count": [ 1, 3 ] },
+      { "group": "bugout_small_gun", "prob": 70 },
+      { "group": "bugout_long_gun", "prob": 20 },
+      { "group": "bugout_food", "prob": 50, "count": [ 1, 3 ] },
+      { "group": "bugout_water", "prob": 50, "count": [ 1, 3 ] },
       { "group": "bugout_extras", "prob": 100, "count": [ 2, 6 ] },
-      { "group": "civilian_armor", "count": 2, "prob": 70 }
+      { "group": "civilian_armor", "count": 2, "prob": 35 },
+      { "group": "bugout_large_extras", "prob": 40 }
     ]
   },
   {
@@ -172,7 +181,7 @@
       { "group": "used_ifak", "prob": 50 },
       { "group": "full_1st_aid", "prob": 50 },
       { "group": "used_1st_aid", "prob": 50 },
-      { "item": "homeopathic_pills", "prob": 50 },
+      { "prob": 50, "group": "homeopathic_pills_bottle_plastic_pill_supplement_20" },
       { "group": "full_ipok", "prob": 50 }
     ]
   },
@@ -181,11 +190,7 @@
     "id": "bugout_small_gun",
     "subtype": "distribution",
     "//": "a handgun of some kind.",
-    "entries": [
-      { "group": "guns_pistol_common", "prob": 100 },
-      { "group": "guns_pistol_rare", "prob": 20 },
-      { "group": "guns_pistol_obscure", "prob": 5 }
-    ]
+    "entries": [ { "group": "guns_pistol_common", "prob": 100 }, { "group": "guns_pistol_rare", "prob": 10 } ]
   },
   {
     "type": "item_group",
@@ -193,15 +198,12 @@
     "subtype": "distribution",
     "//": "a long weapon of some kind.",
     "entries": [
-      { "group": "guns_smg_common", "prob": 100 },
-      { "group": "guns_smg_rare", "prob": 20 },
-      { "group": "guns_smg_obscure", "prob": 5 },
+      { "group": "guns_smg_common", "prob": 10 },
+      { "group": "guns_smg_rare", "prob": 2 },
       { "group": "guns_rifle_common", "prob": 100 },
       { "group": "guns_rifle_rare", "prob": 20 },
-      { "group": "guns_rifle_obscure", "prob": 5 },
-      { "group": "guns_shotgun_common", "prob": 100 },
-      { "group": "guns_shotgun_rare", "prob": 20 },
-      { "group": "guns_shotgun_obscure", "prob": 5 }
+      { "group": "guns_shotgun_common", "prob": 2 },
+      { "group": "guns_shotgun_rare", "prob": 1 }
     ]
   },
   {
@@ -209,7 +211,7 @@
     "id": "bugout_gun",
     "subtype": "distribution",
     "//": "a gun or two of some kind.",
-    "entries": [ { "group": "bugout_small_gun", "prob": 100 }, { "group": "bugout_long_gun", "prob": 80 } ]
+    "entries": [ { "group": "bugout_small_gun", "prob": 100 }, { "group": "bugout_long_gun", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -263,10 +265,23 @@
   },
   {
     "type": "item_group",
+    "id": "bugout_large_extras",
+    "subtype": "distribution",
+    "//": "Large items of questionable use in a bugout bag.",
+    "entries": [ { "item": "folding_solar_panel" } ]
+  },
+  {
+    "type": "item_group",
     "id": "bugout_bad_pack",
     "subtype": "distribution",
-    "//": "an item that wouldn't be super useful in a survival situation, recreational items and such.",
-    "entries": [ { "group": "SUS_book", "prob": 50 }, { "group": "games", "prob": 20 }, { "group": "bugout_memento", "prob": 50 } ]
+    "//": "an item that wouldn't be super useful to the player, recreational items and such.",
+    "entries": [
+      { "group": "SUS_book", "prob": 50 },
+      { "group": "games", "prob": 20 },
+      { "group": "bugout_memento", "prob": 50 },
+      { "group": "tampon_box_full", "prob": 20 },
+      { "group": "menstrual_pad_box_full", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -308,11 +323,149 @@
       [ "creepy_doll", 40 ],
       [ "holy_symbol", 40 ],
       [ "pride_flag", 20 ],
+      [ "national_flag", 5 ],
       [ "state_flag", 15 ],
       [ "spiral_stone", 5 ],
       [ "petrified_eye", 5 ],
       [ "talking_doll", 40 ],
-      [ "bondage_mask", 20 ]
+      [ "bondage_mask", 20 ],
+      [ "gold_anklet", 25 ],
+      [ "silver_anklet", 25 ]
     ]
+  },
+  {
+    "id": "child_bugout_bag_1",
+    "type": "item_group",
+    "container-item": "backpack",
+    "on_overflow": "spill",
+    "items": [ { "group": "child_bugout" } ]
+  },
+  {
+    "id": "child_bugout_bag_2",
+    "type": "item_group",
+    "container-item": "backpack_leather",
+    "on_overflow": "spill",
+    "items": [ { "group": "child_bugout" } ]
+  },
+  {
+    "id": "child_bugout_bag_3",
+    "type": "item_group",
+    "container-item": "backpack_denim",
+    "on_overflow": "spill",
+    "items": [ { "group": "child_bugout" } ]
+  },
+  {
+    "id": "child_bugout",
+    "type": "item_group",
+    "//": "a collection of items a kid could have haphazardly packed together before running away from home",
+    "subtype": "collection",
+    "entries": [
+      { "group": "bugout_toys", "prob": 50 },
+      { "group": "bugout_child_snacks", "prob": 100 },
+      { "group": "bugout_water", "prob": 75 },
+      { "group": "bugout_cans", "prob": 33 },
+      { "item": "toothbrush_plain", "prob": 10 },
+      { "item": "childnote", "prob": 33 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_toys",
+    "subtype": "distribution",
+    "//": "this list is for toys that children may have wanted to take with themselves while preparing to run away for whatever reason.",
+    "items": [
+      { "item": "talking_doll", "prob": 50 },
+      { "item": "teddy_bear", "prob": 50 },
+      { "item": "toy_figurine", "prob": 45 },
+      { "item": "toy_figurine_large", "prob": 35 },
+      { "item": "bath_toy", "prob": 30 },
+      { "item": "yoyo", "prob": 30 },
+      { "item": "fidget_spinner", "prob": 30 },
+      { "item": "portable_game", "prob": 30, "charges": [ 0, 100 ] },
+      { "group": "toy_radio_car", "prob": 10 },
+      { "group": "toy_makerspace_kit", "prob": 10 },
+      { "group": "toy_robot_kit", "prob": 10 },
+      { "group": "toy_engine_kit", "prob": 10 },
+      { "item": "shark_plushie", "prob": 2 },
+      { "item": "air_launcher", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bugout_child_snacks",
+    "subtype": "distribution",
+    "//": "this list is for food that children may have wanted to take with themselves while preparing to run away for whatever reason.",
+    "items": [
+      { "group": "candy_chocolate", "prob": 75 },
+      { "group": "salty_snacks", "prob": 75 },
+      { "group": "softdrinks_canned", "prob": 55 },
+      { "group": "softdrinks_bottled", "prob": 45 },
+      { "prob": 30, "group": "cookies_box_snack_1_4" },
+      { "group": "toastems", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pills_sleep_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "pills_sleep", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "xanax_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "xanax", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_bag_plastic_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_plastic_small",
+    "entries": [ { "item": "tobacco", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "crack_bag_zipper_1_4",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "crack", "container-item": "null", "count": [ 1, 4 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_bottle_plastic_pill_prescription_1_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "homeopathic_pills_bottle_plastic_pill_supplement_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "cookies_box_snack_1_4",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "box_snack",
+    "entries": [ { "item": "cookies", "container-item": "null", "count": [ 1, 4 ] } ]
   }
 ]

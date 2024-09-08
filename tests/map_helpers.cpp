@@ -1,5 +1,7 @@
 #include "map_helpers.h"
 
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <list>
 #include <map>
@@ -16,15 +18,19 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "npc.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "submap.h"
 #include "type_id.h"
+
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
+static const ter_str_id ter_t_rock( "t_rock" );
 
 // Remove all vehicles from the map
 void clear_vehicles( map *target )
@@ -42,7 +48,7 @@ void clear_radiation()
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set_radiation( { x, y, z}, 0 );
+                here.set_radiation( tripoint_bub_ms{ x, y, z}, 0 );
             }
         }
     }
@@ -53,10 +59,10 @@ void wipe_map_terrain( map *target )
     map &here = target ? *target : get_map();
     const int mapsize = here.getmapsize() * SEEX;
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
-        ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
+        ter_id terrain = z == 0 ? ter_t_grass : z < 0 ? ter_t_rock : ter_t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                here.set( { x, y, z}, terrain, f_null );
+                here.set( tripoint_bub_ms{ x, y, z}, terrain, furn_str_id::NULL_ID() );
                 here.partial_con_remove( { x, y, z } );
             }
         }
@@ -88,8 +94,8 @@ void clear_fields( const int zlevel )
     const int mapsize = here.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
-            const tripoint p( x, y, zlevel );
-            point offset;
+            const tripoint_bub_ms p( x, y, zlevel );
+            point_sm_ms offset;
 
             submap *sm = here.get_submap_at( p, offset );
             if( sm ) {
@@ -106,7 +112,7 @@ void clear_items( const int zlevel )
     const int mapsize = here.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
-            here.i_clear( { x, y, zlevel } );
+            here.i_clear( tripoint_bub_ms{ x, y, zlevel } );
         }
     }
 }
@@ -117,12 +123,12 @@ void clear_zones()
     zm.clear();
 }
 
-void clear_map()
+void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
-    for( int z = -2; z <= 0; ++z ) {
+    for( int z = zmin; z <= zmax; ++z ) {
         clear_fields( z );
     }
     clear_zones();
@@ -130,23 +136,26 @@ void clear_map()
     clear_npcs();
     clear_creatures();
     here.clear_traps();
-    for( int z = -2; z <= 0; ++z ) {
+    for( int z = zmin; z <= zmax; ++z ) {
         clear_items( z );
     }
+    here.process_items();
 }
 
 void clear_map_and_put_player_underground()
 {
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    get_player_character().setpos( { 0, 0, -2 } );
+    get_player_character().setpos( tripoint_bub_ms{ 0, 0, -2 } );
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
+monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
+                             const bool death_drops )
 {
-    monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
-    cata_assert( added );
-    return *added;
+    monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );
+    REQUIRE( test_monster_ptr );
+    test_monster_ptr->death_drops = death_drops;
+    return *test_monster_ptr;
 }
 
 // Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
@@ -166,12 +175,41 @@ void build_test_map( const ter_id &terrain )
     here.build_map_cache( 0, true );
 }
 
+void build_water_test_map( const ter_id &surface, const ter_id &mid, const ter_id &bottom )
+{
+    constexpr int z_surface = 0;
+    constexpr int z_bottom = -2;
+
+    clear_map( z_bottom - 1, z_surface + 1 );
+
+    map &here = get_map();
+    const tripoint p1( 0, 0, z_bottom - 1 );
+    const tripoint p2( MAPSIZE * SEEX, MAPSIZE * SEEY, z_surface + 1 );
+    for( const tripoint &p : here.points_in_rectangle( p1, p2 ) ) {
+
+        if( p.z == z_surface ) {
+            here.ter_set( p, surface );
+        } else if( p.z < z_surface && p.z > z_bottom ) {
+            here.ter_set( p, mid );
+        } else if( p.z == z_bottom ) {
+            here.ter_set( p, bottom );
+        } else if( p.z < z_bottom ) {
+            here.ter_set( p, ter_t_rock );
+        } else if( p.z > z_surface ) {
+            here.ter_set( p, ter_t_open_air );
+        }
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+}
+
 void player_add_headlamp()
 {
     item headlamp( "wearable_light_on" );
     item battery( "light_battery_cell" );
     battery.ammo_set( battery.ammo_default(), -1 );
-    headlamp.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+    headlamp.put_in( battery, pocket_type::MAGAZINE_WELL );
     Character &you = get_player_character();
     you.worn.wear_item( you, headlamp, false, true );
 }
@@ -201,6 +239,7 @@ void set_time( const time_point &time )
     int z = you.posz();
     you.recalc_sight_limits();
     map &here = get_map();
+    here.invalidate_visibility_cache();
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
     here.build_map_cache( z );

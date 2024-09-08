@@ -5,35 +5,14 @@
     "//": "This is the 'base' mass grave, and doesn't actually contain anything. Variants are generated via the place_nested field.",
     "update_mapgen_id": "mx_mass_grave_dino",
     "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "place_nested": [
         {
-          "chunks": [ [ "mass_grave_abandoned_dino", 30 ], [ "mass_grave_partial_dino", 20 ], [ "mass_grave_finished_dino", 10 ] ],
+          "chunks": [
+            [ "mass_grave_abandoned_dino", 30 ],
+            [ "mass_grave_partial_dino", 20 ],
+            [ "mass_grave_finished_dino", 10 ],
+            [ "mass_grave_red_dino", 20 ]
+          ],
           "x": 0,
           "y": 0
         }
@@ -93,7 +72,7 @@
         { "item": "stanag30", "repeat": [ 0, 2 ], "x": [ 2, 22 ], "y": [ 18, 23 ] },
         { "item": "mask_gas", "repeat": [ 0, 3 ], "x": [ 2, 5 ], "y": 20 },
         { "item": "pure_meth", "repeat": [ 1, 6 ], "x": 10, "y": [ 20, 22 ] },
-        { "item": "gasfilter_m", "repeat": [ 5, 8 ], "x": 10, "y": [ 20, 22 ] }
+        { "item": "gasfilter_med", "repeat": [ 5, 8 ], "x": 10, "y": [ 20, 22 ] }
       ],
       "place_monsters": [
         { "monster": "GROUP_DINOSAUR_ZOMBIE", "density": 1, "x": [ 1, 22 ], "y": [ 1, 22 ] },
@@ -196,6 +175,57 @@
         { "group": "mass_grave_casings", "repeat": [ 20, 30 ], "x": [ 1, 23 ], "y": [ 1, 17 ] },
         { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 1, 23 ], "y": [ 18, 23 ] },
         { "group": "trash", "repeat": [ 1, 3 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_DINOSAUR_ZOMBIE_SCORCHED", "density": 0.1, "x": [ 1, 22 ], "y": [ 1, 22 ] } ],
+      "monster": { "#": { "monster": "mon_zaspletosaurus_scorched", "chance": 1 } },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mass_grave_red_dino",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##  X",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ## X ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##  X",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ## X ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##  X",
+        "   ##  ##  ##  ##  ##   ",
+        "   ##  ##  ##  ##  ##   ",
+        "                        "
+      ],
+      "terrain": { "#": [ [ "t_dirt", 24 ], [ "t_pit_shallow", 1 ] ] },
+      "furniture": { "X": [ [ "f_null", 19 ], [ "f_battlefield_cross", 1 ] ] },
+      "place_loot": [
+        { "group": "mass_grave_casings", "repeat": [ 20, 30 ], "x": [ 1, 23 ], "y": [ 1, 17 ] },
+        { "group": "mass_grave_casings", "repeat": [ 10, 15 ], "x": [ 1, 23 ], "y": [ 18, 23 ] },
+        { "group": "trash", "repeat": [ 1, 3 ], "x": [ 1, 23 ], "y": [ 18, 23 ] }
+      ],
+      "place_npcs": [
+        { "class": "old_guard_red", "x": 3, "y": 1 },
+        { "class": "old_guard_red_soldier", "x": 1, "y": 1 },
+        { "class": "old_guard_red_soldier", "x": 5, "y": 1 },
+        { "class": "old_guard_red_soldier", "x": 1, "y": 6 },
+        { "class": "old_guard_red_soldier", "x": 5, "y": 6 }
       ],
       "place_monsters": [ { "monster": "GROUP_DINOSAUR_ZOMBIE_SCORCHED", "density": 0.1, "x": [ 1, 22 ], "y": [ 1, 22 ] } ],
       "monster": { "#": { "monster": "mon_zaspletosaurus_scorched", "chance": 1 } },

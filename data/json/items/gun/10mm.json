@@ -10,19 +10,18 @@
     "variants": [
       {
         "id": "sw_610",
-        "name": { "str_sp": "S&W 610" },
-        "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-        "weight": 1
+        "name": { "str": "S&W 610 revolver" },
+        "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round."
       }
     ],
     "ascii_picture": "sw_610",
     "weight": "1420 g",
     "volume": "754 ml",
     "longest_side": "332 mm",
-    "price": 74000,
-    "price_postapoc": 2250,
-    "to_hit": -2,
-    "bashing": 10,
+    "barrel_length": "197 mm",
+    "//": "165mm + 32mm max OAL for 10mm. Revolvers just built different.",
+    "price": "740 USD",
+    "price_postapoc": "22 USD 50 cent",
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -38,7 +37,8 @@
         "ammo_restriction": { "10mm": 6, "40": 6 },
         "allowed_speedloaders": [ "40_speedloader6" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "glock_29",
@@ -51,19 +51,17 @@
     "variants": [
       {
         "id": "glock_29",
-        "name": { "str": "Glock 29" },
-        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely.",
-        "weight": 1
+        "name": { "str": "Glock 29 pistol" },
+        "description": "A modestly sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  It is easy to carry because of its small size, but also recoils fiercely."
       }
     ],
     "ascii_picture": "glock_19",
     "weight": "690 g",
     "volume": "410 ml",
     "longest_side": "177 mm",
-    "price": 60500,
-    "price_postapoc": 2500,
-    "to_hit": -2,
-    "bashing": 6,
+    "barrel_length": "96 mm",
+    "price": "605 USD",
+    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -78,7 +76,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "glock_29mag", "glock_20mag", "tdi_10mm_mag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "glock_20",
@@ -91,26 +90,17 @@
     "variants": [
       {
         "id": "glock_20",
-        "name": { "str": "Glock 20" },
-        "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one.",
-        "weight": 1
-      },
-      {
-        "id": "glock_40",
-        "name": { "str": "Glock 40 MOS" },
-        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
-        "ascii_picture": "glock_40mos",
-        "weight": 1
+        "name": { "str": "Glock 20 pistol" },
+        "description": "A full-sized version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The third model of Glock designed, all other full-sized, large framed Glocks are adaptations of this one."
       }
     ],
     "ascii_picture": "glock_20",
     "weight": "780 g",
     "volume": "480 ml",
     "longest_side": "205 mm",
-    "price": 59200,
-    "price_postapoc": 2500,
-    "to_hit": -2,
-    "bashing": 8,
+    "barrel_length": "117 mm",
+    "price": "592 USD",
+    "price_postapoc": "25 USD",
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -119,7 +109,32 @@
     "durability": 8,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 570,
-    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "103 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "glock_40",
+    "copy-from": "glock_20",
+    "looks_like": "glock_20",
+    "type": "GUN",
+    "name": { "str": "hunter Glock pistol" },
+    "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "glock_40",
+        "name": { "str": "Glock 40 pistol" },
+        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use."
+      }
+    ],
+    "ascii_picture": "glock_40mos",
+    "weight": "915 g",
+    "volume": "410 ml",
+    "longest_side": "213 mm",
+    "barrel_length": "153 mm",
+    "price": "655 USD",
+    "price_postapoc": "27 USD",
+    "dispersion": 500
   },
   {
     "id": "hk_mp5_10_semi",
@@ -132,21 +147,20 @@
     "variants": [
       {
         "id": "hk_mp5_10_semi",
-        "name": { "str": "BA10" },
-        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace.",
-        "weight": 1
+        "name": { "str": "BA10 rifle" },
+        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace."
       }
     ],
     "weight": "2667 g",
     "volume": "2411 ml",
     "longest_side": "498 mm",
-    "price": 360000,
-    "price_postapoc": 2300,
+    "barrel_length": "225 mm",
+    "price": "3 kUSD 600 USD",
+    "price_postapoc": "23 USD",
     "durability": 7,
     "min_cycle_recoil": 675,
     "ammo": "10mm",
     "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "built_in_mods": [ "folding_stock" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "62 ml", "item_restriction": [ "mp5_10_mag" ] } ]
@@ -162,18 +176,16 @@
     "variants": [
       {
         "id": "m1911_10",
-        "name": { "str": "Colt Delta Elite" },
-        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911s, like this one, are slotted to prevent such crack formation.",
-        "weight": 1
+        "name": { "str": "Colt Delta Elite pistol" },
+        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911s, like this one, are slotted to prevent such crack formation."
       }
     ],
     "weight": "1077 g",
     "volume": "413 ml",
     "longest_side": "210 mm",
-    "price": 105000,
-    "price_postapoc": 2750,
-    "to_hit": -2,
-    "bashing": 12,
+    "barrel_length": "127 mm",
+    "price": "1 kUSD 50 USD",
+    "price_postapoc": "27 USD 50 cent",
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -183,7 +195,8 @@
     "durability": 6,
     "min_cycle_recoil": 570,
     "blackpowder_tolerance": 48,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911_10mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "witness_10",
@@ -196,25 +209,24 @@
     "variants": [
       {
         "id": "witness_10",
-        "name": { "str": "EAA Witness 10mm" },
-        "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto.",
-        "weight": 1
+        "name": { "str": "EAA Witness 10mm pistol" },
+        "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto."
       }
     ],
     "weight": "936 g",
     "volume": "459 ml",
     "longest_side": "203 mm",
-    "price": 64900,
-    "price_postapoc": 2500,
-    "to_hit": -2,
-    "bashing": 8,
+    "barrel_length": "114 mm",
+    "price": "649 USD",
+    "price_postapoc": "25 USD",
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": "10mm",
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ]
+    "pocket_data": [ { "magazine_well": "84 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "witness_mag_10" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "p220_10",
@@ -227,18 +239,17 @@
     "variants": [
       {
         "id": "p220_10",
-        "name": { "str": "SIG P220 10mm" },
-        "description": "The SIG Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other SIG Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto.",
-        "weight": 1
+        "name": { "str": "SIG P220 10mm pistol" },
+        "description": "The SIG Sauer P220 was developed for the Swiss military in 1975, and its simplified action was later used in most other SIG Sauer designs, including the P226.  The all-steel construction adds heft to this model, which is chambered in hard-hitting 10mm Auto."
       }
     ],
     "weight": "964 g",
     "volume": "549 ml",
     "longest_side": "224 mm",
-    "price": 50000,
-    "price_postapoc": 2250,
+    "barrel_length": "127 mm",
+    "price": "500 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -246,7 +257,8 @@
     "dispersion": 410,
     "durability": 7,
     "min_cycle_recoil": 675,
-    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "p220_10_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xd_10",
@@ -259,18 +271,17 @@
     "variants": [
       {
         "id": "xd_10",
-        "name": { "str": "XD-M Competition 10mm" },
-        "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
-        "weight": 1
+        "name": { "str": "XD-M Competition 10mm pistol" },
+        "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto."
       }
     ],
     "weight": "930 g",
     "volume": "549 ml",
     "longest_side": "211 mm",
-    "price": 50000,
-    "price_postapoc": 2250,
+    "barrel_length": "133 mm",
+    "price": "500 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -278,7 +289,8 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 675,
-    "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ]
+    "pocket_data": [ { "magazine_well": "81 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xd_10_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "TDI_10",
@@ -290,26 +302,59 @@
       "It takes glock magazines, and it's own special one that I am also renaming to a glock magazine",
       "so, I'm calling it a glock smg."
     ],
-    "name": { "str": "Glock SMG" },
+    "name": { "str": "Glock submachine gun" },
     "description": "A submachine gun chambered in 10mm, accepting Glock magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "TDI_10",
-        "name": { "str": "Vector SDP 10mm" },
-        "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto.",
-        "weight": 1
+        "name": { "str": "Vector SDP 10mm pistol" },
+        "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto."
       }
     ],
     "weight": "2867 g",
     "volume": "4386 ml",
     "longest_side": "429 mm",
-    "price": 142900,
-    "price_postapoc": 2300,
+    "price": "1 kUSD 429 USD",
+    "price_postapoc": "23 USD",
     "skill": "pistol",
     "ammo": "10mm",
     "min_cycle_recoil": 675,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "103 ml", "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ] } ]
+  },
+  {
+    "id": "STI_DS_10",
+    "copy-from": "pistol_base",
+    "looks_like": "m1911_10",
+    "type": "GUN",
+    "name": { "str": "double-stack 10mm 1911 pistol" },
+    "description": "An updated version of the M1911 pistol, chambered in 10mm Auto, that uses double-stack magazines for greater capacity.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "STI_DS_10",
+        "name": { "str": "STI Tactical 2011 DS 10mm pistol" },
+        "description": "A next-gen model of the venerable 1911, ready to win World War Z.  Modernized and manufactured by Staccato, sporting a double-stack magwell, sleek solid-steel frame, and ergonomic grip; favored by certain dog-loving assassins.  This model is chambered in 10mm Auto.",
+        "weight": 1
+      }
+    ],
+    "weight": "1191 g",
+    "volume": "430 ml",
+    "longest_side": "231 mm",
+    "barrel_length": "127 mm",
+    "price": "2 kUSD 699 USD",
+    "price_postapoc": "30 USD",
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "10mm",
+    "dispersion": 460,
+    "durability": 6,
+    "min_cycle_recoil": 570,
+    "blackpowder_tolerance": 48,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "2011_17_mag", "2011_22_mag" ] } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

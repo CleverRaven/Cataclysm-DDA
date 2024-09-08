@@ -67,7 +67,8 @@
       { "id": "hardtack", "description": " Cook: Hardtack" },
       { "id": "veggy_pickled_jarred", "description": " Cook: Veggy, Pickled" },
       { "id": "cheese_hard", "description": " Cook: Cheese, Hard" },
-      { "id": "pemmican", "description": " Cook: Pemmican" },
+      { "id": "pemmican", "description": " Cook: Pemmican, Meat + Berries" },
+      { "id": "pemmican_veggy", "description": " Cook: Pemmican, Meat + Veg" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
       { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
@@ -95,7 +96,7 @@
     "recipes": [
       { "id": "chisel", "description": " Craft: Metalworking Chisel" },
       { "id": "hammer", "description": " Craft: Hammer" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "nail", "description": " Craft: Nail" },
       { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" }
@@ -114,8 +115,9 @@
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
       { "id": "rebar", "description": " Craft: Rebar" },
+      { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" }
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" }
     ]
   },
   {
@@ -288,15 +290,15 @@
       { "id": "xl_armor_qt_heavyplate", "description": " Craft: Armor, XL Tempered Heavy Plate" },
       { "id": "xl_armor_qt_lightplate", "description": " Craft: Armor, XL Tempered Light Plate" },
       { "id": "xl_armor_qt_plate", "description": " Craft: Armor, XL Tempered Plate" },
-      { "id": "broadsword", "description": " Craft: Sword, Broadsword" },
-      { "id": "scimitar", "description": " Craft: Sword, Scimitar" },
+      { "id": "mc_broadsword", "description": " Craft: Sword, Medium Steel Broadsword" },
+      { "id": "mc_scimitar", "description": " Craft: Sword, Medium Steel Shamshir" },
       { "id": "fire_ax", "description": " Craft: Axe, Fire" },
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },
-      { "id": "rapier", "description": " Craft: Sword, Rapier" },
+      { "id": "mc_rapier", "description": " Craft: Sword, Medium Steel Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
-      { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
+      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihänder" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" }
     ]
   },

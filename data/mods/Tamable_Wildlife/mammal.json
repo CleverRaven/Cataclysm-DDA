@@ -19,7 +19,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -38,7 +38,7 @@
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -74,7 +74,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
@@ -103,6 +103,25 @@
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
+    "id": "mon_cougar_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cougar_kitten",
+    "name": { "str": "cougar kitten" },
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to tolerate you!  Or maybe it just won't eat you for now.  This is not a housecat.",
+      "pet": "The %s softly chuffs as you pet it.  It brushes against you."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_cougar",
+    "type": "MONSTER",
+    "copy-from": "mon_cougar",
+    "name": { "str": "cougar" },
+    "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_deer_fawn",
@@ -129,7 +148,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -141,7 +160,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -153,7 +172,7 @@
     "petfood": {
       "food": [ "CATTLEFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -227,6 +246,18 @@
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
       "pet": "The %s lets out a happy squeak as you give its head a small scritch."
+    },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_skunk",
+    "type": "MONSTER",
+    "copy-from": "mon_skunk",
+    "name": { "str": "skunk" },
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s smacks its lips repetitively as you give its head a small scritch."
     },
     "extend": { "flags": [ "CANPLAY" ] }
   },
@@ -338,7 +369,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags its tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat its head."
     },
     "//": "A wolf pup that's raised with humans displays signs of both attachment and affection towards their owners, these feelings last into adulthood.",
     "extend": { "flags": [ "CANPLAY", "DOGFOOD" ] }
@@ -349,6 +380,22 @@
     "copy-from": "mon_reindeer",
     "name": { "str_sp": "reindeer" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
+  },
+  {
+    "id": "mon_tusked_moose_calf",
+    "type": "MONSTER",
+    "copy-from": "mon_tusked_moose_calf",
+    "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moose_calf",
+    "type": "MONSTER",
+    "copy-from": "mon_moose_calf",
+    "name": { "str": "moose calf", "str_pl": "moose calves" },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_reindeer_fawn",

@@ -1,13 +1,19 @@
 #include "character_martial_arts.h"
 
+#include <algorithm>
+
 #include "action.h"
 #include "character.h"
 #include "color.h"
 #include "enums.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "json.h"
+#include "json_error.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"
+#include "translation.h"
 #include "translations.h"
 
 static const matype_id style_kicks( "style_kicks" );
@@ -94,6 +100,12 @@ void character_martial_arts::reset_style()
     style_selected = style_none;
 }
 
+void character_martial_arts::clear_style( const matype_id &id )
+{
+    ma_styles.erase( std::remove( ma_styles.begin(), ma_styles.end(), id ), ma_styles.end() );
+    selected_style_check();
+}
+
 void character_martial_arts::clear_styles()
 {
     keep_hands_free = false;
@@ -141,11 +153,25 @@ std::string character_martial_arts::selected_style_name( const Character &owner 
 }
 
 std::vector<matype_id> character_martial_arts::get_unknown_styles( const character_martial_arts
-        &from ) const
+        &from, bool teachable_only ) const
 {
     std::vector<matype_id> ret;
     for( const matype_id &i : from.ma_styles ) {
-        if( !has_martialart( i ) ) {
+        if( ( !teachable_only || i->teachable ) && !has_martialart( i ) ) {
+            ret.push_back( i );
+        }
+    }
+    return ret;
+}
+
+std::vector<matype_id> character_martial_arts::get_known_styles( bool teachable_only ) const
+{
+    if( !teachable_only ) {
+        return ma_styles;
+    }
+    std::vector<matype_id> ret;
+    for( const matype_id &i : ma_styles ) {
+        if( i->teachable ) {
             ret.push_back( i );
         }
     }

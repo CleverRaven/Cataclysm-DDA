@@ -49,7 +49,7 @@
       {
         "text": "Back",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+        "effect": { "u_add_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" }
       }
     ]
   },
@@ -61,7 +61,7 @@
       {
         "text": "Back",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+        "effect": { "u_add_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" }
       }
     ]
   },
@@ -73,7 +73,7 @@
       {
         "text": "Back",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+        "effect": { "u_add_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" }
       }
     ]
   },
@@ -103,7 +103,7 @@
       {
         "text": "Back",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+        "effect": { "u_add_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" }
       }
     ]
   },
@@ -115,7 +115,7 @@
       {
         "text": "Back",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
+        "effect": { "u_add_var": "mission_BGSS_prepper_1_found_computer", "value": "yes" }
       }
     ]
   },

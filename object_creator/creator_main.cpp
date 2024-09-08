@@ -7,7 +7,6 @@
 #include "game.h"
 #include "game_ui.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "mapsharing.h"
 #include "options.h"
 #include "output.h"
@@ -20,11 +19,19 @@
 
 #include <QtWidgets/qapplication.h>
 #include <QtCore/QSettings>
-#ifdef QT_STATICPLUGIN
-#include <QtCore/QtPlugin>
-#ifdef _WIN32
-Q_IMPORT_PLUGIN( QWindowsIntegrationPlugin );
+#include <QtWidgets/qsplashscreen.h>
+#include <QtGui/qpainter.h>
+
+//Required by the sigaction function in the exit_handler
+#if defined(_WIN32)
+#include "platform_win.h"
+#else
+#include <csignal>
 #endif
+
+#ifdef _WIN32
+#include <QtCore/QtPlugin>
+Q_IMPORT_PLUGIN( QWindowsIntegrationPlugin );
 #endif
 
 struct MOD_INFORMATION;
@@ -45,7 +52,20 @@ void exit_handler( int s )
 
         catacurses::endwin();
 
-        exit( exit_status );
+    // As suggested by https://github.com/CleverRaven/Cataclysm-DDA/pull/67893
+    #if !defined(_WIN32)
+        if( s == 2 ) {
+            struct sigaction sigIntHandler;
+            sigIntHandler.sa_handler = SIG_DFL;
+            sigemptyset( &sigIntHandler.sa_mask );
+            sigIntHandler.sa_flags = 0;
+            sigaction( SIGINT, &sigIntHandler, nullptr );
+            kill( getpid(), s );
+        } else
+    #endif
+        {
+            exit( exit_status );
+        }
     }
     inp_mngr.set_timeout( old_timeout );
 }
@@ -55,8 +75,6 @@ struct cli_opts {
     int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
-    std::string dump;
-    dump_mode dmode = dump_mode::TSV;
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 };
@@ -111,9 +129,22 @@ int main( int argc, char *argv[] )
 
     MAP_SHARING::setDefaults();
 
+    QApplication app( argc, argv );
+    //Create a splash screen that tells the user we're loading
+    //First we create a pixmap with the desired size
+    QPixmap splash( QSize(640, 480) );
+    splash.fill(Qt::gray);
+
+    //Then we create the splash screen and show it
+    QSplashScreen splashscreen( splash );
+    splashscreen.show();
+    splashscreen.showMessage( "Initializing Object Creator...", Qt::AlignCenter );
+    //let the thread sleep for two seconds to show the splashscreen
+    std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
+    app.processEvents();
+
     QSettings settings( QSettings::IniFormat, QSettings::UserScope,
                         "CleverRaven", "Cataclysm - DDA" );
-
 
     cli_opts cli;
 
@@ -127,16 +158,10 @@ int main( int argc, char *argv[] )
         if( cli.verifyexit ) {
             exit_handler( 0 );
         }
-        if( !cli.dump.empty() ) {
-            init_colors();
-            exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
-        }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
         exit_handler( -999 );
     }
-
-    loading_ui ui( false );
 
     get_options().init();
     get_options().load();
@@ -145,6 +170,7 @@ int main( int argc, char *argv[] )
 
     world_generator = std::make_unique<worldfactory>();
     world_generator->init();
+
     std::vector<mod_id> mods;
     mods.push_back( mod_id( "dda" ) );
     if( settings.contains( "mods/include" ) ) {
@@ -157,7 +183,8 @@ int main( int argc, char *argv[] )
 
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
+    
+    splashscreen.finish( nullptr ); //Destroy the splashscreen
 
-    QApplication app( argc, argv );
     creator::main_window().execute( app );
 }

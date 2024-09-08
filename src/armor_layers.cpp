@@ -1,35 +1,48 @@
 #include <algorithm>
 #include <climits>
 #include <cstddef>
-#include <functional>
 #include <iterator>
+#include <list>
 #include <memory>
-#include <new>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "activity_type.h"
+#include "body_part_set.h"
 #include "bodypart.h"
-#include "catacharset.h" // used for utf8_width()
+#include "catacharset.h"
 #include "character.h"
+#include "character_attire.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game_inventory.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_location.h"
 #include "itype.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
 #include "player_activity.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "subbodypart.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
+#include "units.h"
 #include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
@@ -230,32 +243,53 @@ std::vector<std::string> clothing_properties(
     const item &worn_item, const int width, const Character &c, const bodypart_id &bp )
 {
     std::vector<std::string> props;
-    props.reserve( 5 );
+    bodypart_id used_bp = bp;
+
+    // catch all for items that aren't armor
+    if( !worn_item.find_armor_data() ) {
+        props.push_back( string_format( "<color_c_red>%s</color>",
+                                        _( "Item provides no protection" ) ) );
+        return props;
+    }
+    if( bp == bodypart_id( "bp_null" ) ) {
+        // if the armor has no protection data
+        if( worn_item.find_armor_data()->sub_data.empty() ) {
+            props.push_back( string_format( "<color_c_red>%s</color>",
+                                            _( "Item provides no protection" ) ) );
+            return props;
+        }
+
+        // if there is only one data entry for the armor
+        if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
+            props.push_back( string_format( "<color_c_red>%s</color>",
+                                            _( "Armor is nonuniform.  Specify a limb to get armor data" ) ) );
+            return props;
+        } else {
+            used_bp = *worn_item.get_covered_body_parts().begin();
+            props.reserve( 6 );
+            props.push_back( string_format( "<color_c_blue>%s</color>",
+                                            _( "Each limb is uniform" ) ) );
+        }
+    } else {
+        props.reserve( 5 );
+    }
 
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
 
-    int coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage() :
-                   worn_item.get_coverage( bp );
+    int coverage = worn_item.get_coverage( used_bp );
     add_folded_name_and_value( props, _( "Coverage:" ), string_format( "%3d", coverage ),
                                width );
-    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
-                   item::cover_type::COVER_MELEE ) :
-               worn_item.get_coverage( bp, item::cover_type::COVER_MELEE );
+    coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_MELEE );
     add_folded_name_and_value( props, _( "Coverage (Melee):" ), string_format( "%3d",
                                coverage ), width );
-    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
-                   item::cover_type::COVER_RANGED ) :
-               worn_item.get_coverage( bp, item::cover_type::COVER_RANGED );
+    coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_RANGED );
     add_folded_name_and_value( props, _( "Coverage (Ranged):" ), string_format( "%3d",
                                coverage ), width );
-    coverage = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_coverage(
-                   item::cover_type::COVER_VITALS ) :
-               worn_item.get_coverage( bp, item::cover_type::COVER_VITALS );
+    coverage = worn_item.get_coverage( used_bp, item::cover_type::COVER_VITALS );
     add_folded_name_and_value( props, _( "Coverage (Vitals):" ), string_format( "%3d",
                                coverage ), width );
 
-    const int encumbrance = bp == bodypart_id( "bp_null" ) ? worn_item.get_avg_encumber(
-                                c ) : worn_item.get_encumber( c, bp );
+    const int encumbrance = worn_item.get_encumber( c, used_bp );
     add_folded_name_and_value( props, _( "Encumbrance:" ), string_format( "%3d", encumbrance ),
                                width );
     add_folded_name_and_value( props, _( "Warmth:" ), string_format( "%3d",
@@ -296,17 +330,17 @@ void add_category_and_values( std::vector<std::string> &current_text, const int 
 
 std::vector<std::pair<std::string, std::string>> collect_protection_subvalues(
             const resistances &worst_res, const resistances &best_res, const resistances &median_res,
-            const bool display_median, const damage_type type )
+            const bool display_median, const damage_type_id &type )
 {
     std::vector<std::pair<std::string, std::string>> subvalues;
-    subvalues.emplace_back( std::make_pair( _( "Worst:" ), string_format( "%.2f",
-                                            worst_res.type_resist( type ) ) ) );
+    subvalues.emplace_back( _( "Worst:" ), string_format( "%.2f",
+                            worst_res.type_resist( type ) ) );
     if( display_median ) {
-        subvalues.emplace_back( std::make_pair( _( "Median:" ), string_format( "%.2f",
-                                                median_res.type_resist( type ) ) ) );
+        subvalues.emplace_back( _( "Median:" ), string_format( "%.2f",
+                                median_res.type_resist( type ) ) );
     }
-    subvalues.emplace_back( std::make_pair( _( "Best:" ), string_format( "%.2f",
-                                            best_res.type_resist( type ) ) ) );
+    subvalues.emplace_back( _( "Best:" ), string_format( "%.2f",
+                            best_res.type_resist( type ) ) );
     return subvalues;
 }
 
@@ -314,18 +348,32 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
         const bodypart_id &bp )
 {
     std::vector<std::string> prot;
-    prot.reserve( 6 );
+    bodypart_id used_bp = bp;
+
+    if( !worn_item.find_armor_data() ) {
+        return prot;
+    }
+
+    // if bp is null its gonna be impossible to really get good info
+    if( bp == bodypart_id( "bp_null" ) ) {
+        // if we have exactly one entry for armor we can use that data
+        if( worn_item.find_armor_data()->sub_data.size() == 1 ) {
+            used_bp = *worn_item.get_covered_body_parts().begin();
+        } else {
+            return prot;
+        }
+    }
 
     // prebuild and calc some values
     // the rolls are basically a perfect hit for protection and a
     // worst possible and a median hit
-    resistances worst_res = resistances( worn_item, false, 99, bp );
-    resistances best_res = resistances( worn_item, false, 0, bp );
-    resistances median_res = resistances( worn_item, false, 50, bp );
+    resistances worst_res = resistances( worn_item, false, 99, used_bp );
+    resistances best_res = resistances( worn_item, false, 0, used_bp );
+    resistances median_res = resistances( worn_item, false, 50, used_bp );
 
     int percent_best = 100;
     int percent_worst = 0;
-    const armor_portion_data *portion = worn_item.portion_for_bodypart( bp );
+    const armor_portion_data *portion = worn_item.portion_for_bodypart( used_bp );
     // if there isn't a portion this is probably pet armor
     if( portion ) {
         percent_best = portion->best_protection_chance;
@@ -335,34 +383,28 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     bool display_median = percent_best < 50 && percent_worst < 50;
 
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
-    // bash ballistic and cut can have more involved info based on armor complexity
-    if( percent_worst > 0 ) {
-        std::vector<std::pair<std::string, std::string>> bash_subvalues = collect_protection_subvalues(
-                    worst_res, best_res, median_res, display_median, damage_type::BASH );
-        std::vector<std::pair<std::string, std::string>> cut_subvalues = collect_protection_subvalues(
-                    worst_res, best_res, median_res, display_median, damage_type::CUT );;
-        std::vector<std::pair<std::string, std::string>> ballistic_subvalues = collect_protection_subvalues(
-                    worst_res, best_res, median_res, display_median, damage_type::BULLET );;
-
-        add_category_and_values( prot, width, _( "Bash:" ), bash_subvalues );
-        add_category_and_values( prot, width, _( "Cut:" ), cut_subvalues );
-        add_category_and_values( prot, width, _( "Ballistic:" ), ballistic_subvalues );
-    } else {
-        add_folded_name_and_value( prot, _( "Bash:" ),
-                                   string_format( "%.2f", best_res.type_resist( damage_type::BASH ) ), width );
-        add_folded_name_and_value( prot, _( "Cut:" ),
-                                   string_format( "%.2f", best_res.type_resist( damage_type::CUT ) ), width );
-        add_folded_name_and_value( prot, _( "Ballistic:" ),
-                                   string_format( "%.2f", best_res.type_resist( damage_type::BULLET ) ), width );
+    for( const damage_type &dt : damage_type::get_all() ) {
+        bool skipped_details = false;
+        const std::string dtname = uppercase_first_letter( dt.name.translated() );
+        damage_info_order_id dio( dt.id.c_str() );
+        if( dio->info_display == damage_info_order::info_disp::DETAILED ) {
+            if( percent_worst > 0 ) {
+                std::vector<std::pair<std::string, std::string>> subvalues = collect_protection_subvalues(
+                            worst_res, best_res, median_res, display_median, dt.id );
+                add_category_and_values( prot, width, dtname, subvalues );
+            } else {
+                skipped_details = true;
+            }
+        }
+        if( skipped_details || dio->info_display == damage_info_order::info_disp::BASIC ) {
+            add_folded_name_and_value( prot, dtname,
+                                       string_format( "%.2f", best_res.type_resist( dt.id ) ), width );
+        }
     }
-    add_folded_name_and_value( prot, _( "Acid:" ),
-                               string_format( "%.2f", best_res.type_resist( damage_type::ACID ) ), width );
-    add_folded_name_and_value( prot, _( "Fire:" ),
-                               string_format( "%.2f", best_res.type_resist( damage_type::HEAT ) ), width );
     add_folded_name_and_value( prot, _( "Environmental:" ),
-                               string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width );
+                               string_format( "%3d", worn_item.get_env_resist() ), width );
     add_folded_name_and_value( prot, _( "Breathability:" ),
-                               string_format( "%3d", static_cast<int>( worn_item.breathability( bp ) ) ), width );
+                               string_format( "%3d", worn_item.breathability( used_bp ) ), width );
     return prot;
 }
 
@@ -635,6 +677,8 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
     ctxt.register_action( "TOGGLE_CLOTH" );
@@ -680,6 +724,18 @@ void outfit::sort_armor( Character &guy )
             }
         }
 
+        leftListSize = tmp_worn.size();
+        if( leftListLines > leftListSize ) {
+            leftListOffset = 0;
+        } else if( leftListOffset + leftListLines > leftListSize ) {
+            leftListOffset = leftListSize - leftListLines;
+        }
+        if( leftListOffset > leftListIndex ) {
+            leftListOffset = leftListIndex;
+        } else if( leftListOffset + leftListLines <= leftListIndex ) {
+            leftListOffset = leftListIndex + 1 - leftListLines;
+        }
+
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, leftListSize - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
@@ -693,10 +749,13 @@ void outfit::sort_armor( Character &guy )
         werase( w_encumb );
 
         // top bar
-        wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
+        std::string header_title = _( "Sort Armor" );
+        wprintz( w_sort_cat, c_white, header_title );
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
-        wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
-        right_print( w_sort_cat, 0, 0, c_white, string_format(
+        temp = string_format( "  << %s >>", temp );
+        wprintz( w_sort_cat, c_yellow, temp );
+        int keyhint_offset = utf8_width( header_title ) + utf8_width( temp ) + 1;
+        right_print( w_sort_cat, 0, 0, c_white, trim_by_length( string_format(
                          _( "[<color_yellow>%s</color>] Hide sprite.  "
                             "[<color_yellow>%s</color>] Change side.  "
                             "Press [<color_yellow>%s</color>] for help.  "
@@ -704,19 +763,7 @@ void outfit::sort_armor( Character &guy )
                          ctxt.get_desc( "TOGGLE_CLOTH" ),
                          ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
-
-        leftListSize = tmp_worn.size();
-        if( leftListLines > leftListSize ) {
-            leftListOffset = 0;
-        } else if( leftListOffset + leftListLines > leftListSize ) {
-            leftListOffset = leftListSize - leftListLines;
-        }
-        if( leftListOffset > leftListIndex ) {
-            leftListOffset = leftListIndex;
-        } else if( leftListOffset + leftListLines <= leftListIndex ) {
-            leftListOffset = leftListIndex + 1 - leftListLines;
-        }
+                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ), getmaxx( w_sort_cat ) - keyhint_offset ) );
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
@@ -750,7 +797,6 @@ void outfit::sort_armor( Character &guy )
             trim_and_print( w_sort_left, point( offset_x, drawindex + 1 ),
                             left_w - offset_x - storage_character_allowance,
                             penalties.color_for_stacking_badness(), worn_armor_name );
-
 
             if( worn_armor_storage > 0 ) {
                 // two digits, accurate to 1% of preferred storage unit
@@ -883,7 +929,7 @@ void outfit::sort_armor( Character &guy )
     while( !exit ) {
         if( guy.is_avatar() ) {
             // Totally hoisted this from advanced_inv
-            if( player_character.moves < 0 ) {
+            if( player_character.get_moves() < 0 ) {
                 do_return_entry();
                 return;
             }
@@ -959,24 +1005,16 @@ void outfit::sort_armor( Character &guy )
                     popup( _( "Can't sort this under your integrated armor!" ) );
                 }
             }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             mid_pane.offset = 0;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
+            tabindex = inc_clamp_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if( action == "RIGHT" ) {
-            mid_pane.offset = 0;
-            tabindex = ( tabindex + 1 ) % tabcount;
-            leftListIndex = leftListOffset = 0;
-            selected = -1;
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "PAGE_DOWN" ) {
             if( rightListOffset + rightListLines < rightListSize ) {
                 rightListOffset++;
             }
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "PAGE_UP" ) {
             if( rightListOffset > 0 ) {
                 rightListOffset--;
             }
@@ -1010,10 +1048,7 @@ void outfit::sort_armor( Character &guy )
             }
         } else if( action == "SORT_ARMOR" ) {
             mid_pane.offset = 0;
-            // Copy to a vector because stable_sort requires random-access
-            // iterators
-            std::vector<item> worn_copy( worn.begin(), worn.end() );
-            std::stable_sort( worn_copy.begin(), worn_copy.end(),
+            worn.sort(
             []( const item & l, const item & r ) {
                 if( l.has_flag( flag_INTEGRATED ) == r.has_flag( flag_INTEGRATED ) ) {
                     return l.get_layer() < r.get_layer();
@@ -1021,8 +1056,7 @@ void outfit::sort_armor( Character &guy )
                     return l.has_flag( flag_INTEGRATED );
                 }
             }
-                            );
-            std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
+            );
             guy.calc_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             mid_pane.offset = 0;
@@ -1035,7 +1069,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         const bodypart_id &bp = armor_cat[tabindex];
@@ -1069,9 +1103,9 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
-                    if( new_equip_it ) {
+                    if( new_equip_it && !tmp_worn.empty() ) {
                         // save iterator to cursor's position
                         std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                         item &item_to_check = *cursor_it;
@@ -1082,7 +1116,7 @@ void outfit::sort_armor( Character &guy )
                             // reorder `worn` vector to place new item at cursor
                             worn.splice( cursor_it, worn, *new_equip_it );
                         }
-                    } else if( guy.is_npc() ) {
+                    } else if( guy.is_npc() && !tmp_worn.empty() ) {
                         // TODO: Pass the reason here
                         popup( _( "Can't put this on!" ) );
                     }

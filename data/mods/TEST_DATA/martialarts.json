@@ -1,6 +1,39 @@
 [
   {
     "type": "technique",
+    "id": "test_vector_tech_1",
+    "name": "Test Vectors One",
+    "//": "Fails because of missing limbs of type other",
+    "unarmed_allowed": true,
+    "messages": [ "You tail-slap %s", "<npcname> tail-slaps %s" ],
+    "attack_vectors": [ "test_tail_req" ]
+  },
+  {
+    "type": "technique",
+    "id": "test_vector_tech_2",
+    "name": "Test Vectors Two",
+    "//": "Beaks get substituted, succeeds on birdperson",
+    "unarmed_allowed": true,
+    "messages": [ "You peck the %s", "<npcname> pecks the %s" ],
+    "attack_vectors": [ "test_beak" ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "test_tail_req",
+    "limbs": [ "hand_l" ],
+    "contact_area": [ "hand_fingers_l" ],
+    "bp_hp_limit": 50,
+    "encumbrance_limit": 10,
+    "limb_req": [ [ "tail", 1 ] ]
+  },
+  {
+    "type": "attack_vector",
+    "id": "test_beak",
+    "limbs": [ "mouth" ],
+    "contact_area": [ "mouth_lips" ]
+  },
+  {
+    "type": "technique",
     "id": "test_technique",
     "name": "Test Technique",
     "melee_allowed": true,
@@ -8,6 +41,90 @@
     "messages": [ "You start debugging %s", "<npcname> starts debugging %s" ],
     "weapon_categories_allowed": [ "TEST_CAT1", "BLADES" ],
     "stun_dur": 2
+  },
+  {
+    "type": "technique",
+    "id": "test_tech_condition_sweep",
+    "name": "Test Sweep",
+    "unarmed_allowed": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "math": [ "n_val('size')", "!=", "1" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        { "or": [ { "npc_bodytype": "human" }, { "npc_bodytype": "angel" } ] },
+        { "or": [ { "not": { "npc_has_flag": "FLIES" } }, { "npc_has_flag": "DISABLE_FLIGHT" } ] }
+      ]
+    },
+    "down_dur": 2,
+    "messages": [ "You see if you can sweep %s", "<npcname> sees if they can sweep %s" ],
+    "attack_vectors": [ "vector_foot_toes" ]
+  },
+  {
+    "type": "technique",
+    "id": "test_tech_condition_stun",
+    "name": "Test Stun",
+    "messages": [ "You see if you can stun %s", "<npcname> tries stunning %s" ],
+    "melee_allowed": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "stunned" } },
+        {
+          "and": [
+            { "not": { "npc_has_species": "ZOMBIE" } },
+            { "not": { "npc_has_species": "NETHER" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
+            { "not": { "npc_has_species": "LEECH_PLANT" } },
+            { "not": { "npc_has_species": "MIGO" } },
+            { "not": { "npc_has_species": "SLIME" } },
+            { "not": { "npc_has_species": "FUNGUS" } },
+            { "not": { "npc_has_species": "PLANT" } },
+            { "not": { "npc_has_species": "ROBOT" } },
+            { "not": { "npc_has_species": "CYBORG" } },
+            { "not": { "npc_has_species": "HALLUCINATION" } },
+            { "not": { "npc_has_species": "HORROR" } },
+            { "not": { "npc_has_species": "ABERRATION" } },
+            { "not": { "npc_has_species": "KRAKEN" } }
+          ]
+        }
+      ]
+    },
+    "stun_dur": 1,
+    "weapon_categories_allowed": [ "MEDIUM_SWORDS" ],
+    "attack_vectors": [ "vector_null" ]
+  },
+  {
+    "type": "technique",
+    "id": "test_tech_condition_knockback",
+    "name": "Test Knockback",
+    "messages": [ "You try to toss %s aside", "<npcname> tries to toss %s aside" ],
+    "melee_allowed": true,
+    "condition": {
+      "and": [
+        { "math": [ "u_val('size') + 1", ">=", "n_val('size')" ] },
+        { "not": { "npc_has_effect": "downed" } },
+        {
+          "or": [
+            {
+              "and": [
+                { "npc_has_flag": "GRAB_FILTER" },
+                { "u_has_flag": "GRAB" },
+                {
+                  "roll_contested": { "math": [ "u_val('strength')" ] },
+                  "die_size": 20,
+                  "difficulty": { "math": [ "n_val('grab_strength')" ] }
+                }
+              ]
+            },
+            { "not": { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } }
+          ]
+        }
+      ]
+    },
+    "knockback_dist": 2,
+    "weapon_categories_allowed": [ "MACES" ],
+    "attack_vectors": [ "vector_null" ]
   },
   {
     "type": "martial_art",
@@ -37,7 +154,14 @@
         "weapon_categories_allowed": "KNIVES"
       }
     ],
-    "techniques": [ "test_technique" ],
+    "techniques": [
+      "test_technique",
+      "test_tech_condition_sweep",
+      "test_tech_condition_stun",
+      "test_tech_condition_knockback",
+      "test_vector_tech_1",
+      "test_vector_tech_2"
+    ],
     "weapon_category": [ "TEST_CAT1" ]
   }
 ]

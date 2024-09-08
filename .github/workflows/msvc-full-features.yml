@@ -29,6 +29,7 @@ on:
     - 'tools/**'
     - '!tools/format/**'
     - 'utilities/**'
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel previous instances.
 concurrency:
@@ -36,6 +37,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # Enable pretty backtraces
+  BACKTRACE: 1
   # Compressed size ~1GB based on observations
   CCACHE_LIMIT: 8GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
@@ -53,15 +56,21 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: windows-2019
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+
+    - name: Setup msys2
+      uses: msys2/setup-msys2@v2
       with:
-        fetch-depth: 1
+        msystem: mingw64
+        install: >-
+          gettext
+          make
 
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: microsoft/setup-msbuild@v2
 
     - name: Use GNU tar to enable zstd for actions/cache
       run: |
@@ -69,26 +78,22 @@ jobs:
         echo C:\Program Files\Git\usr\bin>>"%GITHUB_PATH%"
       shell: cmd
 
-    - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10.4
+    - name: Install stable CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v11
       id: runvcpkg
       with:
-        # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
-        # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
-        # We have to use at least this version of vcpkg to include fixes for yasm-tool's
-        # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
-        # field in vcpkg.json. Caching happens as a post-action which runs at the end of
-        # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: '659b6b5eeacb50ffe25856413960d231ce1a4b58'
+        vcpkgGitCommitId: '66444e13a86da7087ee24c342f91801cc6eb9877'
 
     - name: Integrate vcpkg
       run: |
         vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
 
     - name: Download ccache
-      uses: robinraju/release-downloader@v1.4
+      uses: robinraju/release-downloader@v1.9
       with:
         repository: 'ccache/ccache'
         tag: 'v4.6.1'
@@ -105,12 +110,12 @@ jobs:
     - name: Get ccache vars
       id: get-vars
       run: |
-        echo "::set-output name=datetime::$(/bin/date -u "+%Y%m%d%H%M")"
-        echo "::set-output name=ccache-path::$(echo "$APPDATA\\ccache")"
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo "$APPDATA\\ccache")" >> $GITHUB_OUTPUT
       shell: bash
 
     - name: ccache cache files
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
@@ -132,7 +137,6 @@ jobs:
     - name: Build
       run: |
           msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:Cataclysm-vcpkg-static;Cataclysm-test-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features/Cataclysm-vcpkg-static.sln
-          msbuild -m -p:Configuration=Release -p:Platform=x64 "-target:ObjectCreator-vcpkg-static" msvc-object_creator/ObjectCreator-vcpkg-static.sln
 
     - name: Post-build ccache manipulation
       if: ${{ !failure() }}
@@ -153,8 +157,6 @@ jobs:
         echo =================================================
         Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-full-features/vcpkg_installed" -Recurse
         echo =================================================
-        Get-ChildItem "${{ runner.workspace }}/Cataclysm-DDA/msvc-object_creator/vcpkg_installed" -Recurse
-        echo =================================================
         Get-ChildItem "${{ runner.workspace }}/b/vcpkg/buildtrees" |
         Foreach-Object {
             Get-ChildItem $_.FullName -Filter *.log |
@@ -167,19 +169,23 @@ jobs:
         }
 
     - name: Compile .mo files for localization
+      if: ${{ github.ref_name != 'master' }}
+      shell: msys2 {0}
       run: |
-          & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
-          mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
+          make -C lang -j2
+          mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES
           msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
 
     - name: Enable GitHub Actions problem matchers
+      if: ${{ github.ref_name != 'master' }}
       run: |
           Write-Output "::add-matcher::build-scripts/problem-matchers/catch2.json"
           Write-Output "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
     - name: Run tests
+      if: ${{ github.ref_name != 'master' }}
       run: |
-          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
+          .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 20 --rng-seed time
 
     - name: Dump disk usage logs if job failed
       if: failure()
@@ -190,8 +196,6 @@ jobs:
         du -sh *
         echo =================================================
         du -sh msvc-full-features/*
-        echo =================================================
-        du -sh msvc-object_creator/*
         echo =================================================
         du -sh tools/*
         echo =================================================

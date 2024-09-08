@@ -3,7 +3,7 @@
 #define CATA_SRC_DEBUG_H
 
 #include "string_formatter.h"
-#include <list>
+#include <unordered_set>
 
 /**
  *      debugmsg(msg, ...)
@@ -247,9 +247,11 @@ enum debug_filter : int {
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic
     DF_BALLISTIC, // ballistic generic
+    DF_CAMPS, // Everything to do with camps, player-owned or otherwise
     DF_CHARACTER, // character generic
     DF_CHAR_CALORIES, // character stomach and calories
     DF_CHAR_HEALTH, // character health related
+    DF_CRAFTING, // Crafting everything
     DF_CREATURE, // creature generic
     DF_EFFECT, // effects generic
     DF_EXPLOSION, // explosion generic
@@ -260,8 +262,13 @@ enum debug_filter : int {
     DF_MAP, // map generic
     DF_MATTACK, // monster attack generic
     DF_MELEE, // melee generic
+    DF_MONMOVE, // movement/pathfinding-related
     DF_MONSTER, // monster generic
-    DF_NPC, // npc generic
+    DF_MUTATION, // mutation/purification logic
+    DF_NPC, // npc generic, less verbose comments
+    DF_NPC_COMBATAI, // npc combat and danger assessment logic
+    DF_NPC_ITEMAI, // npc weapon/item logic - weapon choices, decision to reload, etc.
+    DF_NPC_MOVEAI, // Pathfinding and movement logic.  For the NPC with places to be.
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff
     DF_RANGED, // ranged generic
@@ -274,9 +281,15 @@ enum debug_filter : int {
     DF_LAST // This is always the last entry
 };
 
-extern std::list<debug_filter> enabled_filters;
+extern std::unordered_set<debug_filter> enabled_filters;
 std::string filter_name( debug_filter value );
 } // namespace debugmode
+
+
+// From catch.hpp:
+// Returns true if the current process is being debugged (either
+// running under the debugger or has a debugger attached post facto).
+bool isDebuggerActive();
 
 #if defined(BACKTRACE)
 /**

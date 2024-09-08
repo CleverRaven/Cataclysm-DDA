@@ -10,11 +10,10 @@
       { "item": "laptop", "prob": 60, "charges": [ 0, 500 ] },
       { "item": "battery_charger", "prob": 80 },
       { "item": "usb_drive", "prob": 20 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 },
+      { "item": "memory_card_unread", "count": [ 1, 3 ], "prob": 30 },
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
-      { "item": "pen", "count": [ 1, 10 ], "prob": 95, "charges": [ 0, 100 ] },
+      { "group": "pens", "count": [ 1, 10 ], "prob": 95, "charges": [ 0, 100 ] },
       { "item": "book_binder", "prob": 90 },
       { "item": "stapler", "prob": 60 },
       { "item": "office_holepunch", "prob": 35 },
@@ -35,8 +34,7 @@
       { "item": "file", "count": [ 1, 15 ], "prob": 95 },
       { "item": "paper", "count": [ 2, 30 ], "prob": 80 },
       { "item": "book_binder", "prob": 80 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {
@@ -46,8 +44,8 @@
     "//2": "This group is for a typical janitors closet with cleaning chemicals and tools.",
     "subtype": "collection",
     "entries": [
-      { "item": "bleach", "prob": 90, "charges-min": 20 },
-      { "item": "ammonia_hydroxide", "prob": 75, "charges-min": 20 },
+      { "item": "bleach", "prob": 90, "charges": [ 20, -1 ] },
+      { "item": "ammonia_hydroxide", "prob": 75, "charges": [ 20, -1 ] },
       { "item": "broom", "prob": 95 },
       { "item": "mop", "prob": 60 },
       { "item": "mop_folded", "prob": 35 },
@@ -56,10 +54,11 @@
       { "item": "towel", "count": [ 1, 2 ], "prob": 80 },
       { "item": "brush", "prob": 95 },
       { "item": "bucket", "prob": 90 },
+      { "item": "bucket_5gal", "prob": 90, "count": [ 1, 2 ] },
       { "item": "boots_rubber", "prob": 90 },
       { "item": "gloves_rubber", "prob": 90 },
       { "item": "apron_plastic", "prob": 40 },
-      { "item": "chem_hydrogen_peroxide", "prob": 40, "charges-min": 4 },
+      { "item": "chem_hydrogen_peroxide", "prob": 40, "charges": [ 4, -1 ] },
       { "item": "soap", "count": [ 1, 2 ], "prob": 70 },
       { "item": "detergent", "count": [ 1, 2 ], "prob": 80 },
       { "item": "paper", "count": [ 1, 2 ], "prob": 90 }

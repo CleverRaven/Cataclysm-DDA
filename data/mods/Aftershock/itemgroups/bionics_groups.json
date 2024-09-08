@@ -5,6 +5,7 @@
     "copy-from": "bionics",
     "extend": {
       "items": [
+        [ "bio_microgen", 5 ],
         [ "bn_bio_solar", 10 ],
         [ "afs_bio_missiles", 10 ],
         [ "afs_bio_linguistic_coprocessor", 10 ],
@@ -28,6 +29,7 @@
     "id": "bionics_reaver",
     "type": "item_group",
     "items": [
+      [ "bio_microgen", 3 ],
       [ "bio_power_storage", 10 ],
       [ "bio_batteries", 10 ],
       [ "bio_metabolics", 10 ],
@@ -87,26 +89,70 @@
         [ "afs_bio_melee_counteraction", 10 ],
         [ "afs_bio_melee_optimization_unit", 10 ],
         [ "afs_bio_monowhip", 10 ],
+        [ "afs_bio_blood_plus", 10 ],
         [ "bio_forcefield_bash_cut_medium", 16 ],
         [ "bio_forcefield_bash_cut_heavy", 3 ],
         [ "bio_forcefield_ballistic_weak", 10 ],
         [ "bio_forcefield_ballistic_medium", 10 ],
         [ "afs_bio_translocator", 5 ],
+        [ "afs_bio_blood_brain", 1 ],
         [ "bio_shock_absorber", 2 ],
         [ "afs_bio_skullgun", 2 ]
       ]
     }
   },
   {
-    "id": "bionics_sci",
     "type": "item_group",
-    "copy-from": "bionics_sci",
-    "extend": { "items": [ [ "bn_bio_solar", 5 ] ] }
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ],
+      [ "bn_bio_solar", 5 ],
+      [ "bio_microgen", 2 ]
+    ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
     "items": [
+      [ "bio_microgen", 3 ],
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_melee_counteraction", 10 ],
@@ -134,6 +180,7 @@
         [ "afs_bio_neurosoft_aeronautics", 10 ],
         [ "afs_bio_dopamine_stimulators", 10 ],
         [ "afs_bio_monowhip", 10 ],
+        [ "afs_bio_blood_plus", 10 ],
         [ "afs_bio_translocator", 5 ],
         [ "afs_bio_skullgun", 2 ]
       ]
@@ -142,7 +189,7 @@
   {
     "id": "afs_bionics_power",
     "type": "item_group",
-    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ] ]
+    "items": [ [ "bio_power_storage_mkII", 1 ], [ "bio_power_storage", 14 ], [ "bio_microgen", 5 ] ]
   },
   {
     "id": "afs_bionic_toolkit",

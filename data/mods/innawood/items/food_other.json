@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "fresh_honeydew",
-    "name": { "str": "fresh honeydew" },
+    "name": { "str_sp": "fresh honeydew" },
     "description": "Turgid, but still liquid honeydew, fresh from the… bug.",
     "weight": "33 g",
     "color": "green",

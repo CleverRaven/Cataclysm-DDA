@@ -11,6 +11,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const ter_str_id ter_t_floor( "t_floor" );
+
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 
 namespace
@@ -25,7 +27,7 @@ void _consume_item( item_location elem, consume_queue &consumed, consume_cache &
     if( !elem->is_owned_by( guy ) ) {
         return;
     }
-    std::list<item *> const contents = elem->all_items_top( item_pocket::pocket_type::CONTAINER );
+    std::list<item *> const contents = elem->all_items_top( pocket_type::CONTAINER );
     if( contents.empty() ) {
         auto it = cache.find( elem->typeId() );
         if( it == cache.end() ) {
@@ -63,11 +65,10 @@ bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
     return true;
 }
 
-bool _to_veh( item const &it, cata::optional<vpart_reference> const &vp )
+bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 {
-    int const part = static_cast<int>( vp->part_index() );
-    if( vp->vehicle().free_volume( part ) >= it.volume() ) {
-        cata::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
+    if( vp->items().free_volume() >= it.volume() ) {
+        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( vp->part(), it );
         return !ret.has_value();
     }
     return true;
@@ -90,7 +91,7 @@ void add_fallback_zone( npc &guy )
     for( tripoint_abs_ms const &t : closest_points_first( loc, PICKUP_RANGE ) ) {
         tripoint_bub_ms const t_here = here.bub_from_abs( t );
         if( here.has_furn( t_here ) &&
-            ( here.furn( t_here )->max_volume > t_floor->max_volume ||
+            ( here.furn( t_here )->max_volume > ter_t_floor->max_volume ||
               here.furn( t_here )->has_flag( ter_furn_flag::TFLAG_CONTAINER ) ) &&
             here.can_put_items_ter_furn( t_here ) &&
             !here.route( guy.pos_bub(), t_here, guy.get_pathfinding_settings(),
@@ -135,8 +136,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
             tripoint const dpoint_here = here.getlocal( dpoint );
-            cata::optional<vpart_reference> const vp =
-                here.veh_at( dpoint_here ).part_with_feature( "CARGO", false );
+            std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {

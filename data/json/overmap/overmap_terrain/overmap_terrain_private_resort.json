@@ -5,12 +5,13 @@
     "name": "private resort",
     "sym": "p",
     "color": "yellow",
-    "see_cost": 5,
+    "vision_levels": "large_building",
+    "see_cost": "full_high",
     "mondensity": 1,
-    "flags": [ "RISK_HIGH", "SOURCE_DRINK", "SOURCE_LUXURY" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_DRINK", "SOURCE_LUXURY" ]
   },
   {
-    "id": "p_resort_1nw",
+    "id": [ "p_resort_1nw", "p_resort_pm" ],
     "type": "overmap_terrain",
     "sym": "P",
     "copy-from": "generic_private_resort"
@@ -38,7 +39,6 @@
       "p_resort_2sw",
       "p_resort_2ww",
       "p_resort_pe",
-      "p_resort_pm",
       "p_resort_pw",
       "p_resort_ree",
       "p_resort_rmm",

@@ -1,23 +1,30 @@
 #include "creature_tracker.h"
 
 #include <algorithm>
+#include <limits>
 #include <ostream>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
 #include "cata_assert.h"
 #include "debug.h"
+#include "flood_fill.h"
+#include "game.h"
 #include "map.h"
+#include "mapdata.h"
+#include "maptile_fwd.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "submap.h"  // IWYU pragma: keep
 #include "type_id.h"
 
 static const efftype_id effect_ridden( "ridden" );
-
-static const mfaction_str_id monfaction_player( "player" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -67,11 +74,6 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
         return false;
     }
 
-    if( critter.type->has_flag( MF_VERMIN ) ) {
-        // Don't spawn vermin, they aren't implemented yet
-        return false;
-    }
-
     if( const shared_ptr_fast<monster> existing_mon_ptr = find( critter.get_location() ) ) {
         // We can spawn stuff on hallucinations, but we need to kill them first
         if( existing_mon_ptr->is_hallucination() ) {
@@ -91,21 +93,7 @@ bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 
     monsters_list.emplace_back( critter_ptr );
     monsters_by_location[critter.get_location()] = critter_ptr;
-    add_to_faction_map( critter_ptr );
     return true;
-}
-
-void creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critter_ptr )
-{
-    cata_assert( critter_ptr );
-    monster &critter = *critter_ptr;
-
-    // Only 1 faction per mon at the moment.
-    if( critter.friendly == 0 ) {
-        monster_faction_map_[critter.faction][critter_ptr->get_location().z()].insert( critter_ptr );
-    } else {
-        monster_faction_map_[monfaction_player][critter_ptr->get_location().z()].insert( critter_ptr );
-    }
 }
 
 size_t creature_tracker::size() const
@@ -183,18 +171,8 @@ void creature_tracker::remove( const monster &critter )
         return;
     }
 
-    for( auto &pair : monster_faction_map_ ) {
-        const int zpos = critter.pos().z;
-        const auto fac_iter = pair.second[zpos].find( *iter );
-        if( fac_iter != pair.second[zpos].end() ) {
-            // Need to do this manually because the shared pointer containing critter is kept valid
-            // within removed_ and so the weak pointer in monster_faction_map_ is also valid.
-            pair.second[zpos].erase( fac_iter );
-            break;
-        }
-    }
     remove_from_location_map( critter );
-    removed_.push_back( *iter );
+    removed_this_turn_.emplace( *iter );
     monsters_list.erase( iter );
 }
 
@@ -202,24 +180,48 @@ void creature_tracker::clear()
 {
     monsters_list.clear();
     monsters_by_location.clear();
-    monster_faction_map_.clear();
-    removed_.clear();
+    removed_this_turn_.clear();
+    creatures_by_zone_and_faction_.clear();
+    invalidate_reachability_cache();
 }
 
 void creature_tracker::rebuild_cache()
 {
     monsters_by_location.clear();
-    monster_faction_map_.clear();
     for( const shared_ptr_fast<monster> &mon_ptr : monsters_list ) {
         monsters_by_location[mon_ptr->get_location()] = mon_ptr;
-        add_to_faction_map( mon_ptr );
     }
+}
+
+bool creature_tracker::is_present( Creature *creature ) const
+{
+    if( creature->is_monster() ) {
+        if( const auto iter = monsters_by_location.find( creature->get_location() );
+            iter != monsters_by_location.end() ) {
+            if( static_cast<const Creature *>( iter->second.get() ) == creature ) {
+                return !iter->second->is_dead();
+            }
+        }
+    } else if( creature->is_avatar() ) {
+        return true;
+    } else if( creature->is_npc() ) {
+        for( const shared_ptr_fast<npc> &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == creature ) {
+                return !cur_npc->is_dead();
+            }
+        }
+    }
+    return false;
 }
 
 void creature_tracker::swap_positions( monster &first, monster &second )
 {
     if( first.get_location() == second.get_location() ) {
         return;
+    }
+
+    if( first.get_reachable_zone() != second.get_reachable_zone() ) {
+        invalidate_reachability_cache();
     }
 
     // Either of them may be invalid!
@@ -281,16 +283,15 @@ void creature_tracker::remove_dead()
 {
     // Can't use game::all_monsters() as it would not contain *dead* monsters.
     for( auto iter = monsters_list.begin(); iter != monsters_list.end(); ) {
-        const monster &critter = **iter;
-        if( critter.is_dead() ) {
-            remove_from_location_map( critter );
+        monster *const critter = iter->get();
+        if( critter->is_dead() ) {
+            remove_from_location_map( *critter );
             iter = monsters_list.erase( iter );
         } else {
             ++iter;
         }
     }
-
-    removed_.clear();
+    removed_this_turn_.clear();
 }
 
 template<typename T>
@@ -339,6 +340,86 @@ T *creature_tracker::creature_at( const tripoint_abs_ms &p, bool allow_hallucina
     return nullptr;
 }
 
+/** This is lazily evaluated on demand. Each creature in a zone is visited
+ * as it flood fills, then the zone number is incremented. At the end all creatures in
+ * the same zone will have the same zone number assigned, which can be used to have creatures in
+ * different zones ignore each other very cheaply.
+ */
+void creature_tracker::flood_fill_zone( const Creature &origin )
+{
+    if( dirty_ ) {
+        creatures_by_zone_and_faction_.clear();
+        zone_tick_ = zone_tick_ > 0 ? -1 : 1;
+        zone_number_ = 1;
+        dirty_ = false;
+    }
+
+    // This check insures we only flood fill when the target monster has an uninitialized zone,
+    // or if it has a zone from last turn.  In other words it only triggers on
+    // the first monster in a zone each turn. We can detect this because the sign
+    // of the zone numbers changes on every invalidation.
+    int old_zone = origin.get_reachable_zone();
+    // Compare with zone_tick == old_zone && old_zone != 0
+    if( old_zone * zone_tick_ > 0 ) {
+        return;
+    }
+
+    map &map = get_map();
+    ff::flood_fill_visit_10_connected( origin.pos_bub(),
+    [&map]( const tripoint_bub_ms & loc, int direction ) {
+        if( direction == 0 ) {
+            return map.inbounds( loc ) && ( map.is_transparent_wo_fields( loc.raw() ) ||
+                                            map.passable( loc ) );
+        }
+        if( direction == 1 ) {
+            const maptile &up = map.maptile_at( loc );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( up_ter.movecost != 0 && up.get_furn_t().movecost >= 0 ) ||
+                  map.is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        if( direction == -1 ) {
+            const maptile &up = map.maptile_at( loc + tripoint_above );
+            const ter_t &up_ter = up.get_ter_t();
+            if( up_ter.id.is_null() ) {
+                return false;
+            }
+            const maptile &down = map.maptile_at( loc );
+            const ter_t &down_ter = up.get_ter_t();
+            if( down_ter.id.is_null() ) {
+                return false;
+            }
+            if( ( ( down_ter.movecost != 0 && down.get_furn_t().movecost >= 0 ) ||
+                  map.is_transparent_wo_fields( loc.raw() ) ) &&
+                ( up_ter.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ||
+                  up_ter.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) ) {
+                return true;
+            }
+        }
+        return false;
+    },
+    [this]( const tripoint_bub_ms & loc ) {
+        if( Creature *creature = this->creature_at<Creature>( loc, true ) ) {
+            if( shared_ptr_fast<Creature> ptr = g->shared_from( *creature ) ) {
+                const int n = zone_number_ * zone_tick_;
+                creatures_by_zone_and_faction_[n][creature->get_monster_faction()].emplace_back( std::move( ptr ) );
+                creature->set_reachable_zone( n );
+            }
+        }
+    } );
+    if( zone_number_ == std::numeric_limits<int>::max() ) {
+        zone_number_ = 1;
+    } else {
+        zone_number_++;
+    }
+}
+
 template<typename T>
 const T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination ) const
 {
@@ -366,19 +447,28 @@ template monster *creature_tracker::creature_at<monster>( const tripoint &, bool
 template monster *creature_tracker::creature_at<monster>( const tripoint_bub_ms &, bool );
 template monster *creature_tracker::creature_at<monster>( const tripoint_abs_ms &, bool );
 template const npc *creature_tracker::creature_at<npc>( const tripoint &, bool ) const;
+template const npc *creature_tracker::creature_at<npc>( const tripoint_bub_ms &, bool ) const;
 template const npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool ) const;
 template npc *creature_tracker::creature_at<npc>( const tripoint &, bool );
+template npc *creature_tracker::creature_at<npc>( const tripoint_bub_ms &, bool );
 template npc *creature_tracker::creature_at<npc>( const tripoint_abs_ms &, bool );
 template const avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool ) const;
+template const avatar *creature_tracker::creature_at<avatar>( const tripoint_bub_ms &, bool ) const;
 template const avatar *creature_tracker::creature_at<avatar>( const tripoint_abs_ms &, bool ) const;
 template avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool );
+template avatar *creature_tracker::creature_at<avatar>( const tripoint_bub_ms &, bool );
 template avatar *creature_tracker::creature_at<avatar>( const tripoint_abs_ms &, bool );
 template const Character *creature_tracker::creature_at<Character>( const tripoint &, bool ) const;
+template const Character *creature_tracker::creature_at<Character>( const tripoint_bub_ms &,
+        bool ) const;
 template const Character *creature_tracker::creature_at<Character>( const tripoint_abs_ms &,
         bool ) const;
 template Character *creature_tracker::creature_at<Character>( const tripoint &, bool );
+template Character *creature_tracker::creature_at<Character>( const tripoint_bub_ms &, bool );
 template Character *creature_tracker::creature_at<Character>( const tripoint_abs_ms &, bool );
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool ) const;
+template const Creature *creature_tracker::creature_at<Creature>( const tripoint_bub_ms &,
+        bool ) const;
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint_abs_ms &,
         bool ) const;
 template Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool );

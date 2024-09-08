@@ -1,4 +1,4 @@
-# practice
+# Practice Recipes
 
 Practice recipes allow practicing skills and proficiencies by working on crafts that are "just for
 practice", and do not yield a finished result (although they may have some byproducts). They may be
@@ -44,7 +44,7 @@ work the same way.
 
 For example, here is a recipe for practicing intermediate level computer skill:
 
-```
+```json
 [
   {
     "id": "prac_computer_int",

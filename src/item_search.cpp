@@ -7,11 +7,12 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
+#include "itype.h"
 #include "material.h"
 #include "requirements.h"
 #include "type_id.h"
 
-static std::pair<std::string, std::string> get_both( const std::string &a );
+static std::pair<std::string, std::string> get_both( std::string_view a );
 
 std::function<bool( const item & )> basic_item_filter( std::string filter )
 {
@@ -27,7 +28,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // category
         case 'c':
             return [filter]( const item & i ) {
-                return lcmatch( i.get_category_of_contents().name(), filter );
+                return lcmatch( i.get_category_of_contents().name_header(), filter );
             };
         // material
         case 'm':
@@ -40,10 +41,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // qualities
         case 'q':
             return [filter]( const item & i ) {
-                return std::any_of( i.quality_of().begin(), i.quality_of().end(),
-                [&filter]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name, filter );
-                } );
+                return i.type->has_any_quality( filter );
             };
         // both
         case 'b':
@@ -69,6 +67,18 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 const std::string note = i.get_var( "item_note" );
                 return !note.empty() && lcmatch( note, filter );
             };
+        // item flags, must type in whole flag string name(case insensitive) so as to avoid revealing hidden flags.
+        case 'f':
+            return [filter]( const item & i ) {
+                std::string flag_filter = filter;
+                transform( flag_filter.begin(), flag_filter.end(), flag_filter.begin(), ::toupper );
+                const flag_id fsearch( flag_filter );
+                if( fsearch.is_valid() ) {
+                    return i.has_flag( fsearch );
+                } else {
+                    return false;
+                }
+            };
         // by book skill
         case 's':
             return [filter]( const item & i ) {
@@ -77,6 +87,34 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
                 }
                 return false;
             };
+        // covers bodypart
+        case 'v': {
+            std::unordered_set<bodypart_id> filtered_bodyparts;
+            std::unordered_set<sub_bodypart_id> filtered_sub_bodyparts;
+            for( const body_part &bp : all_body_parts ) {
+                const bodypart_str_id &bp_str_id = convert_bp( bp );
+                if( lcmatch( body_part_name( bp_str_id, 1 ), filter )
+                    || lcmatch( body_part_name( bp_str_id, 2 ), filter ) ) {
+                    filtered_bodyparts.insert( bp_str_id->id );
+                }
+                for( const sub_bodypart_str_id &sbp : bp_str_id->sub_parts ) {
+                    if( lcmatch( sbp->name.translated(), filter )
+                        || lcmatch( sbp->name_multiple.translated(), filter ) ) {
+                        filtered_sub_bodyparts.insert( sbp->id );
+                    }
+                }
+            }
+            return [filter, filtered_bodyparts, filtered_sub_bodyparts]( const item & i ) {
+                return std::any_of( filtered_bodyparts.begin(), filtered_bodyparts.end(),
+                [&i]( const bodypart_id & bp ) {
+                    return i.covers( bp );
+                } )
+                || std::any_of( filtered_sub_bodyparts.begin(), filtered_sub_bodyparts.end(),
+                [&i]( const sub_bodypart_id & sbp ) {
+                    return i.covers( sbp );
+                } );
+            };
+        }
         // by name
         default:
             return [filter]( const item & a ) {
@@ -90,9 +128,9 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
     return filter_from_string<item>( filter, basic_item_filter );
 }
 
-std::pair<std::string, std::string> get_both( const std::string &a )
+std::pair<std::string, std::string> get_both( const std::string_view a )
 {
     size_t split_mark = a.find( ';' );
-    return std::make_pair( a.substr( 0, split_mark ),
-                           a.substr( split_mark + 1 ) );
+    return std::pair( std::string( a.substr( 0, split_mark ) ),
+                      std::string( a.substr( split_mark + 1 ) ) );
 }

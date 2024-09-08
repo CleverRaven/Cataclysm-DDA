@@ -1,8 +1,9 @@
 # JSON Style Guide
 
-Like in `doc/CODE_STYLE.md`, the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
+Like in [CODE_STYLE.md](CODE_STYLE.md), the JSON styling policy is to update JSON as it is added or edited, and in relatively small chunks otherwise in order to prevent undue disruption to development.
 
 We haven't been able to find a decent JSON styling tool, so we wrote our own.  It lives in tools/format/format.cpp and it leverages src/json.cpp to parse and emit JSON.
+`json_formatter.cgi` can be found in any released build and is already compiled, see [Formatting tool](#Formatting tool).
 
 ## JSON Example
 
@@ -64,7 +65,17 @@ commands to format all of the JSON in the project.
 1. Build the JsonFormatter project by either building the entire solution or
    just that project. This will create a `tools/format/json_formatter.exe`
    binary.
-2. Add a new external tool entry ( `Tools` > `External Tools..` > `Add` ) and
+2. To automatically lint json you need to define an MSBuild variable ( this is similar to setting up ccache in Visual Studio compiling doc ).
+If done correctly then trying to build or run the solution will trigger linter and the `Output` and `Error List` windows will show the linted files if any.
+One of the easier methods to do so is creating a `Directory.Build.props` file in the root of cataclysm project repository with the following contents:
+```xml
+<Project>
+  <PropertyGroup>
+    <CDDA_POST_BUILD_JSON_LINT>true</CDDA_POST_BUILD_JSON_LINT>
+  </PropertyGroup>
+</Project>
+```
+3. To add an entry to manually run the json linter tool; Add a new external tool entry ( `Tools` > `External Tools..` > `Add` ) and
    configure it as follows:
    * Title: `Lint All JSON`
    * Command: `C:\windows\system32\windowspowershell\v1.0\powershell.exe`
@@ -79,3 +90,6 @@ Additionally, you can configure a keybinding for this command by navigating to
 containing `Tools.ExternalCommand` and pick the one that corresponds to the
 position of your command in the list (e.g. `Tools.ExternalCommand1` if it's the
 top item in the list) and then assign shortcut keys to it.
+
+### Visual Studio Code
+If you install the recommended extensions you should have access to the the cdda-toys.cdda-json-formatter which will auto format your json.

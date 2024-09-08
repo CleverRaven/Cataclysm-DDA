@@ -11,7 +11,6 @@
 #include "game_constants.h"
 #include "lightmap.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "shadowcasting.h"
 #include "value_ptr.h"
 
@@ -72,19 +71,10 @@ struct level_cache {
         // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
         cata::mdarray<float, point_bub_ms> camera_cache;
 
-        // reachability caches
-        // Note: indirection here is introduced, because caches are quite large:
-        // at least (MAPSIZE_X * MAPSIZE_Y) * 4 bytes (≈69,696 bytes) each
-        // so having them directly as part of the level_cache interferes with
-        // CPU cache coherency of level_cache
-        cata::value_ptr<reachability_cache_horizontal>r_hor_cache =
-            cata::make_value<reachability_cache_horizontal>();
-        cata::value_ptr<reachability_cache_vertical> r_up_cache =
-            cata::make_value<reachability_cache_vertical>();
-
         // stores resulting apparent brightness to player, calculated by map::apparent_light_at
         cata::mdarray<lit_level, point_bub_ms> visibility_cache;
-        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_cache_dec;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_cache_ter;
         std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
         std::set<vehicle *> vehicle_list;

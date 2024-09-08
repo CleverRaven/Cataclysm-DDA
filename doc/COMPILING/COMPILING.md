@@ -1,9 +1,13 @@
+# Compiling
 * [General Linux Guide](#general-linux-guide)
   * [Compiler](#compiler)
   * [Tools](#tools)
   * [Dependencies](#dependencies)
   * [Make flags](#make-flags)
   * [Compiling localization files](#compiling-localization-files)
+* [Fedora](#fedora)
+  * [ncurses builds](#ncurses-builds)
+  * [SDL builds](#sdl-builds)
 * [Debian](#debian)
   * [Linux (native) ncurses builds](#linux-native-ncurses-builds)
   * [Linux (native) SDL builds](#linux-native-sdl-builds)
@@ -36,17 +40,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting the C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
-
-    $ `g++ --std=c++14`
-    g++: fatal error: no input files
-    compilation terminated.
-
-If you get a line like:
-
-    g++: error: unrecognized command line option ‘--std=c++14’
-
-This means you'll need a newer version of GCC (`g++`).
+Cataclysm is targeting the C++17 standard and that means you'll need a compiler that supports it. You can check if your C++ compiler supports the standard by reading [COMPILER_SUPPORT.md](./COMPILER_SUPPORT.md)
 
 The general rule is the newer the compiler the better.
 
@@ -92,7 +86,7 @@ Given you're building from source you have a number of choices to make:
   * `USE_LIBCXX=1` - use libc++ instead of libstdc++ with Clang (default on OS X)
   * `PREFIX=DIR` - causes `make install` to place binaries and data files to DIR (see note below)
 
-There is a couple of other possible options - feel free to read the `Makefile`.
+There is a couple of other possible options - feel free to read the [`Makefile`](../../Makefile).
 
 If you have a multi-core computer you'd probably want to add `-jX` to the options, where `X` is your CPU's number of threads (generally twice the number of your CPU cores). Alternatively, you can add `-j$(nproc)` for the build to use all of your CPU processors.
 
@@ -116,13 +110,73 @@ PREFIX specifies a directory which will be the prefix for binaries, resources, a
 
 If you want to compile localization files for specific languages, you can add the `LANGUAGES="<lang_id_1> [lang_id_2] [...]"` option to the `make` command:
 
-    `make LANGUAGES="zh_CN zh_TW"`
+    make LANGUAGES="zh_CN zh_TW"
 
 You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` only may not tell `make` to compile those localization files for you.
 
 # Accelerating Linux builds with llama
 
-[llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [../../tools/llama/README.md](our llama README) for more details.
+[llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [our llama README](../../tools/llama/README.md) for more details.
+
+# Fedora
+## Ncurses builds
+
+Dependencies:
+
+  * ncurses
+  * g++ and make
+
+Install:
+
+    sudo dnf install astyle gcc-c++ ncurses-devel make
+
+### Building
+
+Run:
+
+    make
+
+## SDL builds
+
+Dependencies:
+
+  * SDL2
+  * SDL2_image
+  * SDL2_ttf
+  * freetype
+  * g++ and make
+  * libsdl2-mixer-dev - Used if compiling with sound support.
+
+Install:
+
+    sudo dnf install astyle gcc-c++ SDL2-devel SDL2_image-devel SDL2_ttf-devel SDL2_mixer-devel freetype-devel make
+
+### Building
+
+A simple installation could be done by simply running:
+
+    make TILES=1
+
+A more comprehensive alternative is:
+
+    make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
+
+The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
+
+# Gentoo
+If you want sound and graphics, make sure to emerge with the following:
+
+```bash
+USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" \
+ emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf
+```
+
+It may also be possible to get away with fewer dependencies, but this set has been tested.
+
+Once the above libraries are installed, compile with:
+
+    make -j$(nproc) TILES=1 SOUND=1 RELEASE=1
+
 
 # Debian
 
@@ -130,16 +184,6 @@ Instructions for compiling on a Debian-based system. The package names here are 
 
 The building instructions below always assume you are running them from the Cataclysm:DDA source directory.
 
-# Gentoo
-If you want sound and graphics, make sure to emerge with the following:
-
-`USE="flac fluidsynth mad midi mod modplug mp3 playtools vorbis wav png" emerge -1va emerge media-libs/libsdl2 media-libs/sdl2-gfx media-libs/sdl2-image media-libs/sdl2-mixer media-libs/sdl2-ttf`
-
-It may also be possible to get away with fewer dependencies, but this set has been tested.
-
-Once the above libraries are installed, compile with:
-
-    `make -j$(nproc) TILES=1 SOUND=1 RELEASE=1`
 
 ## Linux (native) ncurses builds
 
@@ -150,13 +194,13 @@ Dependencies:
 
 Install:
 
-    `sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle`
+    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential astyle
 
 ### Building
 
 Run:
 
-    `make`
+    make
 
 ## Linux (native) SDL builds
 
@@ -170,17 +214,17 @@ Dependencies:
 
 Install:
 
-    `sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential`
+    sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libfreetype6-dev build-essential
 
 ### Building
 
 A simple installation could be done by simply running:
 
-    `make TILES=1`
+    make TILES=1
 
 A more comprehensive alternative is:
 
-    `make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1`
+    make -j2 TILES=1 SOUND=1 RELEASE=1 USE_HOME_DIR=1
 
 The -j2 flag means it will compile with two parallel processes. It can be omitted or changed to -j4 in a more modern processor. If there is no desire to have sound, those flags can also be omitted. The USE_HOME_DIR flag places the user files, like configurations and saves, into the home folder, making it easier for backups, and can also be omitted.
 
@@ -195,13 +239,13 @@ Dependencies:
 
 Install:
 
-    `sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev`
+    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
 
 ### Building
 
 Run:
 
-    `make NATIVE=linux32`
+    make NATIVE=linux32
 
 ## Cross-compile to Windows from Linux
 
@@ -218,13 +262,11 @@ Installation
 <!-- ncurses removed from make MXE_TARGETS because we're not gonna be cross-compiling ncurses -->
 
 ```bash
-sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
-mkdir -p ~/src/Cataclysm-DDA
-mkdir -p ~/src/mxe
+sudo apt install astyle autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl lzip make mingw-w64 openssl p7zip-full patch perl pkg-config python3 ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
 mkdir -p ~/src/libbacktrace
 cd ~/src
-git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
-git clone https://github.com/mxe/mxe.git ./mxe
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git 
+git clone https://github.com/mxe/mxe.git
 cd mxe
 make -j$((`nproc`+0)) MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' MXE_PLUGIN_DIRS=plugins/gcc11 sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext
 cd ../libbacktrace/
@@ -249,7 +291,7 @@ This is to ensure that the variables for the `make` command will not get reset a
 
 ### Building (SDL)
 
-    `cd ~/src/Cataclysm-DDA`
+    cd ~/src/Cataclysm-DDA
 
 Run one of the following commands based on your targeted environment:
 
@@ -281,7 +323,7 @@ To set up the compiling environment execute the following commands:
 `git clone https://github.com/tpoechtrager/osxcross.git` to clone the toolchain
 `cd osxcross`
 `cp ~/MacOSX10.11.sdk.tar.bz2 ./tarballs/` to copy prepared MacOSX SDK tarball on place. [Read more about it](https://github.com/tpoechtrager/osxcross/blob/master/README.md#packaging-the-sdk)
-`OSX_VERSION_MIN=10.7 ./build.sh to build everything`
+`OSX_VERSION_MIN=10.7 ./build.sh` to build everything.
 Note the targeted minimum supported version of OSX.
 
 Have a prepackaged set of libs and frameworks in place since compiling with `osxcross` built-in MacPorts is rather difficult and not supported at the moment.
@@ -311,8 +353,8 @@ Frameworks were obtained from the SDL official website as described in the next 
 To build the full feature tiles and sound enabled version with localizations enabled:
 
 ```bash
-make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
-  RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1 \
+  RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1 \
   OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
 
@@ -323,7 +365,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 To build the full curses version with localizations enabled:
 
 ```bash
-make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1 \
   RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
 
@@ -349,7 +391,7 @@ The Gradle build process automatically installs dependencies from [deps.zip](/an
 
 Install Linux dependencies. For a desktop Ubuntu installation:
 
-    `sudo apt-get install openjdk-8-jdk-headless`
+    sudo apt-get install openjdk-8-jdk-headless
 
 Install Android SDK and NDK:
 
@@ -397,13 +439,13 @@ To build an APK, use the Gradle wrapper command line tool (gradlew). The Android
 
 To build a debug APK, from the `android/` subfolder of the repository run:
 
-    `./gradlew assembleDebug`
+    ./gradlew assembleDebug
 
 This creates a debug APK in `./android/app/build/outputs/apk/` ready to be installed on your device.
 
 To build a debug APK and immediately deploy to your connected device over adb run:
 
-    `./gradlew installDebug`
+    ./gradlew installDebug
 
 To build a signed release APK (ie. one that can be installed on a device), [build an unsigned release APK and sign it manually](https://developer.android.com/studio/publish/app-signing#signing-manually).
 
@@ -423,11 +465,11 @@ Once you have Homebrew installed, open Terminal and run one of the following com
 
 For a stable tiles build:
 
-    `brew install cataclysm`
+    brew install cataclysm
 
 For an experimental tiles build built from the current HEAD of [master](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/):
 
-    `brew install cataclysm --HEAD`
+    brew install cataclysm --HEAD
 
 Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
@@ -435,7 +477,7 @@ To launch Cataclysm, just open Terminal and run `cataclysm`.
 
 To update a stable tiles build simply run:
 
-    `brew upgrade cataclysm`
+    brew upgrade cataclysm
 
 To update an experimental build, you must uninstall Cataclysm then reinstall with `--HEAD`, triggering a new build from source.
 
@@ -471,19 +513,19 @@ Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
-    `brew install sdl2 sdl2_image sdl2_ttf`
+    brew install sdl2 sdl2_image sdl2_ttf
 
 with sound:
 
-    `brew install sdl2_mixer libvorbis libogg`
+    brew install sdl2_mixer libvorbis libogg
 
 For MacPorts:
 
-    `sudo port install libsdl2 libsdl2_image libsdl2_ttf`
+    sudo port install libsdl2 libsdl2_image libsdl2_ttf
 
 with sound:
 
-    `sudo port install libsdl2_mixer libvorbis libogg`
+    sudo port install libsdl2_mixer libvorbis libogg
 
 ### ncurses and gettext
 
@@ -491,7 +533,7 @@ ncurses (with wide character support enabled) and gettext are needed if you want
 
 For Homebrew:
 
-    `brew install gettext ncurses`
+    brew install gettext ncurses
 
 For MacPorts:
 
@@ -504,7 +546,7 @@ hash -r
 
 The version of gcc/g++ installed with the [Command Line Tools for Xcode](https://developer.apple.com/downloads/) is actually just a front end for the same Apple LLVM as clang.  This doesn't necessarily cause issues, but this version of gcc/g++ will have clang error messages and essentially produce the same results as if using clang. To compile with the "real" gcc/g++, install it with homebrew:
 
-    `brew install gcc`
+    brew install gcc
 
 However, homebrew installs gcc as gcc-8 (where 6 is the version) to avoid conflicts. The simplest way to use the homebrew version at `/usr/local/bin/gcc-8` instead of the Apple LLVM version at `/usr/bin/gcc` is to symlink the necessary.
 
@@ -517,7 +559,7 @@ ln -s c++-8 c++
 
 Or, to do this for everything in `/usr/local/bin/` ending with `-8`,
 
-    `find /usr/local/bin -name "*-8" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;`
+    find /usr/local/bin -name "*-8" -exec sh -c 'ln -s "$1" $(echo "$1" | sed "s/..$//")' _ {} \;
 
 Also, you need to make sure that `/usr/local/bin` appears before `/usr/bin` in your `$PATH`, or else this will not work.
 
@@ -530,7 +572,7 @@ The Cataclysm source is compiled using `make`.
 ### Make options
 
 * `NATIVE=osx` build for OS X. Required for all Mac builds. This is automatically set if compiling natively on macOS.
-* `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5. 10.12 or higher is highly recommended (see ISSUES below). The default value is current system version.
+* `UNIVERSAL_BINARY=1` build `x86_64` and `arm64` dual-architecture Universal Binary; omit to build for host architecture only.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
@@ -539,36 +581,36 @@ The Cataclysm source is compiled using `make`.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++. This is enabled by default.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
-* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
+* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for OSX builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 * `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
 
 In addition to the options above, there is an `app` make target which will package the tiles build into `Cataclysm.app`, a complete tiles build in a Mac application that can run without Terminal.
 
-For more info, see the comments in the `Makefile`.
+For more info, see the comments in the [Makefile](../../Makefile).
 
 ### Make examples
 
 Build a release SDL version using Clang without gettext:
 
-    `make RELEASE=1 TILES=1 LOCALIZE=0`
+    make RELEASE=1 TILES=1 LOCALIZE=0
 
 Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, don't use `gettext`, and package it into `Cataclysm.app`:
 
-    `make app RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0`
+    make app RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0
 
 Build a release curses version with gettext supplied by Macports:
 
-    `make RELEASE=1 LOCALIZE=1 MACPORTS=1`
+    make RELEASE=1 LOCALIZE=1 MACPORTS=1
 
 ### Running
 
 For curses builds:
 
-    `./cataclysm`
+    ./cataclysm
 
 For SDL:
 
-    `./cataclysm-tiles`
+    ./cataclysm-tiles
 
 For `app` builds, launch Cataclysm.app from Finder.
 
@@ -591,21 +633,11 @@ sudo pip install dmgbuild pyobjc-framework-Quartz
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    `make dmgdist NATIVE=osx OSX_MIN=10.12 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1`
+    make dmgdist NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1
 
 You should see a `Cataclysm.dmg` file.
 
 ## Mac OS X Troubleshooting
-
-### ISSUE: crash on startup due to libint.8.dylib aborting
-
-If you're compiling on Mountain Lion or above, it won't be possible to run successfully on older OS X versions due to libint.8 / pthreads version issue.
-
-From https://wiki.gnome.org/GTK+/OSX/Building:
-
-> "There's another issue with building on Lion or Mountain Lion using either "native" or the 10.7 SDK: Apple has updated the pthreads implementation to provide recursive locking. This would be good except that Gettext's libintl uses this and if the pthreads implementation doesn't provide it it fabricates its own. Since the Lion pthreads does provide it, libintl links the provided function and then crashes when you try to run it against an older version of the library. The simplest solution is to specify the 10.6 SDK when building on Lion, but that won't work on Mountain Lion, which doesn't include it. See below for how to install and use XCode 3 on Lion and later for building applications compatible with earlier versions of OSX."
-
-Workaround: install XCode 3 like that article describes, or disable localization support in Cataclysm so gettext/libint are not dependencies. Or else simply don't support OS X versions below 10.7.
 
 ### ISSUE: Colors don't show up correctly
 
@@ -619,6 +651,8 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 See [COMPILING-VS-VCPKG.md](COMPILING-VS-VCPKG.md) for instructions on how to set up and use a build environment using Visual Studio on windows.
 
 This is probably the easiest solution for someone used to working with Visual Studio and similar IDEs.
+
+For an alternative setup using [CMake](../../CMakeLists.txt), please read [COMPILING-CMAKE-VCPKG.md](COMPILING-CMAKE-VCPKG.md).
 
 ## Building with MSYS2
 
@@ -638,19 +672,19 @@ Clang by default uses MSVC on Windows, but also supports the MinGW64 library. Si
 
 # BSDs
 
-There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
+There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the [`Makefile`](../../Makefile) "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
 
 ### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
+FreeBSD uses clang as the default compiler, which provides C++17 support out of the box since FreeBSD 12.0.
 
 Install the following with pkg (or from Ports):
 
-`pkg install gmake libiconv`
+    pkg install gmake libiconv
 
 Tiles builds will also require SDL2:
 
-`pkg install sdl20 sdl2_image sdl2_mixer sdl2_ttf`
+    pkg install sdl20 sdl2_image sdl2_mixer sdl2_ttf
 
 Then you should be able to build with something like this:
 
@@ -663,23 +697,23 @@ gmake RELEASE=1 TILES=1 # tiles builds
 
 Install necessary dependencies:
 
-`# pkg_add gmake libiconv`
+    pkg_add gmake libiconv
 
 If building with tiles also install:
 
-`# pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf`
+    pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf
 
 Compiling:
 
 ```bash
-$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 # ncurses build
-$ gmake RELEASE=1 BSD=1 CLANG=1 RUNTESTS=0 TILES=1 # tiles build
+gmake RELEASE=1 BSD=1 CLANG=1 TESTS=0 # ncurses build
+gmake RELEASE=1 BSD=1 CLANG=1 TESTS=0 TILES=1 # tiles build
 ```
 
 You may get an out of memory error when compiling with an underprivileged user,
 you can simply fix this by running:
 
-`# usermod -L pbuild <user>`
+    usermod -L pbuild <user>
 
 This command sets your login class to `pbuild` thus the data ulimit is increased from
 1GB to 8GB.
@@ -689,31 +723,31 @@ of the `staff` login class**
 
 Instead, you need to increase `data` limit with:
 
-`$ ulimit -d 8000000`
+    ulimit -d 8000000
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 
 First, install g++, gmake, and libexecinfo from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
 
-`pkg_add g++ gmake libexecinfo`
+    pkg_add g++ gmake libexecinfo
 
 Then you should  be able to build with something like:
 
-`CXX=eg++ gmake`
+    CXX=eg++ gmake
 
 Only an ncurses build is possible on 5.8-release, as SDL2 is broken. On recent -current or snapshots, however, you can install the SDL2 packages:
 
-`pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf`
+    pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf
 
 and build with:
 
-`CXX=eg++ gmake TILES=1`
+    CXX=eg++ gmake TILES=1
 
 ### Building on NetBSD/amd64 7.0RC1 with the system compiler
 
 NetBSD has (or will have) gcc 4.8.4 as of version 7.0, which is new enough to build cataclysm. You will need to install gmake and ncursesw:
 
-`pkgin install gmake ncursesw`
+    pkgin install gmake ncursesw
 
 Then you should be able to build with something like this (LDFLAGS for ncurses builds are taken care of by the ncurses configuration script; you can of course set CXXFLAGS/LDFLAGS in your .profile or something):
 

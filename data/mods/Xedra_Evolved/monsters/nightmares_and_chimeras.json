@@ -3,7 +3,7 @@
     "id": "mon_xe_flying_shark",
     "type": "MONSTER",
     "name": { "str": "flying shark" },
-    "description": "It would be funny watching a shark swim through the air, between trees and other objects like kelp under the water.  If it didn't mean the shark was here, now and capable of flying after you.  Clearly something is off, here.",
+    "description": "It would be funny watching a shark swim through the air, between trees and other objects like kelp under the water.  If it didn't mean the shark was still completely real and capable of flying after you.  Something is very wrong about things here.",
     "default_faction": "nightmares",
     "looks_like": "mon_zhark",
     "bodytype": "fish",
@@ -22,13 +22,11 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_bash": 6,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_day": 30,
     "vision_night": 5,
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "FLIES", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "FLIES", "NO_BREATHE" ],
+    "armor": { "bash": 6, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_endless_snake",
@@ -109,5 +107,13 @@
     "special_attacks": [ [ "DISAPPEAR", 1000 ] ],
     "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+  },
+  {
+    "id": "mon_you",
+    "copy-from": "mon_hologram",
+    "looks_like": "player",
+    "type": "MONSTER",
+    "name": { "str": "you" },
+    "description": "It is you.  It looks like you, it is equipped like you, it is even has a weapon like you."
   }
 ]

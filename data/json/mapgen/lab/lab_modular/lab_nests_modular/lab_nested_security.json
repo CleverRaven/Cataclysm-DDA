@@ -1123,6 +1123,7 @@
         " 5ʋ5ʉ       "
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "terrain": { "ĉ": "t_sandbox" },
       "furniture": { "!": "f_barricade_road", "A": "f_floor_canvas" },
       "place_loot": [
@@ -1157,20 +1158,21 @@
         " ʉʉ ʉʉʉʉʉ ʉ ",
         "5         ʉ5"
       ],
-      "palettes": [ "lab_common_palette", "lab_security_palette" ]
+      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "power_armor_roulette",
-    "weight": 100,
+    "weight": 300,
     "object": { "mapgensize": [ 1, 1 ], "place_loot": [ { "group": "power_armor_sets", "x": 0, "y": 0, "chance": 100 } ] }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "weight": 600,
+    "weight": 400,
     "nested_mapgen_id": "power_armor_roulette",
     "object": { "mapgensize": [ 1, 1 ], "place_monster": [ { "monster": "mon_zombie_armored", "x": 0, "y": 0 } ] }
   }

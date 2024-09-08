@@ -15,7 +15,7 @@
     "morale": 25,
     "melee_skill": 4,
     "dodge": 4,
-    "families": [ "prof_intro_biology", "prof_wp_dino" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
@@ -24,7 +24,7 @@
       "SMELLS",
       "HEARS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PET_MOUNTABLE",
       "PET_WONT_FOLLOW",
       "BASHES",
@@ -44,16 +44,14 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
-    "armor_bash": 4,
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "hp": 250,
     "description": "A bulky, beaked dinosaur with hooved front legs.  The head has been dusted with fungal spores and an angry red rash is forming around them.",
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
       { "id": "stomp_DinoMod", "cooldown": 20, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] }
     ],
-    "upgrades": { "age_grow": 120, "into": "mon_hadrosaurus_mutant2" }
+    "upgrades": { "age_grow": 120, "into": "mon_hadrosaurus_mutant2" },
+    "armor": { "bash": 4, "cut": 4, "bullet": 3 }
   },
   {
     "type": "MONSTER",
@@ -72,7 +70,7 @@
     "hp": 200,
     "melee_dice": 4,
     "description": "A bulky, beaked dinosaur with hooved front legs and two heads.  The four eyes are wide and rolling.",
-    "upgrades": {  },
+    "upgrades": false,
     "harvest": "mutant_bird_flightless"
   }
 ]

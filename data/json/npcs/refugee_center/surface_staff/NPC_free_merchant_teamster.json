@@ -4,11 +4,34 @@
     "id": "evac_teamster",
     "//": "Appears in the refugee center as a source of information and eventually missions.  Works with the free merchant caravans.",
     "name_suffix": "Teamster",
-    "class": "NC_SCAVENGER",
+    "class": "NC_TEAMSTER",
     "attitude": 0,
     "mission": 3,
+    "death_eocs": [ "GODCO_TRADER_MISSION_DEATHFAIL" ],
     "chat": "TALK_FREE_MERCHANT_TEAMSTER",
     "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TEAMSTER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
   },
   {
     "//": "table of contents - these options will appear in the listed dialogue topics",
@@ -20,9 +43,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            {
-              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1"
@@ -31,48 +52,71 @@
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
         "condition": {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": ">=",
-          "time": "2 days"
+          "or": [
+            { "math": [ "!has_var(n_timer_teamster_directions_recycler)" ] },
+            { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] }
+          ]
         },
         "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
-          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
+          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
+          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
         ],
         "switch": true
       },
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": {
-          "npc_compare_time_since_var": "directions_recycler",
-          "type": "timer",
-          "context": "teamster",
-          "op": "<",
-          "time": "2 days"
-        },
-        "switch": true
-      },
-      {
-        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "effect": [
-          {
-            "arithmetic": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "rand": 4 } ]
-          },
-          { "npc_add_var": "directions_recycler", "type": "timer", "context": "teamster", "time": true }
-        ],
         "switch": true,
         "default": true
       },
       {
+        "text": "I'm looking for a specific, strange building.  I wonder if you've heard anything about it?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
+      {
+        "text": "Do you know anything about a trader near the New England Church Community, claims to be from here?",
+        "condition": {
+          "and": [
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
+            { "compare_string": [ "yes", { "u_val": "general_trade_u_think_suspicious_price" } ] },
+            { "not": { "u_has_mission": "MISSION_INVESTIGATE_TRADER" } }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader"
+      },
+      {
+        "text": "I think I've got the evidence you were looking for.",
+        "condition": {
+          "and": [
+            { "math": [ "godco_freemerch_representative_dead", "!=", "0" ] },
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            { "u_has_item": "godcotrader_accounting_records_dirty" }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success"
+      },
+      {
+        "text": "I think I've got the evidence you were looking for.",
+        "condition": {
+          "and": [
+            { "not": { "math": [ "godco_freemerch_representative_dead", "==", "0" ] } },
+            { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
+            { "u_has_item": "godcotrader_accounting_records_clean" }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail"
+      },
+      {
         "text": "I wanted to tell you about a potential new trading partner I met recently.",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_FACTION_INTRO",
-        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       }
     ]
   },
@@ -81,10 +125,7 @@
     "id": "TALK_FREE_MERCHANT_TEAMSTER",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "u_met_teamster",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_teamster" } ],
       "yes": "What can I help you with?",
       "no": "Well now, a new face.  Nice ta meet ya.  I'm the one sendin' out these here caravans far and wide.  What can I do ya for?"
     },
@@ -92,12 +133,12 @@
       {
         "text": "Can I ask you some questions?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT",
-        "effect": { "u_add_var": "u_met_teamster", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_met_teamster", "value": "yes" }
       },
       {
         "text": "I've gotta run, nice talking to you.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_met_teamster", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "general_meeting_u_met_teamster", "value": "yes" }
       }
     ]
   },
@@ -111,19 +152,22 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
     "dynamic_line": {
-      "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
       "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
       "no": {
-        "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
-          "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
-          "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+          "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
+          "yes": {
+            "gendered_line": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": {
-            "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
             "no": {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
+              "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
               "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
               "no": "ERROR: out of bounds on randomize_directions."
             }
@@ -137,10 +181,8 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
-            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
+            { "not": { "compare_string": [ "isherwood", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_isherwood" },
@@ -151,10 +193,8 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
-            },
-            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } }
+            { "math": [ "npc_randomize_dialogue_direction", "==", "2" ] },
+            { "not": { "compare_string": [ "hub01", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_hub01" },
@@ -165,10 +205,8 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
-            },
-            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
+            { "math": [ "npc_randomize_dialogue_direction", "==", "3" ] },
+            { "not": { "compare_string": [ "exodii", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_exodii" },
@@ -179,10 +217,8 @@
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
         "condition": {
           "and": [
-            {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
-            },
-            { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" } }
+            { "math": [ "npc_randomize_dialogue_direction", "==", "4" ] },
+            { "not": { "compare_string": [ "artisans", { "u_val": "teamster_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_artisans" },
@@ -201,8 +237,41 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS_2",
     "type": "talk_topic",
-    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.",
+    "dynamic_line": "*shows you on your map where to find it.  \"That should get you there.  Good luck, I 'spect you'll need it.\"",
     "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  The teamster considers for a moment",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": {
+            "gendered_line": ", then frowns.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+            "relevant_genders": [ "npc" ]
+          },
+          "no": {
+            "gendered_line": ", looking thoughtful.  \"Hmm.  I'm not sure, but I've heard of an odd building that's a bit like you're describing.\"",
+            "relevant_genders": [ "npc" ]
+          }
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well.  Thanks anyway.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
   },
   {
     "type": "talk_topic",
@@ -210,9 +279,9 @@
     "dynamic_line": "Always lookin' for new places to trade.  What you got for me?",
     "responses": [
       {
-        "text": "[Tell them about Rubik and the Exodii]",
+        "text": "[Tell them about Rubik and the Exodii.]",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_EXODII_1",
-        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       { "text": "Hold on, what were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
@@ -228,16 +297,172 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1",
-    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+      "relevant_genders": [ "npc" ]
+    },
     "speaker_effect": {
       "effect": [
-        { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
-        { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 1 }
+        { "npc_add_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" },
+        { "math": [ "u_mission_cleanup_promises_Boris_mission_1", "++" ] }
       ]
     },
     "responses": [
       { "text": "Thanks so much!  Can I ask you something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
       { "text": "Thanks so much!  I have to go ask a few others, talk to you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Oh yeah, they're my rookie representative.  I figured that those people wouldn't cause too much trouble for them, so I sent them over there.  What about them?",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      {
+        "text": "I think they're gouging the prices for the people living there.",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Pricegouge"
+      },
+      { "text": "Nothing, nothing.  Can we talk about something else?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT" },
+      { "text": "Nevermind, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Pricegouge",
+    "type": "talk_topic",
+    "dynamic_line": "Is that so?  What makes you think that?  My accounting reports have come back clean, just like everybody else.",
+    "responses": [
+      {
+        "text": "Everything they sell I can buy for twice as less here, even a box of crackers is an arm and a leg.",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Investigation_Mission"
+      },
+      {
+        "text": "I guess you guys are a bunch of thieves if you charge that much.",
+        "opinion": { "anger": 2, "like": -2 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Forget I said anything, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Investigation_Mission",
+    "type": "talk_topic",
+    "dynamic_line": "Tell you what, if you can find some sort of evidence that proves they're shafting customers and bring it to me, I'll send someone to look in to it.",
+    "responses": [
+      {
+        "text": "Alright, you have yourself a deal.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What sort of \"evidence\" did you have in mind?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type"
+      },
+      { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Forget I said anything, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself",
+    "type": "talk_topic",
+    "dynamic_line": "Look, I have limited manpower these days, and not everyone can go off of a strangers word with no supporting evidence.",
+    "responses": [
+      {
+        "text": "Makes sense, I'll find you some evidence.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "What sort of \"evidence\" did you have in mind?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type"
+      },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Forget it, since you're not interested in taking this seriously.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Type",
+    "type": "talk_topic",
+    "dynamic_line": "I guess sales records could work, or stock lists of inventory that give a discrepancy between what's sold and what money comes in.",
+    "responses": [
+      {
+        "text": "I'll get right to it, see you later.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Who would have these sorts of things?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Who"
+      },
+      { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "Let's pick this up later, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Evidence_Who",
+    "type": "talk_topic",
+    "dynamic_line": "Well, there's somebody else who works there, handles all of the money management.  I'd look into them first, should be in the same spot the other guy is.",
+    "responses": [
+      {
+        "text": "Makes sense, I'll get right to it.",
+        "effect": { "assign_mission": "MISSION_INVESTIGATE_TRADER" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "Why do you want me to do it?", "topic": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_DoItYourself" },
+      {
+        "text": "Forget I said anything.  Can we talk about something else?",
+        "topic": "TALK_FREE_MERCHANT_TEAMSTER_CHAT"
+      },
+      { "text": "I'm not doing any of this legwork for you, figure it out on your own.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Success",
+    "type": "talk_topic",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"I'd say this is sufficient, here's some money for your trouble.  I'll get somebody on this.\"",
+    "responses": [
+      {
+        "text": "Glad to help.",
+        "effect": [
+          { "math": [ "freemerch_godco_trader_investigated", "=", "1" ] },
+          { "u_lose_var": "general_trade_u_think_suspicious_price" },
+          { "u_spawn_item": "FMCNote", "count": 20 },
+          { "u_sell_item": "godcotrader_accounting_records_dirty" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader_Mission_Fail",
+    "type": "talk_topic",
+    "dynamic_line": "*looks over the papers for a moment, before pocketing them.  \"This seems perfectly alright to me.  I don't know what you have against them, but give it up and quit wasting our time.\"",
+    "responses": [
+      {
+        "text": "Alright then, <name_b>.  I guess that's what I get for my troubles.",
+        "effect": [
+          { "u_lose_var": "general_trade_u_think_suspicious_price" },
+          { "finish_mission": "MISSION_INVESTIGATE_TRADER", "success": false },
+          { "u_sell_item": "godcotrader_accounting_records_clean" }
+        ],
+        "topic": "TALK_DONE"
+      }
     ]
   },
   {
@@ -249,8 +474,8 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
+      "assign_mission_target": { "om_special": "Isherwood Farm Mutable", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
+      "effect": { "u_add_var": "teamster_mission_directions", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -274,8 +499,8 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 1000 },
+      "effect": { "u_add_var": "teamster_mission_directions", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -299,8 +524,8 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 1000 },
+      "effect": { "u_add_var": "teamster_mission_directions", "value": "exodii" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
@@ -318,14 +543,19 @@
   {
     "id": "directions_artisans",
     "type": "mission_definition",
-    "name": { "str": "Check out bullet bank" },
+    "name": { "str": "Check out that bullet bank" },
     "description": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea, but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 400 },
-      "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
+      "assign_mission_target": {
+        "om_special": "isolated_road",
+        "om_terrain": "isolated_house_farm_gunsmith",
+        "reveal_radius": 2,
+        "search_range": 1000
+      },
+      "effect": { "u_add_var": "teamster_mission_directions", "value": "artisans" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -36,13 +36,14 @@
           { "item": "bbgun", "prob": 10, "charges": [ 0, 150 ] },
           { "item": "beartrap", "prob": 3 },
           { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
-          { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+          { "item": "hotplate", "prob": 10 },
           { "item": "extinguisher", "prob": 20, "charges": 100 },
           { "item": "cable", "prob": 60 },
           { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
           { "item": "grapnel", "prob": 1 },
-          { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
-          { "item": "knitting_needles", "prob": 1 }
+          { "item": "misc_repairkit", "prob": 5 },
+          { "item": "knitting_needles", "prob": 1 },
+          { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 2 ], "charges": 15000 }
         ]
       }
     ]
@@ -75,11 +76,13 @@
       [ "jerrycan_big", 10 ],
       { "item": "polycarbonate_sheet", "prob": 35 },
       [ "metal_tank", 8 ],
+      { "item": "seatbelt", "prob": 8, "count": [ 1, 4 ] },
+      { "item": "five-point_harness", "prob": 2, "count": [ 1, 2 ] },
       [ "metal_tank_little", 8 ],
       { "item": "55gal_drum_aluminum", "prob": 1 },
       { "item": "30gal_drum_aluminum", "prob": 2 },
       [ "cu_pipe", 5 ],
-      [ "eyedrops", 4 ],
+      [ "steroid_eyedrops", 10 ],
       [ "survnote", 1 ]
     ]
   }

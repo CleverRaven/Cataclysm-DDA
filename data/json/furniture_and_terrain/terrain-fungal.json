@@ -8,7 +8,7 @@
     "color": "pink",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FUNGUS", "SHRUB", "SHORT", "GRAZER_INEDIBLE" ],
     "examine_action": "shrub_marloss",
     "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
@@ -39,6 +39,7 @@
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "FUNGUS" ],
     "bash": { "sound": "smash", "ter_set": "t_null", "str_min": 20, "str_max": 400, "str_min_supported": 50 }
   },
@@ -76,6 +77,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "REDUCE_SCENT", "MINEABLE" ],
     "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
@@ -88,6 +91,8 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "FUNGUS", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "bash": { "str_min": 30, "str_max": 180, "sound": "crunch!", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
@@ -111,7 +116,17 @@
     "color": "dark_gray",
     "move_cost": 8,
     "coverage": 40,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "FUNGUS", "SHORT" ],
+    "flags": [
+      "TRANSPARENT",
+      "CONTAINER",
+      "FLAMMABLE_ASH",
+      "THIN_OBSTACLE",
+      "PLACE_ITEM",
+      "SHRUB",
+      "FUNGUS",
+      "SHORT",
+      "GRAZER_INEDIBLE"
+    ],
     "bash": { "str_min": 4, "str_max": 60, "sound": "crunch.", "sound_fail": "poof!", "ter_set": "t_fungus" }
   },
   {

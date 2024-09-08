@@ -4,37 +4,21 @@
     "type": "MONSTER",
     "name": { "str": "skeletal dog" },
     "description": "This undead canine has shed all of its skin, revealing a carapace of fused bones and ribs.  This walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
-    "default_faction": "zombie",
-    "bodytype": "dog",
-    "species": [ "ZOMBIE" ],
-    "volume": "30000 ml",
-    "weight": "40750 g",
+    "copy-from": "mon_zombie_dog",
     "hp": 12,
     "speed": 100,
     "material": [ "bone" ],
-    "symbol": "d",
     "color": "white",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "grab_strength": 20,
     "dodge": 3,
-    "armor_cut": 15,
-    "armor_bullet": 12,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 1,
-    "weakpoint_sets": [ "wps_bone_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
-    "vision_night": 3,
-    "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 5 } ],
-    "death_drops": "mon_dog_death_drops",
+    "harvest": "doggy_bones",
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 1 },
+    "delete": { "flags": [ "SMELLS" ] },
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
   },
   {
     "id": "mon_dog_zombie_brute",
@@ -49,19 +33,70 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "armor_elec": 1,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 1 }
     },
-    "bleed_rate": 50,
     "upgrades": { "half_life": 42, "into": "mon_dog_zombie_hulk" },
+    "grab_strength": 30,
     "special_attacks": [
-      { "id": "smash", "attack_upper": false, "throw_strength": 48, "cooldown": 30 },
-      { "type": "bite", "attack_upper": false, "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      { "id": "scratch_grab_required", "max_mul": 1.5 },
+      {
+        "id": "bite_grab",
+        "attack_upper": false,
+        "move_cost": 150,
+        "cooldown": 2,
+        "accuracy": 4,
+        "infection_chance": 8
+      }
     ],
-    "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH" ] }
+    "extend": { "flags": [ "PUSH_MON", "PUSH_VEH" ] }
+  },
+  {
+    "id": "mon_dog_cuspated",
+    "type": "MONSTER",
+    "name": { "str": "cuspated dog" },
+    "//": "Cuspated just means angled, sharp, pointy. Other ways of translating the feel of the name may be something akin to 'scythe dog', or 'beaked beast'.",
+    "description": "This dog's snout and jaw have seemingly fused together, the skin and flesh ranging from completely gone to barely hanging on.  The boney mass as a whole has an incredibly sharp yet jagged point.  It stumbles around, barely keeping its hefty 'beak' from hitting the ground.",
+    "copy-from": "mon_zombie_dog",
+    "hp": 30,
+    "speed": 65,
+    "color": "white_red",
+    "melee_skill": 3,
+    "melee_damage": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 8 } ],
+    "vision_day": 15,
+    "vision_night": 5,
+    "upgrades": false,
+    "//2": "Can't bite because it doesn't exactly have a mouth anymore. Instead, it's effectively a one-hit, one-trick wonder. It tries to drive its extremely sharp beak into you. If it succeeds, you're thoroughly damaged. If it fails, it's screwed.",
+    "special_attacks": [ { "id": "wicked_impale", "attack_upper": false } ],
+    "//3": "Minor amounts of protection due to the boney jaw.",
+    "armor": { "cut": 5, "stab": 8, "acid": 1, "bullet": 8, "electric": 1 },
+    "delete": { "flags": [ "GRABS", "SMELLS" ] }
+  },
+  {
+    "id": "mon_dog_howling",
+    "type": "MONSTER",
+    "name": { "str": "howling dog" },
+    "description": "The underbelly of this undead canine expands and contracts arrhythmically, almost like it's breathing.  Despite that, it is clearly in an advanced state of decomposition.  Its snout and throat appear far too large for its species, and the remains of its eyes appear much more analytical than its brethren.",
+    "copy-from": "mon_zombie_dog",
+    "hp": 34,
+    "speed": 85,
+    "color": "magenta",
+    "upgrades": false,
+    "extend": { "special_attacks": [ [ "PARROT_AT_DANGER", 2 ], [ "SHRIEK", 2 ] ] }
+  },
+  {
+    "id": "mon_dog_scorched",
+    "type": "MONSTER",
+    "name": { "str": "scorched dog" },
+    "description": "A charred and damaged corpse of a canid, covered in fused patches of burnt hide and flesh.",
+    "copy-from": "mon_zombie_dog",
+    "hp": 27,
+    "speed": 72,
+    "color": "i_brown",
+    "melee_skill": 3,
+    "bleed_rate": 25,
+    "armor": { "bash": 2, "cut": 4, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
     "id": "mon_dog_zombie_hulk",
@@ -75,17 +110,37 @@
     "color": "white_magenta",
     "proportional": { "hp": 4, "speed": 1.25, "attack_cost": 1.25 },
     "relative": { "melee_skill": 1, "melee_dice": 1, "melee_damage": -2 },
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_bullet": 10,
-    "armor_elec": 4,
     "bleed_rate": 0,
-    "upgrades": {  },
+    "upgrades": false,
+    "grab_strength": 60,
     "special_attacks": [
       { "id": "smash", "throw_strength": 81 },
-      { "type": "bite", "move_cost": 188, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+      {
+        "id": "bite_grab",
+        "move_cost": 188,
+        "cooldown": 2,
+        "accuracy": 4,
+        "infection_chance": 8,
+        "min_mul": 1.0,
+        "max_mul": 2.0
+      },
+      { "id": "scratch_grab_required" }
     ],
-    "extend": { "flags": [ "DESTROYS" ] }
+    "burn_into": "mon_dog_scorched_hulk",
+    "extend": { "flags": [ "DESTROYS" ] },
+    "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 4 }
+  },
+  {
+    "id": "mon_dog_scorched_hulk",
+    "type": "MONSTER",
+    "name": { "str": "scorched hulking dog" },
+    "description": "A charred and damaged corpse of what you can only assume was once a horribly mutated dog.  Covering its entire body is a layer of fused and melted hide, giving it an armored appearance.",
+    "copy-from": "mon_dog_zombie_hulk",
+    "proportional": { "hp": 0.75, "speed": 0.6875 },
+    "relative": { "melee_skill": -1 },
+    "color": "i_brown",
+    "armor": { "bash": 9, "cut": 13, "acid": 6, "heat": 15, "bullet": 11, "electric": 3 },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
     "id": "mon_dog_skeleton_brute",
@@ -97,21 +152,16 @@
     "weight": "60 kg",
     "hp": 70,
     "relative": { "melee_dice": 1, "melee_dice_sides": 2, "melee_damage": 6 },
-    "armor_cut": 30,
-    "armor_bullet": 24,
-    "armor_bash": 12,
-    "armor_acid": 1,
-    "armor_elec": 2,
     "bleed_rate": 0,
-    "death_drops": "mon_dog_death_drops",
     "special_attacks": [
-      { "id": "smash", "attack_upper": false, "throw_strength": 66, "cooldown": 45 },
+      { "id": "bite_grab", "attack_upper": false, "cooldown": 5, "max_mul": 1.5 },
       {
-        "id": "scratch",
+        "id": "scratch_grab_required",
         "attack_upper": false,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
       }
-    ]
+    ],
+    "armor": { "stab": 30, "bash": 12, "cut": 30, "acid": 1, "bullet": 24, "electric": 2 }
   },
   {
     "id": "mon_zpig_brute",
@@ -127,10 +177,8 @@
       "melee_dice": 1,
       "melee_dice_sides": 5,
       "melee_damage": 2,
-      "armor_bash": 4,
-      "armor_cut": 6,
-      "armor_bullet": 5,
-      "vision_night": 1
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
@@ -148,7 +196,8 @@
     "weight": "150 kg",
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
-    "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_drops": "explode_zed_beast",
     "special_attacks": [ { "id": "impale" } ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
@@ -156,38 +205,26 @@
     "id": "mon_wolf_skeleton",
     "type": "MONSTER",
     "name": { "str": "skeletal wolf", "str_pl": "skeletal wolves" },
-    "description": "This undead canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
+    "description": "This undead canine has shed all of its skin, revealing a carapace of fused bones and ribs.",
     "looks_like": "mon_dog_skeleton",
-    "default_faction": "zombie",
-    "bodytype": "dog",
-    "species": [ "ZOMBIE" ],
-    "volume": "30000 ml",
-    "weight": "40750 g",
+    "copy-from": "mon_zolf",
     "hp": 18,
     "speed": 100,
     "material": [ "bone" ],
     "symbol": "d",
     "color": "white",
-    "aggression": 100,
-    "morale": 100,
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
+    "burn_into": "mon_dog_scorched",
     "dodge": 4,
-    "armor_cut": 15,
-    "armor_bullet": 12,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
-    "weakpoint_sets": [ "wps_bone_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 50,
     "vision_night": 3,
-    "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "harvest": "puppy_bones",
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
+    "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 3 },
+    "extend": { "weakpoint_sets": [ "wps_bone_armor" ], "families": [ "prof_wp_skeleton" ] }
   },
   {
     "id": "mon_zougar_hunter",
@@ -221,8 +258,8 @@
     "type": "MONSTER",
     "name": { "str": "skeletal zombear" },
     "copy-from": "mon_zombear",
-    "description": "A monstrous overgrowth of ossified tissue has replaced this zombear's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the surrounding air.",
-    "hp": 70,
+    "description": "As if a zombified bear wasn't already a problem, this one is layered in thick bone growths that protect it from harm.  The irregular way the plates grow against each other has somewhat stifled its movement, but not enough to stop it from easily gaining up on you.",
+    "hp": 170,
     "speed": 100,
     "material": [ "bone" ],
     "color": "white",
@@ -230,18 +267,18 @@
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
     "dodge": 4,
-    "armor_cut": 17,
-    "armor_bullet": 32,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "armor_elec": 3,
     "weakpoint_sets": [ "wps_bone_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "bleed_rate": 0,
     "vision_day": 10,
-    "harvest": "mr_bones",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "harvest": "puppy_bones",
+    "grab_strength": 35,
+    "special_attacks": [
+      { "id": "bite_grab", "move_cost": 150, "cooldown": 5, "min_mul": 1, "max_mul": 1.8 },
+      { "id": "scratch", "cooldown": 10, "min_mul": 1, "max_mul": 1.8 }
+    ],
+    "flags": [ "SEES", "HEARS", "GRABS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 2, "cut": 17, "stab": 30, "acid": 3, "bullet": 32, "electric": 3 }
   },
   {
     "id": "mon_zougar_shady",
@@ -253,6 +290,7 @@
     "vision_day": 3,
     "bleed_rate": 50,
     "vision_night": 45,
+    "harvest": "zombie_fur_shadow",
     "flags": [
       "SEES",
       "HEARS",
@@ -274,7 +312,7 @@
     "type": "MONSTER",
     "name": { "str": "acidic zombear" },
     "copy-from": "mon_zombear",
-    "description": "A sickly-looking zombear with patchy fur.  Its skin looks especially thin, with a sticky, yellow fluid flowing through the clearly visible veins.",
+    "description": "Most of this bear's fur has burnt off and its body looks to be falling apart, not entirely immune to its own acidic fluids.  Despite its weakened state, the strength of a bear hasn't left it.",
     "diff": 5,
     "hp": 145,
     "speed": 135,
@@ -284,25 +322,14 @@
     "melee_dice": 3,
     "dodge": 3,
     "bleed_rate": 50,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
-    "special_attacks": [ [ "ACID_BARF", 10 ] ],
-    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "ACIDPROOF",
-      "ACID_BLOOD",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "harvest": "zombie_animal_acid",
+    "special_attacks": [
+      [ "ACID_BARF", 10 ],
+      { "id": "bite_grab", "move_cost": 150, "cooldown": 3, "min_mul": 0.75, "max_mul": 1.5 },
+      { "id": "scratch" }
+    ],
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ] },
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } }
   },
   {
     "id": "mon_zombie_horse_white",
@@ -316,7 +343,7 @@
     "attack_cost": 195,
     "color": "light_gray_yellow",
     "bleed_rate": 40,
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
+    "harvest": "zombie_animal_acid",
     "special_attacks": [ [ "ACID", 15 ] ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
@@ -346,6 +373,7 @@
     "color": "red",
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+    "harvest": "zombie_animal",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
     "regenerates": 9,
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ]
@@ -361,7 +389,7 @@
     "color": "blue_white",
     "dodge": 3,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "A %s explode!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES" ]
   },
   {
@@ -369,21 +397,18 @@
     "type": "MONSTER",
     "name": { "str": "pale charger" },
     "copy-from": "mon_zombie_horse",
-    "description": "with plates of asymmetrical bone tissue overlapping its body, this ignoble steed needs no rider for you to fear its approach.  Completing its ghoulish look is an overgrown skull which, judging by the flattened and battered forehead, has become its main weapon.",
+    "description": "With plates of asymmetrical bone tissue overlapping its body, this ignoble steed needs no rider for you to fear its approach.  Completing its ghoulish look is an overgrown skull which, judging by the flattened and battered forehead, has become its main weapon.",
     "diff": 5,
     "hp": 90,
-    "colour": "white",
+    "color": "white",
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_cut": 16,
-    "armor_bullet": 24,
-    "armor_stab": 30,
-    "armor_acid": 2,
     "weakpoint_sets": [ "wps_bone_armor" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
-    "harvest": "mr_bones",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
+    "harvest": "puppy_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
-    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "armor": { "bash": 5, "electric": 2, "cut": 16, "stab": 30, "acid": 2, "bullet": 24 }
   },
   {
     "id": "mon_zoose_brute",
@@ -400,12 +425,11 @@
     "melee_dice": 4,
     "melee_dice_sides": 9,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
-    "armor_bash": 10,
-    "armor_cut": 10,
-    "armor_bullet": 8,
     "bleed_rate": 50,
     "vision_night": 6,
-    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, [ "GRAB", 7 ] ],
+    "//grab": "Assuming it's grabbing with its mouth a bit grabbier than a zed should be about right",
+    "grab_strength": 30,
+    "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, { "id": "grab", "cooldown": 7 } ],
     "flags": [
       "SEES",
       "HEARS",
@@ -414,13 +438,15 @@
       "WARM",
       "BASHES",
       "GROUP_BASH",
+      "GRABS",
       "POISON",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
       "PUSH_VEH",
       "FILTHY"
-    ]
+    ],
+    "armor": { "electric": 2, "bash": 10, "cut": 10, "bullet": 8 }
   },
   {
     "id": "mon_zoose_thorny",
@@ -435,14 +461,13 @@
     "aggression": 100,
     "melee_skill": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 8,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "bleed_rate": 0,
     "vision_night": 7,
     "harvest": "zombie_thorny",
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
-    "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "PARA_STING", 30 ] ],
+    "//grab": "Let's say the thorns make it half again as grabby",
+    "grab_strength": 45,
+    "special_attacks": [ { "id": "scratch" }, { "id": "grab", "cooldown": 7 }, [ "PARA_STING", 30 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -456,6 +481,7 @@
       "PUSH_MON",
       "FILTHY",
       "PARALYZEVENOM"
-    ]
+    ],
+    "armor": { "electric": 2, "bash": 8, "cut": 8, "bullet": 6 }
   }
 ]

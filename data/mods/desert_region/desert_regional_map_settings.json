@@ -42,6 +42,7 @@
         "t_region_grass": { "t_grass_fake": 10 },
         "t_region_soil": { "t_searth": 10 },
         "t_region_shrub": { "t_shrub_dead": 1, "t_cactus_cholla": 1 },
+        "t_region_shrub_plains": { "t_region_shrub": 1 },
         "t_region_shrub_fruit": { "t_cactus_cholla": 1 },
         "t_region_shrub_decorative": { "t_shrub_dead": 1, "t_cactus_cholla": 1 },
         "t_region_tree": { "t_tree_dead": 1 },
@@ -57,28 +58,11 @@
         "f_region_water_plant": { "f_cattails": 15, "f_lilypad": 1, "f_lotus": 5 }
       }
     },
-    "river_scale": 0.0,
-    "field_coverage": {
-      "percent_coverage": 0.45,
-      "default_ter": "t_shrub_dead",
-      "other": {
-        "t_region_tree": 1,
-        "t_region_shrub": 30,
-        "f_region_weed": 20,
-        "f_region_flower": 20,
-        "f_boulder_small": 5,
-        "f_boulder_medium": 4,
-        "f_boulder_large": 1
-      },
-      "boost_chance": 0.833,
-      "boosted_percent_coverage": 2.5,
-      "boosted_other": { "t_tree_dead": 0.05 },
-      "boosted_other_percent": 50.0
-    },
+    "river_scale": 0.6,
     "overmap_lake_settings": {
       "noise_threshold_lake": 0.4,
       "lake_size_min": 4,
-      "lake_depth": -4,
+      "lake_depth": 0,
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ],
       "shore_extendable_overmap_terrain_aliases": [
         { "om_terrain": "island_forest", "om_terrain_match_type": "TYPE", "alias": "forest" },
@@ -87,14 +71,32 @@
         { "om_terrain": "island_field", "om_terrain_match_type": "TYPE", "alias": "field" }
       ]
     },
+    "overmap_ocean_settings": {
+      "noise_threshold_ocean": 10.0,
+      "ocean_size_min": 100,
+      "ocean_depth": -9,
+      "ocean_start_north": 0,
+      "ocean_start_east": 0,
+      "ocean_start_west": 0,
+      "ocean_start_south": 0,
+      "sandy_beach_width": 0
+    },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 15, "ravine_depth": -2 },
     "overmap_forest_settings": {
-      "noise_threshold_forest": 0.4,
+      "noise_threshold_forest": 0.29,
       "noise_threshold_forest_thick": 0.5,
-      "noise_threshold_swamp_adjacent_water": 0.4,
-      "noise_threshold_swamp_isolated": 0.3,
+      "noise_threshold_swamp_adjacent_water": 1.0,
+      "noise_threshold_swamp_isolated": 1.0,
       "river_floodplain_buffer_distance_min": 3,
       "river_floodplain_buffer_distance_max": 15
+    },
+    "overmap_connection_settings": {
+      "intra_city_road_connection": "local_road",
+      "inter_city_road_connection": "local_road",
+      "trail_connection": "forest_trail",
+      "sewer_connection": "sewer_tunnel",
+      "subway_connection": "subway_tunnel",
+      "rail_connection": "local_railroad"
     },
     "forest_mapgen_settings": {
       "forest": {
@@ -192,19 +194,14 @@
       }
     },
     "forest_trail_settings": {
-      "chance": 100,
+      "chance": 2,
       "border_point_chance": 2,
-      "minimum_forest_size": 100000000,
-      "random_point_min": 4,
-      "random_point_max": 50,
+      "minimum_forest_size": 120,
+      "random_point_min": 1,
+      "random_point_max": 5,
       "random_point_size_scalar": 100,
-      "trailhead_chance": 100,
+      "trailhead_chance": 1,
       "trailhead_road_distance": 6,
-      "trail_center_variance": 0,
-      "trail_width_offset_min": 1,
-      "trail_width_offset_max": 3,
-      "clear_trail_terrain": false,
-      "trail_terrain": { "t_railroad_rubble": 1 },
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
@@ -245,7 +242,6 @@
           "mx_crater": 10,
           "mx_portal_in": 3,
           "mx_fallen_shed": 20,
-          "mx_shia": 1,
           "mx_jabberwock": 1,
           "mx_clay_deposit": 125,
           "mx_casings": 30,
@@ -302,7 +298,8 @@
           "mx_military": 50,
           "mx_science": 400,
           "mx_collegekids": 500,
-          "mx_roadblock": 1000,
+          "mx_roadblock": 830,
+          "mx_roadblock_mil": 170,
           "mx_bandits_block": 800,
           "mx_drugdeal": 300,
           "mx_supplydrop": 100,
@@ -370,32 +367,7 @@
       },
       "river": { "chance": 3, "extras": { "mx_reed": 100 } },
       "lake_shore": { "chance": 2, "extras": { "mx_reed": 100 } },
-      "sewer": {
-        "chance": 1,
-        "extras": {
-          "mx_sewer_round": 40,
-          "mx_sewer_grid": 20,
-          "mx_sewer_grid2": 20,
-          "mx_sewer_mntE": 10,
-          "mx_sewer_mntW": 10,
-          "mx_sewer_mntN": 10,
-          "mx_sewer_mntS": 10,
-          "mx_sewer_grateE": 10,
-          "mx_sewer_grateW": 10,
-          "mx_sewer_grateN": 10,
-          "mx_sewer_grateS": 10,
-          "mx_sewer_pipesA": 30,
-          "mx_sewer_pipesB": 30,
-          "mx_sewer_pipesC": 30,
-          "mx_sewer_pipesD": 30,
-          "mx_sewer_pipesE": 30,
-          "mx_sewer_pipesF": 30,
-          "mx_sewer_pipesG": 30,
-          "mx_sewer_pipesH": 30,
-          "mx_sewer_pipesI": 30,
-          "mx_sewer_pipesJ": 30
-        }
-      }
+      "sewer": { "chance": 80, "extras": { "mx_null": 100 } }
     },
     "city": {
       "shop_radius": 30,
@@ -404,8 +376,21 @@
       "park_sigma": 80,
       "houses": {
         "2storyModern01": 5,
+        "2storyModern02": 50,
+        "2StoryModern03": 50,
+        "2StoryModern04": 50,
+        "bungalow01": 50,
+        "bungalow02": 50,
+        "bungalow03": 50,
+        "bungalow04": 50,
+        "bungalow05": 50,
+        "bungalow06": 50,
+        "bungalow07": 50,
+        "bungalow08": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
+        "multi_unit_two_story_basement": 40,
+        "multi_unit_three_story_basement": 30,
         "house_crack1": 5,
         "house_crack2": 5,
         "house_crack3": 5,
@@ -434,12 +419,10 @@
         "house_03": 50,
         "house_04": 50,
         "house_05": 50,
-        "house_05ab": 20,
         "house_06": 50,
         "house_07": 50,
         "house_08": 50,
         "house_09": 20,
-        "house_09b": 50,
         "house_10": 50,
         "house_11": 50,
         "house_12": 50,
@@ -523,17 +506,17 @@
         "urban_17_house_ranch": 50,
         "urban_18_victorian": 50,
         "emptyresidentiallot": 20,
-        "house_vacant": 20,
-        "house_vacant2": 20,
+        "house_vacant": 7,
+        "house_vacant1": 7,
+        "house_vacant2": 7,
+        "house_vacant3": 7,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
         "s_apt": 30,
         "s_apt_2": 30,
         "school": 15,
         "motel_city": 10,
-        "fishing_pond_city": 10,
-        "trailerpark_city": 15,
-        "railroad_city": 5
+        "fishing_pond_city": 10
       },
       "parks": {
         "park": 50,
@@ -556,7 +539,8 @@
         "volleyball_court": 30,
         "tennis_court": 30,
         "baskeball_court": 30,
-        "skate_park": 30,
+        "skate_park_ramp": 20,
+        "skate_park": 20,
         "park_maze": 10,
         "park_maze_2": 10,
         "small_wooded_trail": 30,
@@ -578,6 +562,7 @@
         "stadium": 25,
         "stadium_football": 25,
         "cemetery_city": 50,
+        "public_pond_city": 50,
         "cemetery_religious_city": 25,
         "cs_private_park": 100,
         "cs_public_art_piece": 100,
@@ -603,6 +588,7 @@
         "s_gas_1": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
+        "s_cosmetic": 300,
         "s_grocery": 1500,
         "s_grocery_1": 1500,
         "s_hardware": 400,
@@ -722,7 +708,7 @@
         "art_gallery": 200,
         "small_storage_units": 150,
         "small_storage_units_1": 150,
-        "construction_site": 400,
+        "construction_site": 600,
         "post_office": 200,
         "post_office_1": 200,
         "candy_shop": 200,
@@ -773,7 +759,8 @@
         "public_works": 200,
         "office_tower": 150,
         "office_tower_2": 150,
-        "office_tower_large": 500,
+        "office_skyscraper": 300,
+        "office_tower_large": 300,
         "office_tower_hiddenlab": 50,
         "mall": 100,
         "home_improvement_superstore_new": 150,
@@ -795,7 +782,9 @@
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
         "homeless_shelter": 100,
-        "parking_garage": 200
+        "parking_garage": 200,
+        "salon": 500,
+        "strip_mall": 750
       }
     },
     "weather": {
@@ -813,20 +802,7 @@
       "summer_humidity_manual_mod": 0,
       "autumn_humidity_manual_mod": 10,
       "winter_humidity_manual_mod": 15,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "thunder",
-        "lightning",
-        "early_dust_storm",
-        "dust_storm",
-        "early_portal_storm",
-        "portal_storm"
-      ]
+      "weather_black_list": [ "flurries", "snowing", "snowstorm" ]
     }
   }
 ]

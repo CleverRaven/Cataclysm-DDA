@@ -3,7 +3,7 @@
     "id": "bullet_forming",
     "type": "requirement",
     "//": "Forming of bullets from raw materials",
-    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ] ]
   },
   {
     "id": "shot_forming",
@@ -11,7 +11,7 @@
     "//": "Forming of shot from raw materials",
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ], [ "iron_pot", -1 ], [ "pan", -1 ], [ "pot_makeshift", -1 ] ],
-      [ [ "water", 1 ], [ "water_clean", -1 ], [ "salt_water", -1 ], [ "water_sewage", -1 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [
         [ "ladle", -1 ],
         [ "ceramic_mug", -1 ],
@@ -20,7 +20,7 @@
         [ "clay_teapot", -1 ],
         [ "can_food", -1 ]
       ],
-      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
+      [ [ "fire", -1 ], [ "hotplate", 2 ], [ "integrated_welder", 2 ] ]
     ]
   },
   {
@@ -43,11 +43,31 @@
         [ "chem_DMSO", 125 ],
         [ "vinegar", 8 ],
         [ "ammonia_hydroxide", 1 ],
-        [ "bleach", 1 ],
-        [ "soapy_water", 1 ]
+        [ "bleach", 1 ]
       ],
       [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
     ]
+  },
+  {
+    "id": "gun_cleaning_bp",
+    "type": "requirement",
+    "//": "BP requires hot soapy water",
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [
+      [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ],
+      [ [ "water_boiling_heat", 2, "LIST" ] ]
+    ],
+    "components": [
+      [ [ "soapy_water", 3 ] ],
+      [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ]
+    ]
+  },
+  {
+    "id": "gun_cleaning_quick",
+    "type": "requirement",
+    "//": "Requires a rod/wire and cloth patch or similar item.",
+    "tools": [ [ [ "pipe_cleaner", -1 ], [ "small_repairkit", -1 ], [ "large_repairkit", -1 ] ] ],
+    "components": [ [ [ "cotton_patchwork", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_ball", 2 ] ] ]
   },
   {
     "id": "gun_lubrication",
@@ -61,22 +81,6 @@
     ]
   },
   {
-    "id": "gun_repair",
-    "type": "requirement",
-    "//": "Gun repair",
-    "tools": [ [ [ "soldering_iron", 25 ], [ "toolset", 25 ] ] ],
-    "components": [ [ [ "solder_wire", 25 ] ], [ [ "scrap", 1 ] ] ],
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "SCREW", "level": 1 },
-      { "id": "CHISEL", "level": 3 },
-      { "id": "CHISEL_WOOD", "level": 3 }
-    ]
-  },
-  {
     "id": "earthenware_firing",
     "type": "requirement",
     "//": "Firing various clay shapes to make earthenware",
@@ -86,17 +90,34 @@
     "id": "forging_standard",
     "type": "requirement",
     "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
-    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ] ]
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
+  },
+  {
+    "id": "forging_scrap",
+    "type": "requirement",
+    "//": "Forging of steel items (per scrap metal), charcoal forge is already a substitute for forge",
+    "tools": [ [ [ "forge", 4 ], [ "oxy_torch", 4 ] ] ]
   },
   {
     "id": "blacksmithing_standard",
     "type": "requirement",
-    "//": "Includes forging resources as well as tools needed for most blacksmithing",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_standard energy cost balanced for one steel chunk.",
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "tools": [
-      [ [ "forge", 20 ], [ "oxy_torch", 20 ], [ "fake_arc_furnace", 10 ] ],
-      [ [ "metal_file", -1 ] ],
-      [ [ "metalworking_tongs", -1 ] ]
+      [ [ "forge", 20 ], [ "oxy_torch", 20 ] ],
+      [ [ "metal_file_any", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "blacksmithing_scrap",
+    "type": "requirement",
+    "//": "Includes forging resources as well as tools needed for most blacksmithing. Per forging_scrap energy cost balanced for one scrap metal.",
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "tools": [
+      [ [ "forge", 4 ], [ "oxy_torch", 4 ] ],
+      [ [ "metal_file_any", 1, "LIST" ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -105,6 +126,12 @@
     "//": "Production of mutagens.",
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "pickaxe_list",
+    "type": "requirement",
+    "//": "Pickaxe tools",
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ] ] ]
   },
   {
     "id": "serum_production_standard",
@@ -144,60 +171,118 @@
   {
     "id": "welding_standard",
     "type": "requirement",
-    "//": "Crafting of steel/iron items or installation of vehicle parts",
+    "//": "Crafting of steel/iron items or installation of vehicle parts, measured in 1 cm segments - assume roughly 360 cm per hour, 10 seconds per # of this quality",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welding_kit", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
+    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "integrated_welder", 30 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "welding_rod_steel", 1 ], [ "welding_wire_steel", 1 ], [ "brazing_rod_bronze", 1 ] ] ]
   },
   {
     "id": "welding_alloys",
     "type": "requirement",
-    "//": "Crafting items made of aluminium alloy or installation of vehicle parts",
+    "//": "Crafting items made of aluminium alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welding_kit", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ] ]
+    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "integrated_welder", 30 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "welding_rod_alloy", 1 ], [ "welding_wire_alloy", 1 ], [ "brazing_rod_alloy", 1 ] ] ]
   },
   {
     "id": "repair_welding_standard",
     "type": "requirement",
-    "//": "Repair of steel/iron items",
+    "//": "Repair of steel/iron items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "integrated_welder", 300 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
     "components": [
-      [ [ "welding_rod_steel", 6 ], [ "welding_wire_steel", 6 ], [ "brazing_rod_bronze", 6 ] ],
+      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
       [ [ "steel_tiny", 1, "LIST" ] ]
+    ]
+  },
+  {
+    "id": "repair_welding_lc_steel",
+    "type": "requirement",
+    "//": "Repair of mild steel items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "integrated_welder", 300 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
+    "components": [
+      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
+      [ [ "lc_steel_tiny", 1, "LIST" ] ]
     ]
   },
   {
     "id": "repair_welding_alloys",
     "type": "requirement",
-    "//": "Repair items made of aluminium alloy",
+    "//": "Repair of aluminum items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "integrated_welder", 300 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
     "components": [
-      [ [ "welding_rod_alloy", 6 ], [ "welding_wire_alloy", 6 ], [ "brazing_rod_alloy", 6 ] ],
+      [ [ "welding_rod_alloy", 10 ], [ "welding_wire_alloy", 10 ], [ "brazing_rod_alloy", 10 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "//": "Repair of rebar items - per 10 cm of weld (100 seconds each), done this way to use 1 rebar per 40 cm - you should use new rebar instead of repairing individual rebars",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "tools": [ [ [ "welder", 800 ], [ "welding_kit", 800 ], [ "welder_crude", 1600 ], [ "oxy_torch", 40 ] ] ],
+    "components": [ [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ], [ [ "rebar", 1 ] ] ]
   },
   {
     "id": "chainmail_standard",
     "type": "requirement",
     "//": "Construction of chainmail items",
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "WRENCH", "level": 1 } ],
-    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "drill_press_tool", 5 ] ] ]
+    "tools": [ [ [ "boltcutters", -1 ] ], [ [ "cordless_drill", 10 ], [ "corded_powerdrill", 10 ], [ "drill_press_tool", 5 ] ] ]
   },
   {
     "id": "soldering_standard",
     "type": "requirement",
     "//": "Soldering metal items",
-    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "tools": [
+      [
+        [ "soldering_iron", 1 ],
+        [ "integrated_electrokit", 1 ],
+        [ "soldering_iron_portable", 1 ],
+        [ "integrated_welder", 1 ],
+        [ "small_repairkit", 1 ],
+        [ "large_repairkit", 1 ]
+      ]
+    ],
     "components": [ [ [ "solder_wire", 1 ] ] ]
   },
   {
     "id": "drilling_standard",
     "type": "requirement",
     "//": "Drilling holes in various materials, including metal",
-    "tools": [ [ [ "cordless_drill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
+    "tools": [ [ [ "cordless_drill", 2 ], [ "corded_powerdrill", 2 ], [ "drill_press_tool", 1 ], [ "hand_drill", -1 ] ] ]
   },
   {
     "id": "anesthetic",
@@ -217,7 +302,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -253,24 +338,18 @@
   {
     "id": "concrete_removal_standard",
     "type": "requirement",
-    "//": "Tools for removing concrete -- drill required to create holes in a complete wall",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
-      { "id": "DIG", "level": 3 }
-    ],
+    "//": "Tools for removing concrete",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
     "tools": [
       [
-        [ "pickaxe", -1 ],
-        [ "bronze_pickaxe", -1 ],
+        [ "pickaxe_list", 1, "LIST" ],
         [ "jackhammer", 140 ],
-        [ "elec_jackhammer", 7000 ],
-        [ "hammer_sledge", -1 ]
+        [ "elec_jackhammer", 1848 ],
+        [ "hammer_sledge", -1 ],
+        [ "masonrysaw_off", 100 ],
+        [ "electric_masonrysaw_off", 1320 ]
       ],
-      [ [ "masonrysaw_off", 100 ] ],
-      [ [ "cordless_drill", 200 ] ],
-      [ [ "angle_grinder", 200 ] ]
+      [ [ "angle_grinder", 200 ], [ "hacksaw", -1 ], [ "reciprocating_saw", 200 ] ]
     ]
   },
   {
@@ -297,8 +376,8 @@
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ],
-      [ [ "masonrysaw_off", 100 ] ]
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
+      [ [ "masonrysaw_off", 100 ], [ "electric_masonrysaw_off", 1320 ] ]
     ]
   },
   {
@@ -309,58 +388,37 @@
     "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
   },
   {
-    "id": "object_deconstruction_advanced",
+    "id": "cement_removal",
     "type": "requirement",
-    "//": "Tools for doing advanced deconstruction",
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "CHISEL", "level": 2 },
-      { "id": "PRY", "level": 3 },
-      { "id": "SCREW", "level": 1 }
-    ]
+    "//": "Tools for deconstructing items built with mortar or cement",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ]
   },
   {
     "id": "marking_hard",
     "type": "requirement",
-    "//": "Tools to mark a hard surface. Uses individual paint colors as using the paint requirement didn't work",
+    "//": "Tools to mark a hard surface.",
     "tools": [
       [
-        [ "ink_standard", 2, "LIST" ],
-        [ "medical_tape", 1 ],
-        [ "duct_tape", 1 ],
-        [ "permanent_marker", 1 ],
+        [ "ink_standard", 50, "LIST" ],
+        [ "medical_tape", 25 ],
+        [ "duct_tape", 25 ],
+        [ "permanent_marker", 25 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint", 1, "LIST" ]
       ]
     ]
   },
   {
     "id": "marking_soft",
     "type": "requirement",
-    "//": "Tools to mark a soft, rough surface. Uses individual paint colors as using the paint requirement didn't work",
-    "tools": [
-      [
-        [ "duct_tape", 1 ],
-        [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
-      ]
-    ]
+    "//": "Tools to mark a soft, rough surface.",
+    "tools": [ [ [ "duct_tape", 25 ], [ "survival_marker", -1 ], [ "paint", 1, "LIST" ] ] ]
   },
   {
     "id": "ppe_gloves",
     "type": "requirement",
     "//": "Disposable or reusable gloves.",
-    "tools": [ [ [ "gloves_medical", 1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
+    "tools": [ [ [ "gloves_medical", -1 ], [ "gloves_rubber", -1 ], [ "entry_suit", -1 ], [ "hazmat_suit", -1 ] ] ]
   },
   {
     "id": "ppe_eyes",
@@ -377,19 +435,12 @@
         [ "mask_gas_xs", -1 ],
         [ "mask_gas_xl", -1 ],
         [ "mask_bunker", -1 ],
-        [ "mask_survivor", -1 ],
-        [ "mask_lsurvivor", -1 ],
-        [ "mask_hsurvivor", -1 ],
-        [ "mask_survivorxl", -1 ],
-        [ "mask_lsurvivorxl", -1 ],
-        [ "mask_survivorxs", -1 ],
-        [ "mask_wsurvivor", -1 ],
-        [ "mask_wsurvivorxl", -1 ],
-        [ "mask_wsurvivorxs", -1 ],
-        [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ],
-        [ "hazmat_suit", -1 ]
+        [ "mask_survivor", 1 ],
+        [ "mask_survivorxs", 1 ],
+        [ "mask_survivorxl", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_hsurvivorxl", 1 ],
+        [ "mask_hsurvivorxs", 1 ]
       ]
     ]
   },
@@ -399,26 +450,22 @@
     "//": "Gas protection.",
     "tools": [
       [
-        [ "mask_gas", -1 ],
-        [ "mask_gas_xs", -1 ],
-        [ "mask_gas_xl", -1 ],
-        [ "mask_gas_half", -1 ],
-        [ "mask_bunker", -1 ],
-        [ "mask_survivor", -1 ],
-        [ "mask_lsurvivor", -1 ],
-        [ "mask_hsurvivor", -1 ],
-        [ "mask_survivorxl", -1 ],
-        [ "mask_lsurvivorxl", -1 ],
-        [ "mask_survivorxs", -1 ],
-        [ "mask_wsurvivor", -1 ],
-        [ "mask_wsurvivorxl", -1 ],
-        [ "mask_wsurvivorxs", -1 ],
-        [ "mask_wsurvivor_nofur", -1 ],
-        [ "mask_wsurvivor_nofur_xs", -1 ],
-        [ "mask_wsurvivorxl_nofur", -1 ],
-        [ "hazmat_suit", -1 ]
-      ],
-      [ [ "gasfilter_m", 1 ] ]
+        [ "mask_filter", 2 ],
+        [ "mask_gas", 1 ],
+        [ "mask_gas_xs", 1 ],
+        [ "mask_gas_xl", 1 ],
+        [ "mask_gas_half", 1 ],
+        [ "mask_bunker", 1 ],
+        [ "mask_survivor", 1 ],
+        [ "mask_survivorxs", 1 ],
+        [ "mask_survivorxl", 1 ],
+        [ "mask_hsurvivor", 1 ],
+        [ "mask_hsurvivorxl", 1 ],
+        [ "mask_hsurvivorxs", 1 ],
+        [ "mask_lsurvivor", 1 ],
+        [ "mask_lsurvivorxl", 1 ],
+        [ "mask_lsurvivorxs", 1 ]
+      ]
     ]
   },
   {
@@ -436,6 +483,44 @@
         [ "bunker_coat", -1 ],
         [ "entry_suit_xs", -1 ],
         [ "xl_entry_suit", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "hotcut_any",
+    "type": "requirement",
+    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ]
+  },
+  {
+    "id": "metalworking_tongs_any",
+    "type": "requirement",
+    "tools": [ [ [ "metalworking_tongs", -1 ], [ "metalworking_tongs_bronze", -1 ] ] ]
+  },
+  {
+    "id": "metal_file_any",
+    "type": "requirement",
+    "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ] ]
+  },
+  {
+    "id": "nm_teeth_removal",
+    "type": "requirement",
+    "//": "Something able to do fine cuts, allowing to extract small teeth without damaging them",
+    "//2": "The comment called for adequate protection. When a way to check for that without writing down and keeping updated a list of anything that can protect the arms in the requirements, add arm protection requirement",
+    "//3": "Can instead add arm damage risk, mitigated by skill and reduced by armor, when such a thing becomes possible",
+    "qualities": [ { "id": "CUT_FINE", "level": 2 } ]
+  },
+  {
+    "id": "tool_rope_long",
+    "type": "requirement",
+    "//": "Long rope used as a tool, in constuction process and so on",
+    "tools": [
+      [
+        [ "rope_30", -1 ],
+        [ "rope_makeshift_30", -1 ],
+        [ "vine_30", -1 ],
+        [ "grapnel", -1 ],
+        [ "chain", -1 ],
+        [ "hd_tow_cable", -1 ]
       ]
     ]
   }

@@ -2,16 +2,15 @@
 #ifndef CATA_SRC_VEH_APPLIANCE_H
 #define CATA_SRC_VEH_APPLIANCE_H
 
-#include "input.h"
+#include "input_context.h"
 #include "player_activity.h"
 
 class vehicle;
 class ui_adaptor;
-struct point;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 void place_appliance( const tripoint &p, const vpart_id &vpart,
-                      const cata::optional<item> &base = cata::nullopt );
+                      const std::optional<item> &base = std::nullopt );
 
 /**
  * Appliance interaction UI. Works similarly to veh_interact, but has
@@ -99,12 +98,6 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
-         * Checks whether the current appliance has any power connections that
-         * can be disconnected by the player.
-         * @returns True if the appliance can be unplugged.
-        */
-        bool can_unplug();
-        /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
          * parts are eligible, the player is prompted to select one. A refill activity
@@ -130,16 +123,21 @@ class veh_app_interact
         */
         void remove();
         /**
+         * Checks whether the part has any items linked to it so it can tell the player
+         * to disconnect those first. This prevents players from doing this by accident.
+         * @returns True if there aren't any tow cable parts or items linked to the mount point.
+        */
+        bool can_disconnect();
+        /**
+         * Function associated with the "DISCONNECT_GRID" action.
+         * Removes appliance from a power grid, allowing it to be moved individually.
+        */
+        void disconnect();
+        /**
         * Function associated with the "PLUG" action.
         * Connects the power cable to selected tile.
         */
         void plug();
-        /**
-         * Function associated with the "UNPLUG" action.
-         * Removes all power connections to other appliances and vehicles and drops
-         * any used cable items on the ground.
-        */
-        void unplug();
         /**
          * The main loop of the appliance UI. Redraws windows, checks for input, and
          * performs selected actions. The loop exits once an activity is assigned

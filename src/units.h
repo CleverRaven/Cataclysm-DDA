@@ -197,29 +197,29 @@ inline quantity<V, U> fmod( quantity<V, U> num, quantity<V, U> den )
 // "quantity / scalar" or "quantity / other_quanity" is meant.
 
 // scalar * quantity<foo, unit> == quantity<decltype(foo * scalar), unit>
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
-operator*( const st &factor, const quantity<lvt, ut> &rhs )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<st>() ), ut>
+         operator*( const st &factor, const quantity<lvt, ut> &rhs )
 {
     return { factor * rhs.value(), ut{} };
 }
 
 // same as above only with inverse order of operands: quantity * scalar
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
-operator*( const quantity<lvt, ut> &lhs, const st &factor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline constexpr quantity<decltype( std::declval<st>() * std::declval<lvt>() ), ut>
+         operator*( const quantity<lvt, ut> &lhs, const st &factor )
 {
     return { lhs.value() *factor, ut{} };
 }
 
 // quantity<foo, unit> * quantity<bar, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator*( quantity<lvt, ut>, quantity<rvt, ut> ) = delete;
 
-// operator *=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator*=( quantity<lvt, ut> &lhs, const st &factor )
+         // operator *=
+         template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+                  inline quantity<lvt, ut> &
+                  operator*=( quantity<lvt, ut> &lhs, const st &factor )
 {
     lhs = lhs * factor;
     return lhs;
@@ -227,29 +227,29 @@ operator*=( quantity<lvt, ut> &lhs, const st &factor )
 
 // and the revers of the multiplication above:
 // quantity<foo, unit> / scalar == quantity<decltype(foo / scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
-operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<rvt>>>
+         inline constexpr quantity<decltype( std::declval<lvt>() * std::declval<rvt>() ), ut>
+         operator/( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return { lhs.value() / divisor, ut{} };
 }
 
 // scalar / quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator/( lvt, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator/( lvt, quantity<rvt, ut> ) = delete;
 
-// quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
-operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+         // quantity<foo, unit> / quantity<bar, unit> == decltype(foo / bar)
+         template<typename lvt, typename ut, typename rvt>
+         inline constexpr decltype( std::declval<lvt>() / std::declval<rvt>() )
+         operator/( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return lhs.value() / rhs.value();
 }
 
 // operator /=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator/=( quantity<lvt, ut> &lhs, const st &divisor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline quantity<lvt, ut> &
+         operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs / divisor;
     return lhs;
@@ -257,29 +257,29 @@ operator/=( quantity<lvt, ut> &lhs, const st &divisor )
 
 // remainder:
 // quantity<foo, unit> % scalar == quantity<decltype(foo % scalar), unit>
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<rvt>::value>::type>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<rvt>>>
+         inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+         operator%( const quantity<lvt, ut> &lhs, const rvt &divisor )
 {
     return { lhs.value() % divisor, ut{} };
 }
 
 // scalar % quantity<foo, unit> is not supported
-template<typename lvt, typename ut, typename rvt, typename = typename std::enable_if<std::is_arithmetic<lvt>::value>::type>
-inline void operator%( lvt, quantity<rvt, ut> ) = delete;
+template<typename lvt, typename ut, typename rvt, typename = std::enable_if_t<std::is_arithmetic_v<lvt>>>
+         inline void operator%( lvt, quantity<rvt, ut> ) = delete;
 
-// quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
-template<typename lvt, typename ut, typename rvt>
-inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
-operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
+         // quantity<foo, unit> % quantity<bar, unit> == decltype(foo % bar)
+         template<typename lvt, typename ut, typename rvt>
+         inline constexpr quantity < decltype( std::declval<lvt>() % std::declval<rvt>() ), ut >
+         operator%( const quantity<lvt, ut> &lhs, const quantity<rvt, ut> &rhs )
 {
     return { lhs.value() % rhs.value(), ut{} };
 }
 
 // operator %=
-template<typename lvt, typename ut, typename st, typename = typename std::enable_if<std::is_arithmetic<st>::value>::type>
-inline quantity<lvt, ut> &
-operator%=( quantity<lvt, ut> &lhs, const st &divisor )
+template<typename lvt, typename ut, typename st, typename = std::enable_if_t<std::is_arithmetic_v<st>>>
+         inline quantity<lvt, ut> &
+         operator%=( quantity<lvt, ut> &lhs, const st &divisor )
 {
     lhs = lhs % divisor;
     return lhs;
@@ -325,7 +325,7 @@ inline constexpr double to_liter( const volume &v )
 
 // Legacy conversions factor for old volume values.
 // Don't use in new code! Use one of the from_* functions instead.
-static constexpr volume legacy_volume_factor = from_milliliter( 250 );
+constexpr volume legacy_volume_factor = from_milliliter( 250 );
 
 const mass mass_min = units::mass( std::numeric_limits<units::mass::value_type>::min(),
                                    units::mass::unit_type{} );
@@ -371,7 +371,6 @@ inline constexpr double to_kilogram( const mass &v )
     return v.value() / 1000000.0;
 }
 
-
 // Specific energy
 const specific_energy specific_energy_min = units::specific_energy(
             std::numeric_limits<units::specific_energy::value_type>::min(), units::specific_energy::unit_type{} );
@@ -415,13 +414,11 @@ inline constexpr value_type to_kelvin( const
     return v.value();
 }
 
-constexpr temperature freezing_point = from_kelvin( 273.150f );
-
 template<typename value_type>
 inline constexpr quantity<units::temperature::value_type, temperature_in_kelvin_tag> from_celsius(
     const value_type v )
 {
-    return from_kelvin( v ) + freezing_point;
+    return from_kelvin( v + 273.150f );
 }
 
 template<typename value_type>
@@ -436,7 +433,7 @@ template<typename value_type>
 inline constexpr value_type to_celsius( const
                                         quantity<value_type, temperature_in_kelvin_tag> &v )
 {
-    return ( v - freezing_point ).value();
+    return ( v - from_kelvin( 273.150f ) ).value();
 }
 
 template<typename value_type>
@@ -446,6 +443,88 @@ inline constexpr value_type to_fahrenheit( const
     return ( v * 1.8f - from_kelvin( 459.67f ) ).value();
 }
 
+// Conversions from legacy temperature units. Do not use without a good reason.
+
+inline constexpr units::temperature from_legacy_bodypart_temp( int temp )
+{
+    return units::from_celsius( 37.0 + ( temp - 5000.0 ) * 0.002 );
+}
+
+template<typename value_type>
+inline constexpr int to_legacy_bodypart_temp( const
+        quantity<value_type, temperature_in_kelvin_tag> &v )
+{
+    const auto c = units::to_celsius( v );
+    return static_cast<int>( ( c - 37.0 ) * 500.0 + 5000.0 );
+}
+
+// Temperature delta
+// Absolute zero - possibly should just be INT_MIN
+const temperature_delta temperature_delta_min = units::temperature_delta( 0,
+        units::temperature_delta::unit_type{} );
+
+const temperature_delta temperature_delta_max = units::temperature_delta(
+            std::numeric_limits<units::temperature_delta::value_type>::max(),
+            units::temperature_delta::unit_type{} );
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_kelvin_delta(
+    const value_type v )
+{
+    return quantity<value_type, temperature_delta_in_kelvin_tag>( v, temperature_delta_in_kelvin_tag{} );
+}
+
+template<typename value_type>
+inline constexpr value_type to_kelvin_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_celsius_delta(
+    const value_type v )
+{
+    return from_kelvin_delta( v );
+}
+
+template<typename value_type>
+inline constexpr quantity<units::temperature_delta::value_type, temperature_delta_in_kelvin_tag>
+from_fahrenheit_delta(
+    const value_type v )
+{
+    return from_kelvin_delta( v / 1.8f );
+}
+
+template<typename value_type>
+inline constexpr value_type to_celsius_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return v.value();
+}
+
+template<typename value_type>
+inline constexpr value_type to_fahrenheit_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return ( v * 1.8f ).value();
+}
+
+// Conversions from legacy temperature units. Do not use without a good reason.
+
+inline constexpr units::temperature_delta from_legacy_bodypart_temp_delta( int temp )
+{
+    return units::from_kelvin_delta( temp * 0.002 );
+}
+
+template<typename value_type>
+inline constexpr int to_legacy_bodypart_temp_delta( const
+        quantity<value_type, temperature_delta_in_kelvin_tag> &v )
+{
+    return static_cast<int>( units::to_kelvin_delta( v ) * 500.0 );
+}
 
 // Energy
 
@@ -631,7 +710,7 @@ template<typename value_type>
 inline constexpr quantity<value_type, length_in_millimeter_tag> from_kilometer(
     const value_type v )
 {
-    return from_millimeter<value_type>( v * 1'000'000 );
+    return from_millimeter<value_type>( v * 1000000 );
 }
 
 template<typename value_type>
@@ -649,13 +728,13 @@ inline constexpr value_type to_centimeter( const quantity<value_type, length_in_
 template<typename value_type>
 inline constexpr value_type to_meter( const quantity<value_type, length_in_millimeter_tag> &v )
 {
-    return to_millimeter( v ) / 1'000.0;
+    return to_millimeter( v ) / 1000.0;
 }
 
 template<typename value_type>
 inline constexpr value_type to_kilometer( const quantity<value_type, length_in_millimeter_tag> &v )
 {
-    return to_millimeter( v ) / 1'000'000.0;
+    return to_millimeter( v ) / 1000000.0;
 }
 
 template<typename value_type>
@@ -697,8 +776,8 @@ inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_f
     const quantity<value_type, volume_in_milliliter_tag> &v )
 {
     return units::from_centimeter<int>(
-               std::round(
-                   std::cbrt( units::to_milliliter( v ) ) ) );
+        std::round(
+            std::cbrt( units::to_milliliter( v ) ) ) );
 }
 
 // Streaming operators for debugging and tests
@@ -739,256 +818,280 @@ inline std::ostream &operator<<( std::ostream &o, angle_in_radians_tag )
     return o << "rad";
 }
 
+inline std::ostream &operator<<( std::ostream &o, temperature )
+{
+    return o << "K";
+}
+
 template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
     return o << v.value() << tag_type{};
 }
 
-template<typename value_type, typename tag_type>
-inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
+          template<typename value_type, typename tag_type>
+          inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
 {
     std::ostringstream os;
     os << v;
     return os.str();
 }
 
-std::string display( units::energy v );
+std::string display( const units::energy &v );
 
 std::string display( units::power v );
 
 } // namespace units
 
 // Implicitly converted to volume, which has int as value_type!
-inline constexpr units::volume operator"" _ml( const unsigned long long v )
+inline constexpr units::volume operator""_ml( const unsigned long long v )
 {
     return units::from_milliliter( v );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _ml(
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_ml(
     const long double v )
 {
     return units::from_milliliter( v );
 }
 
 // Implicitly converted to volume, which has int as value_type!
-inline constexpr units::volume operator"" _liter( const unsigned long long v )
+inline constexpr units::volume operator""_liter( const unsigned long long v )
 {
     return units::from_milliliter( v * 1000 );
 }
 
-inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator"" _liter(
+inline constexpr units::quantity<double, units::volume_in_milliliter_tag> operator""_liter(
     const long double v )
 {
     return units::from_milliliter( v * 1000 );
 }
 
 // Implicitly converted to mass, which has int as value_type!
-inline constexpr units::mass operator"" _milligram( const unsigned long long v )
+inline constexpr units::mass operator""_milligram( const unsigned long long v )
 {
     return units::from_milligram( v );
 }
-inline constexpr units::mass operator"" _gram( const unsigned long long v )
+inline constexpr units::mass operator""_gram( const unsigned long long v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::mass operator"" _kilogram( const unsigned long long v )
+inline constexpr units::mass operator""_kilogram( const unsigned long long v )
 {
     return units::from_kilogram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _milligram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator""_milligram(
     const long double v )
 {
     return units::from_milligram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _gram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator""_gram(
     const long double v )
 {
     return units::from_gram( v );
 }
 
-inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator"" _kilogram(
+inline constexpr units::quantity<double, units::mass_in_milligram_tag> operator""_kilogram(
     const long double v )
 {
     return units::from_kilogram( v );
 }
 
-
-inline constexpr units::temperature operator"" _K( const unsigned long long v )
+inline constexpr units::temperature operator""_K( const unsigned long long v )
 {
     return units::from_kelvin( v );
 }
 
-inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator"" _K(
+inline constexpr units::temperature operator""_C( const unsigned long long v )
+{
+    return units::from_celsius( v );
+}
+
+inline constexpr units::temperature_delta operator""_C_delta( const unsigned long long v )
+{
+    return units::from_celsius_delta( v );
+}
+
+inline constexpr units::quantity<double, units::temperature_in_kelvin_tag> operator""_K(
     const long double v )
 {
     return units::from_kelvin( v );
 }
 
-inline constexpr units::energy operator"" _mJ( const unsigned long long v )
+inline constexpr units::temperature operator""_C( const long double v )
+{
+    return units::from_celsius( v );
+}
+
+inline constexpr units::temperature_delta operator""_C_delta( const long double v )
+{
+    return units::from_celsius_delta( v );
+}
+
+inline constexpr units::energy operator""_mJ( const unsigned long long v )
 {
     return units::from_millijoule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _mJ(
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator""_mJ(
     const long double v )
 {
     return units::from_millijoule( v );
 }
 
-inline constexpr units::energy operator"" _J( const unsigned long long v )
+inline constexpr units::energy operator""_J( const unsigned long long v )
 {
     return units::from_joule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _J(
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator""_J(
     const long double v )
 {
     return units::from_joule( v );
 }
 
-inline constexpr units::energy operator"" _kJ( const unsigned long long v )
+inline constexpr units::energy operator""_kJ( const unsigned long long v )
 {
     return units::from_kilojoule( v );
 }
 
-inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator"" _kJ(
+inline constexpr units::quantity<double, units::energy_in_millijoule_tag> operator""_kJ(
     const long double v )
 {
     return units::from_kilojoule( v );
 }
 
-inline constexpr units::power operator"" _mW( const unsigned long long v )
+inline constexpr units::power operator""_mW( const unsigned long long v )
 {
     return units::from_milliwatt( v );
 }
 
-inline constexpr units::power operator"" _W( const unsigned long long v )
+inline constexpr units::power operator""_W( const unsigned long long v )
 {
     return units::from_watt( v );
 }
 
-inline constexpr units::power operator"" _kW( const unsigned long long v )
+inline constexpr units::power operator""_kW( const unsigned long long v )
 {
     return units::from_kilowatt( v );
 }
 
-inline constexpr units::money operator"" _cent( const unsigned long long v )
+inline constexpr units::money operator""_cent( const unsigned long long v )
 {
     return units::from_cent( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _cent(
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator""_cent(
     const long double v )
 {
     return units::from_cent( v );
 }
 
-inline constexpr units::money operator"" _USD( const unsigned long long v )
+inline constexpr units::money operator""_USD( const unsigned long long v )
 {
     return units::from_usd( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _USD(
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator""_USD(
     const long double v )
 {
     return units::from_usd( v );
 }
 
-inline constexpr units::money operator"" _kUSD( const unsigned long long v )
+inline constexpr units::money operator""_kUSD( const unsigned long long v )
 {
     return units::from_kusd( v );
 }
 
-inline constexpr units::quantity<double, units::money_in_cent_tag> operator"" _kUSD(
+inline constexpr units::quantity<double, units::money_in_cent_tag> operator""_kUSD(
     const long double v )
 {
     return units::from_kusd( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _mm(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_mm(
     const long double v )
 {
     return units::from_millimeter( v );
 }
 
-inline constexpr units::length operator"" _mm( const unsigned long long v )
+inline constexpr units::length operator""_mm( const unsigned long long v )
 {
     return units::from_millimeter( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _cm(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_cm(
     const long double v )
 {
     return units::from_centimeter( v );
 }
 
-inline constexpr units::length operator"" _cm( const unsigned long long v )
+inline constexpr units::length operator""_cm( const unsigned long long v )
 {
     return units::from_centimeter( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _meter(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_meter(
     const long double v )
 {
     return units::from_meter( v );
 }
 
-inline constexpr units::length operator"" _meter( const unsigned long long v )
+inline constexpr units::length operator""_meter( const unsigned long long v )
 {
     return units::from_meter( v );
 }
 
-inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator"" _km(
+inline constexpr units::quantity<double, units::length_in_millimeter_tag> operator""_km(
     const long double v )
 {
     return units::from_kilometer( v );
 }
 
-inline constexpr units::length operator"" _km( const unsigned long long v )
+inline constexpr units::length operator""_km( const unsigned long long v )
 {
     return units::from_kilometer( v );
 }
 
-inline constexpr units::angle operator"" _radians( const long double v )
+inline constexpr units::angle operator""_radians( const long double v )
 {
     return units::from_radians( v );
 }
 
-inline constexpr units::angle operator"" _radians( const unsigned long long v )
+inline constexpr units::angle operator""_radians( const unsigned long long v )
 {
     return units::from_radians( v );
 }
 
-inline constexpr units::angle operator"" _pi_radians( const long double v )
+inline constexpr units::angle operator""_pi_radians( const long double v )
 {
     return units::from_radians( v * M_PI );
 }
 
-inline constexpr units::angle operator"" _pi_radians( const unsigned long long v )
+inline constexpr units::angle operator""_pi_radians( const unsigned long long v )
 {
     return units::from_radians( v * M_PI );
 }
 
-inline constexpr units::angle operator"" _degrees( const long double v )
+inline constexpr units::angle operator""_degrees( const long double v )
 {
     return units::from_degrees( v );
 }
 
-inline constexpr units::angle operator"" _degrees( const unsigned long long v )
+inline constexpr units::angle operator""_degrees( const unsigned long long v )
 {
     return units::from_degrees( v );
 }
 
-inline constexpr units::angle operator"" _arcmin( const long double v )
+inline constexpr units::angle operator""_arcmin( const long double v )
 {
     return units::from_arcmin( v );
 }
 
-inline constexpr units::angle operator"" _arcmin( const unsigned long long v )
+inline constexpr units::angle operator""_arcmin( const unsigned long long v )
 {
     return units::from_arcmin( v );
 }
@@ -1031,49 +1134,49 @@ inline units::angle acos( double x )
     return from_radians( std::acos( x ) );
 }
 
-static const std::vector<std::pair<std::string, energy>> energy_units = { {
+const std::vector<std::pair<std::string, energy>> energy_units = { {
         { "mJ", 1_mJ },
         { "J", 1_J },
         { "kJ", 1_kJ },
     }
 };
-static const std::vector<std::pair<std::string, power>> power_units = { {
+const std::vector<std::pair<std::string, power>> power_units = { {
         { "mW", 1_mW },
         { "W", 1_W },
         { "kW", 1_kW },
     }
 };
-static const std::vector<std::pair<std::string, mass>> mass_units = { {
+const std::vector<std::pair<std::string, mass>> mass_units = { {
         { "mg", 1_milligram },
         { "g", 1_gram },
         { "kg", 1_kilogram },
     }
 };
-static const std::vector<std::pair<std::string, money>> money_units = { {
+const std::vector<std::pair<std::string, money>> money_units = { {
         { "cent", 1_cent },
         { "USD", 1_USD },
         { "kUSD", 1_kUSD },
     }
 };
-static const std::vector<std::pair<std::string, volume>> volume_units = { {
+const std::vector<std::pair<std::string, volume>> volume_units = { {
         { "ml", 1_ml },
         { "L", 1_liter }
     }
 };
-static const std::vector<std::pair<std::string, length>> length_units = { {
+const std::vector<std::pair<std::string, length>> length_units = { {
         { "mm", 1_mm },
         { "cm", 1_cm },
         { "meter", 1_meter },
         { "km", 1_km }
     }
 };
-static const std::vector<std::pair<std::string, angle>> angle_units = { {
+const std::vector<std::pair<std::string, angle>> angle_units = { {
         { "arcmin", 1_arcmin },
         { "°", 1_degrees },
         { "rad", 1_radians },
     }
 };
-static const std::vector<std::pair<std::string, temperature>> temperature_units = { {
+const std::vector<std::pair<std::string, temperature>> temperature_units = { {
         { "K", 1_K }
     }
 };
@@ -1084,13 +1187,30 @@ units::energy operator*( const time_duration &time, const units::power &power );
 units::power operator/( const units::energy &energy, const time_duration &time );
 time_duration operator/( const units::energy &energy, const units::power &power );
 
+constexpr inline units::temperature_delta abs( units::temperature_delta x )
+{
+    return from_kelvin_delta( std::abs( to_kelvin_delta( x ) ) );
+}
+
+units::temperature_delta operator-( const units::temperature &T1, const units::temperature &T2 );
+
+units::temperature operator+( const units::temperature &T,
+                              const units::temperature_delta &T_delta );
+units::temperature operator-( const units::temperature &T,
+                              const units::temperature_delta &T_delta );
+units::temperature operator+( const units::temperature_delta &T_delta,
+                              const units::temperature &T );
+units::temperature operator+( const units::temperature &, const units::temperature & ) = delete;
+
+units::temperature &operator+=( units::temperature &T, const units::temperature_delta &T_delta );
+
 } // namespace units
 
 namespace detail
 {
 
 template<typename T, typename Error>
-T read_from_json_string_common( const std::string &s,
+T read_from_json_string_common( const std::string_view s,
                                 const std::vector<std::pair<std::string, T>> &units, Error &&error )
 {
     size_t i = 0;

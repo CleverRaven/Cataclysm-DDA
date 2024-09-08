@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "overgrownlot",
-    "weight": 100,
+    "weight": 1000,
     "object": {
       "furniture": {
         "#": "f_null",
@@ -64,6 +64,9 @@
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overgrownlot",
+    "weight": 1000,
     "object": {
       "furniture": { ".": "f_null", "4": "f_null", "P": "f_sign", "_": "f_null", "d": "f_null" },
       "rows": [
@@ -105,13 +108,13 @@
       },
       "place_signs": [ { "signage": "Lot SOLD!", "x": 14, "y": 4 } ],
       "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
-    },
-    "om_terrain": "overgrownlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overgrownlot",
+    "weight": 1000,
     "object": {
       "furniture": { ".": "f_null", "P": "f_sign", "#": "f_null", "_": "f_null", "s": "f_sign" },
       "place_items": [ { "chance": 35, "item": "trash", "x": 16, "y": 17 }, { "chance": 35, "item": "trash", "x": 7, "y": 11 } ],
@@ -159,13 +162,13 @@
         { "signage": "Call <family_name> Family Realty at 555-3130!", "x": 13, "y": 6 }
       ],
       "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
-    },
-    "om_terrain": "overgrownlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overgrownlot",
+    "weight": 1000,
     "object": {
       "furniture": {
         "#": "f_null",
@@ -227,9 +230,6 @@
       },
       "place_signs": [ { "signage": "Empty lot, great for your small business!  Call <full_name> at 555-2117!", "x": 9, "y": 3 } ],
       "monster": { "X": { "monster": "mon_triffid_overqueen" }, "Y": { "monster": "mon_triffid_flower" } }
-    },
-    "om_terrain": "overgrownlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   }
 ]

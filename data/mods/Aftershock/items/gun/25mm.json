@@ -9,15 +9,14 @@
     "weight": "2700 g",
     "volume": "2800 ml",
     "longest_side": "736 mm",
-    "price": 550000,
+    "price": "5 kUSD 500 USD",
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "superalloy", "plastic" ],
     "symbol": "(",
     "color": "brown",
     "min_strength": 18,
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
-    "skill": "launcher",
+    "skill": "rifle",
     "modes": [ [ "DEFAULT", "DOUBLE", 4 ] ],
     "dispersion": 90,
     "durability": 6,
@@ -34,7 +33,6 @@
     ],
     "reload": 400,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -42,14 +40,15 @@
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "afs_25mm_goa",
     "looks_like": "m79",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "1025 Goa" },
+    "name": { "str_sp": "1025 Goa" },
     "description": "A powerful, single shot 25mm rifle, heavy under the weight of several recoil dampening mechanisms.  Designed by the now defunct Goa Firearms, it was originally conceived as a luxury rifle for sport hunting alien megafauna.",
     "weight": "3500 g",
     "volume": "450 ml",
@@ -57,7 +56,6 @@
     "barrel_volume": "1170 ml",
     "price": "1500 USD",
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "superalloy", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -70,7 +68,6 @@
     "clip_size": 1,
     "reload": 400,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -80,7 +77,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "afs_wa2519",
@@ -95,7 +93,6 @@
     "barrel_volume": "1170 ml",
     "price": "1500 USD",
     "to_hit": -3,
-    "bashing": 10,
     "material": [ "superalloy", "wood" ],
     "built_in_mods": [ "afs_smart_scope" ],
     "symbol": "(",
@@ -109,9 +106,8 @@
     "reload": 1000,
     "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.9 } ] } ]
-    },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm_smart": 1 } } ]
+    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_25mm_smart": 1 } } ],
+    "melee_damage": { "bash": 10 }
   }
 ]

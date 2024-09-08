@@ -9,7 +9,7 @@
       {
         "item": "bow_saw",
         "rate": 99,
-        "condition": { "npc_has_var": "bow_saw_eater", "type": "bool", "context": "dinner", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "bool_dinner_bow_saw_eater" } ] }
       },
       { "category": "currency", "rate": 10 },
       { "group": "test_event_item_spawn", "rate": 100 },
@@ -25,12 +25,7 @@
   {
     "id": "test_blacklist",
     "type": "shopkeeper_blacklist",
-    "entries": [
-      {
-        "item": "bow_saw",
-        "condition": { "npc_has_var": "hates_bow_saws", "type": "bool", "context": "bigotry", "value": "yes" }
-      }
-    ]
+    "entries": [ { "item": "bow_saw", "condition": { "compare_string": [ "yes", { "npc_val": "bool_bigotry_hates_bow_saws" } ] } } ]
   },
   {
     "type": "npc_class",
@@ -43,12 +38,12 @@
       { "group": "test_event_item_spawn" },
       {
         "group": "test_tools_group",
-        "condition": { "u_has_var": "tools_access", "type": "bool", "context": "test", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "bool_test_tools_access" } ] }
       },
       {
         "group": "test_multitool_group",
         "strict": true,
-        "condition": { "u_has_var": "multitool_access", "type": "bool", "context": "test", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "bool_test_multitool_access" } ] }
       }
     ],
     "shopkeeper_blacklist": "test_blacklist",
@@ -56,8 +51,9 @@
       {
         "item": "test_pants_fur",
         "markup": -100,
-        "condition": { "npc_has_var": "vegan", "type": "bool", "context": "preference", "value": "yes" }
-      }
+        "condition": { "compare_string": [ "yes", { "npc_val": "bool_preference_vegan" } ] }
+      },
+      { "item": "battery", "price": 100 }
     ],
     "restock_interval": "99 days"
   },

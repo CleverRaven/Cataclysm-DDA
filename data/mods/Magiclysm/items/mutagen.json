@@ -1,32 +1,17 @@
 [
   {
-    "type": "COMESTIBLE",
     "id": "manatouched_serum",
-    "name": "concentrated mana mutagenic primer",
-    "weight": "250 g",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "concentrated mana mutagenic primer" },
     "color": "light_blue",
-    "addiction_type": "mutagen",
-    "stim": -20,
-    "container": "flask_glass",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "healthy": -10,
-    "addiction_potential": 5,
-    "calories": 26,
     "description": "A very concentrated form of mana potion.",
-    "price": 1000,
-    "volume": "500 ml",
-    "phase": "liquid",
-    "charges": 2,
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject the concentrated mana mutagenic primer.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
-    },
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "MUTAGEN_PRIMER" ],
-    "freezing_point": -30,
-    "fun": -15
+    }
   },
   {
     "id": "manatouched_mutagen",
@@ -34,7 +19,7 @@
     "type": "COMESTIBLE",
     "color": "light_blue",
     "description": "A mana potion mixed with mutagen.  It might help you connect with magic.",
-    "name": { "str": "mana mutagen" },
+    "name": { "str_sp": "mana mutagen" },
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the mana mutagen.",
@@ -47,7 +32,7 @@
     "type": "COMESTIBLE",
     "color": "black",
     "description": "An alchemic concoction made from the remains of a slain black dragon and a bit of potion base.  Ancient and Academic texts talk of profound changes from consuming this.",
-    "name": { "str": "black dragon mutagen" },
+    "name": { "str_sp": "black dragon mutagen" },
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You drink the black dragon mutagen.",
@@ -58,12 +43,12 @@
     "id": "iv_black_dragon",
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": "black dragon mutagenic primer",
-    "description": "A super-concentrated mutagen that seems swirl with the anger of a black dragon.  Do you dare leave you humanity behind and inject it?",
+    "name": { "str_sp": "black dragon mutagenic primer" },
+    "description": "A super-concentrated mutagen that seems to swirl with the anger of a black dragon.  Do you dare leave your humanity behind and inject it?",
     "color": "black",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the concentrated black dragon mutagenic primer.",
+      "activation_message": "You inject the black dragon mutagenic primer.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_black_dragon", 450, 550 ] ]
     }

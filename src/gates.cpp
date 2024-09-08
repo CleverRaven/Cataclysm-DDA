@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -22,11 +23,9 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "translations.h"
-#include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
 #include "viewer.h"
@@ -34,6 +33,8 @@
 
 static const furn_str_id furn_f_crate_o( "f_crate_o" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
+
+static const material_id material_glass( "glass" );
 
 // Gates namespace
 
@@ -67,13 +68,13 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void check() const;
 
-    bool is_suitable_wall( const tripoint &pos ) const;
+    bool is_suitable_wall( const tripoint_bub_ms &pos ) const;
 };
 
-gate_id get_gate_id( const tripoint &pos )
+gate_id get_gate_id( const tripoint_bub_ms &pos )
 {
     return gate_id( get_map().ter( pos ).id().str() );
 }
@@ -82,7 +83,7 @@ generic_factory<gate_data> gates_data( "gate type" );
 
 } // namespace
 
-void gate_data::load( const JsonObject &jo, const std::string & )
+void gate_data::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
@@ -129,9 +130,13 @@ void gate_data::check() const
     }
 }
 
-bool gate_data::is_suitable_wall( const tripoint &pos ) const
+bool gate_data::is_suitable_wall( const tripoint_bub_ms &pos ) const
 {
-    const auto wid = get_map().ter( pos );
+    const ter_id wid = get_map().ter( pos );
+    if( walls.empty() ) {
+        return wid->has_flag( "WALL" );
+    }
+
     const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
         return wall.id() == wid;
     } );
@@ -165,7 +170,7 @@ void gates::reset()
 //  !|   |!        !   |
 //
 
-void gates::open_gate( const tripoint &pos )
+void gates::open_gate( const tripoint_bub_ms &pos )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -181,30 +186,37 @@ void gates::open_gate( const tripoint &pos )
 
     map &here = get_map();
     for( const point &wall_offset : four_adjacent_offsets ) {
-        const tripoint wall_pos = pos + wall_offset;
+        const tripoint_bub_ms wall_pos = pos + wall_offset;
 
         if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
         for( const point &gate_offset : four_adjacent_offsets ) {
-            const tripoint gate_pos = wall_pos + gate_offset;
+            const tripoint_bub_ms gate_pos = wall_pos + gate_offset;
 
             if( gate_pos == pos ) {
                 continue; // Never comes back
             }
 
             if( !open ) { // Closing the gate...
-                tripoint cur_pos = gate_pos;
+                tripoint_bub_ms cur_pos = gate_pos;
+                std::vector<tripoint_bub_ms> all_gate_tiles;
                 while( here.ter( cur_pos ) == gate.floor.id() ) {
-                    fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
+                    all_gate_tiles.emplace_back( cur_pos );
+                    cur_pos += gate_offset;
+                }
+                cur_pos = gate_pos;
+                while( here.ter( cur_pos ) == gate.floor.id() ) {
+                    fail = !doors::forced_door_closing( cur_pos, all_gate_tiles, gate.door.id(), gate.bash_dmg ) ||
+                           fail;
                     close = !fail;
                     cur_pos += gate_offset;
                 }
             }
 
             if( !close ) { // Opening the gate...
-                tripoint cur_pos = gate_pos;
+                tripoint_bub_ms cur_pos = gate_pos;
                 while( true ) {
                     const ter_id ter = here.ter( cur_pos );
 
@@ -233,7 +245,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, Character &p )
+void gates::open_gate( const tripoint_bub_ms &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -245,18 +257,16 @@ void gates::open_gate( const tripoint &pos, Character &p )
     const gate_data &gate = gates_data.obj( gid );
 
     p.add_msg_if_player( gate.pull_message );
-    p.assign_activity( player_activity( open_gate_activity_actor(
-                                            gate.moves,
-                                            pos
-                                        ) ) );
+    p.assign_activity( open_gate_activity_actor( gate.moves, pos ) );
 }
 
 // Doors namespace
+// TODO: move door functions from maps namespace here, or vice versa.
 
-void doors::close_door( map &m, Creature &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint_bub_ms &closep )
 {
     bool didit = false;
-    const bool inside = !m.is_outside( who.pos() );
+    const bool inside = !m.is_outside( who.pos_bub() );
 
     const Creature *const mon = get_creature_tracker().creature_at( closep );
     if( mon ) {
@@ -276,7 +286,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
         vehicle *const veh = &vp->vehicle();
         const int vpart = vp->part_index();
         const int closable = veh->next_part_to_close( vpart,
-                             veh_pointer_or_null( m.veh_at( who.pos() ) ) != veh );
+                             veh_pointer_or_null( m.veh_at( who.pos_bub() ) ) != veh );
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
@@ -352,4 +362,241 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
         // TODO: Vary this? Based on strength, broken legs, and so on.
         who.mod_moves( -90 );
     }
+}
+
+bool doors::forced_door_closing( const tripoint_bub_ms &p,
+                                 std::vector<tripoint_bub_ms> affected_tiles, const ter_id &door_type, int bash_dmg )
+{
+    map &m = get_map();
+    avatar &u = get_avatar();
+    const int &x = p.x();
+    const int &y = p.y();
+    const std::string &door_name = door_type.obj().name();
+    const auto valid_location = [&]( const tripoint_bub_ms & pvl ) {
+        return ( g->is_empty( pvl ) && pvl != p &&
+                 std::find( affected_tiles.cbegin(), affected_tiles.cend(), pvl ) == std::end( affected_tiles ) );
+    };
+    const std::optional<tripoint_bub_ms> pos = random_point( m.points_in_radius( p, 2 ),
+            valid_location );
+    if( !pos.has_value() ) {
+        // can't pushback any creatures anywhere, that means the door can't close.
+        return false;
+    }
+    const tripoint_bub_ms displace = pos.value();
+    //knockback trajectory requires the line be flipped
+    const tripoint_bub_ms kbp( -displace.x() + x * 2, -displace.y() + y * 2, displace.z() );
+    const bool can_see = u.sees( kbp );
+    creature_tracker &creatures = get_creature_tracker();
+    Character *npc_or_player = creatures.creature_at<Character>( p, false );
+    if( npc_or_player != nullptr ) {
+        if( bash_dmg <= 0 ) {
+            return false;
+        }
+        if( npc_or_player->is_npc() && can_see ) {
+            add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->get_name() );
+        } else if( npc_or_player->is_avatar() ) {
+            add_msg( m_bad, _( "The %s hits you." ), door_name );
+        }
+        if( npc_or_player->activity ) {
+            npc_or_player->cancel_activity();
+        }
+        // TODO: make the npc angry?
+        npc_or_player->hitall( bash_dmg, 0, nullptr );
+        g->knockback( kbp.raw(), p.raw(), std::max( 1, bash_dmg / 10 ), -1, 1 );
+        // TODO: perhaps damage/destroy the gate
+        // if the npc was really big?
+        if( creatures.creature_at<Character>( p, false ) != nullptr ) {
+            return false;
+        }
+    }
+    if( monster *const mon_ptr = creatures.creature_at<monster>( p ) ) {
+        monster &critter = *mon_ptr;
+        if( bash_dmg <= 0 ) {
+            return false;
+        }
+        if( can_see ) {
+            add_msg( _( "The %1$s hits the %2$s." ), door_name, critter.name() );
+        }
+        if( critter.get_size() <= creature_size::small ) {
+            critter.die_in_explosion( nullptr );
+        } else {
+            critter.apply_damage( nullptr, bodypart_id( "torso" ), bash_dmg );
+            critter.check_dead_state();
+        }
+        if( !critter.is_dead() && critter.get_size() >= creature_size::huge ) {
+            // big critters simply prevent the gate from closing
+            // TODO: perhaps damage/destroy the gate
+            // if the critter was really big?
+            return false;
+        }
+        if( !critter.is_dead() ) {
+            // Still alive? Move the critter away so the door can close
+            g->knockback( kbp.raw(), p.raw(), std::max( 1, bash_dmg / 10 ), -1, 1 );
+            if( creatures.creature_at( p ) ) {
+                return false;
+            }
+        }
+    }
+    if( const optional_vpart_position vp = m.veh_at( p ) ) {
+        if( bash_dmg <= 0 ) {
+            return false;
+        }
+        vp->vehicle().damage( m, vp->part_index(), bash_dmg );
+        if( m.veh_at( p ) ) {
+            // Check again in case all parts at the door tile
+            // have been destroyed, if there is still a vehicle
+            // there, the door can not be closed
+            return false;
+        }
+    }
+    if( bash_dmg < 0 && !m.i_at( point_bub_ms( x, y ) ).empty() ) {
+        return false;
+    }
+    if( bash_dmg == 0 ) {
+        for( item &elem : m.i_at( point_bub_ms( x, y ) ) ) {
+            if( elem.made_of( phase_id::LIQUID ) ) {
+                // Liquids are OK, will be destroyed later
+                continue;
+            }
+            if( elem.volume() < 250_ml ) {
+                // Dito for small items, will be moved away
+                continue;
+            }
+            // Everything else prevents the door from closing
+            return false;
+        }
+    }
+
+    m.ter_set( point( x, y ), door_type );
+    if( m.has_flag( ter_furn_flag::TFLAG_NOITEM, point( x, y ) ) ) {
+        map_stack items = m.i_at( point_bub_ms( x, y ) );
+        for( map_stack::iterator it = items.begin(); it != items.end(); ) {
+            if( it->made_of( phase_id::LIQUID ) ) {
+                it = items.erase( it );
+                continue;
+            }
+            const int glass_portion = it->made_of( material_glass );
+            const float glass_fraction = glass_portion / static_cast<float>( it->type->mat_portion_total );
+            if( glass_portion && rng_float( 0.0f, 1.0f ) < glass_fraction * 0.5f ) {
+                if( can_see ) {
+                    add_msg( m_warning, _( "A %s shatters!" ), it->tname() );
+                } else {
+                    add_msg( m_warning, _( "Something shatters!" ) );
+                }
+                it = items.erase( it );
+                continue;
+            }
+            m.add_item_or_charges( kbp, *it );
+            it = items.erase( it );
+        }
+    }
+    return true;
+}
+
+// If you update this, look at doors::can_lock_door too.
+bool doors::lock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
+{
+    bool didit = false;
+
+    if( optional_vpart_position vp = m.veh_at( lockp ) ) {
+        vehicle *const veh = &vp->vehicle();
+        const int vpart = vp->part_index();
+        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
+                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const int lockable = veh->next_part_to_lock( vpart, !inside_vehicle );
+        const int inside_lockable = veh->next_part_to_lock( vpart );
+        const int already_locked_part = veh->next_part_to_unlock( vpart );
+
+        if( lockable >= 0 ) {
+            if( const Character *const ch = who.as_character() ) {
+                if( !veh->handle_potential_theft( *ch ) ) {
+                    return false;
+                }
+                veh->lock( lockable );
+                who.add_msg_if_player( _( "You lock the %1$s's %2$s." ), veh->name, veh->part( lockable ).name() );
+                didit = true;
+            }
+        } else if( inside_lockable >= 0 ) {
+            who.add_msg_if_player( m_info, _( "That %s can only be locked from the inside." ),
+                                   veh->part( inside_lockable ).name() );
+        } else if( already_locked_part >= 0 ) {
+            who.add_msg_if_player( m_info, _( "That %s is already locked." ),
+                                   veh->part( already_locked_part ).name() );
+        } else {
+            who.add_msg_if_player( m_info, _( "You cannot lock the %s." ), veh->part( vpart ).name() );
+        }
+    }
+    if( didit ) {
+        sounds::sound( lockp, 1, sounds::sound_t::activity, _( "a soft chk." ) );
+        who.mod_moves( -90 );
+    }
+    return didit;
+}
+
+bool doors::can_lock_door( const map &m, const Creature &who, const tripoint_bub_ms &lockp )
+{
+    int lockable = -1;
+    if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
+        const vehicle *const veh = &vp->vehicle();
+        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
+                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const int vpart = vp->part_index();
+        lockable = veh->next_part_to_lock( vpart, !inside_vehicle );
+    }
+    return lockable >= 0;
+}
+
+// If you update this, look at doors::can_unlock_door too.
+bool doors::unlock_door( map &m, Creature &who, const tripoint_bub_ms &lockp )
+{
+    bool didit = false;
+
+    if( optional_vpart_position vp = m.veh_at( lockp ) ) {
+        vehicle *const veh = &vp->vehicle();
+        const int vpart = vp->part_index();
+        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
+                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const int already_unlocked_part = veh->next_part_to_lock( vpart );
+        const int inside_unlockable = veh->next_part_to_unlock( vpart );
+        const int unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
+
+        if( unlockable >= 0 ) {
+            if( const Character *const ch = who.as_character() ) {
+                if( !veh->handle_potential_theft( *ch ) ) {
+                    return false;
+                }
+                veh->unlock( unlockable );
+                who.add_msg_if_player( _( "You unlock the %1$s's %2$s." ), veh->name,
+                                       veh->part( unlockable ).name() );
+                didit = true;
+            }
+        } else if( inside_unlockable >= 0 ) {
+            who.add_msg_if_player( m_info, _( "That %s can only be unlocked from the inside." ),
+                                   veh->part( inside_unlockable ).name() );
+        } else if( already_unlocked_part >= 0 ) {
+            who.add_msg_if_player( m_info, _( "That %s is already unlocked." ),
+                                   veh->part( already_unlocked_part ).name() );
+        } else {
+            who.add_msg_if_player( m_info, _( "You cannot unlock the %s." ), veh->part( vpart ).name() );
+        }
+    }
+    if( didit ) {
+        sounds::sound( lockp, 1, sounds::sound_t::activity, _( "a soft click." ) );
+        who.mod_moves( -90 );
+    }
+    return didit;
+}
+
+bool doors::can_unlock_door( const map &m, const Creature &who, const tripoint_bub_ms &lockp )
+{
+    int unlockable = -1;
+    if( const optional_vpart_position vp = m.veh_at( lockp ) ) {
+        const vehicle *const veh = &vp->vehicle();
+        const bool inside_vehicle = m.veh_at( who.pos_bub() ) &&
+                                    &vp->vehicle() == &m.veh_at( who.pos_bub() )->vehicle();
+        const int vpart = vp->part_index();
+        unlockable = veh->next_part_to_unlock( vpart, !inside_vehicle );
+    }
+
+    return unlockable >= 0;
 }

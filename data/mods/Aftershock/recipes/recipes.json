@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "light_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -20,7 +20,7 @@
   {
     "result": "mininuke",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "mechanics",
@@ -43,8 +43,9 @@
   },
   {
     "result": "plut_cell",
+    "id_suffix": "from_slurry",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "mechanics",
@@ -59,7 +60,7 @@
     "result": "light_battery_cell",
     "id_suffix": "afs_plutonium_battery",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -75,7 +76,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "afs_murdersaw",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -90,7 +91,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "thermometer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -111,7 +112,7 @@
   {
     "result": "afs_titanium_frame",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
@@ -139,7 +140,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "afs_atomic_smartphone",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -154,7 +155,7 @@
   {
     "result": "laser_rifle_cheap",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "electronics",
@@ -164,7 +165,7 @@
     "autolearn": [ [ "electronics", 4 ] ],
     "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
+    "tools": [ [ [ "soldering_iron", 200 ], [ "soldering_iron_portable", 200 ], [ "integrated_welder", 200 ] ] ],
     "components": [
       [ [ "afs_circuitry_2", 1 ] ],
       [ [ "cable", 100 ] ],
@@ -175,8 +176,9 @@
   },
   {
     "result": "plut_cell",
+    "id_suffix": "from_fuel",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -185,7 +187,7 @@
     "autolearn": [ [ "electronics", 7 ] ],
     "book_learn": [ [ "textbook_atomic", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "soldering_iron", 50 ] ] ],
+    "tools": [ [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ] ] ],
     "components": [
       [ [ "nuclear_fuel", 2 ] ],
       [ [ "e_scrap", 5 ] ],
@@ -197,7 +199,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_tankbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -227,7 +229,7 @@
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
-      [ [ "m4a1", 1 ] ],
+      [ [ "modular_m4_carbine", 1 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "storage_battery", 1 ] ],
       [ [ "plut_cell", 4 ] ],
@@ -236,7 +238,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_tripod",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -271,7 +273,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "bot_chickenbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_OTHER",
@@ -311,7 +313,7 @@
   {
     "result": "afs_scrap_titanium",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -327,7 +329,7 @@
   {
     "result": "afs_material_1",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -342,7 +344,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "control_laptop",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -358,7 +360,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "afs_rebar_rifle",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -375,7 +377,7 @@
       { "id": "DRILL", "level": 2 },
       { "id": "SAW_W", "level": 1 }
     ],
-    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "integrated_welder", 450 ] ] ],
     "components": [
       [ [ "cable", 80 ] ],
       [ [ "afs_circuitry_1", 1 ] ],

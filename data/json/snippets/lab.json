@@ -17,7 +17,7 @@
       },
       {
         "id": "mutant_kid_boss_4",
-        "text": "A faded crayon drawing on the back of a bureaucratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labelled with a large \"T\".",
+        "text": "A faded crayon drawing on the back of a bureaucratic form.  It shows a small child sitting on a chair surrounded by many adults.  Most of them are only indistinct blobs of white and black, but a single figure stands out by being lovingly colored - and labeled with a large \"T\".",
         "//": "TODO: when descriptions allow nesting snippets replace with a random monogram."
       },
       {
@@ -154,7 +154,7 @@
       { "name": "red postit 2", "id": "lab_postit_tech_2", "text": "Shielding corrodes too fast\n\nMount on drone?" },
       { "name": "red postit 3", "id": "lab_postit_tech_3", "text": "Meltdown after 3 shots" },
       { "name": "red postit 4", "id": "lab_postit_tech_4", "text": "Need more power" },
-      { "name": "red postit 5", "id": "lab_postit_tech_5", "text": "Ho lasers stabilise the compound long enough" }
+      { "name": "red postit 5", "id": "lab_postit_tech_5", "text": "Ho lasers stabilize the compound long enough" }
     ]
   },
   {
@@ -165,11 +165,11 @@
     "text": [
       {
         "id": "lab_file_mutagen",
-        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE012 transports."
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 mL PE012 delivered orally (sweetener or other flavoring may increase ease of application, depending on subject species), followed by an incubation period of 24 hours.  Testing any mutagen-class agent without this priming procedure requires dosages that are inactionable at XEDRA-07's current production rates and the difficulty inherent in PE012 transports."
       },
       {
         "id": "lab_file_mutagen_rev1",
-        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 ml PE012 delivered orally, followed by a one-hour quarantine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Administration for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
+        "text": "All test subjects regardless of exact test objective or body weight require a priming dose of 50 mL PE012 delivered orally, followed by a one-hour quarantine observation.  Should the subject show macrophenotypic changes in observation (and the planned test isn't to evaluate PE012's effects), the subject is to be terminated and processed, with all reports sent to Administration for archival.  If the subject remained unchanged the testing can proceed after 24 hours of incubation, as per the previous protocol."
       },
       {
         "id": "lab_file_mutagen_rev2",
@@ -196,7 +196,7 @@
     "text": [
       {
         "id": "test_1",
-        "text": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 ml oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with  its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series  of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function."
+        "text": "Subject: Canis familiaris, 35 kg\n\nPE012 priming: Yes\n\nCompound: PE012\n\nObjective: Establish PE012's phenotypic range for subject species\n\nProtocol:  50 mL oral dose, 3 hour observation before dissection\n\nLive observation: Dosage without incident, after 7.3 minutes sudden distress with subject scratching their flank furiously, scratching ceases after successfully removing fur from the reachable body surface.  Subject keeps vocalizing distress, voice range audibly shifting as the facial structure rearranges itself to make room for 2 large, curved fangs.  After a brief period of trashing subject falls prone rolled into a ball and stops vocalizing.  IR observation reveals falling core temperatures, equalizing to the ambient temperature 2.1 hours after initial dosing.  Presuming subject expiration automatic retrieval drone enters the observation enclosure and approaches the subject's body.  IR observation detects a sudden increase in core temperature coinciding with the enclosure's opening, after consulting the Chief Investigator retrieval attempt proceeds.  On approach of the retrieval drone subject's body shifts slightly, and at ~1.2 m distance the subject grabs the drone with  its elongated tail and proceeds to attack it, successfully piercing its armor plating in multiple spots.  Drone is rendered inoperable after a series  of targeted strikes against its wheel joints and successfully flipping the drone on its back.  Subject termination using standard HCN insufflation, second retrieval attempt uneventful.\n\nDissection findings: Cutis easily removed, subcutis replaced by brittle, sharp scales of keratin.  Neurocranium and brain without macroscopic deviation, major restructuring of the snout, the accessory fangs are revealed to be bone spikes growing from the os zygomaticus, connected to swollen salivary glands pocked by local necrotic lesions - samples taken for toxicology.  Lungs and heart without macroscopic deviation, liver loaded with 3-5 mm large cysts, intestines and pancreas with greenish discoloration.  Superfluous kidneys of variable size (3-18 cm) scattered across the mesenterium secreting a mucous liquid without obvious function."
       },
       {
         "id": "test_2",
@@ -258,7 +258,7 @@
     "text": [
       {
         "id": "dream_1",
-        "text": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what your're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\""
+        "text": "\"It's always a different dream, but always kind of the same.  I stand in a hallway and knock on a door for a joke, but I can't turn and run when the doorknob starts turning.  I stand up mockingly in class while the teacher's back is turned, but can't seem to sit back down as they turn back to look at me.   I dive into the beautiful, clear ocean, but freeze in place just below the surface as something rises from below to meet me.\"\n\n\"Do you feel any guilt about the work you do here, Jason?\"\n\n\"You know I'm not allowed to talk about any specifics.\"\n\n\"Of course, but I haven't asked what you're doing, I asked how you feel about it.\"\n\n\"I don't feel like we're doing anything wrong here.  On the contrary, I think leaving the work undone would be a thing to feel guilty about.  The untapped potential, the understanding we're building… it will change how we think of the world.  That has to be a good thing, right?\"\n\n\"And yet, in your dreams you feel like a kid caught with their hands in the cookie jar.\"\n\n\"I'd rather we drop this line of discussion, Doctor.\"\n\n\"Naturally, Jason.  Or would \"Chief Investigator\" make you feel more in control?\""
       },
       {
         "id": "dream_2",
@@ -314,6 +314,60 @@
   },
   {
     "type": "snippet",
+    "category": "melchior_science_doc",
+    "text": [
+      {
+        "id": "ruthenium_alloy",
+        "text": "Results for a so called  \"predictive material science experiment\".  Numerous graphs detail the deformation testing of a complex ruthenium alloy."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<mutation_testing>",
+    "text": [
+      {
+        "id": "mutation_testing_1",
+        "text": "Prepare subject with 800 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject rapidly grew feathers across whole body, including hands, arms, armpits, back and neck.  Some grew in unexpected places, including a few around subject's eyes, but were safely removed by the subject\nLong term results: subject found themselves able to split their vision."
+      },
+      {
+        "id": "mutation_testing_2",
+        "text": "Prepare subject with 300 U mutagen\nApply 300 U primer compound\nObserve for 6 hours\nResults: No observable changes.  Subject asked for more food.\nLong term results: the size of subject's stomach was increased by 50%."
+      },
+      {
+        "id": "mutation_testing_3",
+        "text": "Prepare subject with 2000 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: The subject felt a painful headache\nLong-term results: the subject developed a heavy form of psychosis, including heavy hallucinations, delirium, and schizophrenia.  The subject was neutralized during an attempt to pull a sidearm from a security guard's holster."
+      },
+      {
+        "id": "mutation_testing_4",
+        "text": "Prepare subject with 500 U mutagen\nApply 2500 U primer compound\nObserve for 6 hours\nResults: Subject died shortly after injection\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_5",
+        "text": "Prepare subject with 2500 U mutagen\nApply 500 U primer compound\nObserve for 6 hours\nResults: Subject died after long period of pain\nLong term results: N/A."
+      },
+      {
+        "id": "mutation_testing_6",
+        "text": "Prepare subject with 1500 U mutagen\nOmit primer compound\nObserve for 6 hours\nResults: Subject showed no visual changes whatsoever.  Subject reported a nausea and chest pain\nLong term results: No long-term changes."
+      },
+      {
+        "id": "mutation_testing_7",
+        "text": "Prepare subject with 1500 U primer compound\nOmit mutagen\nObserve for 6 hours\nResults: Subject reported notable increase in strength.  Physical test revealed increase in subject's physical strength for about 25%.  No other changes\nLong term results: No long-term changes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<serum_testing_regen>",
+    "text": [
+      {
+        "id": "serum_testing_regen_1",
+        "text": "Inject subject with 10 ml of 48x-\"Locutus\" compound\nObserve for 6 hours\nNote: subject has left arm amputated and bald.\nResults: Subject suffered from heavy vomiting, physical weakness, sleepiness, and sudden spiked of pain.  Subject arm was regenerated, with no functional loss, which was confirmed in future tests.  Subject hair grow showed an exceptional rate, with approximately 1 cm in 6 hours.\nLong term results: approximately 24 hours after the injection the regeneration speed returned to normal rate.  In two weeks, most of negative effects were rounded off.  Full body inspection revealed mostly positive changes, healing of previously damaged internal organs, notably liver, thyroid gland and spine.  Subject cataract were not cured, for some reason."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
@@ -343,12 +397,14 @@
       "I swear, working here is like running a preschool.  Vaughn and Kohler set up a live fire version of the new modified UGV that Davids and Amad have been working on.  Then they left it in their office, turned on, with IFF fully active.  Davids and Amad screamed like children before getting hosed down… with paintballs.  I guess they must have stayed up all night modifying the stupid thing's loadout.  On the bright side, it was funny, and really emphasized how completely terrible their IFF still is.",
       "Those ass - pardon me.  Reverse dictation and overwrite.  Our esteemed colleagues at Uncanny have pushed their version of \"deep learning heuristic AI\" public.  They're just attributing everything Melchior does to a little chip, and telling everyone it's \"deep learning and we don't fully understand it\".  Amazingly, even the comp sci experts seem to be buying it.  I guess there wasn't much chance anyone was going to guess that the central server is actually literally seeing possible futures.",
       "Today we tested weaponry against XE142 and XE157, two amorphous subprime samples.  Their form proved to be nearly invulnerable to projectile based weaponry, but they were susceptible to directed energy weapons and flagration.",
+      "Admin put in a request for additional equipment from DARPA, based on our testing with XE142 and XE157, so we can get better control some of these \"samples\".  Or at least Admin says they did, they didn't seem interested in procuring more advanced directed energy weapons (read:lasers) for just containment.",
+      "We got the replacement flamethrowers in today.  Most of the ones we'd previously received from DARPA were leftovers from the Vietnam War, you'd think the Defense Advanced Research Projects Agency wouldn't have something advanced.  The new flamethrowers work pretty much the same as the old ones, but at least they don't weigh a ton or leak.  I swear, it's like DARPA just phoned it in making these.",
       "The vivisection program has shown mixed results, revealing an incredible degree of variation in subplane lifeforms.  Certain specimens have an internal structure that is amazingly similar to that of mammals, while others seem to have no internal structure at all.",
       "We successfully induced resin expression in subject CC-09.  Once we got it expressing, we got gallons of the stuff, designated CC-09-R1.  The first few times, it hardened within a few minutes, but we managed to isolate a few samples in sealed jars to send for spectroscopy.  It seems to harden much slower in the absence of air; what exactly catalyzes the setting remains to be seen.",
       "The resin expressed by CC-09, designated CC-09-R1, was quite amenable to NMR study.  We gained some really interesting insights into how it meshes with CC-09 internal structures to form a carapace.  Siobhan thinks she can adapt the concepts to human biology, and is applying for a grant to study this further.",
       "We got a treasure trove of new specimens from XEDRA-40 today, from subplane designate 020XE.  We dubbed the samples XE142.  Due to proximity, we assumed they might share chemical properties with some of the specimens from 000XE, but so far they seem totally unrelated (which calls into question our naming conventions, but it's too late now).  The new specimens seem to be made of recognizable cellular matter, and quite biologically sophisticated.  Individuals, if XE142 can be said to have individuals, are amorphous, but complex: they form a firm outer gel coat, and ultrasound probing suggests that the XE142 matter inside coalesces into specialized internal organs.  When XE142 samples combine, the organs and coat appear to reform to suit the new, larger organism.",
       "Well-meaning exploratory teams from XEDRA-40 brought us back what they thought was a relative of XE142, from adjacent subplane 021XE.  It does not, in fact, seem to be related to me.  Like XE142, XE157 is amorphous.  There the similarities end: it is almost impervious to any attempts to sample it, regenerating rapidly from damage.  It ate my scalpel, then stretched out a pod and ate my entire tool tray before splitting in two.  We've isolated the specimens until we can figure out how to study them without driving tool budgets through the roof.  On the bright side, they're surprisingly not all that hostile, even compared to XE142.",
-      "We got a sample of what I can only describe as \"alien hamburger\" from XEDRA-40 today.  They say the probe was being chased by some kind of enormous creature in 079XE.  It managed to get an appendage through the portal, but they shut it down and it was sliced off.  The bit of claw that remained on this side rapidly degraded to mush.  We haven't been able to ascertain exactly why, but Melchior helped us model molecular coherence with the physical laws applying in 079XE: this has yielded the working hypothesis that in 079XE, it is possible for nitrogen groups to form a stable durable bond akin to a disulphide bridge.  These bonds might have been critical to holding the thing together, and when the became less stable in our world, the creature collapsed.",
+      "We got a sample of what I can only describe as \"alien hamburger\" from XEDRA-40 today.  They say the probe was being chased by some kind of enormous creature in 079XE.  It managed to get an appendage through the portal, but they shut it down and it was sliced off.  The bit of claw that remained on this side rapidly degraded to mush.  We haven't been able to ascertain exactly why, but Melchior helped us model molecular coherence with the physical laws applying in 079XE: this has yielded the working hypothesis that in 079XE, it is possible for nitrogen groups to form a stable durable bond akin to a disulfide bridge.  These bonds might have been critical to holding the thing together, and when the became less stable in our world, the creature collapsed.",
       "Admin asked us to vivisect a bunch of samples from 001AA today.  It was boring, as predicted.  We were unable to identify any functional differences between samples from our Earth, and samples from a functionally identical mirror.  What a shock.",
       "Admin has been on a kick getting us to study samples from close mirrors today.  They must have an ulterior motive, but I can't think what.  We took a look at stuff from 020-040AA.  By the later ends of it we were finding minor evolutionary differences, as expected, all well within the range of genetic drift.  Maybe tomorrow they'll get us something that diverges along the theta axis instead, and we'll prove MORE things we already knew!",
       "Spent most of the day elbow deep in samples of XE142.  If nothing else, I think dead XE142 matter could make a half decent adhesive.  Got a little on the counter and it took me hours to scrub it clean.",
@@ -394,7 +450,7 @@
       "Despite a wide variety of treatments, we have been completely unsuccessful in removing XE037 from human subjects.  Every individual displayed revivification post termination.  Interestingly, XE037 seems to be completely inert prior to termination.",
       "We have finally found success in S37BEP, our emergency investigation into the destruction of XE037 in living subjects.  8 of 10 of the subjects showed no revivification, despite confirmed dosages of XE037.",
       "PE062, our \"cure\" for XE037 contamination, has neared perfection.  Sadly, the production of PE062 is a costly and time-consuming process.  What is more, the substance shows no effect on postmortem subjects whatsoever; a substance which renders XE037 inert after it has activated would be immensely useful in the case of an outbreak.",
-      "Our cloning department has failed to produce results.  In vats containing stem cell treatments, XE037, and control vats, the subjects simply disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms.",
+      "Our cloning department has failed to produce results.  In vats containing stem cell treatments and XE037, the subjects simply disintegrated.  This suggests that XE037, while compatible with subprime lifeforms, shows only destructive effects on prime plane lifeforms.",
       "We've established a new research team specifically to look into reverse engineering the properties of sample CC-09-R1.  See notes prior to [REDACTED: See XEDRA-SILOPROTOCOL or speak to an administrator for assistance].  They managed to steal Gloria Barnhoff away from Veridian Dynamics, it's a real coup.",
       "Dr. Barnhoff already has an idea for how we could recreate some of the self-organizing properties of CC-09-R1.  Trouble is, it's pure silliness: it uses a molecular lattice of californium and a particle accelerator to basically 3D print certain types of molecules.  We had a good laugh, but she just stared at us.",
       "Admin approved Barnhoff's request.  According to my math, the californium she requested alone is worth hundreds of millions of dollars.  We're going to start work on a prototype fabricator tomorrow.",
@@ -413,9 +469,6 @@
       "Hendelson exposed a lab mouse to XE037 under control conditions.  I'm not sure how he got permission for the project.  The results were interesting: rapid uptake into the mouse's cellular tissue followed by what we presume to be a die-off, fitting previous observations that XE037 doesn't seem to be able to survive outside its native planar material.  XEDRA command is authorizing a biological research wing to take over XE037 property analysis.",
       "I swear they are talking to me.  No one believes me.  No one understands.  They whisper to me, at night, in the dark.  Please, please, make them stop.",
       "Today we found a solution to the contamination problem, quite by accident.  It was found that XE037 is completely removed from a revivified body following a series of extremely-high energy 4th dimensional transpositions.  Unfortunately, this invariably allows subplane life forms to pass into the prime plane.  The cure is worse than the disease.  Nonetheless, we'll be informing XEDRA-40 via Melchior.  Perhaps Dr. Sidhu can make some use of this information.",
-      "Today we applied a very small sample of XE037, suspended in water, to subject TP92, prior to necessary termination.  During the postmortem examination, the subject went through a revivification progress.  Dr. Thoreaux was surprised, to say the least.  She bludgeoned it back to death with a microscope.",
-      "We have created a new department to investigate the effects of XE037 on the human body, specifically to examine the revivification effect observed on two prior occasions.  Sadly, our human subject pool is dwindling due to the short lifespan of subjects in this program.  More will be acquired soon.",
-      "An experimental subject was accidentally terminated today, and revivification was again seen as in Dr. Thoreaux's report.  This time we were ready for it, and the specimen was kept for observation.  It displays no human intelligence, a true animated corpse.  We're all calling it a zombie, because seriously.  This is so cool.",
       "Testing XE037 on mouse and cat subjects does not appear to display the same revivifying effect, oddly enough.  Acquiring non-human subjects, sadly, is a long and costly process, and research into this area is lacking.  We'll send for some monkeys.",
       "Earlier conjecture that revivification occurred only in humans was premature.  Per earlier experiments, exposure introduces a persistent, low level infection in all mammal subjects, but quickly enters a form of stasis and seems to go dormant.  In most of our experimental subjects this has been enough to trigger mutagenicity, but not revivification.  New tests on a wider range of subjects seem to suggest that larger mammals - dogs and monkeys, thus far - are susceptible to both effects.",
       "The primary factor in determining revivification of mammalian subjects seems to be the amount of XE037 within the body at time of expiration.  Smaller mammals such as lab rats do not obtain this critical amount of XE037 before going dormant.  Larger canine subjects, however, do.",

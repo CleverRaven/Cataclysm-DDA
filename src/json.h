@@ -43,11 +43,12 @@ class TextJsonObject;
 class TextJsonValue;
 class item;
 
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
+// Traits class to distinguish sequences which are string like from others
+template< class, class = void >
+struct is_string_like : std::false_type { };
+template< class T >
+struct is_string_like<T, std::void_t<decltype( std::declval<T &>().substr() )>> :
+std::true_type { };
 
 template<typename T, typename Enable = void>
 struct key_from_json_string;
@@ -74,7 +75,7 @@ struct key_from_json_string<int_id<T>, void> {
 };
 
 template<typename Enum>
-struct key_from_json_string<Enum, std::enable_if_t<std::is_enum<Enum>::value>> {
+struct key_from_json_string<Enum, std::enable_if_t<std::is_enum_v<Enum>>> {
     Enum operator()( const std::string &s ) {
         return io::string_to_enum<Enum>( s );
     }
@@ -92,6 +93,19 @@ struct json_source_location {
     shared_ptr_fast<std::string> path;
     int offset = 0;
 };
+
+// careful when deleting values from this enum; they're used outside cdda code (in formatter tools)
+// please make sure to update or file an issue that an update is needed for:
+// * in CDDA repository; tools/format_emscripten/shell.html
+// * VS Code extension; https://github.com/cdda-toys/cdda-json-formatter-vscode-extension/issues/
+enum class json_error_output_colors_t : int32_t {
+    unset = 0,        // default value, will print a warning
+    no_colors = 1,    // use when error output is a redirected pipe
+    color_tags = 2,   // use when debugmsg will handle the errors in either SDL or curses mode
+    ansi_escapes = 3, // use when error output will end up in stdout: in tooling, formatters or CI
+};
+
+extern json_error_output_colors_t json_error_output_colors;
 
 class TextJsonValue
 {
@@ -287,7 +301,7 @@ class TextJsonIn
         TextJsonArray get_array();
         TextJsonValue get_value(); // just returns a TextJsonValue at the current position.
 
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
         E get_enum_value() {
             const int old_offset = tell();
             try {
@@ -390,7 +404,7 @@ class TextJsonIn
             }
         }
 
-        template<typename T, std::enable_if_t<std::is_enum<T>::value, int> = 0>
+        template<typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
         bool read( T &val, bool throw_on_error = false ) {
             int i;
             if( read( i, false ) ) {
@@ -431,9 +445,10 @@ class TextJsonIn
         }
 
         // array ~> vector, deque, list
-        template < typename T, typename std::enable_if <
-                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
-                   >
+        template < typename T, typename std::enable_if_t <
+                       !std::is_same_v<void, typename T::value_type> &&
+                       !is_string_like<T>::value
+                       > * = nullptr >
         auto read( T &v, bool throw_on_error = false ) -> decltype( v.front(), true ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -493,8 +508,8 @@ class TextJsonIn
 
         // object ~> containers with matching key_type and value_type
         // set, unordered_set ~> object
-        template <typename T, typename std::enable_if<
-                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
+        template <typename T, std::enable_if_t<
+                      std::is_same_v<typename T::key_type, typename T::value_type>> * = nullptr
                   >
         bool read( T &v, bool throw_on_error = false ) {
             if( !test_array() ) {
@@ -559,7 +574,7 @@ class TextJsonIn
 
         // special case for colony<item> as it supports RLE
         // see corresponding `write` for details
-        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr >
+        template <typename T, std::enable_if_t<std::is_same_v<T, item>> * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -609,7 +624,7 @@ class TextJsonIn
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
         // for colony of items there is another specialization with RLE
-        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
+        template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -637,8 +652,8 @@ class TextJsonIn
 
         // object ~> containers with unmatching key_type and value_type
         // map, unordered_map ~> object
-        template < typename T, typename std::enable_if <
-                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<typename T::key_type, typename T::value_type> > * = nullptr
                    >
         bool read( T &m, bool throw_on_error = true ) {
             if( !test_object() ) {
@@ -757,7 +772,7 @@ class JsonOut
         // write data to the output stream as JSON
         void write_null();
 
-        template <typename T, typename std::enable_if<std::is_fundamental<T>::value, int>::type = 0>
+        template <typename T, std::enable_if_t<std::is_fundamental_v<T>, int> = 0>
         void write( T val ) {
             if( need_separator ) {
                 write_separator();
@@ -778,13 +793,20 @@ class JsonOut
             v.serialize( *this );
         }
 
-        template <typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
+        /// Overload to be able to write reference_wrapper as normal references.
+        template<typename T>
+        auto write( const std::reference_wrapper<const T> &v ) -> decltype( v.get().serialize( *this ),
+                void() ) {
+            v.get().serialize( *this );
+        }
+
+        template <typename T, std::enable_if_t<std::is_enum_v<T>, int> = 0>
         void write( T val ) {
-            write( static_cast<typename std::underlying_type<T>::type>( val ) );
+            write( static_cast<std::underlying_type_t<T>>( val ) );
         }
 
         // strings need escaping and quoting
-        void write( const std::string &val );
+        void write( std::string_view val );
         void write( const char *val ) {
             write( std::string( val ) );
         }
@@ -814,12 +836,12 @@ class JsonOut
         }
 
         // enum ~> string
-        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type * = nullptr>
+        template <typename E, std::enable_if_t<std::is_enum_v<E>> * = nullptr>
         void write_as_string( const E value ) {
             write( io::enum_to_string<E>( value ) );
         }
 
-        void write_as_string( const std::string &s ) {
+        void write_as_string( const std::string_view s ) {
             write( s );
         }
 
@@ -852,24 +874,25 @@ class JsonOut
 
         // containers with front() ~> array
         // vector, deque, forward_list, list
-        template < typename T, typename std::enable_if <
-                       !std::is_same<void, typename T::value_type>::value >::type * = nullptr
-                   >
+        template < typename T, typename std::enable_if_t <
+                       !std::is_same_v<void, typename T::value_type> &&
+                       !is_string_like<T>::value
+                       > * = nullptr >
         auto write( const T &container ) -> decltype( container.front(), ( void )0 ) {
             write_as_array( container );
         }
 
         // containers with matching key_type and value_type ~> array
         // set, unordered_set
-        template <typename T, typename std::enable_if<
-                      std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
+        template <typename T, std::enable_if_t<
+                      std::is_same_v<typename T::key_type, typename T::value_type>> * = nullptr
                   >
         void write( const T &container ) {
             write_as_array( container );
         }
 
         // special case for item colony, adds simple RLE-based compression
-        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr>
+        template <typename T, std::enable_if_t<std::is_same_v<T, item>> * = nullptr>
         void write( const cata::colony<T> &container ) {
             start_array();
             // simple RLE implementation:
@@ -898,15 +921,15 @@ class JsonOut
 
         // special case for colony, since it doesn't fit in other categories
         // for colony of items there is another specialization with RLE
-        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
+        template < typename T, std::enable_if_t < !std::is_same_v<T, item> > * = nullptr >
         void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
 
         // containers with unmatching key_type and value_type ~> object
         // map, unordered_map ~> object
-        template < typename T, typename std::enable_if <
-                       !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
+        template < typename T, std::enable_if_t <
+                       !std::is_same_v<typename T::key_type, typename T::value_type> > * = nullptr
                    >
         void write( const T &map ) {
             start_object();
@@ -920,19 +943,19 @@ class JsonOut
 
         // convenience methods for writing named object members
         // TODO: enforce value after
-        void member( const std::string &name );
-        void null_member( const std::string &name );
-        template <typename T> void member( const std::string &name, const T &value ) {
+        void member( std::string_view name );
+        void null_member( std::string_view name );
+        template <typename T> void member( const std::string_view name, const T &value ) {
             member( name );
             write( value );
         }
-        template <typename T> void member( const std::string &name, const T &value,
+        template <typename T> void member( const std::string_view name, const T &value,
                                            const T &value_default ) {
             if( value != value_default ) {
                 member( name, value );
             }
         }
-        template <typename T> void member_as_string( const std::string &name, const T &value ) {
+        template <typename T> void member_as_string( const std::string_view name, const T &value ) {
             member( name );
             write_as_string( value );
         }
@@ -1015,7 +1038,7 @@ class JsonOut
 class TextJsonObject
 {
     private:
-        std::map<std::string, int> positions;
+        std::map<std::string, int, std::less<>> positions;
         int start;
         int end_;
         bool final_separator;
@@ -1024,11 +1047,11 @@ class TextJsonObject
         mutable bool report_unvisited_members = true;
         mutable bool reported_unvisited_members = false;
 #endif
-        void mark_visited( const std::string &name ) const;
+        void mark_visited( std::string_view name ) const;
         void report_unvisited() const;
 
         TextJsonIn *jsin;
-        int verify_position( const std::string &name,
+        int verify_position( std::string_view name,
                              bool throw_exception = true ) const;
 
     public:
@@ -1062,25 +1085,25 @@ class TextJsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error_at( const std::string &name, const std::string &err ) const;
+        [[noreturn]] void throw_error_at( std::string_view name, const std::string &err ) const;
         // seek to a value and return a pointer to the TextJsonIn (member must exist)
-        TextJsonIn *get_raw( const std::string &name ) const;
-        TextJsonValue get_member( const std::string &name ) const;
+        TextJsonIn *get_raw( std::string_view name ) const;
+        TextJsonValue get_member( std::string_view name ) const;
         json_source_location get_source_location() const;
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
         // variants with a fallback return the fallback value in stead.
-        bool get_bool( const std::string &name ) const;
-        bool get_bool( const std::string &name, bool fallback ) const;
-        int get_int( const std::string &name ) const;
-        int get_int( const std::string &name, int fallback ) const;
-        double get_float( const std::string &name ) const;
-        double get_float( const std::string &name, double fallback ) const;
-        std::string get_string( const std::string &name ) const;
-        std::string get_string( const std::string &name, const std::string &fallback ) const;
+        bool get_bool( std::string_view name ) const;
+        bool get_bool( std::string_view name, bool fallback ) const;
+        int get_int( std::string_view name ) const;
+        int get_int( std::string_view name, int fallback ) const;
+        double get_float( std::string_view name ) const;
+        double get_float( std::string_view name, double fallback ) const;
+        std::string get_string( std::string_view name ) const;
+        std::string get_string( std::string_view name, const std::string &fallback ) const;
 
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
         E get_enum_value( const std::string &name, const E fallback ) const {
             if( !has_member( name ) ) {
                 return fallback;
@@ -1089,8 +1112,8 @@ class TextJsonObject
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
         }
-        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
-        E get_enum_value( const std::string &name ) const {
+        template<typename E, typename = std::enable_if_t<std::is_enum_v<E>>>
+        E get_enum_value( const std::string_view name ) const {
             mark_visited( name );
             jsin->seek( verify_position( name ) );
             return jsin->get_enum_value<E>();
@@ -1098,33 +1121,33 @@ class TextJsonObject
 
         // containers by name
         // get_array returns empty array if the member is not found
-        TextJsonArray get_array( const std::string &name ) const;
-        std::vector<int> get_int_array( const std::string &name ) const;
-        std::vector<std::string> get_string_array( const std::string &name ) const;
+        TextJsonArray get_array( std::string_view name ) const;
+        std::vector<int> get_int_array( std::string_view name ) const;
+        std::vector<std::string> get_string_array( std::string_view name ) const;
         // returns a single element array if the sype is string instead of array
-        std::vector<std::string> get_as_string_array( const std::string &name ) const;
+        std::vector<std::string> get_as_string_array( std::string_view name ) const;
         // get_object returns empty object if not found
-        TextJsonObject get_object( const std::string &name ) const;
+        TextJsonObject get_object( std::string_view name ) const;
 
         // get_tags returns empty set if none found
         template<typename T = std::string, typename Res = std::set<T>>
-        Res get_tags( const std::string &name ) const;
+        Res get_tags( std::string_view name ) const;
 
         // TODO: some sort of get_map(), maybe
 
         // type checking
-        bool has_null( const std::string &name ) const;
-        bool has_bool( const std::string &name ) const;
-        bool has_number( const std::string &name ) const;
-        bool has_int( const std::string &name ) const {
+        bool has_null( std::string_view name ) const;
+        bool has_bool( std::string_view name ) const;
+        bool has_number( std::string_view name ) const;
+        bool has_int( const std::string_view name ) const {
             return has_number( name );
         }
-        bool has_float( const std::string &name ) const {
+        bool has_float( const std::string_view name ) const {
             return has_number( name );
         }
-        bool has_string( const std::string &name ) const;
-        bool has_array( const std::string &name ) const;
-        bool has_object( const std::string &name ) const;
+        bool has_string( std::string_view name ) const;
+        bool has_array( std::string_view name ) const;
+        bool has_object( std::string_view name ) const;
 
         // non-fatally read values by reference
         // return true if the value was set.
@@ -1132,7 +1155,7 @@ class TextJsonObject
         // throw_on_error dictates the behavior when the member was present
         // but the read fails.
         template <typename T>
-        bool read( const std::string &name, T &t, bool throw_on_error = true ) const {
+        bool read( const std::string_view name, T &t, bool throw_on_error = true ) const {
             int pos = verify_position( name, false );
             if( !pos ) {
                 return false;
@@ -1539,7 +1562,7 @@ Res TextJsonArray::get_tags( const size_t index ) const
 }
 
 template <typename T, typename Res>
-Res TextJsonObject::get_tags( const std::string &name ) const
+Res TextJsonObject::get_tags( const std::string_view name ) const
 {
     Res res;
     int pos = verify_position( name, false );
@@ -1570,12 +1593,12 @@ Res TextJsonObject::get_tags( const std::string &name ) const
  * array (which should be a string) add it to the given set.
  */
 void add_array_to_set( std::set<std::string> &, const TextJsonObject &json,
-                       const std::string &name );
+                       std::string_view name );
 
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+void serialize( const std::optional<T> &obj, JsonOut &jsout )
 {
     if( obj ) {
         jsout.write( *obj );
@@ -1585,7 +1608,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, const TextJsonValue &jsin )
+void deserialize( std::optional<T> &obj, const TextJsonValue &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();

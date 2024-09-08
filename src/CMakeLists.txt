@@ -1,10 +1,8 @@
-cmake_minimum_required(VERSION 3.21)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/third-party)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/third-party)
-
-set(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
-set(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
-set(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
+set(MAIN_CPP ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+set(MESSAGES_CPP ${CMAKE_CURRENT_SOURCE_DIR}/messages.cpp)
+set(RESOURCE_RC ${CMAKE_CURRENT_SOURCE_DIR}/resource.rc)
 
 if (WIN32)
     set(RSRC_RC_DEP "${CMAKE_SOURCE_DIR}/data/cataicon.ico")
@@ -15,25 +13,21 @@ if (WIN32)
             OBJECT_DEPENDS "${RSRC_RC_DEP}")
 endif ()
 
-file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB CATACLYSM_DDA_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 list(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
-file(GLOB CATACLYSM_DDA_HEADERS ${CMAKE_SOURCE_DIR}/src/*.h)
+file(GLOB CATACLYSM_DDA_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 
 # Get GIT version strings
 add_custom_target(
         get_version
-        DEPENDS ${CMAKE_SOURCE_DIR}/src/version.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/version.h
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_custom_command(
-        OUTPUT ${CMAKE_SOURCE_DIR}/src/version.h
-        COMMAND ${CMAKE_COMMAND}
-                -D SRC=${CMAKE_SOURCE_DIR}/src/version.h.in
-                -D DST=${CMAKE_SOURCE_DIR}/src/version.h
-                -D GIT_EXECUTABLE=${GIT_EXECUTABLE}
-                -P ${CMAKE_SOURCE_DIR}/src/version.cmake
+        OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/version.h
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_SOURCE_DIR}/version.cmake
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # Build tiles version if requested
@@ -42,7 +36,7 @@ if (TILES)
             cataclysm-tiles-common OBJECT
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
-    target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
     target_link_libraries(cataclysm-tiles-common PUBLIC third-party)
 
@@ -53,6 +47,28 @@ if (TILES)
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        if(MSYS2)
+            set(_KEEP $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            --only-keep-debug
+            $<TARGET_FILE:cataclysm-tiles>
+            $<TARGET_FILE:cataclysm-tiles>.debug
+            >)
+            set(_STRIP $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            --strip-unneeded
+            --add-gnu-debuglink=$<TARGET_FILE:cataclysm-tiles>.debug
+            $<TARGET_FILE:cataclysm-tiles>
+            >)
+            add_custom_command(TARGET cataclysm-tiles POST_BUILD
+                COMMAND "${_KEEP}"
+                COMMAND "${_STRIP}"
+                COMMAND_EXPAND_LISTS
+            )
+        else()
+            # Use only our RT_MANIFEST from resource.rc
+            target_link_options(cataclysm-tiles PRIVATE
+                "LINKER:/MANIFEST:NO"
+            )
+        endif()
     else ()
         add_executable(cataclysm-tiles
                 ${MAIN_CPP}
@@ -61,7 +77,7 @@ if (TILES)
 
     add_dependencies(cataclysm-tiles-common get_version)
 
-    target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
+    target_link_libraries(cataclysm-tiles PRIVATE cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-tiles-common PUBLIC
@@ -71,7 +87,7 @@ if (TILES)
         target_include_directories(cataclysm-tiles-common PUBLIC
                 ${LIBINTL_INCLUDE_DIR}
                 ${ICONV_INCLUDE_DIR})
-        target_link_libraries(cataclysm-tiles-common
+        target_link_libraries(cataclysm-tiles-common PUBLIC
                 ${LIBINTL_LIBRARIES}
                 ${ICONV_LIBRARIES})
     endif ()
@@ -85,51 +101,29 @@ if (TILES)
     endif ()
 
     if (NOT DYNAMIC_LINKING)
-        # SDL, SDL_Image, SDL_ttf deps are required for static build
-        target_include_directories(cataclysm-tiles-common PUBLIC
-                ${FREETYPE_INCLUDE_DIRS}
-                ${PNG_INCLUDE_DIRS}
-                ${JPEG_INCLUDE_DIR}
-                ${BZIP2_INCLUDE_DIR})
         target_link_libraries(cataclysm-tiles-common PUBLIC
-                ${FREETYPE_LIBRARIES}
-                ${PNG_LIBRARIES}
-                ${JPEG_LIBRARIES}
-                ${BZIP2_LIBRARIES})
-        target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2-static)
+            SDL2::SDL2-static
+            SDL2_image::SDL2_image-static
+            SDL2_ttf::SDL2_ttf-static
+        )
+    else()
+        target_link_libraries(cataclysm-tiles-common PUBLIC
+            SDL2::SDL2
+            SDL2_image::SDL2_image
+            SDL2_ttf::SDL2_ttf
+        )
     endif ()
-    target_include_directories(cataclysm-tiles-common PUBLIC
-            ${SDL2_INCLUDE_DIR}
-            ${SDL2_IMAGE_INCLUDE_DIRS}
-            ${SDL2_TTF_INCLUDE_DIRS}
-            ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(cataclysm-tiles-common PUBLIC
-            ${SDL2_LIBRARY}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_TTF_LIBRARIES}
-            ${ZLIB_LIBRARIES})
-    if(TARGET SDL2::SDL2)
-        target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2
-            SDL2::SDL2main
-            SDL2::SDL2_image
-            SDL2::SDL2_ttf)
-    endif()
     if (SOUND)
-        if (VCPKG_MANIFEST_MODE)
-            find_package(Ogg REQUIRED)
-            find_package(Vorbis REQUIRED)
-            # SDL2_mixer::SDL2_mixer-static = TODO x64-mingw-static ?
-            target_link_libraries(cataclysm-tiles-common PUBLIC SDL2::SDL2_mixer
-                Ogg::ogg
-                Vorbis::vorbis)
+        if (NOT DYNAMIC_LINKING)
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer-static
+            )
+        else()
+            target_link_libraries(cataclysm-tiles-common PUBLIC
+                SDL2_mixer::SDL2_mixer
+            )
         endif()
-        target_compile_definitions(cataclysm-tiles-common PUBLIC SDL_SOUND )
-        target_include_directories(cataclysm-tiles-common PUBLIC ${OGGVORBIS_INCLUDE_DIR})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${OGG_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${VORBIS_LIBRARY})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${VORBISFILE_LIBRARY})
-        target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-        target_link_libraries(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_LIBRARIES})
+        add_definitions(-DSDL_SOUND)
     endif ()
 
     if (WIN32)
@@ -150,6 +144,8 @@ if (TILES)
                 target_link_libraries(cataclysm-tiles-common PUBLIC backtrace)
             endif ()
         endif ()
+    elseif (APPLE)
+        target_link_libraries(cataclysm-tiles-common PUBLIC "-framework CoreFoundation")
     endif ()
 
     if (LIBBACKTRACE)
@@ -157,7 +153,7 @@ if (TILES)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm-tiles DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm-tiles RUNTIME)
     endif ()
 endif ()
 
@@ -166,15 +162,21 @@ if (CURSES)
     add_library(cataclysm-common OBJECT
             ${CATACLYSM_DDA_SOURCES}
             ${CATACLYSM_DDA_HEADERS})
-    target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-common INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
-    target_link_libraries(cataclysm-common third-party)
+    target_link_libraries(cataclysm-common PUBLIC third-party)
 
     if (WIN32)
         add_executable(cataclysm
                 ${MAIN_CPP}
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
+        if(NOT MINGW)
+            # Use only our RT_MANIFEST from resource.rc
+            target_link_options(cataclysm PRIVATE
+                "LINKER:/MANIFEST:NO"
+            )
+        endif()
     else ()
         add_executable(cataclysm
                 ${MAIN_CPP}
@@ -182,47 +184,54 @@ if (CURSES)
     endif ()
 
     add_dependencies(cataclysm-common get_version)
-    target_link_libraries(cataclysm cataclysm-common)
+    target_link_libraries(cataclysm PRIVATE cataclysm-common)
 
     if (LOCALIZE)
         target_include_directories(cataclysm-common PUBLIC
                 ${LIBINTL_INCLUDE_DIR}
                 ${ICONV_INCLUDE_DIR})
-        target_link_libraries(cataclysm-common
+        target_link_libraries(cataclysm-common PUBLIC
                 ${LIBINTL_LIBRARIES}
                 ${ICONV_LIBRARIES})
     endif ()
 
-    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR} ${ZLIB_INCLUDE_DIRS})
-    target_link_libraries(cataclysm-common ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
+    target_include_directories(cataclysm-common PUBLIC
+        ${CURSES_INCLUDE_DIR} ${NCURSES_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS}
+    )
+    target_link_libraries(cataclysm-common PUBLIC ${CURSES_LIBRARIES} ${ZLIB_LIBRARIES})
 
     if (CMAKE_USE_PTHREADS_INIT)
         target_compile_options(cataclysm-common PUBLIC "-pthread")
     endif ()
 
     if (CMAKE_THREAD_LIBS_INIT)
-        target_link_libraries(cataclysm-common ${CMAKE_THREAD_LIBS_INIT})
+        target_link_libraries(cataclysm-common PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     endif ()
 
     if (WIN32)
         # Global settings for Windows targets (at end)
-        target_link_libraries(cataclysm-common gdi32.lib)
-        target_link_libraries(cataclysm-common winmm.lib)
-        target_link_libraries(cataclysm-common imm32.lib)
-        target_link_libraries(cataclysm-common ole32.lib)
-        target_link_libraries(cataclysm-common oleaut32.lib)
-        target_link_libraries(cataclysm-common version.lib)
+        if(USE_PDCURSES)
+            target_compile_definitions(cataclysm-common PUBLIC USE_PDCURSES)
+        endif()
+        target_link_libraries(cataclysm-common PUBLIC gdi32.lib)
+        target_link_libraries(cataclysm-common PUBLIC winmm.lib)
+        target_link_libraries(cataclysm-common PUBLIC imm32.lib)
+        target_link_libraries(cataclysm-common PUBLIC ole32.lib)
+        target_link_libraries(cataclysm-common PUBLIC oleaut32.lib)
+        target_link_libraries(cataclysm-common PUBLIC version.lib)
         if (BACKTRACE)
-            target_link_libraries(cataclysm-common dbghelp.lib)
+            target_link_libraries(cataclysm-common PUBLIC dbghelp.lib)
         endif ()
+    elseif (APPLE)
+        target_link_libraries(cataclysm-common PUBLIC "-framework CoreFoundation")
     endif ()
 
     if (LIBBACKTRACE)
-        target_link_libraries(cataclysm-tiles-common backtrace)
+        target_link_libraries(cataclysm-common PUBLIC backtrace)
     endif ()
 
     if (RELEASE)
-        install(TARGETS cataclysm DESTINATION ${BIN_PREFIX})
+        install(TARGETS cataclysm RUNTIME)
     endif ()
 endif ()
 
@@ -301,5 +310,5 @@ if (MINGW AND NOT RELEASE)
             ${RuntimeLib_LOCALIZE}
             ${RuntimeLib_SDL}
             ${RuntimeLib_SDL_SOUND}
-            DESTINATION ${BIN_PREFIX})
+            TYPE BIN)
 endif ()

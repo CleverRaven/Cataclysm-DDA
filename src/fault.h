@@ -2,93 +2,96 @@
 #ifndef CATA_SRC_FAULT_H
 #define CATA_SRC_FAULT_H
 
-#include <iosfwd>
 #include <map>
-#include <new>
+#include <memory>
 #include <set>
 #include <string>
 
 #include "calendar.h"
-#include "optional.h"
-#include "translations.h"
+#include "memory_fast.h"
+#include "requirements.h"
+#include "translation.h"
 #include "type_id.h"
 
+template <typename T> class generic_factory;
+
+class fault;
+class fault_fix;
 class JsonObject;
+struct requirement_data;
 
-struct mending_method {
+namespace faults
+{
+void load_fault( const JsonObject &jo, const std::string &src );
+void load_fix( const JsonObject &jo, const std::string &src );
+
+void reset();
+void finalize();
+void check_consistency();
+
+const fault_id &get_random_of_type_item_can_have( const item &it, const std::string &type );
+
+const fault_id &random_of_type( const std::string &type );
+const fault_id &random_of_type_item_has( const item &it, const std::string &type );
+} // namespace faults
+
+class fault_fix
+{
     public:
-        std::string id;
+        fault_fix_id id = fault_fix_id::NULL_ID();
         translation name;
-        translation description;
-        translation success_msg;
-        time_duration time;
-        std::map<std::string, std::string> set_variables;
-        std::map<skill_id, int> skills;
-        cata::optional<fault_id> turns_into;
-        cata::optional<fault_id> also_mends;
-        cata::optional<int> heal_stages;
+        translation success_msg; // message to print on applying successfully
+        time_duration time = 0_seconds;
+        std::map<std::string, std::string> set_variables; // item vars applied to item
+        // item vars adjustment(s) applied to item via multiplication; // item vars adjustment(s) applied to item via multiplication
+        std::map<std::string, double> adjust_variables_multiply;
+        std::map<skill_id, int> skills; // map of skill_id to required level
+        std::set<fault_id> faults_removed; // which faults are removed on applying
+        std::set<fault_id> faults_added; // which faults are added on applying
+        int mod_damage = 0; // mod_damage with this value is called on item applied to
+        int mod_degradation = 0; // mod_degradation with this value is called on item applied to
+        std::map<proficiency_id, float>
+        time_save_profs; // map of proficiency_id and the time saving for posessing it
+        std::map<flag_id, float>
+        time_save_flags; // map of flag_id and the time saving for the mendee item posessing it
 
-        requirement_data get_requirements() const;
+        const requirement_data &get_requirements() const;
+
+        void finalize();
     private:
+        void load( const JsonObject &jo, std::string_view src );
+        void check() const;
+        bool was_loaded = false; // used by generic_factory
+        friend class generic_factory<fault_fix>;
         friend class fault;
-        std::vector<std::pair<requirement_id, int>> requirements;
+        shared_ptr_fast<requirement_data> requirements = make_shared_fast<requirement_data>();
 };
 
 class fault
 {
     public:
-        fault() : id_( fault_id( "null" ) ) {}
+        fault_id id = fault_id::NULL_ID();
+        std::string name() const;
+        std::string type() const; // use a set of types?
+        std::string description() const;
+        std::string item_prefix() const;
+        double price_mod() const;
+        bool has_flag( const std::string &flag ) const;
 
-        const fault_id &id() const {
-            return id_;
-        }
-
-        bool is_null() const {
-            return id_ == fault_id( "null" );
-        }
-
-        std::string name() const {
-            return name_.translated();
-        }
-
-        std::string description() const {
-            return description_.translated();
-        }
-
-        const std::map<std::string, mending_method> &mending_methods() const {
-            return mending_methods_;
-        }
-
-        const mending_method *find_mending_method( const std::string &id ) const {
-            if( mending_methods_.find( id ) != mending_methods_.end() ) {
-                return &mending_methods_.at( id );
-            } else {
-                return nullptr;
-            }
-        }
-
-        bool has_flag( const std::string &flag ) const {
-            return flags.count( flag );
-        }
-
-        /** Load fault from JSON definition */
-        static void load_fault( const JsonObject &jo );
-
-        /** Get all currently loaded faults */
-        static const std::map<fault_id, fault> &all();
-
-        /** Clear all loaded faults (invalidating any pointers) */
-        static void reset();
-
-        /** Checks all loaded from JSON are valid */
-        static void check_consistency();
-
+        const std::set<fault_fix_id> &get_fixes() const;
     private:
-        fault_id id_;
+        void load( const JsonObject &jo, std::string_view );
+        void check() const;
+        bool was_loaded = false; // used by generic_factory
+        friend class generic_factory<fault>;
+        friend class fault_fix;
+        std::string type_;
         translation name_;
         translation description_;
-        std::map<std::string, mending_method> mending_methods_;
+        translation item_prefix_; // prefix added to affected item's name
+        std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
+        double price_modifier = 1.0;
 };
 
 #endif // CATA_SRC_FAULT_H

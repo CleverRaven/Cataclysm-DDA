@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <title>Cataclysm DDA JSON formatter</title>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                color-scheme: dark;
+                --bg: #333;
+                --text: #eee;
+                --textarea: #222;
+                --bad-json-alert: #c30;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                color-scheme: light;
+                --bg: #888;
+                --text: #111;
+                --textarea: #aaa;
+                --bad-json-alert: #c30;
+            }
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background-color: var(--bg);
+            font-family: sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-flow: column;
+        }
+
+        .row {
+            flex: 1;
+            display: flex;
+            flex-flow: row;
+        }
+
+        .col {
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+            margin: 4px;
+        }
+
+        label {
+            font-weight: bold;
+            padding: 1em 2em;
+        }
+
+        textarea {
+            flex: 1;
+            display: block;
+            margin: 0;
+            padding: 4px;
+            border: 1px solid;
+            resize: none;
+            font-family: monospace;
+            background-color: var(--textarea);
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: scroll;
+        }
+
+        #json_error_alert {
+            font-size: larger;
+            font-weight: bold;
+            text-align: center;
+            background-color: var(--bad-json-alert);
+            padding: 16px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col">
+            <label for="json_input">Paste unformatted JSON on left side</label>
+            <textarea id="json_input" placeholder="Paste unformatted JSON on left side"></textarea>
+            <span id="json_error_alert">JSON has errors, can't format!</span>
+        </div>
+        <div class="col">
+            <label for="json_output">Copy formatted JSON from right side</label>
+            <textarea id="json_output" readonly onClick="this.select()"></textarea>
+        </div>
+    </div>
+    {{{ SCRIPT }}}
+    <script>
+
+        let json_input = document.getElementById("json_input");
+        let json_output = document.getElementById("json_output");
+        let json_error_alert = document.getElementById("json_error_alert");
+
+        json_input.placeholder =
+            "\n    Paste your unformatted json into this area, and" +
+            "\n    it will be formatted on the right side." +
+            "\n" +
+            "\n    If there is an error you need to fix it first.";
+
+        json_output.placeholder = "\n    Formatter is loading." +
+            "\n    This tool needs javascript enabled, " +
+            "\n    and a modern browser.";
+
+        json_formatter().then(function (module) {
+            // parameters are the unformatted input string and an int representing json_error_output_colors_t
+            // for possible values see the enum definition in json.h, return value is the formatted string or
+            // error message
+            let json_format = module.cwrap("json_format", "string", ["string", "int"]);
+            const json_error_output_colors_t_no_colors = 1;
+
+            json_output.placeholder =
+                "\n\n    Formatter ready."
+                + "\n    Paste into panel on the left to format.";
+
+            json_input.oninput = function () {
+                if (json_input.value.length < 1) {
+                    json_error_alert.style.display = "none";
+                    json_output.value = "";
+                    return;
+                }
+                // not all invalid json is rejected by the cata formatter,
+                // filter early using the browser's parser instead
+                try {
+                    // https://stackoverflow.com/a/20392392
+                    let o = JSON.parse(json_input.value);
+                    if (o && typeof o === "object") {
+                        let formatted = json_format(json_input.value, json_error_output_colors_t_no_colors);
+                        json_error_alert.style.display =
+                            (formatted.startsWith("Json error")
+                                ? "block" : "none");
+                        json_output.value = formatted;
+                        return;
+                    }
+                } catch (e) {
+                    json_error_alert.style.display = "block";
+                    json_output.value = e.message;
+                    return;
+                }
+                json_error_alert.style.display = "block";
+                json_output.value =
+                    "Cataclysm JSON must start with array or object";
+            };
+        });
+
+    </script>
+</body>
+
+</html>

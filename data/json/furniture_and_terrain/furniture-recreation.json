@@ -76,12 +76,12 @@
     "id": "f_pool_table",
     "name": "pool table",
     "symbol": "#",
-    "description": "A large wooden table with green felt carpeting on top, and a set of symmetrical holes that carry billiards balls to an opening on one side.  While not the most useful as a normal table, there is a substantial amount of wood.",
+    "description": "A large wooden table with green felt carpeting on top, and a set of symmetrical holes that carry billiard balls to an opening on one side.  While not a good substitute for a normal table, you could take it apart for a substantial amount of wood.",
     "color": "green",
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },
@@ -125,7 +125,7 @@
     "type": "furniture",
     "id": "f_target",
     "name": "target",
-    "description": "A long sheet of metal held upright by a pipe frame, the sheet is cut in a roughly human shape.  There are two bullseye targets painted onto it, a large one on the torso, and a smaller one on the head.  It is peppered with small dents and holes, and a large amount of the paint has flaked or chipped off.",
+    "description": "A long sheet of metal, cut into a roughly human shape and held upright by a pipe frame.  There are two bullseye targets painted onto it, a large one on the torso, and a smaller one on the head.  It is peppered with small dents and holes, and a large amount of the paint has flaked or chipped off.",
     "symbol": "@",
     "color": "black",
     "move_cost_mod": 2,
@@ -151,7 +151,7 @@
     "coverage": 75,
     "required_str": 12,
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "arcade_machine" },
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "arcade_machine", "count": 1 } ] },
     "bash": {
       "str_min": 6,
@@ -180,7 +180,7 @@
     "move_cost_mod": -1,
     "coverage": 35,
     "required_str": 8,
-    "flags": [ "BLOCKSDOOR", "TRANSPARENT" ],
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "spring", "count": [ 4, 6 ] },
@@ -267,7 +267,7 @@
     "type": "furniture",
     "id": "f_ergometer_mechanical",
     "name": "mechanical ergometer",
-    "description": "An exercise machine with a set of handles and plates meant to emulate rowing a boat.  This an older model with mechanical resistance adjustments, but it works without power.",
+    "description": "An exercise machine with a set of handles and plates meant to emulate rowing a boat.  This an older model with mechanical resistance adjustments, so it works without power.",
     "symbol": "5",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -346,7 +346,7 @@
     "type": "furniture",
     "id": "f_treadmill_mechanical",
     "name": "gravity treadmill",
-    "description": "A gravity driven conveyor belt with a mechanical control panel for running in place.  Conveyor belt is positioned in a steep, but adjustable incline, so it slides back under your weight.",
+    "description": "A gravity-driven conveyor belt with a mechanical control panel for running in place.  The belt is positioned on an adjustable incline, so it slides back under your weight without needing to be powered.",
     "symbol": "L",
     "color": "dark_gray",
     "move_cost_mod": 1,
@@ -382,7 +382,7 @@
     "alias": "f_floor_canvas",
     "looks_like": "f_floor_canvas",
     "name": "heavy punching bag",
-    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
+    "description": "A hefty, oblong leather bag, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
     "symbol": "0",
     "color": "dark_gray",
     "move_cost_mod": -1,
@@ -397,8 +397,7 @@
         { "item": "nuts_bolts", "charges": 4 },
         { "item": "chain", "count": 4 },
         { "item": "blanket", "count": 6 },
-        { "item": "material_sand", "charges": 4000 },
-        { "item": "bag_plastic", "count": 4 }
+        { "item": "material_sand", "charges": 4000 }
       ]
     },
     "bash": {
@@ -411,7 +410,8 @@
         { "item": "leather", "count": [ 16, 32 ] },
         { "item": "tanned_hide", "count": [ 0, 4 ] },
         { "item": "material_sand", "charges": 4000 },
-        { "item": "cotton_patchwork", "count": [ 33, 66 ] }
+        { "item": "sheet_cotton", "count": [ 4, 8 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 4 ] }
       ]
     }
   },
@@ -419,24 +419,16 @@
     "type": "furniture",
     "id": "f_piano",
     "name": "piano",
-    "description": "An elegant piano, capable of producing beautiful music if used by a skilled player.  A set of off-white and black keys all linked to a set of hammers, which strike their corresponding tightly-coiled wire to produce sound.",
+    "description": "An elegant piano, capable of producing beautiful music if used by a skilled player.  A set of off-white and black keys are linked to a set of hammers, which strike their corresponding tightly-coiled wire to produce sound.",
     "symbol": "P",
     "color": "i_black",
     "move_cost_mod": 6,
     "coverage": 70,
     "required_str": 8,
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
-    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR" ],
-    "deconstruct": {
-      "items": [
-        { "item": "2x4", "count": 12 },
-        { "item": "nail", "charges": [ 8, 12 ] },
-        { "item": "qt_wire", "count": [ 10, 26 ] },
-        { "item": "wheel_caster", "count": [ 0, 1 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "plastic_chunk", "count": [ 1, 10 ] }
-      ]
-    },
+    "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
+    "deconstruct": { "items": [ { "item": "piano", "count": 1 } ] },
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -455,7 +447,7 @@
     "type": "furniture",
     "id": "f_speaker_cabinet",
     "name": "speaker cabinet",
-    "description": "An upright wood-panel case of large speakers, built to produce a potentially deafening volume level.  While this is a terrible idea to use now, it could hold useful parts.",
+    "description": "An upright wood-panel case of large speakers, built to produce a potentially deafening volume level.  While it would be a terrible idea to use this now, it could hold useful parts.",
     "symbol": "7",
     "color": "blue",
     "move_cost_mod": -1,
@@ -526,7 +518,7 @@
     "move_cost_mod": 2,
     "coverage": 50,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 4 },
@@ -554,13 +546,13 @@
     "type": "furniture",
     "id": "f_organ",
     "name": "pipe organ",
-    "description": "A majestic pipe organ.  Dubbed \"the king of instruments\", it is capable of producing powerful sound harmonies if used by a skilled player.  Rows of off-white and black keys all linked to a set of iron pipes, which resonate at a specific pitch when pressurized air is driven through them.",
+    "description": "A majestic pipe organ.  Dubbed \"the king of instruments\", it is capable of producing powerful sound harmonies if used by a skilled player.  Rows of off-white and black keys are linked to a set of iron pipes, which resonate at a specific pitch when pressurized air is driven through them.",
     "symbol": "P",
     "color": "i_brown",
     "move_cost_mod": -1,
     "coverage": 100,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "ORGANIC", "NOITEM" ],
+    "flags": [ "FLAMMABLE", "ORGANIC", "NOITEM", "SMALL_HIDE" ],
     "looks_like": "f_piano",
     "deconstruct": {
       "items": [
@@ -595,7 +587,7 @@
     "type": "furniture",
     "id": "f_training_dummy_light",
     "name": "training dummy",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and it has some duct tape to mark the striking points.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is made from wood and has some duct tape to mark the striking points.  It has been erected in the ground on its post.",
     "symbol": "@",
     "color": "brown",
     "move_cost_mod": 9,
@@ -619,7 +611,7 @@
     "type": "furniture",
     "id": "f_training_dummy_heavy",
     "name": "armored training dummy",
-    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.",
+    "description": "A hand-made humanoid figure, useful for training in close quarters combat.  This one is covered in scrap armor and looks on guard.  It has been erected in the ground on its post.",
     "symbol": "@",
     "color": "brown",
     "move_cost_mod": 11,
@@ -657,7 +649,11 @@
       "str_max": 12,
       "sound": "whish!",
       "sound_fail": "whish.",
-      "items": [ { "item": "cardboard", "count": [ 20, 80 ] }, { "item": "cotton_patchwork", "count": [ 50, 175 ] } ]
+      "items": [
+        { "item": "cardboard", "count": [ 20, 80 ] },
+        { "item": "sheet_cotton", "count": [ 6, 21 ] },
+        { "item": "cotton_patchwork", "count": [ 2, 7 ] }
+      ]
     }
   },
   {

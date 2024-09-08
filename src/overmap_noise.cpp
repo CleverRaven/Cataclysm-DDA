@@ -35,4 +35,14 @@ float om_noise_layer_lake::noise_at( const point_om_omt &local_omt_pos ) const
     return r;
 }
 
+float om_noise_layer_ocean::noise_at( const point_om_omt &local_omt_pos ) const
+{
+    // this is a duplicate of lake noise.  Changing it might cause artifacts if oceans
+    // and lakes intersect.
+    const point_abs_omt p = global_omt_pos( local_omt_pos );
+    float r = scaled_octave_noise_3d( 8, 0.5, 0.002, 0, 1, p.x(), p.y(), get_seed() );
+    r = std::pow( r, 4.0f );
+    return r;
+}
+
 } // namespace om_noise

@@ -3,6 +3,7 @@
     "type": "recipe",
     "result": "faction_base_lightindustry_alt_0",
     "description": "We should survey the base site and set up a bulletin board.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -24,7 +25,8 @@
   {
     "type": "recipe",
     "result": "fbmc_lightindustry_10_barricades_wood",
-    "description": "We must barricade windows, let's use wooden walls.",
+    "description": "We must barricade the windows, let's use wooden walls.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -33,7 +35,6 @@
     "blueprint_name": "wooden barricades",
     "blueprint_provides": [
       { "id": "fbmc_lightindustry_10_barricades" },
-      { "id": "bed", "amount": 2 },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "fbmc_lightindustry_10_barricades" }
@@ -44,7 +45,8 @@
   {
     "type": "recipe",
     "result": "fbmc_lightindustry_10_barricades_migo",
-    "description": "We must barricade windows, let's use resin walls.",
+    "description": "We must barricade the windows, let's use mi-go resin walls.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -53,7 +55,6 @@
     "blueprint_name": "resin barricades",
     "blueprint_provides": [
       { "id": "fbmc_lightindustry_10_barricades" },
-      { "id": "bed", "amount": 2 },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "fbmc_lightindustry_10_barricades" }
@@ -64,7 +65,8 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_root_cellar",
-    "description": "Digging a root cellar will allow us trapping small game and preserving it.",
+    "description": "Digging a root cellar will allow us to preserve any small game that we trap.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -78,7 +80,8 @@
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_butchery_rack",
-    "description": "Building a butchery rack will allow us hunting bigger animals.",
+    "description": "Building a butchery rack will allow us to hunt bigger animals.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -93,6 +96,7 @@
     "type": "recipe",
     "result": "faction_base_lightindustry_10_water_well",
     "description": "Digging a well will give us easy access to water and allow us to send out combat patrols or scouts.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -107,6 +111,7 @@
     "type": "recipe",
     "result": "faction_base_lightindustry_10_radio",
     "description": "Let's set up a radio tower to improve our recruitment efforts.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -114,13 +119,14 @@
     "construction_blueprint": "fbmc_lightindustry_10_radio",
     "blueprint_name": "radio tower",
     "blueprint_provides": [ { "id": "fbmc_lightindustry_10_radio" }, { "id": "radio" }, { "id": "recruiting" } ],
-    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_barricades" }, { "id": "bed", "amount": 6 } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_10_barricades" } ],
     "blueprint_excludes": [ { "id": "fbmc_lightindustry_10_radio" } ]
   },
   {
     "type": "recipe",
     "result": "faction_base_lightindustry_10_reinforce_doors",
-    "description": "We should reinforce doors to further secure our base.",
+    "description": "We should reinforce the doors to further secure our base.",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

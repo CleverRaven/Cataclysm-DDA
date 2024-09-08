@@ -4,18 +4,19 @@
 #include <set>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -28,7 +29,6 @@ static const flag_id json_flag_SPEEDLOADER( "SPEEDLOADER" );
 static const itype_id itype_glock_19( "glock_19" );
 static const itype_id itype_glockbigmag( "glockbigmag" );
 static const itype_id itype_glockmag( "glockmag" );
-
 
 static void test_reloading( item &target, item &ammo, bool expect_success = true )
 {
@@ -44,8 +44,6 @@ static void test_reloading( item &target, item &ammo, bool expect_success = true
     dummy.set_wielded_item( target );
 
     g->reload_wielded( false );
-
-
 
     INFO( "Tried to reload " << target.tname() << " with " << ammo.tname() );
 
@@ -95,7 +93,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
     SECTION( "partially empty magazine" ) {
 
         item mag( "stanag30" );
-        mag.put_in( item( "556", calendar::turn, 1 ), item_pocket::pocket_type::MAGAZINE );
+        mag.put_in( item( "556", calendar::turn, 1 ), pocket_type::MAGAZINE );
         REQUIRE( mag.ammo_remaining() == 1 );
 
         SECTION( "with one round" ) {
@@ -122,7 +120,7 @@ TEST_CASE( "reload_magazines", "[reload]" )
     SECTION( "full magazine" ) {
 
         item mag( "stanag30" );
-        mag.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+        mag.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
         REQUIRE( mag.ammo_remaining() == 30 );
 
         SECTION( "with one round" ) {
@@ -162,9 +160,9 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
 
     SECTION( "gun with casings and ammo" ) {
         item gun( "sw_610" );
-        gun.put_in( item( "40sw", calendar::turn, 3 ), item_pocket::pocket_type::MAGAZINE );
+        gun.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
         gun.force_insert_item( item( "40_casing", calendar::turn, 3 ).set_flag( json_flag_CASING ),
-                               item_pocket::pocket_type::MAGAZINE );
+                               pocket_type::MAGAZINE );
 
         SECTION( "with one round" ) {
             item ammo( "40sw" );
@@ -195,7 +193,7 @@ TEST_CASE( "reload_gun_with_casings", "[reload],[gun]" )
     SECTION( "full of casings" ) {
         item gun( "sw_610" );
         gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
-                               item_pocket::pocket_type::MAGAZINE );
+                               pocket_type::MAGAZINE );
 
         SECTION( "with one round" ) {
             item ammo( "40sw" );
@@ -226,14 +224,14 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
         SECTION( "with full magazine" ) {
             item mag( "glockmag" );
-            mag.put_in( item( "9mm", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "9mm", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( "glockmag" );
-            mag.force_insert_item( item( "556", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.force_insert_item( item( "556", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag, false );
         }
@@ -241,7 +239,7 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
     SECTION( "gun with empty magazine" ) {
         item gun( "glock_19" );
-        gun.put_in( item( "glockmag" ), item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.put_in( item( "glockmag" ), pocket_type::MAGAZINE_WELL );
 
         SECTION( "with empty magazine" ) {
             item mag( "glockmag" );
@@ -250,14 +248,14 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
         SECTION( "with full magazine" ) {
             item mag( "glockmag" );
-            mag.put_in( item( "9mm", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "9mm", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( "glockmag" );
-            mag.force_insert_item( item( "556", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.force_insert_item( item( "556", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag, false );
         }
@@ -266,9 +264,9 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
     SECTION( "gun with partially empty magazine" ) {
         item gun( "glock_19" );
         item old_mag( "glockmag" );
-        old_mag.put_in( item( "9mm", calendar::turn, 2 ), item_pocket::pocket_type::MAGAZINE );
+        old_mag.put_in( item( "9mm", calendar::turn, 2 ), pocket_type::MAGAZINE );
         REQUIRE( old_mag.ammo_remaining() == 2 );
-        gun.put_in( old_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.put_in( old_mag, pocket_type::MAGAZINE_WELL );
         REQUIRE( gun.ammo_remaining() == 2 );
 
         SECTION( "with empty magazine" ) {
@@ -278,21 +276,21 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
         SECTION( "with full magazine" ) {
             item mag( "glockmag" );
-            mag.put_in( item( "9mm", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "9mm", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with full magazine with different ammo" ) {
             item mag( "glockmag" );
-            mag.put_in( item( "9mmfmj", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "9mmfmj", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( "glockmag" );
-            mag.force_insert_item( item( "556", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.force_insert_item( item( "556", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag, false );
         }
@@ -301,9 +299,9 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
     SECTION( "gun with full magazine" ) {
         item gun( "glock_19" );
         item old_mag( "glockmag" );
-        old_mag.put_in( item( "9mm", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+        old_mag.put_in( item( "9mm", calendar::turn, 15 ), pocket_type::MAGAZINE );
         REQUIRE( old_mag.ammo_remaining() == 15 );
-        gun.put_in( old_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.put_in( old_mag, pocket_type::MAGAZINE_WELL );
         REQUIRE( gun.ammo_remaining() == 15 );
 
         SECTION( "with empty magazine" ) {
@@ -313,21 +311,21 @@ TEST_CASE( "reload_gun_with_magazine", "[reload],[gun]" )
 
         SECTION( "with full magazine" ) {
             item mag( "glockmag" );
-            mag.put_in( item( "9mm", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "9mm", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag, false );
         }
 
         SECTION( "with full magazine with different ammo" ) {
             item mag( "glockmag" );
-            mag.put_in( item( "9mmfmj", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "9mmfmj", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag, false );
         }
 
         SECTION( "with magazine of wrong ammo" ) {
             item mag( "glockmag" );
-            mag.force_insert_item( item( "556", calendar::turn, 15 ), item_pocket::pocket_type::MAGAZINE );
+            mag.force_insert_item( item( "556", calendar::turn, 15 ), pocket_type::MAGAZINE );
             REQUIRE( mag.ammo_remaining() == 15 );
             test_reloading( gun, mag, false );
         }
@@ -341,14 +339,14 @@ TEST_CASE( "liquid_reloading", "[reload]" )
 
         SECTION( "with water" ) {
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( item( "water_clean" ), item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( item( "water_clean" ), pocket_type::CONTAINER );
             test_reloading( container, liquid_container );
         }
 
         SECTION( "with lots of water" ) {
             item liquid_container( "bottle_twoliter" );
             liquid_container.put_in( item( "water_clean", calendar::turn, 8 ),
-                                     item_pocket::pocket_type::CONTAINER );
+                                     pocket_type::CONTAINER );
             test_reloading( container, liquid_container );
         }
 
@@ -365,7 +363,7 @@ TEST_CASE( "liquid_reloading", "[reload]" )
             REQUIRE( liquid.is_frozen_liquid() );
 
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( liquid, item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( liquid, pocket_type::CONTAINER );
 
             test_reloading( container, liquid_container, false );
         }
@@ -377,7 +375,7 @@ TEST_CASE( "liquid_reloading", "[reload]" )
 
         SECTION( "with non-liquid from container" ) {
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( item( "9mm" ), item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( item( "9mm" ), pocket_type::CONTAINER );
             test_reloading( container, liquid_container, false );
         }
     }
@@ -386,20 +384,20 @@ TEST_CASE( "liquid_reloading", "[reload]" )
     SECTION( "partially empty bottle" ) {
 
         item container( "bottle_twoliter" );
-        container.put_in( item( "water_clean", calendar::turn, 1 ), item_pocket::pocket_type::CONTAINER );
+        container.put_in( item( "water_clean", calendar::turn, 1 ), pocket_type::CONTAINER );
         REQUIRE( !container.is_container_empty() );
         REQUIRE( !container.is_container_full() );
 
         SECTION( "with one water" ) {
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( item( "water_clean" ), item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( item( "water_clean" ), pocket_type::CONTAINER );
             test_reloading( container, liquid_container );
         }
 
         SECTION( "with lots of water" ) {
             item liquid_container( "bottle_twoliter" );
             liquid_container.put_in( item( "water_clean", calendar::turn, 8 ),
-                                     item_pocket::pocket_type::CONTAINER );
+                                     pocket_type::CONTAINER );
             test_reloading( container, liquid_container );
         }
 
@@ -416,14 +414,14 @@ TEST_CASE( "liquid_reloading", "[reload]" )
             REQUIRE( liquid.is_frozen_liquid() );
 
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( liquid, item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( liquid, pocket_type::CONTAINER );
 
             test_reloading( container, liquid_container, false );
         }
 
         SECTION( "with liquid of different type" ) {
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( item( "cranberry_juice" ), item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( item( "cranberry_juice" ), pocket_type::CONTAINER );
             test_reloading( container, liquid_container, false );
         }
 
@@ -435,19 +433,19 @@ TEST_CASE( "liquid_reloading", "[reload]" )
 
     SECTION( "full bottle" ) {
         item container( "bottle_plastic" );
-        container.put_in( item( "water_clean", calendar::turn, 2 ), item_pocket::pocket_type::CONTAINER );
+        container.put_in( item( "water_clean", calendar::turn, 2 ), pocket_type::CONTAINER );
         REQUIRE( container.is_container_full() );
 
         SECTION( "with one water" ) {
             item liquid_container( "bottle_plastic_small" );
-            liquid_container.put_in( item( "water_clean" ), item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( item( "water_clean" ), pocket_type::CONTAINER );
             test_reloading( container, liquid_container, false );
         }
 
         SECTION( "with lots of water" ) {
             item liquid_container( "bottle_twoliter" );
             liquid_container.put_in( item( "water_clean", calendar::turn, 8 ),
-                                     item_pocket::pocket_type::CONTAINER );
+                                     pocket_type::CONTAINER );
             test_reloading( container, liquid_container, false );
         }
 
@@ -464,14 +462,14 @@ TEST_CASE( "liquid_reloading", "[reload]" )
             REQUIRE( liquid.is_frozen_liquid() );
 
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( liquid, item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( liquid, pocket_type::CONTAINER );
 
             test_reloading( container, liquid_container, false );
         }
 
         SECTION( "with liquid of different type" ) {
             item liquid_container( "bottle_plastic" );
-            liquid_container.put_in( item( "cranberry_juice" ), item_pocket::pocket_type::CONTAINER );
+            liquid_container.put_in( item( "cranberry_juice" ), pocket_type::CONTAINER );
             test_reloading( container, liquid_container, false );
         }
 
@@ -495,7 +493,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "partially empty speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 3 ), item_pocket::pocket_type::MAGAZINE );
+            speedloader.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
 
             REQUIRE( !speedloader.empty() );
             REQUIRE( !speedloader.is_magazine_full() );
@@ -505,7 +503,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "full speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 6 ), item_pocket::pocket_type::MAGAZINE );
+            speedloader.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -515,7 +513,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
         SECTION( "speedloader with wrong ammo" ) {
             item speedloader( "40_speedloader6" );
             speedloader.force_insert_item( item( "9mm", calendar::turn, 6 ),
-                                           item_pocket::pocket_type::MAGAZINE );
+                                           pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -525,7 +523,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
     SECTION( "full gun" ) {
         item gun( "sw_610" );
-        gun.put_in( item( "40sw", calendar::turn, 6 ), item_pocket::pocket_type::MAGAZINE );
+        gun.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
         REQUIRE( gun.is_magazine_full() );
 
         SECTION( "empty speedloader" ) {
@@ -536,7 +534,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "partially empty speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 3 ), item_pocket::pocket_type::MAGAZINE );
+            speedloader.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
 
             REQUIRE( !speedloader.empty() );
             REQUIRE( !speedloader.is_magazine_full() );
@@ -546,7 +544,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "full speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 6 ), item_pocket::pocket_type::MAGAZINE );
+            speedloader.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -556,7 +554,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
         SECTION( "speedloader with wrong ammo" ) {
             item speedloader( "40_speedloader6" );
             speedloader.force_insert_item( item( "9mm", calendar::turn, 6 ),
-                                           item_pocket::pocket_type::MAGAZINE );
+                                           pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -567,7 +565,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
     SECTION( "gun full of casings" ) {
         item gun( "sw_610" );
         gun.force_insert_item( item( "40_casing", calendar::turn, 6 ).set_flag( json_flag_CASING ),
-                               item_pocket::pocket_type::MAGAZINE );
+                               pocket_type::MAGAZINE );
 
         SECTION( "empty speedloader" ) {
             item speedloader( "40_speedloader6" );
@@ -577,7 +575,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "partially empty speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 3 ), item_pocket::pocket_type::MAGAZINE );
+            speedloader.put_in( item( "40sw", calendar::turn, 3 ), pocket_type::MAGAZINE );
 
             REQUIRE( !speedloader.empty() );
             REQUIRE( !speedloader.is_magazine_full() );
@@ -587,7 +585,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
 
         SECTION( "full speedloader" ) {
             item speedloader( "40_speedloader6" );
-            speedloader.put_in( item( "40sw", calendar::turn, 6 ), item_pocket::pocket_type::MAGAZINE );
+            speedloader.put_in( item( "40sw", calendar::turn, 6 ), pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -597,7 +595,7 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
         SECTION( "speedloader with wrong ammo" ) {
             item speedloader( "40_speedloader6" );
             speedloader.force_insert_item( item( "9mm", calendar::turn, 6 ),
-                                           item_pocket::pocket_type::MAGAZINE );
+                                           pocket_type::MAGAZINE );
 
             REQUIRE( speedloader.is_magazine_full() );
 
@@ -606,12 +604,12 @@ TEST_CASE( "speedloader_reloading", "[reload],[gun]" )
     }
 }
 
-TEST_CASE( "gunmod reloading", "[reload],[gun]" )
+TEST_CASE( "gunmod_reloading", "[reload],[gun]" )
 {
     SECTION( "empty gun and gunmod" ) {
-        item gun( "m4_carbine" );
-        item mod( "pipe_launcher40mm" );
-        gun.force_insert_item( mod, item_pocket::pocket_type::MOD );
+        item gun( "debug_modular_m4_carbine" );
+        item mod( "m203" );
+        gun.force_insert_item( mod, pocket_type::MOD );
 
         SECTION( "wrong ammo" ) {
             item ammo( "9mm" );
@@ -620,7 +618,7 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
 
         SECTION( "full magazine for the gun" ) {
             item mag( "stanag30" );
-            mag.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 
             test_reloading( gun, mag );
         }
@@ -633,13 +631,13 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
     }
 
     SECTION( "partially empty gun and empty gunmod" ) {
-        item gun( "m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item gun( "debug_modular_m4_carbine" );
+        item mod( "m203" );
         item mag1( "stanag30" );
-        mag1.put_in( item( "556", calendar::turn, 10 ), item_pocket::pocket_type::MAGAZINE );
+        mag1.put_in( item( "556", calendar::turn, 10 ), pocket_type::MAGAZINE );
 
-        gun.force_insert_item( mod, item_pocket::pocket_type::MOD );
-        gun.put_in( mag1, item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.force_insert_item( mod, pocket_type::MOD );
+        gun.put_in( mag1, pocket_type::MAGAZINE_WELL );
 
         SECTION( "wrong ammo" ) {
             item ammo( "9mm" );
@@ -648,7 +646,7 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
 
         SECTION( "full magazine for the gun" ) {
             item mag( "stanag30" );
-            mag.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 
             test_reloading( gun, mag );
         }
@@ -667,14 +665,14 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
     }
 
     SECTION( "partially empty gun and full gunmod" ) {
-        item gun( "m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item gun( "debug_modular_m4_carbine" );
+        item mod( "m203" );
         item mag1( "stanag30" );
-        mag1.put_in( item( "556", calendar::turn, 10 ), item_pocket::pocket_type::MAGAZINE );
-        mod.put_in( item( "40x46mm_m433", calendar::turn, 1 ), item_pocket::pocket_type::MAGAZINE );
+        mag1.put_in( item( "556", calendar::turn, 10 ), pocket_type::MAGAZINE );
+        mod.put_in( item( "40x46mm_m433", calendar::turn, 1 ), pocket_type::MAGAZINE );
 
-        gun.force_insert_item( mod, item_pocket::pocket_type::MOD );
-        gun.put_in( mag1, item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.force_insert_item( mod, pocket_type::MOD );
+        gun.put_in( mag1, pocket_type::MAGAZINE_WELL );
 
         SECTION( "wrong ammo" ) {
             item ammo( "9mm" );
@@ -683,7 +681,7 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
 
         SECTION( "full magazine for the gun" ) {
             item mag( "stanag30" );
-            mag.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 
             test_reloading( gun, mag );
         }
@@ -702,15 +700,15 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
     }
 
     SECTION( "partially empty gun and gunmod with casing" ) {
-        item gun( "m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item gun( "debug_modular_m4_carbine" );
+        item mod( "m203" );
         item mag1( "stanag30" );
-        mag1.put_in( item( "556", calendar::turn, 10 ), item_pocket::pocket_type::MAGAZINE );
+        mag1.put_in( item( "556", calendar::turn, 10 ), pocket_type::MAGAZINE );
         mod.force_insert_item( item( "40x46mm_m118_casing" ).set_flag( json_flag_CASING ),
-                               item_pocket::pocket_type::MAGAZINE );
+                               pocket_type::MAGAZINE );
 
-        gun.force_insert_item( mod, item_pocket::pocket_type::MOD );
-        gun.put_in( mag1, item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.force_insert_item( mod, pocket_type::MOD );
+        gun.put_in( mag1, pocket_type::MAGAZINE_WELL );
 
         SECTION( "wrong ammo" ) {
             item ammo( "9mm" );
@@ -719,7 +717,7 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
 
         SECTION( "full magazine for the gun" ) {
             item mag( "stanag30" );
-            mag.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 
             test_reloading( gun, mag );
         }
@@ -738,13 +736,13 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
     }
 
     SECTION( "full gun and empty gunmod" ) {
-        item gun( "m4_carbine" );
-        item mod( "pipe_launcher40mm" );
+        item gun( "debug_modular_m4_carbine" );
+        item mod( "m203" );
         item mag1( "stanag30" );
-        mag1.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+        mag1.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 
-        gun.force_insert_item( mod, item_pocket::pocket_type::MOD );
-        gun.put_in( mag1, item_pocket::pocket_type::MAGAZINE_WELL );
+        gun.force_insert_item( mod, pocket_type::MOD );
+        gun.put_in( mag1, pocket_type::MAGAZINE_WELL );
 
         SECTION( "wrong ammo" ) {
             item ammo( "9mm" );
@@ -753,7 +751,7 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
 
         SECTION( "full magazine for the gun" ) {
             item mag( "stanag30" );
-            mag.put_in( item( "556", calendar::turn, 30 ), item_pocket::pocket_type::MAGAZINE );
+            mag.put_in( item( "556", calendar::turn, 30 ), pocket_type::MAGAZINE );
 
             test_reloading( gun, mag, false );
         }
@@ -771,7 +769,6 @@ TEST_CASE( "gunmod reloading", "[reload],[gun]" )
         }
     }
 }
-
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
@@ -802,9 +799,9 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", calendar::turn_zero ) );
 
-    item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
-                                            item::default_charges_tag{} ) );
     item_location speedloader = dummy.i_add( item( "38_speedloader", calendar::turn_zero, false ) );
+    item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
+                                            speedloader->remaining_ammo_capacity() ) );
     item_location gun = dummy.i_add( item( "sw_619", calendar::turn_zero, false ) );
 
     REQUIRE( dummy.has_item( *ammo ) );
@@ -819,9 +816,19 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( speedloader_success );
     REQUIRE( speedloader->remaining_ammo_capacity() == 0 );
 
-    bool success = gun->reload( dummy, speedloader, speedloader->ammo_remaining() );
+    // This automatically selects the speedloader as ammo
+    // as long as dummy has nothing else available.
+    // If there are multiple options, it will crash from opening a ui.
+    item::reload_option opt = dummy.select_ammo( gun );
 
-    REQUIRE( success );
+    REQUIRE( opt );
+
+    dummy.assign_activity( reload_activity_actor( std::move( opt ) ) );
+    if( !!dummy.activity ) {
+        process_activity( dummy );
+    }
+
+    //REQUIRE( success );
     REQUIRE( gun->remaining_ammo_capacity() == 0 );
     // Speedloader is still in inventory.
     REQUIRE( dummy.has_item( *speedloader ) );
@@ -845,7 +852,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
 
     item gun( "glock_19" );
-    gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    gun.put_in( mag, pocket_type::MAGAZINE_WELL );
     REQUIRE( gun.magazine_current() != nullptr );
     REQUIRE( gun.magazine_current()->ammo_types().count( ammo_type->type ) != 0 );
     dummy.i_add( gun );
@@ -927,7 +934,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 
         dummy.set_wielded_item( item( "sw_610", calendar::turn_zero, 0 ) );
         REQUIRE( dummy.get_wielded_item()->ammo_remaining() == 0 );
-        REQUIRE( dummy.get_wielded_item()->can_reload_with( *ammo, false ) );
+        REQUIRE( dummy.get_wielded_item().can_reload_with( ammo, false ) );
 
         WHEN( "the player triggers auto reload until the revolver is full" ) {
             reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
@@ -941,7 +948,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         GIVEN( "the player has another gun with ammo" ) {
             item_location gun2 = dummy.i_add( item( "sw_610", calendar::turn_zero, 0 ) );
             REQUIRE( gun2->ammo_remaining() == 0 );
-            REQUIRE( gun2->can_reload_with( *ammo, false ) );
+            REQUIRE( gun2.can_reload_with( ammo, false ) );
             WHEN( "the player triggers auto reload until the first revolver is full" ) {
                 reload_a_revolver( dummy, *dummy.get_wielded_item(), *ammo );
                 WHEN( "the player triggers auto reload until the second revolver is full" ) {
@@ -958,7 +965,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
     }
 
     GIVEN( "a player wielding an unloaded gun, carrying an unloaded magazine, and carrying ammo for the magazine" ) {
-        dummy.worn.clear();
+        dummy.clear_worn();
         dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
         item_location ammo = dummy.i_add( item( "9mm", calendar::turn_zero, 50 ) );
         const cata::value_ptr<islot_ammo> &ammo_type = ammo->type->ammo;
@@ -1069,7 +1076,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
 
     item_location ammo_jug = dummy.i_add( item( "jug_plastic" ) );
     ammo_jug->put_in( item( "water_clean", calendar::turn_zero, 2 ),
-                      item_pocket::pocket_type::CONTAINER );
+                      pocket_type::CONTAINER );
     units::volume ammo_volume = ammo_jug->total_contained_volume();
 
     SECTION( "reload liquid into empty container" ) {
@@ -1083,7 +1090,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     SECTION( "reload liquid into partially filled container with same type liquid" ) {
         item water_one( "water_clean", calendar::turn_zero, 1 );
         units::volume initial_volume = water_one.volume();
-        dummy.get_wielded_item()->put_in( water_one, item_pocket::pocket_type::CONTAINER );
+        dummy.get_wielded_item()->put_in( water_one, pocket_type::CONTAINER );
         g->reload_wielded();
         REQUIRE( dummy.activity );
         process_activity( dummy );
@@ -1094,7 +1101,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     SECTION( "reload liquid into partially filled container with different type liquid" ) {
         item milk_one( "milk", calendar::turn_zero, 1 );
         units::volume initial_volume = milk_one.volume();
-        dummy.get_wielded_item()->put_in( milk_one, item_pocket::pocket_type::CONTAINER );
+        dummy.get_wielded_item()->put_in( milk_one, pocket_type::CONTAINER );
         g->reload_wielded();
         if( !!dummy.activity ) {
             process_activity( dummy );
@@ -1106,7 +1113,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
     SECTION( "reload liquid into container containing a non-liquid" ) {
         item pebble( "pebble", calendar::turn_zero, 1 );
         units::volume initial_volume = pebble.volume();
-        dummy.get_wielded_item()->put_in( pebble, item_pocket::pocket_type::CONTAINER );
+        dummy.get_wielded_item()->put_in( pebble, pocket_type::CONTAINER );
         g->reload_wielded();
         if( !!dummy.activity ) {
             process_activity( dummy );
@@ -1135,7 +1142,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
 
         SECTION( "liquid in container on floor" ) {
             ammo_jug.remove_item();
-            ammo_jug = item_location( map_cursor( near_point ), &here.add_item( near_point,
+            ammo_jug = item_location( map_cursor( tripoint_bub_ms( near_point ) ), &here.add_item( near_point,
                                       item( "bottle_plastic" ) ) );
             ammo_jug->fill_with( item( "water_clean" ) );
             ammo_volume = ammo_jug->total_contained_volume();

@@ -1,6 +1,6 @@
 [
   {
-    "result": "arredondo_chute",
+    "result": "arredondo_chute_benelli_sa",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -15,9 +15,169 @@
     "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
   },
   {
+    "result": "arredondo_chute_remington_870_breacher",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_remington_870",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_mossberg_500",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_mossberg_930",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_mossberg_590",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "30 m",
+    "book_learn": [ [ "mag_guns", 4 ], [ "mag_pistol", 4 ], [ "mag_shotgun", 4 ], [ "mag_rifle", 4 ] ],
+    "using": [ [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "scrap", 4 ] ], [ [ "sheet_metal_small", 4 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_benelli_sa",
+    "type": "recipe",
+    "//": "Remove these four simple recipes when obselete arredondo_chute.",
+    "id_suffix": "simple",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "arredondo_chute", 1 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_remington_870_breacher",
+    "type": "recipe",
+    "id_suffix": "simple",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "arredondo_chute", 1 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_remington_870",
+    "type": "recipe",
+    "id_suffix": "simple",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "arredondo_chute", 1 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_mossberg_500",
+    "type": "recipe",
+    "id_suffix": "simple",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "arredondo_chute", 1 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_mossberg_930",
+    "type": "recipe",
+    "id_suffix": "simple",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "arredondo_chute", 1 ] ] ]
+  },
+  {
+    "result": "arredondo_chute_mossberg_590",
+    "type": "recipe",
+    "id_suffix": "simple",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ [ "gun", 2 ] ],
+    "time": "1 m",
+    "autolearn": true,
+    "components": [ [ [ "arredondo_chute", 1 ] ] ]
+  },
+  {
     "result": "bipod_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -31,7 +191,7 @@
   {
     "result": "grip_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -45,7 +205,7 @@
   {
     "result": "m203_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -59,7 +219,7 @@
   {
     "result": "m320_mod_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -73,7 +233,7 @@
   {
     "result": "masterkey_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -87,7 +247,7 @@
   {
     "result": "m26_mass_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -101,7 +261,7 @@
   {
     "result": "rm121aux_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -115,7 +275,7 @@
   {
     "result": "u_shotgun_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -127,37 +287,9 @@
     "components": [ [ [ "u_shotgun", 1 ] ], [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "knife_combat_mod",
-    "type": "recipe",
-    "activity_level": "fake",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 1 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "knife_combat", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "sword_bayonet_mod",
-    "type": "recipe",
-    "activity_level": "fake",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 2 ], [ "melee", 2 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "sword_bayonet", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "offset_sight_rail_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -169,23 +301,9 @@
     "components": [ [ [ "offset_sight_rail", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "stabilizer_mod",
-    "type": "recipe",
-    "activity_level": "fake",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 6 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "stabilizer", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "muzzle_brake_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -199,7 +317,7 @@
   {
     "result": "rifle_scope_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -213,7 +331,7 @@
   {
     "result": "acog_scope_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -281,7 +399,7 @@
   {
     "result": "offset_sights_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -493,7 +611,7 @@
     "time": "15 m",
     "decomp_learn": 3,
     "book_learn": [ [ "manual_rifle", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [
@@ -536,6 +654,7 @@
     "time": "15 m",
     "decomp_learn": 4,
     "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
+    "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
@@ -595,8 +714,9 @@
   },
   {
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "filter_suppressor",
+    "id_suffix": "welded_thread",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -605,24 +725,31 @@
     "time": "2 m 36 s",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "filter_liquid", 1 ], [ "muffler", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "using": [ [ "welding_standard", 7 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [ [ [ "compensator", 1 ], [ "muzzle_brake", 1 ], [ "muzzle_brake_mod", 1 ] ], [ [ "filter_liquid", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "bottle_suppressor",
+    "result": "filter_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "6 m",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 2,
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "duct_tape", 75 ] ],
-      [ [ "bottle_twoliter", 1 ] ],
-      [ [ "bottle_plastic", 4 ], [ "bottle_bathroom", 4 ], [ "bottle_plastic_small", 4 ] ]
-    ]
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~14cm weld since the sheets are stacked",
+    "using": [ [ "welding_standard", 14 ] ],
+    "components": [ [ [ "filter_liquid", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -636,7 +763,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "super_glue", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -648,24 +775,10 @@
     "skills_required": [ [ "archery", 2 ] ],
     "difficulty": 2,
     "time": "10 m",
+    "autolearn": true,
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "pipe_launcher40mm",
-    "//": "underbarrel mount",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "launcher", 3 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "book_learn": [ [ "manual_launcher", 3 ], [ "mag_launcher", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "nail", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -684,7 +797,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "shoulder_strap",
+    "result": "shoulder_strap_simple",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
@@ -693,6 +806,21 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rope_natural_short", 1, "LIST" ], [ "cotton_patchwork", 3 ], [ "cordage", 6, "LIST" ] ] ]
+  },
+  {
+    "result": "shoulder_strap",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_nylon_patchwork", 3 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "//": "This should be using plastic sliders, but we don't have any.",
+    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -726,29 +854,91 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "crafted_suppressor",
+    "id_suffix": "welded_thread",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
+    "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 1,
-    "time": "39 s",
+    "time": "15 m",
     "autolearn": true,
+    "using": [ [ "welding_standard", 7 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 4 ], [ "plastic_chunk", 4 ], [ "felt_patch", 4 ], [ "leather", 4 ] ], [ [ "pipe", 1 ] ] ]
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [
+      [ [ "compensator", 1 ], [ "muzzle_brake", 1 ], [ "muzzle_brake_mod", 1 ] ],
+      [ [ "chunk_rubber", 24 ] ],
+      [ [ "pipe", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "suppressor",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "crafted_suppressor",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "using": [ [ "welding_standard", 7 ] ],
+    "components": [ [ [ "pipe_fittings", 1 ] ], [ [ "chunk_rubber", 24 ] ], [ [ "pipe", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "suppressor_compact",
+    "id_suffix": "welded_thread",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
     "skills_required": [ "gun", 1 ],
     "difficulty": 8,
-    "time": "1 h",
-    "book_learn": [ [ "manual_pistol", 4 ] ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+    "time": "6 h",
+    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [ { "id": "DRILL", "level": 3 }, { "id": "FILE", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "//": "~7cm weld to join the threaded portion to can + 11x2(doubling up sheet)x11cm circumf. weld per washer",
+    "using": [ [ "welding_standard", 242 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [
+      [ [ "compensator", 1 ], [ "muzzle_brake", 1 ], [ "muzzle_brake_mod", 1 ] ],
+      [ [ "sheet_metal_small", 11 ] ],
+      [ [ "pipe", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "suppressor_compact",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 1 ],
+    "difficulty": 8,
+    "time": "6 h",
+    "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
+    "//": "13x2(doubling up sheet)x11cm weld per washer",
+    "using": [ [ "welding_standard", 242 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding" }, { "proficiency": "prof_toolsmithing" } ],
+    "components": [ [ [ "sheet_metal_small", 13 ] ], [ [ "pipe", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -782,8 +972,9 @@
       [ "manual_rifle", 4 ],
       [ "manual_launcher", 4 ]
     ],
+    "//": "25cm weld",
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "using": [ [ "welding_standard", 25 ] ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
@@ -804,18 +995,19 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "25cm weld",
+    "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "barrel_ported",
+    "result": "compensator",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 3 ] ],
-    "difficulty": 6,
+    "difficulty": 4,
     "time": "30 m",
     "book_learn": [
       [ "textbook_mechanics", 3 ],
@@ -824,7 +1016,12 @@
       [ "manual_smg", 4 ],
       [ "manual_rifle", 4 ]
     ],
-    "tools": [ [ [ "small_repairkit", 75 ], [ "large_repairkit", 75 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [
+      { "id": "DRILL", "level": 3 },
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 }
+    ],
     "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
@@ -843,7 +1040,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "20cm weld",
+    "using": [ [ "welding_standard", 20 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -895,10 +1093,28 @@
       { "id": "HAMMER_FINE", "level": 1 },
       { "id": "CUT", "level": 2 },
       { "id": "CUT_FINE", "level": 1 },
-      { "id": "FILE", "level": 1 }
+      { "id": "FILE", "level": 2 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ],
     "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nail", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "muzzle_brake",
+    "id_suffix": "welded_thread",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 4 ] ],
+    "difficulty": 4,
+    "time": "1 h",
+    "book_learn": [ [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
+    "using": [ [ "welding_standard", 7 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [ [ [ "compensator", 1 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -908,11 +1124,14 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 4 ] ],
-    "difficulty": 8,
-    "time": "1 h",
-    "book_learn": [ [ "textbook_mechanics", 4 ], [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "pipe", 1 ] ] ]
+    "difficulty": 6,
+    "time": "3 h",
+    "book_learn": [ [ "manual_shotgun", 5 ], [ "manual_rifle", 5 ] ],
+    "//": "a2 birdcage has a 22mm diameter = 69mm circumference, so ~7cm weld",
+    "using": [ [ "welding_standard", 7 ] ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "THREAD_TAP", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -952,7 +1171,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "15cm weld",
+    "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -976,7 +1196,8 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "using": [ [ "welding_standard", 1 ] ],
+    "//": "25cm weld",
+    "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
   },
   {
@@ -1003,6 +1224,27 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "rail_bayonet_lug",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 4,
+    "time": "3 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "qualities": [ { "id": "FILE", "level": 2 }, { "id": "GRIND", "level": 1 } ],
+    "tools": [ [ [ "knife_combat", -1 ], [ "knife_combat_army", -1 ], [ "knife_combat_marine", -1 ], [ "sword_bayonet", -1 ] ] ],
+    "components": [ [ [ "nuts_bolts", 2 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "dias",
     "category": "CC_WEAPON",
@@ -1016,18 +1258,17 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "tools": [
       [
-        [ "ar15", -1 ],
-        [ "ar15_retool_300blk", -1 ],
-        [ "ar_pistol", -1 ],
-        [ "oa93", -1 ],
-        [ "m27_assault_rifle", -1 ],
-        [ "m16_auto_rifle", -1 ],
-        [ "m4_carbine", -1 ],
-        [ "m16a4", -1 ]
+        [ "modular_ar15", -1 ],
+        [ "modular_ar_pistol", -1 ],
+        [ "modular_m27_assault_rifle", -1 ],
+        [ "modular_m16_auto_rifle", -1 ],
+        [ "modular_m4_carbine", -1 ],
+        [ "modular_m16a4", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "//1": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
@@ -1043,10 +1284,7 @@
     "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [
-      [ [ "ar15", -1 ], [ "ar15_retool_300blk", -1 ], [ "ar_pistol", -1 ], [ "oa93", -1 ] ],
-      [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
-    ],
+    "tools": [ [ [ "modular_ar15", -1 ], [ "modular_ar_pistol", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {
@@ -1069,12 +1307,12 @@
         [ "glock_31", -1 ],
         [ "glock_21", -1 ],
         [ "glock_20", -1 ],
-        [ "glock_40", -1 ],
         [ "glock_29", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "5cm weld",
+    "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
@@ -1092,22 +1330,6 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "tec9", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "bow_sight",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 2 ] ],
-    "difficulty": 3,
-    "time": "30 m",
-    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1204,12 +1426,17 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
-    "skills_required": [ "gun", 1 ],
+    "skills_required": [ [ "gun", 1 ] ],
     "difficulty": 8,
     "time": "1 h",
     "book_learn": [ [ "manual_shotgun", 4 ] ],
-    "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 150 ] ] ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "pipe", 2 ] ] ]
+    "qualities": [
+      { "id": "FILE", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "THREAD_TAP", "level": 2 },
+      { "id": "HAMMER_FINE", "level": 1 }
+    ],
+    "components": [ [ [ "pipe", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1219,11 +1446,12 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "rifle", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_gunsmithing_basic" } ],
     "difficulty": 4,
     "time": "5 h",
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//": "20cm weld",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m249", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 6 ] ] ]
@@ -1236,11 +1464,12 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "mechanics",
     "skills_required": [ [ "rifle", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_welding_basic" } ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_gunsmithing_basic" } ],
     "difficulty": 4,
     "time": "5 h",
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//": "20cm weld",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m240", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 5 ] ] ]

@@ -1,3 +1,4 @@
+# Game Balance
 # Stat system scaling:
 Ranges below will be using strength as the example since it's the easiest to itemize, but what the numbers mean is equivalent between all stats.
 
@@ -41,7 +42,62 @@ Notable skill: 6 (competent/carnivore; bear, wolf, police/survivor zeds)
 
 Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 
-Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
+Maximal skill: 10 (highest for balance purposes; jabberwock, shoggoth, gracken)
+
+
+# Monster dodge skill scaling:
+Minimum skill: 0 (no dodge potential; zombie, turret, fungaloid, fused dragonfly)
+
+Nominal skill: 2 (clumsy dodger; cow, missile spider, horse, feral marine)
+
+Notable skill: 4 (natural dodging ability; wolf, feral soldier; mi-go, vinebeast)
+
+Maximal skill: 8 (highest for balance purposes; giant jumping spider, dermatik, liquid cat, atlantic salmon)
+
+
+# Monster armor scaling:
+
+Minimum armor: 0 (no armor at all; zombie, feral, blank body, bulldog)
+
+Civilian grade: 6 (some armor; zombie cop, firefighter zombie, alpha bee, dark wyrm, zombie brute)
+
+Military grade: 20 (specialized for modern war; zombie soldier, super soldier ant, SWAT zombie's ballistic armor)
+
+Supernatural: 40 (late game threat; skeletal juggernaut, hound of Tindalos )
+
+Maximum armor: 80 (highest for balance purposes; melded task force's fire armor )
+
+
+# Monster melee dice size scaling:
+Minimum damage: 1 (lowest damage; brown chick )
+
+Weak damage: 2 (low damage; black cat, decayed zombie )
+
+Standard damage: 3 (standard day one threat; zombie, giant fly, wolf, Atlantic cod )
+
+Higher damage: 4 (higher day one threat; blank body, zombie predator )
+
+High damage: 6 (highest day one threat; feral human, mi-go )
+
+Superhuman damage: 8 (deadly endgame threat; hulk, wild boar, Exodii quadruped )
+
+Maximum dice size for balance purposes: 12 (hardest possible hitter; hunting horror )
+
+This is how hard the monster hits.
+
+
+# Monster melee dice number scaling:
+Minimum dice: 1 (predictable damage; black cat, Atlantic cod, blank body, feral human)
+
+Standard dice: 2 (minimal variation; zombie, giant wasp, wolf)
+
+Higher risk: 3 (higher day one threat; dissoluted devourer, tough zombie )
+
+High risk: 4 (dangerous threat; hulk, zombie predator, mi-go)
+
+Maximum dice for balance purposes: 9 (highest for balance purposes; melded task force)
+
+Essentially this is how explosive the damage can be, with high numbers of dice allowing dangerous peaks.
 
 
 # Monster maximum damage scaling:
@@ -49,7 +105,7 @@ Minimum damage: 0 (no damage potential; spore cloud, hallucination)
 
 Nominal damage: 4 (minimal threat; decayed zombie, blank body, cat)
 
-Average damage: 6 (normal day one threat; zombie, wasp)
+Average damage: 6 (normal day one threat; zombie, giant wasp)
 
 High damage: 10 (dangerous day one threat; tough zombie, wolf, zombie scientist)
 
@@ -70,6 +126,22 @@ Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid hea
 Maximal HP: 800 (highest for balance purposes; wraith)
 
 In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
+
+
+# Monster aggression scaling:
+Minimum aggression: -99 (never attack; chicken, giant aphid )
+
+Low aggression: -50 (slow to anger; fungaloid, American eel )
+
+Average aggression: -10 (average critter; cow, beagle, Exodii quadruped )
+
+Borderline aggression: 0 (the slightest thing will mean bloodshed; giant ant, tiger )
+
+Notable aggression: 20-30 (usually attacks; oversized soldier ant, triffid, mi-go, giant web spider, feral human )
+
+Maximum aggression: 100 (kill everything on sight; all zombies, slime, shoggoth, kreck )
+
+The most important difference is between 10 and 9, which is the difference between a monster attacking or not. Farther away in either direction means other factors like danger or other triggers like being attacked matter less or not at all.
 
 
 # Monster Speed Scaling:
@@ -98,6 +170,25 @@ Notable difficulty: ~50 (unusually dangerous; zombie master, mi-go, antlered ham
 Very high difficulty: ~100 (supernaturally dangerous; zombie hulk, shoggoth, wraith, jabberwock, skeletal juggernaut, fused dragonflies, mi-go guard)
 
 Maximum danger: 300 (highest for balance purposes; triffid heart, melded task force)
+
+
+# Monster vision scaling:
+Minimum: 0 (blind and unable to sense presence nearby; brainless zombie night vision)
+
+Minimal vision: 1-2 (default night vision; graboid night vision, kreck night vision, triffid night vision, brainless zombie day vision)
+
+Very poor vision: ~5 (zombie night vision, feral night vision, giant ant night vision )
+
+Poor vision: 20 (cat night vision, Exodii quadruped night vision, wretched hatchery day vision )
+
+Normal vision : 40 (default day vision; zombie, feral, mi-go, black bear, Atlantic cod )
+
+Very strong vision: 50 (supernatural or specialized; hound of Tindalos, mi-go, kreck, zombie master, turkey, A Shadow? )
+
+Maximum vision: 60 (highest for balance purposes; spasming lump; flesh wall )
+
+Vision is not necessarily limited to eyesight. We have monsters with literally no eyes that can detect creatures within a couple of spaces.
+
 
 
 # Dodge System assumptions:
@@ -147,11 +238,11 @@ Grip is a measure of how well you can control the weapon to quickly respond to s
 ### Length
 Length allows more surface area for potential contact, and reduces the need to control the positioning of the body to guarantee a hit. It also allows the player to strike from a safer distance, allowing them to worry more about trying to hit without being hit in return, and allows for swings with larger arcs, making dodging such a strike more difficult.
 
-+0 - "hand" - Any object without a length bonus.
++0 - "hand" - Objects that, from where they're held, extend less than 31 cm (or 1').
 
-+1 - "short" - Objects that, when held, extend over a foot (1/3 of a meter) in length from the hand, but less than about 3 feet. A normal American 12-inch ruler is the handy boundary guide for when an item should switch over to a +1 bonus (the ruler, losing several inches when held, does not get one - unless you added a handle to it!).
++1 - "short" - Objects that, from where they're held, extend between a 31 cm and 91 cm (or 1' to 3').
 
-+2 - "long" An object that is over 3 feet in length from the point where it is held. Includes swords, spears, quarterstaffs, poles, and a lot of other stuff.
++2 - "long" - Objects that, from where they're held, extend further than 91 cm (or 3').
 
 ### Striking Surface
 Some weapons need to strike in a certain way to be effective. Others are more difficult to use "incorrectly".
@@ -249,6 +340,9 @@ Increases proportional to capacity and should have a comparable ratio to similar
 ### Volume
 Scaled based upon the capacity relative to the `stack_size` of the ammo. For example 223 has a `stack size` of 20 so for 10 and 30 round magazines the volume would be 1 and 2. Extended magazine should always have larger volume than the standard type and for very large drum magazines consider applying an extra penalty. By default most handgun magazines should be volume 1 and most rifle magazines volume 2. Ammo belts should not specify volume as this will be determined from their length.
 
+### Jam multiplier
+`mag_jam_mult` field is used to determine how much the magazine is affected by being damaged. Default rate is described in Character::handle_gun_damage(); at this moment it is roughly: 0.000288% for undamaged magazine, 5% for 1 damage (|\), 24% for 2 damage (|.), 96% for 3 damage (\.), and 250% for 4 damage (XX), then this and gun values are summed up and multiplied by 1.8. Rule of thumb: helical mags should have 3, drum mags should have 2, the rest can be tweaked case by case, but mostly doesn't worth emulating it
+
 ### Rarity
 Overall balance is that pistol magazines are twice as common as rifle magazines and that for guns that spawn with magazines these are always the standard capacity versions. Consider 9x19mm and .223 to be the defaults with everything else more rare. Some locations have more specific balance requirements:
 
@@ -267,10 +361,10 @@ Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | 
 Bow damage is based on the momentum achieved in the projectile.  Since arrows and bolts have sharp cutting surfaces, the penetration and therefore damage achieved is based on the projectile's capacity for slicing through tissues.  The arrow has a modifier based on construction, material and design, most critically centered around the effectiveness of the head.  Base damage is calculated from momentum by taking momentum in Slug-foot-seconds, multiplying by 150 and subtracting 32. This was arrived at by taking well-regarded bowhunting guidelines and determining the damage numbers necessary for a kill of various game on a critical hit, see tests/archery_damage_test.cpp for details.
 
 ## Ammo stats
-The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
+The default damage, (**Dmg**) of a given **Cartridge** shot through a normal firearm is the square root of a round's muzzle energy in joules, (**M.E.**), rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics of different projectiles. Normal in this case is full/total metal jacketed, lead core projectiles, including slugs out of shotguns. Damage of handloaded ammo is set to 90% of their factory counterparts. Damage of smokeless cartridges loaded with black powder is set to 76% (rounded down) of their factory counterparts, and damage of smokeless cartridges with bullet diameter less than .30 inches loaded with black powder is set to 57% (rounded down) of their factory counterparts. A table calculating a given round's damage has been prepared and is provided below.
 
 
-Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
+Each cartridge has had a curve plotted for barrel length vs damage for standard loads, sourced from reloading manuals, manufacturers' load data, and/or Wikipedia, and modelled with interior ballistics software. Each curve had a logarithmic regression fit to it, and the generic formula to reproduce it is **Dmg** = ( **A** x Ln( **Brl** ) )+ **B**. For each cartridge, the default damage, **Dmg** has been calculated using its **A** coefficient and **B** offset and **Brl**. For firearms whose barrel lengths differ from **Brl**, a corresponding damage modifier should be calculated using the formula and the provided default damage.
 
 Each cartridge also has a default barrel length (**Brl**) listed determined based loosely on cartridge length (with some exceptions). Friction losses were not modelled. Plugging in optimistically long barrel lengths will not yield accurate data. Real world barrels should provide useful estimates for determining modifiers. Any barrel featuring a separate chamber (e.g. revolvers, the HK G11, etc) should have the length of this chamber added to the barrel length as part of these calculations.  What is given here as **OAL** is the overall length of the cartridge. Barrel lengths, (**Brl**), less than the overall length of the cartridge, (**OAL**), should default to 0 ballistic damage.
 
@@ -330,7 +424,7 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 4.73 x33 Caseless        | 16.0 in | 34.6    | 1197.2 J  | 10.816  | 4.645   | 1.3 in  | 0.185 in | 51.0 gr      |
 | .222 Rem.                | 16.0 in | 36.3    | 1317.7 J  | 12.302  | 2.167   | 2.1 in  | 0.224 in | 55.0 gr      |
 | .22 PPC USA              | 16.0 in | 36.5    | 1332.3 J  | 12.269  | 2.478   | 2.1 in  | 0.224 in | 55.0 gr      |
-| 5.45 x39 mm              | 16.0 in | 36.9    | 1361.6 J  | 12.849  | 1.2319  | 2.3 in  | 0.222 in | 52.8 gr     |
+| 5.45 x39 mm              | 16.0 in | 36.9    | 1361.6 J  | 12.849  | 1.2319  | 2.3 in  | 0.222 in | 52.8 gr      |
 | .480 Ruger               | 6.0 in  | 37.7    | 1421.3 J  | 8.9024  | 21.76   | 1.7 in  | 0.475 in | 325.0 gr     |
 | .224 Weath. Mag.         | 16.0 in | 37.9    | 1436.4 J  | 12.85   | 2.318   | 2.3 in  | 0.224 in | 55.0 gr      |
 | .220 Swift               | 16.0 in | 37.9    | 1436.4 J  | 15.58   | -5.247  | 2.7 in  | 0.224 in | 55.0 gr      |
@@ -405,7 +499,7 @@ For reference, each cartridge's bullet diameter, **Dia**  and weight, **Proj. wt
 | 7 mm RemSA               | 16.0 in | 55.7    | 3102.5 J  | 19.124  | 2.648   | 2.8 in  | 0.284 in | 150.0 gr     |
 | .450 Bushmaster          | 16.0 in | 55.9    | 3124.8 J  | 14.666  | 15.23   | 2.3 in  | 0.452 in | 250.0 gr     |
 | .358 Win.                | 16.0 in | 55.9    | 3124.8 J  | 17.741  | 6.718   | 2.8 in  | 0.358 in | 220.0 gr     |
-| 1.23 Ln(8 mm -06) (CDDA) | 16.0 in | 56.8    | 3226.2 J  | 18.643  | 5.074   | 3.2 in  | 0.323 in | 213.0 gr     |
+| 12.3 Ln(8 mm -06) (CDDA) | 16.0 in | 56.8    | 3226.2 J  | 18.643  | 5.074   | 3.2 in  | 0.323 in | 213.0 gr     |
 | .45-70 Govt.             | 16.0 in | 57.0    | 3249.0 J  | 17.198  | 9.301   | 2.6 in  | 0.458 in | 400.0 gr     |
 | .300 RemSAUltra          | 16.0 in | 57.7    | 3329.3 J  | 20.241  | 1.541   | 2.8 in  | 0.308 in | 180.0 gr     |
 | .300 WSM                 | 16.0 in | 58.0    | 3364.0 J  | 20.172  | 2.076   | 2.9 in  | 0.308 in | 190.0 gr     |
@@ -470,3 +564,35 @@ Hydrogen requirements are `coal_requirements/2.5`.
 
 # MUTATIONS
 Mutations are given completely subjective point values.  The most important factor is that mutations that adversely affect a character are given a negative point value, or positive for beneficial mutations.  The chance of obtaining a positive or negative mutation varies based on Instability (a counter that increases by a default of 100 when a mutation is gained or lost and decays by 1 per in-game day by default).  0 point mutations will always have a 10% chance of appearing.  There is a 90% chance to obtain a good mutation until approximately 800 Instability.  There is an equal chance (45% each) of obtaining a good or bad mutation at approximately 2800 Instability.  There is an approximately 70% chance of obtaining a bad mutation at 10000 Instability, which will be the cap after a current test phase where it is capped at 8000.
+
+# Preparing Food and Water:
+
+"surface_heat" uses a base cost of 20 kJ. Its various options are then given charge costs equal to their efficiency - 80% for induction or a microwave (25u battery, 1:1 kJ:battery), 60% for basic electric (35u battery 1:1 kJ:battery), 35% for most combustible fuels - gasoline (2u fuel 34:1 kJ:fuel), kerosene (2u fuel 34:1 kJ:fuel), propane (3u fuel 25:1 kJ:fuel), acetylene (1u fuel 50:1 kJ:fuel) and ethanol (3u fuel 25:1 kJ:fuel). 25% for hexamine (2u fuel 40:1 kJ:fuel) and 16% for coal/charcoal (4u fuel 32:1 kJ:fuel).
+
+Food recipes that use surface_heat are made up of a combination of individual costs per type of ingredient in most cases. 
+- 1u of surface_heat: 1u of flour, up to 2u of butter/oil, 1u of sugar_standard, cook one corn tortilla, process 100 grams of fruit
+- 2u of surface_heat: one scrap of meat (30 grams), 1u of non-raw milk, 1u of batter (breading/frying), 100 grams of non-startchy veggy (for things like potatoes that are highly starchy, assume they are equal to their weight in flour - 1u of flour weighs 13 grams)
+- 3u of surface_heat: cook one unit of oatmeal.
+- 4u of surface_heat: cook one unit of beans, rice or lentils, use cooked meat in a recipe, cook 1u of raw organs.
+- 5u of surface_heat: cook one unit of cornmeal or bread flour.
+- 6u of surface_heat: roast 1u of nuts, cook 1u of tofu
+- 15u of surface_heat: process a chunk of fat in a recipe or cook a unit of blood
+- 20u of surface_heat: cook a chunk of meat (300 grams)
+
+The bread recipe for example uses 20 units of flour, so it should be roughly 20 units of surface_heat. However it is special-cased because you must also use warm water to activate the yeast used in the recipe so it ends up being 22 units. These values serve as a rough guideline to give a decent estimate of what the total recipe should cost. 
+
+Also, because many foods are not cooked to boiling temperature, the recipe should always require clean water and not any water. For recipes that use water_boiling_heat, it is OK to use regular water.
+
+The easiest way to estimate the power needed to cook something is to see how long it takes to microwave. 1000w is a good ballpark estimate for a microwave power usage which gives an easy solution of 3u of this per minute in the microwave.
+
+
+"water_boiling_heat" uses a base cost of 100kJ. This is the hypothetical maximum efficiency to boil 0.25 liters of water for about a minute assuming the water was previously at basement temperature (~45 F). These costs are based on that figure, and the total efficiencies are slightly different then that of surface_heat. It's still about 80% for induction (125u battery, 1:1 kJ:battery), and for regular electric 50% (200u battery, 1:1 kJ:battery), for a microwave, 40% (250u battery, 1:1 kJ:battery), 25% for most combustible fuels - gasoline (12u fuel 34:1 kJ:fuel), kerosene (12u fuel 34:1 kJ:fuel), propane (16u fuel 25:1 kJ:fuel), acetlyne (8u fuel 50:1 kJ:fuel), ethanol (20u fuel, 25:1 kJ:fuel), 20% for hexamine (13u fuel 40:1 kJ:fuel), 10% for charcoal (30u fuel 32:1 kJ:fuel)
+
+To apply "water_boiling_heat" apply 1u of water_boiling_heat for each 0.25 liter of water being boiled, then additionally add an extra water_boiling_heat for each 15 minutes it boils on top of the heat to bring it up to boil. The clean water recipe is 1 unit of this. To boil an one liter of water for an hour you would expect about 20u total (4x0.25L + 4 extra charges per each 0.25L). Add one more water_boiling_heat for each 0.25L of non-water foodstuff added to the recipe regardless of how long the boil time will be - to boil 0.5 liters of eggs for an hour using the above 4 hours of water it would be 22u water_boiling_heat. (In practice it doesn't actually take that long to boil an egg and it doesn't take that much water so it will be much lower, this is just an example!)
+
+Canning recipes use "water_boiling_heat" in multiples. It is split into water bath and pressure canning methods - water bath uses 10u of water_boiling_heat for a 0.5 liter jar or 60u for a 3 liter jar. Pressure canning is 50% higher and requires appropriate equipment.
+
+
+"dehydrating_heat" is measured in 10 grams of material each, and takes 66 kJ of battery or 12u of coal/charcoal. Smoking food is similar to this, but uses half as much charcoal (about 4:5 charcoal:food by weight) 
+
+

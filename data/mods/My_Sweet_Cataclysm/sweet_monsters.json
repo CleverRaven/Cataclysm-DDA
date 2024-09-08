@@ -17,7 +17,7 @@
     "color": "magenta",
     "death_function": { "corpse_type": "BROKEN" },
     "placate_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_marshmallow_kid",
@@ -90,15 +90,13 @@
     "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 8,
-    "armor_bash": 2,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "vision_night": 4,
     "harvest": "marshmallow_boy",
     "special_attacks": [ [ "SMASH", 30 ] ],
     "upgrades": { "half_life": 21, "into": "mon_marshmallow_goliath" },
     "reproduction": { "baby_egg": "marshmallow", "baby_count": 7, "baby_timer": 12 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON", "PUSH_VEH" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NO_BREATHE", "PUSH_MON", "PUSH_VEH" ],
+    "armor": { "bash": 2, "cut": 3, "bullet": 2 }
   },
   {
     "id": "mon_marshmallow_goliath",
@@ -120,9 +118,6 @@
     "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 8,
-    "armor_bash": 6,
-    "armor_cut": 9,
-    "armor_bullet": 7,
     "vision_day": 50,
     "vision_night": 4,
     "harvest": "marshmallow_boy",
@@ -140,7 +135,8 @@
       "NO_BREATHE",
       "PUSH_MON",
       "PUSH_VEH"
-    ]
+    ],
+    "armor": { "bash": 6, "cut": 9, "bullet": 7 }
   },
   {
     "id": "mon_marshmallow_kid_armored",
@@ -149,11 +145,9 @@
     "description": "A small humanoid made of marshmallow.  Its chocolate-coated cracker armor shines dully as it bumbles around on its stubby marshmallow legs.  How cute!",
     "copy-from": "mon_marshmallow_kid",
     "color": "white_red",
-    "armor_bash": 2,
-    "armor_cut": 3,
-    "armor_bullet": 2,
     "harvest": "armored_marshmallow_boy",
-    "upgrades": { "half_life": 14, "into": "mon_marshmallow_guy_armored" }
+    "upgrades": { "half_life": 14, "into": "mon_marshmallow_guy_armored" },
+    "armor": { "bash": 2, "cut": 3, "bullet": 2 }
   },
   {
     "id": "mon_marshmallow_guy_armored",
@@ -163,12 +157,10 @@
     "default_faction": "marshmallow_boys",
     "copy-from": "mon_marshmallow_guy",
     "color": "white_magenta",
-    "armor_bash": 3,
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "harvest": "armored_marshmallow_boy",
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_buff_armored" },
-    "reproduction": { "baby_egg": "smores", "baby_count": 5, "baby_timer": 14 }
+    "reproduction": { "baby_egg": "smores", "baby_count": 5, "baby_timer": 14 },
+    "armor": { "bash": 3, "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_marshmallow_buff_armored",
@@ -178,12 +170,10 @@
     "default_faction": "marshmallow_boys",
     "copy-from": "mon_marshmallow_buff",
     "color": "yellow_magenta",
-    "armor_bash": 6,
-    "armor_cut": 7,
-    "armor_bullet": 6,
     "harvest": "armored_marshmallow_boy",
     "upgrades": { "half_life": 14, "into": "mon_marshmallow_goliath_armored" },
-    "reproduction": { "baby_egg": "smores", "baby_count": 7, "baby_timer": 12 }
+    "reproduction": { "baby_egg": "smores", "baby_count": 7, "baby_timer": 12 },
+    "armor": { "bash": 6, "cut": 7, "bullet": 6 }
   },
   {
     "id": "mon_marshmallow_goliath_armored",
@@ -194,10 +184,8 @@
     "copy-from": "mon_marshmallow_goliath",
     "symbol": "M",
     "color": "brown_magenta",
-    "armor_bash": 9,
-    "armor_cut": 11,
-    "armor_bullet": 9,
-    "reproduction": { "baby_egg": "smores", "baby_count": 10, "baby_timer": 10 }
+    "reproduction": { "baby_egg": "smores", "baby_count": 10, "baby_timer": 10 },
+    "armor": { "bash": 9, "cut": 11, "bullet": 9 }
   },
   {
     "id": "mon_gummy_cub",
@@ -240,29 +228,62 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "dodge": 3,
-    "armor_bash": 2,
     "vision_day": 30,
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT" ],
     "harvest": "gummy_bear",
     "reproduction": { "baby_egg": "candy3", "baby_count": 1, "baby_timer": 10 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_gummy_gator",
     "type": "MONSTER",
     "name": "gummy gator",
-    "copy-from": "mon_gator",
     "description": "Slowly moving through the chocolate like a gummy log along the surface.  You notice it's eye's following your movement as you approach.",
     "default_faction": "gummy_bears",
+    "bodytype": "gator",
+    "categories": [ "WILDLIFE" ],
     "species": [ "GUMMY" ],
+    "volume": "108500 ml",
+    "weight": "120 kg",
+    "hp": 90,
+    "speed": 90,
     "material": [ "sugar" ],
     "symbol": "C",
     "color": "light_red",
+    "aggression": 30,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "dodge": 2,
+    "vision_day": 3,
+    "vision_night": 35,
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "gummy_bear",
+    "dissect": "dissect_lizard_sample_large",
+    "path_settings": { "max_dist": 8 },
+    "grab_strength": 50,
+    "special_attacks": [
+      {
+        "id": "bite_grab",
+        "cooldown": 20,
+        "accuracy": 6,
+        "damage_max_instance": [
+          { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
+        ],
+        "infection_chance": 50
+      }
+    ],
     "reproduction": { "baby_egg": "candy3gator", "baby_count": 1, "baby_timer": 10 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS", "ATTACKMON" ],
+    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_small_cracker",
@@ -285,15 +306,13 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
-    "armor_cut": 10,
-    "armor_bullet": 8,
-    "armor_stab": 25,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "cracker_boy",
     "special_attacks": [ [ "scratch", 10 ] ],
     "upgrades": { "half_life": 15, "into": "mon_cracker" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE" ],
+    "armor": { "cut": 10, "stab": 25, "bullet": 8 }
   },
   {
     "id": "mon_cracker",
@@ -316,15 +335,13 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
-    "armor_cut": 20,
-    "armor_bullet": 27,
-    "armor_stab": 27,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "cracker_boy",
     "special_attacks": [ [ "scratch", 10 ] ],
     "reproduction": { "baby_egg": "grahmcrackers", "baby_count": 3, "baby_timer": 20 },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE" ]
+    "flags": [ "SEES", "HEARS", "NO_BREATHE" ],
+    "armor": { "cut": 20, "stab": 27, "bullet": 27 }
   },
   {
     "id": "mon_cracker_lbass",
@@ -366,7 +383,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER" ],
     "reproduction": { "baby_egg": "cookies", "baby_count": 10, "baby_timer": 5 }
   },
   {
@@ -387,7 +404,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
     "reproduction": { "baby_egg": "cookies_egg", "baby_count": 1, "baby_timer": 5 }
   },
   {
@@ -408,7 +425,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
     "upgrades": { "age_grow": 200, "into": "mon_cookie_hydra" }
   },
   {
@@ -433,15 +450,13 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 4,
-    "armor_bullet": 3,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "gum_spider",
     "emit_fields": [ { "emit_id": "emit_gum_web", "delay": "30 m" } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
-    "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 }
+    "reproduction": { "baby_egg": "gum", "baby_count": 10, "baby_timer": 5 },
+    "armor": { "bash": 2, "cut": 4, "bullet": 3 }
   },
   {
     "id": "mon_gum_spider_wolf",
@@ -465,14 +480,12 @@
     "melee_dice": 1,
     "melee_dice_sides": 8,
     "dodge": 4,
-    "armor_bash": 4,
-    "armor_cut": 8,
-    "armor_bullet": 6,
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "caff_gum_spider",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ],
+    "armor": { "bash": 4, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_cow_calf_choc",
@@ -505,21 +518,20 @@
     "melee_dice": 2,
     "melee_dice_sides": 10,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_elec": 1,
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "choc_cows",
     "starting_ammo": { "milk_raw_choc": 40 },
     "biosignature": { "biosig_item": "feces_candy", "biosig_timer": "1 d" },
-    "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 }
+    "reproduction": { "baby_monster": "mon_cow_calf_choc", "baby_count": 1, "baby_timer": 343 },
+    "armor": { "bash": 2, "electric": 1 }
   },
   {
     "id": "mon_licorice_snake",
     "type": "MONSTER",
     "name": { "str": "licorice snake" },
-    "description": "A Snake whose body is made out of licorice, at least it's the red type.",
+    "description": "A snake whose body is made out of licorice, at least it's the red type.",
     "default_faction": "licorice_snakes",
     "bodytype": "snake",
     "species": [ "LICORICE" ],

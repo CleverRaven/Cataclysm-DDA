@@ -1,17 +1,19 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "concrete",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": "10 m",
+    "time": "30 s",
+    "batch_time_factors": [ 80, 2 ],
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 4 ] ],
-    "tools": [ [ [ "con_mix", 50 ] ] ],
-    "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 25 ] ], [ [ "pebble", 20 ], [ "material_gravel", 100 ] ] ]
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "result_mult": 2,
+    "using": [ [ "concrete_materials_dry", 1 ] ]
   },
   {
     "type": "recipe",
@@ -69,7 +71,8 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "bodypillow_makeshift",
+    "result": "bodypillow",
+    "variant": "bodypillow_makeshift",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "skill_used": "tailor",
@@ -126,7 +129,7 @@
     "components": [
       [ [ "2x4", 25 ], [ "frame_wood", 4 ] ],
       [ [ "sheet_metal_small", 3 ] ],
-      [ [ "nail", 100 ] ],
+      [ [ "nails", 100, "LIST" ] ],
       [ [ "pipe", 4 ] ],
       [
         [ "funnel", 1 ],
@@ -164,7 +167,7 @@
       [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
       [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "nail", 100 ] ],
+      [ [ "nails", 100, "LIST" ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
       [
@@ -215,38 +218,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "meal_chitin_piece",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": "1 h",
-    "autolearn": true,
-    "batch_time_factors": [ 83, 3 ],
-    "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ], [ "insect_dust", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "meal_chitin_piece",
-    "id_suffix": "mortar",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "cooking",
-    "skills_required": [ [ "survival", 1 ] ],
-    "difficulty": 2,
-    "time": "1 h 30 m",
-    "autolearn": true,
-    "batch_time_factors": [ 83, 3 ],
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ], [ "insect_dust", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
     "result": "small_space_heater",
     "category": "CC_OTHER",
@@ -257,10 +228,12 @@
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 2 ] ],
+    "//": "75 cm weld",
+    "using": [ [ "welding_standard", 75 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
+      { "proficiency": "prof_appliance_repair" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [
@@ -270,7 +243,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "sheet_metal_small", 5 ] ],
       [ [ "power_supply", 1 ] ]
@@ -288,10 +261,12 @@
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 4 ] ],
+    "//": "200 cm weld",
+    "using": [ [ "welding_standard", 200 ], [ "steel_standard", 4 ] ],
     "proficiencies": [
+      { "proficiency": "prof_appliance_repair" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [
@@ -301,7 +276,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "element", 12 ], [ "crude_heating_element", 12 ] ],
+      [ [ "element", 12 ], [ "crude_heating_element", 18 ] ],
       [ [ "cable", 6 ] ],
       [ [ "sheet_metal", 2 ] ],
       [ [ "power_supply", 1 ] ]
@@ -319,7 +294,7 @@
     "time": "20 m",
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "book_learn": [ [ "recipe_bullets", 6 ], [ "textbook_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "plastic_chunk", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -339,7 +314,7 @@
     "components": [
       [ [ "stick", 1 ], [ "mop", 1 ], [ "broom", 1 ], [ "hoe", 1 ] ],
       [ [ "2x4", 1 ], [ "puck", 1 ] ],
-      [ [ "nail", 1 ], [ "antenna", 1 ] ],
+      [ [ "nails", 1, "LIST" ], [ "antenna", 1 ] ],
       [ [ "shot_hull", 1 ] ]
     ]
   },
@@ -361,7 +336,7 @@
     "//": "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
     "components": [
       [ [ "sewing_kit", 1 ] ],
-      [ [ "scissors", 1 ], [ "steel_scissors", 1 ] ],
+      [ [ "scissors", 1 ] ],
       [ [ "kevlar_shears", 1 ] ],
       [ [ "knitting_needles", 1 ] ],
       [ [ "awl_steel", 1 ] ],
@@ -371,7 +346,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "analytical_set_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -438,8 +413,8 @@
     "result": "bone_flute",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "category": "CC_MUSIC",
+    "subcategory": "CSC_MUSIC_WIND",
     "skill_used": "survival",
     "difficulty": 3,
     "skills_required": [ "fabrication", 3 ],
@@ -461,7 +436,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "skewer_bone", 2 ], [ "splinter", 2 ] ] ]
+    "components": [ [ [ "splinter", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -502,15 +477,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [
-        [ "jug_plastic", 1 ],
-        [ "bottle_plastic", 3 ],
-        [ "bottle_bathroom", 3 ],
-        [ "bottle_plastic_small", 6 ],
-        [ "aluminum_foil", 6 ]
-      ]
-    ]
+    "components": [ [ [ "plastic_bottles_4l", 1, "LIST" ], [ "bottle_bathroom", 3 ], [ "aluminum_foil", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -525,7 +492,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "skill_penalty": 0.5 },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_closures_waterproofing" }
@@ -534,6 +501,30 @@
       [ [ "stick", 10 ], [ "2x4", 5 ] ],
       [ [ "leather", 64 ], [ "sheet_leather_patchwork", 8 ], [ "tanned_hide", 8 ] ],
       [ [ "filament", 40, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "large_shelter_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "skill_penalty": 0.5 },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "components": [
+      [ [ "stick", 10 ] ],
+      [ [ "sheet_leather_patchwork", 24 ], [ "sheet_leather", 24 ], [ "tanned_hide", 24 ] ],
+      [ [ "filament", 500, "LIST" ] ]
     ]
   },
   {
@@ -549,7 +540,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "skill_penalty": 0.5 },
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
       { "proficiency": "prof_closures_waterproofing" }
@@ -559,6 +550,31 @@
       [ [ "leather", 4 ], [ "tanned_hide", 1 ] ],
       [ [ "damaged_shelter_kit", 1 ] ],
       [ [ "filament", 5, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "large_shelter_kit",
+    "id_suffix": "repair",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "survival",
+    "skills_required": [ "tailor", 2 ],
+    "time": "40 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "skill_penalty": 0.5 },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures", "required": false, "time_multiplier": 1.5 },
+      { "proficiency": "prof_closures_waterproofing" }
+    ],
+    "components": [
+      [ [ "stick", 6 ] ],
+      [ [ "leather", 16 ], [ "sheet_leather", 4 ], [ "sheet_leather_patchwork", 4 ], [ "tanned_hide", 4 ] ],
+      [ [ "large_damaged_shelter_kit", 1 ] ],
+      [ [ "filament", 100, "LIST" ] ]
     ]
   },
   {
@@ -576,7 +592,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_leatherworking_basic", "required": false, "time_multiplier": 2, "skill_penalty": 0.5 },
       { "proficiency": "prof_furriery" }
     ],
     "components": [ [ [ "fur", 24 ], [ "tanned_pelt", 4 ], [ "sheet_fur_patchwork", 4 ] ], [ [ "filament", 20, "LIST" ] ] ]
@@ -595,7 +611,23 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 8, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "v_table",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "35 m",
+    "decomp_learn": 1,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" }, { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 14, "LIST" ] ] ],
+    "byproducts": [ [ "splinter", 5 ] ]
   },
   {
     "type": "recipe",
@@ -609,10 +641,11 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "//": "220 cm weld",
+    "using": [ [ "welding_standard", 220 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ], [ [ "pipe_fittings", 4 ] ] ]
@@ -635,7 +668,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "rolling_paper",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -654,9 +687,10 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "3 h",
+    "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_scrap", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -669,13 +703,18 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "1 h 30 m",
+    "result_mult": 6,
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_wiremaking" }
+    ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "hotcut", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -689,9 +728,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "3 h",
+    "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
@@ -704,13 +744,18 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "1 h 30 m",
+    "result_mult": 6,
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_wiremaking" }
+    ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "hotcut", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -724,9 +769,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "3 h",
+    "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "mc_steel_lump", 1 ] ] ]
   },
@@ -739,13 +785,18 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "1 h 30 m",
+    "result_mult": 6,
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_wiremaking" }
+    ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "hotcut", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -759,9 +810,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "3 h",
+    "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "hc_steel_lump", 1 ] ] ]
   },
@@ -774,13 +826,18 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "1 h 30 m",
+    "result_mult": 6,
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_wiremaking" }
+    ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "hotcut", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -794,9 +851,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "2 h",
+    "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "components": [ [ [ "lc_steel_lump", 1 ] ] ]
   },
@@ -809,14 +867,19 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "1 h 30 m",
+    "result_mult": 6,
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "using": [ [ "carbon", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_wiremaking" }
+    ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "hotcut", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ]
     ],
@@ -830,15 +893,16 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "30 m",
+    "time": "3 h",
+    "result_mult": 6,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "carbon", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "carbon", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
   },
   {
@@ -850,22 +914,24 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "1 h 30 m",
+    "result_mult": 6,
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_quenching", "skill_penalty": 1 },
+      { "proficiency": "prof_wiremaking" }
     ],
     "tools": [
-      [ [ "tongs", -1 ] ],
-      [ [ "hotcut", -1 ] ],
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "hotcut_any", 1, "LIST" ] ],
       [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ] ]
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
   },
@@ -882,21 +948,6 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "boltcutters", -1 ], [ "toolset", -1 ] ] ],
     "components": [ [ [ "wire", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "wire_mesh",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h",
-    "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "surface_heat", 2, "LIST" ], [ "forge", 2 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "wire", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -925,7 +976,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 30 ] ] ]
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nails", 30, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -933,14 +984,18 @@
     "result": "duct_tape",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "chemistry",
+    "skill_used": "fabrication",
     "difficulty": 3,
     "time": "18 m",
-    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ], [ "textbook_mechanics", 5 ] ],
-    "using": [ [ "filament", 50 ] ],
+    "charges": 40,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "superglue", 1 ] ], [ [ "cotton_patchwork", 6 ] ], [ [ "plastic_chunk", 1 ] ] ]
+    "components": [
+      [ [ "rubber_cement", 1 ] ],
+      [ [ "sheet_cotton_patchwork", 1 ], [ "sheet_cotton", 1 ] ],
+      [ [ "plastic_sheet_small", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -958,16 +1013,44 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "makeshift_tree_spile",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "pointy_stick", 1 ], [ "stick", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "brazier",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 m",
-    "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal", 1 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ] ],
+    "byproducts": [ [ "steel_chunk", 6 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_brazier",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "tools": [ [ [ "spike", -1 ], [ "nail", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
+    "components": [ [ [ "bucket", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -999,7 +1082,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "chemistry_set_basic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1019,7 +1102,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "chemistry_set",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1034,7 +1117,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "misc_repairkit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1047,13 +1130,13 @@
     "flags": [ "BLIND_EASY" ],
     "components": [
       [ [ "xacto", 1 ] ],
-      [ [ "saw", 1 ], [ "bow_saw", 1 ] ],
+      [ [ "saw", 1 ], [ "bow_saw", 1 ], [ "saw_bronze", 1 ] ],
       [ [ "leather", 1 ], [ "fur", 1 ], [ "faux_fur", 1 ], [ "felt_patch", 1 ], [ "cotton_patchwork", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "small_repairkit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1073,7 +1156,7 @@
     ],
     "components": [
       [ [ "pipe_cleaner", 1 ] ],
-      [ [ "soldering_iron", 1 ] ],
+      [ [ "soldering_iron_portable", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
       [ [ "wrench", 1 ] ],
       [ [ "chisel", 1 ] ],
@@ -1083,7 +1166,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1116,7 +1199,7 @@
     "reversible": true,
     "book_learn": [ [ "fun_survival", 1 ], [ "manual_fabrication", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "can_drink", 2 ] ], [ [ "bottle_plastic", 1 ], [ "bottle_bathroom", 1 ] ] ]
+    "components": [ [ [ "can_drink", 2 ] ], [ [ "plastic_bottles_2l", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1135,7 +1218,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -1148,17 +1232,20 @@
         [ "welder", 200 ],
         [ "welding_kit", 200 ],
         [ "welder_crude", 300 ],
-        [ "toolset", 300 ],
+        [ "integrated_welder", 300 ],
         [ "soldering_iron", 300 ],
+        [ "soldering_iron_portable", 300 ],
+        [ "integrated_electrokit", 300 ],
         [ "oxy_torch", 40 ]
       ]
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [
-      [ [ "element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
       [ [ "cable", 4 ] ],
-      [ [ "power_supply", 1 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "fire_brick", 8 ] ]
     ]
   },
   {
@@ -1168,17 +1255,17 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "4 h",
+    "difficulty": 6,
+    "time": "6 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "drill_press_tool", 20 ] ], [ [ "angle_grinder", 20 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "steel_chunk", 160 ], [ "steel_lump", 40 ], [ "frame", 4 ], [ "hdframe", 2 ] ] ]
+    "components": [ [ [ "anvil_crude", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "crucible_clay",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1188,7 +1275,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 90 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1203,7 +1290,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 25, "LIST" ] ], [ [ "tin", 30 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 3, "LIST" ] ], [ [ "tin", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -1218,10 +1305,12 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
     "time": "1 h 30 m",
     "autolearn": true,
+    "//1": "Handling acids requires some knowledge.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "copper_scrap_equivalent", 25, "LIST" ] ],
+      [ [ "copper_scrap_equivalent", 3, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ]
@@ -1277,12 +1366,12 @@
     "time": "10 m",
     "book_learn": [ [ "plastics_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ], [ [ "spring", 1 ] ] ]
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 3 ] ],
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lens", 1 ], [ "lens_small", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "crackpipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1306,7 +1395,8 @@
       [ "textbook_weapeast", 5 ],
       [ "textbook_weapwest", 5 ],
       [ "textbook_armeast", 5 ],
-      [ "textbook_armwest", 5 ]
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
     ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -1319,8 +1409,10 @@
         [ "welder", 100 ],
         [ "welding_kit", 100 ],
         [ "welder_crude", 150 ],
-        [ "toolset", 150 ],
+        [ "integrated_welder", 150 ],
         [ "soldering_iron", 150 ],
+        [ "soldering_iron_portable", 150 ],
+        [ "integrated_electrokit", 150 ],
         [ "oxy_torch", 20 ]
       ]
     ],
@@ -1357,8 +1449,10 @@
         [ "welder", 50 ],
         [ "welding_kit", 50 ],
         [ "welder_crude", 75 ],
-        [ "toolset", 75 ],
+        [ "integrated_welder", 75 ],
         [ "soldering_iron", 75 ],
+        [ "soldering_iron_portable", 75 ],
+        [ "integrated_electrokit", 75 ],
         [ "oxy_torch", 10 ]
       ]
     ],
@@ -1375,13 +1469,14 @@
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap_aluminum", 11 ] ] ]
   },
   {
     "type": "recipe",
@@ -1412,11 +1507,12 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
+    "//": "60 cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
-    "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "welding_standard", 60 ], [ "steel_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [
@@ -1439,11 +1535,12 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
+    "//": "100 cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
-    "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "welding_standard", 100 ], [ "steel_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [
@@ -1453,7 +1550,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "element", 8 ], [ "crude_heating_element", 8 ] ],
+      [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "cable", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
@@ -1464,7 +1561,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "con_mix",
+    "result": "con_mix_foldable",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1473,27 +1570,27 @@
     "time": "4 h 30 m",
     "reversible": true,
     "autolearn": true,
+    "//1": "338cm weld. 108cm from pipes making the base and handles, 20cm from welding four sheets for the blades on the inside of the drum, 200cm from welding six sheets around the motor.",
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 20 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
-      { "proficiency": "prof_welding" }
-    ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 338 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 }, { "proficiency": "prof_welding" } ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "steel_lump", 3 ], [ "steel_chunk", 9 ], [ "scrap", 36 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "pipe", 4 ] ],
+      [ [ "pipe", 12 ] ],
+      [ [ "sheet_metal_small", 10 ] ],
       [ [ "motor_small", 1 ] ],
-      [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
-      [ [ "cable", 16 ] ]
-    ]
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "wheel_small", 2 ] ],
+      [ [ "wheel_mount_light", 2 ] ],
+      [ [ "nuts_bolts", 8 ] ],
+      [ [ "30gal_barrel", 1 ] ]
+    ],
+    "//2": "The component list is by no means perfect - this craft still generates ~7.2kg of mass. I can't, however, improve it without adding nonexistant components to the recipe, so I think this is an acceptable state of things."
   },
   {
     "type": "recipe",
@@ -1517,8 +1614,10 @@
         [ "welder", 150 ],
         [ "welding_kit", 150 ],
         [ "welder_crude", 225 ],
-        [ "toolset", 225 ],
+        [ "integrated_welder", 225 ],
         [ "soldering_iron", 225 ],
+        [ "soldering_iron_portable", 225 ],
+        [ "integrated_electrokit", 225 ],
         [ "oxy_torch", 30 ]
       ]
     ],
@@ -1532,7 +1631,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "kiln_full",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -1564,7 +1663,8 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 75 ] ] ],
+    "//": "resulting jug has 90 charges of charcoal, but is slightly overcharging for water purification so this recipe gets a slight discount.",
+    "components": [ [ [ "jug_plastic", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 84 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
@@ -1578,7 +1678,8 @@
     "time": "30 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 300 ] ] ],
+    "//": "resulting hydria has 360 charges of charcoal, but is slightly overcharging for water purification so this recipe gets a slight discount.",
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "cotton_patchwork", 4 ] ], [ [ "charcoal", 335 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
@@ -1607,23 +1708,8 @@
     "time": "30 m",
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 6 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "silver_small", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "mirror",
-    "id_suffix": "from_steel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "10 m",
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "polisher", 20 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 50 ] ] ],
-    "components": [ [ [ "steel_chunk", 3 ] ] ]
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "components": [ [ [ "glass_shard", 3 ] ], [ [ "silver_small", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -1637,12 +1723,17 @@
     "book_learn": [ [ "glassblowing_book", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ],
-    "components": [ [ [ "glass_shard", 3 ], [ "bottle_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
+    "tools": [
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 25 ] ]
+    ],
+    "components": [ [ [ "glass_shard", 3 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "grapnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1656,7 +1747,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "grapnel",
     "id_suffix": "from_scratch",
     "category": "CC_OTHER",
@@ -1667,10 +1758,10 @@
     "time": "1 h 30 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 8 ] ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "rope_superior", 1, "LIST" ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
+    "components": [ [ [ "rope_natural", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1691,23 +1782,17 @@
       { "id": "GLARE", "level": 1 }
     ],
     "tools": [
-      [ [ "welder", 100 ], [ "welding_kit", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "soldering_iron", 150 ] ]
+      [
+        [ "welder", 100 ],
+        [ "welding_kit", 100 ],
+        [ "welder_crude", 150 ],
+        [ "integrated_welder", 150 ],
+        [ "soldering_iron", 150 ],
+        [ "soldering_iron_portable", 150 ],
+        [ "integrated_electrokit", 150 ]
+      ]
     ],
     "components": [ [ [ "steel_chunk", 6 ], [ "scrap", 18 ] ], [ [ "pipe", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "fishing_rod_basic",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "time": "5 m",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "cordage_fishing", 1 ] ],
-    "tools": [  ],
-    "components": [ [ [ "stick", 1 ] ], [ [ "fishing_hook_bone", 1 ], [ "fishing_hook_basic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1742,7 +1827,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "nail", 1 ] ] ]
+    "components": [ [ [ "nails", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1792,10 +1877,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 2 ], [ "survival_book", 1 ], [ "pocket_survival", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "jug_plastic", 2 ], [ "bottle_plastic", 10 ], [ "bottle_bathroom", 10 ], [ "bottle_plastic_small", 20 ] ],
-      [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ]
-    ]
+    "components": [ [ [ "plastic_bottles_4l", 2, "LIST" ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ], [ "medical_tape", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -1807,7 +1889,6 @@
     "skills_required": [ "tailor", 3 ],
     "difficulty": 4,
     "time": "7 h",
-    "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -1815,17 +1896,18 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "toolbox_workshop_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
-    "time": "20 m",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "180 cm weld",
+    "using": [ [ "welding_standard", 180 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 32 ] ] ]
@@ -1845,7 +1927,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "chitin_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
@@ -1864,17 +1946,19 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "acidchitin_plate",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
     "skill_used": "fabrication",
     "difficulty": 5,
-    "time": "55 m",
+    "time": "2h",
     "reversible": true,
     "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_chitinworking" } ],
     "components": [
-      [ [ "acidchitin_piece", 25 ] ],
+      [ [ "acidchitin_piece", 20 ] ],
       [ [ "rope_natural", 1, "LIST" ] ],
       [ [ "rope_natural_short", 2, "LIST" ], [ "adhesive", 4, "LIST" ] ]
     ]
@@ -1889,11 +1973,11 @@
     "difficulty": 4,
     "time": "4 h 30 m",
     "autolearn": true,
-    "using": [ [ "forging_standard", 10 ], [ "steel_standard", 5 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "2x4", 24 ] ], [ [ "nail", 40 ] ] ]
+    "components": [ [ [ "2x4", 24 ] ], [ [ "nails", 40, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1970,10 +2054,11 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 3 ] ],
+    "//": "10 cm weld",
+    "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
@@ -1995,7 +2080,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2005,8 +2090,7 @@
     "autolearn": true,
     "book_learn": [ [ "plastics_book", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "using": [ [ "plastic_molding", 2 ] ],
     "components": [ [ [ "plastic_chunk", 3 ] ] ]
   },
   {
@@ -2042,7 +2126,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "birchbark_funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2168,6 +2252,8 @@
     "time": "20 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [ [ "textbook_survival", 6 ], [ "textbook_chemistry", 4 ], [ "modern_tanner", 4 ] ],
+    "//": "Unlike recipes above, this one actually requires handling of dangerous chemical substances (lye powder).",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "COOK", "level": 3 },
@@ -2190,6 +2276,7 @@
     "time": "20 m",
     "batch_time_factors": [ 50, 5 ],
     "book_learn": [ [ "textbook_survival", 6 ], [ "textbook_chemistry", 4 ], [ "modern_tanner", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [
       { "id": "CHEM", "level": 1 },
       { "id": "COOK", "level": 3 },
@@ -2201,7 +2288,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "survivor_mess_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2223,12 +2310,18 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "pilot_light", 1 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "pipe", 1 ] ],
+      [ [ "duct_tape", 50 ] ]
+    ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "oil_cooker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2237,11 +2330,12 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "oil_lamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "oil_lamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "gasoline_cooker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2250,7 +2344,8 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "gasoline_lantern", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "gasoline_lantern", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -2273,7 +2368,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "survivor_shavingkit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2293,7 +2388,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "survivor_hairtrimmer",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2303,16 +2398,11 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_short", 4 ] ],
-    "components": [
-      [ [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "cotton_patchwork", 1 ] ],
-      [ [ "scissors", 1 ], [ "steel_scissors", 1 ] ],
-      [ [ "mirror", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ], [ [ "cotton_patchwork", 1 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "plant_fibre",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -2340,7 +2430,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "wash_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -2428,11 +2518,11 @@
     "using": [ [ "carbon", 1 ] ],
     "components": [ [ [ "lamellae_lc", 18 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_case_hardening" } ],
-    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 16 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2447,7 +2537,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "lc_chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2462,7 +2552,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "mc_chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2477,7 +2567,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "hc_chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2492,7 +2582,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "ch_chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2507,7 +2597,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "qt_chain_link",
     "id_suffix": "fabrication",
     "category": "CC_OTHER",
@@ -2522,82 +2612,88 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
+    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
     "result": "link_sheet",
     "id_suffix": "fabrication",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "chain_link", 1000 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "chain_link", 2550 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
+    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
     "result": "lc_link_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "lc_chain_link", 1000 ] ], [ [ "lc_wire", 1 ] ] ]
+    "components": [ [ [ "lc_chain_link", 2550 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
+    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
     "result": "mc_link_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "mc_chain_link", 1000 ] ], [ [ "mc_wire", 1 ] ] ]
+    "components": [ [ [ "mc_chain_link", 2550 ] ], [ [ "mc_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
+    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
     "result": "hc_link_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "hc_chain_link", 1000 ] ], [ [ "hc_wire", 1 ] ] ]
+    "components": [ [ [ "hc_chain_link", 2550 ] ], [ [ "hc_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
+    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
     "result": "ch_link_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "ch_chain_link", 1000 ] ], [ [ "ch_wire", 1 ] ] ]
+    "components": [ [ [ "ch_chain_link", 2550 ] ], [ [ "ch_wire", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
+    "//": "1kg per sheet, wire is 0.15kg, links need to cover 850g = 2550 links",
     "result": "qt_link_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "1 h",
+    "time": "10 h",
     "book_learn": [ [ "textbook_armwest", 2 ], [ "textbook_fabrication", 2 ], [ "recipe_melee", 2 ] ],
     "using": [ [ "chainmail_standard", 1 ] ],
-    "components": [ [ [ "qt_chain_link", 1000 ] ], [ [ "qt_wire", 1 ] ] ]
+    "components": [ [ [ "qt_chain_link", 2550 ] ], [ [ "qt_wire", 1 ] ] ]
   },
   {
     "result": "bundle_rag",
@@ -2656,9 +2752,24 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "bundle_nylon",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "filament", 8 ] ],
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "nylon", 50 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "bundle_plank",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2671,7 +2782,7 @@
   {
     "result": "bundle_rebar",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2684,7 +2795,7 @@
   {
     "result": "bundle_pipe",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2697,7 +2808,7 @@
   {
     "result": "bundle_copper_pipe",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2710,7 +2821,7 @@
   {
     "result": "bundle_branch",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2723,7 +2834,7 @@
   {
     "result": "bundle_javelin",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2736,7 +2847,7 @@
   {
     "result": "bundle_branch_long",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -2766,12 +2877,12 @@
     ],
     "components": [
       [ [ "scrap", 6 ] ],
-      [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "pipe", 18 ], [ "cu_pipe", 18 ], [ "frame", 3 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
-      [ [ "spike", 2 ] ],
-      [ [ "pipe_fittings", 24 ] ]
+      [ [ "spike", 4 ] ],
+      [ [ "pipe_fittings", 15 ] ]
     ]
   },
   {
@@ -2795,7 +2906,7 @@
     "components": [
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
-      [ [ "nail", 12 ] ],
+      [ [ "nails", 12, "LIST" ] ],
       [ [ "wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ],
       [ [ "pipe_fittings", 30 ] ]
@@ -2813,7 +2924,13 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "scrap", 6 ] ], [ [ "pipe", 6 ] ], [ [ "nail", 12 ] ], [ [ "sheet_metal", 1 ] ], [ [ "pipe_fittings", 6 ] ] ]
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "pipe", 6 ] ],
+      [ [ "nails", 12, "LIST" ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -2871,11 +2988,13 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_fabrication", 4 ] ],
     "time": "2 h",
     "autolearn": true,
+    "//": "Strong acid handling requires at least basic chemistry knowledge.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "steel_grille", 1 ] ],
-      [ [ "platinum_small", 100 ] ],
+      [ [ "platinum_small", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ]
     ]
@@ -2911,39 +3030,18 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "sandbag",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "anvil_crude",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "time": "2 m",
+    "difficulty": 3,
+    "time": "4 h",
     "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 3000 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "earthbag",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "gravelbag",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "DIG", "level": 2 } ],
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "angle_grinder", 200 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [ [ [ "railroad_track_item_half", 1 ] ] ]
   },
   {
     "result": "anvil_bronze",
@@ -2953,13 +3051,13 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "1 h 40 m",
+    "time": "6 h",
     "autolearn": true,
-    "using": [ [ "forging_standard", 5 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "using": [ [ "forging_standard", 45 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "DIG", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "scrap_bronze", 10 ] ] ]
+    "components": [ [ [ "scrap_bronze", 90 ] ] ]
   },
   {
     "type": "recipe",
@@ -2973,7 +3071,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ]
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3000,7 +3098,12 @@
     "book_learn": [ [ "glassblowing_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "tools": [
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 75 ] ]
+    ],
     "components": [
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "stopcock", 1 ] ]
@@ -3018,11 +3121,12 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "using": [ [ "marking_hard", 1, "LIST" ] ],
     "components": [
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
-      [ [ "nail", 30 ] ],
-      [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ] ],
+      [ [ "nails", 30, "LIST" ] ],
+      [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 1, "LIST" ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
   },
@@ -3041,7 +3145,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "propane_cooker",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3050,7 +3154,21 @@
     "time": "10 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "propane_lantern", 2 ] ], [ [ "pilot_light", 1 ] ], [ [ "scrap", 3 ] ], [ [ "duct_tape", 50 ] ] ]
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "propane_lantern", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "duct_tape", 50 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "biogas_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "1 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "propane_cooker", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3061,12 +3179,34 @@
     "skill_used": "fabrication",
     "difficulty": 7,
     "time": "360 m",
+    "book_learn": [
+      [ "textbook_fabrication", 4 ],
+      [ "textbook_weapeast", 5 ],
+      [ "textbook_weapwest", 5 ],
+      [ "textbook_armeast", 5 ],
+      [ "textbook_armwest", 5 ],
+      [ "textbook_weparabic", 5 ]
+    ],
     "components": [
       [ [ "propane_lantern", 3 ], [ "propane_cooker", 2 ] ],
       [ [ "pilot_light", 1 ] ],
       [ [ "scrap", 10 ] ],
       [ [ "brick", 8 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "acetylene_cooker",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "oxylamp", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -3090,7 +3230,7 @@
         [ "leather_funnel", 1 ]
       ],
       [ [ "hotplate", 1 ] ],
-      [ [ "wire_mesh", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "pipe", 1 ] ],
       [ [ "simple_crank", 1 ], [ "foot_crank", 1 ] ]
     ]
@@ -3122,26 +3262,11 @@
         [ "leather_funnel", 1 ]
       ],
       [ [ "oil_cooker", 1 ] ],
-      [ [ "wire_mesh", 1 ], [ "bag_canvas", 1 ] ],
+      [ [ "wire_mesh", 1 ], [ "cotton_patchwork", 1 ] ],
       [ [ "2x4", 20 ] ],
-      [ [ "nail", 30 ] ],
+      [ [ "nails", 30, "LIST" ] ],
       [ [ "stick_long", 1 ] ]
     ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "propane_cooker",
-    "id_suffix": "cutting",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "10 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "metal_tank_little", 1 ] ], [ [ "pilot_light", 1 ] ] ]
   },
   {
     "result": "archery_target_box",
@@ -3152,12 +3277,12 @@
     "skill_used": "fabrication",
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 10, "LIST" ] ],
+    "using": [ [ "fabric_standard", 200 ], [ "marking_hard", 1, "LIST" ] ],
     "components": [ [ [ "box_medium", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "welding_kit",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3165,7 +3290,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "welder", 1 ] ], [ [ "welding_blanket", 1 ] ] ]
+    "components": [ [ [ "welder", 1 ] ], [ [ "welding_blanket", 1 ], [ "makeshift_welding_blanket", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3200,9 +3325,10 @@
       { "proficiency": "prof_welding" },
       { "proficiency": "prof_blacksmithing" }
     ],
+    "//1": "80 cm weld",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 3, "LIST" ], [ "blacksmithing_standard", 8 ] ],
+    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 80, "LIST" ], [ "blacksmithing_standard", 8 ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "grip_hook", 1 ] ], [ [ "sheet_metal_small", 8 ] ] ]
   },
   {
@@ -3225,18 +3351,93 @@
       { "id": "FILE", "level": 1 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 10 ] ], [ [ "stick", 1 ] ] ]
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nails", 10, "LIST" ] ], [ [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "welding_kit",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "leather_bellow",
+    "id_suffix": "from_sheets",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "tailor",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": "120 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 10 ] ],
+    "byproducts": [ [ "splinter", 6 ], [ "scrap_leather", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
+    "components": [
+      [ [ "2x4", 2 ] ],
+      [ [ "nails", 12, "LIST" ] ],
+      [ [ "sheet_leather_patchwork", 2 ], [ "tanned_hide", 2 ], [ "sheet_fur_patchwork", 2 ], [ "tanned_pelt", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fanning_mill",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "reversible": true,
-    "time": "1 s",
+    "skills_required": [ "survival", 3 ],
+    "difficulty": 7,
+    "time": "8 h",
     "autolearn": true,
-    "components": [ [ [ "welder", 1 ] ], [ [ "welding_blanket", 1 ] ] ]
+    "book_learn": [ [ "reference_fabrication1", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "CUT", "level": 2 }
+    ],
+    "components": [
+      [ [ "wood_panel", 4 ] ],
+      [ [ "2x4", 16 ] ],
+      [ [ "sieve_primitive", 1 ], [ "sieve_steel", 1 ] ],
+      [ [ "wood_panel", 1 ], [ "sheet_metal", 1 ] ],
+      [ [ "nails", 40, "LIST" ] ]
+    ]
+  },
+  {
+    "result": "seaweed_pile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "autolearn": true,
+    "components": [ [ [ "seaweed", 20 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "dry_seaweed_pile",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "autolearn": true,
+    "components": [ [ [ "dry_seaweed", 20 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "butterfly_net_makeshift",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "25 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "sheet_canvas", 1 ], [ "sheet_canvas_patchwork", 1 ] ] ],
+    "byproducts": [ [ "splinter", 8 ] ]
   }
 ]

@@ -15,7 +15,7 @@ static void set_map_temperature( units::temperature new_temperature )
     get_weather().clear_temp_cache();
 }
 
-TEST_CASE( "Rate of rotting", "[rot]" )
+TEST_CASE( "Rate_of_rotting", "[rot]" )
 {
     SECTION( "Passage of time" ) {
         // Item rot is a time duration.
@@ -75,7 +75,7 @@ TEST_CASE( "Rate of rotting", "[rot]" )
     }
 }
 
-TEST_CASE( "Items rot away", "[rot]" )
+TEST_CASE( "Items_rot_away", "[rot]" )
 {
     SECTION( "Item in reality bubble rots away" ) {
         // Item should rot away when it has 2x of its shelf life in rot.
@@ -99,15 +99,16 @@ TEST_CASE( "Items rot away", "[rot]" )
     }
 }
 
-TEST_CASE( "Hourly rotpoints", "[rot]" )
+TEST_CASE( "Hourly_rotpoints", "[rot]" )
 {
     item normal_item( "meat_cooked" );
 
     // No rot below 32F/0C
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 0 ) ) == 0 );
 
-    // No rot above 145F/63C
-    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 63 ) ) == 0 );
+    // Max rot above 145F/63C
+    CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 63 ) ) == Approx(
+               20364.67 ) );
 
     // Make sure no off by one error at the border
     CHECK( normal_item.calc_hourly_rotpoints_at_temp( units::from_celsius( 62 ) ) == Approx(

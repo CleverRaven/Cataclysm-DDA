@@ -1,0 +1,130 @@
+[
+  {
+    "id": "wield_label",
+    "type": "widget",
+    "style": "text",
+    "width": 11,
+    "arrange": "columns",
+    "string": "<color_white>Wielding</color>"
+  },
+  {
+    "id": "zenfs_wield_white_label",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "wield_label", "wielding_desc_no_label" ]
+  },
+  {
+    "id": "ma_label",
+    "type": "widget",
+    "style": "text",
+    "width": 11,
+    "arrange": "columns",
+    "string": "<color_white>Martial art</color>"
+  },
+  {
+    "id": "zenfs_ma_white_label",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "ma_label", "style_desc_no_label" ]
+  },
+  {
+    "id": "ma_buff_entries",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_ma_buff_legend" ]
+  },
+  {
+    "id": "zenfs_ma_buff_legend",
+    "type": "widget",
+    "style": "legend",
+    "copy-from": "ma_buff_indicator_template",
+    "width": 0,
+    "height": 4,
+    "text_align": "left",
+    "separator": "<color_dark_gray>|/color> ",
+    "flags": [ "W_LABEL_NONE", "W_DYNAMIC_HEIGHT" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor",
+    "type": "widget",
+    "style": "layout",
+    "label": "Armor; top layer",
+    "description": "Shows top-most layer of currently worn <color_yellow>armor</color>.",
+    "arrange": "minimum_columns",
+    "padding": 2,
+    "widgets": [ "zenfs_bp_top_armor_left", "zenfs_bp_top_armor_right" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_left",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "zenfs_bp_top_armor_head", "zenfs_bp_top_armor_arms", "zenfs_bp_top_armor_hands" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_right",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "zenfs_bp_top_armor_torso", "zenfs_bp_top_armor_legs", "zenfs_bp_top_armor_feet" ]
+  },
+  {
+    "id": "zenfs_bp_armor_template",
+    "type": "widget",
+    "style": "text",
+    "text_align": "left",
+    "width": 0,
+    "var": "bp_armor_outer_text"
+  },
+  {
+    "id": "zenfs_bp_top_armor_head",
+    "type": "widget",
+    "label": "<color_white>Head </color>",
+    "bodypart": "head",
+    "copy-from": "zenfs_bp_armor_template",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_arms",
+    "type": "widget",
+    "label": "<color_white>Arms </color>",
+    "bodypart": "arm_r",
+    "copy-from": "zenfs_bp_armor_template",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_hands",
+    "type": "widget",
+    "label": "<color_white>Hands </color>",
+    "bodypart": "hand_r",
+    "copy-from": "zenfs_bp_armor_template",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_torso",
+    "type": "widget",
+    "label": "<color_white>Torso </color>",
+    "bodypart": "torso",
+    "copy-from": "zenfs_bp_armor_template",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_legs",
+    "type": "widget",
+    "label": "<color_white>Legs </color>",
+    "bodypart": "leg_r",
+    "copy-from": "zenfs_bp_armor_template",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_bp_top_armor_feet",
+    "type": "widget",
+    "label": "<color_white>Feet </color>",
+    "bodypart": "foot_r",
+    "copy-from": "zenfs_bp_armor_template",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

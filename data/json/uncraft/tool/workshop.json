@@ -1,0 +1,68 @@
+[
+  {
+    "result": "wrench",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 8 ] ] ]
+  },
+  {
+    "result": "wrench_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "tin_snips",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "claw_bar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "jack",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 5 ] ] ]
+  },
+  {
+    "result": "jack_makeshift",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "jack_small",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
+  },
+  {
+    "result": "soldering_iron_portable",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "20 m",
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 3 ] ], [ [ "copper", 1 ] ], [ [ "scrap", 2 ] ], [ [ "cable", 10 ] ] ]
+  }
+]

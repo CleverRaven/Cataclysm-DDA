@@ -3,13 +3,21 @@
     "abstract": "fake_item",
     "type": "GENERIC",
     "name": { "str": "fake item" },
-    "description": "Dummy item.  If you see this, then something went wrong.",
+    "description": "Dummy item.",
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
-    "flags": [ "ZERO_WEIGHT" ],
+    "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
     "color": "red"
+  },
+  {
+    "id": "fake_crafting_tool",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "fake crafting tool" },
+    "description": "Used for practice recipes and the like.",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
     "id": "fake_arcfurnace",
@@ -34,29 +42,39 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
-    "flags": [ "TRADER_AVOID" ],
+    "extend": { "flags": [ "TRADER_AVOID" ] },
     "use_action": [ "DIG" ],
     "qualities": [ [ "DIG", 2 ] ]
   },
   {
-    "id": "toolset",
+    "id": "integrated_ar",
+    "type": "TOOL_ARMOR",
     "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": { "str": "integrated multitool" },
-    "flags": [ "TRADER_AVOID", "FIRESTARTER" ],
-    "use_action": [ "CROWBAR" ],
-    "qualities": [
-      [ "SAW_W", 1 ],
-      [ "SAW_M", 1 ],
-      [ "SAW_M_FINE", 1 ],
-      [ "WRENCH", 1 ],
-      [ "WRENCH_FINE", 1 ],
-      [ "SCREW", 1 ],
-      [ "SCREW_FINE", 1 ],
-      [ "CUT", 2 ],
-      [ "PRY", 1 ],
-      [ "PRYING_NAIL", 1 ],
-      [ "BUTCHER", -55 ]
+    "name": { "str": "Integrated AR System" },
+    "description": "Extremely thin lenses provides user with augmented reality overlay allowing the user to zoom, and it displays handy information about local topology.",
+    "charges_per_use": 1,
+    "use_action": [ "CAMERA", "PORTABLE_GAME", "EINKTABLETPC", "ELECTRICSTORAGE", "EBOOKSAVE", "EBOOKREAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0
+      }
+    ],
+    "flags": [
+      "ZOOM",
+      "WATCH",
+      "ALARMCLOCK",
+      "SUN_GLASSES",
+      "THERMOMETER",
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "NO_REPAIR",
+      "ALLOWS_NATURAL_ATTACKS",
+      "USES_BIONIC_POWER"
     ]
   },
   {
@@ -71,12 +89,12 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
-    "to_hit": 2,
-    "cutting": 8,
+    "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
     "techniques": [ "PRECISE" ],
-    "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ],
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ]
+    "extend": { "flags": [ "TRADER_AVOID", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "SPEAR" ] },
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "melee_damage": { "stab": 8 }
   },
   {
     "id": "fake_razor",
@@ -86,6 +104,13 @@
     "qualities": [ [ "BUTCHER", 8 ], [ "CUT", 1 ] ]
   },
   {
+    "id": "fake_sharp_metal_wreckage",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "sharp piece of wreckage" },
+    "qualities": [ [ "CUT", 1 ] ]
+  },
+  {
     "id": "boulder_anvil",
     "type": "TOOL",
     "copy-from": "fake_item",
@@ -93,35 +118,63 @@
     "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
+    "id": "fake_anvil",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "anvil" },
+    "qualities": [ [ "ANVIL", 3 ] ]
+  },
+  {
+    "id": "fake_anvil_heavy",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "heavy anvil" },
+    "qualities": [ [ "ANVIL", 4 ] ]
+  },
+  {
+    "id": "fake_anvil_crude",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "anvil" },
+    "qualities": [ [ "ANVIL", 2 ] ]
+  },
+  {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",
     "name": { "str_sp": "semi ground grains" },
     "description": "A paste of half-finished milled grains, not yet flour.",
-    "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
+    "extend": { "flags": [ "TRADER_AVOID", "FAKE_MILL" ] }
   },
   {
     "id": "fake_smoke_plume",
     "copy-from": "fake_item",
     "type": "GENERIC",
     "name": { "str_sp": "smoldering embers" },
-    "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
+    "description": "A handful of smoldering embers emitting smoke.  They are fading away before your eyes.",
     "emits": [ "emit_small_smoke_plume" ],
-    "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
+    "extend": { "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ] }
   },
   {
     "id": "fake_firestarter",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
+    "extend": { "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ] }
+  },
+  {
+    "id": "fake_radio",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "bionic radio" },
+    "extend": { "flags": [ "TWO_WAY_RADIO", "USES_BIONIC_POWER" ] }
   },
   {
     "id": "fake_tire_changer",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "tire changer" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] },
     "qualities": [ [ "PRY", 1 ], [ "PRESSURIZATION", 1 ] ]
   },
   {
@@ -130,26 +183,25 @@
     "copy-from": "fake_item",
     "name": { "str": "fake power tool" },
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ] }
   },
   {
     "id": "fake_arc_furnace",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "electric arc furnace" }
+    "name": { "str": "industrial arc furnace" }
   },
   {
     "id": "fake_beverly_shear",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "Beverly shear" },
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_appliance_tool",
+    "abstract": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
-    "description": "Dummy item.  If you see this, then something went wrong.",
     "type": "TOOL",
     "copy-from": "fake_item",
     "ammo": [ "battery" ],
@@ -160,7 +212,9 @@
     "id": "drill_press_tool",
     "type": "TOOL",
     "name": { "str": "drill press", "str_pl": "drill presses" },
-    "copy-from": "fake_appliance_tool"
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 25,
+    "charged_qualities": [ [ "DRILL", 3 ] ]
   },
   {
     "id": "tablesaw_tool",
@@ -199,6 +253,15 @@
     "copy-from": "fake_appliance_tool"
   },
   {
+    "id": "catalytic_cracking_reactor_tool",
+    "type": "TOOL",
+    "copy-from": "fake_appliance_tool",
+    "name": { "str": "catalytic cracking reactor" },
+    "//": "there's a laptop in the disassembly, I assume it requires power.",
+    "charges_per_use": 1,
+    "charged_qualities": [ [ "EXTRACT", 3 ] ]
+  },
+  {
     "id": "hydraulic_press_tool",
     "type": "TOOL",
     "copy-from": "fake_appliance_tool",
@@ -219,301 +282,157 @@
     "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
   },
   {
-    "id": "water_purifier_tool",
-    "type": "TOOL",
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "stationary water purifier" }
-  },
-  {
-    "id": "pseudo_water_purifier",
-    "//": "All vehicle water purifiers need to use the same pseudo-item because vehicle.cpp matches against a specific id",
-    "copy-from": "water_purifier",
-    "sub": "water_purifier",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "water purifier"
-  },
-  {
     "id": "pseudo_exercise_machine",
     "type": "TOOL",
     "name": { "str": "exercise machine" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "material": [ "steel" ],
     "symbol": "T",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_punching_bag",
     "type": "TOOL",
     "name": { "str": "heavy punching bag" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "0",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_ergometer_mechanical",
     "type": "TOOL",
     "name": { "str": "mechanical ergometer" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "5",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_treadmill_mechanical",
     "type": "TOOL",
     "name": { "str": "gravity treadmill" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "L",
-    "color": "dark_gray",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "dark_gray"
   },
   {
     "id": "pseudo_training_dummy_light",
     "type": "TOOL",
     "name": { "str": "training dummy", "str_pl": "training dummies" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "brown"
   },
   {
     "id": "pseudo_training_dummy_heavy",
     "type": "TOOL",
     "name": { "str": "armored training dummy", "str_pl": "armored training dummies" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "brown"
   },
   {
     "id": "pseudo_archery_target_box",
     "type": "TOOL",
     "name": { "str": "box archery target" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "brown",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "brown"
   },
   {
     "id": "pseudo_archery_target_bale",
     "type": "TOOL",
     "name": { "str": "bale archery target" },
-    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "copy-from": "fake_crafting_tool",
     "symbol": "@",
-    "color": "yellow",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "color": "yellow"
   },
   {
-    "id": "pseudo_battery",
+    "id": "pseudo_magazine",
     "type": "MAGAZINE",
     "category": "spare_parts",
-    "name": { "str": "pseudo battery", "str_pl": "pseudo batteries" },
-    "description": "Pseudo battery for pseudo items such as vehicle tools.  If you see this, then something went wrong",
+    "name": { "str": "pseudo magazine" },
+    "description": "Pseudo magazine for use in dirty vehicle hacks.",
+    "flags": [ "PSEUDO", "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "DEBUG_ONLY" ],
     "ammo_type": [ "battery" ],
     "capacity": 1000000,
-    "//": "TODO: Determine appropriate arbitrary capacity for vehicle batteries",
-    "flags": [ "ZERO_WEIGHT", "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "PSEUDO" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1000000 } } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "battery": 1000000, "propane": 1000000 }
+      }
+    ],
     "symbol": "@",
     "color": "red"
-  },
-  {
-    "id": "pseudo_veh_oil_press",
-    "type": "TOOL",
-    "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "description": "Dummy item.  If you see this, then something went wrong.",
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
-  },
-  {
-    "abstract": "pseudo_forge_abstract",
-    "copy-from": "forge",
-    "sub": "forge",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "forge abstract"
-  },
-  {
-    "abstract": "pseudo_kiln_abstract",
-    "copy-from": "kiln",
-    "sub": "kiln",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "kiln abstract"
-  },
-  {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_veh_forge",
-    "type": "TOOL",
-    "name": { "str": "mounted electric forge" }
-  },
-  {
-    "copy-from": "pseudo_kiln_abstract",
-    "id": "pseudo_veh_kiln",
-    "type": "TOOL",
-    "name": { "str": "mounted electric kiln" }
-  },
-  {
-    "id": "pseudo_veh_chemlab_chemset",
-    "copy-from": "chemistry_set",
-    "sub": "chemistry_set",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": { "str": "lab chemistry set" }
-  },
-  {
-    "id": "pseudo_veh_chemlab_electrolysis_kit",
-    "name": { "str": "lab electrolysis kit" },
-    "copy-from": "electrolysis_kit",
-    "sub": "electrolysis_kit",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "abstract": "pseudo_hotplate_abstract",
-    "copy-from": "hotplate",
-    "sub": "hotplate",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "hotplate abstract"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_veh_chemlab_hotplate",
-    "type": "TOOL",
-    "name": { "str": "lab hotplate" }
-  },
-  {
-    "id": "pseudo_veh_foodco_vac_sealer",
-    "name": { "str": "FOODCO kitchen buddy vacuum sealer" },
-    "copy-from": "vac_sealer",
-    "sub": "vac_sealer",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "id": "pseudo_veh_foodco_dehydrator",
-    "name": { "str": "FOODCO kitchen buddy dehydrator" },
-    "copy-from": "dehydrator",
-    "sub": "dehydrator",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "id": "pseudo_veh_foodco_food_processor",
-    "name": { "str": "FOODCO kitchen buddy food processor" },
-    "copy-from": "food_processor",
-    "sub": "food_processor",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_veh_kitchen_hotplate",
-    "type": "TOOL",
-    "name": { "str": "kitchen unit hotplate" }
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_app_oven_hotplate",
-    "type": "TOOL",
-    "qualities": [ [ "OVEN", 2 ] ],
-    "name": { "str": "oven" }
-  },
-  {
-    "id": "fake_oven",
-    "type": "TOOL",
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "oven" },
-    "qualities": [ [ "OVEN", 2 ] ]
-  },
-  {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_app_forge",
-    "type": "TOOL",
-    "name": { "str": "electric forge appliance" }
-  },
-  {
-    "copy-from": "pseudo_kiln_abstract",
-    "id": "pseudo_app_kiln",
-    "name": { "str": "electric kiln appliance" },
-    "type": "TOOL"
   },
   {
     "id": "fake_lift_light",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "type": "TOOL",
     "name": { "str": "light hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 2 ] ]
+    "qualities": [ [ "LIFT", 2 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_medium",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "type": "TOOL",
     "name": { "str": "sturdy hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 8 ] ]
+    "qualities": [ [ "LIFT", 8 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_lift_heavy",
-    "copy-from": "fake_item",
+    "copy-from": "fake_crafting_tool",
     "type": "TOOL",
     "name": { "str": "heavy-duty hoist" },
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
-    "qualities": [ [ "LIFT", 40 ] ]
+    "qualities": [ [ "LIFT", 40 ], [ "ROPE", 2 ], [ "SUSPENDING", 2 ] ]
+  },
+  {
+    "id": "pseudo_app_oxygen_concentrator",
+    "type": "TOOL",
+    "name": { "str": "oxygen concentrator" },
+    "copy-from": "fake_crafting_tool",
+    "ammo": [ "battery" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ]
+  },
+  {
+    "id": "pseudo_app_hd_compressor_unit",
+    "type": "TOOL",
+    "name": { "str": "high pressure compressor unit" },
+    "copy-from": "fake_crafting_tool",
+    "ammo": [ "battery" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "charges_per_use": 100,
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+  },
+  {
+    "id": "concrete_mix_tool",
+    "type": "TOOL",
+    "name": { "str": "concrete mixer" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 20
+  },
+  {
+    "id": "fake_dynamite_50lbs",
+    "//": "This is used exclusively in the rescue mission for Barry to blow a hole in the scout tower.",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "fake 50lbs dynamite car bomb" },
+    "description": "Several sticks of explosives, bundled together with a fuse attached.  Use this item to light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  Shortly after lighting the fuse, this item will explode, so get away!",
+    "weight": "22680 g",
+    "volume": "15020 ml",
+    "price": 6000,
+    "price_postapoc": 1000,
+    "to_hit": -3,
+    "material": [ { "type": "tnt", "portion": 95 }, { "type": "paper", "portion": 5 } ],
+    "symbol": "*",
+    "color": "red",
+    "explode_in_fire": true,
+    "explosion": { "power": 18779 },
+    "countdown_action": { "type": "explosion", "explosion": { "power": 18779, "max_noise": 0 } },
+    "countdown_interval": "1 seconds",
+    "flags": [ "BOMB" ],
+    "melee_damage": { "bash": 4 }
   }
 ]

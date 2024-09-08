@@ -3,22 +3,22 @@
 #define CATA_SRC_EDITMAP_H
 
 #include <functional>
-#include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
+#include <string>
 #include <vector>
 
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
-#include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
 class Creature;
 class field;
 class map;
+class smallmap;
 class tinymap;
 class ui_adaptor;
 class uilist;
@@ -34,7 +34,7 @@ struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink = 0;
     nc_color color;
-    std::map<tripoint, char> points;
+    std::map<tripoint_bub_ms, char> points;
     nc_color( *getbg )( const nc_color & );
     void setup() {
         getbg = color == c_red ? &red_background :
@@ -48,9 +48,9 @@ struct editmap_hilight {
 class editmap
 {
     public:
-        tripoint pos2screen( const tripoint &p );
-        bool eget_direction( tripoint &p, const std::string &action ) const;
-        cata::optional<tripoint> edit();
+        tripoint pos2screen( const tripoint_bub_ms &p );
+        bool eget_direction( tripoint_rel_ms &p, const std::string &action ) const;
+        std::optional<tripoint_bub_ms> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view_with_help( const std::string &txt, const std::string &title );
 
@@ -60,9 +60,8 @@ class editmap
         void edit_fld();
         void edit_itm();
         void edit_critter( Creature &critter );
-        void edit_veh() const;
         void edit_mapgen();
-        void cleartmpmap( tinymap &tmpmap ) const;
+        void cleartmpmap( smallmap &tmpmap ) const;
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
         bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );
@@ -79,14 +78,14 @@ class editmap
         int sel_field;
         int sel_field_intensity;
 
-        tripoint target;
-        tripoint origin;
+        tripoint_bub_ms target;
+        tripoint_bub_ms origin;
         bool moveall;
         bool refresh_mplans;
         shapetype editshape;
 
-        std::vector<tripoint> target_list;
-        std::function<void( const tripoint &p )> draw_target_override;
+        std::vector<tripoint_bub_ms> target_list;
+        std::function<void( const tripoint_bub_ms &p )> draw_target_override;
         std::map<std::string, editmap_hilight> hilights;
         bool blink;
         bool altblink;

@@ -19,15 +19,20 @@
       [
         [ "xacto", 1 ],
         [ "diveknife", 1 ],
-        [ "knife_butcher", 1 ],
+        [ "knife_huge", 1 ],
         [ "knife_combat", 1 ],
-        [ "knife_chef", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_steak", 1 ],
+        [ "knife_small", 1 ],
         [ "throwing_knife", 1 ],
-        [ "knife_baselard", 1 ]
+        [ "knife_baselard", 1 ],
+        [ "magical_throwing_knife", 1 ],
+        [ "magical_throwing_knife_fire", 1 ],
+        [ "magical_throwing_knife_cold", 1 ],
+        [ "magical_throwing_knife_cut", 1 ],
+        [ "magical_throwing_knife_biological", 1 ],
+        [ "magical_throwing_knife_pure_special", 1 ]
       ]
     ]
   },
@@ -61,16 +66,22 @@
     "components": [ [ [ "sling", 1 ] ] ]
   },
   {
+    "id": "spell_components_haste",
+    "type": "requirement",
+    "//": "Mercury for the Haste spell",
+    "components": [ [ [ "mercury", 50 ] ] ]
+  },
+  {
     "id": "spell_components_causticaura",
     "type": "requirement",
     "//": "Strong acids suitable for the Caustic Aura spell",
-    "components": [ [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
+    "components": [ [ [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
   },
   {
     "id": "spell_components_shardspray",
     "type": "requirement",
     "//": "A kilo of metal fragments suitable for the Shardspray spell",
-    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold", 200 ], [ "silver", 333 ], [ "lead", 333 ] ] ]
+    "components": [ [ [ "scrap", 40 ], [ "copper", 500 ], [ "gold_small", 200 ], [ "silver_small", 333 ], [ "lead", 333 ] ] ]
   },
   {
     "id": "spell_components_nova_flare",
@@ -82,6 +93,16 @@
     "id": "spell_components_reactive_armor",
     "type": "requirement",
     "components": [ [ [ "aura_stoneskin", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist_3",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 3 ] ] ]
   },
   {
     "id": "spell_components_potion_starter",
@@ -102,5 +123,176 @@
     "id": "spell_components_samsara",
     "type": "requirement",
     "components": [ [ [ "rune_druid", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_bandage",
+    "type": "requirement",
+    "//": "Leaves and bark for the Vegetative Poultice spell",
+    "components": [
+      [
+        [ "young_leaves", 2 ],
+        [ "leaves", 2 ],
+        [ "grape_leaves", 2 ],
+        [ "fiddlehead_raw", 2 ],
+        [ "cattail_rhizome", 2 ],
+        [ "raw_dandelion", 2 ],
+        [ "juniper", 2 ]
+      ],
+      [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_druid_arrow",
+    "type": "requirement",
+    "//": "Sticks for the for the Harvest of the Hunter spell",
+    "components": [
+      [
+        [ "pine_bough", 2 ],
+        [ "stick", 1 ],
+        [ "stick_long", 1 ],
+        [ "stick_fiber", 2 ],
+        [ "alder_bark", 5 ],
+        [ "tanbark", 5 ],
+        [ "birchbark", 5 ],
+        [ "willowbark", 5 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_magus_mark",
+    "type": "requirement",
+    "components": [ [ [ "crystallized_mana", 10 ] ] ]
+  },
+  {
+    "id": "spell_components_word_of_recall",
+    "type": "requirement",
+    "components": [ [ [ "crystallized_mana", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_remove_instability",
+    "type": "requirement",
+    "components": [ [ [ "purifier", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_bramble_spear",
+    "type": "requirement",
+    "//": "Sticks to turn into a bramble spear",
+    "components": [ [ [ "stick", 1 ], [ "stick_long", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_druid_anti_heat",
+    "type": "requirement",
+    "//": "Water for Water's Cooling Touch",
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "water_mineral", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_flames_of_passion",
+    "type": "requirement",
+    "//": "Alcohol for Flames of Passion",
+    "components": [ [ [ "hard_liquor", 1, "LIST" ], [ "cheap_wine", 1, "LIST" ], [ "worthy_wine", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "spell_components_spirit_walking",
+    "type": "requirement",
+    "//": "Spell components for the Body of Spirit spell",
+    "components": [ [ [ "lead", 1 ] ], [ [ "gold_small", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_freshen_up",
+    "type": "requirement",
+    "//": "Water and soap / lye for Freshen Up",
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
+      [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_invisibility",
+    "type": "requirement",
+    "//": "glass shard suitable for the Invisibility spell",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_shape_of_dust",
+    "type": "requirement",
+    "//": "non-food powder suitable for the Shape of Dust spell",
+    "components": [
+      [
+        [ "magnesium", 5 ],
+        [ "chem_aluminium_powder", 5 ],
+        [ "material_cement", 5 ],
+        [ "chem_nickel_powder", 5 ],
+        [ "meal_chitin_piece", 5 ],
+        [ "chem_nickel_powder", 5 ],
+        [ "chem_black_powder", 5 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_luck_bone",
+    "type": "requirement",
+    "//": "A bone for the Osseous Luck spell",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_easy_sleep",
+    "type": "requirement",
+    "//": "Chamomile for the Peaceful Rest spell",
+    "components": [ [ [ "chamomile", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_gain_electronics_computer",
+    "type": "requirement",
+    "//": "A wire for the Machine Mind spell",
+    "components": [ [ [ "cable", 1 ], [ "copper_wire", 1 ], [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_baking_hands",
+    "type": "requirement",
+    "//": "Coal or charcoal for the Baking Hands spell",
+    "components": [ [ [ "coal_lump", 1 ], [ "charcoal", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_diamond_imbuement",
+    "type": "requirement",
+    "//": "Diamonds for the Diamond Imbuement spell",
+    "components": [ [ [ "diamond", 5 ] ] ]
+  },
+  {
+    "id": "spell_components_slow_food_rotting",
+    "type": "requirement",
+    "//": "Herbs and sulfur for the Abjure Spirits of Rot spell",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "chem_sulphur", 20 ] ] ]
+  },
+  {
+    "id": "spell_components_repair_metal_stone",
+    "type": "requirement",
+    "//": "Metal, stone, and dirt for the Fault-Mending Chant spell",
+    "components": [
+      [ [ "material_soil", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [
+        [ "lead", 5 ],
+        [ "platinum_small", 5 ],
+        [ "copper", 5 ],
+        [ "gold_small", 5 ],
+        [ "silver_small", 5 ],
+        [ "scrap_cast_iron", 5 ],
+        [ "chunk_cast_iron", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_create_ups_connection",
+    "type": "requirement",
+    "//": "Fuel oils for the Power Linkage spell",
+    "components": [ [ [ "crude_lamp_oil", 120 ], [ "lamp_oil", 120 ], [ "gasoline", 120 ], [ "diesel", 120 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_far_sight",
+    "type": "requirement",
+    "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "lens", 1 ] ] ]
   }
 ]

@@ -3,7 +3,7 @@
     "id": "player_health_and_stasistik_block",
     "type": "widget",
     "style": "layout",
-    "label": "1_player_block",
+    "label": "2_player_block",
     "width": 58,
     "arrange": "minimum_columns",
     "widgets": [ "piktogram", "char_num_block" ]
@@ -12,7 +12,7 @@
     "id": "player_health_and_stasistik_block_sa",
     "type": "widget",
     "style": "layout",
-    "label": "1_player_block (self-aware)",
+    "label": "2_player_block (self-aware)",
     "width": 58,
     "arrange": "minimum_columns",
     "widgets": [ "piktogram", "char_num_block_sa" ],
@@ -145,12 +145,12 @@
     "arrange": "rows",
     "width": 12,
     "widgets": [
-      "hp_head_num_no_label",
-      "hp_torso_num_no_label",
-      "hp_left_arm_num_no_label",
-      "hp_right_arm_num_no_label",
-      "hp_left_leg_num_no_label",
-      "hp_right_leg_num_no_label"
+      "hp_head_num_label",
+      "hp_torso_num_label",
+      "hp_left_arm_num_label",
+      "hp_right_arm_num_label",
+      "hp_left_leg_num_label",
+      "hp_right_leg_num_label"
     ]
   },
   {
@@ -493,7 +493,7 @@
     "widgets": [
       "hunger_desc_label",
       "thirst_desc_label",
-      "fatigue_desc_label",
+      "sleepiness_desc_label",
       "body_temp_desc_label",
       "power_short_desc",
       "pain_desc_label"
@@ -508,7 +508,7 @@
     "widgets": [
       "hunger_desc_label",
       "thirst_desc_label",
-      "fatigue_desc_label",
+      "sleepiness_desc_label",
       "body_temp_desc_label",
       "power_short_desc",
       "pain_num_label"

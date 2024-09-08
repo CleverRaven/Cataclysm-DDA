@@ -1,0 +1,19 @@
+[
+  {
+    "type": "overmap_connection",
+    "id": "local_railroad",
+    "subtypes": [
+      { "terrain": "railroad", "locations": [ "railroad" ], "basic_cost": 1 },
+      { "terrain": "railroad", "locations": [ "generic_loot_locations" ], "basic_cost": 2 },
+      { "terrain": "railroad", "locations": [ "wilderness" ], "basic_cost": 2 },
+      { "terrain": "railroad", "locations": [ "swamp" ], "basic_cost": 2 },
+      {
+        "terrain": "railroad_level_crossing",
+        "locations": [ "railroad_level_crossing_allowed" ],
+        "basic_cost": 2,
+        "flags": [ "ORTHOGONAL" ]
+      },
+      { "terrain": "railroad_bridge", "locations": [ "water" ], "basic_cost": 2, "flags": [ "ORTHOGONAL" ] }
+    ]
+  }
+]

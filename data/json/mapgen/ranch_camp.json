@@ -599,19 +599,19 @@
       "terrain": { "r": "t_dirtfloor", "0": "t_metal_floor" },
       "items": { ";": { "item": "farming_tools", "chance": 1 } },
       "place_item": [
-        { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
+        { "item": "cattlefodder_medium", "x": [ 41, 44 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 31, 35 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 37, 41 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 41, 44 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
+        { "item": "cattlefodder_large", "x": [ 41, 44 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 51, 54 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
+        { "item": "cattlefodder_medium", "x": [ 66, 69 ], "y": [ 25, 29 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 31, 35 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 37, 41 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 51, 54 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
         { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 66, 69 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
-        { "item": "cattlefodder", "x": [ 51, 54 ], "y": [ 35, 37 ], "amount": [ 0, 1 ] },
+        { "item": "cattlefodder_large", "x": [ 66, 69 ], "y": [ 43, 47 ], "amount": [ 0, 2 ] },
+        { "item": "cattlefodder_large", "x": [ 51, 54 ], "y": [ 35, 37 ], "amount": [ 0, 1 ] },
         { "item": "cattlefodder", "x": [ 56, 59 ], "y": [ 35, 37 ], "amount": [ 0, 1 ] },
         { "item": "birdfood", "x": [ 62, 64 ], "y": 5, "amount": [ 0, 1 ], "repeat": [ 3, 6 ] },
         { "item": "stepladder", "x": 65, "y": 5 },
@@ -935,7 +935,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", "2": "t_wall_metal", "≷": "t_ladder_up_down", "#": "t_grate", "^": "t_open_air_rooved" }
+      "terrain": { ".": "t_shingle_flat_roof", "2": "t_wall_metal", "≷": "t_ladder_up_down", "^": "t_open_air_rooved" }
     }
   },
   {
@@ -971,7 +971,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "2": "t_wall_metal", "≷": "t_ladder_up_down", "#": "t_grate", "^": "t_open_air_rooved" }
+      "terrain": { "2": "t_wall_metal", "≷": "t_ladder_up_down", "^": "t_open_air_rooved" }
     }
   },
   {
@@ -984,7 +984,7 @@
         "                        ",
         "                        ",
         "                        ",
-        "    >##                 ",
+        "    v##                 ",
         "   ....                 ",
         " ........               ",
         "..........              ",
@@ -1007,7 +1007,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_grate", ">": "t_ladder_down", ".": "t_metal_flat_roof" }
+      "terrain": { ".": "t_metal_flat_roof" }
     }
   },
   {
@@ -1025,18 +1025,18 @@
         "                                                ",
         "                                                ",
         "                                                ",
-        "                                        |2222225",
-        "                                        |______3",
-        "                                        |______3",
-        "      ...............   |222222222222222|______3",
-        "      ...............   |______________________3",
-        "      ...............   |______________________3",
-        "      ...............   |______________________3",
-        "      ...............   |______________________3",
-        "      ...............   |______________________3",
-        "      ...............   |_______3--------------3",
-        "      ...............   |_______3               ",
-        "      ...............   |-------3               ",
+        "                                        -------5",
+        "                                        -______-",
+        "                                        -______-",
+        "      ...............   -----------------______-",
+        "      ...............   -______________________-",
+        "      ...............   -______________________-",
+        "      ...............   -______________________-",
+        "      ...............   -______________________-",
+        "      ...............   -______________________-",
+        "      ...............   -_______----------------",
+        "      ...............   -_______-               ",
+        "      ...............   ---------               ",
         "      ...............                           ",
         "      ...............                           ",
         "      ...............                           ",

@@ -8,7 +8,8 @@
       { "id": "pointy_stick", "description": " Craft: Pointy Sticks" },
       { "id": "wood_panel_from nailed planks", "description": " Craft: Wooden Panel, Nailed Planks" },
       { "id": "wood_panel_from wooden beams", "description": " Craft: Wooden Panel, Wooden Beams" },
-      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" }
+      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" },
+      { "id": "2x4_from logs", "description": " Craft: Wooden Plank" }
     ]
   },
   {
@@ -45,7 +46,8 @@
       { "id": "hardtack", "description": " Cook: Hardtack" },
       { "id": "veggy_pickled_jarred", "description": " Cook: Veggy, Pickled" },
       { "id": "cheese_hard", "description": " Cook: Cheese, Hard" },
-      { "id": "pemmican", "description": " Cook: Pemmican" },
+      { "id": "pemmican", "description": " Cook: Pemmican, Meat + Berries" },
+      { "id": "pemmican_veggy", "description": " Cook: Pemmican, Meat + Veg" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
       { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
@@ -75,7 +77,7 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "metal_file", "description": " Craft: Metal Fileset" },
       { "id": "stone_polishing", "description": " Craft: Polishing Stone" },
-      { "id": "tongs", "description": " Craft: Metal Tongs" },
+      { "id": "tongs", "description": " Craft: Pair of kitchen tongs" },
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
@@ -89,7 +91,7 @@
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
       { "id": "rebar", "description": " Craft: Rebar" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" },
       { "id": "knife_combat", "description": " Craft: Knife, Combat" },
       { "id": "knife_hunting", "description": " Craft: Knife, Hunting" },
       { "id": "spear_steel", "description": " Craft: Spear, Steel" },
@@ -111,14 +113,13 @@
       { "id": "hacksaw", "description": " Craft: Hacksaw" },
       { "id": "saw", "description": " Craft: Woodsaw" },
       { "id": "pike", "description": " Craft: Spear, Awl Pike" },
-      { "id": "rapier", "description": " Craft: Sword, Rapier" },
       { "id": "halligan", "description": " Craft: Halligan Bar" },
-      { "id": "zweihander", "description": " Craft: Sword, Zweihander" },
+      { "id": "mc_zweihander", "description": " Craft: Sword, Medium Steel Zweihänder" },
       { "id": "pickaxe", "description": " Craft: Pickaxe" },
       { "id": "bottle_glass", "description": " Craft: Bottle, Glass" },
       { "id": "flask_glass", "description": " Craft: Flask, Glass" },
       { "id": "glass_sheet", "description": " Craft: Sheet, Glass" },
-      { "id": "jar_3l_glass_sealed", "description": " Craft: 3L Jar, Glass" },
+      { "id": "jar_3l_glass_sealed", "description": " Craft: 3 L Jar, Glass" },
       { "id": "jar_glass_sealed", "description": " Craft: Jar, Glass" },
       { "id": "tempered_glass_sheet", "description": " Craft: Tempered Sheet, Glass" },
       { "id": "cured_hide", "description": " Hideworking: Cured Hide" },
@@ -134,12 +135,5 @@
       { "id": "brazing_rod_bronze", "description": " Craft: Brazing Rod" },
       { "id": "brazing_rod_alloy", "description": " Craft: Aluminum Brazing Rod" }
     ]
-  },
-  {
-    "type": "recipe_group",
-    "id": "fbbb_crafting_recipes_custom",
-    "//": "Intended for player addition of recipes companions should be able to use",
-    "building_type": "BASE",
-    "recipes": [  ]
   }
 ]

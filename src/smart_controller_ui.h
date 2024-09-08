@@ -3,7 +3,7 @@
 #define CATA_SRC_SMART_CONTROLLER_UI_H
 
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 
 /**
  * Configurable settings for the Smart Controller.
@@ -15,6 +15,17 @@ struct smart_controller_settings {
     int &battery_hi;
 
     smart_controller_settings( bool &enabled, int &battery_lo, int &battery_hi );
+};
+
+enum smart_controller_ui_selection {
+    enabled,
+    lo_and_hi_slider,
+    manual,
+    // ^ add new items above ^
+    //number of elements in enum
+    length,
+    //default value
+    init = enabled
 };
 
 // UI for the Smart Engine Controller
@@ -34,18 +45,18 @@ class smart_controller_ui
         static const int LEFT_MARGIN = 6;
 
         static const int MENU_ITEM_HEIGHT = 5;
-        static const int MENU_ITEMS_N = 3;
+        static const int MENU_ITEMS_N = smart_controller_ui_selection::length;
 
         static const int SLIDER_W = 40;
 
         // Output window. This class assumes win's size does not change.
         catacurses::window win;
-        input_context input_ctx;
+        input_context ctxt;
         // current state of settings
         const smart_controller_settings settings;
 
         // selected menu row
-        int selection = 0;
+        int selection = smart_controller_ui_selection::init;
         // selected slider (0 or 1)
         int slider = 0;
         // draws the window's content

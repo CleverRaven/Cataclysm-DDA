@@ -25,9 +25,21 @@
   },
   {
     "type": "ammunition_type",
+    "id": "3x35",
+    "name": "3x35mm",
+    "default": "3x35dart"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_25mm",
     "name": "25mm",
     "default": "afs_25mm_shot"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_shuttle_beacon",
+    "name": "signaling payload",
+    "default": "afs_shuttle_beacon"
   },
   {
     "type": "ammunition_type",
@@ -55,8 +67,20 @@
   },
   {
     "type": "ammunition_type",
+    "id": "afs_82mm_flashbulb",
+    "name": "82x225mm flashbulb",
+    "default": "afs_82mm_flashbulb"
+  },
+  {
+    "type": "ammunition_type",
     "id": "metal_rail",
     "name": "ferrous rail projectile",
     "default": "steel_rail"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_5x50",
+    "name": "5x50mm flechette",
+    "default": "afs_5x50dart"
   }
 ]

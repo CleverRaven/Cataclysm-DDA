@@ -11,6 +11,15 @@ TEST_CASE( "char_validity_check" )
     CHECK( is_char_allowed( '\\' ) == false );
     CHECK( is_char_allowed( '/' ) == false );
     CHECK( is_char_allowed( ' ' ) == true );
-    CHECK( is_char_allowed( '?' ) == true );
+    CHECK( is_char_allowed( '?' ) == false );
+    CHECK( is_char_allowed( ':' ) == false );
+    CHECK( is_char_allowed( '*' ) == false );
+    CHECK( is_char_allowed( '"' ) == false );
+    CHECK( is_char_allowed( '<' ) == false );
+    CHECK( is_char_allowed( '>' ) == false );
+    CHECK( is_char_allowed( '|' ) == false );
     CHECK( is_char_allowed( '!' ) == true );
+    CHECK( is_char_allowed( '@' ) == true );
+    CHECK( is_char_allowed( '\'' ) == true );
+    CHECK( is_char_allowed( '[' ) == true );
 }

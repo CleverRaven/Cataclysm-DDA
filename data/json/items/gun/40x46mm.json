@@ -1,38 +1,5 @@
 [
   {
-    "id": "launcher_simple",
-    "copy-from": "launcher_base",
-    "looks_like": "m79",
-    "type": "GUN",
-    "name": { "str": "tube 40mm launcher" },
-    "description": "A simple, home-made grenade launcher.  Basically a tube with a pin firing mechanism to activate the grenade.",
-    "weight": "2267 g",
-    "volume": "1250 ml",
-    "longest_side": "450 mm",
-    "price": 40000,
-    "price_postapoc": 750,
-    "to_hit": -3,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "ammo": [ "40x46mm" ],
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "clip_size": 1,
-    "reload": 350,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
-  },
-  {
     "id": "m320",
     "copy-from": "launcher_base",
     "looks_like": "m79",
@@ -42,10 +9,10 @@
     "weight": "2200 g",
     "volume": "1750 ml",
     "longest_side": "372 mm",
-    "price": 850000,
-    "price_postapoc": 2250,
+    "barrel_length": "280 mm",
+    "price": "8 kUSD 500 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "steel" ],
     "symbol": "(",
     "ammo": [ "40x46mm" ],
@@ -54,7 +21,9 @@
     "blackpowder_tolerance": 60,
     "clip_size": 1,
     "reload": 150,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
+    "flags": [ "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "m79",
@@ -66,10 +35,10 @@
     "weight": "2700 g",
     "volume": "2800 ml",
     "longest_side": "736 mm",
-    "price": 400000,
-    "price_postapoc": 2500,
+    "barrel_length": "368 mm",
+    "price": "4 kUSD",
+    "price_postapoc": "25 USD",
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "ammo": [ "40x46mm" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
@@ -79,7 +48,6 @@
     "clip_size": 1,
     "reload": 250,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -88,7 +56,9 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ]
+    "flags": [ "EASY_CLEAN" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 1 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mgl",
@@ -100,10 +70,11 @@
     "weight": "5300 g",
     "volume": "4230 ml",
     "longest_side": "565 mm",
-    "price": 1040000,
-    "price_postapoc": 5000,
+    "barrel_length": "343 mm",
+    "//": "203mm + 140mm max OAL for listed on Milkor's website. Revolvers just built different.",
+    "price": "10 kUSD 400 USD",
+    "price_postapoc": "50 USD",
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel" ],
     "ammo": [ "40x46mm" ],
     "dispersion": 270,
@@ -112,7 +83,6 @@
     "clip_size": 6,
     "reload": 300,
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -121,55 +91,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ]
-  },
-  {
-    "id": "rm802",
-    "copy-from": "launcher_base",
-    "looks_like": "m79",
-    "type": "GUN",
-    "name": { "str": "RM802 grenade launcher" },
-    "//": "Either Rivtech or milspec would make it Expensive.  Combined, you could buy a half-decent car for the price.",
-    "description": "The Rivtech RM802 pump-action 40mm grenade launcher was designed to be a step ahead of single-shot grenade launchers by allowing sustained heavy firepower.  However, its capacity is fairly limited so it must be used with careful planning.",
-    "weight": "3120 g",
-    "volume": "2500 ml",
-    "longest_side": "820 mm",
-    "price": 2920000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "bashing": 8,
-    "material": [ "superalloy", "ceramic" ],
-    "ammo": [ "40x46mm" ],
-    "dispersion": 140,
-    "durability": 9,
-    "blackpowder_tolerance": 60,
-    "clip_size": 4,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "stock accessory", 2 ],
-      [ "underbarrel", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 4 } } ]
-  },
-  {
-    "id": "triple_launcher_simple",
-    "copy-from": "launcher_simple",
-    "type": "GUN",
-    "name": { "str": "triple-barrel 40mm launcher" },
-    "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
-    "clip_size": 3,
-    "price_postapoc": 1750,
-    "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ], [ "MULTI", "multi", 3, [ "NPC_AVOID", "SIMULTANEOUS" ] ] ],
-    "proportional": { "weight": 1.5, "volume": 1.8, "price": 2 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "pseudo_m203",
@@ -181,10 +104,9 @@
     "weight": "8200 g",
     "volume": "4 L",
     "longest_side": "400 mm",
-    "price": 250000,
-    "price_postapoc": 4500,
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "45 USD",
     "to_hit": -1,
-    "bashing": 14,
     "material": [ "steel" ],
     "ammo": [ "40x46mm" ],
     "range": 30,
@@ -196,6 +118,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1, "NPC_AVOID" ] ],
     "clip_size": 6,
     "flags": [ "MOUNTED_GUN" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40x46mm": 6 } } ],
+    "melee_damage": { "bash": 14 }
   }
 ]

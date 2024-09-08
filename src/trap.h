@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "flat_set.h"
 #include "magic.h"
 #include "translations.h"
 #include "type_id.h"
@@ -36,6 +37,7 @@ bool cot( const tripoint &p, Creature *c, item *i );
 bool beartrap( const tripoint &p, Creature *c, item *i );
 bool snare_light( const tripoint &p, Creature *c, item *i );
 bool snare_heavy( const tripoint &p, Creature *c, item *i );
+bool snare_species( const tripoint &p, Creature *critter, item *trap_item );
 bool board( const tripoint &p, Creature *c, item *i );
 bool caltrops( const tripoint &p, Creature *c, item *i );
 bool caltrops_glass( const tripoint &p, Creature *c, item *i );
@@ -64,6 +66,7 @@ bool map_regen( const tripoint &p, Creature *c, item *i );
 bool drain( const tripoint &p, Creature *c, item *i );
 bool snake( const tripoint &p, Creature *c, item *i );
 bool cast_spell( const tripoint &p, Creature *critter, item * );
+bool dummy_trap( const tripoint &p, Creature *critter, item * );
 } // namespace trapfunc
 
 struct vehicle_handle_trap_data {
@@ -138,11 +141,11 @@ struct trap {
         trap_function act;
         translation name_;
 
-        cata::optional<translation> memorial_male;
-        cata::optional<translation> memorial_female;
+        std::optional<translation> memorial_male;
+        std::optional<translation> memorial_female;
 
-        cata::optional<translation> trigger_message_u;
-        cata::optional<translation> trigger_message_npc;
+        std::optional<translation> trigger_message_u;
+        std::optional<translation> trigger_message_npc;
 
         cata::flat_set<flag_id> _flags;
 
@@ -150,14 +153,19 @@ struct trap {
          * If an item with this weight or more is thrown onto the trap, it triggers.
          */
         units::mass trigger_weight = 500_gram;
+        /**
+         * Determines how much sound is needed to trigger the trap. Defined as {min,max}.
+         */
+        std::pair<int, int> sound_threshold = {0, 0};
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
     public:
+        std::optional<itype_id> trap_item_type;
         // data required for trapfunc::spell()
         fake_spell spell_data;
         int comfort = 0;
-        int floor_bedding_warmth = 0;
+        units::temperature_delta floor_bedding_warmth = 0_C_delta;
         vehicle_handle_trap_data vehicle_data;
         std::string name() const;
         /**
@@ -196,7 +204,9 @@ struct trap {
          * called on the null trap.
          */
         // Implemented for historical reasons in iexamine.cpp
+        // TODO: Get rid of untyped overload.
         void examine( const tripoint &examp ) const;
+        void examine( const tripoint_bub_ms &examp ) const;
 
         update_mapgen_id map_regen_target() const;
 
@@ -223,6 +233,7 @@ struct trap {
 
         bool is_trivial_to_spot() const;
 
+        void set_trap_data( itype_id trap_item_type_id );
         /**
          * Some traps are part of the terrain (e.g. pits) and can therefore not be disarmed
          * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
@@ -233,6 +244,10 @@ struct trap {
          * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
          */
         bool detected_by_ground_sonar() const;
+        /**
+         * Whether this kind of trap will be detected by regular sonar ( it is not buried and it's a solid object ).
+         */
+        bool detected_by_echolocation() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const Character &p ) const;
@@ -240,7 +255,9 @@ struct trap {
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
+        // TODO: Get rid of untyped overload.
         bool can_see( const tripoint &pos, const Character &p ) const;
+        bool can_see( const tripoint_bub_ms &pos, const Character &p ) const;
 
         bool has_trigger_msg() const {
             return trigger_message_u && trigger_message_npc;
@@ -283,6 +300,8 @@ struct trap {
         void trigger( const tripoint &pos, item &item ) const;
         /*@}*/
 
+        void trigger( const tripoint &pos ) const;
+
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
@@ -307,7 +326,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         std::string debug_describe() const;
 
@@ -329,6 +348,13 @@ struct trap {
          */
         static const std::vector<const trap *> &get_funnels();
         /*@}*/
+
+        /*
+         * Can the trap be triggered by sounds?
+         */
+        bool has_sound_trigger() const;
+        static const std::vector<const trap *> &get_sound_triggered_traps();
+        bool triggered_by_sound( int vol, int dist ) const;
 
         /*@{*/
         /**
@@ -362,26 +388,5 @@ struct trap {
 const trap_function &trap_function_from_string( const std::string &function_name );
 
 extern trap_id tr_null;
-extern const trap_str_id tr_beartrap_buried;
-extern const trap_str_id tr_shotgun_2;
-extern const trap_str_id tr_shotgun_1;
-extern const trap_str_id tr_blade;
-extern const trap_str_id tr_landmine;
-extern const trap_str_id tr_landmine_buried;
-extern const trap_str_id tr_telepad;
-extern const trap_str_id tr_goo;
-extern const trap_str_id tr_dissector;
-extern const trap_str_id tr_sinkhole;
-extern const trap_str_id tr_pit;
-extern const trap_str_id tr_lava;
-extern const trap_str_id tr_portal;
-extern const trap_str_id tr_ledge;
-extern const trap_str_id tr_temple_flood;
-extern const trap_str_id tr_temple_toggle;
-extern const trap_str_id tr_glow;
-extern const trap_str_id tr_hum;
-extern const trap_str_id tr_shadow;
-extern const trap_str_id tr_drain;
-extern const trap_str_id tr_snake;
 
 #endif // CATA_SRC_TRAP_H

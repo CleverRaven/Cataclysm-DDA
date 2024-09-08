@@ -4,10 +4,11 @@
     "type": "TOOL",
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "weight": "907 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "price_postapoc": 0,
+    "//": "https://amz.run/7YNm",
+    "weight": "410 g",
+    "volume": "725 ml",
+    "price": "60 USD",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
     "material": [ "plastic" ],
     "symbol": "|",
@@ -31,72 +32,9 @@
     "type": "TOOL",
     "name": { "str": "talking doll" },
     "description": "This is a talking doll, meant for children.  Fortunately it still works, and you could unload the batteries out of it.",
-    "weight": "907 g",
-    "volume": "750 ml",
-    "price": 2000,
-    "price_postapoc": 0,
-    "to_hit": -1,
-    "material": [ "plastic" ],
+    "copy-from": "talking_doll",
     "symbol": "|",
-    "color": "pink",
-    "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
-    "charges_per_use": 1,
-    "turns_per_charge": 20,
-    "use_action": [ "DOLLCHAT" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_minus_disposable_cell"
-      }
-    ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "generic_figurine_plastic",
-    "symbol": "f",
-    "color": "yellow",
-    "name": { "str": "figurine" },
-    "description": "Some kind of figurine.  It does not have much use nowadays.",
-    "snippet_category": [
-      { "id": "genfig01", "text": "Shaped like a human female.  It was made to wear different clothes." },
-      {
-        "id": "genfig02",
-        "text": "This one wears a hat.  It wears a glove on it's right hand that has three blades sticking out."
-      },
-      {
-        "id": "genfig03",
-        "text": "A blue unicorn that covers it's eyes with it's hooves.  It's in a sitting position."
-      },
-      {
-        "id": "genfig04",
-        "text": "A pink unicorn that covers it's ears with it's hooves.  It's in a sitting position."
-      },
-      {
-        "id": "genfig05",
-        "text": "A purple unicorn that covers it's mouth with it's hooves.  It's in a sitting position."
-      },
-      { "id": "genfig06", "text": "It seems to wear a reindeer suit.  It has a skull for a head." },
-      { "id": "genfig07", "text": "It looks like a swamp monster with scales over it's body." },
-      { "id": "genfig08", "text": "It looks like the reaper.  In it's left hand is a scythe." },
-      { "id": "genfig09", "text": "A mermaid sitting on a rock.  It has red hair." },
-      {
-        "id": "genfig10",
-        "text": "It seems to wear an avocado suit.  In the left hand is a salt shaker and in the right hand is a spoon.  It's in a sitting position."
-      },
-      {
-        "id": "genfig11",
-        "text": "Looks like someone's hero.  You can bend the arms and legs to give it different stances."
-      }
-    ],
-    "price": 600,
-    "price_postapoc": 20,
-    "material": [ "plastic" ],
-    "weight": "100 g",
-    "volume": "150 ml",
-    "longest_side": "15 cm"
+    "color": "pink"
   },
   {
     "type": "GENERIC",
@@ -107,13 +45,13 @@
     "weight": "200 g",
     "longest_side": "37 cm",
     "price": "12 USD",
-    "price_postapoc": 5,
-    "bashing": 4,
+    "price_postapoc": "5 cent",
     "to_hit": -1,
     "color": "blue",
     "symbol": "/",
     "material": [ "plastic" ],
-    "flags": [ "NONCONDUCTIVE", "FLOTATION" ]
+    "flags": [ "NONCONDUCTIVE", "FLOTATION" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "shuttlecock",
@@ -124,8 +62,8 @@
     "weight": "5 g",
     "volume": "600 ml",
     "longest_side": "90 mm",
-    "price": 200,
-    "price_postapoc": 0,
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
     "material": [ "rubber", "plastic" ],
     "symbol": "-",
     "color": "white",
@@ -140,8 +78,8 @@
     "weight": "3 g",
     "volume": "250 ml",
     "longest_side": "70 mm",
-    "price": 1000,
-    "price_postapoc": 0,
+    "price": "10 USD",
+    "price_postapoc": "0 cent",
     "material": [ "wood" ],
     "symbol": "-",
     "color": "white"
@@ -155,13 +93,13 @@
     "weight": "46 g",
     "longest_side": "43 mm",
     "volume": "250 ml",
-    "price": 2000,
-    "price_postapoc": 0,
+    "price": "20 USD",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "symbol": "*",
     "color": "white",
-    "bashing": 5,
-    "to_hit": -3
+    "to_hit": -3,
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "AMMO",
@@ -171,21 +109,22 @@
     "name": { "str": "pool ball" },
     "description": "A colorful, hard plastic ball for playing games on a pool table.  Essentially a rock.",
     "category": "other",
-    "price": 3000,
-    "price_postapoc": 0,
+    "price": "30 USD",
+    "price_postapoc": "0 cent",
     "material": [ "plastic" ],
     "ammo_type": "rock",
     "flags": [ "NPC_THROWN" ],
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "57 mm",
-    "bashing": 8,
     "damage": { "damage_type": "bash", "amount": 8 },
     "range": 10,
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ]
+    "recovery_chance": 98,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -195,14 +134,13 @@
     "name": { "str": "bowling ball" },
     "description": "A large, heavy ball with finger holes for better grip.  Before the apocalypse, its main purpose was to be rolled along waxed floors.",
     "category": "other",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "material": [ "ceramic" ],
     "weight": "7257 g",
     "volume": "5277 ml",
     "longest_side": "216 mm",
-    "bashing": 18,
-    "to_hit": -2
+    "melee_damage": { "bash": 18 }
   },
   {
     "type": "AMMO",
@@ -212,21 +150,21 @@
     "name": { "str": "baseball" },
     "category": "other",
     "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
-    "price": 1000,
-    "price_postapoc": 0,
+    "price": "10 USD",
+    "price_postapoc": "0 cent",
     "material": [ "leather" ],
     "ammo_type": "rock",
     "flags": [ "NPC_THROWN" ],
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "75 mm",
-    "bashing": 6,
-    "damage": { "damage_type": "bash", "amount": 6 },
     "range": 12,
     "dispersion": 12,
     "loudness": 0,
     "to_hit": 3,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ]
+    "recovery_chance": 99,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "thrown_damage": [ { "damage_type": "bash", "amount": 6 } ]
   },
   {
     "type": "GENERIC",
@@ -236,14 +174,14 @@
     "name": { "str": "football" },
     "category": "other",
     "description": "An oval-shaped ball made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ { "type": "leather", "portion": 9 }, { "type": "rubber" } ],
     "weight": "400 g",
     "volume": "750 ml",
     "longest_side": "29 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -253,14 +191,14 @@
     "name": { "str": "basketball" },
     "category": "other",
     "description": "A high-quality, size 7 indoor basketball.",
-    "price": 1200,
-    "price_postapoc": 10,
+    "price": "12 USD",
+    "price_postapoc": "10 cent",
     "material": [ "rubber" ],
     "weight": "800 g",
     "volume": "1 L",
     "longest_side": "239 mm",
-    "bashing": 6,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "type": "GENERIC",
@@ -270,14 +208,14 @@
     "name": { "str": "volleyball" },
     "category": "other",
     "description": "A standard regulation volleyball.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "rubber" ],
     "weight": "260 g",
     "volume": "1 L",
     "longest_side": "26 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "TOOL",
@@ -288,8 +226,8 @@
     "name": { "str": "aim game target practice kit" },
     "category": "other",
     "description": "A collection of laser guns and targets designed to help you practice shooting.  The spot you 'hit' is displayed on the targets.",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic", "aluminum" ],
     "ammo": [ "battery" ],
     "pocket_data": [
@@ -313,14 +251,13 @@
     "name": { "str": "beach volleyball" },
     "category": "other",
     "description": "A brightly colored beach volleyball.  It is slightly larger than a regular white one.",
-    "price": 1200,
-    "price_postapoc": 10,
+    "price": "12 USD",
+    "price_postapoc": "10 cent",
     "material": [ "rubber" ],
     "weight": "280 g",
     "volume": "1 L",
     "longest_side": "27 cm",
-    "bashing": 4,
-    "to_hit": -1
+    "thrown_damage": [ { "damage_type": "bash", "amount": 4 } ]
   },
   {
     "type": "GENERIC",
@@ -330,14 +267,13 @@
     "name": { "str": "hockey puck" },
     "category": "other",
     "description": "A heavy circular block of solid rubber, normally used for playing hockey.  You can throw it to cause some serious harm.",
-    "price": 1000,
-    "price_postapoc": 0,
+    "price": "10 USD",
+    "price_postapoc": "0 cent",
     "material": [ "rubber" ],
     "weight": "170 g",
     "volume": "250 ml",
     "longest_side": "76 mm",
-    "bashing": 7,
-    "to_hit": 2
+    "thrown_damage": [ { "damage_type": "bash", "amount": 7 } ]
   },
   {
     "type": "GENERIC",
@@ -347,14 +283,14 @@
     "name": { "str": "mannequin" },
     "category": "other",
     "description": "A figure of an adult human, as seen in the display case at the mall.  It might be able to fool some zombies if it could attract their attention.",
-    "price": 15000,
-    "price_postapoc": 500,
+    "price": "150 USD",
+    "price_postapoc": "5 USD",
     "material": [ "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
-    "to_hit": -2
+    "melee_damage": { "bash": 18 },
+    "use_action": [ { "type": "deploy_furn", "furn_type": "f_mannequin" } ]
   },
   {
     "type": "TOOL",
@@ -364,14 +300,12 @@
     "name": { "str": "mannequin decoy" },
     "category": "other",
     "description": "A figure of an adult human, as seen in the display case at the mall.  This one is cradling a talking doll.  It can make sound when powered by batteries and can be used to distract some zombies.",
-    "price": 15000,
-    "price_postapoc": 500,
+    "price": "150 USD",
+    "price_postapoc": "5 USD",
     "material": [ "wood" ],
     "weight": "81500 g",
     "volume": "62500 ml",
     "longest_side": "180 cm",
-    "bashing": 18,
-    "to_hit": -2,
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "SINGLE_USE", "ELECTRONIC" ],
     "pocket_data": [
@@ -390,6 +324,7 @@
       "difficulty": 0,
       "need_charges": 100,
       "moves": 20
-    }
+    },
+    "melee_damage": { "bash": 18 }
   }
 ]

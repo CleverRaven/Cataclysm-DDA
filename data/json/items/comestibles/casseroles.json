@@ -12,11 +12,12 @@
     "calories": 301,
     "fun": 6,
     "volume": "250 ml",
-    "description": "It’s cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it’s not too heavy for the apocalypse.",
-    "price": 50,
-    "price_postapoc": 100,
+    "description": "It's cheesy and indulgent, although the mix of tender kernels of corn, veggies, fresh herbs, and a pop of heat keep it in check so it's not too heavy for the apocalypse.",
+    "price": "50 cent",
+    "price_postapoc": "1 USD",
     "material": [ "veggy", "milk" ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -32,10 +33,11 @@
     "fun": 4,
     "volume": "250 ml",
     "description": "This cheesy spinach casserole is cheesy, packed with hearty spinach, and totally delicious.",
-    "price": 50,
-    "price_postapoc": 100,
+    "price": "50 cent",
+    "price_postapoc": "1 USD",
     "material": [ "veggy", "milk", "egg" ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -51,10 +53,11 @@
     "fun": 6,
     "volume": "250 ml",
     "description": "Fish noodle casserole is a casserole primarily made with pasta and canned tuna, with canned peas and corn sometimes added.",
-    "price": 50,
-    "price_postapoc": 100,
+    "price": "50 cent",
+    "price_postapoc": "1 USD",
     "material": [ "flesh", "wheat", "veggy" ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -70,9 +73,33 @@
     "fun": 10,
     "volume": "250 ml",
     "description": "A classic New England casserole made with butter, lobster, and crackers, in roughly that order.",
-    "price": 60,
-    "price_postapoc": 150,
+    "price": "60 cent",
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "flesh", "wheat", "milk" ],
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ], [ "milk_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "eggplant_parmigiana",
+    "name": { "str_sp": "eggplant parmigiana" },
+    "weight": "178 g",
+    "color": "brown",
+    "spoils_in": "60 days",
+    "container": "casserole",
+    "comestible_type": "FOOD",
+    "symbol": "p",
+    "quench": -2,
+    "healthy": -1,
+    "calories": 301,
+    "description": "A good portion of tasty eggplant parmigiana.",
+    "price": "1 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "veggy", "milk" ],
+    "primary_material": "veggy",
+    "volume": "250 ml",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "calcium", 15 ], [ "iron", 2 ], [ "vitC", 7 ], [ "veggy_allergen", 1 ], [ "milk_allergen", 1 ] ],
+    "fun": 8
   }
 ]

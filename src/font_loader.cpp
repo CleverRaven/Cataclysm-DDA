@@ -1,5 +1,7 @@
 #include "font_loader.h"
 
+#if defined( TILES )
+
 #include "json_loader.h"
 
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
@@ -72,3 +74,5 @@ void font_loader::load()
         save( fontdata );
     }
 }
+
+#endif // TILES

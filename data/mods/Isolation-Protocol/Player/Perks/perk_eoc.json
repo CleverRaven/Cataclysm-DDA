@@ -1,0 +1,39 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "iso_robolove",
+    "recurrence": "20 seconds",
+    "condition": { "and": [ { "u_has_trait": "iso_robolove" }, { "one_in_chance": 6 } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "iso_robolove" } },
+    "effect": [ { "u_cast_spell": { "id": "iso_robolove_charm_1", "hit_self": true } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_HYPO_O",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        { "u_has_trait": "iso_hypo_o" },
+        {
+          "or": [
+            { "compare_string": [ "bandaged", { "context_val": "effect" } ] },
+            { "compare_string": [ "disinfected", { "context_val": "effect" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "set_string_var": { "context_val": "bodypart" }, "target_var": { "u_val": "heal_part" } },
+      { "u_add_effect": "iso_heal", "duration": 1, "target_part": { "u_val": "heal_part" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_HYPO_DAM",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "iso_hypo_o" },
+    "effect": [ { "u_add_effect": "iso_eff_hypo_o", "duration": "2 seconds" } ]
+  }
+]

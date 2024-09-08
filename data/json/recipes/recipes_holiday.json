@@ -12,13 +12,12 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "book_learn": [ [ "plastics_book", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 2 ] ],
     "components": [
-      [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_bathroom", 3 ], [ "bottle_plastic_small", 6 ] ],
+      [ [ "plastic_bottles_4l", 1, "LIST" ] ],
       [ [ "lightstrip_inactive", 1 ] ],
       [ [ "light_battery_cell", 1 ] ],
-      [ [ "y_paint", 1 ] ]
+      [ [ "paint_yellow", 1 ] ]
     ]
   },
   {
@@ -38,6 +37,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "jackolantern",
+    "byproducts": [ [ "pumpkin_cut", 1 ], [ "seed_pumpkin", 6 ] ],
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -45,6 +45,6 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "pumpkin", 12 ], [ "irradiated_pumpkin", 12 ] ], [ [ "candle", 1 ] ] ]
+    "components": [ [ [ "pumpkin", 1 ] ], [ [ "candle", 1 ] ] ]
   }
 ]

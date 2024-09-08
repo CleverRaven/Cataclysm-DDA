@@ -7,8 +7,7 @@
 #include <list>
 #include <vector>
 
-#include "coordinates.h"
-#include "npc.h"
+#include "coords_fwd.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -17,7 +16,7 @@ struct tripoint;
 /*
  * Talker wrapper class for an empty talker thats just topics
  */
-class talker_topic: public talker
+class talker_topic: public talker_cloner<talker_topic>
 {
     public:
         explicit talker_topic( std::vector<std::string> new_topics ) {
@@ -34,7 +33,6 @@ class talker_topic: public talker
         tripoint_abs_ms global_pos() const override;
         tripoint_abs_omt global_omt_location() const override;
 
-        std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string & ) override;
 

@@ -14,7 +14,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
@@ -54,7 +54,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -73,11 +73,11 @@
       { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "2x4", 1 ] ],
-      [ [ "nail", 2 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
+      [ [ "nails", 2, "LIST" ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
   {
@@ -97,11 +97,17 @@
       { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "log", 1 ] ],
-      [ [ "nail", 2 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
+      [
+        [ "nail", 2 ],
+        [ "bronze_nail", 2 ],
+        [ "cordage_short", 2, "LIST" ],
+        [ "filament", 100, "LIST" ],
+        [ "duct_tape", 40 ]
+      ]
     ]
   },
   {
@@ -114,6 +120,7 @@
     "difficulty": 4,
     "time": "1 h",
     "reversible": true,
+    "//": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "autolearn": true,
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
@@ -121,32 +128,8 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "copper_scrap_equivalent", 50, "LIST" ] ],
+      [ [ "scrap_copper", 1 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
-    ]
-  },
-  {
-    "result": "bronze_axe",
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 5,
-    "time": "4 h",
-    "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_toolsmithing" }
-    ],
-    "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
-    "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [
-      [ [ "leather", 1 ], [ "fur", 1 ], [ "cordage_short", 2, "LIST" ] ],
-      [ [ "scrap_bronze", 10 ] ],
-      [ [ "stick", 1 ], [ "2x4", 1 ] ]
     ]
   },
   {
@@ -182,7 +165,7 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
@@ -247,13 +230,13 @@
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "rock_large", 2 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "any_water", 1, "LIST" ] ],
       [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -264,7 +247,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_pottery" } ],
     "using": [ [ "earthenware_firing", 100 ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -278,20 +261,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "splinter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "fire_drill",
-    "id_suffix": "refresh",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "fire_drill", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "stick", 1 ] ], [ [ "splinter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -304,21 +274,34 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL_ROCK", "level": 1 } ],
-    "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, [ { "id": "DRILL_ROCK", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "fire_drill_large",
-    "id_suffix": "refresh",
+    "result": "notched_plank",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "time": "10 m",
+    "autolearn": true,
+    "result_mult": 4,
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "DRILL_ROCK", "level": 1 } ] ],
+    "flags": [ "FULL_MAGAZINE" ],
+    "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "notched_stick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "fire_drill_large", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "result_mult": 4,
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "DRILL_ROCK", "level": 1 } ] ],
+    "flags": [ "FULL_MAGAZINE" ],
+    "components": [ [ [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -351,6 +334,7 @@
   {
     "type": "recipe",
     "result": "drill_rock_primitive",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -372,11 +356,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" }, { "proficiency": "prof_knapping_speed" } ],
-    "components": [
-      [ [ "rock", 1 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
-    ]
+    "components": [ [ [ "rock", 1 ] ], [ [ "any_water", 1, "LIST" ] ], [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -420,5 +400,119 @@
     "reversible": true,
     "autolearn": true,
     "components": [ [ [ "material_sand", 1 ] ], [ [ "leather", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "light_snare_kit",
+    "//": "Carving notches into the sticks (~15m), looping and knotting the string to sit securely in them (~30m), testing/misc/overhead (~5m)",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 3,
+    "decomp_learn": 1,
+    "//2": "Pop culture magazine lacks most helpful information, requires inferring and therefore doesn't learn the recipe until survival 2",
+    "book_learn": [
+      [ "mag_survival", 2 ],
+      [ "pocket_survival", 1 ],
+      [ "manual_survival", 1 ],
+      [ "textbook_survival", 1 ],
+      [ "survival_book", 1 ]
+    ],
+    "time": "50 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_carving", "max_experience": "15 m" },
+      { "proficiency": "prof_fibers", "max_experience": "30 m" }
+    ],
+    "reversible": { "time": "5 m" },
+    "autolearn": true,
+    "components": [ [ [ "pointy_stick", 2 ] ], [ [ "rock", 1 ] ], [ [ "string_36", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "weather_glass",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
+    "difficulty": 6,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 150 ] ],
+      [ [ "casting_mold_long", -1 ] ]
+    ],
+    "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 40 ], [ "test_tube", 40 ] ], [ [ "water", 15 ], [ "water_clean", 15 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "glass_thermometer",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "chemistry", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [
+      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
+      [ [ "pipe", -1 ] ],
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "forge", 150 ] ]
+    ],
+    "components": [ [ [ "glass_shard", 27 ], [ "flask_glass", 40 ], [ "test_tube", 40 ] ], [ [ "mercury", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "hygroscope",
+    "activity_level": "BRISK_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "chemistry", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_carving" } ],
+    "difficulty": 5,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CHISEL_WOOD", "level": 3 },
+      { "id": "ANVIL", "level": 3 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "using": [ [ "blacksmithing_standard", 13 ], [ "steel_standard", 1 ] ],
+    "components": [ [ [ "2x4", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_filter_sand",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ [ "survival", 2 ] ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "reversible": true,
+    "//": "Slow sand biofilter: https://wwwnc.cdc.gov/travel/yellowbook/2024/preparing/water-disinfection#:~:text=Figure%202%2D02.%20Emergency%20gravel%20and%20sand%20filter",
+    "//1": "Density of sand is around 1.6g/cm^3. Gravel is similar. In a 10 in diameter bucket, 4 in of gravel is about 8 kg and 10 in of sand is about 20 kg.",
+    "components": [
+      [ [ "bucket_5gal", 1 ] ],
+      [ [ "material_sand", 2500 ] ],
+      [ [ "material_gravel", 1000 ] ],
+      [ [ "cotton_patchwork", 4 ], [ "wire_mesh", 4 ] ]
+    ]
   }
 ]

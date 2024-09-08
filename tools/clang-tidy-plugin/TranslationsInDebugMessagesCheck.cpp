@@ -9,11 +9,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
@@ -25,7 +21,7 @@ void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
                 functionDecl(
                     anyOf(
                         functionDecl(
-                            hasAnyName( "_", "translation_argument_identity", "gettext", "pgettext",
+                            hasAnyName( "_", "translation_argument_identity", "pgettext",
                                         "n_gettext", "npgettext", "to_translation", "pl_translation",
                                         "no_translation" )
                         ),
@@ -35,7 +31,7 @@ void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
                     )
                 )
             ),
-            hasAncestor( callExpr( callee( functionDecl( matchesName( "add_msg_debug.*" ) ) ) ) )
+            hasAncestor( callExpr( callee( functionDecl( matchesName( "clang_tidy_no_translations" ) ) ) ) )
         ).bind( "translationCall" ),
         this
     );
@@ -52,19 +48,15 @@ void TranslationsInDebugMessagesCheck::check( const MatchFinder::MatchResult &Re
     if( toStringDecl ) {
         diag(
             translationCall->getBeginLoc(),
-            "string arguments to debug message functions should not be translated, because this "
-            "is an unnecessary performance cost.  This call to to_string might involve a "
-            "translation; consider using to_string_writable instead."
+            "string arguments to debug message functions should not be translated.  This call "
+            "to to_string might involve a translation; consider using to_string_writable instead."
         );
     } else {
         diag(
             translationCall->getBeginLoc(),
-            "string arguments to debug message functions should not be translated, because this "
-            "is an unnecessary performance cost."
+            "string arguments to debug message functions should not be translated."
         );
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

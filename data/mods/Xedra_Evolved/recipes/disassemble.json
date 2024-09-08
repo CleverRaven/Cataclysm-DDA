@@ -1,0 +1,68 @@
+[
+  {
+    "result": "broken_sniperbot",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "18 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "inventor_sniper", 1 ] ],
+      [ [ "scrap_aluminum", 150 ] ],
+      [ [ "cable", 50 ] ],
+      [ [ "lens", 1 ] ],
+      [ [ "motor_micro", 3 ] ],
+      [ [ "power_supply", 5 ] ],
+      [ [ "processor", 11 ] ],
+      [ [ "RAM", 4 ] ],
+      [ [ "scrap", 11 ] ],
+      [ [ "nuts_bolts", 13 ] ],
+      [ [ "inventor_heavy_cell", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_shotgunbot",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "18 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "inventor_shotgun", 1 ] ],
+      [ [ "scrap_aluminum", 150 ] ],
+      [ [ "cable", 50 ] ],
+      [ [ "lens", 1 ] ],
+      [ [ "motor_micro", 3 ] ],
+      [ [ "power_supply", 5 ] ],
+      [ [ "processor", 11 ] ],
+      [ [ "RAM", 4 ] ],
+      [ [ "scrap", 11 ] ],
+      [ [ "nuts_bolts", 13 ] ],
+      [ [ "inventor_heavy_cell", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_meleebot",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "18 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "blade", 1 ] ],
+      [ [ "scrap_aluminum", 150 ] ],
+      [ [ "cable", 50 ] ],
+      [ [ "lens", 1 ] ],
+      [ [ "motor_micro", 3 ] ],
+      [ [ "power_supply", 5 ] ],
+      [ [ "processor", 11 ] ],
+      [ [ "RAM", 4 ] ],
+      [ [ "scrap", 11 ] ],
+      [ [ "nuts_bolts", 13 ] ],
+      [ [ "inventor_heavy_cell", 1 ] ]
+    ]
+  }
+]

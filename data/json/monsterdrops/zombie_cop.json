@@ -59,22 +59,19 @@
         "collection": [
           { "item": "tacvest", "damage": [ 1, 4 ] },
           {
-            "distribution": [
-              { "group": "longguns_cop_in_field", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
-              { "group": "longguns_cop_in_field_no_gun", "prob": 90 }
-            ],
-            "prob": 100
+            "distribution": [ { "group": "longguns_cop_in_field", "prob": 10 }, { "group": "longguns_cop_in_field_no_gun", "prob": 90 } ],
+            "prob": 50
           },
-          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 80 }
+          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 90 }
         ],
-        "prob": 70
+        "prob": 30
       },
       {
         "collection": [
-          { "group": "longguns_cop", "prob": 10, "damage": [ 0, 1 ], "dirt": [ 1500, 7050 ] },
-          { "group": "cop_holster", "damage": [ 1, 4 ], "prob": 80 }
+          { "group": "longguns_cop", "prob": 10, "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ] },
+          { "group": "cop_holster", "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ], "prob": 90 }
         ],
-        "prob": 30
+        "prob": 90
       }
     ]
   },
@@ -91,7 +88,8 @@
       { "item": "airhorn", "prob": 5 },
       { "item": "rope_30", "prob": 5 },
       { "item": "sm_extinguisher", "prob": 5 },
-      { "group": "cop_melee", "prob": 60 }
+      { "group": "cop_melee", "prob": 60 },
+      { "item": "teargas_sprayer", "prob": 50, "charges": [ 1, 10 ] }
     ]
   },
   {
@@ -112,7 +110,12 @@
   {
     "id": "cop_pants",
     "type": "item_group",
-    "items": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "police_breeches", "prob": 20 } ]
+    "items": [
+      { "item": "pants", "prob": 75 },
+      { "item": "pants_tactical", "prob": 60 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "police_breeches", "prob": 20 }
+    ]
   },
   {
     "id": "cop_pants_stuff",
@@ -140,7 +143,12 @@
   {
     "id": "cop_torso",
     "type": "item_group",
-    "items": [ [ "dress_shirt", 50 ], [ "sheriffshirt", 45 ], [ "jacket_light", 40 ], [ "leather_police_jacket", 50 ] ]
+    "items": [
+      [ "dress_shirt", 50 ],
+      [ "sheriffshirt", 45 ],
+      [ "jacket_light", 40 ],
+      { "item": "leather_police_jacket", "variant": "leather_police_jacket", "prob": 40 }
+    ]
   },
   {
     "id": "cop_melee",
@@ -156,7 +164,7 @@
     "id": "cop_holster",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 20 }, { "item": "holster", "prob": 80 } ]
+    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 10 }, { "item": "holster", "prob": 90 } ]
   },
   {
     "id": "cop_holster_field",
@@ -165,7 +173,8 @@
     "//": "same as above but with the assumption that you have storage for magazines",
     "entries": [
       { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field" } ], "prob": 20 },
-      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field_no_gun" } ], "prob": 80 }
+      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field_no_gun" } ], "prob": 60 },
+      { "item": "holster", "prob": 60 }
     ]
   },
   {
@@ -181,7 +190,8 @@
       { "group": "swat_pants", "damage": [ 0, 4 ] },
       { "group": "swat_shoes", "damage": [ 0, 4 ] },
       { "group": "swat_torso", "damage": [ 0, 4 ] },
-      { "group": "swat_weapons", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 0, 7050 ] },
+      { "group": "swat_weapons", "prob": 25 },
+      { "group": "cop_holster", "prob": 70 },
       { "group": "underwear", "damage": [ 0, 4 ] },
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 10 },
@@ -196,8 +206,8 @@
     "entries": [
       {
         "distribution": [
-          { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
-          { "item": "bandages", "prob": 30 },
+          { "group": "adhesive_bandages_box_used", "prob": 30 },
+          { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
           { "group": "full_1st_aid", "prob": 20 }
         ],
         "prob": 25
@@ -211,7 +221,8 @@
           { "item": "flashbang", "prob": 10 },
           { "item": "gasbomb", "prob": 10 },
           { "item": "sm_extinguisher", "prob": 5 },
-          { "item": "rope_30", "prob": 10 }
+          { "item": "rope_30", "prob": 10 },
+          { "item": "teargas_sprayer", "prob": 30, "charges": [ 1, 10 ] }
         ],
         "prob": 30
       },
@@ -254,7 +265,11 @@
     "id": "swat_pants",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "pants_army", "prob": 30 } ]
+    "entries": [
+      { "item": "pants_tactical", "prob": 70 },
+      { "item": "pants_cargo", "prob": 70 },
+      { "item": "pants_army", "prob": 30 }
+    ]
   },
   {
     "id": "swat_shoes",
@@ -284,7 +299,7 @@
       {
         "distribution": [
           { "item": "tank_top", "prob": 30 },
-          { "item": "army_top", "prob": 40 },
+          { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "tshirt", "prob": 20 },
           { "item": "longshirt", "prob": 10 },
           { "item": "thermal_shirt", "prob": 10 }

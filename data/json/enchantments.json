@@ -23,6 +23,12 @@
   },
   {
     "type": "enchantment",
+    "id": "ENCH_DEBUG_BIG_HEAD",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "lose": "head" }, { "gain": "big_head" } ]
+  },
+  {
+    "type": "enchantment",
     "id": "RM13",
     "condition": "ACTIVE",
     "values": [
@@ -36,5 +42,192 @@
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_great",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see really well in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 14 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_good",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see quite well in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 12 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_normal",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_bad",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to poorly see in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 8 } ]
+  },
+  {
+    "id": "ench_climate_control_warm",
+    "type": "enchantment",
+    "name": { "str": "Cold Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_all",
+    "name": { "str": "Complete Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_all_permanent",
+    "name": { "str": "Complete Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_exo_strength",
+    "type": "enchantment",
+    "name": { "str": "EXO Frame Strength" },
+    "description": "You are wearing equipment that gives 10 strength.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "STRENGTH", "add": 10 } ]
+  },
+  {
+    "id": "ench_meteor_armor",
+    "type": "enchantment",
+    "name": { "str": "Hyperdense" },
+    "description": "Your armor's massive weight makes it nearly impossible to be knocked over or pushed back.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "KNOCKBACK_RESIST", "add": 1.0 }, { "value": "KNOCKDOWN_RESIST", "add": 1.0 } ]
+  },
+  {
+    "id": "ench_meteor_mask",
+    "type": "enchantment",
+    "name": { "str": "Detect Evil" },
+    "description": "Your armor lets you detect otherworldly presence with ease.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 10 } ]
+  },
+  {
+    "id": "ench_dampened_steps",
+    "type": "enchantment",
+    "name": { "str": "Dampened Steps" },
+    "description": "You are wearing equipment that muffles your footsteps.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
+  },
+  {
+    "id": "ench_wings_insect_active",
+    "type": "enchantment",
+    "name": { "str": "Insect Wings (Buzzing)" },
+    "description": "Your rapidly buzzing wings propel you with extra speed.",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_STAMINA", "add": -110 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
+  },
+  {
+    "id": "ench_quadruped_movement_full",
+    "//": "For quadrupeds with all four of their animal limbs.  We should avoid giving this to every animal mutant, as it helps keep lines distinct.",
+    "type": "enchantment",
+    "condition": {
+      "and": [
+        { "u_has_flag": "QUADRUPED_CROUCH" },
+        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE" ] },
+        { "u_has_flag": "QUADRUPED_RUN" },
+        { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] },
+        { "not": "u_can_drop_weapon" }
+      ]
+    },
+    "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
+    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_quadruped_movement_half",
+    "//": "For quadrupeds who only have their front paws.  Makes crouch-walking a bit faster, but that's all.",
+    "type": "enchantment",
+    "condition": {
+      "and": [
+        { "u_has_flag": "QUADRUPED_CROUCH" },
+        { "u_has_any_trait": [ "THRESH_RABBIT", "THRESH_BEAST", "THRESH_LUPINE", "THRESH_FELINE" ] },
+        { "not": { "u_has_flag": "QUADRUPED_RUN" } },
+        { "u_has_move_mode": "crouch" },
+        { "not": "u_can_drop_weapon" }
+      ]
+    },
+    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ],
+    "ench_effects": [ { "effect": "quadruped_half", "intensity": 1 } ]
+  },
+  {
+    "id": "combat_exoskeleton_inactive",
+    "type": "enchantment",
+    "name": { "str": "Inactive exoskeleton" },
+    "description": "The exoskeleton is inactive and makes moving in it difficult and exhausting.",
+    "has": "WORN",
+    "condition": "INACTIVE",
+    "values": [ { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.5 } ]
+  },
+  {
+    "id": "combat_exoskeleton_heavy_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.1" },
+    "description": "Now powered, the exoskeleton provides <color_white>significant</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.8 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_medium_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.2" },
+    "description": "Now powered, the exoskeleton provides <color_white>moderate</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.3 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.6 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_light_active",
+    "type": "enchantment",
+    "name": { "str": "Active combat exoskeleton mk.3" },
+    "description": "Now powered, the exoskeleton provides <color_white>slight</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.4 },
+      { "value": "CARRY_WEIGHT", "multiply": 0.4 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
+    ]
   }
 ]

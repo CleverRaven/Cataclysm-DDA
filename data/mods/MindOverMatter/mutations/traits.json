@@ -1,0 +1,270 @@
+[
+  {
+    "type": "mutation",
+    "id": "BIOKINETIC",
+    "name": "Awakened Biokinetic",
+    "points": 0,
+    "description": "Mental control over bodily processes.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "biokin_physical_enhance", 2 ], [ "biokin_overcome_pain", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CLAIRSENTIENT",
+    "name": "Awakened Clairsentient",
+    "points": 0,
+    "description": "The ability to extend the senses beyond the body.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ELECTROKINETIC",
+    "name": "Awakened Electrokinetic",
+    "points": 0,
+    "description": "Mental control of lightning and electricity.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [
+      [ "electrokinetic_see_electric", 2 ],
+      [ "electrokinetic_shock_touch", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTOKINETIC",
+    "name": "Awakened Photokinetic",
+    "points": 0,
+    "description": "Mental control of visible light and electromagnetic waves.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "flags": [ "PHOTOKINETIC" ],
+    "spells_learned": [
+      [ "photokinetic_create_light", 2 ],
+      [ "photokinetic_light_local", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PYROKINETIC",
+    "name": "Awakened Pyrokinetic",
+    "points": 0,
+    "description": "Mental control of heat and flame.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEPATH",
+    "name": "Awakened Telepath",
+    "points": 0,
+    "description": "The ability to read thoughts and influence others' minds.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_mind_sense", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEKINETIC",
+    "name": "Awakened Telekinetic",
+    "points": 0,
+    "description": "Mental control over the motion of objects and people at a distance.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "TELEPORTER",
+    "name": "Awakened Teleporter",
+    "points": 0,
+    "description": "The ability to move without crossing the intervening space, as well as some control over space itself.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "VITAKINETIC",
+    "name": "Awakened Vitakinetic",
+    "points": 0,
+    "description": "Mental control over health and vitality.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "spells_learned": [ [ "vita_slow_bleeding", 2 ], [ "vita_health_power", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CANNOT_GAIN_PSIONICS",
+    "name": { "str": "Headblind" },
+    "points": -4,
+    "description": "You've seen people do some crazy things after the Cataclysm, but you've never managed to figure out how they do it.  You can never learn psionic powers.",
+    "valid": false,
+    "player_display": true,
+    "starting_trait": true,
+    "purifiable": false,
+    "cancels": [
+      "BIOKINETIC",
+      "CLAIRSENTIENT",
+      "ELECTROKINETIC",
+      "PHOTOKINETIC",
+      "PYROKINETIC",
+      "TELEPATH",
+      "TELEKINETIC",
+      "TELEPORTER",
+      "VITAKINETIC",
+      "ALWAYS_GAIN_PSIONICS"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "ALWAYS_GAIN_PSIONICS",
+    "name": { "str": "Latent Psion" },
+    "points": 3,
+    "description": "Before the Cataclysm, you were lucky in some way.  Maybe you never lost your keys, or maybe you always made that last green light before getting home, or maybe you never had to take a sick day in your life.  Now after the Cataclysm, you have the potential for even more power.  Your first attempt to awaken psionic powers will always be successful.",
+    "valid": false,
+    "player_display": true,
+    "starting_trait": true,
+    "purifiable": false,
+    "cancels": [
+      "BIOKINETIC",
+      "CLAIRSENTIENT",
+      "ELECTROKINETIC",
+      "PHOTOKINETIC",
+      "PYROKINETIC",
+      "TELEPATH",
+      "TELEKINETIC",
+      "TELEPORTER",
+      "VITAKINETIC",
+      "CANNOT_GAIN_PSIONICS"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "LIMITED_PSIONICS",
+    "name": { "str": "Limited Awakening" },
+    "points": -2,
+    "description": "You managed to awaken psionic powers, but it was a struggle and you're not sure you'll be able to do it again.  You are subject to the random odds of awakening new powers.",
+    "valid": false,
+    "player_display": false,
+    "starting_trait": true,
+    "purifiable": false,
+    "cancels": [ "CANNOT_GAIN_PSIONICS", "ALWAYS_GAIN_PSIONICS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_PEOPLE",
+    "name": { "str": "Fifth Sun People" },
+    "points": 0,
+    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "VERDANT_HAND_PROTOCOLS",
+    "name": { "str": "VERDANT HAND Combat Protocols" },
+    "points": 2,
+    "description": "Who needs weapons?  Thanks to your biokinesis, you deal more melee damage while fighting with your bare hands.  This damage improves as your unarmed skill and biokinetic prowess increase.",
+    "starting_trait": false,
+    "valid": false,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_skill('unarmed') / 2" ] } } ]
+      },
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_BASH", "multiply": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') * 0.01" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "CONCENTRATION_GOOD",
+    "name": { "str": "Improved Concentration" },
+    "points": 2,
+    "description": "You can keep your mind on something even if there are plenty of distractions.  The number of psionic powers you can maintain at once is increased by 1.",
+    "starting_trait": true,
+    "valid": true,
+    "category": [ "PLANT", "TROGLOBITE", "ALPHA", "ELFA" ],
+    "cancels": [ "CONCENTRATION_BAD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CONCENTRATION_BAD",
+    "name": { "str": "Easily Distracted" },
+    "points": -2,
+    "description": "Any day now you're going to buckle down and oh hey is that a butterfly?  The number of psionic powers you can maintain at once is reduced by 1.",
+    "starting_trait": true,
+    "valid": true,
+    "category": [ "MOUSE", "LUPINE", "BIRD", "RABBIT", "FELINE", "CHIMERA", "BEAST" ],
+    "cancels": [ "CONCENTRATION_GOOD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CONCENTRATION_DEBUG",
+    "name": { "str": "Debug Concentration" },
+    "points": 99,
+    "description": "You could keep every single bug in the game in mind simultaneously with this one.",
+    "starting_trait": false,
+    "valid": false,
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_EXTENDED_CHANNELING",
+    "name": { "str": "Extended Channeling" },
+    "points": 0,
+    "description": "You can take more time and care in channeling your powers.  It will take 25x as long to evoke them, but it will be much easier to activate them and you will be less likely to gain Nether Attunement while doing so.",
+    "active": true,
+    "activated_is_setup": true,
+    "valid": false,
+    "activated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ],
+    "deactivated_eocs": [ "EOC_PSI_EXTENDED_CHANNELING_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_EXTENDED_CHANNELING_active",
+    "name": { "str": "Extended Channeling Active" },
+    "points": 0,
+    "description": "The active trait for Extended Channeling.  It's a bug if you can see it.",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_TORRENTIAL_CHANNELING",
+    "name": { "str": "Torrential Channeling" },
+    "points": 0,
+    "description": "You can draw deeply on the Nether, increasing the strength of your powers but making making them harder to initiate and control.",
+    "active": true,
+    "activated_is_setup": true,
+    "valid": false,
+    "activated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ],
+    "deactivated_eocs": [ "EOC_PSI_TORRENTIAL_CHANNELING_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PSI_TORRENTIAL_CHANNELING_active",
+    "name": { "str": "Torrential Channeling Active" },
+    "points": 0,
+    "description": "The active trait for Torrential Channeling.  It's a bug if you can see it.",
+    "valid": false,
+    "player_display": false
+  }
+]

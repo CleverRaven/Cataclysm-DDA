@@ -1,7 +1,9 @@
 [
   {
     "type": "enchantment",
-    "id": "WITHER_MAGE_WITHERING",
+    "id": "WITHER_MAGE",
+    "name": { "str": "Fading" },
+    "description": "Your Wither Mage abilities grant you the ability to consume the enemies powers for a short time.",
     "hit_you_effect": [ { "id": "wither_mage_withering", "hit_self": true, "once_in": 6 } ]
   },
   {
@@ -28,12 +30,6 @@
     "int_add_val": 1,
     "base_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] },
     "scaling_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] }
-  },
-  {
-    "type": "enchantment",
-    "id": "WITHER_MAGE_AP",
-    "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_AP", "add": 15 } ]
   },
   {
     "id": "wither_mage_bio_damage",
@@ -65,15 +61,13 @@
     "condition": {
       "and": [
         { "u_has_trait": "WITHER_MAGE" },
-        {
-          "not": { "u_has_var": "u_got_wither_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_wither_mage_attunement" } ] } }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "WITHER_MAGE" } },
     "effect": [
       { "u_add_trait": "TOXIC_AURA_OFF" },
-      { "u_add_var": "u_got_wither_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+      { "u_add_var": "attunement_attunement_u_got_wither_mage_attunement", "value": "yes" }
     ]
   },
   {
@@ -85,7 +79,7 @@
     "name": { "str": "Toxic Aura" },
     "points": 0,
     "active": true,
-    "description": "Your body can emit a deadly venoms.  You suppress this ability now.",
+    "description": "Your body can emit an aura of deadly toxins.  You suppress this ability now.",
     "transform": { "target": "TOXIC_AURA_ON", "msg_transform": "Living creatures around you are poisoned!", "active": true, "moves": 10 }
   },
   {
@@ -97,7 +91,7 @@
     "active": true,
     "name": { "str": "Toxic Aura (on)" },
     "points": 0,
-    "description": "Your body can emit a deadly venoms.",
+    "description": "Your body can emit an aura of deadly toxins.",
     "enchantments": [ "WITHER_MAGE_BIO_AOE" ],
     "transform": { "target": "TOXIC_AURA_OFF", "msg_transform": "You suppress your toxic aura.", "active": false, "moves": 10 }
   }

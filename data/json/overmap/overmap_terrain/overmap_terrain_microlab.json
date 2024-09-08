@@ -2,22 +2,12 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_generic",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_MICROLAB", "population": [ 12, 25 ], "chance": 80 },
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "microlab_rock_border",
-    "name": "solid rock",
-    "looks_like": "empty_rock",
-    "sym": "%",
-    "color": "dark_gray",
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -37,12 +27,12 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_sub_station",
+    "vision_levels": "underground_stone",
     "name": "subway station?",
     "sym": "S",
     "color": "light_blue",
-    "spawns": { "group": "GROUP_LAB", "population": [ 12, 25 ], "chance": 80 },
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -68,11 +58,12 @@
       "microlab_generic_isolated_stairs_up",
       "microlab_generic_isolated_elevator_pit"
     ],
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -88,70 +79,93 @@
       "microlab_portal_security_hallway1",
       "microlab_portal_security_hallway2"
     ],
+    "vision_levels": "underground_stone",
     "name": "physics lab",
     "sym": "L",
     "color": "red",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "microlab_generic_hallway" ],
+    "vision_levels": "underground_stone",
     "name": "lab hallway",
     "color": "light_red",
-    "see_cost": 5,
-    "spawns": { "group": "GROUP_LAB", "population": [ 2, 5 ], "chance": 80 },
+    "see_cost": "full_high",
     "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "microlab_reactor", "microlab_reactor_b" ],
+    "vision_levels": "underground_stone",
     "name": "science lab reactor",
     "sym": "L",
     "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "microlab_distorted", "microlab_distorted_edge" ],
     "name": "distorted science lab",
     "color": "pink",
-    "spawns": { "group": "GROUP_DISTORTED_MICROLAB", "population": [ 10, 25 ], "chance": 80 },
     "copy-from": "microlab_generic"
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_distorted_hallway",
+    "vision_levels": "underground_stone",
     "name": "distorted hallway",
     "color": "light_red",
-    "see_cost": 5,
-    "spawns": { "group": "GROUP_DISTORTED_MICROLAB", "population": [ 2, 5 ], "chance": 80 },
+    "see_cost": "full_high",
     "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "microlab_portal_elevator", "microlab_portal_elevator_physics_glass" ],
+    "vision_levels": "underground_stone",
     "name": "physics department elevator",
     "color": "light_red",
     "sym": "L",
-    "see_cost": 5
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14_elevator" ],
+    "vision_levels": "underground_stone",
+    "name": "Hub 14 elevator",
+    "color": "cyan",
+    "sym": "L",
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_portal_MSU14" ],
+    "vision_levels": "underground_stone",
+    "name": "Hub 14",
+    "sym": "L",
+    "color": "cyan",
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_portal_elevator_nether_glass",
+    "vision_levels": "underground_stone",
     "name": "lost level",
     "color": "black",
     "sym": " ",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_generic_surface",
+    "vision_levels": "underground_stone",
     "name": "lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -161,12 +175,13 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_ratkin",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
-    "color": "light_blue",
+    "color": "green",
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
@@ -188,22 +203,24 @@
   {
     "type": "overmap_terrain",
     "id": "microlab_sub_station_ratkin",
-    "name": "subway station?",
-    "sym": "S",
-    "color": "light_blue",
+    "vision_levels": "underground_stone",
+    "name": "pump station?",
+    "sym": "P",
+    "color": "green",
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "microlab_ratkin_sub_entry",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
-    "color": "light_blue",
+    "color": "green",
     "spawns": { "group": "GROUP_RATKIN_LAB", "population": [ 12, 25 ], "chance": 80 },
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",

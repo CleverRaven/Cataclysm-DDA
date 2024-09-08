@@ -17,7 +17,7 @@ class talker;
 
 /*
  */
-class talker_npc : public talker_character
+class talker_npc : public talker_cloner<talker_npc, talker_character>
 {
     public:
         explicit talker_npc( npc *new_me );
@@ -41,17 +41,6 @@ class talker_npc : public talker_character
         bool check_hostile_response( int anger ) const override;
         int parse_mod( const std::string &attribute, int factor ) const override;
         int trial_chance_mod( const std::string &trial_type ) const override;
-
-        // stats, skills, traits, bionics, magic, and proficiencies
-        std::vector<skill_id> skills_offered_to( const talker &student ) const override;
-        std::string skill_training_text( const talker &, const skill_id & ) const override;
-        std::vector<proficiency_id> proficiencies_offered_to( const talker &student ) const override;
-        std::string proficiency_training_text( const talker &student,
-                                               const proficiency_id &proficiency ) const override;
-        std::vector<matype_id> styles_offered_to( const talker &student ) const override;
-        std::string style_training_text( const talker &, const matype_id & ) const override;
-        std::vector<spell_id> spells_offered_to( talker &student ) override;
-        std::string spell_training_text( talker &, const spell_id & ) override;
         void store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
                                     const spell_id &c_spell, const proficiency_id &c_proficiency ) override;
 
@@ -91,6 +80,7 @@ class talker_npc : public talker_character
 
         // other descriptors
         std::string get_job_description() const override;
+        std::string view_personality_traits() const override;
         std::string evaluation_by( const talker &alpha ) const override;
         bool has_activity() const override;
         bool is_myclass( const npc_class_id &class_to_check ) const override;
@@ -105,6 +95,7 @@ class talker_npc : public talker_character
         bool enslave_mind() override;
         void set_first_topic( const std::string &chat_topic ) override;
         bool is_safe() const override;
+        void die() override;
 
         // opinions
         void set_npc_trust( int trust ) override;

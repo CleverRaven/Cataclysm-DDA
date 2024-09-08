@@ -6,13 +6,13 @@
     "symbol": "o",
     "color": "black_white",
     "name": "black dragon scale",
-    "price": 2500,
+    "price": "25 USD",
     "material": [ "black_dragon_scales" ],
     "weight": "380 g",
     "volume": "75 ml",
-    "bashing": 0,
     "to_hit": -4,
-    "description": "A scale from a black dragon.  It still has its magical properties and acid resistance."
+    "description": "A scale from a black dragon.  It still has its magical properties and acid resistance.",
+    "melee_damage": { "bash": 0 }
   },
   {
     "id": "bundle_black_scale",
@@ -28,19 +28,23 @@
     "type": "COMESTIBLE",
     "id": "black_dragon_hide_raw",
     "category": "spare_parts",
-    "name": "raw black dragon hide",
-    "weight": "2500 g",
+    "name": { "str_sp": "raw black dragon hide" },
+    "weight": "10100 g",
+    "//": "Tanning 1 raw hide can get 20 scales as byproduct, those scales should be on the hide before tanning",
     "color": "black_white",
     "spoils_in": "3 day",
     "comestible_type": "FOOD",
     "symbol": ",",
     "description": "A carefully folded raw hide harvested from a black dragon.  It is a large enough piece that it is workable to make armor, and with enough scales you could make scale mail.",
-    "price": 50000,
-    "material": [ "black_dragon_hide", "flesh" ],
+    "price": "500 USD",
+    "material": [
+      { "type": "black_dragon_hide", "portion": 25 },
+      { "type": "black_dragon_scales", "portion": 50 },
+      { "type": "flesh", "portion": 25 }
+    ],
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
-    "vitamins": [  ],
-    "volume": "4 L",
-    "stack_size": 1
+    "vitamins": [ [ "meat_allergen", 1 ] ],
+    "volume": "4 L"
   },
   {
     "id": "black_dragon_tanning_hide",
@@ -50,8 +54,7 @@
     "description": "A treated black dragon hide which is undergoing the chemical processes required to become workable.  You will be able to activate it to unroll and make use of it when it is done.",
     "weight": "2500 g",
     "volume": "4 L",
-    "price": 0,
-    "to_hit": -2,
+    "price": "0 cent",
     "material": [ "flesh", "black_dragon_hide" ],
     "symbol": ",",
     "color": "black_white",
@@ -73,7 +76,7 @@
     "color": "black_white",
     "name": "black dragon hide",
     "description": "Prepared hide from a black dragon.  Hard, acid-resistant, and with more scales could make a suit of armor as hard as steel and half as heavy.",
-    "price": 50000,
+    "price": "500 USD",
     "material": [ "black_dragon_hide" ],
     "weight": "2500 g",
     "volume": "4 L",
@@ -87,7 +90,7 @@
     "symbol": ",",
     "name": { "str": "bundle of black dragon hides", "str_pl": "bundles of black dragon hides" },
     "//": "inspiration from bundle of leather",
-    "proportional": { "price": 10, "weight": 10, "volume": 4 },
+    "proportional": { "price": 10, "weight": 10, "volume": 10 },
     "description": "Hides from a black dragon, bundled tightly together for storage.  Disassemble to unpack."
   },
   {
@@ -98,9 +101,7 @@
     "description": "Boots made of black incredibly durable dragonscale.  Very protective, and surprisingly light.",
     "weight": "945 g",
     "volume": "3250 ml",
-    "price": 75000,
-    "to_hit": -2,
-    "bashing": 7,
+    "price": "750 USD",
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -108,7 +109,8 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "boots_black_dragon_hide",
@@ -118,9 +120,7 @@
     "description": "Boots made of very durable black dragonhide.  Very protective, and surprisingly light.",
     "weight": "655 g",
     "volume": "3250 ml",
-    "price": 50000,
-    "to_hit": -2,
-    "bashing": 7,
+    "price": "500 USD",
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -128,7 +128,8 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "helmet_black_dragon_scale",
@@ -139,9 +140,8 @@
     "use_action": { "type": "transform", "target": "helmet_black_dragon_scale_raised", "msg": "You raise your visor." },
     "weight": "856 g",
     "volume": "2500 ml",
-    "price": 58000,
+    "price": "580 USD",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -153,7 +153,8 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "helmet_black_dragon_scale_raised",
@@ -167,7 +168,7 @@
     "armor": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 32 } ],
     "material_thickness": 5,
     "environmental_protection": 3,
-    "delete": { "qualities": [ [ "GLARE", 1 ] ], "flags": [ "SUN_GLASSES" ] }
+    "delete": { "qualities": [ "GLARE" ], "flags": [ "SUN_GLASSES" ] }
   },
   {
     "id": "helmet_black_dragon_hide",
@@ -177,9 +178,8 @@
     "description": "A helmet made from very durable black dragonhide.  It protects your head well, but doesn't cover your face.",
     "weight": "585 g",
     "volume": "2 L",
-    "price": 58000,
+    "price": "580 USD",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -188,7 +188,8 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "head" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "suit_black_dragon_scale",
@@ -198,9 +199,8 @@
     "description": "A full suit of incredibly durable black dragon scale mail.  It comes with all the accoutrements that cover your torso, legs, and arms, with the benefit of being very light and flexible.",
     "weight": "4250 g",
     "volume": "12 L",
-    "price": 2000000,
+    "price": "20 kUSD",
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -208,7 +208,8 @@
     "material_thickness": 5,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "suit_black_dragon_hide",
@@ -218,9 +219,8 @@
     "description": "A full suit of very durable black dragonhide armor.  It comes with all the accoutrements that cover your torso, legs, and arms, with the benefit of being very light and flexible.",
     "weight": "3 kg",
     "volume": "11 L",
-    "price": 2000000,
+    "price": "20 kUSD",
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -228,7 +228,8 @@
     "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "gauntlets_black_dragon_scale",
@@ -238,8 +239,7 @@
     "description": "A pair of heavy-duty gauntlets made of incredibly durable black dragonscale that covers your hands.",
     "weight": "380 g",
     "volume": "1 L",
-    "price": 180000,
-    "to_hit": 2,
+    "price": "1 kUSD 800 USD",
     "material": [ "black_dragon_hide", "black_dragon_scales" ],
     "symbol": "[",
     "color": "black_white",
@@ -257,8 +257,7 @@
     "description": "A pair of gloves made of very durable black dragonhide, modified to be easy to wear while providing maximum protection under extreme conditions.",
     "weight": "230 g",
     "volume": "750 ml",
-    "price": 180000,
-    "to_hit": 2,
+    "price": "1 kUSD 800 USD",
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "black_white",
@@ -398,8 +397,8 @@
     "description": "A custom-built backpack.  Made of very durable dragon leather and carefully crafted to hold as much stuff as possible.",
     "weight": "900 g",
     "volume": "5250 ml",
-    "price": 240000,
-    "price_postapoc": 3250,
+    "price": "2 kUSD 400 USD",
+    "price_postapoc": "32 USD 50 cent",
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -427,8 +426,8 @@
     "name": { "str": "XL dragonhide backpack" },
     "weight": "1200 g",
     "volume": "6250 ml",
-    "price": 280000,
-    "price_postapoc": 3450,
+    "price": "2 kUSD 800 USD",
+    "price_postapoc": "34 USD 50 cent",
     "symbol": "[",
     "pocket_data": [
       {

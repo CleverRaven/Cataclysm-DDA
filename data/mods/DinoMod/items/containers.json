@@ -7,10 +7,8 @@
     "description": "The stomach of a sauropod, cleaned and sealed with strings.  It can hold 6 liters of water.",
     "weight": "1566 g",
     "volume": "1 L",
-    "price": 9000,
-    "price_postapoc": 50,
-    "to_hit": -1,
-    "bashing": 1,
+    "price": "90 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gutskin" ],
     "symbol": ")",
     "color": "brown",
@@ -22,6 +20,7 @@
         "max_item_volume": "34 ml",
         "max_contains_weight": "12 kg"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   }
 ]

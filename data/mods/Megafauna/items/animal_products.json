@@ -9,26 +9,36 @@
     "symbol": ")",
     "description": "A huge curved tusk of a mammoth.",
     "comestible_type": "FOOD",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ],
-    "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "80 L",
     "longest_side": "2500 cm",
-    "bashing": 45,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
+    "melee_damage": { "bash": 45 }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_auk",
     "name": { "str": "great auk egg" },
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "description": "An egg laid by a great auk.  Prized for its big, nutritious yolk.",
     "quench": 9,
     "calories": 140,
     "volume": "90 ml",
     "rot_spawn": "GROUP_EGG_AUK"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_titanis_walleri",
+    "name": { "str": "titanis walleri egg" },
+    "copy-from": "egg_chicken",
+    "description": "A large egg laid by a titanis walleri.  Prized for its big, nutritious yolk.",
+    "quench": 14,
+    "calories": 2100,
+    "volume": "1800 ml",
+    "rot_spawn": "GROUP_EGG_TITANIS_WALLERI"
   },
   {
     "type": "COMESTIBLE",
@@ -40,11 +50,12 @@
     "color": "brown",
     "symbol": "O",
     "description": "A huge shell laboriously carved from a glyptotherium.",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ],
     "volume": "180 L",
-    "longest_side": "2000 cm"
+    "longest_side": "2000 cm",
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -56,14 +67,13 @@
     "symbol": "I",
     "description": "A huge bone of a large creature.",
     "comestible_type": "FOOD",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "bone" ],
-    "milling": { "into": "meal_bone", "conversion_rate": 4 },
     "volume": "36 L",
     "longest_side": "2000 cm",
-    "bashing": 35,
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
-    "vitamins": [ [ "calcium", 96 ] ]
+    "vitamins": [ [ "calcium", 96 ], [ "meat_allergen", 1 ] ],
+    "melee_damage": { "bash": 35 }
   }
 ]

@@ -1,23 +1,17 @@
 [
   {
     "id": "45_acp",
-    "copy-from": "45_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".45 ACP FMJ" },
     "description": ".45 ACP ammunition with a 230gr FMJ bullet.  Due to a reputation for effectiveness, the .45 ACP round has been common for over a century.",
-    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
-  },
-  {
-    "id": "45_jhp",
-    "type": "AMMO",
-    "name": { "str_sp": ".45 ACP JHP" },
-    "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since lost some of its popularity to more modern handgun ammo.",
-    "weight": "10 g",
+    "ascii_picture": "45_jhp",
+    "weight": "21 g",
     "volume": "112 ml",
-    "price": 180,
-    "price_postapoc": 600,
+    "longest_side": "32 mm",
+    "price": "1 USD 80 cent",
+    "price_postapoc": "6 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "count": 30,
@@ -25,10 +19,42 @@
     "ammo_type": "45",
     "casing": "45_casing",
     "range": 16,
-    "damage": { "damage_type": "bullet", "amount": 30, "armor_penetration": 2 },
+    "//": ".451in, 230gr, Speer TMJ 4480, 5.5gr Alliant UNIQUE",
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 27,
+      "armor_penetration": 8,
+      "barrels": [
+        { "barrel_length": "27 mm", "amount": 14 },
+        { "barrel_length": "33 mm", "amount": 15 },
+        { "barrel_length": "40 mm", "amount": 16 },
+        { "barrel_length": "46 mm", "amount": 17 },
+        { "barrel_length": "57 mm", "amount": 18 },
+        { "barrel_length": "70 mm", "amount": 19 },
+        { "barrel_length": "86 mm", "amount": 20 },
+        { "barrel_length": "102 mm", "amount": 21 },
+        { "barrel_length": "128 mm", "amount": 22 },
+        { "barrel_length": "163 mm", "amount": 23 },
+        { "barrel_length": "197 mm", "amount": 24 },
+        { "barrel_length": "259 mm", "amount": 25 },
+        { "barrel_length": "347 mm", "amount": 26 },
+        { "barrel_length": "476 mm", "amount": 27 },
+        { "barrel_length": "616 mm", "amount": 28 },
+        { "barrel_length": "897 mm", "amount": 29 },
+        { "barrel_length": "1254 mm", "amount": 30 }
+      ]
+    },
     "dispersion": 50,
     "recoil": 600,
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "45_jhp",
+    "copy-from": "45_acp",
+    "type": "AMMO",
+    "name": { "str_sp": ".45 ACP JHP" },
+    "description": ".45 ACP ammunition with a 185gr JHP bullet.  The .45 ACP round was developed to replace the .38 Long Colt cartridge in the early 20th century, but has since lost some of its popularity to more modern handgun ammo.",
+    "relative": { "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": -6 } }
   },
   {
     "id": "45_super",
@@ -36,8 +62,8 @@
     "type": "AMMO",
     "name": { "str_sp": ".45 ACP +P" },
     "description": "Overpressure .45 ACP ammunition with a 185gr JHP bullet.  This cartridge has higher muzzle energy than typical loads, leading to greater damage, accuracy and recoil.",
-    "price": 210,
-    "price_postapoc": 600,
+    "price": "2 USD 10 cent",
+    "price_postapoc": "6 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 4 }, "dispersion": -10, "recoil": 60 }
@@ -101,5 +127,27 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_45_acp",
+    "copy-from": "bp_45_acp",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".45 FMJ, matchhead powder" },
+    "description": ".45 ACP ammunition with a 230gr FMJ bullet.  Due to a reputation for effectiveness, the .45 ACP round has been common for over a century.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_45_acp",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "matchhead_45_jhp",
+    "copy-from": "bp_45_jhp",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".45 ACP JHP, matchhead powder" },
+    "description": ".45 ACP ammunition with a 185gr JHP bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_45_jhp",
+    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

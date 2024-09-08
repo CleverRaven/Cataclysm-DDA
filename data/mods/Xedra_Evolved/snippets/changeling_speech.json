@@ -22,5 +22,11 @@
     "speaker": "mon_fetch_child",
     "sound": "\"You're it, I'm gonna catch you!\"",
     "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_fetch_child",
+    "sound": "\"Won't you take me home with you?\"",
+    "volume": 10
   }
 ]

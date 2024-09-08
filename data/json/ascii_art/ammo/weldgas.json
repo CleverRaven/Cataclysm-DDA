@@ -1,0 +1,106 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "welding_rod_steel",
+    "picture": [
+      "<color_dark_gray>|",
+      "<color_light_gray>║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "welding_rod_alloy",
+    "picture": [
+      "<color_light_gray>|",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "welding_wire_steel",
+    "picture": [
+      "    <color_dark_gray>-.",
+      "  ____\\",
+      ".'    '|",
+      "│      │",
+      "|      |",
+      " '────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "welding_wire_alloy",
+    "picture": [
+      "    <color_light_gray>-.",
+      "  ____\\",
+      ".'    '|",
+      "│      │",
+      "|      |",
+      " '────'"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "brazing_rod_bronze",
+    "picture": [
+      "<color_yellow>|",
+      "<color_light_gray>║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "brazing_rod_alloy",
+    "picture": [
+      "<color_light_gray>|",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║",
+      "║"
+    ]
+  }
+]

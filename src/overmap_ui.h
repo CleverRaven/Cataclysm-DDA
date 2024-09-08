@@ -2,11 +2,14 @@
 #ifndef CATA_SRC_OVERMAP_UI_H
 #define CATA_SRC_OVERMAP_UI_H
 
-#include "coordinates.h"
+#include "avatar.h"
+#include "coords_fwd.h"
+#include "input_context.h"
 #include "regional_settings.h"
 #include "string_id.h"
+#include "ui_manager.h"
 
-static constexpr int RANDOM_CITY_ENTRY = INT_MIN;
+constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
 class uilist;
 
@@ -31,6 +34,11 @@ namespace omap
  * Display overmap centered at the player's position.
  */
 void display();
+/**
+ * Display overmap centered at the given NPC's position and visually move across their intended OMT path.
+ */
+void display_npc_path( tripoint_abs_omt starting_pos,
+                       const std::vector<tripoint_abs_omt> &display_path );
 /**
  * Display overmap like with @ref display() and display hordes.
  */
@@ -80,9 +88,10 @@ tripoint_abs_omt choose_point( const tripoint_abs_omt &origin, bool show_debug_i
 
 void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
 
-cata::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
-                                  bool random = false );
+std::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
+                                 bool random = false );
 
+void force_quit();
 } // namespace omap
 
 } // namespace ui
@@ -90,16 +99,33 @@ cata::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities
 namespace overmap_ui
 {
 // drawing relevant data, e.g. what to draw.
-struct draw_data_t {
+struct overmap_draw_data_t {
     // draw editor.
     bool debug_editor = false;
     // draw scent traces.
     bool debug_scent = false;
     // draw debug info.
     bool debug_info = false;
+    // darken explored tiles
+    bool show_explored = true;
+    // currently fast traveling
+    bool fast_traveling = false;
+
     // draw zone location.
     tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
     int iZoneIndex = -1;
+    std::vector<tripoint_abs_omt> display_path = {};
+    //center of UI view; usually player OMT position
+    tripoint_abs_omt origin_pos = tripoint_abs_omt( -1, -1, -1 );
+    //UI view cursor position
+    tripoint_abs_omt cursor_pos = tripoint_abs_omt( -1, -1, -1 );
+    //the UI adaptor for the overmap; this can keep the overmap displayed while turns are processed
+    std::shared_ptr<ui_adaptor> ui;
+    input_context ictxt;
+
+    overmap_draw_data_t() {
+        ictxt = input_context( "OVERMAP" );
+    }
 };
 
 #if defined(TILES)
@@ -111,6 +137,7 @@ extern tiles_redraw_info redraw_info;
 #endif
 
 weather_type_id get_weather_at_point( const tripoint_abs_omt &pos );
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note );
+std::tuple<char, nc_color, size_t> get_note_display_info( std::string_view note );
+
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H

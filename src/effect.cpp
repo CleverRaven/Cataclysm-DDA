@@ -1,25 +1,35 @@
 #include "effect.h"
 
 #include <algorithm>
-#include <cstddef>
 #include <map>
+#include <memory>
+#include <optional>
+#include <type_traits>
 #include <unordered_set>
 
 #include "bodypart.h"
-#include "color.h"
+#include "cata_assert.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "effect_source.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
+#include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "json_error.h"
+#include "magic_enchantment.h"
 #include "messages.h"
-#include "optional.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
+#include "translations.h"
 #include "units.h"
 
 static const efftype_id effect_bandaged( "bandaged" );
@@ -42,6 +52,8 @@ static const itype_id itype_money_one( "money_one" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
+std::array<double, static_cast<size_t>( mod_type::MAX )> default_modifier_values = { 0, 0 };
+
 namespace
 {
 std::map<efftype_id, effect_type> effect_types;
@@ -62,6 +74,34 @@ void vitamin_rate_effect::load( const JsonObject &jo )
 }
 
 void vitamin_rate_effect::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void limb_score_effect::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "limb_score", score_id );
+
+    optional( jo, false, "modifier", mod, 1.0f );
+    optional( jo, false, "resist_modifier", red_mod, mod );
+    optional( jo, false, "scaling", scaling, 0.0f );
+    optional( jo, false, "resist_scaling", red_scaling, scaling );
+
+}
+
+void limb_score_effect::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void effect_dur_mod::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "effect_id", effect_id );
+    mandatory( jo, false, "modifier", modifier );
+    optional( jo, false, "same_bp", same_bp, false );
+}
+
+void effect_dur_mod::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
@@ -238,200 +278,311 @@ void weed_msg( Character &p )
     }
 }
 
-static void extract_effect(
-    const JsonObject &j,
-    std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
-    cata::tuple_hash> &data,
-    const std::string &mod_type, const std::string &data_key,
-    const std::string &type_key, const std::string &arg_key )
+static std::array<const char *, static_cast<size_t>( mod_type::MAX )> MOD_TYPE_STRINGS {
+    "base_mods",
+    "scaling_mods",
+};
+
+void effect_type::extract_effect(
+    const std::array<std::optional<JsonObject>, 2> &j,
+    const std::string &effect_name,
+    const std::vector<std::pair<std::string, mod_action>> &action_keys )
 {
-    double val = 0;
-    double reduced_val = 0;
-    if( j.has_member( mod_type ) ) {
-        JsonArray jsarr = j.get_array( mod_type );
-        val = jsarr.get_float( 0 );
-        // If a second value exists use it, else reduced_val = val.
-        if( jsarr.size() >= 2 ) {
-            reduced_val = jsarr.get_float( 1 );
-        } else {
-            reduced_val = val;
+    std::unordered_map<uint32_t, modifier_value_arr> modifiers;
+
+    for( uint32_t cur_mod_type = 0; cur_mod_type < static_cast<size_t>( mod_type::MAX );
+         cur_mod_type++ ) {
+        if( !j[cur_mod_type].has_value() ) {
+            continue;
+        }
+
+        const JsonObject &base = *j[cur_mod_type];
+
+        for( const auto &action_key : action_keys ) {
+            if( !base.has_array( action_key.first ) ) {
+                continue;
+            }
+
+            JsonArray jsarr = base.get_array( action_key.first );
+            if( jsarr.empty() ) {
+                continue;
+            }
+
+            mod_action action = action_key.second;
+            cata_assert( jsarr.size() < 0x100 );
+            for( size_t i = 0; i < jsarr.size(); i++ ) {
+                uint32_t key = get_effect_modifier_key( action, i );
+
+                // Create default entry if doesn't exist
+                const auto &it = modifiers.emplace( key, default_modifier_values );
+
+                // Update entry with the fetched value
+                it.first->second[cur_mod_type] = jsarr.get_float( i );
+            }
         }
     }
-    // Store values if they aren't zero.
-    if( val != 0 ) {
-        data[std::make_tuple( data_key, false, type_key, arg_key )] = val;
+
+    if( modifiers.empty() ) {
+        return;
     }
-    if( reduced_val != 0 ) {
-        data[std::make_tuple( data_key, true, type_key, arg_key )] = reduced_val;
-    }
+
+    mod_data[effect_name] = std::move( modifiers );
 }
 
-bool effect_type::load_mod_data( const JsonObject &jo, const std::string &member )
+void effect_type::load_mod_data( const JsonObject &j )
 {
-    if( jo.has_object( member ) ) {
-        JsonObject j = jo.get_object( member );
 
-        // Stats first
-        //                          json field                  type key    arg key
-        extract_effect( j, mod_data, "str_mod",          member, "STR",      "min" );
-        extract_effect( j, mod_data, "dex_mod",          member, "DEX",      "min" );
-        extract_effect( j, mod_data, "per_mod",          member, "PER",      "min" );
-        extract_effect( j, mod_data, "int_mod",          member, "INT",      "min" );
-        extract_effect( j, mod_data, "speed_mod",        member, "SPEED",    "min" );
+    // Fetch the JSON objects at the start so we can do unvisited member checking
+    std::array<std::optional<JsonObject>, 2> to_extract;
+    to_extract[0] = j.has_object( MOD_TYPE_STRINGS[0] ) ?
+                    std::optional<JsonObject>( j.get_object( MOD_TYPE_STRINGS[0] ) ) :
+                    std::nullopt;
+    to_extract[1] = j.has_object( MOD_TYPE_STRINGS[1] ) ?
+                    std::optional<JsonObject>( j.get_object( MOD_TYPE_STRINGS[1] ) ) :
+                    std::nullopt;
 
-        // Then pain
-        extract_effect( j, mod_data, "pain_amount",      member, "PAIN",     "amount" );
-        extract_effect( j, mod_data, "pain_min",         member, "PAIN",     "min" );
-        extract_effect( j, mod_data, "pain_max",         member, "PAIN",     "max" );
-        extract_effect( j, mod_data, "pain_max_val",     member, "PAIN",     "max_val" );
-        extract_effect( j, mod_data, "pain_chance",      member, "PAIN",     "chance_top" );
-        extract_effect( j, mod_data, "pain_chance_bot",  member, "PAIN",     "chance_bot" );
-        extract_effect( j, mod_data, "pain_tick",        member, "PAIN",     "tick" );
+    // Stats first
+    extract_effect( to_extract, "STR",   { {"str_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "DEX",   { {"dex_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "PER",   { {"per_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "INT",   { {"int_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "SPEED", { {"speed_mod", mod_action::MIN} } );
 
-        // Then hurt
-        extract_effect( j, mod_data, "hurt_amount",      member, "HURT",     "amount" );
-        extract_effect( j, mod_data, "hurt_min",         member, "HURT",     "min" );
-        extract_effect( j, mod_data, "hurt_max",         member, "HURT",     "max" );
-        extract_effect( j, mod_data, "hurt_chance",      member, "HURT",     "chance_top" );
-        extract_effect( j, mod_data, "hurt_chance_bot",  member, "HURT",     "chance_bot" );
-        extract_effect( j, mod_data, "hurt_tick",        member, "HURT",     "tick" );
+    // Then pain
+    extract_effect( to_extract, "PAIN", {
+        { "pain_amount",     mod_action::AMOUNT},
+        { "pain_min",        mod_action::MIN},
+        { "pain_max",        mod_action::MAX},
+        { "pain_max_val",    mod_action::MAX_VAL},
+        { "pain_chance",     mod_action::CHANCE_TOP},
+        { "pain_chance_bot", mod_action::CHANCE_BOT},
+        { "pain_tick",       mod_action::TICK},
+    } );
 
-        // Then sleep
-        extract_effect( j, mod_data, "sleep_amount",     member, "SLEEP",    "amount" );
-        extract_effect( j, mod_data, "sleep_min",        member, "SLEEP",    "min" );
-        extract_effect( j, mod_data, "sleep_max",        member, "SLEEP",    "max" );
-        extract_effect( j, mod_data, "sleep_chance",     member, "SLEEP",    "chance_top" );
-        extract_effect( j, mod_data, "sleep_chance_bot", member, "SLEEP",    "chance_bot" );
-        extract_effect( j, mod_data, "sleep_tick",       member, "SLEEP",    "tick" );
+    // Then hurt
+    extract_effect( to_extract, "HURT", {
+        {"hurt_amount",      mod_action::AMOUNT},
+        {"hurt_min",         mod_action::MIN},
+        {"hurt_max",         mod_action::MAX},
+        {"hurt_chance",      mod_action::CHANCE_TOP},
+        {"hurt_chance_bot",  mod_action::CHANCE_BOT},
+        {"hurt_tick",        mod_action::TICK},
+    } );
 
-        // Then pkill
-        extract_effect( j, mod_data, "pkill_amount",     member, "PKILL",    "amount" );
-        extract_effect( j, mod_data, "pkill_min",        member, "PKILL",    "min" );
-        extract_effect( j, mod_data, "pkill_max",        member, "PKILL",    "max" );
-        extract_effect( j, mod_data, "pkill_max_val",    member, "PKILL",    "max_val" );
-        extract_effect( j, mod_data, "pkill_chance",     member, "PKILL",    "chance_top" );
-        extract_effect( j, mod_data, "pkill_chance_bot", member, "PKILL",    "chance_bot" );
-        extract_effect( j, mod_data, "pkill_tick",       member, "PKILL",    "tick" );
+    // Then sleep
+    extract_effect( to_extract, "SLEEP", {
+        {"sleep_amount",      mod_action::AMOUNT},
+        {"sleep_min",         mod_action::MIN},
+        {"sleep_max",         mod_action::MAX},
+        {"sleep_chance",      mod_action::CHANCE_TOP},
+        {"sleep_chance_bot",  mod_action::CHANCE_BOT},
+        {"sleep_tick",        mod_action::TICK},
+    } );
 
-        // Then stim
-        extract_effect( j, mod_data, "stim_amount",      member, "STIM",     "amount" );
-        extract_effect( j, mod_data, "stim_min",         member, "STIM",     "min" );
-        extract_effect( j, mod_data, "stim_max",         member, "STIM",     "max" );
-        extract_effect( j, mod_data, "stim_min_val",     member, "STIM",     "min_val" );
-        extract_effect( j, mod_data, "stim_max_val",     member, "STIM",     "max_val" );
-        extract_effect( j, mod_data, "stim_chance",      member, "STIM",     "chance_top" );
-        extract_effect( j, mod_data, "stim_chance_bot",  member, "STIM",     "chance_bot" );
-        extract_effect( j, mod_data, "stim_tick",        member, "STIM",     "tick" );
+    // Then pkill
+    extract_effect( to_extract, "PKILL", {
+        {"pkill_amount",      mod_action::AMOUNT},
+        {"pkill_min",         mod_action::MIN},
+        {"pkill_max",         mod_action::MAX},
+        {"pkill_max_val",     mod_action::MAX_VAL},
+        {"pkill_chance",      mod_action::CHANCE_TOP},
+        {"pkill_chance_bot",  mod_action::CHANCE_BOT},
+        {"pkill_tick",        mod_action::TICK},
+    } );
 
-        // Then health
-        extract_effect( j, mod_data, "health_amount",    member, "HEALTH",   "amount" );
-        extract_effect( j, mod_data, "health_min",       member, "HEALTH",   "min" );
-        extract_effect( j, mod_data, "health_max",       member, "HEALTH",   "max" );
-        extract_effect( j, mod_data, "health_min_val",   member, "HEALTH",   "min_val" );
-        extract_effect( j, mod_data, "health_max_val",   member, "HEALTH",   "max_val" );
-        extract_effect( j, mod_data, "health_chance",    member, "HEALTH",   "chance_top" );
-        extract_effect( j, mod_data, "health_chance_bot", member, "HEALTH",   "chance_bot" );
-        extract_effect( j, mod_data, "health_tick",      member, "HEALTH",   "tick" );
+    // Then stim
+    extract_effect( to_extract, "STIM", {
+        {"stim_amount",      mod_action::AMOUNT},
+        {"stim_min",         mod_action::MIN},
+        {"stim_max",         mod_action::MAX},
+        {"stim_min_val",     mod_action::MIN_VAL},
+        {"stim_max_val",     mod_action::MAX_VAL},
+        {"stim_chance",      mod_action::CHANCE_TOP},
+        {"stim_chance_bot",  mod_action::CHANCE_BOT},
+        {"stim_tick",        mod_action::TICK},
+    } );
 
-        // Then health mod
-        extract_effect( j, mod_data, "h_mod_amount",     member, "H_MOD",    "amount" );
-        extract_effect( j, mod_data, "h_mod_min",        member, "H_MOD",    "min" );
-        extract_effect( j, mod_data, "h_mod_max",        member, "H_MOD",    "max" );
-        extract_effect( j, mod_data, "h_mod_min_val",    member, "H_MOD",    "min_val" );
-        extract_effect( j, mod_data, "h_mod_max_val",    member, "H_MOD",    "max_val" );
-        extract_effect( j, mod_data, "h_mod_chance",     member, "H_MOD",    "chance_top" );
-        extract_effect( j, mod_data, "h_mod_chance_bot", member, "H_MOD",    "chance_bot" );
-        extract_effect( j, mod_data, "h_mod_tick",       member, "H_MOD",    "tick" );
+    // Then health
+    extract_effect( to_extract, "HEALTH", {
+        {"health_amount",      mod_action::AMOUNT},
+        {"health_min",         mod_action::MIN},
+        {"health_max",         mod_action::MAX},
+        {"health_min_val",     mod_action::MIN_VAL},
+        {"health_max_val",     mod_action::MAX_VAL},
+        {"health_chance",      mod_action::CHANCE_TOP},
+        {"health_chance_bot",  mod_action::CHANCE_BOT},
+        {"health_tick",        mod_action::TICK},
+    } );
 
-        // Then radiation
-        extract_effect( j, mod_data, "rad_amount",       member, "RAD",      "amount" );
-        extract_effect( j, mod_data, "rad_min",          member, "RAD",      "min" );
-        extract_effect( j, mod_data, "rad_max",          member, "RAD",      "max" );
-        extract_effect( j, mod_data, "rad_max_val",      member, "RAD",      "max_val" );
-        extract_effect( j, mod_data, "rad_chance",       member, "RAD",      "chance_top" );
-        extract_effect( j, mod_data, "rad_chance_bot",   member, "RAD",      "chance_bot" );
-        extract_effect( j, mod_data, "rad_tick",         member, "RAD",      "tick" );
+    // Then health mod
+    extract_effect( to_extract, "H_MOD", {
+        {"h_mod_amount",      mod_action::AMOUNT},
+        {"h_mod_min",         mod_action::MIN},
+        {"h_mod_max",         mod_action::MAX},
+        {"h_mod_min_val",     mod_action::MIN_VAL},
+        {"h_mod_max_val",     mod_action::MAX_VAL},
+        {"h_mod_chance",      mod_action::CHANCE_TOP},
+        {"h_mod_chance_bot",  mod_action::CHANCE_BOT},
+        {"h_mod_tick",        mod_action::TICK},
+    } );
 
-        // Then hunger
-        extract_effect( j, mod_data, "hunger_amount",    member, "HUNGER",   "amount" );
-        extract_effect( j, mod_data, "hunger_min",       member, "HUNGER",   "min" );
-        extract_effect( j, mod_data, "hunger_max",       member, "HUNGER",   "max" );
-        extract_effect( j, mod_data, "hunger_min_val",   member, "HUNGER",   "min_val" );
-        extract_effect( j, mod_data, "hunger_max_val",   member, "HUNGER",   "max_val" );
-        extract_effect( j, mod_data, "hunger_chance",    member, "HUNGER",   "chance_top" );
-        extract_effect( j, mod_data, "hunger_chance_bot", member, "HUNGER",   "chance_bot" );
-        extract_effect( j, mod_data, "hunger_tick",      member, "HUNGER",   "tick" );
+    // Then radiation
+    extract_effect( to_extract, "RAD", {
+        {"rad_amount",      mod_action::AMOUNT},
+        {"rad_min",         mod_action::MIN},
+        {"rad_max",         mod_action::MAX},
+        {"rad_max_val",     mod_action::MAX_VAL},
+        {"rad_chance",      mod_action::CHANCE_TOP},
+        {"rad_chance_bot",  mod_action::CHANCE_BOT},
+        {"rad_tick",        mod_action::TICK},
+    } );
 
-        // Then thirst
-        extract_effect( j, mod_data, "thirst_amount",    member, "THIRST",   "amount" );
-        extract_effect( j, mod_data, "thirst_min",       member, "THIRST",   "min" );
-        extract_effect( j, mod_data, "thirst_max",       member, "THIRST",   "max" );
-        extract_effect( j, mod_data, "thirst_min_val",   member, "THIRST",   "min_val" );
-        extract_effect( j, mod_data, "thirst_max_val",   member, "THIRST",   "max_val" );
-        extract_effect( j, mod_data, "thirst_chance",    member, "THIRST",   "chance_top" );
-        extract_effect( j, mod_data, "thirst_chance_bot", member, "THIRST",   "chance_bot" );
-        extract_effect( j, mod_data, "thirst_tick",      member, "THIRST",   "tick" );
+    // Then hunger
+    extract_effect( to_extract, "HUNGER", {
+        {"hunger_amount",      mod_action::AMOUNT},
+        {"hunger_min",         mod_action::MIN},
+        {"hunger_max",         mod_action::MAX},
+        {"hunger_min_val",     mod_action::MIN_VAL},
+        {"hunger_max_val",     mod_action::MAX_VAL},
+        {"hunger_chance",      mod_action::CHANCE_TOP},
+        {"hunger_chance_bot",  mod_action::CHANCE_BOT},
+        {"hunger_tick",        mod_action::TICK},
+    } );
 
-        // Then thirst
-        extract_effect( j, mod_data, "perspiration_amount",    member, "PERSPIRATION",   "amount" );
-        extract_effect( j, mod_data, "perspiration_min",       member, "PERSPIRATION",   "min" );
-        extract_effect( j, mod_data, "perspiration_max",       member, "PERSPIRATION",   "max" );
-        extract_effect( j, mod_data, "perspiration_min_val",   member, "PERSPIRATION",   "min_val" );
-        extract_effect( j, mod_data, "perspiration_max_val",   member, "PERSPIRATION",   "max_val" );
-        extract_effect( j, mod_data, "perspiration_chance",    member, "PERSPIRATION",   "chance_top" );
-        extract_effect( j, mod_data, "perspiration_chance_bot", member, "PERSPIRATION",   "chance_bot" );
-        extract_effect( j, mod_data, "perspiration_tick",      member, "PERSPIRATION",   "tick" );
+    // Then thirst
+    extract_effect( to_extract, "THIRST", {
+        {"thirst_amount",      mod_action::AMOUNT},
+        {"thirst_min",         mod_action::MIN},
+        {"thirst_max",         mod_action::MAX},
+        {"thirst_min_val",     mod_action::MIN_VAL},
+        {"thirst_max_val",     mod_action::MAX_VAL},
+        {"thirst_chance",      mod_action::CHANCE_TOP},
+        {"thirst_chance_bot",  mod_action::CHANCE_BOT},
+        {"thirst_tick",        mod_action::TICK},
+    } );
 
-        // Then fatigue
-        extract_effect( j, mod_data, "fatigue_amount",    member, "FATIGUE",  "amount" );
-        extract_effect( j, mod_data, "fatigue_min",       member, "FATIGUE",  "min" );
-        extract_effect( j, mod_data, "fatigue_max",       member, "FATIGUE",  "max" );
-        extract_effect( j, mod_data, "fatigue_min_val",   member, "FATIGUE",  "min_val" );
-        extract_effect( j, mod_data, "fatigue_max_val",   member, "FATIGUE",  "max_val" );
-        extract_effect( j, mod_data, "fatigue_chance",    member, "FATIGUE",  "chance_top" );
-        extract_effect( j, mod_data, "fatigue_chance_bot", member, "FATIGUE",  "chance_bot" );
-        extract_effect( j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick" );
+    // Then thirst
+    extract_effect( to_extract, "PERSPIRATION", {
+        {"perspiration_amount",      mod_action::AMOUNT},
+        {"perspiration_min",         mod_action::MIN},
+        {"perspiration_max",         mod_action::MAX},
+        {"perspiration_min_val",     mod_action::MIN_VAL},
+        {"perspiration_max_val",     mod_action::MAX_VAL},
+        {"perspiration_chance",      mod_action::CHANCE_TOP},
+        {"perspiration_chance_bot",  mod_action::CHANCE_BOT},
+        {"perspiration_tick",        mod_action::TICK},
+    } );
 
-        // Then stamina
-        extract_effect( j, mod_data, "stamina_amount",    member, "STAMINA",  "amount" );
-        extract_effect( j, mod_data, "stamina_min",       member, "STAMINA",  "min" );
-        extract_effect( j, mod_data, "stamina_max",       member, "STAMINA",  "max" );
-        extract_effect( j, mod_data, "stamina_max_val",   member, "STAMINA",  "max_val" );
-        extract_effect( j, mod_data, "stamina_chance",    member, "STAMINA",  "chance_top" );
-        extract_effect( j, mod_data, "stamina_chance_bot", member, "STAMINA",  "chance_bot" );
-        extract_effect( j, mod_data, "stamina_tick",      member, "STAMINA",  "tick" );
+    // Then sleepiness
+    extract_effect( to_extract, "SLEEPINESS", {
+        {"sleepiness_amount",      mod_action::AMOUNT},
+        {"sleepiness_min",         mod_action::MIN},
+        {"sleepiness_max",         mod_action::MAX},
+        {"sleepiness_min_val",     mod_action::MIN_VAL},
+        {"sleepiness_max_val",     mod_action::MAX_VAL},
+        {"sleepiness_chance",      mod_action::CHANCE_TOP},
+        {"sleepiness_chance_bot",  mod_action::CHANCE_BOT},
+        {"sleepiness_tick",        mod_action::TICK},
+    } );
 
-        // Then coughing
-        extract_effect( j, mod_data, "cough_chance",     member, "COUGH",    "chance_top" );
-        extract_effect( j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot" );
-        extract_effect( j, mod_data, "cough_tick",       member, "COUGH",    "tick" );
+    // Then stamina
+    extract_effect( to_extract, "STAMINA", {
+        {"stamina_amount",      mod_action::AMOUNT},
+        {"stamina_min",         mod_action::MIN},
+        {"stamina_max",         mod_action::MAX},
+        {"stamina_max_val",     mod_action::MAX_VAL},
+        {"stamina_chance",      mod_action::CHANCE_TOP},
+        {"stamina_chance_bot",  mod_action::CHANCE_BOT},
+        {"stamina_tick",        mod_action::TICK},
+    } );
 
-        // Then vomiting
-        extract_effect( j, mod_data, "vomit_chance",     member, "VOMIT",    "chance_top" );
-        extract_effect( j, mod_data, "vomit_chance_bot", member, "VOMIT",    "chance_bot" );
-        extract_effect( j, mod_data, "vomit_tick",       member, "VOMIT",    "tick" );
+    // Then blood pressure. No min/max val, as they are handled internally.
+    extract_effect( to_extract, "BLOOD_PRESSURE", {
+        {"blood_pressure_amount",      mod_action::AMOUNT},
+        {"blood_pressure_min",         mod_action::MIN},
+        {"blood_pressure_max",         mod_action::MAX},
+        {"blood_pressure_max_val",     mod_action::MAX_VAL},
+        {"blood_pressure_min_val",     mod_action::MIN_VAL},
+        {"blood_pressure_chance",      mod_action::CHANCE_TOP},
+        {"blood_pressure_chance_bot",  mod_action::CHANCE_BOT},
+        {"blood_pressure_tick",        mod_action::TICK},
+    } );
 
-        // Then healing effects
-        extract_effect( j, mod_data, "healing_rate",    member, "HEAL_RATE",  "amount" );
-        extract_effect( j, mod_data, "healing_head",    member, "HEAL_HEAD",  "amount" );
-        extract_effect( j, mod_data, "healing_torso",   member, "HEAL_TORSO", "amount" );
+    // Then Heart Rate
+    extract_effect( to_extract, "HEART_RATE", {
+        {"heart_rate_amount",      mod_action::AMOUNT},
+        {"heart_rate_min",         mod_action::MIN},
+        {"heart_rate_max",         mod_action::MAX},
+        {"heart_rate_max_val",     mod_action::MAX_VAL},
+        {"heart_rate_min_val",     mod_action::MIN_VAL},
+        {"heart_rate_chance",      mod_action::CHANCE_TOP},
+        {"heart_rate_chance_bot",  mod_action::CHANCE_BOT},
+        {"heart_rate_tick",        mod_action::TICK},
+    } );
 
-        // creature stats mod
-        extract_effect( j, mod_data, "dodge_mod",    member, "DODGE",  "min" );
-        extract_effect( j, mod_data, "hit_mod",    member, "HIT",  "min" );
-        extract_effect( j, mod_data, "bash_mod",    member, "BASH",  "min" );
-        extract_effect( j, mod_data, "cut_mod",    member, "CUT",  "min" );
-        extract_effect( j, mod_data, "size_mod",    member, "SIZE",  "min" );
+    // Then Respirato Rate
+    extract_effect( to_extract, "RESPIRATORY_RATE", {
+        {"respiratory_rate_amount",      mod_action::AMOUNT},
+        {"respiratory_rate_min",         mod_action::MIN},
+        {"respiratory_rate_max",         mod_action::MAX},
+        {"respiratory_rate_max_val",     mod_action::MAX_VAL},
+        {"respiratory_rate_min_val",     mod_action::MIN_VAL},
+        {"respiratory_rate_chance",      mod_action::CHANCE_TOP},
+        {"respiratory_rate_chance_bot",  mod_action::CHANCE_BOT},
+        {"respiratory_rate_tick",        mod_action::TICK},
+    } );
 
-        return true;
-    } else {
-        return false;
+    // Then coughing
+    extract_effect( to_extract, "COUGH", {
+        {"cough_chance",      mod_action::CHANCE_TOP},
+        {"cough_chance_bot",  mod_action::CHANCE_BOT},
+        {"cough_tick",        mod_action::TICK},
+    } );
+
+    // Then vomiting
+    extract_effect( to_extract, "VOMIT", {
+        {"vomit_chance",      mod_action::CHANCE_TOP},
+        {"vomit_chance_bot",  mod_action::CHANCE_BOT},
+        {"vomit_tick",        mod_action::TICK},
+    } );
+
+    // Then healing effects
+    extract_effect( to_extract, "HEAL_RATE",  { {"healing_rate",  mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_HEAD",  { {"healing_head",  mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_TORSO", { {"healing_torso", mod_action::AMOUNT} } );
+
+    // creature stats mod
+    extract_effect( to_extract, "DODGE", { {"dodge_mod", mod_action::MIN} } );
+    extract_effect( to_extract, "HIT",   { {"hit_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "BASH",  { {"bash_mod",  mod_action::MIN} } );
+    extract_effect( to_extract, "CUT",   { {"cut_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "SIZE",  { {"size_mod",  mod_action::MIN} } );
+}
+
+double effect_type::get_mod_value( const std::string &type, mod_action action,
+                                   uint8_t reduction_level, int intensity ) const
+{
+    const auto &it = mod_data.find( type );
+    if( it == mod_data.cend() ) {
+        return 0;
     }
+
+    const auto &action_map = it->second;
+    const auto &modifier = action_map.find( get_effect_modifier_key( action, reduction_level ) );
+    if( modifier == action_map.end() ) {
+        return 0;
+    }
+
+    double ret = 0;
+    const auto &data_entry = modifier->second;
+    ret += data_entry[static_cast<size_t>( mod_type::BASE_MOD )];
+    ret += data_entry[static_cast<size_t>( mod_type::SCALING_MOD )] * ( intensity - 1 );
+    return ret;
 }
 
 void effect_type::check_consistency()
 {
-    for( const std::pair<efftype_id, effect_type> check : effect_types ) {
+    for( auto const &check : effect_types ) {
         check.second.verify();
     }
 }
@@ -455,9 +606,10 @@ bool effect_type::has_flag( const flag_id &flag ) const
     return flags.count( flag );
 }
 
-effect_rating effect_type::get_rating() const
+game_message_type effect_type::get_rating( int intensity ) const
 {
-    return rating;
+    intensity = std::clamp( intensity, 0, static_cast<int>( apply_msgs.size() ) - 1 );
+    return apply_msgs[intensity].second;
 }
 
 bool effect_type::use_name_ints() const
@@ -474,41 +626,35 @@ bool effect_type::use_desc_ints( bool reduced ) const
     }
 }
 
-game_message_type effect_type::gain_game_message_type() const
+game_message_type effect_type::lose_game_message_type( int intensity ) const
 {
-    switch( rating ) {
-        case e_good:
-            return m_good;
-        case e_bad:
+    switch( get_rating( intensity ) ) {
+        case m_good:
             return m_bad;
-        case e_neutral:
+        case m_bad:
+            return m_good;
+        case m_neutral:
             return m_neutral;
-        case e_mixed:
+        case m_mixed:
             return m_mixed;
         default:
             // Should never happen
             return m_neutral;
     }
 }
-game_message_type effect_type::lose_game_message_type() const
+void effect_type::add_apply_msg( int intensity ) const
 {
-    switch( rating ) {
-        case e_good:
-            return m_bad;
-        case e_bad:
-            return m_good;
-        case e_neutral:
-            return m_neutral;
-        case e_mixed:
-            return m_mixed;
-        default:
-            // Should never happen
-            return m_neutral;
+    if( intensity == 0 ) {
+        return;
     }
-}
-std::string effect_type::get_apply_message() const
-{
-    return apply_message.translated();
+    if( intensity - 1 < static_cast<int>( apply_msgs.size() ) ) {
+        add_msg( apply_msgs[intensity - 1].second,
+                 apply_msgs[intensity - 1].first.translated() );
+    } else if( !apply_msgs.empty() && !apply_msgs[0].first.empty() ) {
+        // if the apply message is empty we shouldn't show the message
+        add_msg( apply_msgs[0].second,
+                 apply_msgs[0].first.translated() );
+    }
 }
 std::string effect_type::get_apply_memorial_log( const memorial_gender gender ) const
 {
@@ -546,34 +692,72 @@ bool effect_type::is_show_in_info() const
 {
     return show_in_info;
 }
-bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string &member )
+bool effect_type::load_miss_msgs( const JsonObject &jo, const std::string_view member )
 {
     return jo.read( member, miss_msgs );
 }
-bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &member )
+
+static std::optional<game_message_type> process_rating( const std::string &r )
+{
+    if( r == "good" ) {
+        return m_good;
+    } else if( r == "neutral" ) {
+        return m_neutral;
+    } else if( r == "bad" ) {
+        return m_bad;
+    } else if( r == "mixed" ) {
+        return m_mixed;
+    } else {
+        // handle errors for returning nothing above
+        return {};
+    }
+}
+
+// helps load the internal message arrays for decay and apply into the msgs vector
+static void load_msg_help( const JsonArray &ja,
+                           std::vector<std::pair<translation, game_message_type>> &apply_msgs )
+{
+    translation msg;
+    ja.read( 0, msg );
+    std::string r = ja.get_string( 1 );
+    std::optional<game_message_type> rate = process_rating( r );
+    if( !rate.has_value() ) {
+        ja.throw_error(
+            1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                              "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
+        rate = m_neutral;
+    }
+    apply_msgs.emplace_back( msg, rate.value() );
+}
+
+bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string_view member )
 {
     if( jo.has_array( member ) ) {
         for( JsonArray inner : jo.get_array( member ) ) {
-            translation msg;
-            inner.read( 0, msg );
-            std::string r = inner.get_string( 1 );
-            game_message_type rate = m_neutral;
-            if( r == "good" ) {
-                rate = m_good;
-            } else if( r == "neutral" ) {
-                rate = m_neutral;
-            } else if( r == "bad" ) {
-                rate = m_bad;
-            } else if( r == "mixed" ) {
-                rate = m_mixed;
-            } else {
-                inner.throw_error(
-                    1, string_format( "Unexpected message type \"%s\"; expected \"good\", "
-                                      "\"neutral\", " "\"bad\", or \"mixed\"", r ) );
-            }
-            decay_msgs.emplace_back( msg, rate );
+            load_msg_help( inner, decay_msgs );
         }
         return true;
+    }
+    return false;
+}
+
+bool effect_type::load_apply_msgs( const JsonObject &jo, const std::string_view member )
+{
+    if( jo.has_array( member ) ) {
+        JsonArray ja = jo.get_array( member );
+        for( JsonArray inner : jo.get_array( member ) ) {
+            load_msg_help( inner, apply_msgs );
+        }
+        return true;
+    } else {
+        translation msg;
+        optional( jo, false, member, msg );
+        if( jo.has_string( "rating" ) ) {
+            std::optional<game_message_type> rate = process_rating( jo.get_string( "rating" ) );
+            apply_msgs.emplace_back( msg, rate.value() );
+        } else {
+            apply_msgs.emplace_back( msg, game_message_type::m_neutral );
+        }
     }
     return false;
 }
@@ -637,7 +821,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::string ret;
 
     std::string timestr;
-    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    time_duration effect_dur_elapsed = calendar::turn - start_time;
     if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
         timestr = _( "just now" );
     } else {
@@ -689,6 +873,18 @@ std::string effect::disp_desc( bool reduced ) const
         ret += "\n";
     }
 
+    // Handle limb score modifiers if we have any
+    if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+        const std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? _( "Global" ) : _( "Local" );
+        for( limb_score_effect &effect : get_limb_score_data() ) {
+            // Only print modifiers if they are global or if the limb has the score in the first place
+            if( bp->has_limb_score( effect.score_id ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+                ret += string_format( _( "%s %s modifier: x%.1f\n" ), global, effect.score_id->name().translated(),
+                                      get_limb_score_mod( effect.score_id, reduced ) );
+            }
+        }
+    }
+
     // Then print pain/damage/coughing/vomiting, we don't display pkill, health, or radiation
     std::vector<std::string> constant;
     std::vector<std::string> frequent;
@@ -706,15 +902,15 @@ std::string effect::disp_desc( bool reduced ) const
                          _( "damage" ) );
     val = get_avg_mod( "STAMINA", reduced );
     values.emplace_back( get_percentage( "STAMINA", val, reduced ), val,
-                         _( "stamina recovery" ), _( "fatigue" ) );
+                         _( "stamina recovery" ), _( "sleepiness" ) );
     val = get_avg_mod( "THIRST", reduced );
     values.emplace_back( get_percentage( "THIRST", val, reduced ), val, _( "thirst" ),
                          _( "quench" ) );
     val = get_avg_mod( "HUNGER", reduced );
     values.emplace_back( get_percentage( "HUNGER", val, reduced ), val, _( "hunger" ),
                          _( "sate" ) );
-    val = get_avg_mod( "FATIGUE", reduced );
-    values.emplace_back( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ),
+    val = get_avg_mod( "SLEEPINESS", reduced );
+    values.emplace_back( get_percentage( "SLEEPINESS", val, reduced ), val, _( "sleepiness" ),
                          _( "rest" ) );
     val = get_avg_mod( "COUGH", reduced );
     values.emplace_back( get_percentage( "COUGH", val, reduced ), val, _( "coughing" ),
@@ -954,6 +1150,7 @@ static vitamin_applied_effect applied_from_rate( const bool reduced, const int i
 std::vector<vitamin_applied_effect> effect::vit_effects( const bool reduced ) const
 {
     std::vector<vitamin_applied_effect> ret;
+    ret.reserve( eff_type->vitamin_data.size() );
     for( const vitamin_rate_effect &vreff : eff_type->vitamin_data ) {
         ret.push_back( applied_from_rate( reduced, intensity, vreff ) );
     }
@@ -1028,6 +1225,8 @@ int effect::set_intensity( int val, bool alert )
         val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
+    } else if( alert && val != 0 ) {
+        eff_type->add_apply_msg( val );
     }
 
     if( val == 0 && !eff_type->int_decay_remove ) {
@@ -1065,27 +1264,9 @@ std::vector<efftype_id> effect::get_blocks_effects() const
 
 int effect::get_mod( const std::string &arg, bool reduced ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    double min = 0;
-    double max = 0;
-    // Get the minimum total
-    auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min" ) );
-    if( found != mod_data.end() ) {
-        min += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min" ) );
-    if( found != mod_data.end() ) {
-        min += found->second * ( get_effective_intensity() - 1 );
-    }
-    // Get the maximum total
-    found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max" ) );
-    if( found != mod_data.end() ) {
-        max += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max" ) );
-    if( found != mod_data.end() ) {
-        max += found->second * ( get_effective_intensity() - 1 );
-    }
+    double min = eff_type->get_mod_value( arg, mod_action::MIN, reduced, get_effective_intensity() );
+    double max = eff_type->get_mod_value( arg, mod_action::MAX, reduced, get_effective_intensity() );
+
     if( static_cast<int>( max ) != 0 ) {
         // Return a random value between [min, max]
         return static_cast<int>( rng( min, max ) );
@@ -1097,27 +1278,9 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    double min = 0;
-    double max = 0;
-    // Get the minimum total
-    auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min" ) );
-    if( found != mod_data.end() ) {
-        min += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min" ) );
-    if( found != mod_data.end() ) {
-        min += found->second * ( get_effective_intensity() - 1 );
-    }
-    // Get the maximum total
-    found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max" ) );
-    if( found != mod_data.end() ) {
-        max += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max" ) );
-    if( found != mod_data.end() ) {
-        max += found->second * ( get_effective_intensity() - 1 );
-    }
+    double min = eff_type->get_mod_value( arg, mod_action::MIN, reduced, get_effective_intensity() );
+    double max = eff_type->get_mod_value( arg, mod_action::MAX, reduced, get_effective_intensity() );
+
     if( static_cast<int>( max ) != 0 ) {
         // Return an average of min and max
         return static_cast<int>( ( min + max ) / 2 );
@@ -1129,47 +1292,18 @@ int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_amount( const std::string &arg, bool reduced ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    double ret = 0;
-    auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
-    if( found != mod_data.end() ) {
-        ret += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "amount" ) );
-    if( found != mod_data.end() ) {
-        ret += found->second * ( get_effective_intensity() - 1 );
-    }
-    return static_cast<int>( ret );
+    return static_cast<int>( eff_type->get_mod_value( arg, mod_action::AMOUNT, reduced,
+                             get_effective_intensity() ) );
 }
 
 int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    double ret = 0;
-    auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min_val" ) );
-    if( found != mod_data.end() ) {
-        ret += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "min_val" ) );
-    if( found != mod_data.end() ) {
-        ret += found->second * ( intensity - 1 );
-    }
-    return static_cast<int>( ret );
+    return static_cast<int>( eff_type->get_mod_value( arg, mod_action::MIN_VAL, reduced, intensity ) );
 }
 
 int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    double ret = 0;
-    auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max_val" ) );
-    if( found != mod_data.end() ) {
-        ret += found->second;
-    }
-    found = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "max_val" ) );
-    if( found != mod_data.end() ) {
-        ret += found->second * ( intensity - 1 );
-    }
-    return static_cast<int>( ret );
+    return static_cast<int>( eff_type->get_mod_value( arg, mod_action::MAX_VAL, reduced, intensity ) );
 }
 
 bool effect::get_sizing( const std::string &arg ) const
@@ -1184,77 +1318,36 @@ bool effect::get_sizing( const std::string &arg ) const
 
 double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
-    auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
-                                          "chance_top" ) );
-    // Convert to int or 0
-    int top_base = 0;
-    int top_scale = 0;
-    if( found_top_base != mod_data.end() ) {
-        top_base = found_top_base->second;
-    }
-    if( found_top_scale != mod_data.end() ) {
-        top_scale = found_top_scale->second * ( intensity - 1 );
-    }
+    int top = eff_type->get_mod_value( arg, mod_action::CHANCE_TOP, reduced, intensity );
+
     // Check chances if value is 0 (so we can check valueless effects like vomiting)
     // Else a nonzero value overrides a 0 chance for default purposes
-    if( val == 0 ) {
-        // If both top values <= 0 then it should never trigger
-        if( top_base <= 0 && top_scale <= 0 ) {
-            return 0;
-        }
-        // It will also never trigger if top_base + top_scale <= 0
-        if( top_base + top_scale <= 0 ) {
-            return 0;
-        }
+    if( val == 0 && top <= 0 ) {
+        return 0;
     }
 
-    // We only need to calculate these if we haven't already returned
-    int bot_base = 0;
-    int bot_scale = 0;
-    int tick = 0;
-    auto found_bot_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_bot" ) );
-    auto found_bot_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
-                                          "chance_bot" ) );
-    auto found_tick_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "tick" ) );
-    auto found_tick_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "tick" ) );
-    if( found_bot_base != mod_data.end() ) {
-        bot_base = found_bot_base->second;
-    }
-    if( found_bot_scale != mod_data.end() ) {
-        bot_scale = found_bot_scale->second * ( intensity - 1 );
-    }
-    if( found_tick_base != mod_data.end() ) {
-        tick += found_tick_base->second;
-    }
-    if( found_tick_scale != mod_data.end() ) {
-        tick += found_tick_scale->second * ( intensity - 1 );
-    }
+    int bot = eff_type->get_mod_value( arg, mod_action::CHANCE_BOT, reduced, intensity );
+    int tick = eff_type->get_mod_value( arg, mod_action::TICK, reduced, intensity );
+
     // Tick is the exception where tick = 0 means tick = 1
     if( tick == 0 ) {
         tick = 1;
     }
 
-    double ret = 0;
-    // If both bot values are zero the formula is one_in(top), else the formula is x_in_y(top, bot)
-    if( bot_base != 0 || bot_scale != 0 ) {
-        if( bot_base + bot_scale == 0 ) {
-            // Special crash avoidance case, in most effect fields 0 = "nothing happens"
-            // so assume false here for consistency
-            ret = 0;
-        } else {
-            // Cast to double here to allow for partial percentages
-            ret = 100 * static_cast<double>( top_base + top_scale ) / static_cast<double>
-                  ( bot_base + bot_scale );
-        }
+    // Start with 100%
+    double ret = 100;
+
+    // If bot is zero the formula is one_in(top), else the formula is x_in_y(top, bot)
+    if( bot ) {
+        // Cast to double here to allow for partial percentages
+        ret *= static_cast<double>( top ) / static_cast<double>( bot );
     } else {
         // Cast to double here to allow for partial percentages
-        ret = 100 / static_cast<double>( top_base + top_scale );
+        ret /= static_cast<double>( top );
     }
     // Divide by ticks between rolls
     if( tick > 1 ) {
-        ret = ret / tick;
+        ret /= tick;
     }
     return ret;
 }
@@ -1262,78 +1355,38 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
-    const auto &mod_data = eff_type->mod_data;
-    auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
-    auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
-                                          "chance_top" ) );
-    // Convert to int or 0
-    int top_base = 0;
-    int top_scale = 0;
-    if( found_top_base != mod_data.end() ) {
-        top_base = found_top_base->second;
-    }
-    if( found_top_scale != mod_data.end() ) {
-        top_scale = found_top_scale->second * ( intensity - 1 );
-    }
+    int top = eff_type->get_mod_value( arg, mod_action::CHANCE_TOP, reduced, intensity );
+
     // Check chances if value is 0 (so we can check valueless effects like vomiting)
     // Else a nonzero value overrides a 0 chance for default purposes
-    if( val == 0 ) {
-        // If both top values <= 0 then it should never trigger
-        if( top_base <= 0 && top_scale <= 0 ) {
-            return false;
-        }
-        // It will also never trigger if top_base + top_scale <= 0
-        if( top_base + top_scale <= 0 ) {
-            return false;
-        }
+    if( val == 0 && top <= 0 ) {
+        return false;
     }
 
-    // We only need to calculate these if we haven't already returned
-    int bot_base = 0;
-    int bot_scale = 0;
-    int tick = 0;
-    auto found_bot_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_bot" ) );
-    auto found_bot_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
-                                          "chance_bot" ) );
-    auto found_tick_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "tick" ) );
-    auto found_tick_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg, "tick" ) );
-    if( found_bot_base != mod_data.end() ) {
-        bot_base = found_bot_base->second;
-    }
-    if( found_bot_scale != mod_data.end() ) {
-        bot_scale = found_bot_scale->second * ( intensity - 1 );
-    }
-    if( found_tick_base != mod_data.end() ) {
-        tick += found_tick_base->second;
-    }
-    if( found_tick_scale != mod_data.end() ) {
-        tick += found_tick_scale->second * ( intensity - 1 );
-    }
+    int tick = eff_type->get_mod_value( arg, mod_action::TICK, reduced, intensity );
+
     // Tick is the exception where tick = 0 means tick = 1
     if( tick == 0 ) {
         tick = 1;
+    } else if( tick < 0 ) {
+        return false;
     }
 
-    // Check if tick allows for triggering. If both bot values are zero the formula is
-    // x_in_y(1, top) i.e. one_in(top), else the formula is x_in_y(top, bot),
+    int bot = eff_type->get_mod_value( arg, mod_action::CHANCE_BOT, reduced, intensity );
+
+    // Check if tick allows for triggering.
+    if( ( when - calendar::turn_zero ) % time_duration::from_turns( tick ) != 0_turns ) {
+        return false;
+    }
+
+    // If bot value is zero the formula is x_in_y(1, top) i.e. one_in(top),
+    // else the formula is x_in_y(top, bot).
     // mod multiplies the overall percentage chances
-
-    // has to be an && here to avoid undefined behavior of turn % 0
-    if( tick > 0 &&
-        ( when - calendar::turn_zero ) % time_duration::from_turns( tick ) == 0_turns ) {
-        if( bot_base != 0 && bot_scale != 0 ) {
-            if( bot_base + bot_scale == 0 ) {
-                // Special crash avoidance case, in most effect fields 0 = "nothing happens"
-                // so assume false here for consistency
-                return false;
-            } else {
-                return x_in_y( ( top_base + top_scale ) * mod, bot_base + bot_scale );
-            }
-        } else {
-            return x_in_y( mod, top_base + top_scale );
-        }
+    if( !bot ) {
+        return x_in_y( mod, top );
+    } else {
+        return x_in_y( top * mod, bot );
     }
-    return false;
 }
 
 double effect::get_addict_mod( const std::string &arg, int addict_level ) const
@@ -1406,6 +1459,29 @@ bool effect::impairs_movement() const
     return eff_type->impairs_movement;
 }
 
+float effect::get_limb_score_mod( const limb_score_id &score, bool reduced ) const
+{
+    float ret = 1.0f;
+    for( const limb_score_effect &effect : eff_type->limb_score_data ) {
+        float temp = 1.0f;
+        if( score == effect.score_id ) {
+            if( !reduced ) {
+                temp = effect.mod + effect.scaling * ( intensity - 1 );
+            } else {
+                temp = effect.red_mod + effect.red_scaling * ( intensity - 1 );
+            }
+            ret *= std::max( 0.0f, temp );
+        }
+    }
+    if( ret != 1.0f ) {
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "Limb score modifier %s for limb score %s found\nIntensity %d\nResistance %s\nFinal effect multiplier %.1f",
+                       disp_name(),
+                       score.c_str(), intensity, reduced ? "true" : "false", ret );
+    }
+    return ret;
+}
+
 const effect_type *effect::get_effect_type() const
 {
     return eff_type;
@@ -1427,7 +1503,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
     }
 };
 
-void load_effect_type( const JsonObject &jo )
+void load_effect_type( const JsonObject &jo, const std::string_view src )
 {
     effect_type new_etype;
     new_etype.id = efftype_id( jo.get_string( "id" ) );
@@ -1458,26 +1534,6 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.part_descs = jo.get_bool( "part_descs", false );
 
-    if( jo.has_member( "rating" ) ) {
-        std::string r = jo.get_string( "rating" );
-        if( r == "good" ) {
-            new_etype.rating = e_good;
-        } else if( r == "neutral" ) {
-            new_etype.rating = e_neutral;
-        } else if( r == "bad" ) {
-            new_etype.rating = e_bad;
-        } else if( r == "mixed" ) {
-            new_etype.rating = e_mixed;
-        } else {
-            jo.throw_error_at(
-                "rating",
-                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
-                               "\"bad\", or \"mixed\"", r ) );
-        }
-    } else {
-        new_etype.rating = e_neutral;
-    }
-    jo.read( "apply_message", new_etype.apply_message );
     jo.read( "remove_message", new_etype.remove_message );
     optional( jo, false, "apply_memorial_log", new_etype.apply_memorial_log,
               text_style_check_reader() );
@@ -1493,6 +1549,7 @@ void load_effect_type( const JsonObject &jo )
         new_etype.resist_effects.emplace_back( f );
     }
     optional( jo, false, "immune_flags", new_etype.immune_flags );
+    optional( jo, false, "immune_bp_flags", new_etype.immune_bp_flags );
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.emplace_back( f );
     }
@@ -1509,11 +1566,13 @@ void load_effect_type( const JsonObject &jo )
     }
 
     optional( jo, false, "vitamins", new_etype.vitamin_data );
+    optional( jo, false, "limb_score_mods", new_etype.limb_score_data );
+    optional( jo, false, "effect_dur_scaling", new_etype.effect_dur_scaling );
     optional( jo, false, "chance_kill", new_etype.kill_chance );
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
     optional( jo, false, "death_event", new_etype.death_event,
-              enum_flags_reader<event_type>( "event_type" ), cata::nullopt );
+              enum_flags_reader<event_type>( "event_type" ), std::nullopt );
 
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );
@@ -1524,6 +1583,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.load_miss_msgs( jo, "miss_messages" );
     new_etype.load_decay_msgs( jo, "decay_messages" );
+    new_etype.load_apply_msgs( jo, "apply_message" );
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
@@ -1536,8 +1596,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.max_effective_intensity = jo.get_int( "max_effective_intensity", 0 );
 
-    new_etype.load_mod_data( jo, "base_mods" );
-    new_etype.load_mod_data( jo, "scaling_mods" );
+    new_etype.load_mod_data( jo );
 
     new_etype.impairs_movement = hardcoded_movement_impairing.count( new_etype.id ) > 0;
 
@@ -1546,7 +1605,7 @@ void load_effect_type( const JsonObject &jo )
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + new_etype.id.str() + "_" + std::to_string(
                                        enchant_num++ );
-        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+        new_etype.enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
     effect_types[new_etype.id] = new_etype;
 }
@@ -1554,6 +1613,16 @@ void load_effect_type( const JsonObject &jo )
 bool effect::has_flag( const flag_id &flag ) const
 {
     return eff_type->has_flag( flag );
+}
+
+std::vector<limb_score_effect> effect::get_limb_score_data() const
+{
+    return eff_type->limb_score_data;
+}
+
+std::vector<effect_dur_mod> effect::get_effect_dur_scaling() const
+{
+    return eff_type->effect_dur_scaling;
 }
 
 bool effect::kill_roll( bool reduced ) const
@@ -1628,14 +1697,7 @@ void effect::deserialize( const JsonObject &jo )
     jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-
-    // TEMPORARY until 0.F
-    if( jo.has_int( "bp" ) ) {
-        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
-    } else {
-        jo.read( "bp", bp );
-    }
-
+    jo.read( "bp", bp );
     jo.read( "permanent", permanent );
     jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;

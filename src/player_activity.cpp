@@ -10,7 +10,9 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "effect_on_condition.h"
 #include "field.h"
+#include "event_bus.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -22,6 +24,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
+#include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
 
@@ -34,29 +37,22 @@ static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );
 static const activity_id ACT_CHOP_PLANKS( "ACT_CHOP_PLANKS" );
 static const activity_id ACT_CHOP_TREE( "ACT_CHOP_TREE" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CONSUME( "ACT_CONSUME" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
-static const activity_id ACT_FISH( "ACT_FISH" );
-static const activity_id ACT_GAME( "ACT_GAME" );
-static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
-static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
+static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIGRATION_CANCEL( "ACT_MIGRATION_CANCEL" );
 static const activity_id ACT_NULL( "ACT_NULL" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
-static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -65,15 +61,6 @@ static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const efftype_id effect_nausea( "nausea" );
-
-static const std::vector<activity_id> consuming {
-    ACT_CONSUME,
-    ACT_EAT_MENU,
-    ACT_CONSUME_FOOD_MENU,
-    ACT_CONSUME_DRINK_MENU,
-    ACT_CONSUME_MEDS_MENU };
-
-constexpr tripoint_abs_ms player_activity::invalid_place;
 
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
@@ -84,28 +71,20 @@ player_activity::player_activity( activity_id t, int turns, int Index, int pos,
     position( pos ), name( name_in ),
     placement( tripoint_min )
 {
+    if( type != ACT_NULL ) {
+        for( const distraction_type dt : type->default_ignored_distractions() ) {
+            ignored_distractions.emplace( dt );
+        }
+    }
 }
 
 player_activity::player_activity( const activity_actor &actor ) : type( actor.get_type() ),
     actor( actor.clone() )
 {
-}
-
-void player_activity::migrate_item_position( Character &guy )
-{
-    const bool simple_action_replace =
-        type == ACT_FIRSTAID || type == ACT_GAME ||
-        type == ACT_PICKAXE || type == ACT_START_FIRE ||
-        type == ACT_HAND_CRANK || type == ACT_VIBE ||
-        type == ACT_OXYTORCH || type == ACT_FISH ||
-        type == ACT_ATM;
-
-    if( simple_action_replace ) {
-        targets.emplace_back( guy, &guy.i_at( position ) );
-    } else if( type == ACT_GUNMOD_ADD ) {
-        // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.emplace_back( guy, &guy.i_at( position ) );
-        targets.emplace_back( guy, &guy.i_at( values[0] ) );
+    if( type != ACT_NULL ) {
+        for( const distraction_type dt : type->default_ignored_distractions() ) {
+            ignored_distractions.emplace( dt );
+        }
     }
 }
 
@@ -142,9 +121,9 @@ int player_activity::get_value( size_t index, int def ) const
     return index < values.size() ? values[index] : def;
 }
 
-bool player_activity::is_suspendable() const
+bool player_activity::can_resume() const
 {
-    return type->suspendable();
+    return type->can_resume();
 }
 
 bool player_activity::is_multi_type() const
@@ -152,15 +131,15 @@ bool player_activity::is_multi_type() const
     return type->multi_activity();
 }
 
-std::string player_activity::get_str_value( size_t index, const std::string &def ) const
+std::string player_activity::get_str_value( size_t index, const std::string_view def ) const
 {
-    return index < str_values.size() ? str_values[index] : def;
+    return std::string( index < str_values.size() ? str_values[index] : def );
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == ACT_NULL || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
     }
 
     if( type == ACT_ADV_INVENTORY ||
@@ -171,9 +150,10 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == ACT_CONSUME_FOOD_MENU ||
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
+        type == ACT_INVOKE_ITEM ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     std::string extra_info;
@@ -218,6 +198,11 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
                 extra_info = string_format( "%d%%", percentage );
             }
         }
+
+        if( type == ACT_SPELLCASTING ) {
+            const std::string spell_name = spell_id( name )->name.translated();
+            extra_info = string_format( "%s …", spell_name );
+        }
     }
 
     if( actor ) {
@@ -239,6 +224,7 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     }
     // last, as start function may have changed the type
     synchronize_type_with_actor();
+    get_event_bus().send<event_type::character_starts_activity>( who.getID(), type, resuming );
 }
 
 void player_activity::do_turn( Character &you )
@@ -261,21 +247,24 @@ void player_activity::do_turn( Character &you )
     }
     // Only do once every two minutes to loosely simulate consume times,
     // the exact amount of time is added correctly below, here we just want to prevent eating something every second
-    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() && type->valid_auto_needs() &&
-        !you.has_effect( effect_nausea ) ) {
-        if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
-            !no_food_nearby_for_auto_consume ) {
-            int consume_moves = get_auto_consume_moves( you, true );
-            moves_left += consume_moves;
-            if( consume_moves == 0 ) {
-                no_food_nearby_for_auto_consume = true;
+    if( calendar::once_every( 2_minutes ) && *this && !you.is_npc() ) {
+        if( type->valid_auto_needs() && !you.has_effect( effect_nausea ) ) {
+            if( you.stomach.contains() <= you.stomach.capacity( you ) / 4 && you.get_kcal_percent() < 0.95f &&
+                !no_food_nearby_for_auto_consume ) {
+                int consume_moves = get_auto_consume_moves( you, true );
+                moves_left += consume_moves;
+                moves_total += consume_moves;
+                if( consume_moves == 0 ) {
+                    no_food_nearby_for_auto_consume = true;
+                }
             }
-        }
-        if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
-            int consume_moves = get_auto_consume_moves( you, false );
-            moves_left += consume_moves;
-            if( consume_moves == 0 ) {
-                no_drink_nearby_for_auto_consume = true;
+            if( you.get_thirst() > 130 && !no_drink_nearby_for_auto_consume ) {
+                int consume_moves = get_auto_consume_moves( you, false );
+                moves_left += consume_moves;
+                moves_total += consume_moves;
+                if( consume_moves == 0 ) {
+                    no_drink_nearby_for_auto_consume = true;
+                }
             }
         }
     }
@@ -283,17 +272,17 @@ void player_activity::do_turn( Character &you )
     if( type->based_on() == based_on_type::TIME ) {
         if( moves_left >= 100 ) {
             moves_left -= 100 * activity_mult;
-            you.moves = 0;
+            you.set_moves( 0 );
         } else {
-            you.moves -= you.moves * moves_left / 100;
+            you.mod_moves( -you.get_moves() * moves_left / 100 );
             moves_left = 0;
         }
     } else if( type->based_on() == based_on_type::SPEED ) {
-        if( you.moves <= moves_left ) {
-            moves_left -= you.moves * activity_mult;
-            you.moves = 0;
+        if( you.get_moves() <= moves_left ) {
+            moves_left -= you.get_moves() * activity_mult;
+            you.set_moves( 0 );
         } else {
-            you.moves -= moves_left;
+            you.mod_moves( -moves_left );
             moves_left = 0;
         }
     }
@@ -308,6 +297,21 @@ void player_activity::do_turn( Character &you )
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
     you.set_activity_level( exertion_level() );
+
+    if( !type->do_turn_EOC.is_null() ) {
+        // if we have an EOC defined in json do that
+        dialogue d( get_talker_for( you ), nullptr );
+        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
+            type->do_turn_EOC->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+        }
+        // We may have canceled this via a message interrupt.
+        if( type.is_null() ) {
+            return;
+        }
+    }
+
     // This might finish the activity (set it to null)
     if( actor ) {
         actor->do_turn( *this, you );
@@ -315,6 +319,7 @@ void player_activity::do_turn( Character &you )
         // Use the legacy turn function
         type->call_do_turn( this, &you );
     }
+
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -348,12 +353,13 @@ void player_activity::do_turn( Character &you )
                 case UILIST_CANCEL:
                 case 2:
                     auto_resume = false;
-                    set_to_null();
+                    you.cancel_activity();
                     break;
                 case 3:
                     ignoreQuery = true;
                     break;
                 default:
+                    canceled( you );
                     break;
             }
         }
@@ -370,6 +376,17 @@ void player_activity::do_turn( Character &you )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
+        if( !type->completion_EOC.is_null() ) {
+            // if we have an EOC defined in json do that
+            dialogue d( get_talker_for( you ), nullptr );
+            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
+                type->completion_EOC->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+        get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
+        g->wait_popup_reset();
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -395,6 +412,8 @@ void player_activity::canceled( Character &who )
     if( *this && actor ) {
         actor->canceled( *this, who );
     }
+    get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
+    g->wait_popup_reset();
 }
 
 float player_activity::exertion_level() const
@@ -420,7 +439,7 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // Should be used for relative positions
     // And to forbid resuming now-invalid crafting
 
-    if( !*this || !other || type->no_resume() ) {
+    if( !*this || !other || !type->can_resume() ) {
         return false;
     }
 
@@ -460,8 +479,7 @@ bool player_activity::is_interruptible_with_kb() const
 
 bool player_activity::is_distraction_ignored( distraction_type distraction ) const
 {
-    return !is_interruptible() ||
-           ignored_distractions.find( distraction ) != ignored_distractions.end();
+    return !is_interruptible() || ignored_distractions.count( distraction );
 }
 
 void player_activity::ignore_distraction( distraction_type type )
@@ -481,60 +499,51 @@ void player_activity::inherit_distractions( const player_activity &other )
     }
 }
 
-
 std::map<distraction_type, std::string> player_activity::get_distractions() const
 {
-    std::map < distraction_type, std::string > res;
-    activity_id act_id = id();
-    if( act_id != ACT_AIM && moves_left > 0 ) {
-        if( uistate.distraction_hostile_close &&
-            !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
-            Creature *hostile_critter = g->is_hostile_very_close( true );
-            if( hostile_critter != nullptr ) {
-                res.emplace( distraction_type::hostile_spotted_near,
-                             string_format( _( "The %s is dangerously close!" ),
-                                            g->is_hostile_very_close( true )->get_name() ) );
-            }
+    std::map<distraction_type, std::string> res;
+    if( moves_left <= 0 ) {
+        return res;
+    }
+    if( uistate.distraction_hostile_close &&
+        !is_distraction_ignored( distraction_type::hostile_spotted_near ) ) {
+        if( Creature *hostile_critter = g->is_hostile_very_close( true ) ) {
+            res.emplace( distraction_type::hostile_spotted_near,
+                         string_format( _( "The %s is dangerously close!" ), hostile_critter->get_name() ) );
         }
-        if( uistate.distraction_dangerous_field &&
-            !is_distraction_ignored( distraction_type::dangerous_field ) ) {
-            field_entry *field = g->is_in_dangerous_field();
-            if( field != nullptr ) {
-                res.emplace( distraction_type::dangerous_field, string_format( _( "You stand in %s!" ),
-                             g->is_in_dangerous_field()->name() ) );
-            }
+    }
+    if( uistate.distraction_dangerous_field &&
+        !is_distraction_ignored( distraction_type::dangerous_field ) ) {
+        if( field_entry *field = g->is_in_dangerous_field() ) {
+            res.emplace( distraction_type::dangerous_field,
+                         string_format( _( "You stand in %s!" ), field->name() ) );
         }
-        // Nested in the !ACT_AIM to avoid nuisance during combat
-        // If this is too bothersome, maybe a list of just ACT_CRAFT, ACT_DIG etc
-        if( std::find( consuming.begin(), consuming.end(), act_id ) == consuming.end() ) {
-            avatar &player_character = get_avatar();
-            if( uistate.distraction_hunger &&
-                !is_distraction_ignored( distraction_type::hunger ) ) {
-                // Starvation value of 5300 equates to about 5kCal.
-                if( calendar::once_every( 2_hours ) && player_character.get_hunger() >= 300 &&
-                    player_character.get_starvation() > 5300 ) {
-                    res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
-                }
-            }
-            if( uistate.distraction_thirst &&
-                !is_distraction_ignored( distraction_type::thirst ) ) {
-                if( player_character.get_thirst() > 520 ) {
-                    res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
-                }
-            }
+    }
+    avatar &u = get_avatar();
+    if( uistate.distraction_hunger && !is_distraction_ignored( distraction_type::hunger ) ) {
+        // Starvation value of 5300 equates to about 5kCal.
+        if( calendar::once_every( 2_hours ) &&
+            u.get_hunger() >= 300 &&
+            u.get_starvation() > 5300 ) {
+            res.emplace( distraction_type::hunger, _( "You are at risk of starving!" ) );
         }
-        if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
-            for( const bodypart_id &bp : get_avatar().get_all_body_parts() ) {
-                if( get_avatar().get_part_temp_cur( bp ) > BODYTEMP_VERY_HOT ) {
-                    res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
-                    break;
-                } else if( get_avatar().get_part_temp_cur( bp ) < BODYTEMP_VERY_COLD ) {
-                    res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
-                    break;
-                }
+    }
+    if( uistate.distraction_thirst && !is_distraction_ignored( distraction_type::thirst ) ) {
+        if( u.get_thirst() > 520 ) {
+            res.emplace( distraction_type::thirst, _( "You are dangerously dehydrated!" ) );
+        }
+    }
+    if( uistate.distraction_temperature && !is_distraction_ignored( distraction_type::temperature ) ) {
+        for( const bodypart_id &bp : u.get_all_body_parts() ) {
+            const units::temperature bp_temp = u.get_part_temp_cur( bp );
+            if( bp_temp > BODYTEMP_VERY_HOT ) {
+                res.emplace( distraction_type::temperature, _( "You are overheating!" ) );
+                break;
+            } else if( bp_temp < BODYTEMP_VERY_COLD ) {
+                res.emplace( distraction_type::temperature, _( "You are freezing!" ) );
+                break;
             }
         }
     }
-
     return res;
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "recipe_category",
+    "id": "CC_PSIONIC",
+    "recipe_subcategories": [
+      "CSC_ALL",
+      "CSC_PSIONIC_WEAPONS",
+      "CSC_PSIONIC_ARMOR",
+      "CSC_PSIONIC_MEDICAL",
+      "CSC_PSIONIC_FOOD",
+      "CSC_PSIONIC_TOOLS",
+      "CSC_PSIONIC_PARTS",
+      "CSC_PSIONIC_RITUALS",
+      "CSC_PSIONIC_OTHER"
+    ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "MATRIX_FOCUS",
+    "name": "matrix alignment"
+  },
+  {
+    "type": "tool_quality",
+    "id": "MATRIX_CHANNEL",
+    "name": "matrix concentration"
+  }
+]

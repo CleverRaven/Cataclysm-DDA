@@ -49,10 +49,6 @@
         "text": "\"The damn Autodoc overrides wouldn't work and I didn't have my hospital ID.  I couldn't save them alone.\""
       },
       {
-        "id": "note_16",
-        "text": "\"Save the cyborgs!  Please, whoever reads this, you must help them!  Knock them out or deactivate them, I don't care how you do it.  But put their unconscious body on that Autodoc and remove the chip that is messing up their brain!\""
-      },
-      {
         "id": "note_17",
         "text": "\"Gotta slow down, man.  I don't think we spend more than 20% of our time fightin',  Put some Marley on and take off that racketus tripcore nonsense, man.\""
       },
@@ -68,7 +64,7 @@
       { "id": "note_21", "text": "\"You want my advice?  Smoke crack, it gets shit done.\"" },
       {
         "id": "note_22",
-        "text": "\"ALWAYS WITH THE EFFICIENCY GUYS; YOURE ALWAYS WORKING TO GO HOME TO PAY RENT TO SLEEP TO WAKE UP TO WORK AGAIN.  STOP\""
+        "text": "\"ALWAYS WITH THE EFFICIENCY GUYS; YOU'RE ALWAYS WORKING TO GO HOME TO PAY RENT TO SLEEP TO WAKE UP TO WORK AGAIN.  STOP\""
       },
       { "id": "note_23", "text": "\"IM OFF TO THUNDERDOME, BYE SUCKERS.\"" },
       {
@@ -119,10 +115,6 @@
         "text": "\"Why would you hide in a farm?  Sure, it's isolated, but if they know where you are, you don't exactly have cover on all sides.\""
       },
       { "id": "note_41", "text": "\"Imagine if this spread to, like, Australia.  Zombie kangaroos.  Haha…\"" },
-      {
-        "id": "note_42",
-        "text": "\"how DO I use THESE bionic THINGS?  I just STUCK the wires IN my WRIST and now I CAN'T STOP twitching.  AND now my LEG hurts!  Is THAT acid?!\""
-      },
       {
         "id": "note_43",
         "text": "\"I tried playing memorial music for my dead brother, on a radio.  They must have been attracted to it.  I can't see his grave through the crowd anymore.\""
@@ -302,22 +294,13 @@
         "id": "note_119",
         "text": "\"There's nothing wrong with eating people if you HAVE to.  I mean, I only did it because I didn't want to waste my potato chips!\""
       },
-      { "id": "note_120", "text": "\"all these fuckin eyebots really take the piss out of kops\"" },
       { "id": "note_121", "text": "\"CHINA DID THIS\"" },
       { "id": "note_122", "text": "\"RUSSIA DID THIS\"" },
       {
         "id": "note_123",
         "text": "\"Thank You RivTech.  Thank You For Good Coffee.  Will Always Stay Awake For You Rivtech.\""
       },
-      {
-        "id": "note_124",
-        "text": "\"See, now I'm just not sure where I'm putting all these storage batteries in my body!\""
-      },
       { "id": "note_125", "text": "\"dont try to leave they will shoot you\"" },
-      {
-        "id": "note_126",
-        "text": "\"I'd like to thank my high-school culinary arts class for teaching me how to make RDX and mutagenic serum.\""
-      },
       { "id": "note_127", "text": "\"Makayla Sanchez burned down my fucking house\"" },
       { "id": "note_128", "text": "\"he calls himself the 'man with the hands', don't approach\"" },
       {
@@ -355,7 +338,7 @@
         "id": "note_139",
         "text": "\"Diamond coated sword!  Diamond coated hammer!  Diamond coated clothes!  Diamond coated hands help\""
       },
-      { "id": "note_140", "text": "\"waded through 14 miles of sewage for playboy magazine, wasnt worth it\"" },
+      { "id": "note_140", "text": "\"waded through 14 miles of sewage for playboy magazine, wasn't worth it\"" },
       {
         "id": "note_141",
         "text": "\"I'm coming back for this note in twelve hours.  If I don't, take all my shit!\""
@@ -386,10 +369,6 @@
         "text": "\"Gonna settle down one day.  Nice big orchard, couple of friends/future family to spend time with, and a nice system of fortifications to keep us safe.\""
       },
       { "id": "note_152", "text": "\"a ctulaly don t mi nd  t he cold it   s  f i ne in h ere  nn    o problem\"" },
-      {
-        "id": "note_153",
-        "text": "\"tried to shoot myself but the nanobots fixed it, fucked up the controls, now i can't turn them off i just want it to be over\""
-      },
       {
         "id": "note_154",
         "text": "\"Tried wearing dead zombie clothes, but they still knew I was alive!  It's like they're a hivemind, man!\""
@@ -513,10 +492,6 @@
       { "id": "note_200", "text": "\"Those Fiktok clan people picked this place clean… no food…\"" },
       { "id": "note_201", "text": "\"The fewer people in New England, the stronger we'll become.\"" },
       { "id": "note_202", "text": "\"It all boils down to the Apex Predator.\"" },
-      {
-        "id": "note_203",
-        "text": "\"King Jameson ik goner!  Thee cyber limbs isk falleng off me body!  Stak pyroteknik I heear!\""
-      },
       { "id": "note_204", "text": "\"Got my mortar and pestle.  Now if I could just find some avocados…\"" },
       {
         "id": "note_205",
@@ -610,10 +585,6 @@
         "text": "\"I saw one of those Foodplace workers on the street.  Honestly, they look no different alive than dead.\""
       },
       {
-        "id": "note_232",
-        "text": "\"DO NOT go to the irradiation plants!  My truck looks like swiss cheese after the turrets had their way with me.  I'm gonna be stuck roadside for hours while I patch up this mess.\""
-      },
-      {
         "id": "note_233",
         "text": "\"I can imagine people sending their 'love and prayers' on social media.  Love doesn't kill zeds, prayer doesn't put food in my belly.\""
       },
@@ -661,7 +632,7 @@
       { "id": "note_245", "text": "\"STOP FOLLOWING ME I CAN HEAR YOU IN THE DARK\"" },
       {
         "id": "note_246",
-        "text": "\"G, If you find this, I'm at the farm just out of town.  I'll need to stay there a few days, I've been wounded by one of those overgrown bastards, shot a spike right into my thigh.  I'll wait for you there as long as I can, stay safe.\""
+        "text": "\"G, if you find this, I'm at the farm just out of town.  I'll need to stay there a few days, I've been wounded by one of those overgrown bastards, shot a spike right into my thigh.  I'll wait for you there as long as I can, stay safe.\""
       },
       {
         "id": "note_247",
@@ -686,7 +657,28 @@
       },
       {
         "id": "note_253",
-        "text": "\"G, There's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low  there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
+        "text": "\"G, there's something not right with the forests here.  The ground there feels soft and is overgrown with some sort of mushrooms.  Be careful not to breathe in the dust they kick up, I accidentally took a whiff and have been coughing and vomiting since.  The map shows there's a cabin just outside town, I'll lay low there until I feel better.  I'm almost home.  I know you will be waiting for me there.\""
+      },
+      {
+        "id": "note_254",
+        "text": "\"I saw a zombie covered in shrooms emitting some strange dust.  When another zombie got close, the two tore each other apart.  I'd rather not stay here anymore.  Im packing up my stuff soon.\""
+      },
+      {
+        "id": "note_255",
+        "text": "\"I can see a large tower in the distance, And strange stalk-like creatures are around it.  I feel sick just looking at it, and fire hasn't solved it.  Those things seem to stay around it though.\""
+      },
+      {
+        "id": "note_256",
+        "text": "\"These berries are delicious!  Maybe taking these were worth it.  And the more I eat, the more of it appears!  it's like an infinite food cycle!\""
+      },
+      {
+        "id": "note_257",
+        "text": "\"I found a corpse with strange berries shoved down their gullet, seems to have choked to death on the stuff.  greedy bastard\""
+      },
+      { "id": "note_258", "text": "\"Don't trust them.  The mushrooms aren't your friends.  They're delusional\"" },
+      {
+        "id": "note_259",
+        "text": "\"trust me!  The mushrooms are your friends!  They brung her back!  they'll bring everybody back!\""
       }
     ]
   }

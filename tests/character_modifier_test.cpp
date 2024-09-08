@@ -27,6 +27,10 @@ static const character_modifier_id character_modifier_test_thrown_dex_mod( "test
 static const character_modifier_id
 character_modifier_test_thrown_dex_mod_hand( "test_thrown_dex_mod_hand" );
 
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+
 static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
 static const enchantment_id enchantment_ENCH_TEST_TAIL( "ENCH_TEST_TAIL" );
 
@@ -63,7 +67,7 @@ static void create_bird_char( Character &dude )
     REQUIRE( !dude.has_part( body_part_foot_r ) );
 }
 
-TEST_CASE( "Basic limb score test", "[character][encumbrance]" )
+TEST_CASE( "Basic_limb_score_test", "[character][encumbrance][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -105,7 +109,7 @@ TEST_CASE( "Basic limb score test", "[character][encumbrance]" )
     }
 }
 
-TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
+TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -149,7 +153,7 @@ TEST_CASE( "Basic character modifier test", "[character][encumbrance]" )
     }
 }
 
-TEST_CASE( "Body part armor vs. damage", "[character]" )
+TEST_CASE( "Body_part_armor_vs_damage", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -157,35 +161,35 @@ TEST_CASE( "Body part armor vs. damage", "[character]" )
     REQUIRE( test_bp != nullptr );
 
     GIVEN( "Body part with 5 bash / 5 acid / 0 cut" ) {
-        CHECK( test_bp->get_id()->damage_resistance( damage_type::BASH ) == Approx( 5.0 ).epsilon(
+        CHECK( test_bp->get_id()->damage_resistance( damage_bash ) == Approx( 5.0 ).epsilon(
                    0.001 ) );
-        CHECK( test_bp->get_id()->damage_resistance( damage_type::ACID ) == Approx( 5.0 ).epsilon(
+        CHECK( test_bp->get_id()->damage_resistance( damage_acid ) == Approx( 5.0 ).epsilon(
                    0.001 ) );
-        CHECK( test_bp->get_id()->damage_resistance( damage_type::CUT ) == Approx( 0.0 ).epsilon( 0.001 ) );
+        CHECK( test_bp->get_id()->damage_resistance( damage_cut ) == Approx( 0.0 ).epsilon( 0.001 ) );
 
         WHEN( "Receiving bash damage" ) {
-            damage_unit du( damage_type::BASH, 10.f, 0.f );
+            damage_unit du( damage_bash, 10.f, 0.f );
             dude.passive_absorb_hit( body_part_test_tail, du );
             THEN( "Absorb hit" ) {
-                CHECK( dude.get_armor_bash( body_part_test_tail ) == 5 );
+                CHECK( dude.get_armor_type( du.type, body_part_test_tail ) == 5 );
                 CHECK( du.amount == Approx( 5.0 ).epsilon( 0.001 ) );
             }
         }
 
         WHEN( "Receiving acid damage" ) {
-            damage_unit du( damage_type::ACID, 10.f, 0.f );
+            damage_unit du( damage_acid, 10.f, 0.f );
             dude.passive_absorb_hit( body_part_test_tail, du );
             THEN( "Absorb hit" ) {
-                CHECK( dude.get_armor_acid( body_part_test_tail ) == 5 );
+                CHECK( dude.get_armor_type( du.type, body_part_test_tail ) == 5 );
                 CHECK( du.amount == Approx( 5.0 ).epsilon( 0.001 ) );
             }
         }
 
         WHEN( "Receiving cut damage" ) {
-            damage_unit du( damage_type::CUT, 10.f, 0.f );
+            damage_unit du( damage_cut, 10.f, 0.f );
             dude.passive_absorb_hit( body_part_test_tail, du );
             THEN( "Absorb hit" ) {
-                CHECK( dude.get_armor_cut( body_part_test_tail ) == 0 );
+                CHECK( dude.get_armor_type( du.type, body_part_test_tail ) == 0 );
                 CHECK( du.amount == Approx( 10.0 ).epsilon( 0.001 ) );
             }
         }
@@ -204,7 +208,7 @@ static double get_limbtype_modval( const double &val, const bodypart_id &id,
     return ret;
 }
 
-TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
+TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation][limb]" )
 {
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
@@ -224,14 +228,14 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 res.first->has_type( body_part_type::type::tail ) ) {
                 CAPTURE( res.first.c_str() );
                 const double bash_res = get_limbtype_modval( 5.0, res.first, affected_bptypes );
-                CHECK( res.second.type_resist( damage_type::BASH ) == Approx( bash_res ).epsilon( 0.001 ) );
-                CHECK( res.second.type_resist( damage_type::ACID ) == Approx( 0.0 ).epsilon( 0.001 ) );
-                CHECK( res.second.type_resist( damage_type::CUT ) == Approx( 1.0 ).epsilon( 0.001 ) );
+                CHECK( res.second.type_resist( damage_bash ) == Approx( bash_res ).epsilon( 0.001 ) );
+                CHECK( res.second.type_resist( damage_acid ) == Approx( 0.0 ).epsilon( 0.001 ) );
+                CHECK( res.second.type_resist( damage_cut ) == Approx( 1.0 ).epsilon( 0.001 ) );
             } else {
                 CAPTURE( res.first.c_str() );
-                CHECK( res.second.type_resist( damage_type::BASH ) == Approx( 0.0 ).epsilon( 0.001 ) );
-                CHECK( res.second.type_resist( damage_type::ACID ) == Approx( 0.0 ).epsilon( 0.001 ) );
-                CHECK( res.second.type_resist( damage_type::CUT ) == Approx( 1.0 ).epsilon( 0.001 ) );
+                CHECK( res.second.type_resist( damage_bash ) == Approx( 0.0 ).epsilon( 0.001 ) );
+                CHECK( res.second.type_resist( damage_acid ) == Approx( 0.0 ).epsilon( 0.001 ) );
+                CHECK( res.second.type_resist( damage_cut ) == Approx( 1.0 ).epsilon( 0.001 ) );
             }
         }
 
@@ -245,11 +249,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                                      bp.id->has_type( body_part_type::type::tail );
                 double res_val = get_limbtype_modval( 5.0, bp.id, affected_bptypes );
                 const int res_amt = has_res ? static_cast<int>( res_val ) : 0;
-                damage_unit du( damage_type::BASH, 10.f, 0.f );
+                damage_unit du( damage_bash, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
                     CAPTURE( bp.id.c_str() );
-                    CHECK( dude.get_armor_bash( bp.id ) == res_amt );
+                    CHECK( dude.get_armor_type( du.type, bp.id ) == res_amt );
                     CHECK( du.amount == Approx( 10.0 - res_amt ).epsilon( 0.001 ) );
                 }
             }
@@ -260,11 +264,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                damage_unit du( damage_type::ACID, 10.f, 0.f );
+                damage_unit du( damage_acid, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
                     CAPTURE( bp.id.c_str() );
-                    CHECK( dude.get_armor_acid( bp.id ) == 0 );
+                    CHECK( dude.get_armor_type( du.type, bp.id ) == 0 );
                     CHECK( du.amount == Approx( 10.0 ).epsilon( 0.001 ) );
                 }
             }
@@ -275,11 +279,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 if( !dude.has_part( bp.id ) ) {
                     continue;
                 }
-                damage_unit du( damage_type::CUT, 10.f, 0.f );
+                damage_unit du( damage_cut, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
                     CAPTURE( bp.id.c_str() );
-                    CHECK( dude.get_armor_cut( bp.id ) == 1 );
+                    CHECK( dude.get_armor_type( du.type, bp.id ) == 1 );
                     CHECK( du.amount == Approx( 9.0 ).epsilon( 0.001 ) );
                 }
             }
@@ -302,11 +306,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                 const bool has_bp_res = bp.id == body_part_test_tail;
                 double res_val = get_limbtype_modval( 5.0, bp.id, affected_bptypes );
                 const int res_amt = ( has_mut_res ? static_cast<int>( res_val ) : 0 ) + ( has_bp_res ? 5 : 0 );
-                damage_unit du( damage_type::BASH, 10.f, 0.f );
+                damage_unit du( damage_bash, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
                     CAPTURE( bp.id.c_str() );
-                    CHECK( dude.get_armor_bash( bp.id ) == res_amt );
+                    CHECK( dude.get_armor_type( du.type, bp.id ) == res_amt );
                     CHECK( du.amount == Approx( 10.0 - res_amt ).epsilon( 0.001 ) );
                 }
             }
@@ -318,11 +322,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                     continue;
                 }
                 const int res_amt = bp.id == body_part_test_tail ? 5 : 0;
-                damage_unit du( damage_type::ACID, 10.f, 0.f );
+                damage_unit du( damage_acid, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
                     CAPTURE( bp.id.c_str() );
-                    CHECK( dude.get_armor_acid( bp.id ) == res_amt );
+                    CHECK( dude.get_armor_type( du.type, bp.id ) == res_amt );
                     CHECK( du.amount == Approx( 10.0 - res_amt ).epsilon( 0.001 ) );
                 }
             }
@@ -334,11 +338,11 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
                     continue;
                 }
                 const int res_amt = bp.id == body_part_test_tail ? 6 : 1;
-                damage_unit du( damage_type::CUT, 10.f, 0.f );
+                damage_unit du( damage_cut, 10.f, 0.f );
                 dude.passive_absorb_hit( bp.id, du );
                 THEN( "Absorb hit" ) {
                     CAPTURE( bp.id.c_str() );
-                    CHECK( dude.get_armor_cut( bp.id ) == res_amt );
+                    CHECK( dude.get_armor_type( du.type, bp.id ) == res_amt );
                     CHECK( du.amount == Approx( 10.0 - res_amt ).epsilon( 0.001 ) );
                 }
             }
@@ -346,7 +350,7 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
     }
 }
 
-TEST_CASE( "Multi-limbscore modifiers", "[character]" )
+TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -398,7 +402,7 @@ TEST_CASE( "Multi-limbscore modifiers", "[character]" )
     }
 }
 
-TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[character]" )
+TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -446,7 +450,7 @@ TEST_CASE( "Slip prevention modifier / weighted-list multi-score modifiers", "[c
     }
 }
 
-TEST_CASE( "Weighted limb types", "[character]" )
+TEST_CASE( "Weighted_limb_types", "[character][limb]" )
 {
     item boxing_gloves( "test_boxing_gloves" );
     item wing_covers( "test_winglets" );
@@ -475,10 +479,10 @@ TEST_CASE( "Weighted limb types", "[character]" )
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 0 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
-                       11.4 ).epsilon( 0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.667 ).epsilon(
+                       11.8 ).epsilon( 0.01 ) );
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.658 ).epsilon(
                        0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.667 ).epsilon(
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.658 ).epsilon(
                        0.01 ) );
         }
         WHEN( "Uninjured / hands encumbered" ) {
@@ -502,10 +506,10 @@ TEST_CASE( "Weighted limb types", "[character]" )
             REQUIRE( dude.get_part_hp_cur( body_part_hand_r ) == dude.get_part_hp_max( body_part_hand_l ) / 2 );
             REQUIRE( dude.avg_encumb_of_limb_type( body_part_type::type::hand ) == 70 );
             CHECK( dude.get_modifier( character_modifier_test_ranged_dispersion_manip_mod ) == Approx(
-                       53.4 ).epsilon( 0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.299 ).epsilon(
+                       54.3 ).epsilon( 0.01 ) );
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod ) == Approx( 0.295 ).epsilon(
                        0.01 ) );
-            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.299 ).epsilon(
+            CHECK( dude.get_modifier( character_modifier_test_thrown_dex_mod_hand ) == Approx( 0.295 ).epsilon(
                        0.01 ) );
         }
     }

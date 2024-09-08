@@ -1,9 +1,7 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
-#include <functional>
-#include <istream>
-#include <new>
+#include <optional>
 #include <stdexcept>
 #include <string>
 
@@ -11,8 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "optional.h"
+#include "input_context.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -91,8 +88,8 @@ void sokoban_game::parse_level( std::istream &fin )
             }
 
             if( sLine[i] == '.' || sLine[i] == '*' || sLine[i] == '+' ) {
-                vLevelDone[iNumLevel].push_back( std::make_pair( static_cast<int>
-                                                 ( mLevelInfo[iNumLevel]["MaxLevelY"] ), static_cast<int>( i ) ) );
+                vLevelDone[iNumLevel].emplace_back( static_cast<int>
+                                                    ( mLevelInfo[iNumLevel]["MaxLevelY"] ), static_cast<int>( i ) );
             }
 
             vLevel[iNumLevel][mLevelInfo[iNumLevel]["MaxLevelY"]][i] = sLine[i];
@@ -305,7 +302,7 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             iDirX = vec->x;
             iDirY = vec->y;
             bMoved = true;

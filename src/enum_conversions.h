@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_ENUM_CONVERSIONS_H
 #define CATA_SRC_ENUM_CONVERSIONS_H
 
+#include <optional>
 #include <unordered_map>
 
 #include "debug.h"
 #include "enum_traits.h"
-#include "optional.h"
 
 namespace io
 {
@@ -42,7 +42,7 @@ std::string enum_to_string( E );
 template<typename E>
 std::unordered_map<std::string, E> build_enum_lookup_map()
 {
-    static_assert( std::is_enum<E>::value, "E should be an enum type" );
+    static_assert( std::is_enum_v<E>, "E should be an enum type" );
     static_assert( has_enum_traits<E>::value, "enum E needs a specialization of enum_traits" );
     std::unordered_map<std::string, E> result;
 
@@ -89,18 +89,18 @@ E string_to_enum( const std::string &data )
 
 // Helper function to do the lookup in an associative container
 template<typename C, typename E = typename C::mapped_type>
-inline cata::optional<E> string_to_enum_look_up_optional( const C &container,
+inline std::optional<E> string_to_enum_look_up_optional( const C &container,
         const std::string &data )
 {
     const auto iter = container.find( data );
     if( iter == container.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return iter->second;
 }
 
 template<typename E>
-cata::optional<E> string_to_enum_optional( const std::string &data )
+std::optional<E> string_to_enum_optional( const std::string &data )
 {
     return string_to_enum_look_up_optional( get_enum_lookup_map<E>(), data );
 }

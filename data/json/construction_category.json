@@ -57,6 +57,11 @@
   },
   {
     "type": "construction_category",
+    "id": "BULK",
+    "name": "Stacks and Piles"
+  },
+  {
+    "type": "construction_category",
     "id": "OTHER",
     "name": "Others"
   },

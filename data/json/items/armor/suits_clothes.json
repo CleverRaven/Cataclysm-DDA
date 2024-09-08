@@ -1,14 +1,13 @@
 [
   {
     "id": "bondage_suit",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "bondage suit" },
     "description": "A suit of snug black leather.  Has no pockets, but does feature an abundance of unusually located zippers.",
     "weight": "1000 g",
     "volume": "3250 ml",
-    "price": 211000,
-    "price_postapoc": 50,
+    "price": "2 kUSD 110 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -26,14 +25,13 @@
   },
   {
     "id": "bodysuit_lycra",
-    "repairs_like": "zentai",
     "type": "ARMOR",
-    "name": { "str": "lycra bodysuit" },
-    "description": "A tight-fitting bodysuit made of lycra.  Covers the whole body from neck to toe.",
+    "name": { "str": "Lycra bodysuit" },
+    "description": "A tight-fitting bodysuit made of Lycra.  Covers the whole body from neck to toe.",
     "weight": "408 g",
     "volume": "2 L",
     "price": "45 USD",
-    "price_postapoc": 80,
+    "price_postapoc": "80 cent",
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "blue",
@@ -86,7 +84,7 @@
       },
       {
         "id": "superman_suit_blue",
-        "name": { "str": "super hero blue bodysuit" },
+        "name": { "str": "blue super hero bodysuit" },
         "description": "It's colored blue and has a big \"S\" symbol on the front.  It would combine nicely with a red cape.",
         "symbol": "S",
         "weight": 25,
@@ -94,7 +92,7 @@
       },
       {
         "id": "batman_suit_black",
-        "name": { "str": "super hero black bodysuit" },
+        "name": { "str": "black super hero bodysuit" },
         "description": "It's colored black and has a symbol in the shape of a bat on the front.  It would combine nicely with a black cape and mask.",
         "symbol": "W",
         "color": "dark_gray",
@@ -103,7 +101,7 @@
       },
       {
         "id": "spiderman_suit_red",
-        "name": { "str": "super hero spider bodysuit" },
+        "name": { "str": "spider super hero bodysuit" },
         "description": "It's colored red and blue and has web-like lines all over it, as well as a big spider symbol on the front and back.  It makes you want to climb buildings and shoot webs.",
         "color": "red",
         "weight": 20,
@@ -111,7 +109,7 @@
       },
       {
         "id": "superhero_suit_green",
-        "name": { "str": "super hero green bodysuit" },
+        "name": { "str": "green super hero bodysuit" },
         "description": "It's primarily colored green and has a superhero design.",
         "color": "green",
         "weight": 15,
@@ -119,7 +117,7 @@
       },
       {
         "id": "superhero_suit_purple",
-        "name": { "str": "super hero purple bodysuit" },
+        "name": { "str": "purple super hero bodysuit" },
         "description": "It's primarily colored purple and has a superhero design.",
         "color": "magenta",
         "weight": 10,
@@ -127,7 +125,7 @@
       },
       {
         "id": "superhero_suit_pink",
-        "name": { "str": "super hero pink bodysuit" },
+        "name": { "str": "pink super hero bodysuit" },
         "description": "It's primarily colored pink and has a superhero design.",
         "color": "pink",
         "weight": 10,
@@ -135,7 +133,7 @@
       },
       {
         "id": "bondage_suit",
-        "name": { "str": "bondage lycra bodysuit" },
+        "name": { "str": "Lycra bondage bodysuit" },
         "description": "It's colored black and looks pretty kinky.  A great alternative to the leather version.",
         "color": "dark_gray",
         "weight": 20,
@@ -161,14 +159,13 @@
   },
   {
     "id": "clown_suit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "clown suit" },
     "description": "A colorful and ridiculous costume fit for a clown.  Provides decent storage.",
     "weight": "1420 g",
     "volume": "5750 ml",
-    "price": 2500,
-    "price_postapoc": 10,
+    "price": "25 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -188,15 +185,80 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
+    "id": "denim_overalls",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim overalls", "str_pl": "pairs of denim overalls" },
+    "description": "The basic denim overalls that is the symbol of the Proletariat (and some hipsters).  It covers the legs and a large portion of the torso, secured around the shoulders with straps.  It has many pockets and is relatively protective.",
+    "//": "16.5 oz heavy denim overalls, modeled after the work overalls despite the description.",
+    "weight": "1200 g",
+    "volume": "3300 ml",
+    "price": "65 USD 50 cent",
+    "price_postapoc": "8 USD",
+    "to_hit": -3,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 12 },
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 14, 20 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      }
+    ],
+    "warmth": 18,
+    "material_thickness": 1.1,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
+  },
+  {
     "id": "dinosuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dinosaur suit" },
     "description": "A full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
-    "price": 250000,
-    "price_postapoc": 1000,
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -215,14 +277,13 @@
   },
   {
     "id": "sharksuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "shark suit" },
     "description": "A full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
     "weight": "6033 g",
     "volume": "12 L",
-    "price": 250000,
-    "price_postapoc": 1000,
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -240,14 +301,13 @@
   },
   {
     "id": "dragonsuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dragon suit" },
     "description": "A cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will treat you as one of their own if you wear this.  The wings really get in the way.",
     "weight": "7033 g",
     "volume": "12 L",
-    "price": 250000,
-    "price_postapoc": 1000,
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -267,14 +327,13 @@
   },
   {
     "id": "felinesuit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "feline suit" },
     "description": "A fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It's a decent source of faux fur if you need it.",
     "weight": "7033 g",
     "volume": "12 L",
-    "price": 250000,
-    "price_postapoc": 1000,
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
@@ -298,8 +357,8 @@
     "description": "A jumpsuit embroidered with a pattern of the American flag.  Provides decent storage and is not very encumbering.",
     "weight": "558 g",
     "volume": "3500 ml",
-    "price": 9500,
-    "price_postapoc": 50,
+    "price": "95 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -309,10 +368,34 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 1, 1 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      }
     ],
     "warmth": 10,
     "material_thickness": 0.2,
@@ -325,8 +408,8 @@
     "description": "A thin, short-sleeved jumpsuit similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "weight": "610 g",
     "volume": "3500 ml",
-    "price": 8900,
-    "price_postapoc": 50,
+    "price": "89 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -338,10 +421,34 @@
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 0.2,
@@ -350,12 +457,12 @@
   {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
-    "name": { "str": "XL jumpsuit" },
+    "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-body clothing.  Provides some storage and is adjustable to minimize encumbrance.",
     "weight": "810 g",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -367,24 +474,47 @@
       { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      }
     ],
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "POCKETS", "OVERSIZE" ]
+    "flags": [ "POCKETS", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
-    "name": { "str": "XS jumpsuit" },
+    "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "jumpsuit_skeleton",
@@ -394,8 +524,8 @@
     "description": "A black jumpsuit with a skeleton pattern printed on it.  It can be zipped all the way up to cover your head and face in a skull pattern too.  Use it to zip the head portion closed.",
     "weight": "939 g",
     "volume": "3500 ml",
-    "price": 9500,
-    "price_postapoc": 60,
+    "price": "95 USD",
+    "price_postapoc": "60 cent",
     "color": "white",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 1 ] },
@@ -403,8 +533,20 @@
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 1, 2 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
     ],
     "use_action": {
       "type": "transform",
@@ -438,7 +580,6 @@
   },
   {
     "id": "robofac_jumpsuit",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
     "looks_like": "jumpsuit",
@@ -448,14 +589,13 @@
   },
   {
     "id": "mummy_jumpsuit",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "name": { "str_sp": "mummy jumpsuit" },
     "description": "An off-white jumpsuit printed to look like the tattered wrappings of an ancient mummy.  Very easy to move in, but it doesn't offer any type of protection.",
     "weight": "639 g",
     "volume": "3500 ml",
-    "price": 8500,
-    "price_postapoc": 50,
+    "price": "85 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -470,15 +610,201 @@
     "flags": [ "VARSIZE", "POCKETS", "HOOD" ]
   },
   {
+    "id": "technician_coveralls",
+    "type": "ARMOR",
+    "name": { "str_sp": "work coveralls" },
+    "description": "A fully covering jumpsuit made of waterproof canvas.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "weight": "1328 g",
+    "volume": "1000 ml",
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": -3,
+    "material": [ "canvas" ],
+    "symbol": "[",
+    "looks_like": "jumpsuit",
+    "color": "yellow",
+    "environmental_protection": 3,
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "encumbrance": [ 5, 9 ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "encumbrance": [ 5, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "coverage": 100,
+        "encumbrance": [ 5, 9 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
+    "id": "technician_coveralls_h",
+    "type": "ARMOR",
+    "name": { "str_sp": "heavy work coveralls" },
+    "description": "A thick, fully covering jumpsuit made of waterproof canvas lined with extra fabric for warmth in brisk weather.  Offers solid protection from everyday dangers on the job and plenty of storage pockets.",
+    "weight": "2436 g",
+    "volume": "2000 ml",
+    "price": "120 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "to_hit": -3,
+    "material": [ "cotton", "canvas" ],
+    "symbol": "[",
+    "looks_like": "technician_coveralls",
+    "color": "yellow",
+    "environmental_protection": 3,
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100,
+        "encumbrance": [ 7, 11 ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "material": [
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
+        "coverage": 100,
+        "encumbrance": [ 7, 11 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "description": "Pants pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "description": "Pants pocket.",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "15 cm",
+        "description": "Chest pocket.",
+        "moves": 80
+      }
+    ],
+    "warmth": 30,
+    "material_thickness": 1.0,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF" ]
+  },
+  {
     "id": "subsuit_xl",
-    "repairs_like": "jumpsuit",
     "type": "ARMOR",
     "name": { "str": "subject suit" },
     "description": "A thin, short-sleeved and short-legged one-piece suit.  Judging by the odd tailoring and adjustment points… maybe you don't want to know who wore it.  Provides nominal storage and is not very encumbering.",
     "weight": "810 g",
     "volume": "5 L",
-    "price": 11000,
-    "price_postapoc": 50,
+    "price": "110 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -504,8 +830,8 @@
     "description": "A one-piece suit of full-body long underwear that helps to maintain body temperature.  It laces closed in the front.",
     "weight": "168 g",
     "volume": "1 L",
-    "price": 2500,
-    "price_postapoc": 250,
+    "price": "25 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -514,7 +840,7 @@
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 3 },
       { "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 90, "encumbrance": 3 }
     ],
-    "warmth": 35,
+    "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
@@ -525,8 +851,8 @@
     "description": "A full-body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "volume": "12 L",
-    "price": 250000,
-    "price_postapoc": 1000,
+    "price": "2 kUSD 500 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -3,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
@@ -552,8 +878,8 @@
     "description": "An encumbering wool suit covered in nice patterns.  It looks like full body armor but it only protects against cold, sadly.",
     "weight": "883 g",
     "volume": "3 L",
-    "price": 8000,
-    "price_postapoc": 350,
+    "price": "80 USD",
+    "price_postapoc": "3 USD 50 cent",
     "to_hit": -1,
     "material": [ "wool" ],
     "symbol": "[",
@@ -576,8 +902,8 @@
     "description": "Short for 'zenshin taitsu', a zentai is a form-fitting full-body nylon and spandex garment.  Though it covers your face, you can see through the thin fabric.  With a couple of these and some friends, you could put on some kabuki or harass a rival sports team.",
     "weight": "600 g",
     "volume": "500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",

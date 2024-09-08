@@ -3,12 +3,12 @@
 #define CATA_SRC_COLOR_H
 
 #include <array>
-#include <cstddef>
 #include <iosfwd>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
-#include "translations.h"
+#include "translation.h"
 
 #define all_colors get_all_colors()
 
@@ -344,16 +344,22 @@ enum hl_enum {
     NUM_HL
 };
 
+struct ImVec4;
+
 class nc_color
 {
     private:
         // color is actually an ncurses attribute.
         int attribute_value;
+        int index; // NOLINT(cata-serialize)
 
-        explicit nc_color( const int a ) : attribute_value( a ) { }
+        explicit nc_color( const int a ) : attribute_value( a ), index( 0 ) { }
+        explicit nc_color( const int a, const int i ) : attribute_value( a ), index( i ) { }
 
     public:
-        nc_color() : attribute_value( 0 ) { }
+        nc_color() : attribute_value( 0 ), index( 0 ) { }
+
+        operator ImVec4(); // NOLINT(google-explicit-constructor): the conversion is not expensive
 
         // Most of the functions here are implemented in ncurses_def.cpp
         // (for ncurses builds) *and* in cursesport.cpp (for other builds).
@@ -366,6 +372,10 @@ class nc_color
         }
         int to_int() const {
             return attribute_value;
+        }
+
+        int get_index() const {
+            return index;
         }
 
         // Returns this attribute plus A_BOLD.
@@ -511,18 +521,18 @@ nc_color magenta_background( const nc_color &c );
 nc_color cyan_background( const nc_color &c );
 std::string hilite_string( const std::string &text );
 
-nc_color color_from_string( const std::string &color,
+nc_color color_from_string( std::string_view color,
                             report_color_error color_error = report_color_error::yes );
 std::string string_from_color( const nc_color &color );
 nc_color bgcolor_from_string( const std::string &color );
-color_tag_parse_result get_color_from_tag( const std::string &s,
+color_tag_parse_result get_color_from_tag( std::string_view s,
         report_color_error color_error = report_color_error::yes );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 std::string colorize( const translation &text, const nc_color &color );
 
 std::string get_note_string_from_color( const nc_color &color );
-nc_color get_note_color( const std::string &note_id );
+nc_color get_note_color( std::string_view note_id );
 const std::unordered_map<std::string, note_color> &get_note_color_names();
 
 #endif // CATA_SRC_COLOR_H

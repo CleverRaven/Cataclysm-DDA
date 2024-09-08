@@ -3,7 +3,37 @@
     "id": "adhesive",
     "type": "requirement",
     "//": "Materials used for joining (typically non-metallic) parts",
-    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+    "components": [ [ [ "duct_tape", 25 ], [ "super_glue", 10 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "glue_any",
+    "type": "requirement",
+    "//": "Any type of all-surface glue.  Each unit is 1cm^2 of coverage",
+    "components": [ [ [ "super_glue", 4 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "glue_waterproof",
+    "type": "requirement",
+    "//": "Any type of waterproof glue, which is just about everything except bone/hide glue.  Each unit is 1cm^2 of coverage",
+    "components": [ [ [ "super_glue", 4 ] ] ]
+  },
+  {
+    "id": "glue_strong",
+    "type": "requirement",
+    "//": "Strong glue, such as superglues, epoxy resin.  Each unit is 0.5cm^2 of coverage",
+    "components": [ [ [ "super_glue", 1 ] ] ]
+  },
+  {
+    "id": "adhesive_cordage",
+    "type": "requirement",
+    "//": "Materials used for joining or tying with strings (typically non-metallic) parts. For use with improvised or simple items.",
+    "components": [ [ [ "adhesive", 1, "LIST" ], [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "concrete_materials_dry",
+    "type": "requirement",
+    "//": "Materials, that are used in making concrete.  Adjusted for 1 unit of water with 1 cement / 0.6 water ratio per one requirement, and 3 cement/2 sand/1 aggregate ratio of ingredients by volume",
+    "components": [ [ [ "material_cement", 30 ] ], [ [ "material_sand", 20 ] ], [ [ "material_gravel", 10 ], [ "pebble", 2 ] ] ]
   },
   {
     "id": "ammo_bullet",
@@ -297,7 +327,7 @@
     "id": "filament_canvas",
     "type": "requirement",
     "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
-    "components": [ [ [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ], [ "thread_canvas", 1 ] ] ]
+    "components": [ [ [ "thread_canvas", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
   {
     "id": "glazing",
@@ -327,7 +357,7 @@
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "rope_any_short",
@@ -345,7 +375,7 @@
     "id": "rope_superior_short",
     "type": "requirement",
     "//": "Materials used for lashing, when extra durability and/or flexibility is needed, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "seatbelt", 1 ] ] ]
   },
   {
     "id": "steel_standard",
@@ -378,6 +408,18 @@
     "components": [ [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "id": "lc_steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from mild steel",
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
+  },
+  {
+    "id": "bronze_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from bronze",
+    "components": [ [ [ "scrap_bronze", 1 ] ] ]
+  },
+  {
     "id": "rock_flaking_any",
     "type": "requirement",
     "//": "Rocks that can be used for knapping.",
@@ -399,6 +441,7 @@
         [ "duct_tape", 40 ],
         [ "cardboard", 10 ],
         [ "bag_plastic", 1 ],
+        [ "bag_plastic_small", 4 ],
         [ "bottle_plastic_small", 1 ],
         [ "plastic_chunk", 1 ],
         [ "aluminum_foil", 40 ],
@@ -410,7 +453,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ], [ "silver_small", 3 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",
@@ -434,7 +477,22 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+    "tools": [
+      [
+        [ "paint_red", 1 ],
+        [ "paint_orange", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_brown", 1 ]
+      ]
+    ]
   },
   {
     "id": "shoe_rubber",
@@ -489,9 +547,144 @@
     ]
   },
   {
+    "id": "organic_waste",
+    "type": "requirement",
+    "//": "Materials for anaerobic digestion",
+    "components": [
+      [
+        [ "feces_roach", 20 ],
+        [ "feces_bird", 20 ],
+        [ "feces_manure", 3 ],
+        [ "feces_dog", 3 ],
+        [ "water_sewage", 3 ],
+        [ "feces_cow", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "carbon",
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
     "components": [ [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "any_fresh_water",
+    "type": "requirement",
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "id": "any_water",
+    "type": "requirement",
+    "//": "Any kind of water, clean or not.",
+    "components": [
+      [
+        [ "water", 1 ],
+        [ "water_clean", 1 ],
+        [ "salt_water", 1 ],
+        [ "water_sewage", 1 ],
+        [ "water_murky", 1 ],
+        [ "water_spring", 1 ],
+        [ "saline", 5 ]
+      ]
+    ]
+  },
+  {
+    "id": "nails",
+    "type": "requirement",
+    "components": [ [ [ "nail", 1 ], [ "bronze_nail", 1 ] ] ]
+  },
+  {
+    "id": "wax_any",
+    "type": "requirement",
+    "//": "Both wax types, for when the recipe doesn't really care.",
+    "components": [ [ [ "wax", 1 ], [ "wax_paraffin", 1 ] ] ]
+  },
+  {
+    "id": "plastic_bottles_any",
+    "type": "requirement",
+    "//": "Any plastic bottle, no matter of it's size.",
+    "components": [
+      [
+        [ "jug_plastic", 1 ],
+        [ "bottle_twoliter", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "bottle_folding", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_seasoning", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "bottle_plastic_seasoning_small", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "plastic_bottles_4l",
+    "type": "requirement",
+    "//": "Any plastic bottle, four liter of volume in total.",
+    "components": [ [ [ "jug_plastic", 2 ], [ "plastic_bottles_2l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_2l",
+    "type": "requirement",
+    "//": "Any plastic bottle, two liter of volume in total.",
+    "components": [ [ [ "bottle_twoliter", 1 ], [ "plastic_bottles_1l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_1l",
+    "type": "requirement",
+    "//": "Any plastic bottle, one liter of volume in total.",
+    "//2": "apparently we have no 1 L bottles in the game (yet)",
+    "components": [ [ [ "plastic_bottles_05l", 2, "LIST" ] ] ]
+  },
+  {
+    "id": "plastic_bottles_05l",
+    "type": "requirement",
+    "//": "Any plastic bottle, 0.5 liter of volume in total.",
+    "components": [
+      [
+        [ "bottle_plastic", 1 ],
+        [ "bottle_folding", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_seasoning", 1 ],
+        [ "bottle_plastic_small", 2 ],
+        [ "bottle_plastic_seasoning_small", 2 ]
+      ]
+    ]
+  },
+  {
+    "id": "plain_necklaces",
+    "type": "requirement",
+    "//": "For jewelry crafts that require a plain necklace as a base. Anything with a pendent already attached shouldn’t be considered here.",
+    "components": [ [ [ "platinum_necklace", 1 ], [ "gold_necklace", 1 ], [ "silver_necklace", 1 ], [ "copper_necklace", 1 ] ] ]
+  },
+  {
+    "id": "gemstones",
+    "type": "requirement",
+    "//": "For jewelry crafts that require gemstones.",
+    "components": [
+      [
+        [ "diamond", 1 ],
+        [ "garnet", 1 ],
+        [ "amethyst", 1 ],
+        [ "aquamarine", 1 ],
+        [ "emerald", 1 ],
+        [ "alexandrite", 1 ],
+        [ "malachite", 1 ],
+        [ "pearl", 1 ],
+        [ "ruby", 1 ],
+        [ "peridot", 1 ],
+        [ "sapphire", 1 ],
+        [ "opal", 1 ],
+        [ "tourmaline", 1 ],
+        [ "citrine", 1 ],
+        [ "blue_topaz", 1 ],
+        [ "onyx", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "any_condom",
+    "type": "requirement",
+    "//": "Prevents having to open condoms before crafts",
+    "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
   }
 ]

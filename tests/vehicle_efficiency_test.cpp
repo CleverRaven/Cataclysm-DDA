@@ -20,6 +20,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "test_data.h"
 #include "test_statistics.h"
 #include "type_id.h"
 #include "units.h"
@@ -186,7 +187,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 
     // Remove all items from cargo to normalize weight.
     for( const vpart_reference &vp : veh.get_all_parts() ) {
-        veh_ptr->get_items( vp.part_index() ).clear();
+        veh_ptr->get_items( vp.part() ).clear();
         vp.part().ammo_consume( vp.part().ammo_remaining(), vp.pos() );
     }
     for( const vpart_reference &vp : veh.get_avail_parts( "OPENABLE" ) ) {
@@ -271,12 +272,12 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
 }
 
 static efficiency_stat find_inner(
-    const std::string &type, int &expected_mass, const std::string &terrain, const int delay,
+    const vproto_id &type, int &expected_mass, const std::string &terrain, const int delay,
     const bool smooth, const bool test_mass = false, const bool in_reverse = false )
 {
     efficiency_stat efficiency;
     for( int i = 0; i < 10; i++ ) {
-        efficiency.add( test_efficiency( vproto_id( type ), expected_mass, ter_id( terrain ),
+        efficiency.add( test_efficiency( type, expected_mass, ter_id( terrain ),
                                          delay, -1, smooth, test_mass, in_reverse ) );
     }
     return efficiency;
@@ -293,7 +294,7 @@ static void print_stats( const efficiency_stat &st )
 }
 
 static void print_efficiency(
-    const std::string &type, int expected_mass, const std::string &terrain, const int delay,
+    const vproto_id &type, int expected_mass, const std::string &terrain, const int delay,
     const bool smooth )
 {
     printf( "Testing %s on %s with %s: ",
@@ -301,9 +302,9 @@ static void print_efficiency(
     print_stats( find_inner( type, expected_mass, terrain, delay, smooth ) );
 }
 
-static void find_efficiency( const std::string &type )
+static void find_efficiency( const vproto_id &type )
 {
-    SECTION( "finding efficiency of " + type ) {
+    SECTION( "finding efficiency of " + type.str() ) {
         print_efficiency( type, 0,  "t_pavement", -1, false );
         print_efficiency( type, 0, "t_dirt", -1, false );
         print_efficiency( type, 0, "t_pavement", 5, false );
@@ -321,113 +322,97 @@ static int average_from_stat( const efficiency_stat &st )
 }
 
 // Behold: power of laziness
-static int print_test_strings( const std::string &type, const bool in_reverse = false )
+static void print_test_strings( const vproto_id &type )
 {
+    // should look like this
+    // "beetle": { "forward": [ 707777, 399680, 358994, 110952, 91402 ], "reverse": [ 707777, 58800, 58800, 45900, 44560 ] },
+
+    const float acceptable = 1.25;
+
     std::ostringstream ss;
     int expected_mass = 0;
-    ss << "    test_vehicle( \"" << type << "\", ";
-    const int d_pave = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1,
-                                          false, false, in_reverse ) );
-    ss << expected_mass << ", " << d_pave << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1,
-                                         false, false, in_reverse ) ) << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_pavement", 5,
-                                         false, false, in_reverse ) ) << ", ";
-    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5,
-                                         false, false, in_reverse ) );
+    ss << R"(      ")" << type << R"(": { "forward": [ )";
+    const int d_forward = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1,
+                          false ) );
+    ss << expected_mass << ", " << d_forward << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1, false ) ) << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_pavement", 5, false ) ) << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false ) );
     //ss << average_from_stat( find_inner( type, "t_pavement", 5, true ) ) << ", ";
     //ss << average_from_stat( find_inner( type, "t_dirt", 5, true ) );
-    if( in_reverse ) {
-        ss << ", 0, 0, true";
-    }
-    ss << " );" << std::endl;
+    ss << R"( ], "reverse": [ )";
+    ss << expected_mass << ", ";
+    const int d_reverse = average_from_stat( find_inner( type, expected_mass, "t_pavement", -1, false,
+                          false,
+                          true ) );
+    CHECK( d_reverse < ( acceptable * d_forward ) );
+    ss << d_reverse << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", -1, false, false,
+                                         true ) ) << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_pavement", 5, false, false,
+                                         true ) ) << ", ";
+    ss << average_from_stat( find_inner( type, expected_mass, "t_dirt", 5, false, false, true ) );
+    ss << " ] }," << std::endl;
     printf( "%s", ss.str().c_str() );
-    fflush( stdout );
-    return d_pave;
+    static_cast<void>( fflush( stdout ) );
 }
 
 static void test_vehicle(
-    const std::string &type, int expected_mass,
+    const vproto_id &type, int expected_mass,
     const int pavement_target, const int dirt_target,
     const int pavement_target_w_stops, const int dirt_target_w_stops,
     const int pavement_target_smooth_stops = 0, const int dirt_target_smooth_stops = 0,
     const bool in_reverse = false )
 {
-    SECTION( type + " on pavement" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), -1,
+    std::string name = type.str() + ( in_reverse ? " reverse" : " " );
+
+    SECTION( name + " on pavement" ) {
+        test_efficiency( type, expected_mass, ter_id( "t_pavement" ), -1,
                          pavement_target, false, true, in_reverse );
     }
-    SECTION( type + " on dirt" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), -1,
+    SECTION( name + " on dirt" ) {
+        test_efficiency( type, expected_mass, ter_id( "t_dirt" ), -1,
                          dirt_target, false, true, in_reverse );
     }
-    SECTION( type + " on pavement, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), 5,
+    SECTION( name + " on pavement, full stop every 5 turns" ) {
+        test_efficiency( type, expected_mass, ter_id( "t_pavement" ), 5,
                          pavement_target_w_stops, false, true, in_reverse );
     }
-    SECTION( type + " on dirt, full stop every 5 turns" ) {
-        test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), 5,
+    SECTION( name + " on dirt, full stop every 5 turns" ) {
+        test_efficiency( type, expected_mass, ter_id( "t_dirt" ), 5,
                          dirt_target_w_stops, false, true, in_reverse );
     }
     if( pavement_target_smooth_stops > 0 ) {
-        SECTION( type + " on pavement, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
-            test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), 5,
+        SECTION( name +
+                 " on pavement, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
+            test_efficiency( type, expected_mass, ter_id( "t_pavement" ), 5,
                              pavement_target_smooth_stops, true, true, in_reverse );
         }
     }
     if( dirt_target_smooth_stops > 0 ) {
-        SECTION( type + " on dirt, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
-            test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_dirt" ), 5,
+        SECTION( name +
+                 " on dirt, alternating 5 turns of acceleration and 5 turns of decceleration" ) {
+            test_efficiency( type, expected_mass, ter_id( "t_dirt" ), 5,
                              dirt_target_smooth_stops, true, true, in_reverse );
         }
     }
 }
-
-static std::vector<std::string> vehs_to_test = {{
-        "beetle",
-        "car",
-        "car_sports",
-        "electric_car",
-        "suv",
-        "motorcycle",
-        "quad_bike",
-        "scooter",
-        "superbike",
-        "ambulance",
-        "fire_engine",
-        "fire_truck",
-        "truck_swat",
-        "tractor_plow",
-        "apc",
-        "humvee",
-        "road_roller",
-        "golf_cart"
-    }
-};
 
 /** This isn't a test per se, it executes this code to
  * determine the current state of vehicle efficiency.
  **/
 TEST_CASE( "vehicle_find_efficiency", "[.]" )
 {
-    for( const std::string &veh : vehs_to_test ) {
-        find_efficiency( veh );
+    for( const auto &veh : test_data::eff_data ) {
+        find_efficiency( veh.first );
     }
 }
 
 /** This is even less of a test. It generates C++ lines for the actual test below */
 TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
-    const float acceptable = 1.25;
-    std::map<std::string, int> forward_distance;
-    for( const std::string &veh : vehs_to_test ) {
-        const int in_forward = print_test_strings( veh );
-        forward_distance[ veh ] = in_forward;
-    }
-    printf( "// in reverse\n" );
-    for( const std::string &veh : vehs_to_test ) {
-        const int in_reverse = print_test_strings( veh, true );
-        CHECK( in_reverse < ( acceptable * forward_distance[ veh ] ) );
+    for( const auto &veh : test_data::eff_data ) {
+        print_test_strings( veh.first );
     }
 }
 
@@ -437,41 +422,12 @@ TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 // Fix test for electric vehicles
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
-    test_vehicle( "beetle", 707777, 399680, 358994, 110952, 91402 );
-    test_vehicle( "car", 1011976, 555111, 399360, 60344, 30655 );
-    test_vehicle( "car_sports", 998322, 336539, 283905, 41326, 30440 );
-    test_vehicle( "electric_car", 698493, 209563, 182602, 17265, 14957 );
-    test_vehicle( "suv", 1246644, 1050949, 630063, 90148, 34734 );
-    test_vehicle( "motorcycle", 173585, 109802, 87649, 57566, 44497 );
-    test_vehicle( "quad_bike", 275845, 107440, 107440, 44021, 44021 );
-    test_vehicle( "scooter", 60441, 200399, 195512, 150909, 147555 );
-    test_vehicle( "superbike", 231585, 103010, 65307, 41575, 24945 );
-    test_vehicle( "ambulance", 1716993, 562028, 498800, 81698, 68622 );
-    test_vehicle( "fire_engine", 2096246, 1844300, 1844300, 419617, 419617 );
-    test_vehicle( "fire_truck", 6185223, 398080, 88578, 19710, 4700 );
-    test_vehicle( "truck_swat", 6501129, 600602, 93345, 27794, 5999 );
-    test_vehicle( "tractor_plow", 742658, 582058, 582058, 125043, 125043 );
-    test_vehicle( "apc", 5919120, 1512911, 1042420, 123904, 79286 );
-    test_vehicle( "humvee", 5980330, 676881, 284910, 23790, 7337 );
-    test_vehicle( "road_roller", 9055909, 542552, 132476, 21598, 6925 );
-    test_vehicle( "golf_cart", 319630, 50080, 47850, 22925, 12889 );
-    // in reverse
-    test_vehicle( "beetle", 707777, 58800, 58800, 45900, 44560, 0, 0, true );
-    test_vehicle( "car", 1011976, 76390, 76260, 48330, 30270, 0, 0, true );
-    test_vehicle( "car_sports", 998322, 355300, 288600, 38670, 24580, 0, 0, true );
-    test_vehicle( "electric_car", 698443, 373700, 231800, 25070, 14310, 0, 0, true );
-    test_vehicle( "suv", 1246644, 114900, 112400, 70400, 35200, 0, 0, true );
-    test_vehicle( "motorcycle", 173585, 20070, 19030, 15490, 14890, 0, 0, true );
-    test_vehicle( "quad_bike", 275845, 19650, 19650, 15440, 15440, 0, 0, true );
-    test_vehicle( "scooter", 60441, 58790, 58790, 46320, 46320, 0, 0, true );
-    test_vehicle( "superbike", 231585, 18380, 10570, 13100, 8497, 0, 0, true );
-    test_vehicle( "ambulance", 1716913, 58600, 57910, 42480, 40260, 0, 0, true );
-    test_vehicle( "fire_engine", 2096246, 257400, 257100, 185600, 179400, 0, 0, true );
-    test_vehicle( "fire_truck", 6185223, 58700, 58860, 19630, 4471, 0, 0, true );
-    test_vehicle( "truck_swat", 6501129, 129900, 130900, 26920, 5308, 0, 0, true );
-    test_vehicle( "tractor_plow", 742658, 72490, 72490, 53700, 53700, 0, 0, true );
-    test_vehicle( "apc", 5919120, 382000, 382600, 123100, 82750, 0, 0, true );
-    test_vehicle( "humvee", 5980330, 89490, 89490, 24180, 7595, 0, 0, true );
-    test_vehicle( "road_roller", 9055909, 97090, 97190, 22880, 6545, 0, 0, true );
-    test_vehicle( "golf_cart", 319630, 96150, 28800, 35560, 11150, 0, 0, true );
+    REQUIRE_FALSE( test_data::eff_data.empty() );
+
+    for( auto &vehicle : test_data::eff_data ) {
+        test_vehicle( vehicle.first, vehicle.second.forward[0], vehicle.second.forward[1],
+                      vehicle.second.forward[2], vehicle.second.forward[3], vehicle.second.forward[4] );
+        test_vehicle( vehicle.first, vehicle.second.reverse[0], vehicle.second.reverse[1],
+                      vehicle.second.reverse[2], vehicle.second.reverse[3], vehicle.second.reverse[4], 0, 0, true );
+    }
 }

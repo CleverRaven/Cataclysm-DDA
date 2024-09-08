@@ -1,17 +1,38 @@
 [
   {
+    "type": "npc_class",
+    "id": "NC_FM_DOCTOR",
+    "name": { "str": "Doctor" },
+    "job_description": "I'm looking for wounded to help.",
+    "traits": [
+      { "group": "BG_survival_story_MEDICAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_DOCTOR_misc",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ -1, -3 ] } ] } ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 2, 6 ] } }
+    ]
+  },
+  {
     "type": "npc",
     "id": "science_rep",
     "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
     "name_suffix": "Doctor",
-    "class": "NC_DOCTOR",
+    "class": "NC_FM_DOCTOR",
     "attitude": 0,
     "//2": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
     "mission": 3,
     "chat": "TALK_SCIENCE_REP",
     "faction": "old_guard",
-    "mission_offered": "MISSION_SCIENCE_REP_1",
-    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+    "mission_offered": "MISSION_SCIENCE_REP_1"
   },
   {
     "id": "TALK_SCIENCE_REP",
@@ -28,7 +49,10 @@
   {
     "id": "TALK_SCIENCE_REP_NEW",
     "type": "talk_topic",
-    "dynamic_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
+    "dynamic_line": {
+      "gendered_line": "I'm a doctor, one of the several at the outpost.  We were the lucky ones.  Came here right went things started to go wrong, never left.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "So what are you doing right now?", "topic": "TALK_SCIENCE_REP_NEW_DOING" },
       { "text": "Never mind…", "topic": "TALK_SCIENCE_REP" }
@@ -118,7 +142,7 @@
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_lab_data",
+    "item": "software_encryption_codes",
     "start": "create_hidden_lab_console",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_4",
@@ -141,7 +165,7 @@
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "software_lab_data",
+    "item": "software_archived_data",
     "start": "create_ice_lab_console",
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCIENCE_REP_5",
@@ -164,7 +188,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
-    "item": "train_data_card",
+    "item": "train_data",
     "start": {
       "assign_mission_target": {
         "om_terrain": "underground_lab_cargo_stationA",
@@ -174,7 +198,7 @@
         "search_range": 200,
         "z": -4
       },
-      "effect": [ { "u_spawn_item": "data_card" } ]
+      "effect": [ { "u_spawn_item": "usb_drive_nano" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -4,27 +4,14 @@
     "type": "MONSTER",
     "name": { "str": "batwing zombie" },
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome, fleshy membrane.  The mutation does not suit it well: it moves clumsily, even compared to other zombies, but can occasionally leap a significant distance.",
-    "default_faction": "zombie",
-    "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "62500 ml",
+    "copy-from": "mon_zombie_base",
     "weight": "65200 g",
     "hp": 64,
-    "speed": 70,
-    "material": [ "flesh" ],
-    "symbol": "Z",
     "color": "light_green",
-    "aggression": 100,
-    "morale": 100,
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_skill": 2,
-    "melee_dice": 2,
     "melee_dice_sides": 2,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
     "bleed_rate": 50,
-    "vision_night": 3,
-    "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
         "id": "arm",
@@ -36,30 +23,16 @@
         "coverage": 12
       }
     ],
-    "harvest": "zombie",
+    "grab_strength": 15,
     "special_attacks": [
-      { "type": "bite", "cooldown": 5 },
-      [ "GRAB", 12 ],
-      [ "scratch", 20 ],
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "grab", "cooldown": 12 },
+      { "id": "scratch_humanoid" },
       { "type": "leap", "cooldown": 10, "max_range": 5 }
     ],
-    "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_lasher",
     "upgrades": { "half_life": 35, "into": "mon_zombie_brute_winged" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ],
+    "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] },
     "//": "In the future, it would be nice if these guys could be resistant to fall damage."
   },
   {
@@ -67,31 +40,20 @@
     "type": "MONSTER",
     "name": { "str": "garghoul" },
     "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome, fleshy membrane.  The rest has become emaciated, with thin, rope-like muscles ripping through taut flesh.  While it doesn't appear to be able to fly, it uses its mutated arms to make shockingly fast leaps through the air.",
-    "species": [ "ZOMBIE", "HUMAN" ],
-    "default_faction": "zombie",
+    "copy-from": "mon_zombie_base",
     "diff": 2,
     "volume": "52 L",
     "weight": "41 kg",
     "hp": 70,
     "speed": 65,
     "//": "Slow at actual movement, made up for by its rapid leaps.  This should work to simulate its clumsy form.  When charge attacks are possible it should get one, and that will be its main damaging ability.",
-    "material": [ "flesh" ],
-    "symbol": "Z",
     "color": "white",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 4,
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor_bash": 2,
-    "armor_cut": 2,
-    "armor_bullet": 2,
-    "armor_elec": 1,
     "bleed_rate": 0,
     "vision_night": 7,
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_flying" ],
     "weakpoints": [
       {
         "id": "arm",
@@ -103,31 +65,17 @@
         "coverage": 12
       }
     ],
-    "harvest": "zombie",
+    "grab_strength": 15,
     "special_attacks": [
-      { "type": "leap", "cooldown": 2, "max_range": 8 },
-      {
-        "type": "bite",
-        "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
-      }
+      { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ] },
+      { "id": "grab", "cooldown": 12 },
+      { "id": "scratch_humanoid" },
+      { "type": "leap", "cooldown": 2, "max_range": 8 }
     ],
-    "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_fiend",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "burn_into": "mon_zombie_scorched_lasher",
+    "upgrades": false,
+    "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 1 },
+    "extend": { "families": [ "prof_wp_flying" ], "flags": [ "SMELLS" ] }
   },
   {
     "id": "mon_spawn_raptor",
@@ -144,17 +92,21 @@
     "material": [ "flesh" ],
     "symbol": "z",
     "color": "white",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 9,
+    "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
+    "weakpoint_sets": [ "wps_arthropod_hymenoptera", "wps_arthropod_flying" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_flying" ],
     "vision_night": 5,
-    "harvest": "zombie",
+    "harvest": "zombie_animal",
     "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_RAPTOR_UPGRADES" },
+    "fungalize_into": "mon_fungal_raptor",
     "flags": [
       "SEES",
       "HEARS",
@@ -178,10 +130,11 @@
     "copy-from": "mon_spawn_raptor",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this creature.  You can make out the outline of three flapping wings connected to a jagged, pointed object.",
-    "upgrades": {  },
+    "upgrades": false,
     "extend": { "flags": [ "NIGHT_INVISIBILITY" ] },
     "vision_day": 10,
-    "vision_night": 25
+    "vision_night": 25,
+    "harvest": "zombie_animal_shadow"
   },
   {
     "type": "MONSTER",
@@ -200,24 +153,24 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s explodes!"
     },
-    "upgrades": {  }
+    "death_drops": "explode_innards_small",
+    "upgrades": false
   },
   {
     "type": "MONSTER",
     "id": "mon_spawn_raptor_electric",
     "name": { "str": "zaptor" },
     "copy-from": "mon_spawn_raptor",
+    "harvest": "zombie_animal_electric",
     "color": "light_cyan",
     "diff": 10,
     "description": "This small, winged predator darts through the air on three thinly-haired wings that look like stretched human hands.  A jagged spike with a pulsing electrical glow juts out from the point where the wings meet.",
     "melee_damage": [ { "damage_type": "electric", "amount": 8 } ],
     "luminance": 8,
-    "special_attacks": [
-      [ "SHOCKSTORM", 25 ],
-      { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] }
-    ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_electromagnetics" ],
+    "special_attacks": [ { "id": "impale", "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.6 } ] } ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "upgrades": {  },
+    "upgrades": false,
     "extend": { "flags": [ "ELECTRIC" ] }
   }
 ]

@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "old_guard_red",
     "name_unique": "Red",
-    "class": "NC_HUNTER",
+    "class": "NC_SOLDIER",
     "attitude": 7,
     "mission": 3,
     "chat": "TALK_OLD_GUARD_RED",
@@ -14,33 +14,27 @@
     "type": "talk_topic",
     "id": "TALK_OLD_GUARD_RED",
     "dynamic_line": {
-      "u_has_var": "talked_to_red",
-      "type": "dialogue",
-      "context": "first_meeting",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_red" } ],
       "no": "You there, wanderer.  You have the look of someone who hates dinosaurs.  Are you ready to take this country back?",
       "yes": {
-        "u_has_var": "asked_about_kill_dinos",
-        "type": "dialogue",
-        "context": "dino",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "dialogue_dino_asked_about_kill_dinos" } ],
         "no": "You're back.  I knew you were a killer.  Are you ready to take this country back?",
         "yes": "It's a good day to shoot some dinos."
       }
     },
-    "speaker_effect": { "effect": { "u_add_var": "talked_to_red", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "dialogue_first_meeting_talked_to_red", "value": "yes" } },
     "responses": [
       {
         "text": "Dinosaurs?  What are you talking about?",
         "topic": "TALK_RED_DINOSAURS",
-        "condition": { "not": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" } },
-        "effect": { "u_add_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_dino_asked_about_kill_dinos" } ] } },
+        "effect": { "u_add_var": "dialogue_dino_asked_about_kill_dinos", "value": "yes" }
       },
       { "text": "Let's trade items.", "topic": "TALK_OLD_GUARD_RED", "effect": "start_trade" },
       {
         "text": "How can I help?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_dino_asked_about_kill_dinos" } ] }
       },
       {
         "text": "Mission update for you, Red.",

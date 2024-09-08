@@ -16,7 +16,8 @@
     "side": "both",
     "base_hp": 60,
     "drench_capacity": 1,
-    "legacy_id": "NUM_BP"
+    "legacy_id": "NUM_BP",
+    "sub_parts": [ "sub_limb_debug" ]
   },
   {
     "id": "mx_null",
@@ -42,5 +43,21 @@
     "type": "field_type",
     "legacy_enum_id": 0,
     "intensity_levels": [ { "name": "nothing" } ]
+  },
+  {
+    "id": "null",
+    "type": "fault",
+    "name": { "str": "This is a bug" },
+    "description": "This fault id is a reserved sentinel."
+  },
+  {
+    "type": "SPELL",
+    "id": "null",
+    "name": { "str": "none" },
+    "description": "seeing this is a bug",
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "effect": "attack"
   }
 ]

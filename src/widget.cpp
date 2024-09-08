@@ -8,6 +8,7 @@
 #include "json.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "npctalk.h"
 
 const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
@@ -67,6 +68,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "focus";
         case widget_var::move:
             return "move";
+        case widget_var::move_remainder:
+            return "move_remainder";
         case widget_var::move_cost:
             return "move_cost";
         case widget_var::mood:
@@ -79,8 +82,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
-        case widget_var::fatigue:
-            return "fatigue";
+        case widget_var::sleepiness:
+            return "sleepiness";
         case widget_var::health:
             return "health";
         case widget_var::weariness_level:
@@ -135,6 +138,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "body_graph_encumb";
         case widget_var::body_graph_status:
             return "body_graph_status";
+        case widget_var::body_graph_wet:
+            return "body_graph_wet";
         case widget_var::bp_armor_outer_text:
             return "bp_armor_outer_text";
         case widget_var::carry_weight_text:
@@ -286,8 +291,11 @@ void widget_clause::load( const JsonObject &jo )
     color = color_from_string( clr );
 
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
+    }
+    if( jo.has_bool( "parse_tags" ) ) {
+        should_parse_tags = jo.get_bool( "parse_tags" );
     }
 
     optional( jo, false, "widgets", widgets, string_id_reader<::widget> {} );
@@ -296,7 +304,8 @@ void widget_clause::load( const JsonObject &jo )
 bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    d.reason = opt_var;
+    d.reason = opt_var; // TODO: remove since it's replaced by context var
+    write_var_value( var_type::context, "npctalk_var_widget", &d, opt_var );
     return !has_condition || condition( d );
 }
 
@@ -376,7 +385,7 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
     return wp == nullptr ? c_white : wp->color;
 }
 
-void widget::load( const JsonObject &jo, const std::string & )
+void widget::load( const JsonObject &jo, const std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );
@@ -415,7 +424,7 @@ void widget::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_string( "bodypart" ) ) {
         _bps.clear();
-        _bps.emplace( bodypart_id( jo.get_string( "bodypart" ) ) );
+        _bps.emplace( jo.get_string( "bodypart" ) );
     }
 
     if( jo.has_array( "bodyparts" ) ) {
@@ -425,7 +434,7 @@ void widget::load( const JsonObject &jo, const std::string & )
                 jo.throw_error_at( "bodyparts", "Invalid string value in bodyparts array" );
                 continue;
             }
-            _bps.emplace( bodypart_id( val.get_string() ) );
+            _bps.emplace( val.get_string() );
         }
     }
 
@@ -575,13 +584,14 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::cardio_fit:
             _var_min = 0;
             // Same maximum used by get_cardiofit - 3 x BMR, adjusted for mutations
-            _var_max = 3 * ava.base_bmr() * ava.mutation_value( "cardio_multiplier" );
+            _var_max = 3 * ava.base_bmr() * ava.enchantment_cache->modify_value(
+                           enchant_vals::mod::CARDIO_MULTIPLIER, 1 );
             break;
         case widget_var::carry_weight:
             _var_min = 0;
             _var_max = 120;
             break;
-        case widget_var::fatigue:
+        case widget_var::sleepiness:
             _var_min = 0;
             _var_max = 1000;
             break;
@@ -626,7 +636,12 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::move:
             _var_min = 0;
             _var_max = 1000; // TODO: Determine better max
-            // This is a counter of remaining moves, with no normal value
+            // Move cost of last action
+            break;
+        case widget_var::move_remainder:
+            _var_min = 0;
+            _var_max = 9999; // TODO: Determine better max
+            // remaining moves for the current turn
             break;
         case widget_var::move_cost:
             _var_min = 0;
@@ -696,7 +711,11 @@ void widget::set_default_var_range( const avatar &ava )
         case widget_var::bp_hp:
             // HP for body part
             _var_min = 0;
-            _var_max = ava.get_part_hp_max( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                _var_max = ava.get_part_hp_max( only_bp() );
+            } else {
+                _var_max = 0;
+            }
             break;
         case widget_var::bp_encumb:
             _var_min = 0;
@@ -755,15 +774,27 @@ int widget::get_var_value( const avatar &ava ) const
             break;
         case widget_var::bp_hp:
             // HP for body part
-            value = ava.get_part_hp_cur( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                value = ava.get_part_hp_cur( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::bp_warmth:
             // Body part warmth/temperature
-            value = ava.get_part_temp_cur( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                value = units::to_legacy_bodypart_temp( ava.get_part_temp_cur( only_bp() ) );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::bp_wetness:
             // Body part wetness
-            value = ava.get_part_wetness( only_bp() );
+            if( ava.has_part( only_bp(), body_part_filter::equivalent ) ) {
+                value = ava.get_part_wetness( only_bp() );
+            } else {
+                value = 0;
+            }
             break;
         case widget_var::focus:
             value = ava.get_focus();
@@ -774,14 +805,17 @@ int widget::get_var_value( const avatar &ava ) const
         case widget_var::move:
             value = ava.movecounter;
             break;
+        case widget_var::move_remainder:
+            value = ava.get_moves();
+            break;
         case widget_var::move_cost:
             value = ava.run_cost( 100 );
             break;
         case widget_var::pain:
             value = ava.get_perceived_pain();
             break;
-        case widget_var::fatigue:
-            value = ava.get_fatigue();
+        case widget_var::sleepiness:
+            value = ava.get_sleepiness();
             break;
         case widget_var::health:
             value = ava.get_lifestyle();
@@ -1000,6 +1034,7 @@ bool widget::uses_text_function() const
         case widget_var::body_graph_temp:
         case widget_var::body_graph_encumb:
         case widget_var::body_graph_status:
+        case widget_var::body_graph_wet:
         case widget_var::bp_armor_outer_text:
         case widget_var::carry_weight_text:
         case widget_var::compass_text:
@@ -1089,6 +1124,12 @@ std::string widget::color_text_function_string( const avatar &ava, unsigned int 
         case widget_var::body_graph_status:
             desc.first = display::colorized_bodygraph_text( ava, _body_graph,
                          bodygraph_var::status, _width == 0 ? max_width : _width, _height_max, _height );
+            update_height = true; // Dynamically adjusted height
+            apply_color = false; // Already colorized
+            break;
+        case widget_var::body_graph_wet:
+            desc.first = display::colorized_bodygraph_text( ava, _body_graph,
+                         bodygraph_var::wet, _width == 0 ? max_width : _width, _height_max, _height );
             update_height = true; // Dynamically adjusted height
             apply_color = false; // Already colorized
             break;
@@ -1265,7 +1306,7 @@ nc_color widget::value_color( int value )
     // Get range of values from min to max
     const int var_range = _var_max - _var_min;
 
-    if( ! _breaks.empty() ) {
+    if( var_range > 0 && ! _breaks.empty() ) {
         const int value_offset = ( 100 * ( value - _var_min ) ) / var_range;
         for( int i = 0; i < color_max; i++ ) {
             if( value_offset < _breaks[i] ) {
@@ -1372,8 +1413,13 @@ std::string widget::text_cond( bool no_join, int width )
     std::vector<std::string> strings;
     strings.reserve( wplist.size() );
     for( const widget_clause *wp : wplist ) {
-        strings.emplace_back( wp->color == c_unset ? wp->text.translated() : colorize(
-                                  wp->text.translated(), wp->color ) );
+        std::string txt = wp->text.translated();
+        if( wp->should_parse_tags ) {
+            parse_tags( txt, get_player_character(), get_player_character() );
+        }
+        txt = wp->color == c_unset ? txt : colorize(
+                  txt, wp->color );
+        strings.emplace_back( txt );
     }
     int h = 0;
     std::string ret = format_widget_multiline( strings, _height_max, width, h, !no_join );
@@ -1421,7 +1467,11 @@ std::string widget::sym_text_cond( bool no_join, int width )
     strings.reserve( wplist.size() );
     for( const widget_clause *wp : wplist ) {
         std::string s = wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
-        std::string txt = string_format( "%s %s", s, wp->text.translated() );
+        std::string txt_str = wp->text.translated();
+        if( wp->should_parse_tags ) {
+            parse_tags( txt_str, get_player_character(), get_player_character() );
+        }
+        std::string txt = string_format( "%s %s", s, txt_str );
         strings.emplace_back( txt );
     }
     int h = 0;
@@ -1539,7 +1589,7 @@ std::string widget::graph( int value ) const
     // Re-arrange characters to a vertical bar graph
     if( _arrange == "rows" ) {
         std::wstring temp = ret;
-        ret = std::wstring();
+        ret.clear();
         for( int i = temp.size() - 1; i >= 0; i-- ) {
             ret += temp[i];
             if( i > 0 ) {

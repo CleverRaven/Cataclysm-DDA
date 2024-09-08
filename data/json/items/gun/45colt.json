@@ -4,16 +4,24 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Bond Arms Derringer" },
+    "name": { "str": "double-barrel derringer" },
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
-    "weight": "595 g",
-    "volume": "132 ml",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bond_410",
+        "name": { "str": "Bond Arms Derringer" },
+        "description": "Derringers are old-fashioned conceal carry weapons, usually sporting one or two barrels.  The Bond Arms Derringer is a modern series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.  Though, with modern handguns, derringers have become less and less practical as a conceal carry option."
+      }
+    ],
+    "weight": "566 g",
+    "volume": "79 ml",
     "longest_side": "158 mm",
-    "price": 41500,
-    "price_postapoc": 2250,
+    "barrel_length": "76 mm",
+    "price": "415 USD",
+    "price_postapoc": "22 USD 50 cent",
     "to_hit": -1,
-    "bashing": 2,
-    "material": [ "steel", "wood" ],
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "rubber", "portion": 1 } ],
     "symbol": "(",
     "color": "brown",
     "ammo": [ "45colt", "410shot" ],
@@ -24,79 +32,91 @@
     "blackpowder_tolerance": 80,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
-      [ "accessories", 2 ],
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ]
-  },
-  {
-    "id": "colt_lightning",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "Colt Lightning .45 Carbine" },
-    "description": "A modern reproduction of a Colt pump-action rifle.  Originally chambered in .44-40, modern versions most commonly use .45 Colt, complementing the Single Action Army as a Cowboy Action Shooting firearm.",
-    "weight": "2722 g",
-    "volume": "1601 ml",
-    "longest_side": "1106 mm",
-    "price": 132000,
-    "price_postapoc": 2500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "color": "brown",
-    "ammo": [ "45colt" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 5 },
-    "dispersion": 180,
-    "durability": 7,
-    "clip_size": 14,
-    "blackpowder_tolerance": 56,
-    "reload_noise": "chik chik.",
-    "flags": [ "RELOAD_ONE" ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 14 } } ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT", "EASY_CLEAN", "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 2, "410shot": 2 } } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "colt_saa",
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str": "Uberti Cattleman" },
-    "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by Westerns, it is still in demand for Cowboy Action Shooting, reenactors, and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
+    "name": { "str": "cowboy six-shooter" },
+    "description": "A reproduction of an antique firearm, chambered in .45 Colt.  Due to the lack of a swing-out cylinder, each cartridge must be reloaded and ejected manually.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_saa",
+        "name": { "str": "Colt Single Action Army", "str_pl": "Colt Single Action Armies" },
+        "description": "A famous revolver for many westerns, the Colt Single Action Army has seen plenty of military service, production ends, and production restarts.  While originally in a large amount of chamberings, it is mostly found in .45 Colt chamberings today.  While reloading is slow due to the lack of a swing-out cylinder, it was still much faster than earlier revolvers of the time thanks to using metallic cartridges.  It's also sometimes referred to as the Peacemaker, Model P, M1873 or shortened to SAA.",
+        "weight": 1
+      },
+      {
+        "id": "colt_saa_repro",
+        "name": { "str": "Uberti 1873 Cattleman" },
+        "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by Westerns, it is still in demand for Cowboy Action Shooting, reenactors, and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
+        "weight": 10
+      }
+    ],
     "weight": "1048 g",
     "volume": "324 ml",
     "longest_side": "208 mm",
-    "price": 47900,
-    "price_postapoc": 2500,
+    "barrel_length": "231 mm",
+    "//": "190.5mm + 40.6mm max OAL for 45LC. Revolvers just built different.",
+    "price": "479 USD",
+    "price_postapoc": "25 USD",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "ammo": [ "45colt" ],
     "dispersion": 360,
     "durability": 8,
     "clip_size": 6,
     "blackpowder_tolerance": 56,
-    "proportional": { "reload": 1.5 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ]
+    "//proportional": { "reload": 1.5 },
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45colt": 6 } } ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "taurus_judge",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str": ".45/.410 shotshell revolver" },
+    "description": "A stainless steel 5 shot revolver, capable of firing .410 shells or 45 Colt cartridges.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "taurus_judge",
+        "name": { "str": "Taurus Judge" },
+        "description": "Marketed for home defense, the Taurus Judge is a 5 shot cylinder revolver, capable of firing .410 shotshells or .45 Colt cartridges out of it's 3 inch barrel.  While it doesn't compete ballistically with a proper rifle, or even a full length revolver, it's still a handy handgun against the undead and soon to be."
+      }
+    ],
+    "weight": "822 g",
+    "volume": "563 ml",
+    "longest_side": "274 mm",
+    "barrel_length": "140 mm",
+    "//": "76.2 + 63.5 for barrel length and chamber length, revolvers just built different",
+    "price": "564 USD",
+    "price_postapoc": "20 USD",
+    "ammo": [ "410shot", "45colt" ],
+    "dispersion": 280,
+    "clip_size": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "ammo_restriction": { "410shot": 5, "45colt": 5 },
+        "allowed_speedloaders": [ "454_speedloader5" ]
+      }
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

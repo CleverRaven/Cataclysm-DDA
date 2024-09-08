@@ -1,0 +1,82 @@
+[
+  {
+    "type": "effect_type",
+    "id": "mutagen_species_dwarf",
+    "name": [ "Dwarven Purification", "Dwarven Reversion", "Dwarven Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Dwarven Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_species_elf",
+    "name": [ "Elven Purification", "Elven Reversion", "Elven Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Elven Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_species_goblin",
+    "name": [ "Goblin Purification", "Goblin Reversion", "Goblin Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Goblin Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_species_lizardfolk",
+    "name": [ "Lizardfolk Purification", "Lizardfolk Reversion", "Lizardfolk Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Lizardfolk Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_species_ravenfolk",
+    "name": [ "Ravenfolk Purification", "Ravenfolk Reversion", "Ravenfolk Regression" ],
+    "desc": [
+      "You consumed purifier.",
+      "You consumed a large amount of purifier.  Why does it feel so strange?",
+      "You consumed a huge amount of purifier, and you can tell that something isn't right."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [  ],
+    "base_mods": { "str_mod": [ 0, -2 ], "per_mod": [ 0, -2 ], "dex_mod": [ 0, -2 ], "int_mod": [ 0, -2 ] },
+    "scaling_mods": { "str_mod": [ 0, -2.5 ], "per_mod": [ 0, -2.5 ], "dex_mod": [ 0, -2.5 ], "int_mod": [ 0, -2.5 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Ravenfolk Primer Contamination"
+  }
+]

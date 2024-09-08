@@ -7,13 +7,13 @@
     "description": "This jar contains a human brain kept alive by mi-go technology.  It has metal veined tendrils that appear to allow it to connect to various devices.",
     "weight": "365 g",
     "volume": "3 L",
-    "price": 100,
+    "price": "1 USD",
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "fluid_preserved_brain"
+    "looks_like": "fluid_preserved_brain",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "humming_heart",
@@ -23,13 +23,13 @@
     "description": "This heartlike organ has multiple valves and upon its proper removal from the bioweapons corpse each valve sealed itself.  It hums gently in your hands, as if waiting for an appropriate receptacle.",
     "weight": "1400 g",
     "volume": "1 L",
-    "price": 100,
+    "price": "1 USD",
     "to_hit": -1,
-    "bashing": 5,
     "material": [ "flesh" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "jabberwock_heart"
+    "looks_like": "jabberwock_heart",
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "sensory_cluster",
@@ -39,13 +39,13 @@
     "description": "This lump of flesh has various lobes protruding from it that at intervals will emit toned sounds.  Perhaps it works via echolocation.  Like all mi-go bioparts the openings on this piece closed up after it was cut free and it seems to have gone into a form of hibernation with the pulses occurring slower and slower as it conserves energy.",
     "weight": "40 g",
     "volume": "250 ml",
-    "price": 100,
+    "price": "1 USD",
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "kidney"
+    "looks_like": "kidney",
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "bioweapon_chassis",
@@ -55,13 +55,13 @@
     "description": "This cross between a sea anemone and what you imagine a dragon's mouth would look like is the core body of the bioweapon.  You cannot imagine what you could make out of this but maybe someone somewhere does.",
     "weight": "40000 g",
     "volume": "25 L",
-    "price": 100,
+    "price": "1 USD",
     "to_hit": -3,
-    "bashing": 7,
     "material": [ "alien_resin" ],
     "symbol": ")",
     "color": "pink",
-    "looks_like": "ruined_chunks"
+    "looks_like": "ruined_chunks",
+    "melee_damage": { "bash": 7 }
   },
   {
     "type": "GENERIC",
@@ -71,14 +71,13 @@
     "name": { "str": "broken mi-go turret" },
     "category": "other",
     "description": "A broken mi-go turret.  It's leaking fluids and smells you can't identify.  Could be butchered for parts.",
-    "price": 1000,
+    "price": "10 USD",
     "material": [ "alien_resin", "flesh" ],
     "weight": "40750 g",
     "volume": "30 L",
-    "bashing": 6,
-    "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 6, "cut": 6 }
   },
   {
     "id": "vibrating_blaster",
@@ -88,10 +87,9 @@
     "description": "You ripped this from a mi-go abomination.  You think you should wear gloves to reload it.",
     "weight": "5140 g",
     "volume": "1500 ml",
-    "price": 400000,
+    "price": "4 kUSD",
     "ammo": [ "acidic_bore" ],
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "alien_resin" ],
     "symbol": "(",
     "color": "magenta",
@@ -104,6 +102,7 @@
     "clip_size": 80,
     "ammo_effects": "ACID",
     "flags": [ "NO_UNLOAD", "NON_FOULING" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "acidic_bore": 80 } } ],
+    "melee_damage": { "bash": 4 }
   }
 ]

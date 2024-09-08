@@ -6,6 +6,7 @@
 
 #include "cata_utility.h"
 #include "character.h"
+#include "itype.h"
 #include "json.h"
 #include "stomach.h"
 #include "units.h"
@@ -18,11 +19,12 @@ void nutrients::min_in_place( const nutrients &r )
         const vitamin_id &vit = vit_pair.first;
         int other = r.get_vitamin( vit );
         if( other == 0 ) {
-            vitamins.erase( vit );
+            vitamins_.erase( vit );
         } else {
-            auto our_vit = vitamins.find( vit );
-            if( our_vit != vitamins.end() ) {
-                our_vit->second = std::min( our_vit->second, other );
+            auto our_vit = vitamins_.find( vit );
+            if( our_vit != vitamins_.end() ) {
+                // We must be finalized because we're calling vitamin::all()
+                our_vit->second = std::min( std::get<int>( our_vit->second ), other );
             }
         }
     }
@@ -35,24 +37,106 @@ void nutrients::max_in_place( const nutrients &r )
         const vitamin_id &vit = vit_pair.first;
         int other = r.get_vitamin( vit );
         if( other != 0 ) {
-            int &val = vitamins[vit];
-            val = std::max( val, other );
+            std::variant<int, vitamin_units::mass> &val = vitamins_[vit];
+            // We must be finalized because we're calling vitamin::all()
+            val = std::max( std::get<int>( val ), other );
         }
     }
 }
 
+void nutrients::clear_vitamins()
+{
+    vitamins_.clear();
+}
+
+std::map<vitamin_id, int> nutrients::vitamins() const
+{
+    if( !finalized ) {
+        debugmsg( "Called nutrients::vitamins() before they were finalized!" );
+        return std::map<vitamin_id, int>();
+    }
+
+    std::map<vitamin_id, int> ret;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        ret.emplace( vit.first, std::get<int>( vit.second ) );
+    }
+    return ret;
+}
+
+void nutrients::set_vitamin( const vitamin_id &vit, vitamin_units::mass mass )
+{
+    if( finalized ) {
+        set_vitamin( vit, vit->units_from_mass( mass ) );
+        return;
+    }
+    vitamins_[vit] = mass;
+}
+
+void nutrients::add_vitamin( const vitamin_id &vit, vitamin_units::mass mass )
+{
+    if( finalized ) {
+        add_vitamin( vit, vit->units_from_mass( mass ) );
+        return;
+    }
+    auto iter = vitamins_.emplace( vit, vitamin_units::mass( 0, {} ) ).first;
+    if( !std::holds_alternative<vitamin_units::mass>( iter->second ) ) {
+        debugmsg( "Tried to add mass vitamin to units vitamin before vitamins were finalized!" );
+        return;
+    }
+    iter->second = std::get<vitamin_units::mass>( iter->second ) + mass;
+}
+
+void nutrients::set_vitamin( const vitamin_id &vit, int units )
+{
+    auto iter = vitamins_.emplace( vit, 0 ).first;
+    iter->second = units;
+}
+
+void nutrients::add_vitamin( const vitamin_id &vit, int units )
+{
+    auto iter = vitamins_.emplace( vit, 0 ).first;
+    if( std::holds_alternative<vitamin_units::mass>( iter->second ) ) {
+        debugmsg( "Tried to add mass vitamin to units vitamin before vitamins were finalized!" );
+        return;
+    }
+    iter->second = std::get<int>( iter->second ) + units;
+}
+
+void nutrients::remove_vitamin( const vitamin_id &vit )
+{
+    vitamins_.erase( vit );
+}
+
 int nutrients::get_vitamin( const vitamin_id &vit ) const
 {
-    auto it = vitamins.find( vit );
-    if( it == vitamins.end() ) {
+    auto it = vitamins_.find( vit );
+    if( it == vitamins_.end() ) {
         return 0;
     }
-    return it->second;
+    if( !finalized && std::holds_alternative<vitamin_units::mass>( it->second ) ) {
+        debugmsg( "Called get_vitamin on a mass vitamin before vitamins were finalized!" );
+        return 0;
+    }
+    return std::get<int>( it->second );
 }
 
 int nutrients::kcal() const
 {
     return calories / 1000;
+}
+
+void nutrients::finalize_vitamins()
+{
+    for( std::pair<const vitamin_id, std::variant<int, vitamin_units::mass> > &vit : vitamins_ ) {
+        if( std::holds_alternative<vitamin_units::mass>( vit.second ) ) {
+            vit.second = vit.first->units_from_mass( std::get<vitamin_units::mass>( vit.second ) );
+        }
+        if( std::holds_alternative<vitamin_units::mass>( vit.second ) ) {
+            debugmsg( "Error occured during vitamin finalization!" );
+        }
+    }
+
+    finalized = true;
 }
 
 bool nutrients::operator==( const nutrients &r ) const
@@ -71,40 +155,103 @@ bool nutrients::operator==( const nutrients &r ) const
     return true;
 }
 
+nutrients nutrients::operator-()
+{
+    nutrients negative_copy = *this;
+    negative_copy.calories *= -1;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         negative_copy.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) * -1;
+    }
+    return negative_copy;
+}
+
 nutrients &nutrients::operator+=( const nutrients &r )
 {
+    if( !finalized || !r.finalized ) {
+        debugmsg( "Nutrients not finalized when += called!" );
+    }
     calories += r.calories;
-    for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
-        vitamins[vit.first] += vit.second;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         r.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) + std::get<int>( vit.second );
     }
     return *this;
 }
 
 nutrients &nutrients::operator-=( const nutrients &r )
 {
+    if( !finalized || !r.finalized ) {
+        debugmsg( "Nutrients not finalized when -= called!" );
+    }
     calories -= r.calories;
-    for( const std::pair<const vitamin_id, int> &vit : r.vitamins ) {
-        vitamins[vit.first] -= vit.second;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit :
+         r.vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) - std::get<int>( vit.second );
     }
     return *this;
 }
 
 nutrients &nutrients::operator*=( int r )
 {
+    if( !finalized ) {
+        debugmsg( "Nutrients not finalized when *= called!" );
+    }
     calories *= r;
-    for( std::pair<const vitamin_id, int> &vit : vitamins ) {
-        vit.second *= r;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = std::get<int>( here ) * r;
+    }
+    return *this;
+}
+
+nutrients &nutrients::operator*=( double r )
+{
+    if( !finalized ) {
+        debugmsg( "Nutrients not finalized when *= called!" );
+    }
+    calories *= r;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        // Note well: This truncates the result!
+        here = static_cast<int>( std::get<int>( here ) * r );
     }
     return *this;
 }
 
 nutrients &nutrients::operator/=( int r )
 {
-    calories = divide_round_up( calories, r );
-    for( std::pair<const vitamin_id, int> &vit : vitamins ) {
-        vit.second = divide_round_up( vit.second, r );
+    if( !finalized ) {
+        debugmsg( "Nutrients not finalized when -= called!" );
+    }
+    calories = divide_round_up<int64_t>( calories, r );
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        here = divide_round_up( std::get<int>( here ), r );
     }
     return *this;
+}
+
+void nutrients::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "calories", calories );
+    jsout.member( "vitamins", vitamins() );
+    jsout.end_object();
+}
+
+void nutrients::deserialize( const JsonObject &jo )
+{
+    jo.read( "calories", calories );
+    std::map<vitamin_id, int> vit_map;
+    jo.read( "vitamins", vit_map );
+    for( auto &vit : vit_map ) {
+        //rebuild vitamins_
+        set_vitamin( vit.first, vit.second );
+    }
 }
 
 stomach_contents::stomach_contents() = default;
@@ -124,7 +271,7 @@ static std::string ml_to_string( const units::volume &vol )
 void stomach_contents::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "vitamins", nutr.vitamins );
+    json.member( "vitamins", nutr.vitamins() );
     json.member( "calories", nutr.calories );
     json.member( "water", ml_to_string( water ) );
     json.member( "max_volume", ml_to_string( max_volume ) );
@@ -133,14 +280,18 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static units::volume string_to_ml( const std::string &str )
+static units::volume string_to_ml( const std::string_view str )
 {
-    return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
+    return units::from_milliliter( svto<int>( str.substr( 0, str.size() - 3 ) ) );
 }
 
 void stomach_contents::deserialize( const JsonObject &jo )
 {
-    jo.read( "vitamins", nutr.vitamins );
+    std::map<vitamin_id, int> vitamins;
+    jo.read( "vitamins", vitamins );
+    for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
+        nutr.set_vitamin( vit.first, vit.second );
+    }
     jo.read( "calories", nutr.calories );
     std::string str;
     jo.read( "water", str );
@@ -150,16 +301,47 @@ void stomach_contents::deserialize( const JsonObject &jo )
     jo.read( "contents", str );
     contents = string_to_ml( str );
     jo.read( "last_ate", last_ate );
+
+    // the next chunk deletes obsoleted vitamins
+    const auto predicate = []( const std::pair<vitamin_id, int> &pair ) {
+        if( !pair.first.is_valid() ) {
+            DebugLog( D_WARNING, DC_ALL )
+                    << "deleted '" << pair.first.str() << "' from stomach_contents::nutrients::vitamins";
+            return true;
+        }
+        return false;
+    };
+    std::map<vitamin_id, int> vit = nutr.vitamins();
+    for( const std::pair<const vitamin_id, int> &pair : vit ) {
+        if( predicate( pair ) ) {
+            nutr.remove_vitamin( pair.first );
+        }
+    }
 }
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    return max_volume * owner.mutation_value( "stomach_size_multiplier" );
+    return owner.enchantment_cache->modify_value( enchant_vals::mod::STOMACH_SIZE_MULTIPLIER,
+            max_volume );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
 {
     return capacity( owner ) - contents - water;
+}
+
+bool stomach_contents::would_be_engorged_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 1.0 ) || ( fullness_ratio >= 5.0 / 6.0 );
+}
+
+bool stomach_contents::would_be_full_with( const Character &owner, units::volume intake,
+        bool calorie_deficit ) const
+{
+    const double fullness_ratio = ( contains() + intake ) / capacity( owner );
+    return ( calorie_deficit && fullness_ratio >= 11.0 / 20.0 ) || ( fullness_ratio >= 3.0 / 4.0 );
 }
 
 units::volume stomach_contents::contains() const
@@ -197,14 +379,21 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
     int kcal_fraction = std::lround( nutr.kcal() * rates.percent_kcal );
-    digested.nutr.calories = half_hours * clamp( rates.min_calories, kcal_fraction * 1000,
+    digested.nutr.calories = half_hours * clamp<int64_t>( rates.min_calories, kcal_fraction * 1000,
                              nutr.calories );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
-    for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins ) {
-        int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
-        digested.nutr.vitamins[vit.first] =
-            half_hours * clamp( rates.min_vitamin, vit_fraction, vit.second );
+    for( const std::pair<const vitamin_id, int> &vit : nutr.vitamins() ) {
+        if( vit.first->type() != vitamin_type::DRUG ) {
+            int vit_fraction = std::lround( vit.second * rates.percent_vitamin );
+            digested.nutr.set_vitamin( vit.first, half_hours * clamp( rates.min_vitamin, vit_fraction,
+                                       vit.second ) );
+        }
+        // drug vitamins are absorbed to the blood instantly after the first stomach step.
+        // this makes the drug vitamins easier to balance (no need to account for slow trickle-ing in of the drug)
+        else if( vit.first->type() == vitamin_type::DRUG && stomach ) {
+            digested.nutr.set_vitamin( vit.first, vit.second );
+        }
     }
 
     nutr -= digested.nutr;
@@ -257,7 +446,7 @@ void stomach_contents::mod_calories( int kcal )
 void stomach_contents::mod_nutr( int nutr )
 {
     // nutr is legacy type code, this function simply converts old nutrition to new kcal
-    mod_calories( -1 * std::round( nutr * 2500.0f / ( 12 * 24 ) ) );
+    mod_calories( -1 * std::round( nutr * base_metabolic_rate / ( 12 * 24 ) ) );
 }
 
 void stomach_contents::mod_water( const units::volume &h2o )

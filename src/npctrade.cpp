@@ -41,16 +41,16 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
         item gift = *ip.first.get_item();
 
         npc const *npc = nullptr;
-        std::function<bool( item_location const &, int, int )> f_wants;
+        std::function<bool( item_location const &, int )> f_wants;
         if( giver.is_npc() ) {
             npc = giver.as_npc();
-            f_wants = [npc]( item_location const & it, int price, int market_price ) {
-                return npc->wants_to_sell( it, price, market_price ).success();
+            f_wants = [npc]( item_location const & it, int price ) {
+                return npc->wants_to_sell( it, price ).success();
             };
         } else if( receiver.is_npc() ) {
             npc = receiver.as_npc();
-            f_wants = [npc]( item_location const & it, int price, int market_price ) {
-                return npc->wants_to_buy( *it, price, market_price ).success();
+            f_wants = [npc]( item_location const & it, int price ) {
+                return npc->wants_to_buy( *it, price ).success();
             };
         }
         // spill contained, unwanted items
@@ -58,8 +58,7 @@ std::list<item> npc_trading::transfer_items( trade_selector::select_t &stuff, Ch
             for( item *it : gift.get_contents().all_items_top() ) {
                 int const price =
                     trading_price( giver, receiver, { item_location{ giver, it }, 1 } );
-                int const market_price = it->price( true );
-                if( !f_wants( item_location{ ip.first, it }, price, market_price ) ) {
+                if( !f_wants( item_location{ ip.first, it }, price ) ) {
                     giver.i_add_or_drop( *it, 1, ip.first.get_item() );
                     gift.remove_item( *it );
                 }
@@ -115,10 +114,9 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     for( item *i : inv_all ) {
         item &it = *i;
 
-        const int price = it.price( true );
         int val = np.value( it );
         // FIXME: this item_location is a hack
-        if( np.wants_to_sell( item_location{ np, i }, val, price ).success() ) {
+        if( np.wants_to_sell( item_location{ np, i }, val ).success() ) {
             result.emplace_back( np, it, val, static_cast<int>( it.count() ) );
         }
     }
@@ -146,8 +144,8 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
     int const int_diff = seller.int_cur - buyer.int_cur;
     double const int_adj = 1 + 0.05 * std::min( 19, std::abs( int_diff ) );
-    double const soc_adj = price_adjustment( seller.get_skill_level( skill_speech ) -
-                           buyer.get_skill_level( skill_speech ) );
+    double const soc_adj = price_adjustment( round( seller.get_skill_level( skill_speech ) -
+                           buyer.get_skill_level( skill_speech ) ) );
     double const adjust = int_diff >= 0 ? int_adj * soc_adj : soc_adj / int_adj;
     return seller.is_npc() ? adjust : -1 / adjust;
 }
@@ -167,7 +165,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     npc const *faction_party = buyer.is_npc() ? buyer.as_npc() : seller.as_npc();
     faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
 
-    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : cata::nullopt );
+    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : std::nullopt );
     if( fpr != nullptr ) {
         price *= fpr->premium;
         if( seller.is_npc() ) {
@@ -194,32 +192,35 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     return static_cast<int>( std::ceil( price ) );
 }
 
+namespace
+{
+int _trading_price( Character const &buyer, Character const &seller, item_location const &it,
+                    int amount )
+{
+    if( seller.is_npc() ) {
+        if( !seller.as_npc()->wants_to_sell( it, 1 ).success() ) {
+            return 0;
+        }
+    } else if( buyer.is_npc() ) {
+        if( !buyer.as_npc()->wants_to_buy( *it, 1 ).success() ) {
+            return 0;
+        }
+    }
+    int ret = npc_trading::adjusted_price( it.get_item(), amount, buyer, seller );
+    for( item_pocket const *pk : it->get_all_standard_pockets() ) {
+        for( item const *pkit : pk->all_items_top() ) {
+            ret += _trading_price( buyer, seller, item_location{ it, const_cast<item *>( pkit ) },
+                                   -1 );
+        }
+    }
+    return ret;
+}
+} // namespace
+
 int npc_trading::trading_price( Character const &buyer, Character const &seller,
                                 trade_selector::entry_t const &it )
 {
-    int ret = 0;
-    it.first->visit_items( [&]( item * e, item * /* f */ ) {
-        int const amount = e == it.first.get_item() ? it.second : -1;
-        int const price = adjusted_price( e, amount, buyer, seller );
-        int const market_price = e->price_no_contents( true );
-
-        if( seller.is_npc() ) {
-            npc const &np = *seller.as_npc();
-            // FIXME: this item_location is a hack
-            if( !np.wants_to_sell( item_location{ it.first, e }, price, market_price ).success() ) {
-                return VisitResponse::SKIP;
-            }
-        } else if( buyer.is_npc() ) {
-            npc const &np = *buyer.as_npc();
-            if( !np.wants_to_buy( *e, price, market_price ).success() ) {
-                return VisitResponse::SKIP;
-            }
-        }
-        ret += price;
-        return VisitResponse::NEXT;
-    } );
-
-    return ret;
+    return _trading_price( buyer, seller, it.first, it.second );
 }
 
 void item_pricing::set_values( int ip_count )
@@ -326,6 +327,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
+            player_character.cash -= trade_result.delta_bank;
             update_npc_owed( np, trade_result.balance, trade_result.value_you );
             player_character.practice( skill_speech, trade_result.value_you / 10000 );
         }
@@ -342,7 +344,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
 {
     std::vector<item> avail_pockets = np.worn.available_pockets();
 
-    if( avail_pockets.empty() ) {
+    if( !to_trade.empty() && avail_pockets.empty() ) {
         return false;
     }
     for( trade_selector::entry_t const &it : to_trade ) {
@@ -351,7 +353,7 @@ bool npc_trading::npc_can_fit_items( npc const &np, trade_selector::select_t con
             const units::volume pvol = pkt.max_containable_volume();
             const item &i = *it.first;
             if( pkt.can_holster( i ) || ( pkt.can_contain( i ).success() && pvol > i.volume() ) ) {
-                pkt.put_in( i, item_pocket::pocket_type::CONTAINER );
+                pkt.put_in( i, pocket_type::CONTAINER );
                 item_stored = true;
                 break;
             }

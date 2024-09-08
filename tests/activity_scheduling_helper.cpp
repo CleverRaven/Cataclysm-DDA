@@ -20,12 +20,11 @@ void activity_schedule::setup( avatar &guy ) const
     // Start our task, for however long the schedule says.
     // This may be longer than the interval, which means that we
     // never finish this task
-    if( actor ) {
-        guy.assign_activity( player_activity( *actor ), false );
-    } else {
-        guy.assign_activity( player_activity( act, calendar::INDEFINITELY_LONG, -1, INT_MIN,
-                                              "" ), false );
-    }
+    guy.assign_activity( player_activity() ); // disallow resuming
+    const player_activity p_act = actor
+                                  ? player_activity( *actor )
+                                  : player_activity( act, calendar::INDEFINITELY_LONG, -1, INT_MIN, "" );
+    guy.assign_activity( p_act );
 }
 
 void activity_schedule::do_turn( avatar &guy ) const
@@ -113,7 +112,7 @@ weariness_events do_activity( tasklist tasks, bool do_clear_avatar )
             // Consume food, become weary, etc
             guy.update_body();
             // Start each turn with a fresh set of moves
-            guy.moves = 100;
+            guy.set_moves( 100 );
             task.do_turn( guy );
         }
         // Cancel our activity, now that we're done

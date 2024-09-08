@@ -2,27 +2,20 @@
 #ifndef CATA_SRC_CALENDAR_H
 #define CATA_SRC_CALENDAR_H
 
-#include <iosfwd>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
+#include <climits>
 
 #include "units_fwd.h"
 
 class JsonOut;
 class JsonValue;
-struct lat_long;
 struct rl_vec2d;
 class time_duration;
 class time_point;
 template<typename T> struct enum_traits;
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 
 /** Real world seasons */
 enum season_type {
@@ -126,6 +119,8 @@ time_duration year_length();
 /** @returns Time of a season (configured in current world settings) */
 time_duration season_length();
 void set_season_length( int dur );
+
+void set_location( float latitude, float longitude );
 
 /// @returns relative length of game season to real life season.
 float season_ratio();
@@ -369,27 +364,27 @@ bool x_in_y( const time_duration &a, const time_duration &b );
  * `time_duration::from_*` function.
  */
 /**@{*/
-constexpr time_duration operator"" _turns( const unsigned long long int v )
+constexpr time_duration operator""_turns( const unsigned long long int v )
 {
     return time_duration::from_turns( v );
 }
-constexpr time_duration operator"" _seconds( const unsigned long long int v )
+constexpr time_duration operator""_seconds( const unsigned long long int v )
 {
     return time_duration::from_seconds( v );
 }
-constexpr time_duration operator"" _minutes( const unsigned long long int v )
+constexpr time_duration operator""_minutes( const unsigned long long int v )
 {
     return time_duration::from_minutes( v );
 }
-constexpr time_duration operator"" _hours( const unsigned long long int v )
+constexpr time_duration operator""_hours( const unsigned long long int v )
 {
     return time_duration::from_hours( v );
 }
-constexpr time_duration operator"" _days( const unsigned long long int v )
+constexpr time_duration operator""_days( const unsigned long long int v )
 {
     return time_duration::from_days( v );
 }
-constexpr time_duration operator"" _weeks( const unsigned long long int v )
+constexpr time_duration operator""_weeks( const unsigned long long int v )
 {
     return time_duration::from_weeks( v );
 }
@@ -545,6 +540,11 @@ constexpr time_point before_time_starts = time_point::from_turn( -1 );
 
 constexpr time_point turn_zero = time_point::from_turn( 0 );
 
+/**
+ * Largest possible time point. About 69 years after turn_zero
+ */
+constexpr time_point turn_max = time_point::from_turn( INT_MAX );
+
 } // namespace calendar
 
 inline time_duration time_past_midnight( const time_point &p )
@@ -599,6 +599,8 @@ time_point sunset( const time_point &p );
 time_point daylight_time( const time_point &p );
 /** Returns the time it gets dark based on sunset */
 time_point night_time( const time_point &p );
+/** Returns the time when the clock displays 12:00 */
+time_point noon( const time_point &p );
 /** Returns true if it's currently night time - after dusk and before dawn. */
 bool is_night( const time_point &p );
 /** Returns true if it's currently day time - after dawn and before dusk. */
@@ -633,7 +635,7 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 /** Returns the offset by which a ray of sunlight would move when shifting down
  * one z-level, or nullopt if the sun is below the horizon.
  */
-cata::optional<rl_vec2d> sunlight_angle( const time_point & );
+std::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,

@@ -21,8 +21,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 6,
-    "armor_cut": 3,
     "path_settings": { "max_dist": 20 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "MATING_SEASON" ],
     "baby_flags": [ "SPRING" ],
@@ -36,14 +34,15 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "PUSH_MON",
       "DESTROYS",
       "GROUP_MORALE",
       "GOODHEARING",
       "SWARMS"
-    ]
+    ],
+    "armor": { "bash": 6, "cut": 3 }
   },
   {
     "id": "mon_jaguar",
@@ -102,7 +101,7 @@
     "vision_night": 20,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "mammal_small_fur",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_tapir_calf",
@@ -141,8 +140,6 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 1,
     "harvest": "mammal_large_boar",
     "reproduction": { "baby_monster": "mon_tapir_calf", "baby_count": 1, "baby_timer": 330 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
@@ -151,7 +148,8 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "SWIMS" ],
+    "armor": { "bash": 2, "cut": 1 }
   },
   {
     "id": "mon_camel",
@@ -175,7 +173,6 @@
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -183,7 +180,8 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM" ],
+    "armor": { "bash": 2 }
   },
   {
     "id": "mon_coati",
@@ -211,7 +209,7 @@
     "harvest": "mammal_small_fur",
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_bushdog",
@@ -240,7 +238,7 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_coypus",
@@ -268,7 +266,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ]
   },
   {
     "id": "mon_capybara_baby",
@@ -308,7 +306,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ]
   },
   {
     "id": "mon_hippo",
@@ -333,9 +331,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
@@ -345,20 +340,21 @@
     "dissect": "dissect_cattle_sample_large",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS" ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_peccari_piglet",
     "type": "MONSTER",
-    "name": { "str": "peccari piglet" },
+    "name": { "str": "peccary piglet" },
     "copy-from": "mon_boar_wild_piglet",
-    "description": "The small offspring of a peccari.  Much like true boar piglets, this one has a mottled fur as camouflage.",
+    "description": "The small offspring of a peccary.  Much like true boar piglets, this one has a mottled fur as camouflage.",
     "upgrades": { "age_grow": 38, "into": "mon_peccari" }
   },
   {
     "id": "mon_peccari",
     "type": "MONSTER",
-    "name": "peccari",
+    "name": { "str": "peccary", "str_pl": "peccaries" },
     "description": "A small furred omnivore native to the American continent.  Despite looking like a boar it is not directly related to them or their domestic brethren.",
     "default_faction": "pig",
     "bodytype": "pig",
@@ -387,7 +383,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_guinea_pig",
@@ -416,7 +412,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "reproduction": { "baby_monster": "mon_guinea_pig", "baby_count": 3, "baby_timer": 55 },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_kangaroo_joey",
@@ -459,6 +455,6 @@
     "reproduction": { "baby_monster": "mon_kangaroo_wallaby", "baby_count": 1, "baby_timer": 275 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   }
 ]

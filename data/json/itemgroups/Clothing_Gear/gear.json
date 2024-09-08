@@ -1,5 +1,78 @@
 [
   {
+    "id": "wrapped_gasmask_filter",
+    "type": "item_group",
+    "subtype": "collection",
+    "ammo": 100,
+    "container-item": "wrapping_vacuumed",
+    "on_overflow": "spill",
+    "items": [ { "item": "gasfilter_med" } ]
+  },
+  {
+    "id": "gasmask_inserts_stowed",
+    "type": "item_group",
+    "//": "These are accessories grouped together for use in stashed-away or unused gas mask bags.",
+    "//2": "Vision correction assemblies have been omitted for handling within the gas mask bag item group itself.",
+    "subtype": "distribution",
+    "items": [
+      { "item": "outsert_clear", "prob": 100 },
+      { "item": "outsert_sunlight", "prob": 50 },
+      { "item": "outsert_breach", "prob": 25 }
+    ]
+  },
+  {
+    "id": "gasmask_inserts_in_use",
+    "type": "item_group",
+    "//": "Accessories grouped together for use as pre-installed spawns within gas masks.",
+    "subtype": "distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "outsert_clear", "prob": 100 },
+          { "item": "outsert_sunlight", "prob": 50 },
+          { "item": "outsert_breach", "prob": 25 }
+        ]
+      },
+      { "item": "insert_vision_correction", "prob": 30 }
+    ]
+  },
+  {
+    "id": "gasmask_bag_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "This is a stowed-away gas mask in its carrier, packed with all its equipment but unused and unassembled. Groups together a gas mask, a spare filter, and loose accessories.",
+    "//2": "The gas mask doesn't have its own filter installed, so a second one is sitting ready in the pouch for the user to assemble.",
+    "ammo": 100,
+    "magazine": 0,
+    "container-item": "gas_mask_pouch",
+    "on_overflow": "spill",
+    "items": [
+      { "item": "mask_gas" },
+      { "group": "wrapped_gasmask_filter", "count": 2 },
+      { "group": "gasmask_inserts_stowed", "prob": 90 },
+      { "item": "insert_vision_correction", "prob": 30 }
+    ]
+  },
+  {
+    "id": "gasmask_bag_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A gas mask left in its carrier, but that was in use prior to being found: assumed that the former user had required it or anticipated needing it and assembled it in readiness. The spare filter may be absent, a canister's already been loaded into the gas mask, and there's a greater chance that the loose attachments have already been added to the mask.",
+    "ammo": 100,
+    "container-item": "gas_mask_pouch",
+    "on_overflow": "spill",
+    "items": [
+      {
+        "distribution": [
+          { "item": "mask_gas", "charges": [ 0, 100 ], "prob": 40 },
+          { "item": "mask_gas", "charges": [ 0, 100 ], "contents-group": "gasmask_inserts_in_use", "prob": 60 }
+        ]
+      },
+      { "group": "wrapped_gasmask_filter", "prob": 50 },
+      { "group": "gasmask_inserts_stowed", "prob": 55 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "swat_gear",
     "subtype": "distribution",
@@ -8,6 +81,7 @@
       [ "40x46mm_m433", 5 ],
       [ "40x46mm_m651", 10 ],
       [ "ammo_satchel", 5 ],
+      [ "ammo_pouch", 5 ],
       [ "bootstrap", 5 ],
       [ "chestpouch", 5 ],
       [ "flashbang", 30 ],
@@ -17,20 +91,47 @@
       [ "holo_sight", 20 ],
       [ "balclava", 10 ],
       [ "balaclava_cut_resistant", 5 ],
-      [ "holster", 15 ],
+      [ "nylon_holster", 10 ],
+      [ "holster", 5 ],
       [ "bandolier_shotgun", 15 ],
       [ "torso_bandolier_shotgun", 8 ],
       [ "kevlar", 20 ],
-      [ "knife_combat", 10 ],
+      [ "pockknife", 10 ],
       [ "legpouch_large", 5 ],
       [ "mask_bal", 10 ],
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "gasmask_bag_full", "prob": 10 },
       { "group": "swat_ballistic_vest", "prob": 15 },
       [ "smokebomb", 5 ],
       [ "suppressor", 25 ],
       [ "suppressor_compact", 20 ],
       [ "tac_fullhelmet", 5 ],
-      [ "tac_helmet", 10 ]
+      [ "tac_helmet", 10 ],
+      { "item": "teargas_sprayer", "prob": 25, "charges": [ 1, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "army_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "helmet_army", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tac_helmet_nvg",
+    "subtype": "collection",
+    "entries": [ { "item": "tac_helmet", "contents-group": "nvg_distribution" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "nvg_distribution",
+    "items": [
+      {
+        "distribution": [
+          { "item": "military_nvg", "prob": 60, "charges": [ 0, 100 ] },
+          { "item": "advanced_gpnvg", "prob": 30, "charges": [ 0, 100 ] },
+          { "item": "enhanced_nvg", "prob": 10, "charges": [ 0, 100 ] }
+        ]
+      }
     ]
   },
   {
@@ -54,7 +155,7 @@
       {
         "distribution": [
           { "item": "PR24-retracted", "prob": 20 },
-          { "collection": [ { "item": "knife_combat" }, { "item": "sheath" } ], "prob": 30 },
+          { "group": "infantry_knives", "prob": 14 },
           { "collection": [ { "group": "guns_pistol_milspec" }, { "item": "holster" } ], "prob": 50 }
         ]
       }
@@ -71,9 +172,69 @@
       { "group": "tools_tailor", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       [ "duct_tape", 10 ],
+      { "group": "superglue", "prob": 5 },
       [ "plastichoboreel", 5 ],
-      [ "survivormap", 5 ]
+      [ "survivormap", 5 ],
+      { "item": "teargas_sprayer", "prob": 25, "charges": [ 9, 10 ] }
     ]
+  },
+  {
+    "id": "gear_eod",
+    "type": "item_group",
+    "//": "gear needed for bomb defusal.  Based on ATP 4-32.  Intentionally stripped of more military items for placement in civilian locations.",
+    "subtype": "collection",
+    "items": [
+      { "item": "EOD_hotstick", "prob": 50 },
+      { "item": "multitool", "container-item": "sheath", "prob": 30 },
+      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 8 ] },
+      { "item": "light_minus_disposable_cell", "prob": 20, "count": [ 1, 6 ] },
+      { "item": "cordless_drill", "prob": 30 },
+      { "item": "rope_30", "prob": 50 },
+      { "item": "pliers", "prob": 50 },
+      { "item": "laptop", "prob": 70 },
+      { "item": "cable", "prob": 40 },
+      { "item": "manual_traps_mil", "prob": 80 },
+      { "group": "gear_eod_light_or_heavy", "prob": 100 }
+    ]
+  },
+  {
+    "id": "gear_eod_light_or_heavy",
+    "type": "item_group",
+    "container-item": "duffelbag",
+    "on_overflow": "spill",
+    "subtype": "distribution",
+    "items": [ { "group": "eod_duffle", "prob": 90 }, { "group": "eod_duffle_light", "prob": 10 } ]
+  },
+  {
+    "id": "eod_duffle",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "trousers_eod", "prob": 100 },
+      { "item": "eod_plate", "container-item": "jacket_eod", "prob": 100 },
+      { "item": "helmet_eod", "prob": 100 },
+      { "item": "foot_protectors_eod", "prob": 80 },
+      { "item": "gloves_eod", "prob": 20 },
+      { "item": "eod_plate", "prob": 5 }
+    ]
+  },
+  {
+    "id": "eod_duffle_light",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "item": "jacket_eod_light", "contents-group": "eod_tactical_plates_set", "prob": 100 },
+      { "item": "trousers_eod_light", "prob": 100 },
+      { "item": "face_shield_eod", "prob": 100 },
+      { "item": "eod_plate", "prob": 5 }
+    ]
+  },
+  {
+    "id": "eod_tactical_plates_set",
+    "type": "item_group",
+    "//": "complete EOD plate set for the tactical EOD jacket",
+    "subtype": "collection",
+    "entries": [ { "item": "eod_plate" }, { "item": "deltoid_plates" } ]
   },
   {
     "type": "item_group",
@@ -84,8 +245,9 @@
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
       { "group": "used_1st_aid", "prob": 10 },
-      [ "bandages", 5 ],
-      [ "cotton_ball", 2 ],
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "cotton_ball_bag_used", "prob": 2 },
+      { "group": "cotton_ball_bag_full", "prob": 1 },
       [ "crowbar", 15 ],
       [ "entry_suit", 10 ],
       [ "hammer_sledge", 5 ],
@@ -94,18 +256,18 @@
       [ "hammer_sledge_heavy", 1 ],
       [ "shovel", 20 ],
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 10, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 10, "charges": [ 0, -1 ] },
       [ "airhorn", 5 ],
       [ "boltcutters", 5 ],
       [ "tacvest", 10 ],
-      { "item": "chainsaw_off", "prob": 1, "charges-min": 0 },
+      { "item": "chainsaw_off", "prob": 1, "charges": [ 0, -1 ] },
       [ "backpack", 15 ],
+      [ "backpack_denim", 1 ],
       [ "rope_30", 10 ],
-      { "item": "rx12_injector", "prob": 1, "charges-min": 0 },
-      { "item": "rx11_stimpack", "prob": 1, "charges-min": 0 },
+      { "item": "rx12_injector", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "rx11_stimpack", "prob": 1, "charges": [ 0, -1 ] },
       [ "flaregun", 5 ],
       [ "signal_flare", 5 ],
-      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 500 },
       { "item": "handflare", "prob": 20, "charges": 300 },
       { "item": "heavy_flashlight", "prob": 30, "charges": [ 0, 300 ] },
       { "item": "glowstick", "prob": 10, "charges": 1400 },
@@ -117,26 +279,25 @@
       [ "pocketwatch", 5 ],
       [ "wristwatch", 10 ],
       { "group": "tobacco_products", "prob": 32 },
-      { "item": "ref_lighter", "prob": 1, "charges-min": 0 },
+      { "item": "ref_lighter", "prob": 1, "charges": [ 0, -1 ] },
       [ "flask_hip", 1 ],
       [ "textbook_fireman", 10 ],
       [ "knee_pads", 5 ],
       [ "elbow_pads", 5 ],
       [ "legrig", 5 ],
-      { "item": "UPS_off", "prob": 7, "charges": [ 0, 1000 ] },
+      { "item": "UPS_OFF", "prob": 7, "charges": [ 0, 1000 ] },
       [ "emer_blanket", 5 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "tool_belt", 5 ],
-      { "item": "oxygen_tank", "prob": 15, "charges-min": 4 },
+      { "item": "oxygen_tank", "prob": 15, "charges": [ 4, -1 ] },
       [ "fireman_belt", 15 ],
       [ "jack", 5 ],
       [ "throw_extinguisher", 10 ],
       [ "grapnel", 5 ],
-      { "item": "wearable_light", "prob": 5, "charges-min": 0 },
+      { "item": "wearable_light", "prob": 5, "charges": [ 0, -1 ] },
       { "group": "tools_toolbox", "prob": 1 },
-      { "item": "smoxygen_tank", "prob": 35, "charges-min": 4 },
-      { "item": "watercannon", "prob": 10, "charges-min": 0 },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "smoxygen_tank", "prob": 35, "charges": [ 4, -1 ] },
+      { "item": "watercannon", "prob": 10, "charges": [ 0, -1 ] },
       [ "solarpack", 2 ],
       [ "bag_body_bag", 5 ]
     ]
@@ -148,11 +309,11 @@
       [ "wrapped_rad_badge", 80 ],
       { "item": "geiger_off", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 10, "charges": [ 0, 100 ] },
-      { "item": "oxygen_tank", "prob": 10, "charges-min": 4 },
-      { "item": "smoxygen_tank", "prob": 15, "charges-min": 2 },
-      [ "UPS_off", 2 ],
-      { "item": "prussian_blue", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "iodine", "prob": 50, "charges": [ 1, 10 ] }
+      { "item": "oxygen_tank", "prob": 10, "charges": [ 4, -1 ] },
+      { "item": "smoxygen_tank", "prob": 15, "charges": [ 2, -1 ] },
+      [ "UPS_OFF", 2 ],
+      { "prob": 25, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 50, "group": "iodine_bottle_plastic_pill_supplement_1_10" }
     ]
   },
   {
@@ -173,16 +334,14 @@
       { "group": "swimmer_wetsuit", "prob": 100 },
       { "group": "swimmer_accessories", "prob": 40 },
       { "item": "dive_bag", "prob": 100 },
+      { "item": "dry_bag", "prob": 100 },
+      { "item": "dry_duffelbag", "prob": 100 },
+      { "item": "dry_bag_large", "prob": 50 },
       { "item": "wetsuit_gloves", "prob": 70 },
       { "item": "wetsuit_booties", "prob": 70 },
       { "item": "swim_fins", "prob": 100 },
       {
-        "distribution": [
-          { "item": "airspeargun", "prob": 20 },
-          { "item": "doublespeargun", "prob": 10 },
-          { "item": "minispeargun", "prob": 30 },
-          { "item": "speargun", "prob": 40 }
-        ],
+        "distribution": [ { "item": "airspeargun", "prob": 20 }, { "item": "doublespeargun", "prob": 10 }, { "item": "speargun", "prob": 40 } ],
         "prob": 65
       },
       {
@@ -193,7 +352,7 @@
         "prob": 85
       },
       {
-        "collection": [ { "item": "rebreather_filter", "prob": 50 }, { "item": "rebreather", "prob": 90, "charges": [ 10, 60 ] } ],
+        "collection": [ { "item": "rebreather_cartridge_o2", "prob": 50, "charges": 180 }, { "item": "rebreather", "prob": 90 } ],
         "prob": 20
       },
       {
@@ -221,7 +380,40 @@
     "id": "civilian_body_armor",
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
-    "entries": [ { "item": "kevlar", "prob": 20 } ]
+    "entries": [
+      { "item": "kevlar", "prob": 20 },
+      { "item": "soft_3a_vest", "prob": 15 },
+      { "item": "stab_vest", "prob": 15 },
+      { "item": "chestguard_hard", "prob": 5 },
+      { "item": "vest_leather", "prob": 10 },
+      {
+        "collection": [ { "item": "ballistic_vest_light" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "ballistic_vest_light_pouches" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "ballistic_vest_light_operator" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "level_3_vest", "variant": "fema_armor_vest" }, { "group": "civilian_ballistic_inserts", "prob": 75 } ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "civilian_ballistic_inserts",
+    "subtype": "distribution",
+    "//": "armor that a civilian might have.",
+    "entries": [
+      { "group": "some_steel_front_plates", "prob": 30 },
+      { "group": "some_stab_front_plates", "prob": 45 },
+      { "group": "pristine_esapi_front_plates", "prob": 25 }
+    ]
   },
   {
     "type": "item_group",
@@ -233,5 +425,11 @@
       { "item": "mask_dust", "prob": 20 },
       { "item": "glasses_bal", "prob": 20 }
     ]
+  },
+  {
+    "id": "full_oxygen_tank",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "oxygen_tank", "charges": 24 } ]
   }
 ]

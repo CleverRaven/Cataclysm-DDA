@@ -9,6 +9,9 @@
     "id": "test_weapon1",
     "name": { "str": "test melee weapon 1" },
     "description": "Test melee weapon 1.",
+    "material": [ "test_material" ],
+    "//": "Intended to be +0",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";"
@@ -18,6 +21,9 @@
     "id": "test_weapon2",
     "name": { "str": "test melee weapon 2" },
     "description": "Test melee weapon 2.",
+    "material": [ "test_material" ],
+    "//": "Intended to be +0",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";",
@@ -30,7 +36,7 @@
     "color": "yellow",
     "name": { "str": "reach bow" },
     "description": "A test item that is both a ranged weapon and a reach weapon",
-    "price": 16000,
+    "price": "160 USD",
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS", "NO_TURRET" ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
@@ -38,14 +44,14 @@
     "ammo": [ "arrow" ],
     "weight": "340 g",
     "volume": "1500 ml",
-    "bashing": 6,
     "ranged_damage": { "damage_type": "stab", "amount": 3 },
     "range": 5,
     "dispersion": 210,
     "durability": 6,
     "clip_size": 1,
     "reload": 60,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 3 }
   }
 ]

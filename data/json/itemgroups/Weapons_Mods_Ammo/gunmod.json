@@ -4,12 +4,15 @@
     "id": "gunmod_common",
     "//": "Common gunmods typically owned by citizens and found in many locations.",
     "items": [
+      [ "belt_clip", 5 ],
       [ "brass_catcher", 100 ],
       [ "improve_sights", 60 ],
+      [ "compensator", 40 ],
       [ "muzzle_brake", 20 ],
       [ "pistol_grip", 30 ],
       [ "rifle_scope", 30 ],
       [ "shoulder_strap", 50 ],
+      [ "shoulder_strap_simple", 70 ],
       [ "single_sling", 50 ],
       [ "butt_hook", 30 ],
       [ "match_trigger", 20 ],
@@ -34,7 +37,6 @@
       [ "wooden_grip", 5 ],
       [ "waterproof_gunmod", 40 ],
       [ "gun_crossbow", 20 ],
-      [ "stabilizer", 10 ],
       [ "laser_sight", 40 ],
       [ "light_grip", 50 ],
       [ "pistol_bayonet", 10 ],
@@ -66,6 +68,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "red_dot_sight", 100 ],
       [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
@@ -78,40 +81,35 @@
   },
   {
     "type": "item_group",
-    "id": "sights_all",
-    "//": "All aftermarket sights.",
-    "items": [
-      [ "improve_sights", 84 ],
-      [ "offset_sights", 6 ],
-      [ "red_dot_sight", 42 ],
-      [ "holo_sight", 18 ],
-      [ "laser_sight", 15 ],
-      [ "rail_laser_sight", 6 ],
-      [ "acog_scope", 21 ],
-      [ "hybrid_sight_4x", 15 ],
-      [ "rifle_scope", 25 ],
-      [ "rifle_scope_high_end_mount", 10 ],
-      [ "pistol_scope", 4 ]
-    ]
+    "id": "issued_carbine_sights",
+    "//": "Sights that are issued by the US Army for the M4 and similar firearms.",
+    "items": [ [ "acog_scope", 15 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 10 ], [ "red_dot_sight", 20 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",
-    "id": "sights_pistol",
-    "//": "Aftermarket sights that are for pistols.",
-    "items": [ [ "improve_sights", 84 ], [ "red_dot_sight", 42 ], [ "laser_sight", 15 ], [ "pistol_scope", 4 ] ]
+    "id": "issued_slings",
+    "//": "Slings that belong on a firearm, the 5% of soldiers who lost theirs are very unhappy right now.",
+    "items": [ [ "shoulder_strap_simple", 60 ], [ "shoulder_strap", 35 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
-    "id": "sights_SMG",
-    "//": "Aftermarket sights that are for SMG's.",
-    "items": [
-      [ "improve_sights", 84 ],
-      [ "red_dot_sight", 42 ],
-      [ "holo_sight", 18 ],
-      [ "laser_sight", 15 ],
-      [ "rail_laser_sight", 6 ],
-      [ "pistol_scope", 4 ]
-    ]
+    "id": "issued_grip",
+    "//": "Not all soldiers would have a forward grip, but they're common accessories.",
+    "items": [ [ "grip", 33 ], [ "null", 67 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "issued_carbine_mods",
+    "//": "Weapon mod loadouts that represent the average US Army carbine loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "issued_grip" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "issued_grenadier_mods",
+    "//": "Weapon mod loadouts that represent the average US Army grenadier loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "military_grenadier_mods" } ]
   },
   {
     "type": "item_group",
@@ -151,10 +149,17 @@
   },
   {
     "type": "item_group",
-    "id": "vz58v_mods",
-    "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
+    "id": "military_grenadier_mods",
+    "//": "Default mods for m4 carbines issued with grenade launchers",
+    "subtype": "distribution",
+    "entries": [ { "item": "m203", "prob": 40 }, { "item": "m320_mod", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ak74_folding_mods",
+    "//": "Default mods for the Kalashnikov AKS-74 variant of the 5.45x39mm fighting rifle",
     "subtype": "collection",
-    "entries": [ { "item": "folding_stock" } ]
+    "entries": [ { "item": "stock_mount" }, { "item": "folding_stock" } ]
   },
   {
     "type": "item_group",
@@ -162,6 +167,13 @@
     "//": "Default mods for the EBR variants of the Mosin carbine and battle rifle",
     "subtype": "collection",
     "entries": [ { "item": "grip_mount" }, { "item": "rail_mount" }, { "item": "stock_mount" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "type99_mods",
+    "//": "Default possible mods for Arisaka Type 99 rifles.",
+    "subtype": "distribution",
+    "entries": [ { "item": "arisaka_monopod", "prob": 25 }, { "item": "arisaka_bayonet", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -186,12 +198,6 @@
   },
   {
     "type": "item_group",
-    "id": "sights_launcher",
-    "//": "Aftermarket sights that are for launchers.",
-    "items": [ [ "improve_sights", 84 ], [ "red_dot_sight", 42 ], [ "holo_sight", 18 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "gunmod_energy",
     "//": "Gunmods for energy weaponry found only at military sites and laboratories.",
     "items": [
@@ -201,11 +207,5 @@
       [ "effective_emitter", 40 ],
       [ "high_density_capacitor", 60 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "gunmod_archery",
-    "//": "Gunmods for bows and crossbows.",
-    "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
   }
 ]

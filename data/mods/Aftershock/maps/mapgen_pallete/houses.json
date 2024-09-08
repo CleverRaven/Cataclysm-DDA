@@ -15,7 +15,6 @@
         [ "t_wall_prefab_bglass", 5 ]
       ],
       "g": "t_wall_metal",
-      "h": "t_concrete_wall",
       "i": [ [ "t_door_glass_c", 5 ], "t_door_glass_o", 5 ],
       "j": [ [ "t_door_locked", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 1 ] ],
       "x": [ [ "t_door_locked_interior", 1 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ] ],
@@ -57,13 +56,13 @@
     },
     "items": {
       "t": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] },
-      "D": [ { "item": "wardrobe_unisex_afs", "chance": 100, "repeat": [ 1, 2 ] } ],
+      "D": [ { "item": "afs_colonist_outfit", "chance": 100, "repeat": [ 1, 2 ] } ],
       "O": { "item": "SUS_oven", "chance": 100 },
       "2": [
         { "item": "consumer_electronics", "chance": 10, "repeat": [ 1, 3 ] },
         { "item": "livingroom", "chance": 10, "repeat": [ 1, 3 ] }
       ],
-      "F": { "item": "SUS_fridge", "chance": 80 },
+      "F": { "item": "afs_ruined_food", "chance": 80, "repeat": [ 5, 13 ] },
       "P": { "item": "SUS_dishwasher", "chance": 70 },
       "f": [
         { "item": "elecsto_persele", "chance": 10, "repeat": [ 1, 3 ] },
@@ -83,13 +82,13 @@
       "V": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
       "I": { "item": "SUS_junk_drawer", "chance": 100 },
       "^": { "item": "SUS_kitchen_sink", "chance": 100 },
-      "M": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
-      "S": [ { "item": "SUS_breakfast_cupboard", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
+      "M": [ { "item": "afs_old_food_storage", "chance": 45 } ],
+      "S": [ { "item": "afs_old_food_storage", "chance": 30 }, { "item": "SUS_coffee_cupboard", "chance": 50 } ],
       "5": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },
       "@": { "item": "bed", "chance": 50 },
-      "Z": { "item": "wardrobe_unisex_afs", "chance": 100 },
-      "W": { "item": "wardrobe_unisex_afs", "chance": 50 },
+      "Z": { "item": "afs_colonist_outfit", "chance": 100 },
+      "W": { "item": "afs_colonist_outfit", "chance": 50 },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
     }
   }

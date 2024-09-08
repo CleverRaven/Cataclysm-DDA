@@ -9,10 +9,10 @@
     "weight": "2400 g",
     "volume": "2800 ml",
     "longest_side": "900 mm",
-    "price": 80000,
-    "price_postapoc": 3500,
+    "barrel_length": "451 mm",
+    "price": "800 USD",
+    "price_postapoc": "35 USD",
     "to_hit": -1,
-    "bashing": 9,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -21,11 +21,10 @@
     "durability": 8,
     "min_cycle_recoil": 900,
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
-      [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -35,7 +34,8 @@
       [ "underbarrel mount", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1carbinemag", "m1carbinebigmag" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "m2carbine",

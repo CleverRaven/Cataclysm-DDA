@@ -27,19 +27,14 @@
       "and": [
         { "u_has_trait": "RADIATION_MAGE" },
         {
-          "not": { "u_has_var": "u_got_radiation_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+          "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_radiation_mage_attunement" } ] }
         }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "RADIATION_MAGE" } },
     "effect": [
       { "u_add_trait": "CLAIRVOYANCE_OFF" },
-      {
-        "u_add_var": "u_got_radiation_mage_attunement",
-        "type": "attunement",
-        "context": "attunement",
-        "value": "yes"
-      }
+      { "u_add_var": "attunement_attunement_u_got_radiation_mage_attunement", "value": "yes" }
     ]
   },
   {
@@ -51,13 +46,8 @@
     "name": { "str": "Rad Senses" },
     "points": 0,
     "active": true,
-    "description": "You can feel the radiation emission near your body so perfectly it allow you to see while blind.  You suppress it now.",
-    "transform": {
-      "target": "CLAIRVOYANCE_ON",
-      "msg_transform": "Living creatures around you are crushed!",
-      "active": true,
-      "moves": 10
-    }
+    "description": "You can perceive radiation being emitted in your surroundings with sufficient precision to see while totally blind.  You suppress it now.",
+    "transform": { "target": "CLAIRVOYANCE_ON", "msg_transform": "You see everything!", "active": true, "moves": 10 }
   },
   {
     "type": "mutation",
@@ -68,8 +58,8 @@
     "active": true,
     "name": { "str": "Rad Senses (on)" },
     "points": 0,
-    "description": "You can feel the radiation emission near your body so perfectly it allow you to see while blind.",
+    "description": "You can perceive radiation being emitted in your surroundings with sufficient precision to see while totally blind.",
     "enchantments": [ "RADIATION_MAGE_CLAIRVOYANCE" ],
-    "transform": { "target": "CLAIRVOYANCE_OFF", "msg_transform": "You suppress your frozen pressure.", "active": false, "moves": 10 }
+    "transform": { "target": "CLAIRVOYANCE_OFF", "msg_transform": "You suppress your rad senses.", "active": false, "moves": 10 }
   }
 ]

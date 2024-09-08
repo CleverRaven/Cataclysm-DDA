@@ -38,7 +38,7 @@
         ";": "t_linoleum_gray",
         "+": "t_door_c",
         "-": "t_wall_wood",
-        "X": "t_pillar",
+        "X": "t_region_groundcover_urban",
         "S": "t_region_groundcover_urban",
         "p": "t_region_groundcover_urban",
         "3": "t_region_groundcover_urban",
@@ -67,7 +67,8 @@
         "Z": [ "f_dumpster", "f_recycle_bin" ],
         "3": "f_hedge_short",
         "p": "f_region_flower_decorative",
-        "S": "f_statue"
+        "S": "f_statue",
+        "X": "f_flagpole"
       },
       "items": {
         ";": { "item": "SUS_toilet", "chance": 100 },
@@ -85,12 +86,9 @@
         "B": { "item": "novels", "chance": 80, "repeat": [ 1, 10 ] },
         "H": [ { "item": "novels", "chance": 6 }, { "item": "alcohol", "chance": 10 } ]
       },
+      "item": { "X": { "item": "american_flag" } },
       "toilets": { ";": {  } },
-      "place_loot": [
-        { "item": "american_flag", "x": 19, "y": 3 },
-        { "item": "television", "x": 13, "y": [ 14, 15 ] },
-        { "item": "american_flag", "x": 9, "y": 20 }
-      ],
+      "place_loot": [ { "item": "television", "x": 13, "y": [ 14, 15 ] }, { "item": "american_flag", "x": 9, "y": 20 } ],
       "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 20, "rotation": 90 }, "É": { "vehicle": "wheelchair", "chance": 50 } }
     }
   },
@@ -110,19 +108,19 @@
         "                        ",
         "                        ",
         "                        ",
-        " |2222222222223         ",
-        " |............3         ",
-        " |............3         ",
-        " |............3         ",
-        " |............3         ",
-        " |............3         ",
-        " |............3         ",
-        " |............3222223   ",
-        " |..................3   ",
-        " |...............=..3   ",
-        " |..&...............3   ",
-        " |..................3   ",
-        " |----------5-------3   ",
+        " --------------         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-         ",
+        " -............-------   ",
+        " -..................-   ",
+        " -...............=..-   ",
+        " -..&...............-   ",
+        " -..................-   ",
+        " -----------5--------   ",
         "                        ",
         "                        "
       ],

@@ -6,11 +6,12 @@
 #include <utility>
 #include <vector>
 
+#include "cached_options.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
-#include "npc.h"
 #include "pimpl.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -18,10 +19,9 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-bool Character::has_recipe( const recipe *r, const inventory &crafting_inv,
-                            const std::vector<npc *> &helpers ) const
+bool Character::has_recipe( const recipe *r ) const
 {
-    return knows_recipe( r ) || get_available_recipes( crafting_inv, &helpers ).contains( r );
+    return knows_recipe( r ) || get_group_available_recipes().contains( r );
 }
 
 bool Character::knows_recipe( const recipe *rec ) const
@@ -35,6 +35,16 @@ void Character::learn_recipe( const recipe *const rec )
         return;
     }
     learned_recipes->include( rec );
+}
+
+void Character::forget_recipe( const recipe *const rec )
+{
+    learned_recipes->remove( rec );
+}
+
+void Character::forget_all_recipes()
+{
+    learned_recipes->clear();
 }
 
 int Character::exceeds_recipe_requirements( const recipe &rec ) const
@@ -149,18 +159,18 @@ recipe_subset Character::get_recipes_from_ebooks( const inventory &crafting_inv 
 }
 
 recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
-        const std::vector<npc *> *helpers ) const
+        const std::vector<Character *> *helpers ) const
 {
     recipe_subset res( get_learned_recipes() );
     res.include( get_recipes_from_books( crafting_inv ) );
     res.include( get_recipes_from_ebooks( crafting_inv ) );
 
     if( helpers != nullptr ) {
-        for( npc *np : *helpers ) {
+        for( Character *guy : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( *np->inv ) );
+            res.include( get_recipes_from_books( *guy->inv ) );
             // Being told what to do
-            res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
+            res.include_if( guy->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.get_difficulty(
                             *this ) * 0.8f ); // Skilled enough to understand
             } );
@@ -170,6 +180,22 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     res.include( get_available_nested( res ) );
 
     return res;
+}
+
+recipe_subset &Character::get_group_available_recipes() const
+{
+    if( !test_mode && calendar::turn == cached_recipe_turn && cached_recipe_subset->size() > 0 ) {
+        return *cached_recipe_subset;
+    }
+
+    cached_recipe_turn = calendar::turn;
+    cached_recipe_subset->clear();
+
+    for( const Character *guy : get_crafting_group() ) {
+        cached_recipe_subset->include( guy->get_available_recipes( crafting_inventory() ) );
+    }
+
+    return *cached_recipe_subset;
 }
 
 std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_inv,
@@ -194,6 +220,6 @@ std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_in
 
 int Character::get_num_crafting_helpers( int max ) const
 {
-    std::vector<npc *> helpers = get_crafting_helpers();
+    std::vector<Character *> helpers = get_crafting_helpers();
     return std::min( max, static_cast<int>( helpers.size() ) );
 }

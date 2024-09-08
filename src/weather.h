@@ -2,14 +2,16 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
+#include <optional>
+
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
-#include "coordinates.h"
-#include "optional.h"
+#include "coords_fwd.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "units.h"
 #include "weather_gen.h"
 #include "weather_type.h"
 
@@ -20,30 +22,35 @@ class translation;
 /**
  * @name BODYTEMP
  * Body temperature.
- * Body temperature is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
- * Outdoor temperature uses similar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
  * Most values can be changed with no impact on calculations.
- * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
+ * Maximum heat cannot pass 57 C (the player will die of heatstroke)
  */
 ///@{
 //!< More aggressive cold effects.
-static constexpr int BODYTEMP_FREEZING = 500;
+constexpr units::temperature BODYTEMP_FREEZING = 28_C;
 //!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-static constexpr int BODYTEMP_VERY_COLD = 2000;
+constexpr units::temperature BODYTEMP_VERY_COLD = 31_C;
 //!< Frostbite timer will not improve while below this point.
-static constexpr int BODYTEMP_COLD = 3500;
-//!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
-static constexpr int BODYTEMP_NORM = 5000;
+constexpr units::temperature BODYTEMP_COLD = 34_C;
+//!< Normal body temperature.
+constexpr units::temperature BODYTEMP_NORM = 37_C;
 //!< Level 1 hotness.
-static constexpr int BODYTEMP_HOT = 6500;
+constexpr units::temperature BODYTEMP_HOT = 40_C;
 //!< Level 2 hotness.
-static constexpr int BODYTEMP_VERY_HOT = 8000;
+constexpr units::temperature BODYTEMP_VERY_HOT = 43_C;
 //!< Level 3 hotness.
-static constexpr int BODYTEMP_SCORCHING = 9500;
+constexpr units::temperature BODYTEMP_SCORCHING = 46_C;
 
 //!< Additional Threshold before speed is impacted by heat.
-static constexpr int BODYTEMP_THRESHOLD = 500;
+constexpr units::temperature_delta BODYTEMP_THRESHOLD = 1_C_delta;
 ///@}
+
+// Wetness percentage 0.0f is DRY
+// Level 1 wetness (DAMP) is between 0.0f and Level 2
+// Level 2 wetness percentage
+constexpr float BODYWET_PERCENT_WET = 0.3f;
+// Level 3 wetness percentage
+constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
 
 // Rough tresholds for sunlight intensity in W/m2.
 namespace irradiance
@@ -104,7 +111,6 @@ struct weather_printable {
 
 struct weather_sum {
     int rain_amount = 0;
-    int acid_amount = 0;
     float sunlight = 0.0f;
     float radiant_exposure = 0.0f; // J/m2
     int wind_amount = 0;
@@ -129,18 +135,18 @@ std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
 // Returns temperature delta caused by windchill at given temperature, humidity and wind
-units::temperature get_local_windchill( units::temperature temperature, double humidity,
-                                        double wind_mph );
+units::temperature_delta get_local_windchill( units::temperature temperature, double humidity,
+        double wind_mph );
 
 int get_local_humidity( double humidity, const weather_type_id &weather, bool sheltered = false );
 
 // Returns windspeed (mph) after being modified by local cover
-int get_local_windpower( int windpower, const oter_id &omter, const tripoint &location,
+int get_local_windpower( int windpower, const oter_id &omter, const tripoint_abs_ms &location,
                          const int &winddirection,
                          bool sheltered = false );
 weather_sum sum_conditions( const time_point &start,
                             const time_point &end,
-                            const tripoint &location );
+                            const tripoint_abs_ms &location );
 
 /**
  * @param it The container item which is to be filled.
@@ -149,7 +155,7 @@ weather_sum sum_conditions( const time_point &start,
  * @param tr The funnel (trap which acts as a funnel).
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point &start,
-                                     const time_point &end, const tripoint &pos );
+                                     const time_point &end, const tripoint_abs_ms &pos );
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
@@ -170,9 +176,9 @@ nc_color get_wind_color( double );
 bool warm_enough_to_plant( const tripoint &pos );
 bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
-bool is_wind_blocker( const tripoint &location );
+bool is_wind_blocker( const tripoint_bub_ms &location );
 
-weather_type_id current_weather( const tripoint &location,
+weather_type_id current_weather( const tripoint_abs_ms &location,
                                  const time_point &t = calendar::turn );
 
 void glare( const weather_type_id &w );
@@ -205,11 +211,11 @@ class weather_manager
         int windspeed = 0;
 
         // For debug menu option "Force temperature"
-        cata::optional<units::temperature> forced_temperature;
+        std::optional<units::temperature> forced_temperature;
         // Cached weather data
         pimpl<w_point> weather_precise;
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
+        std::optional<int> wind_direction_override;
+        std::optional<int> windspeed_override;
         weather_type_id weather_override;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );

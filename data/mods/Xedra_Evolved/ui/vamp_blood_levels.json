@@ -1,0 +1,141 @@
+[
+  {
+    "id": "vampire_blood_levels",
+    "type": "widget",
+    "label": "Blood",
+    "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
+    "clauses": [
+      {
+        "id": "slumber",
+        "text": "Eternal Slumber",
+        "color": "dark_gray_red",
+        "condition": { "and": [ { "u_has_effect": "vampire_virus" }, { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-11999" ] } ] }
+      },
+      {
+        "id": "near_death",
+        "text": "Corpse-like",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-6401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-11999" ] }
+          ]
+        }
+      },
+      {
+        "id": "starving",
+        "text": "Hypomia",
+        "color": "yellow",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-5601" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-6401" ] }
+          ]
+        }
+      },
+      {
+        "id": "hungry",
+        "text": "Sallow",
+        "color": "light_green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-4800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-5601" ] }
+          ]
+        }
+      },
+      {
+        "id": "content",
+        "text": "Content",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "1800" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-4800" ] }
+          ]
+        }
+      },
+      {
+        "id": "flush",
+        "text": "Flush",
+        "color": "light_red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "2401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "1800" ] }
+          ]
+        }
+      },
+      {
+        "id": "engorged",
+        "text": "Engorged",
+        "color": "red",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "2401" ] }
+          ]
+        }
+      },
+      {
+        "id": "swollen",
+        "text": "Tick-like",
+        "color": "red_cyan",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "not": { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" } },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "4401" ] }
+          ]
+        }
+      },
+      {
+        "id": "flush",
+        "text": "Satisfied",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "2401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "1800" ] }
+          ]
+        }
+      },
+      {
+        "id": "engorged",
+        "text": "Filled",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "4401" ] },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "2401" ] }
+          ]
+        }
+      },
+      {
+        "id": "swollen",
+        "text": "Saturated",
+        "color": "green",
+        "condition": {
+          "and": [
+            { "u_has_effect": "vampire_virus" },
+            { "u_has_trait": "VAMPIRE_DISTILLATE_INNER_BLOOD" },
+            { "math": [ "u_vitamin('human_blood_vitamin')", ">", "4401" ] }
+          ]
+        }
+      }
+    ]
+  }
+]

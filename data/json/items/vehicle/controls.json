@@ -11,8 +11,8 @@
     "material": [ "plastic" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 10000,
-    "price_postapoc": 1250,
+    "price": "100 USD",
+    "price_postapoc": "12 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -27,9 +27,22 @@
     "material": [ "plastic" ],
     "volume": "2 L",
     "category": "veh_parts",
-    "price": 10000,
-    "price_postapoc": 750,
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "omnicamera_reinforced",
+    "copy-from": "omnicamera",
+    "looks_like": "omnicamera",
+    "name": { "str": "reinforced security camera" },
+    "description": "A security camera with a cage built around it to protect it from damage without reducing its effectiveness.",
+    "weight": "1400 g",
+    "to_hit": -5,
+    "material": [ "steel", "plastic" ],
+    "price": "200 USD",
+    "price_postapoc": "15 USD"
   },
   {
     "type": "GENERIC",
@@ -42,11 +55,11 @@
     "symbol": "$",
     "material": [ "plastic", "steel" ],
     "volume": "3 L",
-    "bashing": 2,
     "category": "veh_parts",
-    "price": 40000,
-    "price_postapoc": 500,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "price": "400 USD",
+    "price_postapoc": "5 USD",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "reins_tackle",
@@ -56,31 +69,29 @@
     "description": "A set of leather bindings to control a mountable creature.",
     "weight": "500 g",
     "volume": "1200 ml",
-    "price": 30000,
-    "price_postapoc": 1000,
-    "bashing": 1,
-    "to_hit": -2,
+    "price": "300 USD",
+    "price_postapoc": "10 USD",
     "material": [ "leather" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "rope_6"
+    "looks_like": "rope_6",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
     "id": "vehicle_dashboard",
     "name": { "str": "dashboard" },
     "description": "A vehicle instrument panel with various gauges and switches.  Useful for crafting.",
-    "weight": "2721 g",
-    "to_hit": -2,
+    "weight": "2821 g",
     "color": "cyan",
     "symbol": "$",
     "material": [ "plastic", "steel" ],
     "volume": "10 L",
-    "bashing": 1,
     "category": "veh_parts",
-    "price": 8000,
-    "price_postapoc": 250,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -92,8 +103,8 @@
     "to_hit": -4,
     "material": [ "plastic" ],
     "volume": "1500 ml",
-    "price": 4000,
-    "price_postapoc": 250,
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -104,10 +115,10 @@
     "weight": "3000 g",
     "color": "red",
     "volume": "3750 ml",
-    "bashing": 1,
-    "price": 200000,
-    "price_postapoc": 1500,
-    "copy-from": "vehicle_controls"
+    "price": "2 kUSD",
+    "price_postapoc": "15 USD",
+    "copy-from": "vehicle_controls",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -118,10 +129,10 @@
     "color": "white",
     "symbol": "&",
     "volume": "5 L",
-    "bashing": 1,
-    "price": 20000,
-    "price_postapoc": 1000,
-    "copy-from": "vehicle_controls"
+    "price": "200 USD",
+    "price_postapoc": "10 USD",
+    "copy-from": "vehicle_controls",
+    "melee_damage": { "bash": 1 }
   },
   {
     "type": "GENERIC",
@@ -132,8 +143,56 @@
     "color": "white",
     "symbol": "&",
     "volume": "9 L",
-    "price": 500000,
-    "price_postapoc": 3000,
+    "price": "5 kUSD",
+    "price_postapoc": "30 USD",
     "copy-from": "vehicle_controls"
+  },
+  {
+    "type": "GENERIC",
+    "id": "hand_controls",
+    "name": { "str_sp": "hand controls" },
+    "description": "An accessibility tool for the paraplegic or very short, this is a simple pair of metal tubes that clamp to a vehicle's gas and brake pedals, allowing them to be operated by hand with the help of a trigger.",
+    "weight": "1200 g",
+    "to_hit": -1,
+    "color": "light_gray",
+    "symbol": "/",
+    "material": [ "steel" ],
+    "volume": "740 ml",
+    "category": "veh_parts",
+    "price": "400 USD",
+    "price_postapoc": "40 cent",
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pedal_extenders",
+    "name": { "str_sp": "pedal extenders" },
+    "description": "These thick rubber pads can clamp securely onto a vehicle's gas and brake pedals, allowing even very short people to drive a car.",
+    "weight": "1200 g",
+    "to_hit": -1,
+    "color": "black",
+    "symbol": ",",
+    "material": [ "rubber", "steel" ],
+    "volume": "740 ml",
+    "category": "veh_parts",
+    "price": "100 USD",
+    "price_postapoc": "40 cent",
+    "melee_damage": { "bash": 3 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "pedal_extenders_makeshift",
+    "name": { "str_sp": "makeshift pedal extenders" },
+    "description": "It is probably not a great idea, but if you wanted to, you could tape these blocks to a vehicle's gas and brake pedals so that a kid or very short adult could drive.",
+    "weight": "388 g",
+    "to_hit": -1,
+    "color": "brown",
+    "symbol": ",",
+    "material": [ "wood" ],
+    "volume": "656 ml",
+    "category": "veh_parts",
+    "price": "20 USD",
+    "price_postapoc": "20 cent",
+    "melee_damage": { "bash": 1 }
   }
 ]

@@ -29,6 +29,8 @@
       { "item": "dress_shoes", "prob": 30, "damage": [ 0, 4 ] },
       { "item": "dress_shirt", "prob": 50, "damage": [ 0, 4 ] },
       { "item": "suit", "prob": 100, "damage": [ 0, 4 ] },
+      { "item": "glasses_monocle", "prob": 40, "damage": [ 0, 4 ] },
+      { "item": "pocketwatch", "prob": 35, "damage": [ 0, 4 ] },
       { "group": "corpse_male" }
     ]
   },
@@ -58,135 +60,6 @@
     "entries": [ { "group": "everyday_corpse", "prob": 85 }, { "group": "grave_cremains", "prob": 15 } ]
   },
   {
-    "id": "everyday_corpse",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "everyday_gear", "prob": 40 },
-      { "group": "coats_unisex", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "common_gloves", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "hatstore_hats", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "scarfs_unisex", "damage": [ 1, 4 ], "prob": 20 },
-      { "group": "accesories_personal_unisex", "prob": 15 },
-      {
-        "distribution": [
-          {
-            "collection": [
-              {
-                "distribution": [
-                  { "group": "male_underwear", "prob": 90, "damage": [ 1, 4 ] },
-                  { "item": "union_suit", "prob": 10, "damage": [ 1, 4 ] }
-                ]
-              },
-              {
-                "distribution": [
-                  {
-                    "collection": [
-                      { "group": "pants_male", "prob": 60, "damage": [ 1, 4 ] },
-                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
-                      { "item": "leather_belt", "prob": 30, "damage": [ 1, 4 ] }
-                    ]
-                  },
-                  { "item": "suit", "prob": 5, "damage": [ 1, 4 ] },
-                  { "item": "tux", "prob": 5, "damage": [ 1, 4 ] },
-                  { "item": "thawb", "prob": 10, "damage": [ 1, 4 ] },
-                  { "item": "cassock", "prob": 10, "damage": [ 1, 4 ] },
-                  { "item": "haori", "prob": 10, "damage": [ 1, 4 ] }
-                ]
-              },
-              { "group": "neckties", "prob": 15, "damage": [ 1, 4 ] },
-              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
-              { "group": "socks_unisex", "damage": [ 1, 4 ], "prob": 50 },
-              { "group": "accesories_personal_mens", "prob": 15, "damage": [ 1, 4 ] },
-              { "group": "corpse_male", "damage": 4 }
-            ]
-          },
-          {
-            "collection": [
-              { "group": "female_underwear", "prob": 90, "damage": [ 1, 4 ] },
-              { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
-              {
-                "distribution": [
-                  {
-                    "collection": [
-                      { "group": "pants_female", "prob": 60, "damage": [ 1, 4 ] },
-                      { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
-                      { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
-                      {
-                        "distribution": [
-                          {
-                            "collection": [
-                              {
-                                "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
-                              },
-                              { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
-                            ]
-                          },
-                          { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
-                        ]
-                      }
-                    ],
-                    "prob": 70
-                  },
-                  {
-                    "collection": [
-                      {
-                        "distribution": [
-                          { "item": "gown", "prob": 10, "damage": [ 1, 4 ] },
-                          { "item": "dress", "prob": 70, "damage": [ 1, 4 ] },
-                          { "item": "sundress", "prob": 50, "damage": [ 1, 4 ] }
-                        ]
-                      },
-                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
-                      {
-                        "collection": [
-                          {
-                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
-                          },
-                          { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
-                        ]
-                      },
-                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
-                    ],
-                    "prob": 20
-                  },
-                  {
-                    "collection": [
-                      { "item": "dress_wedding", "damage": [ 1, 4 ] },
-                      { "item": "veil_wedding", "damage": [ 1, 4 ] },
-                      { "group": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
-                      {
-                        "collection": [
-                          {
-                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
-                          },
-                          { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
-                        ]
-                      },
-                      { "item": "long_glove_white", "prob": 20, "damage": [ 1, 4 ] }
-                    ],
-                    "prob": 10
-                  }
-                ]
-              },
-              { "group": "corpse_female", "damage": 4 }
-            ]
-          },
-          {
-            "collection": [
-              { "group": "underwear", "prob": 90, "damage": [ 0, 4 ] },
-              { "group": "pants", "prob": 60, "damage": [ 0, 4 ] },
-              { "group": "shoes_unisex", "prob": 30, "damage": [ 1, 4 ] },
-              { "group": "shirts_unisex", "prob": 60, "damage": [ 1, 4 ] },
-              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] },
-              { "group": "corpse_child", "damage": 4 }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "tool_common_stack",
     "type": "item_group",
     "subtype": "collection",
@@ -208,6 +81,22 @@
       { "group": "costume_jewelry_dark", "prob": 5 },
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
+    ]
+  },
+  {
+    "id": "mansion_safe_nogun",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "diamond", 20 ],
+      { "item": "money_bundle_twenty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_hundred", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "stash_drugs", "prob": 5 },
+      [ "file", 70 ],
+      { "group": "jewelry_front", "prob": 40 },
+      { "group": "costume_jewelry_vampire", "prob": 5 },
+      { "group": "costume_jewelry_dark", "prob": 5 }
     ]
   },
   {
@@ -424,7 +313,7 @@
     "id": "dresser_shabby",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "harddrugs", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
+    "groups": [ [ "harddrugs_residential", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
   },
   {
     "id": "dresser_fancy",
@@ -438,7 +327,8 @@
     "subtype": "collection",
     "items": [
       { "group": "novels", "prob": 40 },
-      { "group": "mansion_books", "prob": 50 },
+      { "group": "mansion_books", "prob": 48 },
+      { "group": "memorial_mansion", "prob": 2 },
       { "group": "homebooks", "prob": 30 },
       { "group": "manuals", "prob": 10 },
       { "group": "textbooks", "prob": 5 },
@@ -462,7 +352,13 @@
     "id": "soa_decor",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "group": "soa_weapons_decor" }, [ "armor_junk_plate", 100 ], [ "helmet_plate", 100 ] ]
+    "items": [
+      { "group": "soa_weapons_decor" },
+      {
+        "distribution": [ { "item": "armor_junk_plate", "prob": 100 }, { "item": "chainmail_junk_hauberk", "prob": 100 } ]
+      },
+      { "item": "helmet_plate", "prob": 100 }
+    ]
   },
   {
     "id": "soa_weapons_decor",
@@ -673,6 +569,7 @@
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
+      [ "backpack_denim", 5 ],
       [ "pom_poms", 30 ],
       [ "shuttlecock", 5 ],
       [ "baseball", 30 ],
@@ -711,8 +608,8 @@
       [ "sheet", 40 ],
       [ "towel", 30 ],
       [ "cotton_patchwork", 20 ],
-      [ "bandages", 5 ],
-      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] }
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 5 }
     ]
   },
   {
@@ -744,7 +641,11 @@
       [ "scythe_toy", 4 ],
       [ "witch_dress_long", 2 ],
       [ "sinister_gown", 2 ],
-      [ "sinister_dress", 2 ]
+      [ "sinister_dress", 2 ],
+      [ "mask_plague", 2 ],
+      [ "trenchcoat_steampunk", 2 ],
+      [ "mummy_dress", 2 ],
+      [ "mummy_jumpsuit", 2 ]
     ]
   },
   {
@@ -765,12 +666,11 @@
       [ "speedo", 10 ],
       { "item": "cooking_oil", "prob": 20, "container-item": "bottle_plastic", "sealed": false },
       { "group": "stash_drugs", "prob": 20 },
-      [ "bikini_top_leather", 10 ],
-      [ "bikini_top_fur", 10 ],
-      [ "bikini_top_short", 10 ],
-      [ "bikini_bottom_short", 10 ],
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 15 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 15 },
+      { "group": "bikini", "prob": 30 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 15
+      },
       [ "skirt_leather", 20 ],
       [ "honey_bottled", 20 ],
       [ "nanoskirt", 20 ],
@@ -800,7 +700,7 @@
       { "group": "costume_gloves", "prob": 2 },
       { "group": "costume_dresses", "prob": 10 },
       { "group": "costume_cloacks", "prob": 1 },
-      [ "cheerleader_top", 10 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 10 },
       [ "cheerleader_top_short", 15 ],
       [ "leotard", 5 ],
       [ "cheerleader_skirt", 10 ],
@@ -831,7 +731,7 @@
       [ "shuttlecock", 10 ],
       [ "baseball", 60 ],
       [ "pom_poms", 30 ],
-      [ "cheerleader_top", 15 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 15 },
       [ "cheerleader_top_short", 15 ],
       [ "cheerleader_skirt", 15 ],
       [ "cheerleader_skirt_short", 15 ],
@@ -853,6 +753,8 @@
       [ "golf_club", 80 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "folded_skateboard_generic", 10 ],
+      [ "javelin_bag", 1 ],
       [ "longbow", 5 ],
       [ "compbow", 1 ],
       [ "shortbow", 5 ],
@@ -860,6 +762,8 @@
       [ "takedown_recurbow", 1 ],
       [ "quiver_takedown_bow", 1 ],
       [ "reflexbow", 2 ],
+      { "group": "archery_loaded_quivers", "prob": 1 },
+      [ "nylon_quiver", 2 ],
       [ "quiver", 3 ],
       [ "fencing_jacket", 10 ],
       [ "fencing_mask", 10 ],
@@ -894,7 +798,7 @@
       [ "hat_chef", 2 ],
       [ "pastaextruder", 10 ],
       [ "knife_butter", 90 ],
-      [ "knife_steak", 85 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 85 },
       [ "fork", 90 ],
       [ "spoon", 90 ],
       [ "glass", 20 ],
@@ -905,14 +809,15 @@
       [ "ceramic_bowl", 10 ],
       [ "ceramic_cup", 10 ],
       { "group": "tinware", "prob": 10 },
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "funnel", 50 ],
       [ "jar_glass_sealed", 50 ],
       [ "jar_3l_glass_sealed", 40 ],
       [ "tongs", 25 ],
-      { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "coffeemaker", "prob": 10 },
       [ "cookbook_daintydishes", 40 ],
       [ "cookbook_indian", 10 ],
+      [ "cookbook_native", 10 ],
       [ "cookbook_foodfashions", 18 ],
       [ "cookbook_mexican", 10 ]
     ]
@@ -1023,10 +928,12 @@
       [ "towel", 40 ],
       [ "can_drink", 30 ],
       [ "pride_flag", 5 ],
+      [ "national_flag", 2 ],
       [ "state_flag", 3 ],
       [ "shark_plushie", 10 ],
       [ "bottle_plastic", 30 ],
       [ "leathersandals", 30 ],
+      [ "espadrilles", 15 ],
       [ "leather_belt", 30 ],
       [ "bag_plastic", 30 ],
       [ "shot_hull", 30 ],
@@ -1037,7 +944,7 @@
       [ "9mm_casing", 20 ],
       [ "38_casing", 20 ],
       [ "45_casing", 20 ],
-      { "item": "inhaler", "prob": 20, "charges-min": 10, "charges-max": 100 },
+      { "item": "inhaler", "prob": 20, "charges": [ 10, 100 ] },
       [ "hairpin", 20 ],
       { "item": "lighter", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "matches", "prob": 20, "charges": [ 1, 20 ] },
@@ -1046,7 +953,8 @@
       [ "fanny", 20 ],
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
-      [ "contacts", 10 ],
+      { "group": "box_of_contact_lens_any", "prob": 10 },
+      { "item": "transition_contacts", "prob": 2, "count": 6 },
       [ "fedora", 10 ],
       [ "firecracker", 5 ],
       [ "fc_hairpin", 5 ],
@@ -1133,14 +1041,15 @@
       [ "tank_top", 5 ],
       [ "towel", 20 ],
       [ "protein_shake", 8 ],
-      { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
-      { "item": "bandages", "prob": 5, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] },
+      { "prob": 3, "group": "coke_bag_zipper_1_8" },
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 5 },
+      { "item": "liq_bandage_spray", "prob": 1, "charges": [ 1, -1 ] },
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "yoghurt", 12 ],
-      { "item": "vitamins", "prob": 10, "charges": [ 1, 20 ] },
-      { "item": "aspirin", "prob": 15, "charges": [ 1, 20 ] },
+      { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
+      { "prob": 15, "group": "bottle_otc_painkiller_1_20" },
       { "group": "corpse_mansion", "prob": 1 },
       [ "fitness_band", 3 ]
     ]
@@ -1209,37 +1118,37 @@
       [ "under_armor_shorts", 50 ],
       [ "under_armor", 50 ],
       [ "tshirt", 60 ],
+      [ "tshirt_cropped", 6 ],
       [ "sneakers", 60 ],
       [ "hot_pants", 44 ],
       [ "leotard", 10 ],
       [ "unitard", 10 ],
       [ "undershirt", 60 ],
       [ "hoodie", 50 ],
+      [ "hoodie_cropped", 5 ],
       [ "shorts", 60 ],
       [ "longshirt", 60 ],
-      { "item": "bandages", "prob": 5, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] },
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 5 },
+      { "item": "liq_bandage_spray", "prob": 1, "charges": [ 1, -1 ] },
       [ "heatpack", 10 ],
-      { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 12, "count": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
       [ "rashguard", 30 ],
       [ "sports_bra", 60 ],
       [ "briefs", 60 ],
       [ "swim_briefs", 10 ],
       [ "speedo", 15 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_top_short", 5 ],
-      [ "bikini_bottom", 10 ],
-      [ "bikini_bottom_short", 5 ],
-      { "item": "vitamins", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "aspirin", "prob": 10, "charges": [ 1, 10 ] },
+      { "group": "bikini", "prob": 15 },
+      { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       [ "karate_gi", 10 ],
       [ "judo_gi", 5 ],
       [ "fitness_band", 5 ],
       [ "cheerleader_dress", 5 ],
       [ "cheerleader_skirt", 5 ],
       [ "cheerleader_skirt_short", 5 ],
-      [ "cheerleader_top", 5 ],
+      { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 5 ],
       [ "pom_poms", 6 ]
     ]
@@ -1264,22 +1173,22 @@
       [ "broom", 40 ],
       [ "mop", 25 ],
       [ "mop_folded", 15 ],
-      { "item": "ammonia_hydroxide", "prob": 24, "charges-min": 1 },
-      { "item": "chem_washing_soda", "prob": 5, "charges-min": 1 },
+      { "item": "ammonia_hydroxide", "prob": 24, "charges": [ 1, -1 ] },
+      { "item": "chem_washing_soda", "prob": 5, "charges": [ 1, -1 ] },
       [ "chem_hydrogen_peroxide", 20 ],
       [ "boots_rubber", 20 ],
-      { "item": "bleach", "prob": 20, "charges-min": 1 },
+      { "item": "bleach", "prob": 20, "charges": [ 1, -1 ] },
       { "item": "material_rocksalt", "prob": 10, "container-item": "bag_canvas" },
       [ "vinegar", 10 ],
       { "item": "lye_powder", "prob": 5, "container-item": "bag_canvas_small" },
       [ "oxy_powder", 5 ],
       [ "fungicide", 5 ],
-      [ "insecticide", 5 ],
+      { "group": "insecticide_bag_plastic", "prob": 5 },
       { "item": "charcoal", "prob": 5, "container-item": "bag_canvas" },
       [ "toilet_paper", 30 ],
       [ "plunger_toilet", 10 ],
       [ "plunger_futuristic", 25 ],
-      { "item": "chem_turpentine", "prob": 20, "charges-min": 20 }
+      { "item": "chem_turpentine", "prob": 20, "charges": [ 20, -1 ] }
     ]
   },
   {
@@ -1301,13 +1210,13 @@
       { "group": "tobacco_products", "prob": 50 },
       { "group": "cigar_box_opened", "prob": 50 },
       [ "novel_pulp", 30 ],
-      { "item": "gum", "prob": 30, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 30, "count": [ 1, 10 ] },
       [ "glass", 20 ],
       [ "bandana", 10 ],
       { "item": "mp3", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 5, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 5, "charges": [ 0, -1 ] },
       [ "phonebook", 5 ],
       [ "hairpin", 5 ],
       { "group": "tinware", "prob": 5 },
@@ -1327,7 +1236,7 @@
       [ "glass", 20 ],
       { "group": "tobacco_products", "prob": 75 },
       { "group": "cigar_box_opened", "prob": 50 },
-      [ "money_bundle", 10 ],
+      [ "money_bundle_ten", 10 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
       { "group": "wallet_stylish_full", "prob": 1 }
@@ -1342,8 +1251,8 @@
       { "group": "beer_selection", "prob": 40 },
       { "group": "glass_of_wine", "prob": 40 },
       [ "glass", 40 ],
-      { "item": "cig", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "cigar", "prob": 20, "charges": [ 1, 10 ] },
+      { "prob": 30, "group": "cig_box_cigarette_1_20" },
+      { "item": "cigar", "prob": 20, "count": [ 1, 10 ] },
       { "item": "case_cigar", "prob": 10, "count": [ 1, 2 ] },
       { "group": "cigar_box_unopened", "prob": 25, "count": [ 1, 5 ] },
       [ "towel", 5 ]
@@ -1395,35 +1304,14 @@
     ]
   },
   {
-    "id": "sewing_room",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "group": "suits", "prob": 50, "damage": [ 0, 2 ] },
-      [ "scissors", 50 ],
-      [ "thread", 50 ],
-      { "group": "pants", "prob": 40, "damage": [ 0, 2 ] },
-      { "group": "shirts", "prob": 40, "damage": [ 0, 2 ] },
-      [ "knitting_needles", 40 ],
-      [ "string_36", 40 ],
-      [ "yarn", 40 ],
-      { "group": "bed", "prob": 30, "damage": [ 0, 2 ] },
-      { "item": "sewing_kit", "prob": 30, "charges": [ 0, 25 ] },
-      [ "cotton_patchwork", 30 ],
-      [ "lycra_patch", 15 ],
-      [ "nylon", 10 ],
-      { "item": "tailors_kit", "prob": 20, "charges": [ 0, 100 ] },
-      [ "kevlar_shears", 5 ]
-    ]
-  },
-  {
     "id": "vanity",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
       [ "mirror", 50 ],
       { "group": "softdrugs", "prob": 50 },
-      [ "contacts", 40 ],
+      { "group": "box_of_contact_lens_any", "prob": 40 },
+      { "item": "transition_contacts", "prob": 8, "count": 6 },
       [ "hairpin", 40 ],
       [ "fc_hairpin", 30 ],
       { "group": "jewelry_front", "prob": 30 },
@@ -1434,10 +1322,10 @@
       [ "purse", 20 ],
       { "item": "leg_bag", "variant": "purple_leg_bag", "prob": 1 },
       { "item": "shavingkit", "prob": 10, "charges": [ 0, 10 ] },
-      { "item": "sewing_kit", "prob": 10, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "group": "harddrugs", "prob": 5 },
+      { "group": "harddrugs_residential", "prob": 5 },
       [ "hairbrush", 30 ],
       [ "comb_pocket", 15 ],
       [ "curler_hair", 10 ],
@@ -1459,6 +1347,9 @@
     "subtype": "distribution",
     "items": [
       [ "jeans", 90 ],
+      [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 30 ],
+      [ "jeans_vintage", 1 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -1468,9 +1359,11 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "tshirt", 70 ],
+      [ "tshirt_cropped", 4 ],
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 10 ],
       [ "tank_top", 50 ],
       [ "undershirt", 30 ],
       [ "boxer_shorts", 30 ],
@@ -1482,6 +1375,7 @@
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
       [ "hoodie", 65 ],
+      [ "hoodie_cropped", 6 ],
       [ "under_armor", 20 ],
       [ "under_armor_shorts", 20 ],
       [ "leotard", 5 ],
@@ -1491,7 +1385,6 @@
       [ "union_suit", 20 ],
       [ "pants_army", 10 ],
       [ "jersey", 40 ],
-      [ "linuxtshirt", 20 ],
       [ "kilt", 3 ],
       [ "gloves_white", 10 ]
     ]
@@ -1503,6 +1396,11 @@
     "items": [
       { "item": "jeans", "prob": 50, "damage": [ 0, 2 ] },
       [ "jeans", 90 ],
+      { "item": "jeans_ripped", "prob": 5, "damage": [ 0, 2 ] },
+      [ "jeans_ripped", 10 ],
+      { "item": "jeans_skinny", "prob": 20, "damage": [ 0, 2 ] },
+      [ "jeans_skinny", 20 ],
+      [ "jeans_vintage", 1 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
       [ "pants", 75 ],
@@ -1511,11 +1409,15 @@
       [ "pants_cargo", 70 ],
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
+      [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
+      [ "tshirt_cropped", 7 ],
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 10 ],
       [ "tank_top", 50 ],
       [ "camisole", 30 ],
       [ "bra", 30 ],
@@ -1524,6 +1426,7 @@
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
       [ "hoodie", 65 ],
+      [ "hoodie_cropped", 6 ],
       [ "under_armor", 20 ],
       [ "under_armor_shorts", 20 ],
       [ "tights", 20 ],
@@ -1550,6 +1453,9 @@
     "subtype": "distribution",
     "items": [
       { "item": "jeans", "prob": 90, "damage": [ 1, 3 ] },
+      { "item": "jeans", "prob": 10, "damage": [ 1, 3 ] },
+      { "item": "jeans_skinny", "prob": 30, "damage": [ 1, 3 ] },
+      { "item": "jeans_ripped", "prob": 10, "damage": [ 1, 3 ] },
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       { "item": "shorts_denim", "prob": 35, "damage": [ 1, 3 ] },
@@ -1558,11 +1464,15 @@
       { "item": "shorts_cargo", "prob": 50, "damage": [ 1, 3 ] },
       [ "skirt_leather", 10 ],
       [ "tshirt", 70 ],
+      [ "tshirt_cropped", 7 ],
       [ "tank_top", 50 ],
       [ "hoodie", 90 ],
       [ "jacket_light", 20 ],
+      [ "jacket_varsity", 10 ],
       { "item": "jacket_jean", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "vest_jean", "prob": 20, "damage": [ 1, 3 ] },
       { "item": "jacket_leather", "prob": 50, "damage": [ 1, 3 ] },
+      { "item": "tacjacket", "prob": 75 },
       [ "bandana", 35 ],
       [ "hat_cotton", 45 ],
       [ "hat_knit", 25 ],
@@ -1583,7 +1493,7 @@
       [ "boots_combat", 10 ],
       [ "pants_army", 10 ],
       [ "jacket_army", 10 ],
-      [ "army_top", 20 ],
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       [ "porkpie", 5 ],
       { "group": "neckties", "prob": 5 },
       [ "jersey", 60 ],
@@ -1627,6 +1537,7 @@
       [ "kippah", 2 ],
       [ "thawb", 1 ],
       [ "kittel", 1 ],
+      [ "tallit_katan", 1 ],
       [ "cassock", 1 ],
       [ "robe", 5 ],
       [ "eboshi", 1 ],
@@ -1634,7 +1545,6 @@
       [ "kimono", 3 ],
       [ "haori", 2 ],
       [ "hat_fur", 2 ],
-      [ "coat_fur_sf", 2 ],
       [ "coat_faux_fur", 4 ],
       [ "coat_fur", 4 ],
       [ "gloves_fur", 4 ],
@@ -1656,6 +1566,7 @@
       [ "suit", 80 ],
       [ "pocketwatch", 30 ],
       [ "jeans", 20 ],
+      [ "jeans_skinny", 5 ],
       [ "pants_checkered", 50 ],
       [ "hat_chef", 50 ],
       [ "jacket_chef", 50 ],
@@ -1705,36 +1616,11 @@
     "ammo": 100,
     "items": [
       { "group": "ammo_obscure", "prob": 90 },
-      [ "arrow_metal", 60 ],
-      [ "bolt_metal", 60 ],
+      { "group": "archery_ammo", "prob": 60 },
+      { "group": "crossbow_bolts", "prob": 60 },
       { "group": "ammo_reloaded", "prob": 30 },
-      { "group": "mags_obscure", "prob": 30 },
+      { "group": "mags_common", "prob": 30 },
       { "group": "ammo_cannon", "prob": 10 }
-    ]
-  },
-  {
-    "id": "voyer",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "item": "camera_pro", "prob": 50, "charges": [ 0, 150 ] },
-      { "item": "camera_pro", "container-item": "camera_bag", "prob": 40, "charges": [ 0, 150 ] },
-      [ "hot_pants_leather", 50 ],
-      [ "photo_album", 50 ],
-      [ "sports_bra", 50 ],
-      [ "briefs", 20 ],
-      [ "swim_briefs", 10 ],
-      [ "speedo", 10 ],
-      [ "bikini_top", 30 ],
-      [ "bikini_top_short", 25 ],
-      [ "bikini_bottom", 30 ],
-      [ "bikini_bottom_short", 25 ],
-      [ "panties", 50 ],
-      [ "mag_porn", 40 ],
-      { "item": "camera", "prob": 20, "charges": [ 0, 150 ] },
-      { "item": "camera", "container-item": "camera_bag", "prob": 10, "charges": [ 0, 150 ] },
-      { "item": "flashlight", "prob": 30, "charges": [ 0, 300 ] },
-      [ "binoculars", 20 ]
     ]
   },
   {
@@ -1749,14 +1635,15 @@
       [ "scythe", 1 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       [ "shovel", 40 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
-      [ "fertilizer_commercial", 30 ],
-      [ "material_quicklime", 30 ],
+      { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
+      { "group": "quicklime_bag", "prob": 30 },
       [ "seed_sunflower", 30 ],
       [ "straw_basket", 30 ],
-      { "item": "trimmer_off", "prob": 20, "charges-min": 0 },
+      { "item": "trimmer_off", "prob": 20, "charges": [ 0, -1 ] },
       [ "knee_pads", 10 ],
       [ "fertilizer_liquid", 1 ]
     ]
@@ -1786,14 +1673,23 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      [ "knife_butcher", 35 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 35 },
       [ "cane", 25 ],
       [ "sinister_cane", 2 ],
       [ "wizard_cane", 1 ],
       [ "wizard_cane_cheap", 1 ],
+      [ "hollow_cane", 1 ],
       [ "umbrella", 20 ],
       { "item": "heavy_flashlight", "prob": 15, "charges": [ 0, 300 ] },
       [ "candlestick", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "vitamins_bottle_plastic_pill_supplement_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "vitamins", "container-item": "null", "count": [ 1, 10 ] } ]
   }
 ]

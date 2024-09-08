@@ -1,5 +1,7 @@
-# Armor Overview
-Armor in cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
+# Armor Balance And Design
+
+## Armor Overview
+Armor in Cataclysm has varying levels of complexity to attempt a deep simulation of worn clothing. Compared with systems that try to compress down armor to one or two numbers like Pen And Paper game armor class systems or CRPGs with systems like DT and DR (flat and multiplicative reduction) Cataclysm attempts to more accurately simulate different materials, their relative coverage of the body, and how that interacts with the player.  A lot of this is simplified or clarified to the player in a way that is digestible. We *shouldn't* hide info from the player but we should *avoid* information overload.
 
 That said this document will practice no such restraint and is designed to be a complete guide to *everything* possible. This guide will cover the basic ideas of **how it works**, **what is necessary** for armor to function, **what is possible** with the armor system and **how to design armor** so that it is balanced and makes sense. An **FAQ** will also be included to cover some specifics people might have about armor or how to understand it as well as a section on things to be added **looking forward**.  Each section will also give specific example item ids you could investigate for examples (as well as code snippets) or for balance considerations.
 
@@ -49,14 +51,13 @@ here is an example armor to look at:
 ```json
 {
   "id": "dress_shirt",
-  "repairs_like": "tshirt",
   "type": "ARMOR",
   "name": { "str": "dress shirt" },
   "description": "A white button-down shirt with long sleeves.  Looks professional!",
   "weight": "250 g",
   "volume": "750 ml",
-  "price": 1500,
-  "price_postapoc": 50,
+  "price": "15 USD",
+    "price_postapoc": "50 cent",
   "material": [ "cotton" ],
   "symbol": "[",
   "looks_like": "longshirt",
@@ -181,9 +182,8 @@ Sided armor is armor that even though it describes covering, both legs, both arm
   "description": "A small concealed knife sheath worn on the ankle.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
   "weight": "160 g",
   "volume": "500 ml",
-  "price": 5200,
-  "price_postapoc": 250,
-  "to_hit": -1,
+  "price": "52 USD",
+  "price_postapoc": "2 USD 50 cent",
   "material": [ "leather" ],
   "symbol": "[",
   "looks_like": "sheath",
@@ -202,8 +202,17 @@ Sided armor is armor that even though it describes covering, both legs, both arm
     }
   ],
   "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-  "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+  "armor": [
+    {
+      "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+      "covers": [ "foot_l", "foot_r" ],
+      "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+      "coverage": 25,
+      "encumbrance": [ 2, 3 ],
+      "layers": [ "BELTED" ]
+    }
+  ]
 }
 ```
 #### Further Reading
@@ -242,14 +251,14 @@ The robofac greaves, mantles, skirts and vambraces use this.
 
 ### Repairs
 #### Explanation
-Clothing repairs are inherited from their material type, while the difficulty and required skills are inherited from their crafting recipe. In cases where a piece of clothing or armor is not craftable, the ``repairs-like`` flag can be used to specify a recipe from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
+Clothing repairs are inherited from their material type.  Needed materials and repair difficulty are based on these materials (you can make a repair with any material it is made of, but the difficulty is whatever is the hardest part of it to repair).  In cases where the repair difficulty does not match that of its materials the ``repairs-like`` flag can be used to specify an item from which the difficulty and required skills should be inherited instead. This flag does not change the materials required to repair the item, which is always derived from its composition.
 
 #### Example
-
+The leather belt repairs like a leather patch because steel is more difficult to repair than leather, but the steel belt buckle is exceedingly unlikely to sustain damage compared to the leather majority of the belt.
 ```json
 {
-  "id": "dress_shirt",
-  "repairs_like": "tshirt"
+  "id": "belt_leather",
+  "repairs_like": "leather"
 }
 ```
 
@@ -391,13 +400,14 @@ plate definition:
   "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
   "weight": "2500 g",
   "volume": "1533 ml",
-  "price": 60000,
-  "price_postapoc": 100,
+  "price": "600 USD",
+  "price_postapoc": "1 USD",
   "material": [ "ceramic" ],
   "symbol": ",",
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -410,6 +420,8 @@ Look at the Plates and Vests and ballistic armor or anything with ABLATIVE_LARGE
 #### Explanation
 Normally armor degrades with use. This degradation is incremental and decreases the armors effectiveness and protection. However not all armor degrades, some instead will become completely compromised. For these items ```"non_functional": "ITEM_ID"``` can be added. Instead of the normal degradation rules, armor with non_functional will have a chance to transform into its non_functional version when struck. Specifically transform items are concerned with how much damage they take before reduction, rather than after reduction and as the damage scales towards their total resistance (and beyond) scales to a 33% chance to transform (and beyond). Example a 50 damage bullet hitting a 50 damage plate has a 33% chance to transform, a 25 damage bullet would only have a 16.5% chance to cause a transform, 100 damage a 66% chance.
 
+Transforming items can also specify a custom destruction message with ```"damage_verb"``` which is what will be said when it is damaged.
+
 #### Example
 ```json
 {
@@ -420,13 +432,14 @@ Normally armor degrades with use. This degradation is incremental and decreases 
   "description": "A polygonal ceramic ballistic plate with a slightly concave profile.  Its inner surface is coated with Ultra High Molecular Weight Polyethylene, and is labeled \"TOP\", while its outer surface is labeled \"STRIKE FACE\".  This is intended to be worn in a ballistic vest and can withstand several high energy rifle rounds before breaking.",
   "weight": "2500 g",
   "volume": "1533 ml",
-  "price": 60000,
-  "price_postapoc": 100,
+  "price": "600 USD",
+  "price_postapoc": "1 USD",
   "material": [ "ceramic" ],
   "symbol": ",",
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -449,13 +462,13 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
   "color": "blue",
   "name": { "str": "survivor headlamp" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
-  "price": 6500,
-  "price_postapoc": 250,
+  "price": "65 USD",
+  "price_postapoc": "2 USD 50 cent",
   "material": [ "plastic", "aluminum" ],
   "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
   "weight": "620 g",
   "volume": "500 ml",
-  "bashing": 1,
+  "melee_damage": { "bash": 1 },
   "charges_per_use": 1,
   "ammo": "battery",
   "use_action": {
@@ -472,7 +485,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
       "pocket_type": "MAGAZINE_WELL",
       "rigid": true,
       "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-      "default_magazine": "light_plus_battery_cell"
+      "default_magazine": "light_battery_cell"
     }
   ],
   "armor": [ { "coverage": 20, "covers": [ "head" ] } ]
@@ -480,12 +493,11 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
 {
   "id": "survivor_light_on",
   "copy-from": "survivor_light",
-  "repairs_like": "survivor_light",
   "type": "TOOL_ARMOR",
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
   "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-  "power_draw": "10 J",
+  "power_draw": "10 W",
   "revert_to": "survivor_light",
   "use_action": {
     "ammo_scale": 0,
@@ -520,7 +532,7 @@ Some armor with custom abilities can be handled as enchantments. This is a new w
   "valid": false,
   "purifiable": false,
   "types": [ "Equipment" ],
-  "weight_capacity_modifier": 1.1
+  "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
 }
 ```
 
@@ -531,105 +543,104 @@ The Nomad Jumpsuits use this to provide well distributed.
 This is a hopefully exhaustive list of flags you may wish to use on items and what they do.
 
 #### Layers
-ID | Description
--- | --
-PERSONAL | On this layer
+ID        | Description
+--        | --
+PERSONAL  | On this layer
 SKINTIGHT | On this layer
-NORMAL | On this layer
-WAIST | On this layer
-OUTER | On this layer
-BELTED | On this layer
-AURA | On this layer
+NORMAL    | On this layer
+WAIST     | On this layer
+OUTER     | On this layer
+BELTED    | On this layer
+AURA      | On this layer
 
 
 #### Clothing stuff
-ID | Description
--- | --
-VARSIZE | Item may not fit you, if it fits encumbrance values are halved compared to defined values.
-STURDY | Armor is much less likely to take damage and degrade when struck
-NO_REPAIR | Can't be repaired by the player using tools like the sewing kit, or welder
-WATER_FRIENDLY | Armor makes the covered body parts not feel bad to be wet
-WATER_PROOF | Makes the body parts immune to water
-RAIN_PROOF | Wont get wet in rain
-HOOD | Keeps head warm if nothing on it
-POCKETS | Keeps hands warm if they are free
+ID               | Description
+--               | --
+VARSIZE          | Item may not fit you, if it fits encumbrance values are halved compared to defined values.
+STURDY           | Armor is much less likely to take damage and degrade when struck
+NO_REPAIR        | Can't be repaired by the player using tools like the sewing kit, or welder
+WATER_FRIENDLY   | Armor makes the covered body parts not feel bad to be wet
+WATER_PROOF      | Makes the body parts immune to water
+RAIN_PROOF       | Won't get wet in rain
+HOOD             | Keeps head warm if nothing on it
+POCKETS          | Keeps hands warm if they are free
 BLOCK_WHILE_WORN | Can be used to block with while worn
-COLLAR | Keeps mouth warm if not covered
-ONLY_ONE | Only one of this item can be worn
-ONE_PER_LAYER | Only one item can be worn on this clothing layer
-FANCY | Clothing is impractically fancy, (like a top hat)
-SUPER_FANCY | Even more fancy than fancy
-FILTHY | Disgusting dirty clothes
-FRAGILE | Breaks fast
-SLOWS_MOVEMENT | Slows you down to wear
+COLLAR           | Keeps mouth warm if not heavily encumbered
+ONLY_ONE         | Only one of this item can be worn
+ONE_PER_LAYER    | Only one item can be worn on this clothing layer
+FANCY            | Clothing is impractically fancy, (like a top hat)
+SUPER_FANCY      | Even more fancy than fancy
+FILTHY           | Disgusting dirty clothes
+FRAGILE          | Breaks fast
 
 #### Immunities/Defenses
 **only some of these that are used**
 
-ID | Description
--- | --
-ELECTRIC_IMMUNE | Immunity
-BIO_IMMUNE | Immunity
-BASH_IMMUNE | Immunity
-CUT_IMMUNE | Immunity
-BULLET_IMMUNE | Immunity
-ACID_IMMUNE | Immunity
-STAB_IMMUNE | Immunity
-HEAT_IMMUNE | Immunity
-GAS_PROOF | Immunity
-RAD_PROOF | Immunity
+ID                | Description
+--                | --
+ELECTRIC_IMMUNE   | Immunity
+BIO_IMMUNE        | Immunity
+BASH_IMMUNE       | Immunity
+CUT_IMMUNE        | Immunity
+BULLET_IMMUNE     | Immunity
+ACID_IMMUNE       | Immunity
+STAB_IMMUNE       | Immunity
+HEAT_IMMUNE       | Immunity
+GAS_PROOF         | Immunity
+RAD_PROOF         | Immunity
 PSYSHIELD_PARTIAL | Partial mind control protection
-RAD_RESIST | Partial rads protection
-SUN_GLASSES | Protects from suns glare
+RAD_RESIST        | Partial rads protection
+SUN_GLASSES       | Protects from suns glare
 
 #### Mutation stuff
-ID | Description
--- | --
-OVERSIZE | Can be worn by larger Characters
-UNDERSIZE | Can be worn by smaller Characters
-ALLOWS_TAIL | People with tails can still wear it
-ALLOWS_TALONS | People with talons can still wear it
-ALLOWS_NATURAL_ATTACKS | Wont hinder special attacks
+ID                     | Description
+--                     | --
+OVERSIZE               | Can be worn by larger Characters
+UNDERSIZE              | Can be worn by smaller Characters
+ALLOWS_TAIL            | People with tails can still wear it
+ALLOWS_TALONS          | People with talons can still wear it
+ALLOWS_NATURAL_ATTACKS | Won't hinder special attacks
 
 #### Sci-fi
-ID | Description
--- | --
-ACTIVE_CLOAKING | Makes you invisible
-CLIMATE_CONTROL | Keeps the character at a safe temperature
-NO_CLEAN | Can't be cleaned no matter what you do (combine with filthy)
-SEMITANGIBLE | Can be worn with other stuff on layer
+ID                    | Description
+--                    | --
+ACTIVE_CLOAKING       | Makes you invisible
+CLIMATE_CONTROL       | Keeps the character at a safe temperature
+NO_CLEAN              | Can't be cleaned no matter what you do (combine with filthy)
+SEMITANGIBLE          | Can be worn with other stuff on layer
 POWERARMOR_COMPATIBLE | Can be worn with power armor on
-NANOFAB_REPAIR | Can be repaired in a nanofabricator
-DIMENSIONAL_ANCHOR | Provides nether protection
-PORTAL_PROOF | Provides protection from portals
-GNV_EFFECT | Night Vision
-IR_EFFECT | Infrared Vision
+NANOFAB_REPAIR        | Can be repaired in a nanofabricator
+DIMENSIONAL_ANCHOR    | Provides nether protection
+PORTAL_PROOF          | Provides protection from portals
+GNV_EFFECT            | Night Vision
+IR_EFFECT             | Infrared Vision
 
 #### Ablative
-ID | Description
--- | --
-CANT_WEAR | Armor can't be worn directly (**all ablative plates should have this**)
-ABLATIVE_LARGE | Large ablative plates that fit in the front of standard ballistic vests
+ID              | Description
+--              | --
+CANT_WEAR       | Armor can't be worn directly (**all ablative plates should have this**)
+ABLATIVE_LARGE  | Large ablative plates that fit in the front of standard ballistic vests
 ABLATIVE_MEDIUM | Side ablative plates that fit in the sides of standard ballistic vests
 ABLATIVE_MANTLE | Shoulder, arm and torso armor used by Hub 01
-ABLATIVE_SKIRT | Hip and thigh armor used by Hub 01
+ABLATIVE_SKIRT  | Hip and thigh armor used by Hub 01
 
 #### Situational
-ID | Description
--- | --
-DEAF | Can't hear anything
+ID               | Description
+--               | --
+DEAF             | Can't hear anything
 FLASH_PROTECTION | Protects from flashbangs
-FLOTATION | Causes you to float
-FIN | Makes you swim faster
-PARTIAL_DEAF | Protects from loud sounds while you can hear other sounds
-NO_WEAR_EFFECT | Lets players know this item gives no benefits (used on jewelry)
-PALS_SMALL | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
-PALS_MEDIUM | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
-PALS_LARGE | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
-ROLLER_ONE | Heelies
-ROLLER_INLINE | Inline roller blades
-ROLLER_QUAD | Quad roller blades
-SWIM_GOGGLES | Lets you see under water
+FLOTATION        | Causes you to float
+FIN              | Makes you swim faster
+PARTIAL_DEAF     | Protects from loud sounds while you can hear other sounds
+NO_WEAR_EFFECT   | Lets players know this item gives no benefits (used on jewelry)
+PALS_SMALL       | Can be incorporated into a LBV / ballistic vest (takes 1 slot)
+PALS_MEDIUM      | Can be incorporated into a LBV / ballistic vest (takes 2 slot)
+PALS_LARGE       | Can be incorporated into a LBV / ballistic vest (takes 3 slot)
+ROLLER_ONE       | Heelies
+ROLLER_INLINE    | Inline roller blades
+ROLLER_QUAD      | Quad roller blades
+SWIM_GOGGLES     | Lets you see under water
 
 ## Making your own items
 When you want to add a new item to Cataclysm there are a few things you should prioritize, focus on and consider.
@@ -637,7 +648,7 @@ When you want to add a new item to Cataclysm there are a few things you should p
 ### Balance/Considerations
 
 #### The Golden Rule Of Balance
-The core ideal when making any item but especially armor is that **weight, thickness and materials should be correct** if the item is real it should be exactly as it is in real life, if it is created for cataclysm it should be similar to other true to life armors. It does not matter if you think that your pet project leather armor *should* be better, if a leather jacket is 1.2mm thick and that gives it 4.4 bash protection and you think that is too low **you can not just make it thicker**. Armor should be based off real life thickness values. If after making something true to life it isn't behaving true to life then a discussion about how to solve it can be had. A new material might need to be defined (we have 3 types of Kevlar and 3-4 types of plastic) or perhaps your assumptions / materials are wrong. Any solution however should come with proper research since it will have long reaching effects. The reasoning for this golden rule is it consolidates balancing at the material level making it much easier to research and get info and leads to less favoritism and outliers.
+The core ideal when making any item but especially armor is that **weight, thickness and materials should be correct** if the item is real it should be exactly as it is in real life, if it is created for Cataclysm it should be similar to other true to life armors. It does not matter if you think that your pet project leather armor *should* be better, if a leather jacket is 1.2mm thick and that gives it 4.4 bash protection and you think that is too low **you can not just make it thicker**. Armor should be based off real life thickness values. If after making something true to life it isn't behaving true to life then a discussion about how to solve it can be had. A new material might need to be defined (we have 3 types of Kevlar and 3-4 types of plastic) or perhaps your assumptions / materials are wrong. Any solution however should come with proper research since it will have long reaching effects. The reasoning for this golden rule is it consolidates balancing at the material level making it much easier to research and get info and leads to less favoritism and outliers.
 
 #### The Golden Rule Of Design
 Make things as simple as they possibly can be. When a player inspects a t-shirt they shouldn't have to inspect 35 lines of armor data that could be summarized as "basically no protection, keeps you kinda warm". Advanced and dedicated armor can be *very* complicated but try to keep clothing as complex as they need to be to be simulated correctly.

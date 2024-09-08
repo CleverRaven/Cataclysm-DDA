@@ -7,9 +7,8 @@
     "description": "A Kevlar armored custom full-length duster, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "2592 g",
     "volume": "9500 ml",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
+    "price": "400 USD",
+    "price_postapoc": "80 USD",
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_leather",
@@ -78,19 +77,18 @@
   {
     "id": "xl_duster_survivor",
     "type": "ARMOR",
-    "name": { "str": "XL survivor duster" },
+    "name": { "str": "survivor duster" },
     "copy-from": "duster_survivor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_survivor",
     "type": "ARMOR",
     "copy-from": "duster_survivor",
-    "looks_like": "duster_survivor",
-    "name": { "str": "XS survivor duster" },
+    "name": { "str": "survivor duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "sleeveless_duster_survivor",
@@ -101,9 +99,8 @@
     "description": "A custom Kevlar armored full-length duster without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "2203 g",
     "volume": "8 L",
-    "price": 34000,
-    "price_postapoc": 4500,
-    "to_hit": -1,
+    "price": "340 USD",
+    "price_postapoc": "45 USD",
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_survivor",
@@ -140,9 +137,8 @@
     "//": "weight is currently an estimation could be better",
     "weight": "5500 g",
     "volume": "7500 ml",
-    "price": 180000,
-    "price_postapoc": 2000,
-    "to_hit": -3,
+    "price": "1 kUSD 800 USD",
+    "price_postapoc": "20 USD",
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "armor_scavenger",
@@ -152,7 +148,7 @@
         "//": "stats of a bullet proof vest",
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 4.4 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "volume_encumber_modifier": 0.3,
         "encumbrance": 6,
@@ -218,7 +214,7 @@
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
       }
     ],
-    "warmth": 40,
+    "warmth": 25,
     "material_thickness": 5,
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "valid_mods": [ "steel_padded" ],
@@ -233,9 +229,8 @@
     "description": "A Kevlar armored custom trenchcoat, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "1920 g",
     "volume": "7 L",
-    "price": 40000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
+    "price": "400 USD",
+    "price_postapoc": "80 USD",
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -243,7 +238,19 @@
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 15 ] },
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
     ],
     "pocket_data": [
       {
@@ -304,9 +311,8 @@
     "description": "A custom Kevlar armored trenchcoat without sleeves, covered with pouches and pockets.  Comfortable, durable, and great for storage.",
     "weight": "1632 g",
     "volume": "6 L",
-    "price": 34000,
-    "price_postapoc": 500,
-    "to_hit": -1,
+    "price": "340 USD",
+    "price_postapoc": "5 USD",
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_survivor",
@@ -331,6 +337,18 @@
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "coverage": 40,
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
         "encumbrance": [ 0, 0 ]
       }
     ]

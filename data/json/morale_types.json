@@ -205,6 +205,11 @@
     "text": "Feeling bad"
   },
   {
+    "id": "morale_bad_protein_bar",
+    "type": "morale_type",
+    "text": "Demoralizing food"
+  },
+  {
     "id": "morale_killed_innocent",
     "type": "morale_type",
     "text": "Killed an innocent person"
@@ -263,6 +268,11 @@
     "id": "morale_perm_masochist",
     "type": "morale_type",
     "text": "Masochism"
+  },
+  {
+    "id": "morale_perm_radiophile",
+    "type": "morale_type",
+    "text": "Tingly feeling"
   },
   {
     "id": "morale_perm_noface",
@@ -413,5 +423,35 @@
     "id": "morale_impossible_shape",
     "type": "morale_type",
     "text": "Saw something that hurts to remember"
+  },
+  {
+    "id": "morale_afs_drugs",
+    "type": "morale_type",
+    "text": "Chemical enhancement moodswing"
+  },
+  {
+    "id": "morale_social",
+    "type": "morale_type",
+    "text": "Spent time around allies"
+  },
+  {
+    "id": "morale_asocial",
+    "type": "morale_type",
+    "text": "Spent time alone"
+  },
+  {
+    "id": "morale_bile",
+    "type": "morale_type",
+    "text": "Covered in bile"
+  },
+  {
+    "id": "morale_sunrise",
+    "type": "morale_type",
+    "text": "Saw the sun rise"
+  },
+  {
+    "id": "morale_sunset",
+    "type": "morale_type",
+    "text": "Saw the sun set"
   }
 ]

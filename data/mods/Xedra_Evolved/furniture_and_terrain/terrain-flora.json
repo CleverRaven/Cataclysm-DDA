@@ -1,0 +1,424 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_tree_fig",
+    "name": "fig tree",
+    "looks_like": "t_tree",
+    "description": "This tree is Ficus carica, a species of small tree in the flowering plant family Moraceae, native to the Mediterranean region, together with western and southern Asia.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red", "brown" ],
+    "//": "barren in winter, fruits in autumn",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_fig_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "fig_harv" } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_fig_harvested",
+    "name": "fig tree",
+    "looks_like": "t_tree_dead",
+    "description": "This tree is Ficus carica, a species of small tree in the flowering plant family Moraceae, native to the Mediterranean region, together with western and southern Asia.  There do not appear to be any ripe apples now.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_fig",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_pomegranate",
+    "name": "fig tree",
+    "looks_like": "t_tree",
+    "description": "This tree is Punica granatum is a fruit-bearing deciduous shrub in the family Lythraceae, subfamily Punicoideae, that grows between 5 and 10 m (16 and 33 ft) tall.  If you examined the branches more closely, you could probably find a few mature ones in autumn.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "red", "brown" ],
+    "//": "barren in winter, fruits in autumn",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_pomegranate_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "pomegranate_harv" } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_pomegranate_harvested",
+    "name": "fig tree",
+    "looks_like": "t_tree_dead",
+    "description": "This tree is Punica granatum is a fruit-bearing deciduous shrub in the family Lythraceae, subfamily Punicoideae, that grows between 5 and 10 m (16 and 33 ft) tall.  There do not appear to be any ripe apples now.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "barren in winter, no fruits anymore",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_pomegranate",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hawthorn",
+    "name": "hawthorn tree",
+    "looks_like": "t_tree",
+    "description": "Crataegus monogyna, known as common hawthorn, one-seed hawthorn, or single-seeded hawthorn, is a species of flowering plant in the rose family Rosaceae.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "i_light_green", "brown" ],
+    "//": "berries in autum and in winter, harvestable petals in spring",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [
+      { "seasons": [ "spring" ], "id": "hawthorn_petal_harv" },
+      { "seasons": [ "autumn", "winter" ], "id": "hawthorn_berry_harv" }
+    ],
+    "transforms_into": "t_tree_hawthorn_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hawthorn_harvested",
+    "looks_like": "t_tree_harvested",
+    "description": "Crataegus monogyna, known as common hawthorn, one-seed hawthorn, or single-seeded hawthorn, is a species of flowering plant in the rose family Rosaceae.  It looks like the tree has been picked clean of hawthorns.",
+    "name": "hawthorn tree",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_hawthorn",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_spring",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_spring_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_spring_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_spring",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_summer",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_summer_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_summer_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_summer",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_autumn",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_autumn_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_autumn_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_autumn",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_winter",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches, but you'd need to check more closely to know if they're ripe.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_winter_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 10,
+    "harvest_by_season": [ { "seasons": [ "winter" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_winter_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "light_blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_winter",
+    "examine_action": "harvested_plant",
+    "light_emitted": 10,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mushroom_patch",
+    "name": "patch of mushrooms",
+    "looks_like": "t_fungus_colony",
+    "description": "A cluster of mushrooms, growing all together.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "terrain",
+    "id": "t_arvore_living_tent",
+    "name": "den of brambles",
+    "description": "A structure made from quickly-grown vines and brambles, almost-entirely concealing the hollow inside.",
+    "symbol": "#",
+    "color": "brown_green",
+    "looks_like": "t_bramble_door_c",
+    "move_cost": 2,
+    "coverage": 80,
+    "floor_bedding_warmth": 2000,
+    "comfort": 3,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick", "count": [ 3, 6 ] }, { "item": "leaves", "count": [ 6, 18 ] } ]
+    }
+  }
+]

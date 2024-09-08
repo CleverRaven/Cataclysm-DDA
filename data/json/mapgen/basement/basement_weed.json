@@ -3,8 +3,8 @@
     "id": "weed_farm",
     "type": "item_group",
     "items": [
-      { "item": "weed", "prob": 70, "count-min": 0, "count-max": 4 },
-      { "item": "seed_weed", "prob": 60 },
+      { "item": "weed", "prob": 70, "count": [ 0, 20 ] },
+      { "item": "seed_weed", "prob": 60, "count": 2 },
       { "item": "cannabis", "prob": 50 },
       { "item": "withered", "prob": 70 }
     ]
@@ -89,7 +89,7 @@
         "R": "f_rack",
         "A": "f_air_filter",
         "C": "f_air_conditioner",
-        "H": "f_water_heater",
+        "H": [ "f_water_heater", "f_water_heater_family" ],
         "W": [ "f_water_purifier", "f_home_furnace" ],
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf"

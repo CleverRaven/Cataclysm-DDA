@@ -1,0 +1,116 @@
+[
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_clean",
+    "name": "Clean fouling",
+    "success_msg": "You clean your %s.",
+    "time": "50 m",
+    "faults_removed": [ "fault_gun_dirt" ],
+    "faults_added": [ "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "dirt": "0" },
+    "requirements": [ [ "gun_cleaning", 1 ] ],
+    "time_save_profs": { "prof_gun_cleaning": 0.5 }
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_bp",
+    "name": "Clean blackpowder fouling",
+    "success_msg": "You clean your %s.",
+    "time": "50 m",
+    "faults_removed": [ "fault_gun_blackpowder" ],
+    "faults_added": [ "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "dirt": "0", "rust_timer": "0" },
+    "requirements": [ [ "gun_cleaning_bp", 1 ] ],
+    "time_save_profs": { "prof_gun_cleaning": 0.5 },
+    "time_save_flags": { "EASY_CLEAN": 0.5 }
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_quick",
+    "name": "Swab gun",
+    "success_msg": "You quickly swab your %s to remove black powder residue and prevent further corrosion.",
+    "time": "1 m",
+    "faults_removed": [ "fault_gun_blackpowder" ],
+    "faults_added": [ "fault_gun_blackpowder" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "rust_timer": "0" },
+    "adjust_variables_multiply": { "dirt": 0.8 },
+    "requirements": [ [ "gun_cleaning_quick", 1 ] ],
+    "time_save_profs": { "prof_gun_cleaning": 0.5 },
+    "time_save_flags": { "EASY_CLEAN": 0.5 }
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_clean_and_lube",
+    "name": "Clean fouling and lubricate",
+    "success_msg": "You clean and lubricate your %s.",
+    "time": "60 m",
+    "faults_removed": [ "fault_gun_dirt", "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "dirt": "0" },
+    "requirements": [ [ "gun_cleaning", 1 ], [ "gun_lubrication", 1 ] ],
+    "time_save_profs": { "prof_gun_cleaning": 0.5 }
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_gun_fouling_clean_and_lube_bp",
+    "name": "Clean fouling and lubricate",
+    "success_msg": "You clean and lubricate your %s.",
+    "time": "60 m",
+    "faults_removed": [ "fault_gun_blackpowder", "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "set_variables": { "dirt": "0", "rust_timer": "0" },
+    "requirements": [ [ "gun_cleaning_bp", 1 ], [ "gun_lubrication", 1 ] ],
+    "time_save_profs": { "prof_gun_cleaning": 0.5 },
+    "time_save_flags": { "EASY_CLEAN": 0.5 }
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_fail_to_feed_manual_feed",
+    "name": "Manual cycle",
+    "success_msg": "You manually cycle your %s to put round in the chamber.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_fail_to_feed" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_gun_chamber_spent_eject",
+    "name": "Eject spent casing",
+    "success_msg": "You eject the spent casing from the %s's chamber.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_gun_chamber_spent" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_stovepipe_eject",
+    "name": "Eject spent casing",
+    "success_msg": "You eject the spent casing, stuck in %s's slide.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_stovepipe" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_double_feed_clean",
+    "name": "Clean double feed",
+    "success_msg": "You eject the second round stuck in %s's chamber.",
+    "time": "10 s",
+    "set_variables": { "u_know_round_in_chamber": "true" },
+    "faults_removed": [ "fault_double_feed" ]
+  },
+  {
+    "type": "fault_fix",
+    "id": "mend_fault_gun_unlubricated",
+    "name": "Lubricate",
+    "time": "10 m",
+    "faults_removed": [ "fault_gun_unlubricated" ],
+    "skills": { "mechanics": 1 },
+    "success_msg": "You lubricate the %s.",
+    "requirements": [ [ "gun_lubrication", 1 ] ],
+    "time_save_profs": { "prof_gun_cleaning": 0.5 }
+  }
+]

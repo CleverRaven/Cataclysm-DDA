@@ -35,7 +35,7 @@
 #  define ATTRIBUTE_FORMAT_ARG(a)
 #endif
 
-void select_language();
+std::string select_language();
 
 // For code analysis purposes in our clang-tidy plugin we need to be able to
 // detect when something is the argument to a translation function.  The _
@@ -94,8 +94,22 @@ inline const char *npgettext( const char *const context, const char *const msgid
 
 #endif // LOCALIZE
 
+// Avoid using these functions from libintl.h which won't work because we have
+// our own implementations with different names.
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wredundant-decls"
+[[deprecated( "Use _( ... ) instead" )]]
+//NOLINTNEXTLINE(readability-redundant-declaration,readability-inconsistent-declaration-parameter-name,cata-no-long)
+char *gettext( const char *msgid );
+[[deprecated( "Use n_gettext( ... ) instead" )]]
+//NOLINTNEXTLINE(readability-redundant-declaration,readability-inconsistent-declaration-parameter-name,cata-no-long)
+char *ngettext( const char *msgid, const char *msgid2, unsigned long int n );
+#pragma GCC diagnostic pop
+
 std::string locale_dir();
 
-void set_language();
+void set_language_from_options();
+void set_language( const std::string &lang );
 
 #endif // CATA_SRC_TRANSLATIONS_H

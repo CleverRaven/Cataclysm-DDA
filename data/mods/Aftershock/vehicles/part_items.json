@@ -12,9 +12,9 @@
     "looks_like": "xlframe",
     "techniques": [ "DEF_DISARM" ],
     "volume": "7500 ml",
-    "bashing": 15,
     "category": "veh_parts",
-    "price": 4000
+    "price": "40 USD",
+    "melee_damage": { "bash": 15 }
   },
   {
     "type": "GENERIC",
@@ -35,9 +35,9 @@
     "symbol": "$",
     "material": [ "plastic", "steel" ],
     "volume": "6 L",
-    "bashing": 2,
     "category": "veh_parts",
-    "price": 60000
+    "price": "600 USD",
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -47,7 +47,25 @@
     "to_hit": -5,
     "material": [ "glass", "steel" ],
     "volume": "4500 ml",
-    "price": 900000,
+    "price": "9 kUSD",
     "copy-from": "solar_panel"
+  },
+  {
+    "type": "TOOL",
+    "id": "minireactor",
+    "name": { "str": "minireactor" },
+    "description": "A small, portable plutonium reactor.  Handle with great care!",
+    "weight": "27215 g",
+    "to_hit": -4,
+    "color": "light_cyan",
+    "symbol": ":",
+    "material": [ "superalloy", "ceramic" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 10000 }, "rigid": true } ],
+    "volume": "100 L",
+    "category": "veh_parts",
+    "price": "900 USD",
+    "price_postapoc": "50 USD",
+    "ammo": [ "plutonium" ],
+    "melee_damage": { "bash": 7 }
   }
 ]

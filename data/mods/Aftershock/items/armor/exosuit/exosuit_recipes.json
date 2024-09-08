@@ -17,7 +17,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ]
   },
   {
@@ -38,7 +38,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ]
   },
   {
@@ -59,7 +59,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ]
   },
   {
@@ -80,7 +80,7 @@
       { "proficiency": "prof_armorsmithing" },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_quenching", "fail_multiplier": 2 }
+      { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ]
   },
   {
@@ -93,7 +93,7 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "2 h",
-    "using": [ [ "plastic_molding", 4 ], [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "plastic_molding", 4 ], [ "soldering_standard", 10 ] ],
     "components": [ [ [ "damaged_exo_helmet_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
@@ -107,7 +107,7 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "8 h",
-    "using": [ [ "plastic_molding", 8 ], [ "soldering_standard", 20 ], [ "surface_heat", 20 ] ],
+    "using": [ [ "plastic_molding", 8 ], [ "soldering_standard", 20 ] ],
     "components": [ [ [ "damaged_exo_torso_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
@@ -121,7 +121,7 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "6 h",
-    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ], [ "surface_heat", 15 ] ],
+    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ] ],
     "components": [ [ [ "damaged_exo_arm_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   },
@@ -135,7 +135,7 @@
     "difficulty": 7,
     "book_learn": [ [ "plastics_book", 7 ] ],
     "time": "6 h",
-    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ], [ "surface_heat", 15 ] ],
+    "using": [ [ "plastic_molding", 6 ], [ "soldering_standard", 15 ] ],
     "components": [ [ [ "damaged_exo_leg_plastic", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
   }

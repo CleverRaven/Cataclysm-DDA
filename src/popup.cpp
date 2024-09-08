@@ -4,11 +4,144 @@
 #include <array>
 #include <memory>
 
+#include "options.h"
 #include "cached_options.h"
 #include "catacharset.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "ui_manager.h"
+#include "ui.h"
+#include "cata_imgui.h"
+#include "imgui/imgui.h"
+#include "color.h"
+
+class query_popup_impl : public cataimgui::window
+{
+        short mouse_selected_option;
+        size_t msg_width;
+        nc_color default_text_color;
+        query_popup *parent;
+        short last_keyboard_selected_option;
+
+        std::vector<std::vector<std::string>> fold_query(
+                                               const std::string &category,
+                                               keyboard_mode pref_kbd_mode,
+                                               const std::vector<query_popup::query_option> &options,
+                                               int max_width, int horz_padding );
+    public:
+        short keyboard_selected_option;
+
+        explicit query_popup_impl( query_popup *parent ) : cataimgui::window( "QUERY_POPUP",
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysAutoResize ),
+            default_text_color( c_white ) {
+            msg_width = 400;
+            this->parent = parent;
+            keyboard_selected_option = 0;
+            last_keyboard_selected_option = -1;
+            mouse_selected_option = -1;
+        }
+
+        void on_resized() override;
+
+        int get_mouse_selected_option() const {
+            return mouse_selected_option;
+        }
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override {
+            return { -1.f, parent->ontop ? 0 : -1.f, -1.f, -1.f};
+        }
+};
+
+void query_popup_impl::draw_controls()
+{
+    mouse_selected_option = -1;
+
+    for( const std::string &line : parent->folded_msg ) {
+        cataimgui::draw_colored_text( line, parent->default_text_color );
+    }
+
+    if( !parent->buttons.empty() ) {
+        int current_line = 0;
+        for( size_t ind = 0; ind < parent->buttons.size(); ++ind ) {
+            if( ind != 0 && current_line == parent->buttons[ind].pos.y ) {
+                ImGui::SameLine();
+            }
+            ImGui::SetCursorPosX( float( parent->buttons[ind].pos.x ) );
+            ImGui::Button( remove_color_tags( parent->buttons[ind].text ).c_str() );
+            if( ImGui::IsItemHovered() ) {
+                mouse_selected_option = ind;
+            }
+            if( keyboard_selected_option != last_keyboard_selected_option &&
+                keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
+                ImGui::SetKeyboardFocusHere( -1 );
+            }
+            current_line = parent->buttons[ind].pos.y;
+        }
+    }
+}
+
+void query_popup_impl::on_resized()
+{
+    size_t frame_padding = size_t( ImGui::GetStyle().FramePadding.x * 2 );
+    size_t item_padding = size_t( ImGui::GetStyle().ItemSpacing.x );
+    // constexpr size_t vert_padding = 1;
+    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 3 );
+
+    // Fold message text
+    parent->folded_msg = foldstring( parent->text, FULL_SCREEN_WIDTH - 3 );
+
+    // Fold query buttons
+    const auto &folded_query = fold_query( parent->category, parent->pref_kbd_mode,
+                                           parent->options, max_line_width,
+                                           frame_padding + item_padding );
+
+    // Calculate size of message part
+    msg_width = 0;
+    for( const auto &line : parent->folded_msg ) {
+        msg_width = std::max( msg_width,
+                              get_text_width( remove_color_tags( line ) ) ); //utf8_width( line, true ) );
+    }
+    auto btn_padding = [&frame_padding, &item_padding]( size_t num_buttons ) {
+        return ( frame_padding * ( num_buttons - 1 ) ) + ( item_padding * ( num_buttons - 1 ) );
+    };
+    // Calculate width with query buttons
+    for( const auto &line : folded_query ) {
+        if( !line.empty() ) {
+            int button_width = 0;
+            for( const auto &opt : line ) {
+                button_width += get_text_width( remove_color_tags( opt ) );
+            }
+            // extra item padding needed here to account for space left at the beginning of the window by ImGui
+            msg_width = std::max( msg_width, button_width + btn_padding( line.size() ) + item_padding );
+        }
+    }
+    msg_width = std::min( msg_width, max_line_width );
+
+    // Calculate height with query buttons & button positions
+    parent->buttons.clear();
+    size_t line_idx = 0;
+    if( !folded_query.empty() ) {
+        for( const auto &line : folded_query ) {
+            if( !line.empty() ) {
+                int button_width = 0;
+                for( const auto &opt : line ) {
+                    button_width += get_text_width( remove_color_tags( opt ) );
+                }
+                button_width += btn_padding( line.size() );
+                // Right align.
+                // TODO: multi-line buttons
+                size_t button_x = button_width > int( msg_width ) ? size_t( 0 ) :
+                                  size_t( msg_width - button_width );
+                for( const auto &opt : line ) {
+                    parent->buttons.emplace_back( opt, point( button_x, line_idx ) );
+                    button_x += get_text_width( remove_color_tags( opt ) ) + frame_padding + item_padding;
+                }
+            }
+            line_idx++;
+        }
+    }
+}
 
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ),
@@ -72,6 +205,10 @@ query_popup &query_popup::cursor( size_t pos )
 {
     // Change does not affect cache, do not invalidate window
     cur = pos;
+    std::shared_ptr<query_popup_impl> impl = p_impl.lock();
+    if( impl ) {
+        impl->keyboard_selected_option = short( cur );
+    }
     return *this;
 }
 
@@ -88,10 +225,10 @@ query_popup &query_popup::preferred_keyboard_mode( const keyboard_mode mode )
     return *this;
 }
 
-std::vector<std::vector<std::string>> query_popup::fold_query(
+std::vector<std::vector<std::string>> query_popup_impl::fold_query(
                                        const std::string &category,
                                        const keyboard_mode pref_kbd_mode,
-                                       const std::vector<query_option> &options,
+                                       const std::vector<query_popup::query_option> &options,
                                        const int max_width, const int horz_padding )
 {
     input_context ctxt( category, pref_kbd_mode );
@@ -104,7 +241,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
     for( const query_popup::query_option &opt : options ) {
         const std::string &name = ctxt.get_action_name( opt.action );
         const std::string &desc = ctxt.get_desc( opt.action, name, opt.filter );
-        const int this_query_width = utf8_width( desc, true ) + horz_padding;
+        const int this_query_width = get_text_width( remove_color_tags( desc ) ) + horz_padding;
         ++query_cnt;
         query_width += this_query_width;
         if( query_width > max_width + horz_padding ) {
@@ -135,134 +272,15 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
 
 void query_popup::invalidate_ui() const
 {
-    if( win ) {
-        win = {};
-        folded_msg.clear();
-        buttons.clear();
-    }
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    std::shared_ptr<query_popup_impl> ui = p_impl.lock();
     if( ui ) {
-        ui->mark_resize();
+        ui->mark_resized();
     }
-}
-
-static constexpr int border_width = 1;
-
-void query_popup::init() const
-{
-    constexpr int horz_padding = 2;
-    constexpr int vert_padding = 1;
-    const int max_line_width = FULL_SCREEN_WIDTH - border_width * 2;
-
-    // Fold message text
-    folded_msg = foldstring( text, max_line_width );
-
-    // Fold query buttons
-    const auto &folded_query = fold_query( category, pref_kbd_mode, options, max_line_width,
-                                           horz_padding );
-
-    // Calculate size of message part
-    int msg_width = 0;
-    int msg_height = folded_msg.size();
-
-    for( const auto &line : folded_msg ) {
-        msg_width = std::max( msg_width, utf8_width( line, true ) );
-    }
-
-    // Calculate width with query buttons
-    for( const auto &line : folded_query ) {
-        if( !line.empty() ) {
-            int button_width = 0;
-            for( const auto &opt : line ) {
-                button_width += utf8_width( opt, true );
-            }
-            msg_width = std::max( msg_width, button_width +
-                                  horz_padding * static_cast<int>( line.size() - 1 ) );
-        }
-    }
-    msg_width = std::min( msg_width, max_line_width );
-
-    // Calculate height with query buttons & button positions
-    buttons.clear();
-    if( !folded_query.empty() ) {
-        msg_height += vert_padding;
-        for( const auto &line : folded_query ) {
-            if( !line.empty() ) {
-                int button_width = 0;
-                for( const auto &opt : line ) {
-                    button_width += utf8_width( opt, true );
-                }
-                // Right align.
-                // TODO: multi-line buttons
-                int button_x = std::max( 0, msg_width - button_width -
-                                         horz_padding * static_cast<int>( line.size() - 1 ) );
-                for( const auto &opt : line ) {
-                    buttons.emplace_back( opt, point( button_x, msg_height ) );
-                    button_x += utf8_width( opt, true ) + horz_padding;
-                }
-                msg_height += 1 + vert_padding;
-            }
-        }
-        msg_height -= vert_padding;
-    }
-
-    // Calculate window size
-    const int win_width = std::min( TERMX,
-                                    fullscr ? FULL_SCREEN_WIDTH : msg_width + border_width * 2 );
-    const int win_height = std::min( TERMY,
-                                     fullscr ? FULL_SCREEN_HEIGHT : msg_height + border_width * 2 );
-    const point win_pos( ( TERMX - win_width ) / 2, ontop ? 0 : ( TERMY - win_height ) / 2 );
-    win = catacurses::newwin( win_height, win_width, win_pos );
-
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
-    if( ui ) {
-        ui->position_from_window( win );
-    }
-}
-
-void query_popup::show() const
-{
-    if( !win ) {
-        init();
-    }
-
-    werase( win );
-    draw_border( win );
-
-    for( size_t line = 0; line < folded_msg.size(); ++line ) {
-        nc_color col = default_text_color;
-        print_colored_text( win, point( border_width, border_width + line ), col, col,
-                            folded_msg[line] );
-    }
-
-    for( size_t ind = 0; ind < buttons.size(); ++ind ) {
-        nc_color col = ind == cur ? hilite( c_white ) : c_white;
-        const query_popup::button &btn = buttons[ind];
-        print_colored_text( win, btn.pos + point( border_width, border_width ),
-                            col, col, btn.text );
-    }
-
-    wnoutrefresh( win );
-}
-
-std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
-{
-    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
-    if( !ui ) {
-        adaptor = ui = std::make_shared<ui_adaptor>();
-        ui->on_redraw( [this]( const ui_adaptor & ) {
-            show();
-        } );
-        ui->on_screen_resize( [this]( ui_adaptor & ) {
-            init();
-        } );
-        ui->mark_resize();
-    }
-    return ui;
 }
 
 query_popup::result query_popup::query_once()
 {
+
     if( !anykey && !cancel && options.empty() ) {
         return { false, "ERROR", {} };
     }
@@ -271,8 +289,9 @@ query_popup::result query_popup::query_once()
         return { false, "ERROR", {} };
     }
 
-    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+    std::shared_ptr<query_popup_impl> impl = create_or_get_impl();
 
+    // ImGui doesn't like to show the window on the first drawn frame, so we do this
     ui_manager::redraw();
 
     input_context ctxt( category, pref_kbd_mode );
@@ -280,8 +299,6 @@ query_popup::result query_popup::query_once()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
     if( !options.empty() ) {
-        ctxt.register_action( "LEFT" );
-        ctxt.register_action( "RIGHT" );
         ctxt.register_action( "CONFIRM" );
         for( const query_popup::query_option &opt : options ) {
             ctxt.register_action( opt.action );
@@ -289,6 +306,8 @@ query_popup::result query_popup::query_once()
         // Mouse movement and button
         ctxt.register_action( "SELECT" );
         ctxt.register_action( "MOUSE_MOVE" );
+        ctxt.register_action( "LEFT" );
+        ctxt.register_action( "RIGHT" );
     }
     if( anykey ) {
         ctxt.register_action( "ANY_INPUT" );
@@ -298,65 +317,65 @@ query_popup::result query_popup::query_once()
     if( cancel ) {
         ctxt.register_action( "QUIT" );
     }
+#if defined(WIN32) || defined(TILES)
+    ctxt.set_timeout( 50 );
+#endif
 
     result res;
     // Assign outside construction of `res` to ensure execution order
     res.wait_input = !anykey;
     do {
+        ui_manager::redraw();
         res.action = ctxt.handle_input();
         res.evt = ctxt.get_raw_input();
 
         // If we're tracking mouse movement
-        if( !options.empty() && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( win );
-            for( size_t i = 0; i < buttons.size(); i++ ) {
-                if( coord.has_value() && buttons[i].contains( coord.value() ) ) {
-                    if( i != cur ) {
-                        // Mouse-over new button, switch selection
-                        cur = i;
-                        ui_manager::redraw();
-                    }
-                    if( res.action == "SELECT" ) {
-                        // Left-click to confirm selection
-                        res.action = "CONFIRM";
-                    }
-                }
-            }
+        if( !options.empty() && res.action == "SELECT" && impl->get_mouse_selected_option() != -1 ) {
+            // Left-click to confirm selection
+            res.action = "CONFIRM";
+            cur = size_t( impl->get_mouse_selected_option() );
+        } else if( res.action == "CONFIRM" && impl->keyboard_selected_option != -1 ) {
+            cur = size_t( impl->keyboard_selected_option );
         }
     } while(
         // Always ignore mouse movement
         ( res.evt.type == input_event_t::mouse &&
           res.evt.get_first_input() == static_cast<int>( MouseInput::Move ) ) ||
         // Ignore window losing focus in SDL
-        ( res.evt.type == input_event_t::keyboard_char && res.evt.sequence.empty() )
+        ( res.evt.type == input_event_t::keyboard_char && res.evt.sequence.empty() ) ||
+        res.evt.type == input_event_t::timeout
     );
 
     if( cancel && res.action == "QUIT" ) {
         res.wait_input = false;
-    } else if( res.action == "LEFT" ) {
-        if( cur > 0 ) {
-            --cur;
-        } else {
-            cur = options.size() - 1;
-        }
-    } else if( res.action == "RIGHT" ) {
-        if( cur + 1 < options.size() ) {
-            ++cur;
-        } else {
-            cur = 0;
-        }
     } else if( res.action == "CONFIRM" ) {
         if( cur < options.size() ) {
             res.wait_input = false;
             res.action = options[cur].action;
         }
+    } else if( res.action == "LEFT" ) {
+        if( impl->keyboard_selected_option > 0 ) {
+            impl->keyboard_selected_option--;
+        } else {
+            impl->keyboard_selected_option = short( buttons.size() - 1 );
+        }
+    } else if( res.action == "RIGHT" ) {
+        if( impl->keyboard_selected_option < short( buttons.size() - 1 ) ) {
+            impl->keyboard_selected_option++;
+        } else {
+            impl->keyboard_selected_option = 0;
+        }
     } else if( res.action == "HELP_KEYBINDINGS" ) {
         // Keybindings may have changed, regenerate the UI
-        init();
+        std::shared_ptr<query_popup_impl> impl = p_impl.lock();
+        if( impl ) {
+            impl->on_resized();
+        }
+        //init();
     } else {
         for( size_t ind = 0; ind < options.size(); ++ind ) {
             if( res.action == options[ind].action ) {
-                cur = ind;
+                impl->keyboard_selected_option = ind;
                 if( options[ind].filter( res.evt ) ) {
                     res.wait_input = false;
                     break;
@@ -368,23 +387,27 @@ query_popup::result query_popup::query_once()
     return res;
 }
 
+std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
+{
+    std::shared_ptr<query_popup_impl> impl = p_impl.lock();
+    if( !impl ) {
+        p_impl = impl = std::make_shared<query_popup_impl>( this );
+        if( impl ) {
+            impl->mark_resized();
+            impl->keyboard_selected_option = short( cur );
+        }
+    }
+    return impl;
+}
 query_popup::result query_popup::query()
 {
-    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+    std::shared_ptr<query_popup_impl> ui = create_or_get_impl();
 
     result res;
     do {
         res = query_once();
     } while( res.wait_input );
     return res;
-}
-
-catacurses::window query_popup::get_window()
-{
-    if( !win ) {
-        init();
-    }
-    return win;
 }
 
 std::string query_popup::wait_text( const std::string &text, const nc_color &bar_color )
@@ -425,12 +448,12 @@ query_popup::button::button( const std::string &text, const point &p )
 
 bool query_popup::button::contains( const point &p ) const
 {
-    return p.x >= pos.x + border_width &&
-           p.x < pos.x + width + border_width &&
-           p.y == pos.y + border_width;
+    return p.x >= pos.x + 1 &&
+           p.x < pos.x + width + 1 &&
+           p.y == pos.y + 1;
 }
 
 static_popup::static_popup()
 {
-    ui = create_or_get_adaptor();
+    ui = create_or_get_impl();
 }

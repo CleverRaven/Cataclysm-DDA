@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "basement_bionic" ],
-    "weight": 1000000,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [

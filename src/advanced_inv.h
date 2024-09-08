@@ -3,17 +3,20 @@
 #define CATA_SRC_ADVANCED_INV_H
 
 #include <array>
-#include <iosfwd>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "advanced_inv_area.h"
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
-#include "string_input_popup.h"
-#include "ui_manager.h"
 
+class Character;
 class advanced_inv_listitem;
+class drop_or_stash_item_info;
 class input_context;
-class item;
+class string_input_popup;
+class ui_adaptor;
 struct advanced_inv_save_state;
 
 void create_advanced_inv();
@@ -31,6 +34,7 @@ class advanced_inventory
         ~advanced_inventory();
 
         void display();
+        void temp_hide();
 
         /**
          * Converts from screen relative location to game-space relative location
@@ -52,6 +56,7 @@ class advanced_inventory
             NUM_PANES = 2
         };
         static constexpr int head_height = 5;
+        bool move_all_items_and_waiting_to_quit = false;
 
         std::unique_ptr<ui_adaptor> ui;
         std::unique_ptr<string_input_popup> spopup;
@@ -140,13 +145,22 @@ class advanced_inventory
         bool is_processing() const;
 
         static std::string get_sortname( advanced_inv_sortby sortby );
-        bool move_all_items();
-        void print_items( const advanced_inventory_pane &pane, bool active );
+        void print_items( side p, bool active );
         void recalc_pane( side p );
         void redraw_pane( side p );
         void redraw_sidebar();
+
+        bool move_all_items();
+        /**
+        * Fills drop_or_stash_item_info vectors with the contents of the AIM's panes, for use with move_all_items.
+        */
+        bool fill_lists_with_pane_items( Character &player_character, advanced_inv_sortby sort_priority,
+                                         advanced_inventory_pane &spane, advanced_inventory_pane &dpane,
+                                         std::vector<drop_or_stash_item_info> &item_list,
+                                         std::vector<drop_or_stash_item_info> &fav_list, bool forbid_buckets );
+
         // Returns the x coordinate where the header started. The header is
-        // displayed right of it, everything left of it is till free.
+        // displayed right of it, everything left of it is still free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         /**
@@ -174,12 +188,6 @@ class advanced_inventory
          * actual location has been queried).
          */
         bool query_destination( aim_location &def );
-        /**
-         * Move content of source container into destination container (destination pane = AIM_CONTAINER)
-         * @param src_container Source container
-         * @param dest_container Destination container
-         */
-        bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
          * @param destarea Where to move to. This must not be AIM_ALL.

@@ -2,6 +2,7 @@
 
 #include "all_enum_values.h"
 #include "debug.h"
+#include "hash_utils.h"
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
@@ -25,6 +26,12 @@ void mapgen_arguments::serialize( JsonOut &jo ) const
 void mapgen_arguments::deserialize( const JsonValue &ji )
 {
     ji.read( map, true );
+}
+
+size_t std::hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) const noexcept
+{
+    cata::range_hash h;
+    return h( args.map );
 }
 
 static const regional_settings dummy_regional_settings;
@@ -71,15 +78,21 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     set_neighbour( 5, direction::SOUTHEAST );
     set_neighbour( 6, direction::SOUTHWEST );
     set_neighbour( 7, direction::NORTHWEST );
-    if( cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
-        if( *maybe_args ) {
+    if( std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
+        if( *maybe_args && !overmap_buffer.externally_set_args ) {
             mapgen_args_ = **maybe_args;
         } else {
             // We are the first omt from this overmap_special to be generated,
             // so now is the time to generate the arguments
-            if( cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
+            if( std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
                 const overmap_special &special = **s;
-                *maybe_args = special.get_args( *this );
+                mapgen_arguments internally_set_args = special.get_args( *this );
+                if( overmap_buffer.externally_set_args ) {
+                    maybe_args->value().map.merge( internally_set_args.map );
+                    overmap_buffer.externally_set_args = false;
+                } else {
+                    *maybe_args = internally_set_args;
+                }
                 mapgen_args_ = **maybe_args;
             } else {
                 debugmsg( "mapgen params expected but no overmap special found for terrain %s",
@@ -97,7 +110,26 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
 
 mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
 {
+    const int old_rotation = terrain_type_->has_flag(
+                                 oter_flags::ignore_rotation_for_adjacency ) ? 0 : terrain_type_->get_rotation();
+    const int new_rotation = other_id->has_flag( oter_flags::ignore_rotation_for_adjacency ) ? 0 :
+                             other_id->get_rotation();
+
     terrain_type_ = other_id;
+
+    const int rotation_delta = new_rotation - old_rotation;
+
+    if( rotation_delta == 0 ) {
+        return;
+    }
+
+    const int shift = ( rotation_delta + 4 ) % 4;
+
+    // The array of neighbors is actually logically more like two independent arrays smashed
+    // together, so we need to first rotate the cardinal directions section, and then the
+    // ordinal directions section. They both rotate the same direction.
+    std::rotate( t_nesw.begin(), t_nesw.begin() + shift, t_nesw.begin() + 4 );
+    std::rotate( t_nesw.begin() + 4, t_nesw.begin() + 4 + shift, t_nesw.end() );
 }
 
 mapgendata::mapgendata( const mapgendata &other,
@@ -186,7 +218,7 @@ int &mapgendata::dir( int dir_in )
     }
 }
 
-void mapgendata::square_groundcover( const point &p1, const point &p2 ) const
+void mapgendata::square_groundcover( const point_bub_ms &p1, const point_bub_ms &p2 ) const
 {
     m.draw_square_ter( default_groundcover, p1, p2 );
 }
@@ -215,7 +247,7 @@ bool mapgendata::has_flag( jmapgen_flags f ) const
 ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
-    return tid != nullptr ? *tid : t_null;
+    return tid != nullptr ? *tid : ter_str_id::NULL_ID().id();
 }
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const

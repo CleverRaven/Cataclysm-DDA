@@ -2,8 +2,8 @@
   {
     "type": "tool_quality",
     "id": "CUT",
-    "name": { "str": "cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "name": { "ctxt": "tool_quality", "str": "cutting" },
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -14,7 +14,7 @@
     "type": "tool_quality",
     "id": "CUT_FINE",
     "name": { "str": "fine cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -48,8 +48,20 @@
   },
   {
     "type": "tool_quality",
-    "id": "FISHING",
-    "name": { "str": "fishing" }
+    "id": "FISHING_ROD",
+    "name": { "str": "fishing" },
+    "usages": [ [ 1, [ "FISH_ROD" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "FISH_TRAP",
+    "name": { "str": "fish trapping" },
+    "usages": [ [ 1, [ "FISH_TRAP" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "TREE_TAP",
+    "name": { "str": "tree tapping" }
   },
   {
     "type": "tool_quality",
@@ -60,6 +72,11 @@
     "type": "tool_quality",
     "id": "WELD",
     "name": { "str": "welding" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "HACK",
+    "name": { "str": "hacking" }
   },
   {
     "type": "tool_quality",
@@ -100,6 +117,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOTPLATE",
+    "name": { "str": "hotplate" }
+  },
+  {
+    "type": "tool_quality",
     "id": "BOIL",
     "name": { "str": "boiling" }
   },
@@ -112,6 +134,21 @@
     "type": "tool_quality",
     "id": "CHEM",
     "name": { "str": "chemical making" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SIEVE",
+    "name": { "str": "sieving" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WINNOW",
+    "name": { "str": "winnowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "STRAIN",
+    "name": { "str": "straining" }
   },
   {
     "type": "tool_quality",
@@ -280,6 +317,17 @@
   },
   {
     "type": "tool_quality",
+    "id": "LUTHIER",
+    "name": { "str": "luthier" },
+    "//": "Tools specifically for turning wood into musical instruments.  Used for a complete tool kit of objects required for this process."
+  },
+  {
+    "type": "tool_quality",
+    "id": "SNOW_MAKING",
+    "name": { "str": "snow making" }
+  },
+  {
+    "type": "tool_quality",
     "id": "GRIND",
     "name": { "str": "grinding" }
   },
@@ -349,10 +397,16 @@
   },
   {
     "type": "tool_quality",
+    "id": "JUMPSTART",
+    "//": "A tool that is capable of charging something with electricity.",
+    "name": { "str": "jump starting" }
+  },
+  {
+    "type": "tool_quality",
     "id": "FABRIC_CUT",
     "//": "A tool that shares a large number of qualities with cutting tools, with the added benefit of being suitable for cutting fabric to patterned shapes for tailoring.",
     "name": { "str": "fabric cutting" },
-    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+    "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -397,5 +451,25 @@
     "type": "tool_quality",
     "id": "CUT_GLASS",
     "name": { "str": "glass cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "MOP",
+    "name": { "str": "mopping" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "BLOW_HOT_AIR",
+    "name": { "str": "hot air blowing" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "THREAD_CUT",
+    "name": { "str": "thread cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "THREAD_TAP",
+    "name": { "str": "thread tapping" }
   }
 ]

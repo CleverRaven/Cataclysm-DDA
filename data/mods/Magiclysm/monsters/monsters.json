@@ -21,17 +21,18 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "dodge": 3,
-    "armor_bash": 5,
-    "armor_cut": 2,
-    "armor_bullet": 2,
     "vision_night": 20,
     "path_settings": { "max_dist": 25 },
     "harvest": "owlbear",
+    "dissect": "dissect_owlbear_sample_large",
     "reproduction": { "baby_egg": "egg_owlbear_rock", "baby_count": 1, "baby_timer": 20 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 10 }, [ "GRAB", 7 ], [ "scratch", 7 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "SWARMS" ],
-    "zombify_into": "mon_owlbear_zombie"
+    "//grab": "Assuming they are grabbing you with their paws",
+    "grab_strength": 50,
+    "special_attacks": [ { "type": "bite", "cooldown": 10 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid", "cooldown": 7 } ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "GRABS", "PATH_AVOID_DANGER", "WARM", "GRABS", "SWARMS" ],
+    "zombify_into": "mon_owlbear_zombie",
+    "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   },
   {
     "id": "mon_black_pudding",
@@ -55,11 +56,9 @@
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 12,
-    "armor_stab": 14,
-    "armor_acid": 15,
     "harvest": "exempt",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "dissect": "dissect_slime_sample_single",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
@@ -69,7 +68,8 @@
         "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
-    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF", "PATH_AVOID_DANGER" ],
+    "armor": { "bash": 12, "stab": 14, "acid": 15 }
   },
   {
     "id": "mon_krabgek",
@@ -78,7 +78,7 @@
     "symbol": "K",
     "color": "dark_gray",
     "type": "MONSTER",
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "HAS_MIND", "PATH_AVOID_DANGER", "WARM" ],
     "harvest": "mutant_human",
     "material": [ "hflesh" ],
     "bodytype": "human",
@@ -103,6 +103,7 @@
       {
         "id": "scratch",
         "cooldown": 1,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
       {
@@ -137,16 +138,17 @@
     "dodge": 2,
     "anger_triggers": [  ],
     "harvest": "mammal_small_parabolan_wool",
+    "dissect": "dissect_cattle_sample_single",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "upgrades": { "age_grow": 240, "into": "mon_nightmare_sheep" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_nightmare_sheep",
     "type": "MONSTER",
-    "name": { "str_sp": "hunllef rams" },
+    "name": { "str": "hunllef ram" },
     "description": "Hunllef rams, also known as Nightmare Sheep, are a particularly vicious breed of sheep suspected to be from another plane of existence.  Both males and females display deadly horns and a willingness to use them on most other creatures that come near them.  They are the most biddable source of parabolan wool and often take a protective stance towards other sheep, so some farmers will risk life and limb to keep them.",
     "default_faction": "hunllef",
     "bodytype": "dog",
@@ -170,6 +172,7 @@
     "starting_ammo": { "milk_raw": 5 },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "harvest": "mammal_large_parabolan_wool",
+    "dissect": "dissect_cattle_sample_small",
     "reproduction": { "baby_monster": "mon_hunllef_lamb", "baby_count": 1, "baby_timer": 275 },
     "//": "Sheep are seasonal breeders. The natural sexual season is positioned so that lambs will be born in the spring when the weather is warmer and grass is available.",
     "baby_flags": [ "SPRING" ],
@@ -177,7 +180,7 @@
     "fear_triggers": [ "FRIEND_DIED" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
   },
   {
     "id": "mon_owlbear_cub",
@@ -194,6 +197,7 @@
     "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 4,
+    "dissect": "dissect_owlbear_sample_small",
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
     "harvest": "owlbear_cub",
@@ -221,10 +225,8 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "bash", "amount": 20 }, { "damage_type": "cut", "amount": 10 } ],
     "dodge": 2,
-    "armor_bash": 32,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "harvest": "bulette",
+    "dissect": "dissect_bulette_sample_large",
     "anger_triggers": [ "SOUND" ],
     "special_attacks": [
       {
@@ -237,15 +239,16 @@
         "cooldown": 3,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 80, "armor_multiplier": 0.8 } ]
       },
-      [ "SMASH", 10 ]
+      { "id": "smash", "throw_strength": 50 }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "CAN_DIG", "HIT_AND_RUN", "HARDTOSHOOT" ],
+    "armor": { "bash": 32, "cut": 30, "bullet": 24 }
   },
   {
     "id": "mon_wisp",
     "type": "MONSTER",
     "name": "will-o-wisp",
-    "description": "Will-o’-wisps can be yellow, white, green, or blue.  They are easily mistaken for lanterns, especially in the foggy marshes and swamps where they reside.",
+    "description": "Will-o'-wisps can be yellow, white, green, or blue.  They are easily mistaken for lanterns, especially in the foggy marshes and swamps where they reside.",
     "default_faction": "magical_beast",
     "bodytype": "blob",
     "species": [ "MAGICAL_BEAST" ],
@@ -270,30 +273,20 @@
     "death_drops": "wisp_death",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": { "message": "The %s disintegrates!", "corpse_type": "NO_CORPSE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "FLIES",
-      "PATH_AVOID_DANGER_1",
-      "ELECTRIC",
-      "HARDTOSHOOT",
-      "NOGIB",
-      "NOHEAD",
-      "NO_BREATHE",
-      "SWARMS"
-    ]
+    "flags": [ "SEES", "HEARS", "FLIES", "PATH_AVOID_DANGER", "ELECTRIC", "HARDTOSHOOT", "NOGIB", "NOHEAD", "NO_BREATHE", "SWARMS" ]
   },
   {
     "id": "mon_troll",
     "type": "MONSTER",
     "name": "troll",
-    "description": "Monstrous, green-skinned humanoid.  Trolls are renowned for their thick hides and natural regenerative ability.",
+    "description": "A monstrous, green-skinned humanoid, almost three meters tall but as thin as the average human.  Trolls are renowned for their thick hides and natural regenerative ability.",
     "default_faction": "magical_beast",
     "bodytype": "human",
     "species": [ "MAGICAL_BEAST" ],
-    "volume": "875000 ml",
-    "weight": "875 kg",
-    "hp": 480,
+    "volume": "200000 ml",
+    "weight": "225 kg",
+    "//": "Ratio taken from normal humans--D&D-esque trolls are supposed to be very thin for their size.",
+    "hp": 400,
     "speed": 110,
     "material": [ "flesh" ],
     "symbol": "T",
@@ -301,21 +294,77 @@
     "aggression": 100,
     "morale": 100,
     "melee_skill": 5,
-    "melee_dice": 5,
-    "melee_dice_sides": 7,
-    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 1,
-    "armor_cut": 16,
-    "armor_bullet": 13,
-    "vision_day": 40,
+    "vision_day": 45,
     "vision_night": 3,
     "harvest": "human_large_leather",
-    "families": [ "prof_wp_demihuman" ],
+    "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
-    "regenerates": 1,
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "FLAMMABLE" ],
-    "zombify_into": "mon_troll_zombie"
+    "grab_strength": 50,
+    "special_attacks": [
+      { "id": "bite_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_penetration": 12 } ] },
+      { "id": "grab", "cooldown": 15 },
+      {
+        "id": "scratch_humanoid",
+        "cooldown": 6,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 18, "armor_penetration": 8 } ]
+      },
+      {
+        "id": "slam",
+        "cooldown": 5,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 20 } ],
+        "condition": { "not": { "u_has_effect": "maimed_arm" } }
+      },
+      { "id": "smash", "throw_strength": 96 },
+      {
+        "id": "mon_troll_regenerate_limb",
+        "type": "spell",
+        "spell_data": { "id": "mon_troll_regenerate_limb_spell", "hit_self": true },
+        "cooldown": 15,
+        "condition": { "and": [ { "math": [ "u_hp('ALL')", ">", "200" ] }, { "u_has_effect": "maimed_arm" } ] }
+      }
+    ],
+    "regenerates": 12,
+    "regeneration_modifiers": [ [ "onfire", -12 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "KEENNOSE",
+      "HAS_MIND",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "WARM",
+      "GRABS",
+      "FLAMMABLE"
+    ],
+    "zombify_into": "mon_troll_zombie",
+    "armor": { "cut": 16, "bullet": 13, "heat": -15, "acid": -15 }
+  },
+  {
+    "id": "mon_troll_stone",
+    "type": "MONSTER",
+    "copy-from": "mon_troll",
+    "looks_like": "mon_troll",
+    "name": "rock troll",
+    "description": "A monstrous, gray-skinned humanoid, almost three meters tall but as thin as the average human.  Rock trolls have rocky skin that's almost impervious to hand weapons, but they turn to stone in the sunlight.",
+    "melee_damage": [ { "damage_type": "bash", "amount": 18 } ],
+    "armor": { "bash": 15, "stab": 40, "cut": 35, "bullet": 13, "heat": -30, "acid": -30 },
+    "extend": { "flags": [ "SUNDEATH" ] },
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s turns to stone." }
+  },
+  {
+    "id": "mon_troll_water",
+    "type": "MONSTER",
+    "copy-from": "mon_troll",
+    "looks_like": "mon_troll",
+    "name": "sea troll",
+    "description": "A monstrous, green-skinned humanoid, almost three meters tall but as thin as the average human.  Sea trolls are just as mean and dangerous as trolls on land, but they can also swim and breathe in water.",
+    "proportional": { "hp": 0.9, "speed": 0.8, "volume": 0.9, "weight": 0.9 },
+    "extend": { "flags": [ "SWIMS" ] }
   },
   {
     "id": "mon_stirge",
@@ -342,6 +391,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "stirge",
+    "dissect": "dissect_stirge_sample_small",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
@@ -376,7 +426,7 @@
     "id": "mon_baleful_polymorph_frog",
     "type": "MONSTER",
     "name": { "str": "frog" },
-    "description": "A conspicuously average american bullfrog.  You better keep prince charming away from it.",
+    "description": "A conspicuously average American bullfrog.  You better keep prince charming away from it.",
     "default_faction": "magical_beast",
     "species": [ "AMPHIBIAN" ],
     "volume": "750 ml",
@@ -389,6 +439,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 6,
     "harvest": "mammal_tiny",
+    "dissect": "dissect_batrachian_sample_single",
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
@@ -445,22 +496,21 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 6,
-    "armor_bash": 3,
-    "armor_cut": 3,
-    "armor_fire": 50,
     "vision_night": 7,
     "harvest": "mammal_fur",
+    "dissect": "dissect_lupine_sample_large",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "cone_cold", "min_level": 4 }, "cooldown": 25 } ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "COLDPROOF" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "COLDPROOF" ],
+    "armor": { "bash": 3, "cut": 3, "heat": 50 }
   },
   {
     "id": "mon_loup_garou",
     "type": "MONSTER",
     "name": { "str": "loup garou" },
-    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in it's territory.",
+    "description": "Previously thought extinct outside of rural Quebec and Louisiana this cursed creature has been known to breed with true wolves when it isn't madly destroying any signs of humanity in its territory.",
     "default_faction": "wolf",
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
@@ -479,23 +529,22 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 6,
-    "armor_bash": 48,
-    "armor_cut": 36,
-    "armor_bullet": 40,
     "vision_night": 5,
     "harvest": "demihuman_fur",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "dissect": "dissect_lupine_sample_large",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "zombify_into": "mon_were_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE" ],
+    "armor": { "bash": 48, "cut": 36, "bullet": 40 }
   },
   {
     "id": "mon_balrog",
     "type": "MONSTER",
     "name": { "str": "fiery nightmare" },
-    "description": "A colossal figure which seems to consist entirely of shadows engulfed in flames.  Its immense dark wings extend from wall to wall.  Two eyes that resemble burning coals are gazing down on you with hatred.  In one hand it holds a huge sword, in the other it has a many thonged whip, both glowing with red-hot flames.",
+    "description": "A colossal figure which seems to consist entirely of shadows engulfed in flames.  Their immense dark wings extend from wall to wall.  Two eyes that resemble burning coals are gazing down on you with hatred.  In one hand they hold a huge sword, in the other a many thonged whip, both glowing with red-hot flames.",
     "default_faction": "nether",
     "bodytype": "human",
     "species": [ "UNKNOWN" ],
@@ -511,9 +560,6 @@
     "melee_dice": 7,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "heat", "amount": 20 }, { "damage_type": "cut", "amount": 10 } ],
-    "armor_bash": 12,
-    "armor_cut": 12,
-    "armor_bullet": 25,
     "bleed_rate": 0,
     "vision_day": 83,
     "vision_night": 60,
@@ -540,13 +586,14 @@
     ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "WARM", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FIREY", "PATH_AVOID_DANGER" ],
+    "armor": { "bash": 12, "cut": 12, "bullet": 25 }
   },
   {
     "id": "mon_teravolt",
     "type": "MONSTER",
     "name": "teravolt",
-    "description": "Small energy sphere, that slowly float into the target.",
+    "description": "A small energy sphere that slowly floats towards the target.",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
     "volume": "750 ml",
@@ -564,12 +611,12 @@
     "melee_skill": 0,
     "melee_dice": 1,
     "melee_dice_sides": 1,
-    "armor_elec": 50,
     "death_function": {
       "effect": { "id": "teravolt_explosion", "hit_self": true },
       "message": "The %s explode, creating a giant cloud of sparks.",
       "corpse_type": "NO_CORPSE"
-    }
+    },
+    "armor": { "electric": 50 }
   },
   {
     "id": "mon_razor_butterflies",
@@ -592,23 +639,20 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 15 } ],
     "dodge": 8,
-    "luminance": 0,
-    "armor_bash": 0,
-    "armor_cut": 0,
-    "armor_bullet": 0,
     "vision_day": 14,
     "vision_night": 14,
     "special_attacks": [ { "type": "leap", "cooldown": 3, "max_range": 2, "allow_no_target": true }, { "id": "cut_throat" } ],
     "material": [ "iflesh" ],
-    "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "ATTACKMON", "STUN_IMMUNE", "SWARMS" ],
-    "//1": "has no HIT_AND_RUN cause they start to be too dumb"
+    "//1": "has no HIT_AND_RUN cause they start to be too dumb",
+    "armor": { "bash": 0, "cut": 0, "bullet": 0 }
   },
   {
     "id": "mon_shambling_mound",
     "type": "MONSTER",
     "name": "shambling mound",
-    "description": "This giant plant mess is one of the oldest magic species in the world.  They were very rare before the Cataclysm, but their population has since increased by a lot.",
+    "description": "This giant plant mess is one of the oldest magic species in the world.  They were very rare before the Cataclysm, but their population has since dramatically increased.",
     "//": "Now only for shaman, todo: make them natural spawn, add harvest, etc",
     "default_faction": "magical_beast",
     "volume": "679000 ml",
@@ -624,23 +668,20 @@
     "melee_dice_sides": 0,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 0,
-    "luminance": 0,
-    "armor_bash": 20,
-    "armor_cut": 20,
-    "armor_bullet": 20,
     "vision_day": 45,
     "vision_night": 6,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "shambling_aoe", "min_level": 0 }, "cooldown": 1 } ],
     "material": [ "veggy" ],
-    "death_function": { "message": "A %s dissolves.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
     "//1": "PACIFIST because #55528",
-    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ]
+    "flags": [ "SEES", "HEARS", "WARM", "HARDTOSHOOT", "BASHES", "DESTROYS", "ATTACKMON", "PUSH_MON", "PUSH_VEH", "PACIFIST" ],
+    "armor": { "bash": 20, "cut": 20, "bullet": 20 }
   },
   {
     "id": "mon_electric_demon",
     "type": "MONSTER",
     "name": "electric demon",
-    "description": "Small, pure electric elemental, it jumps from target to target, and attack anything on his sight.  Except of caster.",
+    "description": "Small, pure electric elemental that jumps from target to target, attacking anything and everything in their sight bar the caster.",
     "default_faction": "player",
     "volume": "62500 ml",
     "weight": "81500 g",
@@ -655,10 +696,6 @@
     "melee_dice_sides": 1,
     "dodge": 9,
     "luminance": 600,
-    "armor_bash": 3,
-    "armor_cut": 3,
-    "armor_bullet": 3,
-    "armor_elec": 50,
     "vision_day": 30,
     "vision_night": 30,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
@@ -684,13 +721,14 @@
       "NOGIB",
       "ATTACKMON",
       "ELECTRIC"
-    ]
+    ],
+    "armor": { "bash": 3, "cut": 3, "bullet": 3, "electric": 50 }
   },
   {
     "id": "mon_electric_turret",
     "type": "MONSTER",
     "name": "thunder pillar",
-    "description": "It looks like a giant floating stone shard, but it's intelligent creature, that can use electric branches as their own bodies.",
+    "description": "They look like a giant floating stone shard, but are actually an intelligent creature that can use electric branches as their own bodies.",
     "default_faction": "player",
     "volume": "218500 ml",
     "weight": "240000 g",
@@ -701,10 +739,6 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 1200,
-    "armor_bash": 7,
-    "armor_cut": 7,
-    "armor_bullet": 7,
-    "armor_elec": 50,
     "vision_day": 60,
     "vision_night": 60,
     "emit_fields": [ { "emit_id": "emit_electric_sparks", "delay": "1 s" } ],
@@ -713,26 +747,26 @@
         "id": "turret_1",
         "type": "spell",
         "spell_data": { "id": "shocking_lash", "min_level": 20 },
-        "monster_message": "",
+        "monster_message": "The pillar weaves electricity around themself!",
         "cooldown": 2
       },
       {
         "id": "turret_2",
         "type": "spell",
         "spell_data": { "id": "electric_turret_line", "min_level": 0 },
-        "monster_message": "",
+        "monster_message": "The pillar weaves electricity around themself!",
         "cooldown": 13
       },
       {
         "id": "turret_3",
         "type": "spell",
         "spell_data": { "id": "electric_turret_blast", "min_level": 0 },
-        "monster_message": "",
+        "monster_message": "The pillar weaves electricity around themself!",
         "cooldown": 9
       }
     ],
     "harvest": "exempt",
-    "death_function": { "message": "A %s dissolve.", "corpse_type": "NO_CORPSE" },
+    "death_function": { "message": "The %s dissolves.", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -745,6 +779,121 @@
       "ATTACKMON",
       "PACIFIST",
       "ELECTRIC"
-    ]
+    ],
+    "armor": { "bash": 7, "cut": 7, "bullet": 7, "electric": 50 }
+  },
+  {
+    "id": "mon_ankheg",
+    "type": "MONSTER",
+    "name": { "str": "ankheg" },
+    "description": "A huge, segmented, burrowing insect, two meters long and pale greenish-yellow in color.",
+    "default_faction": "magical_beast",
+    "bodytype": "snake",
+    "species": [ "MAGICAL_BEAST" ],
+    "volume": "92500 ml",
+    "weight": "120 kg",
+    "hp": 120,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "A",
+    "color": "light_green",
+    "aggression": 0,
+    "morale": 25,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 3,
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "harvest": "arachnid_acid",
+    "dissect": "dissect_troglobite_sample_small",
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "special_attacks": [
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
+      {
+        "type": "bite",
+        "id": "ankheg_bite_with_acid",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 12 }, { "damage_type": "acid", "amount": 8 } ],
+        "infection_chance": 5,
+        "effects": [ { "id": "corroding", "duration": 500, "affect_hit_bp": true } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+      },
+      {
+        "type": "bite",
+        "id": "ankheg_bite_without_acid",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 12 } ],
+        "infection_chance": 5,
+        "//": "After using acid attack below, acid is expended",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "u_has_effect": "maimed_acid_gland" } ] }
+      },
+      {
+        "id": "mon_ankheg_acid_barf",
+        "type": "spell",
+        "spell_data": { "id": "ankheg_acid_spit", "min_level": 3 },
+        "cooldown": 1,
+        "monster_message": "The ankheg spits a stream of acid at %3$s!",
+        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+      },
+      [ "EAT_FOOD", 60 ],
+      [ "EAT_CARRION", 60 ]
+    ],
+    "zombify_into": "mon_meat_cocoon_med",
+    "flags": [ "SEES", "HEARS", "EATS", "BASHES", "DIGS" ],
+    "armor": { "bash": 6, "electric": 3, "acid": 30, "poison": 15 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_otyugh",
+    "name": { "str": "otyugh" },
+    "description": "An enormous, bulbous body dominated by a toothy maw, with three tentacles extending from the top.  Two tentacles are tipped with grasping filaments and the last has several dark spots that might be eyes.  It smells indescribably foul.",
+    "default_faction": "magical_beast",
+    "bodytype": "bear",
+    "volume": "270000 ml",
+    "weight": "240000 g",
+    "hp": 230,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "brown",
+    "aggression": -20,
+    "morale": 80,
+    "aggro_character": false,
+    "melee_skill": 7,
+    "melee_dice": 1,
+    "melee_dice_sides": 9,
+    "dodge": 1,
+    "vision_day": 30,
+    "vision_night": 15,
+    "harvest": "zombie_animal",
+    "//": "Not a zombie, but otyughs are so filthy and diseased their meat is tainted anyway.",
+    "grab_strength": 60,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "id": "otyugh_bite",
+        "cooldown": 4,
+        "move_cost": 110,
+        "infection_chance": 95,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ]
+      },
+      { "id": "tentacle" },
+      { "id": "grab", "cooldown": 7 },
+      {
+        "id": "ranged_pull",
+        "range": 2,
+        "miss_msg_u": "%s's tentacles try to grab you, but you dodge!",
+        "miss_msg_npc": "%s's tentacles try to grab <npcname>, but they dodge!"
+      }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
+    "fear_triggers": [ "BRIGHT_LIGHT" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HAS_MIND", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
+    "armor": { "bash": 15, "cut": 2, "heat": 10, "necrotic": 5, "poison": 100 }
   }
 ]

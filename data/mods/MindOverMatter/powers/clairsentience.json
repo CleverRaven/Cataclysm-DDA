@@ -1,0 +1,629 @@
+[
+  {
+    "id": "clair_night_vision",
+    "type": "SPELL",
+    "name": "[Ψ]Night Eyes (C)",
+    "description": "Your eyes are much more sensitive in low levels of light, and you can even \"see\" in pitch darkness.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_NIGHT_EYES_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_night_vision') * 15000) + 29000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_night_vision') * 27000) + 98000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_night_eyes') > -1 ? 0 : max((1500 - (u_spell_level('clair_night_vision') * 65)), 500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_clair_night_eyes') > -1 ? 10 : max((50 -(u_spell_level('clair_night_vision') * 2)), 20)" ]
+    }
+  },
+  {
+    "id": "clair_speed_reading",
+    "type": "SPELL",
+    "name": "[Ψ]Speed Reader (C)",
+    "description": "Your powers make words fairly leap off the page directly into your mind, allowing you to read much faster and better absorb what you read.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_SPEED_READING_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_speed_reading') * 37200) + 72000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_speed_reading') * 81000) + 140000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_speed_reader') > -1 ? 0 : max((2500 - (u_spell_level('clair_speed_reading') * 125)), 1000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_speed_reader') > -1 ? 10 : max((500 -(u_spell_level('clair_speed_reading') * 12)), 250)"
+      ]
+    }
+  },
+  {
+    "id": "clair_danger_sense",
+    "type": "SPELL",
+    "name": "[Ψ]Premonition (C)",
+    "description": "You can sense the presence of the things that wish to do you harm.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DANGER_SENSE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_danger_sense') * 4500) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_danger_sense') * 7500) + 49000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_premonition') > -1 ? 0 : max((2250 - (u_spell_level('clair_danger_sense') * 85)), 850)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_premonition') > -1 ? 10 : max((85 -(u_spell_level('clair_danger_sense') * 7)), 25)"
+      ]
+    }
+  },
+  {
+    "id": "clair_spot_weakness",
+    "type": "SPELL",
+    "name": "[Ψ]Discern Weakness",
+    "description": "Your powers let you pinpoint exactly where your enemies are weak.",
+    "message": "The vulnerabilities of your enemy are revealed.",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DISCERN_WEAKNESS",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('clair_spot_weakness') * 1.2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 100)"
+      ]
+    },
+    "max_range": 100,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_spot_weakness') * 150) + 1350) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_spot_weakness') * 250) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1250,
+    "energy_increment": -125,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "clair_see_auras",
+    "type": "SPELL",
+    "name": "[Ψ]Aura Sight (C)",
+    "description": "You can see people's emotions and physical state as a hazy swirl of color around their body.  This makes it much easier to get them to do what you want.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_SEE_AURAS_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_see_auras') * 9000) + 65000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_see_auras') * 19000) + 113000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_see_auras') > -1 ? 0 : max((4000 - (u_spell_level('clair_see_auras') * 115)), 1750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_clair_see_auras') > -1 ? 10 : max((300 -(u_spell_level('clair_see_auras') * 8.5)), 100)" ]
+    }
+  },
+  {
+    "id": "clair_sense_rads",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense",
+    "description": "You can open your tenses to the tell-tale glow of radiation.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RAD_SENSE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 2000,
+    "energy_increment": -125,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -4.5
+  },
+  {
+    "id": "clair_sense_rads_self",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense on you",
+    "description": "Sense your personal radiation.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT"
+  },
+  {
+    "id": "clair_sense_rads_outside",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense on your environment",
+    "description": "Sense your environmental radiation.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_clair_sense_rads_self",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_sense_rads') * 48000) + 450000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    }
+  },
+  {
+    "id": "clair_sense_rads_outside_spawn_item",
+    "type": "SPELL",
+    "name": "[Ψ]Radiation Sense summon item",
+    "description": "This is the reoccurring item summon for Radiation Sense.  It's a bug if you have it.",
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "spawn_item",
+    "effect_str": "clair_sense_rad_item",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 1100,
+    "max_duration": 1100
+  },
+  {
+    "id": "clair_ranged_enhance",
+    "type": "SPELL",
+    "name": "[Ψ]Marksman's Eye (C)",
+    "description": "With your enhanced senses, you can increase the effective range and accuracy of your attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_RANGED_ENHANCE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_ranged_enhance') * 800) + 21000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_ranged_enhance') * 2500) + 64000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 0 : max((4500 - (u_spell_level('clair_ranged_enhance') * 135)), 2250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_ranged_enhance') > -1 ? 10 : max((200 -(u_spell_level('clair_ranged_enhance') * 6)), 125)"
+      ]
+    }
+  },
+  {
+    "id": "clair_voyance",
+    "type": "SPELL",
+    "name": "[Ψ]Clairvoyance",
+    "description": "The classic example of a clairsentient's powers, you can see through walls and reveal everything nearby.",
+    "message": "You open your inner eye.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile", "ground" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('clair_voyance') * 1.2) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('clair_voyance') * 1.2) + 1.5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+      ]
+    },
+    "max_aoe": 50,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_voyance') * 50) + 250) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_voyance') * 110) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "field_id": "fd_clairvoyant",
+    "min_field_intensity": 1,
+    "max_field_intensity": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6000,
+    "final_energy_cost": 3500,
+    "energy_increment": -195,
+    "base_casting_time": 1000,
+    "final_casting_time": 500,
+    "casting_time_increment": -25,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "clair_dodge_power",
+    "type": "SPELL",
+    "name": "[Ψ]Combat Sense (C)",
+    "description": "By gazing just a few moments into the future, you can be wherever your enemies are not attacking.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DODGE_POWER_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_dodge_power') * 900) + 12000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_dodge_power') * 1700) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [ "u_effect_intensity('effect_clair_dodge') > -1 ? 0 : max((5500 - (u_spell_level('clair_dodge_power') * 145)), 2750)" ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_clair_dodge') > -1 ? 10 : max((150 -(u_spell_level('clair_dodge_power') * 9)), 70)" ]
+    }
+  },
+  {
+    "id": "clair_craft_bonus",
+    "type": "SPELL",
+    "name": "[Ψ]Intuitive Artisan (C)",
+    "description": "Opening yourself up to the immediate future, you can see the best option to take when crafting or working on a task.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_CRAFT_BONUS_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_craft_bonus') * 25000) + 121500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_craft_bonus') * 60000) + 270000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 0 : max((6500 - (u_spell_level('clair_craft_bonus') * 145)), 3250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 10 : max((500 -(u_spell_level('clair_craft_bonus') * 3)), 300)"
+      ]
+    }
+  },
+  {
+    "id": "clair_perfect_shot",
+    "type": "SPELL",
+    "name": "[Ψ]One Perfect Shot",
+    "description": "Gaze into the future and, taking your enemy's future movements into account, fire at the perfect moment.  This power will only last for a single attack.",
+    "message": "It's time to take the shot.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_clair_perfect_shot",
+    "shape": "blast",
+    "min_duration": 1000,
+    "max_duration": 1000,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7500,
+    "final_energy_cost": 5000,
+    "energy_increment": -160,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4.5
+  },
+  {
+    "id": "clair_see_map",
+    "type": "SPELL",
+    "name": "[Ψ]Satellite View",
+    "description": "You can extend your senses over the landscape, becoming aware of every hill, building, and valley within a large area.",
+    "message": "You close your eyes and concentrate, and you can see the landscape spread out as though you were a bird on the wing.",
+    "teachable": false,
+    "valid_targets": [ "none" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_HANDS", "CONCENTRATE", "SILENT", "NO_LEGS", "RANDOM_AOE" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "map",
+    "shape": "blast",
+    "min_aoe": {
+      "math": [
+        "( (u_spell_level('clair_see_map') * 0.5) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "( (u_spell_level('clair_see_map') * 1) + 11) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9000,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "clair_clear_sight",
+    "type": "SPELL",
+    "name": "[Ψ]Clarity (C)",
+    "description": "Thanks to your powers, nothing can stop you from seeing the world as it is.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_CLEAR_SIGHT_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_clear_sight') * 1200) + 15000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_clear_sight') * 2500) + 45000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_clear_sight') > -1 ? 0 : max((8000 - (u_spell_level('clair_clear_sight') * 150)), 4500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_clear_sight') > -1 ? 10 : max((75 -(u_spell_level('clair_clear_sight') * 3.5)), 25)"
+      ]
+    }
+  },
+  {
+    "id": "clair_astral_projection",
+    "type": "SPELL",
+    "name": "[Ψ]Astral Projection",
+    "description": "After a short period of concentration and meditation, cast your spirit forth from your body, wandering the world disembodied.  You will move at the speed of thought but cannot use further powers or interact with the world while your spirit is wandering.  Follow your silver cord to return back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_INITIATE",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5000,
+    "final_energy_cost": 2000,
+    "energy_increment": -125,
+    "base_casting_time": 6000
+  },
+  {
+    "id": "clair_astral_projection_return",
+    "type": "SPELL",
+    "name": "[Ψ]Follow the Silver Cord",
+    "description": "Follow the silver cord back to your body.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "NO_FAIL", "NON_MAGICAL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
+    "shape": "blast"
+  },
+  {
+    "id": "clair_group_tactics",
+    "type": "SPELL",
+    "name": "[Ψ]Prescient Tactician (C)",
+    "description": "Gazing into the near future, you can call out warnings to your followers so they can avoid attacks before they occur.  This will greatly increase their defensive capability, though it will be harder for you to defend yourself.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It requires <color_yellow>even more concentration</color> than usual.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_GROUP_TACTICS_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_group_tactics') * 900) + 6000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_group_tactics') * 2300) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 0 : max((7500 - (u_spell_level('clair_group_tactics') * 125)), 4000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_clair_group_tactics_self') > -1 ? 10 : max((200 -(u_spell_level('clair_group_tactics') * 7.5)), 60)"
+      ]
+    }
+  },
+  {
+    "id": "clair_omniscience",
+    "type": "SPELL",
+    "name": "[Ψ]Omniscence",
+    "description": "Extend your senses to a supernal degree, perceiving everything within the nearby area.  Every creature, every object, every blade of grass, everything.  <color_red>EVERYTHING</color>.",
+    "message": "You can see forever.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "spell_class": "CLAIRSENTIENT",
+    "skill": "metaphysics",
+    "effect": "attack",
+    "effect_str": "effect_clair_omniscence",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('clair_omniscience') * 75) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('clair_omniscience') * 150) + 1000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 7500,
+    "energy_increment": -115,
+    "base_casting_time": 75,
+    "final_casting_time": 25,
+    "casting_time_increment": -3.5
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_UPGRADE",
+    "monsters": [ { "monster": "mon_zombie_blank", "weight": 30 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_BLANK_UPGRADE",
+    "default": "mon_zombie_blank",
+    "monsters": [
+      { "monster": "mon_zombie_blank", "weight": 450 },
+      { "monster": "mon_zombie_nullpsi", "weight": 225 },
+      { "monster": "mon_zombie_concentration_ender", "weight": 200 },
+      { "monster": "mon_zombie_psi_void", "weight": 100 },
+      { "monster": "mon_zombie_master", "weight": 25 }
+    ]
+  }
+]

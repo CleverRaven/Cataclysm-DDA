@@ -7,10 +7,8 @@
     "weight": "1360 g",
     "volume": "7500 ml",
     "longest_side": "90 cm",
-    "price": 6500,
-    "price_postapoc": 500,
-    "to_hit": -3,
-    "bashing": 4,
+    "price": "65 USD",
+    "price_postapoc": "5 USD",
     "material": [ "bone", "leather" ],
     "symbol": ";",
     "color": "brown",
@@ -22,7 +20,8 @@
       "floor": "f_skin_groundsheet",
       "door_opened": "f_skin_door_o",
       "door_closed": "f_skin_door"
-    }
+    },
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "large_mammoth_shelter_kit",
@@ -32,10 +31,8 @@
     "weight": "4080 g",
     "volume": "22500 ml",
     "longest_side": "240 cm",
-    "price": 12500,
-    "price_postapoc": 1000,
-    "to_hit": -3,
-    "bashing": 4,
+    "price": "125 USD",
+    "price_postapoc": "10 USD",
     "material": [ "bone", "leather" ],
     "symbol": ";",
     "color": "brown",
@@ -47,6 +44,7 @@
       "floor": "f_skin_groundsheet",
       "door_opened": "f_skin_door_o",
       "door_closed": "f_skin_door"
-    }
+    },
+    "melee_damage": { "bash": 4 }
   }
 ]

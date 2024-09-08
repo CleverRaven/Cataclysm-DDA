@@ -12,15 +12,15 @@ class item_location;
 class appliance_convert_examine_actor : public iexamine_actor
 {
     private:
-        cata::optional<furn_str_id> furn_set = cata::nullopt;
-        cata::optional<ter_str_id> ter_set = cata::nullopt;
+        std::optional<furn_str_id> furn_set = std::nullopt;
+        std::optional<ter_str_id> ter_set = std::nullopt;
         itype_id appliance_item;
 
     public:
         explicit appliance_convert_examine_actor( const std::string &type = "appliance_convert" )
             : iexamine_actor( type ) {}
 
-        void load( const JsonObject &jo ) override;
+        void load( const JsonObject &jo, const std::string & ) override;
         void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 
@@ -42,7 +42,7 @@ class cardreader_examine_actor : public iexamine_actor
         // Option 2: Regenerate entire current overmap tile
         update_mapgen_id mapgen_id;
 
-        cata::optional<int> omt_allowed_radius;
+        std::optional<int> omt_allowed_radius;
 
         bool map_regen = false;
 
@@ -60,7 +60,7 @@ class cardreader_examine_actor : public iexamine_actor
         explicit cardreader_examine_actor( const std::string &type = "cardreader" )
             : iexamine_actor( type ) {}
 
-        void load( const JsonObject &jo ) override;
+        void load( const JsonObject &jo, const std::string & ) override;
         void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 
@@ -75,7 +75,7 @@ class eoc_examine_actor : public iexamine_actor
         explicit eoc_examine_actor( const std::string &type = "effect_on_condition" )
             : iexamine_actor( type ) {}
 
-        void load( const JsonObject &jo ) override;
+        void load( const JsonObject &jo, const std::string &src ) override;
         void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 

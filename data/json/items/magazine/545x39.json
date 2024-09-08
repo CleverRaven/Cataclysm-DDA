@@ -1,14 +1,24 @@
 [
   {
     "id": "ak74mag",
+    "//": "Crudely audited with ImageJ with online references.  These AK mags are difficult due to irregular shapes.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AK-74M 30-round magazine" },
-    "description": "A standard magazine made for the AK-74M rifle, made of steel-reinforced polymer.  Holds 30 rounds.",
-    "weight": "230 g",
-    "volume": "500 ml",
-    "price": 1500,
-    "price_postapoc": 100,
+    "name": { "str": "5.45mm 30-round AK magazine" },
+    "description": "A standard magazine made for 5.45x39mm rifles, made mostly of polymer with steel reinforcements.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ak74mag",
+        "name": { "str": "AK-74 30-round magazine" },
+        "description": "A 30-round, curved box magazine for Kalashnikov AK-74 pattern firearms chambered in 5.45x39mm Soviet.  Generally made from steel-reinforced polymer, surplus examples found most utility within the contemporary United States in feeding semi-automatic examples of eastern bloc AK-74 rifles."
+      }
+    ],
+    "weight": "170 g",
+    "volume": "388 ml",
+    "longest_side": "210 mm",
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
     "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
@@ -18,15 +28,25 @@
   },
   {
     "id": "rpk74mag",
+    "//": "Compared to 30rd and used online references.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AK-74M 45-round magazine" },
-    "description": "A 45-round magazine compatible with the AK-74M rifle, though originally designed for the RPK-74 light machine gun.",
-    "weight": "300 g",
-    "volume": "750 ml",
-    "price": 8500,
-    "price_postapoc": 250,
-    "material": [ "plastic" ],
+    "name": { "str": "5.45mm 45-round AK magazine" },
+    "description": "A 45-round polymer magazine compatible with 5.45x39mm rifles, though originally designed for use with Soviet light machine guns built upon similar design pattens.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "rpk74mag",
+        "name": { "str": "AK-74 45-round magazine" },
+        "description": "Originally built to feed Soviet RPK-74 light machine guns, this curved 45-round box magazine possesses an aggressive waffle texture pattern and also fits other Kalashnikov-based long guns, namely the AK-74 and modern civilian legal variants."
+      }
+    ],
+    "weight": "230 g",
+    "volume": "528 ml",
+    "longest_side": "285 mm",
+    "price": "85 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "545x39" ],
@@ -36,15 +56,25 @@
   },
   {
     "id": "casket74mag",
+    "//": "Compared to 30rd and used online references.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "AK-74M 60-round magazine" },
-    "description": "A 60-round magazine compatible with the AK-74M rifle.",
-    "weight": "400 g",
-    "volume": "750 ml",
-    "price": 8500,
-    "price_postapoc": 250,
-    "material": [ "plastic" ],
+    "name": { "str": "5.45mm 60-round AK magazine" },
+    "description": "A 60-round polymer magazine compatible with 5.45x39mm rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "casket74mag",
+        "name": { "str": "AK-74 60-round casket magazine" },
+        "description": "A casket magazine that combines four stacks of 5.45x39mm Soviet ammunition into a solid brick of plastic, built for interfacing with the magazine wells of Kalashnikov-pattern firearms, namely the AK-74 assault rifle and subsequent derivatives."
+      }
+    ],
+    "weight": "264 g",
+    "volume": "924 ml",
+    "longest_side": "250 mm",
+    "price": "85 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "545x39" ],

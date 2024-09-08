@@ -8,25 +8,24 @@
 #include "monster.h"
 #include "options_helpers.h"
 
+static const ter_str_id ter_t_floor( "t_floor" );
+
 struct tripoint;
 
 static monster &spawn_and_clear( const tripoint &pos, bool set_floor )
 {
     if( set_floor ) {
-        get_map().set( pos, t_floor, f_null );
+        get_map().set( pos, ter_t_floor, furn_str_id::NULL_ID() );
     }
     return spawn_test_monster( "mon_zombie", pos );
 }
 
 static const time_point midday = calendar::turn_zero + 12_hours;
 
-TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
+TEST_CASE( "monsters_should_not_see_through_floors", "[vision]" )
 {
-    override_option opt( "FOV_3D", "true" );
-    restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
-    fov_3d = true;
     calendar::turn = midday;
-    clear_map();
+    clear_map( -2, 1 );
     monster &upper = spawn_and_clear( { 5, 5, 0 }, true );
     monster &adjacent = spawn_and_clear( { 5, 6, 0 }, true );
     monster &distant = spawn_and_clear( { 5, 3, 0 }, true );

@@ -4,12 +4,12 @@
 
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <type_traits>
 #include <vector>
 
 #include "clone_ptr.h"
 #include "item_location.h"
-#include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
@@ -25,227 +25,221 @@ template<typename T> class ret_val;
 // Returning 0 indicates the item has not been used up, though it may have been successfully activated.
 // 0 may also mean that the consumption and time progress was handled within iuse action.
 // If the item is destroyed here the return value must be 0.
-// A return of cata::nullopt means it was not used at all.
+// A return of std::nullopt means it was not used at all.
 namespace iuse
 {
 
 // FOOD AND DRUGS (ADMINISTRATION)
-cata::optional<int> alcohol_medium( Character *, item *, bool, const tripoint & );
-cata::optional<int> alcohol_strong( Character *, item *, bool, const tripoint & );
-cata::optional<int> alcohol_weak( Character *, item *, bool, const tripoint & );
-cata::optional<int> antibiotic( Character *, item *, bool, const tripoint & );
-cata::optional<int> anticonvulsant( Character *, item *, bool, const tripoint & );
-cata::optional<int> antifungal( Character *, item *, bool, const tripoint & );
-cata::optional<int> antiparasitic( Character *, item *, bool, const tripoint & );
-cata::optional<int> blech( Character *, item *, bool, const tripoint & );
-cata::optional<int> blech_because_unclean( Character *, item *, bool, const tripoint & );
-cata::optional<int> chew( Character *, item *, bool, const tripoint & );
-cata::optional<int> coke( Character *, item *, bool, const tripoint & );
-cata::optional<int> datura( Character *, item *, bool, const tripoint & );
-cata::optional<int> ecig( Character *, item *, bool, const tripoint & );
-cata::optional<int> eyedrops( Character *, item *, bool, const tripoint & );
-cata::optional<int> flu_vaccine( Character *, item *, bool, const tripoint & );
-cata::optional<int> flumed( Character *, item *, bool, const tripoint & );
-cata::optional<int> flusleep( Character *, item *, bool, const tripoint & );
-cata::optional<int> fungicide( Character *, item *, bool, const tripoint & );
-cata::optional<int> honeycomb( Character *, item *, bool, const tripoint & );
-cata::optional<int> inhaler( Character *, item *, bool, const tripoint & );
-cata::optional<int> marloss( Character *, item *, bool, const tripoint & );
-cata::optional<int> marloss_gel( Character *, item *, bool, const tripoint & );
-cata::optional<int> marloss_seed( Character *, item *, bool, const tripoint & );
-cata::optional<int> meditate( Character *, item *, bool, const tripoint & );
-cata::optional<int> meth( Character *, item *, bool, const tripoint & );
-cata::optional<int> mycus( Character *, item *, bool, const tripoint & );
-cata::optional<int> petfood( Character *p, item *it, bool, const tripoint & );
-cata::optional<int> plantblech( Character *, item *, bool, const tripoint & );
-cata::optional<int> poison( Character *, item *, bool, const tripoint & );
-cata::optional<int> prozac( Character *, item *, bool, const tripoint & );
-cata::optional<int> purify_smart( Character *, item *, bool, const tripoint & );
-cata::optional<int> sewage( Character *, item *, bool, const tripoint & );
-cata::optional<int> smoking( Character *, item *, bool, const tripoint & );
-cata::optional<int> thorazine( Character *, item *, bool, const tripoint & );
-cata::optional<int> weed_cake( Character *, item *, bool, const tripoint & );
-cata::optional<int> xanax( Character *, item *, bool, const tripoint & );
+std::optional<int> alcohol_medium( Character *, item *, const tripoint & );
+std::optional<int> alcohol_strong( Character *, item *, const tripoint & );
+std::optional<int> alcohol_weak( Character *, item *, const tripoint & );
+std::optional<int> antibiotic( Character *, item *, const tripoint & );
+std::optional<int> anticonvulsant( Character *, item *, const tripoint & );
+std::optional<int> antifungal( Character *, item *, const tripoint & );
+std::optional<int> antiparasitic( Character *, item *, const tripoint & );
+std::optional<int> blech( Character *, item *, const tripoint & );
+std::optional<int> blech_because_unclean( Character *, item *, const tripoint & );
+std::optional<int> chew( Character *, item *, const tripoint & );
+std::optional<int> coke( Character *, item *, const tripoint & );
+std::optional<int> datura( Character *, item *, const tripoint & );
+std::optional<int> ecig( Character *, item *, const tripoint & );
+std::optional<int> eyedrops( Character *, item *, const tripoint & );
+std::optional<int> flu_vaccine( Character *, item *, const tripoint & );
+std::optional<int> flumed( Character *, item *, const tripoint & );
+std::optional<int> flusleep( Character *, item *, const tripoint & );
+std::optional<int> fungicide( Character *, item *, const tripoint & );
+std::optional<int> honeycomb( Character *, item *, const tripoint & );
+std::optional<int> inhaler( Character *, item *, const tripoint & );
+std::optional<int> marloss( Character *, item *, const tripoint & );
+std::optional<int> marloss_gel( Character *, item *, const tripoint & );
+std::optional<int> marloss_seed( Character *, item *, const tripoint & );
+std::optional<int> meditate( Character *, item *, const tripoint & );
+std::optional<int> meth( Character *, item *, const tripoint & );
+std::optional<int> mycus( Character *, item *, const tripoint & );
+std::optional<int> petfood( Character *p, item *it, const tripoint & );
+std::optional<int> plantblech( Character *, item *, const tripoint & );
+std::optional<int> poison( Character *, item *, const tripoint & );
+std::optional<int> prozac( Character *, item *, const tripoint & );
+std::optional<int> purify_smart( Character *, item *, const tripoint & );
+std::optional<int> sewage( Character *, item *, const tripoint & );
+std::optional<int> smoking( Character *, item *, const tripoint & );
+std::optional<int> thorazine( Character *, item *, const tripoint & );
+std::optional<int> weed_cake( Character *, item *, const tripoint & );
+std::optional<int> xanax( Character *, item *, const tripoint & );
 
 // TOOLS
-cata::optional<int> acidbomb_act( Character *, item *, bool, const tripoint & );
-cata::optional<int> adrenaline_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> afs_translocator( Character *, item *, bool, const tripoint & );
-cata::optional<int> bell( Character *, item *, bool, const tripoint & );
-cata::optional<int> blood_draw( Character *, item *, bool, const tripoint & );
-cata::optional<int> boltcutters( Character *, item *, bool, const tripoint & );
-cata::optional<int> break_stick( Character *, item *, bool, const tripoint & );
-cata::optional<int> c4( Character *, item *, bool, const tripoint & );
-cata::optional<int> cable_attach( Character *, item *, bool, const tripoint & );
-cata::optional<int> call_of_tindalos( Character *, item *, bool, const tripoint & );
-cata::optional<int> camera( Character *, item *, bool, const tripoint & );
-cata::optional<int> can_goo( Character *, item *, bool, const tripoint & );
-cata::optional<int> capture_monster_act( Character *, item *, bool, const tripoint & );
-cata::optional<int> capture_monster_veh( Character *, item *, bool, const tripoint & );
-cata::optional<int> carver_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> carver_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> chainsaw_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> chainsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> change_eyes( Character *, item *, bool, const tripoint & );
-cata::optional<int> change_skin( Character *, item *, bool, const tripoint & );
-cata::optional<int> chop_logs( Character *, item *, bool, const tripoint & );
-cata::optional<int> chop_tree( Character *, item *, bool, const tripoint & );
-cata::optional<int> circsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> clear_rubble( Character *, item *, bool, const tripoint & );
-cata::optional<int> coin_flip( Character *, item *, bool, const tripoint & );
-cata::optional<int> combatsaw_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> combatsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> contacts( Character *, item *, bool, const tripoint & );
-cata::optional<int> cord_attach( Character *, item *, bool, const tripoint & );
-cata::optional<int> crowbar( Character *, item *, bool, const tripoint & );
-cata::optional<int> crowbar_weak( Character *, item *, bool, const tripoint & );
-cata::optional<int> dig( Character *, item *, bool, const tripoint & );
-cata::optional<int> dig_channel( Character *, item *, bool, const tripoint & );
-cata::optional<int> directional_antenna( Character *, item *, bool, const tripoint & );
-cata::optional<int> directional_hologram( Character *, item *, bool, const tripoint & );
-cata::optional<int> dive_tank( Character *, item *, bool, const tripoint & );
-cata::optional<int> dog_whistle( Character *, item *, bool, const tripoint & );
-cata::optional<int> e_combatsaw_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> e_combatsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> ehandcuffs( Character *, item *, bool, const tripoint & );
-cata::optional<int> einktabletpc( Character *, item *, bool, const tripoint & );
-cata::optional<int> elec_chainsaw_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> elec_chainsaw_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> emf_passive_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> emf_passive_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> extinguisher( Character *, item *, bool, const tripoint & );
-cata::optional<int> fill_pit( Character *, item *, bool, const tripoint & );
-cata::optional<int> firecracker( Character *, item *, bool, const tripoint & );
-cata::optional<int> firecracker_act( Character *, item *, bool, const tripoint & );
-cata::optional<int> firecracker_pack( Character *, item *, bool, const tripoint & );
-cata::optional<int> firecracker_pack_act( Character *, item *, bool, const tripoint & );
-cata::optional<int> fish_trap( Character *, item *, bool, const tripoint & );
-cata::optional<int> fishing_rod( Character *, item *, bool, const tripoint & );
-cata::optional<int> fitness_check( Character *p, item *it, bool, const tripoint & );
-cata::optional<int> foodperson( Character *, item *, bool, const tripoint & );
-cata::optional<int> gasmask( Character *, item *, bool, const tripoint & );
-cata::optional<int> geiger( Character *, item *, bool, const tripoint & );
-cata::optional<int> granade( Character *, item *, bool, const tripoint & );
-cata::optional<int> granade_act( Character *, item *, bool, const tripoint & );
-cata::optional<int> grenade_inc_act( Character *, item *, bool, const tripoint & );
-cata::optional<int> gun_repair( Character *, item *, bool, const tripoint & );
-cata::optional<int> gunmod_attach( Character *, item *, bool, const tripoint & );
-cata::optional<int> hacksaw( Character *, item *, bool, const tripoint & );
-cata::optional<int> hairkit( Character *, item *, bool, const tripoint & );
-cata::optional<int> hammer( Character *, item *, bool, const tripoint & );
-cata::optional<int> hand_crank( Character *, item *, bool, const tripoint & );
-cata::optional<int> heat_food( Character *, item *, bool, const tripoint & );
-cata::optional<int> heatpack( Character *, item *, bool, const tripoint & );
-cata::optional<int> hotplate( Character *, item *, bool, const tripoint & );
-cata::optional<int> hotplate_atomic( Character *, item *, bool, const tripoint & );
-cata::optional<int> jackhammer( Character *, item *, bool, const tripoint & );
-cata::optional<int> jet_injector( Character *, item *, bool, const tripoint & );
-cata::optional<int> ladder( Character *, item *it, bool, const tripoint & );
-cata::optional<int> lumber( Character *, item *, bool, const tripoint & );
-cata::optional<int> ma_manual( Character *, item *, bool, const tripoint & );
-cata::optional<int> magic_8_ball( Character *, item *, bool, const tripoint & );
-cata::optional<int> electricstorage( Character *, item *, bool, const tripoint & );
-cata::optional<int> ebooksave( Character *, item *, bool, const tripoint & );
-cata::optional<int> ebookread( Character *, item *, bool, const tripoint & );
-cata::optional<int> makemound( Character *, item *, bool, const tripoint & );
-cata::optional<int> manage_exosuit( Character *, item *, bool, const tripoint & );
-cata::optional<int> melatonin_tablet( Character *, item *, bool, const tripoint & );
-cata::optional<int> mininuke( Character *, item *, bool, const tripoint & );
-cata::optional<int> molotov_lit( Character *, item *, bool, const tripoint & );
-cata::optional<int> mop( Character *, item *, bool, const tripoint & );
-cata::optional<int> mp3( Character *, item *, bool, const tripoint & );
-cata::optional<int> mp3_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> noise_emitter_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> noise_emitter_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> oxygen_bottle( Character *, item *, bool, const tripoint & );
-cata::optional<int> oxytorch( Character *, item *, bool, const tripoint & );
-cata::optional<int> binder_add_recipe( Character *, item *, bool, const tripoint & );
-cata::optional<int> binder_manage_recipe( Character *, item *, bool, const tripoint & );
-cata::optional<int> pack_cbm( Character *p, item *it, bool, const tripoint & );
-cata::optional<int> pack_item( Character *, item *, bool, const tripoint & );
-cata::optional<int> pick_lock( Character *p, item *it, bool, const tripoint &pos );
-cata::optional<int> pickaxe( Character *, item *, bool, const tripoint & );
-cata::optional<int> play_game( Character *, item *, bool, const tripoint & );
-cata::optional<int> portable_game( Character *, item *, bool active, const tripoint & );
-cata::optional<int> portal( Character *, item *, bool, const tripoint & );
-cata::optional<int> radglove( Character *, item *, bool, const tripoint & );
-cata::optional<int> radio_mod( Character *, item *, bool, const tripoint & );
-cata::optional<int> radio_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> radio_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> remove_all_mods( Character *, item *, bool, const tripoint & );
-cata::optional<int> rm13armor_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> rm13armor_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> robotcontrol( Character *, item *, bool active, const tripoint & );
-cata::optional<int> rpgdie( Character *, item *, bool, const tripoint & );
-cata::optional<int> seed( Character *, item *, bool, const tripoint & );
-cata::optional<int> shavekit( Character *, item *, bool, const tripoint & );
-cata::optional<int> shocktonfa_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> shocktonfa_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> siphon( Character *, item *, bool, const tripoint & );
-cata::optional<int> solarpack( Character *, item *, bool, const tripoint & );
-cata::optional<int> solarpack_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> spray_can( Character *, item *, bool, const tripoint & );
-cata::optional<int> stimpack( Character *, item *, bool, const tripoint & );
-cata::optional<int> strong_antibiotic( Character *, item *, bool, const tripoint & );
-cata::optional<int> talking_doll( Character *, item *, bool, const tripoint & );
-cata::optional<int> tazer( Character *, item *, bool, const tripoint & );
-cata::optional<int> tazer2( Character *, item *, bool, const tripoint & );
-cata::optional<int> teleport( Character *, item *, bool, const tripoint & );
-cata::optional<int> toolmod_attach( Character *, item *, bool, const tripoint & );
-cata::optional<int> tow_attach( Character *, item *, bool, const tripoint & );
-cata::optional<int> towel( Character *, item *, bool, const tripoint & );
-cata::optional<int> trimmer_off( Character *, item *, bool, const tripoint & );
-cata::optional<int> trimmer_on( Character *, item *, bool, const tripoint & );
-cata::optional<int> unfold_generic( Character *, item *, bool, const tripoint & );
-cata::optional<int> unpack_item( Character *, item *, bool, const tripoint & );
-cata::optional<int> vibe( Character *, item *, bool, const tripoint & );
-cata::optional<int> voltmeter( Character *p, item *it, bool, const tripoint & );
-cata::optional<int> vortex( Character *, item *, bool, const tripoint & );
-cata::optional<int> wash_all_items( Character *, item *, bool, const tripoint & );
-cata::optional<int> wash_hard_items( Character *, item *, bool, const tripoint & );
-cata::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
-cata::optional<int> wash_soft_items( Character *, item *, bool, const tripoint & );
-cata::optional<int> water_purifier( Character *, item *, bool, const tripoint & );
-cata::optional<int> weak_antibiotic( Character *, item *, bool, const tripoint & );
-cata::optional<int> weather_tool( Character *, item *, bool, const tripoint & );
-cata::optional<int> sextant( Character *, item *, bool, const tripoint & );
-cata::optional<int> lux_meter( Character *, item *, bool, const tripoint & );
-cata::optional<int> dbg_lux_meter( Character *, item *, bool, const tripoint & );
-cata::optional<int> calories_intake_tracker( Character *p, item *, bool, const tripoint & );
+std::optional<int> acidbomb_act( Character *, item *, const tripoint & );
+std::optional<int> adrenaline_injector( Character *, item *, const tripoint & );
+std::optional<int> afs_translocator( Character *, item *, const tripoint & );
+std::optional<int> bell( Character *, item *, const tripoint & );
+std::optional<int> blood_draw( Character *, item *, const tripoint & );
+std::optional<int> boltcutters( Character *, item *, const tripoint & );
+std::optional<int> break_stick( Character *, item *, const tripoint & );
+std::optional<int> c4( Character *, item *, const tripoint & );
+std::optional<int> call_of_tindalos( Character *, item *, const tripoint & );
+std::optional<int> camera( Character *, item *, const tripoint & );
+std::optional<int> can_goo( Character *, item *, const tripoint & );
+std::optional<int> capture_monster_act( Character *, item *, const tripoint & );
+std::optional<int> heat_solid_items( Character *p, item *it, const tripoint & );
+std::optional<int> heat_liquid_items( Character *p, item *it, const tripoint & );
+std::optional<int> heat_all_items( Character *p, item *it, const tripoint & );
+std::optional<int> capture_monster_veh( Character *, item *, const tripoint & );
+std::optional<int> change_eyes( Character *, item *, const tripoint & );
+std::optional<int> change_skin( Character *, item *, const tripoint & );
+std::optional<int> chop_logs( Character *, item *, const tripoint & );
+std::optional<int> chop_tree( Character *, item *, const tripoint & );
+std::optional<int> clear_rubble( Character *, item *, const tripoint & );
+std::optional<int> coin_flip( Character *, item *, const tripoint & );
+std::optional<int> contacts( Character *, item *, const tripoint & );
+std::optional<int> crowbar( Character *, item *, const tripoint & );
+std::optional<int> crowbar_weak( Character *, item *, const tripoint & );
+std::optional<int> dig( Character *, item *, const tripoint & );
+std::optional<int> dig_channel( Character *, item *, const tripoint & );
+std::optional<int> directional_antenna( Character *, item *, const tripoint & );
+std::optional<int> directional_hologram( Character *, item *, const tripoint & );
+std::optional<int> dive_tank_activate( Character *, item *, const tripoint & );
+std::optional<int> dive_tank( Character *, item *, const tripoint & );
+std::optional<int> dog_whistle( Character *, item *, const tripoint & );
+std::optional<int> ehandcuffs( Character *, item *, const tripoint & );
+std::optional<int> ehandcuffs_tick( Character *, item *, const tripoint & );
+std::optional<int> epic_music( Character *, item *, const tripoint & );
+std::optional<int> einktabletpc( Character *, item *, const tripoint & );
+std::optional<int> emf_passive_on( Character *, item *, const tripoint & );
+std::optional<int> extinguisher( Character *, item *, const tripoint & );
+std::optional<int> fill_pit( Character *, item *, const tripoint & );
+std::optional<int> firecracker( Character *, item *, const tripoint & );
+std::optional<int> firecracker_pack( Character *, item *, const tripoint & );
+std::optional<int> firecracker_pack_act( Character *, item *, const tripoint & );
+std::optional<int> fish_trap( Character *, item *, const tripoint & );
+std::optional<int> fish_trap_tick( Character *, item *, const tripoint & );
+std::optional<int> fishing_rod( Character *, item *, const tripoint & );
+std::optional<int> fitness_check( Character *p, item *it, const tripoint & );
+std::optional<int> foodperson( Character *, item *, const tripoint & );
+std::optional<int> foodperson_voice( Character *, item *, const tripoint & );
+std::optional<int> gasmask( Character *, item *, const tripoint & );
+std::optional<int> gasmask_activate( Character *, item *, const tripoint & );
+std::optional<int> geiger( Character *, item *, const tripoint & );
+std::optional<int> geiger_active( Character *, item *, const tripoint & );
+std::optional<int> granade_act( Character *, item *, const tripoint & );
+std::optional<int> grenade_inc_act( Character *, item *, const tripoint & );
+std::optional<int> gun_repair( Character *, item *, const tripoint & );
+std::optional<int> gunmod_attach( Character *, item *, const tripoint & );
+std::optional<int> hacksaw( Character *, item *, const tripoint &it_pnt );
+std::optional<int> hairkit( Character *, item *, const tripoint & );
+std::optional<int> hand_crank( Character *, item *, const tripoint & );
+std::optional<int> heat_food( Character *, item *, const tripoint & );
+std::optional<int> heatpack( Character *, item *, const tripoint & );
+std::optional<int> hotplate( Character *, item *, const tripoint & );
+std::optional<int> hotplate_atomic( Character *, item *, const tripoint & );
+std::optional<int> jackhammer( Character *, item *, const tripoint & );
+std::optional<int> jet_injector( Character *, item *, const tripoint & );
+std::optional<int> lumber( Character *, item *, const tripoint & );
+std::optional<int> ma_manual( Character *, item *, const tripoint & );
+std::optional<int> magic_8_ball( Character *, item *, const tripoint & );
+std::optional<int> measure_resonance( Character *, item *, const tripoint & );
+std::optional<int> change_outfit( Character *, item *, const tripoint & );
+std::optional<int> electricstorage( Character *, item *, const tripoint & );
+std::optional<int> ebooksave( Character *, item *, const tripoint & );
+std::optional<int> ebookread( Character *, item *, const tripoint & );
+std::optional<int> makemound( Character *, item *, const tripoint & );
+std::optional<int> mace( Character *, item *, const tripoint & );
+std::optional<int> manage_exosuit( Character *, item *, const tripoint & );
+std::optional<int> melatonin_tablet( Character *, item *, const tripoint & );
+std::optional<int> mininuke( Character *, item *, const tripoint & );
+std::optional<int> molotov_lit( Character *, item *, const tripoint & );
+std::optional<int> mop( Character *, item *, const tripoint & );
+std::optional<int> mp3( Character *, item *, const tripoint & );
+std::optional<int> mp3_on( Character *, item *, const tripoint & );
+std::optional<int> mp3_deactivate( Character *, item *, const tripoint & );
+std::optional<int> noise_emitter_on( Character *, item *, const tripoint & );
+std::optional<int> oxygen_bottle( Character *, item *, const tripoint & );
+std::optional<int> oxytorch( Character *, item *, const tripoint & );
+std::optional<int> binder_add_recipe( Character *, item *, const tripoint & );
+std::optional<int> binder_manage_recipe( Character *, item *, const tripoint & );
+std::optional<int> pack_cbm( Character *p, item *it, const tripoint & );
+std::optional<int> pack_item( Character *, item *, const tripoint & );
+std::optional<int> pick_lock( Character *p, item *it, const tripoint &pos );
+std::optional<int> pickaxe( Character *, item *, const tripoint & );
+std::optional<int> play_game( Character *, item *, const tripoint & );
+std::optional<int> portable_game( Character *, item *, const tripoint & );
+std::optional<int> portal( Character *, item *, const tripoint & );
+std::optional<int> radglove( Character *, item *, const tripoint & );
+std::optional<int> radio_mod( Character *, item *, const tripoint & );
+std::optional<int> radio_off( Character *, item *, const tripoint & );
+std::optional<int> radio_on( Character *, item *, const tripoint & );
+std::optional<int> radio_tick( Character *, item *, const tripoint & );
+std::optional<int> remove_all_mods( Character *, item *, const tripoint & );
+std::optional<int> robotcontrol( Character *, item *, const tripoint & );
+std::optional<int> rpgdie( Character *, item *, const tripoint & );
+std::optional<int> seed( Character *, item *, const tripoint & );
+std::optional<int> shavekit( Character *, item *, const tripoint & );
+std::optional<int> shocktonfa_off( Character *, item *, const tripoint & );
+std::optional<int> shocktonfa_on( Character *, item *, const tripoint & );
+std::optional<int> siphon( Character *, item *, const tripoint & );
+std::optional<int> solarpack( Character *, item *, const tripoint & );
+std::optional<int> solarpack_off( Character *, item *, const tripoint & );
+std::optional<int> spray_can( Character *, item *, const tripoint & );
+std::optional<int> stimpack( Character *, item *, const tripoint & );
+std::optional<int> strong_antibiotic( Character *, item *, const tripoint & );
+std::optional<int> talking_doll( Character *, item *, const tripoint & );
+std::optional<int> tazer( Character *, item *, const tripoint & );
+std::optional<int> tazer2( Character *, item *, const tripoint & );
+std::optional<int> teleport( Character *, item *, const tripoint & );
+std::optional<int> toolmod_attach( Character *, item *, const tripoint & );
+std::optional<int> towel( Character *, item *, const tripoint & );
+std::optional<int> unfold_generic( Character *, item *, const tripoint & );
+std::optional<int> unpack_item( Character *, item *, const tripoint & );
+std::optional<int> vibe( Character *, item *, const tripoint & );
+std::optional<int> voltmeter( Character *p, item *it, const tripoint & );
+std::optional<int> vortex( Character *, item *, const tripoint & );
+std::optional<int> wash_all_items( Character *, item *, const tripoint & );
+std::optional<int> wash_hard_items( Character *, item *, const tripoint & );
+std::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
+std::optional<int> wash_soft_items( Character *, item *, const tripoint & );
+std::optional<int> water_purifier( Character *, item *, const tripoint & );
+std::optional<int> weak_antibiotic( Character *, item *, const tripoint & );
+std::optional<int> weather_tool( Character *, item *, const tripoint & );
+std::optional<int> sextant( Character *, item *, const tripoint & );
+std::optional<int> lux_meter( Character *, item *, const tripoint & );
+std::optional<int> dbg_lux_meter( Character *, item *, const tripoint & );
+std::optional<int> calories_intake_tracker( Character *p, item *, const tripoint & );
 
 // MACGUFFINS
 
-cata::optional<int> radiocar( Character *, item *, bool, const tripoint & );
-cata::optional<int> radiocaron( Character *, item *, bool, const tripoint & );
-cata::optional<int> radiocontrol( Character *, item *, bool, const tripoint & );
+std::optional<int> radiocar( Character *, item *, const tripoint & );
+std::optional<int> radiocaron( Character *, item *, const tripoint & );
+std::optional<int> radiocontrol( Character *, item *, const tripoint & );
+std::optional<int> radiocontrol_tick( Character *, item *, const tripoint & );
 
-cata::optional<int> multicooker( Character *, item *, bool, const tripoint & );
+std::optional<int> multicooker( Character *, item *, const tripoint & );
+std::optional<int> multicooker_tick( Character *, item *, const tripoint & );
 
-cata::optional<int> remoteveh( Character *, item *, bool, const tripoint & );
+std::optional<int> remoteveh( Character *, item *, const tripoint & );
+std::optional<int> remoteveh_tick( Character *, item *, const tripoint & );
 
-cata::optional<int> craft( Character *, item *, bool, const tripoint & );
+std::optional<int> craft( Character *, item *, const tripoint & );
 
-cata::optional<int> disassemble( Character *, item *, bool, const tripoint & );
+std::optional<int> disassemble( Character *, item *, const tripoint & );
 
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
-void play_music( Character &p, const tripoint &source, int volume, int max_morale );
+void play_music( Character *p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control
 bool robotcontrol_can_target( Character *, const monster & );
 
 // Helper for handling pesky wannabe-artists
-cata::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
+std::optional<int> handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
         const tripoint &where );
 
 //helper for lit cigs
-cata::optional<std::string> can_smoke( const Character &you );
+std::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );
 // used for unit testing iuse::gun_repair
-cata::optional<int> gun_repair( Character *p, item *it, item_location &loc );
+std::optional<int> gun_repair( Character *p, item *it, item_location &loc );
 
 // Helper for clothes washing
 struct washing_requirements {
@@ -255,7 +249,24 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( const units::volume & );
 
-using use_function_pointer = cata::optional<int> ( * )( Character *, item *, bool,
+struct heating_requirements {
+    units::volume volume;
+    int ammo;
+    int time;
+};
+struct heater {
+    item_location loc;
+    bool consume_flag;
+    int available_heater;
+    int heating_effect;
+    tripoint_abs_ms vpt;
+    bool pseudo_flag;
+};
+heater find_heater( Character *, item * );
+heating_requirements heating_requirements_for_weight( const units::mass &,
+        const units::mass &, const units::volume & );
+
+using use_function_pointer = std::optional<int> ( * )( Character *, item *,
                              const tripoint & );
 
 class iuse_actor
@@ -274,9 +285,9 @@ class iuse_actor
         int cost;
 
         virtual ~iuse_actor() = default;
-        virtual void load( const JsonObject &jo ) = 0;
-        virtual cata::optional<int> use( Character &, item &, bool, const tripoint & ) const = 0;
-        virtual ret_val<void> can_use( const Character &, const item &, bool, const tripoint & ) const;
+        virtual void load( const JsonObject &jo, const std::string &src ) = 0;
+        virtual std::optional<int> use( Character *, item &, const tripoint & ) const = 0;
+        virtual ret_val<void> can_use( const Character &, const item &, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
          * Returns a deep copy of this object. Example implementation:
@@ -317,8 +328,10 @@ struct use_function {
         use_function( const std::string &type, use_function_pointer f );
         explicit use_function( std::unique_ptr<iuse_actor> f ) : actor( std::move( f ) ) {}
 
-        cata::optional<int> call( Character &, item &, bool, const tripoint & ) const;
-        ret_val<void> can_call( const Character &, const item &, bool t, const tripoint &pos ) const;
+        // TODO: get rid of untyped overload
+        std::optional<int> call( Character *, item &, const tripoint & ) const;
+        std::optional<int> call( Character *, item &, const tripoint_bub_ms & ) const;
+        ret_val<void> can_call( const Character &, const item &, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() {
             return actor.get();

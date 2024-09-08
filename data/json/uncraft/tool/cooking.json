@@ -1,0 +1,18 @@
+[
+  {
+    "result": "waffleiron",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "material_aluminium_ingot", 2 ] ] ]
+  },
+  {
+    "result": "can_sealer",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "simple_crank", 1 ] ], [ [ "scrap", 8 ] ], [ [ "steel_chunk", 4 ] ], [ [ "steel_lump", 2 ] ] ]
+  }
+]

@@ -1,9 +1,193 @@
 [
   {
+    "id": "box_of_contact_lens_any",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "contain either used or pristine boxes with any contact lenses",
+    "items": [
+      { "group": "box_of_contact_lens_weekly_pristine", "prob": 25 },
+      { "group": "box_of_contact_lens_weekly_used", "prob": 100 },
+      { "group": "box_of_contact_lens_daily_pristine", "prob": 35 },
+      { "group": "box_of_contact_lens_daily_used", "prob": 100 },
+      { "group": "box_of_contact_lens_daily_big_pristine", "prob": 8 },
+      { "group": "box_of_contact_lens_daily_big_used", "prob": 30 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_weekly_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "myopia_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "myopia_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "hyperopia_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "hyperopia_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "bifocal_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "bifocal_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "plano_transition_contacts_weekly", "prob": 15, "count": 6 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_weekly_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "myopia_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "myopia_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "hyperopia_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "hyperopia_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "bifocal_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "bifocal_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "plano_transition_contacts_weekly", "prob": 15, "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": 30 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": [ 0, 30 ] }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_big_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": 90 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_big_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": [ 0, 90 ] }
+    ]
+  },
+  {
+    "id": "adhesive_bandages_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "adhesive_bandages", "prob": 100, "count": 20 } ]
+  },
+  {
+    "id": "adhesive_bandages_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "adhesive_bandages", "prob": 100, "count": [ 1, 20 ] } ]
+  },
+  {
+    "id": "alcohol_wipes_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": 40 } ]
+  },
+  {
+    "id": "alcohol_wipes_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": [ 1, 40 ] } ]
+  },
+  {
+    "id": "cotton_ball_bag_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "items": [ { "item": "cotton_ball", "prob": 100, "count": 10 } ]
+  },
+  {
+    "id": "cotton_ball_bag_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_plastic",
+    "items": [ { "item": "cotton_ball", "prob": 100, "count": [ 1, 10 ] } ]
+  },
+  {
+    "id": "tampon_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": 24 } ]
+  },
+  {
+    "id": "tampon_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": [ 1, 24 ] } ]
+  },
+  {
+    "id": "menstrual_pad_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "menstrual_pad", "prob": 100, "count": 24 } ]
+  },
+  {
+    "id": "menstrual_pad_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "menstrual_pad", "prob": 100, "count": [ 1, 24 ] } ]
+  },
+  {
     "id": "drugs_analgesic",
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
-    "items": [ [ "aspirin", 150 ], [ "codeine", 30 ], [ "tramadol", 30 ], [ "morphine", 5 ], [ "oxycodone", 20 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "group": "aspirin_ad_group", "prob": 50 },
+      { "group": "ibuprofen_ad_group", "prob": 100 },
+      { "group": "acetaminophen_ad_group", "prob": 100 },
+      { "group": "naproxen_ad_group", "prob": 50 },
+      { "group": "codeine_ad_group", "prob": 60 },
+      { "group": "tramadol_ad_group", "prob": 60 },
+      { "item": "morphine", "count": [ 1, 12 ], "container-item": "null", "prob": 10 },
+      { "group": "oxycodone_ad_group", "prob": 200 }
+    ]
   },
   {
     "id": "drugs_heal_simple",
@@ -11,16 +195,26 @@
     "//": "Common healing items found almost everywhere",
     "items": [
       { "group": "used_1st_aid", "prob": 5 },
-      [ "aspirin", 50 ],
-      [ "alcohol_wipes", 40 ],
-      [ "bandages", 30 ],
-      { "item": "adhesive_bandages", "count": 20 },
-      [ "cotton_ball", 40 ],
+      [ "aspirin", 10 ],
+      [ "ibuprofen", 17 ],
+      [ "acetaminophen", 13 ],
+      [ "naproxen", 10 ],
+      { "group": "alcohol_wipes_box_used", "prob": 40 },
+      { "group": "alcohol_wipes_box_full", "prob": 5 },
+      { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
+      [ "liq_bandage_spray", 5 ],
+      { "group": "adhesive_bandages_box_used", "prob": 50 },
+      { "group": "cotton_ball_bag_used", "prob": 40 },
+      { "group": "cotton_ball_bag_full", "prob": 20 },
+      { "group": "tampon_box_used", "prob": 40 },
+      { "group": "menstrual_pad_box_used", "prob": 40 },
       [ "disinfectant", 30 ],
       [ "eyedrops", 10 ],
+      [ "steroid_eyedrops", 5 ],
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
       [ "pepto", 20 ],
+      [ "tums", 20 ],
       [ "saline", 10 ],
       [ "weak_antibiotic", 30 ],
       [ "homeopathic_pills", 10 ]
@@ -49,8 +243,8 @@
     "//": "Medical consumables for emergency use excluding painkillers",
     "items": [
       [ "adrenaline_injector", 50 ],
-      { "item": "inhaler", "prob": 100, "charges-min": 10, "charges-max": 100 },
-      { "item": "quikclot", "prob": 50, "charges": [ 1, 6 ] },
+      { "item": "inhaler", "prob": 100, "charges": [ 10, 100 ] },
+      { "prob": 50, "group": "quikclot_bag_plastic_1_6" },
       { "item": "smoxygen_tank", "prob": 70, "charges": [ 0, 12 ] },
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 40 }
     ]
@@ -59,7 +253,13 @@
     "id": "drugs_misc",
     "type": "item_group",
     "//": "Drugs not contained within any other category",
-    "items": [ [ "bfipowder", 100 ], [ "dayquil", 50 ], [ "flu_shot", 50 ], [ "nyquil", 50 ] ]
+    "subtype": "distribution",
+    "entries": [
+      { "group": "bfipowder_bottle_plastic_5_60", "prob": 100 },
+      { "item": "dayquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
+      { "item": "nyquil", "count": [ 1, 30 ], "container-item": "bottle_plastic", "prob": 50 },
+      { "item": "flu_shot", "count": [ 1, 10 ], "container-item": "null", "prob": 50 }
+    ]
   },
   {
     "id": "drugs_pharmacy",
@@ -76,18 +276,19 @@
     "id": "drugs_rare",
     "type": "item_group",
     "//": "Rare and/or valuable drugs excluding painkillers",
+    "subtype": "distribution",
     "items": [
-      [ "adderall", 100 ],
-      [ "antibiotics", 100 ],
-      [ "strong_antibiotic", 45 ],
-      [ "antifungal", 100 ],
-      [ "antiparasitic", 100 ],
-      [ "diazepam", 100 ],
-      [ "calcium_tablet", 100 ],
-      [ "inj_iron", 100 ],
-      [ "prozac", 100 ],
-      [ "thorazine", 100 ],
-      [ "xanax", 100 ]
+      { "group": "adderall_dr_group", "prob": 10 },
+      { "group": "antibiotics_dr_group", "prob": 10 },
+      { "group": "strong_antibiotics_dr_group", "prob": 10 },
+      { "group": "antifungal_dr_group", "prob": 10 },
+      { "group": "antiparasitic_dr_group", "prob": 10 },
+      { "group": "diazepam_dr_group", "prob": 10 },
+      { "group": "calcium_dr_group", "prob": 10 },
+      { "group": "iron_dr_group", "prob": 10 },
+      { "group": "prozac_dr_group", "prob": 10 },
+      { "group": "thorazine_dr_group", "prob": 10 },
+      { "group": "xanax_dr_group", "prob": 10 }
     ]
   },
   {
@@ -97,12 +298,12 @@
     "//": "Healing items appropriate for soldiers and other paramilitary forces",
     "entries": [
       { "distribution": [ { "group": "full_ifak" }, { "group": "used_ifak" } ], "prob": 50 },
-      { "item": "antibiotics", "prob": 20, "charges": [ 1, 15 ] },
-      { "item": "bandages", "prob": 100, "charges": [ 1, 3 ] },
-      { "item": "morphine", "prob": 20, "charges": [ 1, 4 ] },
-      { "item": "quikclot", "prob": 20, "charges": [ 1, 6 ] },
+      { "prob": 20, "group": "antibiotics_bottle_plastic_pill_prescription_1_15" },
+      { "item": "bandages", "prob": 100, "count": [ 1, 3 ] },
+      { "item": "morphine", "prob": 20, "count": [ 1, 4 ] },
+      { "prob": 20, "group": "quikclot_bag_plastic_1_6" },
       { "item": "smoxygen_tank", "prob": 20, "charges": [ 0, 12 ] },
-      { "item": "tramadol", "prob": 20, "charges": [ 1, 10 ] }
+      { "prob": 20, "group": "tramadol_bottle_plastic_pill_prescription_1_10" }
     ]
   },
   {
@@ -112,92 +313,78 @@
     "subtype": "distribution",
     "items": [
       [ "jar_3l_glass_sealed", 100 ],
-      {
-        "item": "weed",
-        "charges": [ 10, 420 ],
-        "prob": 100,
-        "container-item": "jar_3l_glass_sealed",
-        "sealed": false
-      },
+      { "prob": 100, "sealed": false, "group": "weed_jar_3l_glass_sealed_10_420" },
       [ "jar_glass_sealed", 100 ],
-      {
-        "item": "hi_q_shatter",
-        "charges": [ 5, 140 ],
-        "prob": 100,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      },
-      {
-        "item": "hi_q_wax",
-        "charges": [ 5, 140 ],
-        "prob": 100,
-        "container-item": "jar_glass_sealed",
-        "sealed": false
-      }
+      { "prob": 100, "sealed": false, "group": "hi_q_shatter_jar_glass_sealed_5_140" },
+      { "prob": 100, "sealed": false, "group": "hi_q_wax_jar_glass_sealed_5_140" }
     ]
   },
   {
     "type": "item_group",
     "id": "softdrugs",
     "items": [
-      { "item": "bandages", "prob": 30, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
-      { "item": "cotton_ball", "prob": 50, "charges": [ 1, 10 ] },
+      { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 30 },
+      { "item": "liq_bandage_spray", "prob": 5, "charges": [ 1, -1 ] },
+      { "group": "cotton_ball_bag_used", "prob": 50 },
+      { "group": "cotton_ball_bag_full", "prob": 5 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25, "charges": [ 1, 5 ] },
-      [ "contacts", 10 ],
-      { "item": "vitamins", "prob": 75, "charges": [ 1, 20 ] },
-      { "item": "gummy_vitamins", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "calcium_tablet", "prob": 75, "charges": [ 1, 20 ] },
-      { "item": "aspirin", "prob": 85, "charges": [ 1, 20 ] },
-      { "item": "caffeine", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "melatonin_tablet", "prob": 10, "charges": [ 1, 30 ] },
-      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
-      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
+      { "group": "box_of_contact_lens_any", "prob": 10 },
+      [ "transition_contacts", 1 ],
+      { "prob": 75, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
+      { "item": "gummy_vitamins", "prob": 25, "count": [ 1, 10 ] },
+      { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },
+      { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
+      { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
+      { "prob": 15, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
+      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
+      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
       { "item": "nyquil", "prob": 70, "charges": [ 1, 5 ] },
-      { "item": "alcohol_wipes", "prob": 75, "charges": [ 1, 40 ] },
+      { "group": "alcohol_wipes_box_used", "prob": 75 },
+      { "group": "alcohol_wipes_box_full", "prob": 10 },
       { "item": "disinfectant", "prob": 35, "charges": [ 1, 10 ] },
-      { "item": "homeopathic_pills", "prob": 10, "charges": [ 1, 20 ] },
-      {
-        "item": "protein_powder",
-        "prob": 12,
-        "container-item": "bottle_plastic_small",
-        "charges-min": 1,
-        "charges-max": 9
-      },
-      { "item": "caff_gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "prob": 10, "group": "homeopathic_pills_bottle_plastic_pill_supplement_1_20" },
+      { "prob": 12, "group": "protein_powder_bottle_plastic_small_1_9" },
+      { "item": "caff_gum", "prob": 10, "count": [ 1, 10 ] },
       { "item": "smoxygen_tank", "prob": 5, "charges": [ 0, 12 ] },
       [ "eyedrops", 35 ],
+      [ "steroid_eyedrops", 15 ],
       { "item": "shavingkit", "prob": 5, "charges": [ 0, 10 ] },
       { "item": "elec_hairtrimmer", "prob": 2, "charges": [ 0, 50 ] },
-      { "item": "nic_gum", "prob": 25, "charges": [ 1, 10 ] },
-      { "item": "weak_antibiotic", "prob": 30, "charges": [ 1, 5 ] }
+      { "item": "nic_gum", "prob": 25, "count": [ 1, 10 ] },
+      { "prob": 30, "group": "weak_antibiotic_bottle_plastic_pill_prescription_1_5" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "harddrugs_residential",
+    "items": [
+      { "item": "inhaler", "prob": 14, "charges": [ 10, 100 ] },
+      { "prob": 15, "group": "codeine_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 4, "group": "oxycodone_bottle_plastic_pill_prescription_1_10" },
+      { "item": "morphine", "prob": 4, "count": [ 1, 4 ] },
+      { "prob": 11, "group": "tramadol_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "xanax_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "adderall_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 7, "group": "thorazine_bottle_plastic_pill_prescription_1_10" },
+      { "prob": 10, "group": "prozac_bottle_plastic_pill_prescription_1_15" },
+      { "prob": 25, "group": "antibiotics_bottle_plastic_pill_prescription_1_15" },
+      { "prob": 5, "group": "strong_antibiotic_bottle_plastic_pill_prescription_1_5" },
+      { "prob": 2, "group": "antifungal_bottle_plastic_pill_prescription_1_5" },
+      { "prob": 3, "group": "antiparasitic_bottle_plastic_pill_prescription_1_10" },
+      [ "survnote", 1 ],
+      { "prob": 4, "group": "diazepam_bottle_plastic_pill_prescription_1_10" },
+      [ "syringe", 8 ]
     ]
   },
   {
     "type": "item_group",
     "id": "harddrugs",
-    "items": [
-      { "item": "inhaler", "prob": 14, "charges-min": 10, "charges-max": 100 },
-      { "item": "codeine", "prob": 15, "charges": [ 1, 10 ] },
-      { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
-      { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
-      { "item": "tramadol", "prob": 11, "charges": [ 1, 10 ] },
-      { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
-      { "item": "thorazine", "prob": 7, "charges": [ 1, 10 ] },
-      { "item": "prozac", "prob": 10, "charges": [ 1, 15 ] },
-      { "item": "antibiotics", "prob": 25, "charges": [ 1, 15 ] },
-      { "item": "strong_antibiotic", "prob": 5, "charges": [ 1, 5 ] },
-      { "item": "antifungal", "prob": 2, "charges": [ 1, 5 ] },
-      { "item": "antiparasitic", "prob": 3, "charges": [ 1, 10 ] },
-      [ "survnote", 1 ],
-      { "item": "diazepam", "prob": 4, "charges": [ 1, 10 ] },
-      [ "flu_shot", 5 ],
-      [ "syringe", 8 ]
-    ]
+    "items": [ { "group": "harddrugs_residential", "prob": 133 }, { "item": "flu_shot", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -206,15 +393,25 @@
     "entries": [
       {
         "distribution": [
-          { "item": "adderall", "count": [ 0, 2 ], "charges": [ 1, 10 ] },
+          {
+            "item": "adderall",
+            "count": [ 0, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_prescription"
+          },
           { "item": "energy_drink", "count": [ 0, 2 ] },
-          { "item": "caffeine", "count": [ 0, 2 ], "charges": [ 1, 10 ] }
+          {
+            "item": "caffeine",
+            "count": [ 0, 20 ],
+            "container-item": "null",
+            "entry-wrapper": "bottle_plastic_pill_supplement"
+          }
         ]
       },
       { "item": "dayquil", "count": [ 0, 2 ], "charges": [ 1, 5 ] },
       { "item": "red_phosphorous", "prob": 40, "count": [ 0, 1 ] },
       { "item": "iodine_crystal", "prob": 40, "count": [ 0, 1 ] },
-      { "item": "meth", "count": [ 0, 2 ], "charges": [ 1, 6 ] }
+      { "count": [ 0, 2 ], "group": "meth_bag_zipper_1_6" }
     ]
   },
   {
@@ -225,7 +422,427 @@
       { "item": "red_phosphorous", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "iodine_crystal", "prob": 10, "charges": [ 1, 10 ] },
       [ "energy_drink", 2 ],
-      { "item": "caffeine", "prob": 20, "charges": [ 1, 10 ] }
+      { "prob": 20, "group": "caffeine_bottle_plastic_pill_supplement_1_10" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "tramadol_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "tramadol", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 5, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "acetaminophen_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "acetaminophen", "container-item": "null", "count": [ 5, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ibuprofen_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "ibuprofen", "container-item": "null", "count": [ 5, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "naproxen_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "naproxen", "container-item": "null", "count": [ 5, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "codeine_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "codeine", "container-item": "null", "count": [ 1, 21 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tramadol_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "tramadol", "container-item": "null", "count": [ 1, 120 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_ad_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": [ 1, 30 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "adderall_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "adderall", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antibiotics_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antibiotics", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotics_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antifungal_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antifungal", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "antiparasitic_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "antiparasitic", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "diazepam_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "diazepam", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "calcium_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 15, 60 ] } ],
+    "on_overflow": "spill"
+  },
+  {
+    "type": "item_group",
+    "id": "iron_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "inj_iron", "container-item": "null", "count": [ 15, 60 ] } ],
+    "on_overflow": "spill"
+  },
+  {
+    "type": "item_group",
+    "id": "prozac_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "prozac", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "thorazine_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "thorazine", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "xanax_dr_group",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "xanax", "container-item": "null", "count": [ 15, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "weed_jar_3l_glass_sealed_10_420",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_3l_glass_sealed",
+    "entries": [ { "item": "weed", "count": [ 10, 420 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hi_q_shatter_jar_glass_sealed_5_140",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "hi_q_shatter", "count": [ 5, 140 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "hi_q_wax_jar_glass_sealed_5_140",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "jar_glass_sealed",
+    "entries": [ { "item": "hi_q_wax", "count": [ 5, 140 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "calcium_tablet_bottle_plastic_pill_supplement_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "calcium_tablet_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "calcium_tablet", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "caffeine_bottle_plastic_pill_supplement_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "caffeine", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "caffeine_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "caffeine", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "homeopathic_pills_bottle_plastic_pill_supplement_1_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "homeopathic_pills_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "homeopathic_pills", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "thorazine_bottle_plastic_pill_prescription_1_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "thorazine", "container-item": "null", "count": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "thorazine_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "thorazine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "prozac_bottle_plastic_pill_prescription_1_15",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "prozac", "container-item": "null", "count": [ 1, 15 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "prozac_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "prozac", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotic_bottle_plastic_pill_prescription_1_5",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": [ 1, 5 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotic_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "morphine_bottle_plastic_pill_prescription_4",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "morphine", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "weak_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "weak_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "strong_antibiotic_bottle_plastic_pill_prescription_5",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "strong_antibiotic", "container-item": "null", "count": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bfipowder_bottle_plastic_small_4",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_small",
+    "entries": [ { "item": "bfipowder", "container-item": "null", "count": 4 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pills_sleep_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "pills_sleep", "container-item": "null", "count": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "aspirin_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "aspirin", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ibuprofen_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "ibuprofen", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "acetaminophen_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "acetaminophen", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "naproxen_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "naproxen", "container-item": "null", "count": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "melatonin_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": 30 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "protein_bottle_full",
+    "subtype": "collection",
+    "container-item": "bottle_plastic",
+    "entries": [ { "item": "protein_powder", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "saline_bottle_random",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "saline_bag_250", "prob": 50 },
+      { "item": "saline_bag_500", "prob": 100 },
+      { "item": "saline_bag_1000", "prob": 25 },
+      { "item": "saline_bag_2000", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_contents",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "vitamins", "container-item": "null", "count": [ 5, 7 ], "prob": 60 },
+          { "item": "gummy_vitamins", "container-item": "null", "count": [ 5, 7 ], "prob": 20 },
+          { "item": "calcium_tablet", "container-item": "null", "count": [ 5, 7 ], "prob": 20 }
+        ],
+        "prob": 90
+      },
+      { "item": "homeopathic_pills", "container-item": "null", "count": [ 5, 7 ], "prob": 30 },
+      { "item": "antihistamine", "container-item": "null", "count": [ 3, 7 ], "prob": 15 },
+      {
+        "distribution": [
+          { "item": "adderall", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "diazepam", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "prozac", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "thorazine", "container-item": "null", "count": [ 3, 7 ], "prob": 20 },
+          { "item": "pills_sleep", "container-item": "null", "count": [ 3, 7 ], "prob": 20 }
+        ],
+        "prob": 15
+      },
+      {
+        "distribution": [
+          { "item": "antibiotics", "container-item": "null", "count": [ 3, 7 ], "prob": 40 },
+          { "item": "weak_antibiotic", "container-item": "null", "count": [ 3, 7 ], "prob": 40 },
+          { "item": "strong_antibiotic", "container-item": "null", "count": [ 3, 7 ], "prob": 20 }
+        ],
+        "prob": 10
+      },
+      { "item": "antifungal", "container-item": "null", "count": [ 3, 7 ], "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_used",
+    "subtype": "distribution",
+    "container-item": "pillbox",
+    "on_overflow": "discard",
+    "entries": [ { "group": "pillbox_contents" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_large_used",
+    "subtype": "distribution",
+    "container-item": "pillbox_large",
+    "on_overflow": "discard",
+    "entries": [ { "group": "pillbox_contents" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_any_used",
+    "subtype": "distribution",
+    "groups": [ "pillbox_used", "pillbox_large_used" ]
+  },
+  {
+    "type": "item_group",
+    "id": "codeine_bottle_plastic_pill_painkiller_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "codeine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_bottle_plastic_pill_prescription_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_bag_zipper_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
   }
 ]

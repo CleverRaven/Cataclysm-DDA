@@ -26,7 +26,6 @@
     "method": "json",
     "om_terrain": [ "forest_tomb" ],
     "//": "Ground level - Z-0.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -63,7 +62,6 @@
     "method": "json",
     "om_terrain": [ "forest_tomb_bottom" ],
     "//": "Underground level - Z -1.",
-    "weight": 100,
     "object": {
       "fill_ter": "t_rock_floor",
       "rows": [
@@ -100,7 +98,6 @@
     "method": "json",
     "om_terrain": [ "forest_tomb_roof" ],
     "//": "Roof level - Z +1.",
-    "weight": 100,
     "object": {
       "rows": [
         "                        ",

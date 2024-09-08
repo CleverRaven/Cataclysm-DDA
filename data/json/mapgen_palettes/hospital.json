@@ -8,6 +8,7 @@
       ":": "t_pavement_y",
       "&": "t_floor",
       ".": "t_floor",
+      "a": "t_floor",
       "b": "t_floor",
       "c": "t_floor",
       "d": "t_floor",
@@ -41,7 +42,10 @@
       "8": "t_floor",
       "9": "t_floor",
       "A": "t_floor",
-      "?": "t_floor"
+      "?": "t_floor",
+      "K": "t_floor",
+      "N": "t_floor",
+      "Y": "t_floor"
     },
     "furniture": {
       "*": "f_centrifuge",
@@ -50,7 +54,7 @@
       "b": "f_bench",
       "c": "f_chair",
       "B": "f_bed",
-      "f": "f_fridge",
+      "f": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "d": "f_desk",
       "k": "f_bookcase",
       "C": "f_counter",
@@ -63,14 +67,18 @@
       "8": "f_locker",
       "l": "f_locker",
       "L": "f_locker",
+      "K": "f_locker",
       "2": "f_table",
       "T": "f_table",
       "9": "f_table",
       "&": "f_toilet",
       "A": "f_autodoc",
-      "?": "f_autodoc_couch"
+      "?": "f_autodoc_couch",
+      "N": "f_oxygen_concentrator",
+      "Y": "f_hd_compressor_unit"
     },
-    "toilets": { "&": {  } }
+    "toilets": { "&": {  } },
+    "vehicles": { "a": { "vehicle": "medical_cart", "chance": 100, "rotation": 0 } }
   },
   {
     "type": "palette",
@@ -151,7 +159,7 @@
       "l": "f_autodoc",
       "m": "f_autodoc_couch",
       "n": "f_autoclave",
-      "p": "f_fridge",
+      "p": [ "f_heavy_duty_fridge", "f_heavy_duty_freezer" ],
       "q": "f_glass_fridge",
       "r": "f_table",
       "s": "f_table",
@@ -164,6 +172,7 @@
       "z": "f_trashcan"
     },
     "toilets": { "T": {  } },
+    "items": { "4": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vehicles": {
       "ɱ": { "vehicle": "laundry_cart", "chance": 100, "rotation": 90 },
       "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },

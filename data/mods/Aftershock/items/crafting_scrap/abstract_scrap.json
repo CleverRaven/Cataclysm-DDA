@@ -6,8 +6,8 @@
     "name": { "str": "ur-scrap" },
     "description": "A small techno doodad.",
     "looks_like": "e_scrap",
-    "price": 500,
-    "price_postapoc": 1000,
+    "price": "5 USD",
+    "price_postapoc": "10 USD",
     "weight": "250 g",
     "volume": "50 ml",
     "to_hit": -3,
@@ -19,31 +19,31 @@
     "abstract": "afs_scrap_2",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
-    "price": 5000,
-    "price_postapoc": 10000
+    "price": "50 USD",
+    "price_postapoc": "100 USD"
   },
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_3",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
-    "price": 5000,
-    "price_postapoc": 50000
+    "price": "50 USD",
+    "price_postapoc": "500 USD"
   },
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_4",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
-    "price": 50000,
-    "price_postapoc": 100000
+    "price": "500 USD",
+    "price_postapoc": "1 kUSD"
   },
   {
     "type": "GENERIC",
     "abstract": "afs_scrap_5",
     "name": { "str": "ur-scrap" },
     "copy-from": "afs_scrap_1",
-    "price": 500000,
-    "price_postapoc": 1000000
+    "price": "5 kUSD",
+    "price_postapoc": "10 kUSD"
   }
 ]

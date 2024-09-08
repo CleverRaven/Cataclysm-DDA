@@ -10,7 +10,7 @@
     "id": "NC_SOLDIER_shirt",
     "subtype": "distribution",
     "entries": [
-      { "item": "army_top", "prob": 20 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 20 },
       { "item": "tshirt", "prob": 20 },
       { "item": "polo_shirt", "prob": 20 },
       { "item": "longshirt", "prob": 20 }
@@ -60,7 +60,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "null", "prob": 50 },
-      { "item": "mask_gas", "prob": 20, "charges-min": 10 },
+      { "item": "mask_gas", "prob": 20, "charges": [ 10, -1 ] },
       { "item": "mask_bal", "prob": 10 }
     ]
   },
@@ -121,13 +121,13 @@
     "type": "item_group",
     "id": "NC_SOLDIER_rifle",
     "subtype": "distribution",
-    "entries": [ { "item": "m4_carbine", "variant": "m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
+    "entries": [ { "group": "modular_m4a1", "prob": 90 }, { "item": "m14ebr", "prob": 10 } ]
   },
   {
     "type": "item_group",
     "id": "NC_SOLDIER_weapon_random",
     "subtype": "distribution",
-    "entries": [ { "item": "m4_carbine", "variant": "m4a1", "prob": 35 } ]
+    "entries": [ { "group": "modular_m4a1", "prob": 35 } ]
   },
   {
     "type": "item_group",
@@ -140,18 +140,19 @@
       { "item": "goggles_nv", "prob": 1 },
       { "item": "goggles_ir", "prob": 1 },
       { "item": "optical_cloak", "prob": 1 },
-      { "item": "UPS_off", "prob": 8 },
+      { "item": "UPS_OFF", "prob": 8 },
       { "item": "tacvest", "prob": 10 },
       { "item": "backpack", "prob": 8 },
+      { "item": "backpack_denim", "prob": 2 },
       { "item": "dump_pouch", "prob": 20 },
       { "item": "legrig", "prob": 10 },
       { "item": "under_armor", "prob": 20 },
       { "item": "elbow_pads", "prob": 20 },
       { "item": "knee_pads", "prob": 20 },
-      { "item": "mil_mess_kit", "prob": 30 },
+      { "item": "mess_kit", "prob": 30 },
       { "item": "e_tool", "prob": 15 },
-      { "item": "chocolate", "prob": 30 },
-      { "item": "can_beans", "prob": 20 },
+      { "prob": 30, "group": "chocolate_wrapper_3" },
+      { "prob": 20, "group": "can_beans_can_medium_2" },
       { "group": "any_MRE", "count": [ 2, 3 ], "prob": 45 },
       { "group": "full_ifak", "prob": 35 },
       { "item": "saline", "prob": 10 },

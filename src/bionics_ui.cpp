@@ -1,32 +1,44 @@
-#include <algorithm> //std::min
+#include <algorithm>
 #include <cstddef>
-#include <functional>
+#include <cstdint>
+#include <list>
+#include <map>
 #include <memory>
+#include <optional>
+#include <set>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "avatar.h"
-#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
-#include "game_inventory.h"
 #include "input.h"
+#include "input_context.h"
+#include "input_enums.h"
 #include "inventory.h"
+#include "item.h"
+#include "item_location.h"
 #include "localized_comparator.h"
-#include "material.h"
+#include "make_static.h"
+#include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "make_static.h"
 #include "pimpl.h"
+#include "point.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
+#include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -34,6 +46,8 @@
 #include "vehicle.h"
 
 static const itype_id itype_battery( "battery" );
+
+static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
@@ -271,8 +285,9 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
 
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
-                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, " ),
-                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ) );
+                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, [<color_yellow>%s</color>] Toggle sprite visibility, " ),
+                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
+                                  ctxt.get_desc( "TOGGLE_SPRITE" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
@@ -301,7 +316,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.power_activate > 0_kJ ) {
+    if( bio_data.has_flag( json_flag_BIONIC_GUN ) && bio.get_weapon().get_gun_bionic_drain() > 0_kJ ) {
+        properties.push_back( string_format( _( "%s act" ),
+                                             units::display( bio.get_weapon().get_gun_bionic_drain() ) ) );
+    } else if( bio_data.power_activate > 0_kJ ) {
         properties.push_back( string_format( _( "%s act" ),
                                              units::display( bio_data.power_activate ) ) );
     }
@@ -324,6 +342,9 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
     }
     if( bio.incapacitated_time > 0_turns ) {
         properties.emplace_back( _( "(incapacitated)" ) );
+    }
+    if( !bio.show_sprite ) {
+        properties.emplace_back( _( "(hidden)" ) );
     }
 
     if( bio.is_safe_fuel_on() ) {
@@ -642,6 +663,7 @@ void avatar::power_bionics()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "TOGGLE_SPRITE" );
     ctxt.register_action( "SORT" );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -778,7 +800,7 @@ void avatar::power_bionics()
             menu_mode = ACTIVATING;
 
             if( action == "CONFIRM" && !current_bionic_list->empty() ) {
-                auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+                sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
                 tmp = bio_list[cursor];
             } else {
                 tmp = bionic_by_invlet( ch );
@@ -831,7 +853,7 @@ void avatar::power_bionics()
             // switches between activation and examination
             menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
         } else if( action == "TOGGLE_SAFE_FUEL" ) {
-            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
                 if( !tmp->info().fuel_opts.empty() || tmp->info().is_remote_fueled ) {
@@ -841,13 +863,19 @@ void avatar::power_bionics()
                     popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
                 }
             }
+        } else if( action == "TOGGLE_SPRITE" ) {
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            if( !current_bionic_list->empty() ) {
+                tmp = bio_list[cursor];
+                tmp->show_sprite = !tmp->show_sprite;
+            }
         } else if( action == "SORT" ) {
             uistate.bionic_sort_mode = pick_sort_mode();
             // FIXME: is there a better way to resort?
             active = filtered_bionics( *my_bionics, TAB_ACTIVE );
             passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
         } else if( action == "CONFIRM" || action == "ANY_INPUT" ) {
-            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
+            sorted_bionics &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( action == "CONFIRM" && !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
             } else {
@@ -882,7 +910,7 @@ void avatar::power_bionics()
             const bionic_data &bio_data = bio_id.obj();
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
-                    int b = tmp - &( *my_bionics )[0];
+                    int b = tmp - my_bionics->data();
                     bionic &bio = ( *my_bionics )[b];
                     hide = true;
                     ui.mark_resize();
@@ -913,7 +941,7 @@ void avatar::power_bionics()
                                     break;
                                 case 1:
                                     // TODO: Move to function, create activity and add tool requirements
-                                    if( cata::optional<item> weapon = bio.uninstall_weapon() ) {
+                                    if( std::optional<item> weapon = bio.uninstall_weapon() ) {
                                         i_add_or_drop( *weapon );
                                     }
                                     break;
@@ -959,7 +987,7 @@ void avatar::power_bionics()
                             } else {
                                 activate_bionic( bio, false, &close_ui );
                                 // Exit this ui if we are firing a complex bionic
-                                if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                                if( close_ui && tmp->get_weapon().shots_remaining( this ) > 0 ) {
                                     break;
                                 }
                             }

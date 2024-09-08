@@ -8,9 +8,10 @@
     "weight": "3000 g",
     "volume": "2220 ml",
     "longest_side": "35 cm",
+    "barrel_length": "200 mm",
     "//1": "20cm barrel length, 15cm remaining stock.",
-    "price": 23000,
-    "price_postapoc": 3000,
+    "price": "230 USD",
+    "price_postapoc": "30 USD",
     "//2": "should be very inaccurate and hard to aim by comparison.  Setting handling to that of pistols",
     "handling": 10,
     "relative": {
@@ -19,12 +20,12 @@
       "dispersion": 180,
       "barrel_volume": "-500 ml"
     },
-    "valid_mod_locations": [ [ "mechanism", 4 ], [ "sling", 1 ], [ "underbarrel mount", 1 ] ],
-    "bashing": 30,
+    "valid_mod_locations": [ [ "mechanism", 2 ], [ "sling", 1 ], [ "underbarrel mount", 1 ] ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "extend": { "flags": [ "DURABLE_MELEE" ] },
-    "weapon_category": [ "MACES" ]
+    "weapon_category": [ "MACES" ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "id": "pulverizer",
@@ -91,16 +92,17 @@
     "weight": "300 g",
     "volume": "150 ml",
     "longest_side": "15 cm",
-    "price": 23000,
-    "price_postapoc": 3000,
+    "barrel_length": "80 mm",
+    "price": "230 USD",
+    "price_postapoc": "30 USD",
     "relative": { "dispersion": 180 },
     "valid_mod_locations": [  ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB", "DURABLE_MELEE" ],
-    "weapon_category": [ "KNIVES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ]
+    "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK", "NO_TURRET" ],
+    "weapon_category": [ "AUTOMATIC_PISTOLS", "SHIVS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ],
+    "melee_damage": { "stab": 16 }
   }
 ]

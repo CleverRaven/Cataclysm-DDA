@@ -28,7 +28,8 @@
     "traits": [
       { "trait": "SKIN_LIGHT" },
       { "trait": "eye_color", "variant": "brown" },
-      { "trait": "hair_brown_short" },
+      { "trait": "hair_short", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },
       { "trait": "GOODCARDIO" },
@@ -103,8 +104,8 @@
       { "group": "soup_packet" },
       { "item": "dogfood_dry" },
       { "item": "lighter", "charges": 100 },
-      { "item": "aspirin" },
-      { "item": "bandages" },
+      { "group": "bottle_otc_painkiller_20" },
+      { "item": "bandages", "count": [ 1, 3 ] },
       { "item": "pot" },
       { "item": "FMCNote", "count": 10 },
       { "item": "357mag_fmj", "count": 2 },
@@ -133,14 +134,13 @@
     "type": "item_group",
     "id": "john_bailey_quiver",
     "subtype": "collection",
-    "entries": [ { "item": "arrow_cf", "charges": 20 } ]
+    "entries": [ { "item": "arrow_cf", "count": 20 } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_1",
     "dynamic_line": {
-      "u_has_var": "u_met_John_Bailey",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "u_met_John_Bailey" } ],
       "yes": "*looks up at you, taking a moment to place your face, then grins broadly.  He looks about the same as when you last saw him, perhaps a little more fit.  \"So, you're still playing on the 'living' team, huh?  Glad to see you're still kicking around.  Always good to run into a familiar face nowadays.\"",
       "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair greying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
     },
@@ -148,10 +148,8 @@
       "effect": [
         { "u_add_var": "u_met_John_Bailey", "value": "yes" },
         { "npc_first_topic": "TALK_RC_John_Bailey_1a" },
-        {
-          "arithmetic": [ { "npc_val": "var", "var_name": "zkc_john" }, "=", { "const": 2 }, "*", { "time_since_cataclysm": "days" } ]
-        },
-        { "arithmetic": [ { "npc_val": "var", "var_name": "zkc_john" }, "+=", { "rand": 10 } ] }
+        { "math": [ "n_zkc_john", "=", "2 * time_since('cataclysm', 'unit': 'days')" ] },
+        { "math": [ "n_zkc_john", "+=", "rand(10)" ] }
       ]
     },
     "responses": [
@@ -167,6 +165,17 @@
       { "text": "What are you doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
       { "text": "You looking for any kind of work?", "topic": "TALK_RC_John_Bailey_Work" },
+      {
+        "text": "I'm looking for a very specific building in the wilderness.  Have you seen it?",
+        "topic": "TALK_JOHN_BAILEY_EXODII_MISSION_WAREHOUSE",
+        "condition": {
+          "and": [
+            { "u_has_mission": "EXODII_MISSION_WAREHOUSE" },
+            { "not": { "compare_string": [ "yes", { "npc_val": "asked_about_exodii_warehouse_mission" } ] } }
+          ]
+        },
+        "effect": { "run_eocs": [ "EOC_exodii_mission_wh_directions_chance" ] }
+      },
       { "text": "Not at the moment, thanks.", "topic": "TALK_DONE" }
     ]
   },
@@ -176,16 +185,14 @@
     "dynamic_line": {
       "concatenate": [
         {
-          "u_has_var": "John_Bailey_Convo",
-          "context": "RC_John_Bailey_2",
-          "value": "seen",
-          "yes": "Like I said,\" John shrugs.  \"I'm just checking\u00A0",
-          "no": "Same as you, I imagine,\" John shrugs.  \"Checking\u00A0"
+          "compare_string": [ "seen", { "u_val": "RC_John_Bailey_2_John_Bailey_Convo" } ],
+          "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
+          "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
         },
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "John_Bailey_Convo", "context": "RC_John_Bailey_2", "value": "seen" } },
+    "speaker_effect": { "effect": { "u_add_var": "RC_John_Bailey_2_John_Bailey_Convo", "value": "seen" } },
     "responses": [
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
       { "text": "What do you know about this place?", "topic": "TALK_RC_John_Bailey_RefCenter" },
@@ -194,7 +201,7 @@
       {
         "text": "Got time to teach me anything?",
         "topic": "TALK_RC_John_Bailey_Teach",
-        "condition": { "u_has_var": "John_Bailey_teach", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "John_Bailey_teach" } ] }
       },
       { "text": "Sounds about the same as me, yep.  I'd better get back to it.", "topic": "TALK_DONE" }
     ]
@@ -214,11 +221,50 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_JOHN_BAILEY_EXODII_MISSION_WAREHOUSE",
+    "dynamic_line": {
+      "concatenate": [
+        "&You describe the warehouse to the best of your ability.  John listens intently",
+        {
+          "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ],
+          "yes": ", then shakes his head.  \"I don't believe I've heard about anything like that, no.  Sorry.\"",
+          "no": ", looking thoughtful.  \"I can't guarantee it, but I'm pretty sure I've seen something like that.  It was far away, and the weather was bad.  Could've been a church or something, but it didn't look right for that.\""
+        }
+      ]
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "asked_about_exodii_warehouse_mission", "value": "yes" } },
+    "responses": [
+      {
+        "//": "The other responses are stored in common_talk.json in the exodii folder, to avoid repetition.",
+        "text": "Oh well, thanks John.  I'll go ask around.",
+        "topic": "TALK_DONE",
+        "condition": { "compare_string": [ "no", { "npc_val": "exodii_mission_wh_correct" } ] },
+        "effect": [
+          { "math": [ "exodii_mission_wh_chance", "-=", "1" ] },
+          { "math": [ "exodii_mission_wh_chance", "=", "max( exodii_mission_wh_chance, 1 )" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_RefCenter",
     "dynamic_line": "You'd do better to talk to the people here about it.  Seems like a bunch of them gathered here in the early days of <the_cataclysm> and managed to make it through.  It's the biggest bunch of survivors I've found yet, but most of them hunker up in the basement.  I can understand the urge.  We've all been through way too much.  They say they don't have room for more people though, so I'm just here to do some shopping, see if there's work to be done, then move on.",
     "responses": [
       { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
-      { "text": "Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
+      { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RC_John_Bailey_RefCenter",
+    "dynamic_line": "You'd do better to talk to the people here about it.  Seems like a bunch of them gathered here in the early days of <the_cataclysm> and managed to make it through.  It's the biggest bunch of survivors I've found yet, but most of them hunker up in the basement.  I can understand the urge.  We've all been through way too much.  They say they don't have room for more people though, so I'm just here to do some shopping, see if there's work to be done, then move on.",
+    "responses": [
+      { "text": "What are you shopping for?", "topic": "TALK_RC_John_Bailey_Shopping" },
+      { "text": "\"Move on\" where?", "topic": "TALK_RC_John_Bailey_OnMyWay" },
       { "text": "What kind of work are you looking for?", "topic": "TALK_RC_John_Bailey_Work" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Nice talking to you, I've gotta go.", "topic": "TALK_DONE" }
@@ -270,7 +316,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Darius",
-    "dynamic_line": "Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anwyay.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.",
+    "dynamic_line": "Talk to Darius if you want to know about Darius.  He's a good man, and he won't bite-- ugh, sorry, that's a turn of phrase we should probably retire, hey?  Anyway.  I don't know if we'd have made it through the first days without him.  He gets a bit jumpy around crowds since the riots though, so he's out watching our stuff.",
     "responses": [
       { "text": "Where are you guys located?  Can I join up too?", "topic": "TALK_RC_John_Bailey_Faction2" },
       { "text": "How did you know things were going to go wrong?", "topic": "TALK_RC_John_Bailey_Intuition" },
@@ -518,9 +564,7 @@
     "type": "talk_topic",
     "id": "TALK_RC_John_Bailey_Teach",
     "dynamic_line": {
-      "npc_compare_var": "John_Bailey_taught",
-      "op": "<=",
-      "value": 3,
+      "math": [ "npc_John_Bailey_taught", "<=", "3" ],
       "no": "Sorry, but that's all I have time for at the moment.  Darius is waiting outside.",
       "yes": "I'd be happy to.  I can't spare a lot of free time, but for a little trade, I'll tell you about whatever I can help with."
     },
@@ -529,8 +573,8 @@
       {
         "text": "Sure, let's talk trade.",
         "topic": "TALK_TRAIN",
-        "condition": { "npc_compare_var": "John_Bailey_taught", "op": "<=", "value": 3 },
-        "effect": { "npc_adjust_var": "John_Bailey_taught", "adjustment": 1 }
+        "condition": { "math": [ "npc_John_Bailey_taught", "<=", "3" ] },
+        "effect": { "math": [ "npc_John_Bailey_taught", "++" ] }
       },
       { "text": "I'll bear that in mind.  What did you say you were doing here?", "topic": "TALK_RC_John_Bailey_2" },
       { "text": "Thanks, I'll think about it.  What were you saying before?", "topic": "TALK_NONE" },

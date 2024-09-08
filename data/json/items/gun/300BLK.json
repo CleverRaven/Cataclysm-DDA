@@ -2,17 +2,17 @@
   {
     "id": "acr_300blk",
     "copy-from": "rifle_auto",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Remington ACR .300BLK" },
     "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines.  This version is chambered for the .300 AAC Blackout round.",
     "weight": "3419 g",
     "volume": "3310 ml",
     "longest_side": "938 mm",
-    "price": 234300,
-    "price_postapoc": 5500,
+    "barrel_length": "419 mm",
+    "price": "2 kUSD 343 USD",
+    "price_postapoc": "55 USD",
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -47,22 +47,23 @@
           "survivor223mag"
         ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "iwi_tavor_x95_300blk",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "IWI Tavor X95 .300BLK" },
     "description": "The IWI Tavor X95 (also called Micro-Tavor or MTAR) is an Israeli bullpup assault rifle designed and produced by Israel Weapon Industries.  This is the civilian version chambered for .300 AAC Blackout.",
     "weight": "3610 g",
     "volume": "2400 ml",
     "longest_side": "665 mm",
-    "price": 490000,
-    "price_postapoc": 4500,
+    "barrel_length": "419 mm",
+    "price": "4 kUSD 900 USD",
+    "price_postapoc": "45 USD",
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -72,13 +73,12 @@
     "min_cycle_recoil": 1700,
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "magazine", 1 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -108,28 +108,23 @@
           "survivor223mag"
         ]
       }
-    ]
-  },
-  {
-    "id": "ar15_retool_300blk",
-    "copy-from": "ar15",
-    "type": "GUN",
-    "name": { "str": "AR-15" },
-    "default_mods": [ "retool_ar15_300blk" ]
+    ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "sig_mcx_rattler_sbr",
     "copy-from": "rifle_semi",
-    "looks_like": "ar15",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "SIG MCX Rattler SBR" },
-    "description": "This is a short-barreled, gas-operated rifle, with a 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
+    "description": "A gas-operated rifle, with a short 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
     "weight": "2590 g",
     "volume": "2850 ml",
     "//": "This is the unfolded version of the weapon. Folded, it's 597 mm",
     "longest_side": "775 mm",
-    "price": 271900,
-    "price_postapoc": 3500,
+    "barrel_length": "140 mm",
+    "price": "2 kUSD 719 USD",
+    "price_postapoc": "35 USD",
     "color": "dark_gray",
     "ammo": [ "300blk" ],
     "dispersion": 160,
@@ -138,16 +133,14 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
-      [ "accessories", 4 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "magazine", 1 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock mount", 1 ]
+      [ "stock", 1 ]
     ],
     "pocket_data": [
       {

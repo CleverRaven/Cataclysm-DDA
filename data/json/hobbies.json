@@ -2,6 +2,72 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "boating_license",
+    "name": "Boating License",
+    "description": "You've trained in how to pilot marine craft, as well as general boating and swimming safety.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_boat_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "driving_license",
+    "name": "Driving License",
+    "description": "You got your driving license and know how to drive a car, change the oil and tires, and other basics.",
+    "points": 0,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "simple_home_cooking",
+    "name": "Simple Home Cooking",
+    "description": "You've been living on your own long enough that you know how to cook basic dishes and feed yourself.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "cooking" } ],
+    "proficiencies": [ "prof_food_prep" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "computer_literate",
+    "name": "Computer Literate",
+    "description": "Either through school, your job, or from your family, you've learned the basics of how to use a computer.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "social_skills",
+    "name": "Social Skills",
+    "description": "You've spent a significant portion of your life living among other people and are familiar with social norms.  You know how to talk with other people, and how to convey your emotions and understand those of others.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "high_school_graduate",
+    "name": "High School Graduate",
+    "description": "You've graduated from high school and thus know a little bit about applied science and electronics.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "electronics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mundane_survival",
+    "name": "Mundane Survival",
+    "description": "You've managed to survive modern life in a first world country.  Through your ordeals you've learned how to treat scrapes and bruises, and how to assemble basic furniture.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "heroin_addict",
     "name": "Heroin Dependence",
     "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
@@ -22,7 +88,7 @@
     "subtype": "hobby",
     "id": "crackhead",
     "name": "Crack Cocaine Dependence",
-    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your next fix now?",
+    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your fix now?",
     "points": -2,
     "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 20, "type": "crack" } ]
@@ -69,11 +135,20 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "caffiend",
+    "name": "Caffeine Fiend",
+    "description": "Caffeine gave you life and without it you are nothing.  Your dependence upon it was so extreme that you can barely function in its absence and you've done lasting psychological harm to yourself.  You'd better find a steady supply, and fast.",
+    "points": -1,
+    "traits": [ "STIMBOOST", "SLEEPY" ],
+    "addictions": [ { "intensity": 50, "type": "caffeine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "caffeine_junkie",
     "name": "Caffeine Dependence",
     "description": "Coffee was your faithful companion every morning, and without it you feel like a zombie.  Thanks to all the actual zombies shambling about, getting your caffeine fix will be much harder now.",
     "points": -1,
-    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ]
   },
   {
@@ -91,7 +166,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "lockpicking",
-    "name": "Lockpicking",
+    "name": "Lockpicking (Beginner)",
     "description": "Whether it was for fun, innocent utility, or criminal intent, you learned the basics of how to silently pick locks.  Now, being able to get into secured places just got a lot more useful.",
     "points": 1,
     "proficiencies": [ "prof_lockpicking" ],
@@ -100,11 +175,21 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "lockpicking_expert",
+    "name": "Lockpicking (Expert)",
+    "description": "Maybe you're a certified locksmith, a career burglar, or an intense hobbyist.  Regardless, you've spent so long picking locks you could pop most open in under a minute easy, with the right tools.",
+    "points": 3,
+    "proficiencies": [ "prof_lockpicking", "prof_lockpicking_expert" ],
+    "skills": [ { "level": 4, "name": "traps" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "parkour",
     "name": "Parkour",
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
     "points": 2,
-    "proficiencies": [ "prof_parkour" ],
+    "proficiencies": [ "prof_parkour", "prof_athlete_basic" ],
     "skills": [ { "level": 1, "name": "swimming" } ]
   },
   {
@@ -161,30 +246,135 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "archery",
-    "name": "Archery",
-    "description": "You enjoy nocking back an arrow and hearing it whistle through the air.  If you can get the proper gear together and stay on-target, you'll have a good, quiet alternative to using guns.",
-    "points": 3,
-    "skills": [ { "level": 3, "name": "archery" }, { "level": 2, "name": "gun" } ],
+    "name": "Archery (Beginner)",
+    "description": "You've used a bow before and maybe taken a class or two.  You won't be pulling off any trick shots but at least you can usually get an arrow to fly forward instead of spinning off to the side.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "archery" }, { "level": 2, "name": "gun" } ],
     "proficiencies": [ "prof_bow_basic" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "archery_expert",
+    "name": "Archery (Intermediate)",
+    "description": "You enjoy nocking back an arrow and hearing it whistle through the air.  If you can get the proper gear together and stay on-target, you'll have a good, quiet alternative to using guns.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "archery" }, { "level": 3, "name": "gun" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "archery_master",
+    "name": "Archery (Expert)",
+    "description": "You're a modern day Robin Hood and probably have hella back muscles.  Perhaps you're an Olympic archer in training or maybe you're descended from the longbowmen of old.  In either case, sniping zombie heads should be as easy as pinning apples to trees for you.",
+    "points": 8,
+    "skills": [ { "level": 8, "name": "archery" }, { "level": 5, "name": "gun" } ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bow_master" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "swimming_beginner",
+    "name": "Swimming (Beginner)",
+    "description": "You can swim.  Probably not very well, and you won't break any speed records, but, you CAN swim.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "swimming",
-    "name": "Swimming",
+    "name": "Swimming (Intermediate)",
     "description": "You're a strong swimmer, and you're pretty sure zombies aren't.  You can't swim forever, but it's certainly an advantage over the undead.",
     "points": 2,
     "skills": [ { "level": 4, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "traits": [ "OUTDOORSMAN" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "swimming_expert",
+    "name": "Swimming (Expert)",
+    "description": "You're an excellent swimmer and may be part fish.  Plus, all that swimming has left you in great shape.  There aren't any zombie sharks in the water, right?",
+    "points": 5,
+    "skills": [ { "level": 6, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
+    "traits": [ "OUTDOORSMAN", "GOODCARDIO" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "baseball_beginner",
+    "name": "Baseball (Beginner)",
+    "description": "You used to play baseball, occasionally.  Maybe you were on your school team growing up, but it was never a focus of yours.  Hopefully you can still remember how to use a bat when your life depends on it.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "throw" } ],
+    "proficiencies": [ "prof_maces_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "baseball",
-    "name": "Baseball",
+    "name": "Baseball (Intermediate)",
     "description": "You got the stance, you got the grip, you got the game.  Swinging at a zombie's head is close enough to swinging at a baseball… right?",
-    "points": 3,
-    "skills": [ { "level": 3, "name": "bashing" }, { "level": 2, "name": "throw" }, { "level": 1, "name": "swimming" } ]
+    "points": 4,
+    "skills": [ { "level": 4, "name": "bashing" }, { "level": 4, "name": "throw" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_maces_familiar", "prof_maces_pro" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "baseball_pitcher",
+    "name": "Baseball Pitcher (Expert)",
+    "description": "You're accustomed to striking out poor batters at the plate and can probably throw a mean knuckleball.  Now you get to practice your fastball, but perhaps with rocks or grenades this time.",
+    "points": 6,
+    "skills": [ { "level": 4, "name": "bashing" }, { "level": 7, "name": "throw" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_maces_familiar", "prof_maces_pro" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "baseball_expert",
+    "name": "Baseball (Expert)",
+    "description": "You didn't quite make it into the big leagues, but you were close.  Now it's time to go for the grand slam or you'll be dealing with worse than a strike out.",
+    "points": 6,
+    "skills": [ { "level": 6, "name": "bashing" }, { "level": 5, "name": "throw" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert", "prof_maces_familiar", "prof_maces_pro", "prof_maces_master" ],
+    "traits": [ "GOODCARDIO" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "wrestling_beginner",
+    "name": "Wrestling (Beginner)",
+    "description": "Maybe you've taken a few classes at a gym somewhere, or used to be on the youth team, or maybe you just liked to rough-house with your friends or family growing up.  You're not entirely unused to grappling, but you're hardly an expert.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "wrestling",
+    "name": "Wrestling (Intermediate)",
+    "description": "While not the type of wrestler to use folding chairs as weapons, you have experience wrasslin' and tusslin' with others out on the mat.  There's no referees around to see, but hopefully your skills will help you avoid getting pinned by the undead.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 4, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "traits": [ "FAST_REFLEXES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "wrestling_expert",
+    "name": "Wrestling (Expert)",
+    "description": "You were likely on the 100+ wins list back in school and maybe you're a collegiate wrestler or you're using it as part of something like MMA.  Considering how grabby those zombies are, you should get plenty of use out of your skills.",
+    "points": 8,
+    "skills": [ { "level": 5, "name": "melee" }, { "level": 6, "name": "unarmed" }, { "level": 6, "name": "dodge" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ],
+    "traits": [ "FAST_REFLEXES", "GOODCARDIO" ]
   },
   {
     "type": "profession",
@@ -229,7 +419,7 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "diy_crafts",
-    "name": "DIY Crafting",
+    "name": "DIY Crafting (Intermediate)",
     "description": "You spent much of your time making useful things out of bits and bobbles.",
     "points": 3,
     "proficiencies": [
@@ -245,12 +435,96 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "diy_crafts_expert",
+    "name": "DIY Crafting (Expert)",
+    "description": "Whether due to circumstances forcing ingenuity or just an unhealthy fascination with tinkering you're a certified MacGyver with a very wide range of fabrication knowledge.  You could probably make a functioning cannon out of a paper clip and some bubble gum.",
+    "points": 8,
+    "proficiencies": [
+      "prof_pottery",
+      "prof_carving",
+      "prof_basketweaving",
+      "prof_elastics",
+      "prof_leatherworking_basic",
+      "prof_plasticworking",
+      "prof_elec_soldering",
+      "prof_metalworking",
+      "prof_welding_basic",
+      "prof_carpentry_basic"
+    ],
+    "skills": [
+      { "level": 6, "name": "fabrication" },
+      { "level": 2, "name": "tailor" },
+      { "level": 2, "name": "electronics" },
+      { "level": 2, "name": "mechanics" }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cooking_beginner",
+    "name": "Cooking (Beginner)",
+    "description": "You can cook well enough that you didn't have to live on instant noodles and takeout, but you've only really learned the bare minimum.",
+    "points": 1,
+    "proficiencies": [ "prof_food_prep" ],
+    "skills": [ { "level": 2, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "cooking",
-    "name": "Cooking",
+    "name": "Cooking (Intermediate)",
     "description": "You enjoyed cooking for yourself and others.  The grocery stores are closed for good, so you might need to start getting creative with your recipes.",
     "points": 2,
-    "proficiencies": [ "prof_baking", "prof_baking_bread", "prof_baking_desserts_1", "prof_food_prep", "prof_knife_skills" ],
+    "proficiencies": [
+      "prof_baking",
+      "prof_baking_bread",
+      "prof_baking_desserts_1",
+      "prof_food_prep",
+      "prof_knife_skills",
+      "prof_knives_familiar"
+    ],
+    "skills": [ { "level": 4, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cooking_expert",
+    "name": "Cooking (Expert)",
+    "description": "You're an excellent chef capable of making delicious meals out of almost anything and have a wide array of culinary knowledge.  Sadly, the undead would rather eat you than your meals.",
+    "points": 6,
+    "proficiencies": [
+      "prof_baking",
+      "prof_baking_bread",
+      "prof_baking_desserts_1",
+      "prof_food_prep",
+      "prof_knife_skills",
+      "prof_frying_dessert",
+      "prof_frying",
+      "prof_preservation",
+      "prof_scav_cooking",
+      "prof_knives_familiar"
+    ],
+    "skills": [ { "level": 7, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cheesemaking",
+    "name": "Cheesemaking",
+    "description": "The art of producing the finest quality cheeses has been passed down through your family for generations.  How useful these skills will be in the apocalypse remains to *brie* seen.",
+    "points": 2,
+    "proficiencies": [ "prof_food_prep", "prof_cheesemaking_1", "prof_cheesemaking_2" ],
     "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "canning_food",
+    "name": "Home canning",
+    "description": "Whether it was something practiced in your family or something you took it up to extend the shelf life of your groceries, you know how to preserve produce and meat in cans or mason jars.  With the electricity down and refrigerators dead, saying your skills could come in handy is an understatement.",
+    "points": 4,
+    "proficiencies": [ "prof_food_prep", "prof_preservation", "prof_food_canning" ],
+    "skills": [ { "level": 4, "name": "cooking" } ]
   },
   {
     "type": "profession",
@@ -258,8 +532,8 @@
     "id": "paintball",
     "name": "Paintball",
     "description": "Pretending to shoot at your friends has always been fun.  Now you can do it for real.",
-    "points": 2,
-    "skills": [ { "level": 3, "name": "rifle" }, { "level": 1, "name": "gun" } ]
+    "points": 3,
+    "skills": [ { "level": 3, "name": "rifle" }, { "level": 2, "name": "gun" } ]
   },
   {
     "type": "profession",
@@ -267,8 +541,8 @@
     "id": "plinking",
     "name": "Plinking",
     "description": "You enjoyed target plinking with your airsoft pistol.  You're a good shot, but you'll need a real gun for it to matter.",
-    "points": 2,
-    "skills": [ { "level": 3, "name": "pistol" }, { "level": 1, "name": "gun" } ]
+    "points": 3,
+    "skills": [ { "level": 3, "name": "pistol" }, { "level": 2, "name": "gun" } ]
   },
   {
     "type": "profession",
@@ -276,8 +550,8 @@
     "id": "skeet_shooting",
     "name": "Skeet Shooting",
     "description": "Where the skeet go, your shot follows.  Throw enough pellets downrange, and you'll at least hit something.",
-    "points": 2,
-    "skills": [ { "level": 3, "name": "shotgun" }, { "level": 1, "name": "gun" } ]
+    "points": 3,
+    "skills": [ { "level": 3, "name": "shotgun" }, { "level": 2, "name": "gun" } ]
   },
   {
     "type": "profession",
@@ -294,10 +568,22 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "street_fighting",
-    "name": "Street Fighting",
-    "description": "You were constantly instigating fights in the street.  You can throw and dodge a punch better than most.",
-    "points": 2,
-    "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 2, "name": "dodge" } ]
+    "name": "Street Fighting (Intermediate)",
+    "description": "You've been in quite a few fights in the street.  You can throw and dodge a punch better than most.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "street_fighting_expert",
+    "name": "Street Fighting (Expert)",
+    "description": "Maybe you're the muscle of some criminal gang, maybe you're a bouncer at a club, or maybe you're just a huge asshole.  You've constantly been getting into fights with strangers on the streets for most of your life, and somehow you ain't dead yet, so you must be doing something right.",
+    "points": 6,
+    "skills": [ { "level": 5, "name": "melee" }, { "level": 6, "name": "unarmed" }, { "level": 4, "name": "dodge" } ],
+    "traits": [ "PAINRESIST" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ]
   },
   {
     "type": "profession",
@@ -306,14 +592,15 @@
     "name": "Knife Throwing",
     "description": "You learned how to throw knives before the world ended, a skill that can be deadly in the right situation.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "throw" } ]
+    "skills": [ { "level": 3, "name": "throw" } ],
+    "proficiencies": [ "prof_knives_familiar" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "sewing",
-    "name": "Sewing",
-    "description": "You used to sew torn clothes back together, and have even made your own clothes a few times.",
+    "name": "Sewing (Intermediate)",
+    "description": "You are quite good at sewing torn clothes back together, and have even made your own clothes a few times.",
     "points": 3,
     "proficiencies": [ "prof_closures", "prof_elastics", "prof_knitting" ],
     "skills": [ { "level": 3, "name": "tailor" }, { "level": 1, "name": "fabrication" } ]
@@ -321,12 +608,45 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "sewing_expert",
+    "name": "Sewing (Expert)",
+    "description": "Despite modern technology making career tailors obsolete you've spent much of your life hand-making clothing of all sorts, whether for historical purposes or to sell as artisanal goods.  Too bad you can't stitch the holes in reality closed.",
+    "points": 8,
+    "proficiencies": [
+      "prof_closures",
+      "prof_elastics",
+      "prof_knitting",
+      "prof_knitting_speed",
+      "prof_quilting",
+      "prof_closures_waterproofing",
+      "prof_leatherworking_basic",
+      "prof_furriery",
+      "prof_spinning",
+      "prof_weaving"
+    ],
+    "skills": [ { "level": 7, "name": "tailor" }, { "level": 2, "name": "fabrication" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "fencing",
-    "name": "Fencing",
+    "name": "Fencing (Intermediate)",
     "description": "You were in a fencing club, and you weren't too shabby with a saber.  If you can get your hands on a real sword, you'll be a formidable fighter.",
-    "points": 5,
-    "skills": [ { "level": 3, "name": "stabbing" }, { "level": 1, "name": "melee" } ],
-    "traits": [ "MARTIAL_FENCING" ]
+    "points": 6,
+    "skills": [ { "level": 3, "name": "stabbing" }, { "level": 3, "name": "melee" }, { "level": 3, "name": "dodge" } ],
+    "traits": [ "MARTIAL_FENCING" ],
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fencing_expert",
+    "name": "Fencing (Expert)",
+    "description": "You've spent so long practicing your fencing you wouldn't look out of place in the Renaissance dueling with ne'er-do-wells and rapscallions.  En Garde!",
+    "points": 10,
+    "skills": [ { "level": 6, "name": "stabbing" }, { "level": 5, "name": "melee" }, { "level": 5, "name": "dodge" } ],
+    "traits": [ "MARTIAL_FENCING" ],
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_fencing_weapons_master" ]
   },
   {
     "type": "profession",
@@ -335,7 +655,34 @@
     "name": "Motorsports",
     "description": "You're a big fan of cars and other things that go vroom, whether it's fixing them or driving them.  You may not be a professional, but you know your way around an engine.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "racing",
+    "name": "Racing",
+    "description": "You're a real speed demon in anything with an engine!  Pulling off hairpin turns at high speeds is a difficult skill to master but you can drift with the best of them.",
+    "points": 5,
+    "skills": [ { "level": 8, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_driver" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "kickboxing_beginner",
+    "name": "Cardio Kickboxing",
+    "description": "You've trained in non-combat kickboxing at a gym as a way to exercise.  While you were taught the moves, you've never sparred or fought anything more dangerous than a falling punching bag.  Whether you can remember your training when push kick comes to jab is up to you.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 2, "name": "unarmed" },
+      { "level": 2, "name": "swimming" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "traits": [ "PROF_KICKBOXER" ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
   },
   {
     "type": "profession",
@@ -343,19 +690,21 @@
     "id": "martial_training",
     "name": "Martial Arts",
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
-    "points": 4,
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
-    "traits": [ "MARTIAL_ARTS" ]
+    "points": 5,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
+    "traits": [ "MARTIAL_ARTS" ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "self_defense",
     "name": "Self-Defense",
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
-    "points": 4,
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
-    "traits": [ "MARTIAL_ARTS2" ]
+    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Kickboxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "points": 5,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
+    "traits": [ "MARTIAL_ARTS2" ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
   },
   {
     "type": "profession",
@@ -365,22 +714,79 @@
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "points": 5,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
-    "traits": [ "MARTIAL_ARTS3" ]
+    "traits": [ "MARTIAL_ARTS3" ],
+    "proficiencies": [ "prof_unarmed_familiar" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "blackbelt_hobby",
+    "name": "Black Belt",
+    "description": "You've been doing martial arts for years and have earned the coveted black belt in a martial art of your choice.",
+    "points": 10,
+    "skills": [
+      { "level": 5, "name": "melee" },
+      { "level": 5, "name": "unarmed" },
+      { "level": 5, "name": "dodge" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "traits": [ "PROF_MA_BLACK" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "melee_training",
-    "name": "Melee Training",
+    "name": "Melee Training (Intermediate)",
     "description": "You have practiced fighting with weapons.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
-    "points": 6,
+    "points": 7,
     "skills": [
-      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "melee" },
       { "level": 3, "name": "bashing" },
       { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "cutting" }
     ],
-    "traits": [ "MARTIAL_ARTS5" ]
+    "traits": [ "MARTIAL_ARTS5" ],
+    "proficiencies": [
+      "prof_quarterstaves_familiar",
+      "prof_maces_familiar",
+      "prof_knives_familiar",
+      "prof_long_swords_familiar",
+      "prof_hooking_familiar",
+      "prof_fencing_weapons_familiar",
+      "prof_spears_familiar"
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "melee_training_expert",
+    "name": "Melee Training (Expert)",
+    "description": "Despite firearms making traditional melee weapons largely obsolete, you have extensive experience fighting in hand-to-hand combat with tools of war.  Maybe it was full-contact HEMA or SCA sparring, or maybe you're just a badass commando with a machete.  You start with your choice of Barbaran Montante, Bōjutsu, Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pencak Silat, or Sōjutsu.",
+    "points": 14,
+    "skills": [
+      { "level": 6, "name": "melee" },
+      { "level": 5, "name": "bashing" },
+      { "level": 5, "name": "stabbing" },
+      { "level": 5, "name": "cutting" }
+    ],
+    "traits": [ "MARTIAL_ARTS5" ],
+    "proficiencies": [
+      "prof_quarterstaves_familiar",
+      "prof_quarterstaves_pro",
+      "prof_maces_familiar",
+      "prof_maces_pro",
+      "prof_knives_familiar",
+      "prof_knives_pro",
+      "prof_long_swords_familiar",
+      "prof_long_swords_pro",
+      "prof_hooking_familiar",
+      "prof_hooking_pro",
+      "prof_fencing_weapons_familiar",
+      "prof_fencing_weapons_pro",
+      "prof_spears_familiar",
+      "prof_spears_pro"
+    ]
   },
   {
     "type": "profession",
@@ -397,7 +803,7 @@
     "subtype": "hobby",
     "id": "gourmand_alt",
     "name": "Competitive Eating",
-    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in a world of zombies, your fortitude might help you survive off food other survivors would pass over.",
+    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training, you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in the apocalypse, your fortitude might help you survive off food other survivors would pass over.",
     "points": 3,
     "traits": [ "GOURMAND", "STRONGSTOMACH" ]
   },
@@ -409,7 +815,8 @@
     "description": "You ran the Boston Marathon every year.  That conditioning should make you better equipped than most in avoiding the dead.",
     "points": 5,
     "traits": [ "GOODCARDIO", "FLEET" ],
-    "skills": [ { "level": 2, "name": "swimming" } ]
+    "skills": [ { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ]
   },
   {
     "type": "profession",
@@ -428,7 +835,8 @@
     "description": "You absolutely love meat, and dislike eating fruits and vegetables.  Your particular tastes have turned you into a decent amateur butcher.",
     "points": -3,
     "traits": [ "ANTIFRUIT", "MEATARIAN" ],
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ]
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "cooking" } ],
+    "proficiencies": [ "prof_knives_familiar", "prof_knife_skills", "prof_butchering_basic", "prof_skinning_basic" ]
   },
   {
     "type": "profession",
@@ -438,7 +846,8 @@
     "description": "You have been a vegetarian for so long that eating meat makes you feel sick.  You like to supplement your diet with wild plants and mushrooms foraged in the woods.",
     "points": -1,
     "traits": [ "VEGETARIAN" ],
-    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ]
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "survival" } ],
+    "proficiencies": [ "prof_food_prep", "prof_forage_cooking" ]
   },
   {
     "type": "profession",
@@ -483,8 +892,8 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "modelling",
-    "name": "Modelling",
-    "description": "You were deep into the fashion scene, keeping up on the latest trends and even modelling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
+    "name": "Modeling",
+    "description": "You were deep into the fashion scene, keeping up on the latest trends and even modeling clothes yourself.  Having style and good looks is just as, if not more, important to you than practicality.",
     "points": 2,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
     "traits": [ "STYLISH" ],
@@ -507,7 +916,7 @@
     "id": "handloading",
     "description": "You figured you could save money on ammo by learning to make your own.  Now that the factories are shut down, your abilities just went from handy to lifesaving.",
     "points": 3,
-    "proficiencies": [ "prof_handloading" ],
+    "proficiencies": [ "prof_handloading", "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 2, "name": "gun" } ]
   },
   {
@@ -526,7 +935,7 @@
     "subtype": "hobby",
     "id": "ham_radio_operator",
     "name": "Ham Radio",
-    "description": "You whiled your nights away using, building and repairing old ham radios.  Now you have no one to talk to. But you won't give up hope, and maybe your electronics knowledge can help you somehow.",
+    "description": "You whiled your nights away using, building, and repairing old ham radios.  Now you have no one to talk to. But you won't give up hope, and maybe your electronics knowledge can help you somehow.",
     "points": 2,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits" ]
@@ -543,9 +952,72 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "cyclist_beginner",
+    "name": "Cyclist (Beginner)",
+    "description": "Whether through regular commuting, or just riding for the joy of it, you're no stranger to bicycles.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cyclist_intermediate",
+    "name": "Cyclist (Intermediate)",
+    "description": "You've shed gallons of sweat, and more than a little blood, riding the streets and trails as a cyclist.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "driving" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic", "prof_athlete_expert" ],
+    "traits": [ "GOODCARDIO" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cyclist_expert",
+    "name": "Cyclist (Expert)",
+    "description": "You've honed the fitness and form of a professional bicycle racer.  When you're riding, your wheels are like an extension of your body.",
+    "points": 7,
+    "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_driver", "prof_athlete_basic", "prof_athlete_expert", "prof_athlete_master" ],
+    "traits": [ "GOODCARDIO", "DEFT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "basketball_beginner",
+    "name": "Basketball (Beginner)",
+    "description": "You used to shoot some b-ball outside of the school… at least, until a couple of corpses who were up to no good started making trouble in your neighborhood.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "basketball",
-    "name": "Basketball",
+    "name": "Basketball (Intermediate)",
     "description": "Your ability to play point or post will beat the undead in overtime.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 2, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
+    "traits": [ "FAST_REFLEXES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "basketball_expert",
+    "name": "Basketball (Expert)",
+    "description": "You can sink 3-pointers all day, and dribble around the most determined defenders.",
+    "points": 7,
+    "skills": [ { "level": 6, "name": "throw" }, { "level": 4, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
+    "traits": [ "GOODCARDIO", "FAST_REFLEXES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "football_beginner",
+    "name": "Football (Beginner)",
+    "description": "You'd occasionally play touch or flag football at the park, but never got too serious about it.",
     "points": 2,
     "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" }, { "level": 1, "name": "swimming" } ]
   },
@@ -553,19 +1025,53 @@
     "type": "profession",
     "subtype": "hobby",
     "id": "football",
-    "name": "Football",
-    "description": "You could have gone pro if the world hadn't ended, but at least you've gone longer than most.",
+    "name": "Football (Intermediate)",
+    "description": "You're no stranger to throwing the ol' pigskin and taking a few tackles.  Hopefully your skills in dodging defenders will help you charge through the hordes of undead.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "throw" }, { "level": 3, "name": "dodge" }, { "level": 1, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic" ],
+    "traits": [ "TOUGH", "FLEET" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "football_expert",
+    "name": "Football (Expert)",
+    "description": "You played college ball, ya know.  You could have gone pro if the world hadn't ended.",
+    "points": 8,
+    "skills": [ { "level": 4, "name": "throw" }, { "level": 5, "name": "dodge" }, { "level": 3, "name": "swimming" } ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
+    "traits": [ "TOUGH", "FLEET", "PAINRESIST" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "shooter_beginner",
+    "name": "Shooting (Beginner)",
+    "description": "You've been to a gun range once or twice and maybe took a firearm safety class.  At the very least, you're confident you can point the gun in the correct direction.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "throw" }, { "level": 1, "name": "dodge" }, { "level": 2, "name": "swimming" } ]
+    "skills": [
+      { "level": 1, "name": "shotgun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "rifle" },
+      { "level": 2, "name": "gun" }
+    ]
   },
   {
     "type": "profession",
     "subtype": "hobby",
     "id": "shooter",
-    "name": "Target Shooting",
-    "description": "You liked going to the local gun range and shooting at some targets or blasting cans off of fence posts.  Maybe if you just imagine targets on those undead, this could help.",
+    "name": "Shooting (Intermediate)",
+    "description": "You liked going to the local gun range and shooting at some targets or blasting cans off of fence posts with a variety of firearms.  Maybe if you just imagine targets on those undead, this could help.",
     "points": 2,
-    "skills": [ { "level": 3, "name": "gun" } ]
+    "proficiencies": [ "prof_gun_cleaning", "prof_auto_pistols_familiar", "prof_auto_rifles_familiar" ],
+    "skills": [
+      { "level": 1, "name": "smg" },
+      { "level": 2, "name": "shotgun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 2, "name": "rifle" },
+      { "level": 4, "name": "gun" }
+    ]
   },
   {
     "type": "profession",
@@ -582,8 +1088,9 @@
     "subtype": "hobby",
     "id": "trap_shooting",
     "name": "Trap Shooting",
-    "description": "Nothing like the smell of gunsmoke and blowing ceramic orange discs out of the sky.  Time to shoot at things a little fleshier than clay pigeons.",
+    "description": "You loved the smell of gunsmoke and blowing ceramic discs out of the sky.  Your future will likely involve shooting things a little fleshier than clay pigeons.",
     "points": 2,
+    "proficiencies": [ "prof_gun_cleaning" ],
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "shotgun" } ]
   },
   {
@@ -594,7 +1101,7 @@
     "description": "You enjoyed inviting the neighborhood to a backyard cookout on the weekends.  You, of course, were the grill master.",
     "points": 1,
     "skills": [ { "level": 2, "name": "cooking" } ],
-    "proficiencies": [ "prof_food_prep", "prof_knife_skills" ]
+    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_knives_familiar" ]
   },
   {
     "type": "profession",
@@ -605,6 +1112,26 @@
     "description": "With enough time and materials, you could make a boat from scratch.  These undead can't swim, right?",
     "skills": [ { "level": 3, "name": "fabrication" } ],
     "proficiencies": [ "prof_carving", "prof_carpentry_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "luthier",
+    "name": "Woodworking - Luthier",
+    "description": "You've learned woodworking in the field of making musical instruments.  You'll be able to create musical instruments in the Cataclysm.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "proficiencies": [ "prof_luthier_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "home_improvement",
+    "name": "Home Improvement",
+    "points": 4,
+    "description": "You'd fix up any holes and appliances in your own home with nothing but your two hands and some elbow grease.  You did it to save money on repairmen, but now it seems you'll do it to save your life.",
+    "skills": [ { "level": 4, "name": "fabrication" }, { "level": 2, "name": "mechanics" }, { "level": 1, "name": "electronics" } ],
+    "proficiencies": [ "prof_carpentry_basic", "prof_appliance_repair" ]
   },
   {
     "type": "profession",
@@ -623,7 +1150,7 @@
     "name": "Home Gunsmithing",
     "description": "You could have been the next Browning, if not for the those pesky corpses walking around.  It's time to test for accuracy.",
     "points": 3,
-    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv", "prof_gun_cleaning" ],
     "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "traps" } ]
   },
   {
@@ -640,6 +1167,7 @@
       { "level": 1, "name": "dodge" }
     ],
     "traits": [ "PROF_SKATER" ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "missions": [ "MISSION_SKATES" ]
   },
   {
@@ -651,6 +1179,7 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "melee" } ],
     "traits": [ "PROF_SKATER" ],
+    "proficiencies": [ "prof_athlete_basic" ],
     "missions": [ "MISSION_SKATES" ]
   },
   {
@@ -666,7 +1195,8 @@
       "prof_baking_desserts_1",
       "prof_frying_dessert",
       "prof_food_prep",
-      "prof_knife_skills"
+      "prof_knife_skills",
+      "prof_knives_familiar"
     ],
     "skills": [ { "level": 3, "name": "cooking" } ]
   },
@@ -743,7 +1273,7 @@
     "description": "You spent hours welding discarded scrap into large and intricate designs.  Some said you were just welding junk into bigger junk.  You call it art.",
     "points": 2,
     "skills": [ { "level": 2, "name": "fabrication" } ],
-    "proficiencies": [ "prof_welding_basic" ]
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic" ]
   },
   {
     "type": "profession",

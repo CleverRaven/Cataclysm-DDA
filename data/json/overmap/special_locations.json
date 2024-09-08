@@ -2,6 +2,11 @@
   {
     "type": "overmap_location",
     "id": "field",
+    "terrains": [ "field", "meadow_core", "meadow_end" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "field_no_meadow",
     "terrains": [ "field" ]
   },
   {
@@ -27,7 +32,12 @@
   {
     "type": "overmap_location",
     "id": "land",
-    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail" ]
+    "terrains": [ "field", "meadow_core", "meadow_end", "forest", "forest_thick", "forest_water", "forest_trail" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "crater",
+    "terrains": [ "crater" ]
   },
   {
     "type": "overmap_location",
@@ -83,7 +93,7 @@
   {
     "type": "overmap_location",
     "id": "road",
-    "terrains": [ "hiway_ns", "hiway_ew", "ranch_camp_77", "necropolis_a_11", "road", "road_nesw_manhole" ]
+    "terrains": [ "ranch_camp_77", "road", "road_nesw_manhole" ]
   },
   {
     "type": "overmap_location",
@@ -99,16 +109,6 @@
     "type": "overmap_location",
     "id": "forest_center",
     "terrains": [ "forest_thick" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "railroad",
-    "terrains": [ "railroad" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "railroad_level_crossing_allowed",
-    "terrains": [ "hiway_ns", "hiway_ew", "road" ]
   },
   {
     "type": "overmap_location",
@@ -132,6 +132,26 @@
   },
   {
     "type": "overmap_location",
+    "id": "ocean_surface",
+    "terrains": [ "ocean_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_water_cube",
+    "terrains": [ "ocean_water_cube" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_bed",
+    "terrains": [ "ocean_bed" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "ocean_shore",
+    "terrains": [ "ocean_shore" ]
+  },
+  {
+    "type": "overmap_location",
     "id": "potential_basement_lab_entrance",
     "terrains": [ "basement" ]
   },
@@ -139,5 +159,26 @@
     "type": "overmap_location",
     "id": "open_air",
     "terrains": [ "open_air" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "special_isherwood",
+    "terrains": [ "special_forest_isherwood", "special_forest_thick_isherwood" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "agricultural",
+    "terrains": [
+      "rural_road",
+      "rural_road_forest",
+      "farmland_straight",
+      "farmland_turn",
+      "farmland_turn_inside",
+      "farmland_U",
+      "hayfield_straight",
+      "hayfield_turnL",
+      "hayfield_turnR",
+      "hayfield_end"
+    ]
   }
 ]

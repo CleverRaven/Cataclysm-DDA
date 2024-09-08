@@ -1,0 +1,106 @@
+[
+  {
+    "id": "EOC_Nunez_Travel",
+    "type": "effect_on_condition",
+    "recurrence": 1000,
+    "condition": {
+      "and": [
+        { "math": [ "nunez_travel_stage", "==", "1" ] },
+        { "math": [ "nunez_travel_timer", "<", "time_since('cataclysm', 'unit': 'days')" ] }
+      ]
+    },
+    "deactivate_condition": { "math": [ "nunez_travel_stage", "==", "2" ] },
+    "effect": [
+      { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
+      { "mapgen_update": "tacoma_nunez_trailer_arrive", "om_terrain": "ranch_camp_55" },
+      { "mapgen_update": "refcenter_nunez_departure", "om_terrain": "evac_center_7" },
+      { "math": [ "nunez_travel_stage", "++" ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "refcenter_nunez_departure",
+    "//": "removes pablo and dana nunez from the refugee center",
+    "object": {
+      "remove_npcs": [ { "class": "refugee_DanaNunez", "x": 11, "y": 13 }, { "class": "refugee_PabloNunez", "x": 11, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "tacoma_nunez_trailer_arrive",
+    "method": "json",
+    "//": "In addition to basic mapgen, adds some point variables in the hopes that I can add some passive movement animations for pablo and dana.",
+    "object": {
+      "place_nested": [ { "chunks": [ "nunez_trailer" ], "x": 0, "y": 17 } ],
+      "place_npcs": [ { "class": "tacoma_DanaNunez", "x": 4, "y": 19 }, { "class": "tacoma_PabloNunez", "x": 4, "y": 20 } ],
+      "set": [
+        { "point": "variable", "id": "Pablo_relax", "x": 4, "y": 20 },
+        { "point": "variable", "id": "Dana_baking", "x": 4, "y": 19 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "nunez_trailer",
+    "//": "Nunez bakery inside a silver bullet trailer.",
+    "object": {
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "NO_UNDERLYING_ROTATE" ],
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "ABCDE ",
+        "123456",
+        "7.;:89",
+        "0a_bcd",
+        "efghij",
+        "      "
+      ],
+      "//": "The stuff in 'ABCDE' should potentially also be made into some new furniture such as piles of stored wood or a propane tank, but this works for the moment.  The purpose is just to stop players from easily getting up to the back wall and interacting through it.",
+      "terrain": {
+        "1": "t_bullettrailer_nwall_westcorner",
+        "2": "t_bullettrailer_nwall",
+        "3": "t_bullettrailer_nwall_window",
+        "4": "t_bullettrailer_nwall",
+        "5": "t_bullettrailer_nwall",
+        "6": "t_bullettrailer_nwall_eastcorner",
+        "7": "t_bullettrailer_wwall",
+        ".": "t_bullettrailer_brownfloor",
+        ":": "t_bullettrailer_brownfloor",
+        ";": "t_bullettrailer_brownfloor",
+        "8": "t_bullettrailer_inner_door",
+        "9": "t_bullettrailer_ewall",
+        "0": "t_bullettrailer_wwall",
+        "a": "t_bullettrailer_brownfloor",
+        "_": "t_bullettrailer_brownfloor",
+        "b": "t_bullettrailer_brownfloor",
+        "c": "t_bullettrailer_inner_T",
+        "d": "t_bullettrailer_inner_eastcorner",
+        "e": "t_bullettrailer_swall_westcorner",
+        "f": "t_bullettrailer_swall_windows",
+        "g": "t_bullettrailer_swall_door",
+        "h": "t_bullettrailer_swall_wheels",
+        "i": "t_bullettrailer_swall",
+        "j": "t_bullettrailer_swall_eastcorner"
+      },
+      "furniture": {
+        "A": "f_crate_c",
+        "B": "f_standing_tank",
+        "C": "f_standing_tank",
+        "D": "f_crate_c",
+        "E": "f_crate_c",
+        "1": "f_bullettrailer_table_top",
+        "7": "f_bullettrailer_table_middle",
+        ".": "f_bullettrailer_cabinet",
+        ";": "f_bullettrailer_sink",
+        ":": "f_bullettrailer_desk",
+        "0": "f_bullettrailer_table_bottom",
+        "a": "f_bullettrailer_minisofa",
+        "b": "f_bullettrailer_bed_foot",
+        "c": "f_bullettrailer_bed_head",
+        "d": "f_bullettrailer_toilet",
+        "i": "f_bullettrailer_sign_danabakery"
+      }
+    }
+  }
+]

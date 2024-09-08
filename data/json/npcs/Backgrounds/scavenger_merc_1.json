@@ -4,7 +4,10 @@
     "type": "talk_topic",
     "dynamic_line": {
       "npc_has_effect": "player_BGSS_SAIDYES",
-      "yes": "Like I said, you want me to tell you a story, you gotta pony up the whisky.  A full bottle, mind you.",
+      "yes": {
+        "gendered_line": "Like I said, you want me to tell you a story, you gotta pony up the whisky.  A full bottle, mind you.",
+        "relevant_genders": [ "npc" ]
+      },
       "no": "Listen.  I'm gonna cut this off short.  I work for you, okay?  I'm not interested in getting attached.  You didn't pay me to be your friend."
     },
     "responses": [
@@ -36,13 +39,16 @@
   {
     "id": "BGSS_SCAVENGER_MERC_1_FUCKOFF",
     "type": "talk_topic",
-    "dynamic_line": "No dice.  You asked me to come along.  This is what you get.  If you don't like it, I'll take my fee and go back to the center.  Ain't hard to find contracts.",
+    "dynamic_line": {
+      "gendered_line": "No dice.  You asked me to come along.  This is what you get.  If you don't like it, I'll take my fee and go back to the center.  Ain't hard to find contracts.",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": { "opinion": { "fear": -1 } },
     "responses": [
       {
         "text": "Fine, then.  Let's talk about something else.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Have it your way.",
@@ -59,7 +65,7 @@
       {
         "text": "Fine, then.  Let's talk about something else.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 20000 },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "Have it your way.",
@@ -76,7 +82,7 @@
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "I'll get back to you on that.",
@@ -93,7 +99,7 @@
       {
         "text": "I'll get looking for that.  In the meantime there was something else I wanted to talk about.",
         "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       },
       {
         "text": "I'll get back to you on that.",
@@ -118,7 +124,10 @@
   {
     "id": "BGSS_SCAVENGER_MERC_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Mostly I just wanted to get some scotch out of you.  There really ain't much of a story.  I was in the marines, years ago.  After that, did security contract work.  I was out guarding some dump of a warehouse when the apocalypse rolled through town.  I was out on the edge of town, armed, and know when to not pick a fight, so I didn't get killed.  Wound up recruited by the Free Merchants early on, and then the Old Guard for a bit, but I was getting itchy feet when you came by with an offer.  Here I am.",
+    "dynamic_line": {
+      "gendered_line": "Mostly I just wanted to get some scotch out of you.  There really ain't much of a story.  I was in the marines, years ago.  After that, did security contract work.  I was out guarding some dump of a warehouse when the apocalypse rolled through town.  I was out on the edge of town, armed, and know when to not pick a fight, so I didn't get killed.  Wound up recruited by the Free Merchants early on, and then the Old Guard for a bit, but I was getting itchy feet when you came by with an offer.  Here I am.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Why was a guy with your skillset guarding a warehouse?  Must've been some warehouse.",
@@ -127,18 +136,21 @@
       },
       { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
       { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_SCAVENGER_MERC_1_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "Huh.  Hadn't thought about it in ages, but now that you mention it, that was a weird job.  It was just a boarded up warehouse in the middle of nowhere, and I was not a cheap contractor in those days.  Coulda got any fat rent-a-cop to watch it.  I had only just started working there when the shit hit the fan, and I kinda forgot about that to be honest.",
+    "dynamic_line": {
+      "gendered_line": "Huh.  Hadn't thought about it in ages, but now that you mention it, that was a weird job.  It was just a boarded up warehouse in the middle of nowhere, and I was not a cheap contractor in those days.  Coulda got any fat rent-a-cop to watch it.  I had only just started working there when the shit hit the fan, and I kinda forgot about that to be honest.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "UPCOMING: this merc will offer a mission for you to explore the warehouse in question.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -153,14 +165,17 @@
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
       { "text": "What was working for the Old Guard like?", "topic": "BGSS_SCAVENGER_MERC_1_OLD_GUARD" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_SCAVENGER_MERC_1_OLD_GUARD",
     "type": "talk_topic",
-    "dynamic_line": "Good work, and some fun stuff, but risky.  Without a few hands at my side that I trust, I wouldn't take more of their work.  If I had a solid team, though, I'd happily work for Uncle Sam again.",
+    "dynamic_line": {
+      "gendered_line": "Good work, and some fun stuff, but risky.  Without a few hands at my side that I trust, I wouldn't take more of their work.  If I had a solid team, though, I'd happily work for Uncle Sam again.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Why was a guy with your skillset guarding a warehouse?  Must've been some warehouse.",
@@ -168,7 +183,7 @@
         "topic": "BGSS_SCAVENGER_MERC_1_STORY4"
       },
       { "text": "What was working for the Free Merchants like?", "topic": "BGSS_SCAVENGER_MERC_1_FREE_MERCHANTS" },
-      { "text": "Thanks for that.", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "Thanks for that.  Let's get going.", "topic": "TALK_DONE" }
     ]
   },

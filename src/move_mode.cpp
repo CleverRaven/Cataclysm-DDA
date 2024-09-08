@@ -47,7 +47,7 @@ void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
     move_mode_factory.load( jo, src );
 }
 
-void move_mode::load( const JsonObject &jo, const std::string &/*src*/ )
+void move_mode::load( const JsonObject &jo, const std::string_view/*src*/ )
 {
     mandatory( jo, was_loaded, "character", _letter, unicode_codepoint_from_symbol_reader );
     mandatory( jo, was_loaded, "name",  _name );
@@ -183,7 +183,7 @@ float move_mode::move_speed_mult() const
 
 units::energy move_mode::mech_power_use() const
 {
-    return units::from_kilojoule( _mech_power_use );
+    return units::from_kilojoule( static_cast<std::int64_t>( _mech_power_use ) );
 }
 
 int move_mode::swim_speed_mod() const

@@ -48,10 +48,9 @@
     "description": "This is a large stick, wrapped in rags that are soaked with a flammable material.  It is burning, producing plenty of light.",
     "weight": "831 g",
     "volume": "750 ml",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": 1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -70,6 +69,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ]
+    "flags": [ "FIRE", "LIGHT_60", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ],
+    "melee_damage": { "bash": 8 }
   }
 ]

@@ -13,11 +13,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
@@ -34,7 +30,6 @@ void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
                                         hasAnyName(
                                             "_",
                                             "translation_argument_identity",
-                                            "gettext",
                                             "pgettext",
                                             "n_gettext",
                                             "npgettext"
@@ -207,7 +202,7 @@ void TranslateStringLiteralCheck::registerMatchers( MatchFinder *Finder )
     );
 }
 
-std::string TranslateStringLiteralCheck::pruneFormatStrings( const std::string &str )
+std::string TranslateStringLiteralCheck::pruneFormatStrings( const std::string_view str )
 {
     std::string result;
     result.reserve( str.length() );
@@ -279,7 +274,7 @@ std::string TranslateStringLiteralCheck::removeSubstrings( const std::string &st
     return result;
 }
 
-std::string TranslateStringLiteralCheck::extractText( const std::string &str )
+std::string TranslateStringLiteralCheck::extractText( const std::string_view str )
 {
     std::string result;
     std::copy_if( str.begin(), str.end(), std::back_inserter( result ), []( const char ch ) {
@@ -317,7 +312,7 @@ bool TranslateStringLiteralCheck::isUnit( const std::string &str )
     return units.count( str );
 }
 
-bool TranslateStringLiteralCheck::containsTranslatableText( const std::string &str )
+bool TranslateStringLiteralCheck::containsTranslatableText( const std::string_view str )
 {
     std::string text = extractText( str );
     if( text.empty() ) {
@@ -359,6 +354,4 @@ void TranslateStringLiteralCheck::check( const MatchFinder::MatchResult &Result 
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

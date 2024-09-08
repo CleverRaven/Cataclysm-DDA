@@ -1,3 +1,5 @@
+/* Modified by the Cataclysm: Dark Days Ahead project. */
+
 /*
  * Copyright 2017 Google Inc. All rights reserved.
  *
@@ -468,7 +470,6 @@ FLATBUFFERS_CONSTEXPR_CPP11 bool operator==(const Optional<T>& lhs, const Option
 }
 #endif // FLATBUFFERS_USE_STD_OPTIONAL
 
-
 // Very limited and naive partial implementation of C++20 std::span<T,Extent>.
 #if defined(FLATBUFFERS_USE_STD_SPAN)
   inline constexpr std::size_t dynamic_extent = std::dynamic_extent;
@@ -625,7 +626,7 @@ class span FLATBUFFERS_FINAL_CLASS {
  private:
   // This is a naive implementation with 'count_' member even if (Extent != dynamic_extent).
   pointer const data_;
-  const size_type count_;
+  size_type count_;
 };
 
  #if !defined(FLATBUFFERS_SPAN_MINIMAL)

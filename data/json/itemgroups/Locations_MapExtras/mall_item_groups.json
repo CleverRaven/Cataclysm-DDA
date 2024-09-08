@@ -31,38 +31,7 @@
   {
     "id": "candy_shop",
     "type": "item_group",
-    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "item": "licorice", "prob": 50 } ]
-  },
-  {
-    "id": "tux_shop",
-    "type": "item_group",
-    "items": [
-      [ "blazer", 75 ],
-      [ "tie_skinny", 40 ],
-      [ "tie_necktie", 40 ],
-      [ "tie_bow", 30 ],
-      [ "tie_clipon", 20 ],
-      [ "tieclip", 25 ],
-      [ "polo_shirt", 35 ],
-      [ "dress_shirt", 70 ],
-      [ "pants", 75 ],
-      [ "dress_shoes", 50 ],
-      [ "briefcase", 35 ],
-      [ "gold_watch", 20 ],
-      [ "pocketwatch", 20 ],
-      [ "collarpin", 10 ],
-      { "item": "tailors_kit", "prob": 40, "charges": 400 }
-    ]
-  },
-  {
-    "id": "flower_shop",
-    "type": "item_group",
-    "items": [
-      { "item": "trimmer_off", "prob": 30, "charges": [ 50, 100 ] },
-      [ "fertilizer_liquid", 50 ],
-      [ "dahlia_root", 30 ],
-      [ "fertilizer_commercial", 25 ]
-    ]
+    "items": [ { "group": "candy_chocolate", "prob": 460 }, [ "cookies", 50 ], { "prob": 50, "group": "licorice_bag_plastic_4" } ]
   },
   {
     "id": "music_shop",
@@ -73,27 +42,32 @@
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
       { "item": "mp3", "prob": 30, "charges": 100 },
-      { "item": "pride_flag", "prob": 1 }
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "national_flag", "prob": 1 }
     ]
   },
   {
     "id": "vitamin_shop",
     "type": "item_group",
     "items": [
-      { "item": "adhesive_bandages", "prob": 25, "count": 20 },
+      { "group": "adhesive_bandages_box_full", "prob": 25 },
       { "group": "full_1st_aid", "prob": 15 },
       { "group": "full_ifak", "prob": 15 },
-      [ "vitamins", 75 ],
-      [ "calcium_tablet", 75 ],
-      [ "aspirin", 45 ],
-      [ "caffeine", 50 ],
-      [ "pills_sleep", 45 ],
-      [ "melatonin_tablet", 30 ],
+      { "group": "vitamins_bottle_plastic_pill_supplement_20", "prob": 75 },
+      { "group": "calcium_tablet_bottle_full", "prob": 75 },
+      { "group": "aspirin_bottle_full", "prob": 45 },
+      { "group": "ibuprofen_bottle_full", "prob": 45 },
+      { "group": "naproxen_bottle_full", "prob": 45 },
+      { "group": "acetaminophen_bottle_full", "prob": 45 },
+      { "group": "caffeine_bottle_full", "prob": 50 },
+      { "group": "pills_sleep_bottle_full", "prob": 45 },
+      { "group": "melatonin_bottle_full", "prob": 30 },
       [ "disinfectant", 15 ],
-      [ "protein_powder", 40 ],
-      [ "caff_gum", 30 ],
-      [ "nic_gum", 25 ],
-      [ "bathroom_scale", 20 ]
+      { "group": "protein_bottle_full", "prob": 40 },
+      { "item": "caff_gum", "prob": 30, "count": 5 },
+      { "item": "nic_gum", "prob": 25, "count": 5 },
+      [ "bathroom_scale", 20 ],
+      { "group": "pillbox_any_empty", "prob": 20 }
     ]
   },
   {
@@ -107,6 +81,8 @@
       [ "bat", 60 ],
       [ "pom_poms", 40 ],
       [ "backpack", 40 ],
+      [ "backpack_denim", 5 ],
+      { "item": "backpack_giant", "prob": 1 },
       [ "pockknife", 5 ],
       [ "wristwatch", 20 ],
       [ "teleumbrella", 5 ],
@@ -122,7 +98,7 @@
       { "item": "mp3", "prob": 40, "charges": 100 },
       [ "wolfsuit", 5 ],
       [ "dinosuit", 5 ],
-      { "item": "gum", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "gum", "prob": 10, "count": [ 1, 10 ] },
       [ "shuttlecock", 10 ],
       [ "baseball", 40 ],
       [ "football", 40 ],
@@ -180,31 +156,17 @@
     ]
   },
   {
-    "id": "victoria_shop",
-    "type": "item_group",
-    "items": [
-      [ "bra", 70 ],
-      [ "panties", 70 ],
-      [ "boy_shorts", 50 ],
-      [ "boxer_shorts", 70 ],
-      [ "briefs", 50 ],
-      [ "swim_briefs", 15 ],
-      [ "speedo", 10 ],
-      [ "bikini_top", 15 ],
-      [ "bikini_top_short", 5 ],
-      [ "bikini_bottom", 15 ],
-      [ "bikini_bottom_short", 5 ]
-    ]
-  },
-  {
     "id": "knife_shop",
     "type": "item_group",
     "items": [
-      [ "knife_butcher", 20 ],
-      [ "knife_combat", 35 ],
-      { "item": "knife_combat", "container-item": "sheath", "prob": 5 },
-      { "item": "knife_combat", "container-item": "gartersheath1", "prob": 5 },
-      { "item": "throwing_knife", "charges-min": 1, "charges-max": 6, "container-item": "leg_sheath6", "prob": 5 },
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 20 },
+      [ "knife_combat", 5 ],
+      [ "knife_combat_army", 2 ],
+      [ "knife_combat_marine", 1 ],
+      [ "knife_KABAR", 35 ],
+      { "item": "knife_combat_army", "variant": "akbayonet", "prob": 10, "entry-wrapper": "sheath" },
+      { "group": "infantry_knives", "prob": 5 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_knife", 10 ],
       [ "pockknife", 50 ],
       [ "punch_dagger", 10 ],
@@ -265,32 +227,9 @@
       [ "string_6", 50 ],
       [ "leather", 10 ],
       [ "fur", 7 ],
+      [ "sheet_leather", 20 ],
       [ "tanned_hide", 20 ],
       [ "tanned_pelt", 20 ]
-    ]
-  },
-  {
-    "id": "key_shop",
-    "type": "item_group",
-    "ammo": 75,
-    "magazine": 100,
-    "items": [
-      [ "screwdriver", 40 ],
-      [ "hammer", 35 ],
-      [ "wrench", 30 ],
-      [ "wrench_small", 30 ],
-      [ "hacksaw", 50 ],
-      [ "xacto", 10 ],
-      { "item": "flashlight", "prob": 40, "charges": 300 },
-      [ "crowbar", 30 ],
-      { "item": "carver_off", "prob": 25, "charges": 500 },
-      [ "press", 40 ],
-      [ "puller", 20 ],
-      [ "boltcutters", 35 ],
-      [ "chisel", 20 ],
-      { "item": "misc_repairkit", "prob": 45, "charges": 200 },
-      [ "tool_belt", 35 ],
-      [ "multitool", 20 ]
     ]
   },
   {
@@ -299,17 +238,17 @@
     "subtype": "distribution",
     "items": [
       { "item": "pipe_tobacco", "prob": 60 },
-      { "item": "tobacco", "prob": 70 },
+      { "prob": 70, "group": "tobacco_bag_plastic_20" },
       { "group": "cigar_box_unopened", "prob": 15, "count": [ 1, 10 ] },
       { "item": "case_cigar", "prob": 20, "count": [ 1, 5 ] },
-      { "item": "weed", "prob": 5 },
+      { "item": "weed", "prob": 5, "count": 5 },
       { "item": "joint", "prob": 5 },
-      { "item": "seed_weed", "prob": 5 },
+      { "item": "seed_weed", "prob": 5, "count": 2 },
       { "item": "seed_tobacco", "prob": 5 },
       { "item": "rolling_paper", "prob": 45 },
       { "item": "pipe_glass", "prob": 20 },
-      { "item": "cig", "prob": 60 },
-      { "item": "chaw", "prob": 60 }
+      { "prob": 60, "group": "cig_box_cigarette_20" },
+      { "prob": 60, "group": "chaw_wrapper_20" }
     ]
   },
   {
@@ -328,7 +267,7 @@
       { "item": "cell_phone", "prob": 60, "charges": 150 },
       { "item": "smart_phone", "prob": 60, "charges": 120 },
       [ "wristwatch", 60 ],
-      [ "mobile_memory_card_used", 10 ],
+      [ "memory_card", 10 ],
       [ "fitness_band", 5 ]
     ]
   },
@@ -363,5 +302,13 @@
       [ "hairbrush", 10 ],
       [ "mirror", 35 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "chaw_wrapper_20",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "wrapper",
+    "entries": [ { "item": "chaw", "container-item": "null", "count": 20 } ]
   }
 ]

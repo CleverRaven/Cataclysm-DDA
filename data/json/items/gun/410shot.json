@@ -9,17 +9,18 @@
     "weight": "3400 g",
     "volume": "5762 ml",
     "longest_side": "1171 mm",
-    "price": 189000,
-    "price_postapoc": 7000,
+    "barrel_length": "470 mm",
+    "price": "1 kUSD 890 USD",
+    "price_postapoc": "70 USD",
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
     "barrel_volume": "750 ml",
     "ammo": [ "410shot" ],
     "flags": [ "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "saiga410mag_10rd", "saiga410mag_30rd" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "shotgun_410",
@@ -31,7 +32,8 @@
     "weight": "2948 g",
     "volume": "1748 ml",
     "longest_side": "1152 mm",
-    "price_postapoc": 2000,
+    "barrel_length": "660 mm",
+    "price_postapoc": "20 USD",
     "blackpowder_tolerance": 80,
     "ammo": [ "410shot" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 1 } } ]

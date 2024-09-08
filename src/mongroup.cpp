@@ -127,7 +127,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 }
 
 static bool is_spawn_valid(
-    const MonsterGroupEntry &entry, const time_point sunset, const time_point sunrise,
+    const MonsterGroupEntry &entry, const time_point &sunset, const time_point &sunrise,
     const season_type season, const bool can_spawn_events )
 {
     // If an event was specified for this entry, check if it matches the current holiday
@@ -203,7 +203,7 @@ static bool is_spawn_valid(
 // is_recursive is only true when called recursively from this function
 std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
     const mongroup_id &group_name, int *quantity, bool *mon_found, bool is_recursive,
-    bool *returned_default )
+    bool *returned_default, bool use_pack_size )
 {
     const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.event_adjusted_freq_total() );
@@ -240,8 +240,17 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
                     GetResultFromGroup( entry.group, quantity, mon_found, true );
                 spawn_details.insert( spawn_details.end(), tmp_grp.begin(), tmp_grp.end() );
             }
+        } else if( use_pack_size ) {
+            for( int i = 0; i < pack_size; i++ ) {
+                spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                // And if a quantity pointer with remaining value was passed, will modify the external
+                // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+                if( quantity ) {
+                    *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
+                }
+            }
         } else {
-            spawn_details.emplace_back( MonsterGroupResult( entry.name, pack_size, entry.data ) );
+            spawn_details.emplace_back( entry.name, pack_size, entry.data );
             // And if a quantity pointer with remaining value was passed, will modify the external
             // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
             if( quantity ) {
@@ -261,7 +270,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
     }
 
     if( !is_recursive && spawn_details.empty() ) {
-        spawn_details.emplace_back( MonsterGroupResult( group.defaultMonster, 1, spawn_data() ) );
+        spawn_details.emplace_back( group.defaultMonster, 1, spawn_data() );
         if( returned_default ) {
             ( *returned_default ) = true;
         }
@@ -590,7 +599,7 @@ static void check_group_def( const mongroup_id &g )
 
 void MonsterGroupManager::check_group_definitions()
 {
-    for( auto &e : monsterGroupMap ) {
+    for( const auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
         for( const MonsterGroupEntry &mge : mg.monsters ) {
             if( mge.is_group() ) {

@@ -21,12 +21,13 @@ There are however things that might be expected but are not guaranteed:
 There are three primary categories of mods:
 
 *  Content mods, which provide some kind of distinct experience from the core Dark Days Ahead game. This could be a change to lore, a change to a specific part of gameplay.
-*  User Experience (UX) mods, which alter the look and feel of the game interface itself.
+*  User Experience (UX) mods, which alter the look and feel of the game interface itself. Accessibility mods, which make it possible for someone to play the game when they otherwise couldn't, fall under this category. Mods which simply adjust game elements for preferences and taste do not.
 *  Development mods, which aren't "mods" in the typical sense but are instead there to ease the transition between "incomplete feature" and "complete feature", when a feature in the core game is sufficiently incomplete that the developers believe it needs to be optional to minimize disruption to players.
 
 ## What is necessary for a mod to be included in the repository?
 
 The most crucial criteria for a mod to be in the CleverRaven repository is that it has someone acting as a curator. This ensures that there is someone who is keeping an eye out for possible problems with the mod, and helping steer its development so that it continues to develop in accordance with its design purpose.
+In some rare cases we might treat a mod as an important but optional extension of the game itself, such as for some accessibility or development mods. When that happens, the 'curator' is the developer and contributor team collectively, just as with Dark Days Ahead itself. We try to do this sparingly, due to the obvious difficulty of pushing volunteers towards tasks they aren't personally interested in.
 
 Furthermore, there are additional criteria:
 

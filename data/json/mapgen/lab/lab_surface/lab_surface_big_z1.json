@@ -173,7 +173,7 @@
         "l": { "item": "cleaning", "chance": 70, "repeat": [ 1, 8 ] },
         "L": [
           { "item": "guns_pistol_rare", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 40, "repeat": 5 },
+          { "item": "mags_common", "chance": 40, "repeat": 5 },
           { "item": "ammo_pistol_rare", "chance": 40, "repeat": [ 5, 10 ] }
         ],
         "t": [ { "item": "snacks", "chance": 5 }, { "item": "dining", "chance": 10 } ],

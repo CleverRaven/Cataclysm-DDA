@@ -13,13 +13,11 @@
     "healthy": -1,
     "calories": 26,
     "description": "Bird droppings, feathers, and soiled bits of rubbish.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "feces" ],
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ],
-    "volume": "250 ml",
-    "charges": 4,
-    "stack_size": 4,
+    "volume": "62 ml",
     "fun": -25
   },
   {
@@ -28,7 +26,7 @@
     "name": { "str": "cow pie" },
     "copy-from": "feces_bird",
     "weight": "750 g",
-    "volume": "1 L",
+    "volume": "250 ml",
     "description": "A fresh cow pie; this could probably be used to make some great fertilizer."
   },
   {
@@ -41,16 +39,16 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_manure",
-    "name": { "str": "manure" },
+    "name": { "str_sp": "manure" },
     "copy-from": "feces_bird",
     "weight": "250 g",
-    "volume": "500 ml",
+    "volume": "125 ml",
     "description": "Common manure, could probably be used to make some great fertilizer."
   },
   {
     "type": "COMESTIBLE",
     "id": "feces_roach",
-    "name": { "str": "roach dirt" },
+    "name": { "str_sp": "roach dirt" },
     "copy-from": "feces_bird",
     "description": "Large black pellets of rotting material."
   },
@@ -82,12 +80,72 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "The dust left over by winged insects such as butterflies or moths.  It's mostly chitin but may also contain dirt and other gross materials.",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
-    "volume": "250 ml",
-    "charges": 4,
-    "stack_size": 4
+    "volume": "62 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_little",
+    "name": { "str": "shed snakeskin" },
+    "copy-from": "shed_snakeskin",
+    "description": "A small length of shed snakeskin.  It's thin and translucent but still bears the distinct pattern of scales.",
+    "weight": "30 g",
+    "volume": "100 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin",
+    "name": { "str": "shed snakeskin" },
+    "description": "The molted dermis of an adult snake.  This one is in one piece.  You can even see the individual eyes.",
+    "category": "spare_parts",
+    "comestible_type": "FOOD",
+    "material": [ "flesh" ],
+    "symbol": "~",
+    "color": "white",
+    "weight": "100 g",
+    "volume": "400 ml",
+    "spoils_in": "60 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_big",
+    "name": { "str": "big shed snakeskin" },
+    "copy-from": "shed_snakeskin",
+    "description": "A very large shed snakeskin.  This didn't come from anything native, or natural, to New England.",
+    "weight": "500 g",
+    "volume": "2 L"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_giant",
+    "name": { "str": "gigantic shed snakeskin" },
+    "copy-from": "shed_snakeskin",
+    "description": "A complete shed snakeskin of tremendous size.  Whatever left it must be getting even bigger.  You should not be, or return to, wherever you found this.",
+    "weight": "1 kg",
+    "volume": "4 L"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "shed_snakeskin_scales",
+    "name": { "str_sp": "gigantic snake scales" },
+    "description": "A handful of greatly oversized scales from a snake.  This is a troubling find for a few reasons.  There's the size, obviously, but also the unusual hardness in spite of the obvious decay, and the fact that snakes don't shed individual scales like this.",
+    "category": "spare_parts",
+    "comestible_type": "FOOD",
+    "material": [ "chitin" ],
+    "symbol": "U",
+    "color": "brown",
+    "weight": "3 kg",
+    "volume": "4 L",
+    "spoils_in": "60 days",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "flags": [ "TRADER_AVOID", "INEDIBLE" ]
   }
 ]

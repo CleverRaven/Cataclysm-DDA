@@ -1,11 +1,11 @@
 #include "past_games_info.h"
 
 #include <algorithm>
-#include <functional>
 #include <map>
-#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
+#include <unordered_set>
 #include <utility>
 
 #include "achievement.h"
@@ -13,7 +13,7 @@
 #include "debug.h"
 #include "event.h"
 #include "filesystem.h"
-#include "json.h"
+#include "input.h"
 #include "json_loader.h"
 #include "memorial_logger.h"
 #include "output.h"
@@ -35,7 +35,7 @@ past_game_info::past_game_info( const JsonObject &jo )
 {
     int version;
     jo.read( "memorial_version", version );
-    if( version == 0 ) {
+    if( version == 0 || version == 1 ) {
         jo.read( "log", log_ );
         stats_ = std::make_unique<stats_tracker>();
         jo.read( "stats", *stats_ );
@@ -46,20 +46,36 @@ past_game_info::past_game_info( const JsonObject &jo )
         throw JsonError( string_format( "unexpected memorial version %d", version ) );
     }
 
-    // Extract the "standard" game info from the game started event
-    event_multiset &events = stats_->get_events( event_type::game_start );
-    const event_multiset::summaries_type &counts = events.counts();
-    if( counts.size() != 1 ) {
-        if( counts.empty() ) {
-            throw too_old_memorial_file_error( "memorial file lacks game_start event" );
+    // See past_games_info::legacy_achievement
+    legacy_achievements = version == 0;
+
+    // Extract avatar name info from the game_avatar_new event
+    // gives the starting character name; "et. al." is appended if there was character switching
+    event_multiset &new_avatar_events = stats_->get_events( event_type::game_avatar_new );
+    const event_multiset::summaries_type &new_avatar_counts = new_avatar_events.counts();
+    if( !new_avatar_counts.empty() ) {
+        const cata::event::data_type &new_avatar_event_data = new_avatar_counts.begin()->first;
+        auto avatar_name_it = new_avatar_event_data.find( "avatar_name" );
+        if( avatar_name_it != new_avatar_event_data.end() ) {
+            avatar_name_ = avatar_name_it->second.get_string() +
+                           ( new_avatar_counts.size() > 1 ? " et. al." : "" );
         }
-        debugmsg( "Unexpected number of game start events: %d\n", counts.size() );
-        return;
-    }
-    const cata::event::data_type &event_data = counts.begin()->first;
-    auto avatar_name_it = event_data.find( "avatar_name" );
-    if( avatar_name_it != event_data.end() ) {
-        avatar_name_ = avatar_name_it->second.get_string();
+    } else {
+        // Legacy approach using the game_start event
+        event_multiset &start_events = stats_->get_events( event_type::game_start );
+        const event_multiset::summaries_type &start_counts = start_events.counts();
+        if( start_counts.size() != 1 ) {
+            if( start_counts.empty() ) {
+                throw too_old_memorial_file_error( "memorial file lacks game_start event" );
+            }
+            debugmsg( "Unexpected number of game start events: %d\n", start_counts.size() );
+            return;
+        }
+        const cata::event::data_type &start_event_data = start_counts.begin()->first;
+        auto avatar_name_it = start_event_data.find( "avatar_name" );
+        if( avatar_name_it != start_event_data.end() ) {
+            avatar_name_ = avatar_name_it->second.get_string();
+        }
     }
 }
 
@@ -73,10 +89,11 @@ void past_games_info::clear()
     *this = past_games_info();
 }
 
-const achievement_completion_info *past_games_info::achievement( const achievement_id &ach ) const
+const achievement_completion_info *past_games_info::legacy_achievement(
+    const achievement_id &ach ) const
 {
-    auto ach_it = completed_achievements_.find( ach );
-    return ach_it == completed_achievements_.end() ? nullptr : &ach_it->second;
+    auto ach_it = legacy_achievements_.find( ach );
+    return ach_it == legacy_achievements_.end() ? nullptr : &ach_it->second;
 }
 
 void past_games_info::ensure_loaded()
@@ -93,6 +110,7 @@ void past_games_info::ensure_loaded()
     refresh_display();
 
     const cata_path &memorial_dir = PATH_INFO::memorialdir_path();
+    assure_dir_exist( memorial_dir );
     std::vector<cata_path> filenames = get_files_from_path( ".json", memorial_dir, true, true );
 
     // Sort the files by the date & time encoded in the filename
@@ -106,7 +124,7 @@ void past_games_info::ensure_loaded()
         }
 
         components.erase( components.begin(), components.end() - 6 );
-        sortable_filenames.emplace_back( join( components, "-" ), filename );
+        sortable_filenames.emplace_back( string_join( components, "-" ), filename );
     }
 
     std::sort( sortable_filenames.begin(),
@@ -152,8 +170,10 @@ void past_games_info::ensure_loaded()
             if( !enabled_it->second.get<bool>() ) {
                 continue;
             }
-            achievement_id ach = ach_it->second.get<achievement_id>();
-            completed_achievements_[ach].games_completed.push_back( &game );
+            if( game.is_legacy_achievements() ) {
+                const achievement_id ach = ach_it->second.get<achievement_id>();
+                legacy_achievements_[ach].games_completed.push_back( &game );
+            }
         }
         inp_mngr.pump_events();
     }

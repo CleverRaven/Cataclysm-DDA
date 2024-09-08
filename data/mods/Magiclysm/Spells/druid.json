@@ -5,7 +5,7 @@
     "name": "Vegetative Grasp",
     "description": "This spell causes roots and vines to burst forth from the ground and grab your foes, slowing them and doing a small amount of damage as they dig in.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
     "effect": "attack",
     "effect_str": "entangled",
     "shape": "blast",
@@ -16,32 +16,30 @@
     "difficulty": 2,
     "max_level": 20,
     "min_damage": 1,
-    "max_damage": 20,
-    "damage_increment": 1.0,
+    "max_damage": 10,
+    "damage_increment": 0.5,
     "min_aoe": 4,
     "max_aoe": 15,
     "aoe_increment": 1.0,
     "min_range": 3,
     "max_range": 10,
     "range_increment": 1.0,
-    "min_dot": 0,
-    "max_dot": 2,
-    "dot_increment": 0.1,
     "min_duration": 1000,
     "max_duration": 10000,
     "duration_increment": 500,
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.25,
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab"
   },
   {
     "id": "druid_rootstrike",
     "type": "SPELL",
     "name": "Root Strike",
-    "description": "This spell causes roots to spear out the ground and stab into your foes in an arc, impaling them.",
+    "description": "This spell causes roots to spear out of the ground in a cone and stab into your foes, impaling them.",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "attack",
     "effect_str": "root_impale",
     "shape": "cone",
@@ -69,6 +67,7 @@
     "min_pierce": 10,
     "max_pierce": 20,
     "pierce_increment": 0.5,
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "stab"
   },
   {
@@ -77,7 +76,7 @@
     "name": "Wooden Shaft",
     "description": "This spell creates a projectile of hardwood that shoots forth from the caster's hand at high speed to stab into an enemy.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "EVOCATION_SPELL", "LOUD", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "effect": "attack",
     "shape": "blast",
     "spell_class": "DRUID",
@@ -95,15 +94,17 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.5,
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "damage_type": "bash"
   },
   {
     "id": "druid_naturebow1",
     "type": "SPELL",
     "name": "Nature's Bow",
-    "description": "This spell conjures a magical wooden recurve bow that fires endless arrows for as long as it lasts.",
+    "description": "This spell conjures a magical wooden recurve bow, as well as a quiver and a set of arrows to go with it.",
     "valid_targets": [ "none" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "extra_effects": [ { "id": "druid_naturequiver1" }, { "id": "druid_naturearrows1" }, { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -114,19 +115,54 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "difficulty": 6,
+    "difficulty": 5,
     "max_level": 15,
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "learn_spells": { "druid_naturebow1_plus": 15 }
   },
   {
+    "id": "druid_naturequiver1",
+    "type": "SPELL",
+    "name": "Nature's Quiver",
+    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONJURATION_SPELL", "SILENT" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "druid_quiver",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('druid_naturebow1') * 24000) + 24000) * (summoning_proficiency_modifier())" ] },
+    "max_duration": { "math": [ "( (u_spell_level('druid_naturebow1') * 24000) + 24000) * (summoning_proficiency_modifier())" ] }
+  },
+  {
+    "id": "druid_naturearrows1",
+    "type": "SPELL",
+    "name": "Nature's Arrows",
+    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONJURATION_SPELL", "SILENT" ],
+    "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1') * 3) + 15) * (summoning_proficiency_modifier())" ] },
+    "max_damage": { "math": [ "( (u_spell_level('druid_naturebow1') * 3) + 15) * (summoning_proficiency_modifier())" ] },
+    "effect": "spawn_item",
+    "effect_str": "druid_naturearrows1",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('druid_naturebow1') * 24000) + 24000) * (summoning_proficiency_modifier())" ] },
+    "max_duration": { "math": [ "( (u_spell_level('druid_naturebow1') * 24000) + 24000) * (summoning_proficiency_modifier())" ] }
+  },
+  {
     "id": "druid_naturebow1_plus",
     "type": "SPELL",
     "name": "Improved Nature's Bow",
-    "description": "This spell conjures a magical wooden recurve bow that fires endless arrows for as long as it lasts.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "This spell conjures a magical wooden recurve bow, as well as a quiver and a set of arrows to go with it.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "none" ],
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL", "NO_LEGS", "NO_FAIL" ],
+    "extra_effects": [
+      { "id": "druid_naturequiver1_plus" },
+      { "id": "druid_naturearrows1_plus" },
+      { "id": "eoc_summon_setup", "hit_self": true }
+    ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
@@ -141,30 +177,61 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000,
-    "difficulty": 8,
+    "difficulty": 7,
     "max_level": 25,
     "spell_class": "DRUID",
     "energy_source": "MANA"
   },
   {
-    "id": "recover_fatigue",
+    "id": "druid_naturequiver1_plus",
+    "type": "SPELL",
+    "name": "Nature's Quiver",
+    "description": "This spell conjures a magical quiver as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONJURATION_SPELL", "SILENT" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "druid_quiver_plus",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 72000) + 360000) * (summoning_proficiency_modifier())" ] },
+    "max_duration": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 72000) + 360000) * (summoning_proficiency_modifier())" ] }
+  },
+  {
+    "id": "druid_naturearrows1_plus",
+    "type": "SPELL",
+    "name": "Nature's Arrows",
+    "description": "This spell conjures magical arrows as part of the nature's bow spell.  It's a bug if you have it directly.",
+    "valid_targets": [ "none" ],
+    "flags": [ "CONJURATION_SPELL", "SILENT" ],
+    "min_damage": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 4) + 30) * (summoning_proficiency_modifier())" ] },
+    "max_damage": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 4) + 30) * (summoning_proficiency_modifier())" ] },
+    "effect": "spawn_item",
+    "effect_str": "druid_naturearrows1",
+    "shape": "blast",
+    "min_duration": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 72000) + 360000) * (summoning_proficiency_modifier())" ] },
+    "max_duration": { "math": [ "( (u_spell_level('druid_naturebow1_plus') * 72000) + 360000) * (summoning_proficiency_modifier())" ] }
+  },
+  {
+    "id": "recover_sleepiness",
     "type": "SPELL",
     "name": "Nature's Trance",
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
     "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SILENT", "NO_HANDS" ],
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "effect": "recover_energy",
-    "effect_str": "FATIGUE",
+    "effect_str": "SLEEPINESS",
     "shape": "blast",
     "base_casting_time": 10000,
     "min_damage": 50,
     "damage_increment": 10.0,
     "max_damage": 300,
     "max_level": 25,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 500,
-    "energy_increment": 25.0,
+    "energy_increment": 25,
     "final_energy_cost": 1125,
     "difficulty": 4
   },
@@ -174,7 +241,7 @@
     "name": { "str": "Bag of Cats" },
     "description": "Are you the crazy cat lady?",
     "valid_targets": [ "ground" ],
-    "flags": [ "LOUD", "SOMATIC", "SPAWN_GROUP" ],
+    "flags": [ "CONJURATION_SPELL", "LOUD", "SOMATIC", "SPAWN_GROUP", "NO_CORPSE_QUIET" ],
     "min_damage": 1,
     "max_damage": 12,
     "damage_increment": 1.0,
@@ -187,6 +254,7 @@
     "base_casting_time": 250,
     "energy_source": "MANA",
     "max_level": 25,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "min_duration": 6000,
     "max_duration": 60000,
     "duration_increment": 1000,
@@ -216,9 +284,10 @@
     "max_duration": 30000,
     "duration_increment": 1000,
     "base_energy_cost": 675,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "final_energy_cost": 475,
     "energy_increment": -5.0,
-    "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "CONJURATION_SPELL", "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_bear"
@@ -240,20 +309,21 @@
     "energy_source": "MANA",
     "base_energy_cost": 175,
     "base_casting_time": 550,
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ]
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ]
   },
   {
     "id": "create_rune_druid",
     "type": "SPELL",
     "name": "Druid Rune",
-    "description": "This ritual creates a small pebble attuned to Druids.  You can use the rune as a catalyst for recipes.",
+    "description": "A ritual in which you conjure forth roots and vines in order to make a druidic rune.  You can use the rune as a catalyst for recipes.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "rune_druid",
     "shape": "blast",
-    "base_casting_time": 5000,
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000, 10)" ] },
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -262,7 +332,8 @@
     "max_level": 0,
     "spell_class": "DRUID",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "flags": [ "CHANNELING_SPELL", "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
     "id": "purify_seed",
@@ -282,11 +353,12 @@
     "final_energy_cost": 1000,
     "min_duration": 6000,
     "max_duration": 6000,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "difficulty": 6,
     "max_level": 20,
     "spell_class": "DRUID",
     "energy_source": "MANA",
-    "flags": [ "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "CONJURATION_SPELL", "NO_LEGS", "CONCENTRATE" ]
   },
   {
     "id": "druidic_regrowth",
@@ -297,12 +369,13 @@
     "effect": "ter_transform",
     "effect_str": "druidic_renewal",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
     "spell_class": "DRUID",
     "energy_source": "HP",
     "difficulty": 6,
     "base_casting_time": 600,
     "base_energy_cost": 25,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 20,
     "min_aoe": 1,
     "max_aoe": 5,
@@ -315,11 +388,11 @@
     "id": "druidic_healing",
     "type": "SPELL",
     "name": "Sacrificial Healing",
-    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "description": "Channels some of the user's own life force into healing energy, for the sake of one's allies.",
     "valid_targets": [ "ally" ],
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
     "spell_class": "DRUID",
     "energy_source": "HP",
     "difficulty": 5,
@@ -327,6 +400,7 @@
     "base_energy_cost": 35,
     "final_energy_cost": 20,
     "energy_increment": -1.5,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 10,
     "min_damage": -4,
     "max_damage": -12,
@@ -344,7 +418,7 @@
     "name": "Tornskin",
     "description": "This spell, which resembles Thornskin through the sap & needles covering the page, seemed to involve thorns and bleeding wounds.  The marred words may have altered the function.",
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
-    "flags": [ "SOMATIC" ],
+    "flags": [ "EVOCATION_SPELL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "tornskin_pain",
     "shape": "blast",
@@ -352,6 +426,7 @@
     "min_dot": 1,
     "max_dot": 4,
     "dot_increment": 0.3,
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "DRUID",
     "base_casting_time": 300,
     "base_energy_cost": 100,
@@ -384,7 +459,7 @@
     "effect": "spawn_item",
     "effect_str": "aura_feral",
     "shape": "blast",
-    "flags": [ "SOMATIC", "VERBAL" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "VERBAL" ],
     "components": "spell_components_feralform",
     "spell_class": "DRUID",
     "energy_source": "MANA",
@@ -397,6 +472,7 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "learn_spells": { "druid_feralform_plus": 15 }
   },
   {
@@ -406,9 +482,9 @@
     "description": "This spell unleashes your inner beast, growing claws & fangs to rend your foes limb from limb.  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
-    "effect_str": "aura_feral",
+    "effect_str": "aura_feral_plus",
     "shape": "blast",
-    "flags": [ "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "NO_FAIL" ],
     "components": "spell_components_feralform",
     "spell_class": "DRUID",
     "energy_source": "MANA",
@@ -424,7 +500,8 @@
     "max_damage": 1,
     "min_duration": 360000,
     "max_duration": 2160000,
-    "duration_increment": 72000
+    "duration_increment": 72000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
   },
   {
     "id": "summon_wolf_druid",
@@ -449,7 +526,8 @@
     "max_duration": 1080000,
     "duration_increment": 36000,
     "base_energy_cost": 400,
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_wolf"
@@ -457,13 +535,13 @@
   {
     "id": "druid_natures_commune",
     "type": "SPELL",
-    "name": "Nature's Commune",
-    "description": "You concentrate on the nature around you and commune with it, improving your health and calming the nearby wildlife.",
+    "name": "Communion with Nature",
+    "description": "You focus on the bounty of nature around you and commune with it, improving your health and mood and calming nearby wildlife.  This spell may only be cast outdoors away from civilization.",
     "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "natures_commune",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_NATURE_COMMUNE",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
     "energy_source": "MANA",
     "spell_class": "DRUID",
     "difficulty": 4,
@@ -471,10 +549,45 @@
     "base_energy_cost": 250,
     "final_energy_cost": 400,
     "energy_increment": 10,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
     "max_level": 20,
-    "min_duration": 10000,
-    "max_duration": 40000,
-    "duration_increment": 2000
+    "min_duration": 30000,
+    "max_duration": 360000,
+    "duration_increment": 16500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NATURE_COMMUNE",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "natures_commune",
+        "duration": { "math": [ "( 300 + (u_spell_level('druid_natures_commune') * 165)) * ( channeling_proficiency_modifier() )" ] }
+      },
+      { "u_lose_morale": "morale_forest_unity" },
+      {
+        "u_add_morale": "morale_forest_unity",
+        "bonus": { "math": [ "5 + (u_spell_level('druid_natures_commune') * 3)  * ( channeling_proficiency_modifier() )" ] },
+        "max_bonus": 50,
+        "duration": { "math": [ "( 300 + (u_spell_level('druid_natures_commune') * 165) )  * ( channeling_proficiency_modifier() )" ] },
+        "decay_start": {
+          "math": [ "(( 300 + (u_spell_level('druid_natures_commune') * 165) ) / 2)  * ( channeling_proficiency_modifier() )" ]
+        }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature", "type": "bad" } ]
   },
   {
     "id": "druid_growth",
@@ -490,6 +603,7 @@
     "final_casting_time": 90000,
     "casting_time_increment": -15000,
     "base_energy_cost": 5,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
     "energy_source": "HP",
     "difficulty": 4,
     "max_level": 20,
@@ -497,7 +611,7 @@
     "max_damage": 80,
     "damage_increment": 4,
     "//": "The spell can only be permanent without being at maximum level because of how items with charges work",
-    "flags": [ "SOMATIC", "NO_LEGS", "PERMANENT" ]
+    "flags": [ "CONJURATION_SPELL", "SOMATIC", "NO_LEGS", "PERMANENT" ]
   },
   {
     "id": "cause_rot",
@@ -505,14 +619,19 @@
     "name": "Cause Rot",
     "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
+    "extra_effects": [
+      { "id": "druid_cause_rot_terrain" },
+      { "id": "druid_cause_rot_terrain_bash" },
+      { "id": "eoc_channeling_setup", "hit_self": true }
+    ],
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
     "max_level": 25,
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 8,
-    "damage_type": "pure",
+    "damage_type": "necrotic",
     "base_casting_time": 10000,
     "final_casting_time": 500,
     "casting_time_increment": -380,
@@ -532,15 +651,49 @@
     "duration_increment": 180
   },
   {
+    "id": "druid_cause_rot_terrain",
+    "type": "SPELL",
+    "name": "Cause Rot Terrain Rot",
+    "description": "The ruin terrain effect of the Cause Rot spell.  It's a bug if you have it directly.",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_cause_rot_terrain",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "min_aoe": 5,
+    "max_aoe": 50,
+    "aoe_increment": 1.8
+  },
+  {
+    "id": "druid_cause_rot_terrain_bash",
+    "type": "SPELL",
+    "name": "Cause Rot Terrain Bash",
+    "description": "The bash terrain effect of the Cause Rot spell.  It's a bug if you have it directly.  It would be nice if this could take effect gradually but that's now how terrain bash works.",
+    "effect": "bash",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "min_aoe": 5,
+    "max_aoe": 50,
+    "aoe_increment": 1.8,
+    "min_damage": 20,
+    "max_damage": 170,
+    "damage_increment": 6
+  },
+  {
     "id": "druid_healing",
     "type": "SPELL",
     "name": "Restoration",
-    "description": "Magic energy, that slowly heal your body from wounds.",
+    "description": "Slowly heal your wounds by drawing on the power of nature.\n\nYou must be <color_yellow>outdoors and in a natural area</color> away from civilization to cast Restoration.",
     "valid_targets": [ "self" ],
-    "effect": "attack",
-    "effect_str": "flask_regeneration",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_RESTORATION",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "energy_source": "MANA",
     "spell_class": "DRUID",
     "difficulty": 8,
@@ -550,11 +703,36 @@
     "base_energy_cost": 800,
     "final_energy_cost": 500,
     "energy_increment": -12,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 25,
-    "//": "each 3000 (30 second) heal 1 hp. 5 hp on level 0 (2.5m), 30 hp on level 25 (15 m)",
+    "//": "each 3000 (30 second) heal 1 hp. 5 hp on level 0 (2.5m), 30 hp on level 25 (15 m), ignoring proficiency modifiers",
     "min_duration": 15000,
     "max_duration": 90000,
     "duration_increment": 3000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_RESTORATION",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "flask_regeneration",
+        "duration": { "math": [ "( 150 + (u_spell_level('druid_healing') * 30)) * ( restoration_proficiency_modifier() )" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be surrounded by nature to use its power to heal.", "type": "bad" } ]
   },
   {
     "id": "druid_healing_herb",
@@ -565,17 +743,615 @@
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
-    "flags": [ "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "energy_source": "MANA",
     "spell_class": "DRUID",
-    "min_damage": 5,
-    "max_damage": 20,
-    "damage_increment": 1,
+    "min_damage": -5,
+    "max_damage": -20,
+    "damage_increment": -1,
     "difficulty": 5,
     "base_casting_time": 800,
     "base_energy_cost": 400,
     "final_energy_cost": 150,
     "energy_increment": -16.7,
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "max_level": 15
+  },
+  {
+    "id": "druid_bandage_heal",
+    "type": "SPELL",
+    "name": "Vegetative Poultice",
+    "description": "This spell turns a mixture of bark and leaves into a powerful salve capable of stopping even grievous wounds from bleeding.",
+    "valid_targets": [ "none" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "druid_bandages",
+    "components": "spell_components_druid_bandage",
+    "shape": "blast",
+    "base_casting_time": 400,
+    "base_energy_cost": 450,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
+    "min_duration": 48000,
+    "max_duration": 720000,
+    "duration_increment": 44800,
+    "difficulty": 5,
+    "max_level": 15,
+    "spell_class": "DRUID",
+    "energy_source": "MANA"
+  },
+  {
+    "id": "druid_whisper_leaves",
+    "type": "SPELL",
+    "name": "Whisper of the Leaves",
+    "description": "This spell allows you to hear the trees' wisdom in the rustle of the leaves and the creaking of their roots, discerning the layout of the forest.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_GAIN_WHISPER_LEAVES",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 6,
+    "max_level": 15,
+    "base_casting_time": 6000,
+    "final_casting_time": 1000,
+    "casting_time_increment": -350,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "min_duration": 6000,
+    "max_duration": 6000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAIN_WHISPER_LEAVES",
+    "condition": { "not": { "u_has_trait": "TREE_COMMUNION" } },
+    "effect": [
+      { "u_add_trait": "TREE_COMMUNION" },
+      { "u_activate_trait": "TREE_COMMUNION" },
+      { "queue_eocs": "EOC_LOSE_WHISPER_LEAVES", "time_in_future": [ "1 seconds", "1 seconds" ] }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are already in tune with the rhythms of the forest.  Further magic cannot deepen your bond.",
+        "type": "good"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOSE_WHISPER_LEAVES",
+    "effect": [ { "u_lose_trait": "TREE_COMMUNION" } ]
+  },
+  {
+    "id": "druid_harvest_hunter",
+    "type": "SPELL",
+    "name": "Harvest of the Hunter",
+    "description": "This spell creates a grouping of odd-looking but functional arrows out of forest detritus.",
+    "valid_targets": [ "none" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "NO_HANDS", "VERBAL", "NO_LEGS" ],
+    "spell_class": "DRUID",
+    "difficulty": 4,
+    "max_level": 15,
+    "effect": "spawn_item",
+    "effect_str": "arrow_druid",
+    "components": "spell_components_druid_arrow",
+    "shape": "blast",
+    "min_damage": 5,
+    "max_damage": 40,
+    "damage_increment": 2.5,
+    "base_casting_time": 6000,
+    "final_casting_time": 600,
+    "casting_time_increment": -360,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "min_duration": 180000,
+    "max_duration": 1440000,
+    "duration_increment": 84000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_summon_tanglevine",
+    "type": "SPELL",
+    "name": "Summon Tanglevine",
+    "description": "This spell causes an animated vine to burst from the ground and attempt to seize a nearby target and hold it fast.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "CONJURATION_SPELL", "VERBAL", "SOMATIC" ],
+    "effect": "summon",
+    "effect_str": "mon_tanglevine",
+    "shape": "blast",
+    "spell_class": "DRUID",
+    "difficulty": 6,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 5,
+    "max_range": 15,
+    "range_increment": 0.8,
+    "base_casting_time": 250,
+    "energy_source": "MANA",
+    "min_duration": 12000,
+    "max_duration": 42000,
+    "duration_increment": 2000,
+    "base_energy_cost": 650,
+    "final_energy_cost": 400,
+    "energy_increment": -16.666,
+    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_beguile_savage_beast",
+    "type": "SPELL",
+    "name": "Beguiling the Savage Beast",
+    "description": "Using your connection to nature, you can sway an animal to your service.  This spell even works on mutated animals.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "ENERVATION_SPELL", "VERBAL", "SOMATIC", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "spell_class": "DRUID",
+    "difficulty": 9,
+    "max_level": 15,
+    "min_damage": 30,
+    "max_damage": 400,
+    "damage_increment": 25,
+    "extra_effects": [ { "id": "eoc_enervation_setup", "hit_self": true } ],
+    "min_range": 5,
+    "max_range": 30,
+    "range_increment": 1.67,
+    "base_casting_time": 150,
+    "energy_source": "MANA",
+    "base_energy_cost": 900,
+    "final_energy_cost": 600,
+    "energy_increment": -20,
+    "min_duration": 30000,
+    "max_duration": 90000,
+    "duration_increment": 4000,
+    "targeted_monster_species": [ "MAMMAL", "BIRD" ]
+  },
+  {
+    "id": "druid_bramble_spear",
+    "type": "SPELL",
+    "name": "Spear of Brambles",
+    "description": "This spell turns a stick into a vicious spear that drips with sticky sap.",
+    "valid_targets": [ "none" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "NO_HANDS" ],
+    "//": "NO_HANDS so you can hold on to the stick and cast the spell and then be holding the spear",
+    "effect": "spawn_item",
+    "effect_str": "druid_bramble_spear_item",
+    "components": "spell_components_druid_bramble_spear",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 4,
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 15,
+    "base_casting_time": 1000,
+    "base_energy_cost": 350,
+    "min_duration": 24000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
+    "learn_spells": { "druid_bramble_spear_enhanced": 15 }
+  },
+  {
+    "id": "druid_bramble_spear_enhanced",
+    "type": "SPELL",
+    "name": "Enhanced Spear of Brambles",
+    "description": "This spell turns a bit of bark or a twig into a vicious spear that drips with sticky sap.  You now know this spell like the back of your hand, and no longer need such massive spell components as you did previously.",
+    "valid_targets": [ "none" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "NO_HANDS", "NO_FAIL" ],
+    "effect": "spawn_item",
+    "effect_str": "druid_bramble_spear_item",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 5,
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 15,
+    "base_casting_time": 1000,
+    "base_energy_cost": 250,
+    "min_duration": 360000,
+    "max_duration": 2160000,
+    "duration_increment": 72000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_summon_brambles",
+    "type": "SPELL",
+    "name": "Stranglethorns",
+    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_BRAMBLES_SELECTOR",
+    "shape": "blast",
+    "flags": [ "EVOCATION_SPELL", "SOMATIC", "VERBAL" ],
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 5,
+    "base_casting_time": 150,
+    "base_energy_cost": 400,
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
+    "max_level": 15
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_BRAMBLES_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_DRUID_BRAMBLES_SELECTOR_ARC", "EOC_DRUID_BRAMBLES_SELECTOR_LINE" ],
+        "names": [ "Thorny Arc", "Wall of Brambles" ],
+        "keys": [ "1", "2" ],
+        "descriptions": [ "Summon a spray of brambles to entrap an enemy.", "Summon a wall of thorns to fortify a location." ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_BRAMBLES_SELECTOR_ARC",
+    "effect": [ { "u_cast_spell": { "id": "druid_summon_brambles_arc" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_BRAMBLES_SELECTOR_LINE",
+    "effect": [ { "u_cast_spell": { "id": "druid_summon_brambles_line" }, "targeted": true } ]
+  },
+  {
+    "id": "druid_summon_brambles_arc",
+    "type": "SPELL",
+    "name": "Summon Brambles Arc",
+    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "ter_transform",
+    "effect_str": "druid_summoned_brambles",
+    "shape": "cone",
+    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_PROJECTILE" ],
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "max_level": 15,
+    "min_range": { "math": [ "(u_spell_level('druid_summon_brambles') * 0.6) * ( evocation_proficiency_modifier() )" ] },
+    "max_range": { "math": [ "(u_spell_level('druid_summon_brambles') * 0.6) * ( evocation_proficiency_modifier() )" ] },
+    "min_aoe": { "math": [ "(u_spell_level('druid_summon_brambles') * 1.9) * ( evocation_proficiency_modifier() )" ] },
+    "max_aoe": { "math": [ "(u_spell_level('druid_summon_brambles') * 1.9) * ( evocation_proficiency_modifier() )" ] }
+  },
+  {
+    "id": "druid_summon_brambles_line",
+    "type": "SPELL",
+    "name": "Summon Brambles Line",
+    "description": "Call up thick, swiftly growing brambles, either in a line to form a wall or an arc to trap an enemy.",
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "ter_transform",
+    "effect_str": "druid_summoned_brambles",
+    "shape": "line",
+    "flags": [ "EVOCATION_SPELL", "SILENT", "NO_PROJECTILE" ],
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "max_level": 15,
+    "min_range": { "math": [ "(u_spell_level('druid_summon_brambles') * 1) * ( evocation_proficiency_modifier() )" ] },
+    "max_range": { "math": [ "(u_spell_level('druid_summon_brambles') * 1) * ( evocation_proficiency_modifier() )" ] }
+  },
+  {
+    "id": "druid_thorn_skin",
+    "type": "SPELL",
+    "name": "Thornskin",
+    "description": "This spell transforms the druid's skin into a bark-like material covered in large thorns.  It provides excellent protection but slightly slows you and makes you vulnerable to fire.",
+    "valid_targets": [ "self" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "spawn_item",
+    "effect_str": "druid_thorn_skin_item",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 8,
+    "min_damage": 1,
+    "max_damage": 1,
+    "max_level": 15,
+    "base_casting_time": 600,
+    "base_energy_cost": 500,
+    "min_duration": 24000,
+    "max_duration": 360000,
+    "duration_increment": 24000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_renew_forest_spell",
+    "type": "SPELL",
+    "name": "Renewing the Forest",
+    "description": "While outdoors and not underground, the druid can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": 25,
+    "spell_class": "DRUID",
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_RENEW_FOREST_SPELL",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "base_casting_time": 6000,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_RENEW_FOREST_SPELL",
+    "condition": "u_is_outside",
+    "effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_DRUID_RENEW_FOREST_SPELL_2",
+          "condition": { "math": [ "u_val('pos_z')", "==", "0" ] },
+          "effect": [ { "u_cast_spell": { "id": "druid_renew_forest_spell_real" } } ],
+          "false_effect": {
+            "u_message": "You must be on the surface and not on a building's upper stories to cast Renewing the Forest!",
+            "type": "bad"
+          }
+        }
+      ]
+    },
+    "false_effect": [ { "u_message": "You must be outside to cast Renewing the Forest!", "type": "bad" } ]
+  },
+  {
+    "id": "druid_renew_forest_spell_real",
+    "type": "SPELL",
+    "name": "Renewing the Forest Real",
+    "description": "The actual spell that casts Renewing the Forest.  It's a bug if you have it.",
+    "flags": [ "CHANNELING_SPELL", "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_druid_renew_forest",
+    "min_aoe": {
+      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+    },
+    "max_aoe": {
+      "math": [ "((u_spell_level('druid_renew_forest_spell') * rng(0.8,1.2) ) + rng(1.5,4)) * channeling_proficiency_modifier()" ]
+    }
+  },
+  {
+    "id": "druid_wood_living_tree_spell",
+    "type": "SPELL",
+    "name": "Shape Wood",
+    "description": "Using druidic magic, shape living wood into a log that you can use for other projects without harming the tree.  You must cast this spell on a living tree.",
+    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "SILENT", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "difficulty": 5,
+    "max_level": 15,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EOC_DRUID_SHAPE_WOOD",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_casting_time": 180000,
+    "base_energy_cost": 600,
+    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EOC_DRUID_SHAPE_WOOD",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "druid_treeshape_location" },
+          "message": "Select nearby tree"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": "TREE", "loc": { "context_val": "druid_treeshape_location" } },
+          "then": [
+            {
+              "u_message": "The wood of the tree grows and forms as you cast the spell and when it ends, there is a log lying on the ground, entirely covered in bark but otherwise straight and ready to be used in other projects.",
+              "type": "good"
+            },
+            { "u_spawn_item": "log", "count": 1, "suppress_message": true }
+          ],
+          "else": { "u_message": "You must be near a tree to shape it." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ]
+  },
+  {
+    "id": "druid_anti_heat",
+    "type": "SPELL",
+    "name": "Water's Cooling Touch",
+    "description": "Draw on some of the essence of water, providing protection against the summer's heat.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_druid_anti_heat",
+    "shape": "blast",
+    "components": "spell_components_druid_anti_heat",
+    "difficulty": 2,
+    "max_level": 15,
+    "min_duration": 90000,
+    "max_duration": 900000,
+    "duration_increment": 54000,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "base_casting_time": 6000
+  },
+  {
+    "id": "druid_breathing_underwater",
+    "type": "SPELL",
+    "name": "Aquatic Mantle",
+    "description": "Cover yourself in a thin layer of magical seaweed, preventing you from getting wet and allowing you to breathe underwater.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "spawn_item",
+    "effect_str": "aura_druid_breathing_water",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 5,
+    "max_level": 10,
+    "base_casting_time": 3000,
+    "base_energy_cost": 350,
+    "min_duration": 36000,
+    "max_duration": 360000,
+    "duration_increment": 36000,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_disinfectant",
+    "type": "SPELL",
+    "name": "Wash the Wounds Clean",
+    "description": "Transform a bit of water into a magical disinfectant as you pour it over your wounds.",
+    "//": "Using spawn_item with a liquid just dumps it on the floor at the moment.  Once that's fixed, this can be extended so it can be used on NPCs.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_DISINFECTANT",
+    "shape": "blast",
+    "components": "spell_components_druid_anti_heat",
+    "difficulty": 4,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 1000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_DISINFECTANT",
+    "effect": [
+      { "u_spawn_item": "item_druid_disinfectant", "suppress_message": true },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "item_druid_disinfectant" } ],
+        "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      },
+      { "queue_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_DISINFECTANT_REMOVE",
+    "effect": [ { "u_remove_item_with": "item_druid_disinfectant" } ]
+  },
+  {
+    "id": "druid_water_walking",
+    "type": "SPELL",
+    "name": "Water Strider's Walk",
+    "description": "Enchant yourself so that the water will buoy you up and prevent you from sinking, allowing you to walk on its surface.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_druid_water_walking",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "spell_class": "DRUID",
+    "difficulty": 4,
+    "max_level": 15,
+    "base_casting_time": 250,
+    "base_energy_cost": 250,
+    "min_duration": 30000,
+    "max_duration": 480000,
+    "duration_increment": 30000,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
+  },
+  {
+    "id": "druid_traverse_the_wilds",
+    "type": "SPELL",
+    "name": "Traverse the Wilds",
+    "description": "Blend in the wilds and urge them to speed your passage.  Trees bend out of the way, bushes do not hinder you, and even grass subtly moves your feet along.  The spell cannot be cast near civilization and similarly will fade if your travels take you out of the wilds.",
+    "valid_targets": [ "self" ],
+    "spell_class": "DRUID",
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_DRUID_TRAVERSE_THE_WILDS",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 15,
+    "min_duration": 90000,
+    "max_duration": 1440000,
+    "duration_increment": 90000,
+    "energy_source": "MANA",
+    "base_energy_cost": 150,
+    "base_casting_time": 250,
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_TRAVERSE_THE_WILDS",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_druid_traverse_the_wilds",
+        "duration": { "math": [ "( 900 + (u_spell_level('druid_traverse_the_wilds') * 900)) * enhancement_proficiency_modifier()" ] }
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be surrounded by the wilds to traverse them.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_TRAVERSE_THE_WILDS_REMOVER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_druid_traverse_the_wilds" },
+        {
+          "or": [
+            { "not": "u_is_outside" },
+            {
+              "and": [
+                { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                { "not": { "u_is_on_terrain_with_flag": "DIGGABLE" } },
+                { "not": { "u_is_on_terrain_with_flag": "YOUNG" } }
+              ]
+            },
+            { "u_near_om_location": "road", "range": 1 }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_druid_traverse_the_wilds" },
+      { "u_message": "As you approach civilization, your spell fades.", "type": "bad" }
+    ]
+  },
+  {
+    "id": "druid_bearmantle",
+    "type": "SPELL",
+    "name": "Bearmantle",
+    "description": "Adopt some of the aspect of the bear, protecting you from cold and preparing you for winter.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_bearmantle",
+    "shape": "blast",
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "VERBAL" ],
+    "components": "spell_components_feralform",
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "base_casting_time": 1500,
+    "base_energy_cost": 200,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 96000,
+    "max_duration": 1440000,
+    "duration_increment": 96000,
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
   }
 ]

@@ -1,0 +1,182 @@
+[
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_rose_hips",
+    "replace": "rose_hips",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_elderberries",
+    "replace": "elderberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_mulberries",
+    "replace": "mulberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_huckleberries",
+    "replace": "huckleberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_raspberries",
+    "replace": "raspberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_cranberries",
+    "replace": "cranberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_strawberries",
+    "replace": "strawberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_blueberries",
+    "replace": "blueberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_apple",
+    "replace": "apple",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_banana",
+    "replace": "banana",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_orange",
+    "replace": "orange",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_lemon",
+    "replace": "lemon",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_grapefruit",
+    "replace": "grapefruit",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_pear",
+    "replace": "pear",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_guayaba",
+    "replace": "guayaba",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_maracuya",
+    "replace": "maracuya",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_lulo",
+    "replace": "lulo",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_cherries",
+    "replace": "cherries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_plums",
+    "replace": "plums",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_grapes",
+    "replace": "grapes",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_pineapple",
+    "replace": "pineapple",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_peach",
+    "replace": "peach",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_watermelon",
+    "replace": "watermelon",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_melon",
+    "replace": "melon",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_blackberries",
+    "replace": "blackberries",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_mango",
+    "replace": "mango",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_pomegranate",
+    "replace": "pomegranate",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_papaya",
+    "replace": "papaya",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_kiwi",
+    "replace": "kiwi",
+    "flags": [ "IRRADIATED" ]
+  },
+  {
+    "type": "MIGRATION",
+    "id": "irradiated_apricot",
+    "replace": "apricot",
+    "flags": [ "IRRADIATED" ]
+  }
+]

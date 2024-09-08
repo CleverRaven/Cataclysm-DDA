@@ -5,10 +5,11 @@
     "//": "items found in an archery space",
     "subtype": "collection",
     "entries": [
-      { "item": "compbow", "prob": 50 },
+      { "item": "compbow", "prob": 40 },
       { "item": "compbow_high", "prob": 20 },
-      { "item": "compbow_low", "prob": 40 },
-      { "item": "recurbow", "prob": 30 },
+      { "item": "compbow_low", "prob": 30 },
+      { "item": "compcrossbow", "prob": 25 },
+      { "item": "recurbow", "prob": 25 },
       { "item": "takedown_recurbow", "prob": 3 },
       { "item": "quiver_takedown_bow", "prob": 1 },
       { "item": "reflexrecurvebow", "prob": 10 },
@@ -21,16 +22,15 @@
     "//": "items found in a rifle hunting space",
     "subtype": "collection",
     "entries": [
-      { "item": "ar15", "prob": 150, "charges-min": 0, "charges-max": 30 },
-      { "item": "marlin_9a", "prob": 20, "charges-min": 0, "charges-max": 19 },
-      { "item": "remington700_270", "prob": 10, "charges-min": 0, "charges-max": 4 },
-      { "item": "remington_700", "prob": 40, "charges-min": 0, "charges-max": 4 },
-      { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 10 },
-      { "item": "ruger_mini", "prob": 10, "charges-min": 0, "charges-max": 5 },
-      { "item": "win70", "prob": 20, "charges-min": 0, "charges-max": 3 },
-      { "item": "colt_lightning", "prob": 2, "charges-min": 0, "charges-max": 10 },
-      { "item": "henry_big_boy", "prob": 2, "charges-min": 0, "charges-max": 10 },
-      { "item": "weatherby_5", "prob": 2, "charges-min": 0, "charges-max": 3 },
+      { "group": "modular_ar15", "prob": 150, "charges": [ 0, 30 ] },
+      { "item": "marlin_9a", "prob": 20, "charges": [ 0, 19 ] },
+      { "item": "remington700_270", "prob": 10, "charges": [ 0, 4 ] },
+      { "item": "remington_700", "prob": 40, "charges": [ 0, 4 ] },
+      { "item": "ruger_1022", "prob": 70, "charges": [ 0, 10 ] },
+      { "item": "ruger_mini", "prob": 10, "charges": [ 0, 5 ] },
+      { "item": "win70", "prob": 20, "charges": [ 0, 3 ] },
+      { "item": "henry_big_boy", "prob": 2, "charges": [ 0, 10 ] },
+      { "item": "weatherby_5", "prob": 2, "charges": [ 0, 3 ] },
       { "item": "single_sling", "prob": 10 }
     ]
   },
@@ -57,22 +57,15 @@
     ]
   },
   {
-    "id": "lodge_archery_ammo",
-    "type": "item_group",
-    "//": "archery ammo",
-    "subtype": "collection",
-    "entries": [ { "item": "arrow_metal", "prob": 20 }, { "item": "arrow_cf", "prob": 10 } ]
-  },
-  {
     "id": "cannibal_food",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
       { "item": "machete", "prob": 20 },
-      { "group": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30 },
+      { "item": "meat_salted", "components": [ "human_flesh", "salt" ], "prob": 30 },
       { "group": "preserved_food", "prob": 20 },
       { "group": "dry_goods", "prob": 30 },
-      { "group": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60 },
+      { "item": "meat_smoked", "components": [ "human_flesh" ], "prob": 60 },
       { "group": "pantry", "prob": 10 }
     ]
   }

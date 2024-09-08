@@ -118,12 +118,12 @@
         "          Raaa,R        ",
         "                        ",
         "                        ",
-        "         ...........3   ",
-        "         ...........5   ",
-        "         ...........3   ",
-        "         .......&...3   ",
-        "          R   ......3   ",
-        "              ......3   ",
+        "         ------------   ",
+        "         -..........5   ",
+        "         -..........-   ",
+        "         ------.&...-   ",
+        "          R   -.....-   ",
+        "              -------   ",
         "                        ",
         "                        ",
         "                        ",
@@ -133,7 +133,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down", "&": "t_flat_roof" }
     }
   },
   {
@@ -205,7 +205,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "nested": { ",": { "chunks": [ [ "null", 190 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
   {
@@ -241,7 +242,8 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" }
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", "≷": "t_ladder_up_down" },
+      "nested": { ",": { "chunks": [ [ "null", 200 ], [ "roof_1x1_birdnest", 10 ] ] } }
     }
   },
   {
@@ -258,7 +260,7 @@
         "          a,,,,a        ",
         "          a,RR,a        ",
         "          a,RR,a        ",
-        "          a>,,,a        ",
+        "          av,,,a        ",
         "          aaaaaa        ",
         "                        ",
         "                        ",
@@ -277,14 +279,14 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof", ">": "t_ladder_down" },
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof" },
       "place_nested": [
         {
           "chunks": [
             [ "null", 40 ],
             [ "radio_tower_2x2_map", 40 ],
             [ "radio_tower_2x2_holdout", 10 ],
-            [ "radio_tower_2x2_sniper", 10 ],
+            [ "radio_tower_2x2_sniper", 2 ],
             [ "radio_tower_wasp", 5 ]
           ],
           "x": 10,
@@ -345,11 +347,7 @@
     "nested_mapgen_id": "radio_tower_2x2_map",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_loot": [
-        { "item": "binoculars", "x": 1, "y": 0 },
-        { "item": "survivormap", "x": 1, "y": 0 },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 }
-      ]
+      "place_loot": [ { "item": "binoculars", "x": 1, "y": 0 }, { "item": "survivormap", "x": 1, "y": 0 } ]
     }
   }
 ]

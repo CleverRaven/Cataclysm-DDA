@@ -1,8 +1,37 @@
 [
   {
-    "id": "compute_standard",
+    "id": "surface_heat",
     "type": "requirement",
-    "//": "Standardized computer usage for recipes",
-    "tools": [ [ [ "laptop", 10 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ]
+    "extend": { "tools": [ [ [ "heater_tool", 20 ], [ "item_salamander_cooking_heat", -1 ] ] ] }
+  },
+  {
+    "id": "water_boiling_heat",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "heater_tool", 20 ], [ "item_salamander_cooking_heat", -1 ] ] ] }
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 10 ] ] ] }
+  },
+  {
+    "id": "welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 10 ] ] ] }
+  },
+  {
+    "id": "repair_welding_standard",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 100 ] ] ] }
+  },
+  {
+    "id": "repair_welding_alloys",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 100 ] ] ] }
+  },
+  {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "extend": { "tools": [ [ [ "inventor_welder", 400 ] ] ] }
   }
 ]

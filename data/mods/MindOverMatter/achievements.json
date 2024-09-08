@@ -1,0 +1,10 @@
+[
+  {
+    "id": "teleported_offworld",
+    "type": "achievement",
+    "name": "Quantum Leapt",
+    "description": "There's so many worlds out there.  Why stick with just one?",
+    "manually_given": true,
+    "requirements": [  ]
+  }
+]

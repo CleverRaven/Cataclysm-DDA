@@ -100,6 +100,11 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
+int scent_map::get( const tripoint_bub_ms &p ) const
+{
+    return scent_map::get( p.raw() );
+}
+
 void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
@@ -281,7 +286,7 @@ void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
     scent_factory.load( jo, src );
 }
 
-void scent_type::load( const JsonObject &jo, const std::string & )
+void scent_type::load( const JsonObject &jo, const std::string_view )
 {
     assign( jo, "id", id );
     assign( jo, "receptive_species", receptive_species );

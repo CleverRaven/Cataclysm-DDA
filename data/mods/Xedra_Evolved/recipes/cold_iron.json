@@ -1,0 +1,147 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "cold_iron_ingot",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "8 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 2 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "components": [ [ [ "wax", 1 ] ], [ [ "lamp_oil", 5 ] ], [ [ "scrap_dreamdross", 1 ], [ "holy_symbol", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "cold_iron_warhammer",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "8 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" },
+      { "proficiency": "prof_carving", "skill_penalty": 0 }
+    ],
+    "using": [ [ "blacksmithing_standard", 8 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "drift", -1 ] ] ],
+    "components": [ [ [ "cold_iron_ingot", 4 ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "cold_iron_arming_sword",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "7 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "tailoring_leather_patchwork_simple", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "cold_iron_ingot", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "cold_iron_battleaxe",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": "8 h",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 },
+      {
+        "proficiency": "prof_blacksmithing",
+        "time_multiplier": 1.2,
+        "learning_time_multiplier": 0.2,
+        "skill_penalty": 0
+      },
+      {
+        "proficiency": "prof_bladesmith",
+        "time_multiplier": 1.2,
+        "learning_time_multiplier": 0.2,
+        "skill_penalty": 0
+      },
+      { "proficiency": "prof_carving", "time_multiplier": 1.2, "learning_time_multiplier": 0.2, "skill_penalty": 0 }
+    ],
+    "using": [ [ "blacksmithing_standard", 12 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ], [ "drift", -1 ] ] ],
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "cold_iron_ingot", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "cold_iron_knife",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_ALCHEMY",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "6 h 30 m",
+    "flags": [ "SECRET" ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_bladesmith" }
+    ],
+    "using": [ [ "forging_standard", 2 ] ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "tongs", -1 ], [ "metalworking_tongs", -1 ] ], [ [ "casting_mold", -1 ] ] ],
+    "components": [
+      [ [ "cordage_short", 2, "LIST" ] ],
+      [ [ "cold_iron_ingot", 1 ] ],
+      [ [ "leather", 1 ], [ "fur", 1 ] ],
+      [ [ "adhesive", 2, "LIST" ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "blood_of_saints",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_MUTAGEN",
+    "skill_used": "chemistry",
+    "skills_required": [ "deduction", 3 ],
+    "difficulty": 6,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "flags": [ "SECRET" ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
+    "components": [
+      [ [ "small_relic", 2 ] ],
+      [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
+      [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ],
+      [ [ "mercury", 1 ] ],
+      [ [ "silver_small", 3 ] ],
+      [ [ "gold_small", 1 ] ]
+    ]
+  }
+]

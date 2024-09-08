@@ -7,10 +7,8 @@
     "description": "Thick leather body armor that has been hardened via chemical treatment.  Light and strong.",
     "weight": "6600 g",
     "volume": "9500 ml",
-    "price": 26000,
-    "price_postapoc": 3000,
-    "to_hit": -5,
-    "bashing": 2,
+    "price": "260 USD",
+    "price_postapoc": "30 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -24,7 +22,7 @@
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 6.5 } ]
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 18 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 18 }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 18 }
     ],
     "warmth": 20,
     "material_thickness": 6,
@@ -39,10 +37,8 @@
     "description": "Leg and body armor made from the exoskeletons of insects.",
     "weight": "2632 g",
     "volume": "17500 ml",
-    "price": 120000,
-    "price_postapoc": 3000,
-    "to_hit": -5,
-    "bashing": 2,
+    "price": "1 kUSD 200 USD",
+    "price_postapoc": "30 USD",
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -57,26 +53,27 @@
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 90,
         "encumbrance": [ 5, 5 ],
-        "specifically_covers": [ "leg_upper_r", "leg_upper_l" ]
+        "specifically_covers": [ "leg_upper_r", "leg_upper_l", "leg_hip_r", "leg_hip_l" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_chitin",
     "type": "ARMOR",
-    "name": { "str": "XL chitinous armor" },
+    "name": { "str": "chitinous armor" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_chitin_xs",
     "type": "ARMOR",
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
-    "name": { "str": "XS chitinous armor" },
+    "name": { "str": "chitinous armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_acidchitin",
@@ -86,29 +83,26 @@
     "name": { "str": "biosilicified chitin armor" },
     "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
-    "material_thickness": 5,
     "environmental_protection": 2,
-    "price_postapoc": 3500,
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1 },
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "price_postapoc": "35 USD",
+    "relative": { "melee_damage": { "bash": 1 } }
   },
   {
     "id": "xl_armor_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "XL biosilicified chitin armor" },
+    "name": { "str": "biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_acidchitin_xs",
     "type": "ARMOR",
     "copy-from": "armor_acidchitin",
     "looks_like": "armor_acidchitin",
-    "name": { "str": "XS biosilicified chitin armor" },
+    "name": { "str": "biosilicified chitin armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_farmor",
@@ -118,18 +112,74 @@
     "description": "Thick body armor made from furs.",
     "weight": "3414 g",
     "volume": "10 L",
-    "price": 100000,
-    "price_postapoc": 1500,
-    "to_hit": -5,
-    "bashing": 2,
+    "price": "1 kUSD",
+    "price_postapoc": "15 USD",
     "material": [ "fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
     "looks_like": "armor_larmor",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 21, 25 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 21, 21 ] },
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 17, 17 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": [ 17, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 17, 17 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      }
+    ],
+    "warmth": 45,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
+  },
+  {
+    "id": "xl_armor_farmor",
+    "type": "ARMOR",
+    "name": { "str": "fur body armor" },
+    "copy-from": "armor_farmor",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "armor_farmor_xs",
+    "type": "ARMOR",
+    "copy-from": "armor_farmor",
+    "looks_like": "armor_farmor",
+    "name": { "str": "fur body armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
+  },
+  {
+    "id": "armor_faux_farmor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "faux fur body armor" },
+    "description": "Thick body armor made from faux furs.",
+    "weight": "3414 g",
+    "volume": "10 L",
+    "price": "1 kUSD",
+    "price_postapoc": "15 USD",
+    "material": [ "faux_fur" ],
+    "symbol": "[",
+    "longest_side": "30 cm",
+    "looks_like": "armor_larmor",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 21, 25 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] }
     ],
     "pocket_data": [
@@ -148,27 +198,25 @@
         "moves": 80
       }
     ],
-    "warmth": 60,
+    "warmth": 40,
     "material_thickness": 4,
-    "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
-    "id": "xl_armor_farmor",
+    "id": "xl_armor_faux_farmor",
     "type": "ARMOR",
-    "name": { "str": "XL fur body armor" },
-    "copy-from": "armor_farmor",
+    "name": { "str": "faux fur body armor" },
+    "copy-from": "armor_faux_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
-    "id": "armor_farmor_xs",
+    "id": "armor_faux_farmor_xs",
     "type": "ARMOR",
-    "copy-from": "armor_farmor",
-    "looks_like": "armor_farmor",
-    "name": { "str": "XS fur body armor" },
+    "copy-from": "armor_faux_farmor",
+    "name": { "str": "faux fur body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_larmor",
@@ -178,10 +226,8 @@
     "description": "A full suit of thick leather body armor.  Light and comfortable.",
     "weight": "4400 g",
     "volume": "7 L",
-    "price": 12000,
-    "price_postapoc": 2500,
-    "to_hit": -5,
-    "bashing": 2,
+    "price": "120 USD",
+    "price_postapoc": "25 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -195,7 +241,7 @@
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 14 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 14 }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 14 }
     ],
     "warmth": 25,
     "material_thickness": 4,
@@ -205,27 +251,41 @@
   {
     "id": "xl_armor_larmor",
     "type": "ARMOR",
-    "name": { "str": "XL leather body armor" },
+    "name": { "str": "leather body armor" },
     "copy-from": "armor_larmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_larmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_larmor",
     "looks_like": "armor_larmor",
-    "name": { "str": "XS leather body armor" },
+    "name": { "str": "leather body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_junk_lightplate",
     "type": "ARMOR",
-    "copy-from": "armor_lightplate",
+    "category": "armor",
     "name": { "str": "junk plate armor" },
     "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
-    "material": [ "budget_steel", "leather" ]
+    "weight": "11 kg",
+    "volume": "17500 ml",
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
+    "material": [ "budget_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 25,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_metal_sheets",
@@ -235,10 +295,9 @@
     "description": "A full set of armor hammered out from sheet metal and tied in place with leather straps and belts.  It's crude, heavy, and uncomfortable, but damn protective.  Now, you're a true Post-Apocalyptic Warrior.",
     "weight": "22300 g",
     "volume": "17500 ml",
-    "price": 6000,
-    "price_postapoc": 1200,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "60 USD",
+    "price_postapoc": "12 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -251,14 +310,15 @@
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 18 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 21 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 19 }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_ch_metal_sheets",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets",
-    "name": { "str": "case hardened sheet metal armor" },
-    "description": "A full set of armor hammered out from sheet metal and case hardened for added protection.  Perfect for keeping all your fleshy bits safe from zombie teeth.",
+    "name": { "str": "hardened sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and hardened for added protection.  Perfect for keeping all your fleshy bits safe from zombie teeth.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] }
   },
@@ -270,10 +330,9 @@
     "description": "A full set of armor hammered out from sheet metal and tied in place with leather straps and belts, with a doubly-thick chest guard to keep all your important organs safe.  You might be as mobile as a refrigerator wearing all this, but that's the price to pay to keep your flesh attached.",
     "weight": "31100 g",
     "volume": "17500 ml",
-    "price": 6000,
-    "price_postapoc": 1300,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "60 USD",
+    "price_postapoc": "13 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -301,14 +360,15 @@
         "coverage": 95,
         "encumbrance": 21
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_ch_metal_sheets_heavy",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets_heavy",
-    "name": { "str": "heavy case hardened sheet metal armor" },
-    "description": "A full set of armor hammered out from sheet metal and case hardened for extra protection, with a doubly-thick chest guard.  The Ned Kelly gang would be proud.",
+    "name": { "str": "heavy hardened sheet metal armor" },
+    "description": "A full set of armor hammered out from sheet metal and hardened for extra protection, with a doubly-thick chest guard.  The Ned Kelly gang would be proud.",
     "material": [ "ch_steel" ],
     "armor": [
       {
@@ -339,10 +399,9 @@
     "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps.  For the modern knight on a budget.",
     "weight": "24300 g",
     "volume": "17500 ml",
-    "price": 6000,
-    "price_postapoc": 1300,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "60 USD",
+    "price_postapoc": "13 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -379,7 +438,8 @@
         "coverage": 100,
         "encumbrance": 25
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_metal_sheets_chain_heavy",
@@ -389,10 +449,9 @@
     "description": "A full set of steel armor made from sheet metal hammered into shape and attached with chainmail covering the gaps, with an extra-thick chestpiece.  About as heavy as a car but nowhere near as mobile, this suit is nonetheless quite protective.",
     "weight": "33100 g",
     "volume": "17500 ml",
-    "price": 6000,
-    "price_postapoc": 1300,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "60 USD",
+    "price_postapoc": "13 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -429,13 +488,14 @@
         "coverage": 100,
         "encumbrance": 25
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_ch_metal_sheets_chain",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets_chain",
-    "name": { "str": "case hardened junkyard plate armor" },
+    "name": { "str": "hardened junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, and case-hardened for extra strength.  It might be crude and uncomfortably heavy, but it was clearly made by a skilled metalworker and offers excellent protection.",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "armor": [
@@ -473,7 +533,7 @@
     "id": "armor_ch_metal_sheets_chain_heavy",
     "type": "ARMOR",
     "copy-from": "armor_metal_sheets_chain_heavy",
-    "name": { "str": "heavy case hardened junkyard plate armor" },
+    "name": { "str": "heavy hardened junkyard plate armor" },
     "description": "A full set of steel armor made from sheet metal hammered into shape, attached with chainmail, with a double-thick chestpiece, and case-hardened for extra strength.  Top-of-the-line in armor that looks like it was made from banged-up lockers, for the skilled metalworker that values protection over being able to move.",
     "material": [ "ch_steel", "ch_steel_chain" ],
     "armor": [
@@ -511,13 +571,12 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "15 kg",
     "volume": "17500 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -557,220 +616,92 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light plate armor" },
+    "name": { "str": "mild steel light plate armor" },
     "copy-from": "armor_lc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light plate armor" },
+    "name": { "str": "medium steel light plate armor" },
     "copy-from": "armor_mc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  Made with high steel, offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel light plate armor" },
+    "name": { "str": "high steel light plate armor" },
     "copy-from": "armor_hc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "name": { "str": "hardened steel light plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened light plate armor" },
+    "name": { "str": "hardened steel light plate armor" },
     "copy-from": "armor_ch_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_lightplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_lightplate",
-    "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str": "tempered light plate armor" },
-    "description": "A light suit of plate armor with a 2mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.8 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "name": { "str": "tempered steel light plate armor" },
+    "description": "A light suit of plate armor with a 2 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered light plate armor" },
+    "name": { "str": "tempered steel light plate armor" },
     "copy-from": "armor_qt_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_plate",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "20 kg",
     "volume": "17500 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -810,63 +741,32 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel plate armor" },
+    "name": { "str": "mild steel plate armor" },
     "copy-from": "armor_lc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel plate armor" },
+    "name": { "str": "medium steel plate armor" },
     "copy-from": "armor_mc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_plate",
@@ -874,156 +774,62 @@
     "copy-from": "armor_lc_plate",
     "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  Made with high steel, offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel plate armor" },
+    "name": { "str": "high steel plate armor" },
     "copy-from": "armor_hc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "name": { "str": "hardened steel plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_plate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened plate armor" },
+    "name": { "str": "hardened steel plate armor" },
     "copy-from": "armor_ch_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str": "tempered plate armor" },
-    "description": "A suit of plate armor with a 4mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "name": { "str": "tempered steel plate armor" },
+    "description": "A suit of plate armor with a 4 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_plate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered plate armor" },
+    "name": { "str": "tempered steel plate armor" },
     "copy-from": "armor_qt_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_heavyplate",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  This one has been made with mild steel.",
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  This one has been made with mild steel.",
     "weight": "25 kg",
     "volume": "17500 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
-    "to_hit": -5,
-    "bashing": 8,
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1063,207 +869,80 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy plate armor" },
+    "name": { "str": "mild steel heavy plate armor" },
     "copy-from": "armor_lc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with tougher medium steel, this suit offers solid protection.",
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy plate armor" },
+    "name": { "str": "medium steel heavy plate armor" },
     "copy-from": "armor_mc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  Made with high carbon steel, offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  Made with high steel, offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel heavy plate armor" },
+    "name": { "str": "high steel heavy plate armor" },
     "copy-from": "armor_hc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "name": { "str": "hardened steel heavy plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened heavy plate armor" },
+    "name": { "str": "hardened steel heavy plate armor" },
     "copy-from": "armor_ch_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_heavyplate",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavyplate",
-    "material": [ "qt_steel", "qt_steel_chain" ],
-    "name": { "str": "tempered heavy plate armor" },
-    "description": "A heavy suit of plate armor with a 6mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 4.8 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "torso" ],
-        "coverage": 100,
-        "encumbrance": 25
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      },
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "name": { "str": "tempered steel heavy plate armor" },
+    "description": "A heavy suit of plate armor with a 6 mm thick chestpiece.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered heavy plate armor" },
+    "name": { "str": "tempered steel heavy plate armor" },
     "copy-from": "armor_qt_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_plarmor",
@@ -1273,10 +952,9 @@
     "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.",
     "weight": "6280 g",
     "volume": "9 L",
-    "price": 110000,
-    "price_postapoc": 3000,
-    "to_hit": -5,
-    "bashing": 2,
+    "price": "1 kUSD 100 USD",
+    "price_postapoc": "30 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "leather", "budget_steel" ],
     "symbol": "[",
     "color": "brown",
@@ -1311,7 +989,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
+        "coverage": 95,
         "encumbrance": 22,
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
@@ -1321,7 +999,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
+        "coverage": 95,
         "encumbrance": 0,
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ]
@@ -1329,44 +1007,58 @@
     ],
     "warmth": 25,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_armor_plarmor",
     "type": "ARMOR",
-    "name": { "str": "XL plated leather armor" },
+    "name": { "str": "plated leather armor" },
     "copy-from": "armor_plarmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_plarmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_plarmor",
     "looks_like": "armor_plarmor",
-    "name": { "str": "XS plated leather armor" },
+    "name": { "str": "plated leather armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_junk_plate",
     "type": "ARMOR",
-    "copy-from": "armor_plate",
+    "category": "armor",
     "name": { "str": "junk ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
-    "material": [ "budget_steel", "leather" ]
+    "weight": "18 kg",
+    "volume": "30 L",
+    "price": "7 kUSD 800 USD",
+    "price_postapoc": "60 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
+    "material": [ "budget_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "light_gray",
+    "warmth": 25,
+    "longest_side": "60 cm",
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_riot",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor suit" },
-    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  Molle webbing is attached to the thighs and the word POLICE is emblazoned across the front.",
+    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  MOLLE webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "3 kg",
     "volume": "12500 ml",
-    "price": 60000,
-    "price_postapoc": 4000,
-    "to_hit": -3,
+    "price": "600 USD",
+    "price_postapoc": "40 USD",
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1380,13 +1072,15 @@
         "encumbrance": 6,
         "coverage": 75,
         "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3,
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 },
-          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
         ]
       },
       {
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0,
         "encumbrance": 4,
         "coverage": 90,
         "material": [
@@ -1397,6 +1091,7 @@
       },
       {
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "volume_encumber_modifier": 0,
         "coverage": 65,
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
@@ -1406,6 +1101,7 @@
       },
       {
         "covers": [ "foot_l", "foot_r" ],
+        "volume_encumber_modifier": 0,
         "encumbrance": 2,
         "coverage": 75,
         "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 1.5 } ],
@@ -1413,6 +1109,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0,
         "coverage": 30,
         "material": [ { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ]
@@ -1423,13 +1120,12 @@
     "id": "armor_samurai",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "ō-yoroi" },
+    "name": { "str_sp": "ō-yoroi" },
     "description": "An ornamental suit of Japanese samurai armor.",
     "weight": "9220 g",
     "volume": "11500 ml",
-    "price": 90000,
-    "price_postapoc": 8000,
-    "bashing": 8,
+    "price": "900 USD",
+    "price_postapoc": "80 USD",
     "material": [ "iron", "leather" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1438,7 +1134,8 @@
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_scrapsuit",
@@ -1448,11 +1145,9 @@
     "description": "A suit of armor made from scraps of metal secured by simple strings to cloth wraps; the loose collection of plates provides decent but uncomfortable protection.",
     "weight": "9534 g",
     "volume": "15500 ml",
-    "price": 60000,
-    "price_postapoc": 250,
-    "to_hit": -5,
-    "bashing": 6,
-    "cutting": 8,
+    "price": "600 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1488,23 +1183,24 @@
         "coverage": 95,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6, "cut": 3 }
   },
   {
     "id": "armor_xl_scrapsuit",
     "type": "ARMOR",
     "copy-from": "armor_scrapsuit",
-    "name": { "str": "XL scrap suit" },
+    "name": { "str": "scrap suit" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_xs_scrapsuit",
     "type": "ARMOR",
     "copy-from": "armor_scrapsuit",
-    "name": { "str": "XS scrap suit" },
+    "name": { "str": "scrap suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_tiresuit",
@@ -1514,9 +1210,8 @@
     "description": "A suit of armor made from thick chunks of rubber tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "14400 g",
     "volume": "15500 ml",
-    "price": 50000,
-    "price_postapoc": 200,
-    "to_hit": -5,
+    "price": "500 USD",
+    "price_postapoc": "2 USD",
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "armor_scrapsuit",
@@ -1529,15 +1224,13 @@
   },
   {
     "id": "beekeeping_suit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "beekeeping suit" },
     "description": "A white suit commonly worn by professional beekeepers with straps on your ankles and wrists to prevent bees from flying in.  It's not a very tough fabric, but it's lightweight and has plenty of storage thanks to a chest pocket.",
     "weight": "1587 g",
     "volume": "3500 ml",
-    "price": 12000,
-    "price_postapoc": 100,
-    "to_hit": -5,
+    "price": "120 USD",
+    "price_postapoc": "1 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
@@ -1563,424 +1256,1208 @@
     "flags": [ "VARSIZE", "OUTER" ]
   },
   {
-    "id": "chainmail_junk_hauberk",
+    "abstract": "base_chainmail_hauberk",
+    "copy-from": "base_chainmail_vest",
     "type": "ARMOR",
-    "category": "armor",
     "name": { "str": "chainmail hauberk" },
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "9012 g",
+    "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "9356 g",
+    "//": "Should be lighter when irl hauberk as it does not cover legs",
     "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
-    "symbol": "[",
+    "longest_side": "14 cm",
+    "price": "359 USD 88 cent",
+    "price_postapoc": "30 USD",
     "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "9350 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      }
+    ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      },
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "abstract": "xl_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "chainmail hauberk" },
+    "copy-from": "base_chainmail_hauberk",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "10500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "abstract": "xs_chainmail_hauberk",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_hauberk",
+    "name": { "str": "chainmail hauberk" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "chainmail_junk_hauberk",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_hauberk",
+    "replace_materials": { "steel": "budget_steel_chain" },
+    "name": { "str": "chainmail hauberk" },
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "torso", "arm_l", "arm_r" ],
         "coverage": 97,
-        "encumbrance": 20
+        "encumbrance": 14
+      },
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 50,
+        "encumbrance": 0
       }
     ]
   },
   {
     "id": "lc_chainmail_hauberk",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel chainmail hauberk" },
-    "description": "A fully customized mild steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "9012 g",
-    "//": "Should be lighter when irl hauberk as it does not cover legs",
-    "volume": "2750 ml",
-    "price": 35988,
-    "price_postapoc": 3000,
-    "to_hit": -1,
-    "material": [ "lc_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "armor_blarmor",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_hauberk",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "xl_lc_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL low steel chainmail hauberk" },
-    "copy-from": "lc_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_hauberk",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "lc_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_hauberk",
-    "name": { "str": "XS low steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_hauberk",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_hauberk",
-    "material": [ "mc_steel_chain" ],
-    "name": { "str": "medium steel chainmail hauberk" },
-    "description": "A fully customized medium steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_hauberk",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "xl_mc_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel chainmail hauberk" },
-    "copy-from": "mc_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_hauberk",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_hauberk",
-    "looks_like": "mc_chainmail_hauberk",
-    "name": { "str": "XS medium steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_hauberk",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_hauberk",
-    "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail hauberk" },
-    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_hauberk",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "xl_hc_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail hauberk" },
-    "copy-from": "hc_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_hauberk",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_hauberk",
-    "name": { "str": "XS high steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_hauberk",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_hauberk",
-    "material": [ "ch_steel_chain" ],
-    "name": { "str": "hardened steel chainmail hauberk" },
-    "description": "A fully customized hardened steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_hauberk",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "xl_ch_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail hauberk" },
-    "copy-from": "ch_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_hauberk",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_hauberk",
-    "name": { "str": "XS hardened steel chainmail hauberk" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_hauberk",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_hauberk",
-    "material": [ "qt_steel_chain" ],
-    "name": { "str": "tempered steel chainmail hauberk" },
-    "description": "A fully customized tempered steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_hauberk",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "id": "xl_qt_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel chainmail hauberk" },
-    "copy-from": "qt_chainmail_hauberk",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_hauberk",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk_xs",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_hauberk",
-    "name": { "str": "XS tempered steel chainmail hauberk" },
+    "copy-from": "xs_chainmail_hauberk",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail hauberk" }
+  },
+  {
+    "abstract": "base_chainmail_sjumpsuit",
+    "copy-from": "base_chainmail_hauberk",
+    "type": "ARMOR",
+    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "description": "A fully customized chainmail outfit, covering torso and arms.  Combine with a aketon or other padded layer for optimal protection.",
+    "weight": "10669 g",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "9350 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      },
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 50,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "abstract": "xl_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "chainmail sleeveless jumpsuit" },
+    "copy-from": "base_chainmail_sjumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "10500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "abstract": "xs_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_sjumpsuit",
+    "name": { "str": "chainmail sleeveless jumpsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "lc_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "xl_lc_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "lc_chainmail_sjumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "mc_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "xl_mc_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "mc_chainmail_sjumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "hc_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "xl_hc_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "hc_chainmail_sjumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "ch_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "xl_ch_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "ch_chainmail_sjumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "qt_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "xl_qt_chainmail_sjumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "id": "qt_chainmail_sjumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_sjumpsuit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
+  },
+  {
+    "abstract": "base_chainmail_jumpsuit",
+    "copy-from": "base_chainmail_vest",
+    "type": "ARMOR",
+    "name": { "str": "chainmail jumpsuit" },
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "13131 g",
+    "volume": "3250 ml",
+    "longest_side": "15 cm",
+    "price": "450 USD",
+    "price_postapoc": "80 USD",
+    "looks_like": "touring_suit",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "9350 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      }
+    ]
+  },
+  {
+    "abstract": "xl_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "chainmail jumpsuit" },
+    "copy-from": "base_chainmail_jumpsuit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "10500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "abstract": "xs_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_jumpsuit",
+    "name": { "str": "chainmail jumpsuit" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "lc_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_jumpsuit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail jumpsuit" }
+  },
+  {
+    "id": "xl_lc_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_jumpsuit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail jumpsuit" }
+  },
+  {
+    "id": "lc_chainmail_jumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_jumpsuit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail jumpsuit" }
+  },
+  {
+    "id": "mc_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_jumpsuit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail jumpsuit" }
+  },
+  {
+    "id": "xl_mc_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_jumpsuit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail jumpsuit" }
+  },
+  {
+    "id": "mc_chainmail_jumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_jumpsuit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail jumpsuit" }
+  },
+  {
+    "id": "hc_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_jumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail jumpsuit" }
+  },
+  {
+    "id": "xl_hc_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_jumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail jumpsuit" }
+  },
+  {
+    "id": "hc_chainmail_jumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_jumpsuit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail jumpsuit" }
+  },
+  {
+    "id": "ch_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_jumpsuit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail jumpsuit" }
+  },
+  {
+    "id": "xl_ch_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_jumpsuit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail jumpsuit" }
+  },
+  {
+    "id": "ch_chainmail_jumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_jumpsuit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail jumpsuit" }
+  },
+  {
+    "id": "qt_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_jumpsuit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail jumpsuit" }
+  },
+  {
+    "id": "xl_qt_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_jumpsuit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail jumpsuit" }
+  },
+  {
+    "id": "qt_chainmail_jumpsuit_xs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_jumpsuit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail jumpsuit" }
+  },
+  {
+    "abstract": "base_chainmail_suit",
+    "copy-from": "base_chainmail_jumpsuit",
+    "type": "ARMOR",
+    "name": { "str": "chainmail armor" },
+    "description": "A fully customized chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
+    "weight": "14446 g",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "9350 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2200 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      }
+    ]
+  },
+  {
+    "abstract": "xl_chainmail_suit",
+    "type": "ARMOR",
+    "name": { "str": "chainmail armor" },
+    "copy-from": "base_chainmail_suit",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "10500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "abstract": "xs_chainmail_suit",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_suit",
+    "name": { "str": "chainmail armor" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "7000 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "chainmail_junk_suit",
     "type": "ARMOR",
-    "category": "armor",
+    "copy-from": "base_chainmail_suit",
+    "replace_materials": { "steel": "budget_steel_chain" },
     "name": { "str": "chainmail armor" },
     "description": "A fully customized chainmail suit.  The metal shows signs of rust and corrosion.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14539 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 97,
-        "encumbrance": 20
+        "encumbrance": 14
       }
     ]
   },
   {
     "id": "lc_chainmail_suit",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel chainmail armor" },
-    "description": "A fully customized mild steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "weight": "14539 g",
-    "volume": "3250 ml",
-    "price": 45000,
-    "price_postapoc": 8000,
-    "to_hit": -1,
-    "material": [ "lc_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "touring_suit",
-    "color": "light_red",
-    "warmth": 0,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_suit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "xl_lc_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL low steel chainmail armor" },
-    "copy-from": "lc_chainmail_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_suit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "lc_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
-    "name": { "str": "XS low steel chainmail armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_suit",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
-    "material": [ "mc_steel_chain" ],
-    "name": { "str": "medium steel chainmail armor" },
-    "description": "A fully customized medium steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_suit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "xl_mc_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel chainmail armor" },
-    "copy-from": "mc_chainmail_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_suit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_suit",
-    "name": { "str": "XS medium steel chainmail armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_suit",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
-    "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail armor" },
-    "description": "A fully customized high steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_suit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "xl_hc_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail armor" },
-    "copy-from": "hc_chainmail_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_suit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_suit",
-    "material": [ "ch_steel_chain" ],
-    "name": { "str": "XS high steel chainmail armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_suit",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
-    "name": { "str": "hardened steel chainmail armor" },
-    "description": "A fully customized hardened steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_suit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "xl_ch_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail armor" },
-    "copy-from": "ch_chainmail_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_suit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_suit",
-    "name": { "str": "XS hardened steel chainmail armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_suit",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
-    "material": [ "qt_steel_chain" ],
-    "name": { "str": "tempered steel chainmail armor" },
-    "description": "A fully customized tempered steel chainmail suit.  Combine with a gambeson or other padded layer for optimal protection.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_suit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "xl_qt_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel chainmail armor" },
-    "copy-from": "qt_chainmail_suit",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_suit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit_xs",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_suit",
-    "name": { "str": "XS tempered steel chainmail armor" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_suit",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
+    "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit with integrated rubber boots that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected with a cage covering the face, protecting against electricity.",
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "mouth", "eyes" ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head" ],
         "coverage": 100,
         "encumbrance": 30
       },
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_knee_l", "leg_hip_l", "leg_upper_r", "leg_knee_r", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 30
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "cover_ranged": 10,
+        "encumbrance": 2,
+        "breathability": "GOOD"
       },
       {
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
+        "covers": [ "mouth" ],
+        "coverage": 95,
+        "cover_ranged": 10,
+        "encumbrance": 0,
+        "breathability": "GOOD"
       },
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1994,16 +2471,8 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "layers": [ "NORMAL" ],
-        "encumbrance": 30,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
-        "layers": [ "NORMAL" ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 10,
         "coverage": 100
       }
     ],
@@ -2013,29 +2482,124 @@
     "id": "xl_chainmail_suit_faraday",
     "type": "ARMOR",
     "copy-from": "chainmail_suit_faraday",
-    "name": { "str": "XL faraday chainmail suit" },
+    "name": { "str": "faraday chainmail suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "ELECTRIC_IMMUNE", "OVERSIZE" ] }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "8500 ml",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "800 ml",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "chainmail_suit_faraday_xs",
     "type": "ARMOR",
     "copy-from": "chainmail_suit_faraday",
     "looks_like": "chainmail_suit_faraday",
-    "name": { "str": "XS faraday chainmail suit" },
+    "name": { "str": "faraday chainmail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "ELECTRIC_IMMUNE", "UNDERSIZE" ] }
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "6000 ml",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1700 ml",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ARMS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "550 ml",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cleansuit",
-    "repairs_like": "fsurvivor_suit",
+    "repairs_like": "bunker_coat",
+    "//": "Should be somewhat more difficult to repair than ordinary plastic",
     "type": "ARMOR",
     "name": { "str": "cleansuit" },
     "description": "A simple hazardous materials handling suit.  Though somewhat restrictive and fragile, wearing it will provide excellent protection against ambient radiation.",
     "weight": "2100 g",
     "volume": "2500 ml",
-    "price": 7700,
-    "price_postapoc": 1250,
+    "price": "77 USD",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -2060,8 +2624,8 @@
     "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
     "weight": "2900 g",
     "volume": "6 L",
-    "price": 240500,
-    "price_postapoc": 2500,
+    "price": "2 kUSD 405 USD",
+    "price_postapoc": "25 USD",
     "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -2070,7 +2634,7 @@
     "longest_side": "30 cm",
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
     "armor": [
       {
         "encumbrance": 50,
@@ -2082,450 +2646,91 @@
   {
     "id": "xl_entry_suit",
     "type": "ARMOR",
-    "name": { "str": "XL entry suit" },
+    "name": { "str": "entry suit" },
     "copy-from": "entry_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "entry_suit_xs",
     "type": "ARMOR",
     "copy-from": "entry_suit",
     "looks_like": "entry_suit",
-    "name": { "str": "XS entry suit" },
+    "name": { "str": "entry suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
-    "id": "gambeson",
+    "id": "bite_suit",
     "type": "ARMOR",
-    "name": { "str": "gambeson" },
-    "description": "A thick jacket of quilted fabric, designed to be worn underneath mail or other armor.  Or worn on its own, if you can't afford proper armor.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "2800 g",
-    "volume": "3 L",
-    "price": 20000,
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose", "menu_text": "Loosen" },
-    "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 20 }
-    ]
-  },
-  {
-    "id": "gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "gambeson vest" },
-    "description": "A thick vest of quilted fabric, designed to be worn underneath mail or other armor.  This one has had its sleeves removed.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "1400 g",
-    "volume": "2 L",
-    "price": 20000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_loose_vest", "menu_text": "Loosen" },
-    "armor": [ { "covers": [ "torso" ], "coverage": 100, "encumbrance": 20 } ]
-  },
-  {
-    "id": "gambeson_loose",
-    "repairs_like": "gambeson",
-    "type": "ARMOR",
-    "name": { "str": "gambeson (loose)", "str_pl": "gambesons (loose)" },
-    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your gambeson a bit tighter.",
-      "target": "gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "gambeson_loose_vest",
-    "repairs_like": "gambeson",
-    "type": "ARMOR",
-    "name": { "str": "gambeson vest (loose)", "str_pl": "gambeson vests (loose)" },
-    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your gambeson vest a bit tighter.",
-      "target": "gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str_sp": "arming pants" },
-    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
-    "weight": "2100 g",
-    "volume": "2 L",
-    "price": 14000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ "cotton" ],
-    "symbol": "[",
-    "looks_like": "pants_ski",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 5,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 } ]
-  },
-  {
-    "id": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson" },
-    "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
+    "name": { "str": "canine bite suit" },
+    "description": "Designed to stop the injuries of dog bites, this thick, one piece suit is often used in the rehabilitation of abused animals and in training dogs by the police and military.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting, and to soften the blunt of animals jumping, slashing, or pouncing on the wearer.",
     "weight": "11556 g",
-    "volume": "2520 ml",
-    "price": 20000,
-    "price_postapoc": 750,
-    "to_hit": -5,
-    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "volume": "8255 ml",
+    "price": "200 USD",
+    "price_postapoc": "100 USD",
+    "//": "real bite suits are made with linen, but we don't have linen, so denim is the closest approx. (canvas is always waterproofed and these suits are not)",
+    "material": [ "kevlar", "denim" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
     "warmth": 50,
-    "material_thickness": 3.2,
+    "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
-    "//": "materials on this guy are slightly weird since it is trying to quilt soft armor panels, so at thickest it is their thickness",
     "armor": [
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 4 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 30
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 30
       },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar", "covered_by_mat": 70, "thickness": 4 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
         "coverage": 100,
         "encumbrance": 0,
         "//": "skip second entry for arm encumbrance"
-      }
-    ]
-  },
-  {
-    "id": "k_gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson vest" },
-    "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
-    "weight": "6200 g",
-    "volume": "1670 ml",
-    "price": 20000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
-    "symbol": "[",
-    "looks_like": "coat_winter",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 3.2,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_loose", "menu_text": "Loosen" },
-    "armor": [
+      },
       {
         "material": [
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "kevlar", "covered_by_mat": 95, "thickness": 4 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 3 }
         ],
-        "covers": [ "torso" ],
+        "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 20
+        "encumbrance": 30
       }
     ]
-  },
-  {
-    "id": "k_gambeson_loose",
-    "repairs_like": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson (loose)", "str_pl": "Kevlar gambesons (loose)" },
-    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "k_gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your Kevlar gambeson a bit tighter.",
-      "target": "k_gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "k_gambeson_vest_loose",
-    "repairs_like": "k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar gambeson vest (loose)", "str_pl": "Kevlar gambeson vests (loose)" },
-    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "k_gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your Kevlar gambeson a bit tighter.",
-      "target": "k_gambeson_vest",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "k_gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str": "Kevlar arming pants", "str_pl": "pairs of Kevlar arming pants" },
-    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.  This one incorporates Kevlar layers added for better protection.",
-    "weight": "9300 g",
-    "volume": "2000 ml",
-    "price": 14000,
-    "price_postapoc": 600,
-    "to_hit": -5,
-    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
-    "symbol": "[",
-    "looks_like": "pants_ski",
-    "color": "light_gray",
-    "warmth": 50,
-    "material_thickness": 3.2,
-    "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 } ]
-  },
-  {
-    "id": "xl_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson" },
-    "copy-from": "gambeson",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "xl_gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson vest" },
-    "copy-from": "gambeson_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_vest_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "gambeson_xs",
-    "type": "ARMOR",
-    "copy-from": "gambeson",
-    "looks_like": "gambeson",
-    "name": { "str": "XS gambeson" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "gambeson_xs_loose",
-    "repairs_like": "gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XS gambeson (loose)", "str_pl": "XS gambesons (loose)" },
-    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor, coming in size XS.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson_xs",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XS gambeson a bit tighter.",
-      "target": "gambeson_xs",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "gambeson_vest_xs",
-    "type": "ARMOR",
-    "copy-from": "gambeson_vest",
-    "looks_like": "gambeson",
-    "name": { "str": "XS gambeson vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "gambeson_vest_xs_loose",
-    "repairs_like": "gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "XS gambeson vest (loose)", "str_pl": "XS gambeson vests (loose)" },
-    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor, coming in size XS with removed sleeves.  Use it to wear it tighter and be able to put proper armor over it.",
-    "copy-from": "gambeson_vest_xs",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XS gambeson vest a bit tighter.",
-      "target": "gambeson_vest_xs",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "xl_gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
-    "copy-from": "gambeson_pants",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xl_gambeson_loose",
-    "repairs_like": "xl_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
-    "copy-from": "xl_gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL gambeson a bit tighter.",
-      "target": "xl_gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "xl_gambeson_vest_loose",
-    "repairs_like": "xl_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson vest (loose)", "str_pl": "XL gambeson vests (loose)" },
-    "copy-from": "xl_gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL gambeson vest a bit tighter.",
-      "target": "xl_gambeson_vest",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "xl_k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson" },
-    "copy-from": "k_gambeson",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "xl_k_gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson vest" },
-    "copy-from": "k_gambeson_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_vest_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "k_gambeson_xs",
-    "type": "ARMOR",
-    "copy-from": "k_gambeson",
-    "looks_like": "k_gambeson",
-    "name": { "str": "XS Kevlar gambeson" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
-  },
-  {
-    "id": "k_gambeson_vest_xs",
-    "type": "ARMOR",
-    "copy-from": "k_gambeson_vest",
-    "looks_like": "k_gambeson",
-    "name": { "str": "XS Kevlar gambeson vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "xl_k_gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str": "XL Kevlar arming pants", "str_pl": "pairs of XL Kevlar arming pants" },
-    "copy-from": "k_gambeson_pants",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
-  },
-  {
-    "id": "xl_k_gambeson_loose",
-    "repairs_like": "xl_k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson (loose)", "str_pl": "XL Kevlar gambesons (loose)" },
-    "copy-from": "xl_k_gambeson",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL Kevlar gambeson a bit tighter.",
-      "target": "xl_k_gambeson",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "xl_k_gambeson_vest_loose",
-    "repairs_like": "xl_k_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL Kevlar gambeson vest (loose)", "str_pl": "XL Kevlar gambeson vests (loose)" },
-    "copy-from": "xl_k_gambeson_vest",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
-      "target": "xl_k_gambeson_vest",
-      "menu_text": "Adjust tighter"
-    }
-  },
-  {
-    "id": "k_gambeson_vest_xs_loose",
-    "repairs_like": "k_gambeson_xs",
-    "type": "ARMOR",
-    "name": { "str": "XS Kevlar gambeson vest (loose)", "str_pl": "XS Kevlar gambeson vests (loose)" },
-    "copy-from": "k_gambeson_vest_xs",
-    "extend": { "flags": [ "OUTER" ] },
-    "use_action": {
-      "type": "transform",
-      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
-      "target": "k_gambeson_vest_xs",
-      "menu_text": "Adjust tighter"
-    }
   },
   {
     "id": "hazmat_suit",
-    "repairs_like": "fsurvivor_suit",
+    "//": "Should be substantially more difficult to repair than ordinary plastic - ch_steel is difficulty 7",
+    "repairs_like": "ch_steel_lump",
     "type": "ARMOR",
     "name": { "str": "hazmat suit" },
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
     "volume": "17 L",
-    "price": 117500,
-    "price_postapoc": 1500,
+    "price": "1 kUSD 175 USD",
+    "price_postapoc": "15 USD",
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "beekeeping_suit",
@@ -2533,7 +2738,17 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "IRRITANT_IMMUNE",
+      "RAINPROOF",
+      "GAS_PROOF",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "OUTER",
+      "SOFT"
+    ],
     "armor": [
       {
         "encumbrance": 37,
@@ -2549,9 +2764,8 @@
     "description": "A snug body suit made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, it is light and comfortable to wear under clothing.",
     "weight": "688 g",
     "volume": "1500 ml",
-    "price": 13000,
-    "price_postapoc": 750,
-    "to_hit": -5,
+    "price": "130 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -2565,35 +2779,34 @@
   {
     "id": "xl_nomex_suit",
     "type": "ARMOR",
-    "name": { "str": "XL flame-resistant suit" },
+    "name": { "str": "flame-resistant suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "nomex_suit_xs",
     "type": "ARMOR",
     "copy-from": "nomex_suit",
     "looks_like": "nomex_suit",
-    "name": { "str": "XS flame-resistant suit" },
+    "name": { "str": "flame-resistant suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "robofac_enviro_suit",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "Hub 01 environmental suit" },
     "description": "A lightweight environmental suit incorporating Kevlar-lined boots and gloves, worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": "4000 g",
     "volume": "14 L",
-    "price": 117500,
-    "price_postapoc": 2000,
-    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra" ],
+    "price": "1 kUSD 175 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "nomex", "kevlar", "hc_steel", "thermo_resin", "lycra", "vinyl" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
-    "//": "2mm Nomex across the entire suit to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
+    "//": "2mm Nomex across the entire suit with a waterproof silicone outer to provide hazmat properties. Hands and feet reinforced/shaped with other materials to provide full-body hazmat protection with minimal encumbrance.",
     "armor": [
       {
         "material": [
@@ -2609,7 +2822,8 @@
             "covered_by_mat": 30,
             "thickness": 2,
             "//": "Molded knuckle plates, spacious enough inside the gloves to flex your knuckles fine while providing extra knuckle protection because busting your knuckles sucks."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l" ],
@@ -2619,7 +2833,8 @@
       {
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_palm_r", "hand_wrist_r", "hand_palm_l", "hand_wrist_l" ],
@@ -2641,7 +2856,8 @@
             "covered_by_mat": 100,
             "thickness": 1,
             "//": "Fingers need to be the most flexible and tactile part of the hand. Lycra/nylon blend (as the lycra material is defined) will give both those qualities while sacrificing the least protection."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_r", "hand_fingers_l" ],
@@ -2664,7 +2880,8 @@
             "covered_by_mat": 90,
             "thickness": 1,
             "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
@@ -2680,7 +2897,8 @@
             "thickness": 1,
             "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
           },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
@@ -2692,7 +2910,8 @@
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
@@ -2712,7 +2931,10 @@
         "encumbrance": [ 0, 0 ]
       },
       {
-        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
         "covers": [ "head", "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": [ 7, 7 ]
@@ -2730,11 +2952,10 @@
       "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
       "target": "robofac_enviro_suit_casual"
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
   },
   {
     "id": "robofac_enviro_suit_casual",
-    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "copy-from": "robofac_enviro_suit",
     "name": { "str": "Hub 01 environmental suit (casual)", "str_pl": "Hub 01 environmental suits (casual)" },
@@ -2755,7 +2976,8 @@
             "covered_by_mat": 90,
             "thickness": 1,
             "//": "The Kevlar is 2mm thick over most of the boots, and 1mm thick for flexible joints."
-          }
+          },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_ankle_l", "foot_heel_l", "foot_ankle_r", "foot_heel_r" ],
@@ -2771,7 +2993,8 @@
             "thickness": 1,
             "//": "Steel shank for excellent arch support and to maintain boot shape for longevity."
           },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_arch_l", "foot_arch_r" ],
@@ -2783,7 +3006,8 @@
         "material": [
           { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
           { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1, "//": "Steel toes" },
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
         ],
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [ "foot_toes_l", "foot_toes_r" ],
@@ -2803,7 +3027,10 @@
         "encumbrance": [ 0, 0 ]
       },
       {
-        "material": [ { "type": "nomex", "covered_by_mat": 100, "thickness": 2 } ],
+        "material": [
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.2 }
+        ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
         "encumbrance": [ 7, 7 ]
@@ -2815,7 +3042,7 @@
       "msg": "You untie the sleeves and put back on the top of the suit.",
       "target": "robofac_enviro_suit"
     },
-    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
+    "delete": { "flags": [ "RAINPROOF", "IRRITANT_IMMUNE", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xedra_enviro_suit",
@@ -2850,28 +3077,32 @@
     "description": "The WebbStar moisture retention suit utilizes advanced technology to prevent up to 30% of moisture loss through perspiration.  The suit is powered by the micro-motions of the body, especially breathing and walking motions.  Because of this, your walking speed is impaired while wearing it.",
     "weight": "3481 g",
     "volume": "7500 ml",
-    "price": 4500000,
-    "price_postapoc": 2000,
+    "price": "45 kUSD",
+    "price_postapoc": "20 USD",
     "material": [ "lycra", "neoprene" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "MUNDANE" ],
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 } ] },
+        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
+      ]
+    },
     "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "suit",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "suit" },
     "description": "A full-body cotton suit.  Makes the apocalypse a truly gentlemanly experience.",
     "weight": "1587 g",
     "volume": "4750 ml",
-    "price": 20000,
-    "price_postapoc": 500,
-    "to_hit": -5,
+    "price": "200 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -2882,14 +3113,62 @@
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
     ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "350 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "12 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "10 cm",
+        "moves": 100
+      }
     ],
     "warmth": 25,
     "material_thickness": 0.8,
@@ -2897,16 +3176,14 @@
   },
   {
     "id": "touring_suit",
-    "repairs_like": "armor_larmor",
     "type": "ARMOR",
     "name": { "str": "track touring suit" },
     "description": "A leather bodysuit with padding in high-impact areas, meant for motorcyclists out on the track.  The leather is stiff but makes the armor much sturdier and more protective than lighter counterparts.",
-    "weight": "2214 g",
+    "weight": "4700 g",
     "volume": "6500 ml",
-    "price": 58000,
-    "price_postapoc": 1000,
-    "to_hit": -5,
-    "bashing": 2,
+    "price": "580 USD",
+    "price_postapoc": "10 USD",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "leather", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -2915,7 +3192,7 @@
       {
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 90, "thickness": 14.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
@@ -2924,7 +3201,7 @@
       {
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 80, "thickness": 14.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
@@ -2933,7 +3210,7 @@
       {
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 80, "thickness": 14.0 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.3 }
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
@@ -2960,19 +3237,18 @@
     "material_thickness": 4.3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "OUTER", "POCKETS", "STURDY", "BLOCK_WHILE_WORN" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "officer_uniform",
-    "repairs_like": "trenchcoat",
     "type": "ARMOR",
     "name": { "str": "dress uniform" },
     "description": "A military officer's dress uniform from before the Cataclysm, complete with rank and ribbons.  Just looking at it gives you an air of authority.  Perhaps not the most practical military wear, but a very stylish option.",
     "weight": "1653 g",
     "volume": "4750 ml",
-    "price": 22400,
-    "price_postapoc": 550,
-    "to_hit": -5,
+    "price": "224 USD",
+    "price_postapoc": "5 USD 50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "suit",
@@ -2999,15 +3275,13 @@
   },
   {
     "id": "mil_flight_suit",
-    "repairs_like": "nomex_suit",
     "type": "ARMOR",
     "name": { "str": "military flight suit" },
     "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
     "weight": "1315 g",
     "volume": "4687 ml",
-    "price": 22065,
-    "price_postapoc": 500,
-    "to_hit": -3,
+    "price": "220 USD 65 cent",
+    "price_postapoc": "5 USD",
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -3032,8 +3306,9 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_plate",
     "name": { "str": "nomad plate armor" },
-    "description": "A full body multilayered suit of plate armor with a 4mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered suit of plate armor with a 4 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -3069,14 +3344,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -3090,11 +3358,10 @@
   {
     "id": "armor_nomad_plate_on",
     "copy-from": "armor_nomad_plate",
-    "repairs_like": "armor_nomad_plate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad plate armor (on)", "str_pl": "nomad plate armors (on)" },
     "revert_to": "armor_nomad_plate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -3108,8 +3375,9 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_lightplate",
     "name": { "str": "nomad light plate armor" },
-    "description": "A full body multilayered light suit of plate armor with a 2mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered light suit of plate armor with a 2 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -3145,14 +3413,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -3166,11 +3427,10 @@
   {
     "id": "armor_nomad_lightplate_on",
     "copy-from": "armor_nomad_lightplate",
-    "repairs_like": "armor_nomad_lightplate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad light plate armor (on)", "str_pl": "nomad light plate armors (on)" },
     "revert_to": "armor_nomad_lightplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
@@ -3184,8 +3444,9 @@
     "type": "TOOL_ARMOR",
     "copy-from": "armor_lc_heavyplate",
     "name": { "str": "nomad heavy plate armor" },
-    "description": "A full body multilayered heavy suit of plate armor with a 6mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered heavy suit of plate armor with a 6 mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -3221,14 +3482,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -3242,17 +3496,83 @@
   {
     "id": "armor_nomad_heavyplate_on",
     "copy-from": "armor_nomad_heavyplate",
-    "repairs_like": "armor_nomad_heavyplate",
     "type": "TOOL_ARMOR",
     "name": { "str": "nomad heavy plate armor (on)", "str_pl": "nomad heavy plate armors (on)" },
     "revert_to": "armor_nomad_heavyplate",
-    "power_draw": "100 J",
+    "power_draw": "100 W",
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
       "menu_text": "Turn off",
       "msg": "The %s pipes stop humming.",
       "target": "armor_nomad_heavyplate"
+    }
+  },
+  {
+    "id": "armor_nomad_chainmail",
+    "type": "TOOL_ARMOR",
+    "copy-from": "qt_chainmail_jumpsuit",
+    "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
+    "weight": "17200 g",
+    "volume": "7000 ml",
+    "description": "A full body multilayered chainmail outfit.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable Lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "material": [ "qt_steel_chain", "lycra", "kevlar" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 16
+      },
+      {
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      },
+      {
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "lycra", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 14
+      }
+    ],
+    "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
+    },
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the climate control on.",
+      "target": "armor_nomad_chainmail_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "Your internal reservoir is empty."
+    }
+  },
+  {
+    "id": "armor_nomad_chainmail_on",
+    "copy-from": "armor_nomad_chainmail",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "nomad chainmail (on)", "str_pl": "suits of nomad chainmail (on)" },
+    "revert_to": "armor_nomad_chainmail",
+    "power_draw": "100 W",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The %s pipes stop humming.",
+      "target": "armor_nomad_chainmail"
     }
   }
 ]

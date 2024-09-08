@@ -9,6 +9,12 @@
 - [Including tilesets with the distribution](#including-tilesets-with-the-distribution)
 - [Legacy tilesets](#legacy-tilesets)
 
+>[!NOTE]
+>If you are looking for specific tileset information or style guides, try the tileset repository:
+> - [Main page](https://github.com/I-am-Erk/CDDA-Tilesets)
+> - [Tilesets documentation](https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/doc)
+> - [Rendered documentation](https://i-am-erk.github.io/CDDA-Tilesets/)
+
 ## Terminology
 
 ##### Tileset
@@ -65,7 +71,25 @@ Sprites can be referenced across tilesheet directories, but they must be stored 
 
 #### Hardcoded IDs
 
-The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind.
+The special ID `unknown` provides a sprite that is displayed when an entity has no other sprite. Other hardcoded IDs also exist, and most of them are referenced in [`src/cata_tiles.cpp`](/src/cata_tiles.cpp). A full list of hardcoded IDs _may_ be present in [`tools/json_tools/generate_overlay_ids.py`](/tools/json_tools/generate_overlay_ids.py) stored as `CPP_IDS` but it's updated manually and may lag behind. Other IDs may be found below.
+
+Running trail animations (game.cpp):
+`run_nw` Player running towards north-west.
+`run_n`
+`run_ne`
+`run_w`
+`run_e`
+`run_sw`
+`run_s`
+`run_se`
+
+Bashing animations (handle_action.cpp):
+`bash_complete` Bash results in destruction of target.
+`bash_effective` Bash effective but target not yet destroyed.
+`bash_ineffective` Bash not effective.
+
+Shadows (cata_tiles.cpp):
+`shadow` Drawn when creature present in tiles above.
 
 #### Complex IDs
 
@@ -96,6 +120,10 @@ Are defined by adding `_female` or `_male` part to the `overlay_` part of a pref
 #### Optional seasonal variants
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
+
+#### Optional transparent variant
+
+Defined by adding `_transparent` suffix to any tile entry `id`. For example `"id": "t_wall_transparent"`. The transparent version is used to prevent occlusion by high tiles, especially in ISO tilesets.
 
 #### Item/Mutation variant sprite variants
 
@@ -366,7 +394,7 @@ Weighted variations are also possible, and can be combined with rotation:
 ```json
 {
   "id": "graffiti",
-  "fg": [ 
+  "fg": [
     { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
     { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
   ],
@@ -385,9 +413,11 @@ To create the sprite id, the graffiti's text is:
 * truncated to 32 characters
 * converted to capital letters
 * all punctuation is removed
+* special characters are removed
 * spaces are replaced by underscores
 
 So, e.g. all these texts would result in lookup for `graffiti_NO_FUTURE`: "no future", "No Future!!!", "no_future".
+"Escape Pods & Vehicle Bay" becomes `graffiti_ESCAPE_PODS__VEHICLE_BAY`
 
 ### `tile_info.json`
 ```c++
@@ -484,7 +514,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"layer": 100` this defines the order the sprites will draw in. 1 drawing first 100 drawing last (so 100 ends up on top). This only works for items, Fields are instead drawn in the order they are stacked on the tile.
 
-`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
+`"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random for each item.
 
 `"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
@@ -494,7 +524,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"field": "fd_fire"` the field id. (only supported in field_variants)
 
-`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
+`"sprite": [{"id": "desk_fd_fire", "weight": 1}]` an array of the possible sprites that can display. Multiple sprites can be provided with specific weights and will be selected at random based on map position.
 
 `"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
@@ -532,7 +562,7 @@ Requires `pyvips` module, see below.
 
 #### Python and pyvips
  * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing, check 'add Python to PATH'.)
- 
+
 Installation of pyvips can be skipped if you are planning to use `updtset.cmd` - see below. Otherwise:
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:

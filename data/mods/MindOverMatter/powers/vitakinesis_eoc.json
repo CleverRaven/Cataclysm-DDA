@@ -1,0 +1,1053 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vita_concentrated_healing" },
+        {
+          "or": [
+            { "u_has_effect": "dermatik" },
+            { "u_has_effect": "dermatik_visible" },
+            { "u_has_effect": "dermatik", "bodypart": "head" },
+            { "u_has_effect": "dermatik", "bodypart": "torso" },
+            { "u_has_effect": "dermatik", "bodypart": "arm_r" },
+            { "u_has_effect": "dermatik", "bodypart": "arm_l" },
+            { "u_has_effect": "dermatik", "bodypart": "leg_r" },
+            { "u_has_effect": "dermatik", "bodypart": "leg_l" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK_2",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": { "math": [ "10 + (u_spell_level('vita_concentrated_healing') * 3)" ] }, "y": 100 } },
+                { "math": [ "u_vitamin('dermatik_larva_size')", "<=", "720" ] },
+                {
+                  "compare_string": [ { "u_val": "latest_concentrated_body_part" }, { "global_val": "IMPREGNATED_BODYPART" } ]
+                }
+              ]
+            },
+            "effect": [
+              { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size')" ] },
+              { "u_lose_effect": "dermatik" },
+              { "u_lose_effect": "dermatik_visible" },
+              { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] },
+              { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
+            ],
+            "false_effect": [
+              {
+                "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+                "time_in_future": [
+                  {
+                    "math": [
+                      "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
+                    ]
+                  },
+                  {
+                    "math": [
+                      "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
+    "condition": {
+      "or": [
+        { "u_has_effect": "poison" },
+        { "u_has_effect": "poison", "bodypart": "head" },
+        { "u_has_effect": "poison", "bodypart": "torso" },
+        { "u_has_effect": "poison", "bodypart": "arm_r" },
+        { "u_has_effect": "poison", "bodypart": "arm_l" },
+        { "u_has_effect": "poison", "bodypart": "leg_r" },
+        { "u_has_effect": "poison", "bodypart": "leg_l" },
+        { "u_has_effect": "badpoison" },
+        { "u_has_effect": "badpoison", "bodypart": "head" },
+        { "u_has_effect": "badpoison", "bodypart": "torso" },
+        { "u_has_effect": "badpoison", "bodypart": "arm_r" },
+        { "u_has_effect": "badpoison", "bodypart": "arm_l" },
+        { "u_has_effect": "badpoison", "bodypart": "leg_r" },
+        { "u_has_effect": "badpoison", "bodypart": "leg_l" },
+        { "u_has_effect": "venom_dmg" },
+        { "u_has_effect": "venom_weaken" },
+        { "u_has_effect": "venom_blind" },
+        { "u_has_effect": "venom_pain" },
+        { "u_has_effect": "paralyzepoison" }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your skin tingles as the poison begins to work its way out of your body.", "type": "mixed" },
+      {
+        "queue_eocs": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_2",
+        "time_in_future": [
+          { "math": [ "max( ( 15 - (u_spell_level('vita_remove_poison') * u_nether_attunement_power_scaling) ), 1)" ] },
+          {
+            "math": [ "max( ( 120 - ((u_spell_level('vita_remove_poison') * u_nether_attunement_power_scaling ) * 2) ), 1)" ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You're not suffering from poisoning and have nothing to detoxify.", "type": "good" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_2",
+    "effect": [
+      { "u_message": "You begin to sweat.", "type": "mixed" },
+      { "u_add_wet": 8 },
+      { "run_eocs": [ "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH" ] },
+      { "u_lose_effect": "poison" },
+      { "u_lose_effect": "poison", "target_part": "head" },
+      { "u_lose_effect": "poison", "target_part": "torso" },
+      { "u_lose_effect": "poison", "target_part": "arm_r" },
+      { "u_lose_effect": "poison", "target_part": "arm_l" },
+      { "u_lose_effect": "poison", "target_part": "leg_r" },
+      { "u_lose_effect": "poison", "target_part": "leg_l" },
+      { "u_lose_effect": "badpoison" },
+      { "u_lose_effect": "badpoison", "target_part": "head" },
+      { "u_lose_effect": "badpoison", "target_part": "torso" },
+      { "u_lose_effect": "badpoison", "target_part": "arm_r" },
+      { "u_lose_effect": "badpoison", "target_part": "arm_l" },
+      { "u_lose_effect": "badpoison", "target_part": "leg_r" },
+      { "u_lose_effect": "badpoison", "target_part": "leg_l" },
+      { "u_lose_effect": "venom_dmg" },
+      { "u_lose_effect": "venom_weaken" },
+      { "u_lose_effect": "venom_blind" },
+      { "u_lose_effect": "venom_pain" },
+      { "u_lose_effect": "paralyzepoison" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH",
+    "condition": { "not": { "u_has_trait": "TOXICFLESH" } },
+    "effect": [
+      { "u_add_trait": "TOXICFLESH" },
+      {
+        "queue_eocs": "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH_REMOVE",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('vita_remove_poison') * 4) + 156) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('vita_remove_poison') * 32) + 418) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_DEXTOXIFICATION_TOXICFLESH_REMOVE",
+    "condition": { "u_has_trait": "TOXICFLESH" },
+    "effect": [ { "u_lose_trait": "TOXICFLESH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_EOC",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('vita_stop_bleeding')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_01" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01" } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_02" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02" } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_bleeding_03" } }, { "run_eocs": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_bandage_01" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_01_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_bandages_02" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_02_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_bandages_03" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_BLEEDING_ITEM_03_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP",
+    "condition": { "or": [ { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] } ] },
+    "effect": [
+      { "u_assign_activity": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE", "duration": "510 minutes" },
+      { "u_add_effect": "effect_vitakin_wakeful_resting", "duration": "510 minutes" }
+    ],
+    "false_effect": [ { "u_message": "You're feeling refreshed and have no need to meditate.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_WAKEFUL_REST_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "do_turn_eoc": "EOC_VITAKIN_WAKEFUL_REST_MEDITATE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_WAKEFUL_REST_MEDITATE",
+    "condition": { "math": [ "u_val('sleepiness') + u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": [ { "run_eocs": [ "EOC_VITAKIN_SLEEP_SLEEPINESS", "EOC_VITAKIN_SLEEP_DEPRIVATION" ] } ],
+    "false_effect": [
+      {
+        "u_message": "You are fully refreshed, and can end your meditations now.",
+        "popup": true,
+        "popup_w_interrupt_query": true,
+        "interrupt_type": "eoc"
+      },
+      { "u_lose_effect": "effect_vitakin_wakeful_resting" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP_SLEEPINESS",
+    "condition": {
+      "and": [
+        { "math": [ "u_val('sleepiness')", ">=", "0" ] },
+        {
+          "x_in_y_chance": {
+            "x": 1,
+            "y": { "math": [ "max( (55 - ( u_spell_level('vita_sleeping_trance') * 2) - u_skill('metaphysics') ), 15 )" ] }
+          }
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_SLEEP_DEPRIVATION",
+    "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
+    "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE",
+    "effect": [
+      { "u_assign_activity": "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", "duration": "2400 minutes" },
+      { "u_add_effect": "effect_vitakin_healing_trance", "duration": "2400 minutes" },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+        "time_in_future": [
+          { "math": [ "180 + (u_spell_level('vita_healing_trance') * 12)" ] },
+          { "math": [ "900 + (u_spell_level('vita_healing_trance') * 48)" ] }
+        ]
+      },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+        "time_in_future": [
+          { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
+          { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+    "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
+    "effect": [
+      { "math": [ "u_calories()", "-=", "psionics_contemplation_kcal_cost(6)" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_KAL_COSTS",
+        "time_in_future": [
+          { "math": [ "120 + (u_spell_level('vita_healing_trance') * 12)" ] },
+          { "math": [ "300 + (u_spell_level('vita_healing_trance') * 48)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+    "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(4)" ] },
+      {
+        "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_ONGOING_NETHER_ATTUNEMENT",
+        "time_in_future": [
+          { "math": [ "120 + (u_spell_level('vita_healing_trance') * 2)" ] },
+          { "math": [ "300 + (u_spell_level('vita_healing_trance') * 5)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_HEALING_TRANCE_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_VITAKIN_HEALING_TRANCE_REMOVE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_REMOVE",
+    "effect": [
+      { "u_lose_effect": "effect_vitakin_healing_trance" },
+      { "u_message": "You exit your trance and your wounds feel less painful", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CANCELLING_ACTIVITY_CANCELS_REVITALIZATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "condition": {
+      "and": [
+        { "compare_string": [ "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", { "context_val": "activity" } ] },
+        { "u_has_effect": "effect_vitakin_healing_trance" }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_VITAKIN_HEALING_TRANCE_REMOVE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
+    "condition": { "u_has_effect": "effect_vita_cure_disease" },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_VITAKIN_CURE_DISEASE_VS_COMMON_COLD",
+          "EOC_VITAKIN_CURE_DISEASE_VS_FLU",
+          "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_VIRAL",
+          "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_BACTERIA",
+          "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER"
+        ]
+      },
+      {
+        "queue_eocs": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
+        "time_in_future": [
+          { "math": [ "max( ( 600 - (u_spell_level('vita_cure_disease') * 5  ) ), 1)" ] },
+          { "math": [ "max( ( 3600 - (u_spell_level('vita_cure_disease') * 30) ), 1)" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_COMMON_COLD",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_common_cold" }, { "u_has_effect": "common_cold" } ] },
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_cure_disease')" ] }, "y": 100 } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_vita_health_common_cold_protection", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_FLU",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_flu" }, { "u_has_effect": "flu" } ] },
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_cure_disease')" ] }, "y": 100 } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_vita_health_flu_protection", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_VIRAL",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_viral" } ] },
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_cure_disease')" ] }, "y": 100 } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_viral_protection", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_CONJUNCTIVITIS_BACTERIA",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "pre_conjunctivitis_bacterial" }, { "u_has_effect": "conjunctivitis_bacterial" } ] },
+        { "x_in_y_chance": { "x": { "math": [ "10 + u_spell_level('vita_cure_disease')" ] }, "y": 100 } }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_vita_health_conjunctivitis_bacterial_protection", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CURE_DISEASE_VS_HAY_FEVER",
+    "//": "Hay fever is the immune system overreacting to environmental \"contaminants\".  If you supercharge your immune system, it's going to react more strongly.",
+    "condition": { "u_has_effect": "hay_fever" },
+    "effect": [
+      { "u_message": "Your eyes burn and your nose is clogged with mucus.", "type": "bad" },
+      { "u_add_effect": "severe_hay_fever", "duration": { "math": [ "rand(28800) + 600" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_SWITCH",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('vita_stop_infection')" ] },
+      "cases": [
+        {
+          "case": 0,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_01" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_01" } ]
+        },
+        {
+          "case": 6,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_02" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_02" } ]
+        },
+        {
+          "case": 12,
+          "effect": [ { "u_cast_spell": { "id": "vita_stop_infection_03" } }, { "run_eocs": "EOC_VITAKIN_STOP_INFECTION_ITEM_03" } ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_01",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_disinfectant_01" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_01_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_02",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_disinfectant_02" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_02_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_03",
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "vita_disinfectant_03" } ],
+        "true_eocs": [ { "id": "EOC_VITAKIN_STOP_INFECTION_ITEM_03_ACTIVATE", "effect": { "u_activate": "heal" } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_MUTAGEN_PURGE",
+    "effect": [
+      { "math": [ "u_vitamin('mutagen')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_alpha')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_batrachian')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_beast')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_bird')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_cattle')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_cephalopod')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_chelator')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_chimera')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_crustacean')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_elfa')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_feline')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_fish')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_gastropod')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_human')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_insect')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_lizard')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_lupine')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_medical')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_mouse')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_plant')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_rabbit')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_raptor')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_rat')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_slime')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_spider')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_troglobite')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_ursine')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagenic_slurry')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutant_toxin')", "=", "0" ] },
+      { "math": [ "u_vitamin('mutagen_crustacean')", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RAD_PURGE",
+    "condition": { "math": [ "u_val('rad')", ">=", "500" ] },
+    "effect": [
+      { "u_add_effect": "effect_vitakin_purge_rads", "duration": "250 minutes" },
+      { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "250 minutes", "intensity": 6 },
+      { "u_cast_spell": { "id": "psionic_drained_difficulty_seven", "hit_self": true } }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_VITAKIN_RAD_PURGE_2",
+          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "250" ] }, { "math": [ "u_val('rad')", "<=", "499" ] } ] },
+          "effect": [
+            { "u_add_effect": "effect_vitakin_purge_rads", "duration": "125 minutes" },
+            { "u_add_effect": "effect_vitakin_purge_rads_sideeffects", "duration": "125 minutes", "intensity": 5 },
+            { "u_cast_spell": { "id": "psionic_drained_difficulty_six", "hit_self": true } }
+          ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_VITAKIN_RAD_PURGE_3",
+                "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "125" ] }, { "math": [ "u_val('rad')", "<=", "249" ] } ] },
+                "effect": [
+                  { "u_add_effect": "effect_vitakin_purge_rads", "duration": "65 minutes" },
+                  {
+                    "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                    "duration": "65 minutes",
+                    "intensity": 4
+                  },
+                  { "u_cast_spell": { "id": "psionic_drained_difficulty_five", "hit_self": true } }
+                ],
+                "false_effect": {
+                  "run_eocs": [
+                    {
+                      "id": "EOC_VITAKIN_RAD_PURGE_4",
+                      "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "60" ] }, { "math": [ "u_val('rad')", "<=", "124" ] } ] },
+                      "effect": [
+                        { "u_add_effect": "effect_vitakin_purge_rads", "duration": "30 minutes" },
+                        {
+                          "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                          "duration": "30 minutes",
+                          "intensity": 3
+                        },
+                        { "u_cast_spell": { "id": "psionic_drained_difficulty_four", "hit_self": true } }
+                      ],
+                      "false_effect": {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_VITAKIN_RAD_PURGE_5",
+                            "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "30" ] }, { "math": [ "u_val('rad')", "<=", "59" ] } ] },
+                            "effect": [
+                              { "u_add_effect": "effect_vitakin_purge_rads", "duration": "15 minutes" },
+                              {
+                                "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                                "duration": "15 minutes",
+                                "intensity": 2
+                              },
+                              { "u_cast_spell": { "id": "psionic_drained_difficulty_three", "hit_self": true } }
+                            ],
+                            "false_effect": {
+                              "run_eocs": [
+                                {
+                                  "id": "EOC_VITAKIN_RAD_PURGE_6",
+                                  "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "1" ] }, { "math": [ "u_val('rad')", "<=", "29" ] } ] },
+                                  "effect": [
+                                    { "u_add_effect": "effect_vitakin_purge_rads", "duration": "7 minutes" },
+                                    {
+                                      "u_add_effect": "effect_vitakin_purge_rads_sideeffects",
+                                      "duration": "7 minutes",
+                                      "intensity": 1
+                                    },
+                                    { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } }
+                                  ],
+                                  "false_effect": [ { "u_message": "You have no radiation in your body, and so no need to do anything.", "type": "good" } ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_VITAKIN_BANISH_ILLNESS_MINOR",
+          "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
+          "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+          "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+          "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+          "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+          "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
+          "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+          "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES",
+          "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
+          "EOC_PORTAL_NULL_AWAKENING"
+        ],
+        "names": [
+          "Purge Minor Ailments",
+          "Purge Asthma",
+          "Purge Chemical Imbalance",
+          "Purge Kaluptic Psychosis",
+          "Purge Jitters",
+          "Purge Mood Swings",
+          "Purge Wasting Sickness",
+          "Purge Narcolepsy",
+          "Purge Seasonal Allergies",
+          "Purge Seasonal Affective Disorder",
+          "Nevermind"
+        ],
+        "keys": [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a" ],
+        "descriptions": [
+          "Attempt to cure your minor illnesses.",
+          "Attempt to cure your asthma.",
+          "Attempt to cure your chemical imbalance.",
+          "Attempt to cure your kaluptic psychosis.",
+          "Attempt to cure your jitters.",
+          "Attempt to cure your mood swings.",
+          "Attempt to cure your weakening sickness.",
+          "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining.",
+          "Attempt to cure your seasonal allergies.",
+          "Attempt to cure your seasonal affective disorder.",
+          "Do nothing for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR",
+    "condition": {
+      "or": [
+        { "u_has_effect": "pre_common_cold" },
+        { "u_has_effect": "common_cold" },
+        { "u_has_effect": "pre_flu" },
+        { "u_has_effect": "flu" },
+        { "u_has_effect": "pre_conjunctivitis_viral" },
+        { "u_has_effect": "conjunctivitis_viral" },
+        { "u_has_effect": "pre_conjunctivitis_bacterial" },
+        { "u_has_effect": "conjunctivitis_bacterial" }
+      ]
+    },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT", "duration": "120 minutes" } ],
+    "false_effect": [ { "u_message": "You're not sick.  There is nothing to cure.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MINOR_AILMENT_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 10
+    },
+    "effect": [
+      { "u_message": "You feel much better.", "type": "good" },
+      { "u_lose_effect": "pre_common_cold" },
+      { "u_lose_effect": "common_cold" },
+      { "u_lose_effect": "pre_flu" },
+      { "u_lose_effect": "flu" },
+      { "u_lose_effect": "pre_conjunctivitis_viral" },
+      { "u_lose_effect": "conjunctivitis_viral" },
+      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
+      { "u_lose_effect": "conjunctivitis_bacterial" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The ailment proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA",
+    "condition": { "or": [ { "u_has_trait": "ASTHMA" }, { "u_has_effect": "effect_asthma_disease_absorbed" } ] },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA", "duration": "360 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have asthma.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_ASTHMA",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_ASTHMA_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 12
+    },
+    "effect": [
+      { "u_message": "You breathe easily once again.", "type": "good" },
+      { "u_lose_trait": "ASTHMA" },
+      { "u_lose_effect": "effect_asthma_disease_absorbed" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,45 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+    "condition": { "u_has_trait": "CHEMIMBALANCE" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE", "duration": "480 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have a chemical imbalance.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_CHEMIMBALANCE_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 14
+    },
+    "effect": [
+      { "u_message": "You body feels more normal.", "type": "good" },
+      { "u_lose_trait": "CHEMIMBALANCE" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+    "condition": { "u_has_trait": "SCHIZOPHRENIC" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC", "duration": "600 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have kaluptic psychosis.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SCHIZOPHRENIC_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 16
+    },
+    "effect": [
+      { "u_message": "You mind feels more normal.", "type": "good" },
+      { "u_lose_trait": "SCHIZOPHRENIC" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 60,90 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY",
+    "condition": { "u_has_trait": "JITTERY" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_JITTERY", "duration": "300 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have muscle jitters.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_JITTERY",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_JITTERY_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 12
+    },
+    "effect": [
+      { "u_message": "You muscles stop trembling.", "type": "good" },
+      { "u_lose_trait": "JITTERY" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+    "condition": { "u_has_trait": "MOODSWINGS" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_MOODSWINGS", "duration": "420 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have mood swings.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_MOODSWINGS",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_MOODSWINGS_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 15
+    },
+    "effect": [
+      { "u_message": "You mood calms.", "type": "good" },
+      { "u_lose_trait": "MOODSWINGS" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,65 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING",
+    "condition": { "u_has_trait": "WEAKENING" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING", "duration": "480 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have a weakening sickness.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_WEAKENING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_WEAKENING_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 15
+    },
+    "effect": [
+      { "u_message": "New vigor fills your body.", "type": "good" },
+      { "u_lose_trait": "WEAKENING" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+    "condition": { "u_has_trait": "NARCOLEPTIC" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC", "duration": "120 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have narcolepsy.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_NARCOLEPTIC_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 13
+    },
+    "effect": [
+      { "u_message": "New vigor fills your body.", "type": "good" },
+      { "u_lose_trait": "NARCOLEPTIC" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES",
+    "condition": { "u_has_trait": "SEASONAL_ALLERGIES" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES", "duration": "400 minutes" } ],
+    "false_effect": [ { "u_message": "You don't have seasonal allergies.  There is no need to attempt to cure it.", "type": "mixed" } ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_ALLERGIES_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 14
+    },
+    "effect": [
+      { "u_message": "You take a deep breath and your nose and throat clears.", "type": "good" },
+      { "u_lose_trait": "SEASONAL_ALLERGIES" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
+    "condition": { "u_has_trait": "SEASONAL_AFFECTIVE" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE", "duration": "550 minutes" } ],
+    "false_effect": [
+      { "u_message": "You don't have seasonal affective disorder.  There is no need to attempt to cure it.", "type": "mixed" }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_BANISH_ILLNESS_SEASONAL_AFFECTIVE_RESULT",
+    "condition": {
+      "roll_contested": { "math": [ "(rand( u_spell_level('vita_banish_illness')) + u_nether_attunement_power_scaling)" ] },
+      "difficulty": 15
+    },
+    "effect": [
+      { "u_message": "You genuinely smile for the first time in a while.  Maybe it won't be so bad.", "type": "good" },
+      { "u_lose_trait": "SEASONAL_AFFECTIVE" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "The disease proved tenacious.  You'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITA_SUPER_HEAL_DRAIN",
+    "effect": [
+      { "math": [ "u_calories()", "-=", "rng( 150,650 )" ] },
+      { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
+      { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
+      { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,80 )" ] },
+      { "math": [ "u_val('sleepiness')", "+=", "rng( 2,10 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH",
+    "eoc_type": "PREVENT_DEATH",
+    "condition": { "u_has_effect": "effect_vita_return_from_death" },
+    "effect": [
+      { "u_message": "As the wounds overtake you, you feel your powers go into overdrive.", "popup": true },
+      { "run_eocs": [ "EOC_VITAKINESIS_RETURN_FROM_DEATH_START" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH_START",
+    "condition": { "u_has_effect": "effect_vita_return_from_death" },
+    "effect": [
+      { "math": [ "u_calories()", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
+      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 5)" ] },
+      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 5)" ] },
+      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 5)" ] },
+      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 5)" ] },
+      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 5)" ] },
+      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 5)" ] },
+      { "math": [ "u_vitamin('redcells')", "=", "0" ] },
+      { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
+      { "math": [ "u_vitamin('blood')", "=", "0" ] },
+      { "u_lose_effect": "corroding" },
+      { "u_lose_effect": "onfire" },
+      { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "stunned" },
+      { "u_lose_effect": "venom_blind" },
+      { "u_lose_effect": "sap" },
+      { "u_lose_effect": "nausea" },
+      { "u_lose_effect": "bleed" },
+      { "u_lose_effect": "effect_vita_return_from_death" },
+      { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" }
+    ]
+  }
+]

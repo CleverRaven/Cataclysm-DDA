@@ -7,10 +7,9 @@
     "description": "A pair of improvised shin guards made from broken pieces of a plank that are tied to your shins with rags and string.",
     "weight": "300 g",
     "volume": "1500 ml",
-    "price": 500,
-    "price_postapoc": 50,
+    "price": "5 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leg_splint",
@@ -28,6 +27,77 @@
         "cover_vitals": 0,
         "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
       }
+    ],
+    "melee_damage": { "bash": 8 }
+  },
+  {
+    "id": "carpet_legguards",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of carpet leg guards", "str_pl": "pairs of carpet leg guards" },
+    "description": "Small squares of carpet rolled around your shins and thighs.  Perfect for wading through the local furniture store.",
+    "weight": "2040 g",
+    "//": "The weight assumes four squares of carpet of about 25cm x 30cm.",
+    "volume": "3 L",
+    "price": "20 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": 1,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "red",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 5,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_upper_r", "leg_upper_l" ]
+      }
+    ]
+  },
+  {
+    "id": "carpet_greaves",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of carpet greaves", "str_pl": "pairs of carpet greaves" },
+    "description": "Small squares of carpet rolled around your shins.  These might protect you from the corner of a table.",
+    "weight": "1020 g",
+    "//": "The weight assumes two squares of carpet of about 25cm x 30cm.",
+    "volume": "2 L",
+    "price": "20 cent",
+    "price_postapoc": "10 cent",
+    "to_hit": 1,
+    "material": [ "plastic", "carpet_pilling" ],
+    "symbol": "[",
+    "looks_like": "leg_warmers",
+    "color": "red",
+    "warmth": 10,
+    "material_thickness": 4,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "NO_REPAIR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "carpet_pilling", "covered_by_mat": 100, "thickness": 3.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 3,
+        "coverage": 90,
+        "cover_ranged": 95,
+        "cover_vitals": 70,
+        "specifically_covers": [ "leg_lower_r", "leg_lower_l" ]
+      }
     ]
   },
   {
@@ -38,8 +108,8 @@
     "description": "A pair of leg guards made from the exoskeletons of insects.",
     "weight": "790 g",
     "volume": "5000 ml",
-    "price": 25000,
-    "price_postapoc": 750,
+    "price": "250 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": 1,
     "material": [ "chitin" ],
     "symbol": "[",
@@ -62,21 +132,52 @@
     ]
   },
   {
+    "id": "xl_legguard_chitin",
+    "copy-from": "legguard_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
+    "material": [ "chitin" ],
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_legguard_chitin",
+    "type": "ARMOR",
+    "copy-from": "legguard_chitin",
+    "name": { "str": "pair of chitin leg guards", "str_pl": "pairs of chitin leg guards" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
     "id": "legguard_acidchitin",
     "copy-from": "legguard_chitin",
     "looks_like": "legguard_chitin",
     "type": "ARMOR",
-    "price_postapoc": 1250,
+    "price_postapoc": "12 USD 50 cent",
     "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
     "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "material": [ "acidchitin" ]
+  },
+  {
+    "id": "xl_legguard_acidchitin",
+    "copy-from": "legguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "material_thickness": 5,
-    "extend": { "flags": [ "NO_REPAIR" ] }
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "xs_legguard_acidchitin",
+    "copy-from": "legguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of biosilicified chitin leg guards", "str_pl": "pairs of biosilicified chitin leg guards" },
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bunker_pants",
-    "repairs_like": "pants_leather",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "turnout trousers" },
@@ -84,8 +185,8 @@
     "description": "A heavy pair of protective overalls worn by firefighters as protection against heat.",
     "weight": "2290 g",
     "volume": "5 L",
-    "price": 81500,
-    "price_postapoc": 500,
+    "price": "815 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "nomex", "kevlar", "lycra" ],
     "symbol": "[",
@@ -129,208 +230,420 @@
     "armor": [ { "encumbrance": [ 24, 30 ], "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "chainmail_junk_legs",
+    "abstract": "base_chainmail_legs",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
-    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion.",
+    "name": { "str_sp": "base chainmail leggings" },
+    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "4212 g",
     "volume": "1500 ml",
-    "price": 7500,
-    "price_postapoc": 2000,
+    "longest_side": "11 cm",
+    "price": "75 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -1,
-    "material": [ "budget_steel_chain" ],
+    "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3300 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "900 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
     "armor": [
       {
-        "material": [ { "type": "budget_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 95,
-        "encumbrance": 20
+        "coverage": 100,
+        "encumbrance": 14
       }
     ]
+  },
+  {
+    "abstract": "xl_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "abstract": "xs_chainmail_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "abstract": "base_chainmail_half_legs",
+    "copy-from": "base_chainmail_legs",
+    "type": "ARMOR",
+    "name": { "str_sp": "base chainmail half-leggings" },
+    "description": "Customized partial chainmail leggings only covering the front and sides of the legs.  The zigzagging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "weight": "3159 g",
+    "volume": "1125 ml",
+    "longest_side": "10 cm",
+    "price": "56 USD 25 cent",
+    "price_postapoc": "15 USD",
+    "armor": [
+      {
+        "material": [ { "type": "steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 75,
+        "encumbrance": 11
+      }
+    ]
+  },
+  {
+    "abstract": "xl_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings" },
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "3800 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "1050 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "abstract": "xs_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1500,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_LEGS" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "max_contains_volume": "700 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "65 cm",
+        "moves": 1000,
+        "description": "You can wear some armor over chainmail without penalty.",
+        "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
+      }
+    ],
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+  },
+  {
+    "id": "chainmail_junk_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "budget_steel_chain" },
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.  The metal shows signs of rust and corrosion, and some chain links have fallen away."
   },
   {
     "id": "lc_chainmail_legs",
     "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "weight": "4212 g",
-    "volume": "1500 ml",
-    "price": 7500,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "material": [ "lc_steel_chain" ],
-    "symbol": "[",
-    "looks_like": "legguard_hard",
-    "color": "light_red",
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "armor": [
-      {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
   },
   {
     "id": "xl_lc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "XL mild steel chainmail leggings", "str_pl": "pairs of XL mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
   },
   {
     "id": "xs_lc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "name": { "str": "XS mild steel chainmail leggings", "str_pl": "pairs of XS mild steel chainmail leggings" },
-    "description": "Customized mild steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail leggings", "str_pl": "pairs of mild steel chainmail leggings" }
   },
   {
     "id": "mc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "material": [ "mc_steel_chain" ],
-    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
   },
   {
     "id": "xl_mc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_legs",
-    "name": { "str": "XL medium steel chainmail leggings", "str_pl": "pairs of XL medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
   },
   {
     "id": "xs_mc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "mc_chainmail_legs",
-    "name": { "str": "XS medium steel chainmail leggings", "str_pl": "pairs of XS medium steel chainmail leggings" },
-    "description": "Customized medium steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail leggings", "str_pl": "pairs of medium steel chainmail leggings" }
   },
   {
     "id": "hc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "material": [ "hc_steel_chain" ],
-    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" },
-    "description": "Customized high steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
   },
   {
     "id": "xl_hc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_legs",
-    "name": { "str": "XL high steel chainmail leggings", "str_pl": "pairs of XL high steel chainmail leggings" },
-    "description": "Customized high steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
   },
   {
     "id": "xs_hc_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "hc_chainmail_legs",
-    "name": { "str": "XS high steel chainmail leggings", "str_pl": "pairs of XS high steel chainmail leggings" },
-    "description": "Customized high steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail leggings", "str_pl": "pairs of high steel chainmail leggings" }
   },
   {
     "id": "ch_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "material": [ "ch_steel_chain" ],
-    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
   },
   {
     "id": "xl_ch_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_legs",
-    "name": { "str": "XL hardened steel chainmail leggings", "str_pl": "pairs of XL hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
   },
   {
     "id": "xs_ch_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "ch_chainmail_legs",
-    "name": { "str": "XS hardened steel chainmail leggings", "str_pl": "pairs of XS hardened steel chainmail leggings" },
-    "description": "Customized hardened steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail leggings", "str_pl": "pairs of hardened steel chainmail leggings" }
   },
   {
     "id": "qt_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_legs",
-    "material": [ "qt_steel_chain" ],
-    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "armor": [
-      {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "copy-from": "base_chainmail_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
   },
   {
     "id": "xl_qt_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_legs",
-    "name": { "str": "XL tempered steel chainmail leggings", "str_pl": "pairs of XL tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail leggings for the largest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "copy-from": "xl_chainmail_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
   },
   {
     "id": "xs_qt_chainmail_legs",
     "type": "ARMOR",
-    "copy-from": "qt_chainmail_legs",
-    "name": { "str": "XS tempered steel chainmail leggings", "str_pl": "pairs of XS tempered steel chainmail leggings" },
-    "description": "Customized tempered steel chainmail leggings for the smallest of transhumans.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "copy-from": "xs_chainmail_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail leggings", "str_pl": "pairs of tempered steel chainmail leggings" }
+  },
+  {
+    "id": "lc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
+  },
+  {
+    "id": "xl_lc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
+  },
+  {
+    "id": "xs_lc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "lc_steel_chain" },
+    "name": { "str": "mild steel chainmail half-leggings", "str_pl": "pairs of mild steel chainmail half-leggings" }
+  },
+  {
+    "id": "mc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
+  },
+  {
+    "id": "xl_mc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
+  },
+  {
+    "id": "xs_mc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "mc_steel_chain" },
+    "name": { "str": "medium steel chainmail half-leggings", "str_pl": "pairs of medium steel chainmail half-leggings" }
+  },
+  {
+    "id": "hc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
+  },
+  {
+    "id": "xl_hc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
+  },
+  {
+    "id": "xs_hc_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "hc_steel_chain" },
+    "name": { "str": "high steel chainmail half-leggings", "str_pl": "pairs of high steel chainmail half-leggings" }
+  },
+  {
+    "id": "ch_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
+  },
+  {
+    "id": "xl_ch_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
+  },
+  {
+    "id": "xs_ch_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "ch_steel_chain" },
+    "name": { "str": "hardened steel chainmail half-leggings", "str_pl": "pairs of hardened steel chainmail half-leggings" }
+  },
+  {
+    "id": "qt_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "base_chainmail_half_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
+  },
+  {
+    "id": "xl_qt_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xl_chainmail_half_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
+  },
+  {
+    "id": "xs_qt_chainmail_half_legs",
+    "type": "ARMOR",
+    "copy-from": "xs_chainmail_half_legs",
+    "replace_materials": { "steel": "qt_steel_chain" },
+    "name": { "str": "tempered steel chainmail half-leggings", "str_pl": "pairs of tempered steel chainmail half-leggings" }
   },
   {
     "id": "leggings_thessalonian",
@@ -340,13 +653,12 @@
     "description": "This leg armor, made of interlocking plates of burnished bronze, appears to be either a high-quality recreation or a genuine artifact.  Despite having an ancient design, it is in mint condition aside from some battle damage.  It covers from the upper thigh to the lower shin, and is of extremely high quality.",
     "weight": "5212 g",
     "volume": "1500 ml",
-    "price": 7500,
-    "price_postapoc": 3000,
+    "price": "75 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -1,
     "material": [ "fancy_bronze", "leather" ],
     "symbol": "[",
     "looks_like": "chainmail_legs",
-    "repairs_like": "legguard_bronze",
     "color": "brown",
     "warmth": 18,
     "material_thickness": 5,
@@ -370,8 +682,8 @@
     "description": "A pair of black leather chaps.  Very tough and light, but doesn't offer any storage.",
     "weight": "1414 g",
     "volume": "1250 ml",
-    "price": 21000,
-    "price_postapoc": 250,
+    "price": "210 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
@@ -380,29 +692,37 @@
     "warmth": 10,
     "material_thickness": 3,
     "flags": [ "OUTER" ],
-    "armor": [ { "encumbrance": 3, "coverage": 65, "covers": [ "leg_l", "leg_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 3,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_lower_l", "leg_lower_r", "leg_knee_r", "leg_knee_l" ]
+      },
+      { "coverage": 20, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_hip_r", "leg_hip_l" ] },
+      { "coverage": 90, "covers": [ "leg_l", "leg_r" ], "specifically_covers": [ "leg_upper_r", "leg_upper_l" ] }
+    ]
   },
   {
     "id": "chaps_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str_sp": "chainsaw chaps" },
     "description": "A pair of tough chaps made of Kevlar.  Chainsaw kickbacks are potentially fatal; personal protective equipment like these chaps help protect your femoral arteries.  The layered Kevlar is designed to fray on contact with the chain and bind up the tool.",
     "weight": "1519 g",
     "copy-from": "chaps_leather",
-    "price": 7800,
-    "material": [ "kevlar" ],
-    "material_thickness": 1
+    "price": "78 USD",
+    "material": [ "kevlar" ]
   },
   {
     "id": "fencing_pants",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "name": { "str_sp": "fencing pants" },
     "description": "A pair of reinforced pants used by fencers to prevent injuries.  They don't cover the lower leg.",
     "weight": "450 g",
     "volume": "2 L",
-    "price": 2500,
-    "price_postapoc": 500,
+    "price": "25 USD",
+    "price_postapoc": "5 USD",
     "material": [ "cotton", "nylon" ],
     "symbol": "[",
     "looks_like": "pants",
@@ -436,8 +756,8 @@
     "description": "A pair of knee pads made of stout plastic and cloth.",
     "weight": "210 g",
     "volume": "1500 ml",
-    "price": 2500,
-    "price_postapoc": 50,
+    "price": "25 USD",
+    "price_postapoc": "50 cent",
     "to_hit": 1,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
@@ -465,8 +785,8 @@
     "description": "A pair of bronze leg guards with a simple leather lining.",
     "weight": "2520 g",
     "volume": "5500 ml",
-    "price": 40000,
-    "price_postapoc": 750,
+    "price": "400 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": 1,
     "material": [ "bronze", "leather" ],
     "symbol": "[",
@@ -491,19 +811,17 @@
     "id": "xl_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "XL bronze greaves", "str_pl": "pairs of XL bronze greaves" },
-    "description": "A pair of gigantic bronze leg guards with a simple leather lining.",
+    "name": { "str": "pair of bronze greaves", "str_pl": "pairs of bronze greaves" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_bronze",
     "type": "ARMOR",
     "copy-from": "legguard_bronze",
-    "name": { "str": "XS bronze greaves", "str_pl": "pairs of XS bronze greaves" },
-    "description": "A pair of tiny bronze leg guards with a simple leather lining.",
+    "name": { "str": "pair of bronze greaves", "str_pl": "pairs of bronze greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_hard",
@@ -513,8 +831,8 @@
     "description": "A pair of polyurethane leg guards with neoprene backing.",
     "weight": "625 g",
     "volume": "3 L",
-    "price": 3400,
-    "price_postapoc": 500,
+    "price": "34 USD",
+    "price_postapoc": "5 USD",
     "to_hit": 1,
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
@@ -544,8 +862,8 @@
     "description": "A full assembly of medieval leg protection.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
     "weight": "4080 g",
     "volume": "6 L",
-    "price": 20000,
-    "price_postapoc": 4000,
+    "price": "200 USD",
+    "price_postapoc": "40 USD",
     "to_hit": -1,
     "material": [ "steel", "leather" ],
     "symbol": "[",
@@ -570,20 +888,17 @@
     "id": "xl_legguard_lightplate",
     "type": "ARMOR",
     "copy-from": "legguard_lightplate",
-    "name": { "str": "pair of XL steel leg guards", "str_pl": "pairs of XL steel leg guards" },
-    "description": "A full assembly of medieval leg protection for the largest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "name": { "str": "pair of steel leg guards", "str_pl": "pairs of steel leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_lightplate",
     "type": "ARMOR",
     "copy-from": "legguard_lightplate",
-    "looks_like": "legguard_lightplate",
-    "name": { "str": "pair of XS steel leg guards", "str_pl": "pairs of XS steel leg guards" },
-    "description": "A full assembly of medieval leg protection for the smallest of knights.  Cuisses, poleyns, and greaves, with leather straps to secure each piece and connect it as part of a set.",
+    "name": { "str": "pair of steel leg guards", "str_pl": "pairs of steel leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_metal",
@@ -593,8 +908,8 @@
     "description": "A pair of iron leg guards with a simple leather lining.",
     "weight": "2260 g",
     "volume": "5500 ml",
-    "price": 40000,
-    "price_postapoc": 1000,
+    "price": "400 USD",
+    "price_postapoc": "10 USD",
     "to_hit": 1,
     "material": [ "iron", "leather" ],
     "symbol": "[",
@@ -619,20 +934,17 @@
     "id": "xl_legguard_metal",
     "type": "ARMOR",
     "copy-from": "legguard_metal",
-    "name": { "str": "pair of XL iron greaves", "str_pl": "pairs of XL iron greaves" },
-    "description": "A pair of extra large iron leg guards with a simple leather lining.",
+    "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_metal",
     "type": "ARMOR",
     "copy-from": "legguard_metal",
-    "looks_like": "legguard_metal",
-    "name": { "str": "pair of XS iron greaves", "str_pl": "pairs of XS iron greaves" },
-    "description": "A pair of extra small iron leg guards with a simple leather lining.",
+    "name": { "str": "pair of iron greaves", "str_pl": "pairs of iron greaves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_metal_sheets",
@@ -643,11 +955,10 @@
     "weight": "3500 g",
     "//": "The weight assumes four sheets of about 25cm x 30cm x 1.5mm.",
     "volume": "2500 ml",
-    "price": 40000,
-    "price_postapoc": 1000,
+    "price": "400 USD",
+    "price_postapoc": "10 USD",
     "to_hit": 1,
     "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -671,9 +982,9 @@
     "id": "ch_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of case hardened sheet metal leg guards", "str_pl": "pairs of case hardened sheet metal leg guards" },
-    "description": "These crude leg guards have been case hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
-    "material": [ "ch_steel" ],
+    "name": { "str": "pair of hardened sheet metal leg guards", "str_pl": "pairs of hardened sheet metal leg guards" },
+    "description": "These crude leg guards have been hardened to further protect your legs from the mighty coffee table, destroyer of shins.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -685,11 +996,10 @@
     "weight": "1750 g",
     "//": "The weight assumes two sheets of about 25cm x 30cm x 1.5mm.",
     "volume": "1200 ml",
-    "price": 20000,
-    "price_postapoc": 500,
+    "price": "200 USD",
+    "price_postapoc": "5 USD",
     "to_hit": 1,
     "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
     "color": "light_gray",
@@ -714,8 +1024,8 @@
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_greaves",
     "name": { "str": "pair of hardened sheet metal greaves", "str_pl": "pairs of hardened sheet metal greaves" },
-    "description": "These crude greaves have been case hardened to further protect your shins.",
-    "material": [ "ch_steel" ],
+    "description": "These crude greaves have been hardened to further protect your shins.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -727,11 +1037,10 @@
     "weight": "4900 g",
     "//": "The weight assumes 2 sheets of about 30cm x 50cm x 1.5mm and 2 sheets of about 30cm x 25cm x 1.5mm",
     "volume": "2 L",
-    "price": 500,
-    "price_postapoc": 400,
+    "price": "5 USD",
+    "price_postapoc": "4 USD",
     "to_hit": 1,
     "material": [ "lc_steel" ],
-    "repairs_with": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
     "warmth": 5,
@@ -752,9 +1061,9 @@
     "id": "ch_legguard_metal_sheets_hip",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_hip",
-    "name": { "str": "case hardened sheet metal skirt" },
-    "description": "This loose skirt made from several cut-down sheets of metal has been case hardened to provide maximum protection for your most vulnerable area.",
-    "material": [ "ch_steel" ],
+    "name": { "str": "hardened sheet metal skirt" },
+    "description": "This loose skirt made from several cut-down sheets of metal has been hardened to provide maximum protection for your most vulnerable area.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
@@ -766,8 +1075,8 @@
     "weight": "700 g",
     "//": "The weight assumes 3 sheets of about 15cm x 15cm x 1.5mm.",
     "volume": "1 L",
-    "price": 500,
-    "price_postapoc": 400,
+    "price": "5 USD",
+    "price_postapoc": "4 USD",
     "to_hit": 1,
     "material": [ "lc_steel" ],
     "repairs_with": [ "steel" ],
@@ -792,29 +1101,26 @@
     "id": "ch_legguard_metal_sheets_knees",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets_knees",
-    "name": { "str": "pair of case hardened sheet metal knee guards", "str_pl": "pairs of case hardened sheet metal knee guards" },
-    "description": "Knee guards of sheet metal, case hardened to protect your kneecaps from any feral with a bat.",
-    "material": [ "ch_steel" ],
+    "name": { "str": "pair of hardened sheet metal knee guards", "str_pl": "pairs of hardened sheet metal knee guards" },
+    "description": "Knee guards of sheet metal, hardened to protect your kneecaps from any feral with a bat.",
+    "replace_materials": { "lc_steel": "ch_steel" },
     "extend": { "flags": [ "STURDY" ] }
   },
   {
     "id": "xl_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "name": { "str": "pair of XL sheet metal leg guards", "str_pl": "pairs of XL sheet metal leg guards" },
-    "description": "A pair of extra large hammered metal plates tied to your legs.",
+    "name": { "str": "pair of sheet metal leg guards", "str_pl": "pairs of sheet metal leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_metal_sheets",
     "type": "ARMOR",
     "copy-from": "legguard_metal_sheets",
-    "looks_like": "legguard_metal_sheets",
-    "name": { "str": "pair of XS sheet metal leg guards", "str_pl": "pairs of XS sheet metal leg guards" },
-    "description": "A pair of extra small leg guards hammered out of metal and shaped to strap on to the upper and lower leg, avoiding joints.  Perfect for the Post-Apocalyptic Warrior look.",
+    "name": { "str": "pair of sheet metal leg guards", "str_pl": "pairs of sheet metal leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_paper",
@@ -824,8 +1130,8 @@
     "description": "Leg guards made of stacked paper sheets held together with duct tape.",
     "weight": "370 g",
     "volume": "500 ml",
-    "price": 230,
-    "price_postapoc": 50,
+    "price": "2 USD 30 cent",
+    "price_postapoc": "50 cent",
     "to_hit": 1,
     "material": [ "paper" ],
     "symbol": "[",
@@ -852,18 +1158,18 @@
     "category": "armor",
     "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
     "description": "Leg guards made of thick chunks of tire held together with duct tape.",
-    "weight": "4800 g",
-    "volume": "4000 ml",
-    "price": 2300,
-    "price_postapoc": 500,
+    "weight": "2400 g",
+    "volume": "2000 ml",
+    "price": "23 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": 1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
-    "color": "dark_gray",
+    "color": "light_gray",
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -884,11 +1190,9 @@
     "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
     "weight": "3104 g",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -1,
-    "bashing": 1,
-    "cutting": 1,
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "legguard_metal",
@@ -905,26 +1209,24 @@
         "coverage": 95,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "id": "xl_legguard_scrap",
     "type": "ARMOR",
     "copy-from": "legguard_scrap",
-    "name": { "str": "pair of XL scrap leg guards", "str_pl": "pairs of XL scrap leg guards" },
-    "description": "A pair of leg guards made from scraps of metal secured by simple strings.  You look like a trash giant.",
+    "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_scrap",
     "type": "ARMOR",
     "copy-from": "legguard_scrap",
-    "looks_like": "legguard_scrap",
-    "name": { "str": "pair of XS scrap leg guards", "str_pl": "pairs of XS scrap leg guards" },
-    "description": "A pair of leg guards made from scraps of metal secured by simple strings.",
+    "name": { "str": "pair of scrap leg guards", "str_pl": "pairs of scrap leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "legguard_tire",
@@ -934,8 +1236,8 @@
     "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
     "weight": "4800 g",
     "volume": "5 L",
-    "price": 20000,
-    "price_postapoc": 50,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -1,
     "material": [ "rubber" ],
     "symbol": "[",
@@ -960,32 +1262,28 @@
     "id": "xl_legguard_tire",
     "type": "ARMOR",
     "copy-from": "legguard_tire",
-    "name": { "str": "pair of XL tire leg guards", "str_pl": "pairs of XL tire leg guards" },
-    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.  You look like a trash giant.",
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_tire",
     "type": "ARMOR",
     "copy-from": "legguard_tire",
-    "looks_like": "legguard_tire",
-    "name": { "str": "pair of XS tire leg guards", "str_pl": "pairs of XS tire leg guards" },
-    "description": "A pair of leg guards made from thick chunks of tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
+    "name": { "str": "pair of tire leg guards", "str_pl": "pairs of tire leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "motorbike_pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "motorcycle jeans", "str_pl": "pairs of motorcycle jeans" },
     "description": "A pair of thick jeans interwoven with Kevlar for added durability and sporting integrated kneepads and flank protection, typically worn by motorcyclists to protect from road rash.",
     "weight": "1340 g",
     "volume": "2500 ml",
-    "price": 10000,
-    "price_postapoc": 750,
-    "material": [ "kevlar", "cotton", "plastic_pad" ],
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "kevlar", "denim", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jeans",
     "color": "dark_gray",
@@ -996,8 +1294,8 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.6 }
         ],
         "encumbrance": [ 10, 14 ],
         "coverage": 100,
@@ -1006,14 +1304,85 @@
       },
       {
         "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.6 },
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 }
         ],
         "encumbrance": [ 0, 0 ],
         "coverage": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
+      }
+    ],
+    "//": "Mid-heavyweight 14 oz denim jeans.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "19 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ]
+  },
+  {
+    "id": "jeans_mod",
+    "type": "ARMOR",
+    "name": { "str": "armored jeans", "str_pl": "pairs of armored jeans" },
+    "description": "A pair of jeans reinforced with hard plastic knee pads and metal sheets.  The end product is not very sturdy and somewhat cumbersome, but protective.",
+    "weight": "3810 g",
+    "volume": "3500 ml",
+    "price": "100 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "denim", "plastic", "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "motorbike_pants",
+    "color": "light_blue",
+    "warmth": 20,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS" ],
+    "armor": [
+      {
+        "encumbrance": [ 12, 16 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "encumbrance": [ 2, 2 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.5 }
+        ]
       }
     ],
     "pocket_data": [
@@ -1048,42 +1417,104 @@
     ]
   },
   {
+    "id": "jeans_mod_ch",
+    "type": "ARMOR",
+    "name": { "str": "hardened armored jeans", "str_pl": "pairs of hardened armored jeans" },
+    "copy-from": "jeans_mod",
+    "description": "A pair of jeans reinforced with hard plastic knee pads and hardened steel sheets.  Although its high protection outweighs its encumbrance, it's not really sturdy.",
+    "price": "150 USD",
+    "price_postapoc": "12 USD 50 cent",
+    "material": [ "denim", "plastic", "ch_steel" ],
+    "symbol": "[",
+    "looks_like": "motorbike_pants",
+    "color": "blue",
+    "armor": [
+      {
+        "encumbrance": [ 12, 16 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_lower_l", "leg_hip_r", "leg_upper_r", "leg_lower_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "encumbrance": [ 2, 2 ],
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_knee_l", "leg_knee_r" ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.65 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 5 }
+        ]
+      }
+    ]
+  },
+  {
     "id": "trousers_eod",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "EOD trousers" },
-    "description": "Thick armored trousers constructed from Kevlar and Nomex, for use by explosive ordnance disposal technicians.",
+    "description": "This is a heavy pair of trousers armored in Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians.  While it offers near complete coverage in fragmentation resistant materials, it still offers insufficient protection from ballistic threats.",
     "weight": "6400 g",
-    "volume": "12 L",
-    "price": 200000,
-    "price_postapoc": 12000,
+    "volume": "7 L",
+    "price": "10 kUSD 60 USD",
+    "price_postapoc": "120 USD",
     "warmth": 65,
-    "material": [ "kevlar_layered", "nomex" ],
+    "material": [ "kevlar", "nomex" ],
     "symbol": "[",
-    "color": "light_gray",
+    "color": "light_green",
     "environmental_protection": 2,
     "material_thickness": 15,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 80, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 7.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2.0 }
+        ],
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "encumbrance": 80
+      }
+    ]
   },
   {
     "id": "trousers_eod_light",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "light EOD trousers" },
-    "description": "Armored trousers constructed from Kevlar and Nomex, for use by explosive ordnance disposal technicians.  They are lighter than normal EOD armor to provide more maneuverability.",
+    "name": { "str_sp": "tactical EOD trousers" },
+    "description": "This is a heavy pair of trousers armored in Kevlar, Nomex, and foam padding, for use by explosive ordnance disposal technicians in 'non-permissive environments'.  While it offers near complete coverage in fragmentation resistant materials, it still offers insufficient protection from ballistic threats.  These trousers are lighter than normal EOD armor to provide more maneuverability.",
     "weight": "3000 g",
-    "volume": "12 L",
-    "price": 200000,
-    "price_postapoc": 12000,
+    "volume": "7 L",
+    "price": "2 kUSD 734 USD 40 cent",
+    "price_postapoc": "33 USD",
     "warmth": 40,
-    "material": [ "kevlar_layered", "nomex" ],
+    "material": [ "kevlar", "nomex" ],
     "symbol": "[",
     "color": "light_gray",
     "environmental_protection": 2,
     "material_thickness": 7,
     "flags": [ "STURDY", "OUTER", "RAINPROOF", "ONLY_ONE" ],
-    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "leg_l", "leg_r" ] } ]
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4.4 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 2 }
+        ],
+        "encumbrance": 40,
+        "coverage": 100,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ]
+      }
+    ]
   },
   {
     "id": "armor_lc_light_leg_guard",
@@ -1093,10 +1524,9 @@
     "description": "A light leg guard, 1.25 mm at the thickest.  This one has been made with mild steel.",
     "weight": "2500 g",
     "volume": "2916 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "legguard_lightplate",
@@ -1117,131 +1547,81 @@
         "coverage": 100,
         "encumbrance": 10
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light leg guard" },
+    "name": { "str": "mild steel light leg guard" },
     "copy-from": "armor_lc_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel light leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel light leg guard" },
+    "name": { "str": "medium steel light leg guard" },
     "copy-from": "armor_mc_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel light leg guard" },
-    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "description": "A light leg guard, 1.25 mm at the thickest.  Made with high steel offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL high steel light leg guard" },
+    "name": { "str": "high steel light leg guard" },
     "copy-from": "armor_hc_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened light leg guard" },
-    "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "name": { "str": "hardened light leg guard" },
+    "description": "A light leg guard, 1.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened light leg guard" },
+    "name": { "str": "hardened light leg guard" },
     "copy-from": "armor_ch_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_light_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_light_leg_guard",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered light leg guard" },
     "description": "A light leg guard, 1.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 10
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_light_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL tempered light leg guard" },
+    "name": { "str": "tempered light leg guard" },
     "copy-from": "armor_qt_light_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_leg_guard",
@@ -1251,10 +1631,9 @@
     "description": "A leg guard, 1.75 mm at the thickest.  This one has been made with mild steel.",
     "weight": "3333 g",
     "volume": "2916 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1276,131 +1655,80 @@
         "coverage": 100,
         "encumbrance": 15
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel leg guard" },
+    "name": { "str": "mild steel leg guard" },
     "copy-from": "armor_lc_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel leg guard" },
+    "name": { "str": "medium steel leg guard" },
     "copy-from": "armor_mc_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel leg guard" },
-    "description": "A leg guard, 1.75 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "description": "A leg guard, 1.75 mm at the thickest.  Made with high steel offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL high steel leg guard" },
+    "name": { "str": "high steel leg guard" },
     "copy-from": "armor_hc_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened leg guard" },
-    "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "name": { "str": "hardened leg guard" },
+    "description": "A leg guard, 1.75 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened leg guard" },
+    "name": { "str": "hardened leg guard" },
     "copy-from": "armor_ch_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_leg_guard",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered leg guard" },
     "description": "A leg guard, 1.75 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 15
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL tempered leg guard" },
+    "name": { "str": "tempered leg guard" },
     "copy-from": "armor_qt_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_heavy_leg_guard",
@@ -1410,10 +1738,9 @@
     "description": "A heavy leg guard, 2.25 mm at the thickest.  This one has been made with mild steel.",
     "weight": "4166 g",
     "volume": "2916 ml",
-    "price": 60000,
-    "price_postapoc": 12000,
+    "price": "600 USD",
+    "price_postapoc": "120 USD",
     "to_hit": -5,
-    "bashing": 8,
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -1435,141 +1762,90 @@
         "coverage": 100,
         "encumbrance": 20
       }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "xl_armor_lc_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy leg guard" },
+    "name": { "str": "mild steel heavy leg guard" },
     "copy-from": "armor_lc_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "mc_steel", "mc_steel_chain" ],
     "name": { "str": "medium steel heavy leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with tougher medium steel, this offers solid protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
     "id": "xl_armor_mc_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel heavy leg guard" },
+    "name": { "str": "medium steel heavy leg guard" },
     "copy-from": "armor_mc_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "hc_steel", "hc_steel_chain" ],
     "name": { "str": "high steel heavy leg guard" },
-    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high carbon steel offering excellent protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  Made with high steel offering excellent protection.",
+    "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
     "id": "xl_armor_hc_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL high steel heavy leg guard" },
+    "name": { "str": "high steel heavy leg guard" },
     "copy-from": "armor_hc_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "case hardened heavy leg guard" },
-    "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been case hardened, offering superior protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "name": { "str": "hardened heavy leg guard" },
+    "description": "A heavy leg guard, 2.25 mm at the thickest.  The mild steel has been hardened, offering superior protection.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL case hardened heavy leg guard" },
+    "name": { "str": "hardened heavy leg guard" },
     "copy-from": "armor_ch_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_heavy_leg_guard",
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_leg_guard",
-    "material": [ "qt_steel", "qt_steel_chain" ],
     "name": { "str": "tempered heavy leg guard" },
     "description": "A heavy leg guard, 2.25 mm at the thickest.  The medium steel has been quenched and tempered, offering top of the line protection.",
-    "armor": [
-      {
-        "material": [
-          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.05 },
-          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 1, "thickness": 1.0 }
-        ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_r", "leg_lower_l", "leg_knee_r", "leg_knee_l", "leg_upper_r", "leg_upper_l" ],
-        "coverage": 100,
-        "encumbrance": 20
-      }
-    ]
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
     "id": "xl_armor_qt_heavy_leg_guard",
     "type": "ARMOR",
-    "name": { "str": "XL tempered heavy leg guard" },
+    "name": { "str": "tempered heavy leg guard" },
     "copy-from": "armor_qt_heavy_leg_guard",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "survivor_adhoc_leather_pants",
-    "repairs_like": "jeans",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "leather-padded pants", "str_pl": "pairs of leather-padded pants" },
     "description": "A pair of tough canvas pants with sections from leather pants affixed, excluding the joints.  Offers mild protection without compromising mobility too much, but a lot of the pockets have been removed to make room for the leather.",
     "weight": "1970 g",
     "volume": "2500 ml",
-    "price_postapoc": 1200,
+    "price_postapoc": "12 USD",
     "looks_like": "technician_pants_gray",
     "to_hit": 1,
     "material": [ "canvas", "leather" ],
@@ -1616,6 +1892,61 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "canvas_pants_padded",
+    "repairs_like": "jeans",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "cloth-padded pants", "str_pl": "pairs of cloth-padded pants" },
+    "description": "A pair of tough canvas pants with sections of cotton sewn onto it in a crossing pattern, clearly done by an amateur.",
+    "weight": "1970 g",
+    "volume": "2500 ml",
+    "price_postapoc": "12 USD",
+    "looks_like": "technician_pants_gray",
+    "to_hit": 1,
+    "material": [ "canvas", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1080 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "165 mm",
+        "moves": 100
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1 },
+          { "type": "cotton", "covered_by_mat": 90, "thickness": 1 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r", "leg_lower_l", "leg_lower_r" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 8 ]
+      },
+      {
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ],
+        "coverage": 100,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "warmth": 25,
+    "material_thickness": 2.0,
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+  },
+  {
     "id": "armor_riot_leg",
     "type": "ARMOR",
     "category": "armor",
@@ -1623,8 +1954,8 @@
     "description": "Hard leg guards used by riot police.",
     "weight": "500 g",
     "volume": "2500 ml",
-    "price": 10000,
-    "price_postapoc": 750,
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
@@ -1661,8 +1992,8 @@
     "description": "A pair of tough leather leg guards.  Light and comfortable.",
     "weight": "765 g",
     "volume": "2 L",
-    "price": 4000,
-    "price_postapoc": 1000,
+    "price": "40 USD",
+    "price_postapoc": "10 USD",
     "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
@@ -1672,25 +2003,22 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
-    "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 85 } ]
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "encumbrance": 7, "coverage": 95 } ]
   },
   {
     "id": "xl_legguard_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leather leg guards", "str_pl": "pairs of XL leather leg guards" },
-    "description": "A pair of gigantic leather arm guards.  Heavy but comfortable.",
+    "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
     "copy-from": "legguard_larmor",
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_legguard_larmor",
     "type": "ARMOR",
     "copy-from": "legguard_larmor",
-    "looks_like": "legguard_larmor",
-    "name": { "str": "pair of XS leather leg guards", "str_pl": "pairs of XS leather leg guards" },
-    "description": "A pair of tiny, tough leather arm guards.  Light and comfortable.",
+    "name": { "str": "pair of leather leg guards", "str_pl": "pairs of leather leg guards" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

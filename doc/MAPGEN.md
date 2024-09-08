@@ -24,7 +24,10 @@
     * [Set things in a "square"](#set-things-in-a-square)
   * [Spawn a single monster with "place_monster"](#spawn-a-single-monster-with-place_monster)
   * [Spawn an entire group of monsters with "place_monsters"](#spawn-an-entire-group-of-monsters-with-place_monsters)
+  * [Spawn npcs with "place_npcs"](#spawn-npcs-with-place_npcs)
+  * [Set variables with "place_variables"](#set-variables-with-place_variables)
   * [Spawn specific items with a "place_item" array](#spawn-specific-items-with-a-place_item-array)
+  * [Set the owner of items in a given area with "faction_owner"](#apply-faction-ownership)
   * [Extra map features with specials](#extra-map-features-with-specials)
     * [Place smoke, gas, or blood with "fields"](#place-smoke-gas-or-blood-with-fields)
     * [Place NPCs with "npcs"](#place-npcs-with-npcs)
@@ -47,7 +50,6 @@
     * [Place messages with "graffiti"](#place-messages-with-graffiti)
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
     * [Specify a player spawning location using "zones"](#specify-a-player-spawning-location-using-zones)
-    * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
   * [Mapgen values](#mapgen-values)
   * [Mapgen parameters](#mapgen-parameters)
@@ -210,7 +212,12 @@ applied universally to all of the listed overmap terrains.
 Placing things using x/y coordinates ("place_monsters", "place_loot", "place_item", etc) works using the full extended
 coordinates beyond 24x24. An important limitation is that ranged random coordinates (such as "x": `[ 10, 18 ]`) must not
 cross the 24x24 terrain boundaries. Ranges such as `[ 0, 23 ]` and `[ 50, 70 ]` are valid, but `[ 0, 47 ]` and
-`[ 15, 35 ]` are not because they extend beyond a single 24x24 block.
+`[ 15, 35 ]` are not because they extend beyond a single 24x24 block. Note that the syntax supports an optional
+*relative* "z" coordinate (NOT absolute Z level, although it often would look the same as the reference is often zero).
+Usage of Z level offsets for mapgen (as opposed to later map modifications, such as faction camps) has the limitation
+that mapgen flags only take effect for positive offsets (e.g. providing a roof and roof furniture for a building generated
+with a probability), but not for negative ones (generating something below the current reference level). This restriction
+is due to technical limitations (it's costly and messy to determine a level generation order dynamically).
 
 Example:
 
@@ -240,11 +247,25 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
+is the default, so having two maps with the same `"om_terrain"` id, one using the default weight and the other with weight '500',
+the latter will appear half as often. Changing this to non-zero values does nothing if only one map uses the `om_terrain` id.
+(An insanely high value like 10000000 is useful for testing.)
 
-Values: number - *0 disables*
+Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
 Default: 1000
+
+Examples:
+```json
+    "//": "disable this variant"
+    "weight": 0,
+    "//2": "constant weight"
+    "weight": 500,
+    "//3": "evaluated dynamically from global variable"
+    "weight": { "global_val": "my_weight" },
+    "//4": "evaluated dynamically from math expression"
+    "weight": { "math": [ "my_weight * time_since('cataclysm', 'unit': 'days')" ] }
+```
 
 
 ## How "overmap_terrain" variables affect mapgen
@@ -262,6 +283,14 @@ Default: 1000
 * The old mapgen.cpp system involved *The Biggest "if / else if / else if / .." Statement Known to Man*(tm), and is only
     halfway converted to the "builtin" mapgen class. This means that while custom mapgen functions are allowed, the game
     will cheerfully forget the default if one is added.
+* Mapgen flags don't have any effect on "real" mapgen negative Z level offsets due to technical limitations. They work
+    normally for generation after mapgen (such as the addition of a camp structure, or other post generation
+    modifications), as well as for positive Z level offsets for the original generation of maps (e.g. adding upper
+    stories or roofs to buildings placed using probabilities). Negative offsets will still be applied, but any benefits
+    from flag directives will be lost. Instead, the overlay produced by the offset orders will be applied by merging
+    the overlay to the base level map generated once that level has actually been generated. It's expected that things
+    that need to include a Z level offset will most commonly be defining a base and what's above it, which is why that
+    direction has the complete support.
 * TODO: Add to this list.
 
 
@@ -272,18 +301,19 @@ optional.
 
 
 ## Fill terrain using "fill_ter"
-*required if "rows" is unset* Fill with the given terrain.
+Fill with the given terrain.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
-Example: `"fill_ter": "t_grass"`
+Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
-*required if "fill_ter" is unset*
 
-Nested array of 24 (or 48) strings, each 24 (or 48) characters long, where each character is defined by "terrain" and
-optionally "furniture" or other entries below.
+Nested array usually of 24 strings, each 24 characters long but can vary for nests (in which case between 1 and 24)
+and defining multiple overmap terrains maps at once (in which case a multiple of 24),
+where each character is defined by "terrain" and optionally "furniture" or other entries below.
+Defaults to all spaces " " if unset.
 
 Usage:
 
@@ -312,24 +342,24 @@ Example:
 
 ```json
 "rows": [
-  ",_____ssssssssssss_____,",
-  ",__,__#### ss ####__,__,",
+  ",_____####ssss####_____,",
+  ",__,__#ssssssssss#__,__,",
   ",_,,,_#ssssssssss#__,__,",
-  ",__,__#hthsssshth#__,__,",
+  ",__,__#HTHssssHTH#__,__,",
   ",__,__#ssssssssss#_,,,_,",
-  ",__,__|-555++555-|__,__,",
-  ",_____|.hh....hh.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.hh....hh.|_____,",
-  ",_____|..........%_____,",
-  ",,,,,,|..........+_____,",
-  ",_____|ccccxcc|..%_____,",
-  ",_____w.......+..|_____,",
-  ",_____|e.ccl.c|+-|_____,",
-  ",_____|O.....S|.S|_____,",
-  ",_____||erle.x|T||_____,",
-  ",_____#|----w-|-|#_____,",
+  ",__,__||---++---||__,__,",
+  ",_____|.HH....HH.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.HH....HH.|_____,",
+  ",_____|..........-_____,",
+  ",,,,,,|g.........+_____,",
+  ",_____|ccxcxcc|..-_____,",
+  ",_____ow=w=w=w+..|_____,",
+  ",_____|ewccOwc|t||_____,",
+  ",_____|l=w=w=S|=S|_____,",
+  ",_____||eercwx|P||_____,",
+  ",_____#|||||o||||4_____,",
   ",________,_____________,",
   ",________,_____________,",
   ",________,_____________,",
@@ -351,34 +381,23 @@ Example:
 
 ```json
 "terrain": {
-  " ": "t_grass",
-  "d": "t_floor",
-  "5": "t_wall_glass_h",
-  "%": "t_wall_glass_v",
-  "O": "t_floor",
-  ",": "t_pavement_y",
+  " ": "t_region_groundcover_urban",
+  "d": "t_region_groundcover_barren",
+  "#": "t_region_shrub_decorative",
   "_": "t_pavement",
-  "r": "t_floor",
-  "6": "t_console",
-  "x": "t_console_broken",
-  "$": "t_shrub",
-  "^": "t_floor",
-  ".": "t_floor",
-  "-": "t_wall_h",
-  "|": "t_wall_v",
-  "#": "t_shrub",
-  "t": "t_floor",
+  ",": "t_pavement_y",
+  "s": "t_sidewalk",
+  "-": "t_wall_glass",
   "+": "t_door_glass_c",
-  "=": "t_door_locked_alarm",
-  "D": "t_door_locked",
-  "w": "t_window_domestic",
-  "T": "t_floor",
-  "S": "t_floor",
-  "e": "t_floor",
-  "h": "t_floor",
-  "c": "t_floor",
-  "l": "t_floor",
-  "s": "t_sidewalk"
+  "o": "t_window_open",
+  "|": "t_wall_w",
+  "t": [ [ "t_door_c", 2 ], "t_door_c" ],
+  ".": "t_floor",
+  "=": "t_linoleum_gray",
+  "P": "t_linoleum_gray",
+  "r": "t_linoleum_gray",
+  "O": "t_linoleum_white",
+  "4": "t_gutter_downspout"
 },
 ```
 
@@ -392,19 +411,17 @@ Example:
 
 ```json
 "furniture": {
-  "d": "f_dumpster",
-  "5": "f_null",
-  "%": "f_null",
-  "O": "f_oven",
-  "r": "f_rack",
-  "^": "f_indoor_plant",
-  "t": "f_table",
-  "T": "f_toilet",
+  "H": "f_chair",
+  "T": "f_table",
   "S": "f_sink",
-  "e": "f_fridge",
-  "h": "f_chair",
+  "x": "f_counter",
   "c": "f_counter",
-  "l": "f_locker"
+  "l": "f_locker",
+  "e": "f_fridge",
+  "r": "f_oven",
+  "O": "f_oven",
+  "g": "f_trashcan",
+  "d": "f_dumpster"
 },
 ```
 
@@ -417,22 +434,48 @@ Example:
 ```
 
 Currently the defined flags are as follows:
+- Clearing flags for layered mapgens: see [dedicated section below](#clearing-flags-for-layered-mapgens)
+- `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
+- `AVOID_CREATURES` If a creature is present, terrain, furniture and traps won't be placed.
 
-* `ERASE_ALL_BEFORE_PLACING_TERRAIN` and `ALLOW_TERRAIN_UNDER_OTHER_DATA` are
-  mutually exclusive flags that can be used with any mapgen which is layered on
-  top of existing terrain.  This can be update mapgen, nested mapgen, or
-  regular mapgen with a predecessor.  It specifies the behaviour to follow when
-  an existing terrain is changed by the update, but the tile has existing
-  items, trap, or furniture on it.  If neither flag is provided this is an
-  error.  If `ERASE_ALL_BEFORE_PLACING_TERRAIN` is given then any items, trap,
-  or furniture will be removed before changing the terrain.  If
-  `ALLOW_TERRAIN_UNDER_OTHER_DATA` is given then they will be retained without
-  an error.  If you require more fine-grained control over this behaviour than
-  can be provided by these flags, then each of these things can be removed
-  either individually or together.  See the other entries below, such as
-  `remove_all`.
-  `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
-  `AVOID_CREATURES` If a creature is present terrain, furniture and traps won't be placed.
+### Clearing flags for layered mapgens
+Some mapgens are intended to be layered on top of existing terrain.  This can be update mapgen,
+nested mapgen, or regular mapgen with a predecessor.  When the mapgen changes an existing terrain,
+the tile may already contain preexisting furniture, traps and items.  The following flags provide
+a mechanism for specifying the behaviour to follow in such situations.  It is an error if existing
+furniture, traps or items are encountered but no behaviour has been given. Note that flags do NOT
+affect magens on creation of a new overmap when the Z level offset is negative (i.e. something placed
+at a lower Z level than the overmap level being generated) and no error reports are generated. This
+is a technical limitation, not a desired feature.
+
+A blanket policy can be set using one of these three (mutually exclusive) shorthand flags:
+- `ALLOW_TERRAIN_UNDER_OTHER_DATA` retains preexisting furniture, traps and items without triggering
+  an error.
+- `DISMANTLE_ALL_BEFORE_PLACING_TERRAIN` causes any furniture to be deconstructed or bashed, while
+  traps are disarmed.  The outputs, along with any other preexisting items, are then retained.
+- `ERASE_ALL_BEFORE_PLACING_TERRAIN` removes all preexisting furniture, traps and items before
+  changing the terrain.
+
+For finer-grained control, the following flags can be used to set different behaviors for furniture, traps and items:
+- `ALLOW_TERRAIN_UNDER_FURNITURE`, `DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN` and `ERASE_FURNITURE_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of furniture.
+- `ALLOW_TERRAIN_UNDER_TRAP`, `DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN` and `ERASE_TRAP_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of traps.
+- `ALLOW_TERRAIN_UNDER_ITEMS` and `ERASE_ITEMS_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of items.
+
+The fine-grained flags can be used in conjunction with any of the three shorthand flags to override
+behavior for furniture/traps/items specifically.  Alternatively, the shorthand flags can be omitted
+entirely, and all behavior specified using a combination of fine-grained flags.  
+Not all combinations necessarily make sense; illogical settings will trigger a warning output.
+
+**Note:** depending on the new terrain being set by the mapgen, furniture, traps and items may still
+be "stomped out" by the new terrain, regardless of these settings.
+
+For targeted removal of things from specific tiles or areas, further options are available below:
+- `trap_remove` and `item_remove` can be applied to a [point](#set-things-at-a-point), [line](#set-things-in-a-line) or [square](#set-things-in-a-square) regions.
+- [`remove_all`](#remove-everything-with-remove_all) can be used to remove all fields, items, traps, graffiti, and furniture from a specific tile.
+
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -443,7 +486,7 @@ Example:
 
 ```json
 "set": [
-  { "point": "furniture", "id": "f_chair", "x": 5, "y": 10 },
+  { "point": "furniture", "id": "f_chair", "x": 5, "y": 10, "z": 1 },
   { "point": "radiation", "id": "f_chair", "x": 12, "y": 12, "amount": 20 },
   { "point": "trap", "id": "tr_beartrap", "x": [ 0, 23 ], "y": [ 5, 18 ], "chance": 10, "repeat": [ 2, 5 ] },
   { "point": "variable", "id": "nether_dungeon_door", "x": 4, "y": 2 }
@@ -454,13 +497,16 @@ All X and Y values may be either a single integer between `0` and `23`, or an ar
 between `0` and `23`). If X or Y are set to an array, the result is a random number in that range (inclusive). In the above
 examples, the furniture `"f_chair"` is always at coordinates `"x": 5, "y": 10`, but the trap `"tr_beartrap"` is
 randomly repeated in the area `"x": [ 0, 23 ], "y": [ 5, 18 ]"`.
+The Z value is optional and currently usable only for faction camps. It is a *relative* level with the nominal Z level
+of the construction being the reference point, and thus can span the range of +/ the thickness of the world (minus 1).
+As opposed to the other coordinates, it cannot span a range, but has to be a single integer.
 
 See terrain.json, furniture.json, and trap.json for "id" strings.
 
 
 ### Set things at a "point"
 
-- Requires "point" type, and coordinates "x" and "y"
+- Requires "point" type, and coordinates "x" and "y", with an optional "z" (only for faction camps).
 - For "point" type "radiation", requires "amount"
 - For other types, requires "id" of terrain, furniture, trap, trap_remove, or name of the global variable
 
@@ -469,6 +515,7 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 | point  | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"radiation"`, `"variable"`, `"creature_remove"`
 | id     | Terrain, furniture, trap ID or the variable's name. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", "creature_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| z      | (optional) Z coordinate. Value from `-20 to 20`. The value is *relative* to the Z level nominally modified, cannot have a range, and can only be used for faction camps.
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
@@ -477,13 +524,15 @@ See terrain.json, furniture.json, and trap.json for "id" strings.
 ### Set things in a "line"
 
 - Requires "line" type, and endpoints "x", "y" and "x2", "y2"
+- Optional relative "z" level specification
 - For "line" type "radiation", requires "amount"
 - For other types, requires "id" of terrain, furniture, trap, trap_remove
 - creature_remove has no "id" or "amount"
 
 Example:
 ```json
-{ "line": "terrain", "id": "t_lava", "x": 5, "y": 5, "x2": 20, "y2": 20 }
+{ "line": "terrain", "id": "t_lava", "x": 5, "y": 5, "x2": 20, "y2": 20 },
+{ "line": "terrain", "id": "t_wood_treated_roof", "x": 5, "y": 5, "z": 1 "x2": 20, "y2": 20 }
 ```
 
 | Field  | Description
@@ -491,6 +540,7 @@ Example:
 | line   | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"creature_remove"`
 | id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", "creature_remove", and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | Start X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 12, "y": [ 5, 15 ]`
+| z      | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
 | x2, y2 | End X, Y coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range. Example: `"x": 22, "y": [ 15, 20 ]`
 | amount | Radiation amount. Value from `0-100`.
 | chance | (optional) One-in-N chance to apply
@@ -500,6 +550,7 @@ Example:
 ### Set things in a "square"
 
 - Requires "square" type, and opposite corners at "x", "y" and "x2", "y2"
+- Optional relative "z" level specification
 - For "square" type "radiation", requires "amount"
 - For other types, requires "id" of terrain, furniture, trap, creature_remove, or trap_remove
 
@@ -507,7 +558,8 @@ The "square" arguments are the same as for "line", but "x", "y" and "x2", "y2" d
 
 Example:
 ```json
-{ "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
+{ "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "x2": [ 18, 23 ], "y2": [ 18, 23 ] },
+{ "square": "radiation", "amount": 10, "x": [ 0, 5 ], "y": [ 0, 5 ], "z": -1, "x2": [ 18, 23 ], "y2": [ 18, 23 ] }
 ```
 
 | Field  | Description
@@ -515,6 +567,7 @@ Example:
 | square | Allowed values: `"terrain"`, `"furniture"`, `"trap"`, `"radiation"`, `"trap_remove"`, `"item_remove"`, `"field_remove"`, `"creature_remove"`
 | id     | Terrain, furniture, or trap ID. Examples: `"id": "f_counter"`, `"id": "tr_beartrap"`. Omit for "radiation", "item_remove", creature_remove, and "field_remove". For `trap_remove` if tr_null is used any traps present will be removed.
 | x, y   | Top-left corner of square.
+| z      | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
 | x2, y2 | Bottom-right corner of square.
 
 ## Spawn a single monster with "place_monster"
@@ -528,15 +581,17 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | monster     | ID of the monster to spawn.
 | group       | ID of the monster group from which the spawned monster is selected. `monster` and `group` should not be used together. `group` will act over `monster`.
 | x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| z           | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
 | chance      | Percentage chance to do spawning. If repeat is used each repeat has separate chance.
 | repeat      | The spawning is repeated this many times. Can be a number or a range.
 | pack_size   | How many monsters are spawned. Can be single number or range like `[1-4]`. Is affected by the chance and spawn density. Ignored when spawning from a group.
 | one_or_none | Do not allow more than one to spawn due to high spawn density. If repeat is not defined or pack size is defined this defaults to true, otherwise this defaults to false. Ignored when spawning from a group.
 | friendly    | Set true to make the monster friendly. Default false.
 | name        | Extra name to display on the monster.
+| random_name | Options for generating a name for this monster. If not set, the value of name will be used. If set to "random", "female", or "male", a random unisex/female/male given name will be used. If set to "snippet", any snippets in `name` will be expanded, and that will be the name given.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
-
+| use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
 
@@ -554,6 +609,15 @@ Example:
 
 This places a single random monster from group "GROUP_REFUGEE_BOSS_ZOMBIE", sets the name to "Sean McLaughlin", spawns
 the monster at coordinate (10, 10) and also sets the monster as the target of this mission.
+
+Example:
+```json
+"place_monster": [
+    { "group": "GROUP_REFUGEE_BOSS_ZOMBIE", "name": "Sean McLaughlin", "x": 11, "y": 17, "z": 1, "target": false }
+]
+```
+This spawns the same monster as before, but one Z level higher up (hopefully on the roof of something), but it's not a
+mission target.
 
 Example:
 ```json
@@ -598,10 +662,30 @@ Using `place_monsters` to spawn a group of monsters works in a similar fashion t
 |--|--|
 | monster | The ID of the monster group that you wish to spawn |
 | x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| z           | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
 | chance      | Represents a 1 in N chance that the entire group will spawn. This is done once for each repeat. If this dice roll fails, the entire group specified will not spawn. Leave blank to guarantee spawns.
 | repeat      | The spawning is repeated this many times. Can be a number or a range. Again, this represents the number of times the group will be spawned.
 | density | This number is multiplied by the spawn density of the world the player is in and then probabilistically rounded to determine how many times to spawn the group. This is done for each time the spawn is repeated. For instance, if the final multiplier from this calculation ends up being `2`, and the repeat value is `6`, then the group will be spawned `2 * 6` or 12 times.
 
+## Spawn npcs with "place_npcs"
+Using `place_npcs` to spawn a group of npcs.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| z           | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
+| class       | The class of the npc that you wish to spawn |
+| add_trait   | A string of array of strings for traits the npc starts with.
+| unique_id   | A string for the unique_id the npc has.
+
+## Set variables with "place_variables"
+Using `place_variables` to set a group of variables.
+
+|Field|Description  |
+|--|--|
+| x, y        | Spawn coordinates ( specific or area rectangle ). Value: 0-23 or `[ 0-23, 0-23 ]` - random value between `[ a, b ]`.
+| z           | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
+| name        | The name of the global variable to set with the absolute coordinates of x and y.
 
 ## Spawn specific items with a "place_item" array
 **optional** A list of *specific* things to add. WIP: Monsters and vehicles will be here too
@@ -619,12 +703,29 @@ Example:
 | ---    | ---
 | item   | (required) ID of the item to spawn
 | x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+| z      | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
 | amount | (required) Number of items to spawn. Single integer, or range `[ a, b ]` for a random value in that range.
 | chance | (optional) One-in-N chance to spawn item.
 | repeat | (optional) Value: `[ n1, n2 ]`. Spawn item randomly between `n1` and `n2` times. Only makes sense if the coordinates are random. Example: `[ 1, 3 ]` - repeat 1-3 times.
 | custom-flags | (optional) Value: `[ "flag1", "flag2" ]`. Spawn item with specific flags.
 
 The special custom flag "ACTIVATE_ON_PLACE" causes the item to be activated as it is placed.  This is useful to have noisemakers that are already turned on as the avatar approaches.  It can also be used with explosives with a 1 second countdown to have locations explode as the avatar approaches, creating uniquely ruined terrain.
+
+## Set the owner of items in a given area with "faction_owner"
+**optional** Define an area where mapgen-spawned items will have faction ownership applied
+
+Example:
+```json
+"faction_owner": [ { "id": "exodii", "x": [ 5, 17 ], "y": [ 5, 18 ] } ],
+```
+
+| Field  | Description
+| ---    | ---
+| id     | (required) ID of the faction to apply ownership to.
+| x, y   | (required) Spawn coordinates. Value from `0-23`, or range `[ 0-23, 0-23 ]` for a random value in that range.
+| z      | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
+
+This is an array, so multiple entries can be defined.
 
 ## Extra map features with specials
 **optional** Special map features that do more than just placing furniture / terrain.
@@ -655,7 +756,7 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 
 ```json
 "terrain" : {
-    ".": [ "t_grass", "t_grass", "t_dirt" ]
+    ".": [ "t_region_grass", "t_region_grass", "t_region_soil" ]
 }
 ```
 
@@ -664,7 +765,7 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 ```json
 "terrain" : {
-    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+    ".": [ [ "t_region_grass", 2 ], "t_region_soil" ]
 }
 ```
 
@@ -684,7 +785,7 @@ Or define the mappings for one character at once:
         "traps": "tr_beartrap",
         "field": { "field": "fd_blood" },
         "item": { "item": "corpse" },
-        "terrain": { "t_dirt" }
+        "terrain": { "t_region_soil" }
     }
 }
 ```
@@ -775,7 +876,7 @@ Example:
 
 ### Place signs with "signs"
 
-Places a sign (furniture `f_sign`) with a message written on it. Either "signage" or "snippet" must be defined.  The
+Places a sign with a message written on it. Either "signage" or "snippet" must be defined.  The
 message may include tags like `<full_name>`, `<given_name>`, and `<family_name>` that will insert a randomly generated
 name, or `<city>` that will insert the nearest city name.
 
@@ -785,10 +886,11 @@ Example:
 "signs": { "P": { "signage": "Subway map: <city> stop" } }
 ```
 
-| Field   | Description
-| ---     | ---
-| signage | (optional, string) the message that should appear on the sign.
-| snippet | (optional, string) a category of snippets that can appear on the sign.
+| Field     | Description
+| ---       | ---
+| signage   | (optional, string) the message that should appear on the sign.
+| snippet   | (optional, string) a category of snippets that can appear on the sign.
+| furniture | (optional, string) the furniture used to display the message, defaults to f_sign.  Furniture used needs the SIGN flag and the sign examine_action if you want the message to popup on examine (still displays in look around otherwise).
 
 
 ### Place a vending machine and items with "vendingmachines"
@@ -799,7 +901,8 @@ Places a vending machine (furniture) and fills it with items from an item group.
 | ---        | ---
 | item_group | (optional, string) the item group that is used to create items inside the machine. It defaults to either "vending_food" or "vending_drink" (randomly chosen).
 | reinforced | (optional, bool) setting which will make vending machine spawn as reinforced. Defaults to false.
-| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Valid only if `reinforced` is false. Defaults to false.
+| lootable   | (optional, bool) setting which indicates whether this particular vending machine should have a chance to spawn ransacked (i.e. broken and with no loot inside). The chance for this is increased with each day passed after the Cataclysm. Defaults to false.
+| powered   | (optional, bool) setting which indicates whether the machine is powered can be interacted with to buy items. Defaults to false.
 
 
 ### Place a toilet with some amount of water with "toilets"
@@ -817,7 +920,7 @@ Places a gas pump with fuel in it.
 
 | Field  | Description
 | ---    | ---
-| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump. If not specified, the amount is randomized between 10'000 and 50'000.
+| amount | (optional, integer or min/max array) the amount of fuel to be placed in the pump (multiplied by 100). If not specified, the amount is randomized between 10'000 and 50'000.
 | fuel   | (optional, string: "gasoline", "diesel", "jp8", or "avgas") the type of fuel to be placed in the pump. If not specified, the fuel is gasoline (75% chance) or diesel (25% chance).
 
 
@@ -826,7 +929,7 @@ Places a gas pump with fuel in it.
 | Field   | Description
 | ---     | ---
 | item    | (required, string or itemgroup object) the item group to use.
-| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
+| chance  | (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is default 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 | repeat  | (optional, integer or min/max array) the number of times to repeat this placement, default is 1.
 | faction | (optional, string) the faction that owns these items.
 
@@ -1062,35 +1165,34 @@ graffiti, and furniture from a tile.  This can be useful in e.g. nests or other
 update mapgen to clear out existing stuff that might exist but wouldn't make
 sense in the nest.
 
-
-### Translate terrain type with "translate_ter"
-
-Translates one type of terrain into another type of terrain.  There is no reason to do this with normal mapgen, but it
-is useful for setting a baseline with `update_mapgen`.
-
-| Field | Description
-| ---   | ---
-| from  | (required, string) the terrain id of the terrain to be transformed
-| to    | (required, string) the terrain id that the from terrain will transformed into
-
-
 ### Apply mapgen transformation with "ter_furn_transforms"
 
-Run a `ter_furn_transform` at the specified location.  This is mostly useful for applying transformations as part of
-an `update_mapgen`, as normal mapgen can just specify the terrain directly.
+Run a [ter_furn_transform](doc/TER_FURN_TRANSFORM.md) at the specified location that can change existing fields, furniture, terrain or traps into another of the same type including null values.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
 
+#### "place_ter_furn_transforms"
+
+- "x": (required, int or array in the form `[ min, max ]`)
+- "y": (required, int or array in the form `[ min, max ]`)
+
+If one or both are arrays it will apply the transform to all locations in that range.
+
 ### Spawn nested chunks based on overmap neighbors with "place_nested"
 
-Place_nested allows for limited conditional spawning of chunks based on the `"id"`s of their overmap neighbors and the joins that were used in placing a mutable overmap special.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
+Place_nested allows for conditional spawning of chunks based on the `"id"`s and/or flags of their overmap neighbors, the joins that were used in placing a mutable overmap special or the maps' predecessors.  This is useful for creating smoother transitions between biome types or to dynamically create walls at the edges of a mutable structure.
 
 | Field              | Description
 | ---                | ---
 | chunks/else_chunks | (required, string) the nested_mapgen_id of the chunk that will be conditionally placed. Chunks are placed if the specified neighbor matches, and "else_chunks" otherwise.
 | x and y            | (required, int) the cardinal position in which the chunk will be placed.
-| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.
+| z                  | (optional) Relative Z coordinate for placement at a different Z level than the nominal one. Value from `-20 to 20`. Also note that range is not supported.
+| neighbors          | (optional) Any of the neighboring overmaps that should be checked before placing the chunk.  Each direction is associated with a list of overmap `"id"` substrings.  See [JSON_INFO.md](JSON_INFO.md#Starting-locations) "terrain" section to do more advanced searches, note this field defaults to CONTAINS not TYPE.
 | joins              | (optional) Any mutable overmap special joins that should be checked before placing the chunk.  Each direction is associated with a list of join `"id"` strings.
+| flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
+| flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
+| predecessors       | (optional) Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen.
+| check_z            | (optional, array of ints ) Any number of z-levels that should be checked before placing the chunk.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1104,16 +1206,27 @@ Example:
 
 ```json
   "place_nested": [
-    { "chunks": [ "concrete_wall_ew" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
-    { "chunks": [ "gate_north" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
-    { "else_chunks": [ "concrete_wall_ns" ], "x": 0, "y": 0, "neighbors": { "north_west": [ "field", "microlab" ] } }
+    { "chunks": [ "nest1" ], "x": 0, "y": 0, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "nest1_roof" ], "x": 0, "y": 0, "z": 1, "neighbors": { "north": [ "empty_rock", "field" ] } },
+    { "chunks": [ "nest2" ], "x": 0, "y": 0, "neighbors": { "north": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" }, "mansion" ] } },
+    { "chunks": [ "nest3" ], "x": 0, "y": 0, "joins": { "north": [ "interior_to_exterior" ] } },
+    { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
+    { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } },
+    { "chunks": [ "nest6" ], "x": 0, "y": 0, "predecessors": [ "field", { "om_terrain": "river", "om_terrain_match_type": "PREFIX" } ] },
+    { "chunks": [ "nest7" ], "x": 0, "y": 0, "neighbors": { "north": [  { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ] } },
+    { "chunks": [ "nest8" ], "x": 0, "y": 0, "neighbors": { "check_z": [ -3, 1, 3, 5 ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
-* `"concrete_wall_ew"` if the north neighbor is either a field or solid rock
-* `"gate_north"` if the join `"interior_to_exterior"` was used to the north
-  during mutable overmap placement.
-* `"concrete_wall_ns"`if the north west neighbor is neither a field nor any of the microlab overmaps.
+* `"nest1"` if the north neighbor's om terrain contains `"field"` or `"empty_rock"`.
+* `"nest1_roof"` at the Z level above nest1 if the north neighbor's om terrain (on the nominal Z level) contains `"field"` or `"empty_rock"`.
+* `"nest2"` if the north neighbor has the prefix `"fort"` or contains `"mansion"`, so for example `"fort_1a_north"` and `"mansion_t2u"` would match but `"house_fortified"` wouldn't.
+* `"nest3"` if the join `"interior_to_exterior"` was used to the north during mutable overmap placement.
+* `"nest4"` if the north neighboring overmap terrain has a flag `"RIVER"` and either of the north east or north west neighboring overmap terrains have a `"RIVER"` flag.
+* `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
+* `"nest6"` if the there's a predecessor present of either `"field"` or any overmap with the prefix `"river"`.
+* `"nest7"` if the north neighbor's om terrain is one of `"road_ne"`, `"road_es"`, `"road_sw"` and `"road_wn"`.
+* `"nest8"` if the omt's z-level is either -3, 1, 3 or 5.
 
 
 ### Place monster corpse from a monster group with "place_corpses"
@@ -1185,7 +1298,7 @@ For example, the default value of a parameter, or a terrain id in the
 * A JSON object containing the key `"distribution"`, whose corresponding value
   is a list of lists, each a pair of a string id and an integer weight.  For
   example:
-```
+```json
 { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
 ```
 * A JSON object containing the key `"param"`, whose corresponding value is the

@@ -17,7 +17,7 @@
     "comestible_type": "DRINK",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 2500,
+    "price": "25 USD",
     "freezing_point": 4
   },
   {
@@ -27,7 +27,7 @@
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 5 },
     "calories": 0,
-    "price": 10000
+    "price": "100 USD"
   },
   {
     "id": "mana_potion_greater",
@@ -36,7 +36,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "potion_recover_mana", "no_fail": true, "level": 15 },
-    "price": 30000
+    "price": "300 USD"
   },
   {
     "id": "cats_grace_potion",
@@ -47,7 +47,7 @@
     "calories": 25,
     "use_action": { "type": "cast_spell", "spell_id": "cats_grace", "no_fail": true, "level": 25 },
     "color": "yellow",
-    "price": 3000
+    "price": "30 USD"
   },
   {
     "id": "ogres_strength_potion",
@@ -87,7 +87,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 86,
     "use_action": { "type": "cast_spell", "spell_id": "flask_clairvoyance", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_spear",
@@ -97,17 +97,17 @@
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "flask_spear", "no_fail": true, "level": 0 },
     "calories": 0,
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_confusion",
     "type": "COMESTIBLE",
     "name": { "str": "potion of instability", "str_pl": "potions of instability" },
-    "description": "That thing temporary freeze the high brain activity for a while.  It was banned by the government due the popularity in crime sphere, but some people still know the recipe.",
+    "description": "A potion that temporarily freezes the higher brain activity for a while.  It was banned by the government due to popularity in the criminal sphere, but some people still know the recipe.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_confusion", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_teleport_rand",
@@ -117,17 +117,17 @@
     "copy-from": "mana_potion_lesser",
     "calories": 220,
     "use_action": { "type": "cast_spell", "spell_id": "flask_teleport_rand", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_teleport",
     "type": "COMESTIBLE",
     "name": { "str": "potion of teleportation", "str_pl": "potions of teleportation" },
-    "description": "Important part of every professional robber.  It was banned by the government due the popularity in crime sphere, but some people still know the recipe.",
+    "description": "Important part of every professional robber's kit.  It was banned by the government due to the popularity in criminal sphere, but some people still know the recipe.",
     "copy-from": "mana_potion_lesser",
     "calories": 260,
     "use_action": { "type": "cast_spell", "spell_id": "flask_teleport", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_shadow_field",
@@ -137,37 +137,37 @@
     "copy-from": "mana_potion_lesser",
     "use_action": { "type": "cast_spell", "spell_id": "flask_shadow_field", "no_fail": true, "level": 0 },
     "calories": 0,
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_fireball",
     "type": "COMESTIBLE",
     "name": { "str_sp": "\"Fire in the flask\"" },
-    "description": "They were really useful in middle ages, but the price was too high, and they were supplanted with another incendiary weapon and, long after, with molotov cocktails.",
+    "description": "They were really useful in middle ages, but the price was too high, and they were supplanted with another incendiary weapon and, long after, with Molotov cocktails.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_fireball", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_invisibility",
     "type": "COMESTIBLE",
     "name": { "str": "potion of invisibility", "str_pl": "potions of invisibility" },
-    "description": "Make you totally invisible, except in mana spectrum.  It was banned by the government due the popularity in crime sphere, but some people still know the recipe.",
+    "description": "Make you totally invisible, except in mana spectrum.  It was banned by the government due to the popularity in crime sphere, but some people still know the recipe.",
     "copy-from": "mana_potion_lesser",
     "calories": 77,
     "use_action": { "type": "cast_spell", "spell_id": "flask_invisibility", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_healing",
     "type": "COMESTIBLE",
     "name": { "str": "potion of healthiness", "str_pl": "potions of healthiness" },
-    "description": "Classical medicine, used from ancient times, that came to us with almost no changes.  Allow you to heal the common illness way faster than before.",
+    "description": "Classical medicine, used from ancient times, that came to us with almost no changes.  Allows you to heal the common illness way faster than before.",
     "copy-from": "mana_potion_lesser",
     "calories": 358,
     "use_action": { "type": "cast_spell", "spell_id": "flask_healing", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_feather",
@@ -177,7 +177,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 57,
     "use_action": { "type": "cast_spell", "spell_id": "flask_feather", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_night_vision",
@@ -187,47 +187,47 @@
     "copy-from": "mana_potion_lesser",
     "calories": 56,
     "use_action": { "type": "cast_spell", "spell_id": "flask_night_vision", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_charm",
     "type": "COMESTIBLE",
     "name": { "str": "potion of domination", "str_pl": "potions of domination" },
-    "description": "Rearrange neural activity of the creature to be 100% loyal to a blood owner.  It was banned by the government due the popularity in crime sphere, but some people still know the recipe.",
+    "description": "Rearrange neural activity of the creature to be 100% loyal to a blood owner.  It was banned by the government due to the popularity in crime sphere, but some people still know the recipe.",
     "copy-from": "mana_potion_lesser",
     "calories": 21,
     "use_action": { "type": "cast_spell", "spell_id": "flask_charm", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_sludge_field",
     "type": "COMESTIBLE",
     "name": { "str": "potion of slippery splash", "str_pl": "potions of slippery splash" },
-    "description": "At first it was the small spell, designed to trap and kill small bugs and rodents, but someone found it useful in real fight, and improve it.",
+    "description": "At first only an insignificant spell designed to trap and kill small bugs and rodents, someone found it pretty useful in a real fight and improved it with that goal in mind.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_sludge_field", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_speed",
     "type": "COMESTIBLE",
     "name": { "str": "potion of sprint", "str_pl": "potions of sprint" },
-    "description": "They counts as doping in olympic games.  Luckily you are not in stadium.",
+    "description": "They count as doping in Olympic games.  Luckily you are not in a stadium.",
     "copy-from": "mana_potion_lesser",
     "calories": 26,
     "use_action": { "type": "cast_spell", "spell_id": "flask_speed", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_stamina",
     "type": "COMESTIBLE",
     "name": { "str": "potion of iron lungs", "str_pl": "potions of iron lungs" },
-    "description": "Old recipe, used to increase the user's endurance.  The diluted version was used by a different armies for fast and long forced marches.",
+    "description": "Old recipe, used to increase the user's endurance.  The diluted version was used by different armies for fast and long forced marches.",
     "copy-from": "mana_potion_lesser",
     "calories": 156,
     "use_action": { "type": "cast_spell", "spell_id": "flask_stamina", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_rebreather",
@@ -237,37 +237,37 @@
     "copy-from": "mana_potion_lesser",
     "calories": 121,
     "use_action": { "type": "cast_spell", "spell_id": "flask_rebreather", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_excitement",
     "type": "COMESTIBLE",
     "name": { "str": "potion of stimulus", "str_pl": "potions of stimulus" },
-    "description": "One of the various potions, designed to make person stronger on battle field.  Increase the user's senses and improve the reaction, increasing his ability to fight in melee.",
+    "description": "One among a variety of potions designed to make a person stronger on the battlefield.  Sharpens the user's senses and improves reaction time, increasing their ability to fight in melee.",
     "copy-from": "mana_potion_lesser",
     "calories": 89,
     "use_action": { "type": "cast_spell", "spell_id": "flask_excitement", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_resistance",
     "type": "COMESTIBLE",
     "name": { "str": "potion of iron skin", "str_pl": "potions of iron skin" },
-    "description": "Harden the user's skin, and allow to take more damage with no harm.  Was popular in ancient armies, but now mostly forgotten.",
+    "description": "Harden the user's skin, and allow taking more damage with no harm.  Was popular in ancient armies, but now mostly forgotten.",
     "copy-from": "mana_potion_lesser",
     "calories": 211,
     "use_action": { "type": "cast_spell", "spell_id": "flask_resistance", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_illumination",
     "type": "COMESTIBLE",
     "name": { "str": "potion of illumination", "str_pl": "potions of illumination" },
-    "description": "That potion was designed in 19th century, for miners that was awared of explosive gas leaks in the mine.  Not so popular now, due the abundance of electric lighters, but still useful sometimes.",
+    "description": "A potion designed during the 19th century and popular among miners wishing to avoid the dangers of explosive gas leaks underground.  It is less popular these days due to the abundance of electric lighters, but still sees occasional use.",
     "copy-from": "mana_potion_lesser",
     "calories": 7,
     "use_action": { "type": "cast_spell", "spell_id": "flask_illumination", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_mana_regen",
@@ -277,7 +277,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 66,
     "use_action": { "type": "cast_spell", "spell_id": "flask_mana_regen", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_max_mana",
@@ -287,7 +287,7 @@
     "copy-from": "mana_potion_lesser",
     "calories": 76,
     "use_action": { "type": "cast_spell", "spell_id": "flask_max_mana", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_regeneration",
@@ -297,27 +297,27 @@
     "copy-from": "mana_potion_lesser",
     "calories": 344,
     "use_action": { "type": "cast_spell", "spell_id": "flask_regeneration", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_mood",
     "type": "COMESTIBLE",
     "name": { "str": "potion of happiness", "str_pl": "potions of happiness" },
-    "description": "More than alcohol drink than potion, this mixture make your brain feel constant happiness, ignoring the whole boredom of reality.  It cause no addiction, but it still banned in some countries, including the USA (except the Texas and New Hampshire, where it's just frowned upon)",
+    "description": "Closer to an alcoholic drink than a potion, this mixture makes your brain feel constant happiness, ignoring the whole boredom of reality.  It causes no addiction, but is still banned in some countries, including the USA (except in Texas and New Hampshire, where it's just frowned upon).",
     "copy-from": "mana_potion_lesser",
     "calories": 65,
     "use_action": { "type": "cast_spell", "spell_id": "flask_mood", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_toxin",
     "type": "COMESTIBLE",
     "name": { "str": "potion of toxin", "str_pl": "potions of toxin" },
-    "description": "Spread a low lethal toxin on your enemies.  Its surprisingly effective, if you have enough time.",
+    "description": "Spread a low lethal toxin on your enemies.  It's surprisingly effective, if you have enough time.",
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_toxin", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "flask_venom",
@@ -327,30 +327,30 @@
     "copy-from": "mana_potion_lesser",
     "calories": 0,
     "use_action": { "type": "cast_spell", "spell_id": "flask_venom", "no_fail": true, "level": 0 },
-    "price": 40000
+    "price": "400 USD"
   },
   {
     "id": "animist_doll_zombie",
     "name": "zombie voodoo doll",
     "description": "A remarkably accurate effigy of an undead human, including pieces of bone and organs.  Necromantic magic delays immediate rot, but it won't last forever.  Piercing it with the attached needle could compel it to serve you.",
-    "use_action": { "type": "cast_spell", "spell_id": "summon_zombie", "no_fail": true, "level": 12 },
+    "use_action": { "type": "cast_spell", "spell_id": "summon_zombie_brute", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "category": "weapons",
     "material": [ "leather", "flesh", "bone" ],
     "weight": "225 g",
-    "volume": "700ml",
+    "volume": "700 ml",
     "symbol": "t",
     "color": "pink",
-    "stack_size": 1,
     "spoils_in": "4 days",
-    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ]
+    "flags": [ "TRADER_AVOID", "INEDIBLE", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "animist_doll_skeleton",
     "name": "ossified voodoo doll",
     "description": "A remarkably accurate effigy of an undead human covered with bone, including pieces of organs.  Necromantic magic delays immediate rot, but it won't last forever.  Piercing it with the attached needle could compel it to serve you.",
-    "use_action": { "type": "cast_spell", "spell_id": "summon_skeleton", "no_fail": true, "level": 10 },
+    "use_action": { "type": "cast_spell", "spell_id": "summon_skeleton_brute", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "category": "weapons",
     "copy-from": "animist_doll_zombie"
@@ -359,11 +359,12 @@
     "id": "animist_doll_decayed_pouncer",
     "name": "cougar voodoo doll",
     "description": "A remarkably accurate effigy of an undead cougar, complete with fur, bones, and organs.  Necromantic magic delays immediate rot, but it won't last forever.  Piercing it with the attached needle could compel it to serve you.",
-    "use_action": { "type": "cast_spell", "spell_id": "summon_decayed_pouncer", "no_fail": true, "level": 13 },
+    "use_action": { "type": "cast_spell", "spell_id": "summon_zougar", "no_fail": true, "level": 0 },
     "type": "COMESTIBLE",
     "category": "weapons",
     "material": [ "fur", "flesh", "bone" ],
-    "copy-from": "animist_doll_skeleton"
+    "copy-from": "animist_doll_skeleton",
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "twisted_restore_potion",
@@ -385,7 +386,7 @@
     "comestible_type": "DRINK",
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "phase": "liquid",
-    "price": 2500,
+    "price": "25 USD",
     "freezing_point": -12
   },
   {
@@ -395,5 +396,37 @@
     "use_action": { "type": "cast_spell", "spell_id": "twisted_restore_improved", "no_fail": true, "level": 1 },
     "type": "COMESTIBLE",
     "copy-from": "twisted_restore_potion"
+  },
+  {
+    "id": "forge_warp_scroll",
+    "name": { "str": "Forge of Wonders warp scroll" },
+    "description": "This scroll is imbued with a magical spell that, when activated, will transport you to the Forge of Wonders.  Good for one round-trip.",
+    "looks_like": "spell_scroll",
+    "use_action": { "type": "cast_spell", "spell_id": "forge_teleport", "no_fail": true, "level": 1 },
+    "type": "GENERIC",
+    "category": "other",
+    "weight": "475 g",
+    "volume": "500 ml",
+    "//": "Price should be 300 but Velzain charges almost double. If this gets moved to another vender bump up price to 300.",
+    "price": "152 USD",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white"
+  },
+  {
+    "id": "forge_return_warp_scroll",
+    "name": { "str": "return warp scroll" },
+    "description": "This scroll is imbued with a magical spell that, when activated, will return you to where you were before you warped to the Forge.",
+    "looks_like": "spell_scroll",
+    "use_action": { "type": "cast_spell", "spell_id": "forge_return_teleport", "no_fail": true, "level": 1 },
+    "type": "GENERIC",
+    "category": "other",
+    "weight": "475 g",
+    "volume": "500 ml",
+    "price": "1 USD",
+    "flags": [ "TRADER_AVOID" ],
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "white"
   }
 ]

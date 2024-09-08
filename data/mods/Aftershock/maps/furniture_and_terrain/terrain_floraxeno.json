@@ -142,7 +142,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND", "EMITTER" ],
+    "flags": [ "NOITEM", "MINEABLE", "BLOCK_WIND" ],
     "emissions": [ "emit_smoke_plume", "emit_hot_air_migo_seep" ],
     "bash": {
       "str_min": 65,

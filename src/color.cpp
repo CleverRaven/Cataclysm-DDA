@@ -1,28 +1,38 @@
 #include "color.h"
 
-#include <algorithm> // for std::count
-#include <functional>
+#include <algorithm>
+#include <cstddef>
+#include <filesystem>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <utility>
 #include <vector>
-
-#include <ghc/fs_std_fwd.hpp>
 
 #include "cata_path.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "input.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "imgui/imgui.h"
+#include "input_context.h"
 #include "json.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "cata_imgui.h"
+
+nc_color::operator ImVec4()
+{
+    return cataimgui::imvec4_from_color( *this );
+}
 
 void nc_color::serialize( JsonOut &jsout ) const
 {
@@ -213,11 +223,12 @@ void color_manager::load_default()
     static const auto color_pair = []( const int n ) {
         return nc_color::from_color_pair_index( n );
     };
+
     //        Color         Name      Color Pair      Invert
     add_color( def_c_black, "c_black", color_pair( 30 ), def_i_black );
     add_color( def_c_white, "c_white", color_pair( 1 ).bold(), def_i_white );
     add_color( def_c_light_gray, "c_light_gray", color_pair( 1 ), def_i_light_gray );
-    add_color( def_c_dark_gray, "c_dark_gray", color_pair( 30 ).bold(), def_i_dark_gray );
+
     add_color( def_c_red, "c_red", color_pair( 2 ), def_i_red );
     add_color( def_c_green, "c_green", color_pair( 3 ), def_i_green );
     add_color( def_c_blue, "c_blue", color_pair( 4 ), def_i_blue );
@@ -234,7 +245,6 @@ void color_manager::load_default()
     add_color( def_h_black, "h_black", color_pair( 20 ), def_c_blue );
     add_color( def_h_white, "h_white", color_pair( 15 ).bold(), def_c_light_blue_white );
     add_color( def_h_light_gray, "h_light_gray", color_pair( 15 ), def_c_blue_white );
-    add_color( def_h_dark_gray, "h_dark_gray", color_pair( 20 ).bold(), def_c_light_blue );
     add_color( def_h_red, "h_red", color_pair( 16 ), def_c_blue_red );
     add_color( def_h_green, "h_green", color_pair( 17 ), def_c_blue_green );
     add_color( def_h_blue, "h_blue", color_pair( 20 ), def_h_blue );
@@ -251,7 +261,6 @@ void color_manager::load_default()
     add_color( def_i_black, "i_black", color_pair( 32 ), def_c_black );
     add_color( def_i_white, "i_white", color_pair( 8 ).blink(), def_c_white );
     add_color( def_i_light_gray, "i_light_gray", color_pair( 8 ), def_c_light_gray );
-    add_color( def_i_dark_gray, "i_dark_gray", color_pair( 32 ).blink(), def_c_dark_gray );
     add_color( def_i_red, "i_red", color_pair( 9 ), def_c_red );
     add_color( def_i_green, "i_green", color_pair( 10 ), def_c_green );
     add_color( def_i_blue, "i_blue", color_pair( 11 ), def_c_blue );
@@ -268,7 +277,6 @@ void color_manager::load_default()
     add_color( def_c_black_red, "c_black_red", color_pair( 9 ).bold(), def_c_red );
     add_color( def_c_white_red, "c_white_red", color_pair( 23 ).bold(), def_c_red_white );
     add_color( def_c_light_gray_red, "c_light_gray_red", color_pair( 23 ), def_c_light_red_white );
-    add_color( def_c_dark_gray_red, "c_dark_gray_red", color_pair( 9 ), def_c_dark_gray_red );
     add_color( def_c_red_red, "c_red_red", color_pair( 9 ), def_c_red_red );
     add_color( def_c_green_red, "c_green_red", color_pair( 25 ), def_c_red_green );
     add_color( def_c_blue_red, "c_blue_red", color_pair( 26 ), def_h_red );
@@ -287,7 +295,6 @@ void color_manager::load_default()
     add_color( def_c_unset, "c_unset", color_pair( 31 ), def_c_unset );
 
     add_color( def_c_black_white, "c_black_white", color_pair( 32 ), def_c_light_gray );
-    add_color( def_c_dark_gray_white, "c_dark_gray_white", color_pair( 32 ).bold(), def_c_white );
     add_color( def_c_light_gray_white, "c_light_gray_white", color_pair( 33 ), def_c_light_gray_white );
     add_color( def_c_white_white, "c_white_white", color_pair( 33 ).bold(), def_c_white_white );
     add_color( def_c_red_white, "c_red_white", color_pair( 34 ), def_c_white_red );
@@ -307,7 +314,6 @@ void color_manager::load_default()
                def_c_white_cyan );
 
     add_color( def_c_black_green, "c_black_green", color_pair( 40 ), def_c_green );
-    add_color( def_c_dark_gray_green, "c_dark_gray_green", color_pair( 40 ).bold(), def_c_light_green );
     add_color( def_c_light_gray_green, "c_light_gray_green", color_pair( 41 ), def_c_green_white );
     add_color( def_c_white_green, "c_white_green", color_pair( 41 ).bold(), def_c_light_green_white );
     add_color( def_c_red_green, "c_red_green", color_pair( 42 ), def_c_green_red );
@@ -329,7 +335,6 @@ void color_manager::load_default()
                def_c_light_green_cyan );
 
     add_color( def_c_black_yellow, "c_black_yellow", color_pair( 48 ), def_c_brown );
-    add_color( def_c_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 48 ).bold(), def_c_yellow );
     add_color( def_c_light_gray_yellow, "c_light_gray_yellow", color_pair( 49 ), def_c_brown_white );
     add_color( def_c_white_yellow, "c_white_yellow", color_pair( 49 ).bold(), def_c_yellow_white );
     add_color( def_c_red_yellow, "c_red_yellow", color_pair( 50 ), def_c_yellow_red );
@@ -349,7 +354,6 @@ void color_manager::load_default()
                def_c_yellow_cyan );
 
     add_color( def_c_black_magenta, "c_black_magenta", color_pair( 56 ), def_c_magenta );
-    add_color( def_c_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 56 ).bold(), def_c_pink );
     add_color( def_c_light_gray_magenta, "c_light_gray_magenta", color_pair( 57 ),
                def_c_magenta_white );
     add_color( def_c_white_magenta, "c_white_magenta", color_pair( 57 ).bold(), def_c_pink_white );
@@ -370,7 +374,6 @@ void color_manager::load_default()
                def_c_pink_cyan );
 
     add_color( def_c_black_cyan, "c_black_cyan", color_pair( 64 ), def_c_cyan );
-    add_color( def_c_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 64 ).bold(), def_c_light_cyan );
     add_color( def_c_light_gray_cyan, "c_light_gray_cyan", color_pair( 65 ), def_c_cyan_white );
     add_color( def_c_white_cyan, "c_white_cyan", color_pair( 65 ).bold(), def_c_light_cyan_white );
     add_color( def_c_red_cyan, "c_red_cyan", color_pair( 66 ), def_c_cyan_red );
@@ -388,6 +391,35 @@ void color_manager::load_default()
     add_color( def_c_cyan_cyan, "c_cyan_cyan", color_pair( 71 ), def_c_cyan_cyan );
     add_color( def_c_light_cyan_cyan, "c_light_cyan_cyan", color_pair( 71 ).bold(),
                def_c_light_cyan_cyan );
+
+    // Allow real dark gray for terminals that support it
+    if( catacurses::supports_256_colors() ) {
+        add_color( def_c_dark_gray, "c_dark_gray", color_pair( 72 ), def_i_dark_gray );
+        add_color( def_h_dark_gray, "h_dark_gray", color_pair( 75 ), def_c_light_blue );
+        add_color( def_i_dark_gray, "i_dark_gray", color_pair( 79 ).blink(), def_c_dark_gray );
+        add_color( def_c_dark_gray_red, "c_dark_gray_red", color_pair( 73 ), def_c_dark_gray_red );
+        add_color( def_c_dark_gray_white, "c_dark_gray_white", color_pair( 79 ), def_c_white );
+        add_color( def_c_dark_gray_green, "c_dark_gray_green", color_pair( 74 ), def_c_light_green );
+        add_color( def_c_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 78 ), def_c_yellow );
+        add_color( def_c_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 77 ), def_c_pink );
+        add_color( def_c_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 76 ), def_c_light_cyan );
+#if !(defined(TILES) || defined(WIN32))
+        imclient->set_alloced_pair_count( 79 );
+#endif
+    } else {
+        add_color( def_c_dark_gray, "c_dark_gray", color_pair( 30 ).bold(), def_i_dark_gray );
+        add_color( def_h_dark_gray, "h_dark_gray", color_pair( 20 ).bold(), def_c_light_blue );
+        add_color( def_i_dark_gray, "i_dark_gray", color_pair( 32 ).blink(), def_c_dark_gray );
+        add_color( def_c_dark_gray_red, "c_dark_gray_red", color_pair( 9 ).bold(), def_c_dark_gray_red );
+        add_color( def_c_dark_gray_white, "c_dark_gray_white", color_pair( 32 ).bold(), def_c_white );
+        add_color( def_c_dark_gray_green, "c_dark_gray_green", color_pair( 40 ).bold(), def_c_light_green );
+        add_color( def_c_dark_gray_yellow, "c_dark_gray_yellow", color_pair( 48 ).bold(), def_c_yellow );
+        add_color( def_c_dark_gray_magenta, "c_dark_gray_magenta", color_pair( 56 ).bold(), def_c_pink );
+        add_color( def_c_dark_gray_cyan, "c_dark_gray_cyan", color_pair( 64 ).bold(), def_c_light_cyan );
+#if !(defined(TILES) || defined(WIN32))
+        imclient->set_alloced_pair_count( 71 );
+#endif
+    }
 }
 
 void init_colors()
@@ -476,6 +508,23 @@ void init_colors()
     init_pair( 69, blue,       cyan );
     init_pair( 70, magenta,    cyan );
     init_pair( 71, cyan,       cyan );
+
+    init_pair( 72, dark_gray,  black );
+    init_pair( 73, dark_gray,  red );
+    init_pair( 74, dark_gray,  green );
+    init_pair( 75, dark_gray,  blue );
+    init_pair( 76, dark_gray,  cyan );
+    init_pair( 77, dark_gray,  magenta );
+    init_pair( 78, dark_gray,  yellow );
+    init_pair( 79, dark_gray,  white );
+    init_pair( 80, black,      dark_gray );
+    init_pair( 81, red,        dark_gray );
+    init_pair( 82, green,      dark_gray );
+    init_pair( 83, blue,       dark_gray );
+    init_pair( 84, cyan,       dark_gray );
+    init_pair( 85, magenta,    dark_gray );
+    init_pair( 86, yellow,     dark_gray );
+    init_pair( 87, white,      dark_gray );
 
     all_colors.load_default();
     all_colors.load_custom( {} );
@@ -581,13 +630,13 @@ std::string hilite_string( const std::string &text )
  * @param color The color to get, as a std::string.
  * @return The nc_color constant that matches the input.
  */
-nc_color color_from_string( const std::string &color,
+nc_color color_from_string( const std::string_view color,
                             const report_color_error color_error )
 {
     if( color.empty() ) {
         return c_unset;
     }
-    std::string new_color = color;
+    std::string new_color( color );
     if( new_color.substr( 1, 1 ) != "_" ) { //c_  //i_  //h_
         new_color = "c_" + new_color;
     }
@@ -664,7 +713,7 @@ nc_color bgcolor_from_string( const std::string &color )
     return i_white;
 }
 
-color_tag_parse_result get_color_from_tag( const std::string &s,
+color_tag_parse_result get_color_from_tag( const std::string_view s,
         const report_color_error color_error )
 {
     if( s.empty() || s[0] != '<' ) {
@@ -680,7 +729,7 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
     if( tag_close == std::string::npos ) {
         return { color_tag_parse_result::non_color_tag, {} };
     }
-    std::string color_name = s.substr( 7, tag_close - 7 );
+    std::string_view color_name = s.substr( 7, tag_close - 7 );
     const nc_color color = color_from_string( color_name, color_error );
     if( color != c_unset ) {
         return { color_tag_parse_result::open_color_tag, color };
@@ -728,9 +777,11 @@ std::string get_note_string_from_color( const nc_color &color )
     return "Y";
 }
 
-nc_color get_note_color( const std::string &note_id )
+nc_color get_note_color( const std::string_view note_id )
 {
-    const auto candidate_color = color_by_string_map.find( note_id );
+    // TODO in C++20 we can pass a string_view in directly rather than
+    // constructing a string to use as the find argument
+    const auto candidate_color = color_by_string_map.find( std::string( note_id ) );
     if( candidate_color != std::end( color_by_string_map ) ) {
         return candidate_color->second.color;
     }
@@ -826,9 +877,8 @@ void color_manager::show_gui()
     const int iMaxColors = color_array.size();
     bool bStuffChanged = false;
     input_context ctxt( "COLORS" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "REMOVE_CUSTOM" );
@@ -883,7 +933,7 @@ void color_manager::show_gui()
         // display color manager
         for( int i = iStartPos; iter != name_color_map.end(); ++iter, ++i ) {
             if( i >= iStartPos &&
-                i < iStartPos + ( iContentHeight > iMaxColors ? iMaxColors : iContentHeight ) ) {
+                i < iStartPos + std::min( iContentHeight, iMaxColors ) ) {
                 color_manager::color_struct &entry = iter->second;
 
                 if( iCurrentLine == i ) {
@@ -919,42 +969,9 @@ void color_manager::show_gui()
         const int scroll_rate = recmax > 20 ? 10 : 3;
         if( action == "QUIT" ) {
             break;
-        } else if( action == "UP" ) {
-            iCurrentLine--;
-            if( iCurrentLine < 0 ) {
-                iCurrentLine = recmax - 1;
-            }
-        } else if( action == "DOWN" ) {
-            iCurrentLine++;
-            if( iCurrentLine >= recmax ) {
-                iCurrentLine = 0;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( iCurrentLine == recmax - 1 ) {
-                iCurrentLine = 0;
-            } else if( iCurrentLine + scroll_rate >= recmax ) {
-                iCurrentLine = recmax - 1;
-            } else {
-                iCurrentLine += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( iCurrentLine == 0 ) {
-                iCurrentLine = recmax - 1;
-            } else if( iCurrentLine <= scroll_rate ) {
-                iCurrentLine = 0;
-            } else {
-                iCurrentLine += -scroll_rate;
-            }
-        } else if( action == "LEFT" ) {
-            iCurrentCol--;
-            if( iCurrentCol < 1 ) {
-                iCurrentCol = iTotalCols;
-            }
-        } else if( action == "RIGHT" ) {
-            iCurrentCol++;
-            if( iCurrentCol > iTotalCols ) {
-                iCurrentCol = 1;
-            }
+        } else if( navigate_ui_list( action, iCurrentLine, scroll_rate, recmax, true ) ) {
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            iCurrentCol = inc_clamp_wrap( iCurrentCol, 1, iTotalCols );
         } else if( action == "REMOVE_CUSTOM" ) {
             color_manager::color_struct &entry = std::next( name_color_map.begin(), iCurrentLine )->second;
 
@@ -975,11 +992,6 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y_setup = [&]( int ) -> int {
-                    return iHeaderHeight + 1 + calc_offset_y();
-                };
-                ui_templates.w_height_setup = 18;
-
                 ui_templates.text = _( "Color templates:" );
 
                 for( const cata_path &file : vFiles ) {
@@ -1010,11 +1022,6 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y_setup = [&]( int ) -> int {
-                    return iHeaderHeight + 1 + calc_offset_y();
-                };
-                ui_templates.w_height_setup = 18;
-
                 ui_templates.text = _( "Color themes:" );
 
                 for( const cata_path &filename : vFiles ) {
@@ -1029,10 +1036,6 @@ void color_manager::show_gui()
             }
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
-            ui_colors.w_y_setup = [&]( int ) -> int {
-                return iHeaderHeight + 1 + calc_offset_y();
-            };
-            ui_colors.w_height_setup = 18;
 
             const color_manager::color_struct &entry = std::next( name_color_map.begin(),
                     iCurrentLine )->second;

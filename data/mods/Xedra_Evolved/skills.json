@@ -8,6 +8,7 @@
     "tags": [ "combat_skill" ],
     "time_to_attack": { "min_time": 60, "base_time": 200, "time_reduction_per_level": 14 },
     "display_category": "display_interaction",
+    "sort_rank": 26500,
     "companion_skill_practice": [ { "skill": "speech", "weight": 1 }, { "skill": "devices", "weight": 1 } ]
   }
 ]

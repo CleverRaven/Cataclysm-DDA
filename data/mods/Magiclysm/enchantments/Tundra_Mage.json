@@ -2,6 +2,8 @@
   {
     "type": "enchantment",
     "id": "TUNDRA_MAGE",
+    "name": { "str": "Arctic" },
+    "description": "Your Tundra Mage abilities grant you good resistance to temperature conditions.",
     "condition": "ALWAYS",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
   },
@@ -27,8 +29,8 @@
     "type": "effect_type",
     "id": "freeze_aura",
     "name": [ "Freeze burn" ],
-    "desc": [ "You skin is frozen." ],
-    "max_intensity": 3,
+    "desc": [ "Your skin is frozen." ],
+    "max_intensity": 4,
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -25 ] },
     "scaling_mods": { "speed_mod": [ -15 ] }
@@ -46,15 +48,13 @@
     "condition": {
       "and": [
         { "u_has_trait": "TUNDRA_MAGE" },
-        {
-          "not": { "u_has_var": "u_got_tundra_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
+        { "not": { "compare_string": [ "yes", { "u_val": "attunement_attunement_u_got_tundra_mage_attunement" } ] } }
       ]
     },
     "deactivate_condition": { "not": { "u_has_trait": "TUNDRA_MAGE" } },
     "effect": [
       { "u_add_trait": "FREEZING_AURA_OFF" },
-      { "u_add_var": "u_got_tundra_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+      { "u_add_var": "attunement_attunement_u_got_tundra_mage_attunement", "value": "yes" }
     ]
   },
   {
@@ -66,7 +66,7 @@
     "name": { "str": "Freezing Aura" },
     "points": 0,
     "active": true,
-    "description": "Your body emit a large amount of cold energy, which froze all enemies near you.  You suppress this ability now.",
+    "description": "Your body emits a large amount of cold energy, which freezes all enemies near you.  You suppress this ability now.",
     "transform": { "target": "FREEZING_AURA_ON", "msg_transform": "Living creatures around you freezes!", "active": true, "moves": 10 }
   },
   {
@@ -78,8 +78,8 @@
     "active": true,
     "name": { "str": "Freezing Aura (on)" },
     "points": 0,
-    "description": "Your body emit a large amount of cold energy, which froze all enemies near you.",
-    "enchantments": [ "wither_mage_bio_aoe" ],
+    "description": "Your body emits a large amount of cold energy, which freezes all enemies near you.",
+    "enchantments": [ "TUNDRA_MAGE_AOE" ],
     "transform": { "target": "FREEZING_AURA_OFF", "msg_transform": "You suppress your freezing aura.", "active": false, "moves": 10 }
   }
 ]

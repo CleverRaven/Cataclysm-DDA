@@ -39,19 +39,19 @@
     "id": "raptor_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "raptor_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "raptor_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "raptor_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "tyrant_sample_single",
@@ -63,19 +63,19 @@
     "id": "tyrant_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "tyrant_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "tyrant_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "tyrant_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "tyrant_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "tyrant_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "tyrant_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "stego_sample_single",
@@ -87,19 +87,19 @@
     "id": "stego_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "stego_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "stego_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "stego_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "stego_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "stego_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "stego_sample", "count": [ 10, 20 ] } ]
   },
   {
     "id": "horns_sample_single",
@@ -111,19 +111,19 @@
     "id": "horns_sample_small",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "horns_sample", "count-min": 1, "count-max": 3 } ]
+    "entries": [ { "item": "horns_sample", "count": [ 1, 3 ] } ]
   },
   {
     "id": "horns_sample_large",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "horns_sample", "count-min": 3, "count-max": 6 } ]
+    "entries": [ { "item": "horns_sample", "count": [ 3, 6 ] } ]
   },
   {
     "id": "horns_sample_huge",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "horns_sample", "count-min": 10, "count-max": 20 } ]
+    "entries": [ { "item": "horns_sample", "count": [ 10, 20 ] } ]
   },
   {
     "type": "item_group",
@@ -163,6 +163,51 @@
       { "item": "bronze_armor_ostrich", "prob": 10 },
       { "item": "dino_carrier", "prob": 10 },
       { "item": "dino_carrier_wooden", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
     ]
   },
   {

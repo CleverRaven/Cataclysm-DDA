@@ -2,18 +2,30 @@
 #ifndef CATA_SRC_EFFECT_ON_CONDITION_H
 #define CATA_SRC_EFFECT_ON_CONDITION_H
 
+#include <functional>
+#include <map>
+#include <memory>
 #include <string>
-#include <climits>
+#include <string_view>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
-#include "calendar.h"
-#include "condition.h"
 #include "dialogue.h"
-#include "json.h"
-#include "optional.h"
+#include "dialogue_helpers.h"
+#include "event.h"
+#include "event_subscriber.h"
 #include "type_id.h"
 
-template<typename T>
-class generic_factory;
+class Character;
+class JsonObject;
+class JsonValue;
+class talker;
+class time_duration;
+struct effect_on_condition;
+template <typename E> struct enum_traits;
+template <typename T> class generic_factory;
+
 enum eoc_type {
     ACTIVATION,
     RECURRING,
@@ -22,8 +34,22 @@ enum eoc_type {
     NPC_DEATH,
     OM_MOVE,
     PREVENT_DEATH,
+    EVENT,
     NUM_EOC_TYPES
 };
+
+class eoc_events : public event_subscriber
+{
+    public:
+        void notify( const cata::event &e ) override;
+        void notify( const cata::event &, std::unique_ptr<talker>, std::unique_ptr<talker> ) override;
+        void clear();
+
+    private:
+        std::map<event_type, std::vector<effect_on_condition>> event_EOCs;
+        bool has_cached = false;
+};
+
 struct effect_on_condition {
     public:
         friend class generic_factory<effect_on_condition>;
@@ -35,19 +61,20 @@ struct effect_on_condition {
         effect_on_condition_id id;
         std::vector<std::pair<effect_on_condition_id, mod_id>> src;
         eoc_type type;
-        std::function<bool( const dialogue & )> condition;
-        std::function<bool( const dialogue & )> deactivate_condition;
-        talk_effect_t<dialogue> true_effect;
-        talk_effect_t<dialogue> false_effect;
+        std::function<bool( dialogue & )> condition;
+        std::function<bool( dialogue & )> deactivate_condition;
+        talk_effect_t true_effect;
+        talk_effect_t false_effect;
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
-        duration_or_var<dialogue> recurrence;
-        bool activate( dialogue &d ) const;
+        event_type required_event;
+        duration_or_var recurrence;
+        bool activate( dialogue &d, bool require_callstack_check = true ) const;
         bool check_deactivate( dialogue &d ) const;
         bool test_condition( dialogue &d ) const;
         void apply_true_effects( dialogue &d ) const;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
         effect_on_condition() = default;
@@ -69,10 +96,10 @@ void load_new_character( Character &you );
 /** Load any new eocs that don't exist in the save. */
 void load_existing_character( Character &you );
 /** Loads an inline eoc */
-effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
+effect_on_condition_id load_inline_eoc( const JsonValue &jv, std::string_view src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
-                                Character &you );
+                                Character &you, const std::unordered_map<std::string, std::string> &context );
 /** called every turn to process the queued eocs */
 void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */

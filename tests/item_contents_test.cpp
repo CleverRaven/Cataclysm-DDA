@@ -3,20 +3,24 @@
 #include "cata_catch.h"
 #include "item.h"
 #include "item_contents.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
 static const itype_id itype_crowbar_pocket_test( "crowbar_pocket_test" );
+static const itype_id itype_jar_glass_sealed( "jar_glass_sealed" );
 static const itype_id itype_log( "log" );
+static const itype_id itype_pickle( "pickle" );
 static const itype_id itype_purse( "purse" );
 
 TEST_CASE( "item_contents" )
 {
+    clear_map();
     item tool_belt( "test_tool_belt" );
 
     const units::volume tool_belt_vol = tool_belt.volume();
@@ -31,10 +35,10 @@ TEST_CASE( "item_contents" )
     item wrench( "wrench_pocket_test" );
     item crowbar( "crowbar_pocket_test" );
 
-    ret_val<void> i1 = tool_belt.put_in( hammer, item_pocket::pocket_type::CONTAINER );
-    ret_val<void> i2 = tool_belt.put_in( tongs, item_pocket::pocket_type::CONTAINER );
-    ret_val<void> i3 = tool_belt.put_in( wrench, item_pocket::pocket_type::CONTAINER );
-    ret_val<void> i4 = tool_belt.put_in( crowbar, item_pocket::pocket_type::CONTAINER );
+    ret_val<void> i1 = tool_belt.put_in( hammer, pocket_type::CONTAINER );
+    ret_val<void> i2 = tool_belt.put_in( tongs, pocket_type::CONTAINER );
+    ret_val<void> i3 = tool_belt.put_in( wrench, pocket_type::CONTAINER );
+    ret_val<void> i4 = tool_belt.put_in( crowbar, pocket_type::CONTAINER );
 
     {
         CAPTURE( i1.str() );
@@ -66,9 +70,9 @@ TEST_CASE( "item_contents" )
     // check that the tool belt is "full"
     CHECK( !tool_belt.can_contain( crowbar ).success() );
 
-    tool_belt.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
+    tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
     CHECK( tool_belt.num_item_stacks() == 5 );
-    tool_belt.force_insert_item( crowbar, item_pocket::pocket_type::CONTAINER );
+    tool_belt.force_insert_item( crowbar, pocket_type::CONTAINER );
     tool_belt.overflow( tripoint_zero );
     CHECK( tool_belt.num_item_stacks() == 4 );
     tool_belt.overflow( tripoint_zero );
@@ -84,13 +88,14 @@ TEST_CASE( "item_contents" )
     CHECK( tool_belt.empty() );
 }
 
-TEST_CASE( "overflow on combine", "[item]" )
+TEST_CASE( "overflow_on_combine", "[item]" )
 {
+    clear_map();
     tripoint origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );
     item_contents overfull_contents( purse.type->pockets );
-    overfull_contents.force_insert_item( log, item_pocket::pocket_type::CONTAINER );
+    overfull_contents.force_insert_item( log, pocket_type::CONTAINER );
     capture_debugmsg_during( [&purse, &overfull_contents]() {
         purse.combine( overfull_contents );
     } );
@@ -100,14 +105,40 @@ TEST_CASE( "overflow on combine", "[item]" )
     CHECK( here.i_at( origin ).size() == 1 );
 }
 
-TEST_CASE( "overflow test", "[item]" )
+TEST_CASE( "overflow_test", "[item]" )
 {
+    clear_map();
     tripoint origin{ 60, 60, 0 };
     item purse( itype_purse );
     item log( itype_log );
-    purse.force_insert_item( log, item_pocket::pocket_type::MIGRATION );
+    purse.force_insert_item( log, pocket_type::MIGRATION );
     map &here = get_map();
-    here.i_clear( origin );
     purse.overflow( origin );
     CHECK( here.i_at( origin ).size() == 1 );
+}
+
+TEST_CASE( "overflow_test_into_parent_item", "[item]" )
+{
+    clear_map();
+    tripoint origin{ 60, 60, 0 };
+    item jar( itype_jar_glass_sealed );
+    item pickle( itype_pickle );
+    pickle.force_insert_item( pickle, pocket_type::MIGRATION );
+    jar.put_in( pickle, pocket_type::CONTAINER );
+    int contents_pre = 0;
+    for( item *it : jar.all_items_top() ) {
+        contents_pre += it->count();
+    }
+    REQUIRE( contents_pre == 1 );
+
+    item_location jar_loc( map_cursor( tripoint_bub_ms( origin ) ), &jar );
+    jar_loc.overflow();
+    map &here = get_map();
+    CHECK( here.i_at( origin ).empty() );
+
+    int contents_count = 0;
+    for( item *it : jar.all_items_top() ) {
+        contents_count += it->count();
+    }
+    CHECK( contents_count == 2 );
 }

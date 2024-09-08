@@ -1,0 +1,186 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
+          "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG",
+          "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
+          "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM",
+          "EOC_PORTAL_NULL_AWAKENING"
+        ],
+        "names": [ "Restore Right Leg", "Restore Left Leg", "Restore Right Arm", "Restore Left Arm", "Nevermind" ],
+        "keys": [ "1", "2", "3", "4", "5" ],
+        "descriptions": [
+          "Attempt to restore your right leg.",
+          "Attempt to restore your left leg.",
+          "Attempt to restore your right arm.",
+          "Attempt to restore your left arm.",
+          "Do nothing for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
+    "condition": { "u_has_trait": "NO_RIGHT_LEG" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_LEG", "duration": "540 minutes" } ],
+    "false_effect": [
+      {
+        "u_message": "You have a right leg or equivalent thereof.  If it's a prosthetic, please take it off before restoring your leg.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_LEG",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEG_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "Your right leg has been restored.", "type": "good" },
+      { "u_lose_trait": "NO_RIGHT_LEG" },
+      { "u_lose_var": "traits_limbs_missing_right_leg" },
+      { "u_add_trait": "HAS_RIGHT_LEG" },
+      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG",
+    "condition": { "u_has_trait": "NO_LEFT_LEG" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_LEFT_LEG", "duration": "540 minutes" } ],
+    "false_effect": [
+      {
+        "u_message": "You have a left leg or equivalent thereof.  If it's a prosthetic, please take it off before restoring your leg.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_RESTORE_LIMB_LEFT_LEG",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_LEFT_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_LEG_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "Your left leg has been restored.", "type": "good" },
+      { "u_lose_trait": "NO_LEFT_LEG" },
+      { "u_lose_var": "traits_limbs_missing_left_leg" },
+      { "u_add_trait": "HAS_LEFT_LEG" },
+      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
+    "condition": { "u_has_trait": "NO_RIGHT_ARM" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_ARM", "duration": "540 minutes" } ],
+    "false_effect": [
+      {
+        "u_message": "You have a right arm or equivalent thereof.  If it's a prosthetic, please take it off before restoring your arm.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_RESTORE_LIMB_RIGHT_ARM",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_RIGHT_ARM_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "Your right arm had been restored.", "type": "good" },
+      { "u_lose_trait": "NO_RIGHT_ARM" },
+      { "u_lose_var": "traits_limbs_missing_right_arm" },
+      { "u_add_trait": "HAS_RIGHT_ARM" },
+      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM",
+    "condition": { "u_has_trait": "NO_LEFT_ARM" },
+    "effect": [ { "u_assign_activity": "ACT_VITAKIN_RESTORE_LIMB_LEFT_ARM", "duration": "540 minutes" } ],
+    "false_effect": [
+      {
+        "u_message": "You have a left arm or equivalent thereof.  If it's a prosthetic, please take it off before restoring your arm.",
+        "type": "mixed"
+      }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_RESTORE_LIMB_LEFT_ARM",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "completion_eoc": "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM_RESULT"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_RESTORE_LIMB_LEFT_ARM_RESULT",
+    "condition": { "roll_contested": { "math": [ "rand( u_spell_level('vita_limb_restore'))" ] }, "difficulty": 14 },
+    "effect": [
+      { "u_message": "Your left arm had been restored.", "type": "good" },
+      { "u_lose_trait": "NO_LEFT_ARM" },
+      { "u_lose_var": "traits_limbs_missing_left_arm" },
+      { "u_add_trait": "HAS_LEFT_ARM" },
+      { "run_eocs": "EOC_VITA_RESTORE_LIMB_DRAIN" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ],
+    "false_effect": [
+      { "u_message": "Your healing powers were not great enough, you'll have to try again.", "type": "bad" },
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,75 )" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITA_RESTORE_LIMB_DRAIN",
+    "//": "About 2.5 times as costly as the super heal drain, factored for each tick of healing. Assuming you're using super heal at level twelve, it ticks 15 times. 15 * 2.5 = 37.5 times increase for proper scaling in a single tick of this.  You are regrowing a whole body part, you know.",
+    "effect": [
+      { "math": [ "u_calories()", "-=", "rng( 1875,9375 )" ] },
+      { "math": [ "u_vitamin('iron')", "-=", "rng( 1875,7500 )" ] },
+      { "math": [ "u_vitamin('calcium')", "-=", "rng( 3750,7500 )" ] },
+      { "math": [ "u_vitamin('vitC')", "-=", "rng( 750,3000 )" ] },
+      { "math": [ "u_val('sleepiness')", "+=", "rng( 75,375 )" ] }
+    ]
+  }
+]

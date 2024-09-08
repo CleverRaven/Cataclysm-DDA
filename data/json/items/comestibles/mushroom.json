@@ -6,11 +6,33 @@
     "copy-from": "mushroom",
     "spoils_in": "1 day",
     "description": "A tasty cooked wild mushroom.",
-    "price": 150,
-    "price_postapoc": 50,
+    "price": "1 USD 50 cent",
+    "price_postapoc": "50 cent",
     "fun": 1,
     "vitamins": [ [ "vitC", 4 ], [ "iron", 7 ] ],
     "flags": [ "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "mushroom_ketchup",
+    "name": { "str_sp": "mushroom ketchup" },
+    "description": "A savory condiment made from mushrooms.",
+    "material": [ "mushroom" ],
+    "symbol": "~",
+    "color": "brown",
+    "price": 4000,
+    "price_postapoc": 150,
+    "container": "bottle_glass",
+    "weight": "16 g",
+    "volume": "750 ml",
+    "charges": 48,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NO_AUTO_CONSUME" ],
+    "spoils_in": "365 days",
+    "fun": -1,
+    "calories": 5,
+    "vitamins": [ [ "vitC", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -22,16 +44,17 @@
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
     "symbol": "%",
+    "looks_like": "mushroom",
     "calories": 24,
     "description": "Prized by chefs and woodsmen alike, morel mushrooms are delicious but must be cooked before they are safe to eat.",
-    "price": 2000,
-    "price_postapoc": 50,
+    "price": "20 USD",
+    "price_postapoc": "50 cent",
     "material": [ "mushroom" ],
     "volume": "250 ml",
     "fun": 1,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -41,8 +64,8 @@
     "use_action": [  ],
     "spoils_in": "1 day",
     "description": "A tasty cooked morel mushroom.",
-    "price": 1500,
-    "price_postapoc": 50,
+    "price": "15 USD",
+    "price_postapoc": "50 cent",
     "fun": 4,
     "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "calcium", 2 ], [ "iron", 52 ] ]
@@ -56,11 +79,11 @@
     "spoils_in": "1 day 12 hours",
     "calories": 142,
     "description": "A delicious serving of fried morsels of morel mushroom.",
-    "price": 1500,
-    "price_postapoc": 50,
-    "charges": 2,
+    "price": "750 cent",
+    "price_postapoc": "25 cent",
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "volume": "125 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -74,13 +97,14 @@
     "quench": -1,
     "calories": 22,
     "description": "Dried mushrooms are a tasty and healthy addition to many meals.",
-    "price": 180,
-    "price_postapoc": 100,
+    "price": "1 USD 80 cent",
+    "price_postapoc": "1 USD",
     "material": [ "mushroom" ],
     "primary_material": "dried_vegetable",
     "volume": "25 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -93,13 +117,13 @@
     "symbol": "%",
     "calories": 15,
     "description": "Mushrooms are tasty, but be careful.  Some can poison you, while others are hallucinogenic.",
-    "price": 140,
-    "price_postapoc": 50,
+    "price": "1 USD 40 cent",
+    "price_postapoc": "50 cent",
     "material": [ "mushroom" ],
     "volume": "250 ml",
     "fun": -3,
     "flags": [ "FREEZERBURN", "SMOKABLE", "FORAGE_POISON", "FORAGE_HALLU", "RAW" ],
     "smoking_result": "dry_mushroom",
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   }
 ]

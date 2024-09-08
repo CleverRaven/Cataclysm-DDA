@@ -8,6 +8,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "100 L",
     "weight": "100 kg",
     "hp": 100,
@@ -26,13 +27,13 @@
       { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 }
     ],
     "dodge": 2,
-    "armor_bash": 3,
     "harvest": "pelt_megafauna",
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "reproduction": { "baby_monster": "mon_giant_beaver_cub", "baby_count": 4, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ],
+    "armor": { "bash": 5, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_giant_beaver_cub",
@@ -52,7 +53,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2.0 } ],
     "dodge": 2,
     "upgrades": { "age_grow": 160, "into": "mon_giant_beaver" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "NO_BREED" ]
   },
   {
     "id": "mon_large_claw_sloth",
@@ -63,6 +64,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 800,
@@ -81,9 +83,6 @@
     ],
     "special_attacks": [ { "id": "longswipe" }, { "id": "smash" }, [ "EAT_CROP", 5 ], [ "EAT_FOOD", 5 ] ],
     "dodge": 0,
-    "armor_bash": 8,
-    "armor_cut": 12,
-    "armor_stab": 12,
     "harvest": "pelt_megafauna",
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.05 } ],
@@ -95,7 +94,8 @@
       "feed": "The %s seems to like you!  It lets you pat its head, giving off a bassy hum.",
       "pet": "The %s turns on its back and lets you scratch its huge, moss-overgrown belly."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "PET_MOUNTABLE", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "PET_MOUNTABLE", "CANPLAY" ],
+    "armor": { "bash": 5, "cut": 15, "stab": 10 }
   },
   {
     "id": "mon_large_claw_sloth_cub",
@@ -116,7 +116,7 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 } ],
     "dodge": 1,
     "upgrades": { "age_grow": 720, "into": "mon_large_claw_sloth" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_stagmoose",
@@ -127,6 +127,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "580 L",
     "weight": "560 kg",
     "hp": 540,
@@ -142,8 +143,6 @@
     "melee_damage": [ { "damage_type": "stab", "amount": 4.0 }, { "damage_type": "bash", "amount": 8.0, "armor_penetration": 5 } ],
     "special_attacks": [ { "id": "stag_smash" }, { "id": "mutant_antler" }, [ "EAT_CROP", 20 ] ],
     "dodge": 2,
-    "armor_bash": 4,
-    "armor_cut": 2,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "starting_ammo": { "milk_raw": 3 },
@@ -158,7 +157,8 @@
       "feed": "The %s seems to tolerate you.  It cautiously lets you pat its head and seems friendly for now.",
       "pet": "The %s bows down its massive antlered head to nuzzle your face."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "MILKABLE", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "MILKABLE", "WARM", "CANPLAY" ],
+    "armor": { "bash": 5, "cut": 5, "stab": 5 }
   },
   {
     "id": "mon_stagmoose_cub",
@@ -184,7 +184,7 @@
       "feed": "The %s seems to like you.  It lets you pat its head and seems friendly for now.",
       "pet": "The %s nuzzles you, pressing its head against your petting hand."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "NO_BREED", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "NO_BREED", "WARM", "CANPLAY" ]
   },
   {
     "id": "mon_mammoth",
@@ -195,6 +195,7 @@
     "bodytype": "elephant",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 600,
@@ -212,9 +213,6 @@
       { "damage_type": "bash", "amount": 8.0, "armor_penetration": 4 }
     ],
     "dodge": 1,
-    "armor_bash": 10,
-    "armor_cut": 6,
-    "armor_stab": 4,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.2 } ],
@@ -255,7 +253,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PET_MOUNTABLE",
       "WARM",
@@ -263,7 +261,8 @@
       "DESTROYS",
       "PUSH_MON",
       "CANPLAY"
-    ]
+    ],
+    "armor": { "bash": 10, "cut": 15, "stab": 5 }
   },
   {
     "id": "mon_mammoth_cub",
@@ -283,7 +282,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 1 } ],
     "dodge": 1,
-    "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "harvest": "woolly_mammoth_baby",
@@ -295,7 +293,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PATH_AVOID_FIRE",
       "PET_WONT_FOLLOW",
       "WARM",
@@ -303,7 +301,8 @@
       "PUSH_MON",
       "CANPLAY"
     ],
-    "upgrades": { "age_grow": 450, "into": "mon_mammoth" }
+    "upgrades": { "age_grow": 450, "into": "mon_mammoth" },
+    "armor": { "cut": 5, "stab": 2, "bash": 5 }
   },
   {
     "id": "mon_mastodon",
@@ -314,6 +313,7 @@
     "bodytype": "elephant",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 670,
@@ -331,9 +331,6 @@
       { "damage_type": "bash", "amount": 8.0, "armor_penetration": 6 }
     ],
     "dodge": 1,
-    "armor_bash": 12,
-    "armor_cut": 2,
-    "armor_stab": 6,
     "vision_night": 5,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY", "MATING_SEASON" ],
@@ -371,14 +368,15 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PET_MOUNTABLE",
       "WARM",
       "BASHES",
       "DESTROYS",
       "PUSH_MON",
       "CANPLAY"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_mastodon_cub",
@@ -398,7 +396,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0, "armor_penetration": 1 } ],
     "dodge": 1,
-    "armor_bash": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
     "harvest": "mammal_large_leather",
@@ -410,14 +407,15 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PET_WONT_FOLLOW",
       "WARM",
       "KEENNOSE",
       "PUSH_MON",
       "CANPLAY"
     ],
-    "upgrades": { "age_grow": 450, "into": "mon_mastodon" }
+    "upgrades": { "age_grow": 450, "into": "mon_mastodon" },
+    "armor": { "cut": 3, "stab": 2, "bash": 2 }
   },
   {
     "id": "mon_shortface",
@@ -428,6 +426,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "950 kg",
     "hp": 700,
@@ -442,9 +441,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 6.0 } ],
     "dodge": 2,
-    "armor_bash": 10,
-    "armor_cut": 6,
-    "armor_stab": 4,
     "vision_day": 16,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
@@ -463,7 +459,8 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 40 } ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "BASHES", "PUSH_MON" ],
+    "armor": { "bash": 10, "cut": 15, "stab": 5 }
   },
   {
     "id": "mon_shortface_cub",
@@ -486,7 +483,7 @@
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "upgrades": { "age_grow": 360, "into": "mon_shortface" },
-    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
   {
     "id": "mon_auk",
@@ -497,13 +494,14 @@
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_basic_bird" ],
     "volume": "25 L",
     "weight": "5000 g",
     "hp": 21,
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "A",
-    "color": "black",
+    "color": "light_blue",
     "aggression": -10,
     "morale": 25,
     "melee_dice": 1,
@@ -517,7 +515,7 @@
     "reproduction": { "baby_egg": "egg_auk", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS" ]
   },
   {
     "id": "mon_auk_chick",
@@ -536,6 +534,7 @@
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 600,
@@ -550,9 +549,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 8.0, "armor_penetration": 1 } ],
     "dodge": 2,
-    "armor_bash": 6,
-    "armor_cut": 30,
-    "armor_stab": 15,
     "vision_day": 10,
     "vision_night": 4,
     "path_settings": { "max_dist": 10 },
@@ -571,7 +567,8 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 50 } ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PUSH_MON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PUSH_MON" ],
+    "armor": { "bash": 10, "cut": 25, "stab": 20 }
   },
   {
     "id": "mon_glyptotherium_young",
@@ -592,23 +589,22 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 3,
-    "armor_bash": 4,
-    "armor_cut": 10,
-    "armor_stab": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "mammal_large_leather",
     "upgrades": { "age_grow": 360, "into": "mon_glyptotherium" },
-    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ],
+    "armor": { "bash": 4, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_american_zebra",
     "type": "MONSTER",
     "name": { "str": "American zebra" },
-    "description": "A hooved grazing mammal with a brown-and-white striped coat.  .",
+    "description": "A hooved grazing mammal with a brown-and-white striped coat.",
     "default_faction": "herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "280 L",
     "weight": "280 kg",
     "hp": 90,
@@ -622,7 +618,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 4 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -634,7 +629,8 @@
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.3,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 10, "stab": 5 }
   },
   {
     "id": "mon_zebra_foal",
@@ -660,6 +656,6 @@
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "upgrades": { "age_grow": 240, "into": "mon_american_zebra" },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "NO_BREED" ]
   }
 ]

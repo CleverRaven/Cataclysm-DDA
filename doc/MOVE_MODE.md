@@ -1,4 +1,4 @@
-# `movement_mode`
+# Movement Modes
 
 ## definition
 

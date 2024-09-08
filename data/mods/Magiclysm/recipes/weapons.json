@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_magus_weapon",
     "//": "Forging and water included for glass heat-tempering process",
     "category": "CC_ENCHANTED",
@@ -13,7 +13,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
-    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_glassblowing" } ],
     "components": [
       [ [ "q_staff", 1 ] ],
@@ -24,7 +24,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_magus_weapon_adept",
     "//": "This recipes uses cut to represent the carving, alchemy for the infusion of the mana and to make life difficult",
     "category": "CC_ENCHANTED",
@@ -36,7 +36,7 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "water", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "water", -1 ] ], [ [ "metalworking_tongs", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 } ],
     "components": [
       [ [ "enchanted_wood", 1 ] ],
@@ -48,7 +48,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_biomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -69,7 +69,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_biomancer_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -121,7 +121,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_animist_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -138,12 +138,12 @@
       { "id": "MANA_INFUSE", "level": 1 }
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "rune_animist", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_animist_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -164,12 +164,12 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "rune_animist_weapon", 1 ] ], [ [ "twisted_restore_potion", 1 ] ], [ [ "blood", 5 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rune_druid_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -183,7 +183,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_technomancer_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -203,12 +203,12 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "rune_technomancer", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "rune_technomancer_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -236,7 +236,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_stormshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -258,7 +258,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_stormshaper_weapon_adept",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -273,19 +273,19 @@
     "components": [
       [ [ "rune_stormshaper_weapon", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "gold", 100 ] ],
+      [ [ "gold_small", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rune_earthshaper_weapon",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "spellcraft", 2 ], [ "bashing", 2 ] ],
+    "skills_required": [ [ "spellcraft", 2 ], [ "unarmed", 2 ] ],
     "difficulty": 4,
     "time": "360 m",
     "autolearn": true,
@@ -295,7 +295,7 @@
   {
     "result": "rune_kelvinist_weapon",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
@@ -314,13 +314,13 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ], [ [ "rune_kelvinist", 1 ] ] ]
   },
   {
     "result": "rune_kelvinist_ice_adept_weapon",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
     "skill_used": "fabrication",
@@ -340,7 +340,7 @@
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 2.5 },
       { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 3 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "2x4", 1 ], [ "stick", 2 ] ],
       [ [ "fur", 2 ], [ "leather", 2 ] ],
@@ -350,7 +350,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "animist_doll_zombie",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -358,7 +358,6 @@
     "skills_required": [ [ "spellcraft", 4 ] ],
     "difficulty": 4,
     "time": "120 m",
-    "result_mult": 3,
     "book_learn": [ [ "necro_basic", 3 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [
@@ -375,11 +374,12 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "needle_bone", 1 ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "animist_doll_skeleton",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -387,7 +387,6 @@
     "skills_required": [ [ "spellcraft", 5 ] ],
     "difficulty": 5,
     "time": "180 m",
-    "result_mult": 3,
     "book_learn": [ [ "necro_basic", 4 ] ],
     "qualities": [
       { "id": "SEW", "level": 1 },
@@ -409,11 +408,12 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 4 ], [ "bone_human", 4 ], [ "bone_tainted", 8 ] ],
       [ [ "needle_bone", 1 ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "animist_doll_decayed_pouncer",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -421,7 +421,6 @@
     "skills_required": [ [ "spellcraft", 7 ] ],
     "difficulty": 7,
     "time": "210 m",
-    "result_mult": 3,
     "book_learn": [ [ "necro_basic", 6 ] ],
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT_FINE", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "tools": [ [ [ "rune_animist", -1 ], [ "rune_animist_weapon", -1 ], [ "rune_animist_weapon_adept", -1 ] ] ],
@@ -437,35 +436,50 @@
       [ [ "sinew", 60 ] ],
       [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 2 ] ],
       [ [ "needle_bone", 1 ] ]
-    ]
+    ],
+    "charges": 3
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "shotcestus",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "flaming_fist",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "skills_required": [ [ "spellcraft", 4 ], [ "bashing", 2 ], [ "shotgun", 2 ] ],
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "skills_required": [ [ "spellcraft", 6 ], [ "unarmed", 3 ] ],
     "time": "4 h 30 m",
-    "book_learn": [ [ "techno_basic", 4 ] ],
+    "book_learn": [ [ "book_mythological", 6 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "CUT_FINE", "level": 1 },
       { "id": "SAW_M", "level": 2 },
       { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
       { "id": "MANA_INFUSE", "level": 1 }
     ],
-    "tools": [ [ [ "rune_technomancer", -1 ], [ "rune_technomancer_weapon", -1 ], [ "rune_technomancer_weapon_adept", -1 ] ] ],
-    "byproducts": [ [ "splinter", 4 ] ],
-    "//": "Splinters from stock",
-    "components": [ [ [ "leather", 4 ] ], [ [ "pipe_double_shotgun", 1 ], [ "shotgun_d", 1 ] ], [ [ "scrap", 8 ] ] ]
+    "components": [ [ [ "leather", 4 ] ], [ [ "rune_kelvinist", 6 ] ], [ [ "scrap", 8 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "gauntlet_pounding",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_WEAPONS",
+    "skill_used": "spellcraft",
+    "difficulty": 6,
+    "skills_required": [ [ "spellcraft", 6 ], [ "unarmed", 3 ] ],
+    "time": "4 h 30 m",
+    "book_learn": [ [ "book_mythological", 6 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "MANA_INFUSE", "level": 1 }
+    ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "rune_earthshaper", 12 ] ], [ [ "scrap", 16 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "mjolnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -475,8 +489,8 @@
     "time": "20 h",
     "book_learn": [ [ "book_mythological", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3 },
@@ -493,7 +507,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "gungnir",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
@@ -509,13 +523,13 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_almetallurgy" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "spear_steel", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "gram",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -531,13 +545,13 @@
       { "proficiency": "prof_bladesmith" },
       { "proficiency": "prof_almetallurgy" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "broadsword", 1 ] ], [ [ "gold_small", 20 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "qt_broadsword", 1 ] ], [ [ "gold_small", 20 ] ], [ [ "orichalcum_ingot", 2 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "ichaival",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -553,8 +567,13 @@
       { "proficiency": "prof_bowyery", "required": false, "time_multiplier": 2 },
       { "proficiency": "prof_almetallurgy" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 3 },
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CUT", "level": 2 }
+    ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
       [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
       [ [ "cordage_superior", 2, "LIST" ] ],
@@ -564,7 +583,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "laevateinn",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
@@ -580,16 +599,16 @@
       { "proficiency": "prof_toolsmithing" },
       { "proficiency": "prof_almetallurgy" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_ingot", 1 ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "EXTRA_EXERCISE",
     "result": "arrow_odin",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 4 ], [ "spellcraft", 5 ] ],
     "using": [ [ "forging_standard", 1 ] ],
@@ -604,7 +623,7 @@
     "time": "30 m",
     "book_learn": [ [ "book_mythological", 9 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 }, { "id": "ANVIL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "metalworking_tongs", -1 ] ] ],
     "components": [
       [ [ "orichalcum_ingot", 1 ] ],
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
@@ -630,7 +649,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "magi_staff_minor",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -645,7 +664,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "magi_staff_lesser",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -661,7 +680,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "magi_staff_greater",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_WEAPONS",
@@ -680,7 +699,177 @@
       { "id": "CHISEL", "level": 3 }
     ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_alchemy" }, { "proficiency": "prof_almetallurgy" } ],
-    "tools": [ [ [ "rune_alchemist", -1 ], [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "rune_alchemist", -1 ], [ "metalworking_tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "enchanted_wood", 1 ] ], [ [ "bulette_pearl", 1 ] ], [ [ "mithril_ingot", 1 ] ], [ [ "mana_dust", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_druid_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_druid", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_stormshaper_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_stormshaper", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_earthshaper_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "stick_long", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_earthshaper", 1 ] ],
+      [ [ "rock", 1 ], [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_kelvinist_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_kelvinist", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_biomancer_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_biomancer", 1 ] ],
+      [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_tainted", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_technomancer_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_technomancer", 1 ] ],
+      [ [ "e_scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_magus_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_magus", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "arrow_animist_crafted",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "spellcraft", 3 ], [ "archery", 1 ] ],
+    "charges": 10,
+    "difficulty": 3,
+    "time": "15 m",
+    "book_learn": [ [ "arcane_archer_companion", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_fletching", "required": false, "time_multiplier": 1.8 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [
+      [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "mop", 1 ] ],
+      [ [ "fletching", 1, "LIST" ] ],
+      [ [ "rune_animist", 1 ] ]
+    ]
   }
 ]

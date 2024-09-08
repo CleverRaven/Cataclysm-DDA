@@ -3,18 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbml_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "fbml_wood_palette" ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "palettes": [ "fbml_common_palette" ] }
   },
   {
     "type": "mapgen",
@@ -37,7 +26,7 @@
         "fdffff"
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_wood_palette" ]
+      "palettes": [ "fbml_common_palette" ]
     }
   },
   {
@@ -61,7 +50,7 @@
         "      "
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_wood_palette" ]
+      "palettes": [ "fbml_common_palette" ]
     }
   },
   {
@@ -85,7 +74,7 @@
         "    FF"
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_wood_palette" ]
+      "palettes": [ "fbml_common_palette" ]
     }
   },
   {
@@ -109,7 +98,7 @@
         "FFDFF "
       ],
       "place_zones": [ { "type": "NPC_NO_INVESTIGATE", "faction": "your_followers", "x": [ 0, 5 ], "y": [ 0, 5 ] } ],
-      "palettes": [ "fbml_wood_palette" ]
+      "palettes": [ "fbml_common_palette" ]
     }
   },
   {

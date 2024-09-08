@@ -50,7 +50,7 @@
     "looks_like": "manual_karate",
     "type": "BOOK",
     "name": { "str": "Pocket Monster Encyclopedia", "str_pl": "copies of Pocket Monster Encyclopedia" },
-    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them the in a real fight.",
+    "description": "This encyclopedia contains a detailed listing of the strengths and techniques of various fictional monsters and how to apply them in a real fight.",
     "martial_art": "style_mma_pokken"
   },
   {
@@ -107,10 +107,60 @@
     "type": "TOOL",
     "name": { "str": "dragon hand scroll" },
     "description": "Focus your ki into magical attacks.",
-    "price_postapoc": 12000,
-    "use_action": { "type": "countdown", "name": "Unroll", "message": "You unroll the dragon scroll…" },
-    "countdown_interval": 1,
-    "countdown_destroy": true,
+    "price_postapoc": "120 USD",
+    "use_action": {
+      "target": "ki_strike_scroll",
+      "msg": "You unroll the dragon scroll…",
+      "target_timer": "1 seconds",
+      "active": true,
+      "menu_text": "Unroll",
+      "type": "transform"
+    },
     "countdown_action": { "type": "cast_spell", "spell_id": "learn_ki_strike", "no_fail": true, "level": 0 }
+  },
+  {
+    "id": "manual_centipede",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Centipede Lu Feng", "str_pl": "copies of The Centipede Lu Feng" },
+    "price_postapoc": "20 USD",
+    "description": "A complete guide to Centipede Kung Fu.",
+    "martial_art": "style_centipede"
+  },
+  {
+    "id": "manual_lizard",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Lizard Kuo Chui", "str_pl": "copies of The Lizard Kuo Chui" },
+    "price_postapoc": "20 USD",
+    "description": "A complete guide to Lizard Kung Fu.",
+    "martial_art": "style_lizard"
+  },
+  {
+    "id": "manual_scorpion",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Scorpion Sun Chien", "str_pl": "copies of The Scorpion Sun Chien" },
+    "price_postapoc": "20 USD",
+    "description": "A complete guide to Scorpion Kung Fu.",
+    "martial_art": "style_scorpion"
+  },
+  {
+    "id": "manual_toad",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Toad Lo Mang", "str_pl": "copies of The Toad Lo Mang" },
+    "price_postapoc": "20 USD",
+    "description": "A complete guide to Toad Kung Fu.",
+    "martial_art": "style_toad"
+  },
+  {
+    "id": "manual_venom_snake",
+    "copy-from": "book_martial",
+    "type": "BOOK",
+    "name": { "str": "The Viper Wei Pai", "str_pl": "copies of The Viper Wei Pai" },
+    "price_postapoc": "20 USD",
+    "description": "A complete guide to Viper Kung Fu.",
+    "martial_art": "style_venom_snake"
   }
 ]

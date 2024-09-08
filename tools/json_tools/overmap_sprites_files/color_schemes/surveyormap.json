@@ -9,7 +9,7 @@
     "cyan": [ 0, 150, 180 ],
     "gray": [ 150, 150, 150 ],
     "dark_gray": [ 99, 99, 99 ],
-    "light_gray": [174, 172, 158],
+    "light_gray": [ 174, 172, 158 ],
     "light_red": [ 255, 150, 150 ],
     "light_green": [ 0, 255, 0 ],
     "yellow": [ 255, 255, 0 ],
@@ -22,55 +22,13 @@
     [ 135, 133, 142 ]
   ],
   "override_terrain_color": [
-    [
-      [ 235, 235, 221 ],
-      [
-        "t_region_groundcover_urban",
-        "null",
-        "t_region_groundcover",
-        "t_null"
-      ]
-    ],
-    [
-      [ 188, 238, 255 ],
-      [
-        "t_open_air_rooved_outside",
-        "t_open_air",
-        "t_open_air_rooved"
-      ]
-    ],
-    [
-      [ 64, 64, 59 ],
-      [
-        "t_rock",
-        "t_pavement"
-      ]
-    ],
-    [
-      [ 83, 62, 32 ],
-      [
-        "t_soil"
-      ]
-    ],
-    [
-      [ 101, 139, 99 ],
-      [
-        "t_region_grass",
-        "t_grass"
-      ]
-    ],
-    [
-      [ 91, 129, 89 ],
-      [
-        "t_grass_long"
-      ]
-    ],
-    [
-      [ 81, 119, 79 ],
-      [
-        "t_grass_tall"
-      ]
-    ],
+    [ [ 235, 235, 221 ], [ "t_region_groundcover_urban", "null", "t_region_groundcover", "t_null" ] ],
+    [ [ 188, 238, 255 ], [ "t_open_air_rooved_outside", "t_open_air", "t_open_air_rooved" ] ],
+    [ [ 64, 64, 59 ], [ "t_rock", "t_pavement" ] ],
+    [ [ 83, 62, 32 ], [ "t_soil" ] ],
+    [ [ 101, 139, 99 ], [ "t_region_grass", "t_grass" ] ],
+    [ [ 91, 129, 89 ], [ "t_grass_long" ] ],
+    [ [ 81, 119, 79 ], [ "t_grass_tall" ] ],
     [
       [ 166, 171, 167 ],
       [
@@ -82,110 +40,24 @@
         "t_linoleum_white_no_roof"
       ]
     ],
-    [
-      [ 62, 46, 36 ],
-      [
-        "t_grave",
-        "t_dirtmound"
-      ]
-    ],
+    [ [ 62, 46, 36 ], [ "t_grave", "t_dirtmound" ] ],
     [
       [ 130, 101, 61 ],
-      [
-        "t_dirtfloor_thatchroof",
-        "t_dirtfloor",
-        "t_dirtfloor_no_roof",
-        "t_floor_primitive",
-        "t_dirt"
-      ]
+      [ "t_dirtfloor_thatchroof", "t_dirtfloor", "t_dirtfloor_no_roof", "t_floor_primitive", "t_dirt" ]
     ],
-    [
-      [ 230, 243, 133 ],
-      [
-        "t_thconc_y",
-        "t_concrete_y",
-        "t_thconc_r",
-        "t_thconc_y_olight",
-        "t_pavement_y"
-      ]
-    ],
-    [
-      [ 198, 156, 96 ],
-      [
-        "t_sand",
-        "t_sandbox",
-        "t_sandmound"
-      ]
-    ],
-    [
-      [ 163, 187, 151 ],
-      [
-        "t_region_groundcover_forest",
-        "t_region_groundcover_swamp"
-      ]
-    ],
-    [
-      [ 225, 225, 211 ],
-      [
-        "t_region_groundcover_barren"
-      ]
-    ],
-    [
-      [ 77, 77, 0 ],
-      [
-        "t_region_soil"
-      ]
-    ],
-    [
-      [ 155, 155, 0 ],
-      [
-        "t_region_tree"
-      ]
-    ],
-    [
-      [ 0, 155, 0 ],
-      [
-        "t_region_tree_evergreen"
-      ]
-    ],
-    [
-      [ 200, 155, 0 ],
-      [
-        "t_region_tree_fruit"
-      ]
-    ],
-    [
-      [ 122, 122, 0 ],
-      [
-        "t_region_tree_nut"
-      ]
-    ],
-    [
-      [ 166, 177, 0 ],
-      [
-        "t_region_tree_shade"
-      ]
-    ],
-    [
-      [ 36, 80, 36 ],
-      [
-        "t_region_shrub",
-        "t_region_shrub_fruit",
-        "t_region_shrub_decorative"
-      ]
-    ],
-    [
-      [ 54, 119, 146 ],
-      [
-        "t_water_sh"
-      ]
-    ],
-    [
-      [ 75, 128, 145 ],
-      [
-        "t_water_dp"
-      ]
-    ],
+    [ [ 230, 243, 133 ], [ "t_thconc_y", "t_concrete_y", "t_thconc_r", "t_thconc_y_olight", "t_pavement_y" ] ],
+    [ [ 198, 156, 96 ], [ "t_sand", "t_sandbox", "t_sandmound" ] ],
+    [ [ 163, 187, 151 ], [ "t_region_groundcover_forest", "t_region_groundcover_swamp" ] ],
+    [ [ 225, 225, 211 ], [ "t_region_groundcover_barren" ] ],
+    [ [ 77, 77, 0 ], [ "t_region_soil" ] ],
+    [ [ 155, 155, 0 ], [ "t_region_tree" ] ],
+    [ [ 0, 155, 0 ], [ "t_region_tree_evergreen" ] ],
+    [ [ 200, 155, 0 ], [ "t_region_tree_fruit" ] ],
+    [ [ 122, 122, 0 ], [ "t_region_tree_nut" ] ],
+    [ [ 166, 177, 0 ], [ "t_region_tree_shade" ] ],
+    [ [ 36, 80, 36 ], [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ] ],
+    [ [ 54, 119, 146 ], [ "t_water_sh" ] ],
+    [ [ 75, 128, 145 ], [ "t_water_dp" ] ],
     [
       [ 255, 242, 38 ],
       [
@@ -301,12 +173,7 @@
         "t_concrete_railing"
       ]
     ],
-    [
-      [ 255, 255, 255 ],
-      [
-        "t_door_white_c"
-      ]
-    ],
+    [ [ 255, 255, 255 ], [ "t_door_white_c" ] ],
     [
       [ 135, 133, 142 ],
       [
@@ -367,13 +234,7 @@
         "t_grate"
       ]
     ],
-    [
-      [ 0, 240, 255 ],
-      [
-        "t_gutter_drop",
-        "t_gutter_downspout"
-      ]
-    ],
+    [ [ 0, 240, 255 ], [ "t_gutter_drop", "t_gutter_downspout" ] ],
     [
       [ 170, 199, 254 ],
       [
@@ -402,15 +263,7 @@
         "t_gas_pump"
       ]
     ],
-    [
-      [ 0, 125, 0 ],
-      [
-        "t_diesel_pump",
-        "t_avgas_pump",
-        "t_diesel_pump_a",
-        "t_jp8_pump"
-      ]
-    ],
+    [ [ 0, 125, 0 ], [ "t_diesel_pump", "t_avgas_pump", "t_diesel_pump_a", "t_jp8_pump" ] ],
     [
       [ 156, 111, 81 ],
       [
@@ -491,11 +344,6 @@
         "t_moss_underground"
       ]
     ],
-    [
-      [ 174, 172, 158 ],
-      [
-        "t_fungus"
-      ]
-    ]
+    [ [ 174, 172, 158 ], [ "t_fungus" ] ]
   ]
 }

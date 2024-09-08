@@ -7,8 +7,8 @@
     "looks_like": "copper_bracelet",
     "weight": "6 g",
     "volume": "10 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
@@ -31,8 +31,8 @@
     "description": "A simple pair of earrings made of string and wooden beads.",
     "weight": "600 mg",
     "volume": "1 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "gold_ear",
@@ -47,8 +47,8 @@
     "looks_like": "silver_necklace",
     "weight": "18 g",
     "volume": "30 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": "u",
     "color": "brown",
@@ -63,8 +63,8 @@
     "looks_like": "copper_bracelet",
     "weight": "8 g",
     "volume": "10 ml",
-    "price": 100,
-    "price_postapoc": 10,
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood", "plastic" ],
     "symbol": "[",
     "color": "red",
@@ -83,16 +83,46 @@
     "id": "bronze_medal",
     "type": "ARMOR",
     "name": { "str": "bronze medal" },
-    "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from iron.",
+    "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from brass.",
     "weight": "25 g",
     "volume": "10 ml",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "iron" ],
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "brass" ],
     "symbol": "[",
     "looks_like": "copper_locket",
     "color": "brown",
     "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "cowrie_bracelet",
+    "copy-from": "bead_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "cowrie bracelet" },
+    "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
+  },
+  {
+    "id": "cowrie_hair_beads",
+    "copy-from": "wooden_hair_beads",
+    "type": "ARMOR",
+    "name": { "str": "cowrie hair beads", "str_pl": "sets of cowrie hair beads" },
+    "description": "An assortment of cowrie shells used to decorate locs or braids.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
+  },
+  {
+    "id": "cowrie_necklace",
+    "copy-from": "bead_necklace",
+    "type": "ARMOR",
+    "name": { "str": "cowrie necklace" },
+    "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY", "NO_SALVAGE" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -101,16 +131,15 @@
     "description": "Fake teeth inlaid with diamonds, worn over the teeth.  Fits horribly, but looks very shiny.  For that high-class gangsta rap look.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 50000,
-    "price_postapoc": 250,
-    "bashing": 3,
-    "cutting": 3,
+    "price": "500 USD",
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "yellow",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 3, "cut": 3 }
   },
   {
     "id": "garnet_dental_grill",
@@ -119,16 +148,15 @@
     "description": "Fake teeth inlaid with garnets, worn over the teeth.  It looks very shiny.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 30000,
-    "price_postapoc": 100,
-    "bashing": 3,
-    "cutting": 3,
+    "price": "300 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 3, "cut": 3 }
   },
   {
     "id": "amethyst_dental_grill",
@@ -208,8 +236,8 @@
     "description": "A barrette with lots of ornaments.",
     "weight": "5 g",
     "volume": "50 ml",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "pink",
@@ -230,8 +258,8 @@
     "description": "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days, this could have been worth a fortune.",
     "weight": "12 g",
     "volume": "1 ml",
-    "price": 190000,
-    "price_postapoc": 100,
+    "price": "1 kUSD 900 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "symbol": "[",
     "looks_like": "ring_engagement",
@@ -242,10 +270,11 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "diving_watch",
@@ -254,8 +283,8 @@
     "description": "A waterproof, self-winding watch on a stainless steel watchband.  Tells the time and current temperature.  Activate to check the digital thermometer.",
     "weight": "100 g",
     "volume": "90 ml",
-    "price": 12000,
-    "price_postapoc": 700,
+    "price": "120 USD",
+    "price_postapoc": "7 USD",
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "[",
@@ -273,8 +302,8 @@
     "description": "A staple accessory for gentlemen.  Keeps your shirt collar in place and provides a more aesthetically pleasing arc to your necktie.",
     "weight": "10 g",
     "volume": "2 ml",
-    "price": 25000,
-    "price_postapoc": 10,
+    "price": "250 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "looks_like": "tieclip",
@@ -287,9 +316,9 @@
     "name": { "str": "copper bracelet" },
     "description": "An old-fashioned copper bracelet.",
     "weight": "45 g",
-    "volume": "5 ml",
-    "price": 2500,
-    "price_postapoc": 10,
+    "volume": "10 ml",
+    "price": "25 USD",
+    "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_bracelet",
@@ -310,10 +339,10 @@
     "type": "ARMOR",
     "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
     "description": "A pair of copper earrings.  They're pretty heavy.",
-    "weight": "9 g",
+    "weight": "8 g",
     "volume": "1 ml",
-    "price": 2900,
-    "price_postapoc": 10,
+    "price": "29 USD",
+    "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "gold_ear",
@@ -325,12 +354,11 @@
     "type": "ARMOR",
     "name": { "str": "copper hairpin" },
     "description": "A hairpin made from copper.",
-    "weight": "18 g",
-    "volume": "2 ml",
-    "price": 500,
-    "price_postapoc": 10,
+    "copy-from": "hairpin",
+    "weight": "180 mg",
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
     "material": [ "copper" ],
-    "symbol": "[",
     "looks_like": "tieclip",
     "color": "brown",
     "flags": [ "NO_WEAR_EFFECT" ]
@@ -342,12 +370,22 @@
     "description": "A circular copper locket.  It's been tarnished with use, and has gained some dull green spots.",
     "weight": "45 g",
     "volume": "10 ml",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_necklace",
     "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
@@ -357,8 +395,8 @@
     "description": "A simple chain of copper, with a clasp in the middle to create a necklace.",
     "weight": "30 g",
     "volume": "10 ml",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "silver_necklace",
@@ -370,10 +408,10 @@
     "type": "ARMOR",
     "name": { "str": "copper ring" },
     "description": "A plain, copper ring.  Not very shiny, and not very popular.",
-    "weight": "9 g",
+    "weight": "8 g",
     "volume": "1 ml",
-    "price": 2000,
-    "price_postapoc": 10,
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
     "material": [ "copper" ],
     "symbol": "[",
     "looks_like": "ring_purity",
@@ -384,10 +422,11 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "cufflinks",
@@ -396,8 +435,8 @@
     "description": "An unmarked pair of silver cufflinks.  Cufflinks are used to secure the cuffs of dress shirts - a must-have for men in formal wear.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -410,8 +449,8 @@
     "description": "An expensive pair of silver cufflinks, stylized with detailed overlays of gold gears and fractal patterns.",
     "weight": "11 g",
     "volume": "1 ml",
-    "price": 7000,
-    "price_postapoc": 50,
+    "price": "70 USD",
+    "price_postapoc": "50 cent",
     "material": [ { "type": "silver", "portion": 8 }, { "type": "gold", "portion": 2 } ],
     "symbol": "[",
     "color": "light_gray",
@@ -424,8 +463,8 @@
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
     "volume": "1 ml",
-    "price": 3500,
-    "price_postapoc": 50,
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "cufflinks",
     "symbol": "[",
@@ -551,8 +590,8 @@
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "9 g",
     "volume": "1 ml",
-    "price": 3500,
-    "price_postapoc": 100,
+    "price": "35 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "cufflinks",
     "symbol": "[",
@@ -617,8 +656,7 @@
       {
         "id": "vampire_cufflinks",
         "name": { "str_sp": "vampire cufflinks" },
-        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood.",
-        "weight": 1
+        "description": "A pair of cufflinks with inset blood-red rubies in the shape of a drop of blood."
       }
     ]
   },
@@ -695,8 +733,7 @@
       {
         "id": "dark_cufflinks",
         "name": { "str_sp": "dark cufflinks" },
-        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations.",
-        "weight": 1
+        "description": "A pair of cufflinks with inset onyx and a couple of dark silver cat decorations."
       }
     ],
     "color": "dark_gray"
@@ -708,8 +745,8 @@
     "description": "A pair of cufflinks with inset garnets.",
     "weight": "15 g",
     "volume": "1 ml",
-    "price": 3500,
-    "price_postapoc": 100,
+    "price": "35 USD",
+    "price_postapoc": "1 USD",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "cufflinks",
     "symbol": "[",
@@ -835,8 +872,8 @@
     "description": "One of those round things people plug into their earlobes as earrings, also called an \"ear plug\" or \"ear spool.\"",
     "weight": "5 g",
     "volume": "5 ml",
-    "price": 1200,
-    "price_postapoc": 10,
+    "price": "12 USD",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -850,8 +887,8 @@
     "description": "A fancy golden bracelet.",
     "weight": "40 g",
     "volume": "25 ml",
-    "price": 46000,
-    "price_postapoc": 50,
+    "price": "460 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -873,15 +910,14 @@
     "description": "Fake golden teeth, worn over the teeth.  Fits horribly, but looks very shiny.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 20000,
-    "price_postapoc": 50,
-    "bashing": 2,
-    "cutting": 2,
+    "price": "200 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "covers": [ "mouth" ] } ]
+    "armor": [ { "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "gold_ear",
@@ -890,8 +926,8 @@
     "description": "A pair of shiny gold earrings.",
     "weight": "19 g",
     "volume": "1 ml",
-    "price": 13000,
-    "price_postapoc": 10,
+    "price": "130 USD",
+    "price_postapoc": "10 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -902,12 +938,10 @@
     "type": "ARMOR",
     "name": { "str": "gold hairpin" },
     "description": "A gold hairpin, designed by the rich, for the rich.",
-    "weight": "20 g",
-    "volume": "2 ml",
-    "price": 5000,
-    "price_postapoc": 25,
+    "copy-from": "hairpin",
+    "price": "50 USD",
+    "price_postapoc": "25 cent",
     "material": [ "gold" ],
-    "symbol": "[",
     "color": "yellow",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -918,11 +952,21 @@
     "description": "A heart-shaped gold locket with a frame inside to store photographs or small objects.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 20000,
-    "price_postapoc": 25,
+    "price": "200 USD",
+    "price_postapoc": "25 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -932,8 +976,8 @@
     "description": "A medal awarded for achieving first place in some event.  Before everything fell apart, this was likely a source of great pride for its owner.  Now it's just another shiny bauble.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -946,8 +990,8 @@
     "description": "A medal awarded to military personnel for heroism, wounds suffered in combat, or distinguished service.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 1 }, { "type": "bronze", "portion": 4 } ],
     "symbol": "[",
     "color": "brown",
@@ -960,8 +1004,8 @@
     "description": "A shiny, unadorned gold necklace.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 40000,
-    "price_postapoc": 50,
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -974,14 +1018,22 @@
     "description": "A flashy gold ring.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 30000,
-    "price_postapoc": 50,
+    "price": "300 USD",
+    "price_postapoc": "50 cent",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "gold_watch",
@@ -990,8 +1042,8 @@
     "description": "A gold-plated steel self-winding wristwatch, suitable for a retirement present.  Tells the time and looks good.",
     "weight": "150 g",
     "volume": "90 ml",
-    "price": 50000,
-    "price_postapoc": 250,
+    "price": "500 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "gold" } ],
     "symbol": "[",
@@ -1007,8 +1059,8 @@
     "description": "A fancy silver tie clip, a great match for a necktie.",
     "weight": "12 g",
     "volume": "5 ml",
-    "price": 28000,
-    "price_postapoc": 10,
+    "price": "280 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1021,8 +1073,8 @@
     "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, but more classy than an ordinary wristwatch.",
     "weight": "130 g",
     "volume": "90 ml",
-    "price": 18000,
-    "price_postapoc": 100,
+    "price": "180 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -1,
     "material": [ { "type": "steel", "portion": 9 }, { "type": "silver" } ],
     "symbol": "[",
@@ -1038,8 +1090,8 @@
     "description": "A nice silver bracelet.",
     "weight": "30 g",
     "volume": "25 ml",
-    "price": 25000,
-    "price_postapoc": 25,
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1061,8 +1113,8 @@
     "description": "A pair of beautiful silver earrings.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 8000,
-    "price_postapoc": 25,
+    "price": "80 USD",
+    "price_postapoc": "25 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1076,8 +1128,8 @@
     "description": "A rather large and expensively-made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
     "weight": "150 g",
     "volume": "100 ml",
-    "price": 2200000,
-    "price_postapoc": 500,
+    "price": "22 kUSD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "gold", "silver" ],
     "symbol": "[",
@@ -1093,13 +1145,26 @@
     "description": "A small relic from a forgotten saint.  As extraordinary as the world has become, it may have some power yet.",
     "weight": "60 g",
     "volume": "15 ml",
-    "price": 1000,
-    "price_postapoc": 1000,
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
     "material": [ { "type": "bone", "portion": 8 }, { "type": "silver", "portion": 2 } ],
     "symbol": "[",
     "color": "white",
     "use_action": [ "MEDITATE" ],
     "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "wooden_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "wooden hair beads", "str_pl": "sets of wooden hair beads" },
+    "description": "An assortment of wooden beads used to decorate locs or braids.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "material": [ "wood" ],
+    "symbol": ".",
+    "color": "brown",
+    "delete": { "flags": [ "SUPER_FANCY" ] }
   },
   {
     "id": "holy_symbol",
@@ -1108,13 +1173,387 @@
     "description": "A necklace made of fine gold chain, bearing the symbol of a forgotten faith.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "material": [ "gold" ],
     "symbol": ",",
     "color": "yellow",
     "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "lutheran_necklace",
+        "name": { "str": "Lutheran Seal necklace" },
+        "description": "A necklace made of a fine gold chain with the Luther Seal symbol as a pendant.  It is a symbol of the Lutheran Christian faith: The cross mean that humanity was saved from sin because Jesus died on the cross, the heart means that humanity lives because Jesus shed his blood for it, and the flower means that humanity has peace from its faith, and the background means that they have hope that they will be with Jesus in heaven one day.",
+        "color": "yellow",
+        "weight": 30
+      },
+      {
+        "id": "calvinist_necklace",
+        "name": { "str": "Calvinist Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Calvinist Cross symbol as a pendant.  It is a symbol of the Calvinist Christian faith.  While Calvin rejected the images of saints and the crucifix (that is, the image of the body of Christ upon the cross), it allowed a plain Calvinist cross.  The pendant is a plain cross with the symbol of a tulip, denoting the TULIP Calvinist acronym for the five essential doctrines of Total depravity, Unconditional election, Limited atonement, Irresistible grace, and Perseverance of the saints.",
+        "color": "yellow",
+        "weight": 25
+      },
+      {
+        "id": "baptist_necklace",
+        "name": { "str": "Baptist necklace" },
+        "description": "A necklace made of a fine gold chain with the Baptist symbol as a pendant.  It is a symbol of the Baptist Christian faith.  It doesn't display any idol or symbol, instead, in the oval pendant, it reads: 'All Scripture is God-breathed and is useful for teaching.  Timothy 3:16-17', in a water-like background, denoting the Waters of Baptism.",
+        "color": "yellow",
+        "weight": 30
+      },
+      {
+        "id": "methodist_necklace",
+        "name": { "str": "Cross and Flame necklace" },
+        "description": "A necklace made of a fine gold chain with the Cross and Flame symbol as a pendant.  It is a symbol of the Methodist Christian faith.  The cross and flame is the official symbol of the Methodist Church since 1968.  The symbol relates the Methodist church to God through Christ (cross) and the Holy Spirit (flame).  The flame is a reminder of Pentecost when witnesses were unified by the power of the Holy Spirit and saw 'tongues of fire'.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "catholic_necklace",
+        "name": { "str": "Catholic Crucifix necklace" },
+        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant.  It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and a Protestant Cross is that the Catholic Crucifix has a central figure hanging on them, but Protestant crosses do not depict such images.",
+        "color": "yellow",
+        "weight": 25
+      },
+      {
+        "id": "virginmary_necklace",
+        "name": { "str": "St. Virgin Mary necklace" },
+        "description": "A necklace made of a fine gold chain with the figure of Saint Virgin Mary as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Virgin Mary, mother of Jesus Christ, surrounded by light.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "joseph_necklace",
+        "name": { "str": "St. Joseph necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint Joseph as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Joseph holding the infant Jesus, surrounded by light, with the following text inscribed in the pendant: 'Saint Joseph, Pray for Us'.",
+        "color": "yellow",
+        "weight": 18
+      },
+      {
+        "id": "paul_necklace",
+        "name": { "str": "St. Paul necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint Paul as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Paul holding a sword, surrounded by flowers, with the following text inscribed in the pendant: 'Saint Paul, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "john_necklace",
+        "name": { "str": "St. John necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint John the Baptist as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint John the Baptist performing a baptism, with the following text inscribed in the pendant: 'Saint John the Baptist, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "peter_necklace",
+        "name": { "str": "St. Peter necklace" },
+        "description": "A necklace made of a fine gold chain with the figuring of Saint Peter as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Peter observing the Earth, with the following text inscribed in the pendant: 'Saint Peter, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "cyprian_necklace",
+        "name": { "str": "St. Cyprian necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of both Saint Cyprian of Antioch and Saint Justina as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Cyprian and Saint Justina reading a book, with the following text inscribed in the pendant: 'Saint Cyprian of Antioch and Saint Justina, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "nick_necklace",
+        "name": { "str": "St. Nicholas necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint Nicholas as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Nicholas taking care of children, with the following text inscribed in the pendant: 'Saint Nicholas, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "justo_necklace",
+        "name": { "str": "Justo Takayama necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Blessed Justo Takayama dressed like a samurai as a pendant.  It is a symbol of the Roman Catholic Church, displaying the figure of the Blessed Justo Takayama dressed as a samurai, with some text inscribed in Japanese and English at the back.  It reads: 'Blessed Justus Takayama Ukon, Holy Daimyo, Pray for Us'.",
+        "color": "yellow",
+        "weight": 6
+      },
+      {
+        "id": "quaker_necklace",
+        "name": { "str": "Quaker Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Quaker Star symbol as a pendant.  It is a symbol of the Quaker Christian faith, but also a symbolic neckwear of hard work and peace.  The star was first worn by British Quakers during the Franco-Prussian War in 1870.  Quaker relief workers at the time wanted an identification to differentiate themselves and their supplies from other groups who were carrying out similar efforts.  This symbols carries the meaning of Quaker work for peace and the relief of suffering caused by war at the time.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "adventist_necklace",
+        "name": { "str": "Adventist Bible necklace" },
+        "description": "A necklace made of a fine gold chain with the Adventist Bible symbol as a pendant.  It is a symbol of the Adventist Christian faith.  The cross means the Sacrifice of Christ for humanity and also the Gospel of Salvation, the open book means the Holy Bible, placed prominently at the bottom to represent how God's word is fundamental to Adventism, and the flame is the symbolic meaning of the Holy Spirit, the Messenger of Truth.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "celticcross_necklace",
+        "name": { "str": "Celtic Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Celtic Cross symbol as a pendant.  It is a symbol a variety of Christian faith denominations, such as the Anglicans or Presbyterians.  Featuring a nimbus or ring that emerged in Ireland, France and Great Britain in the Early Middle Ages, it is a type of ringed cross.  It became widespread through its use in the stone high crosses erected across the islands, especially in regions evangelized by Irish missionaries, from the ninth through the 12th centuries.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "presbyterian_necklace",
+        "name": { "str": "Presbyterian Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Presbyterian Cross symbol as a pendant.  It is a symbol of the Presbyterian Christian faith.  The Presbyterian Cross emphasize the resurrection and that Christ is not continually dying, but died once and is alive for all eternity, alongside the flames, which represent the Holy Spirit.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "anglican_necklace",
+        "name": { "str": "Compass Rose necklace" },
+        "description": "A necklace made of a fine gold chain with the Golden Compass Rose symbol as a pendant.  It is a symbol of the Anglican Christian faith.  Anglicanism was the State Religion of the United Kingdom before the Cataclysm.  The compass symbolizes the worldwide spread of the Anglican Faith.  Surmounting the shield, at the North, is a mitre, the symbol of apostolic order essential to all Churches and Provinces constituting the Anglican Communion.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "general_necklace",
+        "name": { "str": "cross necklace" },
+        "description": "A necklace made of a fine gold chain with a plain cross symbol as a pendant.  It is a symbol of Christian faith, no matter the denomination.",
+        "color": "yellow",
+        "weight": 75
+      },
+      {
+        "id": "episcopal_necklace",
+        "name": { "str": "Episcopal Shield necklace" },
+        "description": "A necklace made of a fine gold chain with the Episcopalian Shield symbol as a pendant.  It is a symbol of the Episcopalian Christian faith.  The shield of the Episcopal Church was adopted by its General Convention in 1940 and depicts the red cross of St. George, patron saint of England, dividing the silver field of the English flag into four rectangles.  The colors red, white, and blue are also, coincidentally, the colors of the flags of both the United States and the United Kingdom of Great Britain and Northern Ireland.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "brethren_necklace",
+        "name": { "str": "Brethren Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Brethren Cross symbol as a pendant.  It is a symbol of the Plymouth Brethren Christian faith, which displays the symbols of the Cross (representing the Resurrection of Christ), the Circle (which represents the Earth and Union), and the wave (which denotes The Waters of Baptist).",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "moravian_necklace",
+        "name": { "str": "Unity of the Brethren necklace" },
+        "description": "A necklace made of a fine gold chain with the Agnus Dei symbol of the Unity of the Brethren as a pendant.  It is a symbol of the Moravian Church Christian faith, where the round pendant displays the image of the 'Lamb of God', and reads: 'Our Lamb has Conquered, Let Us Follow Him'.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "orthodox_necklace",
+        "name": { "str": "Orthodox Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Orthodox Cross symbol as a pendant.  It is a symbol of the Eastern and Oriental Orthodox Christian faith.  The topmost of the three crossbeams represents Pilate's inscription which in the older Greek tradition is 'The King of Glory', based on John's Gospel.  The middle crossbeam is the main bar to which the victim's hands are fixed, while the bottom crossbeam represents the footrest which prolongs the torture.",
+        "color": "yellow",
+        "weight": 12
+      },
+      {
+        "id": "coptic_necklace",
+        "name": { "str": "Coptic Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Coptic Cross symbol as a pendant.  It is a symbol of the Coptic Christian faith.  The typical form of the 'Coptic cross' used in the Coptic Church is made up of two bold lines of equal length that intersect at the middle at right angles.  Each line terminates in three points, representing the Trinity of the Father, the Son, and the Holy Spirit.  Altogether, the cross has 12 points symbolizing the Apostles, whose mission was to spread the Gospel message throughout the world.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "jehovah_necklace",
+        "name": { "str": "Jehovah's Witnesses necklace" },
+        "description": "A necklace made of a fine gold chain with a Jehovah's Witnesses Bible symbol as a pendant.  It is a symbol of the faith of the Jehovah's Witnesses.  The pendant is shaped like a small black Bible, and reads: 'Jehovah's Witnesses, Proclaimers of God's Kingdom', and on the other side, 'No Blood Transfusion!  See medical directive in wallet or purse'.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "tau_necklace",
+        "name": { "str": "Tau Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Tau Cross symbol as a pendant.  It is a general symbol for Christian faith.  The Tau Cross is representative of salvation and of life, due in part to its association with the sparing of believers in the Bible.  As Tau is the last letter in the Hebrew alphabet, it symbolizes the revealed Word of God, its completion and perfection.  It also can be said to symbolize the Last Day…",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "jewish_necklace1",
+        "name": { "str": "Star of David necklace" },
+        "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897.  At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
+        "color": "yellow",
+        "weight": 12
+      },
+      {
+        "id": "jewish_necklace2",
+        "name": { "str": "Menorah necklace" },
+        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish holiday.",
+        "color": "yellow",
+        "weight": 9
+      },
+      {
+        "id": "odin_necklace1",
+        "name": { "str": "Horn of Odin necklace" },
+        "description": "A necklace made of a fine gold chain with the Horn of Odin symbol as a pendant.  It is a symbol of the Asatru faith.  The Horn of Odin is one of the most recognizable Norse symbols, consisting of three interlocking drinking horns and symbolizing poetic inspiration and wisdom.  It is also a nod to Viking drinking customs and the camaraderie derived from them.",
+        "color": "yellow",
+        "weight": 6
+      },
+      {
+        "id": "odin_necklace2",
+        "name": { "str": "Valknut necklace" },
+        "description": "A necklace made of a fine gold chain with the Valknut symbol as a pendant.  It is a symbol of the Asatru faith.  Also known as Hrungnir's Heart, the Valknut or 'knot of the slain' is an old Norse symbol that often represented the afterlife in carvings and designs.  It is often considered a symbol of the Norse god Odin.",
+        "color": "yellow",
+        "weight": 6
+      },
+      {
+        "id": "buddhist_necklace",
+        "name": { "str": "Lotus of Buddha necklace" },
+        "description": "A necklace made of a fine gold chain with the Lotus of Buddha symbol as a pendant.  It is a symbol of the Buddhist faith, representing a figure of Siddhartha Gautama, the Buddha, meditating on top of a lotus flower.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "dharma_necklace",
+        "name": { "str": "Dharmachakra necklace" },
+        "description": "A necklace made of a fine gold chain with the Dharmachakra symbol as a pendant.  It is a symbol of the Hindu, Jain and Buddhist faiths.  Also known as Dharma Wheel, the circle, the round shape of the wheel, represents the perfection of the Dharma, the Buddha's teaching.  The rim of the wheel represents meditative concentration and mindfulness, which hold practice together.  The hub represents moral discipline.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "zoroastrianist_necklace",
+        "name": { "str": "Faravahar necklace" },
+        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant.  It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward.  He stands above a pair of wings that are outstretched from a circle which are believed to represent eternity.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "sikh_necklace",
+        "name": { "str": "Khanda necklace" },
+        "description": "A necklace made of a fine gold chain with the Khanda symbol as a pendant.  It is a symbol of the Sikh faith.  The Khanda symbol depicts the Sikh doctrine of Deg Tegh Fateh in emblematic form.  It is also part of the design of the 'Sikh national flag', the Nishan Sahib.  A double edged sword (also called Khanda) is placed at the top of a Nishan Sahib flag as an ornament or finial.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "bahai_necklace",
+        "name": { "str": "Baha'i Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Baha'i Star symbol as a pendant.  It is a symbol of the Baha'i faith.  The Baha'i nine-pointed star reflects the importance of the number for the Faith.  The number nine is the highest single digit number, which symbolizes wholeness and the fulfillment of the expectations of all prior religions.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "christian_necklace",
+        "name": { "str": "Ichthys necklace" },
+        "description": "A necklace made of a fine gold chain with the Ichthys symbol as a pendant.  It is a symbol of many Christian faith, and also the symbol of adherents of the Primitivist Christianism, a denomination that believed that Christianism had been too separated from its original meaning and they should return to the initial, pure form of Christianism.  In general, it is a representation of a fish used in ancient times as a pagan fertility talisman or amulet or as a Christian symbol for the Greek word ichthys interpreted as an acrostic in which the Greek letters are the initials of the words 'I esous Christos th eou hy ios s oter', meaning 'Jesus Christ Son of God Savior'.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "muslim_necklace",
+        "name": { "str": "Crescent Moon and Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant.  It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "shinto_necklace",
+        "name": { "str": "Torii necklace" },
+        "description": "A necklace made of a fine gold chain with the Torii symbol as a pendant.  It is a symbol of Shinto faith, where the Torii denotes the entrance to Shinto Shrines and the respect towards the Shinto beliefs and culture.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "confucian_necklace",
+        "name": { "str": "Confucius necklace" },
+        "description": "A necklace made of a fine gold chain with the Confucius symbol as a pendant.  It is a symbol of the Confucianism faith and philosophical system.  The Confucius symbol represents the man who began the religion, as he is one of, if not the most important person to come from Confucianism.  Popular among martial artists and young people because of anime.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "taoist_necklace",
+        "name": { "str": "Ying Yang necklace" },
+        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femininity, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the color orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "illuminati_necklace",
+        "name": { "str": "The All Seeing Eye necklace" },
+        "description": "A necklace made of a fine gold chain with the threatening Eye and Pyramid symbol as a pendant.  It is apparently a symbol of the once famous New World Order, the Illuminati, but you can't tell if it is just a joke, or something real…",
+        "color": "yellow",
+        "weight": 3
+      },
+      {
+        "id": "pentagram_necklace",
+        "name": { "str": "Pentagram necklace" },
+        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths, and emos.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "abadcross_necklace",
+        "name": { "str": "Cross of Leviathan necklace" },
+        "description": "A necklace made of a fine gold chain with the Cross of Leviathan symbol as a pendant.  The Leviathan Cross is sometimes referred to the Cross of Satan.  Depicted on the bottom is an infinity sign, and above is a double cross.  The Double cross symbolizes protection and balance between persons.  The infinity sign underlines the constant and infinite nature and most likely symbolizes the eternal universe, this may have been used by Anton LaVey in The Satanic Bible to as a mockery of the cross, to show that humans are their own centrum of balance.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "satanist_necklace",
+        "name": { "str": "Sigil of Baphomet necklace" },
+        "description": "A necklace made of a fine gold chain with the Sigil of Baphomet symbol as a pendant.  The Sigil of Baphomet is the official insignia of the Church of Satan.  It first appeared on the cover of The Satanic Mass L.P in 1968 and later on the cover of The Satanic Bible in 1969.  The sigil has been called a 'material pentagram', representational of carnality and earthly principles.  The Church described the symbol as the 'preeminent visual distillation of the iconoclastic philosophy of Satanism'.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "greek_necklace",
+        "name": { "str": "Dodecagram necklace" },
+        "description": "A necklace made of a fine gold chain with the Dodecagram symbol as a pendant.  It is a symbol of the Greek Hellenist faith.  The Dodecagram, or twelve pointed star, is one of the more widespread symbols of Hellenism.  The twelve points represent the twelve Olympic Gods and thus the symbol serves its purpose as a dedicational symbol well.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "jain_necklace",
+        "name": { "str": "Hand of Ahimsa necklace" },
+        "description": "A necklace made of a fine gold chain with the Hand of Ahimsa symbol as a pendant.  It is a symbol of the Jainist faith and philosophical system.  The hand with a wheel on the palm symbolizes Ahimsa in Jainism.  The word in the middle is 'ahimsa' (non-injury).  The wheel represents the dharmachakra, which stands for the resolve to halt the samsara through the relentless pursuit of Ahimsa.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "eckankar_necklace",
+        "name": { "str": "Eckankar necklace" },
+        "description": "A necklace made of a fine gold chain with the Eckankar symbol as a pendant.  It is a symbol of the Eckankar faith.  Eckankar teaches that 'spiritual liberation' in one's lifetime is available to all and that it is possible to achieve Self-Realization (the realization of oneself as Soul) and God-Realization (the realization of oneself as a spark of God) in one's lifetime though a series of Eckankar teachings.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "caodaism_necklace",
+        "name": { "str": "Cao Dai necklace" },
+        "description": "A necklace made of a fine gold chain with the Cao Dai symbol as a pendant.  It is a symbol of Caodaism faith.  In Vietnamese, 'Cao' literally means 'high', while 'Dai' means 'tower', 'palace' or 'abode'. The combined verbal image is used to represent both a heavenly place and a Supreme Being envisioned as creating all religions and beings on the earth.  The visual symbol used by Caodaism followers for this Supreme Being is an all-seeing eye, the Cao Dai.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "nativeamerican_necklace",
+        "name": { "str": "Zia Sun necklace" },
+        "description": "A necklace made of a fine gold chain with the Zia Sun symbol as a pendant.  It is a symbol of the strength and union of the Zia Native Americans.  The Zia Sun symbol represent the four cardinal directions, the four seasons of the year, the four period of each day (morning, noon, evening, and night), and the four seasons of life (childhood, youth, middle age, and old age).",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "freemason_necklace",
+        "name": { "str": "Square and Compass necklace" },
+        "description": "A necklace made of a fine gold chain with the Square and Compass symbol as a pendant.  It is a symbol of the Freemasonry Orders of builders and merchants.  The Square and Compass is the single and most identifiable symbol of Freemasonry.  Both the square and compasses are architect's tools and are used in masonry as emblems to teach symbolic lessons.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "pastafarian_necklace",
+        "name": { "str": "Flying Spaghetti Monster necklace" },
+        "description": "A necklace made of a fine gold chain with the figure of the Giant Spaghetti Flying Monster as a pendant.  It is a symbol of the Pastafarian faith, a religion like any other.  It has the figure of the Giant Spaghetti Flying Monster in the center, with the following text: 'Pasta be Upon Us'.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "pharaoh_necklace",
+        "name": { "str": "Ankh necklace" },
+        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, the source of its major use in modern times was through a new religious movement attempting to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "hinduist_necklace",
+        "name": { "str": "Om necklace" },
+        "description": "A necklace made of a fine gold chain with the Om symbol as a pendant.  It is a symbol of the Hindu faith, as Om is a sacred sound, syllable, mantra, or an invocation in Hinduism.  Om is the prime symbol of Hinduism, variously said to be the essence of the supreme Absolute, consciousness, Atman, Brahman, or the Cosmic world.  In Indian traditions, Om serves as a sonic representation of the divine, a standard of Vedic authority and a central aspect of soteriological doctrines and practices.",
+        "color": "yellow",
+        "weight": 10
+      }
+    ]
   },
   {
     "id": "holy_symbol_wood",
@@ -1123,8 +1562,8 @@
     "description": "A simple necklace representing a religious faith.",
     "weight": "25 g",
     "volume": "25 ml",
-    "price": 500,
-    "price_postapoc": 10,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
     "material": [ "wood", "cotton" ],
     "symbol": ",",
     "color": "brown",
@@ -1138,8 +1577,8 @@
     "description": "A hand-crafted jade brooch of Oriental origin.",
     "weight": "2 g",
     "volume": "1 ml",
-    "price": 90000,
-    "price_postapoc": 25,
+    "price": "900 USD",
+    "price_postapoc": "25 cent",
     "material": [ "stone" ],
     "symbol": "[",
     "color": "green",
@@ -1149,11 +1588,11 @@
     "id": "pearl_collar",
     "type": "ARMOR",
     "name": { "str": "pearl collar" },
-    "description": "A collar made from round and lustrous pearls, its former owner must have been a wealthy individual.",
+    "description": "A collar made from round and lustrous pearls; its former owner must have been a wealthy individual.",
     "weight": "200 g",
     "volume": "200 ml",
-    "price": 590000,
-    "price_postapoc": 25,
+    "price": "5 kUSD 900 USD",
+    "price_postapoc": "25 cent",
     "material": [ "stone" ],
     "symbol": "[",
     "color": "white",
@@ -1167,8 +1606,8 @@
     "weight": "180 g",
     "volume": "100 ml",
     "//": "far more expensive than gold watches, around $100,000 for most platinum watches ",
-    "price": 10000000,
-    "price_postapoc": 1000,
+    "price": "100 kUSD",
+    "price_postapoc": "10 USD",
     "to_hit": -1,
     "material": [ "platinum" ],
     "symbol": "[",
@@ -1184,8 +1623,8 @@
     "description": "A flawless platinum bracelet.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 38000,
-    "price_postapoc": 100,
+    "price": "380 USD",
+    "price_postapoc": "1 USD",
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
@@ -1200,15 +1639,14 @@
     "description": "Fake platinum-and-silver teeth.  They may be cheaper than fake gold teeth, but they're much more rare.  Fits horribly, but looks very shiny.",
     "weight": "15 g",
     "volume": "1 ml",
-    "price": 15000,
-    "price_postapoc": 100,
-    "bashing": 2,
-    "cutting": 2,
+    "price": "150 USD",
+    "price_postapoc": "1 USD",
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
     "flags": [ "SKINTIGHT", "NO_WEAR_EFFECT" ],
-    "armor": [ { "covers": [ "mouth" ] } ]
+    "armor": [ { "covers": [ "mouth" ] } ],
+    "melee_damage": { "bash": 2, "cut": 2 }
   },
   {
     "id": "platinum_ear",
@@ -1217,8 +1655,8 @@
     "description": "A pair of plain platinum earrings - if gold is getting boring, just use another rare metal.",
     "weight": "20 g",
     "volume": "1 ml",
-    "price": 12000,
-    "price_postapoc": 50,
+    "price": "120 USD",
+    "price_postapoc": "50 cent",
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
@@ -1229,12 +1667,11 @@
     "type": "ARMOR",
     "name": { "str": "platinum hairpin" },
     "description": "The ultimate in esoteric, metal hair accessories, this hairpin is made from pure platinum.",
-    "weight": "40 g",
-    "volume": "2 ml",
-    "price": 3500,
-    "price_postapoc": 50,
+    "copy-from": "hairpin",
+    "weight": "300 mg",
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
     "material": [ "platinum" ],
-    "symbol": "[",
     "color": "white",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1245,11 +1682,21 @@
     "description": "A small, platinum locket for storing photographs or other small objects.",
     "weight": "65 g",
     "volume": "40 ml",
-    "price": 16000,
-    "price_postapoc": 50,
+    "price": "160 USD",
+    "price_postapoc": "50 cent",
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -1259,8 +1706,8 @@
     "description": "A platinum necklace, with a small, empty heart-shaped frame hanging from a chain.",
     "weight": "47 g",
     "volume": "25 ml",
-    "price": 50000,
-    "price_postapoc": 50,
+    "price": "500 USD",
+    "price_postapoc": "50 cent",
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
@@ -1273,14 +1720,21 @@
     "description": "A platinum ring, engraved with all manner of swirls and spirals.",
     "weight": "15 g",
     "volume": "1 ml",
-    "price": 24000,
-    "price_postapoc": 50,
+    "price": "240 USD",
+    "price_postapoc": "50 cent",
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_engagement",
@@ -1289,14 +1743,21 @@
     "description": "This ring is an intricate gold band with a small cluster of diamonds set in the center.  Before the world broke down, this ring would've cost a small fortune.",
     "weight": "14 g",
     "volume": "1 ml",
-    "price": 100000,
-    "price_postapoc": 25,
+    "price": "1 kUSD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_purity",
@@ -1305,14 +1766,21 @@
     "description": "Also known as a promise ring, this ring is worn as a sign of chastity.  This one bears the inscription, \"Love is patient.\"",
     "weight": "6 g",
     "volume": "1 ml",
-    "price": 1700,
-    "price_postapoc": 10,
+    "price": "17 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_signet",
@@ -1321,14 +1789,21 @@
     "description": "A gold and silver ring with a wide stamp attached to the band.  A long time ago, the stamp was legible, but now the pattern is too worn to discern its former use.",
     "weight": "14 g",
     "volume": "1 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_wedding",
@@ -1337,14 +1812,21 @@
     "description": "A flawless ring, ensnaring a diamond with twists of pure gold.  It's a constant reminder that the wearer is married.",
     "weight": "16 g",
     "volume": "2 ml",
-    "price": 150000,
-    "price_postapoc": 50,
+    "price": "1 kUSD 500 USD",
+    "price_postapoc": "50 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "silver_necklace",
@@ -1353,8 +1835,8 @@
     "description": "A nice silver necklace.",
     "weight": "30 g",
     "volume": "25 ml",
-    "price": 12000,
-    "price_postapoc": 25,
+    "price": "120 USD",
+    "price_postapoc": "25 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1365,12 +1847,11 @@
     "type": "ARMOR",
     "name": { "str": "silver hairpin" },
     "description": "A shiny silver hairpin with a tiny bee engraved onto it.",
-    "weight": "10 g",
-    "volume": "2 ml",
-    "price": 2000,
-    "price_postapoc": 10,
+    "copy-from": "hairpin",
+    "weight": "180 mg",
+    "price": "20 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
-    "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
@@ -1381,11 +1862,21 @@
     "description": "A small silver locket with a frame inside to store photographs or small objects.",
     "weight": "30 g",
     "volume": "25 ml",
-    "price": 4000,
-    "price_postapoc": 10,
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_weight": "12 mg",
+        "max_contains_volume": "1 ml",
+        "description": "Slot for a photograph",
+        "item_restriction": [ "wallet_photo" ]
+      }
+    ],
     "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   },
   {
@@ -1395,8 +1886,8 @@
     "description": "A medal awarded for achieving second place in some event.  Before everything fell apart, this was likely a source of pride for its owner.  Now it's just another shiny bauble.",
     "weight": "50 g",
     "volume": "25 ml",
-    "price": 5000,
-    "price_postapoc": 10,
+    "price": "50 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
@@ -1409,14 +1900,21 @@
     "description": "A simple, silver ring.",
     "weight": "10 g",
     "volume": "1 ml",
-    "price": 5000,
-    "price_postapoc": 10,
+    "price": "50 USD",
+    "price_postapoc": "10 cent",
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "leather_collar",
@@ -1425,8 +1923,8 @@
     "description": "A black leather 'collar' with a bell dangling from the front.  Don't worry, the bell is silent.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ "leather" ],
     "symbol": "-",
     "color": "dark_gray",
@@ -1439,8 +1937,8 @@
     "description": "A simple wristwatch on a plastic band.  Tells the time and has an alarm clock feature.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 5000,
-    "price_postapoc": 100,
+    "price": "50 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -1,
     "material": [ "plastic", "steel" ],
     "ascii_picture": "wristwatch",
@@ -1455,11 +1953,11 @@
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
     "//": "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
-    "description": "A plastic badge with an embedded filmstrip.  The filmstrip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
+    "description": "A plastic badge with an embedded filmstrip.  The text on the badge says the filmstrip changes color as it is exposed to radiation, and never goes back to how it initially looked.  Wear on your lapel so you can notice if it changes.",
     "weight": "25 g",
     "volume": "25 ml",
-    "price": 8000,
-    "price_postapoc": 500,
+    "price": "80 USD",
+    "price_postapoc": "5 USD",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "light_blue",
@@ -1471,22 +1969,15 @@
     "name": { "str": "badge template" },
     "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
     "weight": "60 g",
-    "volume": "5 ml",
-    "price": 5000,
-    "price_postapoc": 700,
-    "material": [ "silver" ],
+    "volume": "8 ml",
+    "price": "50 USD",
+    "price_postapoc": "7 USD",
+    "material": [ "brass" ],
     "symbol": "[",
     "color": "yellow",
-    "//": "should cover TORSO but give no encumbrance penalties",
+    "//": "typical badges are 1-4 oz and are usually brass with a possible very thin precious metal plating.",
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "badge_cybercop",
-    "copy-from": "badge_abstract",
-    "type": "ARMOR",
-    "name": { "str": "cybercop badge" },
-    "description": "A chromed silver shield identifies the wearer as an authority even the cop-killers couldn't kill."
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "badge_deputy",
@@ -1502,9 +1993,7 @@
     "type": "ARMOR",
     "name": { "str": "detective badge" },
     "description": "A tarnished golden shield gives an air of authority to the wearer.",
-    "material": [ "gold" ],
-    "price_postapoc": 500,
-    "proportional": { "weight": 2 }
+    "price_postapoc": "5 USD"
   },
   {
     "id": "badge_marshal",
@@ -1519,7 +2008,14 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "SWAT badge" },
-    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
+    "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the cops just aren't enough."
+  },
+  {
+    "id": "badge_fbi",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": { "str": "FBI badge" },
+    "description": "A gold-filled brass shield with an eagle perched atop it and Lady Justice emblazoned on its center.  In large, engraved lettering it reads, \"FEDERAL BUREAU OF INVESTIGATION-US DEPARTMENT OF JUSTICE\".  It identifies the wearer as an agent with federal authority throughout all the United States and her territories; that is, whatever is left of them."
   },
   {
     "id": "badge_doctor",
@@ -1527,8 +2023,9 @@
     "type": "ARMOR",
     "name": { "str": "doctor badge" },
     "material": [ "plastic" ],
-    "weight": "10 g",
-    "price_postapoc": 10,
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price_postapoc": "10 cent",
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
@@ -1537,8 +2034,9 @@
     "type": "ARMOR",
     "name": { "str": "Foodkid badge" },
     "material": [ "plastic" ],
-    "price_postapoc": 10,
-    "weight": "10 g",
+    "price_postapoc": "10 cent",
+    "weight": "50 g",
+    "volume": "50 ml",
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
   },
   {
@@ -1548,8 +2046,8 @@
     "description": "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 1500,
-    "price_postapoc": 10,
+    "price": "15 USD",
+    "price_postapoc": "10 cent",
     "material": [ "fur", "plastic" ],
     "symbol": "^",
     "color": "brown",
@@ -1571,13 +2069,13 @@
     "description": "A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 1000,
-    "price_postapoc": 10,
-    "bashing": 4,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "fur", "plastic" ],
     "symbol": "s",
     "color": "brown",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "faux_fur_cat_tail",
@@ -1595,8 +2093,8 @@
     "description": "A decorative 'collar' made out of fur, complete with a little bell hanging from the front.  Don't worry, it's silent.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 1000,
-    "price_postapoc": 10,
+    "price": "10 USD",
+    "price_postapoc": "10 cent",
     "material": [ "fur" ],
     "symbol": "-",
     "color": "brown",
@@ -1618,8 +2116,8 @@
     "description": "A shiny pair of black cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 3000,
-    "price_postapoc": 10,
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
     "material": [ "leather", "plastic" ],
     "symbol": "^",
     "color": "dark_gray",
@@ -1632,13 +2130,13 @@
     "description": "A glossy black leather tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
     "weight": "250 g",
     "volume": "250 ml",
-    "price": 2500,
-    "price_postapoc": 10,
-    "bashing": 4,
+    "price": "25 USD",
+    "price_postapoc": "10 cent",
     "material": [ "leather", "plastic" ],
     "symbol": "s",
     "color": "dark_gray",
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "diamond_gold_earring",
@@ -1646,8 +2144,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of diamond and gold earrings", "str_pl": "pairs of diamond and gold earrings" },
     "description": "A pair of shiny diamond and gold earrings.",
-    "price": 13000,
-    "price_postapoc": 50,
+    "price": "130 USD",
+    "price_postapoc": "50 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -1658,8 +2156,8 @@
     "description": "A pair of shiny garnet and gold earrings.",
     "weight": "18 mg",
     "volume": "1 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "gold_ear",
     "symbol": "[",
@@ -1775,8 +2273,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of diamond and silver earrings", "str_pl": "pairs of diamond and silver earrings" },
     "description": "A pair of shiny diamond and silver earrings.",
-    "price": 8000,
-    "price_postapoc": 2000,
+    "price": "80 USD",
+    "price_postapoc": "20 USD",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -1787,8 +2285,8 @@
     "description": "A pair of shiny garnet and silver earrings.",
     "weight": "10 mg",
     "volume": "1 ml",
-    "price": 6000,
-    "price_postapoc": 1000,
+    "price": "60 USD",
+    "price_postapoc": "10 USD",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "silver_ear",
     "symbol": "[",
@@ -1844,8 +2342,7 @@
       {
         "id": "vampire_earring",
         "name": { "str": "pair of vampire earrings", "str_pl": "pairs of vampire earrings" },
-        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs.",
-        "weight": 1
+        "description": "A pair of blood-red ruby and silver earrings, adorned with sinister motifs."
       }
     ]
   },
@@ -1922,8 +2419,7 @@
       {
         "id": "dark_earring",
         "name": { "str": "pair of dark earrings", "str_pl": "pairs of dark earrings" },
-        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts.",
-        "weight": 1
+        "description": "A pair of dark silver earrings featuring onyx in the shape of two dark hearts."
       }
     ],
     "color": "dark_gray"
@@ -1934,8 +2430,8 @@
     "type": "ARMOR",
     "name": { "str": "pair of diamond and platinum earrings", "str_pl": "pairs of diamond and platinum earrings" },
     "description": "A pair of shiny diamond and platinum earrings.",
-    "price": 12000,
-    "price_postapoc": 25,
+    "price": "120 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -1946,8 +2442,8 @@
     "description": "A pair of shiny garnet and platinum earrings.",
     "weight": "19 mg",
     "volume": "1 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "platinum_ear",
     "symbol": "[",
@@ -2064,15 +2560,22 @@
     "description": "A gold ring with a garnet mounted on top of it.",
     "weight": "18 mg",
     "volume": "1 ml",
-    "price": 10000,
-    "price_postapoc": 1800,
+    "price": "100 USD",
+    "price_postapoc": "18 USD",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "gold_ring",
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2183,8 +2686,8 @@
     "type": "ARMOR",
     "name": { "str": "diamond and silver ring" },
     "description": "A silver ring with a diamond mounted on top of it.",
-    "price": 12000,
-    "price_postapoc": 25,
+    "price": "120 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -2195,15 +2698,22 @@
     "description": "A silver ring with a garnet mounted on top of it.",
     "weight": "10 mg",
     "volume": "1 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "silver_ring",
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2254,8 +2764,7 @@
       {
         "id": "vampire_ring",
         "name": { "str": "vampire ring" },
-        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it.",
-        "weight": 1
+        "description": "A silver ring with a sinister claw clutching a blood-red ruby mounted on top of it."
       }
     ]
   },
@@ -2332,8 +2841,7 @@
       {
         "id": "dark_ring",
         "name": { "str": "dark ring" },
-        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it.",
-        "weight": 1
+        "description": "A dark silver ring with skull decorations and a pitch-black onyx mounted on top of it."
       }
     ],
     "color": "dark_gray"
@@ -2344,8 +2852,8 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum ring" },
     "description": "A platinum ring with a diamond mounted on top of it.",
-    "price": 12000,
-    "price_postapoc": 50,
+    "price": "120 USD",
+    "price_postapoc": "50 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -2356,15 +2864,22 @@
     "description": "A platinum ring with a garnet mounted on top of it.",
     "weight": "19 mg",
     "volume": "1 ml",
-    "price": 10000,
-    "price_postapoc": 25,
+    "price": "100 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "platinum_ring",
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_platinum_ring",
@@ -2475,9 +2990,9 @@
     "type": "ARMOR",
     "name": { "str": "diamond and gold bracelet" },
     "description": "A gold bracelet with sparkling diamonds.",
-    "price": 200000,
+    "price": "2 kUSD",
     "looks_like": "gold_bracelet",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -2488,8 +3003,8 @@
     "description": "A gold bracelet with sparkling garnets.",
     "weight": "190 mg",
     "volume": "10 ml",
-    "price": 15000,
-    "price_postapoc": 25,
+    "price": "150 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "gold_bracelet",
     "symbol": "[",
@@ -2607,9 +3122,9 @@
     "type": "ARMOR",
     "name": { "str": "diamond and silver bracelet" },
     "description": "A silver bracelet with sparkling diamonds.",
-    "price": 200000,
+    "price": "2 kUSD",
     "looks_like": "silver_bracelet",
-    "price_postapoc": 25,
+    "price_postapoc": "25 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -2620,8 +3135,8 @@
     "description": "A silver bracelet with sparkling garnets.",
     "weight": "100 mg",
     "volume": "10 ml",
-    "price": 15000,
-    "price_postapoc": 25,
+    "price": "150 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "silver_bracelet",
     "symbol": "[",
@@ -2679,8 +3194,7 @@
       {
         "id": "vampire_bracelet",
         "name": { "str": "vampire bracelet" },
-        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts.",
-        "weight": 1
+        "description": "A dark silver bracelet with blood-red rubies in the shape of two sinister-looking hearts."
       }
     ]
   },
@@ -2757,8 +3271,7 @@
       {
         "id": "dark_bracelet",
         "name": { "str": "dark bracelet" },
-        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye.",
-        "weight": 1
+        "description": "A dark silver bracelet with occult decorations and one single onyx as the center of a dark eye."
       }
     ],
     "color": "dark_gray"
@@ -2769,9 +3282,9 @@
     "type": "ARMOR",
     "name": { "str": "diamond and platinum bracelet" },
     "description": "A platinum bracelet with sparkling diamonds.",
-    "price": 200000,
+    "price": "2 kUSD",
     "looks_like": "platinum_bracelet",
-    "price_postapoc": 50,
+    "price_postapoc": "50 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "diamond" } ],
     "color": "white"
   },
@@ -2782,8 +3295,8 @@
     "description": "A platinum bracelet with sparkling garnets.",
     "weight": "190 g",
     "volume": "10 ml",
-    "price": 15000,
-    "price_postapoc": 25,
+    "price": "150 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "platinum_bracelet",
     "symbol": "[",
@@ -2902,8 +3415,8 @@
     "description": "A shiny, gold necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "15 ml",
-    "price": 50000,
-    "price_postapoc": 25,
+    "price": "500 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "gold_necklace",
     "symbol": "[",
@@ -3029,8 +3542,8 @@
     "description": "A shiny, silver necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "15 ml",
-    "price": 50000,
-    "price_postapoc": 25,
+    "price": "500 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "silver_necklace",
     "symbol": "[",
@@ -3095,8 +3608,7 @@
       {
         "id": "vampire_necklace",
         "name": { "str": "vampire necklace" },
-        "description": "A sinister silver necklace adorned with a blood-red ruby pendant.",
-        "weight": 1
+        "description": "A sinister silver necklace adorned with a blood-red ruby pendant."
       }
     ]
   },
@@ -3173,8 +3685,7 @@
       {
         "id": "dark_necklace",
         "name": { "str": "dark necklace" },
-        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart.",
-        "weight": 1
+        "description": "A dark silver necklace with an onyx pendant in the shape of a dark heart."
       }
     ],
     "color": "dark_gray"
@@ -3186,8 +3697,8 @@
     "description": "A shiny, platinum necklace adorned with a garnet pendant.",
     "weight": "70 g",
     "volume": "15 ml",
-    "price": 50000,
-    "price_postapoc": 25,
+    "price": "500 USD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "platinum_necklace",
     "symbol": "[",
@@ -3313,8 +3824,8 @@
     "description": "A shiny, platinum tiara adorned with garnets.",
     "weight": "200 g",
     "volume": "100 ml",
-    "price": 500000,
-    "price_postapoc": 25,
+    "price": "5 kUSD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "platinum", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "crown_golden",
     "symbol": "[",
@@ -3442,8 +3953,8 @@
     "description": "A shiny, gold tiara adorned with garnets.",
     "weight": "190 g",
     "volume": "100 ml",
-    "price": 400000,
-    "price_postapoc": 25,
+    "price": "4 kUSD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "gold", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "crown_golden",
     "symbol": "[",
@@ -3565,14 +4076,26 @@
     "color": "dark_gray"
   },
   {
+    "id": "gold_hair_beads",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
+    "description": "An assortment of gold beads used to decorate locs or braids.",
+    "weight": "15 g",
+    "volume": "25 ml",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
     "id": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and silver tiara" },
     "description": "A shiny, silver tiara adorned with garnets.",
     "weight": "130 g",
     "volume": "100 ml",
-    "price": 200000,
-    "price_postapoc": 25,
+    "price": "2 kUSD",
+    "price_postapoc": "25 cent",
     "material": [ { "type": "silver", "portion": 9 }, { "type": "gemstone" } ],
     "looks_like": "crown_golden",
     "symbol": "[",
@@ -3639,8 +4162,7 @@
       {
         "id": "vampire_tiara",
         "name": { "str": "vampire tiara" },
-        "description": "A sinister dark silver tiara adorned with blood-red rubies.",
-        "weight": 1
+        "description": "A sinister dark silver tiara adorned with blood-red rubies."
       }
     ]
   },
@@ -3714,13 +4236,619 @@
         "description": "A shiny, silver tiara adorned with onyx.",
         "weight": 99
       },
-      {
-        "id": "dark_tiara",
-        "name": { "str": "dark tiara" },
-        "description": "A dark silver tiara adorned with onyx.",
-        "weight": 1
-      }
+      { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
+  },
+  {
+    "id": "gold_anklet",
+    "type": "ARMOR",
+    "name": { "str": "gold anklet" },
+    "description": "An anklet made from tiny chain links of gold.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "200 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "silver_anklet",
+    "type": "ARMOR",
+    "name": { "str": "silver anklet" },
+    "description": "An anklet made from tiny chain links of silver.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "150 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "bat_anklet",
+    "type": "ARMOR",
+    "name": { "str": "bat charm anklet" },
+    "description": "An anklet with tiny charms in the shape of bats and blood drops.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "color": "red",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "flower_anklet",
+    "type": "ARMOR",
+    "name": { "str": "flower charm anklet" },
+    "description": "An anklet with tiny charms in the shape of flowers in an array of colors.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "color": "pink",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "woven_anklet",
+    "type": "ARMOR",
+    "name": { "str": "woven anklet" },
+    "description": "An anklet made from brightly colored cord woven into a repeating pattern.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "price": "2 USD",
+    "price_postapoc": "2 cent",
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ]
+      }
+    ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "gold_lip_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "gold lip ring loop" },
+    "description": "An expensive gold lip ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "o",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_lip_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "gold lip ring stud" },
+    "description": "An expensive gold lip ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_lip_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "silver lip ring loop" },
+    "description": "An expensive silver lip ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_lip_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "silver lip ring stud" },
+    "description": "An expensive silver lip ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_nose_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "gold nose ring loop" },
+    "description": "An expensive gold nose ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "gold" ],
+    "symbol": "o",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_nose_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "gold nose ring stud" },
+    "description": "An expensive gold nose ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_nose_ring_loop",
+    "type": "ARMOR",
+    "name": { "str": "silver nose ring loop" },
+    "description": "An expensive silver nose ring loop.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "silver_nose_ring_stud",
+    "type": "ARMOR",
+    "name": { "str": "silver nose ring stud" },
+    "description": "An expensive silver nose ring stud.",
+    "weight": "18 mg",
+    "volume": "1 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "gold_toe_ring",
+    "type": "ARMOR",
+    "name": { "str": "gold toe ring" },
+    "description": "An expensive gold toe ring.",
+    "weight": "3 g",
+    "volume": "3 ml",
+    "price": "250 USD",
+    "price_postapoc": "25 cent",
+    "material": [ "gold" ],
+    "symbol": "[",
+    "color": "yellow",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+  },
+  {
+    "id": "silver_toe_ring",
+    "type": "ARMOR",
+    "name": { "str": "silver toe ring" },
+    "description": "An expensive silver toe ring.",
+    "weight": "3 g",
+    "volume": "3 ml",
+    "price": "150 USD",
+    "price_postapoc": "15 cent",
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "sided": true,
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 0,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_l", "foot_toes_r" ]
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+  },
+  {
+    "id": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "looks_like": "gold_necklace",
+    "name": { "str": "handgun-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str": "light rifle-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "revolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "revolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
+    ],
+    "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.",
+    "snippet_category": [
+      {
+        "id": "pistol_pendent1",
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man's excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
+      },
+      {
+        "id": "pistol_pendent2",
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The dimpled section of the shell's primer has been punched out, and a second hole has been drilled through the casing's side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
+      },
+      {
+        "id": "pistol_pendent3",
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+      }
+    ],
+    "weight": "24 g",
+    "volume": "38 ml",
+    "longest_side": "28 mm",
+    "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
+    "price": "5 USD",
+    "price_postapoc": "0 cent",
+    "material": [ { "type": "brass", "portion": 2 }, { "type": "cotton" } ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
+  },
+  {
+    "id": "simple_rifle_cartridge_necklace",
+    "copy-from": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "name": { "str": "rifle-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "4570_casing", "name": { "str": "brush gun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "30carbine_casing", "name": { "str": "carbine-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "123ln_casing", "name": { "str": "alien-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str": "Thumper-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str": "Thumper-cartridge necklace" } }
+    ],
+    "description": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.",
+    "snippet_category": [
+      {
+        "id": "rifle_pendent1",
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The cartridge's neck has been carefully drilled through, leaving behind a tiny hole on either side of the shell's throat through which the cord has been fed and tied off, forming a pedestrian facsimile of a chain from where the round hangs, primer-down."
+      },
+      {
+        "id": "rifle_pendent2",
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The primer's indented portion has been drilled away, with a second hole situated in the casing's side just shy of the base and a length of tied-off cordage looping through both entry points to form a makeshift chain for the apparel."
+      },
+      {
+        "id": "rifle_pendent3",
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The jaws of a set of pliers have twisted closed the cartridge's throat with a spiral flourish, while a hole has been drilled through opposite sides of the pendant's shoulder, through which a loop of cord has been threaded.  The string's loose ends have been wrapped several times around the casing in a vague X-pattern before being tied off, creating a form of mini-bullet cocoon."
+      }
+    ],
+    "weight": "25 g",
+    "volume": "40 ml",
+    "longest_side": "50 mm",
+    "//": "Length is derived from averaging out the case lengths of a .30 Carbine, .270 Winchester, and .308 Winchester cartridge."
+  },
+  {
+    "id": "simple_ordnance_cartridge_necklace",
+    "copy-from": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "name": { "str": "ordnance-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m195_casing", "name": { "str": "grenade-cartridge necklace" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "40x46mm_hornets_nest_22lr_casing",
+        "name": { "str": "grenade-cartridge necklace" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "40x46mm_hornets_nest_410_casing",
+        "name": { "str": "grenade-cartridge necklace" }
+      },
+      { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordnance necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordnance necklace" } }
+    ],
+    "description": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
+    "snippet_category": [
+      {
+        "id": "ordinance_pendent1",
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The shell's neck has been carefully tapped, leaving a hole on either side of the casing's throat through which the makeshift neck chain has been fed and tied off."
+      },
+      {
+        "id": "ordinance_pendent2",
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The center of the shell's struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
+      },
+      {
+        "id": "ordinance_pendent3",
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The jaws of a set of pliers have been laid to work, with the shell's neck twisted closed in a tapered spiral, while a hole has been bored through opposite sides of the cartridge's base, through which a loop of cord has been tugged.  The string's loose ends have been wrapped around the casing in a serpentine pattern before being tied off, creating a manner of bullet cocoon."
+      }
+    ],
+    "weight": "37 g",
+    "volume": "43 ml",
+    "longest_side": "85 mm",
+    "//": "Length is derived from averaging out the case lengths of a .338 Lapua, .50 BMG, and 12-Gauge shotgun cartridge.",
+    "material": [ { "type": "brass", "portion": 3 }, { "type": "cotton" } ],
+    "//2": "Are these materials liable to be a lie considering that grenade cartridges are steel and shotgun shells are plastic? Yes. Can the material be changed based on the component used? Sadly, no."
+  },
+  {
+    "id": "fancy_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "looks_like": "gold_necklace",
+    "name": { "str": "refined pistol-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str_sp": "Varmints' Bane" } },
+      { "type": "COMPONENT_ID", "condition": "32_casing", "name": { "str_sp": "Short King" } },
+      { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str_sp": "Lawman's" } },
+      { "type": "COMPONENT_ID", "condition": "38super_casing", "name": { "str_sp": "Contestant's" } },
+      { "type": "COMPONENT_ID", "condition": "40_casing", "name": { "str_sp": "Federal" } },
+      { "type": "COMPONENT_ID", "condition": "10mm_casing", "name": { "str_sp": "Crockett's Vice" } },
+      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str_sp": "Holliday's" } },
+      { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str_sp": "Big Iron" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str_sp": "Peacemaker's" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str_sp": "Judge's Wrath" } },
+      { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Heckler's Screamer" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needle Rain" } },
+      { "type": "COMPONENT_ID", "condition": "460_casing", "name": { "str_sp": "God's Magnum" } },
+      { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str_sp": "Recoil-Rider" } },
+      { "type": "COMPONENT_ID", "condition": "762_25_casing", "name": { "str_sp": "Revolutionary's" } },
+      { "type": "COMPONENT_ID", "condition": "9mm_casing", "name": { "str_sp": "Sunrise Parabellum" } },
+      { "type": "COMPONENT_ID", "condition": "357sig_casing", "name": { "str_sp": "Schweitzer" } },
+      { "type": "COMPONENT_ID", "condition": "9x18mm_casing", "name": { "str_sp": "Semin" } },
+      { "type": "COMPONENT_ID", "condition": "380_casing", "name": { "str_sp": "Baby Browning" } },
+      { "type": "COMPONENT_ID", "condition": "50ae_casing", "name": { "str_sp": "Fatman" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "description": "The product of a gun nut and a fashionista proverbially shaking one another's hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.",
+    "snippet_category": [
+      {
+        "id": "fancy_pistol_pendent1",
+        "text": "The product of a gun nut and a fashionista proverbially shaking one another's hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.  The shell's primer and rim have been neatly sawed away, and in place of the projectile, a little gemstone has been wrapped with a length of fine-gauge wire and bedded into the casing's throat.  The rest of the wire's length trails back through the cartridge's body, feeding out the base and entwining with a link in the chain."
+      },
+      {
+        "id": "fancy_pistol_pendent2",
+        "text": "The product of a gun nut and a fashionista proverbially shaking one another's hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.  The teeth of a saw have been put to work upon this shell, whose base and primer have been neatly cut away, and in the throat of which has been seated a small, shining gem.  A length of fine wire has been tightly wrapped around both the cartridge and gemstone in a top-down pattern, with the cord's loose ends eventually tugged through a small drill hole at the cartridge's base and finally wrapped among the neck chain's links."
+      }
+    ],
+    "weight": "56 g",
+    "volume": "32 ml",
+    "longest_side": "28 mm",
+    "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
+    "price": "400 USD",
+    "price_postapoc": "50 cent",
+    "material": [ { "type": "brass", "portion": 2 }, { "type": "gold", "portion": 2 }, { "type": "gemstone" } ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "FANCY" ]
+  },
+  {
+    "id": "fancy_rifle_cartridge_necklace",
+    "type": "ARMOR",
+    "copy-from": "fancy_pistol_cartridge_necklace",
+    "name": { "str": "refined rifle-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "77arisaka_casing", "name": { "str_sp": "Rising Sun" } },
+      { "type": "COMPONENT_ID", "condition": "545_casing", "name": { "str_sp": "Devil's Poison" } },
+      { "type": "COMPONENT_ID", "condition": "4570_casing", "name": { "str_sp": "Frontiersman's" } },
+      { "type": "COMPONENT_ID", "condition": "270win_casing", "name": { "str_sp": "Sportsman's" } },
+      { "type": "COMPONENT_ID", "condition": "303_casing", "name": { "str_sp": "Fusilier's" } },
+      { "type": "COMPONENT_ID", "condition": "223_casing", "name": { "str_sp": "US Diplomacy" } },
+      { "type": "COMPONENT_ID", "condition": "3006_casing", "name": { "str_sp": "Old Soldier" } },
+      { "type": "COMPONENT_ID", "condition": "762_51_casing", "name": { "str_sp": "Pig's Feed" } },
+      { "type": "COMPONENT_ID", "condition": "300blk_casing", "name": { "str_sp": "Cloak&Dagger" } },
+      { "type": "COMPONENT_ID", "condition": "762R_casing", "name": { "str_sp": "White Death" } },
+      { "type": "COMPONENT_ID", "condition": "762_casing", "name": { "str_sp": "Iron Curtain" } },
+      { "type": "COMPONENT_ID", "condition": "300_casing", "name": { "str_sp": "Kyle's Laser" } },
+      { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str_sp": "Wolf's Voice" } },
+      { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str_sp": "Cooper's Touch" } },
+      { "type": "COMPONENT_ID", "condition": "30carbine_casing", "name": { "str_sp": "Paratrooper's" } },
+      { "type": "COMPONENT_ID", "condition": "308_casing", "name": { "str_sp": "Marksman's" } },
+      { "type": "COMPONENT_ID", "condition": "123ln_casing", "name": { "str_sp": "Illegal Alien" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "//": "Devil's Poison for 5.45x39mm is a reference to the fact that the cartridge was sometimes dubed either the 'Devil Bullet' or the 'Poison Bullet'.",
+    "//2": "Pig's Feed for 7.62x51mm is a reference to the US M60 machine gun. It was nicknamed the 'Pig'. 7.62x51mm feeds it. Coming up with names is hard.",
+    "//3": "Yes, illegal alien for 12.3LN is a reference to Aliens. No, it is not a comment about any group of people.",
+    "description": "A gentlemanly article of craft-produced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendant.",
+    "snippet_category": [
+      {
+        "id": "fancy_rifle_pendent1",
+        "text": "A gentlemanly article of craft-produced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendant.  With its brass polished to a mirror-like sheen, the shell's primer and rim have been neatly extricated at the edge of a saw, with a little gemstone peeking out the casing's throat.  The gem's wrapped within the embrace of a length of fine-gauge wire, whose remaining length has been tugged back through the cartridge's body, fed out the base, and entwined with a link in the chain."
+      },
+      {
+        "id": "fancy_rifle_pendent2",
+        "text": "A gentlemanly article of craft-produced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendant.  With its brass polished to a mirror-like sheen, the shell has grown shorter by virtue of its base having been sawed away, and a glittering jewel has been seated comfortably within the throat.  A length of wire is tightly wrapped around both cartridge and gemstone in a top-down pattern, forming an X-grid as it wines, with the cord's loose ends trailing through a small drill hole at the cartridge's base and tied to the chain's links."
+      }
+    ],
+    "weight": "57 g",
+    "volume": "35 ml",
+    "longest_side": "50 mm",
+    "//4": "Length is derived from averaging out the case lengths of a .30 Carbine, .270 Winchester, and .308 Winchester cartridge."
+  },
+  {
+    "id": "fancy_ordinance_cartridge_necklace",
+    "type": "ARMOR",
+    "copy-from": "fancy_pistol_cartridge_necklace",
+    "name": { "str": "refined ordnance-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str_sp": "Grenadier's" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str_sp": "God's Boomstick" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m195_casing", "name": { "str_sp": "Tearjerker" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str_sp": "Gentle Persuasion" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_hornets_nest_22lr_casing", "name": { "str_sp": "Beehive" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_hornets_nest_410_casing", "name": { "str_sp": "Metal Storm" } },
+      { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str_sp": "Meatgrinder" } },
+      { "type": "COMPONENT_ID", "condition": "50_casing", "name": { "str_sp": "Ma Deuce" } },
+      { "type": "COMPONENT_ID", "condition": "338lapua_casing", "name": { "str_sp": "Suomi Princess" } },
+      { "type": "COMPONENT_ID", "condition": "458wm_casing", "name": { "str_sp": "Huntsman's" } },
+      { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str_sp": "Street Howitzer" } },
+      { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str_sp": "Lancaster's Boar" } },
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str_sp": "Shock&Awe" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str_sp": "Diyua Comet" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "description": "An article of hand-produced apparel that George Washington himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendant that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.",
+    "snippet_category": [
+      {
+        "id": "fancy_ordinance_pendent1",
+        "text": "An article of hand-produced apparel that George Washington himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendant that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  With its brass polished to a mirror-like sheen and its rim cleanly extricated by the saw, a well-sized gemstone peers at the world from out of this shell's throat.  The jewel's wrapped within a length of fine-gauge wire, whose remaining length has been tugged through the cartridge's body, fed out the base, and entwined with a link in the chain."
+      },
+      {
+        "id": "fancy_ordinance_pendent2",
+        "text": "An article of hand-produced apparel that George Washington himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendant that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  The shell has, essentially, been rendered into a tiny brass pipe: its base and primer are neatly sawed off, and its head is capped by a large, glittering gemstone that regards the Cataclysm from its seat within the throat.  A length of wire is tightly wrapped around both the cartridge and jewel, with the cord's loose ends trailing through a small drill hole at the shell's base and linked to the neck chain."
+      }
+    ],
+    "weight": "69 g",
+    "volume": "38 ml",
+    "longest_side": "85 mm",
+    "//": "Length is derived from averaging out the case lengths of a .338 Lapua, .50 BMG, and 12-Gauge shotgun cartridge.",
+    "material": [ { "type": "brass", "portion": 3 }, { "type": "gold", "portion": 2 }, { "type": "gemstone" } ]
+  },
+  {
+    "id": "silver_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "silver hair beads", "str_pl": "sets of silver hair beads" },
+    "description": "An assortment of shiny silver beads used to decorate locs or braids.",
+    "weight": "10 g",
+    "volume": "20 ml",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "necklace_teeth",
+    "type": "ARMOR",
+    "name": { "str": "teeth necklace" },
+    "description": "A simple teeth necklace, this is sure to add some bite to an outfit.",
+    "symbol": "u",
+    "color": "white",
+    "price": "10 USD",
+    "price_postapoc": "10 USD",
+    "weight": "42 g",
+    "volume": "30 ml",
+    "material": "bone",
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ],
+    "variants": [
+      {
+        "id": "necklace_teeth_monster",
+        "name": { "str": "monster teeth necklace" },
+        "description": "The teeth hanging from this one look alien, with a hypnotizing, iridescent shine.",
+        "append": true
+      }
+    ]
   }
 ]

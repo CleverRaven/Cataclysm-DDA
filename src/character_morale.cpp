@@ -1,7 +1,28 @@
+#include <cmath>
+#include <list>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
+#include "character_attire.h"
+#include "coordinates.h"
+#include "debug.h"
+#include "effect.h"
+#include "map_iterator.h"
 #include "messages.h"
 #include "morale.h"
-#include "map_iterator.h"
+#include "pimpl.h"
+#include "type_id.h"
+#include "units.h"
+
+class item;
+struct itype;
 
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
@@ -9,11 +30,18 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
+static const morale_type morale_perm_fpmode_on( "morale_perm_fpmode_on" );
+static const morale_type morale_perm_hoarder( "morale_perm_hoarder" );
+static const morale_type morale_perm_noface( "morale_perm_noface" );
+static const morale_type morale_perm_nomad( "morale_perm_nomad" );
+
+static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_HOARDER( "HOARDER" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_THRESH_SPECIES_RAVENFOLK( "THRESH_SPECIES_RAVENFOLK" );
 
 void Character::update_morale()
 {
@@ -34,11 +62,13 @@ void Character::hoarder_morale_penalty()
     }
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
+    } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
+        pen = pen / 4;
     } else if( has_effect( effect_took_prozac ) ) {
         pen = pen / 2;
     }
     if( pen > 0 ) {
-        add_morale( MORALE_PERM_HOARDER, -pen, -pen, 1_minutes, 1_minutes, true );
+        add_morale( morale_perm_hoarder, -pen, -pen, 1_minutes, 1_minutes, true );
     }
 }
 
@@ -87,7 +117,7 @@ void Character::apply_persistent_morale()
         const float t = ( total_time - min_time ) / ( max_time - min_time );
         const int pen = std::ceil( lerp_clamped( 0, max_unhappiness, t ) );
         if( pen > 0 ) {
-            add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_nomad, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
 
@@ -95,16 +125,16 @@ void Character::apply_persistent_morale()
         // Losing your face is distressing
         if( !( is_wearing( itype_foodperson_mask ) ||
                is_wearing( itype_foodperson_mask_on ) ) ) {
-            add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_noface, -20, -20, 1_minutes, 1_minutes, true );
         } else if( is_wearing( itype_foodperson_mask ) ||
                    is_wearing( itype_foodperson_mask_on ) ) {
-            rem_morale( MORALE_PERM_NOFACE );
+            rem_morale( morale_perm_noface );
         }
 
         if( is_wearing( itype_foodperson_mask_on ) ) {
-            add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
+            add_morale( morale_perm_fpmode_on, 10, 10, 1_minutes, 1_minutes, true );
         } else {
-            rem_morale( MORALE_PERM_FPMODE_ON );
+            rem_morale( morale_perm_fpmode_on );
         }
     }
 }
@@ -167,10 +197,11 @@ void Character::check_and_recover_morale()
 
     test_morale.on_stat_change( "hunger", get_hunger() );
     test_morale.on_stat_change( "thirst", get_thirst() );
-    test_morale.on_stat_change( "fatigue", get_fatigue() );
+    test_morale.on_stat_change( "sleepiness", get_sleepiness() );
     test_morale.on_stat_change( "pain", get_pain() );
     test_morale.on_stat_change( "pkill", get_painkiller() );
     test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );
+    test_morale.on_stat_change( "radiation", get_rad() );
 
     apply_persistent_morale();
 
@@ -180,3 +211,22 @@ void Character::check_and_recover_morale()
     }
 }
 
+void Character::disp_morale()
+{
+    int equilibrium = calc_focus_equilibrium();
+
+    int sleepiness_penalty = 0;
+    const int sleepiness_cap = focus_equilibrium_sleepiness_cap( equilibrium );
+
+    if( sleepiness_cap < equilibrium ) {
+        sleepiness_penalty = equilibrium - sleepiness_cap;
+        equilibrium = sleepiness_cap;
+    }
+
+    int pain_penalty = 0;
+    if( get_perceived_pain() && !has_trait( trait_CENOBITE ) ) {
+        pain_penalty = calc_focus_equilibrium( true ) - equilibrium - sleepiness_penalty;
+    }
+
+    morale->display( equilibrium, pain_penalty, sleepiness_penalty );
+}

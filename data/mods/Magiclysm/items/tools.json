@@ -7,17 +7,17 @@
     "description": "This cauldron made of demon spider chitin seems to absorb the light.  It will hold 16 liters of material and will absorb poisons from it.  It may have other properties that require discovery.",
     "weight": "1424 g",
     "volume": "20 L",
-    "price": 2000,
+    "price": "20 USD",
     "to_hit": -1,
     "looks_like": "clay_hydria",
-    "bashing": 1,
     "material": [ "demon_chitin" ],
     "symbol": ")",
     "color": "red",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "//": "I went ahead and gave this a level of 2 for when magical mutagens become a thing as I figured dragonblood for instance should need different tools than making alpha mutagen.",
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 2 ], [ "MAGIC_CAULDRON", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "cauldron_orichalcum",
@@ -25,36 +25,36 @@
     "category": "container",
     "name": { "str": "orichalcum cauldron" },
     "description": "This is an alchemical cauldron made of orichalcum.  The metal is especially resistant to the unique types of corrosion caused by alchemy.",
-    "weight": "15 kg",
+    "weight": "3212 g",
     "volume": "20 L",
+    "//": "This is a pot made with a metal as dense as steel, it should have same weight/volume ratio as canning pot.",
     "price": "750 USD",
     "to_hit": -4,
     "looks_like": "canning_pot",
-    "bashing": 6,
     "material": [ "orichalcum_metal" ],
     "symbol": "U",
     "color": "yellow",
     "pocket_data": [ { "open_container": true, "watertight": true, "max_contains_volume": "16 L", "max_contains_weight": "50 kg" } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "MAGIC_MUTAGEN", 1 ], [ "MAGIC_CAULDRON", 2 ] ],
-    "use_action": [ "HEAT_FOOD" ]
+    "use_action": [ "HEAT_FOOD" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "demon_forge",
     "type": "TOOL",
     "name": { "str": "demon forge" },
     "description": "This is a portable version of the charcoal forge that is magically enhanced and fortified with demon spider chitin in order to be able to resmelt magical metals into their workable ingot form.",
-    "weight": "10 kg",
+    "weight": "8 kg",
     "volume": "8 L",
-    "price": 200000,
-    "to_hit": -2,
-    "bashing": 9,
-    "material": [ "demon_chitin" ],
+    "price": "2 kUSD",
+    "material": [ { "type": "demon_chitin", "portion": 40 }, { "type": "cement", "portion": 60 } ],
     "symbol": ";",
     "color": "red",
     "ammo": [ "alumentum" ],
     "sub": "forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "type": "GENERIC",
@@ -65,11 +65,11 @@
     "description": "Some alchemical mortar, ready to be used in building projects expecting temperatures on par with dragonbreath.",
     "category": "spare_parts",
     "container": "bag_canvas",
-    "price": 500000,
+    "price": "5 kUSD",
     "material": [ "powder_nonflam" ],
     "weight": "2340 g",
     "volume": "1 L",
-    "bashing": 4
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "sewing_kit",
@@ -91,6 +91,8 @@
         "kevlar",
         "kevlar_layered",
         "gutskin",
+        "denim",
+        "canvas",
         "demon_chitin",
         "black_dragon_hide"
       ],
@@ -122,6 +124,8 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "denim",
+          "canvas",
           "black_dragon_hide",
           "demon_chitin"
         ],
@@ -140,8 +144,8 @@
     "description": "The natural cluster of parabolan wool fibers.  Could be processed to felt patches or yarns.",
     "weight": "120 g",
     "volume": "500 ml",
-    "price": 0,
-    "price_postapoc": 10,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "to_hit": -4,
     "material": [ "parabolan_wool" ],
     "symbol": ",",
@@ -156,6 +160,30 @@
     "category": "other",
     "description": "A broken shard of glassteel covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
     "material": [ "glassteel" ],
-    "cutting": 7
+    "melee_damage": { "cut": 7 }
+  },
+  {
+    "id": "magic_circle_rank_1",
+    "type": "TOOL",
+    "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 1" },
+    "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+    "symbol": "O",
+    "color": "red",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "qualities": [ [ "MANA_INFUSE", 1 ], [ "MANA_FOCUS", 1 ] ],
+    "flags": [ "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "magic_circle_rank_2",
+    "type": "TOOL",
+    "name": { "str": "Magic Circle Rank 2", "str_pl": "Magic Circles Rank 2" },
+    "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
+    "symbol": "O",
+    "color": "red",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "qualities": [ [ "MANA_INFUSE", 2 ], [ "MANA_FOCUS", 2 ] ],
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

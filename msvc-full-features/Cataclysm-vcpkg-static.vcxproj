@@ -101,24 +101,13 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="Cataclysm-common.props" />
+    <Import Project="Cataclysm-pch.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <LocalDebuggerWorkingDirectory>$(ProjectDir)..</LocalDebuggerWorkingDirectory>
     <OutDir>$(ProjectDir)..\</OutDir>
     <TargetExt>.exe</TargetExt>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Debug-NoTiles'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)'=='Release-NoTiles'">
-    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <EmbedManifest>false</EmbedManifest>
@@ -168,15 +157,22 @@
     <EmbedManifest>false</EmbedManifest>
     <TargetName>cataclysm-tiles</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="!$(Configuration.Contains(NoTiles))">
     <ClCompile>
       <PreprocessorDefinitions>_WINDOWS;USE_WINMAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.Contains(NoTiles))">
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
     <CustomBuildStep Condition="'$(CDDA_POST_BUILD_JSON_LINT)' != ''">
-      <Command>C:\windows\system32\windowspowershell\v1.0\powershell.exe $(SolutionDir)\style-json.ps1 -FromMSBuild</Command>
+      <Command>C:\windows\system32\windowspowershell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Unrestricted $(SolutionDir)\style-json.ps1 -FromMSBuild</Command>
       <Message>Linting JSON</Message>
       <Outputs>non-existent-file-to-always-trigger-custom-step.txt</Outputs>
     </CustomBuildStep>
@@ -202,7 +198,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -216,7 +211,6 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -239,6 +233,9 @@
   <ItemGroup>
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
       <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="ImGui-lib-vcpkg-static.vcxproj">
+      <Project>{0c0b2bea-311f-473c-9652-87923ef639e3}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

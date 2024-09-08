@@ -16,7 +16,7 @@
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 
-void appliance_convert_examine_actor::load( const JsonObject &jo )
+void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, false, "furn_set", furn_set );
     optional( jo, false, "ter_set", ter_set );
@@ -131,10 +131,11 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     map &here = get_map();
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
-        if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
+        if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
             debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
-        here.set_seen_cache_dirty( examp );
+        set_queued_points();
+        here.set_seen_cache_dirty( tripoint_bub_ms( examp ) );
         here.set_transparency_cache_dirty( examp.z );
     } else {
         open = false;
@@ -175,7 +176,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                critter.has_flag( MF_ID_CARD_DESPAWN ) &&
+                critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }
@@ -188,11 +189,11 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
         }
     } else if( allow_hacking && iexamine::can_hack( you ) &&
                query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        iexamine::try_start_hacking( you, examp );
+        iexamine::try_start_hacking( you, tripoint_bub_ms( examp ) );
     }
 }
 
-void cardreader_examine_actor::load( const JsonObject &jo )
+void cardreader_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, false, "flags", allowed_flags );
     optional( jo, false, "consume_card", consume, true );
@@ -246,18 +247,20 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint & ) const
+void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
+    d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );
+    d.set_value( "npctalk_var_pos", get_map().getglobal( examp ).to_string() );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }
 }
 
-void eoc_examine_actor::load( const JsonObject &jo )
+void eoc_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 }
 

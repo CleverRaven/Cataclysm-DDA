@@ -16,24 +16,22 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "revert_to_itype": "bot_laserturret",
     "special_attacks": [
       {
         "type": "gun",
         "cooldown": 1,
-        "gun_type": "laser_cannon",
-        "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
+        "gun_type": "v29_turret",
+        "fake_skills": [ [ "gun", 4 ], [ "pistol", 4 ] ],
         "ranges": [ [ 0, 30, "DEFAULT" ] ]
       }
     ],
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_turret",
@@ -52,9 +50,6 @@
     "color": "light_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_night": 3,
     "revert_to_itype": "bot_turret",
     "starting_ammo": { "9mm": 30 },
@@ -81,7 +76,8 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_turret_bmg",
@@ -100,9 +96,6 @@
     "color": "green",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_antimateriel",
@@ -140,7 +133,8 @@
       "DROPS_AMMO",
       "CONSOLE_DESPAWN",
       "ID_CARD_DESPAWN"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_turret_rifle",
@@ -159,9 +153,6 @@
     "color": "green",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_rifleturret",
@@ -199,12 +190,13 @@
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
       "CONSOLE_DESPAWN"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_crows_m240",
     "type": "MONSTER",
-    "name": { "str": "M240 autonomous CROWS II" },
+    "name": { "str_sp": "M240 autonomous CROWS II" },
     "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  Thousands of these were deployed by the US military before the Cataclysm and they were valued for their use in engaging infantry without exposing the operator.  This one is fitted with a M240.",
     "default_faction": "military",
     "species": [ "ROBOT" ],
@@ -218,9 +210,6 @@
     "color": "green",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 16,
-    "armor_bullet": 13,
     "vision_day": 50,
     "vision_night": 3,
     "revert_to_itype": "bot_crows_m240",
@@ -258,7 +247,8 @@
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
       "CONSOLE_DESPAWN"
-    ]
+    ],
+    "armor": { "bash": 14, "cut": 16, "bullet": 13 }
   },
   {
     "id": "mon_tripod",
@@ -281,14 +271,28 @@
     "melee_dice": 3,
     "melee_dice_sides": 12,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
-    "armor_bash": 12,
-    "armor_cut": 8,
     "path_settings": { "max_dist": 5 },
     "revert_to_itype": "bot_tripod",
-    "special_attacks": [ [ "FLAMETHROWER", 10 ] ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 10,
+        "move_cost": 150,
+        "gun_type": "rm451_flamethrower",
+        "ammo_type": "napalm",
+        "fake_skills": [ [ "gun", 4 ], [ "launcher", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "hiss!",
+        "ranges": [ [ 0, 10, "DEFAULT" ] ],
+        "require_targeting_player": false,
+        "target_moving_vehicles": true,
+        "description": "Giant flames erupt from the heat of a tripod!"
+      }
+    ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS" ],
+    "armor": { "bash": 12, "cut": 8 }
   },
   {
     "id": "mon_tankbot",
@@ -311,13 +315,50 @@
     "melee_dice": 5,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 90,
-    "armor_cut": 90,
     "vision_day": 50,
     "revert_to_itype": "bot_tankbot",
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
-    "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "id": "g_launcher",
+        "cooldown": 4,
+        "move_cost": 150,
+        "gun_type": "m320",
+        "ammo_type": "40x46mm_m433",
+        "fake_skills": [ [ "gun", 8 ], [ "launcher", 6 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "click!",
+        "ranges": [ [ 20, 38, "BURST" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "targeting_cost": 10,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      },
+      {
+        "type": "gun",
+        "id": "rifle",
+        "cooldown": 2,
+        "move_cost": 150,
+        "gun_type": "modular_m16_auto_rifle",
+        "ammo_type": "556",
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "click!",
+        "ranges": [ [ 0, 4, "BURST" ], [ 5, 8, "AUTO" ], [ 9, 20, "DEFAULT" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "targeting_cost": 10,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      }
+    ],
     "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
@@ -330,7 +371,8 @@
       "ELECTRONIC",
       "PRIORITIZE_TARGETS",
       "DROPS_AMMO"
-    ]
+    ],
+    "armor": { "bash": 90, "cut": 90 }
   },
   {
     "id": "mon_chickenbot",
@@ -353,16 +395,55 @@
     "melee_dice": 3,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 18,
-    "armor_cut": 14,
     "vision_day": 50,
     "vision_night": 35,
     "revert_to_itype": "bot_chickenbot",
     "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
-    "special_attacks": [ [ "CHICKENBOT", 4 ] ],
+    "special_attacks": [
+      [ "TAZER", 4 ],
+      {
+        "type": "gun",
+        "id": "g_launcher",
+        "cooldown": 4,
+        "move_cost": 150,
+        "gun_type": "m320",
+        "ammo_type": "40x46mm_m433",
+        "fake_skills": [ [ "gun", 8 ], [ "launcher", 6 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "click!",
+        "ranges": [ [ 20, 38, "BURST" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "targeting_cost": 10,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      },
+      {
+        "type": "gun",
+        "id": "rifle",
+        "cooldown": 2,
+        "move_cost": 150,
+        "gun_type": "modular_m16_auto_rifle",
+        "ammo_type": "556",
+        "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
+        "fake_dex": 10,
+        "no_ammo_sound": "click!",
+        "ranges": [ [ 0, 4, "BURST" ], [ 5, 8, "AUTO" ], [ 9, 20, "DEFAULT" ] ],
+        "require_targeting_player": true,
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "targeting_cost": 10,
+        "targeting_timeout_extend": -1,
+        "targeting_sound": "\"Hostile Detected.\"",
+        "targeting_volume": 10
+      }
+    ],
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ],
+    "armor": { "bash": 18, "cut": 14 }
   },
   {
     "id": "mon_secubot",
@@ -381,9 +462,6 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "armor_bash": 14,
-    "armor_cut": 14,
-    "armor_bullet": 11,
     "vision_day": 50,
     "revert_to_itype": "bot_secubot",
     "starting_ammo": { "556": 30 },
@@ -392,7 +470,7 @@
         "type": "gun",
         "cooldown": 1,
         "move_cost": 150,
-        "gun_type": "m16a4",
+        "gun_type": "modular_m16a4",
         "ammo_type": "556",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
@@ -409,7 +487,8 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES", "DROPS_AMMO" ]
+    "flags": [ "SEES", "HEARS", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "PATH_AVOID_DANGER", "LOUDMOVES", "DROPS_AMMO" ],
+    "armor": { "bash": 14, "cut": 14, "bullet": 11 }
   },
   {
     "id": "mon_moose",
@@ -434,9 +513,6 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
-    "armor_cut": 1,
-    "armor_bullet": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
@@ -446,7 +522,8 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "ATTACKMON" ],
+    "armor": { "bash": 4, "cut": 1, "bullet": 1 }
   },
   {
     "id": "mon_flaming_eye",
@@ -467,7 +544,6 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
@@ -481,7 +557,8 @@
         "monster_message": "A piercing beam of light bursts forth!"
       }
     ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 4 }
   },
   {
     "id": "mon_staring_eye",
@@ -501,13 +578,13 @@
     "morale": 100,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "dodge": 1,
-    "armor_bash": 4,
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
-    "special_attacks": [ [ "STARE", 12 ] ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "stare" }, "monster_message": "", "cooldown": 12 } ],
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ],
+    "armor": { "bash": 4 }
   },
   {
     "id": "mon_zombie_soldier",
@@ -530,16 +607,58 @@
     "type": "MONSTER",
     "name": { "str": "zombie burner" },
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
-    "copy-from": "mon_zombie_flamer",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "white_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 1,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "luminance": 8,
+    "harvest": "zombie",
+    "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "mon_zombie_soldier_death_drops_no_hope", 100 ], [ "mon_zombie_flamer", 100 ] ]
-    }
+    },
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "burn_into": "mon_zombie_scorched",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "DRIPS_NAPALM",
+      "FILTHY"
+    ],
+    "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 4 }
   },
   {
     "id": "mon_mech_recon",
     "type": "MONSTER",
-    "name": { "str": "X-03: 'Spectre' Recon Mech" },
+    "name": { "str": "X-03: 'Specter' Recon Mech" },
     "description": "The Boeing-Daewoo RMES (Recon Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a scout-recon-sniper role, due to its mobility, integrated laser sniper rifle, and suite of optics for target designation and battlefield awareness.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
@@ -557,9 +676,6 @@
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
-    "armor_bash": 15,
-    "armor_cut": 25,
-    "armor_bullet": 20,
     "vision_night": 100,
     "mech_str_bonus": 5,
     "mech_battery": "huge_atomic_battery_cell",
@@ -580,16 +696,17 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
-    ]
+    ],
+    "armor": { "bash": 15, "cut": 25, "bullet": 20 }
   },
   {
     "id": "mon_mech_combat",
     "type": "MONSTER",
     "name": { "str": "X-02: 'Grunt' Combat Mech" },
-    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
+    "description": "The Boeing-Daewoo CMES (Combat Mechanical Exoskeleton Suit), a recent acquisition by the U.S. military, it was designed to be used in a fire support role, due to its fearsome integrated Gatling laser.  It was not deployed before the Cataclysm hit, though there were a few prototypes in the field.  You may be able to hack it to accept you as its pilot.  Like all mech-suits, it can act as a UPS from its large battery.",
     "default_faction": "mech_bot",
     "species": [ "ROBOT" ],
     "diff": 5,
@@ -606,9 +723,6 @@
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 25,
-    "armor_cut": 45,
-    "armor_bullet": 36,
     "vision_night": 50,
     "mech_str_bonus": 10,
     "mech_battery": "huge_atomic_battery_cell",
@@ -628,11 +742,12 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
-    ]
+    ],
+    "armor": { "bash": 25, "cut": 45, "bullet": 36 }
   },
   {
     "id": "mon_mech_lifter",
@@ -655,9 +770,6 @@
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_bash": 22,
-    "armor_cut": 30,
-    "armor_bullet": 24,
     "vision_night": 50,
     "mech_str_bonus": 30,
     "mech_battery": "huge_atomic_battery_cell",
@@ -679,10 +791,25 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "LOUDMOVES",
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
+    ],
+    "armor": { "bash": 22, "cut": 30, "bullet": 24 }
+  },
+  {
+    "id": "mon_zombie_technician",
+    "type": "MONSTER",
+    "name": { "str": "zombie technician" },
+    "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.  As it approaches, everything metal you're carrying shifts very slightly in the zombie's direction, as if attracted by a strong magnetic force.",
+    "copy-from": "mon_zombie_technician",
+    "grab_strength": 20,
+    "special_attacks": [
+      [ "PULL_METAL_WEAPON", 25 ],
+      { "id": "grab", "cooldown": 7 },
+      { "id": "scratch_humanoid" },
+      { "id": "bite_humanoid", "cooldown": 5 }
     ]
   }
 ]

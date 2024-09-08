@@ -1,0 +1,728 @@
+[
+  {
+    "id": "teleport_blink",
+    "type": "SPELL",
+    "name": "[Ψ]Blink",
+    "description": "Step briefly into the void between dimensions and emerge at a random nearby location.",
+    "message": "You vanish and reappear nearby.",
+    "teachable": false,
+    "valid_targets": [ "none" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_AOE" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": 1,
+    "max_aoe": 5,
+    "aoe_increment": 0.25,
+    "min_range": 5,
+    "max_range": 15,
+    "range_increment": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 900,
+    "final_energy_cost": 350,
+    "energy_increment": -55,
+    "base_casting_time": 50,
+    "final_casting_time": 5,
+    "casting_time_increment": -3.5
+  },
+  {
+    "id": "teleport_slow",
+    "type": "SPELL",
+    "name": "[Ψ]Stutterstep",
+    "description": "Manipulate space to increase relative distance around the target, reducing their speed.",
+    "message": "You warp the space around your enemies!",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "RANDOM_DURATION", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_teleport_slow",
+    "shape": "blast",
+    "min_aoe": 0,
+    "max_aoe": 20,
+    "aoe_increment": 0.2,
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_slow') * 1.2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_slow') * 75) + 125) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_slow') * 200) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2000,
+    "final_energy_cost": 750,
+    "energy_increment": -75,
+    "base_casting_time": 80,
+    "final_casting_time": 35,
+    "casting_time_increment": -4.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_phase",
+    "type": "SPELL",
+    "name": "[Ψ]Phase",
+    "description": "By stepping for a moment into the void between dimensions, you can bypass a wall or walk from the ground to the roof of a house.",
+    "message": "There is a brief moment of darkness and terrible cold, and you are somewhere else.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "clamp( (( (u_spell_level('teleport_phase') * 0.1) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 2, 4)"
+      ]
+    },
+    "max_range": 4,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2500,
+    "final_energy_cost": 1250,
+    "energy_increment": -65,
+    "base_casting_time": 65,
+    "final_casting_time": 15,
+    "casting_time_increment": -3
+  },
+  {
+    "id": "teleport_ephemeral_walk",
+    "type": "SPELL",
+    "name": "[Ψ]Ephemeral Walk (C)",
+    "description": "By moving slightly into the void between dimensions, you can exist in a state that allows effortless travel through obstacles.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_EPHEMERAL_WALK_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 1000) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_ephemeral_walk') * 3000) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 0 : max((6500 - (u_spell_level('teleport_ephemeral_walk') * 225)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_teleport_ephemeral_walk') > -1 ? 10 : max((85 -(u_spell_level('teleport_ephemeral_walk') * 7)), 25)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_stride",
+    "type": "SPELL",
+    "name": "[Ψ]Extended Stride (C)",
+    "description": "By warping space to shorten distances, you can make each of your movements carry you much further.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "Your steps devour the distance.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_STRIDE_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('teleport_stride') * 1100) + 3000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('teleport_stride') * 3700) + 30000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_teleport_stride') > -1 ? 0 : max((3500 - (u_spell_level('teleport_stride') * 95)), 1750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "u_effect_intensity('effect_teleport_stride') > -1 ? 10 : max((85 -(u_spell_level('teleport_stride') * 7)), 25)" ]
+    }
+  },
+  {
+    "id": "teleport_transpose",
+    "type": "SPELL",
+    "name": "[Ψ]Transposition",
+    "description": "Entangle yourself with your target's position and, with a twist, swap places with them.",
+    "message": "There is a moment of darkness and terrible cold, and you are somewhere else, and so is your target.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "SWAP_POS", "IGNORE_WALLS" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_transpose') * 1.5) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2750,
+    "final_energy_cost": 1500,
+    "energy_increment": -85,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -2.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_displacement",
+    "type": "SPELL",
+    "name": "[Ψ]Displacement",
+    "description": "With a touch, you can send your target through the void to re-emerge somewhere nearby, further away from you.",
+    "message": "You touch your target and they are suddenly somewhere else.",
+    "teachable": false,
+    "valid_targets": [ "ally", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "psi_teleporter_teleporting_damage",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4000,
+    "final_energy_cost": 1750,
+    "energy_increment": -65,
+    "base_casting_time": 95,
+    "final_casting_time": 25,
+    "casting_time_increment": -4,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_collapse",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex",
+    "description": "Affect the fabric of space, changing relative distance around a point so that everything moving within finds themselves moving towards it.",
+    "message": "The air around your enemies shimmers as their forward motion carries them rapidly towards each other.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SPACIAL_VORTEX",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 5500,
+    "final_energy_cost": 3000,
+    "energy_increment": -75,
+    "base_casting_time": 80,
+    "final_casting_time": 45,
+    "casting_time_increment": -2,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_collapse_01",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 01",
+    "description": "Version 1 of the spacial vortex, with 2 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "teleport_collapse_pull", "hit_self": false }, { "id": "teleport_collapse_pull", "hit_self": false } ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_02",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 02",
+    "description": "Version 2 of the spacial vortex, with 3 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_03",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 03",
+    "description": "Version 3 of the spacial vortex, with 4 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_04",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 04",
+    "description": "Version 4 of the spacial vortex, with 5 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_05",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 05",
+    "description": "Version 5 of the spacial vortex, with 6 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_06",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 06",
+    "description": "Version 6 of the spacial vortex, with 7 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_07",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex 07",
+    "description": "Version 7 of the spacial vortex, with 8 pulls in.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false },
+      { "id": "teleport_collapse_pull", "hit_self": false }
+    ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_collapse_pull",
+    "type": "SPELL",
+    "name": "[Ψ]Spacial Vortex Real",
+    "description": "The actual spacial vortex that pulls in monsters.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "area_pull",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 1.2) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( (( (u_spell_level('teleport_collapse') * 0.25) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 15)"
+      ]
+    }
+  },
+  {
+    "id": "teleport_farstep",
+    "type": "SPELL",
+    "name": "[Ψ]Farstep",
+    "description": "Skating along the void between dimensions, move to a specific place nearby.",
+    "message": "There is a moment of darkness and terrible cold, and you are somewhere else.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "TARGET_TELEPORT", "IGNORE_WALLS" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "min_aoe": 4,
+    "max_aoe": 1,
+    "aoe_increment": -0.2,
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_farstep') * 2) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 6500,
+    "final_energy_cost": 2750,
+    "energy_increment": -105,
+    "base_casting_time": 75,
+    "final_casting_time": 30,
+    "casting_time_increment": -3
+  },
+  {
+    "id": "teleport_banish",
+    "type": "SPELL",
+    "name": "[Ψ]Oubliette",
+    "description": "Teleport the target through the nether to some other dimension.  They are technically not dead, but they are no longer your concern.  Oubliette will occasionally fail when used against very powerful enemies, or succeed but cause damage to the teleporter.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORTER_OUBLIETTE_HANDLING",
+    "shape": "blast",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('teleport_banish') * 15) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('teleport_banish') * 35) + 350) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_banish') * 2) + 1.5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7500,
+    "final_energy_cost": 4600,
+    "energy_increment": -170,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_banish_self_target",
+    "type": "SPELL",
+    "name": "Oubliette Self",
+    "description": "This is the banishment that the target casts on themselves.",
+    "valid_targets": [ "self" ],
+    "skill": "metaphysics",
+    "flags": [ "PSIONC", "SILENT", "RANDOM_DAMAGE" ],
+    "effect": "banishment",
+    "shape": "blast",
+    "spell_class": "TELEPORTER",
+    "teachable": false,
+    "min_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "max_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "min_range": 0,
+    "max_range": 0,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "teleport_gateway",
+    "type": "SPELL",
+    "name": "[Ψ]Gateway",
+    "description": "Transport yourself through the Nether to an attuned location.  You must attune yourself to the place you wish to travel to.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 8,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_GATEWAY_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 6000,
+    "energy_increment": -200,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -5.5
+  },
+  {
+    "id": "teleport_summon",
+    "type": "SPELL",
+    "name": "[Ψ]Breach",
+    "description": "Open a brief passage to the Nether using yourself or an enemy as an anchor and allow one (or more) of its inhabitants to come through.  You have no control over what finds the doorway and no ability to command it when it arrives.\n\nRemember that some denizens of the Nether die instantly in sunlight.",
+    "message": "The air nearby fractures and something comes through!",
+    "teachable": false,
+    "valid_targets": [ "self", "hostile" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPORT_SUMMON",
+    "shape": "blast",
+    "min_damage": 1,
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('teleport_summon') * 1.3) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 80)"
+      ]
+    },
+    "max_range": 80,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9000,
+    "final_energy_cost": 4500,
+    "energy_increment": -250,
+    "base_casting_time": 250,
+    "final_casting_time": 125,
+    "ignored_monster_species": [ "PSI_NULL" ],
+    "casting_time_increment": -6.5
+  },
+  {
+    "id": "teleport_reality_tear",
+    "type": "SPELL",
+    "name": "[Ψ]Reality Tear",
+    "description": "Make your own contribution to the Cataclysm by opening a permanent tear in reality, allowing all manners of netherium creatures access to Earth.  This might not be a good idea.",
+    "message": "The air fractures and the space nearby breaks!",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "teleport_reality_tear_effects", "hit_self": true } ],
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 10,
+    "max_field_intensity": 10,
+    "shape": "blast",
+    "min_range": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 5000,
+    "energy_increment": -250,
+    "base_casting_time": 250,
+    "final_casting_time": 100,
+    "casting_time_increment": -10
+  },
+  {
+    "id": "teleport_reality_tear_effects",
+    "type": "SPELL",
+    "name": "[Ψ]Reality Tear - Side Effects",
+    "description": "Side effects of Reality Tear.  Seeing this spell is a bug.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPORTER",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_REALITY_TEAR_EFFECTS",
+    "shape": "blast"
+  }
+]

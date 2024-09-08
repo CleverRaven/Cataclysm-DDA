@@ -10,10 +10,9 @@
     "weight": "8267 g",
     "volume": "3 L",
     "longest_side": "90 cm",
-    "price": 15000,
-    "price_postapoc": 1000,
+    "price": "150 USD",
+    "price_postapoc": "10 USD",
     "to_hit": -1,
-    "bashing": 12,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -25,6 +24,7 @@
     "clip_size": 1,
     "//": "Similar reload process to a musket, which sources place at up to 4 / minute for elite professionals. Nominal 30s will be cut down to 15s at skill 10.",
     "reload": 3000,
+    "flags": [ "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock mount", 1 ],
@@ -34,6 +34,7 @@
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "blunderbuss": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "blunderbuss": 1 } } ],
+    "melee_damage": { "bash": 12 }
   }
 ]

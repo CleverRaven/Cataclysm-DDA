@@ -225,6 +225,50 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_heart_desc",
+    "text": [
+      {
+        "id": "mutant_heart_1",
+        "text": "A chunk of heart from a mutated animal.  Patches of hair and bits of bones are present all over and inside it, making it resemble a giant teratoma.  Despite this, it appears to have functioned as a heart."
+      },
+      {
+        "id": "mutant_heart_2",
+        "text": "A chunk of heart from a mutated animal.  The ventricles are filled with acidic fluids and bits of half-digested food, with the nearby veins and arteries being lined with mucus.  Looking at this macabre fusion of the circulatory and digestive systems, you wonder how such a thing could ever get food to reach the heart without clogging the arteries."
+      },
+      {
+        "id": "mutant_heart_3",
+        "text": "A chunk of heart from a mutated animal.  This cancerous, gangrenous mass of flesh still beats, leaking out more of the foul fluids it used to push through a body.  Beating isn't the only thing it continues to do, as you witness what kept this heart beating: the gangrene eating the cancer as the cancer grows back all over the gangrene, in a sickening ouroboros."
+      },
+      {
+        "id": "mutant_heart_4",
+        "text": "A chunk of heart from a mutated animal.  Despite its stone-like exterior, its inner flesh is much closer to mucus in all aspects.  Upon closer examination, this heart appears vestigial, as the inner flesh turns out to be blood, slowly moving on its own volition."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_heart_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_heart_1",
+        "text": "A cooked chunk of heart from a mutated animal.  The removal of most fluid pockets has made what remains of this heart resemble to a mass of tough leather-like scraps, with a far fouler taste."
+      },
+      {
+        "id": "cooked_mutant_heart_2",
+        "text": "A cooked chunk of heart from a mutated animal.  The heat has turned this heart white and mushy, with a taste and texture reminiscent of eating wet ashes."
+      },
+      {
+        "id": "cooked_mutant_heart_3",
+        "text": "A cooked chunk of heart from a mutated animal.  It has partially melted as it cooked, making it gelatinous yet sinewy, as if the taste and odor weren't enough of a deterrent."
+      },
+      {
+        "id": "cooked_mutant_heart_4",
+        "text": "A cooked chunk of heart from a mutated animal.  Most of it has softened under the heat, giving it a rubbery texture and a taste of cold grease, but the core became akin to a meaty jawbreaker with an unsettling but not revolting taste."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "mutant_kidney_desc",
     "text": [
       {
@@ -402,8 +446,8 @@
     "text": [
       "The meat inside gives off a horrifying stench, and seems to be covered in thin damp hair, like a newborn animal gone horribly wrong",
       "Small bundles of fiber break loose as you work, splitting open to reveal twisted, half-formed copies of the creature itself",
-      "It is difficult to work, as the spongey tissue tears apart under your tools",
-      "Despite its outward appearance, both the organs and the endolymph of this creature is pristinely white",
+      "It is difficult to work as the spongey tissue tears apart under your tools",
+      "Despite its outward appearance, both the organs and the endolymph of this creature are pristinely white",
       "Some of your cuts meet nerves, and the already stiff corpse shudders with movement each time",
       "You follow what you think are superfluous veins into the deep, finding a gorged, tick-like creature at their convergence",
       "Every cut reveals an organ you can't quite recognize, and you start to wonder what your insides look like by now",
@@ -478,9 +522,9 @@
     "category": "<bug_harvest_ground_beetle_interior>",
     "text": [
       "A lattice of glossy tubes still holds the mound of foamy fat and organs in place after the abdomen falls apart",
-      "The head is occupied entirely by organic hydraulics wrapped in muscle, and you dont find tangled strands of brain tissue until the thorax",
+      "The head is occupied entirely by organic hydraulics wrapped in muscle, and you don't find tangled strands of brain tissue until the thorax",
       "A fist-sized organ next to the chain of hearts still subtly throbs, and you find broken shards of chitin inside it after a swift hacking",
-      "You find a clutch of stillborn grubs inside, curled up in their parents fatty innards with eggshells nearby",
+      "You find a clutch of stillborn grubs inside, curled up in their parent's fatty innards with eggshells nearby",
       "The reproductive organs of this beetle, sealed inside a chitin casket, have coiled into a mockery of nature and bristle with half-developed eggs",
       "Something that looks like it belongs in an engine lies between the splayed out lungs, and it sprays grease five paces when you puncture it"
     ]
@@ -606,7 +650,7 @@
     "category": "<bug_harvest_acid_deeper>",
     "text": [
       "<bug_harvest_general_deeper>",
-      "The organs themselves have an acrid odour, but don't seem as caustically acidic as the outer shell",
+      "The organs themselves have an acrid odor, but don't seem as caustically acidic as the outer shell",
       "You carefully avoid breaking through pockets of what you think may be acid-secreting glands",
       "Thick, ropey cords of tissue beneath its chitin protect an inner layer of strange organs, resembling those of a bird more than anything"
     ]
@@ -652,8 +696,7 @@
       "There are no strange smells, no random organs strewn about its insides.  Somehow that is more disconcerting than the mutated animals you took apart until now",
       "Even though it's made of something like flesh, you can't help but feel like you're disassembling an intricate machine",
       "Its parts don't want to stay apart, slowly moving to close your cuts.  You resign yourself to removing every chunk and placing it on the ground beside the corpse, where they finally grow still",
-      "Every so often your tool hits something bone-hard in the deep, but when you cut there the second time the flesh parts smoothly",
-      ""
+      "Every so often your tool hits something bone-hard in the deep, but when you cut there the second time the flesh parts smoothly"
     ]
   },
   {

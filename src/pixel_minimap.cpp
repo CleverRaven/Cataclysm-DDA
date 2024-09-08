@@ -10,6 +10,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <utility>
 #include <vector>
 
@@ -30,7 +31,6 @@
 #include "mapdata.h"
 #include "math_defines.h"
 #include "monster.h"
-#include "optional.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"
@@ -88,10 +88,11 @@ SDL_Color get_map_color_at( const tripoint &p )
 {
     const map &here = get_map();
     if( const optional_vpart_position vp = here.veh_at( p ) ) {
-        return curses_color_to_SDL( vp->vehicle().part_color( vp->part_index() ) );
+        const vpart_display vd = vp->vehicle().get_display_of_tile( vp->mount() );
+        return curses_color_to_SDL( vd.color );
     }
 
-    if( const auto furn_id = here.furn( p ) ) {
+    if( const furn_id furn_id = here.furn( p ) ) {
         return curses_color_to_SDL( furn_id->color() );
     }
 
@@ -505,7 +506,8 @@ void pixel_minimap::render_critters( const tripoint &center )
         mixture = lerp_clamped( 0, 100, std::max( s, 0.0f ) );
     }
 
-    const level_cache &access_cache = get_map().access_cache( center.z );
+    const map &m = get_map();
+    const level_cache &access_cache = m.access_cache( center.z );
 
     const point start( center.x - total_tiles_count.x / 2, center.y - total_tiles_count.y / 2 );
     const point beacon_size = {
@@ -517,6 +519,10 @@ void pixel_minimap::render_critters( const tripoint &center )
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
             const tripoint p = start + tripoint( x, y, center.z );
+            if( !m.inbounds( p ) ) {
+                // p might be out-of-bounds when peeking at submap boundary. Example: center=(64,59,-5), start=(4,-1) -> p=(4,-1,-5)
+                continue;
+            }
             const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
 
             if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {

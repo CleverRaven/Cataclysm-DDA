@@ -6,7 +6,7 @@
     "name": { "str": "giant crayfish larva", "str_pl": "giant crayfish larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
-      "feed": "The %s seems to... uhh, like you?  Well, as certainly as you could tell a giant crustacean could like you.  It swims around your legs and seems friendly.",
+      "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant crustacean could like you.  It swims around your legs and seems friendly.",
       "pet": "The %s swims around your feet."
     },
     "extend": { "flags": [ "CANPLAY" ] }

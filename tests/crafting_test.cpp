@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -16,18 +17,18 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "craft_command.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
@@ -37,16 +38,25 @@
 #include "temp_crafting_inventory.h"
 #include "type_id.h"
 #include "value_ptr.h"
+#include "veh_appliance.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
-static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const crafting_category_id crafting_category_CC_FOOD( "CC_FOOD" );
 
-static const itype_id itype_anvil( "anvil" );
+static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_USE_UPS( "USE_UPS" );
+
+static const furn_str_id furn_f_smoking_rack( "f_smoking_rack" );
+
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chisel( "chisel" );
+static const itype_id itype_fake_anvil( "fake_anvil" );
 static const itype_id itype_hacksaw( "hacksaw" );
 static const itype_id itype_hammer( "hammer" );
 static const itype_id itype_kevlar_shears( "kevlar_shears" );
@@ -57,6 +67,8 @@ static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_thread( "thread" );
 static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_faucet( "water_faucet" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -79,7 +91,7 @@ static const recipe_id recipe_armguard_larmor( "armguard_larmor" );
 static const recipe_id recipe_armguard_lightplate( "armguard_lightplate" );
 static const recipe_id recipe_armguard_metal( "armguard_metal" );
 static const recipe_id recipe_balclava( "balclava" );
-static const recipe_id recipe_blanket( "blanket" );
+static const recipe_id recipe_blanket_blanket_makeshift( "blanket_blanket_makeshift" );
 static const recipe_id recipe_brew_mead( "brew_mead" );
 static const recipe_id recipe_brew_rum( "brew_rum" );
 static const recipe_id recipe_carver_off( "carver_off" );
@@ -97,6 +109,9 @@ static const recipe_id recipe_makeshift_funnel( "makeshift_funnel" );
 static const recipe_id recipe_sushi_rice( "sushi_rice" );
 static const recipe_id recipe_test_tallow( "test_tallow" );
 static const recipe_id recipe_test_tallow2( "test_tallow2" );
+static const recipe_id recipe_test_waist_apron_long( "test_waist_apron_long" );
+static const recipe_id
+recipe_test_waist_apron_long_pink_apron_cotton( "test_waist_apron_long_pink_apron_cotton" );
 static const recipe_id recipe_vambrace_larmor( "vambrace_larmor" );
 static const recipe_id recipe_water_clean( "water_clean" );
 
@@ -104,6 +119,11 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
+
+static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
+static const vpart_id vpart_water_faucet( "water_faucet" );
+
+static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -124,13 +144,13 @@ TEST_CASE( "recipe_subset" )
                 CHECK( subset.get_custom_difficulty( r ) == r->difficulty );
             }
             THEN( "it's in the right category" ) {
-                const auto cat_recipes( subset.in_category( "CC_FOOD" ) );
+                const auto cat_recipes( subset.in_category( crafting_category_CC_FOOD ) );
 
                 CHECK( cat_recipes.size() == 1 );
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
-            THEN( "it uses water" ) {
-                const auto &comp_recipes( subset.of_component( itype_water ) );
+            THEN( "it uses clean water" ) {
+                const auto &comp_recipes( subset.of_component( itype_water_clean ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( comp_recipes.find( r ) != comp_recipes.end() );
@@ -194,7 +214,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
     const recipe *r = &recipe_magazine_battery_light_mod.obj();
     avatar dummy;
 
-    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE( static_cast<int>( dummy.get_skill_level( r->skill_used ) ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
     REQUIRE( r->skill_used );
 
@@ -251,13 +271,11 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the book" ) {
                 THEN( "he finds it!" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r ) );
                 }
                 THEN( "it's easier in the book" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).get_custom_difficulty( r ) == 2 );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
@@ -268,8 +286,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 craftbook.remove_item();
 
                 THEN( "he can't brew the recipe anymore" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r ) );
                 }
             }
@@ -288,8 +305,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r2 ) );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
@@ -300,8 +316,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
                 eink.remove_item();
 
                 THEN( "he can't make the recipe anymore" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
+                    dummy.invalidate_crafting_inventory();
                     CHECK_FALSE( dummy.get_recipes_from_books( dummy.crafting_inventory() ).contains( r2 ) );
                 }
             }
@@ -315,7 +330,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     const recipe *r = &recipe_brew_mead.obj();
     avatar dummy;
 
-    REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
+    REQUIRE( static_cast<int>( dummy.get_skill_level( r->skill_used ) ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
     REQUIRE( r->skill_used );
 
@@ -332,9 +347,8 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
         const auto helpers( dummy.get_crafting_helpers() );
 
         REQUIRE( std::find( helpers.begin(), helpers.end(), &who ) != helpers.end() );
-        // update the crafting inventory cache
-        dummy.moves++;
-        REQUIRE_FALSE( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+        dummy.invalidate_crafting_inventory();
+        REQUIRE_FALSE( dummy.get_group_available_recipes().contains( r ) );
         REQUIRE_FALSE( who.knows_recipe( r ) );
 
         WHEN( "you have the required skill" ) {
@@ -344,9 +358,8 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 who.learn_recipe( r );
 
                 THEN( "he helps you" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
-                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+                    dummy.invalidate_crafting_inventory();
+                    CHECK( dummy.get_group_available_recipes().contains( r ) );
                 }
             }
             AND_WHEN( "he has the cookbook in his inventory" ) {
@@ -356,19 +369,18 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
                 REQUIRE_FALSE( cookbook->type->book->recipes.empty() );
 
                 THEN( "he shows it to you" ) {
-                    // update the crafting inventory cache
-                    dummy.moves++;
-                    CHECK( dummy.get_available_recipes( dummy.crafting_inventory(), &helpers ).contains( r ) );
+                    dummy.invalidate_crafting_inventory();
+                    CHECK( dummy.get_group_available_recipes().contains( r ) );
                 }
             }
         }
     }
 }
 
-static void give_tools( const std::vector<item> &tools )
+static void give_tools( const std::vector<item> &tools, const bool plug_in )
 {
     Character &player_character = get_player_character();
-    player_character.worn.clear();
+    player_character.clear_worn();
     player_character.calc_encumbrance();
     player_character.inv->clear();
     player_character.remove_weapon();
@@ -378,33 +390,51 @@ static void give_tools( const std::vector<item> &tools )
     std::vector<item> boil;
     for( const item &gear : tools ) {
         if( gear.get_quality( qual_BOIL, false ) == 0 ) {
-            player_character.i_add( gear );
+            item_location added_tool = player_character.i_add( gear );
+            REQUIRE( added_tool );
+            if( plug_in && added_tool->can_link_up() ) {
+                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos_bub() + tripoint_north ),
+                                              link_state::automatic ).success() );
+            }
         } else {
             boil.emplace_back( gear );
         }
     }
     // add BOIL tools later so that they don't contain anything
     for( const item &gear : boil ) {
-        player_character.i_add( gear );
+        REQUIRE( player_character.i_add( gear ) );
     }
+    player_character.invalidate_crafting_inventory();
 }
 
-static void grant_skills_to_character( Character &you, const recipe &r )
+static int apply_offset( int skill, int offset )
+{
+    return clamp( skill + offset, 0, MAX_SKILL );
+}
+
+static void grant_skills_to_character( Character &you, const recipe &r, int offset )
 {
     // Ensure adequate skill for all "required" skills
     for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
-        you.set_skill_level( skl.first, skl.second );
-        you.set_knowledge_level( skl.first, skl.second );
+        you.set_skill_level( skl.first, apply_offset( skl.second, offset ) );
+        you.set_knowledge_level( skl.first, apply_offset( skl.second, offset ) );
     }
     // and just in case "used" skill difficulty is higher, set that too
-    you.set_skill_level( r.skill_used, std::max( r.difficulty,
-                         you.get_skill_level( r.skill_used ) ) );
-    you.set_knowledge_level( r.skill_used, std::max( r.difficulty,
-                             you.get_knowledge_level( r.skill_used ) ) );
+    int value = apply_offset( std::max( r.difficulty,
+                                        static_cast<int>( you.get_skill_level( r.skill_used ) ) ), offset );
+    you.set_skill_level( r.skill_used, value );
+    you.set_knowledge_level( r.skill_used, value );
+}
+
+static void grant_profs_to_character( Character &you, const recipe &r )
+{
+    for( const recipe_proficiency &rprof : r.proficiencies ) {
+        you.add_proficiency( rprof.id, true );
+    }
 }
 
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
-                        bool expect_craftable )
+                        bool expect_craftable, int offset = 0, bool grant_profs = false, bool plug_in_tools = true )
 {
     clear_avatar();
     clear_map();
@@ -414,17 +444,28 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     player_character.toggle_trait( trait_DEBUG_CNF );
     player_character.setpos( test_origin );
     const recipe &r = rid.obj();
-    grant_skills_to_character( player_character, r );
+    grant_skills_to_character( player_character, r, offset );
+    if( grant_profs ) {
+        grant_profs_to_character( player_character, r );
+    }
 
-    give_tools( tools );
-    player_character.moves--;
+    const tripoint battery_pos = test_origin + tripoint_north;
+    std::optional<item> battery_item( "test_storage_battery" );
+    place_appliance( battery_pos, vpart_ap_test_storage_battery, battery_item );
+
+    give_tools( tools, plug_in_tools );
     const inventory &crafting_inv = player_character.crafting_inventory();
 
-    bool can_craft_with_crafting_inv = r.deduped_requirements().can_make_with_inventory(
-                                           crafting_inv, r.get_component_filter() );
+    bool can_craft_with_crafting_inv = r.deduped_requirements()
+                                       .can_make_with_inventory( crafting_inv, r.get_component_filter() );
+    const std::string missing_alt_reqs = enumerate_as_string( r.deduped_requirements().alternatives(),
+    []( const requirement_data & rd ) {
+        return string_format( "req id: '%s' missing: %s", rd.id().str(), rd.list_missing() );
+    } );
+    CAPTURE( missing_alt_reqs );
     REQUIRE( can_craft_with_crafting_inv == expect_craftable );
-    bool can_craft_with_temp_inv = r.deduped_requirements().can_make_with_inventory(
-                                       temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
+    bool can_craft_with_temp_inv = r.deduped_requirements()
+                                   .can_make_with_inventory( temp_crafting_inventory( crafting_inv ), r.get_component_filter() );
     REQUIRE( can_craft_with_temp_inv == expect_craftable );
 }
 
@@ -442,13 +483,15 @@ static void setup_test_craft( const recipe_id &rid )
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
-    const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
+    REQUIRE( player_character.has_recipe( &rec ) );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );
     REQUIRE( player_character.activity );
     REQUIRE( player_character.activity.id() == ACT_CRAFT );
+    // Extra safety
+    item_location wielded = player_character.get_wielded_item();
+    REQUIRE( wielded );
 }
 
 // This tries to actually run the whole craft activity, which is more thorough,
@@ -462,11 +505,12 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         if( turns >= interrupt_after_turns ||
-            ( skill_level >= 0 && player_character.get_skill_level( rid->skill_used ) > skill_level ) ) {
+            ( skill_level >= 0 &&
+              static_cast<int>( player_character.get_skill_level( rid->skill_used ) ) > skill_level ) ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.activity.do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
@@ -487,7 +531,7 @@ static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof
             set_time( midnight );
         }
 
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.set_focus( 100 );
         player_character.activity.do_turn( player_character );
         ++turns;
@@ -506,7 +550,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( rec->get_skill_cap() < static_cast<int>( ch.get_skill_level( rec->skill_used ) ) );
 
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
@@ -521,7 +565,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
 
     do {
         turns_taken += test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
-        give_tools( tools );
+        give_tools( tools, true );
 
         // Escape door to avoid infinite loop if there is no progress
         REQUIRE( turns_taken < max_turns );
@@ -540,7 +584,7 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     avatar &ch = get_avatar();
     // Set skill above requirement so that skill training doesn't steal any focus
     ch.set_skill_level( skill_fabrication, 1 );
-    REQUIRE( rec->get_skill_cap() < ch.get_skill_level( rec->skill_used ) );
+    REQUIRE( rec->get_skill_cap() < static_cast<int>( ch.get_skill_level( rec->skill_used ) ) );
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     test_craft_for_prof( rec, proficiency_prof_carving, 1.0f );
@@ -554,23 +598,231 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     CHECK( craft->item_counter < 501'000 );
 }
 
-TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
+static float craft_aggregate_fail_chance( const recipe_id &rid )
+{
+    Character &player_character = get_player_character();
+    int fails = 0;
+    const int iterations = 100000;
+    for( int i = 0; i < iterations; ++i ) {
+        fails += player_character.crafting_success_roll( *rid ) < 1.f;
+    }
+    return 100.f * ( static_cast<float>( fails ) / iterations );
+}
+
+static std::pair<float, float> scen_fail_chance( const recipe_id &rid, int offset, bool has_profs )
+{
+    clear_avatar();
+    avatar &player_character = get_avatar();
+    const recipe &rec = *rid;
+    grant_skills_to_character( player_character, rec, offset );
+    if( has_profs ) {
+        grant_profs_to_character( player_character, rec );
+    }
+    REQUIRE_FALSE( player_character.has_trait( trait_DEBUG_CNF ) );
+    return std::pair<float, float>( ( 1.f - player_character.recipe_success_chance( *rid ) ) * 100.f,
+                                    player_character.item_destruction_chance( *rid ) * 100.f );
+}
+
+TEST_CASE( "synthetic_recipe_fail_chances", "[.]" )
+{
+    std::vector<std::pair<int, bool>> scens = {
+        { -MAX_SKILL, false },
+        { -2, false },
+        { -1, false },
+        { -1, true },
+        { 0, false },
+        { 0, true },
+        { 1, false },
+        { 1, true },
+        { 2, false },
+        { 2, true }
+    };
+    for( const std::pair<int, bool> &scen : scens ) {
+        std::ofstream output;
+        std::string filename = string_format( "recipe_fails_skill%d_%s.csv", scen.first,
+                                              scen.second ? "has_profs" : "no_profs" );
+        output.open( filename );
+        REQUIRE( output.is_open() );
+        output << "Recipe,Minor Fail Chance,Catastrophic Fail Chance\n";
+        for( const std::pair<const recipe_id, recipe> &rec : recipe_dict ) {
+            std::pair<float, float> ret = scen_fail_chance( rec.first, scen.first, scen.second );
+            output << string_format( "%s,%g,%g\n", rec.first.str(), ret.first, ret.second );
+        }
+        std::cout << "Output written to " << filename << std::endl;
+    }
+}
+
+static void test_fail_scenario( const std::string &scen, const recipe_id &rid, int offset,
+                                bool has_profs, float expected )
+{
+    // In each of these, we modify the avatar, so make sure they start in a known state.
+    clear_avatar();
+
+    const recipe &rec = *rid;
+    Character &player_character = get_player_character();
+    // Grant the character skills and proficiencies as appropriate to the scenario
+    grant_skills_to_character( player_character, rec, offset );
+    if( has_profs ) {
+        grant_profs_to_character( player_character, rec );
+    }
+
+    INFO( rid.str() );
+    INFO( scen );
+
+    // If they have the trait that prevents crafting failures, this test would be a little pointless
+    REQUIRE_FALSE( player_character.has_trait( trait_DEBUG_CNF ) );
+    // Ensure that they either have the profs we gave them, or no profs.
+    if( has_profs ) {
+        for( const recipe_proficiency &prof : rec.proficiencies ) {
+            REQUIRE( player_character.has_proficiency( prof.id ) );
+        }
+    } else {
+        REQUIRE( player_character.known_proficiencies().empty() );
+    }
+    // The skills that the character is expected to have are the skills the recipes uses + the offset
+    std::map<skill_id, int> expected_skills = rec.required_skills;
+    INFO( string_format( "primary_skill: %s",
+                         remove_color_tags( rec.primary_skill_string( player_character ) ) ) );
+    INFO( string_format( "required skills: %s",
+                         remove_color_tags( rec.required_skills_string( player_character ) ) ) );
+    // In case the difficulty and required skills for the primary skill mismatch
+    expected_skills[rec.skill_used] = std::max( rec.difficulty, expected_skills[rec.skill_used] );
+    for( const std::pair<const skill_id, SkillLevel> &skill : player_character.get_all_skills() ) {
+        INFO( string_format( "skill %s: prac %d know %d", skill.first.str(), skill.second.level(),
+                             skill.second.knowledgeLevel() ) );
+        // Only apply to skills that we expect to have a value
+        if( expected_skills.count( skill.first ) != 0 ) {
+            expected_skills[skill.first] = clamp( expected_skills[skill.first] + offset, 0, MAX_SKILL );
+        } else {
+            expected_skills[skill.first] = 0;
+        }
+
+        REQUIRE( skill.second.level() == expected_skills[skill.first] );
+        REQUIRE( skill.second.knowledgeLevel() == expected_skills[skill.first] );
+    }
+
+    // The chance of failing the craft based on doing the craft roll many times
+    float chance = craft_aggregate_fail_chance( rid );
+    // The chance of failing the craft as calculated by math
+    float calculated = ( 1.f - player_character.recipe_success_chance( rec ) ) * 100;
+    CHECK( chance == Approx( calculated ).margin( 1 ) );
+    CHECK( chance == Approx( expected ).margin( 1 ) );
+}
+
+static void test_chances_for( const recipe_id &rid, float none, float underskill, float matched,
+                              float matched_profs, float overskill, float overskill_profs, float extra_overskill )
+{
+    test_fail_scenario( "The character has no skills or proficiencies", rid, -MAX_SKILL, false, none );
+    test_fail_scenario( "The character is one level underskilled and lacks proficiencies", rid, -1,
+                        false, underskill );
+    test_fail_scenario( "The character has appropriate skills but lacks proficiencies", rid, 0, false,
+                        matched );
+    test_fail_scenario( "The character has appropriate skills and proficiencies", rid, 0, true,
+                        matched_profs );
+    test_fail_scenario( "The character is one level overskilled and lacks proficiencies", rid, 1, false,
+                        overskill );
+    test_fail_scenario( "The character is one level overskilled and has proficiencies", rid, 1, true,
+                        overskill_profs );
+    test_fail_scenario( "The character is two levels overskilled and has proficiencies", rid, 2, true,
+                        extra_overskill );
+}
+
+TEST_CASE( "crafting_failure_rates_match_calculated", "[crafting][random]" )
+{
+    // NOLINTs to avoid very long variable names, and this test is meant for game (src) code more than tests
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id makeshift_crowbar( "makeshift_crowbar_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id meat_cooked( "meat_cooked_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id club_wooden_large( "club_wooden_large_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id nailboard( "nailboard_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id cudgel( "cudgel_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id pumpkin_muffins( "pumpkin_muffins_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id bp_40fmj( "bp_40fmj_test_no_tools" );
+    // NOLINTNEXTLINE(cata-static-string_id-constants
+    const recipe_id armor_qt_lightplate( "armor_qt_lightplate_test_no_tools" );
+
+    // Skill zero recipes
+    test_chances_for( makeshift_crowbar, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( meat_cooked, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( club_wooden_large, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    test_chances_for( nailboard, 50.f, 50.f, 50.f, 50.f, 21.19f, 21.19f, 2.28f );
+    // Recipes requring various degrees of skill and proficiencies
+    test_chances_for( cudgel, 82.5, 72.f, 50.f, 50.f, 21.f, 21.f, 2.25 );
+    test_chances_for( pumpkin_muffins, 92.5, 82.f, 67.f, 50.f, 43.f, 21.f, 2.25 );
+    test_chances_for( bp_40fmj, 94.5, 79.f, 62.f, 50.f, 36.f, 21.f, 2.25 );
+    test_chances_for( armor_qt_lightplate, 98.f, 92.5, 89.f, 50.f, 81.f, 21.f, 2.25 );
+}
+
+TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
 {
     avatar dummy;
     clear_character( dummy );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
-    item_location ups = dummy.i_add( item( "UPS_off" ) );
+    item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
-    ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
-    ret_val<void> result = ups->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    ups_mag.ammo_set( ups_mag.ammo_default(), 259 );
+    ret_val<void> result = ups->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     INFO( result.c_str() );
     REQUIRE( result.success() );
     REQUIRE( dummy.has_item( *ups ) );
-    REQUIRE( ups->ammo_remaining() == 500 );
-    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 500 );
+    REQUIRE( ups->ammo_remaining() == 259 );
+    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 259 );
 }
 
-TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
+TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
+{
+    constexpr int ammo_count = 259;
+    bool const ups_on_ground = GENERATE( true, false );
+    CAPTURE( ups_on_ground );
+    avatar dummy;
+    clear_map();
+    clear_character( dummy );
+    tripoint const test_loc = dummy.pos();
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+
+    item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
+    CAPTURE( ups.typeId() );
+    item_location ups_loc;
+    if( ups_on_ground ) {
+        item &ups_on_map = get_map().add_item( test_loc, ups );
+        REQUIRE( !ups_on_map.is_null() );
+        ups_loc = item_location( map_cursor( tripoint_bub_ms( test_loc ) ), &ups_on_map );
+    } else {
+        ups_loc = dummy.i_add( ups );
+        REQUIRE( dummy.has_item( *ups_loc ) );
+    }
+
+    item ups_mag( ups_loc->magazine_default() );
+    ups_mag.ammo_set( ups_mag.ammo_default(), ammo_count );
+    ret_val<void> result = ups_loc->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
+    REQUIRE( result.success() );
+
+    item_location soldering_iron = dummy.i_add( item( "soldering_iron" ) );
+    item battery_ups( "battery_ups" );
+    ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, pocket_type::MOD );
+    REQUIRE( ret_solder.success() );
+    REQUIRE( soldering_iron->has_flag( json_flag_USE_UPS ) );
+
+    REQUIRE( ups_loc->ammo_remaining() == ammo_count );
+    if( !ups_on_ground ) {
+        REQUIRE( dummy.charges_of( soldering_iron->typeId() ) == ammo_count );
+    }
+    REQUIRE( dummy.crafting_inventory().charges_of( soldering_iron->typeId() ) == ammo_count );
+    temp_crafting_inventory tinv;
+    tinv.add_all_ref( dummy );
+    if( ups_on_ground ) {
+        tinv.add_item_ref( *ups_loc );
+    }
+    REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
+}
+
+TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
 {
     std::vector<item> tools;
 
@@ -585,94 +837,97 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "vac_mold" );
 
-
         // Materials needed
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
         tools.insert( tools.end(), 6, item( "plastic_chunk" ) );
         tools.insert( tools.end(), 2, item( "blade" ) );
         tools.insert( tools.end(), 5, item( "cable" ) );
-        tools.insert( tools.end(), 2, item( "polycarbonate_sheet" ) );
-        tools.insert( tools.end(), 1, item( "knife_paring" ) );
-        tools.emplace_back( "motor_tiny" );
+        tools.insert( tools.end(), 4, item( "polycarbonate_sheet" ) );
+        tools.insert( tools.end(), 1, item( "knife_small" ) );
+        tools.emplace_back( "motor_micro" );
         tools.emplace_back( "power_supply" );
         tools.emplace_back( "scrap" );
 
         // Charges needed to craft:
         // - 10 charges of soldering iron
-        // - 10 charges of surface heat
+        // - 20 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 30 );
-            REQUIRE( hotplate.ammo_remaining() == 30 );
-            tools.push_back( hotplate );
-            item soldering = tool_with_ammo( "soldering_iron", 20 );
-            REQUIRE( soldering.ammo_remaining() == 20 );
+            item popcan_stove = tool_with_ammo( "popcan_stove", 60 );
+            REQUIRE( popcan_stove.ammo_remaining() == 60 );
+            tools.push_back( popcan_stove );
+            item soldering = tool_with_ammo( "soldering_iron_portable", 16 );
+            REQUIRE( soldering.ammo_remaining() == 16 );
             tools.push_back( soldering );
-            item plastic_molding = tool_with_ammo( "vac_mold", 4 );
-            REQUIRE( plastic_molding.ammo_remaining() == 4 );
-            tools.push_back( plastic_molding );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
-                prep_craft( recipe_carver_off, tools, true );
+                prep_craft( recipe_carver_off, tools, true, 0, false, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 10 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
+                CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 6 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 5 ) );
-            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
-            tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "popcan_stove", 30 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron_portable", 5 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
-                prep_craft( recipe_carver_off, tools, true );
+                prep_craft( recipe_carver_off, tools, true, 0, false, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
-                CHECK( get_remaining_charges( "hotplate" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
+                CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
             }
         }
 
         WHEN( "UPS-modded tools have enough charges" ) {
             item hotplate( "hotplate" );
-            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+            hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
-            tools.push_back( soldering_iron );
+            item soldering_iron_portable( "soldering_iron_portable" );
+            soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( soldering_iron_portable );
+            item plastic_molding = item( "vac_mold" );
+            plastic_molding.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( plastic_molding );
+
             item UPS( "UPS_off" );
-            item UPS_mag( UPS.magazine_default() );
-            UPS_mag.ammo_set( UPS_mag.ammo_default(), 510 );
-            UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            item UPS_mag( "heavy_atomic_battery_cell" );
+            UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
+            UPS.put_in( UPS_mag, pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
-            tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from the UPS" ) {
-                prep_craft( recipe_carver_off, tools, true );
+                prep_craft( recipe_carver_off, tools, true, 0, false, false );
+                // this recipe should be replaced with a test recipe that isn't impacted by changes in game recipes
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-                CHECK( get_remaining_charges( "UPS_off" ) == 480 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
+                // vacuum molding takes 4 charges
+                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
             }
         }
 
         WHEN( "UPS-modded tools do not have enough charges" ) {
             item hotplate( "hotplate" );
-            hotplate.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
+            hotplate.put_in( item( "battery_ups" ), pocket_type::MOD );
             tools.push_back( hotplate );
-            item soldering_iron( "soldering_iron" );
-            soldering_iron.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
-            tools.push_back( soldering_iron );
+            item soldering_iron_portable( "soldering_iron_portable" );
+            soldering_iron_portable.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( soldering_iron_portable );
+            item plastic_molding = item( "vac_mold" );
+            plastic_molding.put_in( item( "battery_ups" ), pocket_type::MOD );
+            tools.push_back( plastic_molding );
 
             item ups( "UPS_off" );
             item ups_mag( ups.magazine_default() );
             ups_mag.ammo_set( ups_mag.ammo_default(), 10 );
-            ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            ups.put_in( ups_mag, pocket_type::MAGAZINE_WELL );
             tools.push_back( ups );
 
             THEN( "crafting fails, and no charges are used" ) {
-                prep_craft( recipe_carver_off, tools, false );
+                prep_craft( recipe_carver_off, tools, false, 0, false, false );
                 CHECK( get_remaining_charges( "UPS_off" ) == 10 );
             }
         }
@@ -683,61 +938,49 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
-    SECTION( "clean_water_in_loaded_mess_kit" ) {
-        std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
-        item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
-        tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "mess_kit", 20 ) );
-
-        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
-        prep_craft( recipe_water_clean, tools, true );
-    }
     SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "survivor_mess_kit", 20 ) );
+        tools.push_back( tool_with_ammo( "survivor_mess_kit", 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         item jar( "jar_glass_sealed" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
-        jar.put_in( item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+        jar.put_in( item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( jar );
 
         prep_craft( recipe_water_clean, tools, false );
     }
     SECTION( "clean_water with broken tool" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "popcan_stove", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
+            item( "water", calendar::turn_zero, 2 ), pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
         tools.emplace_back( "pot" );
 
@@ -748,7 +991,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
 }
 
-TEST_CASE( "broken component", "[crafting][component]" )
+TEST_CASE( "broken_component", "[crafting][component]" )
 {
     GIVEN( "a recipe with its required components" ) {
         recipe_id test_recipe( "flashlight" );
@@ -770,7 +1013,6 @@ TEST_CASE( "broken component", "[crafting][component]" )
     }
 }
 
-
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
 {
@@ -781,7 +1023,8 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( player_character.crafting_speed_multiplier( *craft, cata::nullopt ) == 1.0 );
+    REQUIRE( player_character.crafting_speed_multiplier( *craft,
+             std::optional<tripoint_bub_ms>( std::nullopt ) ) == 1.0 );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );
@@ -789,7 +1032,7 @@ static int resume_craft()
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         ++turns;
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.activity.do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
@@ -825,7 +1068,7 @@ static void verify_inventory( const std::vector<std::string> &has,
     }
 }
 
-TEST_CASE( "total crafting time with or without interruption", "[crafting][time][resume]" )
+TEST_CASE( "total_crafting_time_with_or_without_interruption", "[crafting][time][resume]" )
 {
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
         recipe_id test_recipe( "razor_shaving" );
@@ -881,7 +1124,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 }
 
 static std::map<quality_id, itype_id> quality_to_tool = {{
-        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }
+        { qual_CUT, itype_pockknife }, { qual_SEW, itype_sewing_kit }, { qual_LEATHER_AWL, itype_awl_bone }, { qual_ANVIL, itype_fake_anvil }, { qual_HAMMER, itype_hammer }, { qual_SAW_M, itype_hacksaw }, { qual_CHISEL, itype_chisel }, { qual_FABRIC_CUT, itype_kevlar_shears }
     }
 };
 
@@ -947,7 +1190,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     int previous_knowledge = level.knowledgeExperience( true );
     do {
         actual_turns_taken += actually_test_craft( test_recipe, INT_MAX, starting_skill_level );
-        if( you.get_skill_level( skill_used ) == starting_skill_level ) {
+        if( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level ) {
             int new_exercise = level.exercise( true );
             REQUIRE( previous_exercise < new_exercise );
             previous_exercise = new_exercise;
@@ -957,14 +1200,15 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
             REQUIRE( previous_knowledge < new_knowledge );
             previous_knowledge = new_knowledge;
         }
-        give_tools( tools );
-    } while( you.get_skill_level( skill_used ) == starting_skill_level );
+        give_tools( tools, true );
+    } while( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level );
     CAPTURE( test_recipe.str() );
     CAPTURE( expected_turns_taken );
     CAPTURE( grant_optional_proficiencies );
-    CHECK( you.get_skill_level( skill_used ) == starting_skill_level + 1 );
+    CHECK( static_cast<int>( you.get_skill_level( skill_used ) ) == starting_skill_level + 1 );
     // since your knowledge and skill were the same to start, your theory should come out the same as skill in the end.
-    CHECK( you.get_knowledge_level( skill_used ) == you.get_skill_level( skill_used ) );
+    CHECK( you.get_knowledge_level( skill_used ) == static_cast<int>( you.get_skill_level(
+                skill_used ) ) );
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 
@@ -972,13 +1216,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
 {
     SECTION( "lvl 0 -> 1" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_blanket, 174, 0, true );
+            test_skill_progression( recipe_blanket_blanket_makeshift, 174, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_blanket, 173, 50, true );
+            test_skill_progression( recipe_blanket_blanket_makeshift, 173, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_blanket, 172, 100, true );
+            test_skill_progression( recipe_blanket_blanket_makeshift, 172, 100, true );
         }
     }
     SECTION( "lvl 1 -> 2" ) {
@@ -1114,13 +1358,13 @@ TEST_CASE( "book_proficiency_mitigation", "[crafting][proficiency]" )
         clear_map();
         const recipe &test_recipe = *recipe_leather_belt;
 
-        grant_skills_to_character( get_player_character(), test_recipe );
+        grant_skills_to_character( get_player_character(), test_recipe, 0 );
         int unmitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
 
         WHEN( "player has a book mitigating lack of proficiency" ) {
             std::vector<item> books;
             books.emplace_back( "manual_tailor" );
-            give_tools( books );
+            give_tools( books, true );
             get_player_character().invalidate_crafting_inventory();
             int mitigated_time_taken = test_recipe.batch_time( get_player_character(), 1, 1, 0 );
             THEN( "it takes less time to craft the recipe" ) {
@@ -1145,7 +1389,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
         Character &tester = get_player_character();
         const recipe &test_recipe = *recipe_leather_belt;
 
-        grant_skills_to_character( tester, test_recipe );
+        grant_skills_to_character( tester, test_recipe, 0 );
         int unmitigated_time_taken = test_recipe.batch_time( tester, 1, 1, 0 );
 
         WHEN( "player acquires partial proficiency" ) {
@@ -1170,12 +1414,13 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 static void clear_and_setup( Character &c, map &m, item &tool )
 {
     clear_character( c );
+    c.get_learned_recipes(); // cache auto-learned recipes
     c.set_skill_level( skill_fabrication, 10 );
     c.wield( tool );
     m.i_clear( c.pos() );
 }
 
-TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[crafting]" )
+TEST_CASE( "prompt_for_liquid_containers_-_crafting_1_makeshift_funnel", "[crafting]" )
 {
     map &m = get_map();
     item pocketknife( itype_pockknife );
@@ -1230,7 +1475,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
         WHEN( "3 full plastic bottles on the ground" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1258,7 +1503,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
         WHEN( "3 full plastic bottles in inventory" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1283,7 +1528,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1307,7 +1552,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1338,7 +1583,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1362,7 +1607,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1390,7 +1635,7 @@ TEST_CASE( "prompt for liquid containers - crafting 1 makeshift funnel", "[craft
     }
 }
 
-TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", "[crafting]" )
+TEST_CASE( "prompt_for_liquid_containers_-_batch_crafting_3_makeshift_funnels", "[crafting]" )
 {
     map &m = get_map();
     item pocketknife( itype_pockknife );
@@ -1445,7 +1690,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
         WHEN( "10 full plastic bottles on the ground" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1466,7 +1711,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
         WHEN( "10 full plastic bottles in inventory" ) {
             item plastic_bottle( "bottle_plastic" );
             plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                   item_pocket::pocket_type::CONTAINER );
+                                   pocket_type::CONTAINER );
             REQUIRE( plastic_bottle.is_watertight_container() );
             REQUIRE( !plastic_bottle.empty_container() );
             Character &c = get_player_character();
@@ -1498,7 +1743,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1522,7 +1767,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1560,7 +1805,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1584,7 +1829,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
             item empty_plastic_bottle( "bottle_plastic" );
             item full_plastic_bottle( "bottle_plastic" );
             full_plastic_bottle.put_in( item( "water", calendar::turn_zero, 2 ),
-                                        item_pocket::pocket_type::CONTAINER );
+                                        pocket_type::CONTAINER );
             REQUIRE( empty_plastic_bottle.is_watertight_container() );
             REQUIRE( empty_plastic_bottle.empty_container() );
             REQUIRE( !full_plastic_bottle.empty_container() );
@@ -1617,7 +1862,7 @@ TEST_CASE( "prompt for liquid containers - batch crafting 3 makeshift funnels", 
     }
 }
 
-TEST_CASE( "Unloading non-empty components", "[crafting]" )
+TEST_CASE( "Unloading_non-empty_components", "[crafting]" )
 {
     item candle( itype_candle );
     item cash_card( itype_cash_card );
@@ -1637,7 +1882,7 @@ TEST_CASE( "Unloading non-empty components", "[crafting]" )
     CHECK( craft_command::safe_to_unload_comp( sewing_kit ) == true );
 }
 
-TEST_CASE( "Warn when using favorited component", "[crafting]" )
+TEST_CASE( "Warn_when_using_favorited_component", "[crafting]" )
 {
     map &m = get_map();
     clear_map();
@@ -1730,7 +1975,7 @@ static bool found_all_in_list( const std::vector<item> &items,
     return ret;
 }
 
-TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
+TEST_CASE( "recipe_byproducts_and_byproduct_groups", "[recipes][crafting]" )
 {
     GIVEN( "recipe with byproducts, normal definition" ) {
         const recipe *r = &recipe_test_tallow.obj();
@@ -1809,7 +2054,7 @@ TEST_CASE( "recipe byproducts and byproduct groups", "[recipes][crafting]" )
     }
 }
 
-TEST_CASE( "tools with charges as components", "[crafting]" )
+TEST_CASE( "tools_with_charges_as_components", "[crafting]" )
 {
     const int cotton_sheets_in_recipe = 2;
     const int threads_in_recipe = 10;
@@ -1820,7 +2065,7 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
     item thread( "thread" );
     item sheet_cotton( "sheet_cotton" );
     thread.charges = 100;
-    sew_kit.put_in( thread, item_pocket::pocket_type::MAGAZINE );
+    sew_kit.put_in( thread, pocket_type::MAGAZINE );
     REQUIRE( sew_kit.ammo_remaining() == 100 );
     clear_and_setup( c, m, pocketknife );
     c.learn_recipe( &*recipe_balclava );
@@ -1838,21 +2083,11 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
+                CHECK( res.components[itype_sheet_cotton].size() == cotton_sheets_in_recipe );
+                // when threads aren't count by charges anymore, see line above
+                CHECK( res.components[itype_thread].front().count() == threads_in_recipe );
                 int cotton_sheets = 0;
                 int threads = 0;
-                for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_sheet_cotton ) {
-                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
-                    } else if( comp.typeId() == itype_thread ) {
-                        threads += comp.count_by_charges() ? comp.charges : 1;
-                    } else {
-                        FAIL( "found unexpected component " << comp.typeId().str() );
-                    }
-                }
-                CHECK( cotton_sheets == cotton_sheets_in_recipe );
-                CHECK( threads == threads_in_recipe );
-                cotton_sheets = 0;
-                threads = 0;
                 int threads_in_tool = 0;
                 for( const item &i : m.i_at( c.pos() ) ) {
                     if( i.typeId() == itype_sheet_cotton ) {
@@ -1885,21 +2120,11 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
             THEN( "craft uses the free thread instead of tool ammo as component" ) {
                 CHECK( !res.is_null() );
                 CHECK( res.is_craft() );
+                CHECK( res.components[itype_sheet_cotton].size() == cotton_sheets_in_recipe );
+                // when threads aren't count by charges anymore, see line above
+                CHECK( res.components[itype_thread].front().count() == threads_in_recipe );
                 int cotton_sheets = 0;
                 int threads = 0;
-                for( const item &comp : res.components ) {
-                    if( comp.typeId() == itype_sheet_cotton ) {
-                        cotton_sheets += comp.count_by_charges() ? comp.charges : 1;
-                    } else if( comp.typeId() == itype_thread ) {
-                        threads += comp.count_by_charges() ? comp.charges : 1;
-                    } else {
-                        FAIL( "found unexpected component " << comp.typeId().str() );
-                    }
-                }
-                CHECK( cotton_sheets == cotton_sheets_in_recipe );
-                CHECK( threads == threads_in_recipe );
-                cotton_sheets = 0;
-                threads = 0;
                 int threads_in_tool = 0;
                 for( const item *i : pack_loc->all_items_top() ) {
                     if( i->typeId() == itype_sheet_cotton ) {
@@ -1920,27 +2145,31 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
 
 // This test makes sure that rot is inherited properly when crafting. See the comments on
 // inherit_rot_from_components for a description of what "inheritied properly" means
-TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
+// using a default hotplate the macaroni uses 35x7 = 245 charges of hotplate, meat uses 35x20 = 700 charges of hotplate and 80x30 = 2400 charges of dehydrator
+// looks like tool_with_ammo cannot spawn a hotplate/dehydrator with more than 500 charges, so until the default battery is changed I'm giving player 10 of each
+// replaced hotplate with popcan_stove since hotplate got it's battery slot removed
+TEST_CASE( "recipes_inherit_rot_of_components_properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.emplace_back( tool_with_ammo( "hotplate", 30 ) );
-    tools.emplace_back( tool_with_ammo( "dehydrator", 500 ) );
-    tools.emplace_back( item( "pot_canning" ) );
-    tools.emplace_back( item( "knife_butcher" ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "popcan_stove", 500 ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
+    tools.emplace_back( "pot_canning" );
+    tools.emplace_back( "knife_huge" );
 
     GIVEN( "1 hour until rotten macaroni and fresh cheese" ) {
 
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
-        item water( "water" );
+        item water_clean( "water_clean" );
 
         macaroni.set_rot( macaroni.get_shelf_life() - 1_hours );
         REQUIRE( cheese.get_shelf_life() - cheese.get_rot() > 1_hours );
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water );
+        item &bottle = tools.emplace_back( "bottle_plastic" ); // water container
+        bottle.get_contents().insert_item( item( itype_water_clean ), pocket_type::CONTAINER );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
@@ -1959,14 +2188,15 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     GIVEN( "fresh macaroni and fresh cheese" ) {
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
-        item water( "water" );
+        item water_clean( "water_clean" );
 
         REQUIRE( macaroni.get_rot() == 0_turns );
         REQUIRE( cheese.get_rot() == 0_turns );
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water );
+        item &bottle = tools.emplace_back( "bottle_plastic" ); // water container
+        bottle.get_contents().insert_item( item( itype_water_clean ), pocket_type::CONTAINER );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
@@ -2001,5 +2231,169 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
                 CHECK( dehydrated_meat->get_relative_rot() == 0.01 );
             }
         }
+    }
+}
+
+TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
+{
+    constexpr int max_iters = 50;
+    Character &player_character = get_player_character();
+
+    SECTION( "crafting non-variant recipe" ) {
+        std::map<std::string, int> variant_counts;
+        for( int i = 0; i < max_iters; i++ ) {
+            std::vector<item> tools;
+            tools.emplace_back( itype_sewing_kit );
+            tools.emplace_back( "scissors" );
+            tools.insert( tools.end(), 10, item( "sheet_cotton" ) );
+            tools.insert( tools.end(), 10, item( "thread" ) );
+            prep_craft( recipe_test_waist_apron_long, tools, true );
+            actually_test_craft( recipe_test_waist_apron_long, INT_MAX, 10 );
+            item_location apron = player_character.get_wielded_item();
+
+            REQUIRE( apron->type->get_id() == recipe_test_waist_apron_long->result() );
+            REQUIRE( apron->has_itype_variant() );
+
+            if( variant_counts.count( apron->itype_variant().id ) == 0 ) {
+                variant_counts[apron->itype_variant().id] = 0;
+            }
+            variant_counts[apron->itype_variant().id]++;
+        }
+        int variants_captured = 0;
+        for( const std::pair<std::string, int> var_count : variant_counts ) {
+            CHECK( var_count.second < max_iters );
+            variants_captured++;
+        }
+        CHECK( variants_captured > 1 );
+    }
+
+    SECTION( "crafting variant recipe" ) {
+        int specific_variant_count = 0;
+        for( int i = 0; i < max_iters; i++ ) {
+            std::vector<item> tools;
+            tools.emplace_back( itype_sewing_kit );
+            tools.emplace_back( "scissors" );
+            tools.insert( tools.end(), 10, item( "sheet_cotton" ) );
+            tools.insert( tools.end(), 10, item( "thread" ) );
+            prep_craft( recipe_test_waist_apron_long_pink_apron_cotton, tools, true );
+            actually_test_craft( recipe_test_waist_apron_long_pink_apron_cotton, INT_MAX, 10 );
+            item_location apron = player_character.get_wielded_item();
+
+            REQUIRE( apron->type->get_id() == recipe_test_waist_apron_long_pink_apron_cotton->result() );
+            REQUIRE( apron->has_itype_variant() );
+
+            if( apron->itype_variant().id == "pink_apron_cotton" ) {
+                specific_variant_count++;
+            }
+        }
+        CHECK( specific_variant_count == max_iters );
+    }
+}
+
+TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
+{
+    clear_map();
+    map &here = get_map();
+
+    clear_vehicles();
+    clear_avatar();
+    avatar &player = get_avatar();
+    player.setpos( tripoint( 60, 58, 0 ) );
+    const tripoint veh_pos( 60, 60, 0 );
+    const tripoint furn1_pos( 60, 57, 0 );
+    const tripoint furn2_pos( 60, 56, 0 );
+
+    const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
+
+    GIVEN( "a vehicle with a liquid tank" ) {
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0, 0 );
+        REQUIRE( veh != nullptr );
+        for( const vpart_reference &door : veh->get_avail_parts( VPFLAG_OPENABLE ) ) {
+            door.part().open = true;
+        }
+
+        WHEN( "the tank contains liquid" ) {
+            REQUIRE( veh->fuel_left( itype_water ) == 0 );
+            int charges = 50;
+            for( const vpart_reference &tank : veh->get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
+                tank.part().ammo_set( itype_water, charges );
+                charges = 0;
+            }
+            REQUIRE( veh->fuel_left( itype_water ) == 50 );
+
+            THEN( "crafting inventory does not contain the liquid" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 0 );
+                CHECK( player.crafting_inventory().charges_of( itype_water ) == 0 );
+            }
+            WHEN( "the vehicle has a water faucet part" ) {
+                REQUIRE( veh->install_part( point_zero, vpart_water_faucet ) >= 0 );
+                THEN( "crafting inventory contains the liquid" ) {
+                    player.invalidate_crafting_inventory();
+                    CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );
+                    CHECK( player.crafting_inventory().charges_of( itype_water ) == 50 );
+                }
+            }
+            WHEN( "the vehicle has two water faucets" ) {
+                REQUIRE( veh->install_part( point_south, vpart_water_faucet ) >= 0 );
+                THEN( "crafting inventory contains the liquid" ) {
+                    player.invalidate_crafting_inventory();
+                    CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );
+                    CHECK( player.crafting_inventory().charges_of( itype_water ) == 50 );
+                }
+            }
+        }
+        clear_vehicles();
+    }
+    GIVEN( "a smoking rack" ) {
+        REQUIRE( here.furn_set( furn1_pos, furn_f_smoking_rack ) );
+        WHEN( "the smoking rack does not contain any charcoal" ) {
+            REQUIRE( here.i_at( furn1_pos ).empty() );
+            THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                REQUIRE( pos >= 0 );
+                const item &rack = player.crafting_inventory().find_item( pos );
+                CHECK( rack.ammo_remaining() == 0 );
+            }
+        }
+        WHEN( "the smoking rack contains charcoal" ) {
+            here.add_item( furn1_pos, item( itype_charcoal, calendar::turn_zero, 200 ) );
+            THEN( "crafting inventory contains pseudo tool for the smoker, with ammo" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                REQUIRE( pos >= 0 );
+                const item &rack = player.crafting_inventory().find_item( pos );
+                CHECK( rack.ammo_remaining() == 200 );
+            }
+            GIVEN( "an additional smoking rack" ) {
+                REQUIRE( here.furn_set( furn2_pos, furn_f_smoking_rack ) );
+                WHEN( "the second smoking rack does not contain any charcoal" ) {
+                    REQUIRE( here.i_at( furn2_pos ).empty() );
+                    THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
+                        player.invalidate_crafting_inventory();
+                        CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                        REQUIRE( pos >= 0 );
+                        const item &rack = player.crafting_inventory().find_item( pos );
+                        CHECK( rack.ammo_remaining() == 200 );
+                    }
+                }
+                WHEN( "the second smoking rack also contains charcoal" ) {
+                    here.add_item( furn2_pos, item( itype_charcoal, calendar::turn_zero, 100 ) );
+                    THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
+                        player.invalidate_crafting_inventory();
+                        CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                        REQUIRE( pos >= 0 );
+                        const item &rack = player.crafting_inventory().find_item( pos );
+                        CHECK( rack.ammo_remaining() == 300 );
+                    }
+                }
+            }
+        }
+        clear_map();
     }
 }

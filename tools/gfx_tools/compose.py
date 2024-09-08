@@ -259,6 +259,7 @@ class Tileset:
         info_path = self.source_dir.joinpath('tile_info.json')
         self.sprite_width = 16
         self.sprite_height = 16
+        self.zlevel_height = 0
         self.pixelscale = 1
         self.iso = False
         self.retract_dist_min = -1.0
@@ -272,6 +273,8 @@ class Tileset:
             self.info = json.load(file)
             self.sprite_width = self.info[0].get('width', self.sprite_width)
             self.sprite_height = self.info[0].get('height', self.sprite_height)
+            self.zlevel_height = self.info[0].get('zlevel_height',
+                                                  self.zlevel_height)
             self.pixelscale = self.info[0].get('pixelscale', self.pixelscale)
             self.retract_dist_min = self.info[0].get('retract_dist_min',
                                                      self.retract_dist_min)
@@ -471,6 +474,7 @@ class Tileset:
                 'pixelscale': self.pixelscale,
                 'width': self.sprite_width,
                 'height': self.sprite_height,
+                'zlevel_height': self.zlevel_height,
                 'iso': self.iso,
                 'retract_dist_min': self.retract_dist_min,
                 'retract_dist_max': self.retract_dist_max

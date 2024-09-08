@@ -10,12 +10,12 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "make_static.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -24,14 +24,8 @@
 static const ammotype ammo_battery( "battery" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_heavy_plus_battery_cell( "heavy_plus_battery_cell" );
-static const itype_id itype_light_atomic_battery_cell( "light_atomic_battery_cell" );
 static const itype_id itype_light_battery_cell( "light_battery_cell" );
-static const itype_id itype_light_disposable_cell( "light_disposable_cell" );
-static const itype_id itype_light_plus_battery_cell( "light_plus_battery_cell" );
-static const itype_id itype_medium_atomic_battery_cell( "medium_atomic_battery_cell" );
 static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
-static const itype_id itype_medium_disposable_cell( "medium_disposable_cell" );
-static const itype_id itype_medium_plus_battery_cell( "medium_plus_battery_cell" );
 
 // Includes functions:
 // item::magazine_compatible
@@ -67,7 +61,7 @@ static const itype_id itype_medium_plus_battery_cell( "medium_plus_battery_cell"
 // both to ensure they work as expected, and to exhibit their attributes and terminology (like the
 // curious fact that a battery is treated like a magazine full of ammunition).
 //
-TEST_CASE( "battery tool mod test", "[battery][mod]" )
+TEST_CASE( "battery_tool_mod_test", "[battery][mod]" )
 {
     item med_mod( "magazine_battery_medium_mod" );
 
@@ -99,7 +93,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
     }
 
     GIVEN( "tool compatible with light batteries" ) {
-        item flashlight( "flashlight" );
+        item flashlight( "diving_flashlight_small_hipower" );
         REQUIRE( flashlight.is_reloadable() );
         REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
 
@@ -107,17 +101,17 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         REQUIRE_FALSE( flashlight.magazine_current() );
         REQUIRE( flashlight.toolmods().empty() );
         // Needs a MOD pocket to allow modding
-        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MOD ) );
+        REQUIRE( flashlight.has_pocket_type( pocket_type::MOD ) );
 
         WHEN( "medium battery mod is installed" ) {
             med_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
-            flashlight.put_in( med_mod, item_pocket::pocket_type::MOD );
+            flashlight.put_in( med_mod, pocket_type::MOD );
 
             THEN( "tool modification is successful" ) {
                 CHECK_FALSE( flashlight.toolmods().empty() );
                 CHECK_FALSE( flashlight.get_contents().magazine_flag_restrictions().empty() );
 
-                CHECK( flashlight.tname() == "flashlight (off)+1" );
+                CHECK( flashlight.tname() == "high-power mini diving flashlight (off)+1" );
             }
 
             THEN( "tool contents remain empty unless you count the mod" ) {
@@ -130,11 +124,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );
                 CHECK( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
-                CHECK( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
-                CHECK( flashlight.can_reload_with( item( itype_medium_plus_battery_cell ), true ) );
-                CHECK( flashlight.can_reload_with( item( itype_medium_atomic_battery_cell ), true ) );
-                CHECK( flashlight.can_reload_with( item( itype_medium_disposable_cell ), true ) );
-                CHECK( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+                CHECK( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
             }
 
             THEN( "medium battery is now the default" ) {
@@ -150,7 +140,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
             WHEN( "medium battery is installed" ) {
                 item med_battery( "medium_battery_cell" );
-                ret_val<void> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                ret_val<void> result = flashlight.put_in( med_battery, pocket_type::MAGAZINE_WELL );
 
                 THEN( "battery installation succeeds" ) {
                     CHECK( result.success() );
@@ -171,7 +161,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 const int bat_charges = med_battery.ammo_capacity( ammo_battery );
                 med_battery.ammo_set( med_battery.ammo_default(), bat_charges );
                 REQUIRE( med_battery.ammo_remaining() == bat_charges );
-                flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                flashlight.put_in( med_battery, pocket_type::MAGAZINE_WELL );
 
                 THEN( "the flashlight has charges" ) {
                     CHECK( flashlight.ammo_remaining() == bat_charges );
@@ -182,9 +172,9 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                     CHECK( use != nullptr );
                     const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
 
-                    Character &dummy = get_avatar();
+                    Character *dummy = &get_avatar();
                     clear_avatar();
-                    actor->use( dummy, flashlight, false, dummy.pos() );
+                    actor->use( dummy, flashlight, dummy->pos() );
 
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {
@@ -217,10 +207,10 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 //   - Can be reloaded with a compatible "magazine" (battery)
 //   - Charge left in the tool's battery is "ammo remaining"
 //
-TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
+TEST_CASE( "battery_and_tool_properties", "[battery][tool][properties]" )
 {
     const item bat_cell( "light_battery_cell" );
-    const item flashlight( "flashlight" );
+    const item flashlight( "diving_flashlight_small_hipower" );
 
     SECTION( "battery cell" ) {
         SECTION( "is a magazine" ) {
@@ -275,25 +265,21 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         SECTION( "is reloadable with a magazine" ) {
             CHECK( flashlight.is_reloadable() );
             CHECK( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
-            CHECK( flashlight.can_reload_with( item( itype_light_disposable_cell ), true ) );
         }
 
         SECTION( "has compatible magazines" ) {
-            CHECK( flashlight.can_contain( *itype_light_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_disposable_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_plus_battery_cell ) );
-            CHECK( flashlight.can_contain( *itype_light_atomic_battery_cell ) );
+            CHECK( flashlight.can_contain( *itype_light_battery_cell ).success() );
         }
 
         SECTION( "Does not fit medium or large magazines" ) {
-            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ) );
-            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ) );
+            CHECK_FALSE( flashlight.can_contain( *itype_medium_battery_cell ).success() );
+            CHECK_FALSE( flashlight.can_contain( *itype_heavy_plus_battery_cell ).success() );
         }
 
         SECTION( "has a default magazine" ) {
             itype_id mag_default = flashlight.magazine_default( false );
             CHECK_FALSE( mag_default.is_null() );
-            CHECK( mag_default.str() == "light_disposable_cell" );
+            CHECK( mag_default.str() == "light_battery_cell" );
         }
 
         SECTION( "can use battery ammo" ) {
@@ -316,10 +302,10 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
     }
 }
 
-TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
+TEST_CASE( "installing_battery_in_tool", "[battery][tool][install]" )
 {
     item bat_cell( "light_battery_cell" );
-    item flashlight( "flashlight" );
+    item flashlight( "diving_flashlight_small_hipower" );
 
     const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
     REQUIRE( bat_charges > 0 );
@@ -338,8 +324,8 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         REQUIRE( bat_cell.ammo_remaining() == 0 );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
+        ret_val<void> result = flashlight.put_in( bat_cell, pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
 
@@ -353,8 +339,8 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        ret_val<void> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+        REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
+        ret_val<void> result = flashlight.put_in( bat_cell, pocket_type::MAGAZINE_WELL );
         CHECK( result.success() );
         CHECK( flashlight.magazine_current() );
 
@@ -366,9 +352,9 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
         item med_bat_cell( "medium_battery_cell" );
 
         // Should fail to install the magazine
-        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( pocket_type::MAGAZINE_WELL ) );
         std::string dmsg = capture_debugmsg_during( [&flashlight, &med_bat_cell]() {
-            ret_val<void> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+            ret_val<void> result = flashlight.put_in( med_bat_cell, pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
         CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type or form factor" ) );

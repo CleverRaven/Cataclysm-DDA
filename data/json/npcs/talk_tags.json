@@ -6,12 +6,12 @@
     "text": [
       "Spirals.",
       "Spirals…",
-      "Spirals?",
+      "Spirals?  <spirals>",
       "Spirals?  Spirals.",
       "Spiiiraals!",
       "Ha!  Spirals.",
-      "Spi…rals.",
-      "Spiralling spirals.",
+      "Spi…rals.  <spirals>",
+      "Spiraling spirals.",
       "Hmm, spirals.",
       "Ah!  Spirals.",
       "Uhh… Spirals?",
@@ -20,8 +20,14 @@
       "Spirals!!!",
       "SpIrAlS.",
       "SPIRALS.",
-      "AHAHAHAHA!!!",
-      "SpiRAAAAAAALS!"
+      "<spirals> AHAHAHAHA!!!  <spirals>",
+      "<spirals> UEE HEE HEE!  <spirals>",
+      "SpiRAAAAAAALS!",
+      "Spirals and spirals and spirals and spirals…",
+      "The spirals spiral into more spirals don't you see?",
+      "Now, now!  Let the games begin!  <spirals>",
+      "Who keeps spinning the world around?",
+      "<spirals> So very many spirals!"
     ]
   },
   {
@@ -87,7 +93,7 @@
       "Finally, something to take the edge off.",
       "I could take them, or I could be a loser.",
       "What if, I just took one more?",
-      "Tablets!  Whats the worst that could happen?",
+      "Tablets!  What's the worst that could happen?",
       "This reality is much better, best take another.",
       "I am limitless!  Time to neck another!"
     ]
@@ -143,7 +149,7 @@
       "bitch",
       "bootlicker",
       "bugger",
-      "butchery refuse",
+      { "text": { "ctxt": "<name_b>", "str": "butchery refuse" } },
       "butthead",
       "butt-licker",
       "chucklefuck",
@@ -154,9 +160,9 @@
       "damned <name_b>",
       "dildo",
       "dimwit",
-      "dog",
+      { "text": { "ctxt": "<name_b>", "str": "dog" } },
       "dumbshit",
-      "dumpster",
+      { "text": { "ctxt": "<name_b>", "str": "dumpster" } },
       "dumpster fire",
       "dunderfuck",
       "effing <name_b>",
@@ -366,14 +372,14 @@
       "What's up, <name_g>?",
       "You okay, <name_g>?",
       "Hello, <name_g>.",
-      "Hi <name_g>",
+      "Hi <name_g>.",
       "Well met!",
       "Howdy.",
       "<name_g>.",
       "Yo.",
       "Hail!",
       "Hey hey!",
-      "Hi there",
+      "Hi there.",
       "Hello.",
       "Salutations."
     ]
@@ -541,7 +547,7 @@
       "I work alone, <name_g>.",
       "One man wolf pack, <name_g>.",
       "I've been told I am not a team player.",
-      "Group?  No, thats not my style.",
+      "Group?  No, that's not my style.",
       "Just me and the road, chief.",
       "Group?  Does my teddy count?",
       "I'm a free agent, more money that way.",
@@ -753,7 +759,7 @@
       "Out of my way, <name_b>!",
       "Move it, <name_g>!",
       "Excuse me, <name_g>.",
-      "Gotta get past you, <name_g>",
+      "Gotta get past you, <name_g>.",
       "I'm coming through <name_g>.",
       "Shift it, <name_g>.",
       "In the way here <name_g>.",
@@ -782,7 +788,7 @@
       "Thanks, <name_g>!",
       "Pleasure doing business with you.",
       "Nice haul, see you soon.",
-      "Whats yours is mine, <name_g>.",
+      "What's yours is mine, <name_g>.",
       "Half your shit belongs to me, <name_b>.",
       "Now beat it, you <name_b>.",
       "Good haul.  See you around<punc>",
@@ -935,7 +941,7 @@
     "category": "<move>",
     "//": "Generic orders to move,mostly used as part of firing warnings.",
     "text": [
-      "Move",
+      { "text": { "ctxt": "<move>", "str": "Move" } },
       "Move your ass",
       "Get out of the way",
       "Shift it",
@@ -1009,18 +1015,23 @@
     "category": "<cramped_vehicle>",
     "//": "NPC complaint if a HUGE NPC is taking pain from being inside a vehicle.  Key points are that the NPC is HUGE and they're in a confined vehicle, along with some hints on how to resolve it.",
     "text": [
-      "Can I get out and walk?  This vehicle is too small.",
+      "Can I get out and walk?  This spot is too cramped.",
       "How about we make the next vehicle a convertible?",
       "This vehicle is too small.",
+      "Argh, I don't fit!",
       "I'm not a contortionist!",
-      "I can't fit in your tiny human vehicle.",
-      "This sucks.  I'm too big.",
+      "There's not enough room for me here.",
+      "This spot is squeezing the life out of me.",
+      "I can hardly breathe, crammed in like this.",
+      "I'm like a sardine over here!",
+      "Ugh, I'm getting squashed.",
+      "How about we stop and stretch our legs?",
+      "I could use a break from being wedged in like this.",
+      "This is like being in a trash compactor.",
+      "<swear>, I can barely move!",
       "This space was not designed for big boned people.",
-      "So the fact I am huge isn't an issue to you?  As it is to me.",
-      "I don't like being a mutant crammed into your tiny little vehicle.",
-      "Getting awfully cramped in here.",
-      "I don't think this vehicle was designed for someone like me.",
-      "It's tighter than a nun's cunt in here!'"
+      "I don't like being crammed in like this.",
+      "Getting awfully cramped in here."
     ]
   },
   {
@@ -1161,7 +1172,7 @@
       "Run!",
       "Be quiet.",
       "Please, I don't want to die.",
-      "It's going South pretty <swear> fast.",
+      "It's going south pretty <swear> fast.",
       "Game over man, game over!",
       "We have a serious situation here.",
       "Where did you come from?",
@@ -1195,7 +1206,7 @@
       "Weapons check everyone.  There may be more.",
       "That's that, then.",
       "That's the last of them for now.",
-      "Clearing the world, one <name_b> at a time",
+      "Clearing the world, one <name_b> at a time.",
       "Well, that got the blood pumping.",
       "We're clear, but stay frosty.",
       "<swear> beautiful work.",
@@ -1334,7 +1345,7 @@
       "Applying first aid!",
       "These bandages ain't much, but they will do for now.",
       "Hold up, gotta plug this hole in me.",
-      "Watch my back while I stitch my arm back on <name_g>.",
+      "Watch my back while I stitch my arm back on, <name_g>.",
       "Gotta bandage this or I'll bleed out.  Give me a sec.",
       "Let me fix myself up here for a second.",
       "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this.",
@@ -1377,7 +1388,7 @@
       "Uh, hear that?",
       "Uh, what was that?",
       "Uh, am I hearing things?",
-      "Uh, whats that noise?",
+      "Uh, what's that noise?",
       "Uh, any idea what that is?",
       "Uh, wonder what that is.",
       "Uh, did I hear something?",
@@ -1400,7 +1411,7 @@
       "Quiet, what is that noise?",
       "Hey, hear something?",
       "Hey!  I heard something.",
-      "Silence!  what is that?",
+      "Silence!  What is that?",
       "Hush, quiet a second.",
       "Shut up, there's something there.",
       "Shut up, I heard something.",
@@ -1440,7 +1451,7 @@
       "What's going on over there?",
       "Sounds like a fight's going on.",
       "What was that?",
-      "Whats happening?",
+      "What's happening?",
       "Something's happening.",
       "Sounds like another riot.",
       "What was that?  Oh god, oh god!",
@@ -1456,7 +1467,7 @@
       "What's that sound?  I heard",
       "What's there?  I heard",
       "Did you hear that?  Sounded like",
-      "What is making that sound?  I can hear the",
+      "What is making that sound?  I can hear",
       "I could swear I heard",
       "Huh?  I think I just heard",
       "Huh?  That sounded like",
@@ -1484,18 +1495,18 @@
       "I hear you.",
       "I'll do that.",
       "Sure, I got that.",
-      "Sure thing",
-      "Absolutely",
-      "Got it, <name_g>",
-      "Sure thing, <name_g>",
-      "Absolutely, <name_g>",
-      "Understood, <name_g>",
-      "Okay, <name_g>",
-      "Will do, <name_g>",
-      "Can do, <name_g>",
-      "On it, <name_g>",
-      "No problem, <name_g>",
-      "Roger, <name_g>",
+      "Sure thing.",
+      "Absolutely.",
+      "Got it, <name_g>.",
+      "Sure thing, <name_g>.",
+      "Absolutely, <name_g>.",
+      "Understood, <name_g>.",
+      "Okay, <name_g>.",
+      "Will do, <name_g>.",
+      "Can do, <name_g>.",
+      "On it, <name_g>.",
+      "No problem, <name_g>.",
+      "Roger, <name_g>.",
       "Okay.",
       "Will do.",
       "No problem.",
@@ -1518,7 +1529,20 @@
       "I guess I can.",
       "I guess so.",
       "I should be able to.",
-      "I'll try."
+      "I'll try.",
+      "I'll do my best.",
+      "I'll be right on it.",
+      "I can manage that.",
+      "I think I can just about handle that.",
+      "Fine by me.",
+      "Not a problem.",
+      "Loud and clear.",
+      "I'll have that covered in no time.",
+      "That all?",
+      "Done.",
+      "Already on it.",
+      "Remind me why I follow you again?",
+      "Consider it done."
     ]
   },
   {
@@ -1541,7 +1565,7 @@
       "Is that the devil's lettuce I smell?",
       "Puff, puff, pass.",
       "Urgh, that stinks.",
-      "That smell is repulsive",
+      "That smell is repulsive.",
       "Oh great, now I'm gonna smell too.",
       "Ah, that smells pretty bad.",
       "I can smell that from here.",
@@ -1852,7 +1876,7 @@
     "type": "snippet",
     "category": "<zombie>",
     "text": [
-      "zombie",
+      { "text": { "ctxt": "<zombie>", "str": "zombie" } },
       "Z",
       "shambler",
       "goo-puker",
@@ -2002,7 +2026,7 @@
   {
     "type": "snippet",
     "category": "<granny_name_g>",
-    "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
+    "text": [ { "text": { "ctxt": "<granny_name_g>", "str": "child" } }, "my child", "dear", "my dear", "friend", "survivor" ]
   },
   {
     "type": "snippet",
@@ -2030,7 +2054,7 @@
       "Well, that satisfied me.",
       "Nice to have food once in a while.",
       "That hit the spot, yum!",
-      "Mhmm, Thats sorted me out.",
+      "Mhmm, that's sorted me out.",
       "My stomach thanks you.",
       "I'm slightly fuller than I was before, nice.",
       "I just had some food, but I'm still peckish.  Would you mind if I ate more?",
@@ -2082,6 +2106,114 @@
       "at a long distance.",
       "it's a million miles away!"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_all_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 90% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_most_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 75% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_some_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 50% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_little_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 25% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_recharge_none_text>",
+    "text": "<mypronoun> will recharge power CBMs until <mypronoun> has 10% of total power."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_all_text>",
+    "text": "<mypronoun> will reserve 100% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_most_text>",
+    "text": "<mypronoun> will reserve 75% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_some_text>",
+    "text": "<mypronoun> will reserve 50% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_little_text>",
+    "text": "<mypronoun> will reserve 25% of CBM power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_cbm_reserve_none_text>",
+    "text": "<mypronoun> will not reserve any power for defense or utility CBMs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_when_convenient>",
+    "text": "<mypronoun> will aim when it's convenient."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_spray>",
+    "text": "<mypronoun> will not bother to aim at all."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_precise>",
+    "text": "<mypronoun> will take time and aim carefully."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_aim_strictly_precise>",
+    "text": "<mypronoun> will only shoot after taking a long time to aim."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_none>",
+    "text": "<mypronoun> won't fight unless their life depends on it."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_close>",
+    "text": "<mypronoun> will attack enemies that get too close."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_weak>",
+    "text": "<mypronoun> will attack enemies that they can kill easily."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_hit>",
+    "text": "<mypronoun> will attack only enemies that you attack first."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_all>",
+    "text": [
+      { "text": "<mypronoun> will attack anything they want.", "weight": 999 },
+      { "text": "<npc_name> has permission to go <color_red>ABSOLUTELY AXE CRAZY!</color>", "weight": 1 }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_free_fire>",
+    "text": "<mypronoun> will attack any enemy within range of their ranged weapon, but won't move."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_engagement_no_move>",
+    "text": "<mypronoun> will attack only enemies they can reach without moving."
   },
   {
     "type": "snippet",
@@ -2190,6 +2322,16 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_lock_doors_true_text>",
+    "text": "<mypronoun> will lock doors when closing them."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_lock_doors_false_text>",
+    "text": "<mypronoun> will not lock doors."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_follow_close_true_text>",
     "text": "<mypronoun> will follow you closely even when threatened."
   },
@@ -2227,6 +2369,16 @@
     "type": "snippet",
     "category": "<ally_rule_avoid_doors_false_text>",
     "text": "<mypronoun> will open doors to reach a destination."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_true_text>",
+    "text": "<mypronoun> will not try to unlock doors."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_locks_false_text>",
+    "text": "<mypronoun> will unlock doors to open them."
   },
   {
     "type": "snippet",

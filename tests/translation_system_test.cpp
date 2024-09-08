@@ -12,7 +12,7 @@ static void LoadMODocument( const char *path )
     volatile TranslationDocument document( path );
 }
 
-TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
+TEST_CASE( "TranslationDocument_loads_valid_MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo";
     CAPTURE( path );
@@ -20,7 +20,7 @@ TEST_CASE( "TranslationDocument loads valid MO", "[translations]" )
     REQUIRE_NOTHROW( LoadMODocument( path ) );
 }
 
-TEST_CASE( "TranslationDocument rejects invalid MO", "[translations]" )
+TEST_CASE( "TranslationDocument_rejects_invalid_MO", "[translations]" )
 {
     const char *path = "./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/INVALID_RAND.mo";
     CAPTURE( path );
@@ -28,7 +28,7 @@ TEST_CASE( "TranslationDocument rejects invalid MO", "[translations]" )
     REQUIRE_THROWS_AS( LoadMODocument( path ), InvalidTranslationDocumentException );
 }
 
-TEST_CASE( "TranslationDocument loads all core MO", "[translations]" )
+TEST_CASE( "TranslationDocument_loads_all_core_MO", "[translations]" )
 {
     const std::unordered_set<std::string> languages =
         TranslationManager::GetInstance().GetAvailableLanguages();
@@ -40,7 +40,7 @@ TEST_CASE( "TranslationDocument loads all core MO", "[translations]" )
     }
 }
 
-TEST_CASE( "No string buffer overlap in TranslationDocument", "[translations]" )
+TEST_CASE( "No_string_buffer_overlap_in_TranslationDocument", "[translations]" )
 {
     const std::unordered_set<std::string> languages =
         TranslationManager::GetInstance().GetAvailableLanguages();
@@ -67,14 +67,14 @@ TEST_CASE( "No string buffer overlap in TranslationDocument", "[translations]" )
     }
 }
 
-TEST_CASE( "TranslationDocument loading benchmark", "[.][benchmark][translations]" )
+TEST_CASE( "TranslationDocument_loading_benchmark", "[.][benchmark][translations]" )
 {
     BENCHMARK( "Load Russian" ) {
         return TranslationDocument( "./lang/mo/ru/LC_MESSAGES/cataclysm-dda.mo" );
     };
 }
 
-TEST_CASE( "TranslationManager loading benchmark", "[.][benchmark][translations]" )
+TEST_CASE( "TranslationManager_loading_benchmark", "[.][benchmark][translations]" )
 {
     BENCHMARK( "Load Russian" ) {
         TranslationManager manager;
@@ -83,7 +83,7 @@ TEST_CASE( "TranslationManager loading benchmark", "[.][benchmark][translations]
     };
 }
 
-TEST_CASE( "TranslationManager translate benchmark", "[.][benchmark][translations]" )
+TEST_CASE( "TranslationManager_translate_benchmark", "[.][benchmark][translations]" )
 {
     TranslationManager manager;
 
@@ -111,7 +111,7 @@ TEST_CASE( "TranslationManager translate benchmark", "[.][benchmark][translation
     };
 }
 
-TEST_CASE( "TranslationManager translates message", "[translations]" )
+TEST_CASE( "TranslationManager_translates_message", "[translations]" )
 {
     std::vector<std::string> files{"./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo"};
     TranslationManager manager;
@@ -120,7 +120,7 @@ TEST_CASE( "TranslationManager translates message", "[translations]" )
     CHECK( translated == "батарейка" );
 }
 
-TEST_CASE( "TranslationManager returns untranslated message as is", "[translations]" )
+TEST_CASE( "TranslationManager_returns_untranslated_message_as_is", "[translations]" )
 {
     std::vector<std::string> files{"./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo"};
     TranslationManager manager;
@@ -130,7 +130,7 @@ TEST_CASE( "TranslationManager returns untranslated message as is", "[translatio
     CHECK( translated == message );
 }
 
-TEST_CASE( "TranslationManager returns empty string as is", "[translations]" )
+TEST_CASE( "TranslationManager_returns_empty_string_as_is", "[translations]" )
 {
     std::vector<std::string> files{"./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo"};
     TranslationManager manager;
@@ -139,7 +139,7 @@ TEST_CASE( "TranslationManager returns empty string as is", "[translations]" )
     CHECK( translated.empty() );
 }
 
-TEST_CASE( "TranslationManager translates message with context", "[translations]" )
+TEST_CASE( "TranslationManager_translates_message_with_context", "[translations]" )
 {
     std::vector<std::string> files{"./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo"};
     TranslationManager manager;
@@ -205,7 +205,7 @@ TEST_CASE( "TranslationPluralRulesEvaluator", "[translations]" )
     }
 }
 
-TEST_CASE( "TranslationManager translates plural messages", "[translations]" )
+TEST_CASE( "TranslationManager_translates_plural_messages", "[translations]" )
 {
     SECTION( "English" ) {
         std::vector<std::string> files;

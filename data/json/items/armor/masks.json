@@ -6,8 +6,8 @@
     "description": "A warm covering that protects the head and face from the cold.",
     "weight": "70 g",
     "volume": "250 ml",
-    "price": 3500,
-    "price_postapoc": 50,
+    "price": "35 USD",
+    "price_postapoc": "50 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
@@ -21,7 +21,6 @@
   {
     "id": "balaclava_skull",
     "type": "ARMOR",
-    "repairs_like": "balclava",
     "copy-from": "balclava",
     "name": { "str": "skull balaclava" },
     "description": "A skull-print balaclava covering the head and face, commonly used by motorcycle riders and as part of a costume.",
@@ -31,10 +30,11 @@
   {
     "id": "balaclava_cut_resistant",
     "type": "ARMOR",
+    "category": "armor",
     "name": { "str": "cut-resistant balaclava" },
     "description": "A face covering that helps protect from slashes and cuts, in addition to the cold.",
     "copy-from": "balclava",
-    "price": 7600,
+    "price": "76 USD",
     "material": [ "kevlar" ]
   },
   {
@@ -45,8 +45,8 @@
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
     "weight": "35 g",
     "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 10,
+    "price": "6 USD",
+    "price_postapoc": "10 cent",
     "use_action": {
       "type": "transform",
       "msg": "You adjust the %s to cover your head.",
@@ -64,14 +64,13 @@
   },
   {
     "id": "bondage_mask",
-    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "name": { "str": "bondage mask" },
     "description": "A tight mask made of black leather.  The eyes and mouth can be closed using zippers.",
     "weight": "210 g",
     "volume": "1 L",
-    "price": 4000,
-    "price_postapoc": 50,
+    "price": "40 USD",
+    "price_postapoc": "50 cent",
     "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
@@ -106,14 +105,13 @@
   },
   {
     "id": "fencing_mask",
-    "repairs_like": "chainmail_hood",
     "type": "ARMOR",
     "name": { "str": "fencing mask" },
     "description": "A tough hood made of steel mesh used by fencers.",
     "weight": "520 g",
     "volume": "1250 ml",
-    "price": 3500,
-    "price_postapoc": 300,
+    "price": "35 USD",
+    "price_postapoc": "3 USD",
     "material": [ "cotton", "mc_steel" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -148,15 +146,14 @@
   },
   {
     "id": "mask_bal",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "ballistic mask" },
     "description": "A protective reinforced Kevlar mask that covers the face.  Provides excellent protection from ballistic threats.",
     "weight": "512 g",
     "volume": "750 ml",
-    "price": 20000,
-    "price_postapoc": 1250,
+    "price": "200 USD",
+    "price_postapoc": "12 USD 50 cent",
     "to_hit": -3,
     "material": [ "kevlar_rigid", "plastic" ],
     "symbol": "[",
@@ -170,14 +167,13 @@
   },
   {
     "id": "mask_dust",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "dust mask" },
     "description": "A simple piece of cotton that straps over the mouth.  Provides a small amount of protection from airborne illness and dust.",
     "weight": "168 g",
     "volume": "100 ml",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -275,15 +271,14 @@
   },
   {
     "id": "mask_guy_fawkes",
-    "repairs_like": "mask_hockey",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "Guy Fawkes mask" },
     "description": "Remember, remember, the fifth of November.",
     "weight": "45 g",
     "volume": "750 ml",
-    "price": 4000,
-    "price_postapoc": 10,
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -297,7 +292,6 @@
   },
   {
     "id": "mask_hockey",
-    "repairs_like": "mask_gas",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "hockey mask" },
@@ -305,8 +299,8 @@
     "description": "A protective face mask made of thick plastic.  Commonly worn by hockey goalies.",
     "weight": "228 g",
     "volume": "750 ml",
-    "price": 4000,
-    "price_postapoc": 250,
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -325,8 +319,8 @@
     "description": "A t-shirt with the sleeves tied behind the back of one's head.  These are usually worn by rioters to hide their identity.",
     "weight": "123 g",
     "volume": "500 ml",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -339,15 +333,15 @@
   },
   {
     "id": "mask_skull",
+    "//": "the mask_skull was here first so i'm just expanding it with mask variants.",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "mask_hockey",
     "name": { "str": "skull mask" },
-    "description": "A plastic skull mask that covers the face.  Spooky.",
+    "description": "A plastic mask that covers the face.",
     "weight": "50 g",
     "volume": "750 ml",
-    "price": 4000,
-    "price_postapoc": 10,
+    "price": "40 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": "[",
@@ -357,7 +351,59 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "generic_plastic_mask",
+        "name": { "str": "plastic skull mask" },
+        "description": "It's a skull mask.  Spooky.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "goblin_plastic_mask",
+        "name": { "str": "plastic goblin mask" },
+        "description": "It's modeled after a green goblin.",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "unicorn_plastic_mask",
+        "name": { "str": "plastic unicorn mask" },
+        "description": "It's a mask of a unicorn with a plastic piece sticking out as a horn.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "bear_plastic_mask",
+        "name": { "str": "plastic bear mask" },
+        "description": "It's modeled after an American black bear.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "zombie_plastic_mask",
+        "name": { "str": "plastic zombie mask" },
+        "description": "It's a cheesy plastic zombie mask.  You miss when they were just fiction.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "payday_plastic_mask",
+        "name": { "str": "plastic heister mask" },
+        "description": "It's a plastic mask of a certain heister who heists the loud way.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "noface_plastic_mask",
+        "name": { "str": "plastic no-face mask" },
+        "description": "It's a plastic mask of a lonely spirit.",
+        "weight": 15,
+        "append": true
+      }
+    ]
   },
   {
     "id": "santa_beard",
@@ -366,8 +412,8 @@
     "description": "A fake white beard that straps over the mouth.  Perfect for your Santa costume!",
     "weight": "200 g",
     "volume": "150 ml",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "to_hit": -3,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -378,5 +424,199 @@
     "environmental_protection": 1,
     "flags": [ "OUTER" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "face_veil",
+    "type": "ARMOR",
+    "name": { "str": "face veil" },
+    "description": "A simple piece of cotton that covers your face.",
+    "weight": "160 g",
+    "volume": "100 ml",
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": -3,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "scarf",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.1,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "white_face_veil",
+        "name": { "str": "white face veil" },
+        "description": "It's a simple white color.",
+        "weight": 40,
+        "append": true
+      },
+      {
+        "id": "blue_face_veil",
+        "name": { "str": "blue face veil" },
+        "description": "It's colored light blue.",
+        "color": "blue",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "black_face_veil",
+        "name": { "str": "black face veil" },
+        "description": "It's colored black.",
+        "color": "dark_gray",
+        "weight": 30,
+        "append": true
+      },
+      {
+        "id": "purple_face_veil",
+        "name": { "str": "purple face veil" },
+        "description": "It's colored purple.",
+        "color": "yellow",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "yellow_face_veil",
+        "name": { "str": "yellow face veil" },
+        "description": "It's colored dark yellow.",
+        "color": "green",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "trimmed_face_veil",
+        "name": { "str": "trimmed face veil" },
+        "description": "It's colored black with a rather fancy looking golden trim.",
+        "symbol": "w",
+        "color": "dark_gray",
+        "weight": 5,
+        "append": true
+      }
+    ]
+  },
+  {
+    "id": "pumpkin_mask",
+    "type": "ARMOR",
+    "name": { "str": "pumpkin mask" },
+    "description": "A flimsy plastic pumpkin mask to wear over your head.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": "1 USD 50 cent",
+    "price_postapoc": "20 cent",
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "environmental_protection": 1,
+    "flags": [ "FRAGILE" ],
+    "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "head", "mouth" ] } ]
+  },
+  {
+    "id": "zombie_mask",
+    "type": "ARMOR",
+    "name": { "str": "zombie mask" },
+    "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "price": "1 USD 50 cent",
+    "price_postapoc": "20 cent",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "white",
+    "warmth": 5,
+    "material_thickness": 0.5,
+    "environmental_protection": 1,
+    "flags": [ "FRAGILE" ],
+    "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "head", "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "zombie_mask",
+        "name": { "str": "zombie mask" },
+        "description": "A flimsy leather zombie mask.  When zombies were still works of fiction.",
+        "weight": 100
+      },
+      {
+        "id": "chicken_mask",
+        "name": { "str": "chicken mask" },
+        "color": "light_gray",
+        "description": "A chicken mask that looks like a killer in Miami would wear.",
+        "weight": 30
+      },
+      {
+        "id": "green_mask",
+        "name": { "str": "green mask" },
+        "color": "green",
+        "description": "A green skinned full-face mask, much like the one from The Mask.",
+        "weight": 24
+      },
+      {
+        "id": "scream_mask",
+        "name": { "str": "Scream mask" },
+        "color": "dark_gray",
+        "description": "A white mask with a screaming face on it, much like the mask Ghostface worn in Scream, black hood included.",
+        "weight": 41
+      },
+      {
+        "id": "michael_myers_mask",
+        "name": { "str": "Michael Myers' mask" },
+        "description": "A full-head mask with hair, much like the one worn by Michael Myers in Halloween",
+        "weight": 17
+      },
+      {
+        "id": "frankenstein_mask",
+        "name": { "str": "Frankenstein's Monster mask" },
+        "description": "A full-head mask that looks like the head of Frankenstein's monster.",
+        "weight": 20
+      }
+    ]
+  },
+  {
+    "id": "mask_plague",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plague mask" },
+    "description": "A beaked leather mask used by plague doctors.",
+    "weight": "50 g",
+    "volume": "780 ml",
+    "price": "50 USD",
+    "price_postapoc": "10 cent",
+    "to_hit": -3,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "brown",
+    "warmth": 10,
+    "material_thickness": 0.6,
+    "environmental_protection": 1,
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "brown_mask_plague",
+        "name": { "str": "brown plague mask" },
+        "description": "It's colored brown.",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "white_mask_plague",
+        "name": { "str": "white plague mask" },
+        "description": "It's a simple white color.",
+        "color": "blue",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "black_mask_plague",
+        "name": { "str": "black plague mask" },
+        "description": "It's colored black.",
+        "color": "dark_gray",
+        "weight": 25,
+        "append": true
+      }
+    ]
   }
 ]

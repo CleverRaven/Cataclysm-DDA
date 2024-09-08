@@ -7,17 +7,17 @@
     "entries": [
       {
         "distribution": [
-          { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
+          { "item": "cig", "prob": 70, "count": [ 1, 10 ], "container-item": "null", "entry-wrapper": "box_cigarette" },
           {
             "collection": [
-              { "item": "tobacco", "charges-min": 1, "charges-max": 20 },
+              { "item": "tobacco", "count": [ 1, 20 ], "container-item": "null", "entry-wrapper": "bag_plastic" },
               {
-                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges": [ 1, 30 ] }, { "item": "pipe_tobacco", "prob": 30 } ]
               }
             ],
             "prob": 20
           },
-          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] },
+          { "item": "cigar", "prob": 5, "count": [ 1, 1 ] },
           { "item": "joint", "prob": 5 }
         ]
       },
@@ -40,14 +40,14 @@
     "id": "butane_lighter_and_fuel",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
-    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ] } ]
+    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 400 } ] } ]
   },
   {
     "id": "butane_can_full",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
+    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 400 } ]
   },
   {
     "id": "cannabis_extraction_equipment",
@@ -70,14 +70,9 @@
               { "item": "microcentrifuge", "prob": 80 },
               { "item": "still_lab", "prob": 80 },
               { "item": "cotton_patchwork", "count": [ 3, 10 ] },
-              {
-                "distribution": [
-                  { "item": "hotplate", "prob": 80, "charges": [ 0, 500 ] },
-                  { "item": "chemistry_set", "prob": 20, "charges": [ 0, 500 ] }
-                ]
-              },
+              { "distribution": [ { "item": "hotplate", "prob": 80 }, { "item": "chemistry_set", "prob": 20 } ] },
               { "item": "vac_pump" },
-              { "item": "chem_ethanol", "charges-min": 150, "prob": 80 }
+              { "item": "chem_ethanol", "charges": [ 150, -1 ], "prob": 80 }
             ],
             "prob": 30
           }
@@ -85,8 +80,8 @@
       },
       {
         "collection": [
-          { "item": "filter_paper_qualitative", "charges-min": 30 },
-          { "item": "filter_paper_quantitative", "charges-min": 30 },
+          { "item": "filter_paper_qualitative", "charges": [ 30, -1 ] },
+          { "item": "filter_paper_quantitative", "charges": [ 30, -1 ] },
           { "item": "gasket_plastic_set", "count": [ 1, 3 ] },
           { "item": "textbook_extraction", "prob": 75 }
         ]
@@ -97,7 +92,12 @@
     "id": "silverware",
     "type": "item_group",
     "//": "Forks, spoons, knives, etc.",
-    "items": [ [ "knife_butter", 30 ], [ "knife_steak", 10 ], [ "fork", 30 ], [ "spoon", 30 ] ]
+    "items": [
+      [ "knife_butter", 30 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 10 },
+      [ "fork", 30 ],
+      [ "spoon", 30 ]
+    ]
   },
   {
     "id": "used_toy_box",
@@ -143,13 +143,24 @@
     ]
   },
   {
+    "id": "digging_topsoil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "digging_soil_loam_50L", "count": 1 },
+      { "item": "earthworm", "count": [ 0, 10 ], "prob": 75 },
+      { "item": "earthworm_handful", "count": [ 0, 3 ], "prob": 60 },
+      { "item": "earthworm_handful", "count": [ 1, 2 ], "prob": 20 }
+    ]
+  },
+  {
     "id": "mining_rock",
     "type": "item_group",
     "subtype": "collection",
     "items": [
       { "item": "rock", "count": [ 17, 37 ] },
       { "item": "rock_large", "count": [ 1, 3 ] },
-      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+      { "item": "coal_lump", "charges": [ 2500, 5000 ], "prob": 10 },
       { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
@@ -177,10 +188,9 @@
       { "item": "magic_8_ball", "prob": 5 },
       { "item": "family_photo", "prob": 5 },
       { "item": "coin_quarter", "prob": 5 },
-      { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "RPG_die", "prob": 5 },
       { "item": "metal_RPG_die", "prob": 1 },
-      { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 }
+      { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
   {
@@ -215,9 +225,9 @@
       { "item": "boots_combat" },
       { "item": "socks", "count": 3 },
       { "item": "gloves_tactical" },
-      { "item": "light_plus_battery_cell", "charges": 150 },
-      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
-      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "radio" },
+      { "group": "batteries" },
+      { "item": "flashlight", "charges": 150 },
+      { "item": "light_battery_cell", "charges": 150, "container-item": "radio" },
       { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
@@ -239,7 +249,7 @@
       { "item": "flint_steel" },
       { "item": "whistle_multitool" },
       { "item": "bottle_folding" },
-      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "flashlight", "charges": 150 },
       { "item": "picklocks" },
       { "item": "lifestraw" },
       { "item": "pocket_survival" },
@@ -251,7 +261,12 @@
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
-    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ], [ "saddlebag", 25 ] ]
+  },
+  {
+    "id": "riding_gear",
+    "type": "item_group",
+    "items": [ [ "helmet_riding", 50 ], [ "helmet_riding_peakless", 20 ], [ "dressage_whip", 20 ], [ "riding_crop", 20 ] ]
   },
   {
     "type": "item_group",
@@ -268,8 +283,8 @@
     "id": "makeshift_memorial",
     "subtype": "collection",
     "entries": [
-      { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges-max": 50 },
-      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges-min": 50 },
+      { "item": "candle", "prob": 100, "count": [ 1, 3 ], "charges": [ 0, 50 ] },
+      { "item": "candle", "prob": 33, "count": [ 1, 2 ], "charges": [ 50, -1 ] },
       { "item": "family_photo", "prob": 20, "count": [ 1, 2 ] },
       { "item": "teddy_bear", "prob": 5 }
     ]
@@ -279,7 +294,7 @@
     "id": "cathedral_archives",
     "subtype": "collection",
     "entries": [
-      { "item": "book_binder", "prob": 90, "charges-max": 90, "count": [ 1, 5 ] },
+      { "item": "book_binder", "prob": 90, "charges": [ 0, 90 ], "count": [ 1, 5 ] },
       { "item": "file", "prob": 50, "count": [ 1, 15 ] },
       { "item": "paper", "prob": 60, "count": [ 10, 125 ] },
       { "item": "book_pieces", "prob": 20 },
@@ -288,6 +303,69 @@
       { "item": "candlestick", "prob": 2 },
       { "item": "chalice", "prob": 1 },
       { "item": "book_ruined", "prob": 1 }
+    ]
+  },
+  {
+    "id": "pencil_case_with_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "pencil_case",
+    "on_overflow": "spill",
+    "entries": [ { "group": "pencil_case_contents" } ]
+  },
+  {
+    "id": "pencil_case_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "pens", "prob": 90 },
+      { "group": "pens", "prob": 30 },
+      { "item": "pencil", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "scissors_child", "prob": 50 },
+      { "item": "eraser", "prob": 50 },
+      { "item": "sharpener", "prob": 50 },
+      { "item": "ruler", "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_any_empty",
+    "subtype": "distribution",
+    "items": [ "pillbox", "pillbox_large" ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot",
+    "items": [ [ "armor_riot", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "helmet_riot",
+    "items": [ [ "helmet_riot", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot_arm",
+    "items": [ [ "armor_riot_arm", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "armor_riot_leg",
+    "items": [ [ "armor_riot_leg", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "butterfly_net_any",
+    "items": [ { "item": "butterfly_net_collapsible", "prob": 4 }, { "item": "butterfly_net_makeshift", "prob": 6 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "egg_reptile_forest",
+    "//": "Any reptile eggs that make sense to find in random underbrush, assuming that it's a fair distance away from water.",
+    "items": [
+      { "item": "egg_turtle_painted", "prob": 5 },
+      { "item": "egg_wormsnake", "prob": 2 },
+      { "item": "egg_skink_fivelined", "prob": 2 }
     ]
   }
 ]

@@ -7,13 +7,13 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
+#include "pocket_type.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
-TEST_CASE( "ammo_set items with MAGAZINE pockets", "[ammo_set][magazine][ammo]" )
+TEST_CASE( "ammo_set_items_with_MAGAZINE_pockets", "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "empty 9mm CZ 75 20-round magazine" ) {
         item cz75mag_20rd( "cz75mag_20rd" );
@@ -180,7 +180,7 @@ TEST_CASE( "ammo_set items with MAGAZINE pockets", "[ammo_set][magazine][ammo]" 
     }
 }
 
-TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets with magazine",
+TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_with_magazine",
            "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "CZ 75 B 9mm gun with empty 9mm CZ 75 20-round magazine" ) {
@@ -198,7 +198,7 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets with magazine",
         REQUIRE( ammo_default_id.str() == ammo9mm_id.str() );
         const ammotype &amtype = ammo9mm_id->ammo->type;
         REQUIRE( cz75mag_20rd.ammo_capacity( amtype ) == 20 );
-        cz75.put_in( cz75mag_20rd, item_pocket::pocket_type::MAGAZINE_WELL );
+        cz75.put_in( cz75mag_20rd, pocket_type::MAGAZINE_WELL );
         REQUIRE( cz75.magazine_current()->typeId().str() == cz75mag_20rd.typeId().str() );
         REQUIRE( cz75.ammo_capacity( amtype ) == 20 );
         WHEN( "set 9mm ammo in the gun with magazine w/o quantity" ) {
@@ -290,12 +290,12 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets with magazine",
     }
 }
 
-TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets without magazine",
+TEST_CASE( "ammo_set_items_with_MAGAZINE_WELL_pockets_without_magazine",
            "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "CZ 75 B 9mm gun w/o magazine" ) {
         item cz75( "cz75" );
-        itype_id cz75mag_12rd_id( "cz75mag_12rd" );
+        itype_id cz75mag_16rd_id( "cz75mag_16rd" );
         itype_id cz75mag_20rd_id( "cz75mag_20rd" );
         itype_id cz75mag_26rd_id( "cz75mag_26rd" );
         itype_id ammo9mm_id( "9mm" );
@@ -303,22 +303,22 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets without magazine",
         REQUIRE_FALSE( cz75.is_magazine() );
         REQUIRE( cz75.magazine_current() == nullptr );
         REQUIRE( cz75.magazine_compatible().size() == 3 );
-        REQUIRE( cz75.magazine_compatible().count( cz75mag_12rd_id ) == 1 );
+        REQUIRE( cz75.magazine_compatible().count( cz75mag_16rd_id ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( cz75mag_20rd_id ) == 1 );
         REQUIRE( cz75.magazine_compatible().count( cz75mag_26rd_id ) == 1 );
-        REQUIRE( cz75.magazine_default().str() == cz75mag_12rd_id.str() );
+        REQUIRE( cz75.magazine_default().str() == cz75mag_16rd_id.str() );
         const ammotype &amtype = ammo9mm_id->ammo->type;
         REQUIRE( cz75.ammo_capacity( amtype ) == 0 );
         REQUIRE( !cz75.ammo_default().is_null() );
         REQUIRE( cz75.magazine_default()->magazine->default_ammo.str() == ammo9mm_id.str() );
         WHEN( "set 9mm ammo in the gun w/o magazine w/o quantity" ) {
             cz75.ammo_set( ammo9mm_id );
-            THEN( "gun with new cz75mag_12rd magazine has 12 rounds of 9mm" ) {
-                CHECK( cz75.ammo_remaining() == 12 );
+            THEN( "gun with cz75mag_16rd magazine has 16 rounds of 9mm" ) {
+                CHECK( cz75.ammo_remaining() == 16 );
                 CHECK( cz75.ammo_current().str() == ammo9mm_id.str() );
                 REQUIRE( cz75.magazine_current() != nullptr );
-                CHECK( cz75.magazine_current()->typeId().str() == cz75mag_12rd_id.str() );
-                CHECK( cz75.magazine_current()->ammo_remaining() == 12 );
+                CHECK( cz75.magazine_current()->typeId().str() == cz75mag_16rd_id.str() );
+                CHECK( cz75.magazine_current()->ammo_remaining() == 16 );
                 CHECK( cz75.magazine_current()->ammo_current().str() == ammo9mm_id.str() );
             }
         }
@@ -373,7 +373,7 @@ TEST_CASE( "ammo_set items with MAGAZINE_WELL pockets without magazine",
     }
 }
 
-TEST_CASE( "ammo_set items with CONTAINER pockets", "[ammo_set][magazine][ammo]" )
+TEST_CASE( "ammo_set_items_with_CONTAINER_pockets", "[ammo_set][magazine][ammo]" )
 {
     GIVEN( "small box" ) {
         item box( "box_small" );

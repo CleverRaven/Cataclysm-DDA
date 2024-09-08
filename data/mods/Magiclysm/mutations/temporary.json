@@ -1,0 +1,66 @@
+[
+  {
+    "type": "mutation",
+    "id": "BIO_GIANT_GROWTH",
+    "name": { "str": "Giant-sized" },
+    "//": "Mostly copied from Huge with some Tough mixed in.  Strength bonus includes improvements from STR_UP mutation that's normally required for LARGE",
+    "points": 2,
+    "visibility": 4,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Magic has made you grow to enormous size!",
+    "flags": [ "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_HUGE" ],
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "social_modifiers": { "intimidate": 15 },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "multiply": 0.3 },
+          { "value": "STRENGTH", "add": 6 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIO_LASHING_TENTACLES",
+    "name": { "str": "Lashing Tentacles" },
+    "description": "You have a pair of vicious barbed tentacles growing from your shoulders.",
+    "points": 2,
+    "visibility": 6,
+    "ugliness": 8,
+    "restricts_gear": [ "arm_shoulder_l", "arm_shoulder_r" ],
+    "remove_rigid": [ "arm_shoulder_l", "arm_shoulder_r" ],
+    "allow_soft_gear": true,
+    "attacks": {
+      "attack_text_u": "You lash at %s with your tentacles!",
+      "attack_text_npc": "%1$s lashes at %2$s with their tentacles!",
+      "chance": 20,
+      "base_damage": { "damage_type": "cut", "amount": 10 }
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "EARTHSHAPER_STONE_SLEEP",
+    "name": { "str": "Stony Sleep" },
+    "description": "You are resting in the depths of the earth.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "HUNGER", "multiply": -1.0 },
+          { "value": "THIRST", "multiply": -1.0 },
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "SLEEPINESS_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
+        ]
+      }
+    ]
+  }
+]

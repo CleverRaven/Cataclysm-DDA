@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_JACK",
     "attitude": 0,
     "mission": 7,
+    "age": 73,
+    "height": 184,
     "chat": "TALK_ISHERWOOD_JACK",
     "mission_offered": "MISSION_ISHERWOOD_JACK_1",
     "faction": "isherwood_family"
@@ -17,12 +19,16 @@
     "id": "NC_ISHERWOOD_JACK",
     "name": { "str": "Jack Isherwood" },
     "job_description": "I'm the patriarch of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_male_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "skills": [
       {
@@ -39,54 +45,81 @@
   },
   {
     "type": "item_group",
-    "id": "NC_Isherwood_worn",
+    "id": "NC_Isherwood_male_worn",
     "subtype": "collection",
     "entries": [
-      { "item": "backpack_leather" },
-      { "item": "jeans" },
-      { "item": "tshirt" },
-      { "item": "gloves_fingerless" },
-      { "item": "panties" },
-      { "item": "socks" },
-      { "item": "cowboy_hat" },
-      { "item": "boots" }
-    ],
-    "items": [
-      [ "jacket_light", 20 ],
-      [ "jacket_leather", 20 ],
-      [ "trenchcoat", 20 ],
-      [ "jacket_jean", 20 ],
-      [ "jacket_flannel", 20 ]
+      { "distribution": [ { "item": "backpack_leather" }, { "item": "wicker_backpack" }, { "item": "slingpack" } ] },
+      {
+        "distribution": [
+          { "item": "jacket_light" },
+          { "item": "jacket_leather" },
+          { "item": "trenchcoat" },
+          { "item": "jacket_jean" },
+          { "item": "vest_jean" },
+          { "item": "jacket_flannel" }
+        ]
+      },
+      {
+        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
+      },
+      { "item": "3006", "charges": [ 4, 8 ] },
+      { "distribution": [ { "item": "boxer_briefs" }, { "item": "boxer_shorts" }, { "item": "briefs" } ] },
+      { "distribution": [ { "item": "tshirt" }, { "item": "undershirt" } ] },
+      { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
+      { "item": "leather_belt", "prob": 50 },
+      { "item": "gloves_fingerless", "prob": 50 },
+      { "item": "cowboy_hat", "prob": 80 },
+      { "distribution": [ { "item": "boots" }, { "item": "boots_western" } ] },
+      { "item": "socks", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_archery",
-    "subtype": "distribution",
+    "id": "NC_Isherwood_female_worn",
+    "subtype": "collection",
     "entries": [
-      { "item": "crossbow", "prob": 20 },
-      { "item": "shortbow", "prob": 5 },
-      { "item": "compbow", "prob": 15 },
-      { "item": "recurbow", "prob": 15 },
-      { "item": "reflexbow", "prob": 10 },
-      { "item": "longbow", "prob": 10 },
-      { "item": "hand_crossbow", "prob": 15 },
-      { "item": "selfbow", "prob": 5 }
+      { "distribution": [ { "item": "backpack_leather" }, { "item": "wicker_backpack" }, { "item": "slingpack" } ] },
+      {
+        "distribution": [
+          { "item": "jacket_light" },
+          { "item": "jacket_leather" },
+          { "item": "trenchcoat" },
+          { "item": "jacket_jean" },
+          { "item": "vest_jean" },
+          { "item": "jacket_flannel" }
+        ]
+      },
+      {
+        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
+      },
+      { "item": "3006", "charges": [ 4, 8 ] },
+      {
+        "distribution": [ { "item": "bra" }, { "item": "sports_bra" }, { "item": "camisole" }, { "item": "halter_top" } ]
+      },
+      { "distribution": [ { "item": "panties" }, { "item": "boy_shorts" } ] },
+      { "distribution": [ { "item": "tshirt" }, { "item": "longshirt" }, { "item": "undershirt" } ] },
+      { "distribution": [ { "item": "jeans" }, { "item": "pants_cargo" }, { "item": "pants_leather" } ] },
+      { "item": "leather_belt", "prob": 50 },
+      { "item": "gloves_fingerless", "prob": 50 },
+      { "item": "cowboy_hat", "prob": 80 },
+      { "distribution": [ { "item": "boots" }, { "item": "boots_western" } ] },
+      { "item": "socks", "prob": 50 }
     ]
   },
   {
     "type": "item_group",
     "id": "NC_ISHERWOOD_rifle",
     "subtype": "distribution",
+    "entries": [ { "item": "browning_blr", "charges": 4, "contents-group": "NC_ISHERWOOD_rifle_mods" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ISHERWOOD_rifle_mods",
+    "subtype": "collection",
     "entries": [
-      { "item": "rifle_22", "prob": 5 },
-      { "item": "rifle_9mm", "prob": 5 },
-      { "item": "ruger_1022", "prob": 10 },
-      { "item": "browning_blr", "prob": 10 },
-      { "item": "remington_700", "prob": 10 },
-      { "item": "savage_111f", "prob": 5 },
-      { "item": "marlin_9a", "prob": 25 },
-      { "item": "m1903", "prob": 5 }
+      { "item": "shoulder_strap" },
+      { "distribution": [ { "item": "butt_hook" }, { "item": "cheek_pad" } ], "prob": 40 },
+      { "distribution": [ { "item": "improve_sights" }, { "item": "rifle_scope" } ], "prob": 90 }
     ]
   },
   {
@@ -94,21 +127,21 @@
     "id": "NC_ISHERWOOD_JACK_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "cheese_hard", "prob": 50 },
+      { "prob": 50, "group": "cheese_hard_wrapper_8" },
       { "item": "vinegar", "prob": 55 },
-      { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "sauerkraut", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "fish_pickled", "prob": 60, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "apple_canned", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "can_tomato", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "meat_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "veggy_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "prob": 50, "group": "veggy_pickled_jar_glass_sealed_2" },
+      { "prob": 50, "group": "sauerkraut_jar_glass_sealed_2" },
+      { "prob": 50, "group": "meat_pickled_jar_glass_sealed_2" },
+      { "prob": 60, "group": "fish_pickled_jar_glass_sealed_2" },
+      { "prob": 40, "group": "meat_canned_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "veggy_canned_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "apple_canned_jar_3l_glass_sealed_24" },
+      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_24" },
+      { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "meat_pickled_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
+      { "item": "sauce_red", "prob": 40, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
@@ -118,7 +151,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello traveler, what brings you here?", "no": "Hello traveler, what brings you here?" }
+      "no": { "gendered_line": "Hello traveler, what brings you here?", "relevant_genders": [ "u" ] }
     },
     "responses": [
       {
@@ -140,23 +173,20 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "u_scavenge_for_Jack_Isherwood" } ] }
           ]
         }
       },
       {
         "text": "This is a lot of land, you been here since the collapse?",
         "topic": "TALK_ISHERWOOD_JACK_TALK1",
-        "effect": { "u_add_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": [ { "u_add_var": "u_met_Jack_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ]
       },
       {
         "text": "Hey, good to see you again.",
         "topic": "TALK_ISHERWOOD_JACK_TOPICS",
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_met_Jack_Isherwood" } ] } ]
         }
       },
       {
@@ -170,12 +200,19 @@
         "effect": "start_trade",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_JACK_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_JACK_RESTOCK",
+    "dynamic_line": "Around <interval>.",
+    "responses": [ { "text": "Alright then, bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -214,7 +251,7 @@
       {
         "text": "Sounds reasonable, I'll see what I can do.",
         "topic": "TALK_NONE",
-        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_scavenge_for_Jack_Isherwood", "value": "yes" }
       },
       { "text": "I'm not interested right now, I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -223,7 +260,7 @@
     "type": "talk_topic",
     "id": "TALK_JACK_WIFE",
     "dynamic_line": "Claire and I have been together for 40 years now, couldn't run this place without her.  She's quite the herbalist too, been real useful lately.  She is probably in the house, you should stop in.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_claire_herbalist", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -233,7 +270,7 @@
     "type": "talk_topic",
     "id": "TALK_JACK_DAUGHTER",
     "dynamic_line": "Jesse and her family live up at the horse farm.  Her husband, Carlos, may have some jobs for you.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_jesse", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -243,7 +280,7 @@
     "type": "talk_topic",
     "id": "TALK_JACK_BROTHER",
     "dynamic_line": "Eddie's dairy is at the end of the road.  It's just him and his son since Barry was taken by that thing in the woods.",
-    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "type": "general", "context": "meeting", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_learned_about_eddie", "value": "yes" } },
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_JACK_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -266,7 +303,7 @@
         "condition": {
           "and": [
             { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_scavenge_for_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "u_scavenge_for_Jack_Isherwood" } ] }
           ]
         }
       },
@@ -307,7 +344,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": { "str": "Find 10 3L jars" },
+    "name": { "str": "Find 10 3 L jars" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
@@ -347,7 +384,7 @@
         { "u_spawn_item": "tomato", "count": 25 },
         { "u_spawn_item": "onion", "count": 25 },
         { "u_spawn_item": "cucumber", "count": 25 },
-        { "u_add_var": "u_did_jack_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_jack_missions", "value": "yes" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

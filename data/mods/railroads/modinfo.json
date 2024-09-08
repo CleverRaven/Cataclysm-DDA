@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "railroads",
+    "name": "Railroads",
+    "authors": [ "ZhilkinSerg" ],
+    "description": "Enables basic railroad network generation in the world.  <color_red>Not intended for regular gameplay, more for development purposes.</color>",
+    "category": "buildings",
+    "dependencies": [ "dda" ]
+  }
+]

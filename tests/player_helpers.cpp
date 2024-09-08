@@ -14,7 +14,6 @@
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_pocket.h"
 #include "itype.h"
 #include "make_static.h"
 #include "map.h"
@@ -22,8 +21,11 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
+#include "pocket_type.h"
 #include "point.h"
+#include "profession.h"
 #include "ret_val.h"
+#include "skill.h"
 #include "stomach.h"
 #include "type_id.h"
 
@@ -70,41 +72,53 @@ void clear_character( Character &dummy, bool skip_nutrition )
     dummy.normalize(); // In particular this clears martial arts style
 
     // delete all worn items.
-    dummy.worn.clear();
+    dummy.clear_worn();
     dummy.calc_encumbrance();
+    dummy.invalidate_crafting_inventory();
     dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
+    dummy.mutation_category_level.clear();
+    dummy.clear_bionics();
 
     // Clear stomach and then eat a nutritious meal to normalize stomach
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.guts.empty();
     dummy.clear_vitamins();
+    dummy.health_tally = 0;
+    dummy.update_body( calendar::turn, calendar::turn ); // sets last_updated to current turn
     if( !skip_nutrition ) {
         item food( "debug_nutrition" );
         dummy.consume( food );
     }
 
     // This sets HP to max, clears addictions and morale,
-    // and sets hunger, thirst, fatigue and such to zero
+    // and sets hunger, thirst, sleepiness and such to zero
     dummy.environmental_revert_effect();
     // However, the above does not set stored kcal
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
-    dummy.empty_skills();
+    dummy.prof = profession::generic();
+    dummy.hobbies.clear();
+    dummy._skills->clear();
     dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
-    dummy.clear_bionics();
     dummy.activity.set_to_null();
+    dummy.backlog.clear();
     dummy.reset_chargen_attributes();
     dummy.set_pain( 0 );
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    dummy.set_moves( 0 );
+    dummy.oxygen = dummy.get_oxygen_max();
     for( const proficiency_id &prof : dummy.known_proficiencies() ) {
         dummy.lose_proficiency( prof, true );
+    }
+    for( const proficiency_id &prof : dummy.learning_proficiencies() ) {
+        dummy.set_proficiency_practiced_time( prof, 0 );
     }
 
     // Reset cardio_acc to baseline
@@ -116,6 +130,7 @@ void clear_character( Character &dummy, bool skip_nutrition )
 
     // Make sure we don't carry around weird effects.
     dummy.clear_effects();
+    dummy.set_underwater( false );
 
     // Make stats nominal.
     dummy.str_max = 8;
@@ -132,9 +147,12 @@ void clear_character( Character &dummy, bool skip_nutrition )
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
     dummy.clear_values();
+    dummy.magic = pimpl<known_magic>();
+    dummy.forget_all_recipes();
+    dummy.set_focus( dummy.calc_focus_equilibrium() );
 }
 
-void arm_shooter( npc &shooter, const std::string &gun_type,
+void arm_shooter( Character &shooter, const std::string &gun_type,
                   const std::vector<std::string> &mods,
                   const std::string &ammo_type )
 {
@@ -162,7 +180,7 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
     if( gun->magazine_integral() ) {
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             gun->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun->can_reload_with( *ammo, true ) );
+        REQUIRE( gun.can_reload_with( ammo, true ) );
         REQUIRE( shooter.can_reload( *gun, &*ammo ) );
         gun->reload( shooter, ammo, gun->ammo_capacity( type_of_ammo ) );
     } else {
@@ -170,27 +188,30 @@ void arm_shooter( npc &shooter, const std::string &gun_type,
         item_location magazine = shooter.i_add( item( magazine_id ) );
         item_location ammo = shooter.i_add( item( ammo_id, calendar::turn,
                                             magazine->ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine->can_reload_with( *ammo,  true ) );
+        REQUIRE( magazine.can_reload_with( ammo,  true ) );
         REQUIRE( shooter.can_reload( *magazine, &*ammo ) );
         magazine->reload( shooter, ammo, magazine->ammo_capacity( type_of_ammo ) );
         gun->reload( shooter, magazine, magazine->ammo_capacity( type_of_ammo ) );
     }
     for( const std::string &mod : mods ) {
-        gun->put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
+        gun->put_in( item( itype_id( mod ) ), pocket_type::MOD );
     }
     shooter.wield( *gun );
 }
 
 void clear_avatar()
 {
-    clear_character( get_avatar() );
-    get_avatar().clear_identified();
+    avatar &avatar = get_avatar();
+    clear_character( avatar );
+    avatar.clear_identified();
+    avatar.clear_nutrition();
+    avatar.reset_all_missions();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     CHECK( !shooter.in_vehicle );
-    shooter.worn.clear();
+    shooter.clear_worn();
     shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
@@ -200,8 +221,8 @@ void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 void process_activity( Character &dummy )
 {
     do {
-        dummy.moves += dummy.get_speed();
-        while( dummy.moves > 0 && dummy.activity ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );
@@ -272,7 +293,7 @@ item tool_with_ammo( const std::string &tool, const int qty )
     } else if( !tool_it.magazine_default().is_null() ) {
         item tool_it_mag( tool_it.magazine_default() );
         tool_it_mag.ammo_set( tool_it_mag.ammo_default(), qty );
-        tool_it.put_in( tool_it_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        tool_it.put_in( tool_it_mag, pocket_type::MAGAZINE_WELL );
     }
     return tool_it;
 }

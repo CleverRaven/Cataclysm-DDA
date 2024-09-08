@@ -4,10 +4,24 @@
     "id": "tropicata",
     "name": "TropiCataclysm",
     "authors": [ "Xaritscin" ],
-    "description": "Changes the setting from New England to an undescribed region in the tropics, initially based out of Desert Region mod.",
+    "description": "Changes the setting from New England to an undisclosed region in Brazil.  Initially based out of Desert Region mod.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.80",
     "obsolete": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LATITUDE",
+    "info": "Sets the latitude used for sunrise/sunset times.  Set roughly to Central Brazil.",
+    "stype": "float",
+    "value": -9.98
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "LONGITUDE",
+    "info": "Sets the longitude used for sunrise/sunset times.  Set roughly to Central Brazil.",
+    "stype": "float",
+    "value": -50.18
   }
 ]

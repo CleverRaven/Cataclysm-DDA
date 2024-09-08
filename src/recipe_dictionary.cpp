@@ -3,26 +3,25 @@
 #include <algorithm>
 #include <iterator>
 #include <memory>
-#include <new>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
 #include "cata_algo.h"
 #include "cata_utility.h"
 #include "crafting_gui.h"
+#include "display.h"
 #include "debug.h"
 #include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "json.h"
 #include "make_static.h"
 #include "mapgen.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "requirements.h"
 #include "skill.h"
-#include "translations.h"
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -89,7 +88,7 @@ const recipe &recipe_dictionary::get_craft( const itype_id &id )
 
 // searches for left-anchored partial match in the relevant recipe requirements set
 template <class group>
-bool search_reqs( group gp, const std::string &txt )
+bool search_reqs( const group &gp, const std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const typename group::value_type & opts ) {
         return std::any_of( opts.begin(),
@@ -100,8 +99,8 @@ bool search_reqs( group gp, const std::string &txt )
 }
 // template specialization to make component searches easier
 template<>
-bool search_reqs( std::vector<std::vector<item_comp> >  gp,
-                  const std::string &txt )
+bool search_reqs( const std::vector<std::vector<item_comp> > &gp,
+                  const std::string_view txt )
 {
     return std::any_of( gp.begin(), gp.end(), [&]( const std::vector<item_comp> &opts ) {
         return std::any_of( opts.begin(), opts.end(), [&]( const item_comp & ic ) {
@@ -167,9 +166,8 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-
 std::vector<const recipe *> recipe_subset::search(
-    const std::string &txt, const search_type key,
+    const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     auto predicate = [&]( const recipe * r ) {
@@ -206,17 +204,14 @@ std::vector<const recipe *> recipe_subset::search(
                 return search_reqs( r->simple_requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
-                const auto &quals = item::find_type( r->result() )->qualities;
-                return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name, txt );
-                } );
+                return item::find_type( r->result() )->has_any_quality( txt );
             }
 
             case search_type::description_result: {
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result = r->create_result();
+                    const item result( r->result() );
                     return lcmatch( remove_color_tags( result.info( true ) ), txt );
                 }
             }
@@ -269,9 +264,7 @@ std::vector<const recipe *> recipe_subset::search(
                 }
 
                 if( use_range && start > end ) {
-                    int swap = start;
-                    start = end;
-                    end = swap;
+                    std::swap( start, end );
                 }
 
                 if( use_range ) {
@@ -281,6 +274,9 @@ std::vector<const recipe *> recipe_subset::search(
                     return r->difficulty == start;
                 }
             }
+
+            case search_type::activity_level:
+                return lcmatch( display::activity_level_str( r->exertion_level() ), txt );
 
             default:
                 return false;
@@ -310,7 +306,7 @@ recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const 
 }
 
 recipe_subset recipe_subset::reduce(
-    const std::string &txt, const search_type key,
+    const std::string_view txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
 {
     return recipe_subset( *this, search( txt, key, progress_callback ) );
@@ -324,27 +320,29 @@ recipe_subset recipe_subset::intersection( const recipe_subset &subset ) const
 }
 recipe_subset recipe_subset::difference( const recipe_subset &subset ) const
 {
+    return difference( subset.recipes );
+}
+recipe_subset recipe_subset::difference( const std::set<const recipe *> &recipe_set ) const
+{
     std::vector<const recipe *> difference_result;
-    std::set_difference( this->begin(), this->end(), subset.begin(), subset.end(),
+    std::set_difference( this->begin(), this->end(), recipe_set.begin(), recipe_set.end(),
                          std::back_inserter( difference_result ) );
     return recipe_subset( *this, difference_result );
 }
 
-std::vector<const recipe *> recipe_subset::search_result( const itype_id &item ) const
+std::vector<const recipe *> recipe_subset::recipes_that_produce( const itype_id &item ) const
 {
     std::vector<const recipe *> res;
 
     std::copy_if( recipes.begin(), recipes.end(), std::back_inserter( res ), [&]( const recipe * r ) {
-        if( r->obsolete ) {
-            return false;
-        }
-        return item == r->result() || r->in_byproducts( item );
+        return !r->obsolete && ( item == r->result() || r->in_byproducts( item ) );
     } );
 
     return res;
 }
 
-bool recipe_subset::empty_category( const std::string &cat, const std::string &subcat ) const
+bool recipe_subset::empty_category( const crafting_category_id &cat,
+                                    const std::string &subcat ) const
 {
     if( subcat == "CSC_*_FAVORITE" ) {
         return uistate.favorite_recipes.empty();
@@ -352,7 +350,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         return uistate.recent_recipes.empty();
     } else if( subcat == "CSC_*_HIDDEN" ) {
         return uistate.hidden_recipes.empty();
-    } else if( cat == "CC_*" ) {
+    } else if( cat->is_wildcard ) {
         //any other category in CC_* is populated
         return false;
     }
@@ -372,7 +370,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
     return true;
 }
 
-std::vector<const recipe *> recipe_subset::in_category( const std::string &cat,
+std::vector<const recipe *> recipe_subset::in_category( const crafting_category_id &cat,
         const std::string &subcat ) const
 {
     std::vector<const recipe *> res;
@@ -429,7 +427,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
-        auto base = recipe_id( jo.get_string( "copy-from" ) );
+        recipe_id base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
             deferred.emplace_back( jo, src );
             jo.allow_omitted_members();
@@ -439,7 +437,35 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     }
 
     r.load( jo, src );
+    mod_tracker::assign_src( r, src );
     r.was_loaded = true;
+
+    // Check for duplicate recipe_ids before assigning it to the map
+    if( out.find( r.ident() ) != out.end() ) {
+        const std::string new_mod_src = enumerate_as_string( r.src, [](
+        const std::pair<recipe_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+        const std::string old_mod_src = enumerate_as_string( out[ r.ident() ].src, [](
+        const std::pair<recipe_id, mod_id> &source ) {
+            return string_format( "'%s'", source.second->name() );
+        }, enumeration_conjunction::arrow );
+
+        const std::string base_json = string_format( "'%s'", _( "Dark Days Ahead" ) );
+        if( old_mod_src == base_json && new_mod_src != base_json ) {
+            // Assume the mod developer knows what they're doing
+        } else if( old_mod_src == new_mod_src ) {
+            // Conflict within a single source. Throw an error:
+            debugmsg( "Unable to load recipe_id %1$s. A recipe with that id already exists.\nExisting recipe source: %2$s\nNew recipe source: %3$s",
+                      r.ident().str(), old_mod_src, new_mod_src );
+        } else {
+            // Conflict between mods, leave a warning for debugging
+            DebugLog( DebugLevel::D_WARNING,
+                      DC_ALL ) <<
+                               string_format( "Recipe_id conflict: %1$s is included in both %2$s and %3$s.  Only the latter recipe will be loaded",
+                                              r.ident().str(), old_mod_src, new_mod_src );
+        }
+    }
 
     return out[ r.ident() ] = std::move( r );
 }
@@ -479,6 +505,9 @@ bool recipe_dictionary::is_item_on_loop( const itype_id &i ) const
 void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
+        erase_if( elem.second.nested_category_data, [&]( const recipe_id & nest ) {
+            return !nest.is_valid() || nest->will_be_blacklisted();
+        } );
         elem.second.finalize();
         inp_mngr.pump_events();
     }
@@ -595,7 +624,7 @@ void recipe_dictionary::finalize()
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
             recipe &bk = recipe_dict.uncraft[rid];
-            bk.ident_ = rid;
+            bk.id = rid;
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_data_uncraft_book * pages;
@@ -645,10 +674,10 @@ void recipe_dictionary::finalize()
 
 void recipe_dictionary::check_consistency()
 {
-    for( auto &e : recipe_dict.recipes ) {
-        recipe &r = e.second;
+    for( const auto &e : recipe_dict.recipes ) {
+        const recipe &r = e.second;
 
-        if( r.category.empty() ) {
+        if( r.category.str().empty() ) {
             if( !r.subcategory.empty() ) {
                 debugmsg( "recipe %s has subcategory but no category", r.ident().str() );
             }
@@ -656,24 +685,25 @@ void recipe_dictionary::check_consistency()
             continue;
         }
 
-        const std::vector<std::string> *subcategories = subcategories_for_category( r.category );
-        if( !subcategories ) {
-            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category );
+        if( !r.category.is_valid() ) {
+            debugmsg( "recipe %s has invalid category %s", r.ident().str(), r.category.str() );
             continue;
         }
 
+        const std::vector<std::string> &subcategories = r.category->subcategories;
+
         if( !r.subcategory.empty() ) {
-            auto it = std::find( subcategories->begin(), subcategories->end(), r.subcategory );
-            if( it == subcategories->end() ) {
+            auto it = std::find( subcategories.begin(), subcategories.end(), r.subcategory );
+            if( it == subcategories.end() ) {
                 debugmsg(
                     "recipe %s has subcategory %s which is invalid or doesn't match category %s",
-                    r.ident().str(), r.subcategory, r.category );
+                    r.ident().str(), r.subcategory, r.category.str() );
             }
         }
     }
 
-    for( auto &e : recipe_dict.recipes ) {
-        recipe &r = e.second;
+    for( const auto &e : recipe_dict.recipes ) {
+        const recipe &r = e.second;
 
         if( !r.blueprint.is_empty() && !has_update_mapgen_for( r.blueprint ) ) {
             debugmsg( "recipe %s specifies invalid construction_blueprint %s; that should be a "
@@ -691,6 +721,10 @@ void recipe_dictionary::reset()
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
+    deferred.clear();
 }
 
 void recipe_dictionary::delete_if( const std::function<bool( const recipe & )> &pred )
@@ -732,6 +766,11 @@ void recipe_subset::include( const recipe *r, int custom_difficulty )
         // insert the recipe
         recipes.insert( r );
     }
+}
+
+void recipe_subset::remove( const recipe *r )
+{
+    recipes.erase( r );
 }
 
 void recipe_subset::include( const recipe_subset &subset )

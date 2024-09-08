@@ -5,16 +5,17 @@
 #include <functional>
 #include <list>
 #include <map>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
-#include "color.h"
 #include "craft_command.h"
 #include "enums.h"
+#include "game.h"
 #include "game_constants.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -39,7 +40,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     }
 
     // how many levels are we above the requirement?
-    const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    const int lvl = std::max( static_cast<int>( who.get_skill_level( sk ) ) - iter->second, 1 );
 
     // scale xp gain per hour according to relative level
     // 0-1: 60 xp /h
@@ -49,78 +50,54 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     //   5:  3 xp /h
     //   6:  2 xp /h
     //  7+:  1 xp /h
-    return std::ceil( static_cast<double>( vp.install_moves ) /
+    return std::ceil( to_moves<double>( vp.install_moves ) /
                       to_moves<int>( 1_minutes * std::pow( lvl, 2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repairable )
+vehicle_part *most_repairable_part( vehicle &veh, Character &who )
 {
     const inventory &inv = who.crafting_inventory();
-
-    enum class repairable_status {
-        not_repairable = 0,
-        need_replacement,
-        repairable
-    };
-    std::map<const vehicle_part *, repairable_status> repairable_cache;
+    vehicle_part *vp_broken = nullptr;
+    vehicle_part *vp_most_damaged = nullptr;
+    int most_damage = 0;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
-        const vehicle_part &vp = vpr.part();
+        vehicle_part &vp = vpr.part();
         const vpart_info &info = vpr.info();
-        repairable_cache[&vp] = repairable_status::not_repairable;
-        if( vp.removed || !vp.is_repairable() ) {
-            continue;
-        }
-
-        if( veh.would_repair_prevent_flyable( vp, who ) ) {
+        if( vp.removed
+            || !vp.is_repairable()
+            || veh.would_repair_prevent_flyable( vp, who ) ) {
             continue;
         }
 
         if( vp.is_broken() ) {
             if( who.meets_skill_requirements( info.install_skills ) &&
                 info.install_requirements().can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[&vp] = repairable_status::need_replacement;
+                vp_broken = &vp;
             }
-
             continue;
         }
 
-        if( vp.is_repairable() && who.meets_skill_requirements( info.repair_skills ) ) {
-            const requirement_data reqs = info.repair_requirements() * vp.repairable_levels();
+        if( who.meets_skill_requirements( info.repair_skills ) ) {
+            const requirement_data reqs = info.repair_requirements() * vp.get_base().repairable_levels();
             if( reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
-                repairable_cache[&vp] = repairable_status::repairable;
+                const int repairable_damage = vp.get_base().damage();
+                if( repairable_damage > most_damage ) {
+                    most_damage = repairable_damage;
+                    vp_most_damaged = &vp;
+                }
             }
         }
     }
-
-    const vehicle_part_range vp_range = veh.get_all_parts();
-    const auto high_damage_iterator = std::max_element( vp_range.begin(), vp_range.end(),
-    [&repairable_cache]( const vpart_reference & a, const vpart_reference & b ) {
-        const vehicle_part &vpa = a.part();
-        const vehicle_part &vpb = b.part();
-        return ( repairable_cache[&vpb] > repairable_cache[&vpa] ) ||
-               ( repairable_cache[&vpb] == repairable_cache[&vpa] &&
-                 vpb.repairable_levels() > vpa.repairable_levels() );
-    } );
-    if( high_damage_iterator == vp_range.end() ||
-        high_damage_iterator->part().removed ||
-        !high_damage_iterator->info().is_repairable() ||
-        ( only_repairable &&
-          repairable_cache[ &( *high_damage_iterator ).part() ] != repairable_status::not_repairable ) ) {
-        static vehicle_part nullpart;
-        return nullpart;
-    }
-
-    return high_damage_iterator->part();
+    return vp_most_damaged != nullptr ? vp_most_damaged : vp_broken;
 }
 
-bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::string &variant )
+bool repair_part( vehicle &veh, vehicle_part &pt, Character &who )
 {
-    int part_index = veh.index_of_part( &pt );
     const vpart_info &vp = pt.info();
 
     const requirement_data reqs = pt.is_broken()
                                   ? vp.install_requirements()
-                                  : vp.repair_requirements() * pt.repairable_levels();
+                                  : vp.repair_requirements() * pt.get_base().repairable_levels();
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
@@ -156,28 +133,29 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     }
 
     // If part is broken, it will be destroyed and references invalidated
-    std::string partname = pt.name( false );
-    const std::string startdurability = colorize( pt.get_base().damage_symbol(),
-                                        pt.get_base().damage_color() );
-    bool wasbroken = pt.is_broken();
-    if( wasbroken ) {
-        const units::angle dir = pt.direction;
-        point loc = pt.mount;
-        auto replacement_id = pt.info().get_id();
+    const std::string partname = pt.name( false );
+    const std::string startdurability = pt.get_base().damage_indicator();
+    if( pt.is_broken() ) {
+        const vpart_id vpid = pt.info().id;
+        const point mount = pt.mount;
+        const units::angle direction = pt.direction;
+        const std::string variant = pt.variant;
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
-        veh.remove_part( part_index );
-        const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
-        veh.part( partnum ).direction = dir;
+        veh.remove_part( pt );
+        const int partnum = veh.install_part( mount, vpid, std::move( base ) );
+        if( partnum >= 0 ) {
+            vehicle_part &vp = veh.part( partnum );
+            vp.direction = direction;
+            vp.variant = variant;
+        }
         veh.part_removal_cleanup();
+        who.add_msg_if_player( m_good, _( "You replace the %1$s's %2$s. (was %3$s)" ),
+                               veh.name, partname, startdurability );
     } else {
         veh.set_hp( pt, pt.info().durability, true );
+        who.add_msg_if_player( m_good, _( "You repair the %1$s's %2$s. (was %3$s)" ),
+                               veh.name, partname, startdurability );
     }
-
-    // TODO: NPC doing that
-    who.add_msg_if_player( m_good,
-                           wasbroken ? _( "You replace the %1$s's %2$s. (was %3$s)" ) :
-                           _( "You repair the %1$s's %2$s. (was %3$s)" ), veh.name,
-                           partname, startdurability );
     return true;
 }
 
@@ -189,15 +167,39 @@ veh_menu_item &veh_menu_item::text( const std::string &text )
     return *this;
 }
 
+veh_menu_item &veh_menu_item::text_color( const nc_color text_color )
+{
+    this->_text_color = text_color;
+    return *this;
+}
+
 veh_menu_item &veh_menu_item::desc( const std::string &desc )
 {
     this->_desc = desc;
     return *this;
 }
 
+veh_menu_item &veh_menu_item::symbol( const int symbol )
+{
+    this->_symbol = symbol;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::symbol_color( const nc_color symbol_color )
+{
+    this->_symbol_color = symbol_color;
+    return *this;
+}
+
 veh_menu_item &veh_menu_item::enable( const bool enable )
 {
     this->_enabled = enable;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::select( const bool select )
+{
+    this->_selected = select;
     return *this;
 }
 
@@ -213,49 +215,39 @@ veh_menu_item &veh_menu_item::skip_locked_check( const bool skip_locked_check )
     return *this;
 }
 
-static cata::optional<input_event> veh_keybind( const cata::optional<std::string> &hotkey )
+static std::optional<input_event> veh_keybind( const std::optional<std::string> &hotkey )
 {
     if( !hotkey.has_value() || hotkey->empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
-    const std::vector<input_event> hk_keycode = input_context( "VEHICLE", keyboard_mode::keycode )
-            .keys_bound_to( *hotkey, /* maximum_modifier_count = */ 1 );
-    if( !hk_keycode.empty() ) {
-        return hk_keycode.front(); // try for keycode hotkey first
+    const std::vector<input_event> hk = input_context( "VEHICLE" )
+                                        .keys_bound_to( *hotkey, /* maximum_modifier_count = */ 1 );
+    if( !hk.empty() ) {
+        return hk.front();
     }
 
-    const std::vector<input_event> hk_keychar = input_context( "VEHICLE", keyboard_mode::keychar )
-            .keys_bound_to( *hotkey );
-    if( !hk_keychar.empty() ) {
-        return hk_keychar.front(); // fallback to keychar hotkey
-    }
-
-    return cata::nullopt;
+    return input_event();
 }
 
 veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
 {
-    if( this->_hotkey_action.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(hotkey_char) called when hotkey action is already set" );
-    }
+    this->_hotkey_action = std::nullopt;
     this->_hotkey_char = hotkey_char;
     return *this;
 }
 
 veh_menu_item &veh_menu_item::hotkey( const std::string &action )
 {
-    if( this->_hotkey_char.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(action) called when hotkey char is already set" );
-    }
     this->_hotkey_action = action;
+    this->_hotkey_char = std::nullopt;
     return *this;
 }
 
 veh_menu_item &veh_menu_item::hotkey_auto()
 {
-    this->_hotkey_char = MENU_AUTOASSIGN;
-    this->_hotkey_action = cata::nullopt;
+    this->_hotkey_char = std::nullopt;
+    this->_hotkey_action = std::nullopt;
     return *this;
 }
 
@@ -265,13 +257,19 @@ veh_menu_item &veh_menu_item::on_submit( const std::function<void()> &on_submit 
     return *this;
 }
 
+veh_menu_item &veh_menu_item::on_select( const std::function<void()> &on_select )
+{
+    this->_on_select = on_select;
+    return *this;
+}
+
 veh_menu_item &veh_menu_item::keep_menu_open( const bool keep_menu_open )
 {
     this->_keep_menu_open = keep_menu_open;
     return *this;
 }
 
-veh_menu_item &veh_menu_item::location( const cata::optional<tripoint> &location )
+veh_menu_item &veh_menu_item::location( const std::optional<tripoint> &location )
 {
     this->_location = location;
     return *this;
@@ -305,6 +303,12 @@ std::vector<veh_menu_item> veh_menu::get_items() const
     return items;
 }
 
+void veh_menu::sort( const std::function<int( const veh_menu_item &a, const veh_menu_item &b )>
+                     &comparer )
+{
+    std::sort( items.begin(), items.end(), comparer );
+}
+
 std::vector<tripoint> veh_menu::get_locations() const
 {
     std::vector<tripoint> locations;
@@ -320,7 +324,7 @@ std::vector<tripoint> veh_menu::get_locations() const
 
 void veh_menu::reset( bool keep_last_selected )
 {
-    last_selected = keep_last_selected ? last_selected : 0;
+    last_selected = keep_last_selected ? last_selected : std::nullopt;
     items.clear();
 }
 
@@ -330,14 +334,21 @@ std::vector<uilist_entry> veh_menu::get_uilist_entries() const
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
-        const cata::optional<input_event> hotkey_event = veh_keybind( it._hotkey_action );
-        uilist_entry entry = hotkey_event.has_value()
-                             ? uilist_entry( it._text, hotkey_event )
-                             : uilist_entry( it._text, it._hotkey_char.value_or( 0 ) );
+        uilist_entry entry( it._text, std::nullopt );
+        if( it._hotkey_action.has_value() ) {
+            entry = uilist_entry( it._text, veh_keybind( it._hotkey_action ) );
+        } else if( it._hotkey_char.has_value() ) {
+            entry = uilist_entry( it._text, it._hotkey_char.value() );
+        }
 
         entry.retval = static_cast<int>( i );
         entry.desc = it._desc;
         entry.enabled = it._enabled;
+        entry.text_color = it._text_color;
+        if( it._symbol != 0 ) {
+            entry.extratxt.color = it._symbol_color;
+            entry.extratxt.sym = it._symbol;
+        }
 
         if( it._check_locked && veh.is_locked ) {
             entry.enabled = false;
@@ -352,6 +363,56 @@ std::vector<uilist_entry> veh_menu::get_uilist_entries() const
 
     return entries;
 }
+
+class veh_menu_cb : public uilist_callback
+{
+    public:
+        explicit veh_menu_cb( const std::vector<tripoint> &pts ) : points( pts ) {
+            last = INT_MIN;
+            avatar &player_character = get_avatar();
+            last_view = player_character.view_offset;
+            terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
+                if( draw_trail && last >= 0 && static_cast<size_t>( last ) < points.size() ) {
+                    g->draw_trail_to_square( player_character.view_offset, true );
+                }
+            } );
+            g->add_draw_callback( terrain_draw_cb );
+        }
+
+        ~veh_menu_cb() override {
+            get_avatar().view_offset = last_view;
+        }
+
+        std::function<void()> on_select;
+        bool draw_trail;
+    private:
+        const std::vector< tripoint > &points;
+        int last; // to suppress redrawing
+        tripoint last_view; // to reposition the view after selecting
+        shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
+
+        void select( uilist *menu ) override {
+            if( last == menu->selected ) {
+                return;
+            }
+            last = menu->selected;
+            avatar &player_character = get_avatar();
+            if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
+                player_character.view_offset = tripoint_zero;
+            } else {
+                const tripoint &center = points[menu->selected];
+                player_character.view_offset = center - player_character.pos();
+                // Remove next line if/when it's wanted/safe to shift view to other zlevels
+                player_character.view_offset.z = 0;
+            }
+            g->invalidate_main_ui_adaptor();
+            if( on_select ) {
+                on_select();
+                map &m = get_map();
+                m.invalidate_map_cache( m.get_abs_sub().z() );
+            }
+        }
+};
 
 bool veh_menu::query()
 {
@@ -371,7 +432,6 @@ bool veh_menu::query()
 
     menu.title = title;
     menu.entries = get_uilist_entries();
-    menu.desc_lines_hint = desc_lines_hint;
     menu.desc_enabled = std::any_of( menu.entries.begin(), menu.entries.end(),
     []( const uilist_entry & it ) {
         return !it.desc.empty();
@@ -379,15 +439,30 @@ bool veh_menu::query()
     menu.hilight_disabled = true;
 
     const std::vector<tripoint> locations = get_locations();
-    pointmenu_cb callback( locations );
+    veh_menu_cb cb( locations );
+
+    cb.on_select = [this, &menu]() {
+        if( items[menu.selected]._on_select ) {
+            items[menu.selected]._on_select();
+        }
+    };
+
     if( locations.size() == items.size() ) { // all items have valid location attached
-        menu.callback = &callback;
-        menu.w_x_setup = 4; // move menu to the left so more space around vehicle is visible
+        menu.callback = &cb;
+        menu.desired_bounds = { 4.0, -1.0, -1.0, -1.0 };
     } else {
         menu.callback = nullptr;
     }
 
-    menu.selected = last_selected;
+    if( last_selected.has_value() ) { // have selection from previous query
+        menu.selected = std::min( static_cast<int>( items.size() ), last_selected.value() );
+    } else { // find first element with select enabled
+        for( menu.selected = 0; menu.selected < static_cast<int>( items.size() ); menu.selected++ ) {
+            if( items[menu.selected]._selected ) {
+                break; // found first selected element
+            }
+        }
+    }
     menu.query();
     last_selected = menu.selected;
 
@@ -410,6 +485,7 @@ bool veh_menu::query()
 
     veh.refresh();
     map &m = get_map();
+    m.invalidate_visibility_cache();
     m.invalidate_map_cache( m.get_abs_sub().z() );
 
     return chosen._keep_menu_open;

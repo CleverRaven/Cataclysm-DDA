@@ -1,0 +1,751 @@
+[
+  {
+    "id": "pyrokinetic_eruption",
+    "type": "SPELL",
+    "name": "[Ψ]Fountain of Flames",
+    "description": "Cause a burst of flames at the target location.",
+    "message": "You summon flames!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_eruption') * 1.5) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_eruption') * 3) + 26) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "clamp( (( (u_spell_level('pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1, 5)"
+      ]
+    },
+    "max_range": 5,
+    "field_id": "fd_fire",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_chance": 2,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1950,
+    "final_energy_cost": 700,
+    "energy_increment": -75,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "a crackle!",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "pyrokinetic_flash",
+    "type": "SPELL",
+    "name": "[Ψ]Brilliant Flash",
+    "description": "By strongly exciting the air at a particular point, you produce a burst of light.",
+    "message": "The air erupts into an eye-searing flash!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_PROJECTILE", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 1,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "affected_body_parts": [ "eyes" ],
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_flash') * 1.2) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+      ]
+    },
+    "max_range": 50,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_flash') * 0.25) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 8)"
+      ]
+    },
+    "max_aoe": 8,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_flash') * 50) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_flash') * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 1750,
+    "final_energy_cost": 550,
+    "energy_increment": -80,
+    "base_casting_time": 150,
+    "final_casting_time": 50,
+    "casting_time_increment": -8,
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "pyrokinetic_cauterize",
+    "type": "SPELL",
+    "name": "[Ψ]Cauterize",
+    "description": "Using an extremely focused application of pyrokinesis, sear a wound shut to stop the bleeding.  This is liable to be painful and is almost certainly likely to just cause more damage if you don't have any medical knowledge.  If the bleeding is too strong, cauterization will be ineffective, and there is a <color_red>chance of infection</color> whether you are successful or not.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_PROJECTILE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_CAUTERIZE_SELECTOR",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 2200,
+    "final_energy_cost": 750,
+    "energy_increment": -95,
+    "base_casting_time": 600
+  },
+  {
+    "id": "pyrokinetic_call_flames",
+    "type": "SPELL",
+    "name": "[Ψ]Banked Flames (C)",
+    "description": "Call up flames over your outstretched hand.  You can use them to heat up food, boil water, start fires, or anything else fire can accomplish.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_CALL_FLAME_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_call_flames') * 5000) + 50000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_call_flames') * 16000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 0 : max((2500 - (u_spell_level('pyrokinetic_call_flames') * 150)), 800)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 10 : max((250 -(u_spell_level('pyrokinetic_call_flames') * 10)), 75)"
+      ]
+    }
+  },
+  {
+    "id": "pyrokinetic_quell_flames",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Fire",
+    "description": "As you can create fire, you can also extinguish it.",
+    "message": "You disperse the flames harmlessly.",
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "ter_transform",
+    "effect_str": "ter_pyrokin_quell_fire",
+    "extra_effects": [ { "id": "pyrokinetic_quell_flames_self", "hit_self": true } ],
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_quell_flames') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+      ]
+    },
+    "max_aoe": 50,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1000,
+    "energy_increment": -120,
+    "base_casting_time": 125,
+    "final_casting_time": 50,
+    "casting_time_increment": -7.5
+  },
+  {
+    "id": "pyrokinetic_quell_flames_self",
+    "type": "SPELL",
+    "name": "[Ψ]Quell Fire On Self",
+    "description": "As you can create fire, you can also extinguish it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self", "ally", "ground", "hostile" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 3,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "remove_effect",
+    "effect_str": "onfire",
+    "shape": "blast",
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_quell_flames') * 0.5) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+      ]
+    },
+    "max_aoe": 50
+  },
+  {
+    "id": "pyrokinetic_cloak",
+    "type": "SPELL",
+    "name": "[Ψ]Cloak of Warmth (C)",
+    "description": "Control the temperature of the nearby air, warming you and protecting you against flames.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 4,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_WARMTH_CLOAK_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_cloak') * 2900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_cloak') * 19200) + 144000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 0 : max((4500 - (u_spell_level('pyrokinetic_cloak') * 160)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 10 : max((250 -(u_spell_level('pyrokinetic_cloak') * 11)), 75)"
+      ]
+    }
+  },
+  {
+    "id": "pyrokinetic_flamethrower",
+    "type": "SPELL",
+    "name": "[Ψ]Flamethrower",
+    "description": "Spray fire in a cone in front of you.",
+    "message": "You hurl a spray of flames.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "cone",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_flamethrower') * 1.5) + 15) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_flamethrower') * 2.5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_flamethrower') * 0.3) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
+      ]
+    },
+    "max_range": 20,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 120)"
+      ]
+    },
+    "max_aoe": 120,
+    "field_id": "fd_fire",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_chance": 5,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1600,
+    "energy_increment": -150,
+    "base_casting_time": 100,
+    "final_casting_time": 35,
+    "casting_time_increment": -6,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "a crackle!",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "pyrokinetic_lance",
+    "type": "SPELL",
+    "name": "[Ψ]Incandescent Lance (C)",
+    "description": "Concentrate heat into a thin, searing beam capable of cutting through solid metal or welding it together.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  It is <color_red>canceled by engaging in combat</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 5,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_TORCH_WELD_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_lance') * 11400) + 20500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_lance') * 49200) + 246000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_torch_weld') > -1 ? 0 : max((5000 - (u_spell_level('pyrokinetic_lance') * 125)), 2000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_torch_weld') > -1 ? 10 : max((650 -(u_spell_level('pyrokinetic_lance') * 12)), 320)"
+      ]
+    }
+  },
+  {
+    "id": "pyrokinetic_thermogenesis",
+    "type": "SPELL",
+    "name": "[Ψ]Thermogenesis",
+    "description": "Heat the air nearby and maintain it, taking off the chill or turning winter to warm summer.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SPELL_PYROKIN_THERMOGENESIS_SELECTOR",
+    "//": "No drain on the spell, it's all in the selector.",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 8000,
+    "final_energy_cost": 4000,
+    "energy_increment": -200,
+    "base_casting_time": 1500,
+    "final_casting_time": 1200,
+    "casting_time_increment": -10
+  },
+  {
+    "id": "pyrokin_summon_thermogenesis_1",
+    "type": "SPELL",
+    "name": "[Ψ]Thermogenesis #1",
+    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
+    "effect_str": "mon_pyrokin_hotair_1",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 3,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    }
+  },
+  {
+    "id": "pyrokin_summon_thermogenesis_2",
+    "type": "SPELL",
+    "name": "[Ψ]Thermogenesis #2",
+    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
+    "effect_str": "mon_pyrokin_hotair_2",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 3,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    }
+  },
+  {
+    "id": "pyrokin_summon_thermogenesis_3",
+    "type": "SPELL",
+    "name": "[Ψ]Thermogenesis #1",
+    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
+    "effect_str": "mon_pyrokin_hotair_3",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 3,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    }
+  },
+  {
+    "id": "pyrokin_summon_thermogenesis_4",
+    "type": "SPELL",
+    "name": "[Ψ]Thermogenesis #1",
+    "description": "The spell to summon a thermogenesis node.  It's a bug if you have it directly.",
+    "valid_targets": [ "ground" ],
+    "teachable": false,
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "summon",
+    "effect_str": "mon_pyrokin_hotair_4",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 3,
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 15000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_thermogenesis') * 30000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    }
+  },
+  {
+    "id": "pyrokin_banish_thermogenesis",
+    "type": "SPELL",
+    "name": "[Ψ]Banish Thermogenesis",
+    "description": "The spell to banish existing thermogenesis nodes.  It's a bug if you have it directly.",
+    "teachable": false,
+    "valid_targets": [ "ally" ],
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "NO_PROJECTILE", "IGNORE_WALLS" ],
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "pure",
+    "min_damage": 100,
+    "max_damage": 100,
+    "min_aoe": 60,
+    "max_aoe": 60,
+    "targeted_monster_ids": [ "mon_pyrokin_hotair_1", "mon_pyrokin_hotair_2", "mon_pyrokin_hotair_3", "mon_pyrokin_hotair_4" ]
+  },
+  {
+    "id": "pyrokinetic_aura",
+    "type": "SPELL",
+    "name": "[Ψ]Blazing Aura (C)",
+    "description": "Surround yourself with a cloud of flames, damaging anyone in melee combat with you.  The flames also produce light.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_BLAZING_AURA_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_aura') * 700) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_aura') * 1900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_aura') > -1 ? 0 : max((6500 - (u_spell_level('pyrokinetic_aura') * 175)), 3500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_aura') > -1 ? 10 : max((125 -(u_spell_level('pyrokinetic_aura') * 6.5)), 50)"
+      ]
+    },
+    "sound_id": "fire_spell"
+  },
+  {
+    "id": "pyrokinetic_flame_immunity",
+    "type": "SPELL",
+    "name": "[Ψ]Flameshield (C)",
+    "description": "Your power over fire is such that you can now step directly into raging flames and walk through them unharmed, feeling no more than a pleasant warmth.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_PYROKIN_FLAME_IMMUNITY_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_flame_immunity') * 1100) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_flame_immunity') * 4700) + 57000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 0 : max((7750 - (u_spell_level('pyrokinetic_flame_immunity') * 165)), 4000)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 10 : max((150 -(u_spell_level('pyrokinetic_flame_immunity') * 6.5)), 75)"
+      ]
+    }
+  },
+  {
+    "id": "pyrokinetic_blast",
+    "type": "SPELL",
+    "name": "[Ψ]Conflagration",
+    "description": "Create an expanding fireball that catches multiple targets in its wake.",
+    "message": "You call forth a raging inferno!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 7,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_blast') * 2.5n) + 37) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_blast') * 5) + 115) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+      ]
+    },
+    "max_range": 70,
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_blast') * 0.4) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 25)"
+      ]
+    },
+    "max_aoe": 25,
+    "field_id": "fd_fire",
+    "min_field_intensity": 1,
+    "max_field_intensity": 2,
+    "field_chance": 4,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 7500,
+    "final_energy_cost": 3500,
+    "energy_increment": -125,
+    "base_casting_time": 150,
+    "final_casting_time": 35,
+    "casting_time_increment": -7,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "pyrokinetic_aoe_blast",
+    "type": "SPELL",
+    "name": "[Ψ]Hellfire",
+    "description": "Send forth raging flames and turn the ground around you into an inferno.  You will be <color_yellow>briefly</color> immune to the aftereffects of your own power as well.",
+    "message": "The ground around you explodes in flames!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "pyrokinetic_aoe_blast_immunity", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_aoe_blast') * 5) + 65) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_aoe_blast') * 8.5) + 169) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_aoe_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 35)"
+      ]
+    },
+    "max_aoe": 35,
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 1,
+    "field_chance": 2,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 9000,
+    "final_energy_cost": 6000,
+    "energy_increment": -220,
+    "base_casting_time": 175,
+    "final_casting_time": 55,
+    "casting_time_increment": -8,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  },
+  {
+    "id": "pyrokinetic_aoe_blast_immunity",
+    "type": "SPELL",
+    "name": "[Ψ]Hellfire Immunity spell",
+    "description": "This prevents the pyrokinetic from dying in heat and flames after using Hellfire.  It's a bug if you have it directly.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "effect_pyrokinetic_flame_immunity",
+    "shape": "blast",
+    "min_duration": 2000,
+    "max_duration": 4000,
+    "duration_increment": 150
+  },
+  {
+    "id": "pyrokinetic_incineration",
+    "type": "SPELL",
+    "name": "[Ψ]Crucible",
+    "description": "Concentrate the entirety of your power into a single white-hot point, searing your target with the heat of a volcano.",
+    "message": "You focus all of your power onto a single point!",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "PYROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "LOUD", "NO_PROJECTILE", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "attack",
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_incineration') * 10) + 150) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_damage": {
+      "math": [
+        "( (u_spell_level('pyrokinetic_incineration') * 25) + 400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "min_range": {
+      "math": [
+        "min( (( (u_spell_level('pyrokinetic_incineration') * 0.5) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
+      ]
+    },
+    "max_range": 20,
+    "field_id": "fd_fire",
+    "min_field_intensity": 3,
+    "max_field_intensity": 3,
+    "field_chance": 1,
+    "energy_source": "STAMINA",
+    "base_energy_cost": 12000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 200,
+    "final_casting_time": 75,
+    "casting_time_increment": -4,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!",
+    "ignored_monster_species": [ "PSI_NULL" ]
+  }
+]

@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_ADDICTION_H
 #define CATA_SRC_ADDICTION_H
 
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <vector>
 
 #include "calendar.h"
 #include "translation.h"
@@ -11,7 +13,6 @@
 class Character;
 class JsonObject;
 class JsonOut;
-class time_duration;
 
 struct add_type {
     private:
@@ -27,7 +28,7 @@ struct add_type {
         static void load_add_types( const JsonObject &jo, const std::string &src );
         static void reset();
         static void check_add_types();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<add_type> &get_all();
 
         const translation &get_name() const {
@@ -62,7 +63,7 @@ class addiction
         time_duration sated = 1_hours;
 
         addiction() = default;
-        explicit addiction( addiction_id const t, const int i = 1 ) : type {t}, intensity {i} { }
+        explicit addiction( const addiction_id &t, const int i = 1 ) : type {t}, intensity {i} { }
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );

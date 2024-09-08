@@ -29,11 +29,7 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void LargeStackObjectCheck::registerMatchers( MatchFinder *Finder )
@@ -62,7 +58,11 @@ static void CheckDecl( LargeStackObjectCheck &Check, const MatchFinder::MatchRes
         return;
     }
 
+#if defined(LLVM_VERSION_MAJOR) && LLVM_VERSION_MAJOR >= 17
+    if( std::optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+#else
     if( Optional<CharUnits> VarSize = Result.Context->getTypeSizeInCharsIfKnown( T ) ) {
+#endif
         int VarSize_KiB = *VarSize / CharUnits::fromQuantity( 1024 );
 
         if( VarSize_KiB >= 100 ) {
@@ -80,6 +80,4 @@ void LargeStackObjectCheck::check( const MatchFinder::MatchResult &Result )
     CheckDecl( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -6,8 +6,8 @@
     "description": "An embroidered leather bandolier for keeping pistol cartridges close to hand.  If this doesn't make you feel like a cowboy, nothing will.",
     "weight": "140 g",
     "volume": "250 ml",
-    "price": 1900,
-    "price_postapoc": 1500,
+    "price": "19 USD",
+    "price_postapoc": "15 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -36,10 +36,11 @@
           "460": 18,
           "500": 18
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_SMALL" ],
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -49,8 +50,8 @@
     "description": "A leather bandolier for keeping rifle cartridges close to hand.",
     "weight": "140 g",
     "volume": "250 ml",
-    "price": 1900,
-    "price_postapoc": 1500,
+    "price": "19 USD",
+    "price_postapoc": "15 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -63,22 +64,28 @@
           "223": 16,
           "270win": 16,
           "300blk": 16,
-          "5x50": 16,
           "545x39": 16,
           "3006": 16,
+          "123ln": 16,
+          "303": 16,
+          "77mm_arisaka": 16,
           "308": 16,
           "300": 16,
           "762": 16,
           "762R": 16,
           "8x40mm": 16,
           "4570": 16,
+          "50beowulf": 16,
+          "450": 16,
+          "338lapua": 16,
           "50": 16,
-          "700nx": 16
+          "458wm": 16
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
@@ -88,14 +95,20 @@
     "description": "A leather bandolier worn around the waist for keeping shotgun shells close to hand.",
     "weight": "140 g",
     "volume": "500 ml",
-    "price": 1900,
-    "price_postapoc": 1500,
+    "price": "19 USD",
+    "price_postapoc": "15 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 } ],
+    "pocket_data": [
+      {
+        "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 },
+        "moves": 25,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
@@ -106,8 +119,9 @@
     "//": "It's very much similar to the torso shotgun bandolier I'm patterning this off of, so I'm keeping the data the same.",
     "name": { "str": "torso grenade bandolier" },
     "description": "A leather bandolier strapped around the torso for keeping 40mm grenades close to hand.  For some reason, wearing this makes you feel Austrian.",
-    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20 } ],
-    "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier."
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 6, "40x53mm": 6 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
+    "//2": "The image I found when I went looking showed Arnie carrying six grenades in a bandolier.",
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "torso_bandolier_shotgun",
@@ -116,14 +130,20 @@
     "description": "A leather bandolier strapped around the torso for keeping shotgun shells close to hand.",
     "weight": "200 g",
     "volume": "1 L",
-    "price": 3900,
-    "price_postapoc": 2500,
+    "price": "39 USD",
+    "price_postapoc": "25 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 }, "moves": 35 } ],
+    "pocket_data": [
+      {
+        "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 },
+        "moves": 35,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
     "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
     "armor": [ { "encumbrance": 3, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
@@ -134,8 +154,8 @@
     "description": "A covered leather pouch, worn at the waist to store and protect prepared blackpowder cartridges.",
     "weight": "160 g",
     "volume": "500 ml",
-    "price": 4900,
-    "price_postapoc": 1000,
+    "price": "49 USD",
+    "price_postapoc": "10 USD",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ammo_pouch",
@@ -143,8 +163,9 @@
     "material_thickness": 1,
     "pocket_data": [
       {
-        "ammo_restriction": { "flintlock": 14, "36paper": 14, "44paper": 14, "blunderbuss": 14, "shotpaper": 14 },
-        "moves": 20
+        "ammo_restriction": { "flintlock": 14, "36paper": 14, "44paper": 14, "blunderbuss": 14 },
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE", "OVERSIZE" ],
@@ -157,8 +178,8 @@
     "description": "A small fabric bandolier for rifle cartridges, designed to be worn around the wrist.",
     "weight": "30 g",
     "volume": "250 ml",
-    "price": 2900,
-    "price_postapoc": 500,
+    "price": "29 USD",
+    "price_postapoc": "5 USD",
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -172,19 +193,24 @@
           "223": 4,
           "270win": 4,
           "300blk": 4,
-          "5x50": 4,
           "545x39": 4,
           "3006": 4,
+          "303": 4,
+          "77mm_arisaka": 4,
           "308": 4,
           "300": 4,
           "762": 4,
           "762R": 4,
           "8x40mm": 4,
           "4570": 4,
+          "50beowulf": 4,
+          "450": 4,
+          "338lapua": 4,
           "50": 4,
-          "700nx": 4
+          "458wm": 4
         },
-        "moves": 20
+        "moves": 20,
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_SMALL", "ALLOWS_NATURAL_ATTACKS" ],
@@ -197,15 +223,15 @@
     "description": "A small pouch for storing cartridge grenades, with straps for attaching it to your belt or other webbing.",
     "weight": "90 g",
     "volume": "250 ml",
-    "price": 5900,
-    "price_postapoc": 750,
+    "price": "59 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_MEDIUM" ],
     "armor": [
       {
@@ -223,15 +249,15 @@
     "description": "A medium-sized pouch for storing rocks, with straps for attaching it to your belt or other webbing.",
     "weight": "180 g",
     "volume": "500 ml",
-    "price": 5900,
-    "price_postapoc": 750,
+    "price": "59 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "cotton", "leather" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
@@ -249,15 +275,15 @@
     "description": "A medium-sized pouch for storing rocks, made of heavy leather, with straps for attaching it to your belt or other webbing.",
     "weight": "380 g",
     "volume": "500 ml",
-    "price": 5900,
-    "price_postapoc": 750,
+    "price": "59 USD",
+    "price_postapoc": "7 USD 50 cent",
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
     "sided": true,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "rock": 10, "pebble": 80 }, "moves": 20, "volume_encumber_modifier": 0.3 } ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "PALS_LARGE" ],
     "armor": [
       {
@@ -272,11 +298,11 @@
     "id": "grenadebandolier",
     "type": "ARMOR",
     "name": { "str": "large grenade pouch", "str_pl": "large grenade pouches" },
-    "description": "A pouch for holding up to four full-sized grenades of various types.",
+    "description": "A pouch for holding up to four full-sized grenades of various types, with straps for attaching it to your belt or other webbing.",
     "weight": "600 g",
     "volume": "1250 ml",
-    "price": 3000,
-    "price_postapoc": 1250,
+    "price": "30 USD",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_belt",
@@ -288,77 +314,88 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "750 ml",
         "max_contains_weight": "2 kg",
         "moves": 30,
-        "flag_restriction": [ "GRENADE" ]
+        "flag_restriction": [ "GRENADE" ],
+        "volume_encumber_modifier": 0.3
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "flags": [ "WATER_FRIENDLY", "BELTED", "PALS_LARGE" ],
     "armor": [ { "coverage": 25, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
   {
     "id": "cheap_ammo_pouch",
     "type": "ARMOR",
-    "name": "cheap ammo bandolier",
-    "description": "A small bandolier with four pouches that perfectly fit standard STANAG 30-round magazines.  You could also use them to store several smaller ammo clips or other items.",
+    "name": "military 5.56 bandolier",
+    "description": "A simple bag on a strap, partitioned into pouches for four STANAG 30-round magazines or twelve 10-round 5.56x45mm stripper clips.  When full, this bandolier is more encumbering than proper kit and slower to reload from, but it at least offers a quick and cheap means of resupplying ammunition.",
     "weight": "60 g",
     "volume": "40 ml",
-    "price": 600,
-    "price_postapoc": 15,
-    "to_hit": -1,
+    "price": "6 USD",
+    "price_postapoc": "15 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
     "color": "brown",
-    "material_thickness": 1,
+    "material_thickness": 0.1,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "290 ml",
         "max_contains_weight": "650 g",
-        "max_item_length": "200 mm"
+        "max_item_length": "200 mm",
+        "volume_encumber_modifier": 1.5,
+        "moves": 65
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "cheap_ammo_pouch_belt223",
@@ -367,9 +404,8 @@
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M249 SAW.",
     "weight": "60 g",
     "volume": "40 ml",
-    "price": 600,
-    "price_postapoc": 15,
-    "to_hit": -1,
+    "price": "6 USD",
+    "price_postapoc": "15 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -378,13 +414,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "2100 ml",
+        "max_contains_volume": "870 ml",
         "max_contains_weight": "7000 g",
-        "max_item_length": "60 mm"
+        "max_item_length": "80 mm"
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "cheap_ammo_pouch_belt308",
@@ -393,9 +429,8 @@
     "description": "A large cotton pouch, designed to store a spare ammo belt for the M240 or M60 machine guns.",
     "weight": "60 g",
     "volume": "40 ml",
-    "price": 600,
-    "price_postapoc": 15,
-    "to_hit": -1,
+    "price": "6 USD",
+    "price_postapoc": "15 cent",
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -404,12 +439,13 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "4000 ml",
-        "max_contains_weight": "10000 g",
-        "max_item_length": "72 mm"
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "90 mm",
+        "volume_encumber_modifier": 0.3
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 7, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   }
 ]

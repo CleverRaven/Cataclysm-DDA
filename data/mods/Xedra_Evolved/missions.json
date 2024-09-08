@@ -9,5 +9,55 @@
     "value": 0,
     "start": { "assign_mission_target": { "om_terrain": "safe_house", "om_special": "safe_house", "search_range": 200 } },
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_KILL_DREAM_DRAINER",
+    "type": "mission_definition",
+    "name": { "str": "Kill that mosquito" },
+    "description": "You summoned a dream-draining mosquito.  Now it is time for you to kill it.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_dream_drainer_mosquito",
+    "monster_kill_goal": 1,
+    "difficulty": 10,
+    "value": 0,
+    "end": { "effect": { "run_eocs": "EOC_DREAM_DRAINER_LOOT" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
+  },
+  {
+    "id": "MISSION_KILL_LUNA_ATTUNED",
+    "type": "mission_definition",
+    "name": { "str": "Kill the Luna-attuned revenant" },
+    "description": "You created a Luna-attuned revenant.  Now it is time for you to kill it.",
+    "goal": "MGOAL_KILL_MONSTER_TYPE",
+    "monster_type": "mon_luna_attuned_revenant",
+    "monster_kill_goal": 1,
+    "difficulty": 10,
+    "value": 0,
+    "end": { "effect": { "run_eocs": "EOC_LUNA_ATTUNED_LOOT" } },
+    "has_generic_rewards": false,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "",
+      "offer": "",
+      "accepted": "",
+      "rejected": "",
+      "advice": "",
+      "inquire": "",
+      "success": "",
+      "success_lie": "",
+      "failure": ""
+    }
   }
 ]

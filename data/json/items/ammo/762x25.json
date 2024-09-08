@@ -4,12 +4,14 @@
     "type": "AMMO",
     "name": { "str_sp": "7.62x25mm JHP" },
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
+    "ascii_picture": "762_25",
     "weight": "10 g",
     "volume": "107 ml",
-    "price": 100,
-    "price_postapoc": 800,
+    "longest_side": "35 mm",
+    "price": "1 USD",
+    "price_postapoc": "8 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "brass", "powder" ],
+    "material": [ "brass", "lead", "powder" ],
     "symbol": "=",
     "color": "light_gray",
     "count": 40,
@@ -26,9 +28,9 @@
     "id": "762_25hot",
     "copy-from": "762_25",
     "type": "AMMO",
-    "name": { "str": "7.62x25mm FMJ hot load" },
+    "name": { "str_sp": "7.62x25mm FMJ hot load" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  It is more powerful than the original.",
-    "relative": { "price": 500, "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
+    "relative": { "price": "5 USD", "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 3 } },
     "proportional": { "recoil": 1.4 }
   },
   {
@@ -41,7 +43,7 @@
     "weight": "12 g",
     "count": 50,
     "relative": {
-      "price": 2000,
+      "price": "20 USD",
       "range": -1,
       "damage": { "damage_type": "bullet", "amount": -9, "armor_penetration": 2 },
       "recoil": -270
@@ -70,5 +72,16 @@
     "name": { "str_sp": "7.62x25mm, reloaded" },
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9, "armor_penetration": 0.9 }, "dispersion": 1.1 }
+  },
+  {
+    "id": "matchhead_762_25",
+    "copy-from": "bp_762_25",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": "7.62x25mm, matchhead powder" },
+    "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with an 85 gr. FMJ bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_762_25",
+    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

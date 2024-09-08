@@ -81,7 +81,7 @@
       },
       {
         "id": "LESSON_WORE_MASK",
-        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, airborne toxins or organisms, and other common hazards.  However, they also make it a little harder to breath when running, so you'll move more slowly.  To check your encumbrance, press <keybind:player_data>."
+        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, airborne toxins or organisms, and other common hazards.  However, they also make it a little harder to breathe when running, so you'll move more slowly.  To check your encumbrance, press <keybind:player_data>."
       },
       {
         "id": "LESSON_WEAPON_INFO",
@@ -125,7 +125,7 @@
       },
       {
         "id": "LESSON_GUN_FIRE",
-        "text": "Finally, to fire a gun, press <keybind:fire>. You'll automatically target the last monster you shot at, or the closest monster to you.  You can change your target with the <color_yellow>movement keys</color>, or cycle through monsters with <keybind:TARGET:PREV_TARGET> and <keybind:TARGET:NEXT_TARGET>.  Select the <color_light_cyan>dummy</color> as a target and press <keybind:fire> to fire a a single shot.  With many guns, you can change the fire mode to burst or full auto by pressing <keybind:select_fire_mode>.\n\nThere are detailed instructions on how to aim and fire in the <color_light_cyan>Aiming and firing</color> menu, so make sure to check it carefully.\n\nTo continue the tutorial, please fire a couple of times at the dummy and move to the corridor to the west."
+        "text": "Finally, to fire a gun, press <keybind:fire>. You'll automatically target the last monster you shot at, or the closest monster to you.  You can change your target with the <color_yellow>movement keys</color>, or cycle through monsters with <keybind:TARGET:PREV_TARGET> and <keybind:TARGET:NEXT_TARGET>.  Select the <color_light_cyan>dummy</color> as a target and press <keybind:fire> to fire a single shot.  With many guns, you can change the fire mode to burst or full auto by pressing <keybind:select_fire_mode>.\n\nThere are detailed instructions on how to aim and fire in the <color_light_cyan>Aiming and firing</color> menu, so make sure to check it carefully.\n\nTo continue the tutorial, please fire a couple of times at the dummy and move to the corridor to the west."
       },
       {
         "id": "LESSON_RECOIL",

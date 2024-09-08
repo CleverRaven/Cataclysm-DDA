@@ -23,7 +23,8 @@
       { "group": "lab_shoes", "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
       { "group": "hazmat_gloves", "damage": [ 1, 4 ] },
-      { "group": "hazmat_masks", "damage": [ 1, 4 ] }
+      { "group": "hazmat_masks", "damage": [ 1, 4 ] },
+      { "item": "mask_plague", "damage": [ 1, 4 ], "prob": 25, "event": "halloween" }
     ]
   }
 ]

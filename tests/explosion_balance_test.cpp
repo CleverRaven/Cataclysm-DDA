@@ -8,9 +8,11 @@
 #include "cata_catch.h"
 #include "creature.h"
 #include "explosion.h"
+#include "fragment_cloud.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
+#include "iuse_actor.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -26,6 +28,10 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const ammo_effect_str_id ammo_effect_NULL_SOURCE( "NULL_SOURCE" );
+
+static const damage_type_id damage_bullet( "bullet" );
+
 enum class outcome_type {
     Kill, Casualty
 };
@@ -35,8 +41,8 @@ static float get_damage_vs_target( const std::string &target_id )
     projectile proj;
     proj.speed = 1000;
     // Arbitrary damage, we only care about scaling.
-    proj.impact = damage_instance( damage_type::BULLET, 10 );
-    proj.proj_effects.insert( "NULL_SOURCE" );
+    proj.impact = damage_instance( damage_bullet, 10 );
+    proj.proj_effects.insert( ammo_effect_NULL_SOURCE );
     dealt_projectile_attack frag;
     frag.proj = proj;
 
@@ -71,12 +77,28 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     std::stringstream survivor_stats;
     int total_hp = 0;
     clear_map_and_put_player_underground();
+    tripoint origin( 30, 30, 0 );
+    std::map<int, std::vector<tripoint>> circles;
+    circles[0] = { origin };
+    circles[5] = {
+        { 25, 28, 0 }, { 25, 29, 0 }, { 25, 30, 0 }, { 25, 31, 0 }, { 25, 32, 0 },
+        { 26, 26, 0 }, { 26, 34, 0 },
+        { 27, 26, 0 }, { 27, 34, 0 },
+        { 28, 25, 0 }, { 28, 35, 0 },
+        { 29, 25, 0 }, { 29, 35, 0 },
+        { 30, 25, 0 }, { 30, 35, 0 },
+        { 31, 25, 0 }, { 31, 35, 0 },
+        { 32, 25, 0 }, { 32, 35, 0 },
+        { 33, 26, 0 }, { 33, 34, 0 },
+        { 34, 26, 0 }, { 34, 34, 0 },
+        { 35, 28, 0 }, { 35, 29, 0 }, { 35, 30, 0 }, { 35, 31, 0 }, { 35, 32, 0 }
+    };
+    circles[15] = closest_points_first( origin, range );
     do {
         clear_creatures();
         // Spawn some monsters in a circle.
-        tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : closest_points_first( origin, range ) ) {
+        for( const tripoint &monster_position : circles[range] ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }
@@ -87,8 +109,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         }
         // Set off an explosion
         item grenade( explosive_id );
-        grenade.charges = 0;
-        grenade.type->invoke( get_avatar(), grenade, origin );
+        grenade.type->countdown_action.call( &get_avatar(), grenade, origin );
         explosion_handler::process_explosions();
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
@@ -97,7 +118,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         num_survivors += survivors.size();
         for( Creature *survivor : survivors ) {
             survivor_stats << survivor->pos() << " " << survivor->get_hp() << ", ";
-            bool wounded = survivor->get_hp() < survivor->get_hp_max();
+            bool wounded = survivor->get_hp() < survivor->get_hp_max() * 0.75;
             num_wounded += wounded ? 1 : 0;
             total_hp += survivor->get_hp();
             if( expected_outcome == outcome_type::Casualty && wounded ) {
@@ -115,6 +136,24 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     } while( victims.uncertain_about( target_lethality ) );
     CAPTURE( margin );
     INFO( explosive_id );
+    item grenade( explosive_id );
+    const explosion_data &ex = dynamic_cast<const explosion_iuse *>
+                               ( grenade.type->countdown_action.get_actor_ptr() )->explosion;
+    const shrapnel_data &shr = ex.shrapnel;
+    const float fragment_velocity = explosion_handler::gurney_spherical( ex.power, shr.casing_mass );
+    const float fragment_count = static_cast<float>( shr.casing_mass ) / shr.fragment_mass;
+    const fragment_cloud cloud_at_target =
+        shrapnel_calc( { fragment_velocity, fragment_count }, { 1.2, 1.0 }, std::max( 1, range ) );
+    std::poisson_distribution<> d( cloud_at_target.density );
+    int hits = d( rng_get_engine() );
+    INFO( "Casing mass " << shr.casing_mass );
+    INFO( "fragment mass " << shr.fragment_mass );
+    INFO( "Total fragments " << fragment_count );
+    INFO( "initial velocity " << fragment_velocity );
+    INFO( "damage per fragment " << explosion_handler::ballistic_damage( cloud_at_target.velocity,
+            shr.fragment_mass ) );
+    INFO( "fragments expected " << cloud_at_target.density );
+    INFO( "Sample fragment count " << hits );
     INFO( "range " << range );
     INFO( num_survivors << " survivors out of " << num_subjects << " targets." );
     INFO( survivor_stats.str() );
@@ -152,8 +191,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
 
     // Set off an explosion
     item grenade( explosive_id );
-    grenade.charges = 0;
-    grenade.type->invoke( get_avatar(), grenade, origin );
+    grenade.type->countdown_action.call( &get_avatar(), grenade, origin );
     explosion_handler::process_explosions();
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );

@@ -29,7 +29,7 @@ TEST_CASE( "monster_speed_description", "[monster][speed_description]" )
         monster mon( mon_id );
         return monster::speed_description(
                    mon.speed_rating(),
-                   mon.has_flag( MF_IMMOBILE ),
+                   mon.has_flag( mon_flag_IMMOBILE ),
                    mon.type->speed_desc
                );
     };

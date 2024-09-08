@@ -23,12 +23,10 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            {
-              "not": { "npc_has_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_tacoma_ranch_doctor_anesthetic_asked" } ] } }
           ]
         },
-        "effect": [ { "npc_add_var": "doctor_anesthetic_asked", "type": "mission", "context": "tacoma_ranch", "value": "yes" } ]
+        "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
       },
       { "text": "What is your job here?", "topic": "TALK_RANCH_NURSE_JOB" },
       { "text": "Do you need any help?", "topic": "TALK_RANCH_NURSE_HIRE" },
@@ -52,6 +50,9 @@
         "ifak",
         "antibiotics",
         "aspirin",
+        "ibuprofen",
+        "acetaminophen",
+        "naproxen",
         "bandages",
         "adhesive_bandages",
         "bfipowder",
@@ -88,16 +89,16 @@
     },
     "responses": [
       {
-        "text": "[$100, 15m] I need you to patch me up.",
+        "text": "[40 merch, 15m] I need you to patch me up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
-        "effect": [ { "u_spend_cash": 10000, "true_eocs": { "id": "EOC_lesser_give_aid", "effect": "lesser_give_aid" } } ],
-        "condition": { "npc_service": true }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 40 }, "lesser_give_aid" ],
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 40 } }
       },
       {
-        "text": "[$250, 30h] I need you to patch my friends up.",
+        "text": "[100 merch, 30m] I need you to patch my friends up.",
         "topic": "TALK_RANCH_NURSE_AID_DONE",
-        "effect": { "u_spend_cash": 25000, "true_eocs": { "id": "EOC_lesser_give_all_aid", "effect": "lesser_give_all_aid" } },
-        "condition": { "npc_service": true }
+        "effect": [ { "u_consume_item": "FMCNote", "count": 100 }, "lesser_give_all_aid" ],
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } }
       },
       { "text": "I should be fine.", "topic": "TALK_RANCH_NURSE" }
     ]
@@ -121,7 +122,7 @@
     "followup": "MISSION_RANCH_NURSE_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment… in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in, but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting a few bottles of aspirin to start with.",
+      "offer": "I've got a handful of bandages and a few first aid kits to work with at the moment… in other words I'm completely unable to treat most serious medical emergencies.  I'm supposed to have priority on any medical supplies that the scavengers bring in, but I imagine the black market for the stuff will prevent me from ever seeing it.  I could use your help getting me 100 aspirin pills to start with.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Aspirin is pretty common in homes and convenience stores.",
@@ -145,7 +146,7 @@
               "faction": "tacoma_commune"
             }
           ],
-          "place_item": [ { "item": "bandages", "x": 17, "y": 7, "amount": [ 1, 3 ], "faction": "tacoma_commune" } ]
+          "place_item": [ { "item": "bandages", "x": 17, "y": 7, "amount": [ 3, 9 ], "faction": "tacoma_commune" } ]
         }
       ]
     }
@@ -290,7 +291,7 @@
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_50",
-          "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "ranch_wall_upgrade1", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [
             { "point": "terrain", "id": "t_window_empty", "x": 2, "y": 18 },
             { "point": "terrain", "id": "t_window_empty", "x": 2, "y": 21 },
@@ -301,7 +302,7 @@
         },
         {
           "om_terrain": "ranch_camp_59",
-          "translate_ter": [ { "from": "t_wall_half", "to": "t_wall_wood", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "ranch_wall_upgrade1", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_item": [ { "item": "chemistry_set", "x": 5, "y": 5, "faction": "tacoma_commune" } ]
         }
       ]
@@ -333,24 +334,26 @@
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_50",
-          "translate_ter": [
-            { "from": "t_window_empty", "to": "t_window_boarded_noglass", "x": 0, "y": 0 },
-            { "from": "t_door_frame", "to": "t_door_c", "x": 0, "y": 0 }
+          "place_ter_furn_transforms": [
+            { "transform": "ranch_window_upgrade1", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+            { "transform": "fit_door", "x": [ 0, 23 ], "y": [ 0, 23 ] }
           ],
           "set": [
             { "square": "terrain", "id": "t_dirtfloor", "x": 3, "y": 17, "x2": 8, "y2": 22 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 17, "x2": 19, "y2": 22 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 18, "x2": 12, "y2": 23 }
-          ]
+          ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12a_roof" ], "x": 2, "y": 5, "z": 1 } ]
         },
         {
           "om_terrain": "ranch_camp_59",
-          "translate_ter": [ { "from": "t_door_frame", "to": "t_door_c", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "fit_door", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [
             { "square": "terrain", "id": "t_dirtfloor", "x": 5, "y": 0, "x2": 8, "y2": 2 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 10, "y": 0, "x2": 12, "y2": 4 },
             { "square": "terrain", "id": "t_dirtfloor", "x": 14, "y": 0, "x2": 17, "y2": 2 }
           ],
+          "place_nested": [ { "chunks": [ "tacoma_commune_clinic_12b_roof" ], "x": 3, "y": 0, "z": 1 } ],
           "place_item": [ { "item": "mask_filter", "x": 15, "y": 4, "amount": [ 2, 6 ], "faction": "tacoma_commune" } ]
         }
       ]
@@ -441,11 +444,11 @@
             { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 15, "y": 17 },
             { "chunks": [ "tacoma_commune_clinic_bed" ], "x": 18, "y": 17 }
           ],
-          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ]
+          "place_ter_furn_transforms": [ { "transform": "ranch_wall_upgrade2", "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
         },
         {
           "om_terrain": "ranch_camp_59",
-          "translate_ter": [ { "from": "t_wall_wood", "to": "t_wall", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "ranch_wall_upgrade2", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_items": [
             { "chance": 100, "item": "cleaning", "x": 17, "y": [ 0, 2 ], "repeat": [ 1, 3 ], "faction": "tacoma_commune" },
             {

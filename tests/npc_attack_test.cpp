@@ -11,13 +11,11 @@
 #include "options_helpers.h"
 #include "player_helpers.h"
 
-static const ammotype ammo_battery( "battery" );
-
 static const faction_id faction_your_followers( "your_followers" );
 
-static const itype_id itype_knife_chef( "knife_chef" );
-static const itype_id itype_power_armor_basic( "power_armor_basic" );
-static const itype_id itype_power_armor_basic_on( "power_armor_basic_on" );
+static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
+static const itype_id itype_combat_exoskeleton_medium_on( "combat_exoskeleton_medium_on" );
+static const itype_id itype_knife_large( "knife_large" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_wearable_light( "wearable_light" );
 
@@ -65,7 +63,7 @@ static monster *spawn_zombie_at_range( const int range )
 }
 } // namespace npc_attack_setup
 
-TEST_CASE( "NPC faces zombies", "[npc_attack]" )
+TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
 {
     get_player_character().setpos( main_npc_start_tripoint );
     clear_map_and_put_player_underground();
@@ -78,13 +76,13 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
     GIVEN( "There is a zombie 1 tile away" ) {
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
 
-        WHEN( "NPC only has a chef knife" ) {
-            item weapon( "knife_chef" );
+        WHEN( "NPC only has a large knife" ) {
+            item weapon( "knife_large" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
             THEN( "NPC attempts to melee the enemy target" ) {
-                main_npc.evaluate_best_weapon( zombie );
+                main_npc.evaluate_best_attack( zombie );
                 const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                 npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                 CHECK( melee_attack );
@@ -95,7 +93,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC only has an m16a4" ) {
-            arm_shooter( main_npc, "m16a4" );
+            arm_shooter( main_npc, "modular_m16a4" );
 
             WHEN( "NPC is allowed to use loud ranged weapons" ) {
                 main_npc.rules.set_flag( ally_rule::use_guns );
@@ -104,7 +102,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
                 REQUIRE( !main_npc.rules.has_flag( ally_rule::use_silent ) );
 
                 THEN( "NPC tries to shoot the enemy target" ) {
-                    main_npc.evaluate_best_weapon( zombie );
+                    main_npc.evaluate_best_attack( zombie );
                     const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                     npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
                     CHECK( ranged_attack );
@@ -119,7 +117,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
                 REQUIRE( main_npc.rules.has_flag( ally_rule::use_silent ) );
 
                 THEN( "NPC can't fire his weapon" ) {
-                    main_npc.evaluate_best_weapon( zombie );
+                    main_npc.evaluate_best_attack( zombie );
                     const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                     npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
                     CHECK( !ranged_attack );
@@ -130,7 +128,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
                 REQUIRE( !main_npc.rules.has_flag( ally_rule::use_guns ) );
 
                 THEN( "NPC can't fire his weapon" ) {
-                    main_npc.evaluate_best_weapon( zombie );
+                    main_npc.evaluate_best_attack( zombie );
                     const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                     npc_attack_gun *ranged_attack = dynamic_cast<npc_attack_gun *>( attack.get() );
                     CHECK( !ranged_attack );
@@ -143,55 +141,56 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
             THEN( "NPC doesn't bother throwing the rocks so close" ) {
-                main_npc.evaluate_best_weapon( zombie );
+                main_npc.evaluate_best_attack( zombie );
                 const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                 npc_attack_throw *throw_attack = dynamic_cast<npc_attack_throw *>( attack.get() );
                 CHECK( !throw_attack );
             }
         }
-        WHEN( "NPC has power armor" ) {
-            main_npc.worn.clear();
+        WHEN( "NPC has an exoskeleton" ) {
 
-            item armor( "power_armor_basic" );
-            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            main_npc.clear_worn();
+            item armor( "combat_exoskeleton_medium" );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            item &worn_armor = **wear_success;
+
             REQUIRE( wear_success );
 
             // If the flag gets removed from power armor, some other item with the flag will need to replace it.
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
-            WHEN( "NPC has a UPS for their armor" ) {
-                item ps( "UPS_off" );
-                item battery( "heavy_plus_battery_cell" );
-                battery.ammo_set( battery.ammo_default(), battery.ammo_capacity( ammo_battery ) );
+            WHEN( "NPC has a battery for their armor" ) {
 
-                ps.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+                item battery = item( "heavy_battery_cell" );
+                battery.ammo_set( battery.ammo_default() );
+                worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
-                item_location stored_ps = main_npc.try_add( ps );
-                REQUIRE( stored_ps != item_location::nowhere );
+                REQUIRE( worn_armor.ammo_remaining() > 0 );
 
-                THEN( "NPC activates their power armor successfully" ) {
+                THEN( "NPC activates their exoskeleton successfully" ) {
+
                     // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
-                    CHECK( main_npc.is_wearing( itype_power_armor_basic_on ) );
-                    CHECK( !main_npc.is_wearing( itype_power_armor_basic ) );
+                    CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
+                    CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
                 }
             }
 
-            WHEN( "NPC has no power supply for their armor" ) {
-                THEN( "NPC fails to activate their power armor" ) {
+            WHEN( "NPC has no power supply for their exoskeleton" ) {
+                THEN( "NPC fails to activate their exoskeleton" ) {
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
-                    CHECK( main_npc.is_wearing( itype_power_armor_basic ) );
-                    CHECK( !main_npc.is_wearing( itype_power_armor_basic_on ) );
+                    CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
+                    CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
                 }
             }
         }
         WHEN( "NPC has a headlamp" ) {
-            main_npc.worn.clear();
+            main_npc.clear_worn();
 
             item headlamp( "wearable_light" );
-            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
             REQUIRE( wear_success );
 
             // If the flag gets added, some other item without the flag will need to replace it.
@@ -208,13 +207,13 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
     GIVEN( "There is a zombie 5 tiles away" ) {
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 5 );
 
-        WHEN( "NPC only has a chef knife" ) {
-            item weapon( "knife_chef" );
+        WHEN( "NPC only has a large knife" ) {
+            item weapon( "knife_large" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
             THEN( "NPC attempts to melee the enemy target" ) {
-                main_npc.evaluate_best_weapon( zombie );
+                main_npc.evaluate_best_attack( zombie );
                 const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                 npc_attack_melee *melee_attack = dynamic_cast<npc_attack_melee *>( attack.get() );
                 CHECK( melee_attack );
@@ -226,12 +225,12 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         }
 
         WHEN( "NPC only has a bunch of rocks" ) {
-            item weapon( "rock" );
+            item weapon( "rock", calendar::turn, 5 );
             main_npc.set_wielded_item( weapon );
             REQUIRE( main_npc.get_wielded_item()->typeId() == itype_rock );
 
             THEN( "NPC throws rocks at the zombie" ) {
-                main_npc.evaluate_best_weapon( zombie );
+                main_npc.evaluate_best_attack( zombie );
                 const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
                 npc_attack_throw *throw_attack = dynamic_cast<npc_attack_throw *>( attack.get() );
                 CHECK( throw_attack );
@@ -242,13 +241,13 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         monster *zombie = npc_attack_setup::spawn_zombie_at_range( 1 );
         monster *zombie_far = npc_attack_setup::spawn_zombie_at_range( 8 );
 
-        WHEN( "NPC only has a chef knife" ) {
-            item weapon( "knife_chef" );
+        WHEN( "NPC only has a large knife" ) {
+            item weapon( "knife_large" );
             main_npc.set_wielded_item( weapon );
-            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_chef );
+            REQUIRE( main_npc.get_wielded_item()->typeId() == itype_knife_large );
 
             WHEN( "NPC is targetting closest zombie" ) {
-                main_npc.evaluate_best_weapon( zombie );
+                main_npc.evaluate_best_attack( zombie );
 
                 THEN( "NPC tries to attack closest zombie" ) {
                     const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
@@ -262,7 +261,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
             }
             WHEN( "NPC is targetting farthest zombie" ) {
                 WHEN( "Furthest zombie is at full HP" ) {
-                    main_npc.evaluate_best_weapon( zombie_far );
+                    main_npc.evaluate_best_attack( zombie_far );
 
                     THEN( "NPC tries to attack closest zombie" ) {
                         const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
@@ -276,7 +275,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
                 }
                 WHEN( "Furthest zombie is at low HP" ) {
                     zombie_far->set_hp( 1 );
-                    main_npc.evaluate_best_weapon( zombie_far );
+                    main_npc.evaluate_best_attack( zombie_far );
 
                     THEN( "NPC tries to attack furthest zombie" ) {
                         const std::shared_ptr<npc_attack> &attack = main_npc.get_current_attack();
@@ -292,18 +291,18 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         }
     }
     GIVEN( "There is no zombie nearby. " ) {
-        WHEN( "NPC is wearing active power armor. " ) {
-            item armor( "power_armor_basic_on" );
+        WHEN( "NPC is wearing active exoskeleton. " ) {
+            item armor( "combat_exoskeleton_medium_on" );
             armor.activate();
-            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
 
-            THEN( "NPC deactivates their power armor. " ) {
+            THEN( "NPC deactivates their exoskeleton. " ) {
                 // This is somewhat cheating, but going up one level is testing all of npc::move.
                 main_npc.cleanup_on_no_danger();
 
-                CHECK( !main_npc.is_wearing( itype_power_armor_basic_on ) );
-                CHECK( main_npc.is_wearing( itype_power_armor_basic ) );
+                CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
+                CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
             }
         }
     }

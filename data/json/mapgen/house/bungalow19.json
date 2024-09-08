@@ -1,0 +1,115 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow19",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [
+        "domestic_general_and_variant_palette",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_landscaping_palette"
+      ],
+      "fill_ter": "t_floor",
+      "rows": [
+        "...........---..........",
+        "..%##oo##..---##oo###...",
+        "..%#g~~W#%p---oy  sso...",
+        ".[%#U~Z|#o##*##( E y#.[.",
+        "..%#U~q|rrr|    ®®® #...",
+        "..%#q~~+ h | L|H®l® #^..",
+        ".###|||| PR| /|H®l®a#%..",
+        ".#¤,,dd|+||| $|H®®® #%..",
+        ".o@@,,,| RRR y|T E y#%%.",
+        ".o@@,,,+     V|(   y#o#.",
+        ".#¤,,bD|i    V||||   y#.",
+        ".#||||||i    y664_  h #.",
+        ".#¤,,,+       ____ ffh#.",
+        ".o@@,,|||||| |2_JAhff o.",
+        ".o@@,,d|tBB| |1_n_ h  o.",
+        ".#¤,,,d|~~~+ |O_3A   T#.",
+        ".#?II,D|S8Q| |J5F_   y#.",
+        ".##oo##|||||+#####:¶:##.",
+        "...%%^#dd,D,,#₸=₸=₸===}.",
+        ".....%#,,,,,,#========}.",
+        ".....%#,,@@,,#========}.",
+        "...[..#?¤@@¤&#}}}---}}}.",
+        "......##o##o##..........",
+        "........................"
+      ],
+      "terrain": {
+        "}": "t_railing_v",
+        "®": "t_carpet_green",
+        "l": "t_carpet_green",
+        "=": "t_floor_noroof",
+        "₸": "t_floor_noroof",
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "q": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "A": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "g": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "U": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        ",": "t_carpet_purple",
+        "&": "t_carpet_purple",
+        "¤": "t_carpet_purple",
+        "@": "t_carpet_purple",
+        "D": "t_carpet_purple",
+        "d": "t_carpet_purple",
+        "?": "t_carpet_purple",
+        "I": "t_carpet_purple",
+        "b": "t_carpet_purple"
+      },
+      "furniture": {
+        "(": "f_speaker_cabinet",
+        "$": "f_table",
+        "&": "f_floor_lamp",
+        "?": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "/": "f_rack"
+      },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 4, "y": 0 } ],
+      "items": {
+        "$": { "item": "table_foyer", "chance": 50, "repeat": [ 2, 3 ] },
+        "/": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 2, 3 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": "bungalow19_roof",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "palettes": [ "roof_palette" ],
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "   ------     -------   ",
+        "   -....-     -.....-   ",
+        "   -....-------.....-   ",
+        "   -................-   ",
+        "   -................5   ",
+        " ---...............~-   ",
+        " -..................-   ",
+        " -..................-   ",
+        " -.........1........--- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " -...X................- ",
+        " -....................- ",
+        " -....................- ",
+        " -....................- ",
+        " ----5-......---------- ",
+        "      -......-          ",
+        "      -......-          ",
+        "      -......-          ",
+        "      -......-          ",
+        "      --------          ",
+        "                        "
+      ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  }
+]

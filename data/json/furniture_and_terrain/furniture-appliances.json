@@ -127,7 +127,7 @@
     "coverage": 60,
     "required_str": 12,
     "max_volume": "37500 ml",
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "SMALL_HIDE" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -138,7 +138,7 @@
         { "item": "wire_mesh", "count": 1 },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "pipe_fittings", "count": [ 2, 6 ] },
-        { "item": "motor_small", "charges": 1 },
+        { "item": "motor_tiny", "count": 1 },
         { "item": "cu_pipe", "count": [ 1, 3 ] }
       ]
     },
@@ -155,120 +155,6 @@
         { "item": "pipe_fittings", "count": [ 1, 3 ] },
         { "item": "element", "count": [ 1, 3 ] },
         { "item": "cable", "charges": [ 1, 15 ] }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_fridge",
-    "name": "refrigerator",
-    "symbol": "{",
-    "description": "A tall metal storage container that, if powered, will refrigerate food and other perishables for preservation.",
-    "color": "light_cyan",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": 10,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "fridge", "count": 1 } ] },
-    "max_volume": "500 L",
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "fridge" },
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 4 ] },
-        { "item": "scrap_copper", "count": [ 1, 2 ] },
-        { "item": "motor_tiny", "prob": 25 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_glass_fridge",
-    "name": "glass door fridge",
-    "looks_like": "f_fridge",
-    "symbol": "{",
-    "color": "light_cyan",
-    "description": "A modern refrigerator with a thick sheet of glass in the door, often specially treated to be more insulative.  Allows seeing the contents without letting out the cold air, which used to be a minor convenience, and now saves precious minutes until spoilage.",
-    "move_cost_mod": -1,
-    "coverage": 90,
-    "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "NO_SELF_CONNECT" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal", "count": [ 2, 5 ] },
-        { "item": "sheet_metal_small", "count": [ 0, 3 ] },
-        { "item": "steel_chunk", "count": [ 2, 3 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "glass_sheet", "count": 1 },
-        { "item": "cu_pipe", "count": [ 3, 6 ] },
-        { "item": "pipe_fittings", "count": [ 2, 6 ] },
-        { "item": "refrigerant_tank", "count": 1 },
-        { "item": "motor_tiny", "count": 1 }
-      ]
-    },
-    "max_volume": "500 L",
-    "bash": {
-      "str_min": 12,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "sheet_metal_small", "count": [ 6, 9 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 1, 4 ] },
-        { "item": "scrap_copper", "count": [ 0, 2 ] },
-        { "item": "glass_shard", "count": [ 25, 50 ] },
-        { "item": "motor_tiny", "prob": 25 }
-      ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_freezer",
-    "name": "freezer",
-    "looks_like": "f_fridge",
-    "symbol": "{",
-    "description": "A chest freezer that could be used to freeze foods, if it were connected to a working power source.",
-    "color": "blue",
-    "move_cost_mod": -1,
-    "coverage": 60,
-    "required_str": 10,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "freezer" },
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "NO_SELF_CONNECT", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "freezer", "count": 1 } ] },
-    "max_volume": "450 L",
-    "bash": {
-      "str_min": 18,
-      "str_max": 50,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "sheet_metal", "count": [ 1, 4 ] },
-        { "item": "sheet_metal_small", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "scrap", "count": [ 2, 8 ] },
-        { "item": "cable", "charges": [ 1, 2 ] },
-        { "item": "pipe_fittings", "count": [ 1, 3 ] },
-        { "item": "hose", "count": 1 },
-        { "item": "cu_pipe", "count": [ 2, 4 ] },
-        { "item": "scrap_copper", "count": [ 1, 2 ] }
       ]
     }
   },
@@ -318,7 +204,7 @@
     "type": "furniture",
     "id": "f_washer",
     "name": "washing machine",
-    "description": "A large, chunky machine that uses soap and large amounts of water to wash batches of clothes with minimal effort.",
+    "description": "An appliance used to clean laundry.  It needs to be plugged into a grid that provides it with electricity and large amounts of water to be used.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
@@ -326,7 +212,7 @@
     "required_str": 12,
     "max_volume": "135 L",
     "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "household_washing_machine" },
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR", "FLAT_SURF", "MINEABLE", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "deconstruct": { "items": [ { "item": "household_washing_machine", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -351,7 +237,7 @@
     "id": "f_oven",
     "name": "oven",
     "symbol": "#",
-    "description": "A standard convection-based oven, commonly used for heating and cooking food.  It can safely contain a fire, although it's not adequately ventilated.  You could disconnect it and plug it in to a working power grid, or power it with UPS.",
+    "description": "A standard electric convection-based oven, commonly used for heating and cooking food.  It can safely contain a fire, although it's not adequately ventilated.  You could disconnect it and plug it into a working power grid, or power it with a UPS.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -366,6 +252,7 @@
       "CONTAINER",
       "BLOCKSDOOR",
       "MOUNTABLE",
+      "SMALL_HIDE",
       "NO_SELF_CONNECT"
     ],
     "deconstruct": { "items": [ { "item": "oven", "count": 1 } ] },
@@ -381,11 +268,10 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
         { "item": "element", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 3 ] },
-        { "item": "pilot_light", "count": 1 }
+        { "item": "cable", "charges": [ 1, 3 ] }
       ]
     },
-    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
+    "crafting_pseudo_item": "oven"
   },
   {
     "type": "furniture",
@@ -393,7 +279,7 @@
     "name": "gas oven",
     "looks_like": "f_oven",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.",
+    "description": "A standard gas-powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown, it's best not to put any fire near it.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -431,9 +317,18 @@
     "name": "gas oven and microwave combo",
     "copy-from": "f_gas_oven",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
+    "description": "A standard gas-powered oven, commonly used for heating and cooking food.  This one has an attached microwave.  With the state of nearby gas lines unknown, it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
     "color": "dark_gray",
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
+    "flags": [
+      "PLACE_ITEM",
+      "TRANSPARENT",
+      "EASY_DECONSTRUCT",
+      "CONTAINER",
+      "BLOCKSDOOR",
+      "MOUNTABLE",
+      "NO_SELF_CONNECT",
+      "SMALL_HIDE"
+    ],
     "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ], "furn_set": "f_gas_oven" },
     "bash": {
       "str_min": 8,
@@ -490,7 +385,7 @@
     "id": "f_drophammer",
     "name": "blacksmith drop hammer",
     "symbol": "#",
-    "description": "An anvil with a large metal hammer suspended above it in a metal framework.  If it were working, it would be useful for shaping softened metal plates, though now it is only useful for parts.",
+    "description": "An anvil with a large metal hammer suspended above it in a metal framework.  It would be useful for shaping softened metal plates, or you could use the anvil by itself.",
     "color": "white",
     "looks_like": "f_machinery_old",
     "move_cost_mod": 2,
@@ -544,7 +439,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "motor", "count": 1 },
+        { "item": "motor_tiny", "count": 1 },
         { "item": "solder_wire", "charges": [ 1, 15 ] }
       ]
     },
@@ -604,6 +499,36 @@
   },
   {
     "type": "furniture",
+    "id": "f_melchior_unit",
+    "name": "supercomputer",
+    "looks_like": "f_server",
+    "description": "Hanging platters assembled into an inverted cone, their positions kept stable by dense threading of copper cabling.",
+    "symbol": "V",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "melchior_platter", "count": [ 4, 6 ] },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 4, 6 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_satellite",
     "name": "large satellite dish",
     "looks_like": "t_radio_tower",
@@ -624,7 +549,7 @@
         { "item": "sheet_metal", "count": [ 8, 10 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "pipe_fittings", "count": [ 4, 8 ] },
-        { "item": "motor", "count": 1 }
+        { "item": "motor_tiny", "count": 2 }
       ]
     },
     "bash": {
@@ -648,29 +573,109 @@
   {
     "type": "furniture",
     "id": "f_solar_unit",
-    "name": "mounted solar panel",
-    "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.",
+    "name": "mounted polycrystalline solar panel",
+    "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.  This one uses less efficient polycrystalline solar panels.",
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "solar_panel" },
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "ground_solar_panel" },
     "flags": [ "TRANSPARENT" ],
-    "deconstruct": { "items": [ { "item": "solar_panel", "count": 1 } ] },
+    "deconstruct": { "items": [ { "item": "ground_solar_panel", "count": 1 } ] },
     "bash": {
       "str_min": 10,
       "str_max": 20,
       "sound": "whack!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "solar_cell", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
-        { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 10, 15 ] },
-        { "item": "power_supply", "prob": 50 },
-        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "solar_cell", "count": [ 4, 20 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 40, 60 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 16, 24 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": 12 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_solar_unit_v2",
+    "copy-from": "f_solar_unit",
+    "name": "mounted monocrystalline solar panel",
+    "description": "A set of photovoltaic power generators, which turns solar radiation into useable electricity.  While useful before the Cataclysm, they have become priceless tools, invaluable to any survivor.  This one uses more efficient monocrystalline solar panels.",
+    "symbol": "#",
+    "color": "light_blue",
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "ground_solar_panel_v2" },
+    "deconstruct": { "items": [ { "item": "ground_solar_panel_v2", "count": 1 } ] },
+    "bash": {
+      "str_min": 10,
+      "str_max": 20,
+      "sound": "whack!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "solar_cell_v2", "count": [ 4, 20 ] },
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "amplifier", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 40, 60 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 16, 24 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] },
+        { "item": "steel_chunk", "count": 12 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_oxygen_concentrator",
+    "name": "oxygen concentrator",
+    "description": "A machine capable of generating pure oxygen from the air.  It needs power to function.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oxygen_concentrator" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "oxygen_concentrator", "count": 1 } ] },
+    "bash": {
+      "str_min": 35,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 7 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 4, 7 ] },
+        { "item": "element", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "prob": 50 },
+        { "item": "motor_small", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hd_compressor_unit",
+    "name": "high pressure compressor unit",
+    "description": "A machine designed to compress an input gas to a very high pressure.  It needs large amounts of power to function.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "hd_compressor_unit" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "hd_compressor_unit", "count": 1 } ] },
+    "bash": {
+      "str_min": 45,
+      "str_max": 180,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": 3 }
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 8, 16 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] }
       ]
     }
   }

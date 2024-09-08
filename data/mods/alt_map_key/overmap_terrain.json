@@ -73,22 +73,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
-    "copy-from": "hiway_ns",
-    "name": "highway",
-    "sym": "H",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "hiway_ew",
-    "name": "highway",
-    "sym": "=",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "road",
     "copy-from": "road",
     "name": "road",
@@ -208,10 +192,44 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "park",
+    "id": [
+      "park",
+      "park_roof",
+      "park_2",
+      "park_3",
+      "park_4",
+      "park_5",
+      "park_5_roof",
+      "park_6",
+      "park_7",
+      "park_7_roof",
+      "dog_park",
+      "volleyball_court",
+      "tennis_court",
+      "baskeball_court",
+      "playground",
+      "playground_roof",
+      "playground_1"
+    ],
     "copy-from": "park",
     "name": "park",
     "sym": "p",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_private_park",
+    "copy-from": "cs_private_park",
+    "name": "private park",
+    "sym": "p",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "paintball_field", "paintball_field_1" ],
+    "copy-from": "paintball_field",
+    "name": "paintball field",
+    "sym": "P",
     "color": "blue"
   },
   {
@@ -320,7 +338,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pharm",
+    "id": [ "s_pharm", "s_pharm_1" ],
     "copy-from": "s_pharm",
     "name": "pharmacy",
     "sym": "p",
@@ -328,7 +346,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "office_doctor",
+    "id": [ "office_doctor", "office_doctor_1", "office_doctor_2" ],
     "copy-from": "office_doctor",
     "name": "doctor's office",
     "sym": "d",
@@ -528,7 +546,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_grocery",
+    "id": [ "s_grocery", "s_grocery_1" ],
     "copy-from": "s_grocery",
     "name": "grocery store",
     "sym": "g",
@@ -536,7 +554,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_hardware",
+    "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ],
     "copy-from": "s_hardware",
     "name": "hardware store",
     "sym": "h",
@@ -544,7 +562,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_electronics",
+    "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ],
     "copy-from": "s_electronics",
     "name": "electronics store",
     "sym": "e",
@@ -568,7 +586,18 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_gun",
+    "id": [
+      "s_gun",
+      "s_gun_looted",
+      "s_gun_1",
+      "s_gun_2",
+      "s_gun_3",
+      "s_gun_3_looted",
+      "s_gun_4",
+      "s_gun_4_looted",
+      "s_gunstore",
+      "s_gunstore_looted"
+    ],
     "copy-from": "s_gun",
     "name": "gun store",
     "sym": "g",
@@ -576,7 +605,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_clothes",
+    "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
     "copy-from": "s_clothes",
     "name": "clothing store",
     "sym": "c",
@@ -584,7 +613,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_library",
+    "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ],
     "copy-from": "s_library",
     "name": "library",
     "sym": "l",
@@ -592,7 +621,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_bookstore",
+    "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ],
     "copy-from": "s_bookstore",
     "name": "bookstore",
     "sym": "b",
@@ -600,7 +629,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant",
+    "id": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
     "copy-from": "s_restaurant",
     "name": "restaurant",
     "sym": "r",
@@ -608,7 +637,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_fast",
+    "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ],
     "copy-from": "s_restaurant_fast",
     "name": "fast food restaurant",
     "sym": "f",
@@ -616,7 +645,15 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_coffee",
+    "id": "s_diner",
+    "name": "diner",
+    "copy-from": "s_diner",
+    "sym": "d",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_restaurant_coffee", "s_restaurant_coffee_1", "s_restaurant_coffee_2" ],
     "copy-from": "s_restaurant_coffee",
     "name": "coffee shop",
     "sym": "c",
@@ -624,7 +661,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_teashop",
+    "id": [ "s_teashop", "s_teashop_1" ],
     "copy-from": "s_teashop",
     "name": "teashop",
     "sym": "t",
@@ -632,7 +669,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bar",
+    "id": [ "bar", "bar_1" ],
     "copy-from": "bar",
     "name": "bar",
     "sym": "b",
@@ -640,7 +677,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_pizza_parlor",
+    "id": [ "s_pizza_parlor", "s_pizza_parlor_1" ],
     "copy-from": "s_pizza_parlor",
     "name": "pizza parlor",
     "sym": "p",
@@ -768,7 +805,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "bank",
+    "id": [ "town_hall_0_0_0", "town_hall_1_0_0", "town_hall_0_1_0", "town_hall_1_1_0" ],
+    "copy-from": "town_hall_0_0_0",
+    "name": "town hall",
+    "sym": "t",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "town_hall_0_0_1", "town_hall_1_0_1", "town_hall_0_1_1", "town_hall_1_1_1" ],
+    "copy-from": "town_hall_0_0_1",
+    "name": "town hall",
+    "sym": "t",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "bank", "bank_1" ],
     "copy-from": "bank",
     "name": "bank",
     "sym": "b",
@@ -776,7 +829,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pawn",
+    "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ],
     "copy-from": "pawn",
     "name": "pawn shop",
     "sym": "p",
@@ -784,7 +837,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mil_surplus",
+    "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
     "copy-from": "mil_surplus",
     "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "m",
@@ -800,7 +853,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "abstorefront",
+    "id": [ "abstorefront", "abstorefront_1", "abstorefront_2" ],
     "copy-from": "abstorefront",
     "name": "abandoned storefront",
     "sym": "a",
@@ -813,13 +866,6 @@
     "name": "music store",
     "sym": "m",
     "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "copy-from": "megastore_parking",
-    "sym": "p",
-    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -1362,35 +1408,143 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "motel_entrance",
-    "copy-from": "motel_entrance",
+    "abstract": "generic_motel",
+    "copy-from": "generic_motel",
     "name": "motel",
-    "sym": "M",
+    "sym": "m",
     "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_entrance",
+    "copy-from": "generic_motel",
+    "sym": "M"
   },
   {
     "type": "overmap_terrain",
     "id": "motel_1",
-    "copy-from": "motel_1",
-    "name": "motel",
-    "sym": "m",
-    "color": "i_light_green"
+    "copy-from": "generic_motel"
   },
   {
     "type": "overmap_terrain",
     "id": "motel_2",
-    "copy-from": "motel_2",
-    "name": "motel",
-    "sym": "m",
-    "color": "i_light_green"
+    "copy-from": "generic_motel"
   },
   {
     "type": "overmap_terrain",
     "id": "motel_3",
-    "copy-from": "motel_3",
-    "name": "motel",
-    "sym": "m",
-    "color": "i_light_green"
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_1",
+    "copy-from": "generic_motel",
+    "sym": "M"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_entrance_no_sidewalk",
+    "copy-from": "generic_motel",
+    "sym": "M"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_1_f1",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_1_no_sidewalk",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_2_no_sidewalk",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_3_no_sidewalk",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_entrance_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_1_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_2_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_3_f2",
+    "copy-from": "generic_motel"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_2_f1",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_twd_1_f2",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_entrance_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_1_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_2_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_3_roof",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_1_r",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_2_r",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2fmotel_3_r",
+    "copy-from": "generic_motel",
+    "name": "motel roof"
   },
   {
     "type": "overmap_terrain",
@@ -1484,7 +1638,7 @@
     "type": "overmap_terrain",
     "id": "fema_entrance",
     "copy-from": "fema_entrance",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "F",
     "color": "i_red"
   },
@@ -1492,7 +1646,7 @@
     "type": "overmap_terrain",
     "id": "fema",
     "copy-from": "fema",
-    "name": "fema camp",
+    "name": "FEMA camp",
     "sym": "f",
     "color": "i_red"
   },
@@ -1622,6 +1776,14 @@
     "copy-from": "lab_train_depot",
     "name": "science train depot",
     "sym": "l",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "microlab_generic_surface",
+    "copy-from": "microlab_generic_surface",
+    "name": "lab",
+    "sym": "L",
     "color": "i_pink"
   },
   {
@@ -1937,12 +2099,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "basement_bionic",
-    "copy-from": "basement_bionic",
-    "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "rock",
     "copy-from": "rock",
     "name": "solid rock",
@@ -1956,22 +2112,6 @@
     "name": "solid rock",
     "sym": "%",
     "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "rift",
-    "copy-from": "rift",
-    "name": "rift",
-    "sym": "^",
-    "color": "red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hellmouth",
-    "copy-from": "hellmouth",
-    "name": "hellmouth",
-    "sym": "^",
-    "color": "light_red"
   },
   {
     "type": "overmap_terrain",
@@ -2684,2598 +2824,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "necropolis_a_1",
-    "copy-from": "necropolis_a_1",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_2",
-    "copy-from": "necropolis_a_2",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_3",
-    "copy-from": "necropolis_a_3",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_4",
-    "copy-from": "necropolis_a_4",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_5",
-    "copy-from": "necropolis_a_5",
-    "name": "abandoned store",
-    "sym": "a",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_6",
-    "copy-from": "necropolis_a_6",
-    "name": "road",
-    "color": "dark_gray",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_7",
-    "copy-from": "necropolis_a_7",
-    "name": "pump station",
-    "sym": "p",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_8",
-    "copy-from": "necropolis_a_8",
-    "name": "pump station",
-    "sym": "p",
-    "color": "i_yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_9",
-    "copy-from": "necropolis_a_9",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_10",
-    "copy-from": "necropolis_a_10",
-    "name": "house",
-    "sym": ">",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_11",
-    "copy-from": "necropolis_a_11",
-    "name": "road",
-    "color": "dark_gray",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_12",
-    "copy-from": "necropolis_a_12",
-    "name": "gardening store",
-    "sym": "g",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_13",
-    "copy-from": "necropolis_a_13",
-    "name": "salon",
-    "sym": "s",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_14",
-    "copy-from": "necropolis_a_14",
-    "name": "crater",
-    "sym": "*",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_15",
-    "copy-from": "necropolis_a_15",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_16",
-    "copy-from": "necropolis_a_16",
-    "name": "police station",
-    "sym": "p",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_17",
-    "copy-from": "necropolis_a_17",
-    "name": "police station",
-    "sym": "p",
-    "color": "i_red"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_18",
-    "copy-from": "necropolis_a_18",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_19",
-    "copy-from": "necropolis_a_19",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_20",
-    "copy-from": "necropolis_a_20",
-    "name": "road",
-    "sym": "└",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_21",
-    "copy-from": "necropolis_a_21",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_22",
-    "copy-from": "necropolis_a_22",
-    "name": "road",
-    "sym": "┬",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_23",
-    "copy-from": "necropolis_a_23",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_24",
-    "copy-from": "necropolis_a_24",
-    "name": "road",
-    "sym": "┴",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_25",
-    "copy-from": "necropolis_a_25",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_26",
-    "copy-from": "necropolis_a_26",
-    "name": "road",
-    "sym": "┐",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_27",
-    "copy-from": "necropolis_a_27",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_28",
-    "copy-from": "necropolis_a_28",
-    "name": "grocery store",
-    "sym": "g",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_29",
-    "copy-from": "necropolis_a_29",
-    "name": "grocery store",
-    "sym": "g",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_30",
-    "copy-from": "necropolis_a_30",
-    "name": "park",
-    "sym": "p",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_31",
-    "copy-from": "necropolis_a_31",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_32",
-    "copy-from": "necropolis_a_32",
-    "name": "church",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_33",
-    "copy-from": "necropolis_a_33",
-    "name": "church",
-    "sym": "c",
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_34",
-    "copy-from": "necropolis_a_34",
-    "name": "pawn shop",
-    "sym": "p",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_35",
-    "copy-from": "necropolis_a_35",
-    "name": "crater",
-    "sym": "*",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_36",
-    "copy-from": "necropolis_a_36",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_37",
-    "copy-from": "necropolis_a_37",
-    "name": "furniture store",
-    "sym": "f",
-    "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_38",
-    "copy-from": "necropolis_a_38",
-    "name": "crater",
-    "sym": "*",
-    "color": "pink"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_39",
-    "copy-from": "necropolis_a_39",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_40",
-    "copy-from": "necropolis_a_40",
-    "name": "road",
-    "sym": "┴",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_41",
-    "copy-from": "necropolis_a_41",
-    "name": "road",
-    "sym": "┬",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_42",
-    "copy-from": "necropolis_a_42",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_43",
-    "copy-from": "necropolis_a_43",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_44",
-    "copy-from": "necropolis_a_44",
-    "name": "road",
-    "sym": "┤",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_45",
-    "copy-from": "necropolis_a_45",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_46",
-    "copy-from": "necropolis_a_46",
-    "name": "clothing store",
-    "sym": "c",
-    "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_47",
-    "copy-from": "necropolis_a_47",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_48",
-    "copy-from": "necropolis_a_48",
-    "name": "motel",
-    "sym": "m",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_49",
-    "copy-from": "necropolis_a_49",
-    "name": "motel",
-    "sym": "m",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_50",
-    "copy-from": "necropolis_a_50",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_51",
-    "copy-from": "necropolis_a_51",
-    "name": "restaurant",
-    "sym": "r",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_52",
-    "copy-from": "necropolis_a_52",
-    "name": "bank",
-    "sym": "b",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_53",
-    "copy-from": "necropolis_a_53",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_54",
-    "copy-from": "necropolis_a_54",
-    "name": "house",
-    "sym": "<",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_55",
-    "copy-from": "necropolis_a_55",
-    "name": "motel",
-    "sym": "m",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_56",
-    "copy-from": "necropolis_a_56",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_57",
-    "copy-from": "necropolis_a_57",
-    "name": "motel",
-    "sym": "m",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_58",
-    "copy-from": "necropolis_a_58",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_59",
-    "copy-from": "necropolis_a_59",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_60",
-    "copy-from": "necropolis_a_60",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_61",
-    "copy-from": "necropolis_a_61",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_62",
-    "copy-from": "necropolis_a_62",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_63",
-    "copy-from": "necropolis_a_63",
-    "name": "house",
-    "sym": "<",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_64",
-    "copy-from": "necropolis_a_64",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_65",
-    "copy-from": "necropolis_a_65",
-    "name": "road",
-    "sym": "┴",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_66",
-    "copy-from": "necropolis_a_66",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_67",
-    "copy-from": "necropolis_a_67",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_68",
-    "copy-from": "necropolis_a_68",
-    "name": "road",
-    "sym": "┼",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_69",
-    "copy-from": "necropolis_a_69",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_70",
-    "copy-from": "necropolis_a_70",
-    "name": "road",
-    "sym": "─",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_71",
-    "copy-from": "necropolis_a_71",
-    "name": "road",
-    "sym": "┘",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_72",
-    "copy-from": "necropolis_a_72",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_73",
-    "copy-from": "necropolis_a_73",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_74",
-    "copy-from": "necropolis_a_74",
-    "name": "bar",
-    "sym": "b",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_75",
-    "copy-from": "necropolis_a_75",
-    "name": "fast food restaurant",
-    "sym": "f",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_76",
-    "copy-from": "necropolis_a_76",
-    "name": "parking lot",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_77",
-    "copy-from": "necropolis_a_77",
-    "name": "road",
-    "sym": "│",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_78",
-    "copy-from": "necropolis_a_78",
-    "name": "gas station",
-    "sym": "g",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_79",
-    "copy-from": "necropolis_a_79",
-    "name": "mechanic garage",
-    "sym": "m",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_80",
-    "copy-from": "necropolis_a_80",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_a_81",
-    "copy-from": "necropolis_a_81",
-    "name": "field",
-    "sym": ".",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_1",
-    "copy-from": "necropolis_b_1",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_2",
-    "copy-from": "necropolis_b_2",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_3",
-    "copy-from": "necropolis_b_3",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_4",
-    "copy-from": "necropolis_b_4",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_5",
-    "copy-from": "necropolis_b_5",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_6",
-    "copy-from": "necropolis_b_6",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_7",
-    "copy-from": "necropolis_b_7",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_8",
-    "copy-from": "necropolis_b_8",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_9",
-    "copy-from": "necropolis_b_9",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_10",
-    "copy-from": "necropolis_b_10",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_11",
-    "copy-from": "necropolis_b_11",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_12",
-    "copy-from": "necropolis_b_12",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_13",
-    "copy-from": "necropolis_b_13",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_14",
-    "copy-from": "necropolis_b_14",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_15",
-    "copy-from": "necropolis_b_15",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_16",
-    "copy-from": "necropolis_b_16",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_17",
-    "copy-from": "necropolis_b_17",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_18",
-    "copy-from": "necropolis_b_18",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_19",
-    "copy-from": "necropolis_b_19",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_20",
-    "copy-from": "necropolis_b_20",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_21",
-    "copy-from": "necropolis_b_21",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_22",
-    "copy-from": "necropolis_b_22",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_23",
-    "copy-from": "necropolis_b_23",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_24",
-    "copy-from": "necropolis_b_24",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_25",
-    "copy-from": "necropolis_b_25",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_26",
-    "copy-from": "necropolis_b_26",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_27",
-    "copy-from": "necropolis_b_27",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_28",
-    "copy-from": "necropolis_b_28",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_29",
-    "copy-from": "necropolis_b_29",
-    "name": "sewer?",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_30",
-    "copy-from": "necropolis_b_30",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_31",
-    "copy-from": "necropolis_b_31",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_32",
-    "copy-from": "necropolis_b_32",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_33",
-    "copy-from": "necropolis_b_33",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_34",
-    "copy-from": "necropolis_b_34",
-    "name": "basement",
-    "sym": "O",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_35",
-    "copy-from": "necropolis_b_35",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_36",
-    "copy-from": "necropolis_b_36",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_37",
-    "copy-from": "necropolis_b_37",
-    "name": "cavern",
-    "sym": "0",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_38",
-    "copy-from": "necropolis_b_38",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_39",
-    "copy-from": "necropolis_b_39",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_40",
-    "copy-from": "necropolis_b_40",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_41",
-    "copy-from": "necropolis_b_41",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_42",
-    "copy-from": "necropolis_b_42",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_43",
-    "copy-from": "necropolis_b_43",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_44",
-    "copy-from": "necropolis_b_44",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_45",
-    "copy-from": "necropolis_b_45",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_46",
-    "copy-from": "necropolis_b_46",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_47",
-    "copy-from": "necropolis_b_47",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_48",
-    "copy-from": "necropolis_b_48",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_49",
-    "copy-from": "necropolis_b_49",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_50",
-    "copy-from": "necropolis_b_50",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_51",
-    "copy-from": "necropolis_b_51",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_52",
-    "copy-from": "necropolis_b_52",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_53",
-    "copy-from": "necropolis_b_53",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_54",
-    "copy-from": "necropolis_b_54",
-    "name": "basement",
-    "sym": "O",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_55",
-    "copy-from": "necropolis_b_55",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_56",
-    "copy-from": "necropolis_b_56",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_57",
-    "copy-from": "necropolis_b_57",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_58",
-    "copy-from": "necropolis_b_58",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_59",
-    "copy-from": "necropolis_b_59",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_60",
-    "copy-from": "necropolis_b_60",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_61",
-    "copy-from": "necropolis_b_61",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_62",
-    "copy-from": "necropolis_b_62",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_63",
-    "copy-from": "necropolis_b_63",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_64",
-    "copy-from": "necropolis_b_64",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_65",
-    "copy-from": "necropolis_b_65",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_66",
-    "copy-from": "necropolis_b_66",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_67",
-    "copy-from": "necropolis_b_67",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_68",
-    "copy-from": "necropolis_b_68",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_69",
-    "copy-from": "necropolis_b_69",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_70",
-    "copy-from": "necropolis_b_70",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_71",
-    "copy-from": "necropolis_b_71",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_72",
-    "copy-from": "necropolis_b_72",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_73",
-    "copy-from": "necropolis_b_73",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_74",
-    "copy-from": "necropolis_b_74",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_75",
-    "copy-from": "necropolis_b_75",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_76",
-    "copy-from": "necropolis_b_76",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_77",
-    "copy-from": "necropolis_b_77",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_78",
-    "copy-from": "necropolis_b_78",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_79",
-    "copy-from": "necropolis_b_79",
-    "name": "sewer",
-    "sym": "┼",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_80",
-    "copy-from": "necropolis_b_80",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_b_81",
-    "copy-from": "necropolis_b_81",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_1",
-    "copy-from": "necropolis_c_1",
-    "name": "Vault - Barracks",
-    "sym": "B",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_2",
-    "copy-from": "necropolis_c_2",
-    "name": "Vault - Armory",
-    "sym": "A",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_3",
-    "copy-from": "necropolis_c_3",
-    "name": "Vault - Barracks",
-    "sym": "B",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_4",
-    "copy-from": "necropolis_c_4",
-    "name": "Vault - Barracks",
-    "sym": "B",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_5",
-    "copy-from": "necropolis_c_5",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_6",
-    "copy-from": "necropolis_c_6",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_7",
-    "copy-from": "necropolis_c_7",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_8",
-    "copy-from": "necropolis_c_8",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_9",
-    "copy-from": "necropolis_c_9",
-    "name": "Vault - Jail",
-    "sym": "J",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_10",
-    "copy-from": "necropolis_c_10",
-    "name": "Vault - Barracks",
-    "sym": "B",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_11",
-    "copy-from": "necropolis_c_11",
-    "name": "Vault - Barracks",
-    "sym": "B",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_12",
-    "copy-from": "necropolis_c_12",
-    "name": "Vault - Barracks",
-    "sym": "B",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_13",
-    "copy-from": "necropolis_c_13",
-    "name": "Vault - Offices",
-    "sym": "O",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_14",
-    "copy-from": "necropolis_c_14",
-    "name": "Vault - Offices",
-    "sym": "O",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_15",
-    "copy-from": "necropolis_c_15",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_16",
-    "copy-from": "necropolis_c_16",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_17",
-    "copy-from": "necropolis_c_17",
-    "name": "Vault - Police Station",
-    "sym": "P",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_18",
-    "copy-from": "necropolis_c_18",
-    "name": "Vault - Police Station",
-    "sym": "P",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_19",
-    "copy-from": "necropolis_c_19",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_20",
-    "copy-from": "necropolis_c_20",
-    "name": "Vault - Entrance",
-    "sym": "E",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_21",
-    "copy-from": "necropolis_c_21",
-    "name": "Vault - Utilities",
-    "sym": "U",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_22",
-    "copy-from": "necropolis_c_22",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_23",
-    "copy-from": "necropolis_c_23",
-    "name": "Vault - Communications",
-    "sym": "C",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_24",
-    "copy-from": "necropolis_c_24",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_25",
-    "copy-from": "necropolis_c_25",
-    "name": "Vault - Courthouse",
-    "sym": "C",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_26",
-    "copy-from": "necropolis_c_26",
-    "name": "Vault - Police Station",
-    "sym": "P",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_27",
-    "copy-from": "necropolis_c_27",
-    "name": "Vault - Police Station",
-    "sym": "P",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_28",
-    "copy-from": "necropolis_c_28",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_29",
-    "copy-from": "necropolis_c_29",
-    "name": "Vault - Entrance",
-    "sym": "E",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_30",
-    "copy-from": "necropolis_c_30",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_31",
-    "copy-from": "necropolis_c_31",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_32",
-    "copy-from": "necropolis_c_32",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_33",
-    "copy-from": "necropolis_c_33",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_34",
-    "copy-from": "necropolis_c_34",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_35",
-    "copy-from": "necropolis_c_35",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_36",
-    "copy-from": "necropolis_c_36",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_37",
-    "copy-from": "necropolis_c_37",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_38",
-    "copy-from": "necropolis_c_38",
-    "name": "Vault - Motor Pool",
-    "sym": "M",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_39",
-    "copy-from": "necropolis_c_39",
-    "name": "Vault - Motor Pool",
-    "sym": "M",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_40",
-    "copy-from": "necropolis_c_40",
-    "name": "Vault - Visitor Center",
-    "sym": "V",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_41",
-    "copy-from": "necropolis_c_41",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_42",
-    "copy-from": "necropolis_c_42",
-    "name": "Vault - Control",
-    "sym": "X",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_43",
-    "copy-from": "necropolis_c_43",
-    "name": "Vault - Control",
-    "sym": "X",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_44",
-    "copy-from": "necropolis_c_44",
-    "name": "Vault - Control",
-    "sym": "X",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_45",
-    "copy-from": "necropolis_c_45",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_46",
-    "copy-from": "necropolis_c_46",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_47",
-    "copy-from": "necropolis_c_47",
-    "name": "Vault - Motor Pool",
-    "sym": "M",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_48",
-    "copy-from": "necropolis_c_48",
-    "name": "Vault - Motor Pool",
-    "sym": "M",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_49",
-    "copy-from": "necropolis_c_49",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_50",
-    "copy-from": "necropolis_c_50",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_51",
-    "copy-from": "necropolis_c_51",
-    "name": "Vault - Cafeteria",
-    "sym": "C",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_52",
-    "copy-from": "necropolis_c_52",
-    "name": "Vault - Cafeteria",
-    "sym": "C",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_53",
-    "copy-from": "necropolis_c_53",
-    "name": "Vault - Cafeteria",
-    "sym": "C",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_54",
-    "copy-from": "necropolis_c_54",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_55",
-    "copy-from": "necropolis_c_55",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_56",
-    "copy-from": "necropolis_c_56",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_57",
-    "copy-from": "necropolis_c_57",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_58",
-    "copy-from": "necropolis_c_58",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_59",
-    "copy-from": "necropolis_c_59",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_60",
-    "copy-from": "necropolis_c_60",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_61",
-    "copy-from": "necropolis_c_61",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_62",
-    "copy-from": "necropolis_c_62",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_63",
-    "copy-from": "necropolis_c_63",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_64",
-    "copy-from": "necropolis_c_64",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_65",
-    "copy-from": "necropolis_c_65",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_66",
-    "copy-from": "necropolis_c_66",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_67",
-    "copy-from": "necropolis_c_67",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_68",
-    "copy-from": "necropolis_c_68",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_69",
-    "copy-from": "necropolis_c_69",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_70",
-    "copy-from": "necropolis_c_70",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_71",
-    "copy-from": "necropolis_c_71",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_72",
-    "copy-from": "necropolis_c_72",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_73",
-    "copy-from": "necropolis_c_73",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_74",
-    "copy-from": "necropolis_c_74",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_75",
-    "copy-from": "necropolis_c_75",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_76",
-    "copy-from": "necropolis_c_76",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_77",
-    "copy-from": "necropolis_c_77",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_78",
-    "copy-from": "necropolis_c_78",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_79",
-    "copy-from": "necropolis_c_79",
-    "name": "Vault - School",
-    "sym": "S",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_80",
-    "copy-from": "necropolis_c_80",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_c_81",
-    "copy-from": "necropolis_c_81",
-    "name": "Vault - Labs",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_1",
-    "copy-from": "necropolis_d_1",
-    "name": "Vault - Robotics Bay",
-    "sym": "R",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_2",
-    "copy-from": "necropolis_d_2",
-    "name": "Vault - Robotics Bay",
-    "sym": "R",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_3",
-    "copy-from": "necropolis_d_3",
-    "name": "Vault - Slum Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_4",
-    "copy-from": "necropolis_d_4",
-    "name": "Vault - Slum Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_5",
-    "copy-from": "necropolis_d_5",
-    "name": "Vault - Slum Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_6",
-    "copy-from": "necropolis_d_6",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_7",
-    "copy-from": "necropolis_d_7",
-    "name": "Vault - Hospital",
-    "sym": "H",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_8",
-    "copy-from": "necropolis_d_8",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_9",
-    "copy-from": "necropolis_d_9",
-    "name": "Vault - Suites",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_10",
-    "copy-from": "necropolis_d_10",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_11",
-    "copy-from": "necropolis_d_11",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_12",
-    "copy-from": "necropolis_d_12",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_13",
-    "copy-from": "necropolis_d_13",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_14",
-    "copy-from": "necropolis_d_14",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_15",
-    "copy-from": "necropolis_d_15",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_16",
-    "copy-from": "necropolis_d_16",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_17",
-    "copy-from": "necropolis_d_17",
-    "name": "Vault - Suites",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_18",
-    "copy-from": "necropolis_d_18",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_19",
-    "copy-from": "necropolis_d_19",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_20",
-    "copy-from": "necropolis_d_20",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_21",
-    "copy-from": "necropolis_d_21",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_22",
-    "copy-from": "necropolis_d_22",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_23",
-    "copy-from": "necropolis_d_23",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_24",
-    "copy-from": "necropolis_d_24",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_25",
-    "copy-from": "necropolis_d_25",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_26",
-    "copy-from": "necropolis_d_26",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_27",
-    "copy-from": "necropolis_d_27",
-    "name": "Vault - Transition Bay",
-    "sym": "T",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_28",
-    "copy-from": "necropolis_d_28",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_29",
-    "copy-from": "necropolis_d_29",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_30",
-    "copy-from": "necropolis_d_30",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_31",
-    "copy-from": "necropolis_d_31",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_32",
-    "copy-from": "necropolis_d_32",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_33",
-    "copy-from": "necropolis_d_33",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_34",
-    "copy-from": "necropolis_d_34",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_35",
-    "copy-from": "necropolis_d_35",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_36",
-    "copy-from": "necropolis_d_36",
-    "name": "Vault - Transition Bay",
-    "sym": "T",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_37",
-    "copy-from": "necropolis_d_37",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_38",
-    "copy-from": "necropolis_d_38",
-    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
-    "sym": "M",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_39",
-    "copy-from": "necropolis_d_39",
-    "name": { "str": "Vault - Maint. Bay", "//NOLINT(cata-text-style)": "not a period" },
-    "sym": "M",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_40",
-    "copy-from": "necropolis_d_40",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_41",
-    "copy-from": "necropolis_d_41",
-    "name": "Vault - Quartermasters",
-    "sym": "Q",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_42",
-    "copy-from": "necropolis_d_42",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_43",
-    "copy-from": "necropolis_d_43",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_44",
-    "copy-from": "necropolis_d_44",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_45",
-    "copy-from": "necropolis_d_45",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_46",
-    "copy-from": "necropolis_d_46",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_47",
-    "copy-from": "necropolis_d_47",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_48",
-    "copy-from": "necropolis_d_48",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_49",
-    "copy-from": "necropolis_d_49",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_50",
-    "copy-from": "necropolis_d_50",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_51",
-    "copy-from": "necropolis_d_51",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_52",
-    "copy-from": "necropolis_d_52",
-    "name": "Vault - Kitchen",
-    "sym": "K",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_53",
-    "copy-from": "necropolis_d_53",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_54",
-    "copy-from": "necropolis_d_54",
-    "name": "Vault - Slum Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_55",
-    "copy-from": "necropolis_d_55",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_56",
-    "copy-from": "necropolis_d_56",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_57",
-    "copy-from": "necropolis_d_57",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_58",
-    "copy-from": "necropolis_d_58",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_59",
-    "copy-from": "necropolis_d_59",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_60",
-    "copy-from": "necropolis_d_60",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_61",
-    "copy-from": "necropolis_d_61",
-    "name": "Vault - Conference Room",
-    "sym": "C",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_62",
-    "copy-from": "necropolis_d_62",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_63",
-    "copy-from": "necropolis_d_63",
-    "name": "Vault - Slum Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_64",
-    "copy-from": "necropolis_d_64",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_65",
-    "copy-from": "necropolis_d_65",
-    "name": "Vault - Living Bays",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_66",
-    "copy-from": "necropolis_d_66",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_67",
-    "copy-from": "necropolis_d_67",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_68",
-    "copy-from": "necropolis_d_68",
-    "name": "Vault - Housing",
-    "sym": "h",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_69",
-    "copy-from": "necropolis_d_69",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_70",
-    "copy-from": "necropolis_d_70",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_71",
-    "copy-from": "necropolis_d_71",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_72",
-    "copy-from": "necropolis_d_72",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_73",
-    "copy-from": "necropolis_d_73",
-    "name": "solid rock",
-    "sym": "%",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_74",
-    "copy-from": "necropolis_d_74",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_75",
-    "copy-from": "necropolis_d_75",
-    "name": "Vault - Library",
-    "sym": "L",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_76",
-    "copy-from": "necropolis_d_76",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_77",
-    "copy-from": "necropolis_d_77",
-    "name": "Vault - Light Industry",
-    "sym": "I",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_78",
-    "copy-from": "necropolis_d_78",
-    "name": "Vault - Light Industry",
-    "sym": "I",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_79",
-    "copy-from": "necropolis_d_79",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_80",
-    "copy-from": "necropolis_d_80",
-    "name": "Vault - Gym",
-    "sym": "G",
-    "color": "yellow"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "necropolis_d_81",
-    "copy-from": "necropolis_d_81",
-    "name": "Vault - Passage",
-    "sym": "┼",
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "evac_center_1",
     "copy-from": "evac_center_1",
     "name": "road",
@@ -5569,6 +3117,14 @@
     "name": "small warehouse",
     "sym": "w",
     "color": "light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "abandonedwarehouse", "abandonedwarehouse_1", "abandonedwarehouse_2", "abandonedwarehouse_3", "abandonedwarehouse_4" ],
+    "copy-from": "abandonedwarehouse",
+    "name": "abandoned warehouse",
+    "sym": "w",
+    "color": "blue"
   },
   {
     "type": "overmap_terrain",
@@ -6595,11 +4151,19 @@
     "color": "green"
   },
   {
-    "id": "dispensary",
+    "id": [ "dispensary", "dispensary_1", "dispensary_2" ],
     "copy-from": "dispensary",
     "type": "overmap_terrain",
     "name": "dispensary",
     "sym": "d",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "headshop",
+    "copy-from": "headshop",
+    "name": "head shop",
+    "sym": "h",
     "color": "blue"
   },
   {
@@ -6631,6 +4195,14 @@
     "copy-from": "art_gallery",
     "type": "overmap_terrain",
     "name": "art gallery",
+    "sym": "a",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_public_art_piece",
+    "copy-from": "cs_public_art_piece",
+    "name": "public art piece",
     "sym": "a",
     "color": "white"
   },
@@ -6675,12 +4247,12 @@
     "color": "i_brown"
   },
   {
-    "id": "pavilion",
+    "id": [ "pavilion", "pavilion_1" ],
     "copy-from": "pavilion",
     "type": "overmap_terrain",
     "name": "pavilion",
-    "sym": "A",
-    "color": "i_green"
+    "sym": "p",
+    "color": "blue"
   },
   {
     "id": "fishing_pond_0_0",
@@ -6723,7 +4295,7 @@
     "color": "brown"
   },
   {
-    "id": "small_storage_units",
+    "id": [ "small_storage_units", "small_storage_units_1" ],
     "copy-from": "small_storage_units",
     "type": "overmap_terrain",
     "name": "small storage units",
@@ -6740,275 +4312,275 @@
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_mansion_no_sidewalk",
-    "copy-from": "generic_mansion_no_sidewalk",
+    "abstract": "generic_mansion",
+    "copy-from": "generic_mansion",
     "name": "mansion",
     "sym": "m",
     "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
-    "abstract": "generic_mansion",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "abstract": "generic_mansion_entrance",
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c1",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c2",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c3",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c4",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c5",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c1u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c2u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c3u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c4u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c5u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c1d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c2d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c3d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c4d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_c5d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+1",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+2",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+3",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+4",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+1u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+2u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+3u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+4u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+1d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+2d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_+4d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t1",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t2",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t4",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t5",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t6",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t7",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t1u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t2u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t4u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t5u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t6u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t7u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t1d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t2d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t4d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t5d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t6d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_t7d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk"
+    "copy-from": "generic_mansion"
   },
   {
     "id": "mansion_e1",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion",
+    "copy-from": "generic_mansion_entrance",
     "sym": "M"
   },
   {
     "id": "mansion_e2",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion",
+    "copy-from": "generic_mansion_entrance",
     "sym": "M"
   },
   {
     "id": "mansion_e1u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk",
+    "copy-from": "generic_mansion",
     "sym": "M"
   },
   {
     "id": "mansion_e2u",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk",
+    "copy-from": "generic_mansion",
     "sym": "M"
   },
   {
     "id": "mansion_e1d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk",
+    "copy-from": "generic_mansion",
     "sym": "M"
   },
   {
     "id": "mansion_e2d",
     "type": "overmap_terrain",
-    "copy-from": "generic_mansion_no_sidewalk",
+    "copy-from": "generic_mansion",
     "sym": "M"
   },
   {
-    "id": "fire_station",
+    "id": [ "fire_station", "fire_station_1" ],
     "copy-from": "fire_station",
     "type": "overmap_terrain",
     "name": "fire station",
@@ -7048,7 +4620,7 @@
     "color": "brown"
   },
   {
-    "id": "gym_fitness",
+    "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ],
     "copy-from": "gym_fitness",
     "type": "overmap_terrain",
     "name": "fitness gym",
@@ -7096,7 +4668,7 @@
     "color": "magenta"
   },
   {
-    "id": "dojo",
+    "id": [ "dojo", "dojo_1" ],
     "copy-from": "dojo",
     "type": "overmap_terrain",
     "name": "dojo",
@@ -7104,11 +4676,19 @@
     "color": "blue"
   },
   {
-    "id": "s_laundromat",
+    "id": [ "s_laundromat", "s_laundromat_1" ],
     "copy-from": "s_laundromat",
     "type": "overmap_terrain",
     "name": "laundromat",
     "sym": "l",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "s_cosmetic" ],
+    "copy-from": "s_cosmetic",
+    "name": "cosmetics store",
+    "sym": "c",
     "color": "blue"
   },
   {
@@ -7153,7 +4733,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "construction_site",
+    "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
     "copy-from": "construction_site",
     "name": "construction site",
     "sym": "c",
@@ -7161,7 +4741,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "post_office",
+    "id": [ "post_office", "post_office_1" ],
     "copy-from": "post_office",
     "name": "post office",
     "sym": "p",
@@ -7169,7 +4749,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "candy_shop",
+    "id": [ "candy_shop", "candy_shop_1" ],
     "copy-from": "candy_shop",
     "name": "candy shop",
     "sym": "c",
@@ -7217,7 +4797,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_butcher",
+    "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ],
     "copy-from": "s_butcher",
     "name": "butcher shop",
     "sym": "b",
@@ -7225,7 +4805,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dollarstore",
+    "id": [ "dollarstore", "dollarstore_1" ],
     "copy-from": "dollarstore",
     "name": "dollar store",
     "sym": "d",
@@ -7593,35 +5173,11 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_petstore",
+    "id": [ "s_petstore", "s_petstore_1", "s_petstore_2" ],
     "copy-from": "s_petstore",
     "name": "pet supply store",
     "sym": "p",
     "color": "magenta"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall0",
-    "copy-from": "trailerparksmall0",
-    "name": "trailer park",
-    "sym": "t",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall1",
-    "copy-from": "trailerparksmall1",
-    "name": "trailer park",
-    "sym": "t",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall2",
-    "copy-from": "trailerparksmall2",
-    "name": "trailer park",
-    "sym": "t",
-    "color": "i_light_green"
   },
   {
     "type": "overmap_terrain",
@@ -7761,6 +5317,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "smallscrapyard",
+    "copy-from": "smallscrapyard",
+    "name": "small scrap yard",
+    "sym": "s",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "smallscrapyard_ocu" ],
+    "copy-from": "smallscrapyard_ocu",
+    "name": "scrap yard",
+    "sym": "s",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "music_venue",
     "copy-from": "music_venue",
     "name": "music venue",
@@ -7769,11 +5341,19 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_bike_shop",
+    "id": [ "s_bike_shop", "s_bike_shop_1" ],
     "copy-from": "s_bike_shop",
     "name": "bike shop",
     "color": "light_blue",
     "sym": "b"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "cs_car_dealership", "s_cardealer" ],
+    "copy-from": "cs_car_dealership",
+    "name": "car dealership",
+    "sym": "c",
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -7979,7 +5559,15 @@
     "type": "overmap_terrain",
     "id": "zoo_2_0",
     "copy-from": "zoo_2_0",
-    "name": "zoo pavilion",
+    "name": "zoo entrance",
+    "sym": "Z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_0",
+    "copy-from": "zoo_3_0",
+    "name": "zoo entrance",
     "sym": "Z",
     "color": "i_blue"
   },
@@ -8003,6 +5591,14 @@
     "type": "overmap_terrain",
     "id": "zoo_2_1",
     "copy-from": "zoo_2_1",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_1",
+    "copy-from": "zoo_3_1",
     "name": "zoo",
     "sym": "z",
     "color": "i_blue"
@@ -8033,6 +5629,46 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_3_2",
+    "copy-from": "zoo_3_2",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_3",
+    "copy-from": "zoo_0_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_3",
+    "copy-from": "zoo_1_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_3",
+    "copy-from": "zoo_2_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_3",
+    "copy-from": "zoo_3_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "shootingrange_1a",
     "copy-from": "shootingrange_1a",
     "name": "shooting range",
@@ -8046,6 +5682,14 @@
     "name": "shooting range",
     "sym": "r",
     "color": "i_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gunshow_0", "gunshow_1" ],
+    "copy-from": "gunshow_0",
+    "name": "gun show",
+    "sym": "g",
+    "color": "red"
   },
   {
     "type": "overmap_terrain",

@@ -6,8 +6,7 @@
     "description": "A leather belt.  Useful for making your pair of pants fit.",
     "weight": "102 g",
     "volume": "250 ml",
-    "price": 90000,
-    "bashing": 5,
+    "price": "900 USD",
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "color": "brown",
@@ -19,12 +18,14 @@
         "max_contains_weight": "750 g",
         "max_item_length": "70 cm",
         "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
-    "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY" ],
-    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "STURDY", "OVERSIZE" ],
+    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "TOOL_ARMOR",
@@ -45,10 +46,15 @@
     "material": [ "superalloy" ],
     "material_thickness": 10,
     "environmental_protection": 20,
-    "weight_capacity_bonus": "50 kg",
     "extend": { "flags": [ "PADDED" ] },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "STRENGTH", "multiply": 1.0 }, { "value": "CARRY_WEIGHT", "add": 50000 } ]
+        }
+      ]
     }
   },
   {
@@ -207,7 +213,7 @@
     ],
     "symbol": "[",
     "description": "A custom-built leather utility belt that instantly creates any tool that you reach for.  Activate to sheathe/draw a weapon.",
-    "price": 500000,
+    "price": "5 kUSD",
     "material": [ "leather", "steel" ],
     "volume": "4 L",
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ],
@@ -257,12 +263,10 @@
     "description": "A long braided flexible steel bullwhip that narrows into a sharp blade at the end.  Easily capable of slicing and dicing anything that comes at you.  It transforms back into a belt.",
     "weight": "2154 g",
     "volume": "2 L",
-    "price": 350000,
+    "price": "3 kUSD 500 USD",
     "material": [ "steel" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "UNBREAKABLE_MELEE" ],
     "techniques": [ "WBLOCK_1", "SWEEP", "WHIP_DISARM", "WRAP" ],
-    "cutting": 16,
-    "bashing": 8,
     "use_action": {
       "type": "transform",
       "menu_text": "Collapse",
@@ -270,6 +274,7 @@
       "active": false,
       "moves": 20,
       "msg": "You loop the whip in your hand and it coils back into a belt form in an instant."
-    }
+    },
+    "melee_damage": { "bash": 8, "cut": 16 }
   }
 ]

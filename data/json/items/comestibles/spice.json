@@ -65,6 +65,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "salt" },
     "description": "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
+    "material": [ "salt" ],
     "color": "white"
   },
   {
@@ -81,27 +82,25 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "seasoned salt" },
     "description": "Salt mixed with a fragrant blend of secret herbs and spices.",
+    "material": [ "salt" ],
     "color": "brown"
   },
   {
+    "//": "Our recipes have traditionally been standardized against sugar units of 5 mg. Refer also to the sugar_standard item group for more sugar-related items and their ratios to one another. Density is now accurate.",
     "type": "COMESTIBLE",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
     "color": "white",
-    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
-    "price": 387,
-    "price_postapoc": 300,
-    "material": [ "powder", "junk" ],
-    "primary_material": "powder",
-    "volume": "250 ml",
+    "price": "5 cent",
+    "price_postapoc": "4 cent",
+    "material": [ "sugar" ],
+    "volume": "6 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted.",
-    "charges": 71
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -111,10 +110,10 @@
     "copy-from": "sugar",
     "container": "bottle_plastic_small",
     "description": "Known as nonpareils, sprinkles, jimmies, sugar strands or 'hundreds-and-thousands', these colorful balls, rods or flakes of sugar and starch are intended for use decorating soft surfaces of sweets.  Like sugar, they are bad for your teeth and surprisingly not very tasty on their own.",
-    "price": 399,
-    "price_postapoc": 200,
+    "price": "6 cent",
+    "price_postapoc": "3 cent",
     "calories": 20,
-    "charges": 66
+    "volume": "4 ml"
   },
   {
     "type": "COMESTIBLE",
@@ -127,14 +126,13 @@
     "quench": -1,
     "calories": 9,
     "description": "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and fireweed.",
-    "price": 190,
-    "price_postapoc": 50,
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
     "material": [ "veggy" ],
-    "volume": "250 ml",
-    "charges": 20,
+    "volume": "2 ml",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
-    "stack_size": 100,
-    "fun": -1
+    "fun": -1,
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "soysauce",
@@ -143,8 +141,8 @@
     "color": "brown",
     "name": { "str_sp": "soy sauce" },
     "description": "Salty fermented soybean sauce.",
-    "price": 190,
-    "price_postapoc": 25,
+    "price": "1 USD 90 cent",
+    "price_postapoc": "25 cent",
     "weight": "24 g",
     "volume": "250 ml",
     "calories": 17,
@@ -160,19 +158,19 @@
   {
     "type": "COMESTIBLE",
     "id": "thyme",
-    "name": { "str": "thyme" },
+    "name": { "str_sp": "thyme" },
     "description": "A stalk of thyme.  Smells delicious.",
     "comestible_type": "FOOD",
     "calories": 9,
     "fun": -4,
     "weight": "40 g",
-    "to_hit": -3,
     "color": "magenta",
     "symbol": ",",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "mustard_powder",
@@ -180,14 +178,15 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "mustard powder" },
     "description": "A fragrant yellow powder.  Not edible in this form.",
-    "color": "red"
+    "color": "yellow"
   },
   {
     "id": "artificial_sweetener",
     "copy-from": "sugar",
     "type": "COMESTIBLE",
-    "name": { "str": "artificial sweetener" },
+    "name": { "str_sp": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
+    "material": [ "powder" ],
     "calories": 0
   }
 ]

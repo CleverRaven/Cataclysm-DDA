@@ -20,7 +20,7 @@
         "place_monster": [
           { "monster": "mon_feral_scientist_scalpel", "name": "The Target", "x": 11, "y": 11, "target": true },
           { "monster": "mon_feral_labsecurity_9mm", "name": "The Guard", "x": 12, "y": 12 },
-          { "monster": "mon_feral_soldier", "name": "The Colaborator", "x": 9, "y": 9 },
+          { "monster": "mon_feral_soldier", "name": "The Collaborator", "x": 9, "y": 9 },
           { "monster": "mon_feral_fancy_rapier", "name": "The Aristocrat", "x": 13, "y": 13 },
           { "monster": "mon_feral_maid_broom", "name": "The Servant", "x": 12, "y": 13 }
         ]
@@ -141,7 +141,7 @@
     "name": { "str": "Life vow" },
     "description": "Live your life to the fullest, prove to yourself that you can survive this new obstacle in the same way that you have survived the last.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 7 },
+    "goal_condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
     "difficulty": 4,
     "value": 0,
     "end": {
@@ -163,7 +163,7 @@
     "name": { "str": "Prepare for your next show" },
     "description": "Become the best clown, make sure that your next show will make everyone laugh by training your social skills to perfection.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_skill": { "skill": "speech", "level": 6 } },
+    "goal_condition": { "math": [ "u_skill('speech')", ">=", "6" ] },
     "difficulty": 3,
     "value": 0,
     "end": {
@@ -209,8 +209,8 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "and": [
-        { "u_has_skill": { "skill": "melee", "level": 5 } },
-        { "u_has_skill": { "skill": "dodge", "level": 5 } },
+        { "math": [ "u_skill('melee')", ">=", "5" ] },
+        { "math": [ "u_skill('dodge')", ">=", "5" ] },
         { "u_has_item": "judo_belt_black" }
       ]
     },
@@ -237,6 +237,35 @@
     "goal": "MGOAL_CONDITION",
     "goal_condition": { "u_has_item": "katana" },
     "difficulty": 4,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_FIND_RIFLE",
+    "type": "mission_definition",
+    "name": { "str": "Find a new rifle" },
+    "description": "When you were escaping an evacuation point that was overrun, you had to leave your rifle behind.  Shame on you, what's a hunter without their hunting rifle?  You have to find one immediately.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "or": [
+        { "u_has_item": "remmington_700" },
+        { "u_has_item": "modular_ar15" },
+        { "u_has_item": "remington700_270" },
+        { "u_has_item": "savage_111f" }
+      ]
+    },
+    "difficulty": 3,
     "value": 0,
     "end": {
       "effect": [
@@ -449,6 +478,32 @@
         { "u_has_item": "dinosuit" },
         { "u_has_item": "bondage_suit" },
         { "u_has_item": "clown_suit" },
+        { "u_has_item": "sharksuit" },
+        { "u_has_item": "jumpsuit_skeleton_zipped" },
+        { "u_has_item": "maid_dress" },
+        { "u_has_item": "mummy_dress" },
+        { "u_has_item": "bee_dress" },
+        { "u_has_item": "sinister_dress" },
+        { "u_has_item": "sinister_gown" },
+        { "u_has_item": "cloak_vampire" },
+        { "u_has_item": "cloak_vampire_red" },
+        { "u_has_item": "witch_dress" },
+        { "u_has_item": "witch_dress_long" },
+        { "u_has_item": "witch_dress_short" },
+        { "u_has_item": "robe_wizard" },
+        { "u_has_item": "ninja_dress" },
+        { "u_has_item": "ninja_dress_sleeveless" },
+        { "u_has_item": "jacket_ninja" },
+        { "u_has_item": "santa_dress" },
+        { "u_has_item": "santa_dress_short" },
+        { "u_has_item": "santa_dress_long" },
+        { "u_has_item": "santa_jacket" },
+        { "u_has_item": "santa_jacket_short" },
+        { "u_has_item": "grim_reaper_robe" },
+        { "u_has_item": "grim_reaper_robe_faceless" },
+        { "u_has_item": "ghost_robe" },
+        { "u_has_item": "jedi_cloak" },
+        { "u_has_item": "sheriffshirt" },
         { "u_has_item": "zentai" }
       ]
     },
@@ -529,7 +584,6 @@
         { "u_has_item": "dnd" },
         { "u_has_item": "g_warhammer" },
         { "u_has_item": "g_warhammer40k" },
-        { "u_has_item": "cards_magic" },
         { "u_has_item": "deck_of_cards" },
         { "u_has_item": "chess" },
         { "u_has_item": "checkers" },
@@ -561,7 +615,7 @@
     "name": { "str": "Ready or Not" },
     "description": "Survive all day from the crazy inhabitants of the mansion.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 1 },
+    "goal_condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 1" ] },
     "difficulty": 3,
     "value": 0,
     "end": {
@@ -602,14 +656,77 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_HELICOPTER_CRASH",
+    "type": "mission_definition",
+    "name": { "str": "Return to base" },
+    "description": "Your helicopter was crashed to the ground, communications were lost with ground base, and the rest of your team died while landing, at least you still know the way back to the base.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "helipad_nw",
+    "difficulty": 4,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "helipad_nw",
+        "reveal_radius": 10,
+        "om_special": "military helipad",
+        "search_range": 70,
+        "min_distance": 25,
+        "z": 0
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_HELICOPTER_PILOT",
+    "type": "mission_definition",
+    "name": { "str": "Go to the refueling stop" },
+    "description": "Your bird is now on the ground, never again able to fly, you could search for a new one in the closest refueling stop requisitioned by the military.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_helicopter_pad",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 65,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_military_pilot", "x": 1, "y": 1 },
+          { "monster": "mon_feral_soldier", "x": 3, "y": 3 },
+          { "monster": "mon_zombie_soldier", "x": 7, "y": 3 },
+          { "monster": "mon_zombie_soldier", "x": 8, "y": 2 },
+          { "monster": "mon_zombie_soldier", "x": 7, "y": 6 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
-    "name": { "str": "Reach The Mansion And Finish This Delivery" },
+    "name": { "str": "Deliver Your Cargo" },
+    "description": "You're not sure who orders takeout when the world's ending, but that doesn't matter.  Evacuation doesn't matter.  Nothing, indeed, matters, save for safely delivering your precious cargo to its destination: a remote mansion.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "mansion_c3",
     "difficulty": 1,
     "value": 0,
-    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Wild", "search_range": 200 } },
+    "start": { "assign_mission_target": { "om_terrain": "mansion_c3", "om_special": "Mansion_Road", "search_range": 200 } },
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
@@ -620,8 +737,21 @@
     "goal": "MGOAL_KILL_NEMESIS",
     "difficulty": 5,
     "value": 0,
+    "//": "monster_kill_goal MUST be 1 or else the mission will spawn a new nemesis on its death.",
+    "monster_kill_goal": 1,
     "start": "kill_nemesis",
     "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_SURVIVE_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Survive your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can fight it but never truly kill it.  It won't end until you die.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 10,
+    "value": 0,
+    "start": "kill_nemesis",
     "origins": [ "ORIGIN_GAME_START" ]
   }
 ]

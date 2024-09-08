@@ -73,17 +73,54 @@
   },
   {
     "type": "furniture",
+    "id": "f_plant_unharvested_overgrown",
+    "looks_like": "t_grass_tall",
+    "name": "overgrown plant",
+    "description": "This patch of green used to be a cultivated field or some sort of monocrop agriculture.  Neglected for too long, it has been overtaken by nature.",
+    "symbol": "#",
+    "color": "red",
+    "coverage": 50,
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_OVERGROWN",
+      "SMALL_HIDE"
+    ],
+    "examine_action": "clear_overgrown",
+    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_null" }
+  },
+  {
+    "type": "furniture",
     "id": "f_plant_harvest",
     "name": "harvestable plant",
     "description": "This plant is fully grown and ready to be harvested.  Identifying how to harvest it requires closer examination.",
     "symbol": "#",
     "color": "light_green",
-    "move_cost_mod": 0,
+    "coverage": 30,
+    "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_HARVEST",
+      "SMALL_HIDE"
+    ],
     "examine_action": "harvest_plant_ex",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_data": { "transform": "f_null", "base": "f_null" }
+    "plant_data": { "transform": "f_plant_unharvested_overgrown", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -94,7 +131,7 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
@@ -163,6 +200,47 @@
   },
   {
     "type": "furniture",
+    "id": "f_planter_unharvested_overgrown",
+    "name": "planter with dead plants",
+    "description": "Somewhere beneath this heap of dying plants you can see the shape of wooden furniture.  Left without care, the plants it used to nurture have shriveled and died.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "f_planter",
+    "move_cost_mod": 3,
+    "required_str": -1,
+    "examine_action": "clear_overgrown",
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_OVERGROWN",
+      "SMALL_HIDE"
+    ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 2,
+      "str_max": 4,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 1,
+      "furn_set": "f_planter",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] } ]
+    },
+    "plant_data": { "transform": "f_planter_unharvested_overgrown", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
     "id": "f_planter_harvest",
     "name": "planter with harvestable plant",
     "description": "A garden planter full of soil and slatted to allow adequate drainage.  This one has a fully grown plant, and will need closer examination to harvest.",
@@ -171,7 +249,17 @@
     "looks_like": "f_plant_harvest",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "flags": [
+      "PLANT",
+      "SEALED",
+      "TRANSPARENT",
+      "CONTAINER",
+      "NOITEM",
+      "TINY",
+      "DONT_REMOVE_ROTTEN",
+      "GROWTH_HARVEST",
+      "SMALL_HIDE"
+    ],
     "examine_action": "harvest_plant_ex",
     "deconstruct": {
       "items": [
@@ -183,17 +271,18 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 8,
+      "furn_set": "f_planter",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
+        { "item": "withered", "count": [ 2, 8 ] },
+        { "item": "leaves", "count": [ 4, 16 ] },
+        { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
-    "plant_data": { "transform": "f_planter", "base": "f_planter" }
+    "plant_data": { "transform": "f_planter_unharvested_overgrown", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -205,7 +294,7 @@
     "looks_like": "f_plant_mature",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE", "SMALL_HIDE" ],
     "examine_action": "aggie_plant",
     "deconstruct": {
       "items": [
@@ -217,14 +306,15 @@
     },
     "bash": {
       "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
+      "str_max": 10,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 8,
+      "furn_set": "f_planter",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
+        { "item": "withered", "count": [ 2, 8 ] },
+        { "item": "leaves", "count": [ 4, 16 ] },
+        { "item": "twig", "count": [ 1, 5 ] }
       ]
     },
     "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
@@ -250,16 +340,13 @@
       ]
     },
     "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
-      "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
-      ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 4,
+      "furn_set": "f_planter",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
     },
     "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
@@ -284,17 +371,47 @@
       ]
     },
     "bash": {
-      "str_min": 6,
-      "str_max": 14,
-      "sound": "crunch.",
-      "sound_fail": "whish.",
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 6,
+      "furn_set": "f_planter",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "charges": [ 15, 30 ] },
-        { "item": "pebble", "charges": [ 150, 200 ] },
-        { "item": "material_soil", "count": [ 60, 75 ] }
+        { "item": "withered", "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 2, 6 ] },
+        { "item": "twig", "count": [ 0, 1 ] }
       ]
     },
     "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stook_full",
+    "name": "grain stook",
+    "description": "Sheaves of cut grain have been stood upright in a self-supporting A-frame to dry, keeping the seeds off the ground and out of reach of vermin.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 1,
+    "coverage": 40,
+    "deconstruct": { "items": [  ] },
+    "required_str": 3,
+    "flags": [ "SEALED", "TRANSPARENT", "CONTAINER", "EASY_DECONSTRUCT", "DONT_REMOVE_ROTTEN", "FLAMMABLE_ASH" ],
+    "examine_action": "stook_full",
+    "bash": { "str_min": 3, "str_max": 60, "sound": "crunch.", "sound_fail": "whish." }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stook_empty",
+    "name": "stooking spot",
+    "description": "A space has been cleared out here for grain drying.  Place fresh stalks of grain in this spot and examine to set up a stook.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 0,
+    "deconstruct": { "items": [  ] },
+    "max_volume": "10 L",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "CONTAINER", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "examine_action": "stook_empty"
   }
 ]

@@ -2,16 +2,19 @@
 #ifndef CATA_SRC_ACTIVITY_TYPE_H
 #define CATA_SRC_ACTIVITY_TYPE_H
 
-#include <iosfwd>
+#include <set>
+#include <string>
 
+#include "enums.h"
 #include "game_constants.h"
-#include "string_id.h"
-#include "translations.h"
+#include "translation.h"
+#include "type_id.h"
 
+class Character;
 class JsonObject;
 class activity_type;
-class Character;
 class player_activity;
+template <typename T> struct enum_traits;
 
 using activity_id = string_id<activity_type>;
 
@@ -22,7 +25,13 @@ const activity_type &string_id<activity_type>::obj() const;
 enum class based_on_type : int {
     TIME = 0,
     SPEED,
-    NEITHER
+    NEITHER,
+    last,
+};
+
+template<>
+struct enum_traits<based_on_type> {
+    static constexpr based_on_type last = based_on_type::last;
 };
 
 /** A class that stores constant information that doesn't differ between activities of the same type */
@@ -34,17 +43,22 @@ class activity_type
         translation verb_ = to_translation( "THIS IS A BUG" );
         bool interruptable_ = true;
         bool interruptable_with_kb_ = true;
-        bool suspendable_ = true;
         based_on_type based_on_ = based_on_type::SPEED;
-        bool no_resume_ = false;
+        bool can_resume_ = true;
         bool multi_activity_ = false;
         bool refuel_fires = false;
         bool auto_needs = false;
         float activity_level = NO_EXERCISE;
-
+        std::set<distraction_type> default_ignored_distractions_;
     public:
+        effect_on_condition_id completion_EOC;
+        effect_on_condition_id do_turn_EOC;
+
         const activity_id &id() const {
             return id_;
+        }
+        const std::set<distraction_type> &default_ignored_distractions() const {
+            return default_ignored_distractions_;
         }
         bool rooted() const {
             return rooted_;
@@ -55,9 +69,6 @@ class activity_type
         bool interruptable_with_kb() const {
             return interruptable_with_kb_;
         }
-        bool suspendable() const {
-            return suspendable_;
-        }
         std::string stop_phrase() const;
         const translation &verb() const {
             return verb_;
@@ -65,8 +76,8 @@ class activity_type
         based_on_type based_on() const {
             return based_on_;
         }
-        bool no_resume() const {
-            return no_resume_;
+        bool can_resume() const {
+            return can_resume_;
         }
         bool multi_activity() const {
             return multi_activity_;

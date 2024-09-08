@@ -2,6 +2,7 @@
   {
     "type": "overlay_order",
     "overlay_ordering": [
+      { "id": [ "eye_color" ], "order": 250 },
       {
         "id": [
           "THRESH_CATTLE",
@@ -83,6 +84,7 @@
         ],
         "order": 1500
       },
+      { "id": [ "SHELL", "SHELL2", "SHELL3" ], "order": 1520 },
       {
         "id": [
           "FACIAL_HAIR_NONE",
@@ -116,43 +118,29 @@
       },
       {
         "id": [
-          "hair_black_crewcut",
-          "hair_black_mohawk",
-          "hair_black_fro",
-          "hair_black_short",
-          "hair_black_medium",
-          "hair_black_long",
-          "hair_brown_crewcut",
-          "hair_brown_mohawk",
-          "hair_brown_fro",
-          "hair_brown_short",
-          "hair_brown_medium",
-          "hair_brown_long",
-          "hair_blond_crewcut",
-          "hair_blond_mohawk",
-          "hair_blond_fro",
-          "hair_blond_short",
-          "hair_blond_medium",
-          "hair_blond_long",
-          "hair_red_crewcut",
-          "hair_red_mohawk",
-          "hair_red_fro",
-          "hair_red_short",
-          "hair_red_medium",
-          "hair_red_long",
-          "hair_gray_crewcut",
-          "hair_gray_mohawk",
-          "hair_gray_fro",
-          "hair_gray_short",
-          "hair_gray_medium",
-          "hair_gray_long",
-          "hair_white_crewcut",
-          "hair_white_mohawk",
-          "hair_white_fro",
-          "hair_white_short",
-          "hair_white_medium",
-          "hair_white_long",
-          "hair_bald"
+          "hair_bald",
+          "hair_beaded",
+          "hair_braid",
+          "hair_bun",
+          "hair_buzzcut",
+          "hair_crewcut",
+          "hair_curls",
+          "hair_detective",
+          "hair_fro",
+          "hair_long_over_eye",
+          "hair_long",
+          "hair_medium",
+          "hair_messy",
+          "hair_modern",
+          "hair_mohawk",
+          "hair_ponytail",
+          "hair_puff",
+          "hair_punk_long",
+          "hair_short_no_fringe",
+          "hair_short_over_eye",
+          "hair_short",
+          "hair_super_princess",
+          "hair_twintails"
         ],
         "order": 1600
       },
@@ -209,11 +197,8 @@
       },
       { "id": [ "FANGS", "MANDIBLES", "SABER_TEETH" ], "order": 7500 },
       { "id": [ "FORKED_TONGUE" ], "order": 8000 },
-      {
-        "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
-        "order": 8500
-      },
-      { "id": [ "EXODII_BODY_1" ], "order": 10000 }
+      { "id": [ "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ], "order": 8500 },
+      { "id": [ "EXODII_BODY_1", "EXODII_BODY_2" ], "order": 10000 }
     ]
   }
 ]

@@ -13,14 +13,10 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "sound_category": "sunny",
+    "priority": 10,
     "condition": {
-      "and": [
-        "is_day",
-        { "compare_int": [ { "weather": "pressure" }, ">=", { "const": 1020 } ] },
-        { "compare_int": [ { "weather": "humidity" }, "<", { "const": 70 } ] }
-      ]
+      "and": [ "is_day", { "math": [ "weather('pressure')", ">=", "1020" ] }, { "math": [ "weather('humidity')", "<", "70" ] } ]
     }
   },
   {
@@ -38,14 +34,9 @@
     "dangerous": false,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "sound_category": "cloudy",
-    "condition": {
-      "and": [
-        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 40 } ] },
-        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1010 } ] }
-      ]
-    }
+    "priority": 20,
+    "condition": { "and": [ { "math": [ "weather('humidity')", ">=", "40" ] }, { "math": [ "weather('pressure')", "<", "1010" ] } ] }
   },
   {
     "id": "light_drizzle",
@@ -62,17 +53,12 @@
     "dangerous": false,
     "precip": "very_light",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
     "required_weathers": [ "cloudy" ],
-    "condition": {
-      "or": [
-        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 96 } ] },
-        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1003 } ] }
-      ]
-    }
+    "priority": 30,
+    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "96" ] }, { "math": [ "weather('pressure')", "<", "1003" ] } ] }
   },
   {
     "id": "drizzle",
@@ -89,17 +75,12 @@
     "dangerous": false,
     "precip": "light",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
     "required_weathers": [ "light_drizzle" ],
-    "condition": {
-      "or": [
-        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
-        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
-      ]
-    }
+    "priority": 40,
+    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "97" ] }, { "math": [ "weather('pressure')", "<", "1000" ] } ] }
   },
   {
     "id": "rain",
@@ -116,17 +97,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
     "required_weathers": [ "light_drizzle", "drizzle" ],
-    "condition": {
-      "or": [
-        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
-        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
-      ]
-    }
+    "priority": 50,
+    "condition": { "or": [ { "math": [ "weather('humidity')", ">=", "98" ] }, { "math": [ "weather('pressure')", "<", "993" ] } ] }
   },
   {
     "id": "rainstorm",
@@ -138,20 +114,20 @@
     "ranged_penalty": 6,
     "sight_penalty": 1.2,
     "light_modifier": -35,
+    "sun_multiplier": 0.01,
     "sound_attn": 8,
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "blue", "sym": ";" },
     "sound_category": "rainstorm",
-    "sun_intensity": "none",
     "required_weathers": [ "rain" ],
+    "priority": 60,
     "condition": {
       "and": [
-        { "compare_int": [ { "weather": "temperature" }, ">=", { "const": 33 } ] },
-        { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 15 } ] }
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 33 )" ] },
+        { "math": [ "weather('windpower')", ">=", "15" ] }
       ]
     }
   },
@@ -170,12 +146,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
     "required_weathers": [ "rain" ],
-    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 996 } ] }
+    "priority": 70,
+    "condition": { "math": [ "weather('pressure')", "<", "996" ] }
   },
   {
     "id": "lightning",
@@ -192,54 +168,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": true,
-    "acidic": false,
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "required_weathers": [ "thunder" ],
-    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
-  },
-  {
-    "id": "acid_drizzle",
-    "type": "weather_type",
-    "name": "Acidic Drizzle",
-    "color": "light_green",
-    "map_color": "yellow_green",
-    "sym": ".",
-    "ranged_penalty": 2,
-    "sight_penalty": 1.03,
-    "light_modifier": -20,
-    "sun_multiplier": 0.1,
-    "sound_attn": 1,
-    "dangerous": true,
-    "precip": "light",
-    "rains": true,
-    "acidic": true,
-    "tiles_animation": "weather_acid_drop",
-    "weather_animation": { "factor": 0.01, "color": "light_green", "sym": "." },
-    "sound_category": "drizzle",
-    "required_weathers": [ "drizzle" ]
-  },
-  {
-    "id": "acid_rain",
-    "type": "weather_type",
-    "name": "Acid Rain",
-    "color": "green",
-    "map_color": "yellow_green",
-    "sym": "o",
-    "ranged_penalty": 4,
-    "sight_penalty": 1.1,
-    "light_modifier": -30,
-    "sun_multiplier": 0.03,
-    "sound_attn": 4,
-    "dangerous": true,
-    "precip": "heavy",
-    "rains": true,
-    "acidic": true,
-    "tiles_animation": "weather_acid_drop",
-    "weather_animation": { "factor": 0.02, "color": "light_green", "sym": "," },
-    "sound_category": "rainy",
-    "required_weathers": [ "rain" ]
+    "priority": 80,
+    "condition": { "math": [ "weather('pressure')", "<", "990" ] }
   },
   {
     "id": "flurries",
@@ -256,12 +190,12 @@
     "dangerous": false,
     "precip": "light",
     "rains": false,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
-    "required_weathers": [ "flurries" ],
-    "condition": { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
+    "required_weathers": [ "drizzle" ],
+    "priority": 90,
+    "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
   },
   {
     "id": "snowing",
@@ -278,12 +212,12 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": false,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "," },
     "sound_category": "snow",
     "required_weathers": [ "rain", "thunder", "lightning" ],
-    "condition": { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
+    "priority": 100,
+    "condition": { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] }
   },
   {
     "id": "snowstorm",
@@ -300,17 +234,90 @@
     "dangerous": false,
     "precip": "heavy",
     "rains": false,
-    "acidic": false,
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "required_weathers": [ "thunder", "lightning" ],
+    "priority": 110,
     "condition": {
       "and": [
-        { "compare_int": [ { "weather": "temperature" }, "<", { "const": 33 } ] },
-        { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 15 } ] }
+        { "math": [ "weather('temperature')", "<", "from_fahrenheit( 33 )" ] },
+        { "math": [ "weather('windpower')", ">=", "15" ] }
       ]
     }
+  },
+  {
+    "id": "mist",
+    "type": "weather_type",
+    "name": "Mist",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 3,
+    "sight_penalty": 1.3,
+    "light_modifier": -20,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 20,
+    "required_weathers": [ "clear", "sunny", "fog" ],
+    "condition": {
+      "and": [
+        { "math": [ "weather('windpower')", "<", "12" ] },
+        { "math": [ "weather('windpower')", ">", "0" ] },
+        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] },
+        { "math": [ "weather('humidity')", "<", "90" ] }
+      ]
+    }
+  },
+  {
+    "id": "fog",
+    "type": "weather_type",
+    "name": "Fog",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 7,
+    "sight_penalty": 1.7,
+    "light_modifier": -40,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "none",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 20,
+    "required_weathers": [ "clear", "sunny", "mist" ],
+    "condition": {
+      "and": [
+        { "math": [ "weather('windpower')", "<", "12" ] },
+        { "math": [ "weather('windpower')", ">", "0" ] },
+        { "math": [ "dew_point_factor(celsius(weather('temperature')))", "<=", "2.5" ] }
+      ]
+    }
+  },
+  {
+    "type": "jmath_function",
+    "id": "dprhx",
+    "num_args": 1,
+    "return": "log(weather('humidity') / 100) + 17.625 * _0 / (243.04 + _0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dew_point",
+    "num_args": 1,
+    "//": "Eq. (8) from https://doi.org/10.1175/BAMS-86-2-225; _0 is temperature in Celsius",
+    "return": "243.04 * dprhx(_0) / (17.625 - dprhx(_0))"
+  },
+  {
+    "type": "jmath_function",
+    "id": "dew_point_factor",
+    "num_args": 1,
+    "//": "the closer this difference gets to zero, the bigger the probability for fog to occur, starting at around 2.5 Celsius",
+    "return": "abs( _0 - dew_point(_0) )"
   },
   {
     "id": "early_portal_storm",
@@ -327,13 +334,80 @@
     "dangerous": true,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "debug_cause_eoc": "EOC_CAUSE_EARLY_PORTAL_STORM",
     "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
+    "priority": 120,
+    "condition": {
+      "and": [
+        { "math": [ "cause_early_portal_storm", "==", "1" ] },
+        {
+          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distant_distance, 200)" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "distant_portal_storm",
+    "type": "weather_type",
+    "name": "Distant Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -8,
+    "sun_multiplier": 0.7,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "priority": 130,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distant_distance, 200)" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "close_portal_storm",
+    "type": "weather_type",
+    "name": "Close Portal Storm",
+    "color": "red",
+    "map_color": "red",
+    "sym": "O",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.0,
+    "light_modifier": -10,
+    "sun_multiplier": 0.6,
+    "sound_attn": 0,
+    "dangerous": true,
+    "precip": "none",
+    "rains": false,
+    "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
+    "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
+    "tiles_animation": "weather_portal_storm",
+    "weather_animation": { "factor": 0.02, "color": "red", "sym": "*" },
+    "sound_category": "portal_storm",
+    "priority": 131,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_close_distance, 100)" ]
+        }
+      ]
+    }
   },
   {
     "id": "portal_storm",
@@ -344,18 +418,25 @@
     "sym": "O",
     "ranged_penalty": 0,
     "sight_penalty": 1.0,
-    "light_modifier": -10,
-    "sun_multiplier": 0.7,
+    "light_modifier": -14,
+    "sun_multiplier": 0.5,
     "sound_attn": 0,
     "dangerous": true,
     "precip": "none",
     "rains": false,
-    "acidic": false,
     "debug_cause_eoc": "EOC_CAUSE_PORTAL_STORM",
     "debug_leave_eoc": "EOC_CANCEL_PORTAL_STORM",
     "tiles_animation": "weather_portal_storm",
-    "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
+    "weather_animation": { "factor": 0.03, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "condition": { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
+    "priority": 132,
+    "condition": {
+      "and": [
+        { "math": [ "cause_portal_storm", "==", "1" ] },
+        {
+          "math": [ "distance(_weather_location, portal_storm_center)", "<=", "value_or(portal_storm_distance, 50)" ]
+        }
+      ]
+    }
   }
 ]

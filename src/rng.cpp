@@ -30,12 +30,49 @@ double rng_float( double lo, double hi )
     if( lo > hi ) {
         std::swap( lo, hi );
     }
-    return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
+    if( std::isfinite( lo ) && std::isfinite( hi ) ) {
+        return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
+    }
+    debugmsg( "rng_float called with nan/inf" );
+    return 0;
 }
 
 units::angle random_direction()
 {
     return rng_float( 0_pi_radians, 2_pi_radians );
+}
+
+// Returns the area under a curve with provided standard deviation and center
+// from difficulty to positive infinity. That is, the chance that a normal roll on
+// said curve will return a value of difficulty or greater.
+float normal_roll_chance( float center, float stddev, float difficulty )
+{
+    cata_assert( stddev >= 0.f );
+    // We're going to be using them a lot, so let's name our variables.
+    // M = the given "center" of the curve
+    // S = the given standard deviation of the curve
+    // A = the difficulty
+    // So, the equation of the normal curve is...
+    // y = (1.f/(S*std::sqrt(2 * M_PI))) * exp(-(std::pow(x - M, 2))/(2 * std::pow(S, 2)))
+    // Thanks to wolfram alpha, we know the integral of that from A to B to be
+    // 0.5 * (erf((M-A)/(std::sqrt(2) * S)) - erf((M-B)/(std::sqrt(2) * S)))
+    // And since we know B to be infinity, we can simplify that to
+    // 0.5 * (erfc((A-m)/(std::sqrt(2)* S))+sgn(S)-1) (as long as S != 0)
+    // Wait a second, what are erf, erfc and sgn?
+    // Oh, those are the error function, complementary error function, and sign function
+    // Luckily, erf() is provided to us in math.h, and erfc is just 1 - erf
+    // Sign is pretty obvious x > 0 ? x == 0 ? 0 : 1 : -1;
+    // Since we know S will always be > 0, that term vanishes.
+
+    // With no standard deviation, we will always return center
+    if( stddev == 0.f ) {
+        return ( center > difficulty ) ? 1.f : 0.f;
+    }
+
+    float numerator = difficulty - center;
+    float denominator = std::sqrt( 2 ) * stddev;
+    float compl_erf = 1.f - std::erf( numerator / denominator );
+    return 0.5 * compl_erf;
 }
 
 double normal_roll( double mean, double stddev )
@@ -49,6 +86,13 @@ double exponential_roll( double lambda )
     static std::exponential_distribution<double> rng_exponential_dist;
     return rng_exponential_dist( rng_get_engine(),
                                  std::exponential_distribution<>::param_type( lambda ) );
+}
+
+double chi_squared_roll( double trial_num )
+{
+    static std::chi_squared_distribution<double> rng_chi_squared_dist;
+    return rng_chi_squared_dist( rng_get_engine(),
+                                 std::chi_squared_distribution<>::param_type( trial_num ) );
 }
 
 double rng_exponential( double min, double mean )
@@ -145,11 +189,17 @@ double rng_normal( double lo, double hi )
     return clamp( val, lo, hi );
 }
 
+cata_default_random_engine::result_type rng_get_first_seed()
+{
+    using rep = std::chrono::high_resolution_clock::rep;
+    static rep seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    return static_cast<cata_default_random_engine::result_type>( seed );
+}
+
 cata_default_random_engine &rng_get_engine()
 {
     // NOLINTNEXTLINE(cata-determinism)
-    static cata_default_random_engine eng(
-        std::chrono::high_resolution_clock::now().time_since_epoch().count() );
+    static cata_default_random_engine eng( rng_get_first_seed() );
     return eng;
 }
 

@@ -22,6 +22,7 @@
     "sym": "%",
     "color": "white",
     "mondensity": 1,
+    "see_cost": "none",
     "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
@@ -39,15 +40,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "mapgen_test_nested",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
-        "  ",
-        "  "
-      ],
-      "terrain": { " ": "t_region_groundcover" },
-      "furniture": { " ": "f_armchair" }
-    }
+    "object": { "mapgensize": [ 2, 2 ], "terrain": { " ": "t_region_groundcover" }, "furniture": { " ": "f_armchair" } }
   },
   {
     "type": "mapgen",
@@ -198,16 +191,7 @@
       "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
       "place_loot": [
         { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
-        {
-          "item": "m4_carbine",
-          "variant": "m4a1",
-          "x": 12,
-          "y": [ 9, 11 ],
-          "magazine": 100,
-          "ammo": 100,
-          "chance": 75,
-          "repeat": 30
-        }
+        { "group": "modular_m4a1", "x": 12, "y": [ 9, 11 ], "magazine": 100, "ammo": 100, "chance": 75, "repeat": 30 }
       ],
       "npcs": { "T": { "class": "guard", "add_trait": "ASTHMA" } },
       "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1 } ],
@@ -298,6 +282,38 @@
       "place_nested": [ { "chunks": [ "mapgen_test_nested" ], "x": [ 2, 22 ], "y": [ 2, 22 ] } ],
       "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
       "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
+    }
+  },
+  {
+    "id": "mx_crater",
+    "type": "map_extra",
+    "copy-from": "mx_crater",
+    "generator": {  }
+  },
+  {
+    "id": "test_spawn_w_modifier",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "butter", "prob": 100, "count": 1, "container-item": "null", "entry-wrapper": "wrapper" } ]
+  },
+  {
+    "id": "test_spawn_custom_container",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": 1 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "auto_wl_test",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_loot": [
+        { "item": "aspirin", "x": 0, "y": 0 },
+        { "group": "test_spawn_w_modifier", "x": 1, "y": 0 },
+        { "group": "test_spawn_custom_container", "x": 0, "y": 1 }
+      ]
     }
   }
 ]

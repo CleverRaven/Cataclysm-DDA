@@ -75,6 +75,21 @@ class window
         }
 };
 
+#if defined(USE_PDCURSES) && !defined(PDC_RGB)
+enum base_color : short {
+    black = 0x00,    // BGR{0, 0, 0}
+    red = 0x04,      // BGR{0, 0, 192}
+    green = 0x02,    // BGR{0, 196, 0}
+    yellow = 0x06,   // BGR{30, 180, 196}
+    blue = 0x01,     // BGR{196, 0, 0}
+    magenta = 0x05,  // BGR{180, 0, 196}
+    cyan = 0x03,     // BGR{200, 170, 0}
+    white = 0x07,    // BGR{196, 196, 196}
+
+    // 256 Color Support
+    dark_gray = 237,
+};
+#else
 enum base_color : short {
     black = 0x00,    // RGB{0, 0, 0}
     red = 0x01,      // RGB{196, 0, 0}
@@ -84,13 +99,21 @@ enum base_color : short {
     magenta = 0x05,  // RGB{196, 0, 180}
     cyan = 0x06,     // RGB{0, 170, 200}
     white = 0x07,    // RGB{196, 196, 196}
+
+    // 256 Color Support
+    dark_gray = 237,
 };
+#endif
 
 using chtype = int;
 using attr_t = unsigned short;
 
-extern window newscr;
 extern window stdscr;
+#if defined(USE_PDCURSES)
+inline constexpr window &newscr = stdscr;
+#else
+extern window newscr;
+#endif
 
 window newwin( int nlines, int ncols, const point &begin );
 void wborder( const window &win, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
@@ -127,7 +150,9 @@ void endwin();
 void mvwaddch( const window &win, const point &p, chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
+// Set specified color, possibly including bold/blink attributes, for the window
 void wattron( const window &win, const nc_color &attrs );
+// Reset window color to white on black, no bold, no blink
 void wattroff( const window &win, nc_color attrs );
 void waddch( const window &win, chtype ch );
 int getmaxy( const window &win );
@@ -136,6 +161,7 @@ int getbegx( const window &win );
 int getbegy( const window &win );
 int getcurx( const window &win );
 int getcury( const window &win );
+bool supports_256_colors();
 } // namespace catacurses
 
 #endif // CATA_SRC_CURSESDEF_H

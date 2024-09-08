@@ -29,6 +29,13 @@
     "looks_like": "fd_acid"
   },
   {
+    "id": "fd_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
+    "half_life": "10 seconds",
+    "percent_spread": 50
+  },
+  {
     "id": "fd_gibs_flesh",
     "type": "field_type",
     "legacy_enum_id": 3,
@@ -127,6 +134,41 @@
       "sound": "hsh!",
       "msg_success": "You brush aside some webs."
     },
+    "display_field": true
+  },
+  {
+    "id": "fd_void_web",
+    "type": "field_type",
+    "looks_like": "fd_web",
+    "intensity_levels": [
+      {
+        "name": "starlit webs",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "webbed", "intensity": 1, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "starlit webs",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "webbed", "intensity": 2, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "starlit webs",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "webbed", "intensity": 3, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      }
+    ],
+    "description_affix": "covered_in",
+    "immune_mtypes": [ "mon_void_spider", "mon_void_spider_spiderling" ],
+    "decrease_intensity_on_contact": true,
+    "priority": 2,
+    "phase": "solid",
+    "display_items": false,
     "display_field": true
   },
   {
@@ -292,6 +334,21 @@
     "display_field": true
   },
   {
+    "id": "fd_fire_FAKE",
+    "looks_like": "fd_fire",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "glittering embers", "sym": "4", "color": "yellow", "light_emitted": 5, "translucency": 0.7 },
+      { "name": "spark shower", "color": "light_red", "light_emitted": 15, "translucency": 0.4 },
+      { "name": "wall of flames", "color": "red", "light_emitted": 40, "translucency": 0.1 }
+    ],
+    "priority": 4,
+    "half_life": "1 seconds",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true
+  },
+  {
     "id": "fd_extinguisher",
     "type": "field_type",
     "intensity_levels": [
@@ -301,6 +358,7 @@
         "color": "white",
         "dangerous": true,
         "translucency": 0.1,
+        "concentration": 1,
         "convection_temperature_mod": -10,
         "effects": [
           {
@@ -320,6 +378,7 @@
         "color": "white",
         "convection_temperature_mod": -20,
         "translucency": 0.4,
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "poison",
@@ -338,6 +397,7 @@
         "color": "white",
         "convection_temperature_mod": -30,
         "translucency": 0.7,
+        "concentration": 4,
         "effects": [
           {
             "effect_id": "poison",
@@ -372,7 +432,7 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_fog",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "20h",
     "has_fume": true,
     "percent_spread": 90,
     "dirty_transparency_cache": true,
@@ -417,13 +477,24 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
+        "concentration": 1,
         "effects": [
           {
-            "effect_id": "smoke",
+            "effect_id": "smoke_eyes",
+            "body_part": "eyes",
+            "intensity": 1,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 3 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "smoke_lungs",
             "body_part": "mouth",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 3 ] ] },
             "immune_inside_vehicle": true
           }
         ]
@@ -433,13 +504,24 @@
         "color": "light_gray",
         "transparent": false,
         "translucency": 10,
+        "concentration": 2,
         "effects": [
           {
-            "effect_id": "smoke",
+            "effect_id": "smoke_eyes",
+            "body_part": "eyes",
+            "intensity": 2,
+            "min_duration": "7 seconds",
+            "max_duration": "7 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 5 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "smoke_lungs",
             "body_part": "mouth",
             "intensity": 2,
             "min_duration": "7 seconds",
             "max_duration": "7 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 5 ] ] },
             "immune_inside_vehicle": true
           }
         ],
@@ -449,13 +531,24 @@
         "name": "thick smoke",
         "color": "dark_gray",
         "translucency": 0,
+        "concentration": 4,
         "effects": [
           {
-            "effect_id": "smoke",
+            "effect_id": "smoke_eyes",
+            "body_part": "eyes",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "15 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "sensor", 7 ] ] },
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "smoke_lungs",
             "body_part": "mouth",
             "intensity": 4,
             "min_duration": "15 seconds",
             "max_duration": "15 seconds",
+            "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
             "immune_inside_vehicle": true
           }
         ],
@@ -463,14 +556,14 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 12,
+    "gas_absorption_factor": "100m",
     "dirty_transparency_cache": true,
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
-    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 7 ] ] },
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
+    "has_fume": true,
     "accelerated_decay": true,
     "display_items": false,
     "display_field": true,
@@ -486,6 +579,7 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "poison",
@@ -504,6 +598,7 @@
         "color": "light_green",
         "transparent": false,
         "translucency": 10,
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "poison",
@@ -521,6 +616,7 @@
         "name": "thick toxic gas",
         "color": "green",
         "translucency": 0,
+        "concentration": 4,
         "effects": [
           {
             "effect_id": "poison",
@@ -548,7 +644,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -571,6 +667,7 @@
         "sym": "8",
         "dangerous": true,
         "translucency": 1,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "tpollen",
@@ -589,6 +686,7 @@
         "color": "light_green",
         "transparent": false,
         "translucency": 10,
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "tpollen",
@@ -604,7 +702,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -622,18 +720,19 @@
     "type": "field_type",
     "legacy_enum_id": 14,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1 },
+      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1, "concentration": 1 },
       {
         "name": "tear gas",
         "color": "light_green",
         "transparent": false,
         "translucency": 10,
+        "concentration": 2,
         "scent_neutralization": 1
       },
-      { "name": "thick tear gas", "color": "green", "translucency": 0, "scent_neutralization": 5 }
+      { "name": "thick tear gas", "color": "green", "translucency": 0, "concentration": 4, "scent_neutralization": 5 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 10,
     "outdoor_age_speedup": "0 turns",
     "dirty_transparency_cache": true,
@@ -651,12 +750,20 @@
     "type": "field_type",
     "legacy_enum_id": 15,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 10, "extra_radiation_max": 1 },
-      { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2 },
+      {
+        "name": "hazy cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 10,
+        "concentration": 1,
+        "extra_radiation_max": 1
+      },
+      { "name": "radioactive gas", "color": "light_green", "extra_radiation_max": 2, "concentration": 2 },
       {
         "name": "thick radioactive gas",
         "color": "green",
         "transparent": false,
+        "concentration": 4,
         "extra_radiation_max": 3,
         "radiation_hurt_damage_min": 1,
         "radiation_hurt_damage_max": 3,
@@ -679,10 +786,10 @@
     "id": "fd_gas_vent",
     "type": "field_type",
     "legacy_enum_id": 16,
-    "intensity_levels": [ { "name": "gas vent" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "intensity_levels": [ { "name": "gas vent", "concentration": 4 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
     "wandering_field": "fd_toxic_gas",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
     "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
     "phase": "gas",
@@ -694,12 +801,13 @@
     "id": "fd_tindalos_rift",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "angular ripple", "color": "light_gray", "sym": "*", "light_emitted": 160 },
-      { "name": "angular rift", "color": "dark_gray" },
+      { "name": "angular ripple", "color": "light_gray", "sym": "*", "light_emitted": 160, "concentration": 1 },
+      { "name": "angular rift", "color": "dark_gray", "concentration": 1 },
       {
         "name": "fractal fissure",
         "color": "magenta",
         "transparent": false,
+        "concentration": 1,
         "monster_spawn_chance": 15,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
@@ -711,7 +819,7 @@
     "half_life": "10 seconds",
     "accelerated_decay": true,
     "wandering_field": "fd_tindalos_gas",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
     "phase": "gas",
     "display_items": false,
@@ -799,7 +907,7 @@
         "monster_spawn_chance": 600,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+        "monster_spawn_group": "GROUP_NETHER_REALITY_TEAR_FIELD"
       }
     ],
     "description_affix": "under",
@@ -1141,23 +1249,6 @@
     "looks_like": "fd_smoke"
   },
   {
-    "id": "fd_bees",
-    "type": "field_type",
-    "legacy_enum_id": 37,
-    "intensity_levels": [
-      { "name": "some bees", "sym": "8", "dangerous": true },
-      { "name": "swarm of bees", "color": "light_gray" },
-      { "name": "angry swarm of bees", "color": "dark_gray" }
-    ],
-    "percent_spread": 5,
-    "outdoor_age_speedup": "0 turns",
-    "dirty_transparency_cache": true,
-    "priority": 8,
-    "half_life": "100 minutes",
-    "display_items": false,
-    "display_field": true
-  },
-  {
     "id": "fd_incendiary",
     "type": "field_type",
     "legacy_enum_id": 38,
@@ -1193,6 +1284,7 @@
         "sym": ".",
         "dangerous": true,
         "translucency": 5,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "relax_gas",
@@ -1208,6 +1300,7 @@
       {
         "name": "sedative gas",
         "color": "pink",
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "relax_gas",
@@ -1222,6 +1315,7 @@
       {
         "name": "relaxation gas",
         "color": "cyan",
+        "concentration": 4,
         "effects": [
           {
             "effect_id": "relax_gas",
@@ -1235,7 +1329,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 15,
     "outdoor_age_speedup": "5 minutes",
     "dirty_transparency_cache": true,
@@ -1252,12 +1346,12 @@
     "id": "fd_swamp_gas",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5 },
+      { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5, "concentration": 1 },
       { "//": "repeat last entry" },
       { "//": "repeat last entry" }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 25,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1274,12 +1368,12 @@
     "id": "fd_fog",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5 },
+      { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5, "concentration": 0.5 },
       { "name": "fog", "translucency": 3 },
       { "name": "dense fog", "translucency": 1 }
     ],
     "decay_amount_factor": 15,
-    "gas_absorption_factor": 5,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1296,12 +1390,12 @@
     "type": "field_type",
     "legacy_enum_id": 40,
     "intensity_levels": [
-      { "name": "hazy cloud", "sym": ".", "dangerous": true },
-      { "name": "fungal haze", "color": "cyan" },
-      { "name": "thick fungal haze", "transparent": false }
+      { "name": "hazy cloud", "sym": ".", "dangerous": true, "concentration": 1 },
+      { "name": "fungal haze", "color": "cyan", "concentration": 2 },
+      { "name": "thick fungal haze", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 13,
     "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
@@ -1313,6 +1407,81 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_smoke"
+  },
+  {
+    "id": "fd_hallucinogenic_spores",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "hallucinogenic cloud",
+        "sym": "8",
+        "dangerous": true,
+        "translucency": 1,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_light",
+            "body_part": "mouth",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground spinning from inhaling the hallucinogenic cloud.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "hallucinogenic gas",
+        "color": "light_green",
+        "transparent": false,
+        "translucency": 8,
+        "concentration": 1.5,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_light",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "4 minutes",
+            "max_duration": "5 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground spinning from inhaling the thick hallucinogenic gas.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "hallucinogenic acid gas",
+        "color": "green",
+        "translucency": 0,
+        "concentration": 4,
+        "effects": [
+          {
+            "effect_id": "hallucinogenic_acid_heavy",
+            "body_part": "mouth",
+            "intensity": 5,
+            "min_duration": "5 minutes",
+            "max_duration": "6 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel the ground swirling and fracturing from inhaling the thick hallucinogenic gas.",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "decay_amount_factor": 3,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 30,
+    "outdoor_age_speedup": "4 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_nuke_gas"
   },
   {
     "id": "fd_cold_air1",
@@ -1466,6 +1635,7 @@
         "name": "foul-smelling air",
         "sym": "8",
         "dangerous": true,
+        "concentration": 1,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1480,6 +1650,7 @@
       {
         "name": "foul-smelling air",
         "translucency": 1,
+        "concentration": 2,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1492,6 +1663,7 @@
       },
       {
         "name": "foul-smelling air",
+        "concentration": 4,
         "effects": [
           {
             "effect_id": "migo_atmosphere",
@@ -1504,7 +1676,7 @@
       }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
     "dirty_transparency_cache": true,
@@ -1519,12 +1691,12 @@
     "type": "field_type",
     "legacy_enum_id": 49,
     "intensity_levels": [
-      { "name": "fungicidal mist", "sym": "8", "dangerous": true },
-      { "name": "fungicidal haze", "color": "light_gray" },
-      { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false }
+      { "name": "fungicidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
+      { "name": "fungicidal haze", "color": "light_gray", "concentration": 2 },
+      { "name": "thick fungicidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 100,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1541,12 +1713,12 @@
     "id": "fd_insecticidal_gas",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "insecticidal mist", "sym": "8", "dangerous": true },
-      { "name": "insecticidal haze", "color": "light_gray" },
-      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false }
+      { "name": "insecticidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
+      { "name": "insecticidal haze", "color": "light_gray", "concentration": 2 },
+      { "name": "thick insecticidal haze", "color": "dark_gray", "transparent": false, "concentration": 4 }
     ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "percent_spread": 100,
     "outdoor_age_speedup": "1 minutes",
     "dirty_transparency_cache": true,
@@ -1563,10 +1735,14 @@
     "id": "fd_smoke_vent",
     "type": "field_type",
     "legacy_enum_id": 50,
-    "intensity_levels": [ { "name": "smoke vent", "dangerous": true }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
+    "intensity_levels": [
+      { "name": "smoke vent", "dangerous": true, "concentration": 4 },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "under",
     "wandering_field": "fd_smoke",
-    "gas_absorption_factor": 15,
+    "gas_absorption_factor": "80m",
     "dirty_transparency_cache": true,
     "has_fume": true,
     "phase": "gas",
@@ -1628,15 +1804,36 @@
   {
     "id": "fd_clairvoyant",
     "type": "field_type",
-    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false } ],
+    "intensity_levels": [ { "name": "clairvoyance", "sym": "8", "dangerous": false, "concentration": 1 } ],
     "decay_amount_factor": 5,
-    "gas_absorption_factor": 12,
+    "gas_absorption_factor": "100m",
     "dirty_transparency_cache": true,
     "outdoor_age_speedup": "0 turns",
     "priority": 8,
     "half_life": "1 seconds",
     "phase": "solid",
     "display_field": false
+  },
+  {
+    "id": "fd_bee_swarm",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "a few bees", "sym": ".", "dangerous": true, "translucency": 1 },
+      { "name": "a swarm of bees", "color": "yellow", "transparent": true, "translucency": 1 },
+      { "name": "a cloud of bees", "color": "green", "translucency": 0 }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 25,
+    "outdoor_age_speedup": "10 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 5 ] ] },
+    "priority": 3,
+    "half_life": "10 minute",
+    "phase": "gas",
+    "display_items": true,
+    "display_field": true
   },
   {
     "id": "fd_churned_earth",
@@ -1648,5 +1845,258 @@
     "display_items": true,
     "phase": "solid",
     "looks_like": "t_dirtmound"
+  },
+  {
+    "id": "fd_last_known",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "last known position", "dangerous": false } ]
+  },
+  {
+    "id": "fd_nm_monster_gas_1",
+    "//": "Spores cause players to light up",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "glowing gas spores",
+        "sym": ".",
+        "dangerous": true,
+        "light_emitted": 10,
+        "translucency": 5,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "glowing_gas_cover",
+            "body_part": "torso",
+            "intensity": 4,
+            "min_duration": "1 minutes",
+            "max_duration": "2 minutes"
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 25,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_nm_monster_gas_2",
+    "//": "Spores, when inhaled, act like smoke",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "glowing gas",
+        "sym": ".",
+        "dangerous": true,
+        "light_emitted": 10,
+        "translucency": 5,
+        "concentration": 1,
+        "effects": [
+          {
+            "effect_id": "glowing_gas",
+            "body_part": "mouth",
+            "intensity": 4,
+            "min_duration": "15 seconds",
+            "max_duration": "25 seconds"
+          }
+        ]
+      },
+      { "//": "repeat last entry" },
+      { "//": "repeat last entry" }
+    ],
+    "decay_amount_factor": 5,
+    "gas_absorption_factor": "80m",
+    "percent_spread": 25,
+    "outdoor_age_speedup": "1 minutes",
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "mouth", 15 ] ] },
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "15 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_tear_gas"
+  },
+  {
+    "id": "fd_construction_site",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "Construction site", "sym": ".", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true,
+    "looks_like": "fd_shadow"
+  },
+  {
+    "id": "fd_congealed_light",
+    "type": "field_type",
+    "mopsafe": false,
+    "intensity_levels": [
+      {
+        "name": "smear of congealed light",
+        "sym": "5",
+        "color": "magenta",
+        "dangerous": true,
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 5
+      },
+      {
+        "name": "streak of congealed light",
+        "color": "pink",
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "intensity": 2,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 15
+      },
+      {
+        "name": "pool of congealed light",
+        "color": "white",
+        "effects": [
+          {
+            "effect_id": "LIXA_illuminated",
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "intensity": 3,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 30
+      }
+    ],
+    "description_affix": "covered_in",
+    "is_splattering": true,
+    "priority": 2,
+    "half_life": "10 seconds",
+    "phase": "liquid",
+    "display_field": true,
+    "looks_like": "fd_bile"
+  },
+  {
+    "id": "emit_congealed_light",
+    "type": "emit",
+    "field": "fd_congealed_light",
+    "intensity": 1,
+    "qty": 30,
+    "chance": 85
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_illuminated",
+    "name": [ "illuminated" ],
+    "desc": [ "You're covered in congealed light!" ],
+    "apply_message": "The sticky globs of light cover you, and begin to burn!",
+    "rating": "bad",
+    "max_duration": "6 seconds",
+    "max_intensity": 3,
+    "int_dur_factor": "2 seconds",
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 3 ] },
+    "scaling_mods": { "hurt_min": [ 1 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_decompressed",
+    "name": [ "In Decompressed Space" ],
+    "desc": [ "For an instant, every inch of this infinite space is itself infinite, slowing you drastically." ],
+    "apply_message": "Space unfolds and extends around you!",
+    "rating": "bad",
+    "miss_messages": [ [ "You cannot make any progress in all this vastness.", 4 ] ],
+    "max_intensity": 3,
+    "int_dur_factor": "2 seconds",
+    "base_mods": { "speed_mod": [ -33 ] },
+    "scaling_mods": { "speed_mod": [ -33 ], "hit_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "show_in_info": true
+  },
+  {
+    "id": "fd_LIXA_decompression",
+    "type": "field_type",
+    "legacy_enum_id": 19,
+    "intensity_levels": [
+      {
+        "name": "decompressed space",
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 5
+      },
+      {
+        "name": "decompressed space",
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "4 seconds",
+            "max_duration": "4 seconds",
+            "intensity": 2,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 15
+      },
+      {
+        "name": "decompressed space",
+        "effects": [
+          {
+            "effect_id": "LIXA_decompressed",
+            "min_duration": "6 seconds",
+            "max_duration": "6 seconds",
+            "intensity": 3,
+            "immune_in_vehicle": true,
+            "is_environmental": false
+          }
+        ],
+        "light_emitted": 30
+      }
+    ],
+    "priority": 2,
+    "half_life": "5 seconds",
+    "phase": "plasma",
+    "display_field": true,
+    "looks_like": "fd_fog"
+  },
+  {
+    "type": "effect_type",
+    "id": "LIXA_unfolded_eff",
+    "name": [ "Unfolded" ],
+    "desc": [
+      "There is no longer an inside or outside of you.  It is all one side; flat, infinite, and everything you have ever been.  You wonder if you're having no trouble understanding it because your brain works better spread out like this."
+    ],
+    "max_intensity": 1,
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.0 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
   }
 ]

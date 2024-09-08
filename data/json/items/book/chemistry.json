@@ -5,20 +5,59 @@
     "category": "manuals",
     "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
     "description": "A university-level textbook on advanced principles of physical chemistry and all its branches: thermochemistry, electrochemistry, solid-state chemistry, photochemistry, quantum chemistry et cetera.",
+    "variants": [
+      {
+        "id": "adv_chemistry",
+        "name": { "str": "Advanced Physical Chemistry", "str_pl": "copies of Advanced Physical Chemistry" },
+        "description": "A university-level textbook on advanced principles of physical chemistry and all its branches: thermochemistry, electrochemistry, solid-state chemistry, photochemistry, quantum chemistry et cetera."
+      },
+      {
+        "id": "adv_chemistry_1",
+        "name": {
+          "str": "Physical Chemistry: Principles and Applications",
+          "str_pl": "copies of Physical Chemistry: Principles and Applications"
+        },
+        "description": "Fifth Edition of a best-selling book about using physical chemistry in various branches, with real examples.",
+        "//": "978-0136056065"
+      },
+      {
+        "id": "adv_chemistry_2",
+        "name": { "str": "Physical Chemistry: A Molecular Approach", "str_pl": "copies of Physical Chemistry: A Molecular Approach" },
+        "description": "A textbook that covers more specialized topics in physical chemistry, including quantum chemistry, statistical mechanics, and surface science.",
+        "//": "978-8184959888"
+      },
+      {
+        "id": "adv_chemistry_3",
+        "name": {
+          "str": "Physical Chemistry: From Quantum Mechanics to Statistical Thermodynamics",
+          "str_pl": "copies of Physical Chemistry: From Quantum Mechanics to Statistical Thermodynamics"
+        },
+        "description": "This book provides a comprehensive introduction to the principles of physical chemistry, covering topics such as quantum mechanics, thermodynamics, and statistical mechanics."
+      },
+      {
+        "id": "adv_chemistry_4",
+        "name": {
+          "str": "Physical Chemistry for Scientists and Engineers",
+          "str_pl": "copies of Physical Chemistry for Scientists and Engineers"
+        },
+        "description": "This book is designed for students in engineering and the physical sciences who are interested in applying physical chemistry concepts to real-world problems.  It covers topics such as thermodynamics, statistical mechanics, and transport phenomena, and includes examples and problems drawn from engineering and scientific applications."
+      }
+    ],
     "weight": "1712 g",
     "volume": "2 L",
-    "price": 7950,
-    "price_postapoc": 750,
-    "bashing": 5,
-    "material": [ "paper" ],
+    "price": "79 USD 50 cent",
+    "price_postapoc": "7 USD 50 cent",
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 5,
     "max_level": 7,
     "intelligence": 12,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "modern_tanner",
@@ -26,14 +65,46 @@
     "category": "manuals",
     "name": { "str": "The Modern Tanner", "str_pl": "copies of The Modern Tanner" },
     "description": "An in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning.",
+    "variants": [
+      {
+        "id": "modern_tanner",
+        "name": { "str": "The Modern Tanner", "str_pl": "copies of The Modern Tanner" },
+        "description": "An in-depth and easy to read guide that details a very modern take on the ancient art of leather tanning."
+      },
+      {
+        "id": "modern_tanner_1",
+        "name": {
+          "str": "Leathercraft: Traditional Handcrafted Leatherwork Skills and Projects",
+          "str_pl": "copies of Leathercraft: Traditional Handcrafted Leatherwork Skills and Projects"
+        },
+        "description": "A guide by Nigel Armitage offering traditional leatherworking techniques with modern applications, creating durable goods able to last generations.",
+        "//": "978-0764360398"
+      },
+      {
+        "id": "modern_tanner_2",
+        "name": { "str": "Leatherworking Handbook", "str_pl": "copies of Leatherworking Handbook" },
+        "description": "A leatherworking book for amateurs by a top professional, with some key techniques and various projects.",
+        "//": "978-1844034741"
+      },
+      {
+        "id": "modern_tanner_3",
+        "name": {
+          "str": "The Leather Manufacture in the United States",
+          "str_pl": "copies of The Leather Manufacture in the United States"
+        },
+        "description": "This vintage book contains a detailed treatise on the leather industry in late-nineteenth century America, being a dissertation on the methods employed in and the economics of tanning.",
+        "//": "978-3337106478"
+      }
+    ],
     "weight": "568 g",
     "volume": "750 ml",
-    "price": 2000,
-    "price_postapoc": 1250,
+    "price": "20 USD",
+    "price_postapoc": "12 USD 50 cent",
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "brown",
     "skill": "chemistry",
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "required_level": 3,
     "max_level": 4,
     "intelligence": 4,
@@ -47,8 +118,8 @@
     "description": "This sheaf of papers--dated two weeks before all this started--describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
     "weight": "50 g",
     "volume": "500 ml",
-    "price": 125000,
-    "price_postapoc": 2000,
+    "price": "1 kUSD 250 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -65,10 +136,10 @@
     "category": "manuals",
     "name": { "str": "lab journal-Dionne", "str_pl": "lab journals-Dionne" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from various Earth fauna.  The team seems quite enthusiastic--if not eager--about their results.",
-    "weight": "1700 g",
-    "volume": "500 ml",
-    "price": 50000,
-    "price_postapoc": 2000,
+    "weight": "500 g",
+    "volume": "600 ml",
+    "price": "500 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -87,8 +158,8 @@
     "description": "This sheaf of papers describes a new chemical formula in detail and supplies instructions for its use as some sort of… crowd-control catalyst?  That can't be right…",
     "weight": "50 g",
     "volume": "500 ml",
-    "price": 125000,
-    "price_postapoc": 2000,
+    "price": "1 kUSD 250 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -105,10 +176,10 @@
     "category": "manuals",
     "name": { "str": "lab journal-Smythe", "str_pl": "lab journals-Smythe" },
     "description": "This team logbook details several varieties of mutagenic experiments, focusing on those derived from flesh contaminated with XE037.  The results look promising but the procurement methods seem awfully vague…",
-    "weight": "1700 g",
+    "weight": "400 g",
     "volume": "500 ml",
-    "price": 50000,
-    "price_postapoc": 2000,
+    "price": "500 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -127,8 +198,8 @@
     "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
     "weight": "400 g",
     "volume": "750 ml",
-    "price": 400,
-    "price_postapoc": 2000,
+    "price": "4 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
@@ -145,10 +216,10 @@
     "name": { "str": "chemical reference-CLASSIFIED", "str_pl": "chemical references-CLASSIFIED" },
     "description": "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
     "weight": "2000 g",
-    "volume": "500 ml",
-    "price": 64000,
-    "price_postapoc": 2000,
-    "material": [ "paper" ],
+    "volume": "2 L",
+    "price": "640 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
     "skill": "chemistry",
@@ -164,11 +235,11 @@
     "category": "manuals",
     "name": { "str": "lab journal-x-|xp", "str_pl": "lab journals-x-|xp" },
     "description": "This damaged team logbook lacks (deliberately?) any identifying information, but still contains useful information on several types of mutagen and their development.",
-    "weight": "1700 g",
+    "weight": "400 g",
     "volume": "500 ml",
-    "price": 50000,
-    "price_postapoc": 2000,
-    "material": [ "paper" ],
+    "price": "500 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
     "skill": "chemistry",
@@ -187,11 +258,10 @@
       "str_pl": "copies of PE023 \"Medical\": Application and Findings"
     },
     "description": "This binder of highly technical papers describes some new chemical formula, and its effects on human subjects.  It's stamped \"APPROVED\"…",
-    "weight": "1934 g",
+    "weight": "1450 g",
     "volume": "1750 ml",
-    "price": 62000,
-    "price_postapoc": 2000,
-    "bashing": 5,
+    "price": "620 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
@@ -200,7 +270,8 @@
     "max_level": 7,
     "intelligence": 13,
     "time": "35 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "recipe_raptor",
@@ -210,8 +281,8 @@
     "description": "This sheaf of papers is a highly speculative proposal for focusing \"PE065\".  Scribbled notes throughout seem to think that it might work, but that there's no time.",
     "weight": "50 g",
     "volume": "500 ml",
-    "price": 125000,
-    "price_postapoc": 2000,
+    "price": "1 kUSD 250 USD",
+    "price_postapoc": "20 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_green",
@@ -227,11 +298,11 @@
     "category": "manuals",
     "name": { "str": "Best Practices for Compound Delivery", "str_pl": "copies of Best Practices for Compound Delivery" },
     "description": "This internal manual details several varieties of mutagenic experiments, as well as describing the protocols used to concentrate mutagens for quicker results.  The authors recommend that researchers ensure that their subjects are well-fed and in good health, as the concentrated serums draw heavily on subjects' bodies.",
-    "weight": "1700 g",
-    "volume": "500 ml",
-    "price": 50000,
-    "price_postapoc": 2000,
-    "material": [ "paper" ],
+    "weight": "500 g",
+    "volume": "600 ml",
+    "price": "500 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "paper", "plastic" ],
     "symbol": "?",
     "color": "light_green",
     "skill": "chemistry",
@@ -249,29 +320,53 @@
     "description": "This huge hardbound book is a collection of reference data and formulae pertinent to many technical disciplines.  If poring over tables of chemical and physical data is your thing, this is the book for you.",
     "weight": "5790 g",
     "volume": "1750 ml",
-    "price": 9000,
-    "price_postapoc": 2000,
-    "bashing": 7,
-    "material": [ "paper" ],
+    "price": "90 USD",
+    "price_postapoc": "20 USD",
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "textbook_firstaid",
     "color": "light_green",
     "intelligence": 4,
     "time": "30 m",
-    "fun": -2
+    "fun": -2,
+    "melee_damage": { "bash": 7 }
   },
   {
     "id": "textbook_chemistry",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str": "chemistry textbook" },
+    "name": { "str": "chemistry textbook", "str_pl": "copies of chemistry textbook" },
     "description": "A college textbook on chemistry.",
+    "variants": [
+      {
+        "id": "textbook_chemistry",
+        "name": { "str": "chemistry textbook", "str_pl": "copies of chemistry textbook" },
+        "description": "A college textbook on chemistry."
+      },
+      {
+        "id": "textbook_chemistry_1",
+        "name": { "str": "Chemistry Essentials For Dummies", "str_pl": "copies of Chemistry Essentials For Dummies" },
+        "description": "Invaluable quick reference guide to the fundamentals of chemistry for students.",
+        "//": "978-1119591146"
+      },
+      {
+        "id": "textbook_chemistry_2",
+        "name": { "str": "General Chemistry", "str_pl": "copies of General Chemistry" },
+        "description": "The revised third edition of a classic first-year text by Nobel laureate.  Covers atomic and molecular structure, quantum mechanics, statistical mechanics, and thermodynamics correlated with descriptive chemistry problems.",
+        "//": "978-0486656229"
+      },
+      {
+        "id": "textbook_chemistry_3",
+        "name": { "str": "Modern Chemistry: Student Edition", "str_pl": "copies of Modern Chemistry: Student Edition" },
+        "description": "A giant, almost 1000 page book that covers anything a student may want (and may not want) to know about chemistry, from foundations to an intermediate level.",
+        "//": "978-0554023557"
+      }
+    ],
     "weight": "1587 g",
     "volume": "2 L",
-    "price": 7950,
-    "price_postapoc": 2000,
-    "bashing": 5,
-    "material": [ "paper" ],
+    "price": "79 USD 50 cent",
+    "price_postapoc": "10 USD",
+    "material": [ "paper", "cardboard" ],
     "ascii_picture": "textbook_chemistry",
     "symbol": "?",
     "looks_like": "textbook_firstaid",
@@ -281,7 +376,8 @@
     "max_level": 6,
     "intelligence": 10,
     "time": "35 m",
-    "fun": -1
+    "fun": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "textbook_extraction",
@@ -289,20 +385,41 @@
     "category": "manuals",
     "name": { "str": "The Essential Oil Enthusiasts Handbook", "str_pl": "copies of The Essential Oil Enthusiasts Handbook" },
     "description": "A heavy hardback book explaining the process of essential oil making, with schematics for the equipment to do it.  Good luck, and don't blow yourself up!",
+    "variants": [
+      {
+        "id": "textbook_extraction",
+        "name": { "str": "The Essential Oil Enthusiasts Handbook", "str_pl": "copies of The Essential Oil Enthusiasts Handbook" },
+        "description": "A heavy hardback book explaining the process of essential oil making, with schematics for the equipment to do it.  Good luck, and don't blow yourself up!"
+      },
+      {
+        "id": "textbook_extraction_1",
+        "name": {
+          "str": "Handbook of Essential Oils: Science, Technology, and Applications",
+          "str_pl": "copies of Handbook of Essential Oils: Science, Technology, and Applications"
+        },
+        "description": "This book presents the development, use and marketing of essential oils, with a wide range of topics, sources, as well as production and analysis techniques.",
+        "//": "978-0815370963"
+      },
+      {
+        "id": "textbook_extraction_2",
+        "name": { "str": "Essential Oil Distillation", "str_pl": "copies of Essential Oil Distillation" },
+        "description": "This book provides a detailed guide to the process of distilling essential oils, including information on equipment and processes for extracting them from plant materials.  It also includes tips for selecting and storing essential oils, as well as using the byproducts of manufacturing."
+      }
+    ],
     "looks_like": "textbook_chemistry",
     "weight": "1420 g",
     "volume": "1 L",
-    "price": 6000,
-    "price_postapoc": 10000,
-    "bashing": 4,
-    "material": [ "paper" ],
+    "price": "60 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
     "required_level": 4,
     "max_level": 6,
     "intelligence": 10,
-    "time": "60 m"
+    "time": "60 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "textbook_gaswarfare",
@@ -312,9 +429,9 @@
     "description": "This in-depth and technical text covers the design, development, dissemination of, and defenses against various chemical weapons throughout the centuries.  The photographs the author chose make it a difficult read at times, though the information is top-notch.",
     "weight": "854 g",
     "volume": "1500 ml",
-    "price": 400,
-    "price_postapoc": 1000,
-    "material": [ "paper" ],
+    "price": "4 USD",
+    "price_postapoc": "10 USD",
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
@@ -333,14 +450,55 @@
       "str_pl": "copies of Chemistry for Kids: Awesome Science Experiments that Really Work"
     },
     "description": "A book with comprehensive and accurate step-by-step illustrated instructions for many scientific experiments, for young researchers and anyone else who wants to delve into the amazing world of chemistry.",
+    "variants": [
+      {
+        "id": "basic_chemistry",
+        "name": {
+          "str": "Chemistry for Kids: Awesome Science Experiments that Really Work",
+          "str_pl": "copies of Chemistry for Kids: Awesome Science Experiments that Really Work"
+        },
+        "description": "A book with comprehensive and accurate step-by-step illustrated instructions for many scientific experiments, for young researchers and anyone else who wants to delve into the amazing world of chemistry."
+      },
+      {
+        "id": "basic_chemistry_1",
+        "name": {
+          "str": "The Chemistry Book: Big Ideas Simply Explained",
+          "str_pl": "copies of The Chemistry Book: Big Ideas Simply Explained"
+        },
+        "description": "Short, pithy explanations of some of the most historic moments in science, from the birth of alchemy to modern chemistry state.  Simple graphics, such as flowcharts and mind maps, support the text and make the explanation of key concepts easy to follow.",
+        "//": "978-0241515549"
+      },
+      {
+        "id": "basic_chemistry_2",
+        "name": { "str": "Basic Chemistry", "str_pl": "copies of Basic Chemistry" },
+        "description": "The fifth edition of a textbook to help students master math and problem solving they will use in their future chemistry classes.",
+        "//": "978-0134138046"
+      },
+      {
+        "id": "basic_chemistry_3",
+        "name": { "str": "Basic Chemistry Concepts and Exercises", "str_pl": "copies of Basic Chemistry Concepts and Exercises" },
+        "description": "This book communicates the fundamentals of chemistry in a practical, down-to-earth manner, with simple language and detailed images.",
+        "//": "978-1439813379"
+      },
+      {
+        "id": "basic_chemistry_4",
+        "name": {
+          "str": "Everything You Need to Ace Chemistry in One Big Fat Notebook",
+          "str_pl": "copies of Everything You Need to Ace Chemistry in One Big Fat Notebook"
+        },
+        "description": "This book provides plenty of info about high school-level chemistry, with lot of additional tables and formulas, though lacking many additional pictures.",
+        "//": "978-1523504251"
+      }
+    ],
     "weight": "362 g",
     "volume": "500 ml",
-    "price": 550,
-    "price_postapoc": 1900,
-    "material": [ "paper" ],
+    "price": "5 USD 50 cent",
+    "price_postapoc": "19 USD",
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "looks_like": "recipe_alpha",
     "color": "light_cyan",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry", "time_factor": 0.6, "fail_factor": 0.25 } ],
     "skill": "chemistry",
     "max_level": 3,
     "intelligence": 6,
@@ -353,11 +511,40 @@
     "category": "manuals",
     "name": { "str": "Catalytic Cracking at Home for Solarpunks", "str_pl": "copies of Catalytic Cracking at Home for Solarpunks" },
     "description": "A colorful textbook that proclaims to teach one how to bootstrap kerosene and diesel production from waste products.  Despite the hip title, the information contained within is highly advanced and technical.",
+    "variants": [
+      {
+        "id": "catalytic_cracking_handbook",
+        "name": { "str": "Catalytic Cracking at Home for Solarpunks", "str_pl": "copies of Catalytic Cracking at Home for Solarpunks" },
+        "description": "A colorful textbook that proclaims to teach one how to bootstrap kerosene and diesel production from waste products.  Despite the hip title, the information contained within is highly advanced and technical."
+      },
+      {
+        "id": "catalytic_cracking_handbook_1",
+        "name": {
+          "str": "Modeling and Simulation of Fluid Catalytic Cracking Riser",
+          "str_pl": "copies of Modeling and Simulation of Fluid Catalytic Cracking Riser"
+        },
+        "description": "Describing the problems that may occur while refining oil, this book is an excellent reference and teaching material for students and researchers in chemical engineering and chemistry.",
+        "//": "978-3659713538"
+      },
+      {
+        "id": "catalytic_cracking_handbook_2",
+        "name": { "str": "Fluid Catalytic Cracking Handbook", "str_pl": "copies of Fluid Catalytic Cracking Handbook" },
+        "description": "This handbook provides practical information and tools that engineers can use to maximize the profitability and reliability of their fluid catalytic cracking operations."
+      },
+      {
+        "id": "catalytic_cracking_handbook_3",
+        "name": {
+          "str": "A Literature Review on Cold Cracking of Petroleum Crude Oil",
+          "str_pl": "copies of A Literature Review on Cold Cracking of Petroleum Crude Oil"
+        },
+        "description": "This book describes cold petroleum cracking - a type of process that occurs below the freezing point, compared the common process that occurs at nearly 400 centigrade.  You can't really use this type of process without a lot of additional equipment, but the book provides plenty of information about common methods that you can do by hand.",
+        "//": "978-1523389322"
+      }
+    ],
     "weight": "1200 g",
     "volume": "2 L",
-    "price": 1500,
-    "price_postapoc": 2500,
-    "bashing": 4,
+    "price": "15 USD",
+    "price_postapoc": "25 USD",
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
@@ -365,7 +552,8 @@
     "required_level": 5,
     "max_level": 7,
     "intelligence": 9,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "textbook_biodiesel",
@@ -373,18 +561,81 @@
     "category": "manuals",
     "name": { "str": "Biodiesel: Renewable Fuel Resource", "str_pl": "copies of Biodiesel: Renewable Fuel Resource" },
     "description": "A large textbook for college students about biodiesel.",
+    "variants": [
+      {
+        "id": "textbook_biodiesel",
+        "name": { "str": "Biodiesel: Renewable Fuel Resource", "str_pl": "copies of Biodiesel: Renewable Fuel Resource" },
+        "description": "A large textbook for college students about biodiesel."
+      },
+      {
+        "id": "textbook_biodiesel_1",
+        "name": {
+          "str": "Biodiesel Production: Technologies, Challenges, and Future Prospects",
+          "str_pl": "copies of Biodiesel Production: Technologies, Challenges, and Future Prospects"
+        },
+        "description": "Sponsored by the American Society of Civil Engineers, this book presents approaches, technologies, and source materials for biodiesel production, as well as socioeconomic and political impacts of its applications.  You surely don't need the second part anymore.",
+        "//": "978-0784415344"
+      },
+      {
+        "id": "textbook_biodiesel_2",
+        "name": { "str": "The Biodiesel Handbook", "str_pl": "copies of The Biodiesel Handbook" },
+        "description": "A big, 500-page book that provides plenty of info about the history of different fuels, methods to apply them, and properties required for each.  It's mainly centered on biodiesel and another biofuels.",
+        "//": "978-1893997622"
+      },
+      {
+        "id": "textbook_biodiesel_3",
+        "name": {
+          "str": "Biodiesel: a Realistic Fuel Alternative for Diesel Engines",
+          "str_pl": "copies of Biodiesel: a Realistic Fuel Alternative for Diesel Engines"
+        },
+        "description": "A small book offering insights into plant-based fuels, with detailed analyses of biodiesel types, and possible scenarios for their implementation.  Sadly most of the book just repeats itself, writing the same text over and over again, which makes you feel you stuck in a constant loop.",
+        "//": "978-1846289941"
+      },
+      {
+        "id": "textbook_biodiesel_4",
+        "name": {
+          "str": "Biodiesel Science and Technology: From Soil to Oil",
+          "str_pl": "copies of Biodiesel Science and Technology: From Soil to Oil"
+        },
+        "description": "This book contains different techniques for producing biofuels in different scales - from home-made work in your backyard to large manufacturing - with different issues you may meet in the process, and ways to resolve them.",
+        "//": "978-1845695910"
+      },
+      {
+        "id": "textbook_biodiesel_5",
+        "name": {
+          "str": "Biodiesel Basics and Beyond: A Comprehensive Guide to Production and Use for the Home and Farm",
+          "str_pl": "copies of Biodiesel Basics and Beyond: A Comprehensive Guide to Production and Use for the Home and Farm"
+        },
+        "description": "A comprehensive guide by William Kemp to produce biodiesel at small scale while avoiding common failures of fuel quality and byproduct waste management, with accuracies of data and process backed by government or university verification.",
+        "//": "978-1505404630"
+      },
+      {
+        "id": "textbook_biodiesel_6",
+        "name": {
+          "str": "Handbook of Biofuels Production: Process and Technologies",
+          "str_pl": "copies of Handbook of Biofuels Production: Process and Technologies"
+        },
+        "description": "A book about different types of biofuels, issues in their production and application, and different processes and technologies that are used in their manufacturing.",
+        "//": "978-0323911931"
+      },
+      {
+        "id": "textbook_biodiesel_7",
+        "name": { "str": "Bean Diesel", "str_pl": "copies of Bean Diesel" },
+        "description": "The original cover of this book was replaced with a white sheet of paper with a hand-made \"Bean Diesel\" label and simplified image of Vin Diesel, drawn in pen.  Excluding this, it is a pretty mundane handbook about biofuel production."
+      }
+    ],
     "weight": "1200 g",
     "volume": "2 L",
-    "price": 1500,
-    "price_postapoc": 2500,
-    "bashing": 4,
-    "material": [ "paper" ],
+    "price": "15 USD",
+    "price_postapoc": "25 USD",
+    "material": [ "paper", "cardboard" ],
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
-    "time": "30 m"
+    "time": "30 m",
+    "melee_damage": { "bash": 4 }
   }
 ]

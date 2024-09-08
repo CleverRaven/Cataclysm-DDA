@@ -8,6 +8,8 @@
     "class": "NC_ISHERWOOD_CLAIRE",
     "attitude": 0,
     "mission": 7,
+    "age": 67,
+    "height": 153,
     "chat": "TALK_ISHERWOOD_CLAIRE",
     "mission_offered": "MISSION_ISHERWOOD_CLAIRE_1",
     "faction": "isherwood_family"
@@ -17,11 +19,16 @@
     "id": "NC_ISHERWOOD_CLAIRE",
     "name": { "str": "Claire Isherwood" },
     "job_description": "I'm the matriarch of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_female_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "shopkeeper_item_group": "NC_ISHERWOOD_CLAIRE_misc",
     "skills": [
       {
@@ -83,13 +90,13 @@
     "subtype": "distribution",
     "entries": [
       { "item": "royal_jelly", "prob": 50 },
-      { "item": "flavored_bonemeal_tablet", "prob": 55 },
-      { "item": "bonemeal_tablet", "prob": 95 },
+      { "item": "flavored_bonemeal_tablet", "prob": 55, "count": 42 },
+      { "item": "bonemeal_tablet", "prob": 95, "count": 40 },
       { "item": "cattail_jelly", "prob": 95 },
       { "item": "thyme_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "mugwort_oil", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppy_pain", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "poppy_sleep", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "prob": 80, "group": "poppy_pain_jar_glass_sealed_2" },
+      { "prob": 80, "group": "poppy_sleep_jar_glass_sealed_2" },
       { "item": "poppysyrup", "prob": 80, "charges": 10, "container-item": "jar_glass_sealed" },
       { "item": "bee_balm_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "chamomile_tea", "prob": 80, "charges": 2, "container-item": "jar_glass_sealed" },
@@ -108,7 +115,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Is that a U.S. Marshal's badge you're wearing?",
-      "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
+      "no": "Hi, what brings you here?"
     },
     "responses": [
       {
@@ -126,16 +133,15 @@
       {
         "text": "Hi, nice farm you have here.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK1",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" }, { "u_add_var": "u_met_an_isherwood", "value": "yes" } ],
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
       {
         "text": "Hi, Jack suggested I stop by and say hello.",
         "topic": "TALK_ISHERWOOD_CLAIRE_TALK3",
+        "effect": [ { "u_add_var": "u_met_Claire_Isherwood", "value": "yes" } ],
         "condition": {
-          "and": [
-            { "not": { "u_is_wearing": "badge_marshal" } },
-            { "u_has_var": "u_met_Jack_Isherwood", "type": "general", "context": "meeting", "value": "yes" }
-          ]
+          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "compare_string": [ "yes", { "u_val": "u_met_Jack_Isherwood" } ] } ]
         }
       },
       {
@@ -149,12 +155,19 @@
         "topic": "TALK_ISHERWOOD_CLAIRE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "Hey, when would more of this stuff be ready?", "topic": "TALK_ISHERWOOD_CLAIRE_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_CLAIRE_RESTOCK",
+    "dynamic_line": "Around <interval>.",
+    "responses": [ { "text": "Alright then, bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -204,12 +217,12 @@
       {
         "text": "I'd like to ask you something else…",
         "topic": "TALK_ISHERWOOD_CLAIRE_TOPICS",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
-        "effect": { "u_add_var": "u_learned_about_barry", "type": "general", "context": "meeting", "value": "yes" }
+        "effect": { "u_add_var": "u_learned_barry_missing", "value": "yes" }
       }
     ]
   },
@@ -344,8 +357,8 @@
     "has_generic_rewards": false,
     "start": {
       "assign_mission_target": {
-        "//": "om_special is a no-op here - we are already at 'Isherwood Farms'. I added it to suppress a linter false positive.",
-        "om_special": "Isherwood Farms",
+        "//": "om_special is a no-op here - we are already at 'Isherwood Farm Mutable'. I added it to suppress a linter false positive.",
+        "om_special": "Isherwood Farm Mutable",
         "om_terrain": "cabin_isherwood",
         "reveal_radius": 1,
         "random": true,
@@ -359,7 +372,7 @@
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_spawn_item": "isherwood_herbal_remedies", "count": 1 },
-        { "u_add_var": "u_did_claire_missions", "type": "general", "context": "recruit", "value": "yes" }
+        { "u_add_var": "u_did_claire_missions", "value": "yes" }
       ]
     },
     "dialogue": {

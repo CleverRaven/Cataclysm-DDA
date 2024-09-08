@@ -7,9 +7,10 @@
 #include <map>
 #include <memory>
 
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "point.h"
 
+class cata_path;
 class JsonArray;
 class submap;
 
@@ -61,6 +62,9 @@ class mapbuffer
          * submap object, don't delete it on your own.
          */
         submap *lookup_submap( const tripoint_abs_sm &p );
+        // Cheaper version of the above for when you only care about whether the
+        // submap exists or not.
+        bool submap_exists( const tripoint_abs_sm &p );
 
     private:
         using submap_map_t = std::map<tripoint_abs_sm, std::unique_ptr<submap>>;
@@ -76,7 +80,7 @@ class mapbuffer
     private:
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
-        void remove_submap( tripoint_abs_sm addr );
+        void remove_submap( const tripoint_abs_sm &addr );
         submap *unserialize_submaps( const tripoint_abs_sm &p );
         void deserialize( const JsonArray &ja );
         void save_quad(

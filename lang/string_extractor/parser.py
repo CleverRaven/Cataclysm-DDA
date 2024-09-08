@@ -6,16 +6,22 @@ from .parsers.bionic import parse_bionic
 from .parsers.body_part import parse_body_part
 from .parsers.character_mod import parse_character_mod
 from .parsers.city import parse_city
+from .parsers.climbing_aid import parse_climbing_aid
 from .parsers.clothing_mod import parse_clothing_mod
 from .parsers.construction import parse_construction
 from .parsers.construction_category import parse_construction_category
 from .parsers.construction_group import parse_construction_group
+from .parsers.damage_info_order import parse_damage_info_order
+from .parsers.damage_type import parse_damage_type
 from .parsers.dream import parse_dream
-from .parsers.effect_on_condition import parse_effect_on_condition
+from .parsers.effect import parse_effect_on_condition
 from .parsers.effect_type import parse_effect_type
+from .parsers.enchant import parse_enchant
+from .parsers.end_screen import parse_end_screen
 from .parsers.event_statistic import parse_event_statistic
 from .parsers.faction import parse_faction
 from .parsers.fault import parse_fault
+from .parsers.fault_fix import parse_fault_fix
 from .parsers.field_type import parse_field_type
 from .parsers.furniture import parse_furniture
 from .parsers.gate import parse_gate
@@ -37,6 +43,7 @@ from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
 from .parsers.option_slider import parse_option_slider
+from .parsers.oter_vision import parse_oter_vision
 from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
@@ -56,6 +63,7 @@ from .parsers.morale_type import parse_morale_type
 from .parsers.movement_mode import parse_movement_mode
 from .parsers.mutation_category import parse_mutation_category
 from .parsers.overmap_land_use_code import parse_overmap_land_use_code
+from .parsers.overmap_special import parse_overmap_special
 from .parsers.practice import parse_practice
 from .parsers.scenario import parse_scenario
 from .parsers.shop_blacklist import parse_shopkeeper_blacklist
@@ -99,19 +107,22 @@ parsers = {
     "anatomy": dummy_parser,
     "armor": parse_generic,
     "ascii_art": dummy_parser,
+    "attack_vector": dummy_parser,
     "battery": parse_generic,
     "behavior": dummy_parser,
     "bionic": parse_bionic,
     "bionic_item": parse_generic,
+    "bionic_migration": dummy_parser,
     "body_graph": dummy_parser,
     "body_part": parse_body_part,
     "book": parse_generic,
     "butchery_requirement": dummy_parser,
+    "camp_migration": dummy_parser,
     "character_mod": parse_character_mod,
-    "charge_migration_blacklist": dummy_parser,
     "charge_removal_blacklist": dummy_parser,
     "city": parse_city,
     "city_building": dummy_parser,
+    "climbing_aid": parse_climbing_aid,
     "clothing_mod": parse_clothing_mod,
     "comestible": parse_generic,
     "colordef": dummy_parser,
@@ -120,18 +131,22 @@ parsers = {
     "construction": parse_construction,
     "construction_category": parse_construction_category,
     "construction_group": parse_construction_group,
+    "damage_info_order": parse_damage_info_order,
+    "damage_type": parse_damage_type,
     "dream": parse_dream,
     "disease_type": dummy_parser,
     "effect_on_condition": parse_effect_on_condition,
     "effect_type": parse_effect_type,
     "emit": dummy_parser,
-    "enchantment": dummy_parser,
+    "enchantment": parse_enchant,
+    "end_screen": parse_end_screen,
     "engine": parse_generic,
     "event_statistic": parse_event_statistic,
     "event_transformation": dummy_parser,
     "external_option": dummy_parser,
     "faction": parse_faction,
     "fault": parse_fault,
+    "fault_fix": parse_fault_fix,
     "field_type": parse_field_type,
     "furniture": parse_furniture,
     "gate": parse_gate,
@@ -146,6 +161,7 @@ parsers = {
     "item_category": parse_item_category,
     "item_blacklist": dummy_parser,
     "item_group": dummy_parser,
+    "jmath_function": dummy_parser,
     "json_flag": parse_json_flag,
     "keybinding": parse_keybinding,
     "limb_score": parse_limb_score,
@@ -164,6 +180,7 @@ parsers = {
     "monster_attack": parse_monster_attack,
     "monster_blacklist": dummy_parser,
     "monster_faction": dummy_parser,
+    "monster_flag": dummy_parser,
     "monster_whitelist": dummy_parser,
     "monstergroup": dummy_parser,
     "mood_face": dummy_parser,
@@ -175,13 +192,14 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
-    "obsolete_terrain": dummy_parser,
+    "oter_id_migration": dummy_parser,
+    "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
     "overmap_land_use_code": parse_overmap_land_use_code,
     "overmap_location": dummy_parser,
-    "overmap_special": dummy_parser,
+    "overmap_special": parse_overmap_special,
     "overmap_special_migration": dummy_parser,
     "overmap_terrain": parse_overmap_terrain,
     "palette": parse_palette,
@@ -189,6 +207,7 @@ parsers = {
     "playlist": dummy_parser,
     "practice": parse_practice,
     "profession": parse_profession,
+    "profession_group": dummy_parser,
     "profession_item_substitutions": dummy_parser,
     "proficiency": parse_proficiency,
     "proficiency_category": parse_proficiency_category,
@@ -219,8 +238,10 @@ parsers = {
     "sub_body_part": parse_sub_body_part,
     "talk_topic": parse_talk_topic,
     "technique": parse_technique,
+    "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
+    "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
     "trait_migration": dummy_parser,
@@ -230,6 +251,7 @@ parsers = {
     "tool_quality": parse_tool_quality,
     "toolmod": parse_generic,
     "uncraft": dummy_parser,
+    "var_migration": dummy_parser,
     "vehicle": parse_vehicle,
     "vehicle_group": dummy_parser,
     "vehicle_part": parse_vehicle_part,
@@ -242,5 +264,5 @@ parsers = {
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
     "wheel": parse_generic,
-    "widget": parse_widget
+    "widget": parse_widget,
 }

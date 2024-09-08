@@ -10,19 +10,15 @@
     "symbol": ":",
     "material": [ "steel" ],
     "volume": "500 ml",
-    "bashing": 10,
     "category": "veh_parts",
-    "price": 9000,
-    "price_postapoc": 100
+    "price": "90 USD",
+    "price_postapoc": "1 USD"
   },
   {
     "type": "GENERIC",
     "id": "foot_crank",
     "copy-from": "hand_rims",
     "name": { "str": "foot crank" },
-    "description": "A pedal and gear assembly from a bicycle.",
-    "to_hit": -2,
-    "bashing": 8,
-    "cutting": 2
+    "description": "A pedal and gear assembly from a bicycle."
   }
 ]

@@ -96,6 +96,7 @@
       { "item": "glass_berries", "prob": 100 },
       { "item": "strange_coffee", "prob": 50 },
       { "item": "artifact_horn", "prob": 50 },
+      { "item": "artifact_unbreakable", "prob": 50 },
       { "item": "artifact_weakening", "prob": 50 }
     ]
   },
@@ -106,7 +107,8 @@
     "entries": [
       { "item": "polaroid_of_missing_person", "prob": 50 },
       { "item": "blindfold_artifact", "prob": 100 },
-      { "item": "artifact_cerebellum", "prob": 50 }
+      { "item": "artifact_cerebellum", "prob": 50 },
+      { "item": "artifact_point_blank", "prob": 50 }
     ]
   },
   {
@@ -125,6 +127,6 @@
     "type": "item_group",
     "id": "xe_eater_spell_tier4",
     "subtype": "distribution",
-    "entries": [ { "item": "artifact_eye_right", "prob": 50 }, { "item": "ring_artifact", "prob": 100 } ]
+    "entries": [ { "item": "artifact_eye_right", "prob": 100 }, { "item": "ring_artifact", "prob": 50 } ]
   }
 ]

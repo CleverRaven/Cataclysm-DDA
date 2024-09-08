@@ -1,0 +1,268 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study the Phavian USB documents",
+    "id": "psi_research_rad_powers",
+    "description": "Study the plethora of documents and files found on the Project PHAVIAN USB.  It has something to do with radiation; beyond that, you're not sure.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "2 h",
+    "tools": [ [ [ "laptop", -1 ] ], [ [ "psi_usb_rad_recipes", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_RAD_POWERS",
+        "condition": { "or": [ { "u_has_trait": "VITAKINETIC" }, { "u_has_trait": "CLAIRSENTIENT" } ] },
+        "effect": [
+          { "u_learn_recipe": "psi_research_rad_powers_clair" },
+          { "u_learn_recipe": "psi_research_rad_powers_vita" },
+          {
+            "u_message": "There's a lot here, but you've discovered that it's organized into two main tracks.  One has a lot of detailed scans of the body and health data and is labeled HONEY BRAVO, and the other has a series of photos that seem oddly distorted, charts with some kind of waveforms on them, and other documents and is labeled RED SAFARI.",
+            "type": "neutral"
+          }
+        ],
+        "false_effect": [
+          {
+            "u_message": "You can understand the technical principles but the actual processes make no sense.  It must be some aspect of psionics that you don't possess or don't fully grasp.",
+            "type": "bad"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study the RED SAFARI documents",
+    "id": "psi_research_rad_powers_clair",
+    "description": "Study the plethora of documents and files found on the Project PHAVIAN USB relating to RED SAFARI.  It has something to do with radiation detection; beyond that, you're not sure.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "12 h",
+    "tools": [
+      [ [ "laptop", -1 ] ],
+      [ [ "psi_usb_rad_recipes", -1 ] ],
+      [
+        [ "atomic_coffeepot", -1 ],
+        [ "wearable_atomic_light", -1 ],
+        [ "wearable_atomic_light_off", -1 ],
+        [ "atomic_lamp", -1 ],
+        [ "atomic_lamp_off", -1 ],
+        [ "atomic_light", -1 ],
+        [ "atomic_light_off", -1 ],
+        [ "betavoltaic", -1 ],
+        [ "atomic_coffeepot", -1 ],
+        [ "huge_atomic_battery_cell", -1 ]
+      ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_RAD_POWERS_CLAIR",
+        "condition": {
+          "and": [
+            { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 10 },
+            { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
+            { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "6" ] },
+            { "math": [ "u_spell_level('clair_danger_sense')", ">=", "8" ] },
+            { "math": [ "u_spell_level('clair_voyance')", ">=", "5" ] }
+          ]
+        },
+        "effect": [
+          {
+            "u_message": "This would have been so much easier if you had an actual tutor, but you finally understand.  All the documents, the videos, the reports, they're trying document a method of using clairsentience to detect radiation.  And you're pretty sure you can do it now.",
+            "type": "good"
+          },
+          { "u_roll_remainder": [ "clair_sense_rads" ], "type": "spell" },
+          { "u_learn_recipe": "practice_clair_sense_rads" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's a lot here.  Maybe you didn't understand it, or maybe your powers aren't advanced enough.  You'll need to try again.",
+            "type": "bad"
+          },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "study the HONEY BRAVO documents",
+    "id": "psi_research_rad_powers_vita",
+    "description": "Study the plethora of documents and files found on the Project PHAVIAN USB relating to HONEY BRAVO.  It has something to do with radiation treatment; beyond that, you're not sure.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 6,
+    "time": "16 h",
+    "tools": [
+      [ [ "laptop", -1 ] ],
+      [ [ "psi_usb_rad_recipes", -1 ] ],
+      [
+        [ "atomic_coffeepot", -1 ],
+        [ "wearable_atomic_light", -1 ],
+        [ "wearable_atomic_light_off", -1 ],
+        [ "atomic_lamp", -1 ],
+        [ "atomic_lamp_off", -1 ],
+        [ "atomic_light", -1 ],
+        [ "atomic_light_off", -1 ],
+        [ "betavoltaic", -1 ],
+        [ "atomic_coffeepot", -1 ],
+        [ "huge_atomic_battery_cell", -1 ]
+      ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry", "required": false },
+      { "proficiency": "prof_intro_biology", "required": false },
+      { "proficiency": "prof_pharmaceutical", "required": false },
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_HARD" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_RAD_POWERS_VITA",
+        "condition": {
+          "and": [
+            { "roll_contested": { "math": [ "u_skill('metaphysics')" ] }, "difficulty": 11 },
+            { "roll_contested": { "math": [ "u_skill('chemistry')" ] }, "difficulty": 8 },
+            { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "8" ] },
+            { "math": [ "u_spell_level('vita_stop_infection')", ">=", "6" ] },
+            { "math": [ "u_spell_level('vita_healing_trance')", ">=", "2" ] }
+          ]
+        },
+        "effect": [
+          {
+            "u_message": "This would have been so much easier if you had an actual tutor, but you finally understand.  All the documents, the videos, the reports, they're trying document a method of using vitakinesis to cure radiation poisoning.  And you're pretty sure you can do it now.",
+            "type": "good"
+          },
+          { "u_roll_remainder": [ "vita_purge_rads" ], "type": "spell" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_learn_recipe": "practice_vita_purge_rads" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's a lot here.  Maybe you didn't understand it, or maybe your powers aren't advanced enough.  You'll need to try again.",
+            "type": "bad"
+          },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          { "u_forget_recipe": "psi_research_rad_powers" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "name": "research extended channeling",
+    "id": "psi_research_extended_channeling",
+    "description": "There has to be an easier way of evoking your powers than frantically concentrating and trying to get the energies out.  Maybe if you took more time, you wouldn't have to concentrate so hard?  It wouldn't help you when a zombie was trying to eat you but it would definitely be useful otherwise.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "6 h",
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": false },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_EXTENDED_CHANNELING",
+        "condition": {
+          "and": [
+            {
+              "roll_contested": {
+                "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_psionic_ritual') + u_has_proficiency('prof_psionic_basic')" ]
+              },
+              "difficulty": 9
+            }
+          ]
+        },
+        "effect": [
+          {
+            "u_message": "You've figured it out.  The concept of \"taking more time\" wasn't exactly hard to grasp, but maintaining the images in your mind, keeping your focus on a single train of thought, that was harder.  Now you've got it down, though.  If you take meticulous care in channeling your powers, it will take much longer but you'll be more likely to succeed.",
+            "type": "good"
+          },
+          { "u_add_trait": "PSI_EXTENDED_CHANNELING" },
+          { "u_forget_recipe": "psi_research_extended_channeling" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's just something you're not grasping.  You need more practice before you can get it down.",
+            "type": "bad"
+          },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "name": "research torrential channeling",
+    "id": "psi_research_torrential_channeling",
+    "description": "You have more of an understanding of the way the Nether ebbs and flows, sometimes surging forth like a flood when you least expect it.  There has to be a way to direct that more purposefully, to call forth more energy than you need and direct it into your powers instead of letting it wash over you.  It might be risky, sure, but you need every edge you can get in this post-Cataclysmic world.",
+    "category": "CC_PSIONIC",
+    "subcategory": "CSC_PSIONIC_OTHER",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "14 h",
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": false },
+      { "proficiency": "prof_psionic_ritual", "required": false }
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_UNLOCK_TORRENTIAL_CHANNELING",
+        "condition": {
+          "and": [
+            {
+              "roll_contested": {
+                "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_psionic_ritual') + u_has_proficiency('prof_psionic_basic')" ]
+              },
+              "difficulty": 15
+            }
+          ]
+        },
+        "effect": [
+          {
+            "u_message": "You've figured it out.  Your first few attempts were overwhelming, a raging crush of power than nearly knocked you unconscious…or perhaps worse.  But after you recovered, you tried again, and again, and you gained more and more control over the flood and now you can tame its flow.  Mostly.",
+            "type": "good"
+          },
+          { "u_add_trait": "PSI_TORRENTIAL_CHANNELING" },
+          { "u_forget_recipe": "psi_research_torrential_channeling" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ],
+        "false_effect": [
+          {
+            "u_message": "There's just something you're not grasping.  You need more practice before you can get it down…but you might want to wait.  The flow of Nether energy hasn't completely stopped.",
+            "type": "bad"
+          },
+          { "u_add_effect": "effect_nether_attunement_raiser", "duration": "24 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" }
+        ]
+      }
+    ]
+  }
+]

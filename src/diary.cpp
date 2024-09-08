@@ -1,32 +1,47 @@
 #include "diary.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
-#include <iostream>
-#include <list>
 #include <string>
 #include <utility>
 
 #include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
+#include "cata_path.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "color.h"
 #include "filesystem.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
+#include "json.h"
+#include "json_error.h"
+#include "kill_tracker.h"
+#include "magic.h"
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "npc.h"
 #include "output.h"
 #include "path_info.h"
+#include "pimpl.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "translation.h"
+#include "translations.h"
 #include "type_id.h"
+#include "weather.h"
 
 diary_page::diary_page() = default;
 
 std::vector<std::string> diary::get_pages_list()
 {
     std::vector<std::string> result;
+    result.reserve( pages.size() );
     for( std::unique_ptr<diary_page> &n : pages ) {
         result.push_back( get_diary_time_str( n->turn, n->time_acc ) );
     }
@@ -54,7 +69,6 @@ int diary::get_opened_page_num() const
     return opened_page;
 }
 
-
 diary_page *diary::get_page_ptr( int offset )
 {
     if( !pages.empty() && opened_page + offset >= 0 ) {
@@ -71,8 +85,6 @@ void diary::add_to_change_list( const std::string &entry, const std::string &des
     }
     change_list.push_back( entry );
 }
-
-
 
 void diary::spell_changes()
 {
@@ -122,8 +134,6 @@ void diary::spell_changes()
 
     }
 }
-
-
 
 void diary::mission_changes()
 {
@@ -301,7 +311,6 @@ void diary::kill_changes()
                                         color ) + " " + colorize( nname, c_light_gray ), m.get_description() );
                 }
 
-
             }
             if( !flag ) {
                 add_to_change_list( " " );
@@ -331,7 +340,6 @@ void diary::kill_changes()
         }
     }
 }
-
 
 void diary::skill_changes()
 {
@@ -566,7 +574,6 @@ std::map<int, std::string> diary::get_desc_map()
     }
 }
 
-
 std::string diary::get_page_text()
 {
 
@@ -665,7 +672,7 @@ void diary::delete_page()
 
 void diary::export_to_txt( bool lastexport )
 {
-    cata::ofstream myfile;
+    std::ofstream myfile;
     std::string path = lastexport ? PATH_INFO::memorialdir() : PATH_INFO::world_base_save_path();
     path += "/" + owner + "s_diary.txt";
     myfile.open( fs::u8path( path ) );
@@ -736,8 +743,6 @@ void diary::serialize( JsonOut &jsout )
     }
     jsout.end_array();
 }
-
-
 
 void diary::load()
 {

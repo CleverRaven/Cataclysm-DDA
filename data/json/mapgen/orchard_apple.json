@@ -33,7 +33,6 @@
         "]...........]......]   q"
       ],
       "palettes": [ "orchard_buildings" ],
-      "terrain": { " ": "t_region_groundcover_urban", "$": "t_region_shrub_decorative" },
       "items": {
         "O": { "item": "orchard_tools", "chance": 25, "repeat": [ 0, 1 ] },
         "X": { "item": "orchard_tools", "chance": 25, "repeat": [ 0, 1 ] },
@@ -90,13 +89,12 @@
         "QQQQ***QQQQQQQQ*****QQQQ"
       ],
       "palettes": [ "orchard_buildings" ],
-      "terrain": { " ": "t_region_groundcover_urban" },
       "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],
       "place_items": [
         { "item": "fridge", "x": 20, "y": [ 15, 17 ], "chance": 25, "repeat": [ 1, 3 ] },
         { "item": "orchard_tools", "x": [ 19, 20 ], "y": 19, "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "trash", "x": 22, "y": [ 15, 16 ], "chance": 65, "repeat": [ 1, 2 ] },
-        { "item": "trash", "x": 11, "y": 12, "chance": 75 },
+        { "item": "trash", "x": [ 20, 21 ], "y": 22, "chance": 65, "repeat": [ 1, 2 ] },
+        { "item": "trash", "x": 15, "y": 15, "chance": 75 },
         { "item": "stored_pulp", "x": [ 13, 14 ], "y": [ 19, 20 ], "chance": 75 },
         { "item": "cash_register_random", "x": 13, "y": [ 14, 16 ], "chance": 100 }
       ],
@@ -117,7 +115,7 @@
     "om_terrain": [ "orchard_tree_apple" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_soil",
       "rows": [
         "************************",
         "************************",
@@ -165,18 +163,18 @@
         "                        ",
         "                        ",
         "                        ",
-        "   |22222222222222223   ",
-        "   |................3   ",
-        "   |.:...........7..3   ",
-        "   |................3   ",
-        "   |..6......###....3   ",
-        "   |.........#z#....3   ",
-        "   |.........###....3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |................3   ",
-        "   |---5------------3   ",
+        "   ------------------   ",
+        "   -................-   ",
+        "   -.:...........7..-   ",
+        "   -................-   ",
+        "   -..6......###....-   ",
+        "   -.........#v#....-   ",
+        "   -.........###....-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   -................-   ",
+        "   ----5-------------   ",
         "                        ",
         "                        ",
         "                        ",
@@ -186,7 +184,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "z": "t_ladder_down" },
+      "terrain": { ".": "t_tile_flat_roof" },
       "nested": {
         "6": { "chunks": [ [ "null", 20 ], [ "roof_6x6_garden_3", 80 ] ] },
         "7": { "chunks": [ [ "null", 20 ], [ "roof_2x2_infrastructure", 40 ], [ "roof_2x2_infrastructure_2", 40 ] ] }
@@ -214,19 +212,20 @@
         "                        ",
         "                        ",
         "                        ",
-        "            |5222222223 ",
-        "            |.........3 ",
-        "            |.......6.3 ",
-        "            |.........3 ",
-        "            |.......6.3 ",
-        "            |.........3 ",
-        "            |.........3 ",
-        "            |.........3 ",
-        "            ----------3 ",
+        "            -5--------- ",
+        "            -.........- ",
+        "            -.......6.- ",
+        "            -.........- ",
+        "            -.......6.- ",
+        "            -.........- ",
+        "            -.........- ",
+        "            -.........- ",
+        "            ----------- ",
         "                        ",
         "                        "
       ],
       "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tile_flat_roof" },
       "nested": { "6": { "chunks": [ [ "null", 30 ], [ "roof_2x2_utilities", 30 ], [ "roof_2x2_utilities_c", 40 ] ] } }
     }
   }

@@ -3,24 +3,24 @@
     "abstract": "vehicle_alternator",
     "type": "vehicle_part",
     "fuel_type": "battery",
-    "symbol": "*",
     "color": "yellow",
     "broken_color": "red",
     "categories": [ "energy" ],
     "description": "An alternator.",
-    "flags": [ "ALTERNATOR" ]
+    "flags": [ "ALTERNATOR" ],
+    "variants": [ { "symbols": "*", "symbols_broken": "#" } ]
   },
   {
     "id": "alternator_bicycle",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "bicycle alternator" },
-    "//": "3.0A @12VDC ~ 0.1HP drain @ 48% efficiency",
+    "//": "3.0 A @ 12 VDC ~ 0.1 HP drain @ 48% efficiency",
     "item": "alternator_bicycle",
     "looks_like": "alternator_motorbike",
     "durability": 250,
-    "power": -75,
-    "epower": 36,
+    "power": "-75 W",
+    "epower": "36 W",
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
@@ -40,11 +40,11 @@
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "motorbike alternator" },
-    "//": "30A @12VDC ~ 1HP drain @ 48% efficiency",
+    "//": "30 A @ 12 VDC ~ 1 HP drain @ 48% efficiency",
     "item": "alternator_motorbike",
     "durability": 250,
-    "power": -746,
-    "epower": 360,
+    "power": "-746 W",
+    "epower": "360 W",
     "damage_modifier": 80,
     "folded_volume": "1250 ml",
     "breaks_into": [
@@ -68,12 +68,13 @@
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "car alternator" },
-    "//": "65A @12VDC ~ 2HP drain @ 52% efficiency",
+    "//": "65 A @ 12 VDC ~ 2 HP drain @ 52% efficiency",
     "item": "alternator_car",
     "durability": 275,
-    "power": -1492,
-    "epower": 780,
+    "power": "-1492 W",
+    "epower": "780 W",
     "damage_modifier": 80,
+    "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
@@ -81,11 +82,11 @@
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 6 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 6 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
     "damage_reduction": { "all": 20 }
@@ -95,12 +96,13 @@
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
     "name": { "str": "truck alternator" },
-    "//": "110A @12VDC ~ 3HP drain @ 60% efficiency",
+    "//": "110 A @ 12 VDC ~ 3 HP drain @ 60% efficiency",
     "item": "alternator_truck",
     "durability": 325,
-    "power": -2238,
-    "epower": 1320,
+    "power": "-2238 W",
+    "epower": "1320 W",
     "damage_modifier": 80,
+    "//1": "20 cm weld to repair per damage quadrant",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 7 ] },
       { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -108,7 +110,7 @@
     ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
@@ -121,21 +123,22 @@
     "id": "generator_7500w",
     "copy-from": "vehicle_alternator",
     "type": "vehicle_part",
-    "name": { "str": "7.5kW generator" },
-    "//": "625A @12VDC ~ 14HP drain @ 72% efficiency",
+    "name": { "str": "7.5 kW generator" },
+    "//": "625 A @ 12 VDC ~ 14 HP drain @ 72% efficiency",
     "item": "generator_7500w",
     "durability": 400,
-    "power": -10444,
-    "epower": 7500,
+    "power": "-10444 W",
+    "epower": "7500 W",
     "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 10, 18 ] },
       { "item": "steel_chunk", "count": [ 10, 18 ] },
       { "item": "scrap", "count": [ 10, 18 ] }
     ],
+    "//1": "30 cm weld to repair per damage quadrant",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",

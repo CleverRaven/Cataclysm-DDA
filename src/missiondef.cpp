@@ -193,11 +193,8 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "kill_horde_master", mission_start::kill_horde_master },
         { "kill_nemesis", mission_start::kill_nemesis },
         { "place_npc_software", mission_start::place_npc_software },
-        { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
         { "find_safety", mission_start::find_safety },
         { "place_book", mission_start::place_book },
@@ -206,7 +203,6 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
         // Endings
-        { "deposit_box", mission_end::deposit_box }
         // Failures
     }
 };
@@ -254,6 +250,7 @@ std::string enum_to_string<mission_goal>( mission_goal data )
         case MGOAL_FIND_NPC: return "MGOAL_FIND_NPC";
         case MGOAL_ASSASSINATE: return "MGOAL_ASSASSINATE";
         case MGOAL_KILL_MONSTER: return "MGOAL_KILL_MONSTER";
+        case MGOAL_KILL_MONSTERS: return "MGOAL_KILL_MONSTERS";
         case MGOAL_KILL_MONSTER_TYPE: return "MGOAL_KILL_MONSTER_TYPE";
         case MGOAL_KILL_MONSTER_SPEC: return "MGOAL_KILL_MONSTER_SPEC";
         case MGOAL_KILL_NEMESIS: return "MGOAL_KILL_NEMESIS";
@@ -291,9 +288,15 @@ void mission_type::load_mission_type( const JsonObject &jo, const std::string &s
     mission_type_factory.load( jo, src );
 }
 
+static DynamicDataLoader::deferred_json deferred;
+
 void mission_type::reset()
 {
     mission_type_factory.reset();
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
+    deferred.clear();
 }
 
 template <typename Fun>
@@ -309,8 +312,6 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
         }
     }
 }
-
-static DynamicDataLoader::deferred_json deferred;
 
 void mission_type::load( const JsonObject &jo, const std::string &src )
 {
@@ -364,7 +365,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
             assign_function( jo, phase, phase_func, mission_function_map );
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
-            if( !parse_funcs( j_start, phase_func ) ) {
+            if( !parse_funcs( j_start, src, phase_func ) ) {
                 deferred.emplace_back( jo, src );
                 jo.allow_omitted_members();
                 j_start.allow_omitted_members();
@@ -404,11 +405,13 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     assign( jo, "destination", target_id, strict );
 
     if( jo.has_member( "goal_condition" ) ) {
-        read_condition<mission_goal_condition_context>( jo, "goal_condition", goal_condition, true );
+        read_condition( jo, "goal_condition", goal_condition, true );
     }
+
+    optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
 }
 
-bool mission_type::test_goal_condition( const mission_goal_condition_context &d ) const
+bool mission_type::test_goal_condition( struct dialogue &d ) const
 {
     if( goal_condition ) {
         return goal_condition( d );

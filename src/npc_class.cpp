@@ -12,57 +12,16 @@
 #include "avatar.h"
 #include "condition.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "generic_factory.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
 #include "mutation.h"
+#include "npc.h"
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-
-const npc_class_id NC_ARSONIST( "NC_ARSONIST" );
-const npc_class_id NC_BARTENDER( "NC_BARTENDER" );
-const npc_class_id NC_BOUNTY_HUNTER( "NC_BOUNTY_HUNTER" );
-const npc_class_id NC_COWBOY( "NC_COWBOY" );
-const npc_class_id NC_CYBORG( "NC_CYBORG" );
-const npc_class_id NC_DOCTOR( "NC_DOCTOR" );
-const npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
-const npc_class_id NC_HACKER( "NC_HACKER" );
-const npc_class_id NC_HALLU( "NC_HALLU" );
-const npc_class_id NC_HUNTER( "NC_HUNTER" );
-const npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
-const npc_class_id NC_NINJA( "NC_NINJA" );
-const npc_class_id NC_NONE( "NC_NONE" );
-const npc_class_id NC_SCAVENGER( "NC_SCAVENGER" );
-const npc_class_id NC_SCIENTIST( "NC_SCIENTIST" );
-const npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
-const npc_class_id NC_SOLDIER( "NC_SOLDIER" );
-const npc_class_id NC_THUG( "NC_THUG" );
-const npc_class_id NC_TRADER( "NC_TRADER" );
-
-static const std::array<npc_class_id, 19> legacy_ids = {{
-        NC_NONE,
-        NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
-        NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
-        NC_HACKER,         // Weak in combat but has hacking skills and equipment
-        NC_CYBORG,         // Broken Cyborg rescued from a lab
-        NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
-        NC_TRADER,         // Roaming trader, journeying between towns.
-        NC_NINJA,          // Specializes in unarmed combat, carries few items
-        NC_COWBOY,         // Gunslinger and survivalist
-        NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
-        NC_BOUNTY_HUNTER,  // Resourceful and well-armored
-        NC_THUG,           // Moderate melee skills and poor equipment
-        NC_SCAVENGER,      // Good with pistols light weapons
-        NC_ARSONIST,       // Evacuation Center, restocks Molotovs and anarchist type stuff
-        NC_HUNTER,         // Survivor type good with bow or rifle
-        NC_SOLDIER,        // Well equipped and trained combatant, good with rifles and melee
-        NC_BARTENDER,      // Stocks alcohol
-        NC_JUNK_SHOPKEEP,   // Stocks wide range of items...
-        NC_HALLU           // Hallucinatory NPCs
-    }
-};
 
 static generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -80,7 +39,7 @@ bool string_id<npc_class>::is_valid() const
     return npc_class_factory.is_valid( *this );
 }
 
-npc_class::npc_class() : id( NC_NONE )
+npc_class::npc_class() : id( npc_class_id::NULL_ID() )
 {
 }
 
@@ -133,13 +92,6 @@ void npc_class::finalize_all()
 
 void npc_class::check_consistency()
 {
-    for( const npc_class_id &legacy : legacy_ids ) {
-        if( !npc_class_factory.is_valid( legacy ) ) {
-            debugmsg( "Missing legacy npc class %s (at index %d)",
-                      legacy.c_str(), &legacy - legacy_ids.data() );
-        }
-    }
-
     for( const npc_class &cl : npc_class_factory.get_all() ) {
         for( const shopkeeper_item_group &ig : cl.shop_item_groups ) {
             if( !item_group::group_is_defined( ig.id ) ) {
@@ -169,6 +121,11 @@ void npc_class::check_consistency()
             debugmsg( "Trait group %s is undefined", cl.traits.c_str() );
         }
     }
+}
+
+bool npc_class::is_common() const
+{
+    return common;
 }
 
 static distribution load_distribution( const JsonObject &jo )
@@ -214,7 +171,7 @@ static distribution load_distribution( const JsonObject &jo )
     jo.throw_error( "Invalid distribution" );
 }
 
-static distribution load_distribution( const JsonObject &jo, const std::string &name )
+static distribution load_distribution( const JsonObject &jo, const std::string_view name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -234,7 +191,7 @@ static distribution load_distribution( const JsonObject &jo, const std::string &
 
 bool shopkeeper_item_group::can_sell( npc const &guy ) const
 {
-    dialogue const temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
+    dialogue temp( get_talker_for( get_avatar() ), get_talker_for( guy ) );
     faction *const fac = guy.get_faction();
 
     return ( fac == nullptr || trust <= guy.get_faction()->trusts_u ) &&
@@ -252,7 +209,7 @@ std::string shopkeeper_item_group::get_refusal() const
         return _( "<npcname> does not trust you enough" );
     }
 
-    return refusal;
+    return refusal.translated();
 }
 
 void shopkeeper_item_group::deserialize( const JsonObject &jo )
@@ -263,20 +220,31 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     optional( jo, false, "rigid", rigid, false );
     optional( jo, false, "refusal", refusal );
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
     }
 }
 
-void npc_class::load( const JsonObject &jo, const std::string & )
+void npc_class::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );
 
     optional( jo, was_loaded, "common", common, true );
+    if( common ) {
+        optional( jo, was_loaded, "common_spawn_weight", common_spawn_weight, 1.0 );
+    } else if( jo.has_float( "common_spawn_weight" ) ) {
+        jo.throw_error_at( "common_spawn_weight",
+                           string_format( "npc class %s defines a spawn weighting, but cannot spawn randomly", name ) );
+    }
     bonus_str = load_distribution( jo, "bonus_str" );
     bonus_dex = load_distribution( jo, "bonus_dex" );
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
+
+    bonus_aggression = load_distribution( jo, "bonus_aggression" );
+    bonus_bravery = load_distribution( jo, "bonus_bravery" );
+    bonus_collector = load_distribution( jo, "bonus_collector" );
+    bonus_altruism = load_distribution( jo, "bonus_altruism" );
 
     if( jo.has_member( "shopkeeper_item_group" ) ) {
         if( jo.has_array( "shopkeeper_item_group" ) &&
@@ -367,16 +335,6 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 }
 
-const npc_class_id &npc_class::from_legacy_int( int i )
-{
-    if( i < 0 || static_cast<size_t>( i ) >= legacy_ids.size() ) {
-        debugmsg( "Invalid legacy class id: %d", i );
-        return npc_class_id::NULL_ID();
-    }
-
-    return legacy_ids[ i ];
-}
-
 const std::vector<npc_class> &npc_class::get_all()
 {
     return npc_class_factory.get_all();
@@ -384,18 +342,20 @@ const std::vector<npc_class> &npc_class::get_all()
 
 const npc_class_id &npc_class::random_common()
 {
-    std::list<const npc_class_id *> common_classes;
+    weighted_float_list<const npc_class_id *> weighted_classes;
     for( const npc_class &pr : npc_class_factory.get_all() ) {
         if( pr.common ) {
-            common_classes.push_back( &pr.id );
+            weighted_classes.add( &pr.id, pr.common_spawn_weight );
         }
     }
 
-    if( common_classes.empty() || one_in( common_classes.size() ) ) {
-        return NC_NONE;
+    const npc_class_id *chosen_class = *weighted_classes.pick();
+
+    if( !chosen_class ) {
+        return npc_class_id::NULL_ID();
     }
 
-    return *random_entry( common_classes );
+    return *chosen_class;
 }
 
 std::string npc_class::get_name() const
@@ -450,22 +410,42 @@ const time_duration &npc_class::get_shop_restock_interval() const
 
 int npc_class::roll_strength() const
 {
-    return dice( 4, 3 ) + bonus_str.roll();
+    return bonus_str.roll();
 }
 
 int npc_class::roll_dexterity() const
 {
-    return dice( 4, 3 ) + bonus_dex.roll();
+    return bonus_dex.roll();
 }
 
 int npc_class::roll_intelligence() const
 {
-    return dice( 4, 3 ) + bonus_int.roll();
+    return bonus_int.roll();
 }
 
 int npc_class::roll_perception() const
 {
-    return dice( 4, 3 ) + bonus_per.roll();
+    return bonus_per.roll();
+}
+
+int npc_class::roll_aggression() const
+{
+    return bonus_aggression.roll();
+}
+
+int npc_class::roll_bravery() const
+{
+    return bonus_bravery.roll();
+}
+
+int npc_class::roll_collector() const
+{
+    return bonus_collector.roll();
+}
+
+int npc_class::roll_altruism() const
+{
+    return bonus_altruism.roll();
 }
 
 int npc_class::roll_skill( const skill_id &sid ) const

@@ -4,6 +4,8 @@
 
 #include "cuboid_rectangle.h"
 #include "cata_catch.h"
+#include "string_formatter.h"
+#include "string_id.h"
 
 // StringMaker specializations for Cata types for reporting via Catch2 macros
 

@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-header-guard %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-header-guard %t -- --load=%cata_plugin --
 
 #ifndef CATA_TOOLS_CLANG_TIDY_PLUGIN_TEST_OUTPUT_HEADER_GUARD_2_H_TMP_CPP
 #define CATA_TOOLS_CLANG_TIDY_PLUGIN_TEST_OUTPUT_HEADER_GUARD_2_H_TMP_CPP

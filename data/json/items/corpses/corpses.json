@@ -13,9 +13,10 @@
     ],
     "description": "A dead body.",
     "//": "most of the properties depend on the monster type and are created at runtime!",
-    "price": 0,
+    "price": "0 cent",
     "volume": "0 ml",
     "flags": [ "TRADER_AVOID", "CORPSE", "TARDIS" ],
+    "category": "corpses",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -37,9 +38,9 @@
     "color": "white",
     "name": { "str": "desiccated corpse" },
     "description": "A badly mangled human body.  A giant puncture wound is visible on its upper chest, and something has drained most of the moisture from the carcass, leaving it desiccated and making it impossible to determine the body's age.",
-    "category": "other",
+    "category": "corpses",
     "material": [ "hflesh" ],
-    "price": 0,
+    "price": "0 cent",
     "volume": "27 L",
     "weight": "32 kg",
     "flags": [ "TRADER_AVOID" ]
@@ -49,7 +50,7 @@
     "id": "corpse_generic_human",
     "copy-from": "corpse",
     "name": { "str": "corpse" },
-    "description": "A dead human body.",
+    "description": "A lifeless human body.",
     "material": [ "hflesh" ]
   },
   {
@@ -79,8 +80,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body of a little boy.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ]
   },
   {
@@ -90,8 +90,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body of a little girl.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ]
   },
   {
@@ -101,8 +100,7 @@
     "name": { "str": "corpse" },
     "description": "The dead body of a small child.  Their corpse bears a calm facial expression, as if they died instantly.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ]
   },
   {
@@ -112,8 +110,7 @@
     "name": { "str": "corpse" },
     "description": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ],
     "snippet_category": [
       {
@@ -163,6 +160,7 @@
     "name": { "str": "corpse" },
     "description": "An awful, almost unidentifiable mass of charred flesh.",
     "looks_like": "corpse_generic_human",
+    "source_monster": "mon_human_scorched",
     "material": [ "hflesh" ]
   },
   {
@@ -265,6 +263,62 @@
       {
         "id": "generic_gunned_07",
         "text": "The corpse of a tall woman unblemished but for the bloody hole atop her head, her thick black hair intermixed now with brain, viscera and shotgun pellets."
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_generic_infected",
+    "//": "Died due to an untreated, infected wound.",
+    "copy-from": "corpse",
+    "name": { "str": "corpse" },
+    "description": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it.",
+    "looks_like": "corpse_generic_human",
+    "material": [ "hflesh" ],
+    "snippet_category": [
+      {
+        "id": "generic_infected_01",
+        "text": "The dead body of a person.  There is a bloody bite wound on their forearm.  Dry filth surrounds it but the body seems otherwise unharmed."
+      },
+      {
+        "id": "generic_infected_02",
+        "text": "One of this deceased persons shoulders is disfigured by a deep bite wound with a distinct shape, obviously caused by a human."
+      },
+      {
+        "id": "generic_infected_03",
+        "text": "This unlucky fellow has a deep, straight cut wound on their hand.  The blackened veins suggest it got infected."
+      },
+      {
+        "id": "generic_infected_04",
+        "text": "This lifeless body is covered in myriads of uneven scratches.  Some of them look pretty swollen."
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "corpse_void_mummified",
+    "symbol": "%",
+    "color": "white",
+    "name": { "str": "mummified corpse" },
+    "description": "Waxen skin drapes the remnants of an unknowable death.",
+    "looks_like": "corpse_generic_human",
+    "category": "corpses",
+    "material": [ "hflesh" ],
+    "price": "0 cent",
+    "volume": "30 L",
+    "weight": "32 kg",
+    "flags": [ "TRADER_AVOID", "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 100,
+        "max_contains_volume": "1650 L",
+        "max_contains_weight": "4000 kg",
+        "max_item_volume": "500 L",
+        "max_item_length": "60 meter",
+        "rigid": false,
+        "forbidden": true,
+        "transparent": true
       }
     ]
   }

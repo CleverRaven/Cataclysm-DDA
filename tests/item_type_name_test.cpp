@@ -8,72 +8,82 @@
 
 // Test cases focused on item::type_name
 static const itype_id itype_blood( "blood" );
+static const itype_id itype_test_block_of_cheese( "test_block_of_cheese" );
+static const itype_id itype_test_book( "test_book" );
+static const itype_id itype_test_food( "test_food" );
+static const itype_id itype_test_item( "test_item" );
+static const itype_id itype_test_lorry( "test_lorry" );
+static const itype_id itype_test_mag( "test_mag" );
+static const itype_id itype_test_mass( "test_mass" );
+static const itype_id itype_test_oxygen( "test_oxygen" );
+static const itype_id itype_test_pile_of_dirt( "test_pile_of_dirt" );
+static const itype_id itype_test_test_item( "test_test_item" );
 
 static const mtype_id mon_chicken( "mon_chicken" );
 static const mtype_id mon_zombie( "mon_zombie" );
 
-TEST_CASE( "item name pluralization", "[item][type_name][plural]" )
+TEST_CASE( "item_name_pluralization", "[item][type_name][plural]" )
 {
     SECTION( "singular and plural item names" ) {
 
         SECTION( "plural is the same as singular" ) {
-            item lead( "lead" );
-            item gold( "gold_small" );
+            item food( itype_test_food );
+            item oxygen( itype_test_oxygen );
 
-            CHECK( lead.type_name( 1 ) == "lead" );
-            CHECK( lead.type_name( 2 ) == "lead" );
+            CHECK( food.type_name( 1 ) == "food" );
+            CHECK( food.type_name( 2 ) == "food" );
 
-            CHECK( gold.type_name( 1 ) == "gold" );
-            CHECK( gold.type_name( 2 ) == "gold" );
+            CHECK( oxygen.type_name( 1 ) == "oxygen" );
+            CHECK( oxygen.type_name( 2 ) == "oxygen" );
         }
 
         SECTION( "pluralize the last part" ) {
-            item rag( "rag" );
-            item mattress( "mattress" );
-            item incendiary( "incendiary" );
-            item plastic( "plastic_chunk" );
+            item test_item( itype_test_item );
+            item test_mass( itype_test_mass );
+            item test_lorry( itype_test_lorry );
+            item test_test_item( itype_test_test_item );
 
             // just add +s
-            CHECK( rag.type_name( 1 ) == "rag" );
-            CHECK( rag.type_name( 2 ) == "rags" );
-            CHECK( plastic.type_name( 1 ) == "plastic chunk" );
-            CHECK( plastic.type_name( 2 ) == "plastic chunks" );
+            CHECK( test_item.type_name( 1 ) == "item" );
+            CHECK( test_item.type_name( 2 ) == "items" );
+            CHECK( test_test_item.type_name( 1 ) == "test item" );
+            CHECK( test_test_item.type_name( 2 ) == "test items" );
 
             // -y to +ies
-            CHECK( incendiary.type_name( 1 ) == "incendiary" );
-            CHECK( incendiary.type_name( 2 ) == "incendiaries" );
+            CHECK( test_lorry.type_name( 1 ) == "lorry" );
+            CHECK( test_lorry.type_name( 2 ) == "lorries" );
 
             // -ss to +sses
-            CHECK( mattress.type_name( 1 ) == "mattress" );
-            CHECK( mattress.type_name( 2 ) == "mattresses" );
+            CHECK( test_mass.type_name( 1 ) == "mass" );
+            CHECK( test_mass.type_name( 2 ) == "masses" );
 
         }
 
         SECTION( "pluralize the first part" ) {
-            item glass( "glass_sheet" );
-            item cards( "deck_of_cards" );
+            item test_block_of_cheese( itype_test_block_of_cheese );
+            item test_pile_of_dirt( itype_test_pile_of_dirt );
 
-            CHECK( glass.type_name( 1 ) == "sheet of glass" );
-            CHECK( glass.type_name( 2 ) == "sheets of glass" );
+            CHECK( test_block_of_cheese.type_name( 1 ) == "block of cheese" );
+            CHECK( test_block_of_cheese.type_name( 2 ) == "blocks of cheese" );
 
-            CHECK( cards.type_name( 1 ) == "deck of cards" );
-            CHECK( cards.type_name( 2 ) == "decks of cards" );
+            CHECK( test_pile_of_dirt.type_name( 1 ) == "pile of dirt" );
+            CHECK( test_pile_of_dirt.type_name( 2 ) == "piles of dirt" );
         }
 
         SECTION( "pluralize by inserting a word" ) {
-            item mag( "mag_archery" );
-            item book( "SICP" );
+            item test_mag( itype_test_mag );
+            item test_book( itype_test_book );
 
-            CHECK( mag.type_name( 1 ) == "Archery for Kids" );
-            CHECK( mag.type_name( 2 ) == "issues of Archery for Kids" );
+            CHECK( test_mag.type_name( 1 ) == "Journal of Testing" );
+            CHECK( test_mag.type_name( 2 ) == "issues of Journal of Testing" );
 
-            CHECK( book.type_name( 1 ) == "SICP" );
-            CHECK( book.type_name( 2 ) == "copies of SICP" );
+            CHECK( test_book.type_name( 1 ) == "Unit Testing Principles" );
+            CHECK( test_book.type_name( 2 ) == "copies of Unit Testing Principles" );
         }
     }
 }
 
-TEST_CASE( "custom named item", "[item][type_name][named]" )
+TEST_CASE( "custom_named_item", "[item][type_name][named]" )
 {
     // Shop smart. Shop S-Mart.
     item shotgun( "shotgun_410" );
@@ -83,7 +93,7 @@ TEST_CASE( "custom named item", "[item][type_name][named]" )
     CHECK( shotgun.type_name() == "Boomstick" );
 }
 
-TEST_CASE( "blood item", "[item][type_name][blood]" )
+TEST_CASE( "blood_item", "[item][type_name][blood]" )
 {
     SECTION( "blood from a zombie corpse" ) {
         item corpse = item::make_corpse( mon_zombie );
@@ -114,7 +124,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
     }
 }
 
-TEST_CASE( "corpse item", "[item][type_name][corpse]" )
+TEST_CASE( "corpse_item", "[item][type_name][corpse]" )
 {
     // Anonymous corpses
 

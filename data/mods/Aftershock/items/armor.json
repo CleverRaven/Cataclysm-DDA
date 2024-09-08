@@ -7,9 +7,9 @@
     "weight": "3401 g",
     "volume": "3 L",
     "//": "sci-fantasy extradimensional gadget = pricey",
-    "price": 1000000000,
+    "price": "10000 kUSD",
     "//2": "because nobody would have that amount after the world ends, it's worth $1000 in barter",
-    "price_postapoc": 100000,
+    "price_postapoc": "1 kUSD",
     "material": [ "glass", "superalloy", "platinum" ],
     "symbol": "[",
     "color": "cyan",
@@ -27,7 +27,7 @@
     "description": "A lightweight armor vest made of pieces of titanium sewn together, with cloth padding for comfort.  Brittle against blunt force, but highly resistant to cuts and corrosion.",
     "weight": "939 g",
     "volume": "500 ml",
-    "price": 1000,
+    "price": "10 USD",
     "to_hit": -3,
     "material": [ "titanium", "cotton" ],
     "symbol": "[",
@@ -55,14 +55,24 @@
     "copy-from": "jedi_cloak",
     "name": { "str": "sentinel-lx cloak" },
     "description": "The vantablack cloak of sentinel-lx hangs around ones shoulders as a solid, unnatural shadow.  Made from woven graphene, it's lightweight and resistant, but cannot be repaired.",
-    "price": 1500000,
+    "price": "15 kUSD",
     "material": [ "graphene_weave" ],
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "BONUS_DODGE", "add": 1 } ],
+          "name": "Living Shadow",
+          "description": "You are wearing equipment that gives 1 bonus dodge."
+        }
+      ]
+    },
     "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
@@ -70,7 +80,24 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "IX-2110 computer" },
-    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers and colonists that first tamed the stars during the early Hyperspace Era.  By now more than 400 years old, making it boot successfully would be a small adventure all of its own.",
+    "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity has left slightly slower than its modern counterparts.",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "old",
+        "name": { "str": "IX-2110 computer" },
+        "description": "The original Imagos IX-2110, a general use wrist computer originally designed to support operations within hazardous environments.  Among the most successful pieces of technology ever created, millions of these were produced and sold to the explorers that first tamed the stars during the early Hyperspace Era.  The slow attrition of technological prowess since the discontinuity means its only slightly less capable than its modern counterparts.",
+        "append": true
+      },
+      {
+        "id": "standard",
+        "name": { "str": "IX-2330S computer" },
+        "weight": 0,
+        "description": "A rugged and radiation shielded wirst computer specifically designed to support salvage operations.  It can perform general computing tasks and might be used to interface with most ancient computer systems.",
+        "color": "dark_gray",
+        "append": true
+      }
+    ],
     "weight": "315 g",
     "volume": "1200 ml",
     "price": "20 USD",
@@ -79,10 +106,34 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "encumbrance": 10, "coverage": 45, "covers": [ "arm_l", "arm_r" ] } ],
+    "armor": [ { "encumbrance": 2, "coverage": 14, "covers": [ "arm_l", "arm_r" ] } ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "BELTED", "STURDY", "WATER_FRIENDLY" ]
+    "flags": [ "WATCH", "BELTED", "STURDY", "WATER_FRIENDLY" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "use_action": [
+      "EINKTABLETPC",
+      "EBOOKREAD",
+      "ELECTRICSTORAGE",
+      "PORTABLE_GAME",
+      { "type": "link_up", "cable_length": 5, "charge_rate": "140 W" }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ]
   },
   {
     "id": "xl_jeans",
@@ -98,7 +149,6 @@
   },
   {
     "id": "xl_technician_pants_gray",
-    "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str": "XL work pants", "str_pl": "pairs of XL work pants" },
     "description": "A pair of gray work pants.",
@@ -116,7 +166,6 @@
   },
   {
     "id": "xl_technician_shirt_gray",
-    "repairs_like": "tshirt",
     "type": "ARMOR",
     "name": { "str": "XL work t-shirt" },
     "description": "A gray XL work t-shirt with a small front pocket.",
@@ -137,8 +186,7 @@
     "description": "Personal portable charging system consisting of an array of quantum solar panels neatly folded in the form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.  Cutting edge technology.",
     "weight": "7500 g",
     "volume": "5 L",
-    "price": 1500000,
-    "bashing": 10,
+    "price": "15 kUSD",
     "to_hit": -1,
     "material": [ "glass", "steel" ],
     "symbol": "[",
@@ -146,7 +194,8 @@
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
-    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "q_solarpack_on",
@@ -156,9 +205,7 @@
     "description": "Unfolded array of portable quantum solar panels ready to push some power into an active cable charger system.",
     "weight": "7500 g",
     "volume": "15 L",
-    "price": 1500000,
-    "bashing": 4,
-    "to_hit": -2,
+    "price": "15 kUSD",
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",
@@ -166,21 +213,20 @@
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
-    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ],
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "xlswat_armor",
-    "repairs_like": "survivor_suit",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "Uplifted SWAT armor" },
-    "description": "An extra large suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.  Specifically designed for Uplifted officers such as Mastodons.",
+    "name": { "str": "Uplifted Enforcer armor" },
+    "description": "An extra large suit of black bulletproof armor with lots of pockets.  Specifically designed for Uplifted officers such as Mastodons.",
     "weight": "10 kg",
     "volume": "20 L",
-    "price": 585000,
-    "price_postapoc": 5000,
+    "price": "5 kUSD 850 USD",
+    "price_postapoc": "50 USD",
     "to_hit": -3,
-    "bashing": 6,
     "material": [ "kevlar", "cotton" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -194,7 +240,8 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "moves": 80 }
     ],
-    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 95, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "xlballistic_vest_empty",
@@ -205,7 +252,7 @@
     "description": "Oversized ballistic armor without any armor inserts.  The soft armor plate carrier is still protective but it won't stop high energy projectiles.",
     "weight": "4 kg",
     "volume": "7 L",
-    "price": 160000,
+    "price": "1 kUSD 600 USD",
     "material": [ "nylon" ],
     "symbol": "[",
     "color": "light_gray",
@@ -222,7 +269,7 @@
     "description": "Oversized ballistic armor with ESAPI ceramic armor plates.",
     "weight": "12 kg",
     "volume": "9 L",
-    "price": 280000,
+    "price": "2 kUSD 800 USD",
     "material": [ "nylon", "ceramic" ],
     "symbol": "[",
     "color": "light_gray",
@@ -233,17 +280,15 @@
   },
   {
     "id": "xlboots_combat",
-    "repairs_like": "boots_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL combat boots", "str_pl": "pairs of XL combat boots" },
     "description": "Modern oversized reinforced tactical combat boots.  Very durable.",
     "weight": "1460 g",
     "volume": "5 L",
-    "price": 7000,
-    "price_postapoc": 14000,
+    "price": "70 USD",
+    "price_postapoc": "140 USD",
     "to_hit": -1,
-    "bashing": 1,
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -252,19 +297,18 @@
     "material_thickness": 5,
     "environmental_protection": 2,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of XL tactical gloves", "str_pl": "pairs of XL tactical gloves" },
     "description": "A pair of oversized reinforced Kevlar tactical gloves.  Commonly used by police and military units.",
     "weight": "1 kg",
     "volume": "750 ml",
-    "price": 5200,
-    "to_hit": 2,
+    "price": "52 USD",
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -276,15 +320,13 @@
   },
   {
     "id": "tripaw_xlgloves_tactical",
-    "repairs_like": "gloves_survivor",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of Killophant gloves", "str_pl": "pairs of Killophant gloves" },
     "description": "A pair of reinforced Kevlar tactical gloves, specifically designed to accommodate three-fingered Killophants.  Thinner than regular oversized tactical gloves.",
     "weight": "320 g",
     "volume": "750 ml",
-    "price": 5200,
-    "to_hit": 2,
+    "price": "52 USD",
     "material": [ "kevlar", "leather" ],
     "symbol": "[",
     "looks_like": "fire_gauntlets",
@@ -316,7 +358,6 @@
   },
   {
     "id": "xltac_fullhelmet",
-    "repairs_like": "xlkevlar",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "XL tactical full helmet" },
@@ -337,98 +378,14 @@
     "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
   },
   {
-    "id": "spacer_jumpsuit",
-    "repairs_like": "jumpsuit",
-    "type": "ARMOR",
-    "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
-    "name": { "str": "crew jumpsuit" },
-    "description": "A lightweight cloth jumpsuit adorned with the faded corporate regalia of some freight hauling association or another.  This one is a standard design favored by spacers, with ample, easy access pockets.",
-    "color": "brown"
-  },
-  {
-    "id": "spacer_cap",
-    "repairs_like": "hat_cotton",
-    "type": "ARMOR",
-    "copy-from": "hat_cotton",
-    "material": [ "plastic", "cotton" ],
-    "looks_like": "powered_earmuffs",
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "PARTIAL_DEAF" ],
-    "name": { "str": "communications cap" },
-    "description": "A padded cotton cap built around an augmented reality headset.  During normal operation it would provide visual information about a ship subsystems and a communications link with the rest of the crew, but severed from a spaceship, only their hearing protection function retains any utility.",
-    "armor": [
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 33, "encumbrance": 0 },
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 2 }
-    ],
-    "color": "brown"
-  },
-  {
-    "id": "afs_herc_rig",
-    "type": "ARMOR",
-    "name": { "str": "HERC rig" },
-    "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
-    "weight": "600 g",
-    "volume": "10 L",
-    "looks_like": "tacvest",
-    "price": 7400,
-    "price_postapoc": 5000,
-    "material": [ "steel", "plastic" ],
-    "symbol": "[",
-    "color": "dark_gray",
-    "material_thickness": 2,
-    "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "pocket_data": [
-      {
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "90 cm",
-        "moves": 40,
-        "flag_restriction": [ "BELT_CLIP" ],
-        "rigid": true,
-        "holster": true
-      },
-      {
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "6 kg",
-        "max_item_length": "90 cm",
-        "moves": 40,
-        "flag_restriction": [ "BELT_CLIP" ],
-        "rigid": true,
-        "holster": true
-      },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "5 kg", "moves": 150 },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "2 L",
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "30 kg",
-        "flag_restriction": [ "MAG_BULKY" ],
-        "moves": 60
-      }
-    ],
-    "flags": [ "WATER_FRIENDLY", "BELTED" ],
-    "armor": [ { "encumbrance": [ 2, 15 ], "coverage": 20, "covers": [ "torso" ] } ]
-  },
-  {
     "id": "wetsuit_cecalia",
     "type": "ARMOR",
-    "name": { "str": "Cecalia wetsuit" },
-    "description": "A wetsuit designed for the Octopus Uplifts known as Cecalia.  This is the explorer suit with no head or tentacle protection.",
+    "name": { "str": "Cecaelia wetsuit" },
+    "description": "A wetsuit designed for the Octopus Uplifts known as Cecaelia.  This is the explorer suit with no head or tentacle protection.",
     "weight": "1320 g",
     "volume": "4 L",
-    "price": 12000,
-    "price_postapoc": 500,
+    "price": "120 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "material": [ "neoprene", "cotton" ],
     "symbol": "[",
@@ -450,11 +407,11 @@
     "id": "combat_wetsuit_cecalia",
     "type": "ARMOR",
     "name": { "str": "combat wetsuit" },
-    "description": "The combat version of the Cecalia wetsuit; made of neoprene and Kevlar, it will provide some level of protection for deep dwellers.",
+    "description": "The combat version of the Cecaelia wetsuit; made of neoprene and Kevlar, it will provide some level of protection for deep dwellers.",
     "weight": "1720 g",
     "volume": "4 L",
-    "price": 12000,
-    "price_postapoc": 500,
+    "price": "120 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -3,
     "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
@@ -473,7 +430,8 @@
         "moves": 40,
         "flag_restriction": [ "BELT_CLIP" ],
         "rigid": true,
-        "holster": true
+        "holster": true,
+        "transparent": true
       },
       {
         "pocket_type": "CONTAINER",
@@ -522,16 +480,15 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "nanomesh vest" },
-    "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers..",
+    "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers.",
     "weight": "6953 g",
     "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 2000,
+    "price": "100 USD",
+    "price_postapoc": "20 USD",
     "to_hit": -1,
     "material": [ "nanoprinted_alloy" ],
     "symbol": "[",
     "looks_like": "mt_chainmail_vest",
-    "repairs_like": "mt_chainmail_vest",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
     "armor": [
@@ -546,7 +503,7 @@
   {
     "id": "xl_nanomesh_vest",
     "type": "ARMOR",
-    "name": { "str": "XL nanomesh_vest" },
+    "name": { "str": "XL nanomesh vest" },
     "copy-from": "nanomesh_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -555,14 +512,13 @@
     "id": "carbide_cuirass",
     "type": "ARMOR",
     "category": "armor",
-    "repairs_like": "cuirass_lightplate",
     "looks_like": "cuirass_lightplate",
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
-    "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
+    "description": "This piece of armor hearkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
     "weight": "4200 g",
     "volume": "6 L",
-    "price": 300000,
-    "price_postapoc": 300000,
+    "price": "3 kUSD",
+    "price_postapoc": "3 kUSD",
     "to_hit": -1,
     "material": [ "vacuum_carbide" ],
     "symbol": "[",

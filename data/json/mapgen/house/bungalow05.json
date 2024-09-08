@@ -5,7 +5,7 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "fill_ter": "t_floor",
       "rows": [
         "...---..................",
@@ -34,16 +34,14 @@
         ".,......................"
       ],
       "terrain": {
-        "#": "t_adobe_brick_wall",
-        "|": "t_wall",
         "~": "t_door_glass_c",
-        "_": "t_linoleum_gray",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "`": "t_floor_noroof",
         "₸": "t_floor_noroof",
         "$": "t_floor_noroof",
         "K": "t_floor_noroof",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ")": "t_shrub_lilac",
         ",": "t_dirt",
         "/": "t_carpet_yellow"
@@ -54,6 +52,7 @@
         "&": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 1, 2 ] },
         "$": [ { "item": "sports", "chance": 30 }, { "item": "camping", "chance": 30 } ]
       },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 7, "y": 1 } ],
       "place_loot": [ { "item": "television", "x": 12, "y": 11 } ]
     }
   },
@@ -63,35 +62,35 @@
     "weight": 250,
     "method": "json",
     "object": {
-      "palettes": [ "roof_palette" ],
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,---------,,",
-        ",,,,,,,,,,,,,-.......|,,",
-        ",,,,,,,-------.......|,,",
-        ",,,,,,,3.............|,,",
-        ",,,,,,,3.............|,,",
-        ",,,,,,,3.............|,,",
-        ",,,,,,,3.............|,,",
-        ",,,,,,,3.............|,,",
-        ",,,,,,,3.............|,,",
-        ",,,,,,33....=........|,,",
-        ",,33333..............|,,",
-        ",,3..................|,,",
-        ",,3..................|,,",
-        ",,3...............X..5,,",
-        ",,3...N..............|,,",
-        ",,3..................|,,",
-        ",,3..................|,,",
-        ",,3..........222222222,,",
-        ",,222222222222,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,",
-        ",,,,,,,,,,,,,,,,,,,,,,,,"
+        "                        ",
+        "             ---------  ",
+        "             -.......-  ",
+        "       -------.......-  ",
+        "       -.............-  ",
+        "       -.......1.....-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "       -.............-  ",
+        "      --....=........-  ",
+        "  -----..............-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -...............X..5  ",
+        "  -...N..............-  ",
+        "  -..................-  ",
+        "  -..................-  ",
+        "  -..........---------  ",
+        "  ------------          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", ",": "t_open_air" }
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]

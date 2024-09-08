@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "enum_bitset.h"
@@ -13,7 +14,6 @@
 #include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -33,7 +33,7 @@ struct species_type {
     bool was_loaded = false;
     translation description;
     translation footsteps;
-    enum_bitset<m_flag> flags;
+    std::set<mon_flag_str_id> flags;
     enum_bitset<mon_trigger> anger;
     enum_bitset<mon_trigger> fear;
     enum_bitset<mon_trigger> placate;
@@ -46,7 +46,7 @@ struct species_type {
 
     }
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
 };
 
 class MonsterGenerator
@@ -70,15 +70,16 @@ class MonsterGenerator
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
 
+        mtype generate_fake_pseudo_dormant_monster( const mtype &mon );
+
         void check_monster_definitions() const;
 
-        cata::optional<mon_action_death> get_death_function( const std::string &f ) const;
+        std::optional<mon_action_death> get_death_function( const std::string &f ) const;
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;
         friend class mattack_actor;
-        std::array<int, m_flag::MF_MAX> m_flag_usage_stats;
 
     private:
         MonsterGenerator();

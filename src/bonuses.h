@@ -2,11 +2,11 @@
 #ifndef CATA_SRC_BONUSES_H
 #define CATA_SRC_BONUSES_H
 
-#include <iosfwd>
 #include <map>
+#include <string>
 #include <vector>
 
-#include "damage.h"
+#include "type_id.h"
 
 class Character;
 class JsonArray;
@@ -18,6 +18,24 @@ enum scaling_stat : int {
     STAT_DEX,
     STAT_INT,
     STAT_PER,
+    SKILL_BASHING,
+    SKILL_CUTTING,
+    SKILL_DODGE,
+    SKILL_MELEE,
+    SKILL_STABBING,
+    SKILL_SWIMMING,
+    SKILL_UNARMED,
+    SKILL_GUN,
+    SKILL_PISTOL,
+    SKILL_RIFLE,
+    SKILL_SHOTGUN,
+    SKILL_SMG,
+    SKILL_ARCHERY,
+    SKILL_THROW,
+    SKILL_LAUNCHER,
+    SKILL_DRIVE,
+    SKILL_FIRSTAID,
+    SKILL_SPELLCRAFT,
     NUM_STATS
 };
 
@@ -41,7 +59,7 @@ enum class affected_stat : int {
 struct affected_type {
     public:
         explicit affected_type( affected_stat s );
-        affected_type( affected_stat s, damage_type t );
+        affected_type( affected_stat s, const damage_type_id &t );
         bool operator<( const affected_type & ) const;
         bool operator==( const affected_type & ) const;
 
@@ -49,13 +67,13 @@ struct affected_type {
             return stat;
         }
 
-        damage_type get_damage_type() const {
+        const damage_type_id &get_damage_type() const {
             return type;
         }
 
     private:
         affected_stat stat = affected_stat::NONE;
-        damage_type type = damage_type::NONE;
+        damage_type_id type;
 };
 
 // This is the bonus we are indexing
@@ -74,10 +92,10 @@ class bonus_container
         bonus_container();
         void load( const JsonObject &jo );
 
-        float get_flat( const Character &u, affected_stat stat, damage_type dt ) const;
+        float get_flat( const Character &u, affected_stat stat, const damage_type_id &dt ) const;
         float get_flat( const Character &u, affected_stat stat ) const;
 
-        float get_mult( const Character &u, affected_stat stat, damage_type dt ) const;
+        float get_mult( const Character &u, affected_stat stat, const damage_type_id &dt ) const;
         float get_mult( const Character &u, affected_stat stat ) const;
 
         std::string get_description() const;

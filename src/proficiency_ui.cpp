@@ -1,4 +1,5 @@
 #include "character.h"
+#include "input_context.h"
 #include "output.h"
 #include "proficiency.h"
 #include "string_input_popup.h"
@@ -58,7 +59,7 @@ struct prof_window {
     void draw_header();
     void draw_profs();
     void draw_details();
-    void run();
+    void run( std::optional<proficiency_id> default_selection = std::nullopt );
 };
 
 std::vector<display_prof_deps *> &prof_window::get_current_set()
@@ -306,14 +307,17 @@ shared_ptr_fast<ui_adaptor> prof_window::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-void prof_window::run()
+void prof_window::run( std::optional<proficiency_id> default_selection )
 {
     if( !u ) {
         return;
     }
 
     ctxt = input_context( "PROFICIENCY_WINDOW" );
-    ctxt.register_directions();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "PREV_CATEGORY" );
     ctxt.register_action( "NEXT_CATEGORY" );
@@ -323,39 +327,29 @@ void prof_window::run()
     populate_categories();
     shared_ptr_fast<ui_adaptor> current_ui = create_or_get_ui_adaptor();
 
+    if( default_selection ) {
+        std::vector<display_prof_deps *> &cur_set = get_current_set();
+        for( int i = 0; i < static_cast<int>( cur_set.size() ); i++ ) {
+            if( cur_set[i]->first.id == default_selection.value() ) {
+                sel_prof = i;
+                break;
+            }
+        }
+    }
+
     bool done = false;
     while( !done ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
         std::vector<display_prof_deps *> &cur_set = get_current_set();
-        if( action == "UP" ) {
-            sel_prof--;
-            if( sel_prof < 0 ) {
-                sel_prof = std::max( static_cast<int>( cur_set.size() ) - 1, 0 );
-            }
-        } else if( action == "DOWN" ) {
-            sel_prof++;
-            if( sel_prof >= static_cast<int>( cur_set.size() ) ) {
-                sel_prof = 0;
-            }
-        } else if( action == "LEFT" || action == "PREV_CATEGORY" ) {
-            if( filter_str.empty() ) {
-                current_cat--;
-                if( current_cat < 0 ) {
-                    current_cat = std::max( static_cast<int>( cats.size() ) - 1, 0 );
-                }
-                sel_prof = 0;
-                top_prof = 0;
-            }
-        } else if( action == "RIGHT" || action == "NEXT_CATEGORY" ) {
-            if( filter_str.empty() ) {
-                current_cat++;
-                if( current_cat >= static_cast<int>( cats.size() ) ) {
-                    current_cat = 0;
-                }
-                sel_prof = 0;
-                top_prof = 0;
-            }
+        if( navigate_ui_list( action, sel_prof, 10, cur_set.size(), true ) ) {
+        } else if( filter_str.empty() && ( action == "LEFT" || action == "PREV_CATEGORY" ||
+                                           action == "PREV_TAB" ||
+                                           action == "RIGHT" || action == "NEXT_CATEGORY" || action == "NEXT_TAB" ) ) {
+            current_cat = inc_clamp_wrap( current_cat,
+                                          action == "RIGHT" || action == "NEXT_CATEGORY" || action == "NEXT_TAB", cats.size() );
+            sel_prof = 0;
+            top_prof = 0;
         } else if( action == "FILTER" ) {
             //~ Refers to single-character search prefixes, like p: or s:
             std::string desc( _( "Available prefixes:" ) );
@@ -404,8 +398,9 @@ void prof_window::run()
     }
 }
 
-void show_proficiencies_window( const Character &u )
+void show_proficiencies_window( const Character &u,
+                                std::optional<proficiency_id> default_selection )
 {
     prof_window w( &u );
-    w.run();
+    w.run( default_selection );
 }

@@ -41,8 +41,8 @@ static void clear_game_drag( const ter_id &terrain )
 
     map &here = get_map();
     // hard force a rebuild of caches
-    here.shift( point_south );
-    here.shift( point_north );
+    here.shift( point_rel_sm_south );
+    here.shift( point_rel_sm_north );
 }
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
@@ -59,8 +59,8 @@ static vehicle *setup_drag_test( const vproto_id &veh_id )
     // Remove all items from cargo to normalize weight.
     // turn everything on
     for( const vpart_reference &vp : veh_ptr->get_all_parts() ) {
-        veh_ptr->get_items( vp.part_index() ).clear();
-        veh_ptr->toggle_specific_part( vp.part_index(), true );
+        veh_ptr->get_items( vp.part() ).clear();
+        vp.part().enabled = true;
     }
     // close the doors
     const auto doors = veh_ptr->get_avail_parts( "OPENABLE" );
@@ -121,7 +121,7 @@ static bool test_drag(
     if( !valid ) {
         printf( "    { \"%s\": [ %f, %f, %f, %d, %d ] },\n",
                 veh_id.c_str(), c_air, c_rolling, c_water, safe_v, max_v );
-        fflush( stdout );
+        static_cast<void>( fflush( stdout ) );
     }
     return valid;
 }
@@ -129,7 +129,7 @@ static bool test_drag(
 static void print_drag_test_strings( const vproto_id &veh )
 {
     test_drag( veh );
-    fflush( stdout );
+    static_cast<void>( fflush( stdout ) );
 }
 
 static void test_vehicle_drag( std::pair<const vproto_id, std::vector<double>> &veh_drag )

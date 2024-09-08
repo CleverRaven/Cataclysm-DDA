@@ -1,0 +1,76 @@
+[
+  {
+    "type": "palette",
+    "id": "house_survivor_palette",
+    "//": "Overwrite of survivor house palette containing some matrix crystls and products",
+    "palettes": [ "standard_domestic_palette" ],
+    "remove_all": { "f": {  }, "m": {  }, "F": {  }, "6": {  } },
+    "furniture": {
+      "f": "f_table",
+      "m": "f_glass_fridge",
+      "F": "f_fridge",
+      "6": "f_rack_wood",
+      ":": "f_sandbag_wall",
+      "¶": "f_sandbag_wall"
+    },
+    "terrain": {
+      "+": [ [ "t_door_c", 3 ], [ "t_door_o", 3 ], [ "t_door_b", 1 ], [ "t_door_frame", 1 ], "t_door_boarded" ],
+      "*": [ [ "t_door_boarded", 5 ], [ "t_rdoor_boarded", 2 ], "t_rdoor_b", "t_door_b", "t_door_frame" ],
+      "o": [
+        [ "t_window_boarded", 7 ],
+        [ "t_window_boarded_noglass", 5 ],
+        [ "t_window_reinforced", 3 ],
+        [ "t_window_reinforced_noglass", 2 ],
+        "t_window_frame",
+        "t_window_empty"
+      ]
+    },
+    "items": {
+      "f": [
+        { "item": "groce_condiment", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "dining", "chance": 10 },
+        { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] }
+      ],
+      "m": { "item": "SUS_fridge_survivor", "chance": 48 },
+      "F": { "item": "SUS_fridge_survivor", "chance": 60 },
+      "J": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "6": [
+        { "item": "SUS_pantry", "chance": 12 },
+        { "item": "cannedfood", "chance": 10, "repeat": [ 1, 2 ] },
+        { "item": "matrix_shard_group", "chance": 5, "repeat": [ 1, 2 ] },
+        { "item": "collection_matrix_dust", "chance": 2, "repeat": [ 1, 2 ] },
+        { "item": "dist_matrix_crystals_rare", "chance": 5 }
+      ]
+    },
+    "nested": {
+      "¶": { "chunks": [ [ "destroyed_glass_door_wall", 50 ], [ "null", 50 ] ] },
+      ":": { "chunks": [ [ "destroyed_glass_door_wall", 50 ], [ "null", 50 ] ] }
+    },
+    "mapping": {
+      "÷": {
+        "traps": [
+          [ "tr_nailboard", 3 ],
+          [ "tr_tripwire", 3 ],
+          [ "tr_bubblewrap", 2 ],
+          [ "tr_beartrap", 2 ],
+          [ "tr_shotgun_2", 1 ],
+          [ "tr_shotgun_2_1", 1 ],
+          [ "tr_shotgun_1", 1 ],
+          [ "tr_null", 4 ]
+        ]
+      },
+      " ": {
+        "item": [
+          { "item": "can_food", "chance": 4 },
+          { "item": "can_medium", "chance": 1 },
+          { "item": "can_food_big", "chance": 1 },
+          { "item": "jar_glass_sealed", "chance": 1 },
+          { "item": "jar_3l_glass_sealed", "chance": 1 },
+          { "item": "can_drink", "chance": 1 },
+          { "item": "bottle_glass", "chance": 1 },
+          { "item": "bottle_plastic", "chance": 1 }
+        ]
+      }
+    }
+  }
+]

@@ -2,6 +2,33 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp_roof",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "               ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrrr        ",
+        " rrrrr         ",
+        " rrrrr         ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "       rrr rrr ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
+      ],
+      "terrain": { "r": "t_canvas_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
     "object": {
       "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
@@ -63,7 +90,8 @@
         }
       ],
       "//": "migration from older saved games - remove older shop stocks",
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -73,10 +101,6 @@
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "mapgensize": [ 2, 2 ],
-      "rows": [
-        "  ",
-        "  "
-      ],
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
     }
   },
@@ -229,7 +253,7 @@
     "type": "mapgen",
     "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_place_BEMs",
-    "//": "remove the null chunks once theres enough BEM npcs.",
+    "//": "remove the null chunks once there's enough BEM npcs.",
     "object": {
       "rows": [
         "                        ",
@@ -258,11 +282,55 @@
         "                        "
       ],
       "nested": {
-        "1": { "chunks": [ [ "BEM_hireable", 20 ], [ "null", 20 ] ] },
+        "1": { "chunks": [ [ "BEM_hireable", 40 ], [ "BEM_jabberwock", 20 ], [ "null", 20 ] ] },
         "2": { "chunks": [ [ "BEM_human_sample", 20 ], [ "BEM_anchor_seller", 20 ], [ "null", 20 ] ] },
         "3": { "chunks": [ [ "BEM_keycard_seller", 20 ], [ "BEM_template_seller", 20 ], [ "null", 20 ] ] },
-        "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "null", 20 ] ] }
+        "4": { "chunks": [ [ "BEM_gunrunner", 20 ], [ "BEM_drugrunner", 20 ], [ "BEM_chatting_veterans", 20 ], [ "null", 20 ] ] }
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "robofachq_ancilla_bar_autodoc",
+    "//": "Spawns by itself at the moment, spawning should be triggered by missions later on.",
+    "object": {
+      "rows": [
+        "########################",
+        "########################",
+        "||||||||||||||||||||||||",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "=======|||||========:::|",
+        "         |      =   :71A",
+        "         |      =   :.YA",
+        "         |      =   :h..",
+        "         |==[=====[=::[:",
+        "^        2              ",
+        "=======|||||===========|",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "''''''''''''''''''''''''",
+        "||||||||||||||||||||||||",
+        "########################",
+        "########################",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "robofachq" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "remove_all": { "7": {  }, "1": {  }, "A": {  }, "h": {  } },
+      "terrain": { "'": "t_open_air", "Y": "t_metal_floor_olight", ":": "t_wall_metal_corrugated", "#": "t_rock" },
+      "furniture": { "7": "f_autodoc_couch", "1": "f_autodoc", "A": "f_rack", "h": "f_chair" },
+      "npcs": { "h": { "class": "ancilla_doctor" } },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "no_faction", "x": 23, "y": 8 },
+        { "type": "LOOT_CURRENCY", "faction": "no_faction", "x": 23, "y": 9 }
+      ]
     }
   },
   {
@@ -328,6 +396,36 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "BEM_chatting_veterans",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 3, 3 ],
+      "place_npcs": [ { "class": "BEM_silent_veteran", "x": 0, "y": 0 }, { "class": "BEM_chatting_veteran", "x": 2, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_drugrunner",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_drugrunner", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "BEM_jabberwock",
+    "object": {
+      "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 0 ], "y": [ 0, 0 ] } ],
+      "mapgensize": [ 1, 1 ],
+      "place_npcs": [ { "class": "BEM_jabberwock", "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "update_mapgen_id": "nest_ancilla_bar_remove_BEMs",
     "object": {
       "remove_npcs": [
@@ -335,7 +433,11 @@
         { "class": "BEM_anchor_seller", "x": 0, "y": 0 },
         { "class": "BEM_human_sample", "x": 0, "y": 0 },
         { "class": "BEM_gunrunner", "x": 0, "y": 0 },
+        { "class": "BEM_drugrunner", "x": 0, "y": 0 },
+        { "class": "BEM_jabberwock", "x": 0, "y": 0 },
         { "class": "BEM_template_seller", "x": 0, "y": 0 },
+        { "class": "BEM_silent_veteran", "x": 0, "y": 0 },
+        { "class": "BEM_chatting_veteran", "x": 0, "y": 0 },
         { "class": "BEM_keycard_seller", "x": 0, "y": 0 }
       ]
     }

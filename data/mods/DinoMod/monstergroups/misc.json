@@ -67,82 +67,27 @@
     "type": "monstergroup",
     "name": "GROUP_SEWER_DINO",
     "monsters": [
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_coelophysis",
-        "weight": 100,
-        "cost_multiplier": 5,
-        "pack_size": [ 4, 8 ],
-        "conditions": [ "WINTER" ]
-      },
-      {
-        "monster": "mon_dilophosaurus",
-        "weight": 10,
-        "cost_multiplier": 10,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_dilophosaurus",
-        "weight": 10,
-        "cost_multiplier": 10,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "WINTER" ]
-      },
+      { "monster": "mon_tawa", "weight": 100, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_coelophysis", "weight": 100, "cost_multiplier": 5, "pack_size": [ 4, 8 ] },
+      { "monster": "mon_dilophosaurus", "weight": 10, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 72 },
       { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 168 },
       { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 672 },
       { "monster": "mon_zilophosaurus", "weight": 2, "cost_multiplier": 10, "pack_size": [ 1, 2 ], "starts": 2160 },
-      {
-        "monster": "mon_ceratosaurus",
-        "weight": 10,
-        "cost_multiplier": 30,
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      { "monster": "mon_ceratosaurus", "weight": 10, "cost_multiplier": 30, "conditions": [ "WINTER" ] },
+      { "monster": "mon_ceratosaurus", "weight": 10, "cost_multiplier": 30 },
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 72 },
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 168 },
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 672 },
       { "monster": "mon_zeratosaurus", "weight": 2, "cost_multiplier": 35, "starts": 2160 },
       { "monster": "mon_compsognathus", "weight": 300, "pack_size": [ 4, 12 ] },
-      {
-        "monster": "mon_deinonychus",
-        "weight": 100,
-        "cost_multiplier": 15,
-        "pack_size": [ 2, 3 ],
-        "conditions": [ "DAY" ]
-      },
+      { "monster": "mon_deinonychus", "weight": 100, "cost_multiplier": 15, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] },
-      {
-        "monster": "mon_dromaeosaurus",
-        "weight": 150,
-        "cost_multiplier": 10,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "NIGHT" ]
-      },
-      {
-        "monster": "mon_stenonychosaurus",
-        "weight": 150,
-        "cost_multiplier": 10,
-        "pack_size": [ 1, 2 ],
-        "conditions": [ "DAY" ]
-      },
-      {
-        "monster": "mon_eoraptor",
-        "weight": 200,
-        "pack_size": [ 4, 12 ],
-        "conditions": [ "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ], "conditions": [ "WINTER" ] },
+      { "monster": "mon_dromaeosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_stenonychosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_eoraptor", "weight": 200, "pack_size": [ 4, 12 ] },
       { "monster": "mon_oryctodromeus", "weight": 200, "pack_size": [ 1, 2 ] }
     ]
   },
@@ -162,6 +107,55 @@
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 168, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 672, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zeinonychus", "weight": 25, "cost_multiplier": 30, "starts": 2160, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "No heavier than 21 kg.",
+    "//2": "This group always has a chance of being the result, regardless of mission type.",
+    "monsters": [ { "monster": "mon_coelophysis", "weight": 3 }, { "monster": "mon_dromaeosaurus", "weight": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_TRAPPING",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "No heavier than 10 kg.",
+    "//2": "This group can only be picked from when the trapping mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_tawa", "weight": 3 },
+      { "monster": "mon_albertonykus", "weight": 20 },
+      { "monster": "mon_saurornitholestes", "weight": 5 },
+      { "monster": "mon_scutellosaurus", "weight": 20 },
+      { "monster": "mon_aquilops", "weight": 12 },
+      { "monster": "mon_nanosaurus", "weight": 20 },
+      { "monster": "mon_dimorphodon", "weight": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING_LARGE",
+    "//": "Special group with hardcoded reference in basecamp::hunting_results. Does not actually spawn anywhere, used solely to determine returns from camp hunting mission.",
+    "//1": "No heavier than 400 kg.",
+    "//2": "This group can only be picked from when the hunt large animals mission is used, in addition to GROUP_CAMP_HUNTING.",
+    "monsters": [
+      { "monster": "mon_dilophosaurus", "weight": 3 },
+      { "monster": "mon_ornithomimus", "weight": 20 },
+      { "monster": "mon_falcarius", "weight": 5 },
+      { "monster": "mon_anzu", "weight": 5 },
+      { "monster": "mon_deinonychus", "weight": 3 },
+      { "monster": "mon_stenonychosaurus", "weight": 3 },
+      { "monster": "mon_sarahsaurus", "weight": 4 },
+      { "monster": "mon_anchisaurus", "weight": 4 },
+      { "monster": "mon_dryosaurus", "weight": 10 },
+      { "monster": "mon_stegoceras", "weight": 12 },
+      { "monster": "mon_leptoceratops", "weight": 12 },
+      { "monster": "mon_zuniceratops", "weight": 12 },
+      { "monster": "mon_oryctodromeus", "weight": 3 },
+      { "monster": "mon_thescelosaurus", "weight": 3 },
+      { "monster": "mon_pteranodon", "weight": 3 },
+      { "monster": "mon_quetzalcoatlus", "weight": 3 }
     ]
   }
 ]

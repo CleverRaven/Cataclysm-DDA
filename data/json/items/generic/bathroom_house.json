@@ -1,18 +1,18 @@
 [
   {
-    "id": "base_toiletries",
-    "name": { "str": "generic grooming" },
+    "abstract": "base_toiletries",
+    "name": { "str_sp": "generic grooming" },
     "type": "GENERIC",
     "description": "generic item template",
     "symbol": "+",
     "color": "blue",
-    "price": 200,
-    "price_postapoc": 0,
+    "price": "2 USD",
+    "price_postapoc": "0 cent",
     "weight": "100 g",
-    "volume": "50 ml",
+    "volume": "100 ml",
     "material": [ "plastic" ],
-    "bashing": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "soap_holder",
@@ -20,7 +20,12 @@
     "type": "GENERIC",
     "description": "A shallow dish for holding a bar of soap.  It has ridges to help drain water away from the dish.  Not the most exciting of items.",
     "symbol": "-",
-    "copy-from": "base_toiletries"
+    "weight": "65 g",
+    "volume": "221 ml",
+    "longest_side": "13 cm",
+    "price": "2 USD 50 cent",
+    "copy-from": "base_toiletries",
+    "//": "Based on https://www.amazon.com/dp/B09QGPWJPX"
   },
   {
     "id": "razor_shaving",
@@ -29,12 +34,12 @@
     "description": "A razor blade on a comfortable handle.  Much easier to shave with than a loose razor.",
     "symbol": "t",
     "copy-from": "base_toiletries",
-    "price": 800,
-    "price_postapoc": 500,
+    "price": "8 USD",
+    "price_postapoc": "5 USD",
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
-    "cutting": 2
+    "melee_damage": { "bash": 1, "cut": 2 }
   },
   {
     "id": "toothbrush_plain",
@@ -42,6 +47,10 @@
     "type": "GENERIC",
     "description": "A plastic brush with soft bristles for cleaning your teeth.",
     "symbol": "/",
+    "weight": "18 g",
+    "volume": "38 ml",
+    "longest_side": "18 cm",
+    "price": "6 USD",
     "copy-from": "base_toiletries",
     "snippet_category": [
       {
@@ -64,16 +73,98 @@
         "id": "tbrush5",
         "text": "A short toothbrush designed for children.  It has a grinning red racecar on the handle."
       }
+    ],
+    "//": "Based on https://www.amazon.com/dp/B0BQ1FVGJM, volume calculated as a cylinder with the assumption of 7in length and 0.65in diameter - the dimensions on the listing are for the package, so I took a bit of length off."
+  },
+  {
+    "id": "tampon",
+    "name": { "str": "tampon" },
+    "type": "GENERIC",
+    "description": "A small cotton tampon with a plastic applicator.",
+    "symbol": "+",
+    "color": "white",
+    "looks_like": "cotton_ball",
+    "container": "bag_plastic_small",
+    "price": "25 cent",
+    "price_postapoc": "2 USD",
+    "//": "Makes a decent trade commodity but can be acquired in bulk.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic", "cotton" ],
+    "snippet_category": [
+      {
+        "id": "tampon1",
+        "text": "A small cotton tampon with a plastic applicator.  Useless for some, an invaluable commodity for others."
+      },
+      { "id": "tampon2", "text": "A 'light' cotton tampon with a plastic applicator rated for light flows." },
+      { "id": "tampon3", "text": "A 'super' cotton tampon with a plastic applicator rated for heavy flows." },
+      { "id": "tampon4", "text": "A small, lavender-scented cotton tampon with a plastic applicator." },
+      {
+        "id": "tampon5",
+        "text": "A small cotton tampon with a plastic applicator proudly claiming to be anti-microbial.  Ultra-fine print indicates that this tampon has no noticeable health benefits compared to others."
+      },
+      {
+        "id": "tampon6",
+        "text": "An expensive-looking tampon with a fancy, smooth plastic applicator.  The ultra-soft cotton has the appearance of a fluffy cloud."
+      },
+      {
+        "id": "tampon7",
+        "text": "A cheap-looking tampon.  The cotton looks rough, the plastic applicator has a few sharp edges, and the string is somehow already knotted."
+      }
     ]
   },
   {
-    "id": "toothbrush_dirty",
-    "name": { "str": "dirty toothbrush", "str_pl": "dirty toothbrushes" },
+    "id": "menstrual_pad",
+    "name": { "str": "menstrual pad" },
     "type": "GENERIC",
-    "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
-    "symbol": "/",
-    "flags": [ "FILTHY" ],
-    "copy-from": "base_toiletries"
+    "description": "An absorbent pad.",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "bandages",
+    "container": "bag_plastic_small",
+    "price": "25 cent",
+    "price_postapoc": "2 USD",
+    "//": "Makes a decent trade commodity but can be acquired in bulk.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic", "cotton" ],
+    "snippet_category": [
+      {
+        "id": "menstrual_pad1",
+        "text": "An absorbent menstrual pad.  Unfortunately, not as useful as a bandage as you'd think.  The adhesive is on the side opposite of the absorbent part."
+      },
+      { "id": "menstrual_pad2", "text": "A small panty-liner only meant for the lightest flows." },
+      { "id": "menstrual_pad3", "text": "A large menstrual pad meant for use overnight." },
+      {
+        "id": "menstrual_pad4",
+        "text": "An absorbent menstrual pad with racing stripes, for the fastest flows.  Probably."
+      },
+      { "id": "menstrual_pad5", "text": "An absorbent menstrual pad that smells strongly of essential oils." },
+      {
+        "id": "menstrual_pad6",
+        "text": "A pride-themed menstrual pad in trans flag coloring.  'Men can bleed too!' is proudly written on the packaging."
+      },
+      {
+        "id": "menstrual_pad7",
+        "text": "A cheap menstrual pad.  The cotton somehow looks like sandpaper and is almost see-through thin."
+      }
+    ]
+  },
+  {
+    "id": "menstrual_cup",
+    "name": { "str": "menstrual cup" },
+    "type": "GENERIC",
+    "description": "A tiny, washable, flexible plastic cup about the size of a medicine cup for catching menstrual flow.",
+    "symbol": "v",
+    "color": "pink",
+    "looks_like": "bottle_plastic_small",
+    "container": "bag_plastic_small",
+    "price": "10 USD",
+    "price_postapoc": "5 USD",
+    "//": "Makes a decent trade commodity.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic" ]
   },
   {
     "id": "hairbrush",
@@ -82,12 +173,18 @@
     "description": "An instrument of hair torture.",
     "symbol": "/",
     "copy-from": "base_toiletries",
+    "weight": "91 g",
+    "volume": "400 ml",
+    "longest_side": "24 cm",
+    "price": "6 USD",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "neutral" },
     "snippet_category": [
       { "id": "hbrush1", "text": "An instrument of hair torture.  There are round safety tips on the bristles." },
       { "id": "hbrush2", "text": "An old-fashioned hair-straightening device with a faux-wood handle." },
       { "id": "hbrush3", "text": "A soft, cushioned hairbrush.  The shiny chrome design appears modern." },
       { "id": "hbrush4", "text": "A tacky kid's hairbrush.  The cartoon whale on the handle seems friendly enough." }
-    ]
+    ],
+    "//": "Based on https://www.amazon.com/dp/B01LPO5JVE"
   },
   {
     "id": "curler_hair",
@@ -137,14 +234,14 @@
     "description": "A rubber-tipped tool for unclogging pipes, or a club for an immature survivor.",
     "symbol": "p",
     "color": "red",
-    "price": 800,
-    "price_postapoc": 10,
+    "price": "8 USD",
+    "price_postapoc": "10 cent",
     "weight": "590 g",
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
     "material": [ "wood", "rubber" ],
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "plunger_futuristic",
@@ -153,13 +250,13 @@
     "description": "This hollow plastic toilet plunger's bell compresses like an accordion.  It is efficient at its intended purpose, and complete rubbish as a weapon.",
     "symbol": "p",
     "color": "black",
-    "price": 1590,
-    "price_postapoc": 10,
+    "price": "15 USD 90 cent",
+    "price_postapoc": "10 cent",
     "weight": "680 g",
     "volume": "2400 ml",
     "material": [ "plastic" ],
-    "bashing": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "toilet_paper",
@@ -168,13 +265,12 @@
     "description": "A luxurious remnant of civilization.",
     "symbol": "~",
     "color": "white",
-    "container": "bag_plastic",
-    "price": 89,
-    "price_postapoc": 180,
+    "container": "bag_plastic_small",
+    "price": "89 cent",
+    "price_postapoc": "1 USD 80 cent",
     "volume": "250 ml",
     "weight": "227 g",
     "material": [ "paper" ],
-    "to_hit": -2,
     "snippet_category": [
       {
         "id": "tpaper1",
@@ -195,17 +291,22 @@
   {
     "id": "hair_dryer",
     "name": { "str": "hair dryer" },
-    "type": "GENERIC",
-    "description": "This tool dries your hair by pushing air through a coil of hot wires.  Without a functioning power grid, it is a motorized paper weight.",
+    "type": "TOOL",
+    "description": "This tool dries your hair by pushing air through a coil of hot wires.  The heat can be toggled on and off.",
     "symbol": "(",
     "color": "black",
-    "price": 2100,
-    "price_postapoc": 0,
+    "price": "21 USD",
+    "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
-    "bashing": 3,
-    "to_hit": -1
+    "flags": [ "WATER_BREAK" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 35,
+    "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
+    "charged_qualities": [ [ "WINNOW", 1 ], [ "BLOW_HOT_AIR", 1 ] ],
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "curling_iron",
@@ -214,13 +315,13 @@
     "description": "A wand made of heat-resistant ceramics.  When plugged into an outlet, it is hot enough to shape your hair into curls.  Too bad the power's out.",
     "symbol": "/",
     "color": "magenta",
-    "price": 2500,
-    "price_postapoc": 0,
+    "price": "25 USD",
+    "price_postapoc": "0 cent",
     "volume": "250 ml",
     "weight": "590 g",
     "material": [ "ceramic", "steel" ],
-    "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "brush_toilet",
@@ -229,13 +330,13 @@
     "description": "Zombies cannot be intimidated or humiliated, so this stiff brush is only useful for scouring toilet bowls.",
     "symbol": "p",
     "color": "white",
-    "price": 1700,
-    "price_postapoc": 0,
+    "price": "17 USD",
+    "price_postapoc": "0 cent",
     "volume": "500 ml",
     "weight": "160 g",
     "material": [ "steel", "plastic" ],
-    "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "comb_lice",
@@ -291,10 +392,11 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "plastic soap bottle" },
-    "description": "A squeezable bottle used to hold various bathroom soaps.",
+    "description": "A squeezable bottle used to hold various liquid soaps.",
     "looks_like": "bottle_plastic",
     "weight": "130 g",
     "volume": "502 ml",
+    "longest_side": "18 cm",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -308,11 +410,9 @@
         "moves": 400
       }
     ],
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": 1,
+    "price": "0 cent",
+    "price_postapoc": "10 cent",
     "material": [ "plastic" ],
-    "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan",
     "snippet_category": [

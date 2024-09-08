@@ -4,12 +4,14 @@
     "type": "AMMO",
     "name": { "str_sp": "9x18mm 57-N-181S" },
     "description": "9x18mm Makarov ammunition with a 93gr steel core FMJ bullet.  The 9x18mm round was very common in the Eastern Bloc during the 20th century, and remained in Russian military service into the 21st.",
-    "weight": "8 g",
+    "ascii_picture": "9x18mm",
+    "weight": "10 g",
     "volume": "97 ml",
-    "price": 100,
-    "price_postapoc": 1000,
+    "longest_side": "25 mm",
+    "price": "1 USD",
+    "price_postapoc": "10 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "material": [ "steel", "powder" ],
+    "material": [ "brass", "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "count": 50,
@@ -28,8 +30,8 @@
     "type": "AMMO",
     "name": { "str_sp": "9x18mm SP-7" },
     "description": "9x18mm Makarov SP-7 ammunition.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st.",
-    "price": 150,
-    "price_postapoc": 1000,
+    "price": "1 USD 50 cent",
+    "price_postapoc": "10 USD",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
     "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4 }, "dispersion": -10 },
@@ -41,8 +43,8 @@
     "type": "AMMO",
     "name": { "str_sp": "9x18mm RG028" },
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses a bullet with a hardened steel core to improve armor penetration.",
-    "price": 200,
-    "price_postapoc": 3100,
+    "price": "2 USD",
+    "price_postapoc": "31 USD",
     "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 8 } }
   },
   {
@@ -105,5 +107,27 @@
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "matchhead_9x18mmfmj",
+    "copy-from": "bp_9x18mmfmj",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": "9x18mm FMJ, matchhead powder" },
+    "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses a bullet with a hardened steel core to improve armor penetration.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_9x18mmfmj",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "matchhead_9x18mm",
+    "copy-from": "bp_9x18mm",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": "9x18mm, matchhead powder" },
+    "description": "9x18mm Makarov ammunition with a 93gr steel core FMJ bullet.  The 9x18mm round was very common in the Eastern Bloc during the 20th century, and remained in Russian military service into the 21st.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_9x18mm",
+    "extend": { "effects": [ "MATCHHEAD" ] }
   }
 ]

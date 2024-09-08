@@ -3,20 +3,7 @@
     "type": "start_location",
     "id": "sloc_fort",
     "name": "Bastion Fort",
-    "terrain": [
-      "fort_1a",
-      "fort_2a",
-      "fort_3a",
-      "fort_4a",
-      "fort_1b",
-      "fort_2b",
-      "fort_3b",
-      "fort_4b",
-      "fort_1c",
-      "fort_2c",
-      "fort_3c",
-      "fort_4c"
-    ]
+    "terrain": [ { "om_terrain": "fort", "om_terrain_match_type": "PREFIX" } ]
   },
   {
     "type": "start_location",
@@ -143,12 +130,10 @@
       "house_03",
       "house_04",
       "house_05",
-      "house_05ab",
       "house_06",
       "house_07",
       "house_08",
       "house_09",
-      "house_09b",
       "house_10",
       "house_11",
       "house_12",
@@ -239,6 +224,102 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_pharm",
+    "name": "Pharmacy",
+    "terrain": [ "s_pharm", "s_pharm_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_hardware",
+    "name": "Hardware Store",
+    "terrain": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_dojo",
+    "name": "Dojo",
+    "terrain": [ "dojo", "dojo_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_gym",
+    "name": "Gym",
+    "terrain": [ "gym", "gym_fitness", "gym_fitness_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_clothes",
+    "name": "Clothing Store",
+    "terrain": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_restaurant",
+    "name": "Restaurant",
+    "terrain": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bar",
+    "name": "Bar",
+    "terrain": [ "bar", "bar_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_electronics",
+    "name": "Electronics Store",
+    "terrain": [ "s_electronics", "s_electronics_1", "s_electronicstore" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_arcade",
+    "name": "Arcade",
+    "terrain": [ "s_arcade" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_animalshelter",
+    "name": "Animal Shelter",
+    "terrain": [ "animalshelter" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_laundromat",
+    "name": "Laundromat",
+    "terrain": [ "s_laundromat", "s_laundromat_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_stripclub",
+    "name": "Strip Club",
+    "terrain": [ "stripclub", "stripclub_1", "stripclub_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_sexshop",
+    "name": "Sex Shop",
+    "terrain": [ "cs_sex_shop" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_candyshop",
+    "name": "Candy Shop",
+    "terrain": [ "candy_shop", "candy_shop_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_bikeshop",
+    "name": "Bike Shop",
+    "terrain": [ "s_bike_shop", "s_bike_shop_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_petstore",
+    "name": "Pet Store",
+    "terrain": [ "s_petstore", "s_petstore_1", "s_petstore_2" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_military_surplus",
     "name": "Military Surplus",
     "terrain": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ]
@@ -253,7 +334,7 @@
     "type": "start_location",
     "id": "sloc_library",
     "name": "Library",
-    "terrain": [ "s_library", "s_library_1", "s_library_2" ]
+    "terrain": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ]
   },
   {
     "type": "start_location",
@@ -266,6 +347,12 @@
     "id": "sloc_cabin",
     "name": "Cabin",
     "terrain": [ "cabin" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_liam_cabin",
+    "name": "Liam's Cabin",
+    "terrain": [ "cabin_liam" ]
   },
   {
     "type": "start_location",
@@ -390,7 +477,17 @@
     "type": "start_location",
     "id": "sloc_school",
     "name": "School",
-    "terrain": [ { "om_terrain": "school", "om_terrain_match_type": "CONTAINS" } ]
+    "terrain": [
+      { "om_terrain": "school_1", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "school_2", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "school_3", "om_terrain_match_type": "PREFIX" }
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_school_rooftop",
+    "name": "School Rooftop",
+    "terrain": [ "school_4_6", "school_4_5", "school_4_4", "school_4_9", "school_4_8", "school_4_7" ]
   },
   {
     "type": "start_location",
@@ -464,12 +561,6 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_basement_bionic",
-    "name": "Shady Basement",
-    "terrain": [ "basement_bionic" ]
-  },
-  {
-    "type": "start_location",
     "id": "sloc_zoo_giftshop",
     "name": "Zoo (Giftshop)",
     "terrain": [ "zoo_0_1" ]
@@ -506,9 +597,43 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_apartment_complex_roof",
+    "name": "Apartment Complex (rooftop)",
+    "terrain": [
+      "apartment_complex_corner_roof",
+      "apartment_complex_corner_inner_roof",
+      "apartment_complex_straight_roof",
+      "apartment_complex_straight_stairs_even_roof",
+      "apartment_complex_straight_stairs_odd_roof"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_convention_center_rooftop",
+    "name": "Convention Center Rooftop",
+    "terrain": [
+      "convention_0_0_2",
+      "convention_1_0_2",
+      "convention_2_0_2",
+      "convention_3_0_2",
+      "convention_4_0_2",
+      "convention_0_1_2",
+      "convention_1_1_2",
+      "convention_2_1_2",
+      "convention_3_1_2",
+      "convention_4_1_2",
+      "convention_0_2_2",
+      "convention_1_2_2",
+      "convention_2_2_2",
+      "convention_3_2_2",
+      "convention_4_2_2"
+    ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_horse_ranch",
     "name": "Horse Ranch",
-    "terrain": [ "horse_farm_13" ]
+    "terrain": [ "farm_horse_stable_1" ]
   },
   {
     "type": "start_location",
@@ -542,6 +667,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lighthouse_small_ground",
+    "name": "Small lighthouse island",
+    "terrain": [ "lighthouse_small_ground" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_military_base_warehouse",
     "name": "Military Base Warehouse",
     "terrain": [ "mil_base_2g" ]
@@ -568,12 +699,7 @@
     "type": "start_location",
     "id": "sloc_road",
     "name": "Road",
-    "terrain": [
-      "road_nesw_manhole",
-      { "om_terrain": "road_straight", "om_terrain_match_type": "PREFIX" },
-      { "om_terrain": "road_curved", "om_terrain_match_type": "PREFIX" },
-      { "om_terrain": "road_end", "om_terrain_match_type": "PREFIX" }
-    ]
+    "terrain": [ { "om_terrain": "road", "om_terrain_match_type": "PREFIX" } ]
   },
   {
     "type": "start_location",
@@ -584,8 +710,20 @@
   {
     "type": "start_location",
     "id": "sloc_mansion_basement",
-    "name": "Mansion Basement",
-    "terrain": [ "mansion_t2d", "mansion_c2d", "mansion_c3d", "mansion_c4d", "mansion_t4d" ]
+    "name": "Normal Mansion Basement (Random)",
+    "terrain": [ "mansion_t2d", "mansion_t6d", "mansion_+2d" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_enclosed_mansion_panic_room",
+    "name": "Enclosed Mansion Panic Room",
+    "terrain": [ "mansion_boarded_t2_start" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_enclosed_mansion_sex_lair",
+    "name": "Enclosed Mansion Sex Lair",
+    "terrain": [ "mansion_boarded_t2d_start" ]
   },
   {
     "type": "start_location",
@@ -598,6 +736,18 @@
     "id": "sloc_office_tower_rooftop",
     "name": "Office Tower Rooftop",
     "terrain": [ "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_office_tower_2_rooftop",
+    "name": "Office Tower 2 Rooftop",
+    "terrain": [
+      "office_tower_2_a1_roof",
+      "office_tower_2_a2_roof",
+      "office_tower_2_b1_roof",
+      "office_tower_2_b2_roof",
+      "office_tower_2_b3_roof"
+    ]
   },
   {
     "type": "start_location",
@@ -616,5 +766,69 @@
     "id": "nuclear_plant",
     "name": "Nuclear Power Plant",
     "terrain": [ "nuclear_plant_5_5_1", "nuclear_plant_10_5_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_motel",
+    "name": "Motel",
+    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mobile_home",
+    "name": "Mobile Home",
+    "terrain": [ "trailer_hub_00", "trailer_hub_11", "trailer_caravan_00", "trailer_public_00" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_stadium",
+    "name": "Stadium",
+    "terrain": [
+      "stadium_football_1_1",
+      "stadium_football_2_1",
+      "stadium_football_3_1",
+      "stadium_football_4_1",
+      "stadium_football_5_1",
+      "stadium_football_6_1",
+      "stadium_football_7_1",
+      "stadium_football_1_2",
+      "stadium_football_7_2",
+      "stadium_football_1_3",
+      "stadium_football_7_3",
+      "stadium_football_1_4",
+      "stadium_football_7_4",
+      "stadium_football_1_5",
+      "stadium_football_2_5",
+      "stadium_football_3_5",
+      "stadium_football_4_5",
+      "stadium_football_6_5",
+      "stadium_football_7_5"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_middle_of_nowhere",
+    "name": "Middle of Nowhere",
+    "terrain": [
+      "state_park_1_0",
+      "sewage_treatment_1_0_0",
+      "pwr_sub_s",
+      { "om_terrain": "derelict_property", "om_terrain_match_type": "TYPE" },
+      "ws_regional_dump_2_0",
+      "waiting_area"
+    ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_sewer",
+    "name": "Sewer",
+    "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_nesw_manhole",
+    "name": "Intersection",
+    "terrain": [ { "om_terrain": "road_nesw_manhole", "om_terrain_match_type": "PREFIX" } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   }
 ]

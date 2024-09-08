@@ -74,7 +74,14 @@
     "type": "item_group",
     "id": "NC_robofac_security_weapon",
     "subtype": "collection",
-    "entries": [ { "item": "m27_assault_rifle", "variant": "m38dmr", "contents-group": "robofac_sec_weapon_mods", "charges": 30 } ]
+    "entries": [
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m38dmr",
+        "contents-group": "robofac_sec_weapon_mods",
+        "charges": 30
+      }
+    ]
   },
   {
     "type": "item_group",

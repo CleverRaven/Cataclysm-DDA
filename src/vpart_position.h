@@ -6,16 +6,18 @@
 #include <cstddef>
 #include <iosfwd>
 #include <new>
+#include <optional>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "optional.h"
 #include "type_id.h"
 
+struct input_event;
 class inventory;
 class Character;
 class vehicle;
+class vehicle_stack;
 class vpart_info;
 struct vehicle_part;
 
@@ -64,30 +66,34 @@ class vpart_position
         /**
          * @returns The label at this part of the vehicle, if there is any.
          */
-        cata::optional<std::string> get_label() const;
+        std::optional<std::string> get_label() const;
+        // @return reference to unbroken CARGO part at this position or std::nullopt
+        std::optional<vpart_reference> cargo() const;
         /// @see vehicle::part_with_feature
-        cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken,
+                bool include_fake = false ) const;
         /// @see vehicle::part_with_feature
-        cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken,
+                bool include_fake = false ) const;
         /// @see vehicle::part_with_feature
-        cata::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
+        std::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
         /// @see vehicle::part_with_feature
-        cata::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
+        std::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
         /**
          * Returns the obstacle that exists at this point of the vehicle (if any).
          * Open doors don't count as obstacles, but closed one do.
          * Broken parts are also never obstacles.
          */
-        cata::optional<vpart_reference> obstacle_at_part() const;
+        std::optional<vpart_reference> obstacle_at_part() const;
         /**
          * Returns the part displayed at this point of the vehicle.
          */
-        cata::optional<vpart_reference> part_displayed() const;
+        std::optional<vpart_reference> part_displayed() const;
 
         // Finds vpart_reference to inner part with specified tool
-        cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
+        std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         // Returns a list of all tools provided by vehicle and their hotkey
-        std::vector<std::pair<itype_id, int>> get_tools() const;
+        std::map<item, int> get_tools() const;
         // Forms inventory for inventory::form_from_map
         void form_inventory( inventory &inv ) const;
 
@@ -99,38 +105,42 @@ class vpart_position
          * `g->m.veh_at( this->pos() )->vehicle() == this->vehicle()` (it's this one)
          */
         // Name chosen to match Creature::pos
-        tripoint pos() const;
+        tripoint_bub_ms pos_bub() const;
+        tripoint pos() const; // TODO: Get rid if this untyped operation
         /**
          * Returns the mount point: the point in the vehicles own coordinate system.
          * This system is independent of movement / rotation.
          */
         // TODO: change to return tripoint.
         point mount() const;
+
+        // implementation required for using as std::map key
+        bool operator<( const vpart_position &other ) const;
 };
 
 /**
- * Simple wrapper to forward functions that may return a @ref cata::optional
+ * Simple wrapper to forward functions that may return a @ref std::optional
  * to @ref vpart_position. They generally return an empty `optional`, or
  * forward to the same function in `vpart_position`.
  */
-class optional_vpart_position : public cata::optional<vpart_position>
+class optional_vpart_position : public std::optional<vpart_position>
 {
     public:
-        explicit optional_vpart_position( cata::optional<vpart_position> p ) :
-            cata::optional<vpart_position>
-            ( std::move( p ) ) { }
+        explicit optional_vpart_position( std::optional<vpart_position> p ) :
+            std::optional<vpart_position>( p ) { }
 
-        cata::optional<std::string> get_label() const {
-            return has_value() ? value().get_label() : cata::nullopt;
+        std::optional<std::string> get_label() const {
+            return has_value() ? value().get_label() : std::nullopt;
         }
-        cata::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
-        cata::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
-        cata::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
-        cata::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
-        cata::optional<vpart_reference> obstacle_at_part() const;
-        cata::optional<vpart_reference> part_displayed() const;
-        cata::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
-        std::vector<std::pair<itype_id, int>> get_tools() const;
+        // @return reference to unbroken CARGO part at this position or std::nullopt
+        std::optional<vpart_reference> cargo() const;
+        std::optional<vpart_reference> part_with_feature( const std::string &f, bool unbroken ) const;
+        std::optional<vpart_reference> part_with_feature( vpart_bitflags f, bool unbroken ) const;
+        std::optional<vpart_reference> avail_part_with_feature( const std::string &f ) const;
+        std::optional<vpart_reference> avail_part_with_feature( vpart_bitflags f ) const;
+        std::optional<vpart_reference> obstacle_at_part() const;
+        std::optional<vpart_reference> part_displayed() const;
+        std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
         std::string extended_description() const;
 };
 
@@ -155,6 +165,8 @@ class vpart_reference : public vpart_position
         vehicle_part &part() const;
         /// See @ref vehicle_part::info
         const vpart_info &info() const;
+        // @return vehicle_stack constructed from the part's cargo items
+        vehicle_stack items() const;
         /**
          * Returns whether the part *type* has the given feature.
          * Note that this is different from part flags (which apply to part

@@ -18,6 +18,7 @@
 #include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
+#include "imgui/imgui.h"
 #include "json.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -61,28 +62,26 @@ void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt, con
 
 // returns the first valid teleport location near a teleporter
 // returns map square (global coordinates)
-static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
+static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
 {
     // this is the top left hand square of the global absolute coordinate
     // of the overmap terrain we want to try to teleport to.
-    // an OMT is SEEX * SEEY in size
-    const tripoint_abs_sm sm_pt = project_to<coords::sm>( omt_pt );
+    // an OMT is (2 * SEEX) * (2 * SEEY) in size
     tinymap checker;
-    checker.load( sm_pt, true );
+    checker.load( omt_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
         if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
 {
     tinymap omt_dest;
-    tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
-    omt_dest.load( sm_dest, true );
-    cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
+    omt_dest.load( omt_pt, true );
+    std::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
     if( !global_dest ) {
         return false;
     }
@@ -100,7 +99,7 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
         add_msg( m_bad, _( "No translocator target known." ) );
         return;
     }
-    cata::optional<tripoint_abs_omt> omt_dest = choose_teleport_location();
+    std::optional<tripoint_abs_omt> omt_dest = choose_teleport_location();
     if( !omt_dest ) {
         add_msg( _( "Teleport canceled." ) );
         return;
@@ -135,7 +134,7 @@ void teleporter_list::serialize( JsonOut &json ) const
 
     json.member( "known_teleporters" );
     json.start_array();
-    for( std::pair<tripoint_abs_omt, std::string> pair : known_teleporters ) {
+    for( const std::pair<const tripoint_abs_omt, std::string> &pair : known_teleporters ) {
         json.start_object();
         json.member( "position", pair.first );
         json.member( "name", pair.second );
@@ -165,49 +164,43 @@ class teleporter_callback : public uilist_callback
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
         explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
+        float desired_extra_space_right( ) override {
+            return 33 * ImGui::CalcTextSize( "X" ).x;
+        }
         void refresh( uilist *menu ) override {
-            const int entnum = menu->selected;
-            const int start_x = menu->w_width - menu->pad_right;
-            mvwputch( menu->window, point( start_x, 0 ), c_magenta, LINE_OXXX );
-            mvwputch( menu->window, point( start_x, menu->w_height - 1 ), c_magenta, LINE_XXOX );
-            for( int i = 1; i < menu->w_height - 1; i++ ) {
-                mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
-            }
+            ImGui::TableSetColumnIndex( 2 );
+            const int entnum = menu->hovered;
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
                 avatar &player_character = get_avatar();
-                overmap_ui::draw_overmap_chunk( menu->window, player_character, index_pairs[entnum],
-                                                point( start_x + 1, 1 ),
-                                                29, 21 );
                 int dist = rl_dist( player_character.global_omt_location(), index_pairs[entnum] );
-                mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
-                           string_format( _( "Distance: %d %s" ), dist,
-                                          index_pairs[entnum].to_string() ) );
+                ImGui::Text( _( "Distance: %d %s" ), dist, index_pairs[entnum].to_string().c_str() );
+                overmap_ui::draw_overmap_chunk_imgui( player_character, index_pairs[entnum], 29, 21 );
             }
-            wnoutrefresh( menu->window );
         }
 };
 
-cata::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
+std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
 {
-    cata::optional<tripoint_abs_omt> ret = cata::nullopt;
+    std::optional<tripoint_abs_omt> ret = std::nullopt;
 
     uilist teleport_selector;
-    teleport_selector.w_height_setup = 24;
+    teleport_selector.desired_bounds = {
+        -1.0,
+            -1.0,
+            std::max( 80, TERMX * 3 / 8 ) *ImGui::CalcTextSize( "X" ).x,
+            clamp( static_cast<int>( known_teleporters.size() ), 24, TERMY * 9 / 10 ) *ImGui::GetTextLineHeightWithSpacing(),
+        };
 
     int index = 0;
-    int column_width = 25;
     std::map<int, tripoint_abs_omt> index_pairs;
     for( const std::pair<const tripoint_abs_omt, std::string> &gate : known_teleporters ) {
         teleport_selector.addentry( index, true, 0, gate.second );
-        column_width = std::max( column_width, utf8_width( gate.second ) );
         index_pairs.emplace( index, gate.first );
         index++;
     }
     teleporter_callback cb( index_pairs );
     teleport_selector.callback = &cb;
-    teleport_selector.w_width_setup = 38 + column_width;
-    teleport_selector.pad_right_setup = 33;
-    teleport_selector.title = _( "Choose Translocator Gate" );
+    teleport_selector.text = _( "Choose Translocator Gate" );
 
     teleport_selector.query();
 

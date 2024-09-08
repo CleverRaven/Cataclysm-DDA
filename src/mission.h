@@ -6,19 +6,19 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "dialogue.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "npc_favor.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "talker.h"
 #include "translations.h"
@@ -68,12 +68,13 @@ enum mission_goal {
     MGOAL_FIND_NPC,          // Find a given NPC
     MGOAL_ASSASSINATE,       // Kill a given NPC
     MGOAL_KILL_MONSTER,      // Kill a particular hostile monster
+    MGOAL_KILL_MONSTERS,     // Kill a number of particular hostile monsters
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
     MGOAL_KILL_NEMESIS,      // Kill the nemesis monster from the "hunted" trait
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
-    MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
+    MGOAL_KILL_MONSTER_SPEC, // Kill a number of monsters from a given species
     MGOAL_TALK_TO_NPC,       // Talk to a given NPC
     MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
@@ -100,11 +101,8 @@ struct mission_place {
  */
 struct mission_start {
     static void standard( mission * );           // Standard for its goal type
-    static void place_zombie_mom( mission * );   // Put a zombie mom in a house!
-    static void kill_horde_master( mission * );  // Kill the master zombie at the center of the horde
     static void kill_nemesis( mission * );       // Kill the nemesis spawned with the "hunted" trait
     static void place_npc_software( mission * ); // Put NPC-type-dependent software
-    static void place_priest_diary( mission * ); // Hides the priest's diary in a local house
     static void place_deposit_box( mission * );  // Place a safe deposit box in a nearby bank
     static void find_safety( mission * );        // Goal is set to non-spawn area
     static void place_book( mission * );         // Place a book to retrieve
@@ -119,7 +117,6 @@ struct mission_end {
     // Nothing special happens
     static void standard( mission * ) {}
     // random valuable reward
-    static void deposit_box( mission * );
 };
 
 struct mission_fail {
@@ -128,24 +125,24 @@ struct mission_fail {
 };
 
 struct mission_target_params {
-    std::string overmap_terrain;
+    str_or_var overmap_terrain;
     ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
-    cata::optional<tripoint_rel_omt> offset;
-    cata::optional<std::string> replaceable_overmap_terrain;
-    cata::optional<overmap_special_id> overmap_special;
-    cata::optional<int> reveal_radius;
-    cata::optional<var_info> target_var;
-    int min_distance = 0;
+    std::optional<tripoint_rel_omt> offset;
+    std::optional<str_or_var> replaceable_overmap_terrain;
+    std::optional<str_or_var> overmap_special;
+    std::optional<dbl_or_var> reveal_radius;
+    std::optional<var_info> target_var;
+    dbl_or_var min_distance;
 
     bool must_see = false;
     bool cant_see = false;
     bool random = false;
     bool create_if_necessary = true;
-    int search_range = OMAPX;
-    cata::optional<int> z;
+    dbl_or_var search_range;
+    std::optional<dbl_or_var> z;
     npc *guy = nullptr;
 };
 
@@ -168,28 +165,15 @@ void set_reveal( const std::string &terrain,
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
-tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
+std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params
+        &params, dialogue &d );
+tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params, dialogue &d );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( const JsonObject &jo,
                         std::vector<std::function<void( mission *miss )>> &funcs );
 bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
-
-struct mission_goal_condition_context {
-    mission_goal_condition_context() = default;
-    std::unique_ptr<talker> alpha;
-    std::unique_ptr<talker> beta;
-    bool has_alpha = false;
-    bool has_beta = false;
-    std::vector<mission *> missions_assigned;
-    mutable std::string reason;
-    bool by_radio = false;
-    talker *actor( const bool is_beta ) const {
-        return ( is_beta ? beta : alpha ).get();
-    }
-};
 
 struct mission_type {
     public:
@@ -217,7 +201,7 @@ struct mission_type {
         bool has_generic_rewards = true;
 
         // A limited subset of the talk_effects on the mission
-        std::vector<std::pair<int, itype_id>> likely_rewards;
+        talk_effect_fun_t::likely_rewards_t likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
@@ -225,9 +209,10 @@ struct mission_type {
         item_group_id group_id = item_group_id::NULL_ID();
         itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
+        bool invisible_on_complete = false;
         itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
-        npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
+        npc_class_id recruit_class = npc_class_id::NULL_ID();  // The type of NPC you are to recruit
         character_id target_npc_id;
         mtype_id monster_type = mtype_id::NULL_ID();
         species_id monster_species;
@@ -243,7 +228,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( const mission_goal_condition_context & )> goal_condition;
+        std::function<bool( struct dialogue & )> goal_condition;
 
         mission_type() = default;
 
@@ -268,14 +253,15 @@ struct mission_type {
          */
         static const std::vector<mission_type> &get_all();
 
-        bool test_goal_condition( const mission_goal_condition_context &d ) const;
+        bool test_goal_condition( struct dialogue &d ) const;
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check_consistency();
 
-        bool parse_funcs( const JsonObject &jo, std::function<void( mission * )> &phase_func );
+        bool parse_funcs( const JsonObject &jo, std::string_view src,
+                          std::function<void( mission * )> &phase_func );
         void load( const JsonObject &jo, const std::string &src );
 
         /**
@@ -364,8 +350,11 @@ class mission
         int get_id() const;
         const itype_id &get_item_id() const;
         character_id get_npc_id() const;
-        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
+        const talk_effect_fun_t::likely_rewards_t &get_likely_rewards() const;
         bool has_generic_rewards() const;
+        void register_kill_needed() {
+            monster_kill_goal++;
+        };
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.
@@ -384,6 +373,8 @@ class mission
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         void set_assigned_player_id( const character_id &char_id );
+        void update_world_missions_character( const character_id &old_char_id,
+                                              const character_id &new_char_id );
         /*@}*/
 
         /** Assigns the mission to the player. */
@@ -420,7 +411,7 @@ class mission
          * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
          * id exists.
          */
-        static mission *find( int id );
+        static mission *find( int id, bool ok_missing = false );
         /**
          * Remove all active missions, used to cleanup on exit and before reloading a new game.
          */
@@ -443,11 +434,12 @@ class mission
         static void serialize_all( JsonOut &json );
         static void unserialize_all( const JsonArray &ja );
         /** Converts a vector mission ids to a vector of mission pointers. Invalid ids are skipped! */
-        static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec );
+        static std::vector<mission *> to_ptr_vector( const std::vector<int> &vec, bool ok_missing = false );
         static std::vector<int> to_uid_vector( const std::vector<mission *> &vec );
 
         // For save/load
         static std::vector<mission *> get_all_active();
+        void remove_active_world_mission( mission &cur_mission );
         static void add_existing( const mission &m );
 
         static mission_status status_from_string( const std::string &s );

@@ -1,6 +1,22 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_PURIFIABILITY_FALSE",
+    "effect": [
+      { "u_set_trait_purifiability": "purifiability_first", "purifiable": false },
+      { "u_set_trait_purifiability": "purifiability_second", "purifiable": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_PURIFIABILITY_TRUE",
+    "effect": [
+      { "u_set_trait_purifiability": "purifiability_first", "purifiable": true },
+      { "u_set_trait_purifiability": "purifiability_second", "purifiable": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_teleport_test",
     "//": "shifts the character down and to the right",
     "global": true,
@@ -10,6 +26,886 @@
         "u_teleport": { "u_val": "tele_test" },
         "fail_message": "your body doesn't move",
         "success_message": "All at once your body feels like it's beeing pulled in 1000 different directions."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_prepare",
+    "effect": [
+      { "u_spawn_item": "test_knife_combat", "force_equip": true },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": "test_knife_combat", "force_equip": false },
+      { "u_spawn_item": "backpack", "force_equip": false }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test1",
+    "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_run_inv_test1_nested" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test1_nested",
+    "effect": [ { "npc_add_var": "general_run_inv_test_key1", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test2",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test2_nested" ],
+        "search_data": [ { "id": "backpack", "worn_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test2_nested",
+    "effect": [ { "npc_add_var": "general_run_inv_test_key2", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test3",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test3_nested" ],
+        "search_data": [ { "material": "wood", "wielded_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test3_nested",
+    "effect": [ { "npc_add_var": "general_run_inv_test_key3", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test4",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test4_nested" ],
+        "search_data": [ { "category": "weapons", "flags": [ "BELT_CLIP" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test4_nested",
+    "effect": [ { "npc_add_var": "general_run_inv_test_key4", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test5_nested",
+    "effect": [ { "npc_add_var": "general_run_inv_test_key5", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_inv_test5",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_run_inv_test5_nested" ],
+        "search_data": [ { "excluded_flags": [ "BELT_CLIP" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_math_test",
+    "effect": [ { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_math_test_nested" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_math_test_nested",
+    "effect": [ { "math": [ "n_hp('ALL')", "=", "100" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_teleport_test",
+    "effect": [
+      { "u_location_variable": { "u_val": "tele_test" }, "x_adjust": 1, "y_adjust": 1 },
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_teleport_test_nested" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_teleport_test_nested",
+    "effect": [ { "npc_teleport": { "u_val": "tele_test" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ "EOC_item_flag_test_nested1", "EOC_item_flag_test_nested2", "EOC_item_flag_test_nested3" ],
+        "search_data": [ { "worn_only": true } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested1",
+    "effect": [ { "npc_set_flag": "FILTHY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested2",
+    "condition": { "npc_has_flag": "FILTHY" },
+    "effect": [ { "npc_add_var": "general_run_inv_test_is_filthy", "value": "yes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_flag_test_nested3",
+    "effect": [ { "npc_unset_flag": "FILTHY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_activate_test",
+    "effect": [
+      { "u_location_variable": { "u_val": "activate_pos" }, "x_adjust": 1, "y_adjust": 1 },
+      { "u_run_inv_eocs": "all", "true_eocs": [ "EOC_item_activate_test_nested" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_item_activate_test_nested",
+    "effect": [ { "u_activate": "deploy_furn", "target_var": { "u_val": "activate_pos" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_math_test",
+    "effect": [
+      { "u_spawn_item": "backpack", "force_equip": true },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "id": "backpack", "worn_only": true } ],
+        "true_eocs": [ "EOC_armor_math_test_nested" ]
+      },
+      { "math": [ "u_key1", "=", "u_coverage('torso')" ] },
+      { "math": [ "u_key2", "=", "u_encumbrance('torso')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_armor_math_test_nested",
+    "effect": [ { "math": [ "n_key1", "=", "n_coverage('torso')" ] }, { "math": [ "n_key2", "=", "n_encumbrance('torso')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until_test",
+    "effect": [
+      { "math": [ "u_context", "=", "0" ] },
+      {
+        "run_eoc_until": "EOC_until_nested",
+        "condition": { "math": [ "u_context", "<", "10000" ] },
+        "iteration": 10000
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "math": [ "u_context", "++" ] }, { "math": [ "key1", "=", "u_context" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test",
+    "effect": [
+      { "set_condition": "to_test", "condition": { "math": [ "_context", ">", "0" ] } },
+      { "run_eocs": "EOC_stored_condition_test_nested" },
+      { "run_eoc_with": "EOC_stored_condition_test_nested_var", "variables": { "condition_name": "to_test" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested",
+    "condition": { "get_condition": "to_test" },
+    "effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "context", "=", "_context" ] }, { "math": [ "key1", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_stored_condition_test_nested_var",
+    "condition": { "get_condition": { "context_val": "condition_name" } },
+    "effect": [ { "math": [ "key2", "=", "1" ] } ],
+    "false_effect": [ { "math": [ "key2", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "run_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_queued",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "queue_eoc_with": "EOC_run_with_test_nested",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } },
+        "time_in_future": "1 seconds"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_nested",
+    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_expects_pass",
+    "effect": [
+      { "math": [ "u_ukey", "=", "3" ] },
+      {
+        "run_eoc_with": "EOC_run_with_test_nested2",
+        "variables": { "key1": "1", "key2": "2", "key3": { "u_val": "ukey" } }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_expects_fail",
+    "effect": [ { "run_eoc_with": "EOC_run_with_test_nested2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_with_test_nested2",
+    "condition": { "expects_vars": [ "key1", "key2", "key3" ] },
+    "effect": [ { "math": [ "key1", "=", "_key1" ] }, { "math": [ "key2", "=", "_key2" ] }, { "math": [ "key3", "=", "_key3" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_try_kill",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" }, "target_var": { "context_val": "kill_loc" } },
+      { "run_eoc_with": "EOC_kill", "beta_loc": { "context_val": "kill_loc" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_kill",
+    "effect": [ "npc_die" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_addiction",
+    "effect": [
+      { "set_string_var": "caffeine", "target_var": { "global_val": "add_id" } },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": "test_whiskey_caffenated", "container": "bottle_glass" },
+      {
+        "u_run_inv_eocs": "all",
+        "true_eocs": [ { "id": "EOC_math_addiction_nested", "effect": [ { "u_activate": "ALCOHOL" } ] } ]
+      },
+      { "math": [ "key_add_intensity", "=", "u_addiction_intensity(add_id)" ] },
+      { "math": [ "key_add_turn", "=", "u_addiction_turns(add_id)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_armor",
+    "effect": [
+      { "math": [ "key1", "=", "u_armor('bash', 'torso')" ] },
+      { "math": [ "key2", "=", "u_armor('acid', 'torso')" ] },
+      { "math": [ "key3", "=", "u_armor('bash', 'head')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_field",
+    "effect": [
+      { "set_string_var": "fd_blood", "target_var": { "global_val": "field_id_1" } },
+      { "set_string_var": "fd_blood_insect", "target_var": { "global_val": "field_id_2" } },
+      {
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(0,1,0)" },
+        "target_var": { "global_val": "loc" }
+      },
+      { "math": [ "key_field_strength", "=", "u_field_strength(field_id_1)" ] },
+      { "math": [ "key_field_strength_north", "=", "field_strength(field_id_2, 'location': loc)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_item_count",
+    "effect": [
+      { "set_string_var": "light_battery_cell", "target_var": { "global_val": "item_id" } },
+      { "u_spawn_item": "backpack", "force_equip": true },
+      { "u_spawn_item": { "global_val": "item_id" } },
+      { "u_spawn_item": { "global_val": "item_id" } },
+      { "math": [ "key_item_count", "=", "u_item_count(item_id)" ] },
+      { "math": [ "key_charge_count", "=", "u_charge_count(item_id)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_proficiency",
+    "effect": [
+      { "set_string_var": "prof_test", "target_var": { "global_val": "prof_id" } },
+      { "math": [ "key_total_time_required", "=", "u_proficiency(prof_id, 'format': 'total_time_required')" ] },
+      { "math": [ "u_proficiency(prof_id, 'direct': true)", "=", "50" ] },
+      { "math": [ "key_time_spent_50", "=", "u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'percent', 'direct': true)", "=", "50" ] },
+      { "math": [ "key_percent_50", "=", "u_proficiency(prof_id, 'format': 'percent')" ] },
+      { "math": [ "key_percent_50_turn", "=", "u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'permille', 'direct': true)", "=", "50" ] },
+      { "math": [ "key_permille_50", "=", "u_proficiency(prof_id, 'format': 'permille')" ] },
+      { "math": [ "key_permille_50_turn", "=", "u_proficiency(prof_id)" ] },
+      { "math": [ "u_proficiency(prof_id, 'format': 'time_left', 'direct': true)", "=", "50" ] },
+      { "math": [ "key_time_left_50", "=", "u_proficiency(prof_id, 'format': 'time_left')" ] },
+      { "math": [ "key_time_left_50_turn", "=", "u_proficiency(prof_id)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_spell",
+    "effect": [
+      { "set_string_var": "test_eoc_spell", "target_var": { "global_val": "spell_id_1" } },
+      { "set_string_var": "test_spell_pew", "target_var": { "global_val": "spell_id_2" } },
+      { "set_string_var": "test_trait", "target_var": { "global_val": "school_id" } },
+      { "u_add_trait": { "global_val": "school_id" } },
+      { "math": [ "u_spell_level(spell_id_1)", "=", "1" ] },
+      { "math": [ "u_spell_level(spell_id_2)", "=", "10" ] },
+      { "math": [ "key_spell_level", "=", "u_spell_level(spell_id_1)" ] },
+      { "math": [ "key_highest_spell_level", "=", "u_spell_level('null')" ] },
+      { "math": [ "key_school_level_test_trait", "=", "u_school_level(school_id)" ] },
+      { "math": [ "key_spell_count", "=", "u_spell_count()" ] },
+      { "math": [ "key_spell_count_test_trait", "=", "u_spell_count('school': school_id)" ] },
+      { "math": [ "u_spell_level_adjustment('null')", "=", "1" ] },
+      { "math": [ "u_spell_level_adjustment(spell_id_1)", "=", "1" ] },
+      { "math": [ "u_school_level_adjustment(school_id)", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_combat_mutator_test",
+    "effect": [
+      { "set_string_var": { "mutator": "valid_technique" }, "target_var": { "global_val": "key1" } },
+      {
+        "set_string_var": { "mutator": "ma_technique_name", "matec_id": { "global_val": "key1" } },
+        "target_var": { "global_val": "key2" }
+      },
+      {
+        "set_string_var": { "mutator": "ma_technique_description", "matec_id": { "global_val": "key1" } },
+        "target_var": { "global_val": "key3" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_attack_test",
+    "effect": [ { "u_attack": "tec_none" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_alive_test",
+    "condition": "u_is_alive",
+    "effect": [ { "set_string_var": "alive", "target_var": { "global_val": "key1" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mon_nearby_test",
+    "effect": [
+      { "math": [ "mons", "=", "u_monsters_nearby()" ] },
+      { "math": [ "triffs", "=", "u_mon_species_nearby('PLANT')" ] },
+      { "math": [ "group", "=", "u_mon_groups_nearby('GROUP_mon_nearby_test')" ] },
+      { "math": [ "zombs", "=", "u_monsters_nearby('mon_zombie')" ] },
+      { "math": [ "zombs_friends", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'friendly')" ] },
+      { "math": [ "zombs_both", "=", "u_monsters_nearby('mon_zombie', 'attitude': 'both')" ] },
+      { "set_string_var": "mon_zombie_tough", "target_var": { "context_val": "tough_id" } },
+      { "math": [ "zplust", "=", "u_monsters_nearby('mon_zombie', _tough_id)" ] },
+      { "math": [ "zplust_adj", "=", "u_monsters_nearby('mon_zombie', _tough_id, 'radius': 1)" ] },
+      { "u_location_variable": { "context_val": "smoker_loc" }, "x_adjust": 10 },
+      { "math": [ "smoks", "=", "u_monsters_nearby('mon_zombie_smoker', 'radius': 0, 'location': _smoker_loc)" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_mon_nearby_test",
+    "monsters": [ { "monster": "mon_triffid", "weight": 1 }, { "monster": "mon_zombie_tough", "weight": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_tests",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "game_option", "option": "DANGEROUS_TERRAIN_WARNING_PROMPT" },
+        "target_var": { "global_val": "key1" }
+      },
+      { "math": [ "key2", "=", "game_option('NPC_SPAWNTIME')" ] },
+      { "run_eocs": "EOC_options_test_nested" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_options_test_nested",
+    "condition": { "math": [ "game_option('AUTOSAVE')" ] },
+    "effect": [ { "math": [ "key3", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mutator_test",
+    "effect": [
+      { "set_string_var": "mon_zombie", "target_var": { "context_val": "temp" } },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": "mon_zombie" },
+        "target_var": { "global_val": "key1" }
+      },
+      {
+        "set_string_var": { "mutator": "mon_faction", "mtype_id": { "context_val": "temp" } },
+        "target_var": { "global_val": "key2" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_context",
+    "effect": [
+      { "math": [ "_simple", "=", "12" ] },
+      { "math": [ "simple_global", "=", "_simple" ] },
+      { "run_eocs": [ "EOC_math_test_nested_context" ] },
+      { "math": [ "non_nested_simple_global", "=", "_nested_simple" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_to_start_test",
+    "effect": [ { "u_activate_trait": "process_mutation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_activate_mutation_test",
+    "effect": [ { "u_deactivate_trait": { "context_val": "this" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mark_mutation_test",
+    "effect": [
+      { "math": [ "test_val", "=", "1" ] },
+      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "context_test" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_nested_context",
+    "effect": [ { "math": [ "_nested_simple", "=", "7" ] }, { "math": [ "nested_simple_global", "=", "_nested_simple" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_equals_assign",
+    "condition": { "math": [ "u_val('stamina')", "==", "500" ] },
+    "effect": [ { "math": [ "math_test", "=", "-3^2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_inline_condition",
+    "condition": { "math": [ "u_val('stamina') == 500" ] },
+    "effect": [ { "math": [ "_noop", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_test_greater_increment",
+    "condition": { "math": [ "math_test", ">", "0" ] },
+    "effect": [ { "math": [ "math_test", "+=", "1" ] } ],
+    "false_effect": [ { "math": [ "math_test", "--" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_switch_math",
+    "effect": {
+      "switch": { "math": [ "math_test" ] },
+      "cases": [
+        { "case": -1, "effect": { "math": [ "math_test_result", "=", "1" ] } },
+        { "case": 9, "effect": { "math": [ "math_test_result", "=", "2" ] } },
+        { "case": 10, "effect": { "math": [ "math_test_result", "=", "3" ] } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_diag_assign",
+    "effect": [ { "math": [ "u_val('stamina')", "/=", "2" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_duration",
+    "recurrence": { "math": [ "math_test_result" ] },
+    "global": true,
+    "effect": { "u_message": "test recurrence" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_diag_w_vars",
+    "effect": [
+      { "set_string_var": "survival", "target_var": { "global_val": "myskill" } },
+      { "math": [ "myskill_math", "=", "u_skill(myskill)" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_jmath_test",
+    "effect": [ { "math": [ "blorgy", "=", "jmath_test_blorg(1, 2)" ] } ]
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_test_blorg",
+    "num_args": 2,
+    "return": "_0 + jmath_test_blorg2( _1 )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "jmath_test_blorg2",
+    "num_args": 1,
+    "return": "_0 * 3"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mess_pass",
+    "effect": { "math": [ "weighted_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mess_fail",
+    "effect": { "math": [ "weighted_var", "=", "-999" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_weighted_list",
+    "effect": {
+      "weighted_list_eocs": [ [ "EOC_mess_pass", { "math": [ "u_pain()" ] } ], [ "EOC_mess_fail", { "math": [ "u_val('stamina')" ] } ] ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_increment_var",
+    "//": "tests adding a variable to the player",
+    "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spell_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "effect": [
+      { "set_string_var": { "context_val": "spell" }, "target_var": { "global_val": "key1" } },
+      { "set_string_var": { "context_val": "school" }, "target_var": { "global_val": "key2" } },
+      { "math": [ "key3", "=", "_difficulty" ] },
+      { "math": [ "key4", "=", "_cost" ] },
+      { "math": [ "key5", "=", "_cast_time" ] },
+      { "math": [ "key6", "=", "_damage" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_test",
+    "effect": [
+      { "set_string_var": "test1", "target_var": { "global_val": "key1" } },
+      { "set_string_var": "test2", "target_var": { "global_val": "key2" } },
+      { "set_string_var": "<global_val:key1> <global_val:key2>", "target_var": { "global_val": "key3" } },
+      {
+        "set_string_var": "<global_val:key1> <global_val:key2>",
+        "target_var": { "global_val": "key4" },
+        "parse_tags": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_test_nest",
+    "effect": [
+      { "u_add_var": "nest1", "value": "nest2" },
+      { "u_add_var": "nest2", "value": "nest3" },
+      { "u_add_var": "nest3", "value": "nest4" },
+      { "set_string_var": "<u_val:nest1>", "target_var": { "u_val": "key1" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:nest1>>", "target_var": { "u_val": "key2" }, "parse_tags": true },
+      { "set_string_var": "<u_val:<u_val:<u_val:nest1>>>", "target_var": { "u_val": "key3" }, "parse_tags": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_finished_activity_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_finished_activity",
+    "effect": [
+      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "math": [ "key2", "=", "_canceled" ] },
+      { "set_string_var": "activity finished", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_starts_activity_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "effect": [
+      { "set_string_var": { "context_val": "activity" }, "target_var": { "global_val": "key1" } },
+      { "math": [ "key2", "=", "_resume" ] },
+      { "set_string_var": "activity start", "target_var": { "global_val": "key3" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_melee_attacks_character_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
+      { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_character" },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_melee_attacks_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
+      { "npc_add_var": "test_event_last_event", "value": "character_melee_attacks_monster" },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_ranged_attacks_character_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
+      { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_character" },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_name" }, "target_var": { "global_val": "victim_name" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_ranged_attacks_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
+      { "npc_add_var": "test_event_last_event", "value": "character_ranged_attacks_monster" },
+      { "set_string_var": { "context_val": "weapon" }, "target_var": { "global_val": "weapon" } },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_kills_monster_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_kills_monster" },
+      { "set_string_var": { "context_val": "victim_type" }, "target_var": { "global_val": "victim_type" } },
+      { "math": [ "test_exp", "=", "_exp" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_wields_item_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wields_item",
+    "condition": { "compare_string": [ "test_knife_combat", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_wields_item" },
+      { "npc_add_var": "test_event_last_event", "value": "character_wields_item" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_character_wears_item_event_test",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "backpack", { "context_val": "itype" } ] },
+    "effect": [
+      { "u_add_var": "test_event_last_event", "value": "character_wears_item" },
+      { "npc_add_var": "test_event_last_event", "value": "character_wears_item" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_meta_test_message",
+    "effect": [ { "message": "message ok." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_meta_test_talker_type",
+    "effect": [
+      { "if": "u_is_avatar", "then": { "set_string_var": "yes", "target_var": { "global_val": "key_avatar" } } },
+      { "if": "u_is_npc", "then": { "set_string_var": "yes", "target_var": { "global_val": "key_npc" } } },
+      { "if": "u_is_character", "then": { "set_string_var": "yes", "target_var": { "global_val": "key_character" } } },
+      { "if": "u_is_monster", "then": { "set_string_var": "yes", "target_var": { "global_val": "key_monster" } } },
+      { "if": "u_is_item", "then": { "set_string_var": "yes", "target_var": { "global_val": "key_item" } } },
+      { "if": "u_is_furniture", "then": { "set_string_var": "yes", "target_var": { "global_val": "key_furniture" } } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_increment_var_var",
+    "//": "tests adding a variable, that's in another variable",
+    "effect": [
+      { "set_string_var": "key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "5" ] },
+      { "math": [ "key2", "=", "key1 + v_testing" ] },
+      { "set_string_var": "u_key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "3" ] },
+      { "math": [ "global_u", "=", "u_key1 + v_testing" ] },
+      { "set_string_var": "_key1", "target_var": { "context_val": "testing" } },
+      { "math": [ "v_testing", "=", "2" ] },
+      { "math": [ "global_context", "=", "_key1 + v_testing" ] },
+      { "set_string_var": "v_key1", "target_var": { "context_val": "testing" } },
+      { "set_string_var": "_key2", "target_var": { "context_val": "key1" } },
+      { "math": [ "v_testing", "=", "1" ] },
+      { "math": [ "global_nested", "=", "_key2 + v_testing" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_spell_xp",
+    "effect": [
+      { "math": [ "u_spell_exp('test_eoc_spell')", "=", "1000" ] },
+      { "math": [ "key1", "=", "u_spell_exp('test_eoc_spell')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_string_var_var",
+    "//": "tests copying a variable, that's in another variable",
+    "effect": [
+      { "set_string_var": "Works_global", "target_var": { "global_val": "testing_global" } },
+      { "set_string_var": "Works_context", "target_var": { "context_val": "testing_context" } },
+      { "set_string_var": "Works_u", "target_var": { "u_val": "testing_u" } },
+      { "set_string_var": "Works_npc", "target_var": { "npc_val": "testing_npc" } },
+      { "set_string_var": "testing_global", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key1" } },
+      { "set_string_var": "_testing_context", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key2" } },
+      { "set_string_var": "u_testing_u", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key3" } },
+      { "set_string_var": "n_testing_npc", "target_var": { "context_val": "testing" } },
+      { "set_string_var": { "var_val": "testing" }, "target_var": { "global_val": "key4" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_1",
+    "//": "tests adding a recipe to the player",
+    "condition": { "not": { "u_know_recipe": "cattail_jelly" } },
+    "effect": { "u_learn_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_recipe_test_2",
+    "//": "tests forgetting a recipe from the player",
+    "condition": { "u_know_recipe": "cattail_jelly" },
+    "effect": { "u_forget_recipe": "cattail_jelly" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_map_test",
+    "effect": [
+      { "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" }, "target_var": { "context_val": "loc" } },
+      { "math": [ "key_distance_loc", "=", "distance('u', _loc)" ] },
+      { "math": [ "key_distance_npc", "=", "distance('u', 'npc')" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_loc_relative_test",
+    "effect": [
+      {
+        "set_string_var": { "mutator": "u_loc_relative", "target": "(10,10,0)" },
+        "target_var": { "global_val": "map_test_loc_a" }
+      },
+      {
+        "set_string_var": { "mutator": "npc_loc_relative", "target": "(0,0,0)" },
+        "target_var": { "global_val": "map_test_loc_b" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_martial_art_test_1",
+    "//": "tests adding a martial art to the player",
+    "condition": { "not": { "u_has_martial_art": "style_aikido" } },
+    "effect": { "u_learn_martial_art": "style_aikido" },
+    "false_effect": { "math": [ "fail_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_martial_art_test_2",
+    "//": "tests forgetting a martial art from the player",
+    "condition": { "not": { "u_using_martial_art": "style_aikido" } },
+    "effect": { "u_forget_martial_art": "style_aikido" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spawn_item_group_test",
+    "//": "tests for spawning item group (collection / distribution). Alpha and beta talker is for showing the popup message",
+    "effect": [
+      { "message": "collection: ", "popup": true },
+      {
+        "run_eoc_with": {
+          "id": "_EOC_spawn_item_group_test_collection",
+          "effect": {
+            "u_spawn_item": "test_EOC_spawn_item_group_collection",
+            "use_item_group": true,
+            "force_equip": true,
+            "flags": [ "UNBREAKABLE" ]
+          }
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": "avatar"
+      },
+      { "message": "distribution: ", "popup": true },
+      {
+        "run_eoc_with": {
+          "id": "_EOC_spawn_item_group_test_distribution",
+          "effect": {
+            "u_spawn_item": "test_EOC_spawn_item_group_distribution",
+            "use_item_group": true,
+            "force_equip": true,
+            "flags": [ "UNBREAKABLE" ]
+          }
+        },
+        "alpha_talker": "avatar",
+        "beta_talker": "avatar"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_test_weapon_damage",
+    "effect": [
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_tell_me_about_it",
+            "effect": [
+              { "math": [ "mymelee", "=", "n_melee_damage('ALL')" ] },
+              { "math": [ "mymelee_bash", "=", "n_melee_damage('bash')" ] },
+              { "math": [ "mygun", "=", "n_gun_damage('ALL')" ] },
+              { "math": [ "mygun_bullet", "=", "n_gun_damage('bullet')" ] }
+            ]
+          }
+        ]
       }
     ]
   }

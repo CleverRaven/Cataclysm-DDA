@@ -12,14 +12,13 @@
     "healthy": 3,
     "calories": 3200,
     "description": "This egg laid by an owlbear seems almost indistinguishable from a large rock until you touch it and can feel the warm glow of potential life energy from within.  It's hard to believe that an owlbear could grow so quickly from something so small.  Perhaps you could carefully crack it open to get at the liquid golden goodness inside.",
-    "price": 300000,
+    "price": "3 kUSD",
     "material": [ "egg", "stone" ],
     "volume": "2500 ml",
-    "stack_size": 1,
     "fun": -18,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_OWLBEAR",
-    "vitamins": [ [ "calcium", 120 ], [ "iron", 160 ] ],
+    "vitamins": [ [ "calcium", 120 ], [ "iron", 160 ], [ "egg_allergen", 1 ] ],
     "rot_spawn_chance": 80,
     "//": "Alchemically speaking, I see this egg as having the elements of Growth, Stone, and Egg.  Growth would make things grow faster, the simplest example being a magical liquid fertilizer.  Stone would be a defensive element, used in creating something like a potion of stoneskin.  Egg would be interesting though.  What if instead of being imbibed there were potions that instead functioned similarly to the sourdough items, or the blob vehicle parts, in that they take a gestation period and then you could activate them and have a new item pop out.  Creatures sure but especially biomancers could have temporarily-lived tools, weapons, and armor."
   },
@@ -29,8 +28,8 @@
     "name": { "str_sp": "whiskey" },
     "copy-from": "whiskey",
     "//": "Normal whiskey has been greatly devalued in the apocalypse by the disproportionate quantity of endless whiskey flasks in comparison to the number of survivors.",
-    "price": 250,
-    "price_postapoc": 1
+    "price": "2 USD 50 cent",
+    "price_postapoc": "1 cent"
   },
   {
     "type": "COMESTIBLE",
@@ -38,6 +37,7 @@
     "name": "owlbear egg yolk",
     "copy-from": "egg_chicken",
     "phase": "liquid",
+    "charges": 1,
     "healthy": 3,
     "color": "yellow",
     "description": "The liquid innards of an owlbear egg.  Good eating."
@@ -47,16 +47,15 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "healthy": -1,
-    "stack_size": 1,
     "material": [ "fur", "water" ],
     "primary_material": "fur",
-    "volume": "350ml",
+    "volume": "350 ml",
     "weight": "15 g",
     "color": "brown",
     "symbol": "0",
     "name": { "str": "hairball" },
     "description": "A big, ugly ball of animal spit and licked-off hairs.  Don't swallow it.",
-    "price": 0,
+    "price": "0 cent",
     "flags": [ "TRADER_AVOID", "EDIBLE_FROZEN" ],
     "fun": -20
   },
@@ -74,24 +73,32 @@
     "copy-from": "mushroom",
     "name": { "str": "scream mushroom" },
     "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
-    "price": 1400
+    "price": "14 USD"
+  },
+  {
+    "id": "tea_green",
+    "type": "COMESTIBLE",
+    "copy-from": "tea_green",
+    "name": { "str_sp": "green tea" },
+    "//": "Same reason as whiskey",
+    "price_postapoc": "1 cent"
   },
   {
     "id": "purified_meat",
     "type": "COMESTIBLE",
     "copy-from": "meat",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "name": "purified meat",
+    "name": { "str_sp": "purified meat" },
     "description": "Indistinguishable from pre-Cataclysm lab grown beef.  It should be excellent but somehow it's just edible.",
-    "price": 400
+    "price": "4 USD"
   },
   {
     "id": "impure_meat",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "name": "impure meat",
+    "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",
-    "price": 100
+    "price": "1 USD"
   }
 ]

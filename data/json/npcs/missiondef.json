@@ -34,8 +34,8 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": { "str": "Find Inhaler" },
-    "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_item": "inhaler" },
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "inhaler",
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
@@ -174,6 +174,7 @@
     "type": "mission_definition",
     "name": { "str": "Find Flag" },
     "goal": "MGOAL_FIND_ITEM",
+    "start": { "effect": [ { "npc_remove_item_with": "american_flag" } ] },
     "difficulty": 2,
     "value": 100000,
     "item": "american_flag",
@@ -260,15 +261,39 @@
     }
   },
   {
+    "id": "MISSION_GET_HOLY_SYMBOL",
+    "type": "mission_definition",
+    "name": { "str": "Find a Holy Symbol" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 100000,
+    "item": "holy_symbol",
+    "start": { "effect": [ { "npc_remove_item_with": "holy_symbol" } ], "reveal_om_ter": [ "church_1" ] },
+    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "followup": "MISSION_GET_RELIC",
+    "dialogue": {
+      "describe": "Any variant is fine, I am not that choosy…",
+      "offer": "The sky has torn apart and creatures beyond our wildest imaginations lurk in the dark now.  I beg you, find me a holy symbol.  Maybe some faith can help me sleep better at night.",
+      "accepted": "May whatever god or spirits that now reign the world protect you.",
+      "rejected": "I guess the stress may just be getting to me…",
+      "advice": "A church must be full of them and who knows, maybe some of those <zombies> carry some.  But please, do not waste your time making one yourself.",
+      "inquire": "Any luck?  Please find me a holy symbol.  Any of them will do.",
+      "success": "Thank the heavens.",
+      "success_lie": "What good does this do me?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
     "id": "MISSION_GET_RELIC",
     "type": "mission_definition",
     "name": { "str": "Find Relic" },
+    "description": "Find a relic of a forgotten saint.  Places like <color_yellow>cathedrals</color> or <color_yellow>museums</color> might have one.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 100000,
     "item": "small_relic",
     "start": { "reveal_om_ter": [ "cathedral_1", "museum" ] },
-    "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
+    "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECOVER_PRIEST_DIARY",
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
@@ -290,8 +315,24 @@
     "difficulty": 2,
     "value": 30000,
     "item": "safe_box",
-    "start": "place_deposit_box",
-    "end": "deposit_box",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "safe_box", "x": [ 18, 21 ], "y": [ 4, 6 ], "amount": 1 } ] },
+      "effect": "follow_only",
+      "assign_mission_target": {
+        "om_terrain": "bank",
+        "om_terrain_match_type": "PREFIX",
+        "om_special": "bank",
+        "search_range": 120,
+        "random": true,
+        "z": 0
+      }
+    },
+    "end": {
+      "effect": [
+        "stop_following",
+        { "weighted_list_eocs": [ [ "get_katana", 5 ], [ "get_deagle_44", 10 ], [ "get_m4_carbine", 6 ] ] }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GET_DEPUTY_BADGE",
     "dialogue": {
@@ -310,6 +351,7 @@
     "id": "MISSION_GET_SOFTWARE",
     "type": "mission_definition",
     "name": { "str": "Retrieve Software" },
+    "description": "Retrieve the software in their computer marked on your map.",
     "goal": "MGOAL_FIND_ANY_ITEM",
     "difficulty": 2,
     "value": 80000,
@@ -357,6 +399,7 @@
     "id": "MISSION_INVESTIGATE_CULT",
     "type": "mission_definition",
     "name": { "str": "Investigate Cult" },
+    "description": "Investigate the strange cabin in the woods and find an item that may clue you in about <color_yellow>a potential human sacrifice</color> the cult has performed, such as <color_yellow>human bones or other remains</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 150000,
@@ -459,7 +502,23 @@
     "difficulty": 5,
     "value": 250000,
     "urgent": true,
-    "start": "kill_horde_master",
+    "start": {
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_master", "x": [ 12, 15 ], "y": [ 12, 15 ], "target": true, "name": "Demonic Soul" },
+          { "group": "GROUP_ZOMBIE", "x": [ 12, 15 ], "y": [ 12, 15 ], "repeat": [ 21, 29 ] }
+        ]
+      },
+      "effect": "follow_only",
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "CONTAINS",
+        "search_range": 80,
+        "min_distance": 10,
+        "random": true,
+        "z": 0
+      }
+    },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
@@ -500,7 +559,7 @@
     "followup": "MISSION_KILL_100_Z",
     "dialogue": {
       "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
-      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
+      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zeds but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
       "accepted": "Thanks, make sure you're ready for whatever the beast is.",
       "rejected": "Hey, I know I wouldn't volunteer for it either.",
       "advice": "I'd carry a shotgun at least, it sounded pretty big.",
@@ -518,8 +577,18 @@
     "difficulty": 5,
     "value": 120000,
     "urgent": true,
-    "place": "near_town",
-    "start": "place_zombie_mom",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 60,
+        "min_distance": 5,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_zombie", "x": 12, "y": 12, "target": true, "random_name": "female" } ] }
+    },
     "end": { "effect": "npc_thankful" },
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
@@ -603,11 +672,22 @@
     "id": "MISSION_RECOVER_PRIEST_DIARY",
     "type": "mission_definition",
     "name": { "str": "Recover Priest's Diary" },
+    "description": "Find something that may reveal what the church's stance is on these events.  Something like <color_yellow>a priest's diary</color> would suffice.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 70000,
     "item": "priest_diary",
-    "start": "place_priest_diary",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
     "dialogue": {
@@ -626,6 +706,7 @@
     "id": "MISSION_RECRUIT_TRACKER",
     "type": "mission_definition",
     "name": { "str": "Recruit Tracker" },
+    "description": "Go to the cabin in the woods where the Tracker is camping and <color_yellow>recruit them</color>.",
     "goal": "MGOAL_RECRUIT_NPC",
     "difficulty": 5,
     "value": 70000,
@@ -638,7 +719,7 @@
     "dialogue": {
       "describe": "You seem to know this new world better than most…",
       "offer": "We've got another problem to deal with but I don't think we can handle it on our own.  So, I sent word out and found us a volunteer… of sorts.  He's vain as hell but has a little skill with firearms.  He was supposed to collect whatever he had of value and is going to meet us at a cabin in the woods.  Wasn't sure how long we were going to be so I told him to just camp there until we picked him up.",
-      "accepted": "Rodger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
+      "accepted": "Roger, if he's a no-show then any other gunslinger will do… but I doubt he'll quit before we even begin.",
       "rejected": "Hey, I know I wouldn't volunteer for it either… but then I remember that most of us survivors won't make it unless someone decides to take the initiative.",
       "advice": "I hope the bastard is packing heat… else we'll need to grab him a gun before we hit our next target.",
       "inquire": "Found a gunslinger?",
@@ -704,6 +785,7 @@
     "id": "MISSION_PROVE_YOUR_WORTH",
     "type": "mission_definition",
     "name": { "str": "Prove your worth to Foodperson" },
+    "description": "Prove your dedication to the Foodperson and Foodplace as a whole by finding <color_yellow>10 Foodplace loyalty cards</color>.",
     "goal": "MGOAL_FIND_ITEM",
     "item": "fp_loyalty_card",
     "count": 10,
@@ -711,7 +793,7 @@
     "value": 0,
     "end": {
       "effect": [
-        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "npc_add_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" },
         { "u_spawn_item": "badge_foodkid" }
       ]
     },
@@ -734,7 +816,7 @@
     "name": { "str": "Prove You're A Survivor" },
     "description": "Prove you're a survivor by surviving for 10 days after the Cataclysm, and then returning to the person who gave you this mission.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "days_since_cataclysm": 10 },
+    "goal_condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 10" ] },
     "difficulty": 1,
     "value": 0,
     "origins": [ "ORIGIN_OPENER_NPC" ],
@@ -761,7 +843,7 @@
       "and": [
         { "u_has_item": "duffelbag" },
         { "u_has_items": { "item": "cattail_stalk", "count": 80 } },
-        { "u_has_skill": { "skill": "survival", "level": 1 } }
+        { "math": [ "u_skill('survival')", ">=", "1" ] }
       ]
     },
     "difficulty": 1,
@@ -774,10 +856,11 @@
     },
     "end": {
       "effect": [
-        { "u_sell_item": "duffelbag" },
         { "u_sell_item": "cattail_stalk", "count": 80 },
+        { "u_sell_item": "duffelbag" },
         { "npc_consume_item": "cattail_stalk", "count": 80 },
         { "u_learn_recipe": "cattail_jelly" },
+        { "u_message": "You learn how to craft cattail jelly.", "popup": true },
         { "u_spawn_item": "cattail_jelly", "container": "bag_zipper", "count": 7 }
       ]
     },
@@ -797,6 +880,7 @@
     "id": "MISSION_PYROMANIAC",
     "type": "mission_definition",
     "name": { "str": "Angry pyromaniac" },
+    "description": "Bring the pyromaniac to <color_light_blue>their rival's house</color> and don't forget to <color_yellow>bring at least 200 units of gasoline</color>.  After you got there, talk to the pyromaniac to start burning the house.",
     "goal": "MGOAL_GO_TO",
     "difficulty": 0,
     "value": 0,
@@ -824,7 +908,7 @@
       "offer": "I'm so <swear> infuriated!  I've got an enemy that ruined my life, and now I want to get revenge!  I don't care about <the_cataclysm>, I just want to burn his house!  Would you help me, <name_g>?",
       "accepted": "Good.  Let's go to his house and <swear> burn it down!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
       "rejected": "Seriously?  It's such an easy job…",
-      "advice": "Maybe we can find some gasoline at gas station.",
+      "advice": "Maybe we can find some gasoline at a gas station.",
       "inquire": "Are you ready, <name_g>?",
       "success": "Sweet, sweet revenge!  Ah, smells so nice!  Feels like the smell of napalm in the morning!  All his stuff, and probably even that <name_b>, will burn to ashes in a matter of minutes.  You helped me get my revenge, so I'll follow you to the end, <name_g>!",
       "success_lie": "What?!  You liar!",
@@ -849,6 +933,92 @@
     "description": "You could find this place upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER",
+    "type": "mission_definition",
+    "name": { "str": "Center of the storm" },
+    "goal": "MGOAL_CONDITION",
+    "description": "This is the center of the portal storm, you could find it upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "portal_storm_center" } } }
+  },
+  {
+    "id": "MISSION_CAMP_LEADERSHIP_CHANGE",
+    "type": "mission_definition",
+    "name": { "str": "Faction succession" },
+    "goal": "MGOAL_CONDITION",
+    "description": "You have some time left until you can transfer control to your companions, provided you have <color_yellow>established a Basecamp</color> and <color_yellow>have at least 1 NPC companion</color>.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": {
+      "effect": [
+        { "math": [ "u_timer_time_of_last_succession", "=", "time('now')" ] },
+        { "run_eocs": "EOC_FACTION_SUCCESSION_CHECK" }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHECK",
+    "recurrence": [ "5 minutes", "20 minutes" ],
+    "global": true,
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
+    "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
+    "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHANGE_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_CHANGE_REINIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_avatar_new",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_IMMEDIATE",
+    "eoc_type": "EVENT",
+    "required_event": "broken_bone",
+    "//1": "Only run EOC if character is currently on succession cooldown!",
+    "condition": {
+      "and": [
+        { "math": [ "has_var(u_timer_time_of_last_succession)" ] },
+        { "math": [ "time_since(u_timer_time_of_last_succession)", "<", "time_between_succession" ] }
+      ]
+    },
+    "//2": "Remove the mission tracking that you can't change char, push the timer back by [cooldown length] so changing is immediately available.",
+    "effect": [
+      { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
+      {
+        "u_message": "You've been badly wounded.  It might be better to rest for a while and let someone else scavenge.  (Changing characters is now available at any camp board.)",
+        "type": "mixed"
+      },
+      { "math": [ "u_timer_time_of_last_succession", "-=", "time_between_succession" ] }
+    ]
   }
 ]

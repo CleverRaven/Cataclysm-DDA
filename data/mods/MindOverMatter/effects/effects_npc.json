@@ -1,0 +1,41 @@
+[
+  {
+    "type": "effect_type",
+    "id": "asked_to_vitakinetic_heal",
+    "name": [ "Asked to heal" ],
+    "desc": [ "You were asked if you wanted your illness healed and you said no." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_speed_boost_npc",
+    "name": [ "Neuro-Accelerated" ],
+    "desc": [ "Your nervous system is enhanced." ],
+    "apply_message": "",
+    "remove_message": "Your reactions return to baseline.",
+    "rating": "good",
+    "max_duration": "10 minutes",
+    "removes_effects": [ "effect_electrokinetic_pain_immune" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LEARNING_FOCUS",
+            "add": {
+              "math": [
+                "min( ( ( 5 + u_speed_boost_electrokin_power_level) * (scaling_factor(u_speed_boost_electrokin_intelligence) ) * u_nether_attunement_speed_boost_scaling), 35 )"
+              ]
+            }
+          },
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "min( ( ( 10 + ( u_speed_boost_electrokin_power_level* 1.5) ) * scaling_factor(u_speed_boost_electrokin_intelligence) * u_nether_attunement_speed_boost_scaling), 60 )"
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

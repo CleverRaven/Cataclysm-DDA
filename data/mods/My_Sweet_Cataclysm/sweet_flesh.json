@@ -11,11 +11,12 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 168,
-    "price_postapoc": 100,
+    "price_postapoc": "1 USD",
     "looks_like": "marshmallow",
     "material": [ "junk" ],
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -29,11 +30,11 @@
     "symbol": "%",
     "calories": 418,
     "description": "A shell of graham crackers and chocolate filled with delicious marshmallow flesh.",
-    "price_postapoc": 250,
+    "price_postapoc": "2 USD 50 cent",
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 20
   },
   {
@@ -48,11 +49,12 @@
     "symbol": "%",
     "calories": 235,
     "description": "A chunk of colorful fruit-flavored chewy candy meat.",
-    "price_postapoc": 554,
+    "price_postapoc": "5 USD 54 cent",
     "material": [ "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -76,11 +78,11 @@
     "quench": -4,
     "calories": 293,
     "description": "A dry, sugary piece of shell of a graham cracker.",
-    "price_postapoc": 300,
+    "price_postapoc": "3 USD",
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -96,11 +98,11 @@
     "quench": -1,
     "calories": 160,
     "description": "A sweet, delicious chunk of cookie flesh.",
-    "price_postapoc": 150,
+    "price_postapoc": "1 USD 50 cent",
     "material": [ "wheat", "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 6 ], [ "wheat_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -113,14 +115,15 @@
     "category": "food",
     "weight": "300 g",
     "volume": "250 ml",
-    "price_postapoc": 100,
+    "price_postapoc": "10 cent",
     "symbol": "*",
     "color": "pink",
     "stim": 1,
     "fun": 2,
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "id": "caff_gum_flesh",
@@ -133,14 +136,15 @@
     "category": "drugs",
     "weight": "300 g",
     "volume": "250 ml",
-    "price_postapoc": 500,
+    "price_postapoc": "1 USD",
     "symbol": "*",
     "color": "white",
     "stim": 10,
     "fun": 1,
     "material": [ "junk" ],
     "flags": [ "NO_INGEST" ],
-    "use_action": [ "CHEW" ]
+    "use_action": [ "CHEW" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -154,11 +158,11 @@
     "symbol": "%",
     "calories": 287,
     "description": "A chunk chocolate meat, still dripping with liquid chocolate.",
-    "price_postapoc": 400,
+    "price_postapoc": "4 USD",
     "material": [ "junk" ],
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 9 ] ],
+    "vitamins": [ [ "iron", 9 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -174,11 +178,12 @@
     "comestible_type": "FOOD",
     "material": [ "junk" ],
     "description": "A sweet licorice snake fillet, you can see the strands of licorice intertwining in a swirl of sweetness.",
-    "price": 340,
+    "price": "3 USD 40 cent",
     "quench": -1,
     "calories": 270,
     "stim": 1,
     "fun": 7,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   }
 ]

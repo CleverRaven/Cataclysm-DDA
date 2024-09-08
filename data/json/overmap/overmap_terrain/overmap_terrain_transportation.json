@@ -1,54 +1,30 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
+    "abstract": "road_abstract",
+    "name": "road",
     "copy-from": "generic_transportation",
-    "name": "highway",
-    "sym": "H",
     "color": "dark_gray",
-    "see_cost": 2,
-    "extras": "road",
-    "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "generic_transportation",
-    "name": "highway",
-    "sym": "=",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "extras": "road",
-    "mapgen": [ { "method": "builtin", "name": "highway" } ],
-    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+    "see_cost": "none",
+    "travel_cost_type": "road",
+    "looks_like": "road",
+    "vision_levels": "blends_till_outlines"
   },
   {
     "type": "overmap_terrain",
     "id": "road",
-    "name": "road",
-    "copy-from": "generic_transportation",
-    "color": "dark_gray",
-    "see_cost": 2,
+    "copy-from": "road_abstract",
     "extras": "road",
-    "//": "the entries below are optional and serve as an example of mapgen for line_drawing tiles",
-    "mapgen_straight": [ { "method": "builtin", "name": "road_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "road_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "road_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "road_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
-    "flags": [ "LINEAR", "IGNORE_ROTATION_FOR_ADJACENCY" ]
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "road_nesw_manhole",
-    "copy-from": "generic_transportation",
+    "copy-from": "road_abstract",
     "name": "road, manhole",
     "sym": "┼",
     "color": "yellow",
-    "see_cost": 2,
     "extras": "road_nesw_manhole",
-    "mapgen": [ { "method": "builtin", "name": "road_four_way" } ],
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -58,19 +34,22 @@
     "name": "bridge",
     "sym": "│",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "none",
+    "flags": [ "BRIDGE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridge",
     "copy-from": "generic_bridge",
     "color": "blue",
-    "flags": [ "RIVER" ]
+    "travel_cost_type": "water",
+    "flags": [ "RIVER", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridge_road",
     "copy-from": "generic_bridge",
+    "travel_cost_type": "road",
     "name": "bridge (overpass)"
   },
   {
@@ -79,155 +58,73 @@
     "copy-from": "generic_bridge",
     "name": "bridgehead (ground)",
     "sym": "v",
-    "extras": "bridgehead_ground"
+    "travel_cost_type": "road",
+    "extras": "bridgehead_ground",
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "bridgehead_ramp",
     "copy-from": "generic_bridge",
+    "travel_cost_type": "road",
     "name": "bridgehead (ramp)",
     "sym": "^"
   },
   {
     "type": "overmap_terrain",
+    "id": "godco_enter",
+    "name": "dirt road",
+    "sym": "│",
+    "copy-from": "generic_rural_road"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "roadstop", "roadstop_roof" ],
+    "vision_levels": "isolated_building",
+    "see_cost": "high",
     "name": "roadstop",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": [ "roadstop_a", "roadstop_a_roof" ],
+    "vision_levels": "isolated_building",
+    "see_cost": "spaced_high",
     "name": "public washroom",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": [ "roadstop_b", "roadstop_b_roof" ],
+    "vision_levels": "isolated_building",
+    "see_cost": "high",
     "name": "roadside foodcart",
     "sym": "^",
     "color": "magenta",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "railroad",
-    "name": "railroad",
-    "color": "light_green",
-    "see_cost": 2,
-    "mapgen_straight": [ { "method": "builtin", "name": "railroad_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "railroad_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "railroad_end" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "railroad_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "railroad_four_way" } ],
-    "flags": [ "LINEAR", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "railroad_bridge",
-    "name": "railroad bridge",
-    "sym": "│",
-    "color": "light_cyan",
-    "see_cost": 2,
-    "mapgen": [ { "method": "builtin", "name": "railroad_bridge" } ],
-    "flags": [ "RIVER", "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "railroad_level_crossing",
-    "name": "railroad level crossing",
-    "sym": "┼",
-    "color": "red",
-    "see_cost": 2,
-    "extras": "road",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
-  },
-  {
-    "abstract": "generic_railroad_station",
-    "type": "overmap_terrain",
-    "name": "railroad station",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "sym": "R",
-    "color": "light_green"
-  },
-  {
-    "abstract": "generic_railroad_station_under",
-    "type": "overmap_terrain",
-    "copy-from": "generic_railroad_station",
-    "color": "dark_gray"
-  },
-  {
-    "abstract": "generic_railroad_station_parking_lot",
-    "type": "overmap_terrain",
-    "name": "railroad station parking lot",
-    "copy-from": "generic_railroad_station",
-    "sym": "O",
-    "color": "dark_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "railroad_station_0_1", "railroad_station_0_2", "railroad_station_0_3", "railroad_station_0_4" ],
-    "copy-from": "generic_railroad_station",
-    "sym": "│"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "railroad_station_1_1",
-      "railroad_station_1_2",
-      "railroad_station_1_3",
-      "railroad_station_1_4",
-      "railroad_station_0_1_roof",
-      "railroad_station_0_2_roof",
-      "railroad_station_0_3_roof",
-      "railroad_station_1_1_roof",
-      "railroad_station_1_2_roof",
-      "railroad_station_1_3_roof",
-      "railroad_station_1_4_roof",
-      "railroad_station_2_4_roof"
-    ],
-    "copy-from": "generic_railroad_station"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "railroad_station_2_1", "railroad_station_2_2", "railroad_station_2_3", "railroad_station_2_4" ],
-    "copy-from": "generic_railroad_station_parking_lot"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [
-      "railroad_station_under_0_1",
-      "railroad_station_under_0_2",
-      "railroad_station_under_0_3",
-      "railroad_station_under_1_1",
-      "railroad_station_under_1_2",
-      "railroad_station_under_1_3"
-    ],
-    "copy-from": "generic_railroad_station_under"
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": "forest_trail",
     "name": "forest trail",
     "color": "green",
-    "mapgen_straight": [ { "method": "builtin", "name": "forest_trail_straight" } ],
-    "mapgen_curved": [ { "method": "builtin", "name": "forest_trail_curved" } ],
-    "mapgen_end": [ { "method": "builtin", "name": "forest_trail_straight" } ],
-    "mapgen_tee": [ { "method": "builtin", "name": "forest_trail_tee" } ],
-    "mapgen_four_way": [ { "method": "builtin", "name": "forest_trail_four_way" } ],
-    "flags": [ "LINEAR" ],
+    "vision_levels": "forested",
+    "see_cost": "spaced_high",
+    "travel_cost_type": "trail",
+    "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ],
     "land_use_code": "forest"
   },
   {
     "type": "overmap_terrain",
     "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
     "name": "trailhead",
+    "vision_levels": "blends_till_details",
+    "travel_cost_type": "trail",
+    "see_cost": "none",
     "sym": "T",
     "color": "brown"
   },
@@ -241,9 +138,10 @@
     "type": "overmap_terrain",
     "id": "sub_station",
     "name": "subway station",
+    "vision_levels": "city_building",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
     "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
@@ -252,9 +150,10 @@
     "type": "overmap_terrain",
     "id": "sub_station_roof",
     "name": "subway station roof",
+    "vision_levels": "roof_or_air",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2,
     "flags": [ "KNOWN_DOWN", "SIDEWALK" ]
@@ -263,9 +162,10 @@
     "type": "overmap_terrain",
     "id": "sewer_sub_station",
     "name": "subway station (sewer level)",
+    "vision_levels": "underground_dirt",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
   },
@@ -273,9 +173,10 @@
     "type": "overmap_terrain",
     "id": "underground_sub_station",
     "name": "subway station (underground level)",
+    "vision_levels": "underground_stone",
     "sym": "S",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "flags": [ "KNOWN_UP", "NO_ROTATE" ]
   },
@@ -283,8 +184,9 @@
     "type": "overmap_terrain",
     "id": "subway",
     "name": "subway",
+    "vision_levels": "underground_stone",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
@@ -292,14 +194,16 @@
     "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
     "spawns": { "group": "GROUP_SUBWAY", "population": [ 1, 3 ], "chance": 66 },
+    "travel_cost_type": "dirt_road",
     "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_subway",
     "name": "subway",
+    "vision_levels": "underground_stone",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "lab_subway",
     "mapgen_straight": [ { "method": "builtin", "name": "subway_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "subway_curved" } ],
@@ -307,12 +211,23 @@
     "mapgen_tee": [ { "method": "builtin", "name": "subway_tee" } ],
     "mapgen_four_way": [ { "method": "builtin", "name": "subway_four_way" } ],
     "spawns": { "group": "GROUP_SUBWAY_LAB", "population": [ 1, 3 ], "chance": 50 },
+    "travel_cost_type": "dirt_road",
     "flags": [ "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
+    "id": [ "sub_ramp_above", "sub_ramp_below" ],
+    "name": "subway ramp",
+    "vision_levels": "underground_stone",
+    "sym": "S",
+    "color": "dark_gray",
+    "see_cost": "full_high"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "s_reststop_1", "s_reststop_2" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "isolated_building",
     "name": "rest area",
     "sym": "#",
     "color": "blue"
@@ -321,6 +236,7 @@
     "type": "overmap_terrain",
     "id": [ "s_reststop_1_roof", "s_reststop_2_roof" ],
     "copy-from": "generic_city_building",
+    "vision_levels": "roof_or_air",
     "name": "rest area roof",
     "sym": "#",
     "color": "blue"
@@ -328,129 +244,182 @@
   {
     "type": "overmap_terrain",
     "id": [ "s_restparking_1", "s_restparking_2" ],
-    "copy-from": "generic_city_building",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "vision_levels": "large_pavement",
     "name": "rest area parking",
     "sym": "+",
     "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "control_tower_0", "control_tower_1", "control_tower_2" ],
+    "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3", "s_air_atc_4" ],
+    "vision_levels": "isolated_tower",
     "name": "control tower",
     "sym": "X",
     "color": "i_light_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build"
   },
   {
     "type": "overmap_terrain",
     "id": "control_tower_roof",
     "name": "control tower roof",
+    "vision_levels": "roof_or_air",
     "sym": "X",
     "color": "i_light_gray",
-    "see_cost": 5,
-    "extras": "road"
+    "see_cost": "none",
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "runway", "runway_carts", "runway_hangar", "runway_hangar2", "runway_wild", "runway_start", "runway_end" ],
+    "id": [
+      "runway",
+      "runway_carts",
+      "runway_hangar",
+      "runway_hangar2",
+      "runway_wild",
+      "runway_start",
+      "runway_end",
+      "s_air_runway_l",
+      "s_air_runway_B",
+      "s_air_runway_term",
+      "s_air_runway",
+      "s_air_runway_hangars",
+      "s_air_runway_r"
+    ],
     "name": "runway",
+    "vision_levels": "blends_till_outlines",
     "sym": "─",
     "color": "light_gray",
-    "see_cost": 5,
-    "extras": "road"
+    "see_cost": "none",
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",
     "id": [ "runway_fuel", "runway_fuel2" ],
+    "vision_levels": "blends_till_outlines",
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "road",
     "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
     "id": "fuel_station",
+    "vision_levels": "large_pavement",
     "name": "fuel station",
     "sym": ".",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "extras": "build",
     "flags": [ "SOURCE_FUEL" ]
   },
   {
     "type": "overmap_terrain",
     "id": "fuel_station_roof",
+    "vision_levels": "roof_or_air",
     "name": "fuel station roof",
     "sym": ".",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airport_lot_0", "airport_lot_1" ],
+    "id": [ "airport_lot_0", "airport_lot_1", "s_air_parking" ],
+    "vision_levels": "large_pavement",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
   },
   {
     "type": "overmap_terrain",
-    "id": "hangar",
+    "id": [ "hangar", "s_air_hangars" ],
+    "vision_levels": "isolated_building",
     "name": "small hangar",
     "sym": "O",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build"
   },
   {
     "type": "overmap_terrain",
-    "id": "hangar_roof",
+    "id": [ "hangar_roof", "s_air_hangars_roof" ],
+    "vision_levels": "roof_or_air",
     "name": "small hangar roof",
     "sym": "O",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_term",
+    "vision_levels": "isolated_building",
+    "name": "private airport terminal",
+    "sym": "A",
+    "color": "light_gray",
+    "see_cost": "high",
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_term_roof",
+    "vision_levels": "roof_or_air",
+    "name": "private airport terminal roof",
+    "sym": "A",
+    "color": "light_gray",
+    "see_cost": "none",
+    "extras": "build",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": "waiting_area",
-    "name": "waiting area",
-    "sym": "<",
-    "color": "i_light_cyan",
-    "see_cost": 5,
-    "extras": "build"
+    "name": "regional airport terminal",
+    "copy-from": "s_air_term"
   },
   {
     "type": "overmap_terrain",
     "id": "waiting_area_roof",
-    "name": "waiting area roof",
-    "sym": "<",
-    "color": "i_light_cyan",
-    "see_cost": 5,
-    "extras": "build"
+    "name": "regional airport terminal roof",
+    "copy-from": "s_air_term_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_helicopter_pad",
+    "vision_levels": "large_pavement",
+    "name": "helicopter pad",
+    "sym": "H",
+    "color": "white",
+    "see_cost": "none",
+    "extras": "build",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": [ "bus_stat_0", "bus_stat_1" ],
     "name": "bus station",
+    "vision_levels": "large_pavement",
     "sym": "B",
     "color": "i_light_cyan",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "build",
     "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "bus_stat_0_roof", "bus_stat_1_roof" ],
+    "vision_levels": "roof_or_air",
     "name": "bus station roof",
     "sym": "B",
     "color": "i_light_cyan",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "build"
   },
   {
@@ -460,6 +429,24 @@
       "parking_garage_down_1",
       "parking_garage_1_0",
       "parking_garage_1_1",
+      "parking_garage2x2_down_0",
+      "parking_garage2x2_down_1",
+      "parking_garage2x2_down_2",
+      "parking_garage2x2_down_3",
+      "parking_garage2x2_1_0",
+      "parking_garage2x2_1_1",
+      "parking_garage2x2_1_2",
+      "parking_garage2x2_1_3",
+      "parking_garage2x2_2_0",
+      "parking_garage2x2_2_1",
+      "parking_garage2x2_2_2",
+      "parking_garage2x2_2_3",
+      "parking_garage2x2_3_0",
+      "parking_garage2x2_3_1",
+      "parking_garage2x2_3_2",
+      "parking_garage2x2_3_3",
+      "parking_garage2x2_4_2",
+      "parking_garage2x2_4_3",
       "parking_garage_2_0",
       "parking_garage_2_1",
       "parking_garage_roof_0",
@@ -467,34 +454,59 @@
       "parking_garage_roof_top"
     ],
     "name": "parking garage",
+    "vision_levels": "city_building",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "build",
     "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
-    "id": [ "parking_garage_0_0", "parking_garage_0_1" ],
+    "id": [
+      "parking_garage_0_0",
+      "parking_garage_0_1",
+      "parking_garage2x2_0_0",
+      "parking_garage2x2_0_1",
+      "parking_garage2x2_0_2",
+      "parking_garage2x2_0_3"
+    ],
     "copy-from": "parking_garage_1_0",
     "flags": [ "SIDEWALK" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "s_lot",
+    "id": [
+      "s_lot",
+      "parking_2x1_0",
+      "parking_2x1_1",
+      "parking_2x2_0_0",
+      "parking_2x2_0_1",
+      "parking_2x2_1_0",
+      "parking_2x2_1_1",
+      "parking_3x1_0",
+      "parking_3x1_1",
+      "parking_3x1_2"
+    ],
     "copy-from": "generic_city_building",
+    "vision_levels": "large_pavement",
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
+    "id": [ "s_lot_no_sidewalk", "trailer_hub_00" ],
+    "vision_levels": "large_pavement",
+    "copy-from": "s_lot",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "trailer_road", "trailer_road_1parkway", "trailer_road_2parkway" ],
-    "copy-from": "generic_transportation",
+    "copy-from": "road_abstract",
     "extras": "road",
-    "name": "road",
-    "sym": "│",
-    "color": "light_gray"
+    "sym": "│"
   },
   {
     "type": "overmap_terrain",
@@ -520,12 +532,6 @@
     "copy-from": "trailer_road",
     "name": "mobile home park entrance",
     "sym": "┼"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailer_hub_00",
-    "copy-from": "s_lot",
-    "delete": { "flags": [ "SIDEWALK" ] }
   },
   {
     "type": "overmap_terrain",

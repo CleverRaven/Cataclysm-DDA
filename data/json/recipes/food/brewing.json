@@ -10,11 +10,13 @@
     "time": "6 m 40 s",
     "autolearn": true,
     "//": "Should be taught by a flag/mutation rather than autolearned",
+    "charges": 5,
     "batch_time_factors": [ 80, 4 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "mycus_fruit", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "//1": "1u for fruit, then 6u to heat the water & activate the yeast",
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "mycus_fruit", 1 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -27,17 +29,18 @@
     "time": "6 m 40 s",
     "autolearn": true,
     "//": "Should be taught by a flag/mutation rather than autolearned",
+    "charges": 5,
     "batch_time_factors": [ 80, 4 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "marloss_berry", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "//1": "1u for fruit, then 6u to heat the water & activate the yeast",
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "marloss_berry", 1 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_milk_curdled",
-    "result_mult": 18,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -48,13 +51,13 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_cheesemaking_1" } ],
     "book_learn": [ [ "survival_book", 3 ], [ "textbook_survival", 3 ], [ "manual_survival", 3 ], [ "dairy_book", 3 ] ],
     "using": [ [ "milk_standard_raw_fresh", 15 ] ],
-    "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ]
+    "components": [ [ [ "vinegar", 3 ] ], [ [ "wild_herbs", 40 ], [ "meat_stomach", 1, "LIST" ] ] ],
+    "charges": 18
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_whiskey",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -64,14 +67,17 @@
     "book_learn": [ [ "distilling_cookbook", 5 ], [ "scots_cookbook", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "malted_grain", 2 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 58, "LIST" ] ] ],
+    "//": "assuming grains are roasted, that's 52u flour by weight, plus 6u to heat water and activate yeast",
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "malted_grain", 2 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 1 ] ] ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_whiskey it is 7 charges",
+    "//2": "per 250ml. Hence 3x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_gin",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -81,12 +87,16 @@
     "book_learn": [ [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "//": "assuming grains are roasted, slightly variable weight roughly close to 20u flour, +10u for the junipers",
     "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "corn", 3 ], [ "cornmeal", 3 ], [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
+      [ [ "water_clean", 2 ] ],
+      [ [ "corn", 3 ], [ "popcorn_cob", 3 ], [ "cornmeal", 5 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 3 ] ],
       [ [ "juniper", 10 ] ]
-    ]
+    ],
+    "//1": "Using 2x250ml of water, this should give us ~500ml of product. For brew_gin it is 7 charges",
+    "//2": "per 250ml. Hence 2x7=14 charges",
+    "charges": 14
   },
   {
     "type": "recipe",
@@ -107,7 +117,6 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_sake",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -117,7 +126,10 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "book_learn": [ [ "brewing_cookbook", 6 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "sake_koji_rice", 1 ] ], [ [ "rice_cooked", 1 ] ], [ [ "water_clean", 3 ] ], [ [ "yeast", 1 ] ] ]
+    "components": [ [ [ "sake_koji_rice", 1 ] ], [ [ "rice_cooked", 1 ] ], [ [ "water_clean", 3 ] ], [ [ "yeast", 1 ] ] ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_sake it is 7 charges",
+    "//2": "per 250ml. Hence 3x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
@@ -132,14 +144,13 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "book_learn": [ [ "brewing_cookbook", 6 ] ],
-    "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
+    "qualities": [ { "id": "STRAIN", "level": 2 } ],
     "components": [ [ [ "sake_unfiltered", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_soy_sauce",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -149,13 +160,15 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
     "book_learn": [ [ "cookbook_sushi", 6 ] ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "soy_wheat_dough_done", 1 ] ], [ [ "water_clean", 3 ] ], [ [ "salt", 30 ] ] ]
+    "components": [ [ [ "soy_wheat_dough_done", 1 ] ], [ [ "water_clean", 3 ] ], [ [ "salt", 30 ] ] ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_soy_sauce it is 10 charges",
+    "//2": "per 250ml. Hence 3x10=30 charges",
+    "charges": 30
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_vodka",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -167,8 +180,9 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "unsure if wheat needs roasted here but sugar doesn't. 6u to heat the water & activate the yeast",
     "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [
         [ "molasses", 5 ],
         [ "wheat", 1 ],
@@ -179,13 +193,15 @@
         [ "sugar_beet", 1 ]
       ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_vodka it is 7 charges per 250ml.",
+    "//2": "Hence 3x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_rum",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -195,14 +211,16 @@
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_rum it is 7 charges per 250ml.",
+    "//2": "Hence 3x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_moonshine",
-    "result_mult": 15,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -212,19 +230,22 @@
     "book_learn": [ [ "brewing_cookbook", 1 ], [ "family_cookbook", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "//": "30u for corn and 30u to heat water & activate the yeast",
     "components": [
-      [ [ "water", 15 ], [ "water_clean", 15 ] ],
-      [ [ "cornmeal", 12 ], [ "corn", 2 ] ],
+      [ [ "water_clean", 15 ] ],
+      [ [ "cornmeal", 12 ], [ "corn", 2 ], [ "popcorn_cob", 2 ] ],
       [ [ "sugar", 100 ] ],
       [ [ "yeast", 2 ] ]
-    ]
+    ],
+    "//1": "Using 15x250ml of water, this should give us ~3750ml of product. For brew_moonshine it is 7 charges per 250ml.",
+    "//2": "Hence 3750/250ml*7=105 charges",
+    "charges": 105
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_hb_seltzer",
-    "result_mult": 10,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -234,20 +255,23 @@
     "book_learn": [ [ "brewing_cookbook", 4 ], [ "winemaking_beginner", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "//": "2u for fruit and 20u to heat the water & activate the yeast",
     "components": [
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "water_clean", 10 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "juice", 2 ], [ "apple_cider", 4 ], [ "sweet_fruit", 1, "LIST" ] ]
-    ]
+    ],
+    "//1": "Using 10x250ml of water, this should give us ~2500ml of product. For brew_hb_seltzer it is 1 charge per 250ml.",
+    "//2": "Hence 2500/250*1=10 charges.",
+    "charges": 10
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_moonshine",
     "id_suffix": "pumpkin",
-    "result_mult": 15,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -257,14 +281,17 @@
     "book_learn": [ [ "distilling_cookbook", 1 ], [ "family_cookbook", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "water", 15 ], [ "water_clean", 15 ] ], [ [ "pumpkin", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ]
+    "tools": [ [ [ "surface_heat", 54, "LIST" ] ] ],
+    "//": "24u for pumpkin and 30u to heat water & activate the yeast",
+    "components": [ [ [ "water_clean", 15 ] ], [ [ "pumpkin_cut", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ],
+    "//1": "Using 15x250ml of water, this should give us ~3750ml of product. For brew_moonshine it is 7 charges per 250ml.",
+    "//2": "Hence 3750ml/250ml*7=105 charges",
+    "charges": 105
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_fruit_wine",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -274,13 +301,15 @@
     "book_learn": [ [ "brewing_cookbook", 2 ], [ "winemaking_beginner", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "juice", 2 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "juice", 2 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ] ],
+    "//1": "Using 2x250ml of water plus 2x125ml of juice, this should give us ~750ml of product. For brew_fruit_wine it is 7 charges",
+    "//2": "per 250ml. Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_hb_beer",
-    "result_mult": 10,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -290,14 +319,17 @@
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 10 ], [ "water_clean", 10 ] ], [ [ "malted_grain", 2 ] ], [ [ "hops", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 74, "LIST" ] ] ],
+    "//": "assuming grains are roasted, that's 52u flour by weight, 2u for hops, plus 20u to heat water and activate yeast",
+    "components": [ [ [ "water_clean", 10 ] ], [ [ "malted_grain", 2 ] ], [ [ "hops", 1 ] ], [ [ "yeast", 1 ] ] ],
+    "//1": "Using 10x250ml of water, this should give us ~2500ml of product. For brew_hb_beer it is 1 charge per 250ml.",
+    "//2": "Hence 2500ml/250ml*1=10 charges.",
+    "charges": 10
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_mead",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -311,13 +343,15 @@
       [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_mead it is 7 charges per 250ml.",
+    "//2": "Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "result": "brew_hopped_mead",
     "activity_level": "NO_EXERCISE",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -328,18 +362,21 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water and activate yeast",
     "components": [
-      [ [ "water_clean", 3 ], [ "water", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "hops", 1 ] ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_hopped_mead it is 7 charges per 250ml",
+    "//2": "(copy from brew_mead). Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "result": "brew_spiced_mead",
     "activity_level": "NO_EXERCISE",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -350,18 +387,28 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water and activate yeast",
     "components": [
       [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
-      [ [ "chilly-p", 50 ], [ "chili_pepper", 1 ], [ "cinnamon", 25 ], [ "pepper", 50 ], [ "wild_herbs", 10 ] ],
+      [
+        [ "chilly-p", 50 ],
+        [ "chili_pepper", 1 ],
+        [ "rehydrated_chili", 1 ],
+        [ "cinnamon", 25 ],
+        [ "pepper", 50 ],
+        [ "wild_herbs", 10 ]
+      ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_spiced_mead it is 7 charges per 250ml",
+    "//2": "(copy from brew_mead). Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_dandelion_wine",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -377,18 +424,22 @@
     ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water and activate yeast, dandelions don't appear to be roasted here",
     "components": [
       [ [ "water_clean", 3 ] ],
       [ [ "soaked_dandelion", 10 ] ],
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_dandelion_wine it is 7 charges per 250ml.",
+    "//2": "Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_burdock_wine",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -409,19 +460,22 @@
       { "proficiency": "prof_winemaking" }
     ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 26, "LIST" ] ] ],
+    "//": "20u to roast the burdocks and 6u to heat water & activate the yeast",
     "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [ [ "raw_burdock", 10 ] ],
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_burdock_wine it is 7 charges per 250ml.",
+    "//2": "No distilling/evaporation (just roasting), so no volume loss. Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "brew_pine_wine",
-    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -432,18 +486,21 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water & activate the yeast, pineboughs don't appear to be roasted",
     "components": [
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "pine_bough", 5 ] ],
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
-    ]
+    ],
+    "//1": "Using 3x250ml of water, this should give us ~750ml of product. For brew_burdock_wine it is 7 charges per 250ml.",
+    "//2": "No distilling/evaporation (not even roasting, see comment above), so no volume loss. Hence (750ml/250ml)x7=21 charges",
+    "charges": 21
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "malting_grain",
-    "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -454,15 +511,15 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
-    ]
+      [ [ "water_clean", 1 ] ],
+      [ [ "corn", 1 ], [ "popcorn_cob", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
+    ],
+    "charges": 1
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "soaking_dandelion",
-    "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -479,13 +536,13 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "raw_dandelion", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "raw_dandelion", 1 ] ] ],
+    "charges": 1
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "brew_vinegar",
-    "result_mult": 1,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -495,7 +552,7 @@
     "book_learn": [ [ "vinegar_maker", 1 ], [ "winemaking_beginner", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
     "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "water_clean", 2 ] ],
       [
         [ "juice", 2 ],
         [ "apple_cider", 4 ],
@@ -504,13 +561,15 @@
         [ "sweet_fruit", 1, "LIST" ],
         [ "wild_herbs", 40 ]
       ]
-    ]
+    ],
+    "//1": "Using 2x250ml of water, this should give us ~500ml of product. For brew_vinegar it is 16 charges per 250ml.",
+    "//2": "Hence (500ml/250ml)x16=32 charges",
+    "charges": 32
   },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "fermenting_yogurt",
-    "result_mult": 10,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
     "skill_used": "cooking",
@@ -520,7 +579,42 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "milk_standard_raw", 9, "LIST" ] ], [ [ "cabbage", 1 ], [ "chili_pepper", 1 ], [ "yoghurt", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "//": "14u for dairy and 1u for the additive",
+    "components": [
+      [ [ "milk_standard_raw", 9, "LIST" ] ],
+      [
+        [ "cabbage", 1 ],
+        [ "chili_pepper", 1 ],
+        [ "rehydrated_chili", 1 ],
+        [ "yoghurt", 1 ],
+        [ "yogurt_starter_culture", 1 ]
+      ]
+    ],
+    "charges": 10
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "brew_rootbeer",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREW",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "batch_time_factors": [ 95, 4 ],
+    "book_learn": [ [ "brewing_cookbook", 2 ], [ "family_cookbook", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
+    "components": [
+      [ [ "water_clean", 1 ] ],
+      [ [ "sugar", 40 ] ],
+      [ [ "molasses", 1 ] ],
+      [ [ "yeast", 1 ] ],
+      [ [ "sassafras_root", 1 ] ]
+    ],
+    "//1": "Using 1x250ml of water, this should give us ~250ml of product. For brew_rootbeer it is 7 charges per 250ml.",
+    "//2": "Hence (250ml/250ml)x7=7 charges",
+    "charges": 7
   }
 ]

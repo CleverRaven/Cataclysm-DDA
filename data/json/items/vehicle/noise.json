@@ -11,11 +11,11 @@
     "material": [ "steel" ],
     "techniques": [ "WBLOCK_1" ],
     "volume": "3500 ml",
-    "bashing": 19,
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 100,
-    "qualities": [ [ "HAMMER", 1 ] ]
+    "price": "30 USD",
+    "price_postapoc": "1 USD",
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "melee_damage": { "bash": 19 }
   },
   {
     "type": "GENERIC",
@@ -28,11 +28,11 @@
     "material": [ "plastic", "aluminum" ],
     "volume": "250 ml",
     "to_hit": -1,
-    "bashing": 2,
     "category": "veh_parts",
-    "price": 6000,
-    "price_postapoc": 100,
-    "flags": [ "WATER_BREAK", "ELECTRONIC" ]
+    "price": "60 USD",
+    "price_postapoc": "1 USD",
+    "flags": [ "WATER_BREAK", "ELECTRONIC" ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -40,14 +40,13 @@
     "name": { "str": "stereo system" },
     "description": "A stereo system with speakers.  It is capable of being hooked up to a vehicle.",
     "weight": "800 g",
-    "to_hit": -2,
     "color": "red",
     "symbol": "&",
     "material": [ "steel" ],
     "volume": "3500 ml",
     "category": "veh_parts",
-    "price": 800,
-    "price_postapoc": 100,
+    "price": "8 USD",
+    "price_postapoc": "1 USD",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   },
   {
@@ -56,14 +55,13 @@
     "name": { "str_sp": "chime loudspeakers" },
     "description": "A stereo system with loudspeakers and a built-in set of simple melodies that it will play.  Commonly used by ice cream trucks to draw the attention of children in the days when children wanted ice cream more than brains.",
     "weight": "2600 g",
-    "to_hit": -2,
     "color": "blue",
     "symbol": "&",
     "material": [ "steel" ],
     "volume": "4 L",
     "category": "veh_parts",
-    "price": 5000,
-    "price_postapoc": 250,
+    "price": "50 USD",
+    "price_postapoc": "2 USD 50 cent",
     "flags": [ "WATER_BREAK", "ELECTRONIC" ]
   }
 ]

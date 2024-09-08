@@ -1,4 +1,3 @@
-#include <functional>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -16,6 +15,7 @@
 #include "iuse.h"
 #include "mutation.h"
 #include "pimpl.h"
+#include "player_helpers.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_formatter.h"
@@ -74,19 +74,6 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     }
     player_character.set_mutations( oked_traits );
     return true;
-}
-
-static avatar get_sanitized_player()
-{
-    // You'd think that this hp stuff would be in the c'tor...
-    avatar ret = avatar();
-    ret.set_body();
-    ret.recalc_hp();
-
-    // Set these insanely high so can_eat doesn't return TOO_FULL
-    ret.set_hunger( 10000 );
-    ret.set_thirst( 10000 );
-    return ret;
 }
 
 static int get_item_count( const std::set<const item *> &items )
@@ -154,9 +141,6 @@ TEST_CASE( "starting_items", "[slow]" )
     std::set<failure> failures;
 
     avatar &player_character = get_avatar();
-    player_character = get_sanitized_player();
-    // Avoid false positives from ingredients like salt and cornmeal.
-    const avatar control = get_sanitized_player();
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {
@@ -171,7 +155,7 @@ TEST_CASE( "starting_items", "[slow]" )
                     continue; // Trait conflict: this prof/scen/trait combo is impossible to attain
                 }
                 for( int i = 0; i < 2; i++ ) {
-                    player_character.worn.clear();
+                    player_character.clear_worn();
                     player_character.remove_weapon();
                     player_character.inv->clear();
                     player_character.calc_encumbrance();
@@ -188,7 +172,6 @@ TEST_CASE( "starting_items", "[slow]" )
                     const int num_items_pre_migration = get_item_count( items_visited );
                     items_visited.clear();
 
-                    player_character.migrate_items_to_storage( true );
                     player_character.visit_items( visitable_counter );
                     const int num_items_post_migration = get_item_count( items_visited );
                     items_visited.clear();
@@ -216,10 +199,11 @@ TEST_CASE( "starting_items", "[slow]" )
     REQUIRE( failures.empty() );
 }
 
-TEST_CASE( "Generated character with category mutations", "[mutation]" )
+TEST_CASE( "Generated_character_with_category_mutations", "[mutation]" )
 {
     REQUIRE( !trait_TAIL_FLUFFY.obj().category.empty() );
-    avatar u = get_sanitized_player();
+    avatar &u = get_avatar();
+    clear_avatar();
     REQUIRE( u.get_mutations().empty() );
     REQUIRE( u.get_base_traits().empty() );
     REQUIRE( u.mutation_category_level.empty() );

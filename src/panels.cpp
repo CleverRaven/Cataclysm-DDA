@@ -1,66 +1,40 @@
 #include "panels.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstddef>
-#include <cstdlib>
 #include <iosfwd>
 #include <iterator>
-#include <list>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <utility>
 
-#include "action.h"
 #include "avatar.h"
-#include "behavior.h"
-#include "bodypart.h"
 #include "cached_options.h"
-#include "calendar.h"
+#include "cata_imgui.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "character_martial_arts.h"
-#include "character_oracle.h"
 #include "color.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "display.h"
 #include "debug.h"
-#include "effect.h"
-#include "enum_traits.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "input.h"
-#include "item.h"
+#include "imgui/imgui.h"
+#include "input_context.h"
 #include "json.h"
-#include "make_static.h"
-#include "magic.h"
 #include "map.h"
 #include "messages.h"
-#include "mood_face.h"
-#include "move_mode.h"
-#include "mtype.h"
-#include "npc.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
-#include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
-#include "tileray.h"
 #include "type_id.h"
 #include "ui_manager.h"
-#include "units.h"
-#include "units_utility.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "weather.h"
-#include "weather_type.h"
 #include "widget.h"
 
 //TODO: Use these variables again later to enhance the limb health widget.
@@ -195,11 +169,63 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     // Map is centered on curs - typically player's global_omt_location
     const point_abs_omt curs = global_omt.xy();
     const tripoint_abs_omt targ = you.get_active_mission_target();
-    bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y;
     const int start_x = start_input.x;
     const point mid( width / 2, height / 2 );
     map &here = get_map();
+    const int sight_points = you.overmap_modified_sight_range( g->light_level( you.posz() ) );
+
+    oter_display_options opts( global_omt, sight_points );
+    if( targ != overmap::invalid_tripoint ) {
+        opts.mission_target = targ;
+    }
+    opts.hilite_pc = true;
+    opts.hilite_mission = true;
+
+    // i scans across width, with 0 in the middle(ish)
+    //     -(w/2) ... w-(w/2)-1
+    // w:9   -4 ... 4
+    // w:10  -5 ... 4
+    // w:11  -5 ... 5
+    // w:12  -6 ... 5
+    // w:13  -6 ... 6
+    int left = -( width / 2 );
+    int right = width - ( width / 2 ) + 1;
+    int top = -( height / 2 );
+    int bottom = height - ( height / 2 );
+
+    opts.mission_inbounds = targ.x() >= left + curs.x() && targ.x() <= right + curs.x() &&
+                            targ.y() >= top + curs.y() && targ.y() <= bottom + curs.y();
+
+    for( int i = left; i <= right; i++ ) {
+        // j scans across height, with 0 in the middle(ish)
+        // (same algorithm)
+        for( int j = top; j <= bottom; j++ ) {
+            // omp is the current overmap point, at the current z-level
+            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z() );
+            // Terrain color and symbol to use for this point
+            nc_color ter_color;
+            std::string ter_sym;
+
+            oter_display_args args( overmap_buffer.seen( omp ) );
+            args.edge_tile = i == left || i == right || j == top || j == bottom;
+            std::tie( ter_sym, ter_color ) = oter_symbol_and_color( omp, args, opts );
+            // TODO: Build colorized string instead of writing directly to window
+            mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color, ter_sym );
+        }
+    }
+}
+
+void overmap_ui::draw_overmap_chunk_imgui( const avatar &you, const tripoint_abs_omt &global_omt,
+        const int width, const int height )
+{
+    ImGui::BeginGroup();
+    ImVec2 start_pos = ImGui::GetCursorPos();
+    const ImVec2 mid { static_cast<float>( width / 2.0 ), static_cast<float>( height / 2.0 ) };
+    ImVec2 char_size = ImGui::CalcTextSize( "X" );
+    // Map is centered on curs - typically player's global_omt_location
+    const tripoint_abs_omt targ = you.get_active_mission_target();
+    bool drew_mission = targ == overmap::invalid_tripoint;
     const int sight_points = you.overmap_sight_range( g->light_level( you.posz() ) );
 
     // i scans across width, with 0 in the middle(ish)
@@ -209,16 +235,17 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     // w:11  -5 ... 5
     // w:12  -6 ... 5
     // w:13  -6 ... 6
-    for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
+    for( int i = width - ( width / 2 ) - 1; i >= -( width / 2 ); i-- ) {
         // j scans across height, with 0 in the middle(ish)
         // (same algorithm)
-        for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
-            // omp is the current overmap point, at the current z-level
-            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z() );
+        for( int j = height - ( height / 2 ) - 1; j >= -( height / 2 ); j-- ) {
+            // omp is the overmap point of the terrain whose symbol we are drawing
+            const tripoint_abs_omt omp = global_omt + tripoint( i, j, 0 );
             // Terrain color and symbol to use for this point
             nc_color ter_color;
             std::string ter_sym;
-            const bool seen = overmap_buffer.seen( omp );
+            const om_vision_level vision = overmap_buffer.seen( omp );
+            const bool seen = vision != om_vision_level::unseen;
             if( overmap_buffer.has_note( omp ) ) {
                 const std::string &note_text = overmap_buffer.note( omp );
                 std::pair<std::string, nc_color> sym_color = display::overmap_note_symbol_color( note_text );
@@ -234,11 +261,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             } else {
                 // Otherwise, get symbol and color appropriate for the terrain
                 const oter_id &cur_ter = overmap_buffer.ter( omp );
-                ter_sym = cur_ter->get_symbol();
+                ter_sym = cur_ter->get_symbol( vision, false );
                 if( overmap_buffer.is_explored( omp ) ) {
                     ter_color = c_dark_gray;
                 } else {
-                    ter_color = cur_ter->get_color();
+                    ter_color = cur_ter->get_color( vision, false );
                 }
             }
             if( !drew_mission && targ.xy() == omp.xy() ) {
@@ -251,48 +278,52 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 }
             }
             // TODO: Build colorized string instead of writing directly to window
-            if( i == 0 && j == 0 ) {
-                // Highlight player character position in center of minimap
-                mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
+            ImVec2 pos = start_pos + ( char_size * ( mid + ImVec2( i, j ) ) );
+            ImGui::SetCursorPos( pos );
+            // Show hordes on minimap, leaving a one-tile space around the player
+            bool show_hordes = i < -1 || i > 1 || j < -1 || j > 1;
+            int horde_size = overmap_buffer.get_horde_size( omp );
+            if( show_hordes && horde_size >= HORDE_VISIBILITY_SIZE &&
+                seen && you.overmap_los( omp, sight_points ) ) {
+                const char *horde = horde_size > HORDE_VISIBILITY_SIZE * 2 ? "Z" : "z";
+                ImGui::TextColored( c_green, "%s", horde );
+                ImGui::SameLine( 0, 0 );
             } else {
-                mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color,
-                          ter_sym );
-            }
-
-            if( i < -1 || i > 1 || j < -1 || j > 1 ) {
-                // Show hordes on minimap, leaving a one-tile space around the player
-                int horde_size = overmap_buffer.get_horde_size( omp );
-                if( horde_size >= HORDE_VISIBILITY_SIZE &&
-                    overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), c_green,
-                              horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
+                if( i == 0 && j == 0 ) {
+                    // Highlight player character position in center of minimap
+                    ter_color = hilite( ter_color );
                 }
+                ImGui::TextColored( ter_color, "%s", ter_sym.c_str() );
+                ImGui::SameLine( 0, 0 );
             }
         }
+        ImGui::NewLine();
     }
 
     // When the mission marker is not visible within the current overmap extents,
     // draw an arrow at the edge of the map pointing in the general mission direction.
     // TODO: Replace `drew_mission` with a function like `is_mission_on_map`
-    if( !drew_mission ) {
-        char glyph = '*';
-        if( targ.z() > you.posz() ) {
-            glyph = '^';
-        } else if( targ.z() < you.posz() ) {
-            glyph = 'v';
-        }
-        const point arrow = display::mission_arrow_offset( you, width, height );
-        mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
-    }
+    // TODO: commented out temporarily
+    // if( !drew_mission ) {
+    //     char glyph = '*';
+    //     if( targ.z() > you.posz() ) {
+    //         glyph = '^';
+    //     } else if( targ.z() < you.posz() ) {
+    //         glyph = 'v';
+    //     }
+    //     const point arrow = display::mission_arrow_offset( you, width, height );
+    //     mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
+    // }
+    ImGui::EndGroup();
 }
 
-static void decorate_panel( const std::string &name, const catacurses::window &w )
+static void decorate_panel( const std::string_view name, const catacurses::window &w )
 {
     werase( w );
     draw_border( w );
 
     static const char *title_prefix = " ";
-    const std::string &title = name;
+    const std::string_view title = name;
     static const char *title_suffix = " ";
     static const std::string full_title = string_format( "%s%s%s",
                                           title_prefix, title, title_suffix );
@@ -333,21 +364,6 @@ bool default_render()
     return true;
 }
 
-// Message on how to use the custom sidebar panel and edit its JSON
-static void draw_custom_hint( const draw_args &args )
-{
-    const catacurses::window &w = args._win;
-
-    werase( w );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_white, _( "Press } for sidebar options." ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray,
-               _( "See docs/WIDGETS.md for help." ) );
-
-    wnoutrefresh( w );
-}
-
 // Initialize custom panels from a given "sidebar" style widget
 static std::vector<window_panel> initialize_default_custom_panels( const widget &wgt )
 {
@@ -355,10 +371,6 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Use defined width, or at least 16
     const int width = std::max( wgt._width, 16 );
-
-    // Show hint on configuration
-    ret.emplace_back( window_panel( draw_custom_hint, "Hint", to_translation( "Hint" ),
-                                    2, width, true ) );
 
     // Add window panel for each child widget
     for( const widget_id &row_wid : wgt._widgets ) {
@@ -368,11 +380,11 @@ static std::vector<window_panel> initialize_default_custom_panels( const widget 
 
     // Add compass, message log, and map to fill remaining space
     // TODO: Make these into proper widgets
-    ret.emplace_back( window_panel( draw_messages, "Log", to_translation( "Log" ),
-                                    -2, width, true ) );
+    ret.emplace_back( draw_messages, "Log", to_translation( "Log" ),
+                      -2, width, true );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
-                                    -1, width, true, default_render, true ) );
+    ret.emplace_back( draw_mminimap, "Map", to_translation( "Map" ),
+                      -1, width, true, default_render, true );
 #endif // TILES
 
     return ret;

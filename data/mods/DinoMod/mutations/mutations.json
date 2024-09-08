@@ -139,38 +139,27 @@
     "id": "THICKSKIN2",
     "name": { "str": "Tough-Skinned" },
     "points": 3,
-    "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Makes you less dextrous though.",
+    "description": "Your skin is getting tougher.  Greatly improves protection against all sorts of damage.  Makes you less dextrous though.",
     "prereqs": "THICKSKIN",
     "cancels": "THINSKIN",
     "category": [ "STEGO", "TYRANT", "HORNS" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 4,
-        "bash": 4,
-        "bullet": 1
-      }
-    ],
-    "passive_mods": { "dex_mod": -1 }
+    "changes_to": [ "THICKSKIN3" ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
+    "integrated_armor": [ "integrated_reptilescales" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
     "points": 4,
-    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though.",
+    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though, and is rather cumbersome.",
     "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
     "threshreq": "THRESH_STEGO",
     "category": [ "STEGO" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 6,
-        "bash": 6,
-        "bullet": 6
-      }
-    ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 24, "bash": 20 } ],
+    "integrated_armor": [ "integrated_stegoskin" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
@@ -181,7 +170,7 @@
     "description": "You are capable of carrying inhuman amounts - more than others with similar strength could.  Your maximum weight carried is increased by 70%.",
     "prereqs": "STRONGBACK",
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.7,
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.7 } ] } ],
     "category": [ "STEGO", "TYRANT", "HORNS" ]
   },
   {
@@ -252,8 +241,8 @@
   },
   {
     "type": "mutation",
-    "id": "SKIN_ROUGH",
-    "copy-from": "SKIN_ROUGH",
+    "id": "SKIN_PEELING",
+    "copy-from": "SKIN_PEELING",
     "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
@@ -267,6 +256,12 @@
     "id": "LIZ_IR",
     "copy-from": "LIZ_IR",
     "extend": { "category": [ "STEGO", "TYRANT" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SPARSE_SCALES",
+    "copy-from": "SPARSE_SCALES",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -309,8 +304,8 @@
     "destroys_gear": true,
     "social_modifiers": { "intimidate": 20 },
     "attacks": {
-      "attack_text_u": "You tear into %s with your serrated teeth",
-      "attack_text_npc": "%1$s tears into %2$s with their serrated teeth",
+      "attack_text_u": "You tear into %s with your serrated teeth!",
+      "attack_text_npc": "%1$s tears into %2$s with their serrated teeth!",
       "body_part": "mouth",
       "chance": 20,
       "base_damage": { "damage_type": "stab", "amount": 30 },
@@ -327,19 +322,19 @@
     "type": "mutation",
     "id": "HORNS",
     "copy-from": "HORNS",
-    "extend": { "category": [ "STEGO", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_HORNS" ] }
+    "extend": { "category": [ "STEGO", "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "HORNS_POINTED",
     "copy-from": "HORNS_POINTED",
-    "extend": { "category": [ "HORNS" ], "threshreq": [ "THRESH_HORNS" ] }
+    "extend": { "category": [ "HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "HORNS_CURLED",
     "copy-from": "HORNS_CURLED",
-    "extend": { "category": [ "HORNS" ], "threshreq": [ "THRESH_HORNS" ] }
+    "extend": { "category": [ "HORNS" ] }
   },
   {
     "type": "mutation",
@@ -348,8 +343,8 @@
     "description": "You have three long, pointed horns, like those of a triceratops.  They allow you to make a strong piercing headbutt attack, but prevent wearing headwear that is not made of fabric.",
     "prereqs": [ "HORNS_POINTED", "HORNS_CURLED" ],
     "attacks": {
-      "attack_text_u": "You stab %s with your three pointed horns",
-      "attack_text_npc": "%1$s stabs %2$s with their three pointed horns",
+      "attack_text_u": "You stab %s with your three pointed horns!",
+      "attack_text_npc": "%1$s stabs %2$s with their three pointed horns!",
       "chance": 33,
       "base_damage": { "damage_type": "stab", "amount": 36 }
     },
@@ -389,13 +384,13 @@
     "restricts_gear": [ "leg_l", "leg_r" ],
     "allow_soft_gear": true,
     "attacks": {
-      "attack_text_u": "You smash %s with your tail",
-      "attack_text_npc": "%1$s smashes %2$s with their tail",
+      "attack_text_u": "You smash %s with your tail!",
+      "attack_text_npc": "%1$s smashes %2$s with their tail!",
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 24 },
       "strength_damage": { "damage_type": "stab", "amount": 2 }
     },
-    "dodge_modifier": 1
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -447,8 +442,20 @@
   },
   {
     "type": "mutation",
+    "id": "VERY_TALL",
+    "copy-from": "VERY_TALL",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
     "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
@@ -563,13 +570,13 @@
     "type": "mutation",
     "id": "STR_UP_3",
     "copy-from": "STR_UP_3",
-    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_4",
     "copy-from": "STR_UP_4",
-    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ], "threshreq": [ "THRESH_STEGO", "THRESH_TYRANT", "THRESH_HORNS" ] }
   },
   {
     "type": "mutation",

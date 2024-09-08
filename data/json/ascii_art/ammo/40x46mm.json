@@ -1,0 +1,52 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "40x46mm_m1006",
+    "picture": [
+      "<color_light_green>/^\\",
+      "<color_dark_gray>║ ║",
+      "<color_white>║ ║",
+      "~~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "40x46mm_m433",
+    "picture": [
+      "<color_yellow>/^\\",
+      "<color_light_gray>║ ║",
+      "<color_green>║ ║",
+      "~~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "40x46mm_m576",
+    "picture": [
+      "<color_dark_gray>í^ì",
+      "<color_green>║ ║",
+      "~~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "40x46mm_m651",
+    "picture": [
+      "<color_light_gray>.-.",
+      "│ │",
+      "║<color_red>─</color>║",
+      "║ ║",
+      "<color_green>║ ║",
+      "~~~"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "40x46mm_improvised",
+    "picture": [
+      "<color_light_gray>┌=┐",
+      "<color_green>║ ║",
+      "~~~"
+    ]
+  }
+]

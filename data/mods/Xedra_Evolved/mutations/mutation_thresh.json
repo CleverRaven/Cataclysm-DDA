@@ -1,0 +1,68 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_IERDE",
+    "name": { "str": "Ierde" },
+    "points": 1,
+    "description": "You have ascended into your fae nature.",
+    "flags": [ "FAEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_ARVORE",
+    "name": { "str": "Arvore" },
+    "points": 1,
+    "description": "You have ascended into your fae nature.",
+    "flags": [ "FAEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_UNDINE",
+    "name": { "str": "Undine" },
+    "points": 1,
+    "description": "You have ascended into your fae nature.",
+    "flags": [ "FAEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SALAMANDER",
+    "name": { "str": "Salamander" },
+    "points": 1,
+    "description": "You have ascended into your fae nature.",
+    "flags": [ "FAEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_SYLPH",
+    "name": { "str": "Sylph" },
+    "points": 1,
+    "description": "You have ascended into your fae nature.",
+    "flags": [ "FAEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_HOMULLUS",
+    "name": { "str": "Homullus" },
+    "points": 1,
+    "description": "You have ascended into your fae nature.",
+    "flags": [ "FAEBLOOD" ],
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  }
+]

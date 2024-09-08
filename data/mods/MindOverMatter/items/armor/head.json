@@ -1,0 +1,99 @@
+[
+  {
+    "id": "psionic_anchoring_crown",
+    "type": "ARMOR",
+    "name": { "str": "anchoring crown" },
+    "description": "A thin steel circlet studded with chunks of matrix crystal.  Your skin prickles slightly where the crown touches it.",
+    "weight": "80 g",
+    "volume": "100 ml",
+    "price": "50 USD",
+    "price_postapoc": "25 cent",
+    "material": [ { "type": "steel", "portion": 9 }, { "type": "nether_crystal" } ],
+    "looks_like": "crown_golden",
+    "symbol": "[",
+    "color": "blue",
+    "material_thickness": 1,
+    "flags": [ "DIMENSIONAL_ANCHOR", "PADDED" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ] },
+    "armor": [ { "encumbrance": 1, "coverage": 20, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
+  },
+  {
+    "id": "psionic_telepathic_dampener",
+    "type": "ARMOR",
+    "name": { "str": "telepathic dampener" },
+    "description": "A steel skullcap with a matrix crystal at its crown.  It looks ridiculous, but the documents you read said it would protect you from telepathic attack.",
+    "weight": "767 g",
+    "volume": "2 L",
+    "price": "30 USD",
+    "price_postapoc": "25 cent",
+    "material": [ { "type": "steel", "portion": 12 }, { "type": "nether_crystal" } ],
+    "looks_like": "hat_hard",
+    "symbol": "[",
+    "color": "white",
+    "material_thickness": 0.33,
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "TELEPATHICDAMPENER_SHIELD" ] } ] },
+    "armor": [
+      { "encumbrance": 4, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] }
+    ],
+    "flags": [ "PADDED", "PORTAL_PROOF" ]
+  },
+  {
+    "id": "psionic_mindsight_glasses",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "looks_like": "ar_glasses_advanced",
+    "name": { "str": "QD944-P 'Mindsight' glasses", "str_pl": "sets of QD944-P 'Mindsight' glasses" },
+    "description": "A set of AR-looking glasses.  The code \"QD944-P\" is printed in small letters on the temples.",
+    "weight": "170 g",
+    "volume": "750 ml",
+    "price": "30 kUSD",
+    "price_postapoc": "400 USD",
+    "material": [ { "type": "plastic", "portion": 12 }, { "type": "nether_crystal" } ],
+    "symbol": "[",
+    "color": "white",
+    "ammo": "battery",
+    "charges_per_use": 1,
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your %s.",
+      "target": "psionic_mindsight_glasses_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_plus_battery_cell"
+      }
+    ],
+    "armor": [ { "encumbrance": 4, "coverage": 100, "covers": [ "eyes" ] } ],
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "FRAGILE", "SUN_GLASSES", "WATER_BREAK", "PADDED", "ELECTRONIC" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_MINDS", "add": 20 } ] } ]
+    }
+  },
+  {
+    "id": "psionic_mindsight_glasses_on",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "copy-from": "psionic_mindsight_glasses",
+    "name": { "str": "QD944-P 'Mindsight' glasses (on)", "str_pl": "sets of QD944-P 'Mindsight' glasses (on)" },
+    "description": "A set of AR-looking glasses.  The code \"QD944-P\" is printed in small letters on the temples.  They are currently active.",
+    "use_action": {
+      "ammo_scale": 0,
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "Your %s deactivates.",
+      "target": "psionic_mindsight_glasses"
+    },
+    "power_draw": "3500 mW",
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "SIGHT_RANGE_MINDS", "add": 20 } ] } ]
+    }
+  }
+]

@@ -1,0 +1,577 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_REMOVE_MOVEMENT_EFFECTS",
+    "effect": [ { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_lose_effect": "effect_hedge_no_nightmares" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS",
+    "effect": [
+      { "u_remove_item_with": "hedge_witchlight" },
+      { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" },
+      { "u_lose_effect": "effect_invisibility_magic_square" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MOVEMENT_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "or": [ { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_MOVEMENT_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS",
+    "condition": {
+      "or": [
+        { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" },
+        { "u_has_item": "hedge_witchlight" },
+        { "u_has_effect": "effect_invisibility_magic_square" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_EOC_CONDITIONS",
+    "condition": {
+      "or": [
+        { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" },
+        { "u_has_item": "hedge_witchlight" },
+        { "u_has_effect": "effect_invisibility_magic_square" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_MONSTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_CHARACTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_MONSTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_RANGED_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_RANGED_CHARACTER_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_RANGED_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ITEM_HEDGE_WITCHLIGHT_DISMISS_ACTUAL",
+    "effect": [ { "u_message": "The witchlight vanishes without a sound." }, { "u_remove_item_with": "item_hedge_witchlight" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_LIGHT_FIRE",
+    "effect": [
+      { "u_spawn_item": "hedge_fire_starter", "suppress_message": true },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "hedge_fire_starter" } ],
+        "true_eocs": [ { "id": "EOC_HEDGE_LIGHT_FIRE_ACTIVATE", "effect": { "u_activate": "firestarter" } } ]
+      },
+      { "u_remove_item_with": "hedge_fire_starter" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAKE_PLANTS_GROW",
+    "condition": { "or": [ { "u_is_on_terrain": "t_dirt" }, { "u_is_on_terrain": "t_dirtmound" } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_MAKE_PLANTS_GROW_2",
+            "condition": {
+              "and": [
+                { "math": [ "time_since('midnight', 'unit': 'hours') > 11" ] },
+                { "math": [ "time_since('midnight', 'unit': 'hours') < 13" ] }
+              ]
+            },
+            "effect": [
+              { "u_spawn_item": "item_hedge_make_plants_grow", "suppress_message": true },
+              {
+                "u_message": "As you finish the words of the charm, the magic takes hold.  (E)xamine a nearby crop to fertilize it.",
+                "type": "good"
+              },
+              { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
+            ],
+            "false_effect": [ { "u_message": "You must complete the charm within one hour of noon for it to be effective.", "type": "bad" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be standing on soil for the charm to be effective.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE",
+    "effect": [ { "u_remove_item_with": "item_hedge_make_plants_grow" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_SEE_NETHER_EYE_PASTE",
+    "effect": [ { "u_add_effect": "effect_hedge_nether_eye_paste", "duration": { "math": [ "1800 * rng(0.6,1.4)" ] } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_STUNNING_SPELL",
+    "condition": "u_is_outside",
+    "effect": [ { "u_cast_spell": { "id": "hedge_stunning_spell_real", "hit_self": false }, "targeted": true } ],
+    "false_effect": [ { "u_message": "You must be outside to use the charm.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CLAIRVOYANCE_CONE",
+    "effect": [
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+      { "math": [ "u_hp('head')", "-=", "1" ] },
+      { "u_cast_spell": { "id": "hedge_clairvoyance_cone_real", "hit_self": false }, "targeted": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_DRINK_CURE_DISEASE_TEA_COLD",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "item_hedge_cure_cold_or_flu", { "context_val": "itype" } ] },
+        { "or": [ { "u_has_effect": "pre_common_cold" }, { "u_has_effect": "common_cold" } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_DRINK_CURE_DISEASE_TEA_FLU",
+    "eoc_type": "EVENT",
+    "required_event": "character_consumes_item",
+    "condition": {
+      "and": [
+        { "compare_string": [ "item_hedge_cure_cold_or_flu", { "context_val": "itype" } ] },
+        { "x_in_y_chance": { "x": 9, "y": 10 } },
+        { "or": [ { "u_has_effect": "flu" }, { "u_has_effect": "pre_flu" } ] }
+      ]
+    },
+    "effect": [ { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_ACTIVITY_TYPE_BREAKS_INCREASE_HEALING_RATE",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_increase_healing_rate" },
+        {
+          "or": [
+            { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PICKAXE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHURN", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_MOP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_DECONSTRUCTION", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_CHOP_TREES", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PULP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUILD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_FERTILIZE_PLOT", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CLEAR_RUBBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_HACKSAW", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_PRYING", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_TREE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_LOGS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_CHOP_PLANKS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WORKOUT_HARD", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WORKOUT_ACTIVE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_WORKOUT_MODERATE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_JACKHAMMER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_TIDY_UP", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_VEHICLE_REPAIR", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_DISASSEMBLE", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_DIS", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_MULTIPLE_BUTCHER", { "context_val": "activity" } ] },
+            { "compare_string": [ "ACT_BUTCHER", { "context_val": "activity" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_ACTIVITY_LEVEL_BREAKS_INCREASE_HEALING_RATE",
+    "recurrence": 1,
+    "condition": {
+      "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level')", ">=", "3" ] } ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_HIDE_IN_FOREST",
+    "condition": { "and": [ "u_is_outside", { "or": [ { "u_at_om_location": "forest_thick" }, { "u_at_om_location": "forest" } ] } ] },
+    "effect": [ { "u_add_trait": "HEDGE_FOREST_BUSH_SHAPE" } ],
+    "false_effect": [ { "u_message": "Without being in a forest, the charm has no effect." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_SPAWN_ITEM",
+    "effect": [ { "u_spawn_item": "item_hedge_turn_into_bear", "suppress_message": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM",
+    "eoc_type": "EVENT",
+    "required_event": "character_wears_item",
+    "condition": { "compare_string": [ "item_hedge_turn_into_bear", { "context_val": "itype" } ] },
+    "effect": [
+      {
+        "u_message": "As you put the mantle on, your skin writhes, your limbs twist, and thick fur sprouts from your body as you fall onto all fours.",
+        "type": "neutral"
+      },
+      { "math": [ "u_preshift_size", "=", "u_val('size')" ] },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "*=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "*=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "*=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "*=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "SKINCHANGED" ], "worn_only": true } ],
+        "true_eocs": [ { "id": "EOC_HEDGE_TURN_INTO_BEAR_WEAR_ITEM_INTANGIBLE", "effect": [ { "npc_set_flag": "SEMITANGIBLE" } ] } ]
+      },
+      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS",
+    "condition": { "u_has_worn_with_flag": "SKINCHANGED" },
+    "effect": [
+      {
+        "u_add_effect": "effect_skinchanged_penalties",
+        "duration": { "math": [ "rand(10800) + 3600" ] },
+        "intensity": { "math": [ "u_effect_intensity('effect_skinchanged_penalties') + 1" ] }
+      },
+      {
+        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "time_in_future": [ "15 minutes", "45 minutes" ]
+      },
+      { "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS", "time_in_future": [ "6 hours", "24 hours" ] },
+      {
+        "if": { "math": [ "u_val('intelligence')", "<=", "3" ] },
+        "then": [
+          { "u_add_effect": "effect_skinchanged_animalistic_mind", "duration": "7 days" },
+          {
+            "u_message": "It would be so easy to walk off into the forest and forget you had ever been human.",
+            "type": "mixed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+    "//": "The below EoC is for quick decrementing of the effect after skinchanging ends.",
+    "condition": { "and": [ { "not": { "u_has_worn_with_flag": "SKINCHANGED" } }, { "u_has_effect": "effect_skinchanged_penalties" } ] },
+    "effect": [
+      { "math": [ "u_skinchanged_penalty", "=", "u_effect_intensity('effect_skinchanged_penalties')" ] },
+      { "u_lose_effect": "effect_skinchanged_penalties" },
+      {
+        "u_add_effect": "effect_skinchanged_penalties",
+        "duration": "1 hour",
+        "intensity": { "math": [ "u_skinchanged_penalty - 1" ] }
+      },
+      {
+        "if": {
+          "and": [ { "math": [ "u_val('intelligence')", ">=", "4" ] }, { "u_has_effect": "effect_skinchanged_animalistic_mind" } ]
+        },
+        "then": [
+          { "u_lose_effect": "effect_skinchanged_animalistic_mind" },
+          {
+            "u_message": "You remember your childhood.  The sound of your mother's voice.  You are not a wild beast!",
+            "type": "good"
+          }
+        ]
+      },
+      {
+        "queue_eocs": "EOC_HEDGE_TURN_INTO_BEAR_SIDE_EFFECTS_CURE_FAST",
+        "time_in_future": [ "15 minutes", "45 minutes" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_TURN_INTO_BEAR_REMOVE_ITEM",
+    "effect": [
+      { "u_message": "Your nonexistence arms somehow remove the mantle and return to your old shape.", "type": "neutral" },
+      { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
+      {
+        "switch": { "math": [ "u_preshift_size" ] },
+        "cases": [
+          { "case": 1, "effect": [ { "math": [ "u_calories()", "/=", "12" ] } ] },
+          { "case": 2, "effect": [ { "math": [ "u_calories()", "/=", "6" ] } ] },
+          { "case": 3, "effect": [ { "math": [ "u_calories()", "/=", "2" ] } ] },
+          { "case": 4, "effect": [ { "math": [ "u_calories()", "/=", "1.5" ] } ] },
+          { "case": 5, "effect": [  ] }
+        ]
+      },
+      { "u_consume_item": "item_hedge_turn_into_bear", "count": 1 },
+      { "u_spawn_item": "item_hedge_turn_into_bear_off", "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER",
+    "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+    "effect": [
+      {
+        "u_message": "You drop the bark on the water and recite the words of the charm, and as you take your first step, the water feels firm under your feet.",
+        "type": "good"
+      },
+      { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 }
+    ],
+    "false_effect": [ { "u_message": "You must be standing on water or the charm will have no effect.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_effect": "effect_hedge_walk_on_water" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_WALK_ON_WATER_CONTINUANCE_2",
+            "condition": { "u_is_on_terrain_with_flag": "SWIMMABLE" },
+            "effect": [
+              {
+                "if": { "math": [ "u_effect_duration('effect_hedge_walk_on_water')", "<=", "2" ] },
+                "then": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 2 } ],
+                "else": [ { "u_add_effect": "effect_hedge_walk_on_water", "duration": 1 } ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "As you step on solid ground again, the charm fades.", "type": "neutral" },
+              { "u_lose_effect": "effect_hedge_walk_on_water" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_WALK_ON_WATER_RUNNING_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_hedge_walk_on_water" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "effect_hedge_walk_on_water" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESS_STEEL_WEAPON",
+    "effect": {
+      "u_run_inv_eocs": "random",
+      "search_data": [
+        { "material": "iron", "wielded_only": true },
+        { "material": "steel", "wielded_only": true },
+        { "material": "lc_steel", "wielded_only": true },
+        { "material": "mc_steel", "wielded_only": true },
+        { "material": "hc_steel", "wielded_only": true },
+        { "material": "ch_steel", "wielded_only": true },
+        { "material": "lc_steel_chain", "wielded_only": true },
+        { "material": "mc_steel_chain", "wielded_only": true },
+        { "material": "hc_steel_chain", "wielded_only": true },
+        { "material": "ch_steel_chain", "wielded_only": true }
+      ],
+      "true_eocs": [
+        {
+          "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_EFFECT",
+          "effect": [
+            { "npc_set_flag": "BLESSED_WEAPON" },
+            { "npc_set_flag": "HEDGE_ENCHANTED" },
+            {
+              "u_message": "You pass the weapon through the candleflame after rubbing the mixture of salt and herbs on it while slowly reciting the words of the charm, and when you have finished you feel a sense of surety while holding it",
+              "type": "good"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BLESSED_WEAPON_ATTACKS",
+    "//": "This same EoC will account for other weapons with the BLESSED_WEAPON flag--it also requires the presence of the HEDGE_ENCHANTED flag to trigger damage removing the enchantment",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "and": [ { "u_has_wielded_with_flag": "BLESSED_WEAPON" }, { "math": [ "_hits", "!=", "false" ] } ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_BLESSED_WEAPON_ATTACKS_2",
+            "condition": {
+              "or": [
+                { "npc_has_species": "NETHER" },
+                { "npc_has_species": "ABERRATION" },
+                { "npc_has_species": "NETHER_EMANATION" },
+                { "npc_has_species": "HORROR" }
+              ]
+            },
+            "effect": [
+              { "npc_location_variable": { "context_val": "nether_hellbeast" } },
+              {
+                "u_cast_spell": { "id": "hedge_blessed_weapon_nether_damage" },
+                "loc": { "context_val": "nether_hellbeast" }
+              },
+              { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM" } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_BLESSED_WEAPON_LOSE_CHARM",
+    "condition": { "u_has_wielded_with_flag": "HEDGE_ENCHANTED" },
+    "effect": [
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "flags": [ "HEDGE_ENCHANTED" ], "wielded_only": true } ],
+        "true_eocs": [
+          {
+            "id": "EOC_HEDGE_BLESS_STEEL_WEAPON_ATTACKS_CHECK_DAMAGE",
+            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null') * 0.90" ] },
+            "effect": [
+              { "npc_unset_flag": "BLESSED_WEAPON" },
+              { "npc_unset_flag": "HEDGE_ENCHANTED" },
+              { "u_message": "You no longer feel a sense of purity from your weapon", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR",
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_MEAT",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_CHEESE",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_FISH",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_BREAD",
+          "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_WINE"
+        ],
+        "allow_cancel": true,
+        "names": [ "Summon meat", "Summon cheese", "Summon fish", "Summon bread", "Summon wine" ],
+        "title": "Conjure which victuals?",
+        "descriptions": [
+          "Ask the spirits to summon some meat for you to eat.",
+          "Ask the spirits to summon some cheese for you to eat.",
+          "Ask the spirits to summon some fish for you to eat.",
+          "Ask the spirits to summon some bread for you to eat.",
+          "Ask the spirits to summon a bottle of wine for you to drink."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_MEAT",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some cooked meat appears before you."
+      },
+      { "u_spawn_item": "meat_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_CHEESE",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some hard cheese appears before you."
+      },
+      { "u_spawn_item": "cheese_hard", "count": { "math": [ "rand(11) + 4" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_FISH",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some cooked fish appears before you."
+      },
+      { "u_spawn_item": "fish_cooked", "count": { "math": [ "rand(3) + 1" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_BREAD",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and some fresh bread appears before you."
+      },
+      { "u_spawn_item": "bread", "count": { "math": [ "rand(6) + 2" ] }, "suppress_message": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_FOOD_OR_DRINK_SELECTOR_WINE",
+    "effect": [
+      {
+        "u_message": "There is a gust of wind, a sparkle in the air, and a faint murmur of sound, and a bottle of wine appears before you."
+      },
+      {
+        "if": { "math": [ "rand(1)", "==", "1" ] },
+        "then": [ { "u_spawn_item": "wine_riesling", "container": "bottle_glass", "count": 3, "suppress_message": true } ],
+        "else": [ { "u_spawn_item": "wine_noir", "container": "bottle_glass", "count": 3, "suppress_message": true } ]
+      }
+    ]
+  }
+]

@@ -6,12 +6,11 @@
     "color": "light_gray",
     "name": "heat cube",
     "description": "A smooth steel cube the size of your fist.  Several buttons on the sides activate the powers of the cube.",
-    "price": 200000,
-    "price_postapoc": 500000,
+    "price": "2 kUSD",
+    "price_postapoc": "5 kUSD",
     "material": [ "steel" ],
     "weight": "500 g",
     "volume": "450 ml",
-    "bashing": 8,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE", "FIRE", "NO_UNLOAD" ],
@@ -30,9 +29,9 @@
         "menu_text": "Activate torch mode",
         "moves": 150
       },
-      { "type": "firestarter" },
-      { "flame": false, "type": "cauterize" }
-    ]
+      { "type": "firestarter" }
+    ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "heat_cube_torch_on",
@@ -53,7 +52,7 @@
     "description": "A small gold skeleton key.  You can activate it to unlock locked things.",
     "weight": "20 g",
     "volume": "1 ml",
-    "price": 500000,
+    "price": "5 kUSD",
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
@@ -70,10 +69,9 @@
     "description": "This is a high quality engraved wooden torch.  On command, the tip bursts into flame and produces a fair amount of light.  It will burn forever.",
     "weight": "831 g",
     "volume": "750 ml",
-    "price": 0,
+    "price": "0 cent",
     "price_postapoc": "150 USD",
     "to_hit": 1,
-    "bashing": 8,
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
@@ -85,7 +83,8 @@
       "active": true,
       "menu_text": "Light torch",
       "type": "transform"
-    }
+    },
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mtorch_everburning_lit",
@@ -104,7 +103,8 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "extend": { "flags": [ "FIRE", "LIGHT_240", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
+    "sub": "fire",
+    "extend": { "flags": [ "FIRE", "LIGHT_60", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ] }
   },
   {
     "name": { "str": "endless flask" },
@@ -113,14 +113,32 @@
     "copy-from": "flask_hip",
     "price_postapoc": "850 USD",
     "category": "clothing",
-    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "use_action": {
       "target": "whiskey",
       "msg": "You open the flask and discover it full of sweet, sweet, whiskey!",
       "container": "mflask_hip_whiskey",
       "target_charges": 7,
       "moves": 50,
-      "type": "transform"
+      "type": "transform",
+      "need_empty": true
+    }
+  },
+  {
+    "id": "mteapot",
+    "type": "GENERIC",
+    "copy-from": "teapot",
+    "category": "tools",
+    "name": { "str": "endless teapot" },
+    "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
+    "price_postapoc": "2500 USD",
+    "use_action": {
+      "target": "tea_green",
+      "msg": "You check the teapot and discover it full of sweet tea!  Sadly, it's cold.",
+      "container": "mteapot",
+      "target_charges": 2,
+      "moves": 50,
+      "type": "transform",
+      "need_empty": true
     }
   },
   {
@@ -129,7 +147,7 @@
     "copy-from": "tailors_kit",
     "name": "enchanted tailor's kit",
     "description": "This is a high quality, engraved steel kit with a variety of needles, some plastic spools for thread, some small scissors, even a small heating element for melting and joining plastic.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.  It also contains one of those magic spiders that constantly, if slowly, makes new thread.",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": "1700 USD",
     "material": [ "steel" ],
     "charges_per_use": 1,
@@ -152,7 +170,9 @@
           "kevlar",
           "kevlar_layered",
           "neoprene",
+          "parabolan_wool",
           "gutskin",
+          "canvas",
           "black_dragon_hide",
           "demon_chitin"
         ],
@@ -171,9 +191,8 @@
     "description": "This is a small glass box that contains a spider that diligently works day and night to produce silk thread that it stores in a reservoir you can open and retrieve it from.",
     "weight": "100 g",
     "volume": "100 ml",
-    "price": 100000,
+    "price": "1 kUSD",
     "price_postapoc": "1150 USD",
-    "to_hit": -2,
     "material": [ "glass" ],
     "symbol": ";",
     "color": "red",
@@ -189,8 +208,8 @@
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
     "weight": "40 g",
     "volume": "50ml",
-    "price": 1000,
-    "price_postapoc": 50,
+    "price": "10 USD",
+    "price_postapoc": "50 cent",
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",

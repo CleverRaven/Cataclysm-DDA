@@ -78,6 +78,14 @@ time_duration field_entry::set_field_age( const time_duration &new_age )
     return age = new_age;
 }
 
+void field_entry::initialize_decay()
+{
+    std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
+                                       ( type.obj().half_life ) ) );
+    const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
+    decay_time = calendar::turn - age + decay_delay;
+}
+
 void field_entry::do_decay()
 {
     // Bypass set_field_age() so we don't reset decay_time;
@@ -92,10 +100,7 @@ void field_entry::do_decay()
             return;
         }
         if( decay_time == calendar::turn_zero ) {
-            std::exponential_distribution<> d( 1.0f / ( M_LOG2E * to_turns<float>
-                                               ( type.obj().half_life ) ) );
-            const time_duration decay_delay = time_duration::from_turns( d( rng_get_engine() ) );
-            decay_time = calendar::turn - age + decay_delay;
+            initialize_decay();
         }
         if( decay_time <= calendar::turn ) {
             set_field_age( 0_turns );
@@ -119,8 +124,8 @@ field_entry *field::find_field( const field_type_id &field_type_to_find, const b
     if( !_displayed_field_type ) {
         return nullptr;
     }
-    const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
+    const auto it = _field_type_list->find( field_type_to_find );
+    if( it != _field_type_list->end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
@@ -132,8 +137,8 @@ const field_entry *field::find_field( const field_type_id &field_type_to_find,
     if( !_displayed_field_type ) {
         return nullptr;
     }
-    const auto it = _field_type_list.find( field_type_to_find );
-    if( it != _field_type_list.end() && ( !alive_only || it->second.is_field_alive() ) ) {
+    const auto it = _field_type_list->find( field_type_to_find );
+    if( it != _field_type_list->end() && ( !alive_only || it->second.is_field_alive() ) ) {
         return &it->second;
     }
     return nullptr;
@@ -154,8 +159,8 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
     if( !field_type_to_add ) {
         return false;
     }
-    auto it = _field_type_list.find( field_type_to_add );
-    if( it != _field_type_list.end() ) {
+    auto it = _field_type_list->find( field_type_to_add );
+    if( it != _field_type_list->end() ) {
         //Already exists, but lets update it. This is tentative.
         int prev_intensity = it->second.get_field_intensity();
         if( !it->second.is_field_alive() ) {
@@ -175,8 +180,8 @@ bool field::add_field( const field_type_id &field_type_to_add, const int new_int
 
 bool field::remove_field( const field_type_id &field_to_remove )
 {
-    const auto it = _field_type_list.find( field_to_remove );
-    if( it == _field_type_list.end() ) {
+    const auto it = _field_type_list->find( field_to_remove );
+    if( it == _field_type_list->end() ) {
         return false;
     }
     remove_field( it );
@@ -185,9 +190,9 @@ bool field::remove_field( const field_type_id &field_to_remove )
 
 void field::remove_field( std::map<field_type_id, field_entry>::iterator const it )
 {
-    _field_type_list.erase( it );
+    _field_type_list->erase( it );
     _displayed_field_type = fd_null;
-    for( auto &fld : _field_type_list ) {
+    for( auto &fld : *_field_type_list ) {
         if( !_displayed_field_type || fld.first.obj().priority >= _displayed_field_type.obj().priority ) {
             _displayed_field_type = fld.first;
         }
@@ -196,7 +201,7 @@ void field::remove_field( std::map<field_type_id, field_entry>::iterator const i
 
 void field::clear()
 {
-    _field_type_list.clear();
+    _field_type_list->clear();
     _displayed_field_type = fd_null;
 }
 
@@ -206,27 +211,27 @@ Returns the number of fields existing on the current tile.
 */
 unsigned int field::field_count() const
 {
-    return _field_type_list.size();
+    return _field_type_list->size();
 }
 
 std::map<field_type_id, field_entry>::iterator field::begin()
 {
-    return _field_type_list.begin();
+    return _field_type_list->begin();
 }
 
 std::map<field_type_id, field_entry>::const_iterator field::begin() const
 {
-    return _field_type_list.begin();
+    return _field_type_list->begin();
 }
 
 std::map<field_type_id, field_entry>::iterator field::end()
 {
-    return _field_type_list.end();
+    return _field_type_list->end();
 }
 
 std::map<field_type_id, field_entry>::const_iterator field::end() const
 {
-    return _field_type_list.end();
+    return _field_type_list->end();
 }
 
 /*
@@ -245,14 +250,14 @@ description_affix field::displayed_description_affix() const
 
 int field::displayed_intensity() const
 {
-    auto it = _field_type_list.find( _displayed_field_type );
+    auto it = _field_type_list->find( _displayed_field_type );
     return it->second.get_field_intensity();
 }
 
 int field::total_move_cost() const
 {
     int current_cost = 0;
-    for( const auto &fld : _field_type_list ) {
+    for( const auto &fld : *_field_type_list ) {
         current_cost += fld.second.get_intensity_level().move_cost;
     }
     return current_cost;

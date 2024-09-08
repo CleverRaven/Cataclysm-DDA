@@ -4,21 +4,21 @@
     "id": "broken_necco",
     "name": "necco corpse",
     "symbol": "%",
-    "volume": "4000 ml",
+    "volume": "100 ml",
     "weight": "60 g",
     "spoils_in": "180 days",
     "color": "magenta",
     "comestible_type": "FOOD",
     "material": [ "junk" ],
     "description": "The corpse of a necco.  Now it really looks like a giant necco wafer.  Surely a bite wouldn't hurt, right?",
-    "price": 4000,
-    "charges": 40,
+    "price": "1 USD",
     "quench": -1,
     "healthy": -1,
     "calories": 220,
     "stim": 1,
     "fun": 4,
-    "flags": [ "EDIBLE_FROZEN" ]
+    "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -47,7 +47,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3",
-    "name": { "str": "chewy candy", "str_pl": "chewy candies" },
+    "name": { "str_sp": "chewy candy" },
     "description": "A handful of colorful fruit-flavored chewy candy.  They feel warm to the touch and you can almost feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
@@ -59,7 +59,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy3gator",
-    "name": { "str": "chewy reptilian candy", "str_pl": "chewy reptilian candies" },
+    "name": { "str_sp": "chewy reptilian candy" },
     "description": "A handful of colorful fruit-flavored chewy candy shaped in a reptilian fashion.  They're warm to the touch and you can feel a slow beat coming from them.  How odd…",
     "symbol": "%",
     "container": "null",
@@ -83,7 +83,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grahmcrackers_roe",
-    "name": "graham cracker roe",
+    "name": { "str_sp": "graham cracker roe" },
     "symbol": "%",
     "container": "null",
     "description": "Dry and sugary, these cracker pellets will leave you thirsty, but go good with some chocolate and marshmallows.  They shiver under your touch.  Weird!",
@@ -143,7 +143,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cow_candy",
-    "name": "candy cattle",
+    "name": { "str_sp": "candy cattle" },
     "description": "A handful of chocolate candies shaped like cows.  They're really warm, enough to make you wonder how they haven't melted.",
     "symbol": "*",
     "copy-from": "cow_candy",
@@ -180,13 +180,15 @@
     "healthy": -15,
     "calories": 132,
     "description": "Liquid unsweetened cacao.  Quite bitter to taste.",
-    "price": 38,
-    "price_postapoc": 5,
+    "price": "38 cent",
+    "price_postapoc": "5 cent",
     "material": [ "junk" ],
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": -4
+    "fun": -4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -211,7 +213,7 @@
   {
     "type": "COMESTIBLE",
     "id": "licorice",
-    "name": "licorice",
+    "name": { "str_sp": "licorice" },
     "symbol": "%",
     "copy-from": "licorice",
     "rot_spawn": "GROUP_EGG_LICORICE",

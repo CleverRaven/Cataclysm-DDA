@@ -136,21 +136,15 @@ static int byproduct_calories( const recipe &recipe_obj )
     int kcal = 0;
     for( const item &it : byproducts ) {
         if( it.is_comestible() ) {
-            kcal += it.type->comestible->default_nutrition.kcal() * it.charges;
+            kcal += it.type->comestible->default_nutrition.kcal() * it.count();
         }
     }
     return kcal;
 }
 
-static item food_or_food_container( const item &it )
-{
-    // if it contains an item, it's a food container. it will also contain only one item.
-    return it.num_item_stacks() > 0 ? it.only_item() : it;
-}
-
 static bool has_mutagen_vit( const islot_comestible &comest )
 {
-    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins;
+    const std::map<vitamin_id, int> &vits = comest.default_nutrition.vitamins();
     for( const vitamin_id &vit : mutagen_vit_list ) {
         if( vits.find( vit ) != vits.end() && vits.at( vit ) > 0 ) {
             return true;
@@ -183,6 +177,20 @@ TEST_CASE( "comestible_health_bounds", "[comestible]" )
     }
 }
 
+static int get_default_calories_recursive( item &it )
+{
+    int calories = it.type->comestible ? it.type->comestible->default_nutrition.kcal() : 0;
+
+    if( it.count_by_charges() ) {
+        calories *= it.charges;
+    }
+
+    for( item *cont : it.all_items_top() ) {
+        calories += get_default_calories_recursive( *cont );
+    }
+
+    return calories;
+}
 
 TEST_CASE( "recipe_permutations", "[recipe]" )
 {
@@ -196,9 +204,9 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
     for( const auto &recipe_pair : recipe_dict ) {
         // the resulting item
         const recipe &recipe_obj = recipe_pair.first.obj();
-        item res_it = food_or_food_container( recipe_obj.create_result() );
-        const bool is_food = res_it.is_food();
-        const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
+        item temp( recipe_obj.result() );
+        const bool is_food = temp.is_food();
+        const bool has_override = temp.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
             all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
@@ -206,14 +214,13 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
             if( mystats.calories.n() < 2 ) {
                 continue;
             }
+
             // The calories of the result
             int default_calories = 0;
-            if( res_it.type->comestible ) {
-                default_calories = res_it.type->comestible->default_nutrition.kcal();
+            for( item &it : recipe_obj.create_results() ) {
+                default_calories += get_default_calories_recursive( it );
             }
-            if( res_it.charges > 0 ) {
-                default_calories *= res_it.charges;
-            }
+
             // Make the range of acceptable average calories of permutations, using result's calories
             const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
                                                 default_calories * 0.75 );
@@ -243,8 +250,9 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
+    std::map<recipe_id, std::pair<nutrients, nutrients>> rec_cache;
     std::pair<nutrients, nutrients> predicted_nutrition =
-        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked );
+        u.compute_nutrient_range( veggy_wild_cooked, recipe_veggy_wild_cooked, rec_cache );
 
     CHECK( default_nutrition.kcal() == predicted_nutrition.first.kcal() );
     CHECK( default_nutrition.kcal() == predicted_nutrition.second.kcal() );
@@ -262,7 +270,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
 // representing the "satiety" of the food, with higher numbers being more calorie-dense, and lower
 // numbers being less so.
 //
-TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
+TEST_CASE( "effective_food_volume_and_satiety", "[character][food][satiety]" )
 {
     const Character &u = get_player_character();
     double expect_ratio;
@@ -309,7 +317,7 @@ TEST_CASE( "effective food volume and satiety", "[character][food][satiety]" )
 // satiety_bar returns a colorized string indicating a satiety level, similar to hit point bars
 // where "....." is minimum (~ 0) and "|||||" is maximum (~ 1500)
 //
-TEST_CASE( "food satiety bar", "[character][food][satiety]" )
+TEST_CASE( "food_satiety_bar", "[character][food][satiety]" )
 {
     // NOLINTNEXTLINE(cata-text-style): verbatim ellipses necessary for validation
     CHECK( satiety_bar( 0 ) == "<color_c_red></color>....." );

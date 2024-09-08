@@ -3,13 +3,12 @@
 #define CATA_SRC_MAIN_MENU_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <vector>
 
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "input.h"
+#include "input_context.h"
 #include "point.h"
 #include "worldfactory.h"
 
@@ -72,6 +71,7 @@ class main_menu
         input_context ctxt;
         int sel1 = 1;
         int sel2 = 1;
+        size_t last_world_pos = 0;
         int sub_opt_off = 0;
         point LAST_TERM;
         catacurses::window w_open;

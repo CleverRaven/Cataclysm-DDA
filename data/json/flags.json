@@ -1,32 +1,85 @@
 [
   {
+    "id": "DEBUG_ONLY",
+    "type": "json_flag",
+    "info": "This is not intended to be visible during normal gameplay.  <bad>Please file a bug report</bad> unless you are seeing this in the debug menu."
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_ARMS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_ELBOWS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_LEGS",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_KNEES",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
+    "id": "ABLATIVE_CHAINMAIL_TORSO",
+    "type": "json_flag",
+    "info": "You can use this armor <info>with chainmail</info> without encumbrance penalty.",
+    "restriction": "Item must be a chainmail compatible armor piece"
+  },
+  {
     "id": "ABLATIVE_LARGE",
     "type": "json_flag",
-    "info": "This plate will fit in <info>large</info> armor pockets",
+    "info": "This plate will fit in <info>large</info> armor pockets.",
     "restriction": "Item must be a large ablative plate"
   },
   {
     "id": "ABLATIVE_MANTLE",
     "type": "json_flag",
-    "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> mantle connector.",
     "restriction": "Item must be an armored mantle"
+  },
+  {
+    "id": "STAR_PLATE",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit.",
+    "restriction": "Item must be resonance plate"
+  },
+  {
+    "id": "STAR_SHOULDER",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit.",
+    "restriction": "Item must be resonance shoulder"
+  },
+  {
+    "id": "STAR_SKIRT",
+    "type": "json_flag",
+    "info": "This can be supported by the ryūsei battle kit.",
+    "restriction": "Item must be resonance skirt"
   },
   {
     "id": "ABLATIVE_MEDIUM",
     "type": "json_flag",
-    "info": "This plate will fit in <info>medium</info> armor pockets",
+    "info": "This plate will fit in <info>medium</info> armor pockets.",
     "restriction": "Item must be a medium ablative plate"
   },
   {
     "id": "ABLATIVE_SKIRT",
     "type": "json_flag",
-    "info": "This will hook to a <info>Hub 01 proprietary</info> skirt connector",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> skirt connector.",
     "restriction": "Item must be an armored skirt"
   },
   {
     "id": "ABLATIVE_HELMET",
     "type": "json_flag",
-    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector.",
     "restriction": "Item must be an armored helmet"
   },
   {
@@ -48,6 +101,11 @@
     "info": "This gear has an <info>alarm clock</info> feature."
   },
   {
+    "id": "ALLOWS_BODY_BLOCK",
+    "type": "json_flag",
+    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+  },
+  {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
     "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
@@ -56,6 +114,11 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
+  },
+  {
+    "id": "ALWAYS_AIMED",
+    "type": "json_flag",
+    "info": "This gun is <good>always fully aimed</good>."
   },
   {
     "id": "AURA",
@@ -133,10 +196,20 @@
     "conflicts": [ "PARTIAL_DEAF" ]
   },
   {
+    "id": "OVERHEATS",
+    "type": "json_flag",
+    "info": "Continuously firing this weapon will cause it to <bad>overheat</bad> and <info>can potentially damage it</info>."
+  },
+  {
     "id": "DIAMOND",
     "type": "json_flag",
     "info": "This item has a <good>diamond coating</good> improving its <info>cutting or piercing damage</info>.",
     "inherit": false
+  },
+  {
+    "id": "GEMSTONE",
+    "type": "json_flag",
+    "info": "This item is a precious gemstone, used for ornamentation.  This is mostly useless post-Cataclysm."
   },
   {
     "id": "DIG_TOOL",
@@ -148,6 +221,11 @@
     "type": "json_flag",
     "info": "As a weapon, this item is <good>well-made</good> and will <info>withstand the punishment of combat</info>.",
     "conflicts": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "EASY_CLEAN",
+    "type": "json_flag",
+    "info": "This gun is made of <info>relatively simple parts</info> which makes powder fouling <good>easier to clean</good>."
   },
   {
     "id": "FIELD_DRESS",
@@ -240,6 +318,11 @@
     "info": "This gear <good>completely protects</good> you from <info>bash damage</info>."
   },
   {
+    "id": "EMP_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>EMP blasts</info>."
+  },
+  {
     "id": "CUT_IMMUNE",
     "type": "json_flag",
     "info": "This gear <good>completely protects</good> you from <info>cut damage</info>."
@@ -271,6 +354,12 @@
     "restriction": "Item must be some kind of face shield"
   },
   {
+    "id": "HELMET_FRONT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in the front of <info>military helmets</info>.",
+    "restriction": "Item must be some kind of frontal helmet attachment"
+  },
+  {
     "id": "HELMET_EAR_ATTACHMENT",
     "type": "json_flag",
     "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
@@ -299,6 +388,48 @@
     "type": "json_flag",
     "info": "This item is attachable in the back of <info>hard hats and helmets</info> as a counterweight pouch.",
     "restriction": "Item must be some kind of back pouch"
+  },
+  {
+    "id": "HELMET_HEAD_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in <info>tactical helmets</info> as a flashlight.",
+    "restriction": "Item must be some kind of flashlight"
+  },
+  {
+    "id": "HELMET_AVENTAIL",
+    "type": "json_flag",
+    "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",
+    "restriction": "Item must be some kind of chainmail veil"
+  },
+  {
+    "id": "BOOT_FINS",
+    "type": "json_flag",
+    "info": "This item is attachable to commercial diving boots as fins.",
+    "restriction": "Item must be some kind of fins"
+  },
+  {
+    "id": "BOOT_FINS_CUSTOM",
+    "type": "json_flag",
+    "info": "This item is attachable to custom diving boots as fins.",
+    "restriction": "Item must be some kind of custom fins"
+  },
+  {
+    "id": "HEAD_STRAP_MOUNT",
+    "type": "json_flag",
+    "info": "This item is attachable to straps and mountings on some masks and hoods.",
+    "restriction": "Item must be some kind of item that can be attached to straps on masks and hoods"
+  },
+  {
+    "id": "WRIST_MOUNT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable to a proprietary wrist mount.",
+    "restriction": "Item must be some kind of item that can be attached to a proprietary wrist mount"
+  },
+  {
+    "id": "EXTRA_PLATING",
+    "type": "json_flag",
+    "info": "This item is wearable over some armors as an extra layer of plating.",
+    "restriction": "Item must be some kind of strapped additional plating"
   },
   {
     "id": "COLD_IMMUNE",
@@ -432,11 +563,6 @@
     "//": "Item can never be used with a CVD machine."
   },
   {
-    "id": "NO_QUICKDRAW",
-    "type": "json_flag",
-    "//": "Don't offer to draw items from this holster when the fire key is pressed whilst the player's hands are empty."
-  },
-  {
     "id": "NO_REPAIR",
     "type": "json_flag",
     "//": "Prevents repairing of this item even if otherwise suitable tools exist.",
@@ -476,6 +602,16 @@
   {
     "id": "MOP",
     "type": "json_flag"
+  },
+  {
+    "id": "ARM_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the arms, and can only be used as a replacement limb."
+  },
+  {
+    "id": "LEG_PROSTHETIC",
+    "type": "json_flag",
+    "//": "This clothing is a prosthetic limb for the legs, and can only be used as a replacement limb."
   },
   {
     "id": "OUTER",
@@ -526,6 +662,11 @@
     "id": "PRESERVE_SPAWN_OMT",
     "type": "json_flag",
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+  },
+  {
+    "id": "PROVIDES_TECHNIQUES",
+    "type": "json_flag",
+    "//": "This item provides martial arts techniques in addition to the character's weapon"
   },
   {
     "id": "SPAWN_ACTIVE",
@@ -590,35 +731,13 @@
   },
   {
     "id": "MC_MOBILE",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_RANDOM_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_SCIENCE_STUFF",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Can be used to <info>store data</info> for other devices."
   },
   {
     "id": "MC_HAS_DATA",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_MAY_BE_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_ENCRYPTED",
-    "type": "json_flag"
-  },
-  {
-    "id": "MC_TURN_USED",
-    "type": "json_flag"
+    "type": "json_flag",
+    "info": "Some of your data is <info>stored</info> here."
   },
   {
     "id": "NO_PARASITES",
@@ -627,6 +746,11 @@
   {
     "id": "MUSHY",
     "type": "json_flag"
+  },
+  {
+    "id": "IRRADIATED",
+    "type": "json_flag",
+    "info": "This food item has been irradiated, and will spoil 4 times slower."
   },
   {
     "id": "FREEZERBURN",
@@ -693,11 +817,6 @@
     "id": "RAD_STERILIZED",
     "type": "json_flag",
     "info": "Sterilized using radiation, so it's <good>safe to eat</good>."
-  },
-  {
-    "id": "RAD_STERILIZED_EDIBLE_FOREVER",
-    "type": "json_flag",
-    "info": "Sterilized using radiation, so it's <good>safe to eat</good> and <good>will remain edible nearly forever</good>."
   },
   {
     "id": "REQUIRES_BALANCE",
@@ -798,16 +917,6 @@
     "type": "json_flag"
   },
   {
-    "id": "SLOWS_MOVEMENT",
-    "type": "json_flag",
-    "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
-  },
-  {
-    "id": "SLOWS_THIRST",
-    "type": "json_flag",
-    "info": "This clothing <good>slows your thirst</good> by reducing moisture loss."
-  },
-  {
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
@@ -858,7 +967,7 @@
     "id": "WATERPROOF",
     "type": "json_flag",
     "//": "Prevents the covered body-part(s) from getting wet in any circumstance.",
-    "info": "This clothing <info>won't let water through</info>.  Unless you jump in the river or something like that."
+    "info": "This clothing <info>won't let water through</info>.  Even if you jump into a river."
   },
   {
     "id": "WATER_FRIENDLY",
@@ -934,12 +1043,6 @@
     "id": "WONT_TRAIN_MARKSMANSHIP",
     "type": "json_flag",
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
-  },
-  {
-    "id": "UNARMED_WEAPON",
-    "type": "json_flag",
-    "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
-    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
   },
   {
     "id": "NANOFAB_REPAIR",
@@ -1067,19 +1170,44 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "WITH_CONTAINER",
-    "type": "json_flag",
-    "//": "items spawned by spells are put in their containers."
-  },
-  {
     "id": "SPAWN_WITH_DEATH_DROPS",
     "type": "json_flag",
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT",
+    "type": "json_flag",
+    "//": "The character is in a form other than their natural one due to some preternatural effect."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_TINY",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Tiny."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_SMALL",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Small."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_LARGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Large."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_HUGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Huge."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
+  },
+  {
+    "id": "ROBUST_GENETIC",
+    "type": "json_flag",
+    "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -1110,12 +1238,24 @@
   {
     "id": "CANNIBALISM",
     "type": "json_flag",
-    "craft_inherit": true
+    "//": "Obsoleted!"
   },
   {
     "id": "STRICT_HUMANITARIANISM",
     "type": "json_flag",
     "craft_inherit": true
+  },
+  {
+    "id": "ALLERGEN_BREAD",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_CHEESE",
+    "type": "json_flag"
+  },
+  {
+    "id": "ALLERGEN_DRIED_VEGETABLE",
+    "type": "json_flag"
   },
   {
     "id": "ALLERGEN_EGG",
@@ -1151,6 +1291,10 @@
   },
   {
     "id": "ALLERGEN_WOOL",
+    "type": "json_flag"
+  },
+  {
+    "id": "ANIMAL_PRODUCT",
     "type": "json_flag"
   },
   {
@@ -1278,6 +1422,10 @@
     "type": "json_flag"
   },
   {
+    "id": "TELEPORT_LOCK",
+    "type": "json_flag"
+  },
+  {
     "id": "DISABLE_SIGHTS",
     "type": "json_flag"
   },
@@ -1319,14 +1467,6 @@
   },
   {
     "id": "FERTILIZER",
-    "type": "json_flag"
-  },
-  {
-    "id": "FISH_GOOD",
-    "type": "json_flag"
-  },
-  {
-    "id": "FISH_POOR",
     "type": "json_flag"
   },
   {
@@ -1443,6 +1583,10 @@
     "type": "json_flag"
   },
   {
+    "id": "MANUAL_CBM_INSTALLATION",
+    "type": "json_flag"
+  },
+  {
     "id": "MECH_BAT",
     "type": "json_flag"
   },
@@ -1452,6 +1596,11 @@
   },
   {
     "id": "MISSION_ITEM",
+    "type": "json_flag"
+  },
+  {
+    "id": "MODULE_HOLDER",
+    "//": "Allows enchantment check to get modules in pockets of this item (modules are items which have an enchantment effect and the HAS:WORN flag.",
     "type": "json_flag"
   },
   {
@@ -1486,6 +1635,11 @@
   },
   {
     "id": "NEEDS_NO_LUBE",
+    "type": "json_flag"
+  },
+  {
+    "id": "MAGICAL",
+    "//": "Does not specifically cause magical effects, but used to know if an item can be considered magical by the code",
     "type": "json_flag"
   },
   {
@@ -1572,6 +1726,10 @@
     "type": "json_flag"
   },
   {
+    "id": "NVG_GREEN",
+    "type": "json_flag"
+  },
+  {
     "id": "ORGANIC",
     "type": "json_flag"
   },
@@ -1585,10 +1743,6 @@
   },
   {
     "id": "POWERED",
-    "type": "json_flag"
-  },
-  {
-    "id": "POWER_CORD",
     "type": "json_flag"
   },
   {
@@ -1693,7 +1847,15 @@
   },
   {
     "id": "SPEEDLOADER",
-    "type": "json_flag"
+    "info": "This item can quickly reload rounds into gun or magazine that <info>have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER_CLIP" ]
+  },
+  {
+    "id": "SPEEDLOADER_CLIP",
+    "info": "This item can quickly reload rounds into gun or magazine that <info>don't have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER" ]
   },
   {
     "id": "SPLINT",
@@ -1725,6 +1887,14 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag"
+  },
+  {
+    "id": "TOUGH_FEET",
+    "type": "json_flag"
+  },
+  {
+    "id": "PAIN_IMMUNE",
     "type": "json_flag"
   },
   {
@@ -1761,6 +1931,10 @@
   },
   {
     "id": "USES_BIONIC_POWER",
+    "type": "json_flag"
+  },
+  {
+    "id": "USES_NEARBY_AMMO",
     "type": "json_flag"
   },
   {
@@ -1801,10 +1975,6 @@
     "info": "This gear <bad>prevents</bad> you from <info>speaking</info>."
   },
   {
-    "id": "NOT_FOOTWEAR",
-    "type": "json_flag"
-  },
-  {
     "id": "IRREPLACEABLE_CONSUMABLE",
     "type": "json_flag"
   },
@@ -1834,10 +2004,6 @@
     "type": "json_flag"
   },
   {
-    "id": "MODE_BURST",
-    "type": "json_flag"
-  },
-  {
     "id": "FIRE_TWOHAND",
     "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"
@@ -1863,10 +2029,6 @@
   },
   {
     "id": "NOGIB",
-    "type": "json_flag"
-  },
-  {
-    "id": "NON-FOULING",
     "type": "json_flag"
   },
   {
@@ -1970,6 +2132,11 @@
     "info": "You could probably use this to access a secure zone of a facility."
   },
   {
+    "id": "SCIENCE_CARD_MU_UNIVERSAL",
+    "type": "json_flag",
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
     "id": "BATTERY_ULTRA_LIGHT",
     "type": "json_flag",
     "info": "This item fits in items that use ultra-light batteries.",
@@ -2017,7 +2184,7 @@
   {
     "id": "LASER_SIGHT",
     "type": "json_flag",
-    "info": "Invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
+    "info": "Laser sights are invalid when the target position is <bad>too far</bad> or <bad>too bright</bad>.",
     "name": "laser sight"
   },
   {
@@ -2073,32 +2240,42 @@
   {
     "id": "EXO_HELMET_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit helmet plating."
+    "info": "This is meant for exoskeleton helmet plating."
   },
   {
     "id": "EXO_TORSO_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit torso plating."
+    "info": "This is meant for exoskeleton torso plating."
   },
   {
     "id": "EXO_ARM_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit arm plating."
+    "info": "This is meant for exoskeleton arm plating."
   },
   {
     "id": "EXO_GLOVE_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit arm plating."
+    "info": "This is meant for exoskeleton arm plating."
   },
   {
     "id": "EXO_LEG_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit leg plating."
+    "info": "This is meant for exoskeleton leg plating."
   },
   {
     "id": "EXO_BOOT_PLATE",
     "type": "json_flag",
-    "info": "This is meant for exosuit foot plating."
+    "info": "This is meant for exoskeleton foot plating."
+  },
+  {
+    "id": "ROBOFAC_ROBOT_MEDIUM",
+    "type": "json_flag",
+    "info": "A medium drone sold by Hub 01."
+  },
+  {
+    "id": "ROBOFAC_ROBOT_SMALL",
+    "type": "json_flag",
+    "info": "A small drone sold by Hub 01."
   },
   {
     "id": "VOLTMETER",
@@ -2125,7 +2302,249 @@
     "info": "Contents of this item are used for fueling bionics."
   },
   {
+    "id": "BIONIC_WEAPON_MELEE",
+    "type": "json_flag",
+    "//": "This bionic weapon is meant to be used in melee."
+  },
+  {
     "id": "ELECTRONIC",
     "type": "json_flag"
+  },
+  {
+    "id": "AFS_CS_LOCKER_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's locker room."
+  },
+  {
+    "id": "AFS_CS_ARMORY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's armory."
+  },
+  {
+    "id": "AFS_CS_EXOBAY_CARD",
+    "type": "json_flag",
+    "info": "ID card granting access to the crashing ship's exobay."
+  },
+  {
+    "id": "PAPER_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like paper"
+  },
+  {
+    "id": "CREDIT_CARD_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a credit card"
+  },
+  {
+    "id": "BANK_NOTE_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note"
+  },
+  {
+    "id": "COIN_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a coin"
+  },
+  {
+    "id": "BANK_NOTE_STRAP_SHAPED",
+    "type": "json_flag",
+    "restriction": "Item must be shaped like a bank note strap"
+  },
+  {
+    "id": "FRESH_GRAIN",
+    "type": "json_flag",
+    "//": "This item is fresh-cut grain, and can be dried in a stook."
+  },
+  {
+    "id": "CUT_HARVEST",
+    "type": "json_flag",
+    "//": "This seed will grow into a plant which needs a grass-cutting tool such as a sickle to harvest."
+  },
+  {
+    "id": "GASFILTER_SM",
+    "type": "json_flag",
+    "info": "A small-sized gasmask filter.",
+    "name": "filter mask cartridge"
+  },
+  {
+    "id": "GASFILTER_MED",
+    "type": "json_flag",
+    "info": "A medium-sized gasmask filter.",
+    "name": "gas mask cartridge"
+  },
+  {
+    "id": "PANORAMIC_OUTSERT",
+    "type": "json_flag",
+    "info": "This item is meant to be externally attached to the eyepiece of a single-lens gas mask.",
+    "restriction": "Item must be designed to clip onto the external Lenz brackets of a panoramic-view gas mask."
+  },
+  {
+    "id": "PANORAMIC_INSERT",
+    "type": "json_flag",
+    "info": "This item is intended to be inserted behind the visor of a single-lens gas mask.",
+    "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
+  },
+  {
+    "id": "REBREATHER_CART",
+    "type": "json_flag",
+    "info": "A filter for a rebreather.",
+    "name": "rebreather cartridge"
+  },
+  {
+    "id": "OLD_GUN",
+    "type": "json_flag",
+    "info": "An old gun, WWII or earlier."
+  },
+  {
+    "id": "USE_POWER_WHEN_HIT",
+    "type": "json_flag",
+    "info": "This armor <info>expends energy when hit</info>."
+  },
+  {
+    "id": "RAT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MOUSE",
+    "type": "json_flag"
+  },
+  {
+    "id": "RABBIT",
+    "type": "json_flag"
+  },
+  {
+    "id": "ETHEREAL",
+    "type": "json_flag",
+    "info": "You feel like you would keep all your items if you somehow became incorporeal."
+  },
+  {
+    "id": "CLIMB_FLYING",
+    "type": "json_flag",
+    "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
+    "id": "TREE_COMMUNION_PLUS",
+    "type": "json_flag",
+    "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
+  },
+  {
+    "id": "ROOTS2",
+    "type": "json_flag",
+    "info": "The character has roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "ROOTS3",
+    "type": "json_flag",
+    "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "UNDERFED",
+    "type": "json_flag",
+    "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
+  },
+  {
+    "id": "UNRESTRICTED",
+    "type": "json_flag",
+    "//": "Ignores 'restricts' in mutation jsons.  Only for baggy, draped, adjustable, strapped etc items.",
+    "info": "This clothing is able to <info>accommodate even mutated anatomy</info>."
+  },
+  {
+    "id": "BLEEDSLOW",
+    "type": "json_flag",
+    "info": "The character bleeds slower than normal, losing blood at 2/3rds the normal rate."
+  },
+  {
+    "id": "BLEEDSLOW2",
+    "type": "json_flag",
+    "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
+  },
+  {
+    "id": "PSEUDOPOD_GRASP",
+    "type": "json_flag",
+    "//": "Removes some penalties for melee attacks made while prone or crouching."
+  },
+  {
+    "id": "HEMOVORE",
+    "type": "json_flag",
+    "//": "You eat blood to survive."
+  },
+  {
+    "id": "BLOODFEEDER",
+    "type": "json_flag",
+    "//": "You really like blood, and get less enjoyment out of other foods."
+  },
+  {
+    "id": "HEMOVORE_FUN",
+    "type": "json_flag",
+    "//": "This item contains blood and satisfies a hemovore's requirements."
+  },
+  {
+    "id": "QUADRUPED_CROUCH",
+    "type": "json_flag",
+    "//": "This character goes down on all fours when they crouch, if their hands are free.  Used for paw mutations."
+  },
+  {
+    "id": "QUADRUPED_RUN",
+    "type": "json_flag",
+    "//": "This character can run or crouch on all fours if they have QUADRUPED_CROUCH, and gains the natural_stance effect.  Used for paw mutations."
+  },
+  {
+    "id": "HEARING_PROTECTION",
+    "type": "json_flag",
+    "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD",
+    "type": "json_flag",
+    "info": "This grants access to the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_2",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber of the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_3",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber and PPE lockup for the LIXA facility."
+  },
+  {
+    "id": "LIXA_MILITARY_CARD",
+    "type": "json_flag",
+    "info": "This grants access to locked-down areas of the LIXA facility."
+  },
+  {
+    "id": "DRACULIN_VENOM",
+    "type": "json_flag"
+  },
+  {
+    "id": "PREFIX_XL",
+    "type": "json_flag",
+    "item_prefix": "XL "
+  },
+  {
+    "id": "PREFIX_XS",
+    "type": "json_flag",
+    "item_prefix": "XS "
+  },
+  {
+    "id": "DECAYS_IN_AIR",
+    "type": "json_flag",
+    "info": "This will eventually <bad>go bad</bad> if left in the open air too long."
+  },
+  {
+    "id": "IRRITANT_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>skin irritants</info>."
+  },
+  {
+    "id": "ITEM_WATERPROOFING",
+    "type": "json_flag",
+    "info": "Something is preventing your worn and carried items from being effected by water."
+  },
+  {
+    "id": "WATERWALKING",
+    "type": "json_flag",
+    "info": "You can walk across the surface of water."
   }
 ]

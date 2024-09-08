@@ -1,0 +1,38 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_ierde",
+    "name": "Ierde",
+    "terrain": [ "ierde_genius_loci_NW", "ierde_genius_loci_NE", "ierde_genius_loci_SW", "ierde_genius_loci_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_undine",
+    "name": "Undine",
+    "terrain": [ "undine_genius_loci_NW", "undine_genius_loci_NE", "undine_genius_loci_SW", "undine_genius_loci_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_arvore",
+    "name": "Arvore",
+    "terrain": [ "arvore_genius_loci_NW", "arvore_genius_loci_NE", "arvore_genius_loci_SW", "arvore_genius_loci_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_salamander",
+    "name": "Salamander",
+    "terrain": [ "salamander_genius_loci_NW", "salamander_genius_loci_NE", "salamander_genius_loci_SW", "salamander_genius_loci_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_sylph",
+    "name": "Sylph",
+    "terrain": [ "sylph_genius_loci_NW", "sylph_genius_loci_NE", "sylph_genius_loci_SW", "sylph_genius_loci_SE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_homullus",
+    "name": "Homullus",
+    "terrain": [ "homullus_genius_loci_NW", "homullus_genius_loci_NE", "homullus_genius_loci_SW", "homullus_genius_loci_SE" ]
+  }
+]

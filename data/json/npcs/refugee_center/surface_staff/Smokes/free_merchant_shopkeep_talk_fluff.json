@@ -7,9 +7,9 @@
       { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
       { "text": "That sounds a little cruel.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cruel" },
       {
-        "text": "[Cannibal + Psychopath] Wait, I thought you were having food problems.",
+        "text": "[Cannibal + Uncaring] Wait, I thought you were having food problems.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal",
-        "condition": { "and": [ { "u_has_flag": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
+        "condition": { "and": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
       }
     ]
   },
@@ -79,7 +79,7 @@
     "dynamic_line": "*rolls his eyes.  \"Tell me about it.  My actual name is Gavin, which I think I told you.  I used to be a firefighter, and people started recognizing me because of the helmet.  Someone called me 'smokes' because of it, and it stuck.  I hate it.  I've never even touched a cigarette.\"",
     "responses": [
       {
-        "text": "[PER 8+] If you hate it, then why are you smiling?",
+        "text": "[PER 8] If you hate it, then why are you smiling?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes2",
         "condition": { "u_has_perception": 8 }
       },

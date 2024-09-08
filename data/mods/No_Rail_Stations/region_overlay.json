@@ -1,7 +1,0 @@
-[
-  {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "city": { "houses": { "railroad_city": 0 } }
-  }
-]

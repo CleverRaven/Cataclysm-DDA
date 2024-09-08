@@ -7,6 +7,7 @@
       "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete"
     ],
     "type": "talk_topic",
@@ -23,15 +24,14 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
       },
       {
-        "//": "Remove after 0.G - This is to prevent players who accepted the mission before its update from being unable to continue the questline",
-        "text": "I couldn't find your hard case.  Does this work?  [Hand over the data card.]",
-        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" }, { "u_has_item": "data_card" } ] },
+        "text": "I'm back from LIXA.  [Hand over the data.]",
+        "condition": { "and": [ { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" }, { "u_has_item": "lixa_data" } ] },
         "effect": [
-          { "u_consume_item": "data_card", "count": 1, "popup": true },
-          { "u_spawn_item": "RobofacCoin", "count": 4 },
-          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_2", "success": true }
+          { "u_consume_item": "lixa_data", "count": 1, "popup": true },
+          { "u_spawn_item": "RobofacCoin", "count": 5 },
+          { "finish_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1", "success": true }
         ],
-        "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE"
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE"
       },
       {
         "text": "I found it.  I found your template.  [Hand over the silicon photonics template.]",
@@ -66,12 +66,10 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_2" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_2" } ] } }
           ]
         },
-        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ],
+        "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ],
         "topic": "MISSION_ROBOFAC_INTERCOM_2_OFFER"
       },
       {
@@ -79,10 +77,8 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_3" } },
-            {
-              "not": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" }
-            },
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_2" } ] }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_3_OFFER"
@@ -93,10 +89,10 @@
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" } },
             {
-              "not": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
             },
             {
-              "not": { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" }
+              "not": { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
             }
           ]
         },
@@ -108,12 +104,28 @@
           "and": [
             { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" } },
             {
-              "not": { "u_has_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_portal_sm_1" } ] }
             },
-            { "npc_has_var": "told_about_portal_storms", "type": "dialogue", "context": "intercom", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_intercom_told_about_portal_storms" } ] }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
+      },
+      {
+        "text": "[Contract: Data Retrieval]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
+            },
+            {
+              "not": { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] }
+            },
+            { "math": [ "u_portal_storm_recordings_sold", ">", "2" ] }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
       },
       {
         "text": "I need a new NRE recorder.",
@@ -124,10 +136,7 @@
               "or": [
                 { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" },
                 {
-                  "u_has_var": "completed_robofac_intercom_portal_sm_1",
-                  "type": "dialogue",
-                  "context": "intercom",
-                  "value": "yes"
+                  "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_portal_sm_1" } ]
                 }
               ]
             }
@@ -139,24 +148,15 @@
         "text": "Do you have any more work for me right now?",
         "condition": {
           "and": [
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-            { "u_has_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-            { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
-            {
-              "u_has_var": "completed_robofac_intercom_portal_sm_1",
-              "type": "dialogue",
-              "context": "intercom",
-              "value": "yes"
-            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_2" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_2" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_3" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_portal_sm_1" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1" } ] },
             {
               "or": [
-                { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-                {
-                  "u_has_var": "completed_robofac_intercom_robot_sm_1",
-                  "type": "dialogue",
-                  "context": "intercom",
-                  "value": "no"
-                }
+                { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] },
+                { "compare_string": [ "no", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
               ]
             }
           ]
@@ -239,13 +239,14 @@
           "                        "
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
-        "fields": { "b": { "field": "fd_blood", "intensity": 1 } },
+        "fields": { "b": { "field": "fd_blood", "intensity": [ 1, 2 ] } },
         "items": { "@": { "item": "NC_ROBOFAC_SCIENTIST_worn", "chance": 100 } },
-        "item": { "@": [ { "item": "grenade_emp", "amount": 2 }, { "item": "corpse" } ] },
+        "item": { "@": [ { "item": "corpse_generic_female" } ] },
+        "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
-    "end": { "effect": { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] } },
+    "end": { "effect": { "math": [ "u_hub01_completed_missions", "++" ] } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -273,14 +274,31 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_1_ADVICE",
     "type": "talk_topic",
-    "dynamic_line": "There is.  If the robot is operational, it's very likely to be hostile and extremely dangerous.  If you try to fight it yourself, it WILL kill you.  Dr. Prado left the building with a handful of EMP grenades.  If you can locate those grenades, use them to disable the prototype instead.",
+    "dynamic_line": "There is.  If the robot is operational, it's very likely to be hostile and extremely dangerous.  I don't recommend fighting it directly.  Dr. Prado left the building with a handful of EMP grenades.  If you can locate those grenades, use them to disable the prototype instead.",
     "responses": [
       {
         "text": "I'll do it.  Where is the test site?",
         "topic": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
         "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_1" }
       },
+      {
+        "text": "Extremely dangerous?  What kind of danger should I expect?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_ADVICE_2"
+      },
       { "text": "I'll pass on getting killed today, thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_1_ADVICE_2",
+    "type": "talk_topic",
+    "dynamic_line": "It's built with experimental combat programming and some heavy-duty armor.  Despite the armor, it's pretty nimble, so unless you've got a vehicle don't expect to outrun it.  We decided to hold off on adding long-range weapons until we finished the initial field testing, so if you can keep your distance, you should be safe.",
+    "responses": [
+      {
+        "text": "I can handle it.  Where is the test site?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_1_ACCEPTED",
+        "effect": { "assign_mission": "MISSION_ROBOFAC_INTERCOM_1" }
+      },
+      { "text": "I think I'll pass.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -337,7 +355,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "road_ew", "om_terrain_match_type": "EXACT", "reveal_radius": 2, "random": true, "search_range": 80 },
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
-      "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ]
+      "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ]
     },
     "end": {
       "update_mapgen": [
@@ -348,8 +366,8 @@
       ],
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 4 },
-        { "u_add_var": "completed_robofac_intercom_2", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_2", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -410,7 +428,7 @@
     "dynamic_line": "&The intercom's tray slides shut.\n\n\"This is the case; thank you.  Transferring the stipulated amount now.\"  The tray slides back open with your payment.  \"As an additional form of payment, you have been given clearance to receive a map of the area around this site, to assist in your work.  The standing price is 1 HGC; please inform us if you'd like to follow up on that offer going forward.",
     "responses": [
       {
-        "text": "[PER 8+] The original markings on that case had been scratched out.  Who did it really belong to?",
+        "text": "[PER 8] The original markings on that case had been scratched out.  Who did it really belong to?",
         "condition": { "u_has_perception": 8 },
         "topic": "MISSION_ROBOFAC_INTERCOM_2_COMPLETE_Hardcase"
       },
@@ -445,8 +463,8 @@
     "end": {
       "effect": [
         { "u_spawn_item": "RobofacCoin", "count": 8 },
-        { "u_add_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_3", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -650,7 +668,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1",
     "type": "mission_definition",
     "name": { "str": "Iron Safari" },
-    "description": "Disable and retrieve the unusual robot.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  You'll need some experience in electronics or mechanics to disable it.",
+    "description": "Disable and retrieve the unusual robot by <color_yellow>successfully stunning it with the prototype rifle provided,</color> then <color_yellow>quickly running up and deactivating the robot before it recovers from the stun</color>.  You can keep shooting it while it's stunned to prolong the time until it is active again.  You can intercept the robot indicated by Hub 01, or find an inactive robot somewhere else.  <color_yellow>You'll need some experience in electronics or mechanics to disable it</color>.",
     "goal": "MGOAL_NULL",
     "difficulty": 5,
     "value": 0,
@@ -689,13 +707,11 @@
     },
     "end": {
       "effect": [
-        { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
-    "fail": {
-      "effect": [ { "u_add_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "no" } ]
-    },
+    "fail": { "effect": [ { "u_add_var": "dialogue_intercom_completed_robofac_intercom_robot_sm_1", "value": "no" } ] },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
@@ -724,7 +740,7 @@
         "text": "You've got a deal.  I'll track down your robot.",
         "effect": [
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1" },
-          { "u_spawn_item": "UPS_off", "count": 1 },
+          { "u_spawn_item": "UPS_OFF", "count": 1 },
           { "u_spawn_item": "heavy_battery_cell", "count": 1 },
           { "u_spawn_item": "robofac_yrax_deactivation_manual", "count": 1 },
           { "u_spawn_item": "hm12", "count": 1 }
@@ -761,7 +777,7 @@
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder"
     ],
     "type": "talk_topic",
-    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope your found the prototype's performance to be satisfactory.\"",
+    "dynamic_line": "&The intercom tray quickly slides shut.\n\n\"We expected nothing less.  We hope you found the prototype's performance to be satisfactory.\"",
     "responses": [
       {
         "text": "Will this weapon work on other robots, as well?",
@@ -770,7 +786,7 @@
       {
         "text": "The handling procedures you gave me seemed to predate the Cataclysm.  How long had that robot been here?",
         "topic": "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_COMPLETE_Binder",
-        "effect": [ { "u_add_var": "u_heard_of_portal_storms", "type": "global", "context": "portal_storms", "value": "yes" } ]
+        "effect": [ { "u_add_var": "global_portal_storms_u_heard_of_portal_storms", "value": "yes" } ]
       },
       { "text": "Thank you.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
@@ -797,13 +813,13 @@
     "name": { "str": "Hazard Meteorology" },
     "//": "This mission is completed when you first sell any piece of portal storm data.",
     "goal": "MGOAL_NULL",
-    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need stay outside and carry the recorder for around 6 minutes to collect sufficient data.  Generate a printout and offer it to Hub 01 to finish the mission.",
+    "description": "Use the NRE recorder to collect information during a portal storm event.  You'll need to <color_yellow>stay outside and carry the recorder for around 6 minutes until you hear a sharp beep</color> to collect sufficient data.  Generate a printout by activating the NRE recorder and offer it to Hub 01 to finish the mission.",
     "difficulty": 5,
     "value": 0,
     "end": {
       "effect": [
-        { "u_add_var": "completed_robofac_intercom_portal_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
-        { "arithmetic": [ { "u_val": "var", "var_name": "hub01_completed_missions" }, "+=", { "const": 1 } ] }
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_portal_sm_1", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions", "++" ] }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -829,7 +845,7 @@
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for completion of this contract.",
+    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We are willing to offer 1 HGC for each standard-length recording.  Higher-quality data may be obtained by collecting more data before printing a report, and as a result, we are willing to provide higher pay for better recordings.",
     "responses": [
       {
         "text": "Sure, why not?  Let's do some science.",
@@ -859,7 +875,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Recorder",
     "type": "talk_topic",
-    "dynamic_line": "Once the storm starts, it should be enough to walk outside while carrying the NRE, as the recording requires no particular actions on your part.  Research insist on the fact that you must personally carry the NRE on your person to take accurate measurements, so leaving it outside while you take shelter won't work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself… oh, and you might may to obtain a high-caliber firearm before attempting to take the measurements.  Just in case things start leaking into uhm… prime."
+    "dynamic_line": "Once the storm starts, it should be enough to walk outside while carrying the NRE, as the recording requires no particular actions on your part.  Research insist on the fact that you must personally carry the NRE on your person to take accurate measurements, so leaving it outside while you take shelter won't work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself… oh, and you might want to obtain a high-caliber firearm before attempting to take the measurements.  Just in case things start leaking into uhm… prime."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Outside",
@@ -880,5 +896,239 @@
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
     "type": "talk_topic",
     "dynamic_line": "Transferring the recorder now.\"  The intercom tray slides open, revealing a hefty, barebones device and a light battery to accompany it.  \"Please remember to exercise caution; the effects of portal storms on human physiology are poorly understood."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+    "type": "mission_definition",
+    "name": { "str": "Data Retrieval" },
+    "description": "Reach the LIXA facility, and search the area for anything of interest.  The intercom warned you about a number of undead aboveground, and the high probability of more underground.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "LIXA_road_guard",
+        "om_special": "physics_lab_LIXA",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 800,
+        "z": 0
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 5 },
+        { "u_add_var": "dialogue_intercom_completed_robofac_intercom_lixa_sm_1", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions", "++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.\"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory.  You are free to take any that are left.",
+    "responses": [
+      {
+        "text": "Alright, I'll see if I can't get that data for you.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" },
+          { "u_spawn_item": "id_LIXA", "count": 1 },
+          { "u_spawn_item": "usb_drive_nano", "count": 1 }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED"
+      },
+      {
+        "text": "What can you tell me about what they were doing there?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE"
+      },
+      { "text": "What does LIXA even mean?", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM" },
+      {
+        "text": "If I lose the ID card or the memory stick, what should I do?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
+    "type": "talk_topic",
+    "dynamic_line": "All I can tell you is that they were conducting cutting-edge research related to-\" The intercom abruptly cuts off for several seconds before coming back on, the voice sounding apologetic, \"Sorry, but as it turns out I'm not at liberty to divulge that information.  What I can do however is recommend you bring an NRE recorder with you if you still have one."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
+    "type": "talk_topic",
+    "dynamic_line": "It's an acronym that stands for Laser Interferometer eXodimensional resonance Assay."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
+    "type": "talk_topic",
+    "//": "I feel like this could be phrased better.",
+    "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\" The voice pauses for a moment, \"But that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
+    "type": "talk_topic",
+    "//": "Is it a semi-colon or colon that goes here? Man, idk.",
+    "dynamic_line": "Transferring the items now.\"  The intercom tray slides open, revealing an ID card for the facility and what looks like a USB thumb drive.  \"Again: please take care not to lose either of these since we can't exactly make more of them."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE",
+    "type": "talk_topic",
+    "dynamic_line": "As we discussed during acceptance of the contract, we were aware of hazardous ground conditions, but we were unable to deduce further information other than what was available through long-range sensing.  If you would like to provide a description of the hazards present, we are willing to document them.",
+    "responses": [
+      {
+        "text": "[Detail the conditions at the research facility.  This will advance time by ten minutes.]",
+        "effect": { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_Explainer"
+      },
+      {
+        "text": "[Let them know how much of a trainwreck THIS one was.]",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut"
+      },
+      { "text": "…Just forget it.  Let's never speak of this again.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_Explainer",
+    "type": "talk_topic",
+    "dynamic_line": "&Over the course of several minutes, you calmly detail the events at the facility: the unexpected zombie presence underground, the anomalous nature of the experiment floor, and the encounter with the warped and hostile research staff trapped in the corridor.  Throughout, the voice interjects with questions, the sounds of typing filling the pauses.\n\n\"We appreciate your thorough report,\" the voice finally responds.  \"Your handling of the circumstances was commendable considering the anomalous and unpredictable nature of the facility.  If you seek further contract work, rest assured, we'll take into account the potential for anomalous circumstances in future assignments and relay them accordingly.\"",
+    "responses": [
+      { "text": "It's fine.  At least now we know for the future.", "topic": "TALK_DONE" },
+      { "text": "Yeah, yeah.  You're welcome.", "topic": "TALK_DONE" },
+      { "text": "Let's never do that again.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut",
+    "type": "talk_topic",
+    "dynamic_line": "&The intercom waits patiently.",
+    "responses": [
+      {
+        "text": "Hoo boy, where do I even begin with this one?  Let's start with the fact that your intel was about as useful as a screen door on a submarine!  \"Sparsely-populated,\" my ass!  How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_1"
+      }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_1",
+    "type": "talk_topic",
+    "dynamic_line": "We're sorry but-",
+    "responses": [
+      {
+        "text": "Oh, ho ho ho ho ho no friend you do not get to talk right now.  When I FINALLY got down to the experiment floor, you know what I found?  The entire corridor was turned into a two-dimensional image!  What were they even DOING that turned an entire section of the building INTO A HAUNTED VIDEO GAME PORTAL PAINTING!?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_2"
+      },
+      { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_5" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_2",
+    "type": "talk_topic",
+    "dynamic_line": "What do you mean by-",
+    "//": "I realize I'm assuming the player has encountered congealed light by accidentally breaking open the terrain features, but eh.",
+    "responses": [
+      {
+        "text": "I SAID SHUT UP!  It teleported me to an infinitely looping corridor!  INFINITELY!  LOOPING!  CORRIDOR!  I mean, fuck, you ever see one of those Escher paintings?  It's like that, only you don't just see the surface of what you're looking at, you see EV-ER-Y-THING, and friend let me tell you getting a first-hand look at the inside of my digestive system was *not* pretty.  Oh, and did I mention the light?  Yeah, when some of the laser tubes got broken, they spat out light THAT HURT!  A LOT!",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_3"
+      },
+      { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_3",
+    "type": "talk_topic",
+    "dynamic_line": "Please slow down-",
+    "responses": [
+      {
+        "text": "You know why they got broken?  I was fighting the insane remnants of the research staff!  They were climbing the walls, spitting light!  And then there was the corridor itself somehow!  I fought the goddamn building!  I've had nightmares that made more sense than fighting that thing!",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4"
+      },
+      { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4",
+    "type": "talk_topic",
+    "dynamic_line": "&The voice on the other side of the intercom is silent with disbelief.",
+    "responses": [ { "text": "[Wait.]", "topic": "MISSION_ROBOFAC_INTERCOM_3_COMPLETE_ChewingOut_5" } ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_5",
+    "type": "talk_topic",
+    "dynamic_line": "Uh… Yeah, sorry.  I'll, um… I'll make a note to try and see if we can't get any better information for your future contracts.",
+    "responses": [ { "text": "Good.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "MISSION_HUB01_PAY_BACK_RIOT_GEAR",
+    "type": "mission_definition",
+    "name": { "str": "Pay Back The Riot Gear to Hub 01" },
+    "goal": "MGOAL_NULL",
+    "difficulty": 1,
+    "value": 0,
+    "fail": { "effect": { "math": [ "faction_trust('robofac')", "-=", "20" ] } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "deadline_low": 20,
+    "deadline_high": 20,
+    "//": "Dialogue for this mission is handled externally.",
+    "dialogue": {
+      "describe": ".",
+      "offer": ".",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR",
+    "type": "talk_topic",
+    "dynamic_line": { "gendered_line": "Good thing you came back with the money.  Your mission work out?", "relevant_genders": [ "u" ] },
+    "responses": [
+      {
+        "text": "I appreciate the credit.  I've got your payment now.",
+        "effect": [
+          { "u_sell_item": "RobofacCoin", "count": 8 },
+          { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_PAY_BACK_RIOT_GEAR_SPECIMENS",
+    "type": "talk_topic",
+    "dynamic_line": "[thanks bro this will be very interesting where's the tower?]",
+    "responses": [
+      {
+        "text": "[tell them where scout tower is]",
+        "effect": [ { "finish_mission": "MISSION_HUB01_PAY_BACK_RIOT_GEAR", "success": true } ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+      },
+      { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
   }
 ]

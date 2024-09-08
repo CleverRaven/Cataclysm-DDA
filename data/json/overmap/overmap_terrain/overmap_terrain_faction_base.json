@@ -2,10 +2,11 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_camp_0",
+    "vision_levels": "always_full",
     "name": "camp survey",
     "sym": "+",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "none",
     "flags": [ "NO_ROTATE", "SOURCE_PEOPLE", "SHOULD_NOT_SPAWN" ]
   },
   {
@@ -248,7 +249,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "faction_base_lightindustry_workshop_0",
+    "copy-from": "faction_base_camp_0",
+    "name": "light industries workshop survey",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "faction_base_mansion_e1",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base entrance",
     "sym": "M",
     "color": "white",
@@ -257,14 +267,13 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_e2",
-    "name": "mansion base entrance",
-    "sym": "M",
-    "color": "white",
-    "flags": [ "SOURCE_PEOPLE", "NO_ROTATE" ]
+    "copy-from": "faction_base_mansion_e1"
   },
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t1",
+    "vision_levels": "always_full",
+    "see_cost": "none",
     "name": "mansion base swimming pool",
     "sym": "M",
     "color": "blue",
@@ -273,6 +282,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t2",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base bedrooms",
     "sym": "M",
     "color": "light_green",
@@ -281,6 +292,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t3",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base???",
     "sym": "M",
     "color": "white",
@@ -289,6 +302,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t4",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base kitchen",
     "sym": "M",
     "color": "pink",
@@ -297,6 +312,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t5",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base library",
     "sym": "M",
     "color": "brown",
@@ -305,6 +322,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t6",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base bedroom",
     "sym": "M",
     "color": "light_green",
@@ -313,6 +332,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_t7",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base living rooms",
     "sym": "M",
     "color": "green",
@@ -321,6 +342,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_c1",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base swimming pool",
     "sym": "M",
     "color": "blue",
@@ -329,6 +352,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_c2",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base bar",
     "sym": "M",
     "color": "magenta",
@@ -337,6 +362,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_c3",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base living rooms",
     "sym": "M",
     "color": "green",
@@ -345,6 +372,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_c4",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base bedroom",
     "sym": "M",
     "color": "light_green",
@@ -353,6 +382,8 @@
   {
     "type": "overmap_terrain",
     "id": "faction_base_mansion_c5",
+    "vision_levels": "always_full",
+    "see_cost": "full_high",
     "name": "mansion base kitchen",
     "sym": "M",
     "color": "pink",

@@ -32,7 +32,7 @@
         ".$[%................%%$%",
         ".$$$$$$$$$$$$$$$$$$$$$$."
       ],
-      "palettes": [ "standard_domestic_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
@@ -40,7 +40,6 @@
         "`": "t_concrete",
         "K": "t_concrete",
         "G": "t_concrete",
-        "#": "t_rock_wall",
         "t": "t_linoleum_gray",
         "S": "t_linoleum_gray",
         "Q": "t_linoleum_gray",
@@ -64,6 +63,7 @@
         "=": "t_water_pool_outdoors",
         "/": "t_water_pool_shallow_outdoors"
       },
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 1, "y": 0 } ],
       "furniture": { "?": "f_beaded_door", "!": "f_region_flower" },
       "place_item": [ { "item": "television", "repeat": 1, "x": 5, "y": 3 } ],
       "place_items": [
@@ -72,7 +72,7 @@
         { "chance": 25, "item": "pool_side", "x": 19, "y": 17 },
         { "chance": 25, "item": "pool_side", "x": 14, "y": 12 }
       ],
-      "place_monsters": [ { "chance": 3, "density": 1, "monster": "GROUP_DOGS", "x": 11, "y": 8 } ]
+      "place_monster": [ { "group": "GROUP_DOGS", "x": [ 10, 15 ], "y": [ 8, 20 ], "repeat": [ 1, 2 ] } ]
     }
   },
   {
@@ -80,7 +80,7 @@
     "om_terrain": "house_detatched4",
     "//": "suicide variant",
     "type": "mapgen",
-    "weight": 50,
+    "weight": 10,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -117,7 +117,6 @@
         "`": "t_concrete",
         "K": "t_concrete",
         "G": "t_concrete",
-        "#": "t_rock_wall",
         "t": "t_linoleum_gray",
         "S": "t_linoleum_gray",
         "Q": "t_linoleum_gray",
@@ -162,19 +161,19 @@
       "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
-        "        222             ",
-        "    |2222.2222222222223 ",
-        "    |.................3 ",
-        "    |.................5 ",
-        "    |....&............3 ",
-        "    |..........X......3 ",
-        "    |.................3 ",
-        "    |.................3 ",
-        "    5....=...........~3 ",
-        "    |..........N......3 ",
-        "    |.................3 ",
-        "    |.................3 ",
-        "    |-----------------3 ",
+        "        ---             ",
+        "    -----.------------- ",
+        "    -.................- ",
+        "    -.................5 ",
+        "    -....&............- ",
+        "    -..1.......X......- ",
+        "    -.................- ",
+        "    -.................- ",
+        "    5....=...........~- ",
+        "    -..........N......- ",
+        "    -.................- ",
+        "    -.................- ",
+        "    ------------------- ",
         "                        ",
         "                        ",
         "                        ",

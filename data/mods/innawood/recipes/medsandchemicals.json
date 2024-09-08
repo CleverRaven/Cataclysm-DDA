@@ -1,22 +1,5 @@
 [
   {
-    "type": "recipe",
-    "result": "ammonia_hydroxide",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "difficulty": 5,
-    "time": "36 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [
-      [ [ "water_clean", 1 ], [ "water", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "charcoal", 5 ], [ "coal_lump", 5 ], [ "lye_powder", 20 ] ]
-    ]
-  },
-  {
     "result": "cattail_jelly",
     "byproducts": [ [ "plant_fibre" ] ],
     "type": "recipe",
@@ -29,24 +12,6 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cattail_stalk", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "oxy_powder",
-    "byproducts": [ [ "salt_water", 2 ] ],
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 2 ],
-    "difficulty": 5,
-    "time": "45 m",
-    "batch_time_factors": [ 60, 4 ],
-    "//": "abstracting using chloralkali process (hot solution, unpartitioned cell) to produce sodium chlorate, then perchlorate by anodic oxidation on platinum, then ammonia perchlorate by double decomposition from sodium perchlorate and ammonium chloride; while we can't directly use bleach here but we do end up recovering some brine",
-    "autolearn": true,
-    "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
-    "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia_liquid", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -112,7 +77,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
+    "tools": [ [ [ "hotplate", 50 ], [ "integrated_welder", 50 ] ] ],
     "components": [ [ [ "oxy_powder", 200 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "charcoal", 25 ] ] ]
   },
   {
@@ -250,7 +215,7 @@
     "skill_used": "tailor",
     "time": "1 m 2 s",
     "autolearn": true,
-    "charges": 8,
+    "result_mult": 8,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_fibercloth", 1 ] ] ]
   },
@@ -263,8 +228,33 @@
     "skill_used": "tailor",
     "time": "9 s",
     "autolearn": true,
-    "charges": 1,
+    "result_mult": 1,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "cotton_patchwork", 1 ], [ "fibercloth_patchwork", 1 ] ] ]
+  },
+  {
+    "result": "lye",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "id_suffix": "by_electrolysis",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "chemistry",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 4,
+    "time": "20 m",
+    "batch_time_factors": [ 80, 4 ],
+    "//": "chloralkali process, same as with bleach except we won't be washing gases",
+    "//2": "This is a copy of the DDA recipe, with autolearn added.",
+    "autolearn": true,
+    "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "tools": [ [ [ "electrolysis_kit", 250 ] ] ],
+    "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ] ] ]
   }
 ]

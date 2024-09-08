@@ -1,0 +1,1366 @@
+[
+  {
+    "id": "telekinesis_practice",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_METAPHYSICS",
+    "name": "contemplation: telekinesis",
+    "description": "Recipes related to practicing telekinesis.",
+    "skill_used": "metaphysics",
+    "nested_category_data": [
+      "practice_telekinetic_pull",
+      "practice_telekinetic_push",
+      "practice_telekinetic_noise",
+      "practice_telekinetic_slam_down",
+      "practice_telekinetic_momentum",
+      "practice_telekinetic_slowfall",
+      "practice_telekinetic_wave",
+      "practice_telekinetic_lifting_field",
+      "practice_telekinetic_strength",
+      "practice_telekinetic_hammer",
+      "practice_telekinetic_vehicle_lift",
+      "practice_telekinetic_shield",
+      "practice_telekinetic_explosion",
+      "practice_telekinetic_levitation",
+      "practice_telekinetic_move_large_weight",
+      "practice_telekinetic_aegis",
+      "practice_telekinetic_earthshaker"
+    ],
+    "difficulty": 1
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: far hand",
+    "id": "practice_telekinetic_pull",
+    "description": "Contemplate your powers and improve your manipulation of outgoing forces.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 0,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_PULL",
+        "condition": { "math": [ "u_spell_level('telekinetic_pull')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_pull", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "1" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: force shove",
+    "id": "practice_telekinetic_push",
+    "description": "Contemplate your powers and improve your manipulation of incoming forces.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_PUSH",
+        "condition": { "math": [ "u_spell_level('telekinetic_push')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_push", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: noisemaker",
+    "id": "practice_telekinetic_noise",
+    "description": "Contemplate your powers and improve your ability to create noisy distractions.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER",
+        "condition": { "math": [ "u_spell_level('telekinetic_noise')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_noise", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_noise", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_NOISEMAKER_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_noise", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_NOISEMAKER_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 6
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_noise')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: knockdown",
+    "id": "practice_telekinetic_slam_down",
+    "description": "Contemplate your powers and improve your ability to knock your targets over.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN",
+        "condition": { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_slam_down", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "2" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_slam_down", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(2)" ] }, { "math": [ "learn_new_power_upper_time_bound(2)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_slam_down", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_SLAM_DOWN_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 6
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_slam_down')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 10,20 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: momentum alteration",
+    "id": "practice_telekinetic_momentum",
+    "description": "Contemplate your powers and improve your control of momentum.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_MOMENTUM",
+        "condition": { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_momentum", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_MOMENTUM_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_momentum", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_MOMENTUM_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 7
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_momentum')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: slowfall",
+    "id": "practice_telekinetic_slowfall",
+    "description": "Contemplate your powers and improve your ability to reduce the pull of gravity on yourself.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 2,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_SLOWFALL",
+        "condition": { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_slowfall", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "3" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_slowfall", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_SLOWFALL_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(3)" ] }, { "math": [ "learn_new_power_upper_time_bound(3)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_SLOWFALL_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_slowfall", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_SLOWFALL_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 7
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_slowfall')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 15,30 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: wave of force",
+    "id": "practice_telekinetic_wave",
+    "description": "Contemplate your powers and develop your ability to control bursts of telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE",
+        "condition": { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_wave", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_wave", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 8
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_wave')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: lifting field",
+    "id": "practice_telekinetic_lifting_field",
+    "description": "Contemplate your powers and develop your ability to lift a single object for long periods of time.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 3,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD",
+        "condition": { "math": [ "u_spell_level('telekinetic_lifting_field')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_lifting_field", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "4" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_lifting_field", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(4)" ] }, { "math": [ "learn_new_power_upper_time_bound(4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_lifting_field", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_LIFTING_FIELD_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 8
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_lifting_field')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 20,40 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: enhance strength",
+    "id": "practice_telekinetic_strength",
+    "description": "Contemplate your powers and improve your ability to move very heavy objects with your powers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH",
+        "condition": { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_strength", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_strength", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_strength", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 9
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_strength')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: mindhammer",
+    "id": "practice_telekinetic_hammer",
+    "description": "Contemplate your powers and improve your ability to smash a small area with telekinetic force.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 4,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER",
+        "condition": { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "5" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_hammer", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_MINDHAMMER_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(5)" ] }, { "math": [ "learn_new_power_upper_time_bound(5)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_hammer", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 9
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_hammer')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 25,50 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: lift vehicle",
+    "id": "practice_telekinetic_vehicle_lift",
+    "description": "Contemplate your powers and improve your ability to pick up vehicles briefly.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT",
+        "condition": { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_vehicle_lift", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_vehicle_lift", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_vehicle_lift", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 10
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_vehicle_lift')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: inertial barrier",
+    "id": "practice_telekinetic_shield",
+    "description": "Contemplate your powers and improve your creation of force barriers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 5,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_BARRIER",
+        "condition": { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "6" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_shield", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_BARRIER_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(6)" ] }, { "math": [ "learn_new_power_upper_time_bound(6)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_BARRIER_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_shield", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_BARRIER_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 10
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_shield')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 30,60 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: wrecking ball",
+    "id": "practice_telekinetic_explosion",
+    "description": "Contemplate your powers and improve your manifestation of telekinetic explosions.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_BLAST",
+        "condition": { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_explosion", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_explosion", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_BLAST_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_BLAST_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_explosion", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_BLAST_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 11
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_explosion')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: levitation",
+    "id": "practice_telekinetic_levitation",
+    "description": "Contemplate your powers and improve your ability to not quite fly.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 6,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_LEVITATION",
+        "condition": { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_levitation", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "7" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_levitation", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_LEVITATION_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(7)" ] }, { "math": [ "learn_new_power_upper_time_bound(7)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_LEVITATION_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_levitation", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_LEVITATION_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 11
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_levitation')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 35,70 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: megakinesis",
+    "id": "practice_telekinetic_move_large_weight",
+    "description": "Contemplate your powers and improve your ability to move truly enormous amounts of weight.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 7,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT",
+        "condition": { "math": [ "u_spell_level('telekinetic_move_large_weight')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_move_large_weight", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "8" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_move_large_weight", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_MOVE_LARGE_WEIGHT_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(8)" ] }, { "math": [ "learn_new_power_upper_time_bound(8)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_move_large_weight", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_MOVE_LARGE_WEIGHT_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 12
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_move_large_weight')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 40,80 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: aegis",
+    "id": "practice_telekinetic_aegis",
+    "description": "Contemplate your powers and improve your ability to shield yourself from all harm.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 8,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_AEGIS",
+        "condition": { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_aegis", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "9" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_aegis", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_AEGIS_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(9)" ] }, { "math": [ "learn_new_power_upper_time_bound(9)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_AEGIS_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_aegis", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_AEGIS_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 13
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_aegis')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 45,90 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "name": "contemplation: earthshaker",
+    "id": "practice_telekinetic_earthshaker",
+    "description": "Contemplate your powers and improve your ability to shake the very earth with your powers.",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "metaphysics",
+    "difficulty": 9,
+    "time": "0 s",
+    "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
+    "tools": [
+      [ [ "matrix_crystal_drained", -1 ], [ "black_nether_crystal_pseudo_tool", -1 ], [ "matrix_crystal_telekinesis", -1 ] ]
+    ],
+    "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
+    "flags": [ "SECRET", "BLIND_EASY", "NO_MANIP", "AFFECTED_BY_PAIN", "NO_BENCH", "NO_ENCHANTMENT" ],
+    "result_eocs": [
+      {
+        "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER",
+        "condition": { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "1" ] },
+        "effect": [
+          { "set_string_var": "telekinetic_earthshaker", "target_var": { "u_val": "latest_studied_power_name" } },
+          {
+            "set_string_var": "prof_contemplation_telekinesis",
+            "target_var": { "u_val": "latest_studied_power_proficiency" }
+          },
+          { "math": [ "u_latest_studied_power_difficulty", "=", "10" ] },
+          { "run_eocs": [ "EOC_PSI_STUDYING_POWER_BEGIN", "EOC_PSI_STUDYING_POWER_SIDE_EFFECTS" ] }
+        ],
+        "false_effect": [
+          { "set_string_var": "telekinetic_earthshaker", "target_var": { "u_val": "latest_studied_power_name" } },
+          { "u_message": "You attempt to unlock new capabilities within your mind." },
+          { "u_assign_activity": "ACT_PSI_LEARNING_NEW_POWER", "duration": "16 hours" },
+          { "u_add_effect": "effect_psi_learning_new_power", "duration": "16 hours" },
+          { "run_eocs": "EOC_PSI_PRACTICE_FOCUS_MOD" },
+          {
+            "queue_eocs": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_LEARNING",
+            "time_in_future": [ { "math": [ "learn_new_power_lower_time_bound(10)" ] }, { "math": [ "learn_new_power_upper_time_bound(10)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_LEARNING",
+    "condition": {
+      "and": [
+        { "compare_string": [ "telekinetic_earthshaker", { "u_val": "latest_studied_power_name" } ] },
+        { "u_has_effect": "effect_psi_learning_new_power" },
+        {
+          "not": { "u_has_any_effect": [ "sleep", "effect_vitakin_wakeful_resting", "lack_sleep", "sleep_deprived", "under_operation" ] }
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PRACTICE_TELEKIN_EARTHSHAKER_LEARNING_2",
+            "condition": {
+              "roll_contested": { "math": [ "u_skill('metaphysics') + u_has_proficiency('prof_contemplation_telekinesis')" ] },
+              "difficulty": 14
+            },
+            "effect": [
+              {
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
+                "popup": true
+              },
+              { "math": [ "u_spell_level('telekinetic_earthshaker')", "=", "1" ] },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ],
+            "false_effect": [
+              { "u_message": "You just couldn't manage to grasp the technique.  You'll have to try again.", "popup": true },
+              { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 50,100 )" ] },
+              { "u_lose_effect": "effect_psi_learning_new_power" }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

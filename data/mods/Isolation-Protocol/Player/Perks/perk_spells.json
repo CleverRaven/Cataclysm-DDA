@@ -1,0 +1,36 @@
+[
+  {
+    "id": "iso_robolove_charm_1",
+    "type": "SPELL",
+    "name": "Its a teapot!",
+    "description": "Makes a robot friendly for a very long time.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
+    "effect": "attack",
+    "damage_type": "pure",
+    "shape": "blast",
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "min_range": 10,
+    "max_range": 10,
+    "extra_effects": [ { "id": "iso_robolove_charm_2" } ]
+  },
+  {
+    "id": "iso_robolove_charm_2",
+    "type": "SPELL",
+    "name": "robot charm",
+    "description": "!",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "NO_LEGS", "SILENT", "RANDOM_TARGET", "NO_PROJECTILE" ],
+    "targeted_monster_species": [ "ROBOT", "CYBORG" ],
+    "min_duration": 1080000,
+    "max_duration": 1080000,
+    "effect": "charm_monster",
+    "min_damage": 360000,
+    "max_damage": 360000,
+    "min_range": 10,
+    "max_range": 10,
+    "difficulty": 1,
+    "shape": "blast"
+  }
+]

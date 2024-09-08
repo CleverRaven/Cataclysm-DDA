@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "milspec_arsenal_50bmg_sniper_gun&mags&cans",
     "subtype": "collection",
-    "items": [ { "group": "milspec_arsenal_50bmg_sniper_gun&ammo" }, { "item": "ammunition_can_50", "count": [ 1, 4 ] } ]
+    "items": [ { "group": "milspec_arsenal_50bmg_sniper_gun&ammo" }, { "item": "ammo_can_50_50bmg_fmj_120", "count": [ 1, 4 ] } ]
   },
   {
     "type": "item_group",
@@ -11,8 +11,8 @@
     "subtype": "collection",
     "items": [
       { "group": "milspec_arsenal_50bmg_sniper_gun&mags" },
-      { "group": "ammo_can_50bmg_full", "prob": 30 },
-      { "group": "ammo_can_50bmg_part", "prob": 80, "count": [ 1, 2 ] }
+      { "group": "ammo_can_50_any_full", "prob": 30 },
+      { "group": "ammo_can_50_any_part", "prob": 80, "count": [ 1, 2 ] }
     ]
   },
   {
@@ -30,24 +30,5 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [ { "item": "m107a1" }, { "item": "m107a1mag", "count": [ 1, 3 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_50bmg_full",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_box_50bmg", "count": 12 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_can_50bmg_part",
-    "container-item": "ammunition_can_50",
-    "items": [ { "group": "ammo_box_50bmg", "count": [ 1, 6 ] } ]
-  },
-  {
-    "type": "item_group",
-    "id": "ammo_box_50bmg",
-    "container-item": "ammunition_box_50bmg",
-    "//": "i have no clue why bmg is the only round that require charges to work, unlike another",
-    "items": [ { "item": "50bmg", "count": 1, "charges-min": 10, "charges-max": 10 } ]
   }
 ]

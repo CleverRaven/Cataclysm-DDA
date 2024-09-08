@@ -1,8 +1,11 @@
 #include "flag.h"
 
 #include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "init.h"
+#include "json_error.h"
 #include "type_id.h"
 
 const flag_id flag_ABLATIVE_LARGE( "ABLATIVE_LARGE" );
@@ -15,6 +18,9 @@ const flag_id flag_ACTIVE_GENERATOR( "ACTIVE_GENERATOR" );
 const flag_id flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 const flag_id flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
 const flag_id flag_ALARMCLOCK( "ALARMCLOCK" );
+const flag_id flag_ALLERGEN_BREAD( "ALLERGEN_BREAD" );
+const flag_id flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
+const flag_id flag_ALLERGEN_DRIED_VEGETABLE( "ALLERGEN_DRIED_VEGETABLE" );
 const flag_id flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 const flag_id flag_ALLERGEN_FRUIT( "ALLERGEN_FRUIT" );
 const flag_id flag_ALLERGEN_JUNK( "ALLERGEN_JUNK" );
@@ -24,9 +30,11 @@ const flag_id flag_ALLERGEN_NUT( "ALLERGEN_NUT" );
 const flag_id flag_ALLERGEN_VEGGY( "ALLERGEN_VEGGY" );
 const flag_id flag_ALLERGEN_WHEAT( "ALLERGEN_WHEAT" );
 const flag_id flag_ALLERGEN_WOOL( "ALLERGEN_WOOL" );
+const flag_id flag_ALLOWS_BODY_BLOCK( "ALLOWS_BODY_BLOCK" );
 const flag_id flag_ALLOWS_NATURAL_ATTACKS( "ALLOWS_NATURAL_ATTACKS" );
 const flag_id flag_ALLOWS_REMOTE_USE( "ALLOWS_REMOTE_USE" );
 const flag_id flag_ALWAYS_TWOHAND( "ALWAYS_TWOHAND" );
+const flag_id flag_ANIMAL_PRODUCT( "ANIMAL_PRODUCT" );
 const flag_id flag_AURA( "AURA" );
 const flag_id flag_BAROMETER( "BAROMETER" );
 const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
@@ -51,7 +59,6 @@ const flag_id flag_BYPRODUCT( "BYPRODUCT" );
 const flag_id flag_CABLE_SPOOL( "CABLE_SPOOL" );
 const flag_id flag_CAMERA_PRO( "CAMERA_PRO" );
 const flag_id flag_CANNIBAL( "CANNIBAL" );
-const flag_id flag_CANNIBALISM( "CANNIBALISM" );
 const flag_id flag_CANT_HEAL_EVERYONE( "CANT_HEAL_EVERYONE" );
 const flag_id flag_CANT_WEAR( "CANT_WEAR" );
 const flag_id flag_CARNIVORE_OK( "CARNIVORE_OK" );
@@ -75,9 +82,11 @@ const flag_id flag_CORPSE( "CORPSE" );
 const flag_id flag_CORROSIVE( "CORROSIVE" );
 const flag_id flag_CRUTCHES( "CRUTCHES" );
 const flag_id flag_CUSTOM_EXPLOSION( "CUSTOM_EXPLOSION" );
+const flag_id flag_CUT_HARVEST( "CUT_HARVEST" );
 const flag_id flag_CUT_IMMUNE( "CUT_IMMUNE" );
 const flag_id flag_DANGEROUS( "DANGEROUS" );
 const flag_id flag_DEAF( "DEAF" );
+const flag_id flag_DECAYS_IN_AIR( "DECAYS_IN_AIR" );
 const flag_id flag_DIAMOND( "DIAMOND" );
 const flag_id flag_DIG_TOOL( "DIG_TOOL" );
 const flag_id flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
@@ -89,6 +98,9 @@ const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
+const flag_id flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS( "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD( "EFFECT_LIMB_SCORE_MOD" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL( "EFFECT_LIMB_SCORE_MOD_LOCAL" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ELECTRONIC( "ELECTRONIC" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
@@ -121,8 +133,6 @@ const flag_id flag_FIRE_100( "FIRE_100" );
 const flag_id flag_FIRE_20( "FIRE_20" );
 const flag_id flag_FIRE_50( "FIRE_50" );
 const flag_id flag_FIRE_TWOHAND( "FIRE_TWOHAND" );
-const flag_id flag_FISH_GOOD( "FISH_GOOD" );
-const flag_id flag_FISH_POOR( "FISH_POOR" );
 const flag_id flag_FIT( "FIT" );
 const flag_id flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 const flag_id flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
@@ -135,6 +145,7 @@ const flag_id flag_FORAGE_POISON( "FORAGE_POISON" );
 const flag_id flag_FRAGILE( "FRAGILE" );
 const flag_id flag_FRAGILE_MELEE( "FRAGILE_MELEE" );
 const flag_id flag_FREEZERBURN( "FREEZERBURN" );
+const flag_id flag_FRESH_GRAIN( "FRESH_GRAIN" );
 const flag_id flag_FROM_FROZEN_LIQUID( "FROM_FROZEN_LIQUID" );
 const flag_id flag_FROZEN( "FROZEN" );
 const flag_id flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
@@ -144,6 +155,7 @@ const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
 const flag_id flag_HARD( "HARD" );
 const flag_id flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
+const flag_id flag_HEMOVORE_FUN( "HEMOVORE_FUN" );
 const flag_id flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 const flag_id flag_HIDDEN_POISON( "HIDDEN_POISON" );
 const flag_id flag_HOOD( "HOOD" );
@@ -156,6 +168,7 @@ const flag_id flag_INSPIRATIONAL( "INSPIRATIONAL" );
 const flag_id flag_INSTALL_DIFFICULT( "INSTALL_DIFFICULT" );
 const flag_id flag_INTEGRATED( "INTEGRATED" );
 const flag_id flag_IN_CBM( "IN_CBM" );
+const flag_id flag_IRRADIATED( "IRRADIATED" );
 const flag_id flag_IRREMOVABLE( "IRREMOVABLE" );
 const flag_id flag_IR_EFFECT( "IR_EFFECT" );
 const flag_id flag_IS_ARMOR( "IS_ARMOR" );
@@ -167,24 +180,21 @@ const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
 const flag_id flag_LITCIG( "LITCIG" );
 const flag_id flag_LUPINE( "LUPINE" );
+const flag_id flag_MAGICAL( "MAGICAL" );
 const flag_id flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 const flag_id flag_MAG_BELT( "MAG_BELT" );
 const flag_id flag_MAG_BULKY( "MAG_BULKY" );
 const flag_id flag_MAG_DESTROY( "MAG_DESTROY" );
 const flag_id flag_MAG_EJECT( "MAG_EJECT" );
-const flag_id flag_MC_ENCRYPTED( "MC_ENCRYPTED" );
 const flag_id flag_MC_HAS_DATA( "MC_HAS_DATA" );
-const flag_id flag_MC_MAY_BE_ENCRYPTED( "MC_MAY_BE_ENCRYPTED" );
 const flag_id flag_MC_MOBILE( "MC_MOBILE" );
-const flag_id flag_MC_RANDOM_STUFF( "MC_RANDOM_STUFF" );
-const flag_id flag_MC_SCIENCE_STUFF( "MC_SCIENCE_STUFF" );
-const flag_id flag_MC_TURN_USED( "MC_TURN_USED" );
-const flag_id flag_MC_USED( "MC_USED" );
 const flag_id flag_MECH_BAT( "MECH_BAT" );
 const flag_id flag_MELTS( "MELTS" );
 const flag_id flag_MESSY( "MESSY" );
 const flag_id flag_MISSION_ITEM( "MISSION_ITEM" );
+const flag_id flag_MODULE_HOLDER( "MODULE_HOLDER" );
 const flag_id flag_MOUNTED_GUN( "MOUNTED_GUN" );
+const flag_id flag_MOUSE( "MOUSE" );
 const flag_id flag_MUNDANE( "MUNDANE" );
 const flag_id flag_MUSHY( "MUSHY" );
 const flag_id flag_MUTE( "MUTE" );
@@ -192,6 +202,7 @@ const flag_id flag_MYCUS_OK( "MYCUS_OK" );
 const flag_id flag_NANOFAB_REPAIR( "NANOFAB_REPAIR" );
 const flag_id flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE( "NANOFAB_TEMPLATE_SINGLE_USE" );
+const flag_id flag_NATURAL_WEAPON( "NATURAL_WEAPON" );
 const flag_id flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
 const flag_id flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
 const flag_id flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
@@ -199,14 +210,12 @@ const flag_id flag_NEVER_JAMS( "NEVER_JAMS" );
 const flag_id flag_NONCONDUCTIVE( "NONCONDUCTIVE" );
 const flag_id flag_NON_FOULING( "NON_FOULING" );
 const flag_id flag_NORMAL( "NORMAL" );
-const flag_id flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 const flag_id flag_NO_CLEAN( "NO_CLEAN" );
 const flag_id flag_NO_CVD( "NO_CVD" );
 const flag_id flag_NO_DROP( "NO_DROP" );
 const flag_id flag_NO_INGEST( "NO_INGEST" );
 const flag_id flag_NO_PACKED( "NO_PACKED" );
 const flag_id flag_NO_PARASITES( "NO_PARASITES" );
-const flag_id flag_NO_QUICKDRAW( "NO_QUICKDRAW" );
 const flag_id flag_NO_RELOAD( "NO_RELOAD" );
 const flag_id flag_NO_REPAIR( "NO_REPAIR" );
 const flag_id flag_NO_SALVAGE( "NO_SALVAGE" );
@@ -228,6 +237,7 @@ const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
 const flag_id flag_OVERSIZE( "OVERSIZE" );
 const flag_id flag_PADDED( "PADDED" );
+const flag_id flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 const flag_id flag_PALS_LARGE( "PALS_LARGE" );
 const flag_id flag_PALS_MEDIUM( "PALS_MEDIUM" );
 const flag_id flag_PALS_SMALL( "PALS_SMALL" );
@@ -245,11 +255,13 @@ const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );
 const flag_id flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 const flag_id flag_PSEUDO( "PSEUDO" );
+const flag_id flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 const flag_id flag_PSYSHIELD_PARTIAL( "PSYSHIELD_PARTIAL" );
 const flag_id flag_PULPED( "PULPED" );
 const flag_id flag_PUMP_ACTION( "PUMP_ACTION" );
 const flag_id flag_PUMP_RAIL_COMPATIBLE( "PUMP_RAIL_COMPATIBLE" );
 const flag_id flag_QUARTERED( "QUARTERED" );
+const flag_id flag_RABBIT( "RABBIT" );
 const flag_id flag_RADIOACTIVE( "RADIOACTIVE" );
 const flag_id flag_RADIOCAR( "RADIOCAR" );
 const flag_id flag_RADIOCARITEM( "RADIOCARITEM" );
@@ -265,6 +277,7 @@ const flag_id flag_RAD_PROOF( "RAD_PROOF" );
 const flag_id flag_RAD_RESIST( "RAD_RESIST" );
 const flag_id flag_RAINPROOF( "RAINPROOF" );
 const flag_id flag_RAIN_PROTECT( "RAIN_PROTECT" );
+const flag_id flag_RAT( "RAT" );
 const flag_id flag_RAW( "RAW" );
 const flag_id flag_REACH( "REACH" );
 const flag_id flag_REACH3( "REACH3" );
@@ -285,6 +298,7 @@ const flag_id flag_ROLLER_INLINE( "ROLLER_INLINE" );
 const flag_id flag_ROLLER_ONE( "ROLLER_ONE" );
 const flag_id flag_ROLLER_QUAD( "ROLLER_QUAD" );
 const flag_id flag_SAFECRACK( "SAFECRACK" );
+const flag_id flag_SEED_HARVEST( "SEED_HARVEST" );
 const flag_id flag_SEMITANGIBLE( "SEMITANGIBLE" );
 const flag_id flag_SHREDDED( "SHREDDED" );
 const flag_id flag_SHRUB( "SHRUB" );
@@ -294,8 +308,6 @@ const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );
 const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
-const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
-const flag_id flag_SLOWS_THIRST( "SLOWS_THIRST" );
 const flag_id flag_SLOW_WIELD( "SLOW_WIELD" );
 const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
@@ -305,6 +317,7 @@ const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
 const flag_id flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
+const flag_id flag_SPEEDLOADER_CLIP( "SPEEDLOADER_CLIP" );
 const flag_id flag_SPLINT( "SPLINT" );
 const flag_id flag_STAB( "STAB" );
 const flag_id flag_STAB_IMMUNE( "STAB_IMMUNE" );
@@ -322,22 +335,26 @@ const flag_id flag_THERMOMETER( "THERMOMETER" );
 const flag_id flag_TIE_UP( "TIE_UP" );
 const flag_id flag_TINDER( "TINDER" );
 const flag_id flag_TOBACCO( "TOBACCO" );
+const flag_id flag_TOUGH_FEET( "TOUGH_FEET" );
 const flag_id flag_TOURNIQUET( "TOURNIQUET" );
 const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
-const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE( "UNBREAKABLE" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
+const flag_id flag_UNDERFED( "UNDERFED" );
 const flag_id flag_UNDERSIZE( "UNDERSIZE" );
 const flag_id flag_UNDERWATER_GUN( "UNDERWATER_GUN" );
 const flag_id flag_UNRECOVERABLE( "UNRECOVERABLE" );
+const flag_id flag_UNRESTRICTED( "UNRESTRICTED" );
 const flag_id flag_URSINE_HONEY( "URSINE_HONEY" );
 const flag_id flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
+const flag_id flag_USES_NEARBY_AMMO( "USES_NEARBY_AMMO" );
 const flag_id flag_USE_EAT_VERB( "USE_EAT_VERB" );
 const flag_id flag_USE_PLAYER_ENERGY( "USE_PLAYER_ENERGY" );
+const flag_id flag_USE_POWER_WHEN_HIT( "USE_POWER_WHEN_HIT" );
 const flag_id flag_USE_UPS( "USE_UPS" );
 const flag_id flag_VARSIZE( "VARSIZE" );
 const flag_id flag_VEHICLE( "VEHICLE" );
@@ -362,7 +379,6 @@ const flag_id json_flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 static const flag_id json_flag_null( "null" );
 
 const flag_id flag_NULL = json_flag_null; // intentionally invalid flag
-
 
 namespace
 {
@@ -395,7 +411,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string & )
+void json_flag::load( const JsonObject &jo, const std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );
@@ -406,6 +422,8 @@ void json_flag::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
     optional( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "item_prefix", item_prefix_ );
+    optional( jo, was_loaded, "item_suffix", item_suffix_ );
 }
 
 void json_flag::check_consistency()

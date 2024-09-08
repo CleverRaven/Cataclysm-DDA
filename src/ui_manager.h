@@ -7,6 +7,13 @@
 #include "cuboid_rectangle.h"
 #include "point.h"
 
+namespace cataimgui
+{
+class client;
+} // namespace cataimgui
+
+extern std::unique_ptr<cataimgui::client> imclient;
+
 namespace catacurses
 {
 class window;
@@ -67,6 +74,8 @@ class window;
 class ui_adaptor
 {
     public:
+        bool is_imgui;
+        bool is_on_top;
         using redraw_callback_t = std::function<void( ui_adaptor & )>;
         using screen_resize_callback_t = std::function<void( ui_adaptor & )>;
 
@@ -118,6 +127,11 @@ class ui_adaptor
          * and curses builds.
          **/
         void position( const point &topleft, const point &size );
+        /**
+         * like 'position', except topleft and size are given as
+         * pixels in tiled builds and console cells on curses builds
+         **/
+        void position_absolute( const point &topleft, const point &size );
         /**
          * Set redraw and resize callbacks. The resize callback should
          * call `position` or `position_from_window` to set the size of the UI,
@@ -208,8 +222,11 @@ class ui_adaptor
          **/
         void reset();
 
+        void shutdown();
+
         /* See the `ui_manager` namespace */
         static void invalidate( const rectangle<point> &rect, bool reenable_uis_below );
+        static bool has_imgui();
         static void redraw();
         static void redraw_invalidated();
         static void screen_resized();
@@ -233,6 +250,7 @@ class ui_adaptor
 
         bool disabling_uis_below;
         bool is_debug_message_ui;
+        bool is_shutting_down = false;
 
         mutable bool invalidated;
         mutable bool deferred_resize;
@@ -276,6 +294,8 @@ void redraw_invalidated();
  * Not supposed to be directly called by the user.
  **/
 void screen_resized();
+void invalidate_all_ui_adaptors();
+void reset();
 } // namespace ui_manager
 
 #endif // CATA_SRC_UI_MANAGER_H

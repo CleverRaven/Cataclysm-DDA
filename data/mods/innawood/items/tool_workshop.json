@@ -7,10 +7,8 @@
     "weight": "1600 g",
     "volume": "1400 ml",
     "longest_side": "25 cm",
-    "price": 5000,
-    "price_postapoc": 1000,
-    "to_hit": -2,
-    "bashing": 9,
+    "price": "50 USD",
+    "price_postapoc": "10 USD",
     "material": [ "steel", "clay" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -38,6 +36,7 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 100 } } ],
+    "melee_damage": { "bash": 9 }
   }
 ]

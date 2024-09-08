@@ -10,7 +10,7 @@
     "hidden_by": [ "achievement_learn_any_spell" ],
     "type": "achievement",
     "name": "Wizard's Apprentice",
-    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 3 } ]
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 5 } ]
   },
   {
     "id": "achievement_learn_any_spell_10",

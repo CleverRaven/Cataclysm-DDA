@@ -116,7 +116,19 @@
     "color": "yellow",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_stairs_down_no_roof",
+    "name": "stairs",
+    "description": "A flight of stairs leading down.",
+    "symbol": ">",
+    "looks_like": "t_stairs_down",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
@@ -126,13 +138,14 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
+    "connect_groups": "INDOORFLOOR",
     "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
     "id": "t_manhole",
     "name": "manhole",
-    "description": "This is a manhole.  The heavy iron cover lies over an entrance to the underworld of hidden tunnels beneath the streets where sewage and rain water frolic freely.  Or just leads to the lower floor.",
+    "description": "A manhole.  The heavy iron cover has been removed, revealing an entrance to the underworld of hidden tunnels beneath the streets where sewage and rainwater frolic freely.  Or maybe it just leads to a lower floor.",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
@@ -142,10 +155,11 @@
     "type": "terrain",
     "id": "t_manhole_cover",
     "name": "manhole cover",
-    "description": "Just a manhole cover.",
+    "description": "A heavy iron manhole cover, zealously blocking the entrance to a sewer or other underground area.  Impossible to lift by hand, you'll need some kind of heavy-duty prying tool.",
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
+    "examine_action": "locked_object",
     "prying": {
       "result": "t_manhole",
       "message": "You lift the manhole cover.",
@@ -163,7 +177,15 @@
     "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -174,7 +196,15 @@
     "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air_rooved",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -184,7 +214,78 @@
     "symbol": "H",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_ladder_down",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_up",
+    "name": "scaffolding up",
+    "description": "Scaffolding leading up.",
+    "symbol": "<",
+    "looks_like": "t_ladder_up",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "roof": "t_scaffolding_pipe_down",
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_down",
+    "name": "scaffolding down",
+    "description": "Scaffolding leading down.",
+    "symbol": ">",
+    "looks_like": "t_ladder_down",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SINGLE_SUPPORT" ],
+    "bash": { "str_min": 20, "str_max": 150, "sound": "metal screeching!", "sound_fail": "clang!", "ter_set": "t_open_air" }
+  },
+  {
+    "type": "terrain",
+    "id": "t_scaffolding_pipe_updown",
+    "name": "scaffolding up/down",
+    "description": "Scaffolding leading up and down.",
+    "looks_like": "t_ladder_up_down",
+    "symbol": "H",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z", "SUPPORTS_ROOF", "SINGLE_SUPPORT" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_scaffolding_pipe_down",
+      "items": [
+        { "item": "pipe", "count": [ 10, 46 ] },
+        { "item": "pipe_fittings", "count": [ 10, 55 ] },
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "stick", "count": [ 0, 2 ] },
+        { "item": "rope_30", "count": [ 0, 2 ] }
+      ]
+    }
   },
   {
     "type": "terrain",
@@ -196,7 +297,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -208,7 +309,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -242,7 +343,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -254,7 +355,7 @@
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -288,7 +389,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -300,7 +401,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -330,7 +431,7 @@
     "name": "downward slope",
     "connect_groups": "PAVEMENT",
     "connects_to": "PAVEMENT",
-    "description": "A downward facing slope.",
+    "description": "A downward-facing slope.",
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
@@ -342,7 +443,7 @@
     "name": "upward slope",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "description": "An upward facing slope.",
+    "description": "An upward-facing slope.",
     "symbol": "<",
     "color": "brown",
     "move_cost": 2,
@@ -352,7 +453,7 @@
     "type": "terrain",
     "id": "t_rope_up",
     "name": "rope leading up",
-    "description": "A rope.  You could climb up it.",
+    "description": "A dangling end of rope, the other end tied securely to something above you.  You could climb up it.",
     "symbol": "<",
     "color": "white",
     "move_cost": 2,
@@ -412,7 +513,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAIL", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAIL", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -424,7 +525,7 @@
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -460,7 +561,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",
@@ -472,7 +573,7 @@
     "symbol": ">",
     "color": "light_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "Z_TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "ROAD", "RAMP_DOWN", "TRANSPARENT_FLOOR", "Z_TRANSPARENT" ]
   },
   {
     "type": "terrain",

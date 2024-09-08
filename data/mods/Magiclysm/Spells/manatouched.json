@@ -42,7 +42,7 @@
     "base_energy_cost": 250,
     "base_casting_time": 85,
     "final_casting_time": 85,
-    "damage_type": "pure",
+    "damage_type": "nether",
     "sound_description": "a zing",
     "flags": [ "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ]

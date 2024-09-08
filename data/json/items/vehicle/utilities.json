@@ -7,31 +7,13 @@
     "description": "An aircraft's black box, seemingly pulled from some sort of military vehicle wreckage.  If you can find a system to analyze this, you may find something of interest.",
     "weight": "4535 g",
     "volume": "2 L",
-    "price": 0,
-    "price_postapoc": 0,
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "light_gray"
-  },
-  {
-    "type": "TOOL",
-    "id": "minireactor",
-    "name": { "str": "minireactor" },
-    "description": "A small, portable plutonium reactor.  Handle with great care!",
-    "weight": "27215 g",
-    "to_hit": -4,
-    "color": "light_cyan",
-    "symbol": ":",
-    "material": [ "superalloy", "ceramic" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 10000 }, "rigid": true } ],
-    "volume": "100 L",
-    "bashing": 7,
-    "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 5000,
-    "ammo": [ "plutonium" ]
+    "color": "light_gray",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -44,10 +26,22 @@
     "symbol": "C",
     "material": [ "steel" ],
     "volume": "7500 ml",
-    "bashing": 12,
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 1500
+    "price": "200 USD",
+    "price_postapoc": "15 USD",
+    "melee_damage": { "bash": 12 }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "mountable_cooler",
+    "id": "integrated_cooler",
+    "name": { "str": "small integrated cooler" },
+    "description": "A small vehicle-mounted area cooler.",
+    "weight": "6000 g",
+    "volume": "3750 ml",
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -60,10 +54,10 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "7500 ml",
-    "bashing": 12,
     "category": "veh_parts",
-    "price": 20000,
-    "price_postapoc": 1500
+    "price": "200 USD",
+    "price_postapoc": "15 USD",
+    "melee_damage": { "bash": 12 }
   },
   {
     "type": "GENERIC",
@@ -72,10 +66,10 @@
     "name": { "str": "small vehicle heater" },
     "description": "A small vehicle-mounted area heater.",
     "weight": "6000 g",
-    "bashing": 3,
     "volume": "3750 ml",
-    "price": 10000,
-    "price_postapoc": 750
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
@@ -88,10 +82,10 @@
     "symbol": "-",
     "material": [ "wood" ],
     "volume": "2500 ml",
-    "bashing": 4,
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 10
+    "price": "30 USD",
+    "price_postapoc": "10 cent",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -104,10 +98,10 @@
     "symbol": "-",
     "material": [ "steel", "plastic" ],
     "volume": "5 L",
-    "bashing": 5,
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 1000
+    "price": "900 USD",
+    "price_postapoc": "10 USD",
+    "melee_damage": { "bash": 5 }
   },
   {
     "type": "GENERIC",
@@ -117,11 +111,11 @@
     "weight": "100 g",
     "volume": "250 ml",
     "to_hit": -1,
-    "bashing": 4,
-    "price": 1500,
-    "price_postapoc": 100,
+    "price": "15 USD",
+    "price_postapoc": "1 USD",
     "looks_like": "cable",
-    "copy-from": "recharge_station"
+    "copy-from": "recharge_station",
+    "melee_damage": { "bash": 4 }
   },
   {
     "type": "GENERIC",
@@ -129,15 +123,14 @@
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
     "weight": "15000 g",
-    "to_hit": -8,
     "color": "light_blue",
     "symbol": "{",
     "material": [ "steel" ],
-    "volume": "20 L",
-    "bashing": 8,
+    "volume": "90 L",
     "category": "veh_parts",
-    "price": 60000,
-    "price_postapoc": 500
+    "price": "600 USD",
+    "price_postapoc": "5 USD",
+    "melee_damage": { "bash": 8 }
   },
   {
     "type": "GENERIC",
@@ -145,46 +138,27 @@
     "name": { "str": "programmable autopilot" },
     "description": "A computer system hooked up to the steering and engine of a vehicle to allow it to follow simple paths.",
     "weight": "11246 g",
-    "to_hit": -2,
     "color": "light_blue",
     "symbol": "A",
     "material": [ "steel" ],
     "volume": "10 L",
-    "bashing": 3,
     "category": "veh_parts",
-    "price": 90000,
-    "price_postapoc": 2500
+    "price": "900 USD",
+    "price_postapoc": "25 USD",
+    "melee_damage": { "bash": 3 }
   },
   {
     "type": "GENERIC",
     "id": "vh_autoclave",
     "name": { "str": "mountable autoclave" },
     "description": "This autoclave has been rigged to run off a vehicle power grid.",
-    "price": 162654,
-    "price_postapoc": 1500,
+    "price": "1 kUSD 626 USD 54 cent",
+    "price_postapoc": "15 USD",
     "symbol": "A",
     "color": "yellow",
     "weight": "34500 g",
     "volume": "76 L",
     "copy-from": "washing_machine"
-  },
-  {
-    "type": "GENERIC",
-    "copy-from": "washing_machine",
-    "id": "minifridge",
-    "name": { "str": "minifridge" },
-    "description": "A very small refrigerator for keeping food cool.  Provides some insulation from outside weather.",
-    "insulation": 2
-  },
-  {
-    "type": "GENERIC",
-    "id": "minifreezer",
-    "name": { "str": "minifreezer" },
-    "description": "A compact version of a chest freezer, designed as a mobile solution for freezing food.  Provides insulation from the elements.",
-    "price": 70000,
-    "price_postapoc": 4000,
-    "insulation": 4,
-    "copy-from": "minifridge"
   },
   {
     "type": "GENERIC",
@@ -198,8 +172,8 @@
     "type": "GENERIC",
     "copy-from": "washing_machine",
     "id": "fridgetank",
-    "name": { "str": "refrigerated tank" },
-    "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "name": { "str": "refrigerated tank (60 L)", "str_pl": "refrigerated tanks (60 L)" },
+    "description": "A 60 L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
     "insulation": 10,
     "volume": "72 L",
     "weight": "48 kg",
@@ -215,10 +189,30 @@
   },
   {
     "type": "GENERIC",
+    "copy-from": "washing_machine",
+    "id": "fridgetank_large",
+    "name": { "str": "refrigerated tank (100 L)", "str_pl": "refrigerated tanks (100 L)" },
+    "description": "A 100 L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
+    "looks_like": "fridgetank",
+    "insulation": 10,
+    "volume": "112 L",
+    "weight": "67 kg",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "500 kg"
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
     "copy-from": "fridgetank",
     "id": "heattank",
     "name": { "str": "heated tank" },
-    "description": "A 60L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
+    "description": "A 60 L heated tank for keeping liquids from freezing.  Provides some insulation from outside weather."
   },
   {
     "type": "GENERIC",
@@ -231,13 +225,13 @@
     "symbol": ";",
     "material": [ "steel" ],
     "volume": "750 ml",
-    "bashing": 2,
     "category": "veh_parts",
-    "price": 3000,
-    "price_postapoc": 50
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "oil_press_electric",
     "name": { "str": "electric oil press", "str_pl": "electric oil presses" },
     "//": "based on YZS-68C oil press",
@@ -250,7 +244,9 @@
     "category": "veh_parts",
     "color": "green",
     "symbol": "Y",
-    "price": 100000,
-    "price_postapoc": 1000
+    "ammo": "battery",
+    "use_action": [ { "type": "link_up", "cable_length": 3, "charge_rate": "5500 W" } ],
+    "price": "1 kUSD",
+    "price_postapoc": "10 USD"
   }
 ]

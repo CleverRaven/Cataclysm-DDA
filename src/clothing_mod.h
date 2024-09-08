@@ -4,10 +4,12 @@
 
 #include <array>
 #include <cstddef>
-#include <iosfwd>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
-#include "translations.h"
+#include "translation.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -40,7 +42,7 @@ struct mod_value {
 };
 
 struct clothing_mod {
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     float get_mod_val( const clothing_mod_type &type, const item &it ) const;
     bool has_mod_type( const clothing_mod_type &type ) const;
 

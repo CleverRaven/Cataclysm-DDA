@@ -119,8 +119,8 @@
         "!_!__!~!.#1 6| hfh     #",
         "!______!.#2 6|||||||+||#",
         "!______!.#|+||rrr T   d#",
-        "!_!__!_!.#B`t| h     @@o",
-        "!______!.#B``+       @@#",
+        "!_!__!_!.#B't| h     @@o",
+        "!______!.#B''+       @@#",
         "!qq__qq!.#8S8|RRR  E  d#",
         "!!!**!!!.##o########oo##",
         ",,,,,...................",
@@ -130,10 +130,10 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "!": "t_wall_wood",
-        "`": "t_linoleum_gray",
         ",": "t_region_soil",
         "0": "t_water_pump",
         "$": "t_region_shrub_decorative",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "q": "t_dirtfloor",
         "_": "t_dirtfloor",
         "~": "t_dirtmoundfloor"
@@ -146,7 +146,7 @@
           { "item": "tools_common", "chance": 50 }
         ]
       },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ] } ]
+      "place_loot": [ { "group": "corpse_generic_human", "x": [ 2, 22 ], "y": [ 2, 22 ], "chance": 100 } ]
     }
   },
   {
@@ -175,8 +175,8 @@
         "!_!__!~!.#1 6| hfh     #",
         "!______!.#2 6|||||||+||#",
         "!______!.#|+||rrr T   d#",
-        "!_!__!_!.#B`t| h     @@o",
-        "!______!.#B``+       @@#",
+        "!_!__!_!.#B't| h     @@o",
+        "!______!.#B''+       @@#",
         "!qq__qq!.#8S8|RRR  E  d#",
         "!!!**!!!.##o########oo##",
         ",,,,,...................",
@@ -187,10 +187,10 @@
       "terrain": {
         "o": [ "t_window_boarded", "t_window_boarded_noglass" ],
         "!": "t_wall_wood",
-        "`": "t_linoleum_gray",
         ",": "t_region_soil",
         "0": "t_water_pump",
         "$": "t_region_shrub_decorative",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "q": "t_dirtfloor",
         "_": "t_dirtfloor",
         "~": "t_dirtmoundfloor"
@@ -224,19 +224,19 @@
         "  ,,,,,,,,,,,,,,,,,,,                           ",
         "  ,,,,,,,,,,,,,,,,,,,                           ",
         "  ,,,,,,,,,,,,,,,,,,,                           ",
-        "  ,,,,,,,,,,,,,,,,,,,                     |22223",
-        "  ,,,,,,,,,,,,,,,,,,,                     |....3",
-        "  ,,,,,,,,,,,,,,,,,,,            |22222222|....3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.............3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |............~3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.............3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.&...........3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.............3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.............3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.............3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.=.........:.3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |.............3",
-        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, |-------------3",
+        "  ,,,,,,,,,,,,,,,,,,,                     ------",
+        "  ,,,,,,,,,,,,,,,,,,,                     -....-",
+        "  ,,,,,,,,,,,,,,,,,,,            ----------....-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.............-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -............~-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.............-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.&...........-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.............-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.............-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.............-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.=.........:.-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, -.............-",
+        "  ,,,,,,,,,,,,,,,,,,,   ,,,,,,,, ---------------",
         "  ,,,,,,,,,,,,,,,,,,,                           ",
         "                                                ",
         "                                                "
@@ -305,7 +305,7 @@
         "    IoooooI............ ",
         "    IIIoIII............ ",
         "      III  ............ ",
-        "       <                ",
+        "       ≷                ",
         "                        ",
         "                        ",
         "                        ",
@@ -321,7 +321,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "I": "t_wall_metal", "o": "t_open_air_rooved", "<": "t_ladder_up_down", ".": "t_shingle_flat_roof" },
+      "terrain": { "I": "t_wall_metal", "o": "t_open_air_rooved", "≷": "t_ladder_up_down", ".": "t_shingle_flat_roof" },
       "palettes": [ "roof_palette" ]
     }
   },
@@ -341,7 +341,7 @@
         "    IoooooI             ",
         "    IIIoIII             ",
         "      III               ",
-        "       <                ",
+        "       ≷                ",
         "                        ",
         "                        ",
         "                        ",
@@ -357,7 +357,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "I": "t_wall_metal", "o": "t_open_air_rooved", "<": "t_ladder_up_down" },
+      "terrain": { "I": "t_wall_metal", "o": "t_open_air_rooved", "≷": "t_ladder_up_down" },
       "palettes": [ "roof_palette" ]
     }
   },
@@ -377,7 +377,7 @@
         "    .......             ",
         "    .......             ",
         "      ...               ",
-        "       <                ",
+        "       v                ",
         "                        ",
         "                        ",
         "                        ",
@@ -393,7 +393,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "<": "t_ladder_down" },
+      "terrain": { ".": "t_shingle_flat_roof" },
       "palettes": [ "roof_palette" ]
     }
   },
@@ -570,6 +570,93 @@
         "                        ",
         "                        ",
         "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1_apiary" ] ],
+    "//": "Apiary",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "                        ",
+        "                        ",
+        "     FFFFFFFFFFFFFFFFFF ",
+        "     F         ,      F ",
+        "     F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        ",,,  F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        ",,,,,g,,,,,     ,,    F ",
+        "  ,,,g,,,,   ,        F ",
+        "     F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        "   , F ⬡⬡  ⬡⬡  ⬡⬡  ⬡⬡ F ",
+        "     F               ,F ",
+        "    ,FFFFFFFFFFFFFFFFFF ",
+        "     ,,                 ",
+        "           ,      ##### ",
+        "               , ♦#r♠♥# ",
+        "                ,,+___# ",
+        "                  ##### ",
+        "                        ",
+        " FFFFFFFFFFFFFFFFFFFFFF ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F ",
+        " F  DDDDDDDDDDDDDDDD  F ",
+        " F                    F "
+      ],
+      "terrain": { "⬡": [ [ "t_apiary", 5 ], [ "t_apiary_empty", 95 ] ] },
+      "items": {
+        "♠": [
+          { "item": "hive", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "home_hw", "chance": 50 },
+          { "item": "tools_common", "chance": 50 }
+        ],
+        "r": { "item": "honey_market_stall", "repeat": [ 4, 12 ] }
+      },
+      "furniture": { "♥": "f_machinery_light", "♠": "f_locker", "♦": "f_woodchips" },
+      "sealed_item": { "D": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
+      "palettes": [ "farm" ],
+      "place_monster": [
+        { "group": "GROUP_BEEKEEPER", "x": [ 6, 21 ], "y": [ 3, 10 ], "pack_size": 1, "chance": 10 },
+        { "group": "GROUP_BEE", "x": [ 6, 21 ], "y": [ 3, 10 ], "pack_size": [ 2, 4 ], "chance": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_1_apiary_roof" ] ],
+    "weight": 250,
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                  ..... ",
+        "                  ...=. ",
+        "                  ..... ",
+        "                  ..... ",
         "                        ",
         "                        ",
         "                        ",

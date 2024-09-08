@@ -93,6 +93,7 @@
       { "monster": "mon_gallimimus_hatchling", "weight": 20 },
       { "monster": "mon_struthiomimus_hatchling", "weight": 20 },
       { "monster": "mon_ornithomimus_hatchling", "weight": 20 },
+      { "monster": "mon_falcarius_hatchling", "weight": 10 },
       { "monster": "mon_nothronychus_hatchling", "weight": 10 },
       { "monster": "mon_anzu_hatchling", "weight": 10 },
       { "monster": "mon_deinonychus_hatchling", "weight": 10 },
@@ -116,6 +117,11 @@
     "//": "North American theropod dinos largest",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_spinosaurus_hatchling", "weight": 1 }, { "monster": "mon_tyrannosaurus_hatchling", "weight": 8 } ]
+  },
+  {
+    "name": "GROUP_EGG_tawa",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tawa_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_coelophysis",
@@ -151,6 +157,11 @@
     "name": "GROUP_EGG_acrocanthosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_acrocanthosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_giganotosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_giganotosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_siats",
@@ -221,6 +232,16 @@
     "name": "GROUP_EGG_albertonykus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_albertonykus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_falcarius",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_falcarius_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_therizinosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_therizinosaurus_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_nothronychus",
@@ -411,6 +432,11 @@
     "name": "GROUP_EGG_camptosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_camptosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_iguanodon",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_iguanodon_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_hadrosaurus",

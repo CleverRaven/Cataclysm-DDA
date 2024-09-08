@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_DISEASE_H
 #define CATA_SRC_DISEASE_H
 
-#include <iosfwd>
-#include <new>
+#include <optional>
 #include <set>
+#include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "optional.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -18,7 +19,7 @@ class disease_type
     public:
         static void load_disease_type( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string & );
+        void load( const JsonObject &jo, std::string_view );
         static const std::vector<disease_type> &get_all();
         static void check_disease_consistency();
         bool was_loaded = false;
@@ -32,7 +33,7 @@ class disease_type
         /**Affected body parts*/
         std::set<bodypart_str_id> affected_bodyparts;
         /**If not empty this sets the health threshold above which you're immune to the disease*/
-        cata::optional<int> health_threshold;
+        std::optional<int> health_threshold;
         /**effect applied by this disease*/
         efftype_id symptoms;
 

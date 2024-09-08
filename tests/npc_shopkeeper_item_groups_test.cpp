@@ -3,6 +3,7 @@
 #include "creature_tracker.h"
 #include "game.h"
 #include "item_group.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -38,7 +39,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             std::pair<bool, bool> har_pants = has_and_can_restock( guy, pants );
             REQUIRE( har_pants.first == true );
             REQUIRE( har_pants.second == true );
-            REQUIRE( guy.wants_to_sell( { guy, &pants } ) );
+            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &pants } ) );
         }
     }
 
@@ -48,17 +49,18 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         REQUIRE( creatures.creature_at<npc>( npc_pos ) != nullptr );
         item backpack( "test_backpack" );
         backpack.set_owner( guy );
-        REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_zero}, &backpack } ) );
+        REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &backpack } ) );
         WHEN( "backpack is worn - not available for sale" ) {
-            item &it = **guy.wear_item( backpack );
-            REQUIRE( !guy.wants_to_sell( { guy, &it } ) );
+            auto backpack_iter = *guy.wear_item( backpack );
+            item &it = *backpack_iter;
+            REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &it } ) );
             item scrap( "scrap" );
             scrap.set_owner( guy );
-            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_zero}, &scrap } ) );
+            REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &scrap } ) );
             item_location const scrap_inv = guy.i_add( scrap );
             REQUIRE( scrap_inv );
             THEN( "sell_belongings is true - item in inventory available for sale" ) {
-                guy.myclass = NC_NONE;
+                guy.myclass = npc_class_id::NULL_ID();
                 REQUIRE( guy.myclass->sells_belongings == true );
                 REQUIRE( guy.wants_to_sell( scrap_inv ) );
             }
@@ -77,7 +79,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             THEN( "item is available for restocking but not selling" ) {
                 REQUIRE( har_hammer.first == true );
                 REQUIRE( har_hammer.second == true );
-                REQUIRE( !guy.wants_to_sell( {guy, &hammer } ) );
+                REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &hammer } ) );
             }
         }
         WHEN( "condition met" ) {
@@ -86,7 +88,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             THEN( "item is available for selling and restocking" ) {
                 REQUIRE( har_hammer.first == true );
                 REQUIRE( har_hammer.second == true );
-                REQUIRE( guy.wants_to_sell( { guy, &hammer } ) );
+                REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &hammer } ) );
             }
         }
     }
@@ -99,7 +101,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             THEN( "item is not available for selling or restocking" ) {
                 REQUIRE( har_multitool.first == true );
                 REQUIRE( har_multitool.second == false );
-                REQUIRE( !guy.wants_to_sell( { guy, &multitool } ) );
+                REQUIRE( !guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &multitool } ) );
             }
         }
         WHEN( "condition met" ) {
@@ -108,18 +110,23 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
             THEN( "item is available for selling and restocking" ) {
                 REQUIRE( har_multitool.first == true );
                 REQUIRE( har_multitool.second == true );
-                REQUIRE( guy.wants_to_sell( {guy, &multitool } ) );
+                REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_bub_ms( tripoint_zero ) }, &multitool } ) );
             }
         }
     }
 
-    GIVEN( "containter with single item and conditions only for contents" ) {
+    GIVEN( "containter with single item type and conditions only for contents" ) {
         item multitool( "test_multitool" );
         item bag( "bag_plastic" );
-        ret_val<void> const ret = bag.put_in( multitool, item_pocket::pocket_type::CONTAINER );
-        REQUIRE( ret.success() );
+        int const num = GENERATE( 1, 2 );
+        bool ret = true;
+        for( int i = 0; i < num; i++ ) {
+            ret &= bag.put_in( multitool, pocket_type::CONTAINER ).success();
+        }
+        CAPTURE( num, bag.display_name() );
+        REQUIRE( ret );
         bag.set_owner( guy );
-        item_location const loc( map_cursor{ tripoint_zero}, &bag );
+        item_location const loc( map_cursor{ tripoint_bub_ms( tripoint_zero )}, &bag );
         WHEN( "condition for contents not met" ) {
             THEN( "container can't be sold" ) {
                 REQUIRE( !guy.wants_to_sell( loc ) );

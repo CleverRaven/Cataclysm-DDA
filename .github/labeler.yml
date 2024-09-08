@@ -62,8 +62,9 @@
 "EOC: Effects On Condition":
   - "**/**effect_on_condition**"
   - "**/effect_on_condition**"
-  - "**/**eocs**"
-  - "**/eocs**"
+  - "**/**eoc**"
+  - "**/eoc**"
+  - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/**furniture**"
@@ -80,6 +81,8 @@
   - "**/food**"
   - "**/**comestible**"
   - "**/comestible**"
+  - "**/**comestible**/**"
+  - "**/comestible**/**"
 
 "NPC / Factions":
   - "**/**npc**"
@@ -134,14 +137,17 @@
   - "**/appliance**"
 
 "Monsters":
-  - "**/**monsters**"
-  - "**/monsters**"
+  - "**/**monster**"
+  - "**/monster**"
+  - "**/**monster**/**"
+  - "**/monster**/**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
   - "**/profession**"
-  - "**/**mutations**"
+  - "**/**mutation**"
   - "**/mutation**"
+  - data/mods/extra_mut_scen/**/*
   - "**/hobbies**"
 
 "Lore":
@@ -173,8 +179,11 @@
 "Map / Mapgen":
   - "**/**mapgen**"
   - "**/mapgen**"
+  - "**/mapgen/**"
   - "**/**overmap**"
   - "**/overmap**"
+  - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
 
 "Martial Arts":
   - "**/martialart**"
@@ -208,9 +217,15 @@
   - "**/**translation**"
   - "**/translation**"
 
+"Mods: Bombastic Perks":
+  - data/mods/BombasticPerks/**/*
+
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
   - data/mods/aftershock_exoplanet/**/*
+
+"Mods: Backrooms":
+  - data/mods/Backrooms/**/*
 
 "Mods: Dark Days of the Dead":
   - data/mods/classic_zombies/**/*
@@ -223,6 +238,9 @@
 
 "Mods: DinoMod":
   - data/mods/DinoMod/**/*
+
+"Mods: Extra Mutated Scenarios":
+  - data/mods/extra_mut_scen/**/*
 
 "Mods: Generic Guns":
   - data/mods/Generic_Guns/**/*
@@ -251,6 +269,15 @@
 "Mods: Xedra Evolved":
   - data/mods/Xedra_Evolved/**/*
 
+"Mods: Mind Over Matter":
+  - data/mods/MindOverMatter/**/*
+
+"Mods: Sky Island":
+  - data/mods/Sky_Island/**/*
+
+"Mods: Isolation Protocol ☣":
+  - data/mods/Isolation-Protocol/**/*
+
 "Mods":
   - any: [ 'data/mods/**' ]
     all: [ '!data/mods/TEST_DATA/**' ]
@@ -269,3 +296,11 @@
 "Vehicles":
   - "**/**vehicle**"
   - "**/vehicle**"
+  - "src/veh_**"
+ 
+"Mods: Defense Mode":
+  - "data/mods/Defense_Mode/**"
+
+"ImGui":
+  - "src/third-party/imgui/**"
+  - "src/third-party/imtui/**"

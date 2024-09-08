@@ -8,9 +8,21 @@
       { "group": "drugdealer", "prob": 75 },
       {
         "distribution": [
-          { "item": "lsd", "container-item": "bag_zipper", "charges-min": 20, "charges-max": 30, "prob": 10 },
-          { "item": "faewild", "container-item": "bag_zipper", "charges-min": 10, "charges-max": 20, "prob": 40 },
-          { "item": "lotus_blossom", "container-item": "bag_zipper", "charges-min": 8, "charges-max": 14, "prob": 30 }
+          { "item": "lsd", "container-item": "null", "entry-wrapper": "bag_zipper", "count": [ 20, 30 ], "prob": 10 },
+          {
+            "item": "faewild",
+            "container-item": "null",
+            "entry-wrapper": "bag_zipper",
+            "count": [ 10, 20 ],
+            "prob": 40
+          },
+          {
+            "item": "lotus_blossom",
+            "container-item": "null",
+            "entry-wrapper": "bag_zipper",
+            "count": [ 8, 14 ],
+            "prob": 30
+          }
         ],
         "prob": 50
       },
@@ -120,7 +132,7 @@
       { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_SLEEPINESS", "base_power": -100 },
       { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
       { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
       { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },

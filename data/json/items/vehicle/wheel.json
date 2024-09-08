@@ -8,8 +8,8 @@
     "weight": "100 g",
     "volume": "250 ml",
     "longest_side": "77 mm",
-    "price": 5,
-    "price_postapoc": 10,
+    "price": "5 cent",
+    "price_postapoc": "10 cent",
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown"
@@ -23,8 +23,8 @@
     "weight": "150 g",
     "volume": "250 ml",
     "longest_side": "102 mm",
-    "price": 10,
-    "price_postapoc": 10,
+    "price": "10 cent",
+    "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray"
@@ -38,13 +38,12 @@
     "weight": "5 kg",
     "volume": "6 L",
     "longest_side": "204 mm",
-    "price": 3000,
-    "price_postapoc": 500,
-    "bashing": 14,
-    "to_hit": -2,
+    "price": "30 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "wheel_mount_heavy",
@@ -55,13 +54,28 @@
     "weight": "6 kg",
     "volume": "7 L",
     "longest_side": "254 mm",
-    "price": 5000,
-    "price_postapoc": 500,
-    "bashing": 14,
-    "to_hit": -2,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": ";",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 14 }
+  },
+  {
+    "id": "wheel_mount_skateboard",
+    "type": "GENERIC",
+    "category": "veh_parts",
+    "name": { "str": "pair of skateboard trucks", "str_pl": "pairs of skateboard trucks" },
+    "description": "A pair metal skateboard trucks, for attaching wheels to.",
+    "weight": "600 g",
+    "volume": "250 ml",
+    "longest_side": "200 mm",
+    "price": "2 USD",
+    "price_postapoc": "20 cent",
+    "material": [ "steel", "aluminum" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "wheel_rim_medium",
@@ -71,14 +85,14 @@
     "description": "A medium-size steel rim for a car tire.",
     "weight": "5245 g",
     "volume": "28 L",
-    "bashing": 8,
     "to_hit": -4,
     "longest_side": "432 mm",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rim_motorbike",
@@ -88,14 +102,14 @@
     "description": "A steel rim for a motorbike tire.",
     "weight": "3000 g",
     "volume": "12 L",
-    "bashing": 8,
     "to_hit": -4,
     "longest_side": "508 mm",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rim_wide",
@@ -105,14 +119,14 @@
     "description": "A wide steel rim for a larger tire.",
     "weight": "7600 g",
     "volume": "70 L",
-    "bashing": 10,
     "to_hit": -4,
     "longest_side": "610 mm",
-    "price": 5000,
-    "price_postapoc": 500,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "material": [ "steel" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_rim_bicycle",
@@ -122,14 +136,13 @@
     "description": "A large, spoked rim for a bicycle tire.",
     "weight": "750 g",
     "volume": "11 L",
-    "bashing": 6,
-    "to_hit": -2,
     "longest_side": "686 mm",
-    "price": 5000,
-    "price_postapoc": 500,
-    "material": [ "steel" ],
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "aluminum" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tire_medium",
@@ -141,14 +154,14 @@
     "weight": "3600 g",
     "volume": "10 L",
     "longest_side": "432 mm",
-    "price": 5000,
-    "price_postapoc": 500,
-    "bashing": 6,
+    "price": "50 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tire_medium_slick",
@@ -160,14 +173,14 @@
     "weight": "7355 g",
     "volume": "13750 ml",
     "longest_side": "407 mm",
-    "price": 20000,
-    "price_postapoc": 500,
-    "bashing": 6,
+    "price": "200 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "tire_motorbike",
@@ -179,14 +192,14 @@
     "weight": "2443 g",
     "volume": "8250 ml",
     "longest_side": "407 mm",
-    "price": 10000,
-    "price_postapoc": 300,
-    "bashing": 9,
+    "price": "100 USD",
+    "price_postapoc": "3 USD",
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "tire_motorbike_or",
@@ -206,14 +219,14 @@
     "weight": "15000 g",
     "volume": "17500 ml",
     "longest_side": "610 mm",
-    "price": 27000,
-    "price_postapoc": 550,
-    "bashing": 15,
+    "price": "270 USD",
+    "price_postapoc": "5 USD 50 cent",
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 15 }
   },
   {
     "id": "tire_wide_or",
@@ -232,14 +245,14 @@
     "weight": "750 g",
     "volume": "2 L",
     "longest_side": "686 mm",
-    "price": 2000,
-    "price_postapoc": 125,
-    "bashing": 8,
+    "price": "20 USD",
+    "price_postapoc": "1 USD 25 cent",
     "to_hit": -1,
     "material": [ "rubber" ],
     "flags": [ "NONCONDUCTIVE" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "tire_bicycle_or",
@@ -258,13 +271,13 @@
     "weight": "8845 g",
     "volume": "28 L",
     "longest_side": "432 mm",
-    "price": 10000,
-    "price_postapoc": 750,
-    "bashing": 12,
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "deflated_wheel_slick",
@@ -276,13 +289,13 @@
     "weight": "12600 g",
     "volume": "28 L",
     "longest_side": "407 mm",
-    "price": 24000,
-    "price_postapoc": 500,
-    "bashing": 14,
+    "price": "240 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 14 }
   },
   {
     "id": "deflated_wheel_motorbike",
@@ -293,13 +306,13 @@
     "weight": "5443 g",
     "volume": "12 L",
     "longest_side": "407 mm",
-    "price": 14000,
-    "price_postapoc": 500,
-    "bashing": 10,
+    "price": "140 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "deflated_wheel_motorbike_or",
@@ -318,13 +331,13 @@
     "weight": "22600 g",
     "volume": "70 L",
     "longest_side": "610 mm",
-    "price": 34000,
-    "price_postapoc": 750,
-    "bashing": 17,
+    "price": "340 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "deflated_wheel_wide_or",
@@ -342,13 +355,13 @@
     "weight": "1500 g",
     "volume": "11 L",
     "longest_side": "686 mm",
-    "price": 4000,
-    "price_postapoc": 250,
-    "bashing": 8,
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
-    "material": [ "steel", "rubber" ],
+    "material": [ "aluminum", "rubber" ],
     "symbol": "]",
-    "color": "dark_gray"
+    "color": "dark_gray",
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "deflated_wheel_bicycle_or",
@@ -366,15 +379,15 @@
     "weight": "8845 g",
     "volume": "28 L",
     "longest_side": "432 mm",
-    "price": 10000,
-    "price_postapoc": 750,
-    "bashing": 12,
+    "price": "100 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 17,
-    "width": 9
+    "width": 9,
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "wheel_slick",
@@ -385,15 +398,15 @@
     "weight": "12600 g",
     "volume": "28 L",
     "longest_side": "407 mm",
-    "price": 24000,
-    "price_postapoc": 500,
-    "bashing": 14,
+    "price": "240 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 16,
-    "width": 11
+    "width": 11,
+    "melee_damage": { "bash": 14 }
   },
   {
     "type": "WHEEL",
@@ -404,15 +417,15 @@
     "weight": "24500 g",
     "volume": "17500 ml",
     "longest_side": "813 mm",
-    "price": 34000,
-    "price_postapoc": 750,
-    "bashing": 17,
+    "price": "340 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
     "material": [ "qt_steel", "ceramic" ],
     "symbol": "]",
     "color": "green",
     "diameter": 32,
-    "width": 20
+    "width": 20,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "wheel_barrow",
@@ -423,15 +436,15 @@
     "weight": "2722 g",
     "volume": "2250 ml",
     "longest_side": "204 mm",
-    "price": 2000,
-    "price_postapoc": 250,
-    "bashing": 10,
+    "price": "20 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 8,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_bicycle",
@@ -442,15 +455,15 @@
     "weight": "1500 g",
     "volume": "11 L",
     "longest_side": "686 mm",
-    "price": 4000,
-    "price_postapoc": 250,
-    "bashing": 8,
+    "price": "40 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
-    "material": [ "steel", "rubber" ],
+    "material": [ "aluminum", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 27,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_bicycle_or",
@@ -463,20 +476,39 @@
     "id": "wheel_caster",
     "category": "veh_parts",
     "type": "WHEEL",
-    "name": { "str": "set of casters", "str_pl": "sets of casters" },
-    "description": "A set of casters, like you'd find on a shopping cart.",
-    "weight": "1500 g",
+    "name": { "str": "set of small casters", "str_pl": "sets of small casters" },
+    "description": "A set of small casters, like you'd find on an office chair.",
+    "weight": "1150 g",
     "volume": "1250 ml",
     "longest_side": "102 mm",
-    "price": 14000,
-    "price_postapoc": 100,
-    "bashing": 6,
+    "price": "24 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
-    "diameter": 4,
-    "width": 1
+    "diameter": 2,
+    "width": 1,
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "wheel_caster_large",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str": "set of large casters", "str_pl": "sets of large casters" },
+    "description": "A set of large casters, like you'd find on a shopping cart.",
+    "weight": "2700 g",
+    "volume": "3150 ml",
+    "longest_side": "190 mm",
+    "price": "45 USD",
+    "price_postapoc": "2 USD",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 6,
+    "width": 1,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wheel_10",
@@ -487,15 +519,15 @@
     "weight": "4 kg",
     "volume": "4 L",
     "longest_side": "254 mm",
-    "price": 14000,
-    "price_postapoc": 500,
-    "bashing": 6,
+    "price": "140 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "rubber", "steel" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "wheel_metal",
@@ -506,15 +538,15 @@
     "weight": "18239 g",
     "volume": "8750 ml",
     "longest_side": "508 mm",
-    "price": 1200,
-    "price_postapoc": 250,
-    "bashing": 8,
+    "price": "12 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
     "diameter": 20,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rail",
@@ -525,15 +557,15 @@
     "weight": "18239 g",
     "volume": "8750 ml",
     "longest_side": "508 mm",
-    "price": 1200,
-    "price_postapoc": 250,
-    "bashing": 8,
+    "price": "12 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -4,
     "material": [ "steel" ],
     "symbol": "]",
     "color": "light_gray",
     "diameter": 20,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_rail_small_pair",
@@ -541,8 +573,8 @@
     "type": "WHEEL",
     "description": "A pair of small rail wheels.  It fits small railroad rails found in places like amusement parks.  Mostly for hobby purposes rather than transportation.",
     "copy-from": "wheel_rail",
-    "price": 900,
-    "price_postapoc": 100,
+    "price": "9 USD",
+    "price_postapoc": "1 USD",
     "weight": "12239 g",
     "longest_side": "254 mm",
     "symbol": "=",
@@ -558,15 +590,15 @@
     "weight": "5443 g",
     "volume": "12 L",
     "longest_side": "407 mm",
-    "price": 14000,
-    "price_postapoc": 500,
-    "bashing": 10,
+    "price": "140 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 16,
-    "width": 4
+    "width": 4,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_motorbike_or",
@@ -586,15 +618,14 @@
     "weight": "750000 g",
     "volume": "200 L",
     "longest_side": "1524 mm",
-    "price": 50000,
-    "price_postapoc": 1500,
-    "bashing": 60,
-    "to_hit": -2,
+    "price": "500 USD",
+    "price_postapoc": "15 USD",
     "material": [ "steel" ],
     "symbol": "m",
     "color": "light_gray",
     "diameter": 60,
-    "width": 30
+    "width": 30,
+    "melee_damage": { "bash": 60 }
   },
   {
     "id": "wheel_small",
@@ -605,15 +636,15 @@
     "weight": "2722 g",
     "volume": "2250 ml",
     "longest_side": "254 mm",
-    "price": 14000,
-    "price_postapoc": 100,
-    "bashing": 10,
+    "price": "140 USD",
+    "price_postapoc": "1 USD",
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 10,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "wheel_skate",
@@ -624,15 +655,33 @@
     "weight": "200 g",
     "volume": "200 ml",
     "longest_side": "77 mm",
-    "price": 1400,
-    "price_postapoc": 10,
-    "bashing": 1,
-    "to_hit": -2,
+    "price": "14 USD",
+    "price_postapoc": "10 cent",
     "material": [ "steel", "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 3,
-    "width": 1
+    "width": 1,
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "wheel_skateboard",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": { "str": "set of skateboard wheels", "str_pl": "sets of skateboard wheels" },
+    "description": "A set of four small wheels, for a skateboard.",
+    "weight": "800 g",
+    "volume": "800 ml",
+    "longest_side": "60 mm",
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 2,
+    "width": 2,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "wheel_tricycle",
@@ -643,15 +692,14 @@
     "weight": "750 g",
     "volume": "750 ml",
     "longest_side": "178 mm",
-    "price": 7000,
-    "price_postapoc": 100,
-    "bashing": 3,
-    "to_hit": -2,
+    "price": "70 USD",
+    "price_postapoc": "1 USD",
     "material": [ "plastic" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 7,
-    "width": 1
+    "width": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "wheel_wheelchair",
@@ -662,15 +710,15 @@
     "weight": "3000 g",
     "volume": "12500 ml",
     "longest_side": "508 mm",
-    "price": 8000,
-    "price_postapoc": 250,
-    "bashing": 8,
+    "price": "80 USD",
+    "price_postapoc": "2 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 20,
-    "width": 2
+    "width": 2,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_wide",
@@ -681,15 +729,15 @@
     "weight": "22600 g",
     "volume": "70 L",
     "longest_side": "610 mm",
-    "price": 34000,
-    "price_postapoc": 750,
-    "bashing": 17,
+    "price": "340 USD",
+    "price_postapoc": "7 USD 50 cent",
     "to_hit": -1,
     "material": [ "steel", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 24,
-    "width": 14
+    "width": 14,
+    "melee_damage": { "bash": 17 }
   },
   {
     "id": "wheel_wide_or",
@@ -707,14 +755,14 @@
     "weight": "4500 g",
     "volume": "8750 ml",
     "longest_side": "508 mm",
-    "price": 1200,
-    "bashing": 8,
+    "price": "12 USD",
     "to_hit": -4,
     "material": [ "wood" ],
     "symbol": "]",
     "color": "brown",
     "diameter": 20,
-    "width": 3
+    "width": 3,
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "wheel_wood_b",
@@ -723,5 +771,24 @@
     "name": { "str": "banded wooden cart wheel" },
     "description": "A handmade wooden cart wheel with metal bands for durability.",
     "relative": { "weight": "500 g" }
+  },
+  {
+    "id": "wheel_mount_concrete_mix",
+    "type": "GENERIC",
+    "name": { "str_sp": "concrete mixer wheel mounts" },
+    "description": "A set of two small wheel mounts from a concrete mixer.",
+    "copy-from": "wheel_mount_light",
+    "weight": "300 g",
+    "volume": "500 ml"
+  },
+  {
+    "id": "wheel_set_concrete_mix",
+    "type": "WHEEL",
+    "name": { "str_sp": "concrete mixer wheels" },
+    "description": "A set of two small wheels from a concrete mixer.",
+    "copy-from": "wheel_small",
+    "weight": "5444 g",
+    "volume": "5500 ml",
+    "width": 6
   }
 ]

@@ -1,13 +1,33 @@
 #include "effect_on_condition.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <list>
+#include <ostream>
+#include <queue>
+#include <set>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "character_id.h"
 #include "condition.h"
+#include "creature.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "init.h"
+#include "mod_tracker.h"
+#include "npc.h"
+#include "output.h"
 #include "scenario.h"
+#include "string_formatter.h"
 #include "talker.h"
+#include "translations.h"
 #include "type_id.h"
 
 namespace io
@@ -24,13 +44,13 @@ namespace io
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
         case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::PREVENT_DEATH: return "PREVENT_DEATH";
+        case eoc_type::EVENT: return "EVENT";
         case eoc_type::NUM_EOC_TYPES: break;
         }
         cata_fatal( "Invalid eoc_type" );
     }    
     // *INDENT-ON*
 } // namespace io
-
 
 namespace
 {
@@ -55,7 +75,7 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string & )
+void effect_on_condition::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
@@ -64,24 +84,24 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "A recurring effect_on_condition must be of type RECURRING." );
         }
         type = eoc_type::RECURRING;
-        recurrence = get_duration_or_var<dialogue>( jo, "recurrence", false );
+        recurrence = get_duration_or_var( jo, "recurrence", false );
     }
     if( type == eoc_type::NUM_EOC_TYPES ) {
         type = eoc_type::ACTIVATION;
     }
 
     if( jo.has_member( "deactivate_condition" ) ) {
-        read_condition<dialogue>( jo, "deactivate_condition", deactivate_condition, false );
+        read_condition( jo, "deactivate_condition", deactivate_condition, false );
         has_deactivate_condition = true;
     }
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
-    true_effect.load_effect( jo, "effect" );
+    true_effect.load_effect( jo, "effect", std::string( src ) );
 
     if( jo.has_member( "false_effect" ) ) {
-        false_effect.load_effect( jo, "false_effect" );
+        false_effect.load_effect( jo, "false_effect", std::string( src ) );
         has_false_effect = true;
     }
 
@@ -90,10 +110,14 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
     }
+
+    if( type == eoc_type::EVENT ) {
+        mandatory( jo, was_loaded, "required_event", required_event );
+    }
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
-        const std::string &src )
+        const std::string_view src )
 {
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );
@@ -119,14 +143,14 @@ void effect_on_conditions::load_new_character( Character &you )
     for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
         effect_on_condition eoc = eoc_id.obj();
         if( eoc.type == eoc_type::SCENARIO_SPECIFIC && ( is_avatar || eoc.run_for_npcs ) ) {
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero };
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn_zero, {} };
             you.queued_effect_on_conditions.push( new_eoc );
         }
     }
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( eoc.type == eoc_type::RECURRING && ( ( is_avatar && eoc.global ) || !eoc.global ) ) {
             dialogue d( get_talker_for( you ), nullptr );
-            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id, d ) };
+            queued_eoc new_eoc = queued_eoc{ eoc.id, calendar::turn + next_recurrence( eoc.id, d ), {} };
             if( eoc.global ) {
                 g->queued_global_effect_on_conditions.push( new_eoc );
             } else {
@@ -138,23 +162,26 @@ void effect_on_conditions::load_new_character( Character &you )
     effect_on_conditions::process_effect_on_conditions( you );
 }
 
-static void process_new_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                              &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector,
-                              std::map<effect_on_condition_id, bool> &new_eocs )
+static void process_new_eocs( queued_eocs &eoc_queue,
+                              std::vector<effect_on_condition_id> &eoc_vector,
+                              std::map<effect_on_condition_id, bool> &new_eocs, bool global_queue )
 {
-    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-    temp_queued_eocs;
+    queued_eocs temp_queued_eocs;
     while( !eoc_queue.empty() ) {
-        if( eoc_queue.top().eoc.is_valid() ) {
-            temp_queued_eocs.push( eoc_queue.top() );
+        // Check if EoC is moved from global to local, or vice versa
+        if( global_queue == eoc_queue.top().eoc->global ) {
+            if( eoc_queue.top().eoc.is_valid() ) {
+                temp_queued_eocs.push( eoc_queue.top() );
+            }
+            new_eocs[eoc_queue.top().eoc] = false;
         }
-        new_eocs[eoc_queue.top().eoc] = false;
         eoc_queue.pop();
     }
-    eoc_queue = temp_queued_eocs;
+    eoc_queue = std::move( temp_queued_eocs );
     for( auto eoc = eoc_vector.begin();
          eoc != eoc_vector.end(); ) {
-        if( !eoc->is_valid() ) {
+        // Check if EoC is moved from global to local, or vice versa
+        if( !eoc->is_valid() || global_queue != ( *eoc )->global ) {
             eoc = eoc_vector.erase( eoc );
         } else {
             new_eocs[*eoc] = false;
@@ -173,25 +200,26 @@ void effect_on_conditions::load_existing_character( Character &you )
         }
     }
     process_new_eocs( you.queued_effect_on_conditions, you.inactive_effect_on_condition_vector,
-                      new_eocs );
+                      new_eocs, false );
     if( is_avatar ) {
         process_new_eocs( g->queued_global_effect_on_conditions,
-                          g->inactive_global_effect_on_condition_vector, new_eocs );
+                          g->inactive_global_effect_on_condition_vector, new_eocs, true );
     }
 
     for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
         if( eoc_pair.second ) {
             dialogue d( get_talker_for( you ), nullptr );
             queue_effect_on_condition( next_recurrence( eoc_pair.first, d ),
-                                       eoc_pair.first, you );
+                                       eoc_pair.first, you, {} );
         }
     }
 }
 
 void effect_on_conditions::queue_effect_on_condition( time_duration duration,
-        effect_on_condition_id eoc, Character &you )
+        effect_on_condition_id eoc, Character &you,
+        const std::unordered_map<std::string, std::string> &context )
 {
-    queued_eoc new_eoc = queued_eoc{ eoc, calendar::turn + duration };
+    queued_eoc new_eoc = queued_eoc{ eoc, calendar::turn + duration, context };
     if( eoc->global ) {
         g->queued_global_effect_on_conditions.push( new_eoc );
     } else if( eoc->type == eoc_type::ACTIVATION || eoc->type == eoc_type::RECURRING ) {
@@ -201,31 +229,43 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
     }
 }
 
-static void process_eocs( std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                          &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector, dialogue &d )
+static void process_eocs( queued_eocs &eoc_queue, std::vector<effect_on_condition_id> &eoc_vector,
+                          dialogue &d )
 {
-    std::vector<queued_eoc> eocs_to_queue;
+    static std::vector<queued_eocs::storage_iter> eocs_to_queue;
+    eocs_to_queue.clear();
+
     while( !eoc_queue.empty() &&
            eoc_queue.top().time <= calendar::turn ) {
-        queued_eoc top = eoc_queue.top();
-        bool activated = top.eoc->activate( d );
+        queued_eocs::storage_iter it = eoc_queue.queue.top();
+        queued_eoc &top = *it;
+        eoc_queue.queue.pop();
+
+        dialogue nested_d{ d };
+        for( const auto &val : top.context ) {
+            nested_d.set_value( val.first, val.second );
+        }
+        bool activated = top.eoc->activate( nested_d );
         if( top.eoc->type == eoc_type::RECURRING ) {
             if( activated ) { // It worked so add it back
-                queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ) };
-                eocs_to_queue.push_back( new_eoc );
+                it->time = calendar::turn + next_recurrence( top.eoc, d );
+                eocs_to_queue.emplace_back( it );
             } else {
-                if( !top.eoc->check_deactivate( d ) ) { // It failed but shouldn't be deactivated so add it back
-                    queued_eoc new_eoc = queued_eoc{ top.eoc, calendar::turn + next_recurrence( top.eoc, d ) };
-                    eocs_to_queue.push_back( new_eoc );
+                if( !top.eoc->check_deactivate(
+                        nested_d ) ) { // It failed but shouldn't be deactivated so add it back
+                    it->time = calendar::turn + next_recurrence( top.eoc, d );
+                    eocs_to_queue.emplace_back( it );
                 } else { // It failed and should be deactivated for now
                     eoc_vector.push_back( top.eoc );
+                    eoc_queue.list.erase( it );
                 }
             }
+        } else {
+            eoc_queue.list.erase( it );
         }
-        eoc_queue.pop();
     }
-    for( const queued_eoc &q_eoc : eocs_to_queue ) {
-        eoc_queue.push( q_eoc );
+    for( queued_eocs::storage_iter &q_eoc : eocs_to_queue ) {
+        eoc_queue.queue.emplace( q_eoc );
     }
 }
 
@@ -242,8 +282,7 @@ void effect_on_conditions::process_effect_on_conditions( Character &you )
 
 static void process_reactivation( std::vector<effect_on_condition_id>
                                   &inactive_effect_on_condition_vector,
-                                  std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-                                  &queued_effect_on_conditions, dialogue &d )
+                                  queued_eocs &queued_effect_on_conditions, dialogue &d )
 {
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : inactive_effect_on_condition_vector ) {
@@ -252,7 +291,7 @@ static void process_reactivation( std::vector<effect_on_condition_id>
         }
     }
     for( const effect_on_condition_id &eoc : ids_to_reactivate ) {
-        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc, d ) } );
+        queued_effect_on_conditions.push( queued_eoc{ eoc, calendar::turn + next_recurrence( eoc, d ), d.get_context() } );
         inactive_effect_on_condition_vector.erase( std::remove(
                     inactive_effect_on_condition_vector.begin(), inactive_effect_on_condition_vector.end(),
                     eoc ), inactive_effect_on_condition_vector.end() );
@@ -272,20 +311,31 @@ void effect_on_conditions::process_reactivate()
                           g->queued_global_effect_on_conditions, d );
 }
 
-bool effect_on_condition::activate( dialogue &d ) const
+bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
     bool retval = false;
-    if( !has_condition || condition( d ) ) {
-        true_effect.apply( d );
+    if( require_callstack_check ) {
+        d.amend_callstack( "EOC: " + id.str() );
+        if( d.get_callstack().size() > 5000 ) {
+            if( query_yn( string_format( _( "Possible infinite loop in EOC %s.  Stop execution?" ),
+                                         id.str() ) ) ) {
+                return false;
+            }
+        }
+    }
+    // each version needs a copy of the dialogue to pass down
+    dialogue d_eoc( d );
+    if( !has_condition || condition( d_eoc ) ) {
+        true_effect.apply( d_eoc );
         retval = true;
     } else if( has_false_effect ) {
-        false_effect.apply( d );
+        false_effect.apply( d_eoc );
     }
     // This works because if global is true then this is recurring and thus should only ever be passed containing the player
     // Thus we just need to run the npcs.
     if( global && run_for_npcs ) {
         for( npc &guy : g->all_npcs() ) {
-            dialogue d_npc( get_talker_for( guy ), nullptr );
+            dialogue d_npc( get_talker_for( guy ), nullptr, d.get_conditionals(), d.get_context() );
             if( !has_condition || condition( d_npc ) ) {
                 true_effect.apply( d_npc );
             } else if( has_false_effect ) {
@@ -395,6 +445,7 @@ void effect_on_conditions::prevent_death()
             eoc.activate( d );
         }
         if( !player_character.is_dead_state() ) {
+            player_character.clear_killer();
             break;
         }
     }
@@ -456,4 +507,74 @@ void effect_on_conditions::reset()
 void effect_on_conditions::load( const JsonObject &jo, const std::string &src )
 {
     effect_on_condition_factory.load( jo, src );
+}
+
+void eoc_events::clear()
+{
+    has_cached = false;
+    event_EOCs.clear();
+}
+
+void eoc_events::notify( const cata::event &e )
+{
+    notify( e, nullptr, nullptr );
+}
+
+void eoc_events::notify( const cata::event &e, std::unique_ptr<talker> alpha,
+                         std::unique_ptr<talker> beta )
+{
+    if( !has_cached ) {
+
+        // initialize all events to an empty vector
+        for( event_type et = static_cast<event_type>( 0 ); et < event_type::num_event_types;
+             et = static_cast<event_type>( static_cast<size_t>( et ) + 1 ) ) {
+
+            event_EOCs[et] = std::vector<effect_on_condition>();
+        }
+
+        //create a cache for the specific types of EOC's so they aren't constantly all itterated through
+        for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+            if( eoc.type == eoc_type::EVENT ) {
+                event_EOCs[eoc.required_event].emplace_back( eoc );
+            }
+        }
+
+        has_cached = true;
+    }
+
+    for( const effect_on_condition &eoc : event_EOCs[e.type()] ) {
+        if( !alpha ) {
+            // try to assign a character for the EOC
+            // TODO: refactor event_spec to take consistent inputs
+            npc *alpha_talker = nullptr;
+            const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
+            for( const std::string &potential_key : potential_alphas ) {
+                cata_variant cv = e.get_variant_or_void( potential_key );
+                if( cv != cata_variant() ) {
+                    character_id potential_id = cv.get<cata_variant_type::character_id>();
+                    if( potential_id.is_valid() ) {
+                        alpha_talker = g->find_npc( potential_id );
+                        // if we find a successful entry exit early
+                        break;
+                    }
+                }
+            }
+            if( alpha_talker ) {
+                alpha = get_talker_for( alpha_talker );
+            } else {
+                alpha = get_talker_for( get_avatar() );
+            }
+        }
+        dialogue d;
+        std::unordered_map<std::string, std::string> context;
+        for( const auto &val : e.data() ) {
+            context["npctalk_var_" + val.first] = val.second.get_string();
+        }
+
+        // if we have an NPC to trigger this event for, do so,
+        // otherwise fallback to having it effect the player
+        d = dialogue( alpha->clone(), beta ? beta->clone() : nullptr, {}, context );
+
+        eoc.activate( d );
+    }
 }

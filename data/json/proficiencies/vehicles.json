@@ -1,0 +1,34 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_helicopter_pilot",
+    "category": "prof_vehicles",
+    "name": { "str": "Helicopter Piloting" },
+    "description": "Before the Cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
+    "can_learn": false
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_boat_pilot",
+    "category": "prof_vehicles",
+    "name": { "str": "Boat Piloting" },
+    "description": "You're familiar with the control and operation of marine vehicles, like boats.",
+    "can_learn": true,
+    "time_to_learn": "4 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_driver",
+    "category": "prof_vehicles",
+    "name": { "str": "Driving" },
+    "description": "You're comfortable with the basic controls of cars, and land vehicles in general.",
+    "can_learn": true,
+    "time_to_learn": "4 h",
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "ignore_focus": true
+  }
+]

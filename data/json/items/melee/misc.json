@@ -8,13 +8,13 @@
     "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
     "weight": "3460 g",
     "volume": "2 L",
-    "price": 3500,
-    "price_postapoc": 500,
+    "price": "35 USD",
+    "price_postapoc": "5 USD",
     "material": [ "leather" ],
     "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
-    "cutting": 3,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
-    "category": "weapons"
+    "category": "weapons",
+    "melee_damage": { "cut": 3 }
   },
   {
     "id": "bullwhip_razor",
@@ -26,34 +26,13 @@
     "color": "brown",
     "weight": "3496 g",
     "volume": "2250 ml",
-    "price": 4800,
-    "price_postapoc": 5200,
+    "price": "48 USD",
+    "price_postapoc": "52 USD",
     "//": "There's no way you can swing this thing without hitting SOMETHING.",
-    "cutting": 10,
     "to_hit": { "grip": "none", "length": "long", "surface": "every", "balance": "uneven" },
     "material": [ "leather", "steel" ],
-    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
-  },
-  {
-    "id": "lobotomizer",
-    "type": "GENERIC",
-    "category": "weapons",
-    "name": { "str": "lobotomizer" },
-    "description": "A hand-forged collapsible tool with two axe heads and a sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
-    "weight": "2722 g",
-    "volume": "1750 ml",
-    "price": 25000,
-    "price_postapoc": 1250,
-    "bashing": 18,
-    "cutting": 37,
-    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
-    "material": [ "steel" ],
-    "symbol": "/",
-    "color": "dark_gray",
-    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ],
+    "melee_damage": { "cut": 10 }
   },
   {
     "id": "tazer",
@@ -63,10 +42,9 @@
     "description": "A high-powered stun gun.  Use this item to attempt to electrocute an adjacent enemy, temporarily paralyzing them.",
     "weight": "151 g",
     "volume": "250 ml",
-    "price": 14000,
-    "price_postapoc": 1500,
+    "price": "140 USD",
+    "price_postapoc": "15 USD",
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "bashing": 6,
     "//": "Yes, this is smaller than its magazine well. Go with it.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -77,6 +55,7 @@
     "use_action": [ "TAZER" ],
     "pocket_data": [
       { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   }
 ]

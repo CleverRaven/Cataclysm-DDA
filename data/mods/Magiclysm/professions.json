@@ -2,8 +2,20 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "pouch_wild_druid",
+    "entries": [ { "item": "fur", "count": 3 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "quiver_mooserider",
     "entries": [ { "item": "arrow_heavy_fire_hardened_fletched", "charges": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_elven_ceremonial_guard",
+    "entries": [ { "item": "arrow_cf", "count": 40 } ]
   },
   {
     "type": "profession",
@@ -13,11 +25,20 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "wizard_beginner" ],
-        "entries": [ { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "gloves_light" },
+          { "item": "hat_ball" },
+          { "item": "boots" },
+          { "item": "socks" },
+          { "item": "hoodie" },
+          { "item": "knit_scarf" },
+          { "item": "wizard_beginner" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -29,11 +50,17 @@
     "points": 2,
     "items": {
       "both": {
-        "items": [ "lighter", "sneakers", "pants", "jacket_light", "pyro" ],
-        "entries": [ { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "lighter" },
+          { "item": "sneakers" },
+          { "item": "pants" },
+          { "item": "jacket_light" },
+          { "item": "pyro" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "PYROMANIA", "KELVINIST" ]
   },
@@ -61,11 +88,21 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "priest_beginner", "mbag" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "item": "pants" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "cassock" },
+          { "item": "dress_shoes" },
+          { "item": "holy_symbol" },
+          { "item": "holybook_bible1" },
+          { "item": "priest_beginner" },
+          { "item": "mbag" },
+          { "group": "charged_cell_phone" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -78,11 +115,21 @@
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki", "priest_beginner", "mbag" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "item": "kariginu" },
+          { "item": "eboshi" },
+          { "item": "pants" },
+          { "item": "tabi_dress" },
+          { "item": "geta" },
+          { "item": "holy_symbol" },
+          { "item": "holybook_kojiki" },
+          { "item": "priest_beginner" },
+          { "item": "mbag" },
+          { "group": "charged_cell_phone" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -96,41 +143,52 @@
     "skills": [ { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "pants", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "priest_beginner", "mbag" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "kufi" },
+          { "item": "thawb" },
+          { "item": "lowtops" },
+          { "item": "holybook_quran" },
+          { "item": "priest_beginner" },
+          { "item": "mbag" },
+          { "group": "charged_cell_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
     "type": "profession",
     "id": "rabbi_magic2",
     "name": "Rabbi",
-    "description": "You were celebrating with your flock in the temple when the Cataclysm struck.  You sure could use a messiah right now!",
+    "description": "You were davening Shacharit in shul when the Cataclysm struck.  You had always taught that God will restore life to the dead after Moshiach has come, but not like this!",
     "points": 0,
     "flags": [ "SCEN_ONLY" ],
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "leather_belt",
-          "dress_shirt",
-          "socks",
-          "kittel",
-          "kippah",
-          "dress_shoes",
-          "holy_symbol",
-          "holybook_talmud",
-          "holybook_tanakh",
-          "priest_beginner",
-          "mbag"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "item": "pants" },
+          { "item": "leather_belt" },
+          { "item": "dress_shirt" },
+          { "item": "socks" },
+          { "item": "kittel" },
+          { "item": "kippah" },
+          { "item": "tallit_gadol" },
+          { "item": "dress_shoes" },
+          { "item": "holybook_talmud" },
+          { "item": "holybook_tanakh" },
+          { "item": "priest_beginner" },
+          { "item": "mbag" },
+          { "group": "charged_cell_phone" },
+          { "item": "holy_symbol", "variant": "jewish_necklace1" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -144,23 +202,24 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-          "jeans",
-          "socks",
-          "robe",
-          "turban",
-          "waterskin",
-          "pockknife",
-          "mbag",
-          "leathersandals",
-          "holy_symbol",
-          "wristwatch",
-          "priest_beginner"
-        ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "socks" },
+          { "item": "robe" },
+          { "item": "turban" },
+          { "item": "waterskin" },
+          { "item": "pockknife" },
+          { "item": "mbag" },
+          { "item": "leathersandals" },
+          { "item": "holy_symbol" },
+          { "item": "wristwatch" },
+          { "item": "priest_beginner" },
+          { "group": "charged_cell_phone" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "panties" } ] }
     }
   },
   {
@@ -174,24 +233,24 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "dress_shirt",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "wristwatch",
-          "backpack",
-          "laptop",
-          "flyer",
-          "flyer",
-          "flyer",
-          "holy_symbol",
-          "priest_beginner"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "wristwatch" },
+          { "item": "backpack" },
+          { "item": "laptop" },
+          { "item": "flyer" },
+          { "item": "flyer" },
+          { "item": "flyer" },
+          { "item": "holy_symbol" },
+          { "item": "priest_beginner" },
+          { "group": "charged_cell_phone" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -199,21 +258,28 @@
     "id": "novice_necromancer",
     "name": "Novice Necromancer",
     "description": "You always had to hide your magic, as it was generally not an acceptable type of magic in the wizarding world, but with the Cataclysm you need to pull every trick out of the book.",
-    "spells": [ { "id": "summon_zombie", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
+    "spells": [ { "id": "summon_undead", "level": 5 }, { "id": "necrotic_gaze", "level": 1 } ],
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "leather_belt" ],
         "entries": [
+          { "item": "jeans" },
+          { "item": "gloves_light" },
+          { "item": "hat_ball" },
+          { "item": "boots" },
+          { "item": "socks" },
+          { "item": "hoodie" },
+          { "item": "knit_scarf" },
+          { "item": "leather_belt" },
           { "item": "primitive_knife", "container-item": "sheath" },
           { "item": "tshirt", "variant": "start_a_cult_tshirt" },
           { "item": "onyx_silver_bracelet", "variant": "dark_bracelet" },
           { "item": "onyx_silver_ring", "variant": "dark_ring" }
         ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "ANIMIST" ]
   },
@@ -222,15 +288,27 @@
     "id": "novice_stormshaper",
     "name": "Novice Stormshaper",
     "description": "The son of a weatherman, you were always interested in the weather.  Recently you found it was possible to manipulate the weather yourself through arcane means!  Unfortunately you did not have long to enjoy your power, as events unfolded…",
-    "spells": [ { "id": "shocking_lash", "level": 1 }, { "id": "windrun", "level": 1 } ],
+    "spells": [
+      { "id": "shocking_lash", "level": 1 },
+      { "id": "windrun", "level": 1 },
+      { "id": "stormshaper_cloak_of_fog", "level": 1 }
+    ],
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "hat_ball", "sneakers", "socks", "hoodie", "mbag", "novice_stormshaper_book" ],
-        "entries": [ { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "hat_ball" },
+          { "item": "sneakers" },
+          { "item": "socks" },
+          { "item": "hoodie" },
+          { "item": "mbag" },
+          { "item": "novice_stormshaper_book" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "STORMSHAPER" ]
   },
@@ -238,16 +316,23 @@
     "type": "profession",
     "id": "novice_earthshaper",
     "name": "Novice Earthshaper",
-    "description": "You always were tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
+    "description": "You were always tough in a fight.  Your coach managed to teach you a trick or two to make you a little tougher.",
     "spells": [ { "id": "stonefist", "level": 1 }, { "id": "seismic_stomp", "level": 1 } ],
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "boxing_gloves", "hat_ball", "sneakers", "socks", "hoodie" ],
-        "entries": [ { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "boxing_gloves" },
+          { "item": "hat_ball" },
+          { "item": "sneakers" },
+          { "item": "socks" },
+          { "item": "hoodie" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "EARTHSHAPER" ]
   },
@@ -260,11 +345,18 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [ "jeans", "gloves_light", "hat_ball", "sneakers", "socks", "hoodie" ],
-        "entries": [ { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [
+          { "item": "jeans" },
+          { "item": "gloves_light" },
+          { "item": "hat_ball" },
+          { "item": "sneakers" },
+          { "item": "socks" },
+          { "item": "hoodie" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
       },
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "TECHNOMANCER" ]
   },
@@ -273,18 +365,30 @@
     "id": "ranger",
     "name": "Introspectionist",
     "description": "You segregated yourself from society because you wanted to concentrate on improving yourself.  It was you and your best friend, but now the apocalypse won't leave you alone.",
-    "spells": [ { "id": "magic_missile", "level": 4 } ],
+    "spells": [
+      { "id": "magic_missile", "level": 4 },
+      { "id": "classless_watch_spell", "level": 2 },
+      { "id": "magus_far_hand_pull", "level": 3 }
+    ],
     "points": 4,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "firstaid" } ],
     "traits": [ "MAGUS" ],
     "pets": [ { "name": "mon_dog_bull", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "stat_up_spellbook", "leathersandals", "pants_leather", "jacket_leather", "hide_bag", "cloak", "gloves_wraps" ],
-        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ]
+        "entries": [
+          { "item": "stat_up_spellbook" },
+          { "item": "leathersandals" },
+          { "item": "pants_leather" },
+          { "item": "jacket_leather" },
+          { "item": "hide_bag" },
+          { "item": "cloak" },
+          { "item": "gloves_wraps" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
       },
-      "male": [ "chestwrap_fur", "loincloth_fur" ],
-      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+      "male": { "entries": [ { "item": "chestwrap_fur" }, { "item": "loincloth_fur" } ] },
+      "female": { "entries": [ { "item": "bikini_top_fur" }, { "item": "hot_pants_fur" } ] }
     }
   },
   {
@@ -296,23 +400,24 @@
     "skills": [ { "level": 2, "name": "melee" }, { "level": 1, "name": "bashing" }, { "level": 1, "name": "gun" } ],
     "items": {
       "both": {
-        "items": [
-          "hoodie",
-          "jeans",
-          "socks",
-          "boots",
-          "wristwatch",
-          "holy_symbol",
-          "mbag",
-          "priest_beginner",
-          "whiskey",
-          "whiskey",
-          "45colt_jhp"
-        ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6 } ]
+        "entries": [
+          { "item": "hoodie" },
+          { "item": "jeans" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "wristwatch" },
+          { "item": "holy_symbol" },
+          { "item": "mbag" },
+          { "item": "priest_beginner" },
+          { "item": "whiskey" },
+          { "item": "whiskey" },
+          { "item": "45colt_jhp" },
+          { "group": "charged_cell_phone" },
+          { "item": "colt_saa", "ammo-item": "45colt_jhp", "charges": 6 }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   },
@@ -321,7 +426,12 @@
     "id": "techno_prepper",
     "name": "Techno-Prepper",
     "description": "You've long suspected the world might suddenly turn over.  With your training, spells, and revolver, your chances are far better than most.",
-    "spells": [ { "id": "create_atomic_lamp", "level": 8 }, { "id": "invisibility", "level": 2 } ],
+    "spells": [
+      { "id": "create_atomic_lamp", "level": 8 },
+      { "id": "invisibility", "level": 2 },
+      { "id": "technomancer_conjure_ups", "level": 3 },
+      { "id": "technomancer_recharge_vehicle", "level": 5 }
+    ],
     "points": 5,
     "skills": [
       { "level": 2, "name": "survival" },
@@ -335,8 +445,14 @@
     ],
     "items": {
       "both": {
-        "items": [ "hat_boonie", "longshirt", "socks", "jeans", "gloves_light", "boots", "trenchcoat" ],
         "entries": [
+          { "item": "hat_boonie" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "jeans" },
+          { "item": "gloves_light" },
+          { "item": "boots" },
+          { "item": "trenchcoat" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "m47a1", "ammo-item": "38_special", "charges": 6, "container-item": "holster" },
           { "item": "sheath", "contents-item": "knife_combat" },
@@ -344,10 +460,306 @@
           { "item": "ref_lighter", "charges": 50 }
         ]
       },
-      "male": [ "undershirt", "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "undershirt" }, { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "TECHNOMANCER" ]
+  },
+  {
+    "type": "profession",
+    "id": "freezing_dancer",
+    "name": "Freezing Dancer",
+    "description": "You are a highly sought exotic magic dancer.  You can heat the room temperature with your moves and your body, but whenever it lights too much you freeze it with your magic, granting you great control over your public.  They can see, but never touch.",
+    "spells": [
+      { "id": "freezing_touch", "level": 3 },
+      { "id": "glide_ice", "level": 3 },
+      { "id": "kelvinist_anti_heat", "level": 3 },
+      { "id": "kelvinist_extinguish_fire_spell", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 5 }
+    ],
+    "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
+    "points": 2,
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "hot_pants_leather" },
+          { "item": "chaps_leather" },
+          { "item": "halter_top" },
+          { "item": "jacket_leather" },
+          { "item": "fancy_sunglasses" },
+          { "item": "dance_shoes" },
+          { "item": "socks" },
+          { "item": "purse" },
+          { "group": "charged_cell_phone" },
+          { "item": "mask_dust", "variant": "black_mask_dust" }
+        ]
+      },
+      "male": { "entries": [ { "item": "tank_top" } ] },
+      "female": { "entries": [ { "item": "bikini_top_leather" }, { "item": "leather_collar" } ] }
+    },
+    "traits": [ "KELVINIST" ]
+  },
+  {
+    "type": "profession",
+    "id": "dimensionalist",
+    "name": "Dimensionalist Mage",
+    "description": "You are an expert in dimensionalism, with its most common example being teleportation magic, that is the reason why you could survive while your colleagues could not.  Your only hope is that your highly specialized skills will continue keeping you alive.",
+    "points": 6,
+    "spells": [
+      { "id": "phase_door", "level": 10 },
+      { "id": "dimension_door", "level": 2 },
+      { "id": "translocate_self", "level": 5 },
+      { "id": "magus_teleport_mark", "level": 6 },
+      { "id": "magus_word_of_recall", "level": 4 },
+      { "id": "magus_escape", "level": 3 },
+      { "id": "gravity_well", "level": 2 }
+    ],
+    "skills": [ { "level": 5, "name": "spellcraft" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "copper_circlet" },
+          { "item": "cloak" },
+          { "item": "dress_shoes" },
+          { "item": "socks_wool" },
+          { "item": "mbag" },
+          { "item": "wizard_hat" },
+          { "item": "gloves_liner" },
+          { "item": "gloves_light" },
+          { "item": "dress_shirt" },
+          { "item": "knit_scarf" },
+          { "item": "pocketwatch" },
+          { "item": "magi_staff_minor", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_briefs" }, { "item": "pants" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "skirt" } ] }
+    },
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "id": "magic_burglar",
+    "name": "Shadow Burglar",
+    "description": "Helped by all kind of magical tools and your great talents, you were planning your next great break in.  The world ended before you had time to escape with all of your ill-gained plunder, but at least now nobody can stop you now from breaking whatever locks you desire.",
+    "points": 5,
+    "proficiencies": [ "prof_lockpicking" ],
+    "skills": [ { "level": 4, "name": "traps" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "pants" },
+          { "item": "striped_shirt" },
+          { "item": "hoodie" },
+          { "item": "gloves_light" },
+          { "item": "swag_bag" },
+          { "item": "crowbar" },
+          { "item": "hacksaw" },
+          { "item": "wristwatch" },
+          { "item": "boltcutters" },
+          { "item": "stethoscope" },
+          { "item": "picklocks" },
+          { "item": "mkey_opening" },
+          { "item": "mmask_disappearance", "ammo-item": "crystallized_mana", "charges": 1 }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "magic_drunkard",
+    "name": "Magic Drunkard",
+    "description": "You were lucky enough to find a weird flask that refills itself with whiskey!  You now spend your days just waiting for every refill and keeping it from the hands of any envious neighbor of yours.",
+    "points": 2,
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ],
+    "skills": [ { "level": 2, "name": "unarmed" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "gloves_light" },
+          { "item": "hat_ball" },
+          { "item": "duffelbag" },
+          { "item": "backpack" },
+          { "item": "long_underpants" },
+          { "item": "boots" },
+          { "item": "socks_wool" },
+          { "item": "socks" },
+          { "item": "hoodie" },
+          { "item": "folding_poncho" },
+          { "item": "knit_scarf" },
+          { "item": "can_beans" },
+          { "item": "pockknife" },
+          { "item": "mflask_hip_whiskey" },
+          { "group": "charged_cell_phone" },
+          { "group": "charged_matches" },
+          { "item": "tshirt", "variant": "generic_tshirt" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "magic_miner",
+    "name": "Magic Miner",
+    "description": "You were the most prepared of them all.  The miner that never lacked tools and could control the ground itself.  Sadly, you are not sure those abilities will save you in what is to come.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "spellcraft" } ],
+    "spells": [
+      { "id": "eshaper_spawn_tools", "level": 3 },
+      { "id": "move_earth", "level": 2 },
+      { "id": "earthshaper_pillar", "level": 1 },
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "earthshaper_harden_earth", "level": 4 }
+    ],
+    "traits": [ "EARTHSHAPER" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "boots_steel" },
+          { "item": "gloves_work" },
+          { "item": "knee_pads" },
+          { "item": "jumpsuit" },
+          { "item": "tool_belt" },
+          { "item": "mbag" },
+          { "item": "wristwatch" },
+          { "group": "full_gasmask" },
+          { "group": "charged_smart_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "light_minus_disposable_cell", "charges": 100 },
+          { "group": "hat_hard_flashlight", "prob": 40 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "boy_shorts" }, { "item": "sports_bra" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "magic_maid",
+    "name": { "male": "Magic Butler", "female": "Magic Maid" },
+    "description": "You are a descendant of a long line of housekeepers for magical families.  Trained in several spells to facilitate your job you were easily hired to take care of your current job, sadly, it looks like this could be your last.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "spellcraft" }, { "level": 2, "name": "tailor" } ],
+    "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knives_familiar" ],
+    "spells": [
+      { "id": "create_atomic_light", "level": 4 },
+      { "id": "magus_force_jar", "level": 3 },
+      { "id": "magus_haste", "level": 2 },
+      { "id": "cats_grace", "level": 1 },
+      { "id": "magus_far_hand_pull", "level": 5 },
+      { "id": "classless_watch_spell", "level": 1 }
+    ],
+    "traits": [ "MAGUS" ],
+    "items": {
+      "both": { "entries": [ { "item": "pocketwatch" }, { "item": "mteapot" }, { "group": "charged_smart_phone" } ] },
+      "male": {
+        "entries": [
+          { "item": "briefs" },
+          { "item": "socks" },
+          { "item": "dress_shoes" },
+          { "item": "tux" },
+          { "item": "glasses_monocle" },
+          { "item": "collarpin" }
+        ]
+      },
+      "female": {
+        "entries": [
+          { "item": "panties" },
+          { "item": "bra" },
+          { "item": "stockings" },
+          { "item": "garter_belt" },
+          { "item": "dress_shoes" },
+          { "item": "maid_dress" },
+          { "item": "maid_hat" },
+          { "item": "corset_waist" },
+          { "item": "fc_hairpin" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "wild_druid",
+    "name": "Wild Druid",
+    "description": "For a long time you lived in the wild, free of interference from whatever inhabited outside the woods, now that the woods are collapsing you finally return to civilization.",
+    "points": 6,
+    "spells": [
+      { "id": "druid_feralform", "level": 4 },
+      { "id": "summon_wolf_druid", "level": 3 },
+      { "id": "purify_seed", "level": 3 },
+      { "id": "dark_sight", "level": 2 },
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "druid_summon_brambles", "level": 3 }
+    ],
+    "skills": [ { "level": 4, "name": "survival" }, { "level": 3, "name": "spellcraft" } ],
+    "proficiencies": [ "prof_knives_familiar" ],
+    "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "footrags_fur" },
+          { "item": "boots_fur" },
+          { "item": "gloves_wraps_fur" },
+          { "item": "hat_fur" },
+          { "item": "cloak_fur" },
+          { "item": "scarf_fur_loose" },
+          { "item": "wolfshead_cufflinks", "ammo-item": "crystallized_mana", "charges": 1 },
+          { "item": "leather_pouch", "contents-group": "pouch_wild_druid" },
+          { "item": "primitive_knife", "container-item": "sheath" },
+          { "item": "water_clean", "charges": 3, "container-item": "waterskin" }
+        ]
+      },
+      "male": [ "chestwrap_fur", "loincloth_fur" ],
+      "female": [ "bikini_top_fur", "hot_pants_fur" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "archer_druid",
+    "name": "Archer Druid",
+    "description": "You were a skillful and committed archer druid, making constant excursions to the forests in which you dedicated yourself to living of and with what nature had to offer you.  You were returning from your last travel when civilization fell upon itself.",
+    "points": 5,
+    "proficiencies": [ "prof_bowyery", "prof_bow_basic", "prof_bow_expert", "prof_knives_familiar" ],
+    "spells": [
+      { "id": "druid_naturebow1", "level": 4 },
+      { "id": "druid_natures_commune", "level": 3 },
+      { "id": "druid_harvest_hunter", "level": 3 },
+      { "id": "purify_seed", "level": 2 },
+      { "id": "druid_veggrasp", "level": 1 },
+      { "id": "classless_watch_spell", "level": 2 }
+    ],
+    "skills": [
+      { "level": 2, "name": "survival" },
+      { "level": 2, "name": "spellcraft" },
+      { "level": 1, "name": "gun" },
+      { "level": 2, "name": "archery" }
+    ],
+    "traits": [ "DRUID" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "robe" },
+          { "item": "chestwrap" },
+          { "item": "loincloth" },
+          { "item": "leathersandals" },
+          { "item": "gloves_wraps" },
+          { "item": "straw_hat" },
+          { "item": "leather_pouch" },
+          { "item": "sleeping_bag_fur_roll" },
+          { "item": "water_clean", "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
+      }
+    }
   },
   {
     "type": "profession",
@@ -357,16 +769,26 @@
     "points": 8,
     "spells": [ { "id": "ethereal_grasp", "level": 3 }, { "id": "obfuscated_body", "level": 3 }, { "id": "soulrend", "level": 2 } ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 2, "name": "cutting" }, { "level": 3, "name": "spellcraft" } ],
+    "proficiencies": [ "prof_hooking_familiar" ],
     "items": {
       "both": {
-        "items": [ "grim_reaper_robe", "jumpsuit_skeleton_zipped", "gloves_skeleton", "socks", "boots" ],
         "entries": [
-          { "item": "grim_reaper_scythe", "ammo-item": "crystallized_mana", "charges": 3, "custom-flags": [ "auto_wield" ] },
+          { "item": "grim_reaper_robe" },
+          { "item": "jumpsuit_skeleton_zipped" },
+          { "item": "gloves_skeleton" },
+          { "item": "socks" },
+          { "item": "boots" },
+          {
+            "item": "grim_reaper_scythe",
+            "ammo-item": "crystallized_mana",
+            "charges": 3,
+            "custom-flags": [ "auto_wield" ]
+          },
           { "item": "onyx_silver_ring", "variant": "dark_ring" }
         ]
       },
-      "male": [ "undershirt", "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "undershirt" }, { "item": "boxer_briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "ANIMIST", "TERRIFYING", "KILLER" ]
   },
@@ -379,7 +801,7 @@
     "spells": [
       { "id": "recover_mana", "level": 2 },
       { "id": "necrotic_gaze", "level": 2 },
-      { "id": "summon_zombie", "level": 2 },
+      { "id": "summon_undead", "level": 2 },
       { "id": "dark_sight", "level": 3 }
     ],
     "CBMs": [ "bio_fuel_cell_blood", "bio_power_storage_mkII", "bio_nanobots" ],
@@ -392,8 +814,14 @@
     ],
     "items": {
       "both": {
-        "items": [ "cloak_vampire", "gloves_claws", "dress_shoes", "knit_scarf", "sunglasses", "platinum_watch", "vampire_fangs" ],
         "entries": [
+          { "item": "cloak_vampire" },
+          { "item": "gloves_claws" },
+          { "item": "dress_shoes" },
+          { "item": "knit_scarf" },
+          { "item": "sunglasses" },
+          { "item": "platinum_watch" },
+          { "item": "vampire_fangs" },
           { "group": "charged_smart_phone" },
           { "item": "knife_baselard", "container-item": "sheath" },
           {
@@ -406,15 +834,25 @@
         ]
       },
       "male": {
-        "items": [ "dress_shirt", "pants", "tie_necktie", "tieclip", "briefs", "socks" ],
         "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants" },
+          { "item": "tie_necktie" },
+          { "item": "tieclip" },
+          { "item": "briefs" },
+          { "item": "socks" },
           { "item": "ruby_silver_cufflinks", "variant": "vampire_cufflinks" },
           { "item": "ruby_silver_bracelet", "variant": "vampire_bracelet" }
         ]
       },
       "female": {
-        "items": [ "sinister_dress", "bra", "panties", "stockings", "garter_belt", "purse" ],
         "entries": [
+          { "item": "sinister_dress" },
+          { "item": "bra" },
+          { "item": "panties" },
+          { "item": "stockings" },
+          { "item": "garter_belt" },
+          { "item": "purse" },
           { "item": "ruby_silver_earring", "variant": "vampire_earring" },
           { "item": "ruby_silver_pendant_necklace", "variant": "vampire_necklace" }
         ]
@@ -426,14 +864,15 @@
     "type": "profession",
     "id": "academy_wizard",
     "name": "Academy Wizard",
-    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes cancelled, the final lesson has begun.",
+    "description": "A year of enrollment in a wizard's academy has taught you patience, wisdom, and a handful of useful spells.  With the teachers converted into the undead and classes canceled, the final lesson has begun.",
     "points": 4,
     "proficiencies": [ "prof_alchemy" ],
     "spells": [
       { "id": "magic_missile", "level": 6 },
       { "id": "magus_mana_bolt", "level": 2 },
       { "id": "create_atomic_light", "level": 3 },
-      { "id": "protection_aura", "level": 3 }
+      { "id": "protection_aura", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 2 }
     ],
     "skills": [
       { "level": 1, "name": "melee" },
@@ -443,22 +882,22 @@
     ],
     "items": {
       "both": {
-        "items": [
-          "copper_circlet",
-          "cloak",
-          "dress_shoes",
-          "socks_wool",
-          "beret_wool",
-          "gloves_liner",
-          "gloves_light",
-          "dress_shirt",
-          "knit_scarf",
-          "pocketwatch"
-        ],
-        "entries": [ { "item": "q_staff", "custom-flags": [ "auto_wield" ] } ]
+        "entries": [
+          { "item": "copper_circlet" },
+          { "item": "cloak" },
+          { "item": "dress_shoes" },
+          { "item": "socks_wool" },
+          { "item": "beret_wool" },
+          { "item": "gloves_liner" },
+          { "item": "gloves_light" },
+          { "item": "dress_shirt" },
+          { "item": "knit_scarf" },
+          { "item": "pocketwatch" },
+          { "item": "q_staff", "custom-flags": [ "auto_wield" ] }
+        ]
       },
-      "male": [ "boxer_briefs", "pants" ],
-      "female": [ "bra", "panties", "skirt" ]
+      "male": { "entries": [ { "item": "boxer_briefs" }, { "item": "pants" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" }, { "item": "skirt" } ] }
     },
     "traits": [ "MAGUS" ]
   },
@@ -476,20 +915,20 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 2, "name": "spellcraft" } ],
     "items": {
       "both": {
-        "items": [
-          "jacket_leather",
-          "pants_leather",
-          "leather_belt",
-          "socks",
-          "boots",
-          "gloves_fingerless",
-          "guitar_electric",
-          "switchblade"
-        ],
-        "entries": [ { "item": "pepto", "charges": 10, "container-item": "bottle_plastic_small" } ]
+        "entries": [
+          { "item": "jacket_leather" },
+          { "item": "pants_leather" },
+          { "item": "leather_belt" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "gloves_fingerless" },
+          { "item": "guitar_electric" },
+          { "item": "switchblade" },
+          { "item": "pepto", "charges": 10, "container-item": "bottle_plastic_small" }
+        ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "BIOMANCER" ]
   },
@@ -497,7 +936,7 @@
     "type": "profession",
     "id": "storm_police",
     "name": "Shock Officer",
-    "description": "You were enrolled in a experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
+    "description": "You were enrolled in an experimental law enforcement program designed to decrease suspect casualties and equipment costs by substituting tasers and bullets for less-lethal Stormshaping.",
     "points": 4,
     "spells": [
       { "id": "windstrike", "level": 3 },
@@ -505,11 +944,22 @@
       { "id": "jolt", "level": 4 },
       { "id": "stormshaper_ionization", "level": 2 }
     ],
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 4, "name": "spellcraft" } ],
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "pistol" },
+      { "level": 4, "name": "spellcraft" },
+      { "level": 2, "name": "melee" }
+    ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "boots", "whistle", "wristwatch" ],
         "entries": [
+          { "item": "pants_army" },
+          { "item": "socks" },
+          { "item": "badge_deputy" },
+          { "item": "boots" },
+          { "item": "whistle" },
+          { "item": "wristwatch" },
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -517,8 +967,8 @@
           { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boy_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
     },
     "traits": [ "PROF_POLICE", "STORMSHAPER" ]
   },
@@ -535,6 +985,7 @@
       { "id": "recover_stamina", "level": 2 }
     ],
     "traits": [ "PROF_BOXER", "EARTHSHAPER" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
     "skills": [
       { "level": 2, "name": "melee" },
       { "level": 3, "name": "unarmed" },
@@ -543,9 +994,18 @@
     ],
     "items": {
       "both": {
-        "items": [ "under_armor_shorts", "under_armor", "shorts", "gloves_wraps", "headgear", "mouthpiece", "socks", "sneakers" ]
+        "entries": [
+          { "item": "under_armor_shorts" },
+          { "item": "under_armor" },
+          { "item": "shorts" },
+          { "item": "gloves_wraps" },
+          { "item": "headgear" },
+          { "item": "mouthpiece" },
+          { "item": "socks" },
+          { "item": "sneakers" }
+        ]
       },
-      "female": [ "sports_bra" ]
+      "female": { "entries": [ { "item": "sports_bra" } ] }
     }
   },
   {
@@ -554,20 +1014,27 @@
     "name": "Illicit Fleshmender",
     "description": "After failing out of medical school, you took their mundane methods and combined it with magic to save your patients.  Now that they all want to kill you, the lack of a license is the least of your worries.",
     "points": 4,
-    "spells": [ { "id": "light_healing", "level": 3 } ],
+    "spells": [ { "id": "light_healing", "level": 3 }, { "id": "biomancer_cure_disease_minor", "level": 3 } ],
     "skills": [ { "level": 3, "name": "firstaid" }, { "level": 2, "name": "spellcraft" } ],
     "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_burn_care" ],
     "items": {
       "both": {
-        "items": [ "longshirt", "pants", "socks", "sneakers", "gloves_medical", "coat_lab", "xacto", "wristwatch" ],
         "entries": [
+          { "item": "longshirt" },
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "gloves_medical" },
+          { "item": "coat_lab" },
+          { "item": "xacto" },
+          { "item": "wristwatch" },
           { "item": "disinfectant_makeshift", "charges": 10, "container-item": "bottle_plastic_small" },
-          { "item": "bandages", "charges": 15 },
+          { "item": "bandages", "count": 15 },
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "BIOMANCER" ]
   },
@@ -581,7 +1048,9 @@
     "spells": [
       { "id": "druidic_healing", "level": 4 },
       { "id": "purify_seed", "level": 4 },
-      { "id": "druid_woodshaft", "level": 3 }
+      { "id": "druid_woodshaft", "level": 3 },
+      { "id": "classless_watch_spell", "level": 2 },
+      { "id": "druid_beguile_savage_beast", "level": 2 }
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -591,23 +1060,23 @@
       { "level": 2, "name": "archery" },
       { "level": 1, "name": "tailor" }
     ],
-    "traits": [ "ANIMALEMPATH", "SLOWREADER" ],
+    "traits": [ "ANIMALEMPATH", "SLOWREADER", "DRUID" ],
     "pets": [ { "name": "mon_moose", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [
-          "tunic",
-          "chestwrap_leather",
-          "loincloth_leather",
-          "footrags_fur",
-          "shoes_birchbark",
-          "gloves_wraps_fur",
-          "straw_hat",
-          "shortbow",
-          "stone_chopper",
-          "ragpouch"
-        ],
-        "entries": [ { "item": "quiver_birchbark", "contents-group": "quiver_mooserider" } ]
+        "entries": [
+          { "item": "tunic" },
+          { "item": "chestwrap_leather" },
+          { "item": "loincloth_leather" },
+          { "item": "footrags_fur" },
+          { "item": "shoes_birchbark" },
+          { "item": "gloves_wraps_fur" },
+          { "item": "straw_hat" },
+          { "item": "shortbow" },
+          { "item": "stone_chopper" },
+          { "item": "ragpouch" },
+          { "item": "quiver_birchbark", "contents-group": "quiver_mooserider" }
+        ]
       }
     }
   },
@@ -617,7 +1086,12 @@
     "name": "Deep-Cold Marksman",
     "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
-    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 3 }, { "id": "frost_armor", "level": 3 } ],
+    "spells": [
+      { "id": "create_lighter", "level": 4 },
+      { "id": "glide_ice", "level": 3 },
+      { "id": "frost_armor", "level": 3 },
+      { "id": "kelvinist_anti_cold", "level": 4 }
+    ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -626,28 +1100,27 @@
       { "level": 2, "name": "survival" },
       { "level": 1, "name": "fabrication" }
     ],
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gun_cleaning", "prof_auto_rifles_familiar", "prof_auto_pistols_familiar" ],
     "traits": [ "KELVINIST" ],
     "items": {
       "both": {
-        "items": [
-          "winter_pants_army",
-          "army_top",
-          "winter_jacket_army",
-          "gloves_tactical",
-          "molle_pack",
-          "socks",
-          "boots_combat",
-          "wristwatch",
-          "ammo_satchel",
-          "attached_ear_plugs_off",
-          "helmet_army",
-          "hatchet",
-          "balclava",
-          "rifle_case_soft",
-          "mess_tin"
-        ],
         "entries": [
+          { "item": "winter_pants_army" },
+          { "item": "winter_jacket_army" },
+          { "item": "gloves_tactical" },
+          { "item": "molle_pack" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "wristwatch" },
+          { "item": "ammo_satchel" },
+          { "item": "attached_ear_plugs_off" },
+          { "item": "helmet_army" },
+          { "item": "hatchet" },
+          { "item": "balclava" },
+          { "item": "rifle_case_soft" },
+          { "item": "mess_kit" },
           { "item": "emer_blanket", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "group": "charged_two_way_radio" },
           {
             "item": "boreal_mosin",
@@ -662,8 +1135,8 @@
           { "item": "water_clean", "charges": 6, "container-item": "canteen" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "sports_bra", "boxer_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     }
   },
   {
@@ -672,13 +1145,25 @@
     "name": "Arsonist",
     "description": "Penned in a cell without fuel, you've been extinguished for years for setting buildings on fire.  In your escape, you grabbed your familiar tool to reignite the embers.",
     "points": 3,
-    "spells": [ { "id": "kelvinist_flamebreath", "level": 2 }, { "id": "burning_hands", "level": 2 } ],
+    "spells": [
+      { "id": "kelvinist_flamebreath", "level": 2 },
+      { "id": "burning_hands", "level": 2 },
+      { "id": "kelvinist_anti_heat", "level": 2 }
+    ],
     "skills": [ { "level": 3, "name": "spellcraft" } ],
     "traits": [ "KELVINIST" ],
     "items": {
-      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks", "sugar" ] },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "both": {
+        "entries": [
+          { "item": "striped_shirt" },
+          { "item": "striped_pants" },
+          { "item": "sneakers" },
+          { "item": "socks" },
+          { "item": "sugar" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -692,7 +1177,8 @@
       { "id": "druidic_regrowth", "level": 3 },
       { "id": "druid_feralform", "level": 2 },
       { "id": "druid_veggrasp", "level": 2 },
-      { "id": "druid_natures_commune", "level": 2 }
+      { "id": "druid_natures_commune", "level": 2 },
+      { "id": "druid_summon_tanglevine", "level": 2 }
     ],
     "skills": [
       { "level": 3, "name": "spellcraft" },
@@ -702,9 +1188,9 @@
     ],
     "traits": [ "DRUID", "PSYCHOPATH" ],
     "items": {
-      "both": { "items": [ "striped_shirt", "striped_pants", "sneakers", "socks" ] },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "both": { "entries": [ { "item": "striped_shirt" }, { "item": "striped_pants" }, { "item": "sneakers" }, { "item": "socks" } ] },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
   },
@@ -714,7 +1200,13 @@
     "name": { "male": "Frost Cream Man", "female": "Frost Cream Woman" },
     "description": "You learned Kelvinist spells to keep equipment costs down on your ice cream truck.  While their tastes have changed, the kids still scream for you.",
     "points": 4,
-    "spells": [ { "id": "chilling_touch", "level": 3 }, { "id": "frost_spray", "level": 3 } ],
+    "proficiencies": [ "prof_driver" ],
+    "spells": [
+      { "id": "chilling_touch", "level": 3 },
+      { "id": "frost_spray", "level": 3 },
+      { "id": "kelvinist_anti_heat", "level": 4 },
+      { "id": "kelvinist_summon_freezer_spell", "level": 6 }
+    ],
     "skills": [
       { "level": 2, "name": "speech" },
       { "level": 2, "name": "cooking" },
@@ -724,16 +1216,27 @@
     "vehicle": "icecream_truck",
     "items": {
       "both": {
-        "items": [ "pants", "socks", "sneakers", "apron_leather", "wristwatch", "dress_shirt", "icecream_scoop" ],
         "entries": [
-          { "item": "icecream_choc", "charges": 17, "container-item": "plastic_bucket", "custom-flags": [ "auto_wield" ] },
+          { "item": "pants" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "apron_leather" },
+          { "item": "wristwatch" },
+          { "item": "dress_shirt" },
+          { "item": "icecream_scoop" },
+          {
+            "item": "icecream_choc",
+            "charges": 17,
+            "container-item": "plastic_bucket",
+            "custom-flags": [ "auto_wield" ]
+          },
           { "item": "plastic_bowl_kids", "count": 5 },
           { "item": "plastic_spoon", "count": 5 },
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     },
     "traits": [ "KELVINIST" ]
   },
@@ -744,13 +1247,97 @@
     "description": "You entertained the masses, displaying an expert hand tossing knives conjured from nowhere.  Now, you're bringing the show to them.",
     "points": 4,
     "skills": [ { "level": 3, "name": "throw" }, { "level": 1, "name": "stabbing" } ],
+    "proficiencies": [ "prof_knives_familiar" ],
     "items": {
       "both": {
-        "items": [ "socks", "sneakers", "unitard", "wristwatch", "vest_leather" ],
-        "entries": [ { "item": "mring_blades_lesser", "charges": 5 } ]
+        "entries": [
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "unitard" },
+          { "item": "wristwatch" },
+          { "item": "vest_leather" },
+          { "item": "mring_blades_lesser", "charges": 5 }
+        ]
       },
-      "male": [ "under_armor_shorts" ],
-      "female": [ "sports_bra", "panties" ]
+      "male": { "entries": [ { "item": "under_armor_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "elven_ceremonial_guard",
+    "name": "Hy-Brasilean ambassadorial honor guard",
+    "description": "You were a ceremonial guard for the Hy-Brasilean ambassador to the United States, equipped to bring to mind the elven forest warriors of old.  You were trained in archery, since you had to use your bow to impress foreign dignitaries, but you never expected you'd actually have to take it into a real battle.  Then the Cataclysm hit.  The ambassador and most of your fellow guards are dead, and you'll probably never see home again, but hopefully your skills will keep you alive.",
+    "points": 12,
+    "skills": [
+      { "level": 8, "name": "gun" },
+      { "level": 7, "name": "archery" },
+      { "level": 4, "name": "rifle" },
+      { "level": 2, "name": "pistol" },
+      { "level": 6, "name": "survival" },
+      { "level": 5, "name": "speech" }
+    ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_spotting" ],
+    "traits": [
+      "THRESH_SPECIES_ELF",
+      "ANIMALEMPATH2",
+      "ELVEN_BUILD",
+      "ELFA_NV",
+      "ELVEN_BEAUTY",
+      "ELVEN_SLEEP",
+      "ELFA_EARS",
+      "ELVEN_HEARING",
+      "LIGHTSTEP",
+      "WILDWALKER",
+      "ANTIJUNK",
+      "WEAKSTOMACH",
+      "DISIMMUNE",
+      "PICKYEATER"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "officer_uniform" },
+          { "item": "gloves_black" },
+          { "item": "socks" },
+          { "item": "wristwatch" },
+          { "item": "cloak_of_elvenkind" },
+          { "item": "boots_of_elvenkind" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
+          { "item": "bow_sling", "contents-item": [ "bow_of_elvenkind" ] },
+          { "item": "quiver_of_holding_plus_one", "contents-group": [ "quiver_elven_ceremonial_guard" ] },
+          { "item": "m18", "ammo-item": "9mmfmj", "charges": 10, "container-item": "holster" },
+          { "item": "sheath", "contents-item": [ "knife_hunting_plus_one" ] },
+          { "item": "water_clean", "charges": 6, "container-item": "canteen" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "shifter_druid",
+    "name": "Shifter Druid",
+    "description": "The ancient druidic art of taking animal forms had mostly fallen out of favor by the modern era, since most people didn't need to be a bear in their daily lives and even if they did transform into a raven, they still had to physically fly to their destination and couldn't check the internet for directions.  You, however, studied the ancient arts and gained the ability to transform yourself.  It's come in very handy since the world ended.",
+    "points": 6,
+    "spells": [ { "id": "druid_natures_commune", "level": 3 } ],
+    "skills": [ { "level": 3, "name": "survival" }, { "level": 2, "name": "spellcraft" } ],
+    "traits": [ "DRUID", "ANIMALEMPATH" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "robe" },
+          { "item": "chestwrap" },
+          { "item": "loincloth" },
+          { "item": "leathersandals" },
+          { "item": "gloves_wraps" },
+          { "item": "cloak" },
+          { "item": "leather_pouch" },
+          { "item": "water_clean", "container-item": "waterskin" },
+          { "item": "primitive_knife", "container-item": "sheath" }
+        ]
+      }
     }
   }
 ]

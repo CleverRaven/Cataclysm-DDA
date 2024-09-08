@@ -3,12 +3,12 @@
     "type": "terrain",
     "id": "t_hole",
     "name": "empty space",
-    "description": "This is empty space.",
+    "description": "An area of empty space.",
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
     "trap": "tr_ledge",
-    "flags": [ "TRANSPARENT", "NO_FLOOR" ],
+    "flags": [ "TRANSPARENT", "NO_FLOOR", "EMPTY_SPACE" ],
     "examine_action": "ledge"
   },
   {
@@ -41,7 +41,7 @@
     "type": "terrain",
     "id": "t_pit_corpsed",
     "name": "corpse filled pit",
-    "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies could be dug out but none of it looks remotely usable.",
+    "description": "A giant trench full of corpses, maybe even a mass graveyard.  The bodies could be dug out, but nothing in here looks remotely usable.",
     "symbol": "#",
     "color": "green",
     "move_cost": 5,
@@ -53,7 +53,7 @@
     "type": "terrain",
     "id": "t_pit_covered",
     "name": "covered pit",
-    "description": "A deep pit with a plank placed across it, looks sturdy enough to cross safely or the plank could be removed to turn it back into trap fall.",
+    "description": "A deep pit with a plank placed across it, looks sturdy enough to cross safely.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_red",
     "connect_groups": "PIT_DEEP",
@@ -82,7 +82,7 @@
     "type": "terrain",
     "id": "t_pit_spiked_covered",
     "name": "covered spiked pit",
-    "description": "Menacing with sharp spears along the bottom, this pit has a plank across it to allow someone or something to cross safely.  The plank could be removed to revert it back into a trap.",
+    "description": "Menacing with sharp spears along the bottom, this pit has a plank across it to allow someone or something to cross safely.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_red",
     "connect_groups": "PIT_DEEP",
@@ -96,7 +96,7 @@
     "type": "terrain",
     "id": "t_pit_glass",
     "name": "glass pit",
-    "description": "Looks like a ton of broken glass was dumped into this pit, maybe not fatal to fall in but wouldn't be pleasant to try to crawl out.",
+    "description": "Looks like a ton of broken glass was dumped into this pit.  Might not fatal to fall in, but it wouldn't be pleasant to try to crawl out.",
     "symbol": "0",
     "color": "light_cyan",
     "connect_groups": "PIT_DEEP",
@@ -111,7 +111,7 @@
     "type": "terrain",
     "id": "t_pit_glass_covered",
     "name": "covered glass pit",
-    "description": "A plank has been placed carefully to allow traversal over this ditch full of large glass shards.  The wooden board could be removed so it couldn't be safely crossed.",
+    "description": "A plank has been placed carefully to allow traversal over this ditch full of large glass shards.  The plank could be removed to make it dangerous again.",
     "symbol": "#",
     "color": "light_cyan",
     "connect_groups": "PIT_DEEP",
@@ -126,7 +126,7 @@
     "id": "t_pit_BEM_human_sample",
     "looks_like": "t_pit_shallow",
     "name": "dead drop pit",
-    "description": "A seemingly innocuous shallow pit.  Careful inspection reveals a black canister half buried in the exposed soil.",
+    "description": "A seemingly innocuous shallow pit.  Careful inspection reveals a black canister half-buried in the exposed soil.",
     "symbol": "0",
     "color": "yellow",
     "move_cost": 8,
@@ -140,12 +140,12 @@
             "and": [ { "u_has_items": { "item": "human_sample", "count": 1 } }, { "u_has_mission": "BEM_human_sample_mission" } ]
           },
           "effect": [
-            { "u_adjust_var": "BEM_human_sample_reward_owed", "type": "counter", "context": "BEM", "adjustment": 1 },
+            { "math": [ "u_counter_BEM_BEM_human_sample_reward_owed", "++" ] },
             { "u_message": "You prepare the drop as instructed", "popup": true },
             { "u_consume_item": "human_sample", "count": 1 },
             { "finish_mission": "BEM_human_sample_mission", "success": true }
           ],
-          "false_effect": { "u_message": "You dont have anything to deliver.", "popup": true }
+          "false_effect": { "u_message": "You don't have anything to deliver.", "popup": true }
         }
       ]
     },
@@ -153,9 +153,33 @@
   },
   {
     "type": "terrain",
+    "id": "t_den_small",
+    "name": "small den",
+    "description": "A small den that burrowing animals such as groundhogs or hares call home.",
+    "symbol": "0",
+    "color": "yellow",
+    "looks_like": "t_den_large",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_den_large",
+    "name": "large den",
+    "description": "A large den that burrowing animals such as bears and foxes call home.",
+    "symbol": "0",
+    "color": "yellow",
+    "looks_like": "t_pit_shallow",
+    "move_cost": 6,
+    "flags": [ "TRANSPARENT", "DIGGABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
     "id": "t_slime",
     "name": "slime",
-    "description": "A disgusting and slippery mess that could be used to stash things because who'd want to touch it?",
+    "description": "A disgusting, slippery mess.  Could be used to stash things, because who'd want to touch it?",
     "symbol": "~",
     "color": "green",
     "move_cost": 6,

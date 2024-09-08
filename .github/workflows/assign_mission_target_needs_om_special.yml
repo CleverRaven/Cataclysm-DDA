@@ -5,9 +5,12 @@ on:
     paths:
       - '**.json'
 
+permissions:
+  contents: read
+
 jobs:
   run-the-tool:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - run: ./tools/json_tools/assign_mission_target_needs_om_special.bash 2>&1

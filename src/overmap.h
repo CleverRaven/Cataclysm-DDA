@@ -10,13 +10,16 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "basecamp.h"
-#include "coordinates.h"
+#include "city.h"
+#include "coords_fwd.h"
 #include "cube_direction.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -24,9 +27,6 @@
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
-#include "monster.h"
-#include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -37,7 +37,6 @@ class JsonObject;
 class JsonOut;
 class cata_path;
 class character_id;
-class map_extra;
 class npc;
 class overmap_connection;
 struct regional_settings;
@@ -47,45 +46,6 @@ namespace pf
 template<typename Point>
 struct directed_path;
 } // namespace pf
-
-generic_factory<city> &get_city_factory();
-
-struct city {
-    void load( const JsonObject &, const std::string & );
-    void check() const;
-    static void load_city( const JsonObject &, const std::string & );
-    static void finalize();
-    static void check_consistency();
-    static const std::vector<city> &get_all();
-    static void reset();
-
-    city_id id;
-    bool was_loaded = false;
-
-    int database_id = 0;
-    // location of the city (in overmap coordinates)
-    point_abs_om pos_om;
-    // location of the city (in overmap terrain coordinates)
-    point_om_omt pos;
-    // original population
-    int population = 0;
-    int size = -1;
-    std::string name;
-
-    explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
-
-    explicit operator bool() const {
-        return size >= 0;
-    }
-
-    bool operator==( const city &rhs ) const {
-        return id == rhs.id ||
-               database_id == rhs.database_id ||
-               ( pos_om == rhs.pos_om && pos == rhs.pos ) ;
-    }
-
-    int get_distance_from( const tripoint_om_omt &p ) const;
-};
 
 struct om_note {
     std::string text;
@@ -111,8 +71,8 @@ enum class radio_type : int {
 
 extern std::map<radio_type, std::string> radio_type_names;
 
-static constexpr int RADIO_MIN_STRENGTH = 120;
-static constexpr int RADIO_MAX_STRENGTH = 360;
+constexpr int RADIO_MIN_STRENGTH = 120;
+constexpr int RADIO_MAX_STRENGTH = 360;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -128,9 +88,30 @@ struct radio_tower {
     }
 };
 
+enum class om_vision_level : int8_t {
+    unseen = 0,
+    // Vague details from a quick glance
+    // Broad geographical features - forest,field,buildings,water
+    vague,
+    // A scan from a distance
+    // Track roads, distinguish obvious features (farms from fields)
+    outlines,
+    // Detailed scan from a distance
+    // General building types, some hard to spot features become clear
+    details,
+    // Full knowledge of the tile
+    full,
+    last
+};
+
+template<>
+struct enum_traits<om_vision_level> {
+    static constexpr om_vision_level last = om_vision_level::last;
+};
+
 struct map_layer {
     cata::mdarray<oter_id, point_om_omt> terrain;
-    cata::mdarray<bool, point_om_omt> visible;
+    cata::mdarray<om_vision_level, point_om_omt> visible;
     cata::mdarray<bool, point_om_omt> explored;
     std::vector<om_note> notes;
     std::vector<om_map_extra> extras;
@@ -212,16 +193,14 @@ extern template struct pos_dir<tripoint_rel_omt>;
 using om_pos_dir = pos_dir<tripoint_om_omt>;
 using rel_pos_dir = pos_dir<tripoint_rel_omt>;
 
-namespace std
-{
 template<typename Tripoint>
-struct hash<pos_dir<Tripoint>> {
-    size_t operator()( const pos_dir<Tripoint> &p ) const {
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+struct std::hash<pos_dir<Tripoint>> {
+    std::size_t operator()( const pos_dir<Tripoint> &p ) const {
         cata::tuple_hash h;
         return h( std::make_tuple( p.p, p.dir ) );
     }
 };
-} // namespace std
 
 class overmap
 {
@@ -242,6 +221,9 @@ class overmap
         const point_abs_om &pos() const {
             return loc;
         }
+        int get_urbanity() const {
+            return urbanity;
+        }
 
         void save() const;
 
@@ -251,10 +233,10 @@ class overmap
          * Returns @ref invalid_tripoint if no suitable place has been found.
          */
         tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target,
-                                         cata::optional<city> target_city = cata::nullopt ) const;
+                                         std::optional<city> target_city = std::nullopt ) const;
         tripoint_om_omt find_random_omt( const std::string &omt_base_type,
                                          ot_match_type match_type = ot_match_type::type,
-                                         cata::optional<city> target_city = cata::nullopt ) const {
+                                         std::optional<city> target_city = std::nullopt ) const {
             return find_random_omt( std::make_pair( omt_base_type, match_type ), std::move( target_city ) );
         }
         /**
@@ -263,18 +245,19 @@ class overmap
          * @returns A vector of terrain coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching terrain is found.
          */
-        std::vector<point_abs_omt> find_terrain( const std::string &term, int zlevel ) const;
+        std::vector<point_abs_omt> find_terrain( std::string_view term, int zlevel ) const;
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         // ter has bounds checking, and returns ot_null when out of bounds.
         const oter_id &ter( const tripoint_om_omt &p ) const;
         // ter_unsafe is UB when out of bounds.
         const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
-        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
-        void set_seen( const tripoint_om_omt &p, bool val );
-        bool seen( const tripoint_om_omt &p ) const;
+        void set_seen( const tripoint_om_omt &p, om_vision_level val, bool force = false );
+        om_vision_level seen( const tripoint_om_omt &p ) const;
+        bool seen_more_than( const tripoint_om_omt &p, om_vision_level test ) const;
         bool &explored( const tripoint_om_omt &p );
         bool is_explored( const tripoint_om_omt &p ) const;
 
@@ -284,6 +267,7 @@ class overmap
         void add_note( const tripoint_om_omt &p, std::string message );
         void delete_note( const tripoint_om_omt &p );
         void mark_note_dangerous( const tripoint_om_omt &p, int radius, bool is_dangerous );
+        int note_danger_radius( const tripoint_om_omt &p ) const;
 
         bool has_extra( const tripoint_om_omt &p ) const;
         const map_extra_id &extra( const tripoint_om_omt &p ) const;
@@ -362,15 +346,11 @@ class overmap
         std::vector<basecamp> camps;
         std::vector<city> cities;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         shared_ptr_fast<npc> erase_npc( const character_id &id );
-
-        void for_each_npc( const std::function<void( npc & )> &callback );
-        void for_each_npc( const std::function<void( const npc & )> &callback ) const;
-
         shared_ptr_fast<npc> find_npc( const character_id &id ) const;
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &id ) const;
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
@@ -379,7 +359,7 @@ class overmap
         std::vector<shared_ptr_fast<npc>> get_npcs( const std::function<bool( const npc & )>
                                        &predicate )
                                        const;
-
+        point_om_omt get_fallback_road_connection_point() const;
     private:
         friend class overmapbuffer;
 
@@ -389,6 +369,8 @@ class overmap
         // overmap::seen and overmap::explored
         bool nullbool = false; // NOLINT(cata-serialize)
         point_abs_om loc; // NOLINT(cata-serialize)
+        // Random point used for special connections if there's no cities on the overmap, joins to all roads_out
+        std::optional<point_om_omt> fallback_road_connection_point; // NOLINT(cata-serialize)
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
@@ -408,8 +390,8 @@ class overmap
         // Records mapgen parameters required at the overmap special level
         // These are lazily evaluated; empty optional means that they have yet
         // to be evaluated.
-        cata::colony<cata::optional<mapgen_arguments>> mapgen_arg_storage;
-        std::unordered_map<tripoint_om_omt, cata::optional<mapgen_arguments> *> mapgen_args_index;
+        cata::colony<std::optional<mapgen_arguments>> mapgen_arg_storage;
+        std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen
@@ -452,7 +434,10 @@ class overmap
         bool generate_sub( int z );
         bool generate_over( int z );
         // Check and put bridgeheads
-        void generate_bridgeheads( const std::vector<point_om_omt> &bridge_points );
+        void generate_bridgeheads( const std::vector<point_om_omt> &bridge_points,
+                                   oter_type_str_id bridge_type,
+                                   const std::string &bridgehead_ground,
+                                   const std::string &bridgehead_ramp );
 
         const city &get_nearest_city( const tripoint_om_omt &p ) const;
 
@@ -466,14 +451,13 @@ class overmap
         void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
 
-        static bool obsolete_terrain( const std::string &ter );
-        void convert_terrain(
-            const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
-
+        // code deduplication - calc ocean gradient
+        float calculate_ocean_gradient( const point_om_omt &p, point_abs_om this_omt );
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
         void place_lakes();
+        void place_oceans();
         void place_rivers( const overmap *north, const overmap *east, const overmap *south,
                            const overmap *west );
         void place_swamps();
@@ -483,17 +467,35 @@ class overmap
         void place_roads( const overmap *north, const overmap *east, const overmap *south,
                           const overmap *west );
 
+        void place_railroads( const overmap *north, const overmap *east, const overmap *south,
+                              const overmap *west );
+
         void populate_connections_out_from_neighbors( const overmap *north, const overmap *east,
                 const overmap *south, const overmap *west );
 
         // City Building
-        overmap_special_id pick_random_building_to_place( int town_dist ) const;
+        overmap_special_id pick_random_building_to_place( int town_dist, int town_size,
+                const std::unordered_set<overmap_special_id> &placed_unique_buildings ) const;
+
+        // urbanity and forestosity are biome stats that can be used to trigger changes in biome.
+        // NOLINTNEXTLINE(cata-serialize)
+        int urbanity = 0;
+        // forest_size_adjust is basically the same as forestosity, but forestosity is
+        // scaled to be comparable to urbanity and other biome stats.
+        // NOLINTNEXTLINE(cata-serialize)
+        float forest_size_adjust = 0.0f;
+        // NOLINTNEXTLINE(cata-serialize)
+        float forestosity = 0.0f;
+        void calculate_urbanity();
+        void calculate_forestosity();
 
         void place_cities();
-        void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town );
+        void place_building( const tripoint_om_omt &p, om_direction::type dir, const city &town,
+                             std::unordered_set<overmap_special_id> &placed_unique_buildings );
 
         void build_city_street( const overmap_connection &connection, const point_om_omt &p, int cs,
-                                om_direction::type dir, const city &town, int block_width = 2 );
+                                om_direction::type dir, const city &town,
+                                std::unordered_set<overmap_special_id> &placed_unique_buildings, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
@@ -520,7 +522,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
-        cata::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
@@ -535,6 +537,9 @@ class overmap
         std::vector<tripoint_om_omt> place_special(
             const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
             const city &cit, bool must_be_unexplored, bool force );
+
+        // DEBUG ONLY!
+        void debug_force_add_group( const mongroup &group );
     private:
         /**
          * Iterate over the overmap and place the quota of specials.
@@ -574,11 +579,104 @@ class overmap
         void load_legacy_monstergroups( const JsonArray &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( const JsonObject &jo );
+        static void load_oter_id_camp_migration( const JsonObject &jo );
+        static void load_oter_id_migration( const JsonObject &jo );
+        static void reset_oter_id_camp_migrations();
+        static void reset_oter_id_migrations();
+        static bool oter_id_should_have_camp( const oter_type_str_id &oter );
+        static bool is_oter_id_obsolete( const std::string &oterid );
+        void migrate_camps( const std::vector<tripoint_abs_omt> &points ) const;
+        void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
+        oter_id get_or_migrate_oter( const std::string &oterid );
 };
 
+// A small LRU cache: most oter_id's occur in clumps like forests of swamps.
+// This cache helps avoid much more costly lookups in the full hashmap.
+struct oter_display_lru {
+    static constexpr size_t cache_size = 8; // used below to calculate the next index
+    std::array<std::pair<oter_id, oter_t const *>, cache_size> cache;
+    size_t cache_next = 0;
+
+    std::pair<std::string, nc_color> get_symbol_and_color( const oter_id &cur_ter, om_vision_level );
+};
+
+// "arguments" to oter_symbol_and_color that do not change between calls in a batch
+struct oter_display_options {
+    struct npc_coloring {
+        nc_color color;
+        size_t count = 0;
+    };
+
+    oter_display_options( tripoint_abs_omt orig, int sight_range ) :
+        center( orig ), sight_points( sight_range ) {}
+
+    // Needs a better name
+    // Whether or not to draw all sorts of overlays that can blink on the overmap
+    bool blink = true;
+    // Show debug scent symbols
+    bool debug_scent = false;
+    // Show mission location by drawing a red background instead of overwriting the tile
+    bool hilite_mission = false;
+    // Draw the PC location with `hilite()` (blue bg-ish) on terrain at loc instead of '@'
+    bool hilite_pc = false;
+    // If false, and there is a mission, draw an an indicator towards the mission target on an edge
+    bool mission_inbounds = true;
+    // Darken explored tiles
+    bool show_explored = true;
+    bool showhordes = true;
+    // Hilight oters revealed by map use
+    bool show_map_revealed = false;
+    // Draw anything for the PC (assumed to be at center)
+    bool show_pc = true;
+    // Draw the weather tiles instead of terrain
+    bool show_weather = false;
+
+    // Where the PC is/the center of the map
+    tripoint_abs_omt center;
+    // How far the PC can see
+    int sight_points;
+
+    std::optional<tripoint_abs_omt> mission_target = std::nullopt;
+    // Locations of NPCs to draw
+    std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
+    // NPC/player paths to draw
+    std::unordered_set<tripoint_abs_omt> npc_path_route;
+    std::unordered_map<point_abs_omt, int> player_path_route;
+
+    // Zone to draw and location
+    std::string sZoneName;
+    tripoint_abs_omt tripointZone = tripoint_abs_omt( -1, -1, -1 );
+
+    // Internal bookkeeping value - only draw edge mission indicator once
+    mutable bool drawn_mission = false;
+};
+
+// arguments for oter_symbol_and_color pertaining to a single point
+struct oter_display_args {
+
+    explicit oter_display_args( om_vision_level vis ) : vision( vis ) {}
+
+    // Can the/has the PC seen this tile
+    om_vision_level vision;
+    // If this tile is on the edge of the drawn tiles, we may draw a mission indicator on it
+    bool edge_tile = false;
+    // Check if location is within player line-of-sight
+    // These ints are treated as unassigned booleans. Use get_and_assign_los() to reference
+    // This allows for easy re-use of these variables without the unnecessary lookups if they aren't used
+    int los = -1;
+    int los_sky = -1;
+};
+
+// Symbol and color to display a overmap tile as - depending on notes, overlays, etc...
+// args are updated per call, opts are generated before a batch of calls.
+// A pointer to lru may be provided for possible speed improvements.
+std::pair<std::string, nc_color> oter_symbol_and_color( const tripoint_abs_omt &omp,
+        oter_display_args &args, const oter_display_options &opts, oter_display_lru *lru = nullptr );
+
 bool is_river( const oter_id &ter );
-bool is_river_or_lake( const oter_id &ter );
+bool is_water_body( const oter_id &ter );
+bool is_lake_or_river( const oter_id &ter );
+bool is_ocean( const oter_id &ter );
 
 /**
 * Determine if the provided name is a match with the provided overmap terrain
@@ -599,7 +697,12 @@ om_special_sectors get_sectors( int sector_width );
 /**
 * Returns the string of oter without any directional suffix
 */
-std::string oter_no_dir( const oter_id &oter );
+std::string_view oter_no_dir( const oter_id &oter );
+
+/**
+* Returns the string of oter without any directional, connection, or line suffix
+*/
+std::string_view oter_no_dir_or_connections( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east

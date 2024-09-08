@@ -9,7 +9,7 @@
     "difficulty": 1,
     "time": "10 m",
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [
@@ -30,15 +30,11 @@
         [ "maple_candy", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ],
-        [ "cherries", 1 ],
-        [ "irradiated_cherries", 1 ]
+        [ "cherries", 1 ]
       ],
       [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
       [ [ "water_clean", 1 ] ]
@@ -48,7 +44,7 @@
     "result": "milkshake_choc",
     "type": "recipe",
     "copy-from": "milkshake",
-    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_choc", 1 ] ],
@@ -63,15 +59,11 @@
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ],
-        [ "cherries", 1 ],
-        [ "irradiated_cherries", 1 ]
+        [ "cherries", 1 ]
       ],
       [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
       [ [ "water_clean", 1 ] ]
@@ -86,6 +78,7 @@
     "skill_used": "cooking",
     "time": "12 m 30 s",
     "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ], [ "milk_powder", 1 ], [ "con_milk", 1 ] ],
@@ -101,15 +94,11 @@
         [ "syrup", 2 ],
         [ "strawberries", 2 ],
         [ "strawberries_cooked", 2 ],
-        [ "irradiated_strawberries", 2 ],
         [ "blueberries", 2 ],
         [ "blueberries_cooked", 2 ],
-        [ "irradiated_blueberries", 2 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
-        [ "irradiated_blackberries", 2 ],
-        [ "cherries", 2 ],
-        [ "irradiated_cherries", 2 ]
+        [ "cherries", 2 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water_clean", 1 ] ]
@@ -119,6 +108,7 @@
     "result": "milkshake_deluxe_choc",
     "type": "recipe",
     "copy-from": "milkshake_deluxe",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "milk_choc", 1 ] ],
@@ -134,15 +124,11 @@
         [ "syrup", 2 ],
         [ "strawberries", 2 ],
         [ "strawberries_cooked", 2 ],
-        [ "irradiated_strawberries", 2 ],
         [ "blueberries", 2 ],
         [ "blueberries_cooked", 2 ],
-        [ "irradiated_blueberries", 2 ],
         [ "wintergreen_berry", 4 ],
         [ "blackberries", 2 ],
-        [ "irradiated_blackberries", 2 ],
-        [ "cherries", 2 ],
-        [ "irradiated_cherries", 2 ]
+        [ "cherries", 2 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "water_clean", 1 ] ]
@@ -161,10 +147,138 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
-      [ [ "lemon", 1 ], [ "irradiated_lemon", 1 ] ],
+      [ [ "lemon", 1 ] ],
       [ [ "lemonade", 1 ] ],
       [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
       [ [ "water_clean", 1 ] ]
+    ]
+  },
+  {
+    "result": "snowcone",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "SNOW_MAKING", "level": 1 } ],
+    "autolearn": true,
+    "charges": 3,
+    "components": [
+      [ [ "water_clean", 2 ] ],
+      [
+        [ "sweet_juice", 1, "LIST" ],
+        [ "soda_pop", 1, "LIST" ],
+        [ "soda_pop_diet", 1, "LIST" ],
+        [ "can_coconut", 1 ],
+        [ "chai_tea", 1 ],
+        [ "chamomile_tea", 1 ],
+        [ "choc_drink", 1 ],
+        [ "coconut_water", 1 ],
+        [ "coffee", 1 ],
+        [ "dandelion_tea", 1 ],
+        [ "dandelionburdock_tea", 1 ],
+        [ "drink_pinitacolada", 1 ],
+        [ "foodplace_zero_drink", 1 ],
+        [ "grapeade", 1 ],
+        [ "grenadine_syrup", 1 ],
+        [ "herbal_tea", 1 ],
+        [ "lotus_tea", 1 ],
+        [ "milk_tea", 1 ],
+        [ "orangeade", 1 ],
+        [ "pine_tea", 1 ],
+        [ "pineapple_juice", 1 ],
+        [ "rootbeer_brewed", 1 ],
+        [ "sparkling_peach", 1 ],
+        [ "sparkling_pomegranate", 1 ],
+        [ "spurge_tea", 1 ],
+        [ "sweet_water", 1 ],
+        [ "syrup", 1 ],
+        [ "tea", 1 ],
+        [ "tea_bark", 1 ],
+        [ "tea_fruit", 1 ],
+        [ "tea_green", 1 ],
+        [ "tea_willowbark", 1 ]
+      ]
+    ]
+  },
+  {
+    "result": "snowcone_alcoholic",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "10 m",
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "SNOW_MAKING", "level": 1 } ],
+    "autolearn": true,
+    "charges": 3,
+    "//": "Do not add fruit wine/player crafted wine to this component list, it will break the contextual naming",
+    "//1": "I also did not add beers/ales/etc. to this list because one it would be disgusting, and two because of how weak those beverages are in terms of alcohol it would not make sense with the resulting alcohol content of the snow cone.",
+    "components": [
+      [ [ "water_clean", 2 ] ],
+      [
+        [ "sweet_juice", 1, "LIST" ],
+        [ "soda_pop_diet", 1, "LIST" ],
+        [ "can_coconut", 1 ],
+        [ "chai_tea", 1 ],
+        [ "chamomile_tea", 1 ],
+        [ "choc_drink", 1 ],
+        [ "coconut_water", 1 ],
+        [ "coffee", 1 ],
+        [ "soda_pop", 1, "LIST" ],
+        [ "dandelion_tea", 1 ],
+        [ "dandelionburdock_tea", 1 ],
+        [ "drink_pinitacolada", 1 ],
+        [ "foodplace_zero_drink", 1 ],
+        [ "grapeade", 1 ],
+        [ "grenadine_syrup", 1 ],
+        [ "herbal_tea", 1 ],
+        [ "lotus_tea", 1 ],
+        [ "milk_tea", 1 ],
+        [ "orangeade", 1 ],
+        [ "pine_tea", 1 ],
+        [ "pineapple_juice", 1 ],
+        [ "rootbeer_brewed", 1 ],
+        [ "sparkling_peach", 1 ],
+        [ "sparkling_pomegranate", 1 ],
+        [ "spurge_tea", 1 ],
+        [ "sweet_water", 1 ],
+        [ "syrup", 1 ],
+        [ "tea", 1 ],
+        [ "tea_bark", 1 ],
+        [ "tea_fruit", 1 ],
+        [ "tea_green", 1 ],
+        [ "tea_willowbark", 1 ]
+      ],
+      [
+        [ "brandy", 1 ],
+        [ "bristol_sherry", 1 ],
+        [ "bum_wine", 1 ],
+        [ "burdock_wine", 1 ],
+        [ "canadian_whiskey", 1 ],
+        [ "cheap_whiskey", 1 ],
+        [ "gin", 1 ],
+        [ "madeira", 1 ],
+        [ "moonshine", 1 ],
+        [ "pine_wine", 1 ],
+        [ "sake_filtered", 1 ],
+        [ "sake_unfiltered", 1 ],
+        [ "rum", 1 ],
+        [ "sherry", 1 ],
+        [ "single_malt_whiskey", 1 ],
+        [ "single_pot_whiskey", 1 ],
+        [ "tequila", 1 ],
+        [ "triple_sec", 1 ],
+        [ "vodka", 1 ],
+        [ "whiskey", 1 ],
+        [ "wine_cabernet", 1 ],
+        [ "wine_chardonnay", 1 ],
+        [ "wine_marsala", 1 ],
+        [ "wine_noir", 1 ],
+        [ "wine_riesling", 1 ],
+        [ "wine_vermouth", 1 ]
+      ]
     ]
   },
   {
@@ -189,17 +303,19 @@
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ]
+        [ "blackberries", 1 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ]
     ]
@@ -221,17 +337,20 @@
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "sprinkles", 2 ],
+        [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ]
+        [ "blackberries", 1 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ]
     ]
@@ -259,17 +378,19 @@
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ]
+        [ "blackberries", 1 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "salt", 5 ] ]
@@ -294,23 +415,27 @@
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "sprinkles", 2 ],
+        [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ]
+        [ "blackberries", 1 ]
       ],
       [ [ "sugar", 20 ], [ "artificial_sweetener", 20 ] ],
       [ [ "salt", 5 ] ]
     ]
   },
   {
+    "//": "On the other hand, why make base ice cream with candy, then add even more candy?",
     "result": "icecream_candy",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -321,7 +446,20 @@
     "autolearn": true,
     "components": [
       [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ],
-      [ [ "chocolate", 1 ], [ "candy", 1 ], [ "candy2", 1 ], [ "candy3", 1 ], [ "maple_candy", 1 ], [ "syrup", 1 ] ],
+      [
+        [ "chocolate", 1 ],
+        [ "candy", 1 ],
+        [ "candy2", 1 ],
+        [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "sprinkles", 2 ],
+        [ "marshmallow", 1 ],
+        [ "maple_candy", 1 ],
+        [ "syrup", 1 ]
+      ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
@@ -358,20 +496,23 @@
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "sprinkles", 2 ],
+        [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ]
+        [ "blackberries", 1 ]
       ],
       [ [ "sugar", 10 ], [ "artificial_sweetener", 10 ] ],
-      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ]
+      [ [ "powder_eggs", 5 ], [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ]
     ]
   },
   {
@@ -401,7 +542,7 @@
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ] ],
     "components": [
       [ [ "water_clean", 1 ], [ "kompot", 1 ] ],
-      [ [ "juice", 1 ], [ "oj", 1 ], [ "apple_cider", 1 ], [ "lemonade", 1 ], [ "cranberry_juice", 1 ] ],
+      [ [ "sweet_juice", 1, "LIST" ] ],
       [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
@@ -427,17 +568,19 @@
         [ "candy", 1 ],
         [ "candy2", 1 ],
         [ "candy3", 1 ],
+        [ "candy4", 1 ],
+        [ "candy5", 1 ],
+        [ "candy3gator", 1 ],
+        [ "cow_candy", 1 ],
+        [ "marshmallow", 1 ],
         [ "maple_candy", 1 ],
         [ "syrup", 1 ],
         [ "strawberries", 1 ],
         [ "strawberries_cooked", 1 ],
-        [ "irradiated_strawberries", 1 ],
         [ "blueberries", 1 ],
         [ "blueberries_cooked", 1 ],
-        [ "irradiated_blueberries", 1 ],
         [ "wintergreen_berry", 4 ],
-        [ "blackberries", 1 ],
-        [ "irradiated_blackberries", 1 ]
+        [ "blackberries", 1 ]
       ],
       [ [ "sugar", 15 ], [ "artificial_sweetener", 15 ] ]
     ]

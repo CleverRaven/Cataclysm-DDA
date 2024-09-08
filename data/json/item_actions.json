@@ -20,12 +20,6 @@
     "name": { "str": "Start a fire quickly" }
   },
   {
-    "//": "Remove after 0.G.",
-    "type": "item_action",
-    "id": "HAMMER",
-    "name": { "str": "Pry crate, window, door or nails" }
-  },
-  {
     "type": "item_action",
     "id": "PICK_LOCK",
     "name": { "str": "Pick a lock" }
@@ -33,6 +27,11 @@
   {
     "type": "item_action",
     "id": "deploy_furn",
+    "name": { "str": "Deploy item" }
+  },
+  {
+    "type": "item_action",
+    "id": "deploy_appliance",
     "name": { "str": "Deploy item" }
   },
   {
@@ -152,42 +151,12 @@
   },
   {
     "type": "item_action",
-    "id": "cauterize",
-    "name": { "str": "Cauterize a wound" }
-  },
-  {
-    "type": "item_action",
     "id": "fireweapon_off",
     "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
     "id": "fireweapon_on",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CARVER_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CIRCSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_ON",
     "name": { "str": "Turn off" }
   },
   {
@@ -207,8 +176,8 @@
   },
   {
     "type": "item_action",
-    "id": "countdown",
-    "name": { "str": "Start countdown" }
+    "id": "message",
+    "name": { "str": "Activate" }
   },
   {
     "type": "item_action",
@@ -317,21 +286,6 @@
   },
   {
     "type": "item_action",
-    "id": "CABLE_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "CORD_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
-    "id": "TOW_ATTACH",
-    "name": { "str": "Attach" }
-  },
-  {
-    "type": "item_action",
     "id": "CAMERA",
     "name": { "str": "Use camera" }
   },
@@ -349,16 +303,6 @@
     "type": "item_action",
     "id": "CAPTURE_MONSTER_VEH",
     "name": { "str": "Capture/place" }
-  },
-  {
-    "type": "item_action",
-    "id": "CARVER_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -389,31 +333,6 @@
     "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "COMBATSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "E_COMBATSAW_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
-    "id": "CONTACTS",
-    "name": { "str": "Put in eyes" }
   },
   {
     "type": "item_action",
@@ -463,22 +382,12 @@
   {
     "type": "item_action",
     "id": "EBOOKSAVE",
-    "name": { "str": "Store a book" }
+    "name": { "str": "Store books" }
   },
   {
     "type": "item_action",
     "id": "EBOOKREAD",
     "name": { "str": "Read stored books" }
-  },
-  {
-    "type": "item_action",
-    "id": "ELEC_CHAINSAW_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "EMF_PASSIVE_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -488,6 +397,11 @@
   {
     "type": "item_action",
     "id": "EXTINGUISHER",
+    "name": { "str": "Spray" }
+  },
+  {
+    "type": "item_action",
+    "id": "MACE",
     "name": { "str": "Spray" }
   },
   {
@@ -503,11 +417,6 @@
   {
     "type": "item_action",
     "id": "FIRECRACKER",
-    "name": { "str": "Light up" }
-  },
-  {
-    "type": "item_action",
-    "id": "FIRECRACKER_ACT",
     "name": { "str": "Light up" }
   },
   {
@@ -557,11 +466,6 @@
   },
   {
     "type": "item_action",
-    "id": "GRANADE",
-    "name": { "str": "Activate" }
-  },
-  {
-    "type": "item_action",
     "id": "GRANADE_ACT",
     "name": { "str": "Activate" }
   },
@@ -582,11 +486,6 @@
   },
   {
     "type": "item_action",
-    "id": "HAIRKIT",
-    "name": { "str": "Trim the hair" }
-  },
-  {
-    "type": "item_action",
     "id": "HEATPACK",
     "name": { "str": "Use" }
   },
@@ -594,6 +493,21 @@
     "type": "item_action",
     "id": "HEAT_FOOD",
     "name": { "str": "Heat up food (in it)" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_LIQUID_ITEMS",
+    "name": { "str": "Heat up liquid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_SOLID_ITEMS",
+    "name": { "str": "Heat up solid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_ALL_ITEMS",
+    "name": { "str": "Heat up solid or liquid items" }
   },
   {
     "type": "item_action",
@@ -617,13 +531,18 @@
   },
   {
     "type": "item_action",
-    "id": "LADDER",
-    "name": { "str": "Place" }
+    "id": "MAGIC_8_BALL",
+    "name": { "str": "Ask" }
   },
   {
     "type": "item_action",
-    "id": "MAGIC_8_BALL",
-    "name": { "str": "Ask" }
+    "id": "MEASURE_RESONANCE",
+    "name": { "str": "Measure artifact resonance" }
+  },
+  {
+    "type": "item_action",
+    "id": "CHANGE_OUTFIT",
+    "name": { "str": "Swap outfits" }
   },
   {
     "type": "item_action",
@@ -677,7 +596,7 @@
   },
   {
     "type": "item_action",
-    "id": "MP3_ON",
+    "id": "MP3_DEACTIVATE",
     "name": { "str": "Turn off music" }
   },
   {
@@ -687,12 +606,12 @@
   },
   {
     "type": "item_action",
-    "id": "GASMASK",
-    "name": { "str": "Prepare to use" }
+    "id": "GASMASK_ACTIVATE",
+    "name": { "str": "Pressurise and suction test" }
   },
   {
     "type": "item_action",
-    "id": "DIVE_TANK",
+    "id": "DIVE_TANK_ACTIVATE",
     "name": { "str": "Use regulator" }
   },
   {
@@ -717,11 +636,6 @@
   },
   {
     "type": "item_action",
-    "id": "NOISE_EMITTER_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
     "id": "NOISE_EMITTER_ON",
     "name": { "str": "Turn off" }
   },
@@ -743,7 +657,7 @@
   {
     "type": "item_action",
     "id": "PETFOOD",
-    "name": { "str": "Feed a wild animal… or a human" }
+    "name": { "str": "Feed an animal" }
   },
   {
     "type": "item_action",
@@ -823,7 +737,7 @@
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": { "str": "Turn off" }
+    "name": { "str": "Scan" }
   },
   {
     "type": "item_action",
@@ -837,16 +751,6 @@
   },
   {
     "type": "item_action",
-    "id": "RM13ARMOR_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },
@@ -854,11 +758,6 @@
     "type": "item_action",
     "id": "SEWAGE",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHAVEKIT",
-    "name": { "str": "Shave" }
   },
   {
     "type": "item_action",
@@ -904,11 +803,6 @@
     "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
-  },
-  {
-    "type": "item_action",
-    "id": "TRIMMER_OFF",
-    "name": { "str": "Turn on" }
   },
   {
     "type": "item_action",
@@ -999,6 +893,11 @@
     "type": "item_action",
     "id": "heal",
     "name": { "str": "Apply to wound" }
+  },
+  {
+    "type": "item_action",
+    "id": "link_up",
+    "name": { "str": "Plug in / Manage cables" }
   },
   {
     "type": "item_action",
@@ -1109,5 +1008,15 @@
     "type": "item_action",
     "id": "VOLTMETER",
     "name": { "str": "Test for voltage" }
+  },
+  {
+    "type": "item_action",
+    "id": "play_instrument",
+    "name": { "str": "Play instrument" }
+  },
+  {
+    "type": "item_action",
+    "id": "sound",
+    "name": { "str": "Make sound" }
   }
 ]

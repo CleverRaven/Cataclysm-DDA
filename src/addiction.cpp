@@ -1,24 +1,40 @@
 #include "addiction.h"
 
 #include <algorithm>
-#include <cstdlib>
+#include <functional>
 #include <map>
+#include <memory>
+#include <optional>
+#include <set>
 #include <string>
 #include <utility>
 
 #include "calendar.h"
 #include "character.h"
+#include "creature.h"
 #include "debug.h"
+#include "dialogue.h"
 #include "effect_on_condition.h"
 #include "enums.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "morale_types.h"
+#include "init.h"
+#include "json_error.h"
 #include "rng.h"
+#include "talker.h"
 #include "text_snippets.h"
-#include "translations.h"
 
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_shakes( "shakes" );
+
+static const morale_type morale_craving_alcohol( "morale_craving_alcohol" );
+static const morale_type morale_craving_cocaine( "morale_craving_cocaine" );
+static const morale_type morale_craving_crack( "morale_craving_crack" );
+static const morale_type morale_craving_diazepam( "morale_craving_diazepam" );
+static const morale_type morale_craving_nicotine( "morale_craving_nicotine" );
+static const morale_type morale_craving_opiate( "morale_craving_opiate" );
+static const morale_type morale_craving_speed( "morale_craving_speed" );
 
 namespace
 {
@@ -62,8 +78,8 @@ static bool alcohol_diazepam_add( Character &u, int in, bool is_alcohol )
     static time_point last_dia_dream = calendar::turn_zero;
     const bool recent_dream = ( is_alcohol && ( calendar::turn - last_alc_dream < 2_hours ) ) ||
                               ( !is_alcohol && ( calendar::turn - last_dia_dream < 2_hours ) );
-    const auto morale_type = is_alcohol ? MORALE_CRAVING_ALCOHOL :
-                             MORALE_CRAVING_DIAZEPAM;
+    const morale_type morale_type = is_alcohol ? morale_craving_alcohol :
+                                    morale_craving_diazepam;
     bool ret = false;
     u.mod_per_bonus( -1 );
     u.mod_int_bonus( -1 );
@@ -121,8 +137,8 @@ static bool crack_coke_add( Character &u, int in, int stim, bool is_crack )
         !is_crack ?
         ( u.in_sleep_state() ? "addict_coke_asleep" : "addict_coke_awake" ) :
         ( u.in_sleep_state() ? "addict_crack_asleep" : "addict_crack_awake" );
-    const auto morale_type = !is_crack ? MORALE_CRAVING_COCAINE :
-                             MORALE_CRAVING_CRACK;
+    const morale_type morale_type = !is_crack ? morale_craving_cocaine :
+                                    morale_craving_crack;
     bool ret = false;
     auto run_addict_eff = [&ret, &morale_type]( Character & u, int in, bool is_crack,
     const std::string & snippet ) {
@@ -171,9 +187,9 @@ static bool nicotine_effect( Character &u, addiction &add )
             ( u.in_sleep_state() ? "addict_nicotine_strong_asleep" : "addict_nicotine_strong_awake" );
         u.add_msg_if_player( m_warning,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
+        u.add_morale( morale_craving_nicotine, -15, -3 * in );
         if( one_in( 800 - 50 * in ) ) {
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
         if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
             u.mod_stim( -1 );
@@ -205,8 +221,9 @@ static bool opiate_effect( Character &u, addiction &add )
         u.mod_painkiller( -1 );
     }
     // No further effects if we're doped up.
-    if( u.get_painkiller() >= 35 ) {
+    if( u.get_painkiller() >= add.intensity ) {
         add.sated = 0_turns;
+        u.remove_effect( effect_shakes );
         return false;
     }
     u.mod_str_bonus( -1 );
@@ -227,7 +244,7 @@ static bool opiate_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_opiate_mild_asleep" : "addict_opiate_mild_awake";
         u.add_msg_if_player( m_bad,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.add_morale( MORALE_CRAVING_OPIATE, -40, -10 * in );
+        u.add_morale( morale_craving_opiate, -40, -10 * in );
         u.add_effect( effect_shakes, 2_minutes + in * 30_seconds );
     } else if( one_in( 20 ) && dice( 2, 30 ) < in &&
                ( !u.in_sleep_state() || calendar::turn - last_dream > 2_hours ) ) {
@@ -238,7 +255,7 @@ static bool opiate_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_opiate_strong_asleep" : "addict_opiate_strong_awake";
         u.add_msg_if_player( m_bad,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.add_morale( MORALE_CRAVING_OPIATE, -30, -10 * in );
+        u.add_morale( morale_craving_opiate, -30, -10 * in );
     } else if( one_in( 50 ) && dice( 3, 50 ) < in ) {
         u.vomit();
     }
@@ -269,7 +286,7 @@ static bool amphetamine_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_amphetamine_mild_asleep" : "addict_amphetamine_mild_awake";
         u.add_msg_if_player( m_warning,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+        u.add_morale( morale_craving_speed, -25, -20 * in );
         ret = true;
     } else if( one_in( 10 ) && dice( 2, 80 ) < in &&
                ( !u.in_sleep_state() || calendar::turn - last_dream > 2_hours ) ) {
@@ -280,7 +297,7 @@ static bool amphetamine_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_amphetamine_strong_asleep" : "addict_amphetamine_strong_awake";
         u.add_msg_if_player( m_warning,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.add_morale( MORALE_CRAVING_SPEED, -25, -20 * in );
+        u.add_morale( morale_craving_speed, -25, -20 * in );
         u.add_effect( effect_shakes, in * 2_minutes );
         ret = true;
     } else if( one_in( 50 ) && dice( 2, 100 ) < in &&
@@ -292,7 +309,7 @@ static bool amphetamine_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_amphetamine_paralysis_asleep" : "addict_amphetamine_paralysis_awake";
         u.add_msg_if_player( m_warning,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.moves -= ( u.in_sleep_state() ? 6000 : 300 );
+        u.mod_moves( -( u.in_sleep_state() ? 6000 : 300 ) );
         u.wake_up();
         ret = true;
     } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {
@@ -345,12 +362,12 @@ bool addiction::run_effect( Character &u )
     return ret;
 }
 
-void add_type::load( const JsonObject &jo, const std::string & )
+void add_type::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "type_name", _type_name );
     mandatory( jo, was_loaded, "description", _desc );
-    optional( jo, was_loaded, "craving_morale", _craving_morale, MORALE_NULL );
+    optional( jo, was_loaded, "craving_morale", _craving_morale, morale_type::NULL_ID() );
     optional( jo, was_loaded, "effect_on_condition", _effect );
     optional( jo, was_loaded, "builtin", _builtin );
 }

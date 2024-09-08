@@ -16,9 +16,23 @@
   {
     "type": "character_mod",
     "id": "aim_speed_mod",
-    "description": "Gun aim speed modifier <color_dark_gray>(Manipulation)</color>",
+    "description": "Gun aim speed modifier <color_dark_gray>(Manipulation, Grip, Lift)</color> ",
     "mod_type": "x",
-    "value": { "limb_score": "manip", "limb_type": "hand" }
+    "value": { "limb_score": [ [ "grip", 0.2 ], [ "manip", 0.2 ], [ "lift", 0.6 ] ], "limb_score_op": "+", "min": 0.1, "max": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "solid_consume_mod",
+    "description": "Consume time multiplier for solid foods.",
+    "mod_type": "x",
+    "value": { "limb_score": "consume_solid", "max": 10, "nominator": 1.0 }
+  },
+  {
+    "type": "character_mod",
+    "id": "liquid_consume_mod",
+    "description": "Consume time multiplier for drinks.",
+    "mod_type": "x",
+    "value": { "limb_score": "consume_liquid", "max": 10, "nominator": 1.0 }
   },
   {
     "type": "character_mod",
@@ -71,6 +85,21 @@
   },
   {
     "type": "character_mod",
+    "id": "move_mode_move_cost_mod",
+    "description": "Move mode move cost modifier",
+    "mod_type": "x",
+    "value": { "builtin": "move_mode_move_cost_modifier" }
+  },
+  {
+    "id": "grab_break_limb_mod",
+    "type": "character_mod",
+    "description": "Grab break success modifier",
+    "mod_type": "x",
+    "//": "Major limb scores - grip would be nice but unless",
+    "value": { "limb_score": [ "balance", [ "lift", 2 ], "move_speed", "grip" ], "limb_score_op": "x", "min": 0.1, "max": 0.9 }
+  },
+  {
+    "type": "character_mod",
     "id": "stamina_move_cost_mod",
     "description": "Stamina move cost modifier",
     "mod_type": "x",
@@ -93,7 +122,7 @@
   {
     "type": "character_mod",
     "id": "limb_speed_movecost_mod",
-    "description": "Limb speed move cost modifier <color_dark_gray>(Movement Speed)</color>",
+    "description": "Limb speed move cost modifier <color_dark_gray>(Movement)</color>",
     "mod_type": "x",
     "value": { "limb_score": "move_speed", "max": "max_move_cost", "nominator": 1.0 }
   },
@@ -126,7 +155,7 @@
   {
     "type": "character_mod",
     "id": "obstacle_climb_mod",
-    "description": "Obstacle climb modifier <color_dark_gray>(Crawl, Grip, Lift)</color>",
+    "description": "Obstacle climb modifier <color_dark_gray>(Crawling, Grip, Lift)</color>",
     "mod_type": "x",
     "value": {
       "limb_score": [ [ "crawl", 3.0 ], [ "grip", 2.0 ], "lift" ],
@@ -169,5 +198,17 @@
     "description": "Melee attack rolls <color_dark_gray>(Balance)</color>",
     "mod_type": "x",
     "value": { "limb_score": "balance", "min": 0.2 }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_dodge_mod",
+    "description": "Dodge chance modifier <color_dark_gray>(Balance, Movement, Footing)</color>",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "balance", 1.5 ], "move_speed", "footing" ],
+      "override_encumb": true,
+      "limb_score_op": "x",
+      "min": 0.0
+    }
   }
 ]

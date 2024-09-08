@@ -1,0 +1,324 @@
+[
+  {
+    "id": "nemesis_buff",
+    "type": "effect_type",
+    "max_duration": "1000 s",
+    "name": [ "SWOLE" ],
+    "desc": [ "If you see this description it is a bug." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [ "ench_nemesis_buff" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_blind",
+    "name": [ "Blind" ],
+    "desc": [ "Range of Sight: 0.  You cannot see anything." ],
+    "removes_effects": [ "glare", "snow_glare", "darkness" ],
+    "apply_message": "You're blinded!",
+    "remove_message": "Your sight returns!",
+    "rating": "bad",
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "immune_flags": [ "TEEPSHIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_dazed",
+    "//": "Separate id to change the apply message.",
+    "name": [ "Dazed" ],
+    "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
+    "apply_message": "A roar fills your mind and you stagger!",
+    "rating": "bad",
+    "max_intensity": 10,
+    "max_duration": "10 m",
+    "int_add_val": 2,
+    "scaling_mods": { "speed_mod": [ -3 ] },
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.35 },
+      { "limb_score": "vision", "modifier": 0.75 }
+    ],
+    "immune_flags": [ "TEEPSHIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_dazed_zap",
+    "//": "Separate id to change the apply message.",
+    "name": [ "Dazed" ],
+    "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
+    "apply_message": "Your body twitches under the electrical assault!",
+    "rating": "bad",
+    "max_intensity": 10,
+    "max_duration": "10 m",
+    "int_add_val": 2,
+    "scaling_mods": { "speed_mod": [ -3 ] },
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.35 },
+      { "limb_score": "vision", "modifier": 0.75 }
+    ],
+    "immune_flags": [ "ELECTRIC_IMMUNE", "ELECTRIC", "ELECTRIC_FIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_deaf",
+    "name": [ "Deaf" ],
+    "desc": [ "You can't hear anything and your head aches from all the noise.  You can't converse with NPCs." ],
+    "apply_message": "Your ears ring!",
+    "remove_message": "You can hear again!",
+    "rating": "bad",
+    "max_intensity": 3,
+    "int_dur_factor": "300 s",
+    "base_mods": { "pain_min": [ 1 ], "pain_max_val": [ 10 ], "pain_chance": [ 250 ], "pain_chance_bot": [ 1000 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.5 } ],
+    "immune_flags": [ "TEEPSHIELD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_radiation_aura",
+    "name": [ "Eerie Glow" ],
+    "desc": [ "Your skin tingles." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "bad",
+    "base_mods": { "rad_amount": [ 2 ], "rad_min": [ 3, 1 ] },
+    "immune_flags": [ "RAD_PROOF", "NO_RADIATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_hardened_skin",
+    "name": [ "Hardened Skin" ],
+    "desc": [ "You are more resilient than normal." ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [ { "value": "ARMOR_CUT", "add": -6 }, { "value": "ARMOR_BASH", "add": -9 }, { "value": "ARMOR_STAB", "add": -4 } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pattern_screamer_rock_thrower",
+    "name": [ "One Perfect Rock" ],
+    "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokin_revive_debuff",
+    "name": [
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified",
+      "Revivified"
+    ],
+    "desc": [ "Causes the target to eventually die.  It's a bug if you have it." ],
+    "max_intensity": 12,
+    "int_decay_step": 1,
+    "int_decay_tick": 60,
+    "show_in_info": true,
+    "chance_kill": [
+      [ 1, 200000 ],
+      [ 1, 100000 ],
+      [ 1, 50000 ],
+      [ 1, 10000 ],
+      [ 1, 5000 ],
+      [ 1, 1000 ],
+      [ 1, 500 ],
+      [ 1, 100 ],
+      [ 1, 50 ],
+      [ 1, 20 ],
+      [ 1, 5 ],
+      [ 1, 1 ]
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_illuminate_enemy",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A faint glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 35 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_illumination",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing.  The light is a color you have no name for, a kind of actinic purple-red." ],
+    "apply_message": "A harsh glow springs up around you!",
+    "remove_message": "The harsh glow around you fades away.",
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "dodge_mod": [ -2 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 200 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_pyrokinetic_fire_immunity",
+    "name": [ "Flame Immunity" ],
+    "desc": [ "You are immune to fire." ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_momentum_alteration",
+    "name": [ "Momentum Alteration" ],
+    "desc": [ "You are altering the motion of nearby objects in your favor." ],
+    "show_in_info": true,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "multiply": -0.1 },
+          { "value": "ARMOR_BASH", "multiply": -0.1 },
+          { "value": "ARMOR_STAB", "multiply": -0.1 },
+          { "value": "ARMOR_BULLET", "multiply": -0.1 },
+          { "value": "SPEED", "multiply": 0.03 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_inertial_barrier",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -15 },
+          { "value": "ARMOR_BASH", "add": -10 },
+          { "value": "ARMOR_STAB", "add": -20 },
+          { "value": "ARMOR_BULLET", "add": -35 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_riftwalker_teleport",
+    "name": [ "Dimensionally Unstable" ],
+    "desc": [ "You feel like you're barely part of the world." ],
+    "apply_message": "",
+    "remove_message": "With a jolt you feel more solid again.",
+    "rating": "bad",
+    "enchantments": [ "enchant_riftwalker_teleport" ],
+    "immune_flags": [ "TELESTOP", "DIMENSIONAL_ANCHOR" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleporting_lock",
+    "name": [ "Caught in the Angles" ],
+    "desc": [ "You feel a strange, inward force." ],
+    "apply_message": "You feel a strange, inward force.",
+    "remove_message": "The strange, inward force suddenly vanishes.",
+    "rating": "bad",
+    "flags": [ "TELEPORT_LOCK" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_health_down",
+    "name": [ "Feeling Unwell" ],
+    "desc": [ "You feel weak and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "12 hours",
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "h_mod_min": [ -2 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 5 ],
+      "h_mod_tick": [ 600 ],
+      "healing_rate": [ 0.75 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakinetic_healing_down",
+    "name": [ "Feeling Very Unwell" ],
+    "desc": [ "You feel fatigued and shaky." ],
+    "apply_message": "",
+    "remove_message": "The feeling of weakness fades away.",
+    "rating": "bad",
+    "max_duration": "18 hours",
+    "base_mods": {
+      "str_mod": [ -2 ],
+      "h_mod_min": [ -2 ],
+      "h_mod_chance": [ 1 ],
+      "h_mod_chance_bot": [ 4 ],
+      "h_mod_tick": [ 500 ],
+      "healing_rate": [ 0.5 ]
+    },
+    "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_vitakinetic_degeneration",
+    "name": [ "Deteriorating" ],
+    "desc": [ "Your skin seems to be slowly crumbling as you watch." ],
+    "rating": "bad",
+    "max_duration": "120 minutes",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "pain_chance": [ 15 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_max_val": [ 40 ],
+      "pain_tick": [ 60 ],
+      "hurt_chance": [ 50 ],
+      "hurt_min": [ 1 ],
+      "hurt_tick": [ 120 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "pigeon_aura",
+    "name": [ "" ],
+    "blood_analysis_description": "Blood sample contains noetic steroid particles and pigeon dander.",
+    "base_mods": { "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pigeon_aura_prep",
+    "rating": "neutral",
+    "blood_analysis_description": "Patient has allergens in blood stream.",
+    "base_mods": { "cough_chance": [ 2 ], "perspiration_chance": [ 1 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_regeneration",
+    "name": [ "Feral Regeneration" ],
+    "desc": [ "Your wounds are rapidly closing." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_network_monster_effect",
+    "name": [ "Telepathic Network Monster" ],
+    "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
+    "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
+  }
+]

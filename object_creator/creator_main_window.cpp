@@ -1,16 +1,16 @@
 #include "creator_main_window.h"
-
-#include "spell_window.h"
-#include "item_group_window.h"
 #include "enum_conversions.h"
 #include "translations.h"
-#include "worldfactory.h"
-#include "mod_manager.h"
 
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qmainwindow.h>
-#include <QtWidgets/qpushbutton.h>
-#include <QtCore/QSettings>
+#include <QtWidgets/qtabwidget.h>
+#include <QtWidgets/qsplashscreen.h>
+#include <QtGui/qpainter.h>
+#include <QtWidgets/qmenubar.h>
+#include <QtWidgets/qmessagebox.h>
+
+
 
 namespace io
 {
@@ -32,97 +32,59 @@ namespace io
 
 int creator::main_window::execute( QApplication &app )
 {
-    const int default_text_box_height = 20;
-    const int default_text_box_width = 100;
-    const QSize default_text_box_size( default_text_box_width, default_text_box_height );
+    //Create the main window
+    QMainWindow creator_main_window;
+    //Create a splash screen that tells the user we're loading
+    //First we create a pixmap with the desired size
+    QPixmap splash( QSize(640, 480) );
+    splash.fill(Qt::gray);
+
+    //Then we create the splash screen and show it
+    QSplashScreen splashscreen( splash );
+    splashscreen.show();
+    splashscreen.showMessage( "Loading mainwindow...", Qt::AlignCenter );
+    //let the thread sleep for a second to show the splashscreen
+    std::this_thread::sleep_for( std::chrono::seconds( 2 ) );
+    app.processEvents();
+
+    //Add a menu bar with the file->exit option and the help->about option
+    QMenuBar* menuBar = creator_main_window.menuBar();
+    QMenu* fileMenu = menuBar->addMenu( "File" );
+    QAction* exitAction = fileMenu->addAction( "Exit" );
+    QObject::connect( exitAction, &QAction::triggered, &creator_main_window, &QMainWindow::close );
+    QMenu* helpMenu = menuBar->addMenu( "Help" );
+    QAction* aboutAction = helpMenu->addAction( "About" );
+    //When the about option is clicked, show a message box information about the object creator
+    QObject::connect( aboutAction, &QAction::triggered, &creator_main_window, [&creator_main_window]() {
+        QMessageBox::about( &creator_main_window, "About", "This is the Cataclysm: DDA object creator.\n"
+                            "It is used to create new spells, itemgroups, etc.\n"
+                            "Find more info and contribute to https://github.com/CleverRaven/Cataclysm-DDA.\n");
+    } );
+
+    //Add an option to the help menu to show the about qt dialog
+    QAction* aboutQtAction = helpMenu->addAction( "About Qt" );
+    QObject::connect( aboutQtAction, &QAction::triggered, &app, &QApplication::aboutQt );
+
+
+
+    //Create a tab widget and add it to the main window
+    QTabWidget* tabWidget = new QTabWidget(&creator_main_window);
+    creator_main_window.setCentralWidget(tabWidget);
+
+    //Create the spell window and add it as a tab
+    spell_editor = new spell_window();
+    tabWidget->addTab(spell_editor, "Spell");
+
+    //Create the item group window and add it as a tab
+    item_group_editor = new item_group_window();
+    tabWidget->addTab(item_group_editor, "Item group");
+
+    //Create the mod selection window and add it as a tab
+    mod_selection = new mod_selection_window();
+    tabWidget->addTab(mod_selection, "Mod selection");
+
+    creator_main_window.showMaximized();
+    splashscreen.finish( &creator_main_window ); //Destroy the splashscreen
     
-    int row = 0;
-    int col = 0;
-    int max_row = 0;
-    int max_col = 0;
-
-    //Does nothing on it's own but once settings.setvalue() is called it will create
-    //an ini file in C:\Users\User\AppData\Roaming\CleverRaven or equivalent directory
-    QSettings settings( QSettings::IniFormat, QSettings::UserScope,
-                        "CleverRaven", "Cataclysm - DDA" );
-
-    // =========================================================================================
-    // first column of boxes
-    row = 0;
-
-    QMainWindow title_menu;
-    spell_window spell_editor( &title_menu );
-    item_group_window item_group_editor( &title_menu );
-
-    QLabel mods_label;
-    mods_label.setParent( &title_menu );
-    mods_label.setText( QString( "Select mods (restart required):" ) );
-    mods_label.resize( default_text_box_size * 2 );
-    mods_label.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    mods_label.show();
-    row++;
-
-    //We always load 'dda' so we exclude it from the mods list
-    QStringList all_mods;
-    for( const mod_id &e : world_generator->get_mod_manager().all_mods() ) {
-        if( !e->obsolete && e->ident.str() != "dda" ) {
-            all_mods.append( e->ident.c_str() );
-        }
-    }
-
-    dual_list_box mods_box;
-    mods_box.initialize( all_mods );
-    mods_box.resize( QSize( default_text_box_width * 8, default_text_box_height * 10 ) );
-    mods_box.setParent( &title_menu );
-    mods_box.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    mods_box.show();
-    //The user's mod selection gets saved to a file
-    QObject::connect( &mods_box, &dual_list_box::pressed, [&]() {
-        settings.setValue( "mods/include", mods_box.get_included() );
-    } );
-
-    //A previous selection of mods is loaded from disk and applied to the modlist widget
-    if( settings.contains( "mods/include" ) ) {
-        QStringList modlist = settings.value( "mods/include" ).value<QStringList>();
-        mods_box.set_included( modlist );
-    }
-
-    row += 11;
-
-    QPushButton spell_button( _( "Spell Creator" ), &title_menu );
-    spell_button.move( QPoint( col * default_text_box_width, row * default_text_box_height ) );
-    QObject::connect( &spell_button, &QPushButton::released,
-    [&]() {
-        title_menu.hide();
-        spell_editor.show();
-    } );
-
-
-    // =========================================================================================
-    // second column of boxes
-    col++;
-
-    QPushButton item_group_button( _( "Item group Creator" ), &title_menu );
-    item_group_button.move( QPoint( col * default_text_box_width, row++ * default_text_box_height ) );
-    item_group_button.resize( 150, 30 );
-
-    QObject::connect( &item_group_button, &QPushButton::released,
-    [&]() {
-        title_menu.hide();
-        item_group_editor.show();
-    } );
-
-    title_menu.show();
-    spell_button.show();
-    item_group_button.show();
-
-    row += 3;
-    col += 6;
-    max_row = std::max( max_row, row );
-    max_col = std::max( max_col, col );
-    title_menu.resize( QSize( ( max_col + 1 ) * default_text_box_width,
-        ( max_row )*default_text_box_height ) );
-
-
     return app.exec();
 }

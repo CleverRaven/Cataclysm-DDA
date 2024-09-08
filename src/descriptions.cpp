@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -12,16 +13,17 @@
 #include "color.h"
 #include "creature_tracker.h"
 #include "harvest.h"
-#include "input.h"
+#include "input_context.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mod_manager.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "vehicle.h"
 #include "viewer.h"
+#include "vpart_position.h"
 
 static const skill_id skill_survival( "survival" );
 
@@ -181,7 +183,7 @@ std::string map_data_common_t::extended_description() const
 
     if( has_any_harvest ) {
         ss << "--" << std::endl;
-        int player_skill = get_player_character().get_skill_level( skill_survival );
+        int player_skill = get_player_character().get_greater_skill_or_knowledge_level( skill_survival );
         ss << _( "You could harvest the following things from it:" ) << std::endl;
         // Group them by identical ids to avoid repeating same blocks of data
         // First, invert the mapping: season->id to id->seasons

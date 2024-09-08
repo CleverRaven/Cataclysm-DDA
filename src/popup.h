@@ -4,19 +4,15 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "color.h"
-#include "cursesdef.h"
-#include "input.h"
-#include "point.h"
-#include "string_formatter.h"
+#include "input_enums.h"
 
 class ui_adaptor;
+class query_popup_impl;
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -35,8 +31,10 @@ class ui_adaptor;
  *
  * Please refer to documentation of individual functions for detailed explanation.
  **/
+
 class query_popup
 {
+        friend class query_popup_impl;
     public:
         /**
          * Query result returned by `query_once` and `query`.
@@ -181,11 +179,6 @@ class query_popup
         query_popup &preferred_keyboard_mode( keyboard_mode mode );
 
         /**
-         * Draw the UI. An input context should be provided using `context()`
-         * for this function to properly generate option text.
-         **/
-        void show() const;
-        /**
          * Query once and return the result. In order for this method to return
          * valid results, the popup must either have at least one option, or
          * have `allow_cancel` or `allow_anykey` set to true. Otherwise
@@ -196,13 +189,12 @@ class query_popup
          * Query until a valid action or an error happens and return the result.
          */
         result query();
-        catacurses::window get_window();
     protected:
         /**
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
          * resizing of the popup.
          */
-        std::shared_ptr<ui_adaptor> create_or_get_adaptor();
+        std::shared_ptr<query_popup_impl> create_or_get_impl();
 
     private:
         struct query_option {
@@ -233,23 +225,16 @@ class query_popup
             int width;
         };
 
-        std::weak_ptr<ui_adaptor> adaptor;
+        std::weak_ptr<query_popup_impl> p_impl;
 
         // UI caches
-        mutable catacurses::window win;
         mutable std::vector<std::string> folded_msg;
         mutable std::vector<button> buttons;
 
-        static std::vector<std::vector<std::string>> fold_query(
-                    const std::string &category,
-                    keyboard_mode pref_kbd_mode,
-                    const std::vector<query_option> &options,
-                    int max_width, int horz_padding );
         void invalidate_ui() const;
-        void init() const;
 
         template <typename ...Args>
-        static void assert_format( const std::string &, Args &&... ) {
+        static void assert_format( const std::string_view, Args &&... ) {
             static_assert( sizeof...( Args ) > 0,
                            "Format string should take at least one argument.  "
                            "If your message is not a format string, "
@@ -289,7 +274,7 @@ class static_popup : public query_popup
         static_popup();
 
     private:
-        std::shared_ptr<ui_adaptor> ui;
+        std::shared_ptr<query_popup_impl> ui;
 };
 
 #endif // CATA_SRC_POPUP_H

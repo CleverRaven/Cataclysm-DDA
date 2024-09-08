@@ -1,11 +1,5 @@
 [
   {
-    "type": "palette",
-    "id": "fbmg_2_common_palette",
-    "terrain": { "p": "t_palisade", "P": "t_palisade_pulley", "G": "t_palisade_gate", ";": "t_dirt", ",": "t_dirtfloor" },
-    "furniture": { "c": "f_counter", "I": "f_rack", ";": "f_clear" }
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmg_2",
@@ -76,6 +70,26 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_3_roof",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "        ",
+        "        "
+      ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },
@@ -83,12 +97,14 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_3",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmg_2_3" ], "x": 6, "y": 16 } ] }
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmg_2_3" ], "x": 6, "y": 16, "z": 0 }, { "chunks": [ "fbmg_2_3_roof" ], "x": 6, "y": 16, "z": 1 } ]
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmg_2_6",
+    "nested_mapgen_id": "fbmg_2_6_9",
     "object": {
       "mapgensize": [ 8, 8 ],
       "rows": [
@@ -101,6 +117,26 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_6_9_roof",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "        ",
+        "        ",
+        "        "
+      ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },
@@ -108,7 +144,12 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_6",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmg_2_6" ], "x": 6, "y": 11 } ] }
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmg_2_6_9" ], "x": 6, "y": 11, "z": 0 },
+        { "chunks": [ "fbmg_2_6_9_roof" ], "x": 6, "y": 11, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -126,28 +167,11 @@
   },
   {
     "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "fbmg_2_9",
-    "object": {
-      "mapgensize": [ 8, 8 ],
-      "rows": [
-        ",,,,,,,,",
-        ",,,,,,,,",
-        ",,,,,,,,",
-        ",,,,,,,,",
-        ",,,,,,,,",
-        "        ",
-        "        ",
-        "        "
-      ],
-      "palettes": [ "fbmg_2_common_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "fbmg_2_9",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmg_2_9" ], "x": 6, "y": 6 } ] }
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmg_2_6_9" ], "x": 6, "y": 6, "z": 0 }, { "chunks": [ "fbmg_2_6_9_roof" ], "x": 6, "y": 6, "z": 1 } ]
+    }
   },
   {
     "type": "mapgen",
@@ -179,6 +203,26 @@
         "        ",
         "        "
       ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "palettes": [ "fbmg_2_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmg_2_12_roof",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "rrrrrrrr",
+        "        ",
+        "        ",
+        "        ",
+        "        "
+      ],
       "palettes": [ "fbmg_2_common_palette" ]
     }
   },
@@ -186,7 +230,9 @@
     "type": "mapgen",
     "update_mapgen_id": "fbmg_2_12",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmg_2_12" ], "x": 6, "y": 2 } ] }
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmg_2_12" ], "x": 6, "y": 2, "z": 0 }, { "chunks": [ "fbmg_2_12_roof" ], "x": 6, "y": 2, "z": 1 } ]
+    }
   },
   {
     "type": "mapgen",

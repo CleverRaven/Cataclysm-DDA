@@ -8,6 +8,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "600 L",
     "weight": "600 kg",
     "hp": 400,
@@ -21,7 +22,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "stab", "amount": 5.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 3.0 } ],
     "dodge": 2,
-    "armor_bash": 3,
     "starting_ammo": { "milk_raw": 12 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.1 } ],
     "harvest": "pelt_megafauna",
@@ -37,7 +37,8 @@
       "feed": "The %s seems to like you!  It lets you pat its shaggy-haired head and seems friendly.",
       "pet": "The %s lets you pet its shaggy-haired head, mooing loudly in satisfaction."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_shrubox_calf",
@@ -48,6 +49,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "90 L",
     "weight": "90 kg",
     "hp": 80,
@@ -66,7 +68,7 @@
     "upgrades": { "age_grow": 240, "into": "mon_shrubox" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_woodox",
@@ -77,6 +79,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "400 L",
     "weight": "400 kg",
     "hp": 120,
@@ -93,7 +96,6 @@
       { "damage_type": "bash", "amount": 4.0, "armor_penetration": 2 }
     ],
     "dodge": 2,
-    "armor_bash": 3,
     "starting_ammo": { "milk_raw": 8 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.2 } ],
     "harvest": "pelt_megafauna",
@@ -109,7 +111,8 @@
       "feed": "The %s seems to like you!  It lets you pat its shaggy-haired head and seems friendly.",
       "pet": "The %s lets you pet its shaggy-haired head, mooing loudly in satisfaction."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_woodox_calf",
@@ -120,6 +123,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "60 L",
     "weight": "60 kg",
     "hp": 50,
@@ -138,7 +142,7 @@
     "upgrades": { "age_grow": 240, "into": "mon_woodox" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_soergoat",
@@ -149,6 +153,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "200 L",
     "weight": "200 kg",
     "hp": 200,
@@ -162,7 +167,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "stab", "amount": 7.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 3.0 } ],
     "dodge": 3,
-    "armor_bash": 3,
     "starting_ammo": { "milk_raw": 6 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.1 } ],
     "harvest": "pelt_megafauna",
@@ -178,7 +182,8 @@
       "feed": "The %s seems to tolerate you!  It cocks its head and stares at you with its strange goat-eyes as you approach.",
       "pet": "The %s lets you scratch its big belly, letting of a sonorous bleat in satisfaction."
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "MILKABLE" ],
+    "armor": { "bash": 3, "cut": 4, "stab": 2 }
   },
   {
     "id": "mon_soergoat_kid",
@@ -189,6 +194,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "40 L",
     "weight": "40 kg",
     "hp": 30,
@@ -206,7 +212,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "upgrades": { "age_grow": 240, "into": "mon_soergoat" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_bison",
@@ -217,6 +223,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 420,
@@ -230,7 +237,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "stab", "amount": 3.0 }, { "damage_type": "bash", "amount": 5.0, "armor_penetration": 2 } ],
     "dodge": 2,
-    "armor_bash": 3,
     "starting_ammo": { "milk_raw": 6 },
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.15 } ],
     "harvest": "pelt_megafauna",
@@ -242,7 +248,8 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_bison_calf",
@@ -253,6 +260,7 @@
     "bodytype": "dog",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "160 L",
     "weight": "160 kg",
     "hp": 150,
@@ -271,7 +279,7 @@
     "upgrades": { "age_grow": 240, "into": "mon_bison" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "NO_BREED", "CANPLAY" ]
   },
   {
     "id": "mon_scotts_horse",
@@ -282,6 +290,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "350 L",
     "weight": "350 kg",
     "hp": 120,
@@ -295,7 +304,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 4 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -307,7 +315,8 @@
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.35,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "MILKABLE" ],
+    "armor": { "bash": 3, "cut": 4, "stab": 3 }
   },
   {
     "id": "mon_scotts_foal",
@@ -340,7 +349,7 @@
       "ANIMAL",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "NO_BREED",
       "CANPLAY"
@@ -349,12 +358,13 @@
   {
     "id": "mon_giant_horse",
     "type": "MONSTER",
-    "name": { "str": "Giant horse" },
+    "name": { "str": "giant horse" },
     "description": "A massive species of Equus that looks like a draft horse, just bigger.  If you dare come close to it, you might be able to get this one to trust you enough to ride it.",
     "default_faction": "mega_herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 500,
@@ -368,7 +378,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 12.0, "armor_penetration": 4 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -380,12 +389,13 @@
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.35,
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "MILKABLE" ],
+    "armor": { "bash": 5, "cut": 7, "stab": 3 }
   },
   {
     "id": "mon_giant_foal",
     "type": "MONSTER",
-    "name": { "str": "Giant horse foal" },
+    "name": { "str": "giant horse foal" },
     "description": "A juvenile giant horse.  It gallops around its parent excitedly, throwing around its head joyously.",
     "copy-from": "mon_scotts_horse",
     "volume": "180 L",
@@ -413,7 +423,7 @@
       "ANIMAL",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "NO_BREED",
       "CANPLAY"
@@ -422,12 +432,13 @@
   {
     "id": "mon_camelops",
     "type": "MONSTER",
-    "name": { "str": "Camelops", "str_pl": "camelops" },
-    "description": "A huge, woolly two-humped camel that roams far and wide across the american continent.  It looks at you irritated, chewing on some long grass.",
+    "name": { "str_sp": "Camelops" },
+    "description": "A huge, woolly two-humped camel that roams far and wide across the American continent.  It looks at you irritated, chewing on some long grass.",
     "default_faction": "mega_herbivore",
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_megafauna" ],
     "volume": "1000 L",
     "weight": "1000 kg",
     "hp": 400,
@@ -441,7 +452,6 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "bash", "amount": 5.0, "armor_penetration": 2 } ],
     "dodge": 2,
-    "armor_bash": 2,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
@@ -453,7 +463,8 @@
     "reproduction": { "baby_monster": "mon_camelops_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SUMMER" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "MILKABLE" ],
+    "armor": { "bash": 6, "cut": 9, "stab": 4 }
   },
   {
     "id": "mon_camelops_foal",
@@ -480,7 +491,7 @@
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "upgrades": { "age_grow": 240, "into": "mon_camelops" },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_DANGER", "WARM", "NO_BREED" ]
   },
   {
     "id": "mon_peccary_flathead",
@@ -492,6 +503,7 @@
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
+    "families": [ "prof_intro_biology" ],
     "volume": "50 L",
     "weight": "40 kg",
     "hp": 40,
@@ -506,8 +518,6 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 2.0 } ],
     "dodge": 2,
-    "armor_bash": 1,
-    "armor_cut": 1,
     "harvest": "mammal_small_boar",
     "reproduction": { "baby_monster": "mon_flathead_piglet", "baby_count": 5, "baby_timer": 135 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
@@ -517,7 +527,8 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "HURT", "FIRE" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "CANPLAY" ],
+    "armor": { "bash": 2, "cut": 3, "stab": 2 }
   },
   {
     "id": "mon_flathead_piglet",
@@ -537,14 +548,14 @@
     "melee_damage": [ { "damage_type": "bash", "amount": 4.0 } ],
     "dodge": 2,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it.." },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It squeals happily as you pet it." },
     "flags": [
       "NO_BREED",
       "SEES",
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PET_WONT_FOLLOW",
       "WARM",
       "KEENNOSE",
@@ -569,13 +580,12 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6.0, "armor_penetration": 2 }, { "damage_type": "bash", "amount": 4.0 } ],
     "dodge": 2,
-    "armor_bash": 2,
-    "armor_cut": 1,
     "special_attacks": [ [ "EAT_FOOD", 20 ], { "id": "slam", "cooldown": 10 } ],
     "anger_triggers": [ "PLAYER_NEAR_BABY", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
     "reproduction": { "baby_monster": "mon_longnose_piglet", "baby_count": 1, "baby_timer": 200 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "WARM", "CANPLAY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER", "PET_MOUNTABLE", "WARM", "CANPLAY" ],
+    "armor": { "bash": 4, "cut": 6, "stab": 4 }
   },
   {
     "id": "mon_longnose_piglet",
@@ -583,6 +593,6 @@
     "copy-from": "mon_flathead_piglet",
     "name": { "str": "long-nosed peccary piglet" },
     "description": "A juvenile long-nosed peccary - a stocky, short-legged, pig-like animal.  Its playful squeals delight your heart.",
-    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CANPLAY" ]
+    "flags": [ "NO_BREED", "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "KEENNOSE", "CANPLAY" ]
   }
 ]

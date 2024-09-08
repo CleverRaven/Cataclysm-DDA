@@ -4,15 +4,22 @@
     "copy-from": "pistol_revolver_cap_ball",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Colt M1861 Navy" },
+    "name": { "str": "civil war six-shooter" },
     "description": "The Colt Model 1861 Navy cap & ball .36-caliber revolver was a six-shot, single-action percussion weapon produced by Colt's Manufacturing Company from 1861 until 1873.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_navy",
+        "name": { "str": "Colt M1861 Navy", "str_pl": "Colt M1861 Navies" },
+        "description": "The Colt M1861 is a black powder, cap & ball revolver dating back to the Civil War.  While reloading it takes quite a while due to having to put a primer on each chamber manually, instead of having the primer in one unit with the casing, like metallic cartridges.  However, for the time 6 shots in quick succession was a great thing for cavalry and officers to have on the field, though this version was much rarer than the more popular Colt M1860.  Nowadays, this firearm is completely outdated, and only sees use in collections, reenactment, or special shooting competitions.  However, black powder guns such as this are less regulated than more modern firearms, so it is sometimes the first gun a youth may buy.  This one is chambered in .36, weaker than the M1860's .44."
+      }
+    ],
     "weight": "1184 g",
     "volume": "540 ml",
     "longest_side": "351 mm",
-    "price": 30000,
-    "price_postapoc": 3000,
+    "price": "300 USD",
+    "price_postapoc": "30 USD",
     "to_hit": -1,
-    "bashing": 8,
     "material": [ "steel", "wood" ],
     "ammo": [ "36paper" ],
     "dispersion": 450,
@@ -20,6 +27,8 @@
     "blackpowder_tolerance": 96,
     "clip_size": 6,
     "proportional": { "reload": 2.0 },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "36paper": 6 } } ]
+    "flags": [ "NO_TURRET" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "36paper": 6 } } ],
+    "melee_damage": { "bash": 8 }
   }
 ]

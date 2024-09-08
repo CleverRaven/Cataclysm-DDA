@@ -1,7 +1,26 @@
-#include "character.h"
 #include "character_modifier.h"
+
+#include <algorithm>
+#include <cmath>
+#include <functional>
+#include <limits>
+#include <set>
+
+#include "character.h"
+#include "debug.h"
+#include "effect.h"
+#include "enum_conversions.h"
+#include "flag.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
+#include "game_constants.h"
 #include "generic_factory.h"
+#include "init.h"
+#include "json_error.h"
+#include "messages.h"
 #include "move_mode.h"
+#include "output.h"
+#include "string_formatter.h"
 
 static const character_modifier_id
 character_modifier_limb_footing_movecost_mod( "limb_footing_movecost_mod" );
@@ -85,7 +104,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string & )
+void character_modifier::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );
@@ -134,8 +153,8 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
         optional( jobj, was_loaded, "nominator", nominator, 0.0f );
         optional( jobj, was_loaded, "denominator", denominator, 1.0f );
         if( std::abs( denominator ) < std::numeric_limits<float>::epsilon() ) {
-            jobj.throw_error( "denominator cannot be set to 0" );
             denominator = 1.0f;
+            jobj.throw_error( "denominator cannot be set to 0" );
         }
         optional( jobj, was_loaded, "subtract", subtractor, 0.0f );
     }
@@ -144,12 +163,13 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
 // Scores
 
 // the total of the manipulator score in the best limb group
-static float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
-                                body_part_type::type type, int override_encumb, int override_wounds )
+float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
+                                    body_part_type::type type, int override_encumb, int override_wounds ) const
 {
     std::map<body_part_type::type, std::vector<std::pair<bodypart, float>>> bodypart_groups;
     std::vector<float> score_groups;
     const bool required_type = type != body_part_type::type::num_types;
+    const bool local_effect = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         if( required_type ) {
             for( const auto &bp_type : id.first->limbtypes ) {
@@ -170,13 +190,32 @@ static float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
                    b.first.get_limb_score_max( limb_score_manip ) * b.second;
         } );
         for( const std::pair<bodypart, float> &id : part.second ) {
+            float local_mul = 1.0f;
+            // Calculate local effect modifiers
+            if( local_effect ) {
+                for( const effect &local : get_effects_from_bp( id.first.get_id() ) ) {
+                    if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                        float temp = local.get_limb_score_mod( limb_score_manip, resists_effect( local ) );
+                        local_mul *= temp;
+                        if( temp != 1.0f ) {
+                            add_msg_debug( debugmode::DF_CHARACTER,
+                                           "Local limb score modifier %s for manipulation score on BP %s found, effect multiplier %.1f",
+                                           local.disp_name(), id.first.get_id()->name, local_mul );
+                        }
+                    }
+                }
+            }
             total = std::min( total + id.first.get_limb_score( limb_score_manip, -1, override_encumb,
-                              override_wounds ) * id.second,
-                              id.first.get_limb_score_max( limb_score_manip ) * id.second );
+                              override_wounds ) * id.second * local_mul,
+                              id.first.get_limb_score_max( limb_score_manip ) * local_mul * id.second );
         }
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "Manipulation score of bodypart group %s %.1f",
+                       io::enum_to_string<body_part_type::type>( part.first ), total );
         score_groups.emplace_back( total );
     }
     const auto score_groups_max = std::max_element( score_groups.begin(), score_groups.end() );
+
     if( score_groups_max == score_groups.end() ) {
         return 0.0f;
     } else {
@@ -188,13 +227,20 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
                                  int override_encumb, int override_wounds ) const
 {
     int skill = -1;
+    float effect_mul = 1.0f;
+    // Check for any global limb score modifier
+    for( const effect &eff : get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+        effect_mul *= eff.get_limb_score_mod( score, resists_effect( eff ) );
+    }
     // manipulator/swim scores are treated a little special for now
     if( score == limb_score_manip ) {
-        return manipulator_score( body, bp, override_encumb, override_wounds );
+        return manipulator_score( body, bp, override_encumb, override_wounds ) * effect_mul;
     } else if( score == limb_score_swim ) {
-        skill = get_skill_level( skill_swimming );
+        skill = round( get_skill_level( skill_swimming ) );
     }
     float total = 0.0f;
+    // Avoid call has_flag() in a loop to improve performance
+    bool cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         float mod = 0.0f;
         if( bp == body_part_type::type::num_types ) {
@@ -203,9 +249,25 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
             mod = id.second.get_limb_score( score, skill, override_encumb,
                                             override_wounds ) * id.first->limbtypes.at( bp );
         }
+        if( cache_flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) {
+            for( const effect &local : get_effects_from_bp( id.first ) ) {
+                float local_mul = 1.0f;
+                // Second filter to only apply the local effects at this step (non-local modifiers are already calulated)
+                if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                    local_mul = local.get_limb_score_mod( score, resists_effect( local ) );
+                    mod *= local_mul;
+                    if( local_mul != 1.0f ) {
+                        add_msg_debug( debugmode::DF_CHARACTER,
+                                       "Local limb score modifier %s for limb score %s on BP %s found, effect multiplier %.1f, score contribution after modifier %.1f",
+                                       local.disp_name(),
+                                       score.c_str(), id.first.c_str(), local_mul, mod );
+                    }
+                }
+            }
+        }
         total += mod;
     }
-    return std::max( 0.0f, total );
+    return std::max( 0.0f, total * effect_mul );
 }
 
 // Modifiers
@@ -218,7 +280,8 @@ static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_s
         skill_mult = 0.5f;
         base_modifier = -1.5f;
     }
-    return skill_mult * std::min( MAX_SKILL, c.get_skill_level( gun_skill ) ) + base_modifier;
+    return skill_mult * std::min( static_cast<float>( MAX_SKILL ),
+                                  c.get_skill_level( gun_skill ) ) + base_modifier;
 }
 
 static float aim_speed_dex_modifier( const Character &c, const skill_id & )
@@ -226,12 +289,18 @@ static float aim_speed_dex_modifier( const Character &c, const skill_id & )
     return ( c.get_dex() - 8 ) * 0.5f;
 }
 
+static float move_mode_move_cost_modifier( const Character &c, const skill_id & )
+{
+    // Both walk and run speed drop to half their maximums as stamina approaches 0.
+    // Convert stamina to a float first to allow for decimal place carrying
+    return c.move_mode->move_speed_mult();
+}
+
 static float stamina_move_cost_modifier( const Character &c, const skill_id & )
 {
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
-    return stamina_modifier * c.move_mode->move_speed_mult();
+    return ( static_cast<float>( c.get_stamina() ) / c.get_stamina_max() + 1 ) / 2;
 }
 
 static float limb_run_cost_modifier( const Character &c, const skill_id & )
@@ -245,6 +314,7 @@ static float call_builtin( const std::string &builtin, const Character &c, const
     static const std::map<std::string, std::function<float( const Character &, const skill_id & )>>
     func_map = {
         { "limb_run_cost_modifier", limb_run_cost_modifier },
+        { "move_mode_move_cost_modifier", move_mode_move_cost_modifier },
         { "stamina_move_cost_modifier", stamina_move_cost_modifier },
         { "aim_speed_dex_modifier", aim_speed_dex_modifier },
         { "aim_speed_skill_modifier", aim_speed_skill_modifier }
@@ -273,7 +343,7 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
     bool sc_assigned = false;
     for( const auto &sc : limbscores ) {
         float mod_sc = c.get_limb_score( sc.first, limbtype, override_encumb, override_wounds );
-        mod_sc *= sc.second;
+        mod_sc = limbscore_modop == MULT ? pow( mod_sc, sc.second ) : mod_sc * sc.second;
         if( !sc_assigned ) {
             score = mod_sc;
             sc_assigned = true;
