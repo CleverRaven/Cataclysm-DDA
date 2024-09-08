@@ -271,7 +271,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS"
       },
       {
-        "text": "[Roll in broken monolith.]",
+        "text": "[Deliver a broken monolith.]",
         "condition": { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
