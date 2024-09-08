@@ -357,12 +357,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
     "type": "talk_topic",
     "dynamic_line": "I belive we already have similar model in better condition but is nice to have something for reference.",
-    "speaker_effect": {
-      "effect": [
-        { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" }
-      ],
-      "sentinel": "yrax_trade"
-    }
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
