@@ -136,7 +136,7 @@
     "type": "TOOL",
     "copy-from": "fake_item",
     "name": { "str": "anvil" },
-    "qualities": [ [ "ANVIL", 2 ] ]
+    "qualities": [ [ "ANVIL", 3 ] ]
   },
   {
     "id": "fake_milling_item",
