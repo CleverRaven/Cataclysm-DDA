@@ -1,0 +1,60 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_changeling_noble",
+    "name": "Unknowing Changeling, Noble (Species)",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "points": 4,
+    "traits": [ "THRESH_FAIR_FOLK_NOBLE", "UNKNOWING_CHANGELING" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_changeling_commoner",
+    "name": "Unknowing Changeling, Commoner (Species)",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  While your time in the mortal realm has covered over any distinctions that might have been derived from your heritage, when the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "points": 4,
+    "traits": [ "THRESH_FAIR_FOLK_COMMONER", "UNKNOWING_CHANGELING" ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_NOBLE",
+    "name": { "str": "Fair Folk Noble" },
+    "points": 1,
+    "description": "You are one of the nobility of the Fair Folk.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER",
+    "name": { "str": "Fair Folk Commoner" },
+    "points": 1,
+    "description": "You are one of the common masses of the Fair Folk.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_NOBLE",
+    "name": { "str": "Changeling" },
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has innured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",
+    "mixed_effect": true,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "profession": true,
+    "points": 0,
+    "allowed_category": [ "FAIR_FOLK_NOBLE" ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "allowed_category": [ "FAIR_FOLK_COMMONER" ]
+  }
+]
