@@ -27,7 +27,7 @@
     "id": "MELEE_PERK_CAREFREE_STANCE",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Carefree Stance" },
-    "description": "You aren't even trying. \n You clear all combat buffs whenever you wait.",
+    "description": "You aren't even trying.\nYou clear all combat buffs whenever you wait.",
     "flags": "MELEE_PERK_CAREFREE_STANCE"
   },
   {
@@ -86,7 +86,7 @@
     "id": "MELEE_PERK_COMBAT_TEMPO",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Combat Tempo I" },
-    "description": "Perfect. Now do it again.\nAttacks generate stacks of combat tempo.  Tempo greatly favors the strong.",
+    "description": "Perfect.  Now do it again.\nAttacks generate stacks of combat tempo.  Tempo greatly favors the strong.",
     "flags": "MELEE_PERK_TEMPO"
   },
   {
