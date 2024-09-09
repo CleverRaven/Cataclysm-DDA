@@ -761,7 +761,7 @@
     "color": "light_gray",
     "name": { "str_sp": "inactive triakis" },
     "category": "other",
-    "description": "Gap in its shell reveals an interior made from a single piece of quartz, intricately carved into a series of nested tetrahedra.",
+    "description": "You know this artfully craved piece of gold hued ceramics to be a robot of some kind, but it seems impossible to interact with it.",
     "price": "10 USD",
     "material": [ "steel", "yrax_quartz" ],
     "volume": "119 L",
