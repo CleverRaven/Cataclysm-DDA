@@ -4,27 +4,29 @@
     "id": "EOC_XE_ALLOW_MAGIC_SEQUENCE",
     "recurrence": [ "1 d", "3 d" ],
     "condition": {
-      "and": [
-        {
-          "and": [
-            {
-              "and": [
-                { "or": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] },
-                { "not": { "u_has_trait": "DREAMLESS" } }
-              ]
-            },
-            {
-              "and": [
-                { "or": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] },
-                { "not": { "u_has_trait": "DREAMLESS" } }
-              ]
-            }
-          ]
-        },
-        { "math": [ "magic_potential", ">", "0" ] }
-      ]
-    },
-    "effect": [ { "math": [ "allow_sequence", "=", "1" ] } ]
+    "and": [
+      {
+        "and": [
+          {
+            "and": [
+              {
+                "and": [
+                  { "or": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] }
+                ]
+              },
+              {
+                "and": [
+                  { "or": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] }
+                ]
+              }
+            ]
+          },
+          { "math": [ "magic_potential", ">", "0" ] }
+        ]
+      },
+      { "not": { "u_has_trait": "DREAMLESS" } }
+    ]
+  }
   },
   {
     "type": "effect_on_condition",
