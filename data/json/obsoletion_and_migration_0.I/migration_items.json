@@ -1922,5 +1922,10 @@
     "id": "wire",
     "type": "MIGRATION",
     "replace": "lc_wire"
+  },
+  {
+    "id": "piano_wire",
+    "type": "MIGRATION",
+    "replace": "qt_wire"
   }
 ]

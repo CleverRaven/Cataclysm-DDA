@@ -1029,8 +1029,8 @@
     "id": "lc_wire",
     "symbol": ";",
     "color": "light_gray",
-    "name": { "str": "wire" },
-    "description": "A length of thin, relatively stiff steel wire, made of ubiquitous mild steel.  Like the sort you find in chain link fences.",
+    "name": { "str": "steel wire" },
+    "description": "A length of thin, relatively stiff wire made of mild steel.  Ubiquitously found in everyday applications such as chain link fences.",
     "category": "spare_parts",
     "price": "200 USD",
     "price_postapoc": "1 USD",
@@ -1043,7 +1043,7 @@
     "id": "mc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "medium steel wire" },
-	"description": "A length of thin, relatively stiff steel wire, made of medium steel.",
+	"description": "A length of thin, stiff wire made of medium steel.  Its balance between strength and flexibility makes it suitable for steel ropes and cables.",
     "material": [ "mc_steel" ]
   },
   {
@@ -1051,7 +1051,7 @@
     "id": "hc_wire",
     "copy-from": "lc_wire",
     "name": { "str": "high steel wire" },
-	"description": "A length of thin, relatively stiff steel wire, made of high steel.",
+	"description": "A length of strong wire made of high carbon steel.  Often used in industrial machinery and springs.",
     "material": [ "hc_steel" ]
   },
   {
@@ -1067,7 +1067,7 @@
     "id": "qt_wire",
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
-	"description": "A length of thin, relatively stiff steel wire, made of tempered steel.",
+	"description": "A length of flexible and durable steel wire, made of tempered spring steel.  Often used in industrial and automotive springs, and as music wire.",
     "material": [ "qt_steel" ]
   },
   {
