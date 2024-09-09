@@ -431,7 +431,7 @@
             { "value": "PERCEPTION", "add": 2 },
             { "value": "MOTION_VISION_RANGE", "add": 30 },
             { "value": "RANGED_DAMAGE", "multiply": 0.33 },
-            { "value": "WEAPON_DISPERSION", "multiply": 0.33 }
+            { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
           ]
         }
       ]
