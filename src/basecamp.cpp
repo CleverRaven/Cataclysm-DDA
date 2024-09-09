@@ -699,9 +699,9 @@ void basecamp::form_storage_zones( map &here, const tripoint_abs_ms &abspos )
     validate_bb_pos( project_to<coords::ms>( omt_pos ) );
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
     std::vector<tripoint_abs_ms> possible_liquid_dumps;
-    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
+    if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, ACTIVITY_SEARCH_DISTANCE ) ) {
         const std::vector<const zone_data *> zones = mgr.get_near_zones( zone_type_CAMP_STORAGE, abspos,
-                60, get_owner() );
+                ACTIVITY_SEARCH_DISTANCE, get_owner() );
         // Find the nearest unsorted zone to dump objects at
         if( !zones.empty() ) {
             if( zones != storage_zones ) {

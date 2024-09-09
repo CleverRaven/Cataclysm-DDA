@@ -50,6 +50,9 @@ constexpr int HALF_MAPSIZE_X = SEEX * HALF_MAPSIZE;
 constexpr int HALF_MAPSIZE_Y = SEEY * HALF_MAPSIZE;
 
 constexpr int MAX_VIEW_DISTANCE = SEEX * HALF_MAPSIZE;
+// Currently defined the same as MAX_VIEW_DISTANCE, with a
+// different name for semantic benefits.
+constexpr int REALITY_BUBBLE_RADIUS = SEEX * HALF_MAPSIZE;
 
 /**
  * Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,

@@ -8061,8 +8061,8 @@ void game::list_items_monsters()
 {
     // Search whole reality bubble because each function internally verifies
     // the visibility of the items / monsters in question.
-    std::vector<Creature *> mons = u.get_visible_creatures( 60 );
-    const std::vector<map_item_stack> items = find_nearby_items( 60 );
+    std::vector<Creature *> mons = u.get_visible_creatures( MAX_VIEW_DISTANCE );
+    const std::vector<map_item_stack> items = find_nearby_items( MAX_VIEW_DISTANCE );
 
     if( mons.empty() && items.empty() ) {
         add_msg( m_info, _( "You don't see any items or monsters around you!" ) );
