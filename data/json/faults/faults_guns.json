@@ -72,7 +72,7 @@
     "type": "fault",
     "fault_type": "gun_mechanical_simple",
     "name": { "str": "Stovepipe" },
-    "description": "Casing of the bullet stuck without being properly ejected.",
+    "description": "Casing of the bullet stuck in ejection port without being properly ejected, forming funky exhaust pipe shape.",
     "item_prefix": "jammed"
   },
   {
