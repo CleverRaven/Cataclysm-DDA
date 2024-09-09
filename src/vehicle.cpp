@@ -56,6 +56,7 @@
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
+#include "mod_manager.h"
 #include "monster.h"
 #include "move_mode.h"
 #include "npc.h"
@@ -2762,20 +2763,25 @@ std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     return has_value() ? value().part_with_tool( tool_type ) : std::nullopt;
 }
 
-std::string optional_vpart_position::extended_description() const
+std::vector<std::string> optional_vpart_position::extended_description() const
 {
+    std::vector<std::string> ret;
     if( !has_value() ) {
-        return std::string();
+        return ret;
     }
 
     vehicle &v = value().vehicle();
-    std::string desc = v.name;
+    ret.emplace_back( get_origin( v.type->src ) );
+    ret.emplace_back( "--" );
+
+    ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->name ) );
+    ret.emplace_back( "--" );
 
     for( int idx : v.parts_at_relative( value().mount(), true ) ) {
-        desc += "\n" + v.part( idx ).name();
+        ret.emplace_back( v.part( idx ).name() );
     }
 
-    return desc;
+    return ret;
 }
 
 int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken,

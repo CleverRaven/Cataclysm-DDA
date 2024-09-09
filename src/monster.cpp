@@ -1061,14 +1061,32 @@ void monster::print_info_imgui() const
     }
 }
 
-std::string monster::extended_description() const
+std::vector<std::string> monster::extended_description() const
 {
-    std::string ss;
+    std::vector<std::string> tmp;
+
+    tmp.emplace_back( get_origin( type->src ) );
+    tmp.emplace_back( "--" );
+
+    if( debug_mode ) {
+        tmp.emplace_back( colorize( type->id.str(), c_white ) );
+    }
+
+    nc_color bar_color = c_white;
+    std::string bar_str;
+    get_HP_Bar( bar_color, bar_str );
+    std::string hpbar = colorize( bar_str, bar_color ) +
+                        colorize( std::string( 5 - utf8_width( bar_str ), '.' ), c_white );
     Character &pc = get_player_character();
     const bool player_knows = !pc.has_trait( trait_INATTENTIVE );
     const std::pair<std::string, nc_color> att = get_attitude();
 
     std::string att_colored = colorize( att.first, att.second );
+
+    tmp.emplace_back( string_format( _( "This is a %s %s. %s" ), hpbar, colorize( name(),
+                                     basic_symbol_color() ), player_knows ? att_colored : std::string() ) );
+    tmp.emplace_back( "--" );
+
     std::string difficulty_str;
     if( debug_mode ) {
         difficulty_str = _( "Difficulty " ) + std::to_string( type->difficulty );
@@ -1087,62 +1105,52 @@ std::string monster::extended_description() const
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
         }
     }
+    tmp.emplace_back( difficulty_str );
 
-    ss += _( "Origin: " );
-    ss += enumerate_as_string( type->src.begin(),
-    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
-        return string_format( "'%s'", source.second->name() );
-    }, enumeration_conjunction::arrow );
-
-    ss += "\n--\n";
-
-    if( debug_mode ) {
-        ss += type->id.str();
-        ss += "\n";
+    std::string eff = get_effect_status();
+    if( !eff.empty() ) {
+        tmp.emplace_back( string_format( _( "<stat>It is %s.</stat>" ), eff ) );
     }
 
-    ss += string_format( _( "This is a %s. %s%s" ), name(),
-                         player_knows ? att_colored + " " : std::string(),
-                         difficulty_str ) + "\n";
-    if( !get_effect_status().empty() ) {
-        ss += string_format( _( "<stat>It is %s.</stat>" ), get_effect_status() ) + "\n";
-    }
+    bool sees_player = sees( pc );
+    std::string senses_str = sees_player ? colorize( _( "Can see to your current location" ), c_red ) :
+                             colorize( _( "Can't see to your current location" ), c_green );
+    tmp.emplace_back( senses_str );
 
-    ss += "--\n";
     const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
-    ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
+    tmp.emplace_back( colorize( hp_bar.first, hp_bar.second ) );
 
     const std::string speed_desc = speed_description(
                                        speed_rating(),
                                        has_flag( mon_flag_IMMOBILE ),
                                        type->speed_desc );
-    ss += speed_desc + "\n";
+    tmp.emplace_back( speed_desc );
 
-    ss += "--\n";
-    ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
-    ss += "--\n";
+    tmp.emplace_back( "--" );
+    tmp.emplace_back( string_format( "<dark>%s</dark>", type->get_description() ) );
+    tmp.emplace_back( "--" );
     if( !mission_fused.empty() ) {
         // Mission monsters fused into this monster
         const std::string fused_desc = string_format( _( "Parts of %s protrude from its body." ),
                                        enumerate_as_string( mission_fused ) );
-        ss += string_format( "<dark>%s</dark>", fused_desc ) + "\n";
-        ss += "--\n";
+        tmp.emplace_back( string_format( "<dark>%s</dark>", fused_desc ) );
+        tmp.emplace_back( "--" );
     }
 
-    ss += string_format( _( "It is %s in size." ),
-                         size_names.at( get_size() ) ) + "\n";
+    tmp.emplace_back( string_format( _( "It is %s in size." ),
+                                     size_names.at( get_size() ) ) );
 
     std::vector<std::string> types = type->species_descriptions();
     if( type->has_flag( mon_flag_ANIMAL ) ) {
         types.emplace_back( _( "an animal" ) );
     }
     if( !types.empty() ) {
-        ss += string_format( _( "It is %s." ),
-                             enumerate_as_string( types ) ) + "\n";
+        tmp.emplace_back( string_format( _( "It is %s." ),
+                                         enumerate_as_string( types ) ) );
     }
 
     using flag_description = std::pair<const mon_flag_id, std::string>;
-    const auto describe_flags = [this, &ss](
+    const auto describe_flags = [this, &tmp](
                                     const std::string_view format,
                                     const std::vector<flag_description> &flags_names,
     const std::string &if_empty = "" ) {
@@ -1151,14 +1159,14 @@ std::string monster::extended_description() const
             return type->has_flag( fd.first ) ? fd.second : "";
         } );
         if( !flag_descriptions.empty() ) {
-            ss += string_format( format, flag_descriptions ) + "\n";
+            tmp.emplace_back( string_format( format, flag_descriptions ) );
         } else if( !if_empty.empty() ) {
-            ss += if_empty + "\n";
+            tmp.emplace_back( if_empty );
         }
     };
 
     using property_description = std::pair<bool, std::string>;
-    const auto describe_properties = [&ss](
+    const auto describe_properties = [&tmp](
                                          const std::string_view format,
                                          const std::vector<property_description> &property_names,
     const std::string &if_empty = "" ) {
@@ -1167,9 +1175,9 @@ std::string monster::extended_description() const
             return pd.first ? pd.second : "";
         } );
         if( !property_descriptions.empty() ) {
-            ss += string_format( format, property_descriptions ) + "\n";
+            tmp.emplace_back( string_format( format, property_descriptions ) );
         } else if( !if_empty.empty() ) {
-            ss += if_empty + "\n";
+            tmp.emplace_back( if_empty );
         }
     };
 
@@ -1193,62 +1201,69 @@ std::string monster::extended_description() const
     } );
 
     if( !type->has_flag( mon_flag_NOHEAD ) ) {
-        ss += std::string( _( "It has a head." ) ) + "\n";
+        tmp.emplace_back( _( "It has a head." ) );
     }
 
     if( debug_mode ) {
-        ss += "--\n";
+        tmp.emplace_back( "--" );
 
-        ss += string_format( _( "Current Speed: %1$d" ), get_speed() ) + "\n";
-        ss += string_format( _( "Anger: %1$d" ), anger ) + "\n";
-        ss += string_format( _( "Friendly: %1$d" ), friendly ) + "\n";
-        ss += string_format( _( "Morale: %1$d" ), morale ) + "\n";
+        tmp.emplace_back( string_format( _( "Current Speed: %1$d" ), get_speed() ) );
+        tmp.emplace_back( string_format( _( "Anger: %1$d" ), anger ) );
+        tmp.emplace_back( string_format( _( "Friendly: %1$d" ), friendly ) );
+        tmp.emplace_back( string_format( _( "Morale: %1$d" ), morale ) );
         if( aggro_character ) {
-            ss += string_format( _( "<color_red>Aggressive towards characters</color>" ) ) + "\n";
+            tmp.emplace_back( string_format( _( "<color_red>Aggressive towards characters</color>" ) ) );
         }
 
         const time_duration current_time = calendar::turn - calendar::turn_zero;
-        ss += string_format( _( "Current Time: Turn %1$d  |  Day: %2$d" ),
-                             to_turns<int>( current_time ),
-                             to_days<int>( current_time ) ) + "\n";
+        tmp.emplace_back( string_format( _( "Current Time: Turn %1$d  |  Day: %2$d" ),
+                                         to_turns<int>( current_time ),
+                                         to_days<int>( current_time ) ) );
 
-        ss += string_format( _( "Upgrade time: %1$d (turns left %2$d) %3$s" ),
-                             upgrade_time,
-                             to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
-                             can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) + "\n";
+        tmp.emplace_back( string_format( _( "Upgrade time: %1$d (turns left %2$d) %3$s" ),
+                                         upgrade_time,
+                                         to_turns<int>( time_duration::from_days( upgrade_time ) - current_time ),
+                                         can_upgrade() ? "" : _( "<color_red>(can't upgrade)</color>" ) ) );
 
         if( !special_attacks.empty() ) {
-            ss += string_format( _( "%d special attack(s): " ), special_attacks.size() );
+            std::string sattack_str = string_format( _( "%d special attack(s): " ), special_attacks.size() );
             for( const auto &attack : special_attacks ) {
-                ss += string_format( _( "%s, cooldown %d; " ), attack.first.c_str(), attack.second.cooldown );
+                sattack_str += string_format( _( "%s, cooldown %d; " ), attack.first.c_str(),
+                                              attack.second.cooldown );
             }
-            ss += "\n";
+            tmp.emplace_back( sattack_str );
         }
 
         if( baby_timer.has_value() ) {
-            ss += string_format( _( "Reproduce time: %1$d (turns left %2$d) %3$s" ),
-                                 to_turn<int>( baby_timer.value() ),
-                                 to_turn<int>( baby_timer.value() - current_time ),
-                                 reproduces ? "" : _( "<color_red>(can't reproduce)</color>" ) ) + "\n";
+            tmp.emplace_back( string_format( _( "Reproduce time: %1$d (turns left %2$d) %3$s" ),
+                                             to_turn<int>( baby_timer.value() ),
+                                             to_turn<int>( baby_timer.value() - current_time ),
+                                             reproduces ? "" : _( "<color_red>(can't reproduce)</color>" ) ) );
         }
 
         if( biosig_timer.has_value() ) {
-            ss += string_format( _( "Biosignature time: %1$d (turns left %2$d) %3$s" ),
-                                 to_turn<int>( biosig_timer.value() ),
-                                 to_turn<int>( biosig_timer.value()  - current_time ),
-                                 biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) + "\n";
+            tmp.emplace_back( string_format( _( "Biosignature time: %1$d (turns left %2$d) %3$s" ),
+                                             to_turn<int>( biosig_timer.value() ),
+                                             to_turn<int>( biosig_timer.value()  - current_time ),
+                                             biosignatures ? "" : _( "<color_red>(no biosignature)</color>" ) ) );
         }
 
         if( lifespan_end.has_value() ) {
-            ss += string_format( _( "Lifespan end time: %1$d (turns left %2$d)" ),
-                                 to_turn<int>( lifespan_end.value() ),
-                                 to_turn<int>( lifespan_end.value() - current_time ) );
+            tmp.emplace_back( string_format( _( "Lifespan end time: %1$d (turns left %2$d)" ),
+                                             to_turn<int>( lifespan_end.value() ),
+                                             to_turn<int>( lifespan_end.value() - current_time ) ) );
         } else {
-            ss += "Lifespan end time: n/a <color_yellow>(indefinite)</color>";
+            tmp.emplace_back( "Lifespan end time: n/a <color_yellow>(indefinite)</color>" );
         }
     }
 
-    return replace_colors( ss );
+    std::vector<std::string> ret;
+    ret.reserve( tmp.size() );
+    for( const std::string &s : tmp ) {
+        ret.emplace_back( replace_colors( s ) );
+    }
+
+    return ret;
 }
 
 const std::string &monster::symbol() const
