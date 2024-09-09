@@ -426,7 +426,7 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
     t.test_all();
 }
 
-TEST_CASE( "vision_translucent_blocks_vision_but_not_light" "[shadowcasting][vision]" )
+TEST_CASE( "vision_translucent_blocks_vision_but_not_light", "[shadowcasting][vision]" )
 {
     vision_test_case t{
         {
