@@ -98,7 +98,7 @@
         { "math": [ "u_vitamin('changeling_dreams')", ">=", "1" ] }
       ]
     },
-    "effect": [  ]
+    "effect": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" } ]
   },
   {
     "type": "effect_on_condition",
@@ -112,7 +112,7 @@
         { "math": [ "u_vitamin('changeling_dreams')", ">=", "1" ] }
       ]
     },
-    "effect": [  ]
+    "effect": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL" } ]
   },
   {
     "type": "effect_on_condition",
@@ -140,7 +140,7 @@
         { "math": [ "u_vitamin('changeling_dreams')", ">=", "1" ] }
       ]
     },
-    "effect": [  ]
+    "effect": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL" } ]
   },
   {
     "type": "effect_on_condition",
@@ -162,6 +162,17 @@
           {
             "case": 1,
             "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
+                { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
               "if": {
                 "and": [
                   { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
@@ -178,13 +189,124 @@
             }
           },
           {
-            "case": 2,
+            "case": 3,
             "effect": {
               "if": { "u_has_trait": "BEAUTIFUL3" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
               "else": [
                 { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_BEAUTY_TRAITS" },
                 { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "math": [ "u_fae_dream_count", "==", "0" ] },
+              "then": [
+                { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true },
+                { "math": [ "u_fae_dream_count", "+=", "rand(8) + 2" ] }
+              ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
+              "if": {
+                "and": [
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
+                ]
+              },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 3,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_LEARN_GOSSAMER_RECIPES" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "math": [ "u_fae_dream_count", "==", "0" ] },
+              "then": [
+                { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true },
+                { "math": [ "u_fae_dream_count", "+=", "rand(8) + 2" ] }
+              ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
+              "if": {
+                "and": [
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
+                ]
+              },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true }
               ]
             }
           }
@@ -212,6 +334,17 @@
           {
             "case": 1,
             "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
               "if": {
                 "and": [
                   { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
@@ -220,7 +353,7 @@
                   { "u_has_trait": "PARACLESIAN_INT_PER_2" }
                 ]
               },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
               "else": [
                 { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
                 { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
@@ -228,13 +361,63 @@
             }
           },
           {
-            "case": 2,
+            "case": 3,
             "effect": {
               "if": { "u_has_trait": "BEAUTIFUL3" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
               "else": [
                 { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_BEAUTY_TRAITS" },
                 { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "math": [ "u_fae_dream_count", "==", "0" ] },
+              "then": [
+                { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true },
+                { "math": [ "u_fae_dream_count", "+=", "rand(8) + 2" ] }
+              ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
+              "if": {
+                "and": [
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
+                ]
+              },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true }
               ]
             }
           }
@@ -302,6 +485,17 @@
             }
           }
         ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS",
+    "effect": [
+      {
+        "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_1" },
+        "then": [ { "u_add_trait": "PARACLESIAN_FAE_SIGHT_2" }, { "u_lose_trait": "PARACLESIAN_FAE_SIGHT_1" } ],
+        "else": { "u_add_trait": "PARACLESIAN_FAE_SIGHT_1" }
       }
     ]
   }
