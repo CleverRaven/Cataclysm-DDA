@@ -234,8 +234,7 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
     // 60 tile radius should cover all potentially visible tiles.
-    // magical number, TODO replace when Eso finish reality bub things
-    for( const tripoint &loc : points_in_radius( p, 60 ) ) {
+    for( const tripoint &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
             vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
