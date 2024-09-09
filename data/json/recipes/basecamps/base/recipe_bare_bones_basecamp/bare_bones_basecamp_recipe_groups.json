@@ -67,7 +67,7 @@
       { "id": "scrap_copper", "description": " Craft: Copper, Scrap" },
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "anvil", "description": " Craft: Anvil" },
+      { "id": "anvil_crude", "description": " Craft: Small Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
       { "id": "copper_knife", "description": " Craft: Knife, Copper" },
       { "id": "sword_crude", "description": " Craft: Sword, Crude" },

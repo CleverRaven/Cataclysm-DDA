@@ -5,6 +5,7 @@
     "//": "Tools commonly used by blacksmiths",
     "items": [
       [ "anvil", 30 ],
+      [ "anvil_crude", 10 ],
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
