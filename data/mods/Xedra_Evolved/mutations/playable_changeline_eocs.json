@@ -21,6 +21,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT",
+    "condition": {
+      "or": [ { "u_has_effect": "effect_changeling_invisibility" }, { "u_has_effect": "effect_changeling_right_of_passage" } ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
     "recurrence": [ "14 days", "28 days" ],
     "condition": {
@@ -142,5 +150,90 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_MONSTERS_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_CHARACTERS_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_MONSTERS_RANGED",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_ATTACKING_CHARACTERS_RANGED",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_BY_TAKING DAMAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "test_eoc": "EOC_TEST_CHANGELING_EFFECTS_REMOVED_BY_COMBAT" },
+    "effect": [ { "run_eocs": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_EFFECTS_REMOVED_LOSE_EFFECTS",
+    "effect": [ { "u_lose_effect": "effect_changeling_invisibility" }, { "u_lose_effect": "effect_changeling_right_of_passage" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_MELEE_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_RANGED_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_ATTACKS_RANGED_CHARACTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INCONSPICUOUS_BROWNIE_TAKE_DAMAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "or": [ { "u_has_trait": "BROWNIE_EASY_OVERLOOK" }, { "u_has_trait": "BROWNIE_EASY_OVERLOOK2" } ] },
+    "effect": [ { "u_add_effect": "effect_brownie_attacked_someone", "duration": 5 } ]
   }
 ]
