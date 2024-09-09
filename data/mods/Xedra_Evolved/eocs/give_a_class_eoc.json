@@ -4,29 +4,17 @@
     "id": "EOC_XE_ALLOW_MAGIC_SEQUENCE",
     "recurrence": [ "1 d", "3 d" ],
     "condition": {
-    "and": [
-      {
-        "and": [
-          {
-            "and": [
-              {
-                "and": [
-                  { "or": [ { "not": { "u_has_trait": "EATER" } }, { "not": { "u_has_trait": "DREAMER" } } ] }
-                ]
-              },
-              {
-                "and": [
-                  { "or": [ { "not": { "u_has_trait": "INVENTOR" } }, { "not": { "u_has_trait": "DREAMSMITH" } } ] }
-                ]
-              }
-            ]
-          },
-          { "math": [ "magic_potential", ">", "0" ] }
-        ]
-      },
-      { "not": { "u_has_trait": "DREAMLESS" } }
-    ]
-  }
+      "and": [
+        {
+          "and": [
+            { "math": [ "u_has_trait('EATER') + u_has_trait('DREAMER') == 0" ] },
+            { "math": [ "u_has_trait('INVENTOR') + u_has_trait('DREAMSMITH') == 0" ] }
+          ]
+        },
+        { "math": [ "magic_potential", ">", "0" ] },
+        { "not": { "u_has_trait": "DREAMLESS" } }
+      ]
+    }
   },
   {
     "type": "effect_on_condition",
