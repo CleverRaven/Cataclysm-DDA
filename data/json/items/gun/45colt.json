@@ -4,8 +4,16 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "Bond Arms Derringer" },
+    "name": { "str": "double-barrel derringer" },
     "description": "The Bond Arms Derringer is a series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bond_410",
+        "name": { "str": "Bond Arms Derringer" },
+        "description": "Derringers are old-fashioned conceal carry weapons, usually sporting one or two barrels.  The Bond Arms Derringer is a modern series of multi-barrel compact pistols.  Most commonly chambered for .45 Colt, with chambers long enough to accept .410 shotgun shells.  Though, with modern handguns, derringers have become less and less practical as a conceal carry option."
+      }
+    ],
     "weight": "566 g",
     "volume": "79 ml",
     "longest_side": "158 mm",
@@ -40,8 +48,23 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": "Uberti Cattleman" },
-    "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by Westerns, it is still in demand for Cowboy Action Shooting, reenactors, and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
+    "name": { "str": "cowboy six-shooter" },
+    "description": "A reproduction of an antique firearm, chambered in .45 Colt.  Due to the lack of a swing-out cylinder, each cartridge must be reloaded and ejected manually.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "colt_saa",
+        "name": { "str": "Colt Single Action Army", "str_pl": "Colt Single Action Armies" },
+        "description": "A famous revolver for many westerns, the Colt Single Action Army has seen plenty of military service, production ends, and production restarts.  While originally in a large amount of chamberings, it is mostly found in .45 Colt chamberings today.  While reloading is slow due to the lack of a swing-out cylinder, it was still much faster than earlier revolvers of the time thanks to using metallic cartridges.  It's also sometimes referred to as the Peacemaker, Model P, M1873 or shortened to SAA.",
+        "weight": 1
+      },
+      {
+        "id": "colt_saa_repro",
+        "name": { "str": "Uberti 1873 Cattleman" },
+        "description": "This 7.5\" barreled Uberti Cattleman is a modern reproduction of the legendary Colt Single Action Army, or Colt Peacemaker, one of the first revolvers to use a modern self-contained cartridge.  Made famous by Westerns, it is still in demand for Cowboy Action Shooting, reenactors, and collectors.  Unlike modern revolvers, the cylinder cannot swing out for loading, and spent brass must be ejected one at a time.",
+        "weight": 10
+      }
+    ],
     "weight": "1048 g",
     "volume": "324 ml",
     "longest_side": "208 mm",
@@ -66,7 +89,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": ".45/.410 shotshell revolver" },
+    "name": { "str": ".45/.410 shotshell revolver" },
     "description": "A stainless steel 5 shot revolver, capable of firing .410 shells or 45 Colt cartridges.",
     "variant_type": "gun",
     "variants": [

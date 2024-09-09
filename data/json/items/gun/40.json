@@ -28,7 +28,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Glock 22" },
-    "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI and of countless other law enforcement agencies worldwide.",
+    "description": "A .40 S&W variant of the popular Glock 17 pistol.  The standard-issue firearm of the FBI from 1997-2016, and of countless other law enforcement agencies worldwide.",
     "ascii_picture": "glock_17",
     "weight": "645 g",
     "volume": "433 ml",

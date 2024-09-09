@@ -1,6 +1,35 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_CONCENTRATED_HEALING",
+    "recurrence": [
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "math": [ "u_spell_level('vita_health_power')", ">=", "5" ] },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('vita_concentrated_healing')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_vita_concentrated_healing" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "1" ] } ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_vita_concentrated_healing" },
+      {
+        "u_message": "Use of your powers has led to an insight.  You could reroute stem cells and blood flow to injured parts, speeding their healing at the expense of your uninjured areas, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_STOP_BLEEDING",
     "recurrence": [
       { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
@@ -223,53 +252,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_VITAKIN_LEARNING_PAIN_SPLIT",
-    "recurrence": [
-      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
-      { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_high)" ] }
-    ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "VITAKINETIC" },
-        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
-        {
-          "or": [
-            { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT" },
-            {
-              "and": [
-                {
-                  "or": [
-                    { "math": [ "u_spell_level('vita_remove_poison')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('vita_cure_disease')", ">=", "5" ] }
-                  ]
-                },
-                {
-                  "or": [
-                    { "math": [ "u_spell_level('vita_health_power')", ">=", "10" ] },
-                    { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "8" ] }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
-        { "math": [ "u_spell_level('vita_pain_split')", "<=", "0" ] },
-        { "not": { "u_know_recipe": "practice_vita_pain_split" } }
-      ]
-    },
-    "deactivate_condition": { "or": [ { "not": { "u_has_trait": "VITAKINETIC" } }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "1" ] } ] },
-    "effect": [
-      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
-      { "u_learn_recipe": "practice_vita_pain_split" },
-      {
-        "u_message": "Use of your powers has led to an insight.  You could reroute stem cells and blood flow to injured parts, speeding their healing at the expense of your uninjured areas, if you can figure out the proper technique.",
-        "popup": true
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_LEARNING_STOP_INFECTION",
     "recurrence": [
       { "math": [ "jmath_vitakinesis_learning_eocs_modifiers(global_tier_two_power_learning_time_low)" ] },
@@ -319,7 +301,7 @@
             {
               "and": [
                 { "math": [ "u_spell_level('vita_stop_infection')", ">=", "5" ] },
-                { "math": [ "u_spell_level('vita_pain_split')", ">=", "6" ] }
+                { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "6" ] }
               ]
             }
           ]
@@ -438,7 +420,7 @@
                 { "math": [ "u_spell_level('vita_stop_infection')", ">=", "12" ] },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "8" ] },
+                    { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "8" ] },
                     { "math": [ "u_spell_level('vita_cure_disease')", ">=", "12" ] }
                   ]
                 }
@@ -487,7 +469,7 @@
                 },
                 {
                   "or": [
-                    { "math": [ "u_spell_level('vita_pain_split')", ">=", "10" ] },
+                    { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "10" ] },
                     { "math": [ "u_spell_level('vita_remove_poison')", ">=", "7" ] },
                     { "math": [ "u_spell_level('vita_blood_purge')", ">=", "5" ] }
                   ]

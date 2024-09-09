@@ -7,7 +7,7 @@
     "name": "river",
     "sym": "R",
     "color": "blue",
-    "see_cost": 1,
+    "see_cost": "none",
     "flags": [ "RIVER", "NO_ROTATE", "SOURCE_DRINK", "WATER" ]
   },
   {

@@ -1963,22 +1963,6 @@ static int get_ranged_pierce( const common_ranged_data &ranged )
     return ranged.damage.damage_units.front().res_pen;
 }
 
-std::string item::info( bool showtext ) const
-{
-    std::vector<iteminfo> dummy;
-    return info( showtext, dummy );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
-{
-    return info( showtext, iteminfo, 1 );
-}
-
-std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
-{
-    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
-}
-
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
 static std::string get_freshness_description( const item &food_item )
@@ -3622,6 +3606,11 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
     if( mod.loudness != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MODIFIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness modifier: " ), "",
+                           iteminfo::lower_is_better | iteminfo::show_plus,
+                           mod.loudness );
+    }
+    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+        info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
@@ -5613,7 +5602,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                      damage_info_order::info_type::MELEE ) ) {
                 // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
                 // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                info.emplace_back( "BASE", string_format( "%s: ", uppercase_first_letter( dio.verb.translated() ) ),
+                info.emplace_back( "BASE", string_format( "%s: ",
+                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ),
                                    "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
                 //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
                 //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
@@ -6139,15 +6129,24 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
     }
 }
 
-std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+std::vector<iteminfo> item::get_info( bool showtext ) const
 {
+    return get_info( showtext, 1 );
+}
+
+std::vector<iteminfo> item::get_info( bool showtext, int batch ) const
+{
+    return get_info( showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
+}
+
+std::vector<iteminfo> item::get_info( const iteminfo_query *parts, int batch ) const
+{
+    std::vector<iteminfo> info = {};
     const bool debug = g != nullptr && debug_mode;
 
     if( parts == nullptr ) {
         parts = &iteminfo_query::all;
     }
-
-    info.clear();
 
     if( !is_null() ) {
         basic_info( info, parts, batch, debug );
@@ -6251,7 +6250,28 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
     }
+    return info;
+}
 
+std::string item::info( bool showtext ) const
+{
+    std::vector<iteminfo> dummy;
+    return info( showtext, dummy );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo ) const
+{
+    return info( showtext, iteminfo, 1 );
+}
+
+std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batch ) const
+{
+    return info( iteminfo, showtext ? &iteminfo_query::all : &iteminfo_query::notext, batch );
+}
+
+std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch ) const
+{
+    info = get_info( parts, batch );
     return format_item_info( info, {} );
 }
 
@@ -11843,8 +11863,9 @@ float item::simulate_burn( fire_data &frd ) const
         burn_added = 1;
     }
 
+    // Fire will depend on amount of fuel if stackable
     if( count_by_charges() ) {
-        int stack_burnt = rng( type->stack_size / 2, type->stack_size );
+        int stack_burnt = std::max( 1, count() / type->stack_size );
         time_added *= stack_burnt;
         smoke_added *= stack_burnt;
         burn_added *= stack_burnt;

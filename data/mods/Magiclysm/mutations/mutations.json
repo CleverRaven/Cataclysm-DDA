@@ -123,7 +123,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "A set of heavy black scales has grown to cover your body, acting as natural armor.  While difficult to penetrate, it also greatly limits your flexibility, resulting in a -4 penalty to Dexterity.  Greatly reduces wet effects.",
+    "description": "Your skin has grown thick and a set of draconic black scales has grown to cover most of your body, acting as natural armor.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
@@ -140,26 +140,8 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 30 }
     ],
-    "encumbrance_always": [
-      [ "torso", 10 ],
-      [ "head", 10 ],
-      [ "arm_l", 10 ],
-      [ "arm_r", 10 ],
-      [ "hand_l", 10 ],
-      [ "hand_r", 10 ],
-      [ "leg_l", 10 ],
-      [ "leg_r", 10 ],
-      [ "foot_l", 10 ],
-      [ "foot_r", 10 ]
-    ],
-    "armor": [
-      {
-        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-        "cut": 8,
-        "bash": 8
-      }
-    ],
-    "enchantments": [ "dragon_resist_acid", { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 32, "bash": 22, "bullet": 28 } ],
+    "integrated_armor": [ "integrated_black_dragonscale" ],
     "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
@@ -189,6 +171,7 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "destroys_gear": true,
+    "allowed_items": [ "ALLOWS_TALONS" ],
     "attacks": {
       "attack_text_u": "You slash %s with your clawed feet!",
       "attack_text_npc": "%1$s slashes %2$s with their clawed feet!",
@@ -633,7 +616,7 @@
     "type": "mutation",
     "id": "DRAGON_MAGIC",
     "name": { "str": "Draconic Magic" },
-    "description": "You are imbued with the ancient magic powers of black dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
+    "description": "You are imbued with the ancient magic powers of dragons, improving your mana reserves and opening your mind to amazing feats of magic.",
     "points": 3,
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_SPELLS" ],
@@ -664,7 +647,7 @@
     "ugliness": 6,
     "mixed_effect": true,
     "description": "Your scales have grown up and around your mouth, digging into your gums and retracting your lips.  On the down side, it makes speaking difficult.  On the positive side, it makes it very easy to bite things, though what's driving you to do that?",
-    "prereqs": [ "SCALES" ],
+    "prereqs": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_MAW_BLACK" ],
     "encumbrance_always": [ [ "mouth", 10 ] ],
@@ -873,5 +856,18 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "DRAGON_ACID_PROOF",
+    "name": { "str": "Draconic Acid Immunity" },
+    "points": 3,
+    "description": "Like your scale and hide, your remaining flesh has been transmuted by black dragon's essence.  You are invulnerable to acid now.",
+    "purifiable": false,
+    "prereqs": [ "DRAGON_SCALES_BLACK" ],
+    "prereqs2": [ "DRAGON_SPELLS" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK" ],
+    "flags": [ "ACID_IMMUNE" ]
   }
 ]

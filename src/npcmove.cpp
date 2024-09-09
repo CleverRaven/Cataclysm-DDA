@@ -13,6 +13,7 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
+#include "activity_actor_definitions.h"
 #include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -68,6 +69,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "sleep.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "talker.h"
@@ -86,7 +88,6 @@ static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 
@@ -1363,14 +1364,13 @@ void npc::move()
      * something nasty is going to happen.
      */
 
-    if( is_enemy() && vehicle_danger( avoidance_vehicles_radius ) > 0 ) {
-        // TODO: Think about how this actually needs to work, for now assume flee from player
-        ai_cache.target = g->shared_from( player_character );
-    }
-
     map &here = get_map();
     if( !ai_cache.dangerous_explosives.empty() ) {
         action = npc_escape_explosion;
+    } else if( is_enemy() && vehicle_danger( avoidance_vehicles_radius ) >= 0 ) {
+        // TODO: Think about how this actually needs to work, for now assume flee from player
+        ai_cache.target = g->shared_from( player_character );
+        action = method_of_fleeing();
     } else if( ( target == &player_character && attitude == NPCATT_FLEE_TEMP ) ||
                has_effect( effect_npc_run_away ) ) {
         action = method_of_fleeing();
@@ -1631,7 +1631,7 @@ void npc::execute_action( npc_action action )
                 }
 
                 // For non-mutants, very_comfortable-1 is the expected value of an ideal normal bed.
-                if( best_sleepy < static_cast<int>( comfort_level::very_comfortable ) - 1 ) {
+                if( best_sleepy < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
                     const int sleepy = evaluate_sleep_spot( p );
                     if( sleepy > best_sleepy ) {
                         best_sleepy = sleepy;
@@ -2041,10 +2041,10 @@ npc_action npc::address_needs()
 int npc::evaluate_sleep_spot( tripoint_bub_ms p )
 {
     // Base evaluation is based on ability to actually fall sleep there
-    int sleep_eval = sleep_spot( p );
+    int sleep_eval = get_comfort_at( p ).comfort;
     // Only evaluate further if the possible bed isn't already considered very comfortable.
     // This opt-out is necessary to allow mutant NPCs to find desired non-bed sleeping spaces
-    if( sleep_eval < static_cast<int>( comfort_level::very_comfortable ) - 1 ) {
+    if( sleep_eval < comfort_data::COMFORT_VERY_COMFORTABLE - 1 ) {
         const units::temperature_delta ideal_bed_value = 2_C_delta;
         const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p.raw() );
         if( sleep_spot_value < ideal_bed_value ) {
@@ -2517,8 +2517,7 @@ npc_action npc::address_needs( float danger )
 
     if( can_do_pulp() ) {
         if( !activity ) {
-            assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-            activity.placement = *pulp_location;
+            assign_activity( pulp_activity_actor( *pulp_location ) );
         }
         return npc_player_activity;
     } else if( find_corpse_to_pulp() ) {
@@ -2712,6 +2711,10 @@ int npc::confident_throw_range( const item &thrown, Creature *target ) const
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
+    if( !throwing && it.is_gun() && it.empty() ) {
+        return true;    // Prevent calling nullptr ammo_data
+    }
+
     if( throwing && rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }

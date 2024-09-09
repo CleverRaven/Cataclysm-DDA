@@ -654,7 +654,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_felt", 20 ] ], [ [ "thread", 150 ] ], [ [ "cotton_ball", 100 ] ] ]
+    "components": [ [ [ "sheet_felt", 32 ] ], [ [ "thread", 175 ] ], [ [ "cotton_ball", 135 ] ] ]
   },
   {
     "result": "quilt_patchwork",
@@ -662,7 +662,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "15 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "sheet_felt_patchwork", 20 ] ], [ [ "thread", 100 ] ], [ [ "gambeson_batting", 50 ] ] ]
+    "components": [ [ [ "sheet_felt_patchwork", 32 ] ], [ [ "thread", 145 ] ], [ [ "cotton_ball", 135 ] ] ]
   },
   {
     "result": "crackpipe",

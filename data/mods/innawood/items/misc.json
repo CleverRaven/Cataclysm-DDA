@@ -51,5 +51,12 @@
     "symbol": "=",
     "color": "light_gray",
     "looks_like": "battery"
+  },
+  {
+    "id": "super_glue",
+    "type": "AMMO",
+    "copy-from": "super_glue",
+    "name": { "str": "glue" },
+    "description": "A thick, goopy glue that cures fast."
   }
 ]

@@ -9,9 +9,17 @@
       "TALK_GODCO_Felicity_Community"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Felicity_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Felicity_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "What's it like living here?", "topic": "TALK_GODCO_Felicity_Mood" },
-      { "text": "How's your family?", "topic": "TALK_GODCO_Felicity_Family" },
+      {
+        "text": "How's your family?",
+        "topic": "TALK_GODCO_Felicity_Family",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "Is there anything I can do for you?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "How's the manuscript coming?",
@@ -23,7 +31,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_trade_writing_manuscript)", ">=", "time('30 d')" ] },
-            { "not": { "npc_has_var": "general_trade_gave_u_manuscript", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_gave_u_manuscript" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Manuscript"
@@ -35,10 +43,13 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Felicity_1",
     "dynamic_line": {
-      "npc_has_var": "general_meeting_u_met_godco_felicity",
-      "value": "yes",
-      "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
-      "no": "Oh, hi there.  My name's Felicity, nice to see a new face."
+      "math": [ "n_npc_anger()", ">=", "5" ],
+      "yes": "Please, go away.  I don't want to talk to you right now.",
+      "no": {
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ],
+        "yes": [ "Oh, hi.", "Hey, good to see you're still around.", "Hey <u_name>, nice to see you." ],
+        "no": "Oh, hi there.  My name's Felicity, nice to see a new face."
+      }
     },
     "responses": [
       {
@@ -46,8 +57,8 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet"
@@ -57,15 +68,30 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "topic": "TALK_GODCO_Felicity_Firstmeet2"
       },
       {
         "text": "Hi Felicity.  Got a minute?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_felicity", "value": "yes" },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
+          ]
+        },
+        "topic": "TALK_GODCO_Felicity_2"
+      },
+      {
+        "text": "What's all that about?",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_felicity" } ] }
+          ]
+        },
         "topic": "TALK_GODCO_Felicity_2"
       },
       { "text": "Hi Felicity.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
@@ -182,5 +208,11 @@
     "id": "TALK_GODCO_Felicity_Manuscript_InProgress",
     "dynamic_line": "I'm still working on it.  I'll have it ready soon.",
     "responses": [ { "text": "Good luck with that.", "topic": "TALK_GODCO_Felicity_3" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Felicity_Angry",
+    "dynamic_line": "Overall, you've been quite unpleasent to us, and I've frankly had enough of your prude nature.  I won't repeat myself more, go away.",
+    "responses": [ { "text": "Alright <name_b>, I'll see you later.", "topic": "TALK_GODCO_Felicity_3" } ]
   }
 ]

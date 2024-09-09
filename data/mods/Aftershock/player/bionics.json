@@ -366,7 +366,10 @@
         "name": { "str": "Super Heated Bionic Weapon" },
         "description": "The superheated bionic weapon cuts and burns with ease.",
         "condition": {
-          "and": [ { "u_has_var": "bio_superheater_on", "value": "yes" }, { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "bio_superheater_on" } ] },
+            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
+          ]
         },
         "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
       }
@@ -389,7 +392,10 @@
         "name": { "str": "Charged Bionic Weapon" },
         "description": "Your bionic weapon sparks under constant electrical charge.",
         "condition": {
-          "and": [ { "u_has_var": "bio_blade_electric_on", "value": "yes" }, { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "bio_blade_electric_on" } ] },
+            { "u_has_wielded_with_flag": "BIONIC_WEAPON_MELEE" }
+          ]
         },
         "hit_you_effect": [ { "id": "bio_blade_electric_arc" } ],
         "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 10 } ]

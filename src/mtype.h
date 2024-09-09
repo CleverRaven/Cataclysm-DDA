@@ -195,7 +195,6 @@ extern mon_flag_id mon_flag_ACIDPROOF,
        mon_flag_SWIMS,
        mon_flag_VAMP_VIRUS,
        mon_flag_VENOM,
-       mon_flag_VERMIN,
        mon_flag_WARM,
        mon_flag_WATER_CAMOUFLAGE,
        mon_flag_WEBWALK,
@@ -312,6 +311,7 @@ struct mtype {
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         mtype_id baby_monster;
+        mongroup_id baby_monster_group;
         itype_id baby_egg;
         // Monster biosignature variables
         itype_id biosig_item;

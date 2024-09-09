@@ -108,10 +108,15 @@
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_FLY_AT_WILL",
     "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "3" ] }, { "u_add_effect": "effect_sylph_levitation", "duration": "2 s" } ],
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "3" ] },
+      { "u_add_effect": "effect_sylph_levitation", "duration": "2 s" },
+      { "u_add_effect": "effect_sylph_climb_flying", "duration": "2 s" }
+    ],
     "false_effect": [
       { "u_message": "You do not have enough mana to fly!", "type": "bad" },
-      { "u_lose_effect": "effect_sylph_levitation" }
+      { "u_lose_effect": "effect_sylph_levitation" },
+      { "u_lose_effect": "effect_sylph_climb_flying" }
     ]
   },
   {

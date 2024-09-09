@@ -38,6 +38,7 @@
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
+#include "messages.h"
 #include "npctrade.h"
 #include "options.h"
 #include "output.h"
@@ -130,7 +131,8 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string(),
-                                   item_location container = item_location() )
+                                   item_location container = item_location(),
+                                   bool add_ebooks = false )
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -155,6 +157,9 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Default behavior.
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
+        if( add_ebooks ) {
+            inv_s.add_character_ebooks( u );
+        }
     }
 
     if( u.has_activity( consuming ) ) {
@@ -1559,7 +1564,8 @@ item_location game_menus::inv::read( Character &you )
 {
     const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), you.disp_name() );
-    return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg );
+    return inv_internal( you, read_inventory_preset( you ), _( "Read" ), 1, msg, "", item_location(),
+                         true );
 }
 
 item_location game_menus::inv::ebookread( Character &you, item_location &ereader )
@@ -2218,7 +2224,11 @@ drop_locations game_menus::inv::pickup( avatar &you,
     pick_s.set_title( _( "Pickup" ) );
 
     if( pick_s.empty() ) {
-        popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
+        if( target ) {
+            add_msg( _( "There is nothing to pick up." ) );
+        } else {
+            add_msg( _( "There is nothing to pick up nearby." ) );
+        }
         return drop_locations();
     }
 

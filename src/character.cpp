@@ -400,12 +400,6 @@ static const species_id species_HUMAN( "HUMAN" );
 
 static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
-static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
-
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -480,15 +474,11 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
-static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const trap_str_id tr_ledge( "tr_ledge" );
 
@@ -1846,7 +1836,7 @@ void Character::forced_dismount()
         set_movement_mode( move_mode_walk );
         if( player_character.is_auto_moving() || player_character.has_destination() ||
             player_character.has_destination_activity() ) {
-            player_character.clear_destination();
+            player_character.abort_automove();
         }
         g->update_map( player_character );
     }
@@ -2513,6 +2503,8 @@ void Character::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_ma
         if( has_trait( trait_GLASSJAW ) && part.first == body_part_head ) {
             new_max *= 0.8;
         }
+
+        new_max = std::max( 1, new_max );
 
         float max_hp_ratio = static_cast<float>( new_max ) /
                              static_cast<float>( part.second.get_hp_max() );
@@ -5116,13 +5108,12 @@ void Character::update_needs( int rate_multiplier )
                     rest_modifier += 1;
                 }
 
-                const comfort_level comfort = base_comfort_value( pos_bub() ).level;
-
-                if( comfort >= comfort_level::very_comfortable ) {
+                const int comfort = get_comfort_at( pos_bub() ).comfort;
+                if( comfort >= comfort_data::COMFORT_VERY_COMFORTABLE ) {
                     rest_modifier *= 3;
-                } else  if( comfort >= comfort_level::comfortable ) {
+                } else if( comfort >= comfort_data::COMFORT_COMFORTABLE ) {
                     rest_modifier *= 2.5;
-                } else if( comfort >= comfort_level::slightly_comfortable ) {
+                } else if( comfort >= comfort_data::COMFORT_SLIGHTLY_COMFORTABLE ) {
                     rest_modifier *= 2;
                 }
 
@@ -5603,182 +5594,6 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
     const units::temperature_delta diff = ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
                                           0.0001; // If bp1 is warmer, it will lose heat
     mod_part_temp_cur( bp1, diff );
-}
-
-Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_ms &p ) const
-{
-    // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
-    // As in the latter also checks for sleepiness and other variables while this function
-    // only looks at the base comfyness of something. It's still subjective, in a sense,
-    // as arachnids who sleep in webs will find most places comfortable for instance.
-    int comfort = 0;
-
-    comfort_response_t comfort_response;
-
-    bool plantsleep = has_trait( trait_CHLOROMORPH );
-    bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
-    bool websleep = has_trait( trait_WEB_WALKER );
-    bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
-                    has_trait( trait_WEB_WEAVER ) );
-    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
-                    has_active_mutation( trait_SHELL3 );
-    bool watersleep = has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER );
-
-    map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( p );
-    const maptile tile = here.maptile_at( p );
-    const trap &trap_at_pos = tile.get_trap_t();
-    const ter_id ter_at_pos = tile.get_ter();
-    const furn_id furn_at_pos = tile.get_furn();
-
-    int web = here.get_field_intensity( p, fd_web );
-
-    // Some mutants have different comfort needs
-    if( !plantsleep && !webforce ) {
-        if( in_shell ) { // NOLINT(bugprone-branch-clone)
-            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-            // Note: shelled individuals can still use sleeping aids!
-        } else if( vp ) {
-            if( const std::optional<vpart_reference> cargo = vp.cargo() ) {
-                for( const item &items_it : cargo->items() ) {
-                    if( items_it.has_flag( flag_SLEEP_AID ) ) {
-                        // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                        comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid = &items_it;
-                        break; // prevents using more than 1 sleep aid
-                    }
-                    if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
-                        bool found = false;
-                        if( items_it.num_item_stacks() > 1 ) {
-                            // Only one item is allowed, so we don't fill our pillowcase with nails
-                            continue;
-                        }
-                        for( const item *it : items_it.all_items_top() ) {
-                            if( it->has_flag( flag_SLEEP_AID ) ) {
-                                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                                comfort_response.aid = &items_it;
-                                found = true;
-                                break; // prevents using more than 1 sleep aid
-                            }
-                        }
-                        // Only 1 sleep aid
-                        if( found ) {
-                            break;
-                        }
-                    }
-                }
-            }
-            int max_boardable_confort = 0;
-            bool boardable = false;
-            for( const vpart_reference board : vp->vehicle().get_all_parts() ) {
-                if( !board.has_feature( "BOARDABLE" ) || board.pos() != p.raw() ) {
-                    continue;
-                }
-                boardable = true;
-                int boardable_comfort = board.info().comfort;
-                if( boardable_comfort > max_boardable_confort ) {
-                    max_boardable_confort = boardable_comfort;
-                }
-            }
-            comfort += boardable ? max_boardable_confort : -here.move_cost( p );
-
-            if( has_effect( effect_cramped_space ) ) {
-                comfort = static_cast<int>( comfort_level::impossible );
-            }
-        }
-        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        else if( furn_at_pos != furn_str_id::NULL_ID() ) {
-            comfort += 0 + furn_at_pos.obj().comfort;
-        }
-        // Web sleepers can use their webs if better furniture isn't available
-        else if( websleep && web >= 3 ) {
-            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( !trap_at_pos.is_null() ) {
-            comfort += 0 + trap_at_pos.comfort;
-        } else {
-            // Not a comfortable sleeping spot
-            comfort -= here.move_cost( p );
-            // Include comfort from terrain, if any
-            comfort += ter_at_pos.obj().comfort;
-        }
-
-        if( comfort_response.aid == nullptr ) {
-            const map_stack items = here.i_at( p );
-            for( const item &items_it : items ) {
-                if( items_it.has_flag( flag_SLEEP_AID ) ) {
-                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid = &items_it;
-                    break; // prevents using more than 1 sleep aid
-                }
-                if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
-                    bool found = false;
-                    if( items_it.num_item_stacks() > 1 ) {
-                        // Only one item is allowed, so we don't fill our pillowcase with nails
-                        continue;
-                    }
-                    for( const item *it : items_it.all_items_top() ) {
-                        if( it->has_flag( flag_SLEEP_AID ) ) {
-                            // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                            comfort_response.aid = &items_it;
-                            found = true;
-                            break; // prevents using more than 1 sleep aid
-                        }
-                    }
-                    // Only 1 sleep aid
-                    if( found ) {
-                        break;
-                    }
-                }
-            }
-        }
-        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
-            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ) {
-            comfort += static_cast<int>( comfort_level::very_comfortable );
-        }
-    } else if( plantsleep ) {
-        if( vp || furn_at_pos != furn_str_id::NULL_ID() ) {
-            // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::impossible );
-        } else {
-            // It's very easy for Chloromorphs to get to sleep on soil!
-            const std::unordered_set<ter_str_id> very_comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_pit,  ter_t_pit_shallow };
-            if( very_comfy_ters.find( ter_at_pos.id() ) != very_comfy_ters.end() ) {
-                comfort += static_cast<int>( comfort_level::very_comfortable );
-            }
-            // Not as much if you have to dig through stuff first
-            else if( ter_at_pos == ter_t_grass ) {
-                comfort += static_cast<int>( comfort_level::comfortable );
-            }
-            // Sleep ain't happening
-            else {
-                comfort = static_cast<int>( comfort_level::impossible );
-            }
-        }
-        // Has webforce
-    } else {
-        if( web >= 3 ) {
-            // Thick Web and you're good to go
-            comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else {
-            comfort = static_cast<int>( comfort_level::impossible );
-        }
-    }
-
-    if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
-        comfort_response.level = comfort_level::very_comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
-        comfort_response.level = comfort_level::comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
-        comfort_response.level = comfort_level::slightly_comfortable;
-    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
-        comfort_response.level = comfort_level::neutral;
-    } else {
-        comfort_response.level = comfort_level::uncomfortable;
-    }
-    return comfort_response;
 }
 
 float Character::get_dodge_base() const
@@ -6710,9 +6525,8 @@ void Character::mend_item( item_location &&obj, bool interactive )
     int sel = 0;
     if( interactive ) {
         uilist menu;
-        menu.text = _( "Mend which fault?" );
+        menu.title = _( "Mend which fault?" );
         menu.desc_enabled = true;
-        menu.desc_lines_hint = 0; // Let uilist handle description height
 
         constexpr int fold_width = 80;
 
@@ -7963,6 +7777,16 @@ ret_val<void> Character::can_wield( const item &it ) const
         mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
+    if( controlling_vehicle ) {
+        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+            return ret_val<void>::make_failure(
+                       _( "Something you are wearing hinders the use of both hands." ) );
+        }
+        if( !has_two_arms_lifting() || it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+            return ret_val<void>::make_failure( _( "You can't wield your %s while driving." ),
+                                                it.tname() );
+        }
+    }
 
     return ret_val<void>::make_success();
 }
@@ -8247,7 +8071,12 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
 
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
-    get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    if( source ) {
+        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        get_event_bus().send_with_talker( this, source, e );
+    } else {
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    }
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
         can_drop( weapon ).success() ) {
@@ -8462,7 +8291,14 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+
+        if( source ) {
+            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            get_event_bus().send_with_talker( this, source == nullptr ? nullptr : source, e );
+        } else {
+            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        }
+
     }
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
@@ -9062,6 +8898,9 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
+
+    get_comfort_at( pos_bub() ).add_sleep_msgs( *this );
+
     if( has_bionic( bio_sleep_shutdown ) ) {
         add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response." ) );
     }
@@ -11232,43 +11071,6 @@ double Character::vomit_mod()
     return mod;
 }
 
-int Character::sleep_spot( const tripoint_bub_ms &p ) const
-{
-    const int current_stim = get_stim();
-    const comfort_response_t comfort_info = base_comfort_value( p );
-    if( comfort_info.aid != nullptr ) {
-        add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
-    }
-
-    int sleepy = static_cast<int>( comfort_info.level );
-    bool watersleep = has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER );
-
-    if( has_addiction( addiction_sleeping_pill ) ) {
-        sleepy -= 4;
-    }
-
-    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
-
-    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
-        sleepy += 10; //comfy water!
-    }
-
-    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
-        sleepy -= static_cast<int>( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
-    } else {
-        sleepy += static_cast<int>( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
-    }
-
-    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
-        sleepy -= 2 * current_stim;
-    } else {
-        // Make it harder for insomniac to get around the trait
-        sleepy -= current_stim;
-    }
-
-    return sleepy;
-}
-
 bool Character::can_sleep()
 {
     if( has_effect( effect_meth ) ) {
@@ -11291,7 +11093,24 @@ bool Character::can_sleep()
     }
     last_sleep_check = now;
 
-    int sleepy = sleep_spot( pos_bub() );
+    int sleepy = get_comfort_at( pos_bub() ).comfort;
+    if( has_addiction( addiction_sleeping_pill ) ) {
+        sleepy -= 4;
+    }
+    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
+    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
+        sleepy -= int( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
+    } else {
+        sleepy += int( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
+    }
+    const int current_stim = get_stim();
+    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= current_stim;
+    }
+
     sleepy += rng( -8, 8 );
     bool result = sleepy > 0;
 
@@ -11305,6 +11124,40 @@ bool Character::can_sleep()
     }
 
     return result;
+}
+
+const comfort_data &Character::get_comfort_data_for( const tripoint &p ) const
+{
+    const comfort_data *worst = nullptr;
+    for( const trait_id trait : get_mutations() ) {
+        for( const comfort_data &data : trait->comfort ) {
+            if( data.are_conditions_true( *this, p ) ) {
+                if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
+                    worst = &data;
+                }
+                break;
+            }
+        }
+    }
+    return worst == nullptr ? comfort_data::human() : *worst;
+}
+
+const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) const
+{
+    return get_comfort_data_for( p.raw() );
+}
+
+const comfort_data::response &Character::get_comfort_at( const tripoint &p )
+{
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
+        return comfort_cache;
+    }
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
+}
+
+const comfort_data::response &Character::get_comfort_at( const tripoint_bub_ms &p )
+{
+    return get_comfort_at( p.raw() );
 }
 
 void Character::shift_destination( const point &shift )
@@ -11437,6 +11290,14 @@ void Character::clear_destination()
     clear_destination_activity();
     destination_point = std::nullopt;
     next_expected_position = std::nullopt;
+}
+
+void Character::abort_automove()
+{
+    clear_destination();
+    if( g->overmap_data.fast_traveling && is_avatar() ) {
+        ui::omap::force_quit();
+    }
 }
 
 bool Character::has_distant_destination() const
@@ -13352,6 +13213,11 @@ bool Character::can_lift( const T &obj ) const
 template bool Character::can_lift<item>( const item &obj ) const;
 template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 bool character_martial_arts::pick_style( const Character &you ) // Style selection menu
 {
     enum style_selection {
@@ -13382,9 +13248,8 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     ctxt.register_action( "SHOW_DESCRIPTION" );
 
     uilist kmenu;
-    kmenu.text = string_format( _( "Select a style.\n"
-                                   "\n"
-                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+    kmenu.title = _( "Select a style.\n" );
+    kmenu.text = string_format( _( "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                    "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                 you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
@@ -13396,7 +13261,7 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
     kmenu.desc_enabled = true;
     kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
                          keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
-                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+                         wrap60( _( "When this is enabled, player won't wield things unless explicitly told to." ) ) );
 
     kmenu.selected = STYLE_OFFSET;
 
@@ -13415,7 +13280,8 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
             kmenu.selected = i + STYLE_OFFSET;
             entry_text = colorize( entry_text, c_pink );
         }
-        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text,
+                             wrap60( style.description.translated() ) );
     }
 
     kmenu.query();

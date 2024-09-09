@@ -4,6 +4,7 @@
 #include <set>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_catch.h"
@@ -798,9 +799,9 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", calendar::turn_zero ) );
 
-    item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
-                                            item::default_charges_tag{} ) );
     item_location speedloader = dummy.i_add( item( "38_speedloader", calendar::turn_zero, false ) );
+    item_location ammo = dummy.i_add( item( "38_special", calendar::turn_zero,
+                                            speedloader->remaining_ammo_capacity() ) );
     item_location gun = dummy.i_add( item( "sw_619", calendar::turn_zero, false ) );
 
     REQUIRE( dummy.has_item( *ammo ) );
@@ -815,9 +816,19 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
     REQUIRE( speedloader_success );
     REQUIRE( speedloader->remaining_ammo_capacity() == 0 );
 
-    bool success = gun->reload( dummy, speedloader, speedloader->ammo_remaining() );
+    // This automatically selects the speedloader as ammo
+    // as long as dummy has nothing else available.
+    // If there are multiple options, it will crash from opening a ui.
+    item::reload_option opt = dummy.select_ammo( gun );
 
-    REQUIRE( success );
+    REQUIRE( opt );
+
+    dummy.assign_activity( reload_activity_actor( std::move( opt ) ) );
+    if( !!dummy.activity ) {
+        process_activity( dummy );
+    }
+
+    //REQUIRE( success );
     REQUIRE( gun->remaining_ammo_capacity() == 0 );
     // Speedloader is still in inventory.
     REQUIRE( dummy.has_item( *speedloader ) );

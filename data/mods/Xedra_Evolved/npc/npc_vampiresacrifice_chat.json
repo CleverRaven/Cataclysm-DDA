@@ -9,8 +9,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE_MISSION",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
-            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
             { "not": { "u_has_mission": "mission_best_friend_bookhunt1" } },
             { "not": { "u_has_mission": "mission_best_friend_bookhunt2" } },
@@ -18,7 +18,7 @@
             { "not": { "u_has_mission": "mission_best_friend_gamehunt1" } },
             { "not": { "u_has_mission": "mission_best_friend_gamehunt2" } },
             { "not": { "u_has_mission": "mission_best_friend_gamehunt3" } },
-            { "not": { "u_has_var": "best_friend", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "best_friend" } ] } }
           ]
         },
         "effect": [ { "math": [ "npc_randomize_book_find_mission", "=", "rand(3)" ] } ]
@@ -43,10 +43,10 @@
                 { "u_has_mission": "mission_best_friend_gamehunt3" }
               ]
             },
-            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
-            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
-            { "not": { "u_has_var": "best_friend", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "best_friend" } ] } }
           ]
         }
       }
@@ -62,10 +62,10 @@
         "topic": "TALK_FRIEND_FOLLOWER_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", ">=", "10" ] },
-            { "math": [ "n_val('npc_value')", ">=", "10" ] },
+            { "math": [ "n_npc_trust()", ">=", "10" ] },
+            { "math": [ "n_npc_value()", ">=", "10" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" },
-            { "u_has_var": "best_friend", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "best_friend" } ] },
             { "not": { "npc_has_trait": "VAMPIRE_SACRIFICE" } }
           ]
         }
@@ -82,8 +82,8 @@
         "topic": "TALK_FRIEND_FOLLOWER_NOT_SACRIFICE",
         "condition": {
           "and": [
-            { "math": [ "n_val('npc_trust')", "<=", "9" ] },
-            { "math": [ "n_val('npc_value')", "<=", "9" ] },
+            { "math": [ "n_npc_trust()", "<=", "9" ] },
+            { "math": [ "n_npc_value()", "<=", "9" ] },
             { "u_has_mission": "KILL_YOUR_BEST_FRIEND" }
           ]
         }
@@ -170,8 +170,7 @@
     "type": "talk_topic",
     "id": "TALK_FRIEND_FOLLOWER_SACRIFICE",
     "dynamic_line": {
-      "u_has_var": "best_friend",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "best_friend" } ],
       "yes": "You're the best person in the world for me.  I wouldn't ever hesitate to trust you with my life.  I feel that no matter what happens, it'll be fine as you'll be there.",
       "no": "I mean you're ok, I guess."
     },

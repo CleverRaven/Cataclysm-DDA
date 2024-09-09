@@ -40,6 +40,7 @@
     "description": "A spirit of earth and stone.",
     "anger_relations": [ [ "IERDE", -20 ], [ "SYLPH", 20 ] ],
     "allowed_category": [ "IERDE" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -83,6 +84,7 @@
     "description": "A spirit of leaf and bark.",
     "anger_relations": [ [ "ARVORE", -20 ], [ "HOMULLUS", 20 ] ],
     "allowed_category": [ "ARVORE" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "flags": [ "TREE_COMMUNION_PLUS", "ARVORE_POLLEN_IMMUNE" ]
   },
@@ -127,6 +129,7 @@
     "description": "A spirit of fire.",
     "anger_relations": [ [ "SALAMANDER", -20 ], [ "UNDINE", 20 ] ],
     "allowed_category": [ "SALAMANDER" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -180,6 +183,7 @@
     "description": "You are born of the deep waters.",
     "anger_relations": [ [ "UNDINE", -20 ], [ "SALAMANDER", 20 ] ],
     "allowed_category": [ "UNDINE" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -220,6 +224,7 @@
       "NOHEAL"
     ],
     "can_heal_with": [ "doll_repair_paste" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "description": "A spirit of the image of humans given life.",
     "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
   },
@@ -264,6 +269,7 @@
     "description": "A spirit of air and wind.",
     "anger_relations": [ [ "SYLPH", -20 ], [ "IERDE", 20 ] ],
     "allowed_category": [ "SYLPH" ],
+    "vitamin_rates": [ [ "mutagen_human", 1 ] ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
   },
   {
@@ -506,5 +512,14 @@
     "purifiable": false,
     "valid": false,
     "description": "This person won't speak with them again if this goes poorly."
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PARACLESIANS_CANNOT_USE_PURIFIER",
+    "//": "Paraclesians are elemental spirits, not humans, and purifier is human mutagen",
+    "recurrence": "10 m",
+    "condition": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] },
+    "deactivate_condition": { "not": { "u_has_any_trait": [ "ARVORE", "HOMULLUS", "IERDE", "SALAMANDER", "SYLPH", "UNDINE" ] } },
+    "effect": [ { "math": [ "u_vitamin('mutagen_human')", "=", "0" ] } ]
   }
 ]

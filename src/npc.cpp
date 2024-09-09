@@ -559,16 +559,18 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
 
     set_wielded_item( item( "null", calendar::turn_zero ) );
     inv->clear();
-    personality.aggression = rng( -10, 10 );
-    personality.bravery    = rng( -3, 10 );
-    personality.collector  = rng( -1, 10 );
-    // Normal distribution. Mean = 0, stddev = 3, clamp at -10 and 10. Rounded to return integer value.
-    personality.altruism   = std::round( std::max( -10.0, std::min( normal_roll( 0, 3 ), 10.0 ) ) );
+    personality.aggression = rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.bravery    = rng( -3, NPC_PERSONALITY_MAX );
+    personality.collector  = rng( -1, NPC_PERSONALITY_MAX );
+    // Normal distribution. Mean = 0, stddev = 3, clamp at NPC_PERSONALITY_MIN and NPC_PERSONALITY_MAX. Rounded to return integer value.
+    personality.altruism   = std::round( std::clamp( normal_roll( 0, 3 ),
+                                         static_cast<double>( NPC_PERSONALITY_MIN ), static_cast<double>( NPC_PERSONALITY_MAX ) ) );
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
     pick_name();
     randomize_height();
+    // Normally 16-55, but potential violence towards *underage* NPCs is a more problematic than towards adults.
     set_base_age( rng( 18, 55 ) );
     str_max = dice( 4, 3 );
     dex_max = dice( 4, 3 );
@@ -622,12 +624,14 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     personality.collector += myclass->roll_collector();
     personality.altruism += myclass->roll_altruism();
 
-    personality.aggression = std::clamp( personality.aggression, NPC_PERSONALITY_MIN,
-                                         NPC_PERSONALITY_MAX );
-    personality.bravery = std::clamp( personality.bravery, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    personality.collector = std::clamp( personality.collector, NPC_PERSONALITY_MIN,
-                                        NPC_PERSONALITY_MAX );
-    personality.altruism = std::clamp( personality.altruism, NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.aggression = std::clamp<int8_t>( personality.aggression,
+                             NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.bravery = std::clamp<int8_t>( personality.bravery,
+                          NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.collector = std::clamp<int8_t>( personality.collector,
+                            NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.altruism = std::clamp<int8_t>( personality.altruism,
+                           NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
 
     for( Skill &skill : Skill::skills ) {
         int level = myclass->roll_skill( skill.ident() );
@@ -1581,6 +1585,7 @@ void npc::mutiny()
     my_fac->trusts_u -= 5;
     g->remove_npc_follower( getID() );
     set_fac( faction_amf );
+    rules = npc_follower_rules(); // Mutinous NPCs no longer follower your rules
     job.clear_all_priorities();
     if( assigned_camp ) {
         assigned_camp = std::nullopt;
@@ -1599,36 +1604,15 @@ float npc::vehicle_danger( int radius ) const
     const tripoint_bub_ms to( posx() + radius, posy() + radius, posz() );
     VehicleList vehicles = get_map().get_vehicles( from, to );
 
-    int danger = 0;
+    int danger = -1;
 
     // TODO: check for most dangerous vehicle?
     for( size_t i = 0; i < vehicles.size(); ++i ) {
         const wrapped_vehicle &wrapped_veh = vehicles[i];
         if( wrapped_veh.v->is_moving() ) {
-            // FIXME: this can't be the right way to do this
-            units::angle facing = wrapped_veh.v->face.dir();
-
-            point a( wrapped_veh.v->global_pos3().xy() );
-            point b( static_cast<int>( a.x + units::cos( facing ) * radius ),
-                     static_cast<int>( a.y + units::sin( facing ) * radius ) );
-
-            // fake size
-            /* This will almost certainly give the wrong size/location on customized
-             * vehicles. This should just count frames instead. Or actually find the
-             * size. */
-            vehicle_part last_part;
-            // vehicle_part_range is a forward only iterator, see comment in vpart_range.h
-            for( const vpart_reference &vpr : wrapped_veh.v->get_all_parts() ) {
-                last_part = vpr.part();
-            }
-            int size = std::max( last_part.mount.x, last_part.mount.y );
-
-            double normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
-                                       ( b.y - a.y ) ) );
-            int closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) - ( posy() - a.y ) *
-                                            ( b.x - a.x ) ) / normal );
-
-            if( size > closest ) {
+            const auto &points_to_check = wrapped_veh.v->immediate_path();
+            point p( get_map().getglobal( pos() ).x(), get_map().getglobal( pos() ).y() );
+            if( points_to_check.find( p ) != points_to_check.end() ) {
                 danger = i;
             }
         }
@@ -1956,16 +1940,16 @@ int npc::max_willing_to_owe() const
 void npc::shop_restock()
 {
     // Shops restock once every restock_interval
-    time_duration const elapsed =
-        restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
-    if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
+    time_duration elapsed = calendar::turn - restock;
+    if( restock != calendar::turn_zero &&
+        elapsed < myclass->get_shop_restock_interval() ) {
         return;
     }
 
     if( is_player_ally() || !is_shopkeeper() ) {
         return;
     }
-    restock = calendar::turn + myclass->get_shop_restock_interval();
+    restock = calendar::turn;
 
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
@@ -2042,7 +2026,7 @@ void npc::shop_restock()
 std::string npc::get_restock_interval() const
 {
     time_duration const restock_remaining =
-        restock - calendar::turn;
+        restock + myclass->get_shop_restock_interval() - calendar::turn;
     std::string restock_rem = to_string( restock_remaining );
     return restock_rem;
 }

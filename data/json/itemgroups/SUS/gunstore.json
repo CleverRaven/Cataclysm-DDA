@@ -16,26 +16,13 @@
     "id": "SUS_gunstore_safe_obscure",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
-    "//2": "This group is for the contents of rare back of house safes, with guns paired with their corresponding magazines",
+    "//2": "This group is for the contents of rare back of house safes.",
     "subtype": "collection",
     "entries": [
       { "group": "guns_pistol_obscure_display", "prob": 15 },
-      {
-        "collection": [ { "group": "guns_rifle_obscure_display" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
-        "prob": 45
-      },
-      {
-        "collection": [ { "group": "guns_shotgun_obscure_display" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
-        "prob": 1
-      },
-      {
-        "collection": [
-          { "group": "guns_smg_display" },
-          { "group": "mags_smg_common", "count": [ 1, 8 ] },
-          { "group": "mags_smg_rare", "count": [ 1, 8 ] }
-        ],
-        "prob": 2
-      }
+      { "collection": [ { "group": "guns_rifle_obscure_display" } ], "prob": 45 },
+      { "collection": [ { "group": "guns_shotgun_obscure_display" } ], "prob": 1 },
+      { "collection": [ { "group": "guns_smg_display" } ], "prob": 2 }
     ]
   },
   {
@@ -46,7 +33,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "guns_common_display", "prob": 80 },
-      { "group": "mags_common_gunstore", "prob": 80 },
+      { "group": "mags_common", "prob": 80 },
       { "group": "gunmod_common", "prob": 15 },
       { "group": "conversion_kits", "prob": 15 },
       { "group": "book_gunmags", "prob": 60 },

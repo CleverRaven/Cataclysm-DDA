@@ -596,20 +596,6 @@
     "max_aoe": 3
   },
   {
-    "id": "death_ratking",
-    "type": "SPELL",
-    "name": { "str": "Rat King Death" },
-    "description": "Rat king dies.",
-    "valid_targets": [ "hostile", "ally" ],
-    "shape": "blast",
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "effect": "remove_effect",
-    "effect_str": "rat",
-    "min_range": 48,
-    "max_range": 48,
-    "extra_effects": [ { "id": "ratking_summon_rats", "hit_self": true } ]
-  },
-  {
     "id": "death_focused_beam_explosion",
     "type": "SPELL",
     "name": { "str": "Focused Beam Explosion Death" },

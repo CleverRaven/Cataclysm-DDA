@@ -144,7 +144,6 @@
     "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT",
     "condition": {
       "or": [
-        { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
         { "u_has_effect": "effect_clair_see_auras" },
         { "u_has_effect": "effect_clair_craft_bonus" },
@@ -178,6 +177,12 @@
         { "u_has_effect": "telepathic_ignorance_self" }
       ]
     },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY",
+    "condition": { "or": [ { "u_has_effect": "effect_photokin_invisibility" } ] },
     "effect": [  ]
   },
   {

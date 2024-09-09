@@ -3303,6 +3303,11 @@ bool map::can_put_items_ter_furn( const tripoint_bub_ms &p ) const
     return !has_flag( ter_furn_flag::TFLAG_NOITEM, p ) && !has_flag( ter_furn_flag::TFLAG_SEALED, p );
 }
 
+bool map::has_flag_ter( const std::string &flag, const tripoint &p ) const
+{
+    return ter( p ).obj().has_flag( flag );
+}
+
 bool map::has_flag_ter( const std::string &flag, const tripoint_bub_ms &p ) const
 {
     return ter( p ).obj().has_flag( flag );
@@ -7771,17 +7776,18 @@ bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int ra
     return sees( F.raw(), T.raw(), range, dummy, with_fields );
 }
 
+// TODO: Change this to a hash function on the map implementation. This will also allow us to
+// account for the complete lack of entropy in the top 16 bits.
 point map::sees_cache_key( const tripoint_bub_ms &from, const tripoint_bub_ms &to ) const
 {
-
     // Canonicalize the order of the tripoints so the cache is reflexive.
     const tripoint_bub_ms &min = from < to ? from : to;
     const tripoint_bub_ms &max = !( from < to ) ? from : to;
 
-    // A little gross, just pack the values into a point.
+    // A little gross, just pack the values into an integer.
     return point(
-               min.x() << 16 | min.y() << 8 | ( min.z() + OVERMAP_DEPTH ),
-               max.x() << 16 | max.y() << 8 | ( max.z() + OVERMAP_DEPTH )
+               min.x() << 20 | min.y() << 10 | ( min.z() + OVERMAP_DEPTH ),
+               max.x() << 20 | max.y() << 10 | ( max.z() + OVERMAP_DEPTH )
            );
 }
 
@@ -7795,7 +7801,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 }
 
 bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int range,
-                int &bresenham_slope, bool with_fields ) const
+                int &bresenham_slope, bool with_fields, bool allow_cached ) const
 {
     bool ( map:: * f_transparent )( const tripoint & p ) const =
         with_fields ? &map::is_transparent : &map::is_transparent_wo_fields;
@@ -7807,9 +7813,11 @@ bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int ra
         return false; // Out of range!
     }
     const point key = sees_cache_key( F, T );
-    char cached = skew_cache.get( key, -1 );
-    if( cached >= 0 ) {
-        return cached > 0;
+    if( allow_cached ) {
+        char cached = skew_cache.get( key, -1 );
+        if( cached != -1 ) {
+            return cached > 0;
+        }
     }
     bool visible = true;
 
@@ -8056,8 +8064,9 @@ std::vector<tripoint_bub_ms> map::find_clear_path( const tripoint_bub_ms &source
     // Not totally sure of the derivation.
     const int max_start_offset = std::abs( ideal_start_offset ) * 2 + 1;
     for( int horizontal_offset = -1; horizontal_offset <= max_start_offset; ++horizontal_offset ) {
-        int candidate_offset = horizontal_offset * start_sign;
-        if( sees( source, destination, rl_dist( source, destination ), candidate_offset ) ) {
+        int candidate_offset = horizontal_offset * ( start_sign == 0 ? 1 : start_sign );
+        if( sees( source, destination, rl_dist( source, destination ),
+                  candidate_offset, /*with_fields=*/true, /*allow_cached=*/false ) ) {
             return line_to( source, destination, candidate_offset, 0 );
         }
     }
@@ -8377,16 +8386,18 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
     }
     rebuild_vehicle_level_caches();
 
-    // actualize after loading all submaps to prevent errors
-    // with entities at the edges
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
-            const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
-            for( int gridz = zmin; gridz <= zmax; gridz++ ) {
-                actualize( {gridx, gridy, gridz            } );
-                if( pump_events ) {
-                    inp_mngr.pump_events();
+    if( !explosion_handler::explosion_processing_active() ) {
+        // actualize after loading all submaps to prevent errors
+        // with entities at the edges
+        for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
+            for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
+                const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z();
+                for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+                    actualize( { gridx, gridy, gridz } );
+                    if( pump_events ) {
+                        inp_mngr.pump_events();
+                    }
                 }
             }
         }
@@ -10921,7 +10932,7 @@ void map::update_pathfinding_cache( const tripoint &p ) const
         return;
     }
     pathfinding_cache &cache = get_pathfinding_cache( p.z );
-    pf_special cur_value = PF_NORMAL;
+    PathfindingFlags cur_value = PathfindingFlag::Ground;
 
     const_maptile tile = maptile_at_internal( p );
 
@@ -10935,39 +10946,49 @@ void map::update_pathfinding_cache( const tripoint &p ) const
     const int cost = move_cost_internal( furniture, terrain, field, veh, part );
 
     if( cost > 2 ) {
-        cur_value |= PF_SLOW;
+        cur_value |= PathfindingFlag::Slow;
     } else if( cost <= 0 ) {
-        cur_value |= PF_WALL;
+        cur_value |= PathfindingFlag::Obstacle;
         if( terrain.has_flag( ter_furn_flag::TFLAG_CLIMBABLE ) ) {
-            cur_value |= PF_CLIMBABLE;
+            cur_value |= PathfindingFlag::Climbable;
         }
     }
 
     if( veh != nullptr ) {
-        cur_value |= PF_VEHICLE;
+        cur_value |= PathfindingFlag::Vehicle;
     }
 
     for( const auto &fld : tile.get_field() ) {
         const field_entry &cur = fld.second;
         if( cur.is_dangerous() ) {
-            cur_value |= PF_FIELD;
+            cur_value |= PathfindingFlag::DangerousField;
         }
     }
 
     if( ( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) &&
         !here.has_vehicle_floor( p ) ) {
-        cur_value |= PF_TRAP;
+        cur_value |= PathfindingFlag::DangerousTrap;
     }
 
-    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) || terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ||
-        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
-        cur_value |= PF_UPDOWN;
+    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
+        cur_value |= PathfindingFlag::GoesUp;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
+        cur_value |= PathfindingFlag::GoesDown;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP ) ||
+        terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) ) {
+        cur_value |= PathfindingFlag::GoesUp | PathfindingFlag::RampUp;
+    }
+
+    if( terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) ) {
+        cur_value |= PathfindingFlag::GoesDown | PathfindingFlag::RampDown;
     }
 
     if( terrain.has_flag( ter_furn_flag::TFLAG_SHARP ) && !here.has_vehicle_floor( p ) ) {
-        cur_value |= PF_SHARP;
+        cur_value |= PathfindingFlag::Sharp;
     }
 
     cache.special[p.x][p.y] = cur_value;
@@ -11107,7 +11128,7 @@ bool map::has_potential_los( const tripoint_bub_ms &from, const tripoint_bub_ms 
 {
     const point key = sees_cache_key( from, to );
     char cached = skew_vision_cache.get( key, -1 );
-    if( cached >= 0 ) {
+    if( cached != -1 ) {
         return cached > 0;
     }
     return true;

@@ -609,6 +609,15 @@ conditional_t::func f_has_trait( const JsonObject &jo, std::string_view member, 
     };
 }
 
+conditional_t::func f_is_trait_purifiable( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var trait_to_check = get_str_or_var( jo.get_member( member ), member, true );
+    return [trait_to_check, is_npc]( dialogue const & d ) {
+        return d.actor( is_npc )->is_trait_purifiable( trait_id( trait_to_check.evaluate( d ) ) );
+    };
+}
+
 conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -867,6 +876,45 @@ conditional_t::func f_has_items( const JsonObject &jo, const std::string_view me
     }
 }
 
+conditional_t::func f_has_items_sum( const JsonObject &jo, const std::string_view member,
+                                     bool is_npc )
+{
+    std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
+
+    for( const JsonObject jsobj : jo.get_array( member ) ) {
+        const str_or_var item = get_str_or_var( jsobj.get_member( "item" ), "item", true );
+        const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
+        item_and_amount.emplace_back( item, amount );
+    }
+    return [item_and_amount, is_npc]( dialogue & d ) {
+        add_msg_debug( debugmode::DF_TALKER, "using _has_items_sum:" );
+
+        itype_id item_to_find;
+        double percent = 0.0f;
+        double count_desired;
+        double count_present;
+        double charges_present;
+        double total_present;
+        for( const auto &pair : item_and_amount ) {
+            item_to_find = itype_id( pair.first.evaluate( d ) );
+            count_desired = pair.second.evaluate( d );
+            count_present = d.actor( is_npc )->get_amount( item_to_find );
+            charges_present = d.actor( is_npc )->charges_of( item_to_find );
+            total_present = std::max( count_present, charges_present );
+            percent += total_present / count_desired;
+
+            add_msg_debug( debugmode::DF_TALKER,
+                           "item: %s, count_desired: %f, count_present: %f, charges_present: %f, total_present: %f, percent: %f",
+                           item_to_find.str(), count_desired, count_present, charges_present, total_present, percent );
+
+            if( percent >= 1 ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
 conditional_t::func f_has_item_with_flag( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -1002,7 +1050,7 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
             const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
             return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty();
         } else {
-            return oter_no_dir( omt_ter ) == location_value;
+            return oter_no_dir_or_connections( omt_ter ) == location_value;
         }
     };
 }
@@ -1034,7 +1082,7 @@ conditional_t::func f_near_om_location( const JsonObject &jo, std::string_view m
                        !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, maybe_args ).empty() ) {
                 return true;
             } else {
-                if( oter_no_dir( omt_ter ) == location_value ) {
+                if( oter_no_dir_or_connections( omt_ter ) == location_value ) {
                     return true;
                 }
             }
@@ -2121,10 +2169,6 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "mana_max", &talker::mana_max },
     { "mana", &talker::mana_cur },
     { "morale", &talker::morale_cur },
-    { "npc_anger", &talker::get_npc_anger },
-    { "npc_fear", &talker::get_npc_fear },
-    { "npc_trust", &talker::get_npc_trust },
-    { "npc_value", &talker::get_npc_value },
     { "owed", &talker::debt },
     { "perception_base", &talker::get_per_max },
     { "perception_bonus", &talker::get_per_bonus },
@@ -2226,10 +2270,6 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "intelligence_bonus", &talker::set_int_bonus },
     { "mana", &talker::set_mana_cur },
     { "morale", &talker::set_morale },
-    { "npc_anger", &talker::set_npc_anger },
-    { "npc_fear", &talker::set_npc_fear },
-    { "npc_trust", &talker::set_npc_trust },
-    { "npc_value", &talker::set_npc_value },
     { "perception_base", &talker::set_per_max },
     { "perception_bonus", &talker::set_per_bonus },
     { "pkill", &talker::set_pkill },
@@ -2431,6 +2471,7 @@ std::vector<condition_parser>
 parsers = {
     {"u_has_any_trait", "npc_has_any_trait", jarg::array, &conditional_fun::f_has_any_trait },
     {"u_has_trait", "npc_has_trait", jarg::member, &conditional_fun::f_has_trait },
+    { "u_is_trait_purifiable", "npc_is_trait_purifiable", jarg::member, &conditional_fun::f_is_trait_purifiable},
     {"u_has_visible_trait", "npc_has_visible_trait", jarg::member, &conditional_fun::f_has_visible_trait },
     {"u_has_martial_art", "npc_has_martial_art", jarg::member, &conditional_fun::f_has_martial_art },
     {"u_using_martial_art", "npc_using_martial_art", jarg::member, &conditional_fun::f_using_martial_art },
@@ -2454,6 +2495,7 @@ parsers = {
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },
+    {"u_has_items_sum", "npc_has_items_sum", jarg::array, &conditional_fun::f_has_items_sum },
     {"u_has_item_category", "npc_has_item_category", jarg::member, &conditional_fun::f_has_item_category },
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },

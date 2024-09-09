@@ -24,6 +24,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_assert.h"
+#include "cata_imgui.h"
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
@@ -33,6 +34,7 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
+#include "imgui/imgui.h"
 #include "input.h"
 #include "input_context.h"
 #include "input_enums.h"
@@ -58,6 +60,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -1790,10 +1793,10 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
 
         item_info_data data( it.tname(), it.type_name(), vThisItem, vDummy );
         data.handle_scrolling = true;
+        data.arrow_scrolling = true;
 
-        ret = draw_item_info( [&]() -> catacurses::window {
-            return catacurses::newwin( 0, info_width(), point( info_startx(), 0 ) );
-        }, data ).get_first_input();
+        iteminfo_window info_window( data, point( info_startx(), 0 ), info_width(), TERMY );
+        info_window.execute();
     }
     if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
         spane.scroll_by( +1 );
@@ -2072,16 +2075,22 @@ class query_destination_callback : public uilist_callback
         void refresh( uilist *menu ) override {
             draw_squares( menu );
         }
+        float desired_extra_space_left( ) override {
+            return ImGui::CalcTextSize( "[1] [2] [3]" ).x;
+        }
 };
 
 void query_destination_callback::draw_squares( const uilist *menu )
 {
+    ImGui::TableSetColumnIndex( 0 );
+    ImGui::NewLine();
+    ImGui::NewLine();
+    ImGui::NewLine();
     cata_assert( menu->entries.size() >= 9 );
-    int ofs = -25 - 4;
     int sel = 0;
-    if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < menu->entries.size() ) {
+    if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < menu->entries.size() ) {
         sel = _adv_inv.screen_relative_location(
-                  static_cast <aim_location>( menu->selected + 1 ) );
+                  static_cast <aim_location>( menu->hovered + 1 ) );
     }
     for( int i = 1; i < 10; i++ ) {
         aim_location loc = _adv_inv.screen_relative_location( static_cast <aim_location>( i ) );
@@ -2093,12 +2102,20 @@ void query_destination_callback::draw_squares( const uilist *menu )
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
         nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
-        const point p( square.hscreen + point( ofs, 5 ) );
-        mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
-        wprintz( menu->window, kcolor, "%s", key );
-        wprintz( menu->window, bcolor, "%c", bracket[1] );
+        // TODO(db48x): maybe make these clickable buttons or something
+        ImGui::PushID( i );
+        ImGui::BeginGroup();
+        ImGui::TextColored( bcolor, "%c", bracket[0] );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::TextColored( kcolor, "%s", key.c_str() );
+        ImGui::SameLine( 0.0, 0.0 );
+        ImGui::TextColored( bcolor, "%c", bracket[1] );
+        ImGui::EndGroup();
+        ImGui::PopID();
+        if( i % 3 != 0 ) {
+            ImGui::SameLine();
+        }
     }
-    wnoutrefresh( menu->window );
 }
 
 bool advanced_inventory::query_destination( aim_location &def )
@@ -2113,8 +2130,6 @@ bool advanced_inventory::query_destination( aim_location &def )
 
     uilist menu;
     menu.text = _( "Select destination" );
-    /* free space for the squares */
-    menu.pad_left_setup = 9;
     query_destination_callback cb( *this );
     menu.callback = &cb;
 

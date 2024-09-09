@@ -165,9 +165,7 @@
     "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
     "points": 2,
     "traits": [ "AFS_CRYOADAPTATION" ],
-    "items": {
-      "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 } ] }
-    }
+    "items": { "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_battery_cell", "charges": 5000 } ] } }
   },
   {
     "type": "profession",
@@ -213,7 +211,7 @@
           { "item": "water_clean", "container-item": "camelbak" },
           { "item": "crowbar", "custom-flags": [ "auto_wield" ] },
           { "item": "phase_immersion_suit" },
-          { "item": "dimensional_anchor", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 }
+          { "item": "dimensional_anchor", "ammo-item": "medium_battery_cell", "charges": 5000 }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -332,8 +330,8 @@
           { "item": "afs_holo_cloak_mk2" },
           { "item": "kukri", "container-item": "sheath" },
           { "item": "cash_card", "charges": 2600000 },
-          { "item": "afs_cam_spy", "ammo-item": "light_minus_atomic_battery_cell", "charges": 500 },
-          { "item": "radiocontrol", "ammo-item": "light_atomic_battery_cell", "charges": 1000 },
+          { "item": "afs_cam_spy", "ammo-item": "light_minus_disposable_cell", "charges": 500 },
+          { "item": "radiocontrol", "ammo-item": "light_battery_cell", "charges": 1000 },
           { "item": "afs_eidolon_derringer", "ammo-item": "afs_5x50heavy", "charges": 4, "container-item": "holster" },
           { "item": "afs_5x50heavy" }
         ]

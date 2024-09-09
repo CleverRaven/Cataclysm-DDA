@@ -97,10 +97,19 @@ Channeling covers spells that require the caster to focus for long periods of ti
 Conjuration encompasses spells that summon something or someone, usually for a set period of time. Most Golemancy is covered by this, along with the Animist's Summon Undead, Ignus Fattus, or the Druid's Nature's Bow. Conjuration specializes in spells that temporarily summon something, rather than permanently creating something, which would be a bit more suited to Channeling. Proficiency in Conjuration will lower the mana cost of spells and improve the duration times of summoned creatures/objects.
 
 ### Enhancement
-Enhancement covers spells that improve the target in some way, mentally, physically, or emotionally. While there are many spells in this class, some of them are Cat's Grace, Ogre's Strength, Eagle's Sight, or Feral Form. Note that spells which exclusively heal are not included, as they are fixing something which is damaged, while Enhancement covers spells which improve on the whole. However, if a spell both heals and buffs something, then it should be included in this. Any spells which exclusively debuff or hinder something should also not be included. Proficiency in Enhancement will lower the casting time of spells and improve the duration of enhancement.
+Enhancement covers spells that improve the target in some way, mentally, physically, or emotionally. While there are many spells in this class, some of them are Cat's Grace, Ogre's Strength, Eagle's Sight, or Feral Form. Note that spells which exclusively heal are not included, as they are fixing something which is damaged, while Enhancement covers spells which improve on the whole. However, if a spell both heals and buffs something, then it should be included in this. Any spells which exclusively debuff or hinder something should also not be included; see below. Proficiency in Enhancement will lower the casting time of spells and improve the duration of enhancement.
+
+### Enervation
+Enervation spells are the opposite of Enhancement, being spells that reduce the capabilities of the target in some way, such as Slow, A Shadow in the Crowd, or Faerie Fire. This includes spells such as Domination or Beguiling the Savage Beast that take control of the target's mind or actions. Spells that do damage as their primary effect but have some debuffing power as an additional ability are not Enervation spells. Proficiency in Enervation will improve the duration of the spell and increase its area of effect.
 
 ### Conveyance
-Conveyance encompasses spells which involve translocating, teleporting, or moving the caster/target. Some spells covered are Phase Door, Magus's Mark, Shocking Dash, or Translocate Self. Proficiency in Conveyance will extend the range of the spell (if applicable), or lower the casting time if not, and lower the mana cost of the incantation.
+Conveyance encompasses spells which involve translocating, teleporting, or moving the caster/target. Some spells covered are Phase Door, Magus's Mark, Shocking Dash, or Translocate Self. Proficiency in Conveyance will extend the range of the spell and lower the mana cost of the incantation.
+
+## Restoration
+Restoration spells return the physical, spiritually, emotional, or magical capabilities of the target to its ideal state. Spells like Cure Light Wounds, Sacrificial Regrowth, Mind over Pain, or Stone's Endurance are all restoration spells. Proficiency in Restoration will reduce the casting time and increase the amount healed.
+
+## Transformation
+Transformation spells change one thing into another, such as changing a handful of leaves into gold or changing a charging enemy into a housecat. This also includes partial tranformations of the target. Spells like Harvest of the Hunter, Vicious Tentacle, or Convert are transformation spells. Proficiency in Transformation will increase the duration and reduce the casting time. 
 
 #### How The JMATH Works
 The JMATH behind spellcasting proficiencies is fairly simple, this is how it works:

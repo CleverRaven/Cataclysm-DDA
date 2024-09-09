@@ -90,7 +90,7 @@
         "coverage": 10,
         "armor_mult": { "all": 0.9 },
         "crit_mult": { "all": 1.25 },
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "effects": [
           {
             "effect": "maimed_mandible",
@@ -212,7 +212,7 @@
         "coverage": 15,
         "coverage_mult": { "point": 0.75 },
         "crit_mult": { "all": 1.25 },
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "effects": [
           {
             "effect": "maimed_tongue",
@@ -416,7 +416,7 @@
         "coverage": 10,
         "armor_mult": { "all": 1.75 },
         "crit_mult": { "all": 1.1 },
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "effects": [
           {
             "effect": "maimed_mandible",
