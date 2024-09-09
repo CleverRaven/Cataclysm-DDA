@@ -1188,7 +1188,6 @@
     "components": [
       [
         [ "wire", 2 ],
-        [ "lc_wire", 2 ],
         [ "mc_wire", 2 ],
         [ "hc_wire", 2 ],
         [ "qt_wire", 2 ],
