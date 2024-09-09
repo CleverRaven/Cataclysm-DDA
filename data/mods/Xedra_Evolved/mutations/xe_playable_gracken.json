@@ -211,14 +211,15 @@
     "type": "mutation",
     "id": "SHADE_SKIN",
     "name": { "str": "Shade Skin" },
-    "description": "Your skin is the color of shadows moving in the twilight.",
+    "description": "Your skin is the color of shadows moving in the twilight.  More useful skin types exist but this is specialized for operating naked in a strange world.",
     "//": "This is the baseline Gracken skin mutation.",
     "types": [ "SKIN" ],
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
     "category": [ "GRACKEN" ],
-    "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
+    "threshreq": [ "THRESH_SPECIES_GRACKEN" ],
+    "enchantments": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 20 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 20 } ]
   },
   {
     "type": "mutation",
