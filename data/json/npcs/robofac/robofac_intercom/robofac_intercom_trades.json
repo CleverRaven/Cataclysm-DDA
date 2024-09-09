@@ -248,7 +248,7 @@
       "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA"
     ],
     "type": "talk_topic",
-    "dynamic_line": "Beautiful; please put them into loading area.  We'll issue a reward based depending on what you managed to scavenge.",
+    "dynamic_line": "Beautiful; please put them into loading area.  We'll issue a reward depending on what you managed to scavenge.",
     "responses": [
       {
         "text": "[Put in broken trifacet.]",
@@ -262,7 +262,12 @@
       },
       {
         "text": "[Put in broken triakias.]",
-        "condition": { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
+            { "math": [ "hub01_yrax_triakis_researched", "==", "1" ] }
+          ]
+        },
         "effect": [
           { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
           { "math": [ "u_broken_yrax_triakis_sold", "++" ] },
@@ -272,7 +277,12 @@
       },
       {
         "text": "[Roll in broken monolith.]",
-        "condition": { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
+            { "math": [ "hub01_yrax_triakis_researched", "==", "1" ] }
+          ]
+        },
         "effect": [
           { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
           { "math": [ "u_broken_golden_monolith_sold", "++" ] },
@@ -282,13 +292,66 @@
       },
       {
         "text": "[Put in broken delta.]",
-        "condition": { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
+            { "math": [ "hub01_yrax_delta_researched", "==", "1" ] }
+          ]
+        },
         "effect": [
           { "u_consume_item": "broken_yrax_delta", "count": 1, "popup": true },
           { "math": [ "u_broken_yrax_delta_sold", "++" ] },
           { "u_spend_cash": -200 }
         ],
-        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_DELTA"
+        "topic": "TALK_ROBOFAC_INTERCOM_BROKEN_YRAX_DELTA"
+      },
+      {
+        "text": "[Put in broken triakias.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
+            { "math": [ "hub01_yrax_triakis_researched", "!=", "1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_research", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_gave_broken_yrax_triakis", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
+      },
+      {
+        "text": "[Roll in broken monolith.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
+            { "math": [ "hub01_golden_monolith_researched", "!=", "1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_research", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_gave_broken_golden_monolith", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
+      },
+      {
+        "text": "[Put in broken delta.]",
+        "condition": {
+          "and": [
+            { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
+            { "math": [ "hub01_yrax_delta_researched", "!=", "1" ] }
+          ]
+        },
+        "effect": [
+          { "u_consume_item": "broken_yrax_delta", "count": 1, "popup": true },
+          { "math": [ "u_timer_hub_rnd_u_waiting_on_research", "=", "time('now')" ] },
+          { "u_add_var": "dialogue_hub_rnd_u_gave_broken_yrax_delta", "value": "yes" },
+          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
       },
       {
         "text": "[Drag in broken quadraphract leg.]",
@@ -354,9 +417,24 @@
     ]
   },
   {
+    "id": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX",
+    "type": "talk_topic",
+    "dynamic_line": "Come back later, we are not sure how soon we can finish studying this remains",
+    "responses": [
+      { "text": "What else do you have?", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "See you later then.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS_ONGOIN_RESEARCH",
+    "type": "talk_topic",
+    "dynamic_line": "We don't have any free hands to process your new findings.",
+    "responses": [ { "text": "I see, I'll bother you later then.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
+  },
+  {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
     "type": "talk_topic",
-    "dynamic_line": "I believe we already have similar model in better condition but is nice to have something for reference.",
+    "dynamic_line": "I believe we already have similar model in better condition but it is nice to have something for reference.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
