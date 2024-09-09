@@ -1,480 +1,479 @@
 [
-  {
-    "//": "Whenever you add more traits, make sure to update the trait Jmath",
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "hobby_species_changeling_noble",
-    "name": "Unknowing Changeling, Noble (Species)",
-    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
-    "points": 4,
-    "traits": [ "THRESH_FAIR_FOLK_NOBLE", "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
-    "id": "hobby_species_changeling_commoner",
-    "name": "Unknowing Changeling, Commoner (Species)",
-    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
-    "points": 4,
-    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ]
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_FAIR_FOLK_NOBLE",
-    "name": { "str": "Noble Changeling" },
-    "points": 0,
-    "description": "You are one of the nobility of the Fair Folk.",
-    "valid": false,
-    "purifiable": false,
-    "threshold": true
-  },
-  {
-    "type": "mutation",
-    "id": "FAIR_FOLK_COMMONER_SELECTOR",
-    "name": { "str": "Commoner Changeling" },
-    "points": 1,
-    "description": "This tracks your heritage, used to pick a subcategory.  You shouldn't see it.",
-    "valid": false,
-    "purifiable": false,
-    "types": [ "HERITAGE" ],
-    "player_display": false
-  },
-  {
-    "type": "mutation",
-    "id": "CHANGELING_MAGIC",
-    "name": { "str": "Changeling Magic" },
-    "points": 1,
-    "description": "This provides the school trait for Changeling magic.  It should not be visible.",
-    "valid": false,
-    "purifiable": false,
-    "player_display": false
-  },
-  {
-    "type": "mutation",
-    "id": "UNKNOWING_CHANGELING_NOBLE",
-    "name": { "str": "Changeling" },
-    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has inured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",
-    "mixed_effect": true,
-    "valid": false,
-    "starting_trait": false,
-    "purifiable": false,
-    "points": 0,
-    "allowed_category": [ "FAIR_FOLK_NOBLE" ],
-    "category": [ "FAIR_FOLK_NOBLE" ],
-    "types": [ "HERITAGE" ],
-    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
-    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
-    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "allowed_category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
-    "name": { "str": "Brownie Changeling" },
-    "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from brownies.",
-    "valid": false,
-    "purifiable": false,
-    "threshold": true
-  },
-  {
-    "type": "mutation",
-    "id": "UNKNOWING_CHANGELING_COMMONER_POOKA",
-    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
-    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
-    "allowed_category": [ "FAIR_FOLK_COMMONER_POOKA" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_FAIR_FOLK_COMMONER_POOKA",
-    "name": { "str": "Pooka Changeling" },
-    "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from pookas.",
-    "valid": false,
-    "purifiable": false,
-    "threshold": true
-  },
-  {
-    "type": "mutation",
-    "id": "UNKNOWING_CHANGELING_COMMONER_SELKIE",
-    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
-    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "allowed_category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
-    "name": { "str": "Selkie Changeling" },
-    "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from selkies.",
-    "valid": false,
-    "purifiable": false,
-    "threshold": true
-  },
-  {
-    "type": "mutation",
-    "id": "UNKNOWING_CHANGELING_COMMONER_TROW",
-    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
-    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
-    "allowed_category": [ "FAIR_FOLK_COMMONER_TROW" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "THRESH_FAIR_FOLK_COMMONER_TROW",
-    "name": { "str": "Trow Changeling" },
-    "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from trow.",
-    "valid": false,
-    "purifiable": false,
-    "threshold": true
-  },
-  {
-    "type": "mutation",
-    "id": "STR_UP_3",
-    "copy-from": "STR_UP_3",
-    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "DEX_UP_3",
-    "copy-from": "DEX_UP_3",
-    "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "PER_UP_3",
-    "copy-from": "PER_UP_3",
-    "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "DISRESISTANT",
-    "copy-from": "DISRESISTANT",
-    "extend": {
-      "category": [
-        "FAIR_FOLK_NOBLE",
-        "FAIR_FOLK_COMMONER_BROWNIE",
-        "FAIR_FOLK_COMMONER_POOKA",
-        "FAIR_FOLK_COMMONER_SELKIE",
-        "FAIR_FOLK_COMMONER_TROW"
-      ]
-    }
-  },
-  {
-    "type": "mutation",
-    "id": "DISIMMUNE",
-    "copy-from": "DISIMMUNE",
-    "extend": {
-      "category": [
-        "FAIR_FOLK_NOBLE",
-        "FAIR_FOLK_COMMONER_BROWNIE",
-        "FAIR_FOLK_COMMONER_POOKA",
-        "FAIR_FOLK_COMMONER_SELKIE",
-        "FAIR_FOLK_COMMONER_TROW"
-      ]
-    },
-    "threshreq": [
-      "THRESH_FAIR_FOLK_NOBLE",
-      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
-      "THRESH_FAIR_FOLK_COMMONER_POOKA",
-      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
-      "THRESH_FAIR_FOLK_COMMONER_TROW"
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "BROWNIE_CRAFTING_BONUS",
-    "name": { "str": "Household Artistry" },
-    "//": "This and the upgrades below should ideally require you to be unobserved, but having no one nearby will have to suffice for now.",
-    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's easy for you to build and repair things, as long as no one is nearby to watch you do it.",
-    "points": 1,
-    "prereqs": [ "DEX_UP", "DEX_UP_2", "DEX_UP_3" ],
-    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "changes_to": [ "BROWNIE_CRAFTING_BONUS2" ],
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
-          ]
-        },
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.33 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "BROWNIE_CRAFTING_BONUS2",
-    "name": { "str": "Adept Household Artistry" },
-    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's very easy for you to build and repair things, as long as no one is nearby to watch you do it.",
-    "points": 1,
-    "prereqs": [ "BROWNIE_CRAFTING_BONUS" ],
-    "prereqs2": [ "DEX_UP_2", "DEX_UP_3" ],
-    "changes_to": [ "BROWNIE_CRAFTING_BONUS3" ],
-    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
-          ]
-        },
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.75 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "BROWNIE_CRAFTING_BONUS3",
-    "name": { "str": "Incomparable Household Artistry" },
-    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's almost effortless for you to build and repair things, as long as no one is nearby to watch you do it.",
-    "points": 1,
-    "prereqs": [ "BROWNIE_CRAFTING_BONUS2" ],
-    "prereqs2": [ "DEX_UP_3" ],
-    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
-    "enchantments": [
-      {
-        "condition": {
-          "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
-            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
-          ]
-        },
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 1.5 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "BROWNIE_EASY_OVERLOOK",
-    "name": { "str": "Unobtrusive" },
-    "description": "Your appearance hasn't changed, but people don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're easy to overlook.",
-    "points": 3,
-    "prereqs": [ "FAIR_FOLK_INVISIBILITY" ],
-    "changes_to": [ "BROWNIE_EASY_OVERLOOK2" ],
-    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "enchantments": [
-      {
-        "condition": { "not": { "u_has_effect": "effect_brownie_attacked_someone" } },
-        "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "BROWNIE_EASY_OVERLOOK2",
-    "name": { "str": "Inconspicuous" },
-    "description": "Your appearance hasn't changed, but people really don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're very easy to overlook.",
-    "points": 6,
-    "prereqs": [ "FAIR_FOLK_INVISIBILITY" ],
-    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
-    "enchantments": [
-      {
-        "condition": { "not": { "u_has_effect": "effect_brownie_attacked_someone" } },
-        "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "SELKIE_BREATHING_WATER",
-    "name": { "str": "Breathing Water" },
-    "points": 2,
-    "description": "You can breathe water just as easily as you can breathe air, and have no trouble switching between them.",
-    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "changes_to": [ "SELKIE_BREATHING_WATER2" ],
-    "types": [ "GILLS" ],
-    "flags": [ "GILLS" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SELKIE_BREATHING_WATER2",
-    "name": { "str": "At Home in the Water" },
-    "points": 2,
-    "description": "You can breathe water just as easily as you can breathe air, and have no trouble switching between them.  In addition, being wet is pleasant in a way it never was before.",
-    "prereqs": [ "SELKIE_BREATHING_WATER" ],
-    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "types": [ "GILLS" ],
-    "flags": [ "GILLS" ],
-    "wet_protection": [
-      { "part": "torso", "good": 10 },
-      { "part": "head", "good": 10 },
-      { "part": "leg_l", "good": 10 },
-      { "part": "leg_r", "good": 10 },
-      { "part": "arm_l", "good": 10 },
-      { "part": "arm_r", "good": 10 },
-      { "part": "mouth", "good": 10 },
-      { "part": "hand_l", "good": 10 },
-      { "part": "hand_r", "good": 10 },
-      { "part": "foot_l", "good": 10 },
-      { "part": "foot_r", "good": 10 }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "SELKIE_WATERSLEEP",
-    "name": { "str": "The Waves my Bed" },
-    "points": 1,
-    "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.",
-    "prereqs": [ "SELKIE_BREATHING_WATER2" ],
-    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "comfort": [
-      {
-        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
-        "comfort": "very_comfortable",
-        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
-      },
-      {
-        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
-        "comfort": "very_comfortable",
-        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
-      }
-    ],
-    "enchantments": [
-      {
-        "condition": { "or": [ { "u_is_on_terrain_with_flag": "DEEP_WATER" }, { "u_is_on_terrain_with_flag": "SWIMMABLE" } ] },
-        "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.25 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "SELKIE_WATERMOVE",
-    "name": { "str": "Cutting Through the Waves" },
-    "points": 1,
-    "description": "Your hands and feet haven't changed at all, but they seem to be much better at swimming than before.  You gain a speed bonus when in water, increased when not wearing shoes.",
-    "prereqs": [ "SELKIE_BREATHING_WATER1", "SELKIE_BREATHING_WATER2" ],
-    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ]
-  },
-  {
-    "type": "mutation",
-    "id": "PAINRESIST",
-    "copy-from": "PAINRESIST",
-    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "PAINRESIST_TROW",
-    "name": { "str": "Resilence of the Stones" },
-    "points": 4,
-    "description": "You are as hardy as the rock.  When underground, you suffer much less pain.",
-    "types": [ "PAIN" ],
-    "prereqs": [ "PAINRESIST" ],
-    "prereqs2": [ "STR_UP_2", "STR_UP_3" ],
-    "changes_to": [ "PAINRESIST_TROW2" ],
-    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
-    "enchantments": [
-      {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
-        "values": [ { "value": "PAIN", "multiply": -0.5 } ]
-      }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "PAINRESIST_TROW2",
-    "name": { "str": "Unwavering Resilence of the Stones" },
-    "points": 6,
-    "description": "You are as hardy as the rock.  When underground you suffer much less pain, and your strength is not reduced by the pain you suffer.",
-    "prereqs": [ "PAINRESIST_TROW" ],
-    "prereqs2": [ "STR_UP_3" ],
-    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
-    "enchantments": [
-      {
-        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
-        "values": [ { "values": [ { "value": "PAIN", "multiply": -0.5 } ] } ]
-      },
-      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "FAE_NIGHTVISION",
-    "name": { "str": "Unveiling the Night" },
-    "points": 2,
-    "description": "Your sharp eyes can pierce the darkness.",
-    "changes_to": [ "FAE_NIGHTVISION2" ],
-    "category": [
-      "FAIR_FOLK_NOBLE",
-      "FAIR_FOLK_COMMONER_BROWNIE",
-      "FAIR_FOLK_COMMONER_POOKA",
-      "FAIR_FOLK_COMMONER_SELKIE",
-      "FAIR_FOLK_COMMONER_TROW"
-    ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.75" ] } } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "FAE_NIGHTVISION2",
-    "name": { "str": "Pierce the Shadows" },
-    "points": 2,
-    "description": "Whether woods under trees or the cavern depths, you can see through the murk.",
-    "prereqs": [ "FAE_NIGHTVISION" ],
-    "category": [ "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_TROW" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA", "THRESH_FAIR_FOLK_COMMONER_TROW" ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.5" ] } } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "CHANGELING_DISGUISE_AS_NATURE",
-    "name": { "str": "Hidden from Mortal Eyes" },
-    "points": 2,
-    "description": "The Fair Folk can remain hidden among rocks or trees or whispers of wind, and now you can too.",
-    "category": [
-      "FAIR_FOLK_NOBLE",
-      "FAIR_FOLK_COMMONER_BROWNIE",
-      "FAIR_FOLK_COMMONER_POOKA",
-      "FAIR_FOLK_COMMONER_SELKIE",
-      "FAIR_FOLK_COMMONER_TROW"
-    ],
-    "spells_learned": [ [ "changeling_disguise_as_nature_spell", 1 ] ]
-  },
-  {
-    "type": "mutation",
-    "id": "CHANGELING_INVISIBILITY",
-    "name": { "str": "Hidden from Mortal Eyes" },
-    "points": 2,
-    "description": "Like the Fair Folk of legend, you can remain unseen when you wish.",
-    "prereqs": [ "CHANGELING_DISGUISE_AS_NATURE" ],
-    "category": [
-      "FAIR_FOLK_NOBLE",
-      "FAIR_FOLK_COMMONER_BROWNIE",
-      "FAIR_FOLK_COMMONER_POOKA",
-      "FAIR_FOLK_COMMONER_SELKIE",
-      "FAIR_FOLK_COMMONER_TROW"
-    ],
-    "spells_learned": [ [ "changeling_invisibility_spell", 1 ] ]
-  },
-  {
-    "type": "mutation",
-    "id": "CHANGELING_SUMMON_WILL_O_THE_WISPS",
-    "name": { "str": "Call Will o' the Wisp" },
-    "points": 2,
-    "description": "You can conjure up bobbing lights in the distane that will lead your enemies astray.",
-    "category": [
-      "FAIR_FOLK_NOBLE",
-      "FAIR_FOLK_COMMONER_BROWNIE",
-      "FAIR_FOLK_COMMONER_POOKA",
-      "FAIR_FOLK_COMMONER_SELKIE",
-      "FAIR_FOLK_COMMONER_TROW"
-    ],
-    "spells_learned": [ [ "changeling_summon_will_o_the_wisps_spell", 1 ] ]
-  }
+  {
+    "//": "Whenever you add more traits, make sure to update the trait Jmath",
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_changeling_noble",
+    "name": "Unknowing Changeling, Noble (Species)",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "points": 4,
+    "traits": [ "THRESH_FAIR_FOLK_NOBLE", "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_species_changeling_commoner",
+    "name": "Unknowing Changeling, Commoner (Species)",
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents come from the common masses of the Fair Folk, the pooka, redcaps, hobgoblins, trow, pixies, knockers, selkies, or any of the myriad of others.  When the Cataclysm hit, your parents' slumbering power asserted itself, revealing your heritage and giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
+    "points": 4,
+    "traits": [ "FAIR_FOLK_COMMONER_SELECTOR", "CHANGELING_MAGIC", "ELFA_EARS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_NOBLE",
+    "name": { "str": "Noble Changeling" },
+    "points": 0,
+    "description": "You are one of the nobility of the Fair Folk.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "FAIR_FOLK_COMMONER_SELECTOR",
+    "name": { "str": "Commoner Changeling" },
+    "points": 1,
+    "description": "This tracks your heritage, used to pick a subcategory.  You shouldn't see it.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "HERITAGE" ],
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_MAGIC",
+    "name": { "str": "Changeling Magic" },
+    "points": 1,
+    "description": "This provides the school trait for Changeling magic.  It should not be visible.",
+    "valid": false,
+    "purifiable": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_NOBLE",
+    "name": { "str": "Changeling" },
+    "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  While you find it uncomfortable ever since your heritage asserted itself, your time in the mortal realm has inured you to the presence of iron.  However, it has not done so enough to allow you to install any CBMs.",
+    "mixed_effect": true,
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "points": 0,
+    "allowed_category": [ "FAIR_FOLK_NOBLE" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "types": [ "HERITAGE" ],
+    "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+    "name": { "str": "Brownie Changeling" },
+    "points": 0,
+    "description": "You are one of the masses of the Fair Folk, descended from brownies.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_POOKA",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_POOKA",
+    "name": { "str": "Pooka Changeling" },
+    "points": 0,
+    "description": "You are one of the masses of the Fair Folk, descended from pookas.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+    "name": { "str": "Selkie Changeling" },
+    "points": 0,
+    "description": "You are one of the masses of the Fair Folk, descended from selkies.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "UNKNOWING_CHANGELING_COMMONER_TROW",
+    "copy-from": "UNKNOWING_CHANGELING_NOBLE",
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "allowed_category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "THRESH_FAIR_FOLK_COMMONER_TROW",
+    "name": { "str": "Trow Changeling" },
+    "points": 0,
+    "description": "You are one of the masses of the Fair Folk, descended from trow.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_3",
+    "copy-from": "STR_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_3",
+    "copy-from": "DEX_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_3",
+    "copy-from": "PER_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": {
+      "category": [
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW"
+      ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": {
+      "category": [
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW"
+      ]
+    },
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CRAFTING_BONUS",
+    "name": { "str": "Household Artistry" },
+    "//": "This and the upgrades below should ideally require you to be unobserved, but having no one nearby will have to suffice for now.",
+    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's easy for you to build and repair things, as long as no one is nearby to watch you do it.",
+    "points": 1,
+    "prereqs": [ "DEX_UP", "DEX_UP_2", "DEX_UP_3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "changes_to": [ "BROWNIE_CRAFTING_BONUS2" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
+            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.33 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CRAFTING_BONUS2",
+    "name": { "str": "Adept Household Artistry" },
+    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's very easy for you to build and repair things, as long as no one is nearby to watch you do it.",
+    "points": 1,
+    "prereqs": [ "BROWNIE_CRAFTING_BONUS" ],
+    "prereqs2": [ "DEX_UP_2", "DEX_UP_3" ],
+    "changes_to": [ "BROWNIE_CRAFTING_BONUS3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
+            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.75 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_CRAFTING_BONUS3",
+    "name": { "str": "Incomparable Household Artistry" },
+    "description": "The brownies are the unassuming crafters of the Fair Folk, and it's almost effortless for you to build and repair things, as long as no one is nearby to watch you do it.",
+    "points": 1,
+    "prereqs": [ "BROWNIE_CRAFTING_BONUS2" ],
+    "prereqs2": [ "DEX_UP_3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
+            { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 1.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_EASY_OVERLOOK",
+    "name": { "str": "Unobtrusive" },
+    "description": "Your appearance hasn't changed, but people don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're easy to overlook.",
+    "points": 3,
+    "prereqs": [ "FAIR_FOLK_INVISIBILITY" ],
+    "changes_to": [ "BROWNIE_EASY_OVERLOOK2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_brownie_attacked_someone" } },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_EASY_OVERLOOK2",
+    "name": { "str": "Inconspicuous" },
+    "description": "Your appearance hasn't changed, but people really don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're very easy to overlook.",
+    "points": 6,
+    "prereqs": [ "FAIR_FOLK_INVISIBILITY" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": { "not": { "u_has_effect": "effect_brownie_attacked_someone" } },
+        "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_BREATHING_WATER",
+    "name": { "str": "Breathing Water" },
+    "points": 2,
+    "description": "You can breathe water just as easily as you can breathe air, and have no trouble switching between them.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "changes_to": [ "SELKIE_BREATHING_WATER2" ],
+    "types": [ "GILLS" ],
+    "flags": [ "GILLS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_BREATHING_WATER2",
+    "name": { "str": "At Home in the Water" },
+    "points": 2,
+    "description": "You can breathe water just as easily as you can breathe air, and have no trouble switching between them.  In addition, being wet is pleasant in a way it never was before.",
+    "prereqs": [ "SELKIE_BREATHING_WATER" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "types": [ "GILLS" ],
+    "flags": [ "GILLS" ],
+    "wet_protection": [
+      { "part": "torso", "good": 10 },
+      { "part": "head", "good": 10 },
+      { "part": "leg_l", "good": 10 },
+      { "part": "leg_r", "good": 10 },
+      { "part": "arm_l", "good": 10 },
+      { "part": "arm_r", "good": 10 },
+      { "part": "mouth", "good": 10 },
+      { "part": "hand_l", "good": 10 },
+      { "part": "hand_r", "good": 10 },
+      { "part": "foot_l", "good": 10 },
+      { "part": "foot_r", "good": 10 }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_WATERSLEEP",
+    "name": { "str": "The Waves my Bed" },
+    "points": 1,
+    "description": "Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.",
+    "prereqs": [ "SELKIE_BREATHING_WATER2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "comfort": [
+      {
+        "conditions": [ { "type": "terrain", "flag": "DEEP_WATER" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You lay beneath the waves' embrace, gazing up through the water's surface…", "rating": "good" }
+      },
+      {
+        "conditions": [ { "type": "terrain", "flag": "SWIMMABLE" } ],
+        "comfort": "very_comfortable",
+        "msg_try": { "text": "You settle into the water and begin to drowse…", "rating": "good" }
+      }
+    ],
+    "enchantments": [
+      {
+        "condition": { "or": [ { "u_is_on_terrain_with_flag": "DEEP_WATER" }, { "u_is_on_terrain_with_flag": "SWIMMABLE" } ] },
+        "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_WATERMOVE",
+    "name": { "str": "Cutting Through the Waves" },
+    "points": 1,
+    "description": "Your hands and feet haven't changed at all, but they seem to be much better at swimming than before.  You gain a speed bonus when in water, increased when not wearing shoes.",
+    "prereqs": [ "SELKIE_BREATHING_WATER1", "SELKIE_BREATHING_WATER2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST",
+    "copy-from": "PAINRESIST",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST_TROW",
+    "name": { "str": "Resilence of the Stones" },
+    "points": 4,
+    "description": "You are as hardy as the rock.  When underground, you suffer much less pain.",
+    "types": [ "PAIN" ],
+    "prereqs": [ "PAINRESIST" ],
+    "prereqs2": [ "STR_UP_2", "STR_UP_3" ],
+    "changes_to": [ "PAINRESIST_TROW2" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "values": [ { "value": "PAIN", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST_TROW2",
+    "name": { "str": "Unwavering Resilence of the Stones" },
+    "points": 6,
+    "description": "You are as hardy as the rock.  When underground you suffer much less pain, and your strength is not reduced by the pain you suffer.",
+    "prereqs": [ "PAINRESIST_TROW" ],
+    "prereqs2": [ "STR_UP_3" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "values": [ { "values": [ { "value": "PAIN", "multiply": -0.5 } ] } ]
+      },
+      { "values": [ { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_NIGHTVISION",
+    "name": { "str": "Unveiling the Night" },
+    "points": 2,
+    "description": "Your sharp eyes can pierce the darkness.",
+    "changes_to": [ "FAE_NIGHTVISION2" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.75" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_NIGHTVISION2",
+    "name": { "str": "Pierce the Shadows" },
+    "points": 2,
+    "description": "Whether woods under trees or the cavern depths, you can see through the murk.",
+    "prereqs": [ "FAE_NIGHTVISION" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_TROW" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA", "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.5" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE",
+    "name": { "str": "Hidden from Mortal Eyes" },
+    "points": 2,
+    "description": "The Fair Folk can remain hidden among rocks or trees or whispers of wind, and now you can too.",
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_disguise_as_nature_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_INVISIBILITY",
+    "name": { "str": "Hidden from Mortal Eyes" },
+    "points": 2,
+    "description": "Like the Fair Folk of legend, you can remain unseen when you wish.",
+    "prereqs": [ "CHANGELING_DISGUISE_AS_NATURE" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_invisibility_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_SUMMON_WILL_O_THE_WISPS",
+    "name": { "str": "Call Will o' the Wisp" },
+    "points": 2,
+    "description": "You can conjure up bobbing lights in the distane that will lead your enemies astray.",
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "spells_learned": [ [ "changeling_summon_will_o_the_wisps_spell", 1 ] ]
+  }
 ]
-

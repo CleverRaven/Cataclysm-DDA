@@ -2031,6 +2031,21 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_invisibility",
+    "name": [ "Hidden from Mortal Eyes" ],
+    "desc": [ "They could have sworn you were there a moment ago." ],
+    "rating": "good",
+    "flags": [ "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_brownie_attacked_someone",
+    "name": [ "Conspicuous" ],
+    "desc": [ "People can definitely see you now." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
