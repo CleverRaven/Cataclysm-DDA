@@ -4,26 +4,17 @@
     "id": "EOC_TEST_CHANGELING_COMMONER_INITIAL_CONDITIONS",
     "condition": {
       "and": [
-        { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER" },
-        { "not": { "u_has_trait": "UNKNOWING_CHANGELING_COMMONER_CHOICE" } },
+        { "u_has_trait": "FAIR_FOLK_COMMONER_SELECTOR" },
         {
           "not": {
-            "u_has_any_trait": [ "FAIR_FOLK_COMMONER_BROWNIE", "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_SELKIE", "FAIR_FOLK_COMMONER_TROW" ]
+            "u_has_any_trait": [
+              "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+              "UNKNOWING_CHANGELING_COMMONER_POOKA",
+              "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+              "UNKNOWING_CHANGELING_COMMONER_TROW"
+            ]
           }
         }
-      ]
-    },
-    "effect": [  ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST",
-    "condition": {
-      "and": [
-        { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
-        { "u_has_trait": "PARACLESIAN_INT_PER_2" },
-        { "u_has_trait": "PARACLESIAN_MAKE_GOSSAMER" },
-        { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" }
       ]
     },
     "effect": [  ]
@@ -34,7 +25,15 @@
     "recurrence": [ "14 days", "28 days" ],
     "condition": {
       "and": [
-        { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
+        {
+          "u_has_any_trait": [
+            "UNKNOWING_CHANGELING_NOBLE",
+            "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+            "UNKNOWING_CHANGELING_COMMONER_POOKA",
+            "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+            "UNKNOWING_CHANGELING_COMMONER_TROW"
+          ]
+        },
         { "math": [ "u_vitamin('changeling_dreams')", "==", "0" ] }
       ]
     },
@@ -45,7 +44,16 @@
     "id": "EOC_UNKNOWING_CHANGELING_WEARING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition": { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
     "effect": [
       { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
     ]
@@ -55,7 +63,16 @@
     "id": "EOC_UNKNOWING_CHANGELING_WIELDING_IRON_OR_STEEL",
     "eoc_type": "EVENT",
     "required_event": "character_wields_item",
-    "condition": { "u_has_any_trait": [ "UNKNOWING_CHANGELING_NOBLE", "UNKNOWING_CHANGELING_COMMONER" ] },
+    "condition": {
+      "u_has_any_trait": [
+        "UNKNOWING_CHANGELING_NOBLE",
+        "FAIR_FOLK_COMMONER_SELECTOR",
+        "UNKNOWING_CHANGELING_COMMONER_BROWNIE",
+        "UNKNOWING_CHANGELING_COMMONER_POOKA",
+        "UNKNOWING_CHANGELING_COMMONER_SELKIE",
+        "UNKNOWING_CHANGELING_COMMONER_TROW"
+      ]
+    },
     "effect": [
       { "run_eocs": [ "EOC_UNKNOWING_CHANGELING_WEARING_IRON_FOLLOWUP", "EOC_UNKNOWING_CHANGELING_WEARING_STEEL_FOLLOWUP" ] }
     ]

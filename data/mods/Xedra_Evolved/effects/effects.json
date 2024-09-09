@@ -1996,6 +1996,41 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_fair_folk_noble",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_brownie",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_pooka",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_selkie",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_trow",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]

@@ -781,37 +781,43 @@
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
     "copy-from": "BEAUTIFUL",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL2",
     "copy-from": "BEAUTIFUL2",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "STR_UP",
     "copy-from": "STR_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_2",
     "copy-from": "STR_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
@@ -823,13 +829,13 @@
     "type": "mutation",
     "id": "DEX_UP",
     "copy-from": "DEX_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
     "id": "DEX_UP_2",
     "copy-from": "DEX_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
@@ -859,13 +865,13 @@
     "type": "mutation",
     "id": "PER_UP",
     "copy-from": "PER_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",
     "id": "PER_UP_2",
     "copy-from": "PER_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",
