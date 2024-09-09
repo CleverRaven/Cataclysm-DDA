@@ -404,8 +404,7 @@
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },
-      { "group": "nested_M24", "prob": 15 },
-      { "group": "nested_acr_300blk", "prob": 15 }
+      { "group": "nested_M24", "prob": 15 }
     ]
   },
   {
@@ -437,7 +436,6 @@
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_psl", "prob": 10 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
-      { "group": "nested_acr_300blk", "prob": 15 },
       { "group": "nested_type99", "prob": 20 },
       { "group": "nested_type99_sniper", "prob": 5 },
       { "group": "nested_ak308", "prob": 25 },
@@ -465,8 +463,6 @@
       { "group": "modular_m4a1", "prob": 45 },
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
-      { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
-      { "item": "acr_300blk", "prob": 15 },
       { "item": "hk417_13", "prob": 40 },
       { "item": "m2carbine", "prob": 5 },
       { "item": "ak308", "prob": 10 },

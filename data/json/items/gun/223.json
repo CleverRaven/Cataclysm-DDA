@@ -365,7 +365,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
+    "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it.",
     "id": "modular_m16_auto_rifle",
     "copy-from": "modular_m16a4",
     "type": "GUN",
@@ -377,11 +377,6 @@
         "id": "modular_m16a3",
         "name": { "str": "M16A3 rifle" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
-      },
-      {
-        "id": "modular_acr",
-        "name": { "str": "Remington ACR carbine" },
-        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
