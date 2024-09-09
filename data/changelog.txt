@@ -143,6 +143,11 @@ Google Maps
 Dynamic trait purifiability
 Add drugs and mutagens to your faction camp stores.
 Allow military night vision goggles to attach to combat exoskeleton head armors
+Butchering now require proficiency to do it fast and effectively
+Functioning toasters
+Partial chitinous helmets
+Cody has a new dialogue where you can order weapons
+Adds jika-tabi footwear
 
 
 ## Content:
@@ -319,6 +324,10 @@ A few new reptiles to populate the world
 A bunch of new mutant arthropods underground
 Make dermatik pregnancy and birth suck significantly more
 Add painkiller eyedrops
+Add regular hearts to the game and make them obtainable through butchery
+Adds the FBI Special Agent profession, and related sundry.
+Minor changes and additional items to allow progression into bronze age.
+Small Isherwood Farms dialogue improvement
 
 
 ## Interface:
@@ -406,6 +415,13 @@ Fix ImGui Demo in curses
 make ImTui render text as text, so that the players can read our spiffy new menus
 toggle to only draw overmap during autotravel
 mouse input in uilists does not block keyboard navigation
+Print church/school bells ringing sound in the message log once again
+Add imgui version of the iteminfo window
+add spell components back to casting menu and fix color tags in it
+Updated default keybindings for changing start dates in character creation menu
+rewrite the loading screen to use ImGui
+Fix scrolling spell info in spell casting menu
+Custom loading screen the game deserves
 
 
 ## Mods:
@@ -643,6 +659,25 @@ Isolation Protocol: Add roguelike style health regen and pain reduction
 [MoM] Add Illuminate Photokinetic power
 [MoM] Add Headblind trait and Latent Psion trait
 [Xedra Evolved] Extend hedge magic research system
+[Magiclysm] Magic item have flags like vanilla counterpart have
+[XEDRA] Fix Inventor Grenade launcher mod definition
+[MOM] Add electrokinetic override for internal battery compartment
+out ot -> out of
+[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON (Animist/biomancer edition)
+[MoM] Add extra possible learning conditions for Extended Channeling
+[Xedra Evolved] Extend hedge magic research system, part 2
+[Magiclysm] Fix harvest
+XE Playable Gracken
+Backport MoM #70838, #70904, #70830, #71228, #71024, and #73529
+[MoM] Add Leukocyte Accumulation vitakinetic power, obsolete Damage Balancing
+Re-added ability to launch nuclear missile to No Hope mod, once again
+[MoM] Backport #70729, #70615, #71260, #70910, and #71399 to 0.H
+[MoM] Add two snippets
+[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON (Druid/Earthshaper edition) 
+[MoM] Backport #70956, #71061, and remaining parts of #71437
+[Magiclysm] Add three new spells
+[Magiclysm] Change 'Vocalize' to 'The Inner Voice' 
+[Magiclysm] Add spell school deficiency traits
 
 
 ## Balance:
@@ -738,6 +773,7 @@ Change Frame, Heavy duty frame, steel plating, sheet metal, and related vehicle 
 Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
+Add the machete to relevant lootgroups.
 
 
 ## Bugfixes:
@@ -975,6 +1011,23 @@ Fixed segfault when monster tries to grab-drag another monster out of reality bu
 Prevent being teleported beyond OVERMAP_DEPTH
 NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
+wrap the description in the zone menu to avoid a ridiculous width
+fix Segfault when trying to cast a spell
+Spelling correction: Desert Tec > Desert Tech
+Autodrive works on forest trails again (for tiny vehicles)
+[Sky Island] Fix pond recipe failed refunds
+Fix overlook in #76029
+Prevent XEDRA mercenary officer from evolving, which otherwise prevents finishing the haunting fight
+Fix haircutting
+avoid UB by properly computing colors for palette indexes above 15 in curses builds
+Adds some missing gun variants
+fix skill editor to use the text property instead of textformatted
+Fix issues with the spell menu where choosing a spell to cast chooses the wrong one
+Replace the loading screen image with a PNG
+Capitalize the “S” in Scan.
+[MoM] Remove remaining Damage Balancing references
+[Magiclysm] Druid brambles burn
+Fix pulp acid-filled corpses
 
 
 ## Performance:
@@ -1005,6 +1058,8 @@ Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
 cache available recipe list in craft menu
 NPCs take less time to check for enemies.
+Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
+Backport better point hash function for has_potential_los perf improvements
 
 
 ## Infrastructure:
@@ -1075,6 +1130,7 @@ Add Flathub download button and Flatpak manifest
 Added support for multiple randomized field sprite variants
 JSON-ify sleep-affecting mutations
 Extend/delete support for harvest lists
+Migrate ACT_PULP to the new activity actor system.
 
 
 ## Build:
