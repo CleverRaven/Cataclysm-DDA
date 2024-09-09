@@ -149,7 +149,7 @@
     "//2": "It is intended that 0 does nothing but dreams.",
     "effect": [
       {
-        "switch": { "math": [ "rand(2)" ] },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,
@@ -160,36 +160,18 @@
             }
           },
           {
-            "case": 1,
-            "effect": {
-              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
-                { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "if": {
-                "and": [
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
-                ]
-              },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
-                { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
             "case": 3,
+            "effect": {
+              "if": { "test_eoc": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
+                { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 4,
             "effect": {
               "if": { "u_has_trait": "BEAUTIFUL3" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
@@ -208,7 +190,7 @@
     "id": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL",
     "effect": [
       {
-        "switch": { "math": [ "rand(2)" ] },
+        "switch": { "math": [ "rand(3)" ] },
         "cases": [
           {
             "case": 0,
@@ -221,41 +203,12 @@
             }
           },
           {
-            "case": 1,
-            "effect": {
-              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
-                { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "if": {
-                "and": [
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
-                ]
-              },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
-                { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
             "case": 3,
             "effect": {
-              "if": { "u_has_trait": "PARACLESIAN_LEARN_GOSSAMER_RECIPES" },
+              "if": { "test_eoc": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_BROWNIE_NEW_POWERS_REAL" },
               "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
                 { "u_message": "XE_CHANGELING_COMMONER_BROWNIE", "type": "neutral", "snippet": true }
               ]
             }
@@ -269,7 +222,7 @@
     "id": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL",
     "effect": [
       {
-        "switch": { "math": [ "rand(2)" ] },
+        "switch": { "math": [ "rand(3)" ] },
         "cases": [
           {
             "case": 0,
@@ -282,30 +235,12 @@
             }
           },
           {
-            "case": 1,
+            "case": 3,
             "effect": {
-              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "if": { "test_eoc": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL" },
               "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
-                { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "if": {
-                "and": [
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
-                ]
-              },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_POOKA_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
                 { "u_message": "XE_CHANGELING_COMMONER_POOKA", "type": "neutral", "snippet": true }
               ]
             }
@@ -319,7 +254,7 @@
     "id": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL",
     "effect": [
       {
-        "switch": { "math": [ "rand(2)" ] },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,
@@ -332,36 +267,18 @@
             }
           },
           {
-            "case": 1,
-            "effect": {
-              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
-                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
-            "case": 2,
-            "effect": {
-              "if": {
-                "and": [
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
-                ]
-              },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
-                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
-              ]
-            }
-          },
-          {
             "case": 3,
+            "effect": {
+              "if": { "test_eoc": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
+                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 4,
             "effect": {
               "if": { "u_has_trait": "BEAUTIFUL3" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
@@ -380,7 +297,7 @@
     "id": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL",
     "effect": [
       {
-        "switch": { "math": [ "rand(2)" ] },
+        "switch": { "math": [ "rand(3)" ] },
         "cases": [
           {
             "case": 0,
@@ -393,32 +310,49 @@
             }
           },
           {
-            "case": 1,
+            "case": 3,
             "effect": {
-              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "if": { "test_eoc": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST" },
               "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL" },
               "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" },
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
                 { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true }
               ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_COMMON_POOL",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
+              "else": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_FAE_SIGHT_TRAITS" } ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": { "and": [ { "u_has_trait": "PARACLESIAN_STR_DEX_2" }, { "u_has_trait": "PARACLESIAN_INT_PER_2" } ] },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
+              "else": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" } ]
             }
           },
           {
             "case": 2,
             "effect": {
-              "if": {
-                "and": [
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
-                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
-                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
-                ]
-              },
-              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_TROW_NEW_POWERS_REAL" },
-              "else": [
-                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
-                { "u_message": "XE_CHANGELING_COMMONER_TROW", "type": "neutral", "snippet": true }
-              ]
+              "if": { "u_has_trait": "PARACLESIAN_MAKE_GOSSAMER" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_COMMON_POOL" },
+              "else": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_GOSSAMER_MAKING_TRAITS" } ]
             }
           }
         ]
@@ -496,6 +430,17 @@
         "if": { "u_has_trait": "PARACLESIAN_FAE_SIGHT_1" },
         "then": [ { "u_add_trait": "PARACLESIAN_FAE_SIGHT_2" }, { "u_lose_trait": "PARACLESIAN_FAE_SIGHT_1" } ],
         "else": { "u_add_trait": "PARACLESIAN_FAE_SIGHT_1" }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_GAIN_GOSSAMER_MAKING_TRAITS",
+    "effect": [
+      {
+        "if": { "u_has_trait": "PARACLESIAN_LEARN_GOSSAMER_RECIPES" },
+        "then": [ { "u_add_trait": "PARACLESIAN_MAKE_GOSSAMER" } ],
+        "else": { "u_add_trait": "PARACLESIAN_LEARN_GOSSAMER_RECIPES" }
       }
     ]
   }

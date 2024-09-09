@@ -17,6 +17,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_CHANGELING_COMMON_POOL_TRAIT_LIST",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+        { "u_has_trait": "PARACLESIAN_INT_PER_2" },
+        { "u_has_trait": "PARACLESIAN_MAKE_GOSSAMER" },
+        { "u_has_trait": "PARACLESIAN_FAE_SIGHT_2" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_XE_CHANGELING_GRANT_POWER_VITAMIN_RECURRING",
     "recurrence": [ "14 days", "28 days" ],
     "condition": {
