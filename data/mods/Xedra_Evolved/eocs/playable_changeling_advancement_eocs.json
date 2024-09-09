@@ -1,6 +1,14 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_PREVENT_TOO_MANY_DREAMS",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "math": [ "u_fae_dream_count", ">", "0" ] },
+    "effect": [ { "math": [ "u_fae_dream_count", "--" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PLAYABLE_CHANGELING_COMMONER_CHOOSE_HERITAGE",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
@@ -76,7 +84,7 @@
     "condition": {
       "and": [ { "u_has_trait": "UNKNOWING_CHANGELING_NOBLE" }, { "math": [ "u_vitamin('changeling_dreams')", ">=", "1" ] } ]
     },
-    "effect": [  ]
+    "effect": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" } ]
   },
   {
     "type": "effect_on_condition",
@@ -118,7 +126,7 @@
         { "math": [ "u_vitamin('changeling_dreams')", ">=", "1" ] }
       ]
     },
-    "effect": [  ]
+    "effect": [ { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" } ]
   },
   {
     "type": "effect_on_condition",
@@ -133,5 +141,168 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL",
+    "//": "all of the below is necessary because u_roll_remainder does not respect prerequisites, and it also allows the mixing of spells and traits",
+    "//2": "It is intended that 0 does nothing but dreams.",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "math": [ "u_fae_dream_count", "==", "0" ] },
+              "then": [ { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true } ],
+              "else": [ { "math": [ "u_fae_dream_count", "--" ] } ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": {
+                "and": [
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
+                ]
+              },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
+              "if": { "u_has_trait": "BEAUTIFUL3" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_BEAUTY_TRAITS" },
+                { "u_message": "XE_CHANGELING_NOBLE", "type": "neutral", "snippet": true }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(2)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "math": [ "u_fae_dream_count", "==", "0" ] },
+              "then": [
+                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true },
+                { "math": [ "u_fae_dream_count", "+=", "rand(8) + 2" ] }
+              ]
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": {
+                "and": [
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
+                  { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_1" },
+                  { "u_has_trait": "PARACLESIAN_INT_PER_2" }
+                ]
+              },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_NOBLE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          },
+          {
+            "case": 2,
+            "effect": {
+              "if": { "u_has_trait": "BEAUTIFUL3" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_SELKIE_NEW_POWERS_REAL" },
+              "else": [
+                { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_BEAUTY_TRAITS" },
+                { "u_message": "XE_CHANGELING_COMMONER_SELKIE", "type": "neutral", "snippet": true }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_GAIN_BEAUTY_TRAITS",
+    "effect": [
+      {
+        "if": { "u_has_trait": "BEAUTIFUL2" },
+        "then": [ { "u_add_trait": "BEAUTIFUL3" }, { "u_lose_trait": "BEAUTIFUL2" } ],
+        "else": {
+          "if": { "u_has_trait": "BEAUTIFUL" },
+          "then": [ { "u_add_trait": "BEAUTIFUL2" }, { "u_lose_trait": "BEAUTIFUL" } ],
+          "else": {
+            "if": { "u_has_trait": "PRETTY" },
+            "then": [ { "u_add_trait": "BEAUTIFUL" }, { "u_lose_trait": "PRETTY" } ],
+            "else": {
+              "if": { "not": { "u_has_any_trait": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ] } },
+              "then": [ { "u_add_trait": "PRETTY" } ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS",
+    "effect": [
+      {
+        "switch": { "math": [ "rand(1)" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_STR_DEX_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+              "else": {
+                "if": { "u_has_trait": "PARACLESIAN_STR_DEX_1" },
+                "then": [ { "u_add_trait": "PARACLESIAN_STR_DEX_2" }, { "u_lose_trait": "PARACLESIAN_STR_DEX_1" } ],
+                "else": {
+                  "if": { "not": { "u_has_any_trait": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ] } },
+                  "then": [ { "u_add_trait": "PARACLESIAN_STR_DEX_1" } ]
+                }
+              }
+            }
+          },
+          {
+            "case": 1,
+            "effect": {
+              "if": { "u_has_trait": "PARACLESIAN_INT_PER_2" },
+              "then": { "run_eocs": "EOC_PLAYABLE_CHANGELING_GAIN_ATTRIBUTE_TRAITS" },
+              "else": {
+                "if": { "u_has_trait": "PARACLESIAN_INT_PER_1" },
+                "then": [ { "u_add_trait": "PARACLESIAN_INT_PER_2" }, { "u_lose_trait": "PARACLESIAN_INT_PER_1" } ],
+                "else": {
+                  "if": { "not": { "u_has_any_trait": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ] } },
+                  "then": [ { "u_add_trait": "PARACLESIAN_INT_PER_1" } ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
