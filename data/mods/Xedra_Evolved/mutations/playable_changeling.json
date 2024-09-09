@@ -138,5 +138,91 @@
     "id": "PER_UP_3",
     "copy-from": "PER_UP_3",
     "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DISRESISTANT",
+    "copy-from": "DISRESISTANT",
+    "extend": {
+      "category": [
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW"
+      ]
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "DISIMMUNE",
+    "copy-from": "DISIMMUNE",
+    "extend": {
+      "category": [
+        "FAIR_FOLK_NOBLE",
+        "FAIR_FOLK_COMMONER_BROWNIE",
+        "FAIR_FOLK_COMMONER_POOKA",
+        "FAIR_FOLK_COMMONER_SELKIE",
+        "FAIR_FOLK_COMMONER_TROW"
+      ]
+    },
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST",
+    "copy-from": "PAINRESIST",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PAINRESIST_TROW",
+    "name": { "str": "Resilence of the Stones" },
+    "points": 2,
+    "vitamin_cost": 160,
+    "description": "You are as hardy as the rock.  When underground, you suffer much less pain.",
+    "types": [ "PAIN" ],
+    "prereqs": [ "PAINRESIST" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "category": [ "FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
+        "values": [ { "value": "PAIN", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_NIGHTVISION",
+    "name": { "str": "Unveiling the Night" },
+    "points": 2,
+    "description": "Your sharp eyes can pierce the darkness.",
+    "changes_to": [ "FAE_NIGHTVISION2" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.75" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_NIGHTVISION2",
+    "name": { "str": "Pierce the Shadows" },
+    "points": 2,
+    "description": "Whether woods under trees or the cavern depths, you can see through the murk.",
+    "prereqs": [ "FAE_NIGHTVISION" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_TROW" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA", "THRESH_FAIR_FOLK_COMMONER_TROW" ],
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.5" ] } } ] } ]
   }
 ]
