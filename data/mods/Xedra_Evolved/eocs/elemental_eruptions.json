@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WARP_POOL_BOTTOM_FLOOR",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_at_om_location": "undine_warp_pool_warper" },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "undine_pool_lake_port" },
+        "target_params": { "om_terrain": "lake", "om_terrain_match_type": "PREFIX", "search_range": 400, "z": 0, "random": true }
+      },
+      {
+        "u_message": "You swim down and down, further and further, until you're no longer sure which way is up.  You're in total darkness, still swimming, when you see a light up ahead.  With a goal at last in reach, you swim toward it as the light broadens and expands and, finally, you breach the water's surface.",
+        "popup": true
+      },
+      {
+        "u_teleport": { "global_val": "undine_pool_lake_port" },
+        "fail_message": "Something is very wrong!",
+        "force": true
+      }
+    ]
+  }
+]

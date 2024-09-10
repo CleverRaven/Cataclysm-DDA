@@ -32,14 +32,14 @@
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_malus_weariness_power", "zenfs_stamina_pain_mana", "zenfs_activity_fatigue_blood" ]
+    "widgets": [ "zenfs_malus_weariness_power", "zenfs_stamina_pain_mana", "zenfs_activity_sleepiness_blood" ]
   },
   {
     "id": "zenfs_physical_num_block",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_num_malus_weariness_power", "zenfs_num_stamina_pain_mana", "zenfs_num_activity_fatigue_blood" ],
+    "widgets": [ "zenfs_num_malus_weariness_power", "zenfs_num_stamina_pain_mana", "zenfs_num_activity_sleepiness_blood" ],
     "padding": 3
   },
   {
@@ -178,7 +178,7 @@
       "zenfs_weariness_bar_10",
       "zenfs_weariness_trans_malus",
       "zenfs_activity_desc",
-      "zenfs_fatigue_desc"
+      "zenfs_sleepiness_desc"
     ]
   },
   {
@@ -193,7 +193,7 @@
       "zenfs_weariness_num",
       "zenfs_weariness_trans_malus_num",
       "zenfs_activity_desc_A",
-      "zenfs_fatigue_desc_F"
+      "zenfs_sleepiness_desc_F"
     ]
   },
   {
@@ -254,12 +254,12 @@
     "widgets": [ "zenfs_stamina_bar_12", "zenfs_pain_bar_15", "zenfs_mana_bar_15" ]
   },
   {
-    "id": "zenfs_activity_fatigue_blood",
+    "id": "zenfs_activity_sleepiness_blood",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 21,
-    "widgets": [ "zenfs_activity_desc", "zenfs_fatigue_desc", "zenfs_blood" ]
+    "widgets": [ "zenfs_activity_desc", "zenfs_sleepiness_desc", "zenfs_blood" ]
   },
   {
     "id": "zenfs_num_malus_weariness_power",
@@ -278,12 +278,12 @@
     "widgets": [ "zenfs_stamina_num", "zenfs_pain_num", "zenfs_mana_num_with_max" ]
   },
   {
-    "id": "zenfs_num_activity_fatigue_blood",
+    "id": "zenfs_num_activity_sleepiness_blood",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 19,
-    "widgets": [ "zenfs_activity_desc", "zenfs_fatigue_desc", "zenfs_blood" ],
+    "widgets": [ "zenfs_activity_desc", "zenfs_sleepiness_desc", "zenfs_blood" ],
     "padding": 0
   },
   {

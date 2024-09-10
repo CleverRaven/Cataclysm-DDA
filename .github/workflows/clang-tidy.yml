@@ -19,6 +19,7 @@ on:
     - 'build-scripts/clang-tidy-wrapper.sh'
     - 'build-scripts/get_affected_files.py'
     - '.github/workflows/clang-tidy.yml'
+    types: [opened, reopened, synchronize, ready_for_review]
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
@@ -40,7 +41,7 @@ jobs:
           paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", "build-scripts/clang-tidy.sh", "build-scripts/clang-tidy-wrapper.sh", "build-scripts/get_affected_files.py", ".github/workflows/clang-tidy.yml" ]'
   build:
     needs: skip-duplicates
-    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' && github.event_name != 'pull_request' || github.event.pull_request.draft == false }}
 
     strategy:
       fail-fast: false
@@ -84,7 +85,7 @@ jobs:
       run: bash ./build-scripts/requirements.sh
     - name: determine changed files
       if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@v6.3.3
+      uses: actions/github-script@v7
       with:
         script: |
           var fs = require('fs');

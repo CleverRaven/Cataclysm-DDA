@@ -37,8 +37,7 @@
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 2 ], "repeat": [ 8, 10 ] },
         { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 4 ], "repeat": [ 8, 2 ] }
       ],
-      "terrain": { "T": "t_atm" },
-      "furniture": { "V": "f_vending_reinforced", "k": "f_rack" },
+      "furniture": { "V": "f_vending_reinforced", "k": "f_rack", "T": "f_atm" },
       "toilets": { "&": {  } },
       "gaspumps": { "G": {  } },
       "items": {
@@ -55,7 +54,7 @@
         { "group": "softdrugs", "x": [ 15, 18 ], "y": [ 19, 20 ], "chance": 80, "repeat": [ 0, 2 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
-      "vendingmachines": { "ñ": { "item_group": "afs_vending_false_meals", "reinforced": true } }
+      "vendingmachines": { "ñ": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } }
     }
   }
 ]

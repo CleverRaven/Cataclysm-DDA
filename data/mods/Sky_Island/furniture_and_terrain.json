@@ -68,6 +68,8 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "shoot": {
       "reduce_damage": [ 3800, 4000 ],
@@ -179,7 +181,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_rock_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": { "str_min": 4000, "str_max": 5000, "sound": "crash!", "sound_fail": "glzt!", "ter_set": "t_warprock" }
   }
 ]

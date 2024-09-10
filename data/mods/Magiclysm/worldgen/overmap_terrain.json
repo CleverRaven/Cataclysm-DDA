@@ -6,7 +6,7 @@
     "sym": "M",
     "color": "red",
     "looks_like": "s_shoppingplaza_b1",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
@@ -18,7 +18,7 @@
     "sym": "M",
     "color": "red",
     "looks_like": "s_shoppingplaza_b2",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2
   },
@@ -29,7 +29,7 @@
     "sym": "M",
     "color": "red",
     "looks_like": "s_shoppingplaza_b6",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2
   },
@@ -39,7 +39,7 @@
     "name": "cabin",
     "sym": "F",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 2
   },
@@ -49,7 +49,7 @@
     "name": "cabin",
     "sym": "F",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 2
   },
@@ -60,7 +60,7 @@
     "sym": "F",
     "color": "light_gray",
     "looks_like": "spider_pit",
-    "see_cost": 5
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -69,7 +69,7 @@
     "sym": "B",
     "color": "white",
     "looks_like": "s_bookstore",
-    "see_cost": 5,
+    "see_cost": "high",
     "extras": "build",
     "mondensity": 1,
     "flags": [ "SIDEWALK" ]
@@ -81,7 +81,7 @@
     "sym": "B",
     "color": "white",
     "looks_like": "s_bookstore_roof",
-    "see_cost": 5,
+    "see_cost": "none",
     "extras": "build",
     "mondensity": 1
   },
@@ -114,8 +114,8 @@
     "sym": "F",
     "color": "c_light_cyan",
     "looks_like": "forest_water",
-    "see_cost": 5,
-    "flags": [ "SOURCE_FORAGE", "RISK_HIGH" ]
+    "see_cost": "spaced_high",
+    "flags": [ "SOURCE_FORAGE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -139,7 +139,7 @@
     "sym": "#",
     "color": "brown",
     "looks_like": "solid_earth",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -163,7 +163,7 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "empty_rock",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -187,7 +187,7 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "deep_rock",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -211,7 +211,7 @@
     "sym": "%",
     "color": "dark_gray",
     "looks_like": "deep_rock",
-    "see_cost": 5
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -235,7 +235,7 @@
     "sym": "F",
     "color": "c_light_green",
     "looks_like": "forest",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -244,7 +244,7 @@
     "sym": "O",
     "color": "dark_gray",
     "looks_like": "forest_water",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -252,7 +252,7 @@
     "name": "ogre lair roof",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -261,7 +261,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": 5
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
@@ -270,7 +270,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": 5
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
@@ -279,7 +279,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": 5
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
@@ -288,7 +288,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": 5
+    "see_cost": "all_clear"
   },
   {
     "type": "overmap_terrain",
@@ -297,7 +297,7 @@
     "sym": "#",
     "color": "light_blue",
     "looks_like": "lake_shore",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -306,7 +306,7 @@
     "sym": ".",
     "color": "blue",
     "looks_like": "open_air",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -369,7 +369,7 @@
     "sym": "F",
     "color": "brown",
     "looks_like": "cemetery_small",
-    "see_cost": 5
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -388,7 +388,7 @@
     "sym": "#",
     "color": "light_blue",
     "looks_like": "campus_lecture_0_0_0",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -400,7 +400,7 @@
     "color": "light_blue",
     "looks_like": "campus_lecture_0_0_1",
     "mondensity": 2,
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -444,7 +444,7 @@
     "sym": "#",
     "color": "light_blue",
     "looks_like": "campus_lecture_0_0_3",
-    "see_cost": 5
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -462,7 +462,7 @@
     "sym": "O",
     "color": "light_green",
     "looks_like": "standing_stones",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -486,7 +486,7 @@
     "name": "mine tunnels",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 5,
+    "see_cost": "high",
     "flags": [ "KNOWN_UP" ]
   },
   {
@@ -496,7 +496,7 @@
     "sym": "*",
     "color": "blue",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": 5
+    "see_cost": "low"
   },
   {
     "type": "overmap_terrain",
@@ -505,7 +505,7 @@
     "sym": "*",
     "color": "blue",
     "flags": [ "NO_ROTATE" ],
-    "see_cost": 5
+    "see_cost": "low"
   },
   {
     "type": "overmap_terrain",
@@ -514,7 +514,7 @@
     "sym": "O",
     "color": "dark_gray",
     "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ],
-    "see_cost": 5
+    "see_cost": "medium"
   },
   {
     "type": "overmap_terrain",
@@ -522,7 +522,7 @@
     "name": "druid tower",
     "sym": "F",
     "color": "green",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -540,7 +540,7 @@
     "name": "druid tower crown",
     "sym": "F",
     "color": "green",
-    "see_cost": 5
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",

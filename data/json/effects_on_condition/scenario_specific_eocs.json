@@ -50,29 +50,129 @@
     "type": "effect_on_condition",
     "id": "scenario_mansion_pursuit",
     "eoc_type": "SCENARIO_SPECIFIC",
+    "//": "EOC_BANISH_MANSION_MONSTERS is not triggering/working at the moment.",
+    "effect": [
+      {
+        "u_location_variable": { "u_val": "mansion_centre" },
+        "target_params": { "om_terrain": "mansion_+4d", "search_range": 2, "z": -1 },
+        "min_radius": 0,
+        "max_radius": 0
+      },
+      { "location_variable_adjust": { "u_val": "mansion_centre" }, "x_adjust": 11, "y_adjust": 11 },
+      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
+      { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 0, "z_override": true },
+      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
+      { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 1, "z_override": true },
+      { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
+      {
+        "u_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
+        "monster_range": 12
+      },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS_NEAR_PLAYER" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANISH_SELF",
+    "effect": [ { "u_cast_spell": { "id": "BEGONE_SHADOW" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANISH_MANSION_MONSTERS",
+    "//": "Banish half the mapgen monsters from the mansion to make room for special scenario ferals",
+    "effect": [
+      {
+        "npc_run_monster_eocs": [
+          {
+            "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
+            "condition": { "math": [ "rand(1)", "==", "0" ] },
+            "effect": { "run_eocs": "EOC_BANISH_SELF" }
+          }
+        ],
+        "monster_range": 36
+      },
+      {
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MANSION_CIVILIANS", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
+        "mtype_ids": [
+          "mon_civilian_panic",
+          "mon_civilian_parent",
+          "mon_civilian_police",
+          "mon_civilian_stationary",
+          "mon_civilian_zombiefighter"
+        ],
+        "monster_range": 50
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPAWN_MANSION_MONSTERS",
+    "//": "Spawn special scenario ferals out from the center of the mansion",
     "effect": [
       {
         "u_spawn_monster": "GROUP_MANSION_ARMORED",
         "group": true,
         "real_count": 1,
-        "min_radius": 30,
-        "max_radius": 45,
+        "min_radius": 0,
+        "max_radius": 18,
+        "target_var": { "u_val": "mansion_centre" },
         "indoor_only": true
       },
       {
         "u_spawn_monster": "GROUP_MANSION_START",
         "group": true,
-        "real_count": 2,
-        "min_radius": 20,
-        "max_radius": 35,
+        "real_count": 15,
+        "min_radius": 0,
+        "max_radius": 36,
+        "target_var": { "u_val": "mansion_centre" },
         "indoor_only": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPAWN_MANSION_MONSTERS_NEAR_PLAYER",
+    "//": "Spawn mansion monsters near the player, either for lore or as weak obstacles.",
+    "effect": [
+      {
+        "run_eocs": {
+          "id": "EOC_SEX_LAIR_SPAWNS",
+          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2d_start" }, { "math": [ "rand(2)", "==", "0" ] } ] },
+          "effect": [
+            {
+              "u_spawn_monster": "mon_zombie_resort_dancer",
+              "real_count": { "math": [ "1 + rand(1)" ] },
+              "min_radius": 3,
+              "max_radius": 5
+            },
+            { "u_message": "What was that sound?", "type": "warning", "popup": true }
+          ]
+        }
       },
       {
-        "u_spawn_monster": "GROUP_MANSION_START",
+        "run_eocs": {
+          "id": "EOC_PANICROOM_SPAWNS",
+          "condition": { "and": [ { "u_near_om_location": "mansion_boarded_t2_start" }, { "math": [ "rand(1)", "==", "0" ] } ] },
+          "effect": [
+            {
+              "u_spawn_monster": "GROUP_SCENARIO_PANICROOM",
+              "group": true,
+              "real_count": { "math": [ "1 + rand(1)" ] },
+              "max_radius": 2
+            },
+            { "u_message": "Is there someone else in here?", "type": "warning", "popup": true }
+          ]
+        }
+      },
+      {
+        "u_spawn_monster": "GROUP_MANSION_PURSUERS",
         "group": true,
-        "real_count": 2,
-        "min_radius": 25,
-        "max_radius": 40,
+        "real_count": 5,
+        "min_radius": 10,
+        "max_radius": 16,
         "indoor_only": true
       }
     ]

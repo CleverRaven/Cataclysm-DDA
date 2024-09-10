@@ -216,9 +216,9 @@
     "name": "GROUP_SKELETON_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_skeleton", "weight": 720 },
-      { "monster": "mon_skeleton_brute", "weight": 80, "cost_multiplier": 2 },
-      { "monster": "mon_skeleton_brute", "weight": 80, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton", "weight": 600 },
+      { "monster": "mon_skeleton_slasher", "weight": 120, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_brute", "weight": 160, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_master", "weight": 60, "cost_multiplier": 2 },
       { "monster": "mon_skeleton_necro", "weight": 60, "cost_multiplier": 2 }
     ]

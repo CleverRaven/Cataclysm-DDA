@@ -26,7 +26,7 @@
     "condition": {
       "and": [
         {
-          "or": [
+          "and": [
             { "not": { "u_has_effect": "pre_common_cold" } },
             { "not": { "u_has_effect": "common_cold" } },
             { "not": { "u_has_effect": "pre_flu" } },

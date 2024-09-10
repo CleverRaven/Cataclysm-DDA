@@ -1,0 +1,143 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_archery_target_bale",
+    "group": "build_archery_target_bale",
+    "category": "CONSTRUCT",
+    "time": "1 m",
+    "difficulty": 0,
+    "using": [ [ "marking_soft", 1, "LIST" ] ],
+    "pre_terrain": "f_hay",
+    "post_terrain": "f_archery_target_bale"
+  },
+  {
+    "type": "construction",
+    "id": "constr_archery_target_box",
+    "group": "build_archery_target_box",
+    "category": "CONSTRUCT",
+    "time": "1 m",
+    "difficulty": 0,
+    "components": [ [ [ "archery_target_box", 1 ] ] ],
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_archery_target_box"
+  },
+  {
+    "type": "construction",
+    "id": "constr_ergometer_mechanical",
+    "group": "build_ergometer_mechanical",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "240 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [
+      [ [ "foot_crank", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "chain", 1 ] ],
+      [ [ "pipe", 5 ] ],
+      [ [ "saddle", 1 ] ],
+      [ [ "wheel_small", 1 ] ],
+      [ [ "nails", 8, "LIST" ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_ergometer_mechanical"
+  },
+  {
+    "type": "construction",
+    "id": "constr_exercise_machine",
+    "group": "build_exercise_machine",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "180 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk", 1 ] ], [ [ "scrap", 6 ] ], [ [ "lead", 2000 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_exercise"
+  },
+  {
+    "type": "construction",
+    "id": "constr_parkour_bars",
+    "group": "build_parkour_bars",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "420 m",
+    "//1": "3cm of weld per pipe",
+    "using": [ [ "welding_standard", 108 ] ],
+    "components": [ [ [ "pipe", 36 ] ], [ [ "pipe_fittings", 12 ] ] ],
+    "pre_terrain": "t_pit",
+    "post_terrain": "f_parkour_bars"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_piano",
+    "group": "place_piano",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "piano", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_piano",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_training_dummy_heavy",
+    "group": "build_training_dummy_heavy",
+    "category": "CONSTRUCT",
+    "time": "20 m",
+    "difficulty": 1,
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "training_dummy_heavy", 1 ] ] ],
+    "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_training_dummy_heavy"
+  },
+  {
+    "type": "construction",
+    "id": "constr_training_dummy_light",
+    "group": "build_training_dummy_light",
+    "category": "CONSTRUCT",
+    "time": "20 m",
+    "//": "to simulate digging a pit (18 m) and burying it back, divided on half",
+    "difficulty": 1,
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "training_dummy_light", 1 ] ] ],
+    "pre_flags": { "flag": "DIGGABLE", "force_terrain": true },
+    "pre_special": "check_down_OK",
+    "post_terrain": "f_training_dummy_light"
+  },
+  {
+    "type": "construction",
+    "id": "constr_treadmill_mechanical",
+    "group": "build_treadmill_mechanical",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "240 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
+    "components": [ [ [ "plastic_chunk", 14 ] ], [ [ "scrap", 10 ] ], [ [ "pipe", 6 ] ], [ [ "nails", 8, "LIST" ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_treadmill_mechanical"
+  },
+  {
+    "type": "construction",
+    "id": "hang_heavy_punching_bag",
+    "group": "hang_heavy_punching_bag",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "60 m",
+    "pre_note": "Must be built indoors.",
+    "qualities": [ [ { "id": "DRILL", "level": 1 } ], [ { "id": "WRENCH_FINE", "level": 1 } ] ],
+    "components": [
+      [ [ "heavy_punching_bag_sack", 1 ] ],
+      [ [ "nuts_bolts", 4 ] ],
+      [ [ "chain", 4 ] ],
+      [ [ "blanket", 6 ] ],
+      [ [ "material_sand", 4000 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ],
+    "pre_flags": [ "INDOORS" ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_punching_bag"
+  }
+]

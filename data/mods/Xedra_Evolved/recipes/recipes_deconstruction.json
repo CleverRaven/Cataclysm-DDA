@@ -48,5 +48,23 @@
       [ [ "omnicamera", 1 ] ],
       [ [ "betavoltaic", 20 ] ]
     ]
+  },
+  {
+    "result": "broken_dreamforged_automaton",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "skills_required": [ [ "deduction", 4 ] ],
+    "difficulty": 4,
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "scrap_dreamdross", 30 ] ],
+      [ [ "dreamdross_lump", 10 ] ],
+      [ [ "forged_dreamstuff_ingot", 3 ] ],
+      [ [ "steel_chunk", 25 ] ],
+      [ [ "scrap", 10 ] ]
+    ]
   }
 ]

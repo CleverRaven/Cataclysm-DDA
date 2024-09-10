@@ -31,7 +31,6 @@
 #include "gamemode.h"
 #include "get_version.h"
 #include "help.h"
-#include "loading_ui.h"
 #include "localized_comparator.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
@@ -571,18 +570,15 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
-    if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
-        vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
-    }
+    vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
         vSettingsHotkeys.push_back( get_hotkeys( item ) );
     }
 
-    loading_ui ui( false );
     try {
-        g->load_core_data( ui );
+        g->load_core_data();
     } catch( const std::exception &err ) {
         debugmsg( err.what() );
         std::exit( 1 );
@@ -920,10 +916,8 @@ bool main_menu::opening_screen()
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
                     } else if( sel2 == 5 ) { /// ImGui demo
-                        if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
-                            demo_ui demo;
-                            demo.run();
-                        }
+                        demo_ui demo;
+                        demo.run();
                     }
                     break;
                 case main_menu_opts::WORLD:
@@ -1010,6 +1004,13 @@ bool main_menu::new_character_tab()
                 if( world == nullptr ) {
                     continue;
                 }
+                if( !world->world_saves.empty() ) {
+                    if( !query_yn(
+                            _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
+                        return false;
+                    }
+                }
+
                 world_generator->set_active_world( world );
                 try {
                     g->setup();
@@ -1047,6 +1048,12 @@ bool main_menu::new_character_tab()
         WORLD *world = world_generator->pick_world( !is_play_now, is_play_now );
         if( world == nullptr ) {
             return false;
+        }
+        if( !world->world_saves.empty() ) {
+            if( !query_yn(
+                    _( "Many game features will not work correctly with multiple characters in the same world.  Create a new character anyway?" ) ) ) {
+                return false;
+            }
         }
         world_generator->set_active_world( world );
         try {
@@ -1153,7 +1160,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
         return false;
     }
 
-    uilist mmenu( string_format( _( "Load character from \"%s\"" ), worldname ), {} );
+    uilist mmenu;
+    mmenu.title = string_format( _( "Load character from \"%s\"" ), worldname );
     mmenu.border_color = c_white;
     int opt_val = 0;
     for( const save_t &s : savegames ) {

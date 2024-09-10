@@ -17,7 +17,7 @@ def parse_widget(json, origin):
             comment = "Text in portion of UI widget \"{}\"".format(id)
             if "text" in phrase:
                 write_text(phrase["text"], origin, comment=comment)
-    if "default_clause" in json:
+    if "default_clause" in json and "text" in json["default_clause"]:
         write_text(json["default_clause"]["text"], origin,
                    comment="Default clause of UI widget \"{}\"".format(id))
     if "clauses" in json:

@@ -1,3 +1,4 @@
+#include "avatar.h"
 #include "cata_catch.h"
 #include "game.h"
 #include "map.h"

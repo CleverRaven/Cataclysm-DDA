@@ -88,7 +88,7 @@
       {
         "id": "sunnyvale_tshirt",
         "name": { "str": "sunnyvale t-shirt" },
-        "description": "This t-shirt displays a purple sun rising over a town that looks like it came out of a Doctor Seus book.",
+        "description": "This t-shirt displays a purple sun rising over a town that looks like it came out of a Doctor Seuss book.",
         "symbol": "o",
         "color": "dark_gray",
         "weight": 1
@@ -417,8 +417,8 @@
     "description": "A heavy cloak made of living leaves with long twigs and branches connecting them, meant to be thrown over your body.",
     "weight": "1175 g",
     "volume": "3 L",
-    "price": 10700,
-    "price_postapoc": 500,
+    "price": "107 USD",
+    "price_postapoc": "5 USD",
     "to_hit": -1,
     "material": [ "veggy" ],
     "symbol": "[",

@@ -197,7 +197,7 @@
   {
     "id": "ACT_MULTIPLE_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "based_on": "neither",
     "auto_needs": true
@@ -389,7 +389,7 @@
   {
     "id": "ACT_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
+    "activity_level": "NO_EXERCISE",
     "verb": "fishing",
     "rooted": true,
     "based_on": "speed",
@@ -423,6 +423,7 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "heating",
+    "rooted": true,
     "based_on": "time"
   },
   {
@@ -727,6 +728,14 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "verb": "meditating",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_OUTFIT_SWAP",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "changing clothes",
     "rooted": true,
     "based_on": "speed"
   },

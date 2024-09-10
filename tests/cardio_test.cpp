@@ -37,6 +37,8 @@ static const move_mode_id move_mode_run( "run" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const ter_str_id ter_t_pavement( "t_pavement" );
+
 // Base cardio for default character
 static const int base_cardio = 1000;
 // Base stamina
@@ -53,7 +55,7 @@ static void verify_default_cardio_options()
 }
 
 // Count the number of steps (tiles) until character runs out of stamina or becomes winded.
-static int running_steps( Character &they, const ter_id &terrain = t_pavement )
+static int running_steps( Character &they, const ter_str_id &terrain = ter_t_pavement )
 {
     map &here = get_map();
     // Please take off your shoes when entering, and no NPCs allowed
@@ -75,7 +77,7 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
     int last_moves = they.get_speed();
     int last_stamina = they.get_stamina_max();
     // Take a deep breath and start running
-    they.moves = last_moves;
+    they.set_moves( last_moves );
     they.set_stamina( last_stamina );
     they.set_movement_mode( move_mode_run );
     // Run as long as possible
@@ -91,12 +93,12 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
         ++steps;
 
         // Ensure moves are decreasing, or else a turn will never pass
-        REQUIRE( they.moves < last_moves );
-        const int move_cost = last_moves - they.moves;
+        REQUIRE( they.get_moves() < last_moves );
+        const int move_cost = last_moves - they.get_moves();
         // When moves run out, one turn has passed
-        if( they.moves <= 0 ) {
+        if( they.get_moves() <= 0 ) {
             // Get "speed" moves back each turn
-            they.moves += they.get_speed();
+            they.mod_moves( they.get_speed() );
             calendar::turn += 1_turns;
             turns += 1;
 
@@ -111,7 +113,7 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
             REQUIRE( they.get_stamina() < last_stamina );
             last_stamina = they.get_stamina();
         }
-        last_moves = they.moves;
+        last_moves = they.get_moves();
     }
     // Reset to starting position
     they.setpos( left );

@@ -5,6 +5,7 @@
     "name": "Awakening Psion",
     "description": "You survived a portal storm and hid inside while reality broke around you, and when you left to examine the damage you found a strange crystal the storm had left behind.  It was captivating, and you took it with you.  Sometimes, at night, you look into it before you sleep, and you almost feel like something in you is responding to the glow within the crystal.",
     "points": 1,
+    "traits": [ "ALWAYS_GAIN_PSIONICS" ],
     "items": {
       "both": {
         "entries": [
@@ -195,7 +196,7 @@
           { "item": "sneakers" },
           { "item": "matrix_crystal_drained" },
           { "item": "tshirt", "variant": "generic_tshirt" },
-          { "item": "deck_of_cards" },
+          { "item": "deck_of_cards", "variant": "generic_deck_of_cards" },
           { "item": "tophat" },
           { "item": "teddy_bear", "variant": "toy_plush_rabbit" }
         ]
@@ -249,7 +250,7 @@
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
-    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_8" ],
+    "traits": [ "TELEKINETIC", "TELEKINETIC_GRAB_POCKETS" ],
     "spells": [
       { "id": "telekinetic_push", "level": 5 },
       { "id": "telekinetic_pull", "level": 6 },
@@ -285,7 +286,7 @@
   {
     "type": "profession",
     "id": "psi_telepath_interrogater",
-    "name": "Government Interrogater (DECEASED)",
+    "name": "Government Interrogator (DECEASED)",
     "description": "You did not die in the Cataclysm because on paper, you are already dead.  You assumed a new identity as part of an experimental program designed to produce psychic interrogators.  They told you that you were serving your country, that your gifts would be the key to winning the new Cold War that was surely developing, but they didn't consider the ramifications of having a telepath on the base.  You knew right away that things were much worse than the brass was telling you, and your gifts let you \"persuade\" the guards to let you out even in the face of the lockdown.  You had thought to go somewhere else, to get away from New England, but the end came much faster than even you thought it would.",
     "points": 3,
     "skills": [ { "level": 6, "name": "speech" }, { "level": 3, "name": "metaphysics" } ],

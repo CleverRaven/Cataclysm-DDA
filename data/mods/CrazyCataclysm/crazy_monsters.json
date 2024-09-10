@@ -117,7 +117,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "BASHES",
       "ATTACKMON",
@@ -155,7 +155,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie_leather",
@@ -192,7 +192,7 @@
       { "name": "the funky, funky head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the glittering, beautiful eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
@@ -227,7 +227,7 @@
     "vision_day": 30,
     "vision_night": 10,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie" ],
     "harvest": "human",
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "BRANDISH", 10 ] ],
@@ -242,10 +242,145 @@
       "BASHES",
       "POISON",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "FILTHY"
     ],
     "armor": { "electric": 1 }
+  },
+  {
+    "id": "mon_gator",
+    "type": "MONSTER",
+    "name": { "str": "sewer gator" },
+    "description": "In the late 20th century, there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in the sewers.  If this large specimen was ever someone's pet, it doesn't look like it sees humans as anything other than a meal now.",
+    "default_faction": "gator",
+    "bodytype": "gator",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "REPTILE" ],
+    "volume": "108500 ml",
+    "weight": "120 kg",
+    "hp": 90,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "A",
+    "color": "light_green",
+    "aggression": 30,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "dodge": 2,
+    "vision_day": 3,
+    "vision_night": 35,
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
+    "harvest": "mutant_mammal_large_leather",
+    "dissect": "dissect_lizard_sample_large",
+    "path_settings": { "max_dist": 8 },
+    "grab_strength": 50,
+    "special_attacks": [
+      {
+        "id": "bite_grab",
+        "cooldown": 20,
+        "accuracy": 6,
+        "damage_max_instance": [
+          { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
+        ],
+        "infection_chance": 50
+      }
+    ],
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS" ],
+    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
+  },
+  {
+    "id": "mon_feral_human_pipe",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe",
+    "description": "After the event on March 2nd, seemingly ordinary people started coming down with some odd, mass hysteria like dancing.  While some people may have scoffed it off as a silly dance craze, those in the know knew, it was the Party Rock Outbreak.  This one has a pipe of the non-smoking kind.",
+    "starting_ammo": { "party_rock": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "party_rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The party rocker party rocks!"
+      },
+      { "id": "party_rocker_pipe" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
+    "death_drops": "party_rocker_death_drop_pipe"
+  },
+  {
+    "id": "mon_feral_human_pipe_fungal_infected",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_infected",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's not dancing with as much energy, and they seem to be stopping often to cough and catch their breath."
+  },
+  {
+    "id": "mon_feral_human_pipe_fungal_corpse",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_corpse",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's grown painful mushroom stalks out of their body, writhing in pain as their last neurons still instruct them to dance."
+  },
+  {
+    "id": "mon_feral_human_crowbar",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_crowbar",
+    "description": "After the event on March 2nd, seemingly ordinary people started coming down with some odd, mass hysteria like dancing.  While some people may have scoffed it off as a silly dance craze, those in the know knew, it was the Party Rock Outbreak.  This one has a drink in hand.",
+    "starting_ammo": { "party_rock": 30 },
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 5,
+        "move_cost": 150,
+        "gun_type": "feral_human_thrown_rock",
+        "ammo_type": "party_rock",
+        "no_ammo_sound": "",
+        "fake_skills": [ [ "throw", 3 ] ],
+        "fake_str": 8,
+        "condition": { "not": { "u_has_effect": "maimed_arm" } },
+        "require_targeting_player": false,
+        "ranges": [ [ 2, 5, "DEFAULT" ] ],
+        "description": "The party rocker party rocks!"
+      },
+      { "id": "party_rocker_bottle" },
+      [ "BROWSE", 100 ],
+      [ "EAT_FOOD", 100 ]
+    ],
+    "death_drops": "party_rocker_death_drop_bottle"
+  },
+  {
+    "id": "mon_feral_human_crowbar_fungal_infected",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_infected",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's not dancing with as much energy, and they seem to be stopping often to cough and catch their breath."
+  },
+  {
+    "id": "mon_feral_human_crowbar_fungal_corpse",
+    "type": "MONSTER",
+    "name": { "str": "party rocker" },
+    "copy-from": "mon_feral_human_pipe_fungal_corpse",
+    "death_drops": "party_rocker_death_drop_pipe",
+    "description": "A party rocker who's grown painful mushroom stalks out of their body, writhing in pain as their last neurons still instruct them to dance."
   }
 ]

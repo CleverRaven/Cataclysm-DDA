@@ -2,8 +2,8 @@
   {
     "id": "permafrost_mage_moves_substract",
     "type": "SPELL",
-    "name": "Permafrost Mage Moves Substact",
-    "description": "Substract some moves from monster that attack you.",
+    "name": "Permafrost Mage Moves Subtract",
+    "description": "Subtract some moves from monster that attack you.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",

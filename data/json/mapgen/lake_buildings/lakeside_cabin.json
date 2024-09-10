@@ -501,14 +501,46 @@
         "         -........-     ",
         "         -........-     ",
         "         ----------     ",
-        "  ____                  ",
-        "  ____          ____    ",
-        "  ____          ____    ",
-        "  ____          ____    ",
-        "                ____    "
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_shingle_flat_roof", "_": "t_metal_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "zombie_cages_roof",
+    "object": {
+      "mapgensize": [ 21, 21 ],
+      "rows": [
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        "                     ",
+        " ____                ",
+        " ____          ____  ",
+        " ____          ____  ",
+        " ____          ____  ",
+        "               ____  "
+      ],
+      "terrain": { "_": "t_metal_flat_roof" }
     }
   },
   {
@@ -546,7 +578,8 @@
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 16, 17 ], "y": [ 19, 20 ] },
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 3 ], "y": [ 18, 19 ] }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "zombie_cages_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   }
 ]

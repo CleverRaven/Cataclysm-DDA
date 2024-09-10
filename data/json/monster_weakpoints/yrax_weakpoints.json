@@ -1,0 +1,61 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_yrax_quadraphract",
+    "weakpoints": [
+      {
+        "id": "crystal",
+        "name": "a crystalline facet",
+        "coverage": 15,
+        "difficulty": { "melee": 4, "ranged": 5 },
+        "armor_mult": { "all": 0.1 }
+      },
+      {
+        "id": "weak_joint",
+        "name": "a lightly armored segment",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 7 },
+        "coverage_mult": { "ranged": 0.05 },
+        "armor_mult": { "all": 1 }
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a segment of sloped armor",
+        "armor_mult": { "all": 1 },
+        "crit_mult": { "all": 0.1 },
+        "coverage_mult": { "melee": 1.5 },
+        "coverage": 75
+      }
+    ]
+  },
+  {
+    "type": "weakpoint_set",
+    "id": "wps_yrax_quadraphract_leg",
+    "weakpoints": [
+      {
+        "id": "weak_joint",
+        "name": "a lightly armored segment",
+        "coverage": 10,
+        "difficulty": { "melee": 3, "ranged": 6 },
+        "coverage_mult": { "ranged": 1.5 },
+        "armor_mult": { "all": 0.75 }
+      },
+      {
+        "id": "weak_point",
+        "name": "a weak segment",
+        "coverage": 5,
+        "difficulty": { "melee": 6, "ranged": 8 },
+        "coverage_mult": { "ranged": 2 },
+        "armor_mult": { "all": 0.1 }
+      },
+      {
+        "id": "heavy_armor",
+        "name": "a segment of sloped armor",
+        "armor_mult": { "all": 5 },
+        "crit_mult": { "all": 0.1 },
+        "coverage_mult": { "melee": 0.1 },
+        "coverage": 75
+      }
+    ]
+  }
+]

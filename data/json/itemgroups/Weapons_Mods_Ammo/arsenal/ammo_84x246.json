@@ -22,19 +22,13 @@
     "//": "1 charge per pocket. the charge system in items must die",
     "container-item": { "item": "ammunition_can_carlgustav", "variant": "ammunition_can_carlgustav_he" },
     "subtype": "collection",
-    "items": [
-      { "item": "84x246mm_he", "count": 1, "charges-min": 1, "charges-max": 1 },
-      { "item": "84x246mm_he", "count": 1, "charges-min": 1, "charges-max": 1 }
-    ]
+    "items": [ { "item": "84x246mm_he", "count": 1, "charges": 1 }, { "item": "84x246mm_he", "count": 1, "charges": 1 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_84x246mm_hedp_full",
     "container-item": { "item": "ammunition_can_carlgustav", "variant": "ammunition_can_carlgustav_hedp" },
     "subtype": "collection",
-    "items": [
-      { "item": "84x246mm_hedp", "count": 1, "charges-min": 1, "charges-max": 1 },
-      { "item": "84x246mm_hedp", "count": 1, "charges-min": 1, "charges-max": 1 }
-    ]
+    "items": [ { "item": "84x246mm_hedp", "count": 1, "charges": 1 }, { "item": "84x246mm_hedp", "count": 1, "charges": 1 } ]
   }
 ]

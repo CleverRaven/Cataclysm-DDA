@@ -24,7 +24,7 @@
     "time": "45 m",
     "autolearn": true,
     "tools": [ [ [ "brick_kiln", 10 ], [ "kiln", 10 ], [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 1 ] ] ]
+    "components": [ [ [ "any_water", 1, "LIST" ] ], [ [ "clay_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -71,7 +71,7 @@
     "autolearn": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ],
+    "components": [ [ [ "string_36", 3 ], [ "cordage_36", 3 ] ], [ [ "super_glue", 5 ], [ "bone_glue", 1 ] ] ],
     "//": "Essentially a ball of glued-together string with some leather around it"
   },
   {
@@ -273,8 +273,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wood_atlatl_spear",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ] ],
     "difficulty": 3,
@@ -293,8 +293,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "bronze_atlatl_spear",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ] ],
     "difficulty": 5,
@@ -315,8 +315,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "steel_atlatl_spear",
-    "category": "CC_AMMO",
-    "subcategory": "CSC_AMMO_ARROWS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "skills_required": [ [ "survival", 1 ] ],
     "difficulty": 5,
@@ -699,9 +699,8 @@
     "book_learn": [ [ "plastics_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "plastic_molding", 1 ] ],
-    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
-      [ [ "plastic_chunk", 3 ] ],
+      [ [ "plastic_chunk", 1 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]

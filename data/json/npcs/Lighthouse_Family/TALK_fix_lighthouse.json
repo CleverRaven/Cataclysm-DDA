@@ -78,7 +78,7 @@
           { "not": { "npc_has_any_trait": [ "Exp_Eng_Electrical1Fake2", "Exp_Eng_Electrical0Fake2" ] } }
         ]
       },
-      "effect": { "u_add_var": "lighthouse_fixed", "type": "global", "context": "safe_space", "value": "ready" }
+      "effect": { "u_add_var": "global_safe_space_lighthouse_fixed", "value": "ready" }
     },
     "responses": [
       {

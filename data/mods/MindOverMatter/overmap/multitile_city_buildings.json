@@ -8,7 +8,8 @@
       { "point": [ 0, 0, 1 ], "overmap": "office_cubical_phavian_roof_north" },
       { "point": [ 0, 0, -1 ], "overmap": "office_cubical_phavian_basement_north" },
       { "point": [ 0, 0, -2 ], "overmap": "office_cubical_phavian_subbasement_north" }
-    ]
+    ],
+    "city_sizes": [ 8, -1 ]
   },
   {
     "type": "city_building",
@@ -59,6 +60,7 @@
       { "point": [ 0, 1, 9 ], "overmap": "office_skyscraper_18_south" },
       { "point": [ 1, 0, 9 ], "overmap": "office_skyscraper_19_south" },
       { "point": [ 0, 0, 9 ], "overmap": "office_skyscraper_20_south" }
-    ]
+    ],
+    "city_sizes": [ 16, -1 ]
   }
 ]

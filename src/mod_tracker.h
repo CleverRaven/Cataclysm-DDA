@@ -47,7 +47,7 @@ struct has_src_member<T, std::void_t<decltype( std::declval<T &>().src.emplace_b
 
     /** If those conditions are satisfied, keep track of where this item has been modified */
     template<typename T, typename std::enable_if_t<has_src_member<T>::value > * = nullptr>
-    static void assign_src( T &def, const std::string &src ) {
+    static void assign_src( T &def, const std::string_view src ) {
         // We need to make sure we're keeping where this entity has been loaded
         // If the id this was last loaded with is not this one, discard the history and start again
         if( !def.src.empty() && def.src.back().first != def.id ) {

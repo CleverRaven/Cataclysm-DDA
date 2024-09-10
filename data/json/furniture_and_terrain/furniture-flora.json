@@ -159,7 +159,7 @@
   {
     "type": "furniture",
     "id": "f_black_eyed_susan",
-    "name": "black eyed susan",
+    "name": "black eyed Susan",
     "description": "A mildly poisonous yellow flower with a dark ball in the middle.  Sometimes known as an ox-eye daisy.",
     "looks_like": "f_dandelion",
     "symbol": "f",
@@ -324,14 +324,14 @@
     "comfort": 1,
     "floor_bedding_warmth": 50,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
+    "deconstruct": { "items": [ { "item": "leaves", "count": 100 } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT", "SMALL_HIDE" ],
     "bash": {
       "str_min": 2,
       "str_max": 6,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
+      "items": [ { "item": "leaves", "count": [ 62, 75 ] } ]
     }
   },
   {
@@ -527,7 +527,7 @@
     "type": "furniture",
     "id": "f_wild_rice",
     "name": "wild rice",
-    "description": "Also called Indian rice, Northern wild rice, or manoomin in Ojibwe, is a species of rice that has been harvested and used by Native American tribes of the northeast for hundreds of years.  It's similar to other types of wild rice, offering a fibre-rich and healthy basis of a meal.",
+    "description": "Also called Indian rice, Northern wild rice, or manoomin in Ojibwe, is a species of rice that has been harvested and used by Native American tribes of the northeast for hundreds of years.  It's similar to other types of wild rice, offering a fiber-rich and healthy basis of a meal.",
     "symbol": "f",
     "looks_like": "f_cattails",
     "color": [ "brown_green", "green", "green", "brown" ],

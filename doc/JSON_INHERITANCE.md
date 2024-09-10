@@ -10,7 +10,7 @@ In the following condensed example ```556``` ammo is derived from ```223``` ammo
     "type": "AMMO",
     "name": "5.56 NATO M855A1",
     "description": "5.56x45mm ammunition with a 62gr FMJ bullet...",
-    "price": 3500,
+    "price": "35 USD",
     "relative": {
       "damage": -2,
       "pierce": 4,

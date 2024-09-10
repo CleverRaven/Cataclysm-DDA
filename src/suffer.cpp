@@ -25,6 +25,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -59,6 +60,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units.h"
 #include "weather.h"
 #include "weather_type.h"
@@ -125,6 +127,16 @@ static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
+
+static const morale_type morale_feeling_bad( "morale_feeling_bad" );
+static const morale_type morale_feeling_good( "morale_feeling_good" );
+static const morale_type morale_killer_has_killed( "morale_killer_has_killed" );
+static const morale_type morale_killer_need_to_kill( "morale_killer_need_to_kill" );
+static const morale_type morale_moodswing( "morale_moodswing" );
+static const morale_type morale_pyromania_nearfire( "morale_pyromania_nearfire" );
+static const morale_type morale_pyromania_nofire( "morale_pyromania_nofire" );
+static const morale_type morale_pyromania_startfire( "morale_pyromania_startfire" );
+static const morale_type morale_wet( "morale_wet" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
@@ -259,15 +271,15 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
                 you.mod_thirst( mut_id->cost );
             }
         }
-        if( mut_id->fatigue ) {
+        if( mut_id->sleepiness ) {
             // Exhausted
-            if( you.get_fatigue() >= fatigue_levels::EXHAUSTED ) {
+            if( you.get_sleepiness() >= sleepiness_levels::EXHAUSTED ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too exhausted to keep your %s going." ),
                                        you.mutation_name( mut_id ) );
                 you.deactivate_mutation( mut_id );
             } else {
-                you.mod_fatigue( mut_id->cost );
+                you.mod_sleepiness( mut_id->cost );
             }
         }
 
@@ -302,7 +314,7 @@ void suffer::while_underwater( Character &you )
         }
     }
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
-        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
+        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos_bub() ) &&
         you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
@@ -381,6 +393,10 @@ void suffer::from_addictions( Character &you )
     for( addiction &cur_addiction : you.addictions ) {
         if( cur_addiction.sated <= 0_turns &&
             cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
+            if( uistate.distraction_withdrawal && !you.is_npc() ) {
+                g->cancel_activity_or_ignore_query( distraction_type::withdrawal,
+                                                    _( "You start having withdrawals!" ) );
+            }
             cur_addiction.run_effect( you );
         }
         cur_addiction.sated -= 1_turns;
@@ -440,10 +456,10 @@ void suffer::while_awake( Character &you, const int current_stim )
     if( you.has_trait( trait_MOODSWINGS ) && one_turn_in( 6_hours ) ) {
         if( rng( 1, 20 ) > 9 ) {
             // 55% chance
-            you.add_morale( MORALE_MOODSWING, -20, -100 );
+            you.add_morale( morale_moodswing, -20, -100 );
         } else {
             // 45% chance
-            you.add_morale( MORALE_MOODSWING, 20, 100 );
+            you.add_morale( morale_moodswing, 20, 100 );
         }
     }
 
@@ -489,7 +505,7 @@ void suffer::from_chemimbalance( Character &you )
     }
     if( one_turn_in( 6_hours ) && !you.has_effect( effect_sleep ) ) {
         you.add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
-        you.moves -= rng( 10, 30 );
+        you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.1, 0.3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
         int hungadd = 5 * rng( -1, 3 );
@@ -505,14 +521,14 @@ void suffer::from_chemimbalance( Character &you )
         you.mod_thirst( 5 * rng( 1, 3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
-        you.add_msg_if_player( m_good, _( "You feel fatigued all of a sudden." ) );
-        you.mod_fatigue( 10 * rng( 2, 4 ) );
+        you.add_msg_if_player( m_good, _( "You feel sleepy all of a sudden." ) );
+        you.mod_sleepiness( 10 * rng( 2, 4 ) );
     }
     if( one_turn_in( 8_hours ) ) {
         if( one_in( 3 ) ) {
-            you.add_morale( MORALE_FEELING_GOOD, 20, 100 );
+            you.add_morale( morale_feeling_good, 20, 100 );
         } else {
-            you.add_morale( MORALE_FEELING_BAD, -20, -100 );
+            you.add_morale( morale_feeling_bad, -20, -100 );
         }
     }
     if( one_turn_in( 6_hours ) ) {
@@ -609,7 +625,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     } else if( auto_use ) {
         int charges = 0;
         if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
-            you.moves -= 40;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
             charges = you.charges_of( itype_inhaler );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
@@ -623,7 +639,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
         } else if( you.use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    you.use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
-            you.moves -= 500; // synched with use action
+            you.mod_moves( -to_moves<int>( 5_seconds ) ); // synched with use action
             charges = you.charges_of( itype_oxygen_tank ) + you.charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
@@ -991,7 +1007,7 @@ void suffer::from_item_dropping( Character &you )
 void suffer::from_other_mutations( Character &you )
 {
     map &here = get_map();
-    const tripoint position = you.pos();
+    const tripoint_bub_ms position = you.pos_bub();
     if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
         here.spawn_item( position, "bone", 1 );
@@ -1062,20 +1078,20 @@ void suffer::from_other_mutations( Character &you )
         you.mutate();
     }
 
-    const bool needs_fire = !you.has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
-                            !you.has_morale( MORALE_PYROMANIA_STARTFIRE );
+    const bool needs_fire = !you.has_morale( morale_pyromania_nearfire ) &&
+                            !you.has_morale( morale_pyromania_startfire );
     if( you.has_trait( trait_PYROMANIA ) && needs_fire && !you.in_sleep_state() &&
         calendar::once_every( 2_hours ) ) {
-        you.add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
+        you.add_morale( morale_pyromania_nofire, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
             const translation smokin_hot_fiyah =
                 SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
             you.add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
         }
     }
-    if( you.has_trait( trait_KILLER ) && !you.has_morale( MORALE_KILLER_HAS_KILLED ) &&
+    if( you.has_trait( trait_KILLER ) && !you.has_morale( morale_killer_has_killed ) &&
         calendar::once_every( 2_hours ) ) {
-        you.add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
+        you.add_morale( morale_killer_need_to_kill, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
             const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
                                          translation() );
@@ -1089,7 +1105,7 @@ void suffer::from_radiation( Character &you )
     map &here = get_map();
     // get radioactive leak level of your inventory
     float item_radiation = you.get_leak_level();
-    const int map_radiation = here.get_radiation( you.pos() );
+    const int map_radiation = here.get_radiation( you.pos_bub() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1120,7 +1136,7 @@ void suffer::from_radiation( Character &you )
         if( rad_mut_proc && !kept_in ) {
             // Irradiate a random nearby point
             // If you can't, irradiate the player instead
-            tripoint rad_point = you.pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            tripoint_bub_ms rad_point = you.pos_bub() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
             if( here.get_radiation( rad_point ) < rad_mut ) {
                 here.adjust_radiation( rad_point, 1 );
@@ -1158,7 +1174,7 @@ void suffer::from_radiation( Character &you )
         // 1000 rads = 900 / 10000 = 9 / 100 = 10% !!!
         // 2000 rads = 2000 / 10000 = 1 / 5 = 20% !!!
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < you.get_rad() ) {
-            you.mutate();
+            get_event_bus().send<event_type::character_radioactively_mutates>( you.getID() );
         }
         if( you.get_rad() > 50 && rng( 1, 3000 ) < you.get_rad() &&
             ( you.stomach.contains() > 0_ml || radiation_increasing || !you.in_sleep_state() ) ) {
@@ -1219,7 +1235,7 @@ void suffer::from_bad_bionics( Character &you )
         } else {
             you.add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
         }
-        you.moves -= 150;
+        you.mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
         item_location weapon = you.get_wielded_item();
@@ -1320,7 +1336,7 @@ void suffer::from_stimulants( Character &you, const int current_stim )
     if( current_stim < -60 || you.get_painkiller() > 130 ) {
         if( calendar::once_every( 10_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel tired…" ) );
-            you.mod_fatigue( rng( 1, 2 ) );
+            you.mod_sleepiness( rng( 1, 2 ) );
         }
     }
 }
@@ -1445,7 +1461,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
         }
         if( one_turn_in( 100_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
@@ -1460,7 +1476,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
-            you.moves -= rng( 20, 80 );
+            you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.2, 0.8 ) );
         }
         if( one_turn_in( 125_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
@@ -1488,7 +1504,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
                                              "trouble keeping your balance." ) );
             you.add_effect( effect_shakes, 15_minutes );
         } else if( you.has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                        _( "<npcname> stumbles." ) );
             if( !you.is_on_ground() && one_in( 10 ) ) {
@@ -1519,7 +1535,7 @@ void suffer::from_nyctophobia( Character &you )
 {
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
+    const bool in_darkness = get_map().ambient_light_at( you.pos_bub() ) < nyctophobia_threshold;
     if( in_darkness ) {
         if( one_in( 80 ) && !you.has_effect( effect_shakes ) ) {
             you.add_msg_if_player( m_bad,
@@ -1809,7 +1825,7 @@ void Character::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    } else if( get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     } else {
@@ -1921,8 +1937,9 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
 
     if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) > 0 ) {
         add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
-    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 ) {
-        add_msg_if_player( m_bad, _( "You feel the water runs on your skin, making you feel better." ) );
+    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 &&
+               one_in( 300 ) ) {
+        add_msg_if_player( m_good, _( "You feel the water runs on your skin, making you feel better." ) );
     }
 
     // Remove onfire effect
@@ -2012,7 +2029,7 @@ void Character::apply_wetness_morale( units::temperature temperature )
         }
     }
     // 61_seconds because decay is applied in 1_minutes increments
-    add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
+    add_morale( morale_wet, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
 void Character::add_addiction( const addiction_id &type, int strength )

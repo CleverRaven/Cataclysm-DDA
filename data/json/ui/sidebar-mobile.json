@@ -95,66 +95,66 @@
   {
     "id": "l_bp_HD",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "head",
     "clauses": [
-      { "id": "healthy", "sym": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "HD:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "HD:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "HD:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_CT",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "torso",
     "clauses": [
-      { "id": "healthy", "sym": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "CT:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "CT:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "CT:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_LA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_l",
     "clauses": [
-      { "id": "healthy", "sym": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "LA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "LA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "LA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_RA",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "arm_r",
     "clauses": [
-      { "id": "healthy", "sym": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "RA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "RA:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "RA:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_LL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_l",
     "clauses": [
-      { "id": "healthy", "sym": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "LL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "LL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "LL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
   {
     "id": "l_bp_RL",
     "width": 3,
-    "style": "symbol",
+    "style": "text",
     "bodypart": "leg_r",
     "clauses": [
-      { "id": "healthy", "sym": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
-      { "id": "infected", "sym": "RL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
+      { "id": "healthy", "text": "RL:", "color": "c_light_gray", "condition": { "not": { "u_has_effect": "infected" } } },
+      { "id": "infected", "text": "RL:", "color": "c_green", "condition": { "u_has_effect": "infected" } }
     ],
     "type": "widget"
   },
@@ -1903,7 +1903,7 @@
     "id": "i_rest_graph",
     "width": 4,
     "copy-from": "t_horiz_graph",
-    "var": "fatigue",
+    "var": "sleepiness",
     "colors": [ "h_light_gray", "h_light_red" ],
     "type": "widget"
   },
@@ -2001,7 +2001,7 @@
     "id": "l_weary",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary", "str": "W:" },
     "type": "widget"
   },
   {
@@ -2024,7 +2024,7 @@
     "id": "l_wtrns",
     "width": 2,
     "copy-from": "t_label",
-    "string": "W:",
+    "string": { "ctxt": "label_weary_transition_level", "str": "W:" },
     "type": "widget"
   },
   {

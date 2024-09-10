@@ -45,7 +45,7 @@
     "id": "iso_robolove",
     "name": { "str": "Machine Whisperer" },
     "points": 0,
-    "description": "Error.  418 //I am a teapot.\n\nEvery 20 seconds, theres a small chance for nearby robots to become permanently friendly.",
+    "description": "Error.  418 //I am a teapot.\n\nEvery 20 seconds, there's a small chance for nearby robots to become permanently friendly.",
     "category": [ "iso_start_perk" ],
     "purifiable": false,
     "valid": false

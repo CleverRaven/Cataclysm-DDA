@@ -46,7 +46,7 @@
       { "group": "default_zombie_clothes", "prob": 100 },
       { "group": "wallets", "prob": 80 },
       { "group": "homebooks", "prob": 5 },
-      { "item": "heavy_flashlight", "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "item": "heavy_flashlight", "prob": 80, "charges": [ 12, 74 ] },
       { "group": "default_zombie_items_bags_small", "prob": 50 },
       { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
       { "group": "feral_humans_crystal_drops_photo", "prob": 30 }
@@ -60,7 +60,7 @@
       { "group": "default_zombie_clothes", "prob": 100 },
       { "group": "wallets", "prob": 80 },
       { "group": "homebooks", "prob": 5 },
-      { "item": "lighter", "count": [ 1, 3 ], "prob": 80, "charges-min": 12, "charges-max": 74 },
+      { "item": "lighter", "count": [ 1, 3 ], "prob": 80, "charges": [ 12, 74 ] },
       { "group": "default_zombie_items_bags_small", "prob": 50 },
       { "group": "default_zombie_items_pockets", "count": [ 1, 2 ], "prob": 50 },
       { "group": "feral_humans_crystal_drops_pyro", "prob": 30 }
@@ -246,7 +246,8 @@
       { "group": "feral_humans_crystal_drops_clair", "prob": 40 },
       { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
       { "item": "phavian_psionic_martial_power_book", "prob": 8 },
-      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] }
+      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] },
+      { "item": "psionic_mindsight_glasses", "prob": 2, "damage": [ 1, 4 ] }
     ]
   }
 ]

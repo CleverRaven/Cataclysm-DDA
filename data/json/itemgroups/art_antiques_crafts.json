@@ -48,6 +48,29 @@
     ]
   },
   {
+    "id": "art_display",
+    "//": "Verious pieces of art that might be on display.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "painting", "variant": "painting_landscape", "prob": 60 },
+      { "item": "painting", "variant": "painting_abstract", "prob": 60 },
+      { "item": "sculpture_rock", "prob": 50 },
+      { "item": "sculpture_clay", "prob": 40 }
+    ]
+  },
+  {
+    "id": "art_all",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "sketch", "prob": 80 },
+      { "item": "painting", "prob": 60 },
+      { "item": "sculpture_rock", "prob": 50 },
+      { "item": "sculpture_clay", "prob": 40 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "medieval",
     "subtype": "distribution",

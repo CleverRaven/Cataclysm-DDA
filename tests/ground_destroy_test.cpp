@@ -18,7 +18,7 @@
 TEST_CASE( "pavement_destroy", "[.]" )
 {
     const ter_id flat_roof_id = ter_id( "t_flat_roof" );
-    REQUIRE( flat_roof_id != t_null );
+    REQUIRE( flat_roof_id != ter_str_id::NULL_ID() );
 
     clear_map_and_put_player_underground();
     map &here = get_map();
@@ -41,7 +41,7 @@ TEST_CASE( "pavement_destroy", "[.]" )
 TEST_CASE( "explosion_on_ground", "[.]" )
 {
     ter_id flat_roof_id = ter_id( "t_flat_roof" );
-    REQUIRE( flat_roof_id != t_null );
+    REQUIRE( flat_roof_id != ter_str_id::NULL_ID() );
 
     clear_map_and_put_player_underground();
     std::vector<ter_id> test_terrain_id = {
@@ -88,10 +88,10 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     ter_id rock_floor_id = ter_id( "t_rock_floor" );
     ter_id open_air_id = ter_id( "t_open_air" );
 
-    REQUIRE( flat_roof_id != t_null );
-    REQUIRE( floor_id != t_null );
-    REQUIRE( rock_floor_id != t_null );
-    REQUIRE( open_air_id != t_null );
+    REQUIRE( flat_roof_id != ter_str_id::NULL_ID() );
+    REQUIRE( floor_id != ter_str_id::NULL_ID() );
+    REQUIRE( rock_floor_id != ter_str_id::NULL_ID() );
+    REQUIRE( open_air_id != ter_str_id::NULL_ID() );
 
     clear_map_and_put_player_underground();
 
@@ -145,10 +145,10 @@ TEST_CASE( "collapse_checks", "[.]" )
     const ter_id wall_id = ter_id( "t_wall" );
     const ter_id open_air_id = ter_id( "t_open_air" );
 
-    REQUIRE( floor_id != t_null );
-    REQUIRE( dirt_id != t_null );
-    REQUIRE( wall_id != t_null );
-    REQUIRE( open_air_id != t_null );
+    REQUIRE( floor_id != ter_str_id::NULL_ID() );
+    REQUIRE( dirt_id != ter_str_id::NULL_ID() );
+    REQUIRE( wall_id != ter_str_id::NULL_ID() );
+    REQUIRE( open_air_id != ter_str_id::NULL_ID() );
 
     clear_map_and_put_player_underground();
 
@@ -208,7 +208,7 @@ TEST_CASE( "collapse_checks", "[.]" )
         }
         const ter_id t_id = here.ter( pt );
         tile_count += 1;
-        if( t_id == t_open_air ) {
+        if( t_id == open_air_id ) {
             open_air_count += 1;
             if( corners.find( pt ) != corners.end() ) {
                 no_wall_count += 1;

@@ -97,6 +97,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "container-group": "<group-id>",
 "entry-wrapper": "<item-id>",
 "sealed": <boolean>
+"active": <boolean>
 "custom-flags": <array of string>,
 "variant": <string>
 "artifact": <object>
@@ -111,6 +112,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
+
+`active`: If true, item would be spawned activated.  Be sure to use active versions of item, like `flashlight_on` instead of `flashlight`.  Default is `false`
 
 `custom-flags`: An array of flags that will be applied to this item.
 
@@ -255,7 +258,7 @@ Mods can add entries to item groups by specifying a group with the same id that 
 
 In some places one can define an item group directly instead of giving the id of a group.  One cannot refer to that group elsewhere - it has no visible id (it has an unspecific/random id internally).  This is most useful when the group is very specific to the place it is used and won't ever appear anywhere else.
 
-As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [JSON_INFO.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/JSON_INFO.md)) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
+As an example: monster death drops (`death_drops` entry in the `MONSTER` object, see [MONSTERS.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MONSTERS.md) can do this.  If the monster is very specific (e.g. a special robot, a unique endgame monster), the item spawned upon its death won't (in that form) appear in any other group.
 
 Therefore, this snippet:
 

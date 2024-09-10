@@ -1,11 +1,11 @@
-#if !defined(TILES) && defined(_WIN32)
-#define UNICODE 1
-#ifndef CMAKE
 #pragma GCC diagnostic ignored "-Wunused-macros"
+#if !defined(TILES) && defined(_WIN32)
+#ifndef CMAKE
 #define _UNICODE 1
 #endif
+#define UNICODE 1
 #include "cursesport.h" // IWYU pragma: associated
-
+#ifndef TUI
 #include <cstdlib>
 #include <fstream>
 
@@ -761,6 +761,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 // Ends the terminal, destroy everything
 void catacurses::endwin()
 {
+    ui_manager::reset();
     DeleteObject( font );
     WinDestroy();
     // Unload it
@@ -809,5 +810,5 @@ void set_title( const std::string &title )
         SetWindowTextW( WindowHandle, widen( title ).c_str() );
     }
 }
-
+#endif // TUI
 #endif

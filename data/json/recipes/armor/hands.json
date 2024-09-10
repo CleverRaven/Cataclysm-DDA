@@ -828,6 +828,70 @@
     "using": [ [ "tailoring_wool_knitting", 140 ] ]
   },
   {
+    "result": "gloves_wool_fingerless",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "4 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
+    "using": [ [ "tailoring_wool_knitting", 83 ] ]
+  },
+  {
+    "result": "gloves_wool_fingerless",
+    "id_suffix": "from_gloves",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gloves_wool", 1 ] ] ]
+  },
+  {
+    "copy-from": "gloves_wool_fingerless",
+    "result": "xs_gloves_wool_fingerless",
+    "type": "recipe",
+    "using": [ [ "tailoring_wool_knitting", 62 ] ]
+  },
+  {
+    "result": "xs_gloves_wool_fingerless",
+    "id_suffix": "from_gloves",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "xs_gloves_wool", 1 ] ] ]
+  },
+  {
+    "copy-from": "gloves_wool_fingerless",
+    "result": "xl_gloves_wool_fingerless",
+    "type": "recipe",
+    "using": [ [ "tailoring_wool_knitting", 116 ] ]
+  },
+  {
+    "result": "xl_gloves_wool_fingerless",
+    "id_suffix": "from_gloves",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "xl_gloves_wool", 1 ] ] ]
+  },
+  {
     "result": "gloves_work",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

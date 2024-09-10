@@ -87,5 +87,10 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "bash": { "str_min": 6, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
     "plant_data": { "transform": "f_mutant_tree_sapling", "base": "f_null" }
+  },
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_atm",
+    "to_furn": "f_atm_off"
   }
 ]

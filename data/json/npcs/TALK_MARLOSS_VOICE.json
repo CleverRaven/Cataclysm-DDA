@@ -78,7 +78,7 @@
     "dynamic_line": "Join us then, eat from this meal with us.",
     "responses": [
       {
-        "text": "[Take Marloss berry] Thank you.",
+        "text": "[Take Marloss berry.] Thank you.",
         "topic": "TALK_DONE",
         "effect": [ { "u_spawn_item": "marloss_berry" }, { "u_add_effect": "u_given_berry", "duration": 43200 } ]
       },

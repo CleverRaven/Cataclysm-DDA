@@ -1,23 +1,23 @@
-#include <cstdlib>
-#include <unordered_set>
-#include <utility>
-
 #include "climbing.h"
 
-#include "cata_assert.h"
+#include <cstdint>
+#include <memory>
+#include <set>
+#include <utility>
+
+#include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
-#include "enum_conversions.h"
-#include "enums.h"
-#include "game.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "int_id.h"
-#include "json.h"
+#include "init.h"
+#include "json_error.h"
 #include "map.h"
-#include "string_formatter.h"
-#include "vehicle.h"
 #include "vpart_position.h"
 
+template <typename E> struct enum_traits;
 
 static const climbing_aid_id climbing_aid_default( "default" );
 

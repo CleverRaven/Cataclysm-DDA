@@ -1,27 +1,31 @@
 #include "event_statistics.h"
 
 #include <algorithm>
+#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
+#include "cata_assert.h"
 #include "cata_variant.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_field_transformations.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "generic_factory.h"
-#include "json.h"
+#include "init.h"
+#include "json_error.h"
 #include "output.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
+#include "translations.h"
 
 // event_transformation and event_statistic are both objects defined in json
 // and managed via generic_factory.

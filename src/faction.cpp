@@ -1,5 +1,6 @@
 #include "faction.h"
 
+#include <algorithm>
 #include <bitset>
 #include <cstdlib>
 #include <limits>
@@ -12,6 +13,7 @@
 
 #include "avatar.h"
 #include "basecamp.h"
+#include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
@@ -19,11 +21,15 @@
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input_context.h"
+#include "json_error.h"
 #include "line.h"
 #include "localized_comparator.h"
+#include "mission_companion.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -31,10 +37,11 @@
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
-#include "text_snippets.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -77,9 +84,9 @@ void faction_template::load( const JsonObject &jsobj )
 void faction_template::check_consistency()
 {
     for( const faction_template &fac : npc_factions::all_templates ) {
-        for( const auto &epi : fac.epilogue_data ) {
-            if( !std::get<2>( epi ).is_valid() ) {
-                debugmsg( "There's no snippet with id %s", std::get<2>( epi ).str() );
+        for( const faction_epilogue_data &epi : fac.epilogue_data ) {
+            if( !epi.epilogue.is_valid() ) {
+                debugmsg( "There's no snippet with id %s", epi.epilogue.str() );
             }
         }
     }
@@ -125,6 +132,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
+    optional( jsobj, false, "consumes_food", consumes_food, false );
     optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
     jsobj.read( "fac_food_supply", food_supply, true );
     if( jsobj.has_string( "currency" ) ) {
@@ -136,11 +144,7 @@ faction_template::faction_template( const JsonObject &jsobj )
     lone_wolf_faction = jsobj.get_bool( "lone_wolf_faction", false );
     load_relations( jsobj );
     mon_faction = mfaction_str_id( jsobj.get_string( "mon_faction", "human" ) );
-    for( const JsonObject jao : jsobj.get_array( "epilogues" ) ) {
-        epilogue_data.emplace( jao.get_int( "power_min", std::numeric_limits<int>::min() ),
-                               jao.get_int( "power_max", std::numeric_limits<int>::max() ),
-                               snippet_id( jao.get_string( "id", "epilogue_faction_default" ) ) );
-    }
+    optional( jsobj, false, "epilogues", epilogue_data );
 }
 
 std::string faction::describe() const
@@ -149,12 +153,56 @@ std::string faction::describe() const
     return ret;
 }
 
+void faction_power_spec::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "faction", faction );
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+
+    if( !power_min.has_value() && !power_max.has_value() ) {
+        jo.throw_error( "Must have either a power_min or a power_max" );
+    }
+}
+
+void faction_epilogue_data::deserialize( const JsonObject &jo )
+{
+    optional( jo, false, "power_min", power_min );
+    optional( jo, false, "power_max", power_max );
+    optional( jo, false, "dynamic", dynamic_conditions );
+    mandatory( jo, false, "id", epilogue );
+}
+
+
+bool faction::check_relations( const std::vector<faction_power_spec> &faction_power_specs ) const
+{
+    if( faction_power_specs.empty() ) {
+        return true;
+    }
+    for( const faction_power_spec &spec : faction_power_specs ) {
+        if( spec.power_min.has_value() ) {
+            if( spec.faction->power < spec.power_min.value() ) {
+                return false;
+            }
+        }
+        if( spec.power_max.has_value() ) {
+            if( spec.faction->power >= spec.power_max.value() ) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
 std::vector<std::string> faction::epilogue() const
 {
     std::vector<std::string> ret;
-    for( const std::tuple<int, int, snippet_id> &epilogue_entry : epilogue_data ) {
-        if( power >= std::get<0>( epilogue_entry ) && power < std::get<1>( epilogue_entry ) ) {
-            ret.emplace_back( std::get<2>( epilogue_entry )->translated() );
+    for( const faction_epilogue_data &epi : epilogue_data ) {
+        if( ( !epi.power_min.has_value() || power >= epi.power_min ) && ( !epi.power_max.has_value() ||
+                power < epi.power_max ) ) {
+            if( check_relations( epi.dynamic_conditions ) ) {
+                ret.emplace_back( epi.epilogue->translated() );
+            }
         }
     }
     return ret;
@@ -769,14 +817,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
     const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
     const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
-    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
+    const std::pair <std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
-    mvwprintz( fac_w, point( width, ++y ), fatigue_pair.second,
-               _( "Fatigue: " ) + ( fatigue_pair.first.empty() ? nominal : fatigue_pair.first ) );
+    mvwprintz( fac_w, point( width, ++y ), sleepiness_pair.second,
+               _( "Sleepiness: " ) + ( sleepiness_pair.first.empty() ? nominal : sleepiness_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding: " ) + weapname_simple() );
     y += lines;
@@ -1045,6 +1093,10 @@ void faction_manager::display() const
                 continue;
             }
             basecamp *temp_camp = *p;
+            if( temp_camp->get_owner() != player_character.get_faction()->id ) {
+                // Don't display NPC camps as ours
+                continue;
+            }
             camps.push_back( temp_camp );
         }
         lore.clear();

@@ -5,30 +5,28 @@
 #include <array>
 #include <climits>
 #include <cstddef>
-#include <initializer_list>
-#include <iosfwd>
+#include <map>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
-#include "int_id.h"
-#include "mod_tracker.h"
-#include "string_id.h"
-#include "translations.h"
-#include "type_id.h"
 #include "subbodypart.h"
-#include "localized_comparator.h"
+#include "translation.h"
+#include "type_id.h"
+#include "units.h"
 #include "weather.h"
 
 class JsonObject;
 class JsonOut;
-class JsonValue;
 struct body_part_type;
+struct localized_comparator;
 template <typename E> struct enum_traits;
+template <typename T> class generic_factory;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
@@ -312,8 +310,7 @@ struct body_part_type {
         units::temperature_delta temp_max = 0_C_delta;
         int drench_max = 0;
         int drench_increment = 2;
-        int drying_chance = 1;
-        int drying_increment = 1;
+        float drying_rate = 1.0f;
         // Wetness morale bonus/malus of the limb
         int wet_morale = 0;
         int technique_enc_limit = 50;
@@ -370,7 +367,10 @@ struct body_part_type {
             return bionic_slots_;
         }
 
+        damage_instance unarmed_damage_instance() const;
         float unarmed_damage( const damage_type_id &dt ) const;
+        // return the total amount of unarmed damage this limb would do
+        float total_unarmed_damage() const;
         float unarmed_arpen( const damage_type_id &dt ) const;
 
         float damage_resistance( const damage_type_id &dt ) const;

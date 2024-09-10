@@ -6,8 +6,8 @@
     "description": "The severed leg of a void weaver, turned into some macabre ornament.",
     "weight": "1 g",
     "volume": "250 ml",
-    "price": 3000,
-    "price_postapoc": 10000,
+    "price": "30 USD",
+    "price_postapoc": "100 USD",
     "symbol": "!",
     "color": "light_red",
     "use_action": {
@@ -37,12 +37,12 @@
     "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_penetration": 30000 } ],
     "hitsize_min": 4,
     "effects": [ { "id": "venom_blind", "duration": 120 } ],
-    "hit_dmg_u": "%1$s immaterial limbs crawl over you and sink their fangs in your %2$s!",
+    "hit_dmg_u": "%1$s's immaterial limbs crawl over you and sink their fangs in your %2$s!",
     "hit_dmg_npc": "%1$s buries its beak in <npcname>!",
-    "miss_msg_u": "%1$s hanging limbs try to bite you, but you dodge!",
-    "miss_msg_npc": "%1$s hanging limbs try to bite you <npcname>, but they dodge!",
-    "no_dmg_msg_u": "%1$s hanging limbs try to bite your %2$s, but fails to penetrate your armor!",
-    "no_dmg_msg_npc": "%1$s hanging limbs try to bite your <npcname>, but fails to penetrate their armor!",
+    "miss_msg_u": "%1$s's hanging limbs try to bite you, but you dodge!",
+    "miss_msg_npc": "%1$s's hanging limbs try to bite <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s's hanging limbs try to bite your %2$s, but fails to penetrate your armor!",
+    "no_dmg_msg_npc": "%1$s's hanging limbs try to bite <npcname>, but fails to penetrate their armor!",
     "condition": { "or": [ { "npc_has_effect": "WEBBED" }, { "npc_has_effect": "GRABBED" } ] }
   },
   {
@@ -372,10 +372,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VOID_SPIDER_KILLED",
     "global": true,
-    "effect": [
-      { "math": [ "void_spider_killed", "=", "1" ] },
-      { "u_add_var": "killed_a_void_spider", "type": "general", "context": "talk", "value": "yes" }
-    ]
+    "effect": [ { "math": [ "void_spider_killed", "=", "1" ] }, { "u_add_var": "general_talk_killed_a_void_spider", "value": "yes" } ]
   },
   {
     "type": "effect_on_condition",

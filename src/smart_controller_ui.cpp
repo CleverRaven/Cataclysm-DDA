@@ -13,6 +13,7 @@
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 static catacurses::window init_window()

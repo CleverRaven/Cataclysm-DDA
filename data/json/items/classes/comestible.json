@@ -9,7 +9,7 @@
     "weight": "3500 mg",
     "volume": "5 ml",
     "price": "2 cent",
-    "container": "bag_plastic",
+    "container": "bag_plastic_small",
     "material": [ "powder" ],
     "symbol": "%",
     "freezing_point": -274

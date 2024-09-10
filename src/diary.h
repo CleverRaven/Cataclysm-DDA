@@ -2,20 +2,25 @@
 #ifndef CATA_SRC_DIARY_H
 #define CATA_SRC_DIARY_H
 
+#include <functional>
+#include <iosfwd>
+#include <map>
+#include <memory>
 #include <string>
-#include <list>
 #include <vector>
 
-#include "achievement.h"
-#include "character.h"
-#include "kill_tracker.h"
-#include "skill.h"
-#include "stats_tracker.h"
-#include "ui.h"
+#include "calendar.h"
+#include "mutation.h"
+#include "type_id.h"
 #include "units.h"
 
-enum class time_accuracy;
+class JsonOut;
 class JsonValue;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 
 /// <summary>
 /// diary page, to save current character progression
@@ -63,8 +68,9 @@ struct diary_page {
 };
 
 /// <summary>
-/// diary is connected to the player avatar.
-/// the player is able to add new pages every page saves the current character progression and shows the improvements compared to the previous pages
+/// Diary is connected to the player avatar.
+/// The player is able to add new pages.
+/// Every page saves the current character progression and shows the improvements compared to the previous pages.
 /// The player is also able to add a Text in every page.
 /// </summary>
 class diary

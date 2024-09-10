@@ -7,7 +7,7 @@
       { "item": "voltmeter", "prob": 30, "charges": [ 0, 100 ] },
       { "item": "multimeter", "prob": 30, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
-      [ "superglue", 30 ],
+      { "group": "superglue", "prob": 30 },
       { "item": "electrohack", "prob": 3, "charges": [ 0, 100 ] },
       [ "processor", 15 ],
       [ "RAM", 22 ],
@@ -24,7 +24,6 @@
       [ "glasses_safety", 40 ],
       [ "goggles_welding", 70 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
-      { "item": "plut_cell", "prob": 10, "charges": [ 1, 5 ] },
       [ "manual_electronics", 20 ],
       [ "textbook_electronics", 6 ],
       [ "radio_book", 16 ],
@@ -34,7 +33,7 @@
       { "item": "polycarbonate_sheet", "prob": 39 },
       [ "battery_ups", 15 ],
       { "item": "cell_phone", "prob": 5, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 31, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 31, "charges": [ 0, -1 ] },
       { "item": "waterproof_smart_phone_case", "prob": 11 },
       { "item": "eink_tablet_pc", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 20, "charges": [ 0, 500 ] },
@@ -104,7 +103,7 @@
       [ "recipe_augs", 4 ],
       [ "cable", 60 ],
       { "item": "vac_sealer", "prob": 10 },
-      { "item": "smart_phone", "prob": 50, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 50, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15, "charges": [ 0, 100 ] },
       { "item": "laptop", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "smart_lamp", "prob": 10, "charges": [ 0, 100 ] },
@@ -136,42 +135,32 @@
     "subtype": "distribution",
     "id": "phones_case",
     "container-item": "waterproof_smart_phone_case",
-    "items": [
-      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
-    ]
+    "items": [ { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] }, { "item": "smart_phone", "prob": 1, "charges": 130 } ]
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "phones_no_case",
     "items": [
-      { "item": "cell_phone", "prob": 2, "charges-min": 0, "charges-max": 15 },
-      { "item": "cell_phone", "prob": 1, "charges-min": 150, "charges-max": 150 },
-      { "item": "smart_phone", "prob": 17, "charges-min": 0, "charges-max": 15 },
-      { "item": "smart_phone", "prob": 1, "charges-min": 130, "charges-max": 130 }
+      { "item": "cell_phone", "prob": 2, "charges": [ 0, 15 ] },
+      { "item": "cell_phone", "prob": 1, "charges": 150 },
+      { "item": "smart_phone", "prob": 17, "charges": [ 0, 15 ] },
+      { "item": "smart_phone", "prob": 1, "charges": 130 }
     ]
   },
   {
     "id": "batteries",
     "type": "item_group",
-    "subtype": "collection",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
     "items": [
-      { "item": "light_minus_battery_cell", "prob": 30, "count": [ 2, 6 ] },
-      { "item": "light_minus_atomic_battery_cell", "prob": 5, "count": [ 1, 3 ] },
-      { "item": "light_minus_disposable_cell", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "light_battery_cell", "prob": 30, "count": [ 1, 3 ] },
-      { "item": "light_plus_battery_cell", "prob": 15, "count": [ 1, 3 ] },
-      { "item": "light_atomic_battery_cell", "prob": 3, "count": [ 1, 3 ] },
-      { "item": "light_disposable_cell", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "medium_battery_cell", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "medium_plus_battery_cell", "prob": 5, "count": [ 1, 6 ] },
-      { "item": "medium_atomic_battery_cell", "prob": 3, "count": [ 1, 6 ] },
-      { "item": "medium_disposable_cell", "prob": 15, "count": [ 1, 3 ] },
-      { "item": "heavy_battery_cell", "prob": 10, "count": [ 1, 3 ] },
-      { "item": "heavy_plus_battery_cell", "prob": 5, "count": [ 1, 6 ] },
-      { "item": "heavy_atomic_battery_cell", "prob": 3, "count": [ 1, 6 ] },
-      { "item": "heavy_disposable_cell", "prob": 15, "count": [ 1, 3 ] }
+      { "item": "light_minus_battery_cell", "charges": 1000, "prob": 3, "count": [ 2, 8 ] },
+      { "item": "light_minus_disposable_cell", "charges": 1000, "prob": 30, "count": [ 2, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 160, "count": [ 0, 8 ] },
+      { "item": "light_battery_cell", "charges": 1000, "prob": 16, "count": [ 0, 16 ] },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 16, "count": [ 0, 8 ] },
+      { "item": "light_cell_rechargeable", "charges": 1000, "prob": 1, "count": [ 0, 12 ] },
+      { "item": "medium_battery_cell", "charges": 1000, "prob": 15, "count": [ 0, 4 ] }
     ]
   }
 ]

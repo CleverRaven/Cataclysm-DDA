@@ -13,7 +13,7 @@
     "techniques": [ "DEF_DISARM" ],
     "volume": "7500 ml",
     "category": "veh_parts",
-    "price": 4000,
+    "price": "40 USD",
     "melee_damage": { "bash": 15 }
   },
   {
