@@ -9884,7 +9884,7 @@ std::set<fault_id> item::faults_potential() const
 bool item::can_have_fault_type( const std::string &fault_type ) const
 {
     std::set<fault_id> res;
-    for( auto &some_fault : type->faults ) {
+    for( const auto &some_fault : type->faults ) {
         if( some_fault->type() == fault_type ) {
             return true;
         }
@@ -9895,7 +9895,7 @@ bool item::can_have_fault_type( const std::string &fault_type ) const
 std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
 {
     std::set<fault_id> res;
-    for( auto &some_fault : type->faults ) {
+    for( const auto &some_fault : type->faults ) {
         if( some_fault->type() == fault_type ) {
             res.emplace( some_fault );
         }
