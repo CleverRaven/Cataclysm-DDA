@@ -433,7 +433,7 @@
   {
     "type": "mutation",
     "id": "CHANGELING_DISGUISE_AS_NATURE",
-    "name": { "str": "Hidden from Mortal Eyes" },
+    "name": { "str": "None Here but the Stones" },
     "points": 2,
     "description": "The Fair Folk can remain hidden among rocks or trees or whispers of wind, and now you can too.",
     "category": [
@@ -466,7 +466,7 @@
     "id": "CHANGELING_SUMMON_WILL_O_THE_WISPS",
     "name": { "str": "Call Will o' the Wisp" },
     "points": 2,
-    "description": "You can conjure up bobbing lights in the distane that will lead your enemies astray.",
+    "description": "You can conjure up bobbing lights in the distance that will lead your enemies astray.",
     "category": [
       "FAIR_FOLK_NOBLE",
       "FAIR_FOLK_COMMONER_BROWNIE",
