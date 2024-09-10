@@ -7807,7 +7807,7 @@
     "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder at a time. Now, you are not even sure if the complete failure of the powergrid makes your field obsolete or all the more necessary.",
     "points": 2,
     "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits", "prof_electromagnetics", "prof_elec_semiconductors" ],
-    "skills": [ { "level": 4, "name": "electronics" } ],
+    "skills": [ { "level": 5, "name": "electronics" } ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "file" ],
@@ -7826,7 +7826,7 @@
     "description": "You've always loved machines, and have extensively incorporated them into your career. Not long after you receive your degree, you seem to be the one being subjected to the stress-test, and it remains unclear if you will retain your structural integrity.",
     "proficiencies": [ "prof_basic_engines", "prof_high_pressure_systems", "prof_pneumatics" ],
     "points": 2,
-    "skills": [ { "level": 4, "name": "mechanics" } ],
+    "skills": [ { "level": 5, "name": "mechanics" } ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "jeans", "socks", "boots_steel", "wristwatch" ],
@@ -7845,7 +7845,7 @@
     "description": "Computers are your bread and butter, and you know them just like the back of your hand. Unfortunately, the power has gone out and your laptop's internal battery can only last so long, but the Cataclysm may finally provide you with a much needed respite from having to insist that you are not a hacker.",
 	"proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits" ],
     "points": 2,
-    "skills": [ { "level": 4, "name": "computer" } ],
+    "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
       "both": {
         "items": [
@@ -7873,7 +7873,7 @@
     "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you. Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
     "points": 2,
     "skills": [
-      { "level": 4, "name": "chemistry" }
+      { "level": 5, "name": "chemistry" }
     ],
     "proficiencies": [ "prof_intro_chemistry", "prof_chemical_engineering" ],
     "items": {
