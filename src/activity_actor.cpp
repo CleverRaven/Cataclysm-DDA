@@ -248,11 +248,15 @@ static const mtype_id mon_yrax_triakis( "mon_yrax_triakis" );
 static const mtype_id mon_golden_monolith( "mon_golden_monolith" );
 static const mtype_id mon_yrax_delta( "mon_yrax_delta" );
 
-static const itype_id itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
-static const itype_id itype_robofac_yrax_triakis_deactivation_manual( "robofac_yrax_triakis_deactivation_manual" );
-static const itype_id itype_robofac_yrax_golden_monolith_deactivation_manual( "robofac_yrax_golden_monolith_deactivation_manual" );
-static const itype_id itype_robofac_yrax_delta_deactivation_manual( "robofac_yrax_delta_deactivation_manual" );
- 
+static const itype_id
+itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
+static const itype_id
+itype_robofac_yrax_triakis_deactivation_manual( "robofac_yrax_triakis_deactivation_manual" );
+static const itype_id
+itype_robofac_yrax_golden_monolith_deactivation_manual( "robofac_yrax_golden_monolith_deactivation_manual" );
+static const itype_id
+itype_robofac_yrax_delta_deactivation_manual( "robofac_yrax_delta_deactivation_manual" );
+
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
@@ -4529,11 +4533,15 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
              !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
              !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
-           ( !monster.type->revert_to_itype.is_empty()) &&
-        ( get_avatar().has_identified(itype_robofac_yrax_trifacet_deactivation_manual) || monster.type->id != mon_yrax_trifacet) &&
-        (get_avatar().has_identified(itype_robofac_yrax_triakis_deactivation_manual) || monster.type->id != mon_yrax_triakis) &&
-        (get_avatar().has_identified(itype_robofac_yrax_golden_monolith_deactivation_manual) || monster.type->id != mon_golden_monolith) &&
-        (get_avatar().has_identified(itype_robofac_yrax_delta_deactivation_manual) || monster.type->id != mon_yrax_delta);
+           ( !monster.type->revert_to_itype.is_empty() ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_trifacet_deactivation_manual ) ||
+             monster.type->id != mon_yrax_trifacet ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_triakis_deactivation_manual ) ||
+             monster.type->id != mon_yrax_triakis ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_golden_monolith_deactivation_manual ) ||
+             monster.type->id != mon_golden_monolith ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_delta_deactivation_manual ) ||
+             monster.type->id != mon_yrax_delta );
 }
 
 int disable_activity_actor::get_disable_turns()
