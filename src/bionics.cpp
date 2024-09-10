@@ -1494,7 +1494,7 @@ void Character::burn_fuel( bionic &bio )
 
     mod_power_level( energy_gain * efficiency );
     heat_emission( bio, energy_gain );
-    here.emit_field( pos(), bio.info().power_gen_emission );
+    here.emit_field( pos_bub(), bio.info().power_gen_emission );
 }
 
 void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
@@ -1510,7 +1510,7 @@ void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
     map &here = get_map();
     if( hotness.is_valid() ) {
         const int heat_spread = std::max( heat_prod / 10 - heat_level, 1 );
-        here.emit_field( pos(), hotness, heat_spread );
+        here.emit_field( pos_bub(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
         add_effect( effect_heating_bionic, 2_seconds, bp.first.id(), false, heat_prod );

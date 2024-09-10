@@ -3313,7 +3313,7 @@ void npc::worker_downtime()
             for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
                 if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, elem ) && !creatures.creature_at( elem ) &&
                     could_move_onto( elem ) &&
-                    here.point_within_camp( here.getabs( elem ) ) ) {
+                    here.point_within_camp( here.getglobal( elem ) ) ) {
                     // this one will do
                     chair_pos = here.getglobal( elem );
                     return;
@@ -3344,13 +3344,13 @@ void npc::worker_downtime()
             return;
         }
         basecamp *temp_camp = *bcp;
-        std::vector<tripoint> pts;
-        for( const tripoint &elem : here.points_in_radius( here.bub_from_abs(
-                    temp_camp->get_bb_pos() ).raw(),
+        std::vector<tripoint_bub_ms> pts;
+        for( const tripoint_bub_ms &elem : here.points_in_radius( here.bub_from_abs(
+                    temp_camp->get_bb_pos() ),
                 10 ) ) {
             if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
-                !here.has_floor_or_water( elem ) || g->is_dangerous_tile( elem ) ) {
+                !here.has_floor_or_water( elem ) || g->is_dangerous_tile( elem.raw() ) ) {
                 continue;
             }
             pts.push_back( elem );
@@ -3422,42 +3422,43 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return;
     }
 
-    tripoint minp( pos() );
-    tripoint maxp( pos() );
+    tripoint_bub_ms minp( pos_bub() );
+    tripoint_bub_ms maxp( pos_bub() );
 
     for( const sphere &elem : spheres ) {
-        minp.x = std::min( minp.x, elem.center.x - elem.radius );
-        minp.y = std::min( minp.y, elem.center.y - elem.radius );
-        maxp.x = std::max( maxp.x, elem.center.x + elem.radius );
-        maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
+        minp.x() = std::min( minp.x(), elem.center.x - elem.radius );
+        minp.y() = std::min( minp.y(), elem.center.y - elem.radius );
+        maxp.x() = std::max( maxp.x(), elem.center.x + elem.radius );
+        maxp.y() = std::max( maxp.y(), elem.center.y + elem.radius );
     }
 
-    const tripoint_range<tripoint> range( minp, maxp );
+    const tripoint_range<tripoint_bub_ms> range( minp, maxp );
 
-    std::vector<tripoint> escape_points;
+    std::vector<tripoint_bub_ms> escape_points;
 
     map &here = get_map();
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
-    [&here]( const tripoint & elem ) {
+    [&here]( const tripoint_bub_ms & elem ) {
         return here.passable( elem ) && here.has_floor_or_water( elem );
     } );
 
-    cata::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
+    cata::sort_by_rating( escape_points.begin(),
+    escape_points.end(), [&]( const tripoint_bub_ms & elem ) {
         const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
         [&]( const int sum, const sphere & s ) {
-            return sum + std::max( s.radius - rl_dist( elem, s.center ), 0 );
+            return sum + std::max( s.radius - rl_dist( elem, tripoint_bub_ms( s.center ) ), 0 );
         } );
 
-        const int distance = rl_dist( pos(), elem );
+        const int distance = rl_dist( pos_bub(), elem );
         const int move_cost = here.move_cost( elem );
 
         return std::make_tuple( danger, distance, move_cost );
     } );
 
-    for( const tripoint &elem : escape_points ) {
+    for( const tripoint_bub_ms &elem : escape_points ) {
         update_path( elem, no_bashing );
 
-        if( elem == pos() || !path.empty() ) {
+        if( elem == pos_bub() || !path.empty() ) {
             break;
         }
     }

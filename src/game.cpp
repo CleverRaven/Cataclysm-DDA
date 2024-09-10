@@ -1819,15 +1819,15 @@ void game::validate_npc_followers()
 
 void game::validate_camps()
 {
-    basecamp camp = m.hoist_submap_camp( u.pos() );
+    basecamp camp = m.hoist_submap_camp( u.pos_bub() );
     if( camp.is_valid() ) {
         overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
+        m.remove_submap_camp( u.pos_bub() );
     } else if( camp.camp_omt_pos() != tripoint_abs_omt() ) {
         std::string camp_name = _( "Faction Camp" );
         camp.set_name( camp_name );
         overmap_buffer.add_camp( camp );
-        m.remove_submap_camp( u.pos() );
+        m.remove_submap_camp( u.pos_bub() );
     }
 }
 
@@ -11482,7 +11482,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest.raw() ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
-        m.drop_furniture( fdest.raw() );
+        m.drop_furniture( fdest );
         return true;
     }
 
@@ -11882,7 +11882,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 adjacent_climb = true;
             }
         }
-        if( here.has_floor_or_support( stairs.raw() ) ) {
+        if( here.has_floor_or_support( stairs ) ) {
             tripoint dest_phase = u.pos();
             dest_phase.z += 1;
             if( phasing_move_enchant( dest_phase, u.calculate_by_enchantment( 0,
@@ -11925,7 +11925,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         std::vector<tripoint> pts;
         for( const tripoint_bub_ms &pt : here.points_in_radius( stairs, 1 ) ) {
             if( here.passable( pt ) &&
-                here.has_floor_or_support( pt.raw() ) ) {
+                here.has_floor_or_support( pt ) ) {
                 pts.push_back( pt.raw() );
             }
         }
@@ -11969,7 +11969,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         tripoint dest_phase = u.pos();
         dest_phase.z -= 1;
 
-        if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
+        if( wall_cling && !here.has_floor_or_support( u.pos_bub() ) ) {
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
             u.set_activity_level( EXTRA_EXERCISE );

@@ -623,7 +623,7 @@ void monster::try_reproduce()
                 }
             }
             if( !type->baby_type.baby_egg_group.is_null() ) {
-                here.spawn_items( pos(), item_group::items_from( type->baby_type.baby_egg_group ) );
+                here.spawn_items( pos_bub(), item_group::items_from( type->baby_type.baby_egg_group ) );
             }
         }
         *baby_timer += *type->baby_timer;
@@ -2747,11 +2747,11 @@ void monster::process_turn()
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
                 } else if( has_effect( effect_supercharged ) ) {
-                    here.emit_field( pos(), emit_emit_shock_cloud_big );
+                    here.emit_field( pos_bub(), emit_emit_shock_cloud_big );
                     continue;
                 }
             }
-            here.emit_field( pos(), emid );
+            here.emit_field( pos_bub(), emid );
         }
     }
 

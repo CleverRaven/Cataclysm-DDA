@@ -326,10 +326,10 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
         monster *mon;
         if( mon_shearable )
         {
-            mon = &spawn_test_monster( mon_test_shearable.str(), dummy.pos() + tripoint_north );
+            mon = &spawn_test_monster( mon_test_shearable.str(), dummy.pos_bub() + tripoint_north );
         } else
         {
-            mon = &spawn_test_monster( mon_test_non_shearable.str(), dummy.pos() + tripoint_north );
+            mon = &spawn_test_monster( mon_test_non_shearable.str(), dummy.pos_bub() + tripoint_north );
         }
 
         mon->friendly = -1;
@@ -1784,8 +1784,8 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
         //aiming is excluded from this kind of interruption
         REQUIRE( dummy.activity.id() != ACT_AIM );
 
-        tripoint zombie_pos_near = dummy.pos() + tripoint( 2, 0, 0 );
-        tripoint zombie_pos_far = dummy.pos() + tripoint( 10, 0, 0 );
+        tripoint_bub_ms zombie_pos_near = dummy.pos_bub() + tripoint( 2, 0, 0 );
+        tripoint_bub_ms zombie_pos_far = dummy.pos_bub() + tripoint( 10, 0, 0 );
 
         //to make section names unique
         std::string act = activity.id().str();

@@ -462,8 +462,8 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
         REQUIRE( !dummy.is_underwater() );
         REQUIRE( dummy.get_stamina() == dummy.get_stamina_max() );
         // Always spawn the first two grabbers, no need for intensity checks
-        spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_east );
-        spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_west );
+        spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_east );
+        spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_west );
         dummy.add_effect( effect_grabbed, 20_turns, body_part_torso, false, 2, true );
         REQUIRE( dummy.has_effect( effect_grabbed, body_part_torso ) );
         WHEN( "two grabbers" ) {
@@ -475,8 +475,8 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
         }
 
         WHEN( "four grabbers" ) {
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_north );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_south );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_north );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_south );
             THEN( "they lose 1 oxygen per turn" ) {
                 test_suffer( dummy, 10_turns, true );
                 CHECK( dummy.oxygen == 36 );
@@ -484,10 +484,10 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
         }
 
         WHEN( "six grabbers" ) {
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_north );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_south );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_north_west );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_south_west );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_north );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_south );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_north_west );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_south_west );
             THEN( "they lose 1 or 2 oxygen per turn" ) {
                 test_suffer( dummy, 10_turns, true );
                 CHECK( dummy.oxygen == Approx( 31 ).margin( 5 ) );
@@ -495,12 +495,12 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
         }
 
         WHEN( "eight grabbers" ) {
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_north );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_south );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_north_west );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_south_west );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_north_east );
-            spawn_test_monster( "mon_debug_memory", dummy.pos() + tripoint_south_east );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_north );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_south );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_north_west );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_south_west );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_north_east );
+            spawn_test_monster( "mon_debug_memory", dummy.pos_bub() + tripoint_south_east );
             THEN( "they lose 2 oxygen per turn" ) {
                 test_suffer( dummy, 10_turns, true );
                 CHECK( dummy.oxygen == 26 );
