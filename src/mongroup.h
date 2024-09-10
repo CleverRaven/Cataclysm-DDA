@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "enums.h"
 #include "io_tags.h"
 #include "mapgen.h"
@@ -136,7 +136,8 @@ struct mongroup {
               unsigned int ppop )
         : type( ptype )
         , abs_pos( ppos )
-        , population( ppop ) {
+        , population( ppop )
+        , target( abs_pos.xy() ) {
     }
     mongroup( const std::string &ptype, const tripoint_abs_sm &ppos,
               unsigned int ppop, point_abs_sm ptarget, int pint, bool pdie, bool phorde ) :

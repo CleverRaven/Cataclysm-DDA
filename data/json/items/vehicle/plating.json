@@ -7,7 +7,6 @@
     "//": "Roughly in the 70 cm × 70 cm × 1.5 mm to 1 m × 1 m × 0.75 mm range. Has to be folded / rolled up when in inventory, so 75% density compared to solid block.",
     "weight": "6 kg",
     "longest_side": "100 cm",
-    "to_hit": -2,
     "color": "light_cyan",
     "symbol": "]",
     "material": [ "lc_steel" ],
@@ -16,6 +15,7 @@
     "price": "60 USD",
     "price_postapoc": "1 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -43,12 +43,13 @@
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "3 L",
     "category": "veh_parts",
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -66,6 +67,7 @@
     "price": "185 USD",
     "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -74,7 +76,6 @@
     "name": { "str": "superalloy sheet" },
     "description": "A sheet of sturdy superalloy; incredibly hard, yet incredibly malleable.",
     "weight": "900 g",
-    "to_hit": -2,
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "superalloy" ],
@@ -82,7 +83,8 @@
     "category": "veh_parts",
     "price": "85 USD",
     "price_postapoc": "5 USD",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
   {
     "type": "GENERIC",
@@ -100,6 +102,7 @@
     "price": "185 USD",
     "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 3 }
   },
   {
@@ -117,6 +120,7 @@
     "price": "160 USD",
     "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ], [ "ANVIL", 2 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6 }
   },
   {
@@ -135,6 +139,7 @@
     "price_postapoc": "7 USD 50 cent",
     "flags": [ "NO_REPAIR" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 8 }
   },
   {

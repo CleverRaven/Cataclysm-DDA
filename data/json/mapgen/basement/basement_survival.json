@@ -12,7 +12,7 @@
   {
     "id": "basement_survival_last_stand_casing",
     "type": "item_group",
-    "items": [ { "item": "308_casing", "charges": [ 1, 1 ] }, { "item": "ammolink308", "charges": [ 1, 1 ] } ]
+    "items": [ { "item": "308_casing", "charges": 1 }, { "item": "ammolink308", "charges": 1 } ]
   },
   {
     "type": "mapgen",
@@ -76,7 +76,7 @@
         "b": "f_bed",
         "c": "f_cupboard",
         "d": "f_dresser",
-        "f": "f_fridge",
+        "f": [ "f_minifreezer", "f_chest_minifreezer", "f_freezer" ],
         "g": "f_oven",
         "h": "f_chair",
         "k": "f_sink",

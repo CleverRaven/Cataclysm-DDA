@@ -9,6 +9,13 @@
     "class": "NC_ISHERWOOD_EDDIE",
     "attitude": 0,
     "mission": 7,
+    "age": 41,
+    "height": 179,
+    "str": 9,
+    "dex": 7,
+    "int": 7,
+    "per": 8,
+    "personality": { "aggression": -4, "bravery": -1, "collector": 1, "altruism": 1 },
     "chat": "TALK_ISHERWOOD_EDDIE",
     "mission_offered": "MISSION_ISHERWOOD_EDDIE_1",
     "faction": "isherwood_family"
@@ -19,8 +26,12 @@
     "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
     "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
+      { "trait": "ASTHMA" },
+      { "trait": "JITTERY" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "SKIN_TAN" },
+      { "trait": "eye_color", "variant": "hazel" },
+      { "trait": "hair_short", "variant": "black" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -48,7 +59,7 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 55, "group": "cheese_hard_wrapper_8" },
-      { "prob": 55, "group": "cheese_bag_plastic_8" },
+      { "prob": 55, "group": "cheese_bag_plastic" },
       { "prob": 55, "group": "butter_wrapper_32" },
       { "item": "meat_smoked", "prob": 45 },
       { "item": "fish_smoked", "prob": 25 },
@@ -110,7 +121,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "…(Leave)",
+        "text": "…[Leave.]",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 },
         "effect": { "npc_first_topic": "TALK_ISHERWOOD_EDDIE_SawMarshal" },
@@ -121,7 +132,7 @@
         "topic": "TALK_ISHERWOOD_EDDIE_Marshal",
         "condition": {
           "and": [
-            { "u_has_var": "isherwood_luke_marshal_questions", "value": "known" },
+            { "compare_string": [ "known", { "u_val": "isherwood_luke_marshal_questions" } ] },
             { "not": { "u_is_wearing": "badge_marshal" } }
           ]
         }
@@ -138,12 +149,12 @@
     },
     "responses": [
       {
-        "text": "<color_green>[SOCIAL]</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travellers, things like that.  I don't speak for them.",
+        "text": "<color_green>[Social 3]</color> I swear, I'm not here to cause trouble.  I just volunteer with those guys to help travelers, things like that.  I don't speak for them.",
         "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_Convince",
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", ">=", "3" ] } ] }
       },
       {
-        "text": "<color_yellow>[SOCIAL]</color> I took it off man, what more do you want from me?",
+        "text": "<color_yellow>[Social <3]</color> I took it off man, what more do you want from me?",
         "topic": "TALK_ISHERWOOD_EDDIE_MarshalOff_GoAway",
         "condition": { "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "math": [ "u_skill('speech')", "<", "3" ] } ] }
       },
@@ -234,7 +245,10 @@
         "text": "I heard about Barry, such a tragedy.  Can you tell me more about what happened?",
         "topic": "TALK_ISHERWOOD_EDDIE2",
         "condition": {
-          "and": [ { "not": { "u_is_wearing": "badge_marshal" } }, { "u_has_var": "u_learned_barry_missing", "value": "yes" } ]
+          "and": [
+            { "not": { "u_is_wearing": "badge_marshal" } },
+            { "compare_string": [ "yes", { "u_val": "u_learned_barry_missing" } ] }
+          ]
         }
       },
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },

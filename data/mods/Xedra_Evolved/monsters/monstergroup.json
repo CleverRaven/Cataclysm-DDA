@@ -36,11 +36,21 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_DREAM_WOUND_SHADOW",
+    "default": "mon_dream_shadow",
+    "monsters": [
+      { "monster": "mon_dream_shadow", "weight": 500, "cost_multiplier": 0 },
+      { "monster": "mon_dream_shadowbeast", "weight": 200, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_xe_unicorn", "weight": 10, "cost_multiplier": 10, "starts": 240, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_goblin_spider", "weight": 15, "cost_multiplier": 15, "starts": 780, "pack_size": [ 3, 12 ] }
+      { "monster": "mon_goblin_spider", "weight": 15, "cost_multiplier": 15, "starts": 780, "pack_size": [ 3, 12 ] },
+      { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "240 hours" }
     ]
   },
   {
@@ -57,7 +67,11 @@
   {
     "name": "GROUP_PARK_PLAYGROUND",
     "type": "monstergroup",
-    "monsters": [ { "monster": "mon_vampire_moroi", "weight": 10 }, { "monster": "mon_vampire_strigoi", "weight": 1 } ]
+    "monsters": [
+      { "monster": "mon_vampire_moroi", "weight": 10 },
+      { "monster": "mon_vampire_strigoi", "weight": 1 },
+      { "monster": "mon_mi_go_stalking_warper", "weight": 5, "cost_multiplier": 2, "starts": "240 hours" }
+    ]
   },
   {
     "name": "GROUP_HOUSE",
@@ -193,7 +207,13 @@
       { "monster": "mon_water_sprite", "weight": 125, "cost_multiplier": 0 },
       { "monster": "mon_spitting_lizard", "weight": 300, "cost_multiplier": 0 },
       { "monster": "mon_undertow", "weight": 75, "cost_multiplier": 2 },
-      { "monster": "mon_shabriri", "weight": 60, "cost_multiplier": 2 }
+      { "monster": "mon_shabriri", "weight": 60, "cost_multiplier": 2 },
+      {
+        "monster": "mon_nuckalavee",
+        "weight": 5,
+        "cost_multiplier": 5,
+        "conditions": [ "SPRING", "AUTUMN", "WINTER" ]
+      }
     ]
   },
   {
@@ -211,6 +231,11 @@
       { "monster": "mon_undertow", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_shabriri", "weight": 50, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GENIUS_UNDINE_GREATER",
+    "monsters": [ { "monster": "mon_nuckalavee", "weight": 20, "cost_multiplier": 0 } ]
   },
   {
     "type": "monstergroup",
@@ -290,6 +315,39 @@
     "monsters": [
       { "monster": "mon_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
       { "monster": "mon_venus_doll", "weight": 400, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_CAMP_OM",
+    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 20, "starts": "210 hours" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_COMMON",
+    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 2, "starts": "210 hours" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_CAPTORS",
+    "monsters": [ { "monster": "mon_mi_go_stalking_warper", "weight": 300, "cost_multiplier": 2, "starts": "210 hours" } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MI-GO_BASE_BOSS",
+    "monsters": [
+      { "monster": "mon_mi_go_stalking_warper", "weight": 200, "cost_multiplier": 2 },
+      { "monster": "mon_mi_go_stalking_warper", "weight": 50, "cost_multiplier": 5, "pack_size": [ 2, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HEDGE_TO_CAUSE_ARMED_MEN",
+    "monsters": [
+      { "monster": "mon_hedge_armed_warrior_sword", "weight": 400 },
+      { "monster": "mon_hedge_armed_warrior_spear", "weight": 400 },
+      { "monster": "mon_hedge_armored_warrior_axe", "weight": 200 },
+      { "monster": "mon_hedge_armored_warrior_mace", "weight": 200 }
     ]
   }
 ]

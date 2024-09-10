@@ -36,7 +36,7 @@ void run_activities( Character &u, int max_moves )
     while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
-            u.setpos( get_map().getlocal( *u.destination_point ) );
+            u.setpos( get_map().bub_from_abs( *u.destination_point ) );
             get_map().build_map_cache( u.pos().z );
             u.start_destination_activity();
         }
@@ -134,7 +134,7 @@ void run_test_case( Character &u )
     }
 
     SECTION( "1-step construction activity with pre_terrain and starting far away" ) {
-        u.setpos( { MAX_VIEW_DISTANCE - 1, 0, 0} );
+        u.setpos( tripoint_bub_ms{ MAX_VIEW_DISTANCE - 1, 0, 0} );
         here.build_map_cache( u.pos().z );
         tripoint_bub_ms const tri_window( tripoint_south );
         construction const build =

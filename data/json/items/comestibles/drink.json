@@ -9,7 +9,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 35,
+    "quench": 65,
     "calories": 120,
     "description": "Pressed from fresh apples, tasty and nutritious.  This is a non-alcoholic beverage, which sometimes confuses foreigners.  It's instead called 'hard cider' when alcohol is involved.",
     "price": "85 cent",
@@ -20,7 +20,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 167 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -34,7 +34,7 @@
     "container": "carton_milk",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 22,
+    "quench": 70,
     "calories": 50,
     "description": "Wait, you can milk almonds?  Not quite, but you can blend them with water!  A dairy-free alternative high in calcium, and rival to soy milk.",
     "price": "40 cent",
@@ -43,7 +43,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 11 ] ],
+    "vitamins": [ [ "calcium", 11 ], [ "nut_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -58,7 +58,7 @@
     "container": "carton_milk",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 22,
+    "quench": 70,
     "calories": 110,
     "description": "Wait, you can milk soybeans?  Not quite, but you can blend them with water!  A dairy-free alternative high in protein, and rival to almond milk.",
     "price": "40 cent",
@@ -67,7 +67,7 @@
     "volume": "250 ml",
     "charges": 1,
     "phase": "liquid",
-    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ] ],
+    "vitamins": [ [ "iron", 1 ], [ "calcium", 7 ], [ "veggy_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ],
     "fun": 1
   },
@@ -97,7 +97,6 @@
     "spoils_in": "10 days",
     "stim": 4,
     "sleepiness_mod": 5,
-    "quench": 30,
     "description": "Some wild sarsaparilla root steeped in boiling water.  Energizing.",
     "price": "1 USD",
     "price_postapoc": "25 cent",
@@ -114,7 +113,6 @@
     "use_action": [ "FLUMED" ],
     "spoils_in": "10 days",
     "stim": 1,
-    "quench": 34,
     "calories": 2,
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
     "price": "1 USD",
@@ -142,7 +140,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", "2300 μg" ], [ "iron", "7500 μg" ], [ "calcium", "40700 μg" ] ],
+    "vitamins": [ [ "vitC", "2300 μg" ], [ "iron", "7500 μg" ], [ "calcium", "40700 μg" ], [ "fruit_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -169,7 +167,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-    "fun": 14
+    "fun": 14,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -185,7 +184,6 @@
     "stim": 0,
     "spoils_in": "10 days",
     "comestible_type": "MED",
-    "quench": 34,
     "calories": 1,
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": "1 USD",
@@ -213,7 +211,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 18 ], [ "iron", 4 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 7
   },
   {
@@ -228,7 +226,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
+    "quench": 50,
     "addiction_potential": 2,
     "calories": 2,
     "description": "The morning ritual of the pre-apocalyptic world, created from coffee cherries through a complex process of seed removal, roasting, grinding, and brewing.  Coffee is substantially richer in caffeine than its rival tea.",
@@ -251,7 +249,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
+    "quench": 50,
     "calories": 2,
     "description": "Homemade not-coffee created from the Kentucky coffeetree, just like the Meskwaki tribe!  Doesn't actually have any caffeine, and is very bitter, but it'll pass in a pinch.",
     "price": "1 USD",
@@ -273,7 +271,8 @@
     "spoils_in": "14 hours",
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "Imitation coffee brewed from Kentucky coffeetree, this drink has no caffeine, no sweetener, and is still unpleasantly bitter even with the added milk.",
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -314,7 +313,7 @@
     "color": "brown",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 36,
+    "quench": 50,
     "calories": 11,
     "description": "Toasted, ground chicory root steeped in boiling water.  This bitter brew is used as a coffee substitute, though it tastes nothing like coffee.",
     "price": "1 USD 25 cent",
@@ -339,7 +338,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 98,
@@ -352,7 +351,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -367,7 +367,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 14,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 115,
@@ -380,7 +380,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -395,7 +396,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 126,
@@ -408,7 +409,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -420,7 +422,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 37,
+    "quench": 65,
     "calories": 112,
     "description": "Made from real Massachusetts cranberries.  Quite sour, but nutritious.",
     "price": "80 cent",
@@ -431,7 +433,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 131 ], [ "calcium", 3 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -444,7 +446,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 27,
+    "quench": 65,
     "calories": 105,
     "description": "Mixing cranberry juice and lemon-lime soda works out quite well.",
     "price": "1 USD 10 cent",
@@ -455,7 +457,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 60 ] ],
+    "vitamins": [ [ "vitC", 60 ], [ "fruit_allergen", 1 ], [ "junk_allergen", 1 ] ],
     "fun": 6
   },
   {
@@ -467,7 +469,7 @@
     "color": "yellow",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 48,
+    "quench": 50,
     "calories": 1,
     "description": "A healthy beverage made from dandelion roots steeped in boiling water.",
     "price": "50 cent",
@@ -488,7 +490,7 @@
     "color": "yellow",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 48,
+    "quench": 50,
     "calories": 101,
     "description": "A healthy beverage made from dandelion and burdock roots steeped in boiling water.  The addition of burdock makes it more nourishing and slightly tastier.",
     "price": "50 cent",
@@ -521,7 +523,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD", "EATEN_HOT", "FREEZERBURN" ],
-    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 13 ], [ "iron", 2 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 15
   },
   {
@@ -537,7 +539,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 15,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 157,
@@ -550,7 +552,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 105 ] ],
+    "vitamins": [ [ "vitC", 105 ], [ "junk_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -562,7 +564,6 @@
     "color": "light_green",
     "sleepiness_mod": 112,
     "stim": 34,
-    "quench": 45,
     "addiction_potential": 9,
     "description": "According to the label, this loathsome-tasting beverage is called ATOMIC POWER THIRST.  Alongside the lengthy health warning, it promises to make the consumer UNCOMFORTABLY ENERGETIC using ELECTROLYTES and THE POWER OF THE ATOM.",
     "price": "15 USD",
@@ -580,7 +581,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 44,
+    "quench": 50,
     "calories": 1,
     "description": "A healthy beverage made from herbs steeped in boiling water.",
     "price": "1 USD",
@@ -615,7 +616,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -642,7 +643,7 @@
     "quench": 35,
     "fun": 8,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 4 ], [ "iron", 2 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -703,7 +704,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 20,
+    "quench": 65,
     "calories": 32,
     "description": "Freshly-squeezed from real fruit!  Tasty and nutritious.",
     "price": "80 cent",
@@ -714,7 +715,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 53 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -750,7 +751,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 3 ], [ "fruit_allergen", 1 ] ],
     "fun": 12
   },
   {
@@ -764,7 +765,7 @@
     "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 35,
+    "quench": 65,
     "calories": 70,
     "description": "An alcohol-free variant of the Bloody Mary cocktail; basically tomato juice mixed with some spices.",
     "price": "6 USD",
@@ -776,7 +777,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 12,
-    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -789,7 +790,7 @@
     "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "calories": 169,
     "description": "An alcohol-free mixed drink made from grenadine syrup and lemon-lime soda, lemonade or orange juice.",
     "price": "80 cent",
@@ -800,7 +801,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 12
+    "fun": 12,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -815,7 +817,7 @@
     "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 162,
@@ -828,7 +830,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 12
+    "fun": 12,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -894,7 +897,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 25 ] ],
+    "vitamins": [ [ "vitC", 25 ], [ "fruit_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -907,7 +910,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 35,
+    "quench": 65,
     "calories": 104,
     "description": "Lemon juice mixed with water and sugar to dull the sourness.  Delicious and refreshing.",
     "price": "80 cent",
@@ -918,7 +921,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -945,7 +948,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 60,
     "healthy": -1,
     "calories": 105,
     "description": "Unlike cola this is caffeine free, however it is still carbonated and has plenty of sugar and a lemon-lime taste.",
@@ -957,7 +960,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -966,7 +970,6 @@
     "copy-from": "tea",
     "color": "green",
     "spoils_in": "10 days",
-    "quench": 34,
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": "1 USD",
     "price_postapoc": "25 cent",
@@ -997,7 +1000,7 @@
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ], [ "junk_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {
@@ -1015,7 +1018,7 @@
     "sealed": false,
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
+    "quench": 50,
     "addiction_potential": 2,
     "calories": 69,
     "description": "Coffee syrup or black coffee mixed into milk.  It's been the state drink of Rhode Island since 1993.",
@@ -1027,7 +1030,7 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -1043,7 +1046,7 @@
     "container": "jug_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
+    "quench": 50,
     "calories": 69,
     "description": "Hot tea with cold milk.",
     "price": "4 USD 50 cent",
@@ -1053,7 +1056,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "charges": 2,
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 12 ], [ "milk_allergen", 1 ] ],
     "fun": 10,
     "flags": [ "EATEN_HOT" ]
   },
@@ -1068,7 +1071,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 35,
+    "quench": 65,
     "calories": 117,
     "description": "Store-bought orange juice.  Refreshing, tasty, and a great source of Vitamin C.",
     "price": "14 cent",
@@ -1080,7 +1083,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "//": "most store-bought oj is fortified with calcium.",
-    "vitamins": [ [ "vitC", "83700 μg" ], [ "iron", "320 μg" ], [ "calcium", "348600 μg" ] ],
+    "vitamins": [ [ "vitC", "83700 μg" ], [ "iron", "320 μg" ], [ "calcium", "348600 μg" ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1093,7 +1096,7 @@
     "spoils_in": "2 days",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 35,
+    "quench": 65,
     "calories": 111,
     "//": "Calories shouldn't matter since it won't spawn - should only be craftable.",
     "description": "Freshly-squeezed from real oranges!  Tasty and nutritious.",
@@ -1105,7 +1108,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", "124 mg" ], [ "iron", "500 μg" ], [ "calcium", "27300 μg" ] ],
+    "vitamins": [ [ "vitC", "124 mg" ], [ "iron", "500 μg" ], [ "calcium", "27300 μg" ], [ "fruit_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1118,7 +1121,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "calories": 130,
     "description": "Unlike cola this is caffeine free, however it is still carbonated, sweet, and tastes vaguely orange-like.",
@@ -1130,7 +1133,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 5
+    "fun": 5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1141,7 +1145,7 @@
     "color": "light_green",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 44,
+    "quench": 50,
     "description": "A fragrant and healthy beverage made from pine needles steeped in boiling water.",
     "price": "0 cent",
     "price_postapoc": "25 cent",
@@ -1165,7 +1169,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "calories": 63,
     "description": "A mass-produced grape flavored beverage of artificial origin.  Good for when you want something that tastes like fruit, but still don't care about your health.",
@@ -1177,7 +1181,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ] ],
+    "vitamins": [ [ "vitC", 50 ], [ "calcium", 3 ], [ "junk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -1203,7 +1207,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "MYCUS_OK", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ] ],
+    "vitamins": [ [ "vitC", 20 ], [ "calcium", 20 ], [ "iron", 16 ], [ "veggy_allergen", 1 ] ],
     "fun": 30
   },
   {
@@ -1216,7 +1220,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "calories": 106,
     "description": "Like cola, but without caffeine.  Still not that healthy.",
@@ -1228,7 +1232,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 3
+    "fun": 3,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1240,10 +1245,10 @@
     "container": "bottle_glass",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "calories": 156,
-    "vitamins": [ [ "calcium", 1 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "junk_allergen", 1 ] ],
     "description": "Like cola, but without caffeine.  Still not that healthy, but better than the canned stuff.",
     "price": "95 cent",
     "price_postapoc": "50 cent",
@@ -1265,7 +1270,7 @@
     "container": "bottle_plastic_small",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 25,
+    "quench": 50,
     "healthy": -1,
     "calories": 80,
     "description": "A carbonated soft drink which contains quinine, giving it a bitter flavor.  Originally used as a prophylactic against malaria, this modern variant is unsuitable for this purpose as it contains much less quinine and is also sweetened.",
@@ -1276,7 +1281,8 @@
     "primary_material": "water",
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1290,7 +1296,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 18,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 100,
@@ -1303,7 +1309,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 6
+    "fun": 6,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1315,7 +1322,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 60,
+    "quench": 50,
     "calories": 66,
     "description": "A flavored drink consisting of a special blend of electrolytes and simple sugars.  It tastes vaguely like fruit with a slight chemical aftertaste.",
     "price": "55 cent",
@@ -1326,7 +1333,7 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ] ]
+    "vitamins": [ [ "vitC", 1 ], [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1335,7 +1342,6 @@
     "copy-from": "tea",
     "color": "green",
     "spoils_in": "10 days",
-    "quench": 34,
     "calories": 1,
     "comestible_type": "MED",
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
@@ -1358,7 +1364,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 60,
+    "quench": 75,
     "calories": 12,
     "description": "A basic oral rehydration therapy drink.  It will rehydrate you faster than water, but tastes like bottled sweat.",
     "price": "55 cent",
@@ -1381,7 +1387,7 @@
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 38,
+    "quench": 50,
     "calories": 170,
     "description": "Water with sugar or honey added.  Tastes okay.",
     "price": "95 cent",
@@ -1391,7 +1397,8 @@
     "charges": 1,
     "phase": "liquid",
     "fun": 2,
-    "freezing_point": -5
+    "freezing_point": -5,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1400,12 +1407,13 @@
     "name": { "str_sp": "black tea" },
     "weight": "250 g",
     "color": "brown",
+    "addiction_type": "caffeine",
     "sleepiness_mod": 9,
     "stim": 3,
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
+    "quench": 50,
     "calories": 1,
     "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant \"Camellia sinensis\".",
     "price": "90 cent",
@@ -1462,16 +1470,16 @@
     "id": "V8",
     "looks_like": "juice",
     "name": { "str_sp": "V8" },
-    "weight": "250 g",
+    "weight": "240 g",
     "color": "red",
     "spoils_in": "10 days",
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 6,
-    "calories": 51,
+    "quench": 65,
+    "calories": 45,
     "description": "Contains up to eight vegetables!  Nutritious and tasty.",
-    "price": "40 cent",
+    "price": "71 cent",
     "price_postapoc": "50 cent",
     "material": [ "veggy" ],
     "primary_material": "water",
@@ -1480,15 +1488,35 @@
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
     "fun": 1,
-    "vitamins": [ [ "vitC", 180 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "71 mg" ], [ "iron", "700 μg" ], [ "calcium", "19200 μg" ], [ "veggy_allergen", 1 ] ]
   },
   {
     "id": "water",
     "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
-    "category": "food",
+    "copy-from": "water_clean",
     "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, necessary for all kinds of crafting, cleaning, and avoiding an agonizing death by dehydration.  You should boil or purify it before using it as drinking water.",
+    "color": "light_blue",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "delete": { "flags": [ "DECAYS_IN_AIR" ] },
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
+  },
+  {
+    "id": "water_murky",
+    "type": "COMESTIBLE",
+    "copy-from": "water",
+    "name": { "str_sp": "murky water" },
+    "description": "Water, the stuff of life.  This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
+    "quench": 30,
+    "parasites": 5,
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ]
+  },
+  {
+    "id": "water_clean",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
     "material": [ "water" ],
     "weight": "250 g",
     "volume": "250 ml",
@@ -1496,38 +1524,35 @@
     "price": "50 cent",
     "price_postapoc": "1 cent",
     "symbol": "~",
-    "color": "light_blue",
     "phase": "liquid",
-    "container": "bottle_plastic",
-    "sealed": false,
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
-    "flags": [ "EATEN_COLD" ],
-    "use_action": [ "BLECH_BECAUSE_UNCLEAN" ]
-  },
-  {
-    "id": "water_clean",
-    "copy-from": "water",
-    "type": "COMESTIBLE",
+    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "DECAYS_IN_AIR" ],
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
     "sealed": true,
     "color": "light_cyan",
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "use_action": [  ]
+    "//": "Clean water becomes regular water in about 4 weeks if exposed to air (1 week if outdoors).",
+    "properties": { "max_air_exposure_hours": "720" },
+    "revert_to": "water"
+  },
+  {
+    "id": "water_spring",
+    "copy-from": "water_clean",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spring water" },
+    "description": "Natural alpine spring water, bottled at the source.",
+    "relative": { "fun": 1 }
   },
   {
     "id": "water_mineral",
-    "copy-from": "water",
+    "copy-from": "water_clean",
     "type": "COMESTIBLE",
     "name": { "str_sp": "mineral water" },
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
-    "container": "bottle_plastic",
-    "sealed": true,
     "proportional": { "quench": 1.2 },
-    "relative": { "fun": 1 },
-    "use_action": [  ]
+    "relative": { "fun": 1 }
   },
   {
     "type": "COMESTIBLE",
@@ -1616,16 +1641,16 @@
     "type": "COMESTIBLE",
     "id": "tomato_juice",
     "name": { "str_sp": "tomato juice" },
-    "weight": "253 g",
+    "weight": "243 g",
     "color": "red",
     "spoils_in": "5 days",
     "container": "bottle_plastic",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 40,
-    "calories": 40,
+    "quench": 65,
+    "calories": 41,
     "description": "A thick red liquid, made from tomatoes.  Not to everyone's taste, it is a healthy and refreshing drink when chilled.",
-    "price": "90 cent",
+    "price": "23 cent",
     "price_postapoc": "40 cent",
     "material": [ "tomato" ],
     "primary_material": "water",
@@ -1633,7 +1658,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "vitamins": [ [ "vitC", 120 ], [ "calcium", 2 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "170300 μg" ], [ "iron", "900 μg" ], [ "calcium", "24300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -1667,7 +1692,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 24,
+    "quench": 50,
     "calories": 0,
     "description": "Things go lighter with Cola Zero!  No sugar, no caffeine, no worries!",
     "price": "95 cent",
@@ -1678,7 +1703,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1690,7 +1716,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 24,
+    "quench": 50,
     "calories": 0,
     "description": "Trofica brand zero-sugar soda with natural orange flavors.  Now with 99% less calories!",
     "price": "95 cent",
@@ -1701,7 +1727,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1713,7 +1740,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 24,
+    "quench": 50,
     "calories": 0,
     "description": "Trofica brand zero-sugar soda.  Made with all-natural pineapple, kiwi, and passionfruit flavors that taste just like real fruit with none of the real sugar!",
     "price": "95 cent",
@@ -1724,7 +1751,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1739,7 +1767,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 20,
+    "quench": 50,
     "healthy": -1,
     "addiction_potential": 2,
     "calories": 0,
@@ -1752,7 +1780,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
-    "fun": 4
+    "fun": 4,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1764,7 +1793,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 24,
+    "quench": 50,
     "calories": 0,
     "description": "A curious entry to the diet soda market by Foodplace, the \"Refreshing Drink™\" tastes just like real human beverages and contains no additives proven to cause diabetes or heart diseases!",
     "price": "95 cent",
@@ -1775,7 +1804,8 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD" ],
-    "fun": 2
+    "fun": 2,
+    "vitamins": [ [ "junk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1787,7 +1817,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 32,
+    "quench": 50,
     "calories": 0,
     "description": "Plain, naturally carbonated mineral water with a subtle bitterness.",
     "price": "1 USD 20 cent",
@@ -1809,7 +1839,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 32,
+    "quench": 50,
     "calories": 0,
     "description": "Naturally carbonated mineral water with a hint of peach flavoring.",
     "price": "1 USD 20 cent",
@@ -1831,7 +1861,7 @@
     "container": "can_drink",
     "comestible_type": "DRINK",
     "symbol": "~",
-    "quench": 32,
+    "quench": 50,
     "calories": 0,
     "description": "Naturally carbonated mineral water with pomegranate flavoring.  Fruity and bitter.",
     "price": "1 USD 20 cent",

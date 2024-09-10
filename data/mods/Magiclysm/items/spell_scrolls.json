@@ -376,7 +376,7 @@
     "id": "spell_scroll_druid_healing_herb",
     "//": "Druid spell",
     "name": { "str": "Scroll of Floral Healing", "str_pl": "Scrolls of Floral Healing" },
-    "description": "Using magic energy from herbs to allows you to heal yourself.",
+    "description": "Uses magic energy from herbs to heal your wounds.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
   },
   {
@@ -385,7 +385,7 @@
     "id": "spell_scroll_druid_bandage",
     "//": "Druid spell",
     "name": { "str": "Scroll of Vegetative Poultice", "str_pl": "Scrolls of Vegetative Poultice" },
-    "description": "Turn a bunch of leaves and bark into an effective bandage.",
+    "description": "Turns a bunch of leaves and bark into an effective bandage.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_bandage_heal" ] }
   },
   {
@@ -738,6 +738,15 @@
     "name": { "str": "Scroll of Haste", "str_pl": "Scrolls of Haste" },
     "description": "This spell gives you an enormous boost of speed lasting a short period of time.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_haste" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_slow",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Slow", "str_pl": "Scrolls of Slow" },
+    "description": "This spell slows a single target greatly for its duration.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_slow" ] }
   },
   {
     "type": "BOOK",
@@ -1497,8 +1506,8 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_biomancer_remove_instability",
     "//": "Biomancer spell",
-    "name": { "str": "Formula of Restore Genetic Stability", "str_pl": "Formulae of Restore Genetic Stability" },
-    "description": "This research paper has an extremely complicated series of formulae with various genetic interspersed.  It claims that the spell will cure the aftereffects of XE037 overexposure.",
+    "name": { "str": "Formula of Preserve Genetic Stability", "str_pl": "Formulae of Preserve Genetic Stability" },
+    "description": "This research paper has an extremely complicated series of formulae with various genetic code diagrams interspersed.  It claims that the spell will reduce the negative effects of XE037 exposure.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_remove_instability" ] }
   },
   {
@@ -2049,5 +2058,41 @@
     "name": { "str": "Scroll of The Body Mechanical", "str_pl": "Scrolls of The Body Mechanical" },
     "description": "Grant yourself brief reprieves from the effects of pain.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_pain_ignore" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_magic_fissile",
+    "//": "Animist spell",
+    "name": { "str": "Rewritten Scroll" },
+    "description": "This scroll has been scribbled over again and again in the handwriting of more than one person.  The notes in the margins imply some sort of departmental competition, but no matter the results you can still make out a functional spell in the mess.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_magic_fissile" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_vocalize",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of The Inner Voice", "str_pl": "Scrolls of The Inner Voice" },
+    "description": "Speak with your soul instead of your voice, allowing casting spells in silence.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_cast_spells_when_silent" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_silence",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Silence", "str_pl": "Scrolls of Silence" },
+    "description": "Shut that pesky enemy wizard right up with this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_silence" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_light_target",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Faerie Fire", "str_pl": "Scrolls of Faerie Fire" },
+    "description": "Limn the target in a soft green or blue light.  Great at parties.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_light_target" ] }
   }
 ]

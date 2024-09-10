@@ -25,7 +25,7 @@
     "id": "jumper_cable",
     "name": { "str": "jumper cable" },
     "description": "A 3-foot (or about 1 m) jumper cable: a short multi-stranded copper cable with power leads on either end, whose main purpose is to share power between vehicles, but can also link other electrical systems.",
-    "to_hit": 1,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "line", "balance": "good" },
     "color": "light_blue",
     "symbol": "&",
     "material": [ "copper", "plastic" ],
@@ -118,7 +118,7 @@
       "targets": [ "no_link", "vehicle_tow" ]
     },
     "qualities": [ [ "ROPE", 2 ] ],
-    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
+    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 6 }
   },
   {

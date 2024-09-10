@@ -102,7 +102,7 @@
     "id": "plantkin_parchment",
     "type": "BOOK",
     "name": { "str": "plantkin parchment" },
-    "description": "My beloved child, the cataclysm struck at this world at a crucial time in your development and we were forced to leave you behind to be born alone or to mercy kill the life you were becoming.  When that was the choice upon us it felt like no choice at all.  If that was the kinder fate, I am sorry but my hopes to meet you one day were too strong.  I am shamed that our clan will be unable to provide you shade and company but, I have summoned some lesser creatures of the underhill realms to guard this place and you for as long as they can.  Most everything else in this world will attempt to kill you.  I have included instructions for how to make a healing item as well as a developmental potion that you can take to bring yourself further into your destiny and will grant new abilities, somewhat randomly I'm afraid.  I hope that you survive long enough to become what I hoped for you to be and that you are able to find one of the trodden paths from this place into the borderlands and from there deeper into Fae where you will hopefully find me.  All of my hopes and dreams ride with you.",
+    "description": "My beloved child, the Cataclysm struck at this world at a crucial time in your development and we were forced to leave you behind to be born alone or to mercy kill the life you were becoming.  When that was the choice upon us it felt like no choice at all.  If that was the kinder fate, I am sorry but my hopes to meet you one day were too strong.  I am shamed that our clan will be unable to provide you shade and company but, I have summoned some lesser creatures of the underhill realms to guard this place and you for as long as they can.  Most everything else in this world will attempt to kill you.  I have included instructions for how to make a healing item as well as a developmental potion that you can take to bring yourself further into your destiny and will grant new abilities, somewhat randomly I'm afraid.  I hope that you survive long enough to become what I hoped for you to be and that you are able to find one of the trodden paths from this place into the borderlands and from there deeper into Fae where you will hopefully find me.  All of my hopes and dreams ride with you.",
     "weight": "3 g",
     "volume": "5 ml",
     "price": "0 cent",
@@ -121,5 +121,45 @@
     "material": [ "stone" ],
     "symbol": "/",
     "color": "light_gray"
+  },
+  {
+    "id": "vampire_mentor_book",
+    "type": "TOOL",
+    "name": { "str": "Walking the shadowed path of Blood", "str_pl": "copies of Walking the shadowed path of Blood" },
+    "description": "This handwritten book contains a very thorough detailing of all what a vampire needs to reach their full potential.  You already know most of it, but some parts have yet to be read.",
+    "weight": "830 g",
+    "volume": "1320 ml",
+    "price": "1 USD",
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Read the book.",
+      "effect_on_conditions": [ "EOC_READ_VAMPIRE_MENTOR_BOOK" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_VAMPIRE_MENTOR_BOOK",
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_READ_VAMPIRE_MENTOR_BOOK" } },
+      { "run_eocs": "EOC_LEARN_FROM_VAMPIRE_MENTOR_BOOK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEARN_FROM_VAMPIRE_MENTOR_BOOK",
+    "//": "Using roll-remainder allows to grant recipes that do not create items.  Switch them if a better way is found.",
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "you_know_vampire_mentor_recipes" } ] } },
+    "effect": [
+      { "u_roll_remainder": [ "stormwrought_blood" ], "type": "recipe" },
+      { "u_learn_recipe": "concentrated_underhill_essence" },
+      { "u_learn_recipe": "dream_drainer_catalyst" },
+      { "u_learn_recipe": "revenant_effigy" },
+      { "u_roll_remainder": [ "bait_abyssal_hunger" ], "type": "recipe" },
+      { "u_add_var": "you_know_vampire_mentor_recipes", "value": "yes" }
+    ]
   }
 ]

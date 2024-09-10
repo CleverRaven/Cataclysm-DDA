@@ -51,7 +51,11 @@
     "energy_source": "MANA",
     "base_energy_cost": 1200,
     "difficulty": 8,
-    "extra_effects": [ { "id": "assassin_toxic_smoke", "hit_self": true }, { "id": "assassin_teleport" }, { "id": "eoc_conveyance_setup" } ]
+    "extra_effects": [
+      { "id": "assassin_toxic_smoke", "hit_self": true },
+      { "id": "assassin_teleport" },
+      { "id": "eoc_conveyance_setup", "hit_self": true }
+    ]
   },
   {
     "type": "SPELL",
@@ -77,7 +81,7 @@
     "final_energy_cost": 250,
     "energy_increment": -8.6,
     "difficulty": 7,
-    "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true }, { "id": "eoc_evocation_setup" } ]
+    "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true }, { "id": "eoc_evocation_setup", "hit_self": true } ]
   },
   {
     "type": "SPELL",

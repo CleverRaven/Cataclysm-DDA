@@ -134,7 +134,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
@@ -262,7 +262,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
@@ -589,7 +589,6 @@
     "volume": "52500 ml",
     "price": "75 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
@@ -703,7 +702,6 @@
     "volume": "3 L",
     "price": "80 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "cotton", "wood" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -786,7 +784,6 @@
     "longest_side": "46 cm",
     "price": "240 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
@@ -1151,7 +1148,6 @@
     "volume": "525 ml",
     "price": "45 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 2,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1181,7 +1177,6 @@
     "volume": "1050 ml",
     "price": "35 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 2,
     "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
@@ -1743,9 +1738,9 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "400 ml",
-        "max_contains_weight": "250 g",
-        "max_item_length": "8 cm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "600 g",
+        "max_item_length": "9 cm",
         "moves": 150
       }
     ],
@@ -1810,7 +1805,6 @@
     "volume": "5 L",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -1904,7 +1898,7 @@
   {
     "id": "molle_pack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE assault pack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "1450 g",
@@ -1927,7 +1921,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
@@ -1995,7 +1989,7 @@
   {
     "id": "molle_medium_rucksack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE medium rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military medium rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "1600 g",
@@ -2018,7 +2012,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
@@ -2086,7 +2080,7 @@
   {
     "id": "molle_large_rucksack",
     "type": "ARMOR",
-    "//": "Based upon own service and wikipedia: https://en.wikipedia.org/wiki/MOLLE",
+    "//": "Based upon own service and Wikipedia: https://en.wikipedia.org/wiki/MOLLE",
     "name": { "str": "MOLLE large rucksack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military large rucksack.  Covered with straps for modularity, it strikes a fine balance between storage space and encumbrance.  Can attach accessory pockets to the outside rigging.",
     "weight": "2200 g",
@@ -2109,7 +2103,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
@@ -2247,7 +2241,6 @@
     "volume": "30 ml",
     "price": "1 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
@@ -2269,7 +2262,6 @@
     "volume": "1 L",
     "price": "75 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -2380,7 +2372,7 @@
       {
         "//": "hydration pouch storage",
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "3001 ml",
+        "max_contains_volume": "3250 ml",
         "max_contains_weight": "4 kg",
         "max_item_length": "30 cm",
         "moves": 500,
@@ -2948,7 +2940,7 @@
     ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE" ],
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS", "OVERSIZE", "WATCH", "THERMOMETER" ],
     "armor": [ { "encumbrance": [ 0, 0 ], "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   },
   {

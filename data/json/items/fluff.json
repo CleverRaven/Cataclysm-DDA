@@ -29,28 +29,51 @@
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "uno",
-    "type": "GENERIC",
-    "copy-from": "deck_of_cards",
-    "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
-    "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead."
-  },
-  {
-    "id": "onirim",
-    "type": "GENERIC",
-    "copy-from": "deck_of_cards",
-    "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
-    "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them."
-  },
-  {
-    "id": "deck_of_cards_makeshift",
-    "type": "GENERIC",
-    "copy-from": "deck_of_cards",
-    "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
-    "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them."
+    "use_action": [ "PLAY_GAME" ],
+    "variants": [
+      {
+        "id": "generic_deck_of_cards",
+        "name": { "str": "deck of cards", "str_pl": "decks of cards" },
+        "description": "A fairly new, glossy deck of 52 playing cards.",
+        "weight": 30
+      },
+      {
+        "id": "deck_of_cards_worn",
+        "name": { "str": "worn deck of cards", "str_pl": "worn decks of cards" },
+        "description": "A deck of 52 playing cards.  Judging by the bent, frayed edges and faded prints, it saw its share of games.",
+        "weight": 6
+      },
+      {
+        "id": "uno",
+        "name": { "str": "deck of Uno cards", "str_pl": "decks of Uno cards" },
+        "description": "A set of Uno cards meant to play a game of Uno with your companions.  Just don't yell Uno too loud to avoid attracting the undead.",
+        "weight": 4
+      },
+      {
+        "id": "onirim",
+        "name": { "str": "deck of Shadowcaser cards", "str_pl": "decks of Shadowcaser cards" },
+        "description": "A set of cards used in the solo or two-player cooperative card game called Shadowcaser.  The deck consists of 76 unique cards.  Shadowcaser is a immersive card game set in a dream world where players find themselves trapped in a mysterious labyrinthine dream.  The objective of the game is for players to escape this dream world by unlocking eight doors before they run out of time or succumb to the nightmares haunting them.",
+        "weight": 1
+      },
+      {
+        "id": "cards_magic",
+        "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
+        "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster.",
+        "weight": 2
+      },
+      {
+        "id": "deck_of_tarot_cards",
+        "name": { "str": "deck of tarot cards", "str_pl": "decks of tarot cards" },
+        "description": "A deck of tarot cards.  Commonly used for the practice of divination.  Each card has a unique and highly symbolic picture.",
+        "weight": 2
+      },
+      {
+        "id": "deck_of_cards_makeshift",
+        "name": { "str": "makeshift deck of cards", "str_pl": "makeshift decks of cards" },
+        "description": "A deck of 52 makeshift cards, made out of cardboard rectangles with simple designs drawn on them.",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "family_photo",
@@ -592,22 +615,6 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-    "id": "cards_magic",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "deck of Sorcery cards", "str_pl": "decks of Sorcery cards" },
-    "description": "A set of cards meant to play the game \"Sorcery.\"  Each card has a fun picture of a different monster.",
-    "weight": "210 g",
-    "volume": "250 ml",
-    "price": "23 USD",
-    "price_postapoc": "5 USD",
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
     "id": "pictionary",
     "type": "GENERIC",
     "category": "other",
@@ -634,6 +641,23 @@
     "price": "99 cent",
     "price_postapoc": "5 USD",
     "material": [ "plastic" ],
+    "symbol": "?",
+    "color": "red",
+    "flags": [ "NO_REPAIR" ],
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
+    "id": "ouija",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "Ouija board" },
+    "description": "A wooden board with the alphabet and numbers on its face.  Commonly used for communing with spirits of the dead.  A planchette is included in the set.",
+    "weight": "357 g",
+    "volume": "1000 ml",
+    "longest_side": "36 cm",
+    "price": "20 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "wood" ],
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
@@ -804,7 +828,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate leveling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": "70 USD 50 cent",
@@ -1615,10 +1639,11 @@
     "type": "GENERIC",
     "id": "sketch",
     "copy-from": "paper",
-    "name": { "str_sp": "sketch" },
+    "category": "other",
+    "name": { "str": "sketch", "str_pl": "sketches" },
     "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
     "price": "0 cent",
-    "price_postapoc": "5 USD",
+    "price_postapoc": "5 cent",
     "variants": [
       {
         "id": "sketch_goofy_doodles",
@@ -1656,10 +1681,11 @@
     "type": "GENERIC",
     "id": "painting",
     "copy-from": "sheet_canvas",
+    "category": "other",
     "name": { "str_sp": "painting" },
     "description": "A painting that someone has made.",
     "price": "100 USD",
-    "price_postapoc": "200 USD",
+    "price_postapoc": "1 USD",
     "variants": [
       {
         "id": "painting_character",
@@ -1695,14 +1721,13 @@
     "color": "light_gray",
     "name": { "str": "stone sculpture" },
     "description": "A medium-sized stone sculpture.",
-    "category": "spare_parts",
+    "category": "other",
     "material": "stone",
     "weight": "7884 g",
     "volume": "20813 ml",
     "longest_side": "30 cm",
     "price": "1 kUSD",
-    "price_postapoc": "300 USD",
-    "to_hit": -2,
+    "price_postapoc": "1 USD",
     "variants": [
       {
         "id": "statue_person",
@@ -1745,15 +1770,14 @@
     "symbol": ";",
     "color": "brown",
     "name": { "str": "clay sculpture" },
-    "description": "A medium-sized clay sculpture.",
-    "category": "spare_parts",
+    "description": "A small clay sculpture.",
+    "category": "other",
     "material": "clay",
     "weight": "150 g",
     "volume": "94 ml",
     "longest_side": "30 cm",
     "price": "800 USD",
-    "price_postapoc": "150 USD",
-    "to_hit": -2,
+    "price_postapoc": "25 cent",
     "variants": [
       {
         "id": "statue_person",
@@ -1789,5 +1813,61 @@
       }
     ],
     "melee_damage": { "bash": 10 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_collapsible",
+    "name": { "str": "collapsible butterfly net" },
+    "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.  It must be extended to use.",
+    "weight": "247 g",
+    "volume": "780 ml",
+    "longest_side": "235 mm",
+    "color": "light_gray",
+    "symbol": "P",
+    "material": [ { "type": "aluminum", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
+    "price_postapoc": "15 cent",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 },
+    "use_action": {
+      "menu_text": "Extend",
+      "type": "transform",
+      "target": "butterfly_net_collapsible_extended",
+      "msg": "You snap open your butterfly net."
+    },
+    "//": "Volume based on https://www.amazon.com/dp/B0CBLV98KP with the assumption that it's a cylinder with a 6.5cm diameter - using 13cm would give ridiculously high volume, and the 13cm assumption on the website includes only half of the collapsed length."
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_collapsible_extended",
+    "name": { "str": "collapsible butterfly net (extended)", "str_pl": "collapsible butterfly nets (extended)" },
+    "description": "A piece of canvas on a collapsible aluminum frame.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
+    "copy-from": "butterfly_net_collapsible",
+    "longest_side": "92 cm",
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "use_action": {
+      "menu_text": "Collapse",
+      "type": "transform",
+      "target": "butterfly_net_collapsible",
+      "msg": "You collapse your butterfly net."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "butterfly_net_makeshift",
+    "name": { "str": "butterfly net" },
+    "description": "A piece of canvas stretched over a stick.  Used to catch bugs or fish, but might not be as useful for the mutated ones.",
+    "weight": "376 g",
+    "volume": "865 ml",
+    "longest_side": "92 cm",
+    "color": "brown",
+    "symbol": "P",
+    "material": [ { "type": "wood", "portion": 7 }, { "type": "canvas", "portion": 3 } ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "any", "balance": "neutral" },
+    "price": "18 USD",
+    "price_postapoc": "5 cent",
+    "flags": [ "FRAGILE_MELEE" ],
+    "melee_damage": { "bash": 3 }
   }
 ]

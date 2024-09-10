@@ -14,6 +14,7 @@
 #include "math_parser_diag_value.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "npc.h"
 #include "options.h"
 #include "string_input_popup.h"
 #include "units.h"
@@ -270,6 +271,78 @@ std::function<void( dialogue &, double )> faction_trust_ass( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> faction_food_supply_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->food_supply.calories;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_food_supply_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->food_supply.calories = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_wealth_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->wealth;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_wealth_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->wealth = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_power_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->power;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_power_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->power = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_size_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->size;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_size_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->size = val;
+    };
+}
+
 std::function<double( dialogue & )> field_strength_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -285,7 +358,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
         map &here = get_map();
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -637,7 +710,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
          allow_hallucinations_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -758,7 +831,7 @@ std::function<double( dialogue & )> _monsters_nearby_eval( char scope,
     return [beta = is_beta( scope ), params, loc_var, radius_val, filter_val, f]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
-            loc = get_tripoint_from_var( loc_var, d );
+            loc = get_tripoint_from_var( loc_var, d, beta );
         } else {
             loc = d.actor( beta )->global_pos();
         }
@@ -814,10 +887,22 @@ std::function<double( dialogue & )> moon_phase_eval( char /* scope */,
 }
 
 std::function<double( dialogue & )> pain_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return [beta = is_beta( scope )]( dialogue const & d ) {
-        return d.actor( beta )->pain_cur();
+    diag_value format_value( std::string( "raw" ) );
+    if( kwargs.count( "type" ) != 0 ) {
+        format_value = *kwargs.at( "type" );
+    }
+    return [format_value, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string format = format_value.str( d );
+        if( format == "perceived" ) {
+            return d.actor( beta )->perceived_pain_cur();
+        } else if( format == "raw" ) {
+            return d.actor( beta )->pain_cur();
+        } else {
+            debugmsg( R"(Unknown type "%s" for pain())", format );
+            return 0;
+        }
     };
 }
 
@@ -834,8 +919,8 @@ std::function<double( dialogue & )> energy_eval( char /* scope */,
 {
 
     return [val = params[0]]( dialogue const & d ) {
-        return units::to_millijoule(
-                   _read_from_string<units::energy>( val.str( d ), units::energy_units ) );
+        return static_cast<double>( units::to_millijoule(
+                                        _read_from_string<units::energy>( val.str( d ), units::energy_units ) ) );
     };
 }
 
@@ -880,6 +965,32 @@ std::function<void( dialogue &, double )> school_level_adjustment_ass( char scop
             }
         }
         return 0.0;
+    };
+}
+
+std::function<double( dialogue & )> get_daily_calories( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value type_val( std::string( "total" ) );
+    diag_value day_val( 0.0 );
+
+    if( kwargs.count( "day" ) != 0 ) {
+        day_val = *kwargs.at( "day" );
+    }
+
+    if( kwargs.count( "type" ) != 0 ) {
+        type_val = *kwargs.at( "type" );
+    }
+
+    return[beta = is_beta( scope ), day_val, type_val ]( dialogue const & d ) {
+        std::string type = type_val.str( d );
+        int const day = day_val.dbl( d );
+        if( day < 0 ) {
+            debugmsg( "get_daily_calories(): cannot access calorie diary from the future (day < 0)" );
+            return 0;
+        }
+
+        return static_cast<talker const *>( d.actor( beta ) )->get_daily_calories( day, type );
     };
 }
 
@@ -949,6 +1060,28 @@ std::function<double( dialogue & )> spell_count_eval( char scope,
         std::string school_str = school_value.str( d );
         const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
         return d.actor( beta )->get_spell_count( scid );
+    };
+}
+
+std::function<double( dialogue & )> spell_sum_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
+{
+    diag_value school_value( std::string{} );
+    diag_value min_level( 0.0 );
+
+    if( kwargs.count( "school" ) != 0 ) {
+        school_value = *kwargs.at( "school" );
+    }
+
+    if( kwargs.count( "level" ) != 0 ) {
+        min_level = *kwargs.at( "level" );
+    }
+
+    return[beta = is_beta( scope ), school_value, min_level]( dialogue const & d ) {
+        std::string school_str = school_value.str( d );
+        int const min_spell_level = min_level.dbl( d );
+        const trait_id scid = school_str.empty() ? trait_id::NULL_ID() : trait_id( school_str );
+        return d.actor( beta )->get_spell_sum( scid, min_spell_level );
     };
 }
 
@@ -1148,11 +1281,17 @@ std::function<double( dialogue & )> time_until_eval( char /* scope */,
         } else if( val_str == "sunrise" ) {
             ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
         } else if( val_str == "noon" ) {
-            ret = to_turns<double>( noon( calendar::turn ) - calendar::turn );
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) ) ;
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
             ret = val.dbl( d ) - to_turn<double>( calendar::turn );
+        }
+        if( val_str == "night_time" || val_str == "daylight_time" || val_str == "sunset" ||
+            val_str == "sunrise" ) {
+            if( ret < 0 ) {
+                ret += to_turns<double>( 1_days );
+            }
         }
         return _time_in_unit( ret, unit_val.str( d ) );
     };
@@ -1175,6 +1314,28 @@ std::function<double( dialogue & )> time_until_eoc_eval( char /* scope */,
         } );
 
         return it != list.end() ? _time_in_unit( to_turn<double>( it->time ), unit_val.str( d ) ) : -1;
+    };
+}
+
+std::function<double( dialogue & )> effect_duration_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value bp_val( std::string{} );
+    if( kwargs.count( "bodypart" ) != 0 ) {
+        bp_val = *kwargs.at( "bodypart" );
+    }
+
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return[effect_id = params[0], bp_val, unit_val, beta = is_beta( scope )]( dialogue const & d ) {
+        std::string const bp_str = bp_val.str( d );
+        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
+        effect target = d.actor( beta )->get_effect( efftype_id( effect_id.str( d ) ), bp );
+        return target.is_null() ? -1 : _time_in_unit( to_seconds<double>( target.get_duration() ),
+                unit_val.str( d ) );
     };
 }
 
@@ -1237,8 +1398,11 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         }
         int before = to_turns<int>( d.actor( beta )->proficiency_practiced_time( prof ) );
         int learned = to_write - before;
-        if( !direct && learned < 0 ) {
-            debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+        // Due to rounding errors, -1 can occur in normal situations. When that happens, ignore it
+        if( !direct && learned < 1 ) {
+            if( learned < -1 ) {
+                debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
+            }
             return 0;
         }
         if( !direct ) {
@@ -1318,12 +1482,97 @@ std::function<double( dialogue & )> vision_range_eval( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope )]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->unimpaired_range();
+        talker const *const actor = d.actor( beta );
+        if( Character const *const chr = actor->get_character(); chr != nullptr ) {
+            return chr->unimpaired_range();
+        } else if( monster const *const mon = actor->get_monster(); mon != nullptr ) {
+            map &here = get_map();
+            tripoint_bub_ms tripoint = get_map().bub_from_abs( mon->get_location() );
+            return mon->sight_range( here.ambient_light_at( tripoint ) );
         }
+        debugmsg( "Tried to access vision range of a non-Character talker" );
         return 0;
+    };
+}
+
+std::function<double( dialogue & )> npc_anger_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_anger();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_fear_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_fear();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_value_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_value();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<double( dialogue & )> npc_trust_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta ) ) {
+            return d.actor( beta )->get_npc_trust();
+        } else {
+            return 0;
+        }
+    };
+}
+
+std::function<void( dialogue &, double )> npc_anger_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_anger( val );
+    };
+}
+
+std::function<void( dialogue &, double )> npc_fear_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_fear( val );
+    };
+}
+
+std::function<void( dialogue &, double )> npc_value_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_value( val );
+    };
+}
+
+
+std::function<void( dialogue &, double )> npc_trust_ass( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d, double val ) {
+        return d.actor( beta )->set_npc_trust( val );
     };
 }
 
@@ -1385,11 +1634,11 @@ std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope ), id = params[0]]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->vitamin_get( vitamin_id( id.str( d ) ) );
+        talker const *const actor = d.actor( beta );
+        if( Character const *const chr = actor->get_character(); chr != nullptr ) {
+            return chr->vitamin_get( vitamin_id( id.str( d ) ) );
         }
+        debugmsg( "Tried to access vitamins of a non-Character talker" );
         return 0;
     };
 }
@@ -1506,11 +1755,16 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "damage_level", { "un", 0, damage_level_eval } },
     { "distance", { "g", 2, distance_eval } },
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
+    { "effect_duration", { "un", 1, effect_duration_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
     { "faction_like", { "g", 1, faction_like_eval } },
     { "faction_respect", { "g", 1, faction_respect_eval } },
     { "faction_trust", { "g", 1, faction_trust_eval } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_eval } },
+    { "faction_wealth", { "g", 1, faction_wealth_eval } },
+    { "faction_power", { "g", 1, faction_power_eval } },
+    { "faction_size", { "g", 1, faction_size_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
@@ -1532,9 +1786,11 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "pain", { "un", 0, pain_eval } },
     { "school_level", { "un", 1, school_level_eval}},
     { "school_level_adjustment", { "un", 1, school_level_adjustment_eval } },
+    { "get_calories_daily", { "g", 0, get_daily_calories } },
     { "skill", { "un", 1, skill_eval } },
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
+    { "spell_level_sum", { "un", 0, spell_sum_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
     { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
@@ -1545,6 +1801,10 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", 1, u_val } },
+    { "npc_anger", { "un", 0, npc_anger_eval } },
+    { "npc_fear", { "un", 0, npc_fear_eval } },
+    { "npc_value", { "un", 0, npc_value_eval } },
+    { "npc_trust", { "un", 0, npc_trust_eval } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
@@ -1560,6 +1820,10 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "faction_like", { "g", 1, faction_like_ass } },
     { "faction_respect", { "g", 1, faction_respect_ass } },
     { "faction_trust", { "g", 1, faction_trust_ass } },
+    { "faction_food_supply", { "g", 1, faction_food_supply_ass } },
+    { "faction_wealth", { "g", 1, faction_wealth_ass } },
+    { "faction_power", { "g", 1, faction_power_ass } },
+    { "faction_size", { "g", 1, faction_size_ass } },
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
@@ -1572,6 +1836,10 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", 1, u_val_ass } },
+    { "npc_anger", { "un", 0, npc_anger_ass } },
+    { "npc_fear", { "un", 0, npc_fear_ass } },
+    { "npc_value", { "un", 0, npc_value_ass } },
+    { "npc_trust", { "un", 0, npc_trust_ass } },
     { "calories", { "un", 0, calories_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },

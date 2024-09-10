@@ -6,8 +6,8 @@
     "name": { "str": "heavy combat exoskeleton head armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
     "symbol": "[",
-    "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price": "2000 USD",
+    "price_postapoc": "600 USD",
     "volume": "3300 ml",
     "weight": "3500 g",
     "flags": [ "EXO_HELMET_PLATE", "STURDY", "CANT_WEAR" ],
@@ -54,6 +54,17 @@
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
         "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       }
     ]
   },
@@ -64,8 +75,8 @@
     "name": { "str": "heavy combat exoskeleton torso armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
     "symbol": "[",
-    "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price": 200000,
+    "price_postapoc": 60000,
     "volume": "12000 ml",
     "weight": "12700 g",
     "flags": [ "EXO_TORSO_PLATE", "STURDY", "CANT_WEAR" ],
@@ -92,8 +103,8 @@
     "name": { "str": "heavy combat exoskeleton arm armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
     "symbol": "[",
-    "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price": 200000,
+    "price_postapoc": 60000,
     "volume": "9700 ml",
     "weight": "10300 g",
     "flags": [ "EXO_ARM_PLATE", "STURDY", "CANT_WEAR" ],
@@ -144,8 +155,8 @@
     "name": { "str": "heavy combat exoskeleton leg armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.",
     "symbol": "[",
-    "price": "20 kUSD",
-    "price_postapoc": "100 USD",
+    "price": 200000,
+    "price_postapoc": 60000,
     "volume": "10000 ml",
     "weight": "10600 g",
     "flags": [ "EXO_LEG_PLATE", "STURDY", "CANT_WEAR" ],
@@ -506,6 +517,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced heavy combat exoskeleton head armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "3600 ml",
     "weight": "3900 g",
     "armor": [
@@ -548,6 +560,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced heavy combat exoskeleton torso armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "13200 ml",
     "weight": "14000 g",
     "armor": [
@@ -572,6 +585,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced heavy combat exoskeleton arm armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "10700 ml",
     "weight": "11300 g",
     "armor": [
@@ -623,6 +637,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced heavy combat exoskeleton leg armor" },
     "description": "Put the tank in tank suit with this 6mm thick exoskeleton armor, it even feels like wearing a real tank, you should stay wary of anti-material rounds though.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "11000 ml",
     "weight": "11700 g",
     "armor": [
@@ -670,6 +685,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced medium combat exoskeleton head armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "3000 ml",
     "weight": "3100 g",
     "armor": [
@@ -712,6 +728,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced medium combat exoskeleton torso armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "10600 ml",
     "weight": "11200 g",
     "armor": [
@@ -736,6 +753,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced medium combat exoskeleton arm armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "8500 ml",
     "weight": "9000 g",
     "armor": [
@@ -787,6 +805,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced medium combat exoskeleton reinforced leg armor" },
     "description": "This 4mm thick exoskeleton armor will allow you to withstand a lead storm while also giving you the mobility to escape it, if the hail ends up being made of heavier calibers than standard rifle rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "8800 ml",
     "weight": "9400 g",
     "armor": [
@@ -834,6 +853,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced light combat exoskeleton head armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "2200 ml",
     "weight": "2500 g",
     "armor": [
@@ -876,6 +896,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced light combat exoskeleton torso armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "7900 ml",
     "weight": "9000 g",
     "armor": [
@@ -900,6 +921,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced light combat exoskeleton arm armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "6400 ml",
     "weight": "7300 g",
     "armor": [
@@ -951,6 +973,7 @@
     "type": "ARMOR",
     "name": { "str": "reinforced light combat exoskeleton reinforced leg armor" },
     "description": "This 2mm thick exoskeleton armor was designed when the testing of heavier versions concluded that mobility is actually the most important attribute on the battlefield, especially when you can still brush off small caliber rounds.  This armor has been reinforced with chainmail to fill its gaps.",
+    "proportional": { "price": 1.1, "price_postapoc": 1.1 },
     "volume": "6600 ml",
     "weight": "7500 g",
     "armor": [

@@ -20,11 +20,6 @@
     "components": [ [ [ "drawing_tool", 2, "LIST" ] ], [ [ "paper", 8 ] ] ]
   },
   {
-    "id": "spell_components_human_blood",
-    "type": "requirement",
-    "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]
-  },
-  {
     "id": "spell_components_dreamer_coin",
     "type": "requirement",
     "components": [
@@ -124,6 +119,11 @@
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ]
   },
   {
+    "id": "spell_components_hedge_changeling_snare",
+    "type": "requirement",
+    "components": [ [ [ "yarn", 10 ] ], [ [ "splinter", 3 ] ], [ [ "blackberries", 1 ] ], [ [ "wild_herbs", 20 ] ] ]
+  },
+  {
     "id": "spell_components_hedge_stunning_spell",
     "type": "requirement",
     "tools": [  ],
@@ -180,5 +180,65 @@
     "id": "spell_components_hedge_no_nightmares",
     "type": "requirement",
     "components": [ [ [ "wild_herbs", 15 ] ], [ [ "thyme_oil", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_turn_into_bear",
+    "type": "requirement",
+    "qualities": [ { "id": "SEW", "level": 2 } ],
+    "components": [ [ [ "skull_bear", 1 ] ], [ [ "animal_blood", 5 ] ], [ [ "raw_fur", 20 ] ], [ [ "sinew", 25 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_walk_on_water",
+    "type": "requirement",
+    "components": [ [ [ "alder_bark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ], [ "willowbark", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_bless_steel_weapon",
+    "type": "requirement",
+    "tools": [ [ [ "candle_lit", -1 ] ] ],
+    "components": [ [ [ "salt", 15 ] ], [ [ "wild_herbs", 30 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_four_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 4 ], [ "blue_pen", 4 ], [ "green_pen", 4 ], [ "black_pen", 4 ], [ "red_pen", 4 ] ]
+    ],
+    "components": [ [ [ "paper", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_six_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 4 ], [ "pencil", 6 ], [ "blue_pen", 6 ], [ "green_pen", 6 ], [ "black_pen", 6 ], [ "red_pen", 6 ] ]
+    ],
+    "components": [ [ [ "paper", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_eight_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [ [ "pen", 8 ], [ "pencil", 8 ], [ "blue_pen", 8 ], [ "green_pen", 8 ], [ "black_pen", 8 ], [ "red_pen", 8 ] ]
+    ],
+    "components": [ [ [ "paper", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_magic_square_twelve_hours",
+    "type": "requirement",
+    "tools": [
+      [ [ "candle_lit", -1 ] ],
+      [
+        [ "pen", 12 ],
+        [ "pencil", 12 ],
+        [ "blue_pen", 12 ],
+        [ "green_pen", 12 ],
+        [ "black_pen", 12 ],
+        [ "red_pen", 12 ]
+      ]
+    ],
+    "components": [ [ [ "paper", 3 ] ] ]
   }
 ]

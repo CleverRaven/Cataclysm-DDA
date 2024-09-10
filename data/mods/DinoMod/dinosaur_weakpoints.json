@@ -75,7 +75,7 @@
         "difficulty": { "melee": 5, "ranged": 5 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ],
+        "condition": { "npc_has_any_effect": [ "downed" ] },
         "effects": [
           {
             "effect": "stunned",
@@ -100,7 +100,7 @@
         "difficulty": { "melee": 4, "ranged": 1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       },
       {
         "name": "the eye",
@@ -109,7 +109,7 @@
         "crit_mult": { "all": 1.25 },
         "coverage_mult": { "ranged": 0.5 },
         "difficulty": { "point": 10, "broad": 10 },
-        "required_effects": [ "downed" ],
+        "condition": { "npc_has_any_effect": [ "downed" ] },
         "effects": [
           { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
           {
@@ -230,7 +230,7 @@
         "difficulty": { "melee": 4, "ranged": 1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       },
       {
         "name": "the eye",
@@ -295,7 +295,7 @@
         "difficulty": { "melee": 4, "ranged": 1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       },
       {
         "name": "the eye",
@@ -360,7 +360,7 @@
         "difficulty": { "melee": 4, "ranged": 1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
-        "required_effects": [ "downed" ]
+        "condition": { "npc_has_any_effect": [ "downed" ] }
       },
       {
         "name": "the eye",

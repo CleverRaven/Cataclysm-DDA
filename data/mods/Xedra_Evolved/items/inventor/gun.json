@@ -8,7 +8,6 @@
     "weight": "1170 g",
     "volume": "482 ml",
     "longest_side": "16 cm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -46,7 +45,8 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED"
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
     ],
     "pocket_data": [
       {
@@ -68,7 +68,6 @@
     "weight": "2726 g",
     "volume": "4718 ml",
     "longest_side": "896 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -99,7 +98,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
@@ -109,7 +108,8 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED"
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
     ],
     "pocket_data": [
       {
@@ -131,7 +131,6 @@
     "weight": "3540 g",
     "volume": "3830 ml",
     "longest_side": "991 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -162,7 +161,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
@@ -172,7 +171,8 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "OVERHEATS",
-      "INVENTOR_CRAFTED"
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
     ],
     "pocket_data": [
       {
@@ -193,7 +193,6 @@
     "weight": "2792 g",
     "volume": "3965 ml",
     "longest_side": "114 cm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -222,7 +221,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "IGNITE" ],
     "faults": [ "fault_overheat_explosion", "fault_overheat_venting", "fault_overheat_melting", "fault_overheat_safety" ],
     "flags": [
       "NEVER_JAMS",
@@ -260,7 +259,16 @@
     "armor": [
       { "encumbrance": [ 10, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ]
+    "flags": [
+      "TRADER_AVOID",
+      "PADDED",
+      "BELTED",
+      "OVERSIZE",
+      "WATER_FRIENDLY",
+      "MUNDANE",
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
+    ]
   },
   {
     "id": "bio_warhead",
@@ -271,7 +279,6 @@
     "volume": "2 L",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -2,
     "melee_damage": { "bash": 8 },
     "ammo_type": "bio_warhead",
     "material": [ "steel", "plastic" ],
@@ -293,14 +300,13 @@
     "weight": "2260 g",
     "volume": "3130 ml",
     "longest_side": "780 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 30,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "use_action": { "type": "cast_spell", "spell_id": "ion_shot_1", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {
@@ -342,7 +348,6 @@
     "volume": "11920 ml",
     "longest_side": "1266 mm",
     "barrel_length": "908 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 12 },
     "material": [ "qt_steel" ],
     "symbol": "(",
@@ -366,7 +371,6 @@
     "weight": "2880 g",
     "volume": "3930 ml",
     "longest_side": "998 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 6 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -379,7 +383,16 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 15,
-    "flags": [ "NEVER_JAMS", "NO_SALVAGE", "NO_REPAIR", "NON_FOULING", "NEEDS_NO_LUBE", "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [
+      "NEVER_JAMS",
+      "NO_SALVAGE",
+      "NO_REPAIR",
+      "NON_FOULING",
+      "NEEDS_NO_LUBE",
+      "TRADER_AVOID",
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
+    ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -412,7 +425,7 @@
     "range": 1,
     "ammo": "battery",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED" ] },
+    "extend": { "flags": [ "NO_TURRET", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ] },
     "modes": [  ],
     "dispersion": 150,
     "durability": 9,
@@ -519,7 +532,7 @@
     "range_modifier": 35,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
-    "damage_modifier": { "damage_type": "heat", "amount": 150 },
+    "damage_modifier": { "damage_type": "electric", "amount": 100 },
     "ammo_effects": [ "GRENADE_ELEC_EXPL" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "dispersion_modifier": 15,
@@ -549,6 +562,7 @@
     "range_modifier": 35,
     "mode_modifier": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "install_time": "1 m",
+    "damage_modifier": { "damage_type": "heat", "amount": 150 },
     "min_skills": [ [ "deduction", 4 ], [ "electronics", 4 ], [ "weapon", 4 ] ],
     "dispersion_modifier": 15,
     "handling_modifier": 4,
@@ -683,7 +697,6 @@
     "weight": "890 g",
     "volume": "658 ml",
     "longest_side": "998 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 3 },
     "material": [ "steel" ],
     "symbol": "(",
@@ -704,7 +717,8 @@
       "NEEDS_NO_LUBE",
       "TRADER_AVOID",
       "ELECTRONIC",
-      "INVENTOR_CRAFTED"
+      "INVENTOR_CRAFTED",
+      "ELECTROKINETIC_CHARGEABLE"
     ],
     "pocket_data": [
       {
@@ -725,14 +739,13 @@
     "weight": "1908 g",
     "volume": "3130 ml",
     "longest_side": "1160 mm",
-    "to_hit": -2,
     "melee_damage": { "bash": 3 },
     "material": [ "steel" ],
     "symbol": "|",
     "color": "blue",
     "charges_per_use": 50,
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED" ],
+    "flags": [ "TRADER_AVOID", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "use_action": { "type": "cast_spell", "spell_id": "heat_expl_gun", "no_fail": true, "level": 0, "need_wielding": true },
     "pocket_data": [
       {

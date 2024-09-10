@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "broth",
     "looks_like": "water",
-    "name": { "str_sp": "broth" },
+    "name": { "str_sp": "vegetable broth" },
     "weight": "253 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
@@ -11,7 +11,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 30,
-    "calories": 13,
+    "calories": 16,
     "description": "Vegetable stock.  Tasty and fairly nutritious.",
     "price": "3 USD 50 cent",
     "price_postapoc": "25 cent",
@@ -21,7 +21,35 @@
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
     "fun": 1,
-    "vitamins": [ [ "iron", 3 ] ]
+    "vitamins": [ [ "veggy_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "broth_meat",
+    "looks_like": "water",
+    "name": { "str_sp": "meat broth" },
+    "conditional_names": [
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "human %s" } },
+      { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "demihuman %s" } }
+    ],
+    "weight": "253 g",
+    "color": "yellow",
+    "spoils_in": "6 days 16 hours",
+    "container": "can_medium",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 30,
+    "calories": 17,
+    "description": "Meat stock.  Tasty and fairly nutritious.",
+    "price": "3 USD 50 cent",
+    "price_postapoc": "25 cent",
+    "material": [ "flesh" ],
+    "volume": "500 ml",
+    "charges": 2,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT" ],
+    "fun": 1,
+    "vitamins": [ [ "vitC", "1 mg" ], [ "iron", "1 mg" ], [ "calcium", "19 mg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -32,14 +60,14 @@
       { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "human %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "demihuman %s" } }
     ],
-    "weight": "267 g",
+    "weight": "253 g",
     "color": "yellow",
     "spoils_in": "6 days 16 hours",
     "container": "can_medium",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 30,
-    "calories": 43,
+    "calories": 41,
     "description": "A tasty and nutritious broth made from bones, with added vinegar to extract more calcium.",
     "price": "3 USD 50 cent",
     "price_postapoc": "25 cent",
@@ -48,9 +76,9 @@
     "volume": "500 ml",
     "charges": 2,
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_SALVAGE" ],
+    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", "200 μg" ], [ "meat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -73,7 +101,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -97,7 +125,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 5 ], [ "veggy_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -126,7 +154,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ] ],
+    "vitamins": [ [ "vitC", 36 ], [ "calcium", 3 ], [ "iron", 13 ], [ "meat_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -150,7 +178,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ] ],
+    "vitamins": [ [ "vitC", 28 ], [ "calcium", 4 ], [ "iron", 5 ], [ "meat_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -174,7 +202,7 @@
     "volume": "500 ml",
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "vitC", 35 ], [ "calcium", 4 ], [ "iron", 12 ], [ "veggy_allergen", 1 ] ],
     "fun": 5
   },
   {
@@ -199,7 +227,7 @@
     "phase": "liquid",
     "charges": 1,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ] ],
+    "vitamins": [ [ "vitC", 30 ], [ "calcium", 5 ], [ "iron", 28 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 8
   },
   {
@@ -224,7 +252,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -249,7 +277,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "iron", 3 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -273,7 +301,7 @@
     "charges": 4,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 15 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -297,7 +325,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 9 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -322,7 +350,7 @@
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
     "fun": 1,
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -346,47 +374,24 @@
     "phase": "liquid",
     "charges": 2,
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "fun": 1
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "soup_blood_wheat_free",
-    "looks_like": "soup_blood",
-    "name": { "str_sp": "wheat-free blood soup" },
-    "weight": "266 g",
-    "color": "brown",
-    "spoils_in": "2 days",
-    "container": "can_medium",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "quench": 15,
-    "calories": 318,
-    "description": "A mushy, brown semi-liquid soup made from blood and wheat-free flour.",
-    "price": "3 USD 50 cent",
-    "price_postapoc": "25 cent",
-    "material": [ "blood", "veggy" ],
-    "primary_material": "blood",
-    "volume": "500 ml",
-    "phase": "liquid",
-    "charges": 2,
-    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "fun": 1
+    "fun": 1,
+    "vitamins": [ [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "soup_tomato",
     "looks_like": "tomato_juice",
     "name": { "str_sp": "tomato soup" },
-    "weight": "257 g",
+    "weight": "242 g",
     "color": "red",
     "spoils_in": "6 days 16 hours",
     "container": "can_food",
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 15,
-    "calories": 90,
-    "description": "Thin red tomato soup.  Not very filling, but it goes well with grilled cheese.",
-    "price": "4 USD",
+    "calories": 159,
+    "description": "Condensed tomato soup.  Not very filling, but it goes well with grilled cheese.",
+    "price": "87 cent",
     "price_postapoc": "50 cent",
     "sealed": true,
     "material": [ "tomato" ],
@@ -394,7 +399,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "vitC", "31200 μg" ], [ "iron", "1400 μg" ], [ "calcium", "31500 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -419,7 +424,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ] ],
+    "vitamins": [ [ "vitC", 7 ], [ "calcium", 9 ], [ "iron", 13 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -443,7 +448,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 3
   },
   {
@@ -467,7 +472,7 @@
     "charges": 2,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 8 ], [ "calcium", 7 ], [ "iron", 7 ], [ "meat_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "fun": 10
   },
   {
@@ -491,7 +496,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -513,7 +518,7 @@
     "material": [ "powder", "flesh", "wheat" ],
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ], [ "meat_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": -10
   },
   {
@@ -537,7 +542,7 @@
     "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": 1
   },
   {
@@ -559,7 +564,31 @@
     "material": [ "powder", "veggy", "wheat" ],
     "volume": "13 ml",
     "flags": [ "EDIBLE_FROZEN" ],
-    "vitamins": [ [ "iron", 2 ] ],
+    "vitamins": [ [ "iron", 2 ], [ "veggy_allergen", 1 ], [ "wheat_allergen", 1 ] ],
     "fun": -10
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "coqauvin",
+    "looks_like": "soup_dumplings",
+    "name": { "str_sp": "coq au vin" },
+    "weight": "263 g",
+    "color": "light_gray",
+    "spoils_in": "3 days",
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 8,
+    "calories": 580,
+    "description": "French chicken stew braised with red wine.",
+    "price": 500,
+    "price_postapoc": 100,
+    "material": [ "flesh", "veggy" ],
+    "primary_material": "flesh",
+    "volume": "500 ml",
+    "charges": 2,
+    "phase": "liquid",
+    "flags": [ "EATEN_HOT", "USE_EAT_VERB" ],
+    "vitamins": [ [ "vitC", "7 mg" ], [ "iron", "23 mg" ], [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ] ],
+    "fun": 16
   }
 ]

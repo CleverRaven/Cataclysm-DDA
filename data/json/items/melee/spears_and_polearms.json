@@ -14,6 +14,7 @@
     "longest_side": "140 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "20 USD",
@@ -33,9 +34,9 @@
     "weight": "900 g",
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "price_postapoc": "10 cent",
-    "flags": [ "SPEAR" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
@@ -56,6 +57,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 9 }
   },
   {
@@ -76,6 +78,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "4 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
@@ -104,6 +107,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "40 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 18 }
   },
   {
@@ -176,6 +180,7 @@
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
@@ -189,6 +194,7 @@
     "price": "7 USD",
     "price_postapoc": "1 USD 50 cent",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -42 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
   {
@@ -209,6 +215,7 @@
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 26 }
@@ -232,6 +239,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "160 USD",
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -28 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 26 }
   },
   {
@@ -252,6 +260,7 @@
     "looks_like": "spear_steel",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
@@ -275,6 +284,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "160 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 24 }
   },
   {
@@ -296,6 +306,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "49 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
@@ -316,6 +327,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "14 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 4, "stab": 28 }
   },
   {
@@ -336,6 +348,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "160 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 30 }
   },
   {
@@ -352,10 +365,10 @@
     "to_hit": { "grip": "solid", "length": "short", "surface": "point", "balance": "neutral" },
     "price": "2 USD",
     "price_postapoc": "10 cent",
-    "flags": [ "SPEAR" ],
     "weapon_category": [ "FENCING_WEAPONRY" ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 3, "stab": 13 }
   },
   {
@@ -377,6 +390,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "80 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 18 }
   },
   {
@@ -397,6 +411,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "80 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 7, "stab": 24 }
   },
   {
@@ -414,9 +429,10 @@
     "longest_side": "80 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "SPEAR", "FRAGILE_MELEE" ],
+    "flags": [ "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 9, "stab": 4 }
   },
   {
@@ -437,6 +453,7 @@
     "flags": [ "SPEAR", "FRAGILE_MELEE" ],
     "weapon_category": [ "POLEARMS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 6, "stab": 13 }
   },
   {
@@ -457,6 +474,7 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "FRAGILE_MELEE", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "qualities": [ [ "COOK", 1 ], [ "HAMMER", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 16 }
   },
   {
@@ -478,6 +496,7 @@
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "800 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 8, "stab": 43 }
   },
   {
@@ -499,6 +518,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": "100 USD",
     "qualities": [ [ "COOK", 1 ], [ "BUTCHER", -70 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "category": "weapons",
     "melee_damage": { "bash": 15, "cut": 49 }
   },
@@ -587,27 +607,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "spear_survivor",
-    "name": { "str_sp": "survivor naginata" },
-    "description": "This sturdy steel shaft with a sword blade at the end is good for both slashing and stabbing.",
-    "weight": "1700 g",
-    "color": "light_gray",
-    "symbol": "/",
-    "material": [ "steel" ],
-    "techniques": [ "IMPALE", "WIDE", "WBLOCK_1" ],
-    "volume": "2250 ml",
-    "longest_side": "180 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
-    "flags": [ "POLEARM", "REACH_ATTACK", "SHEATH_SPEAR" ],
-    "weapon_category": [ "HOOKING_WEAPONRY", "POLEARMS" ],
-    "//": "Description says it can slash. STAB currently doesn't slash, but at least it doesn't give the spear bonus",
-    "price": "80 USD",
-    "price_postapoc": "45 USD",
-    "qualities": [ [ "COOK", 1 ], [ "CUT", 1 ], [ "BUTCHER", -24 ] ],
-    "melee_damage": { "bash": 4, "cut": 36 }
-  },
-  {
-    "type": "GENERIC",
     "id": "javelin",
     "name": { "str": "wooden javelin" },
     "description": "A fire-hardened wooden spear honed to a sharper point.",
@@ -620,11 +619,12 @@
     "longest_side": "140 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
-    "flags": [ "SPEAR", "SHEATH_SPEAR", "JAVELIN" ],
+    "flags": [ "SHEATH_SPEAR", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "stab": 11 }
   },
   {
@@ -641,11 +641,12 @@
     "longest_side": "140 cm",
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
-    "flags": [ "SPEAR", "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "JAVELIN" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": "90 USD",
     "price_postapoc": "5 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 5, "stab": 19 }
   },
   {
@@ -666,6 +667,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "melee_damage": { "bash": 9, "stab": 16 }
@@ -688,6 +690,7 @@
     "looks_like": "pike",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "melee_damage": { "bash": 9, "stab": 23 }
@@ -708,6 +711,7 @@
     "color": "brown",
     "techniques": [ "IMPALE", "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "POLEARM", "SPEAR", "REACH_ATTACK", "REACH3", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weapon_category": [ "POLEARMS" ],
     "category": "weapons",
@@ -776,6 +780,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE", "POLEARM" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 39 }
@@ -797,6 +802,7 @@
     "looks_like": "spear_dory",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "NONCONDUCTIVE" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 5, "stab": 29 }
@@ -820,6 +826,7 @@
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "neutral" },
     "price_postapoc": "50 USD",
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 28, "cut": 31 }
   },
   {
@@ -859,6 +866,7 @@
     "color": "light_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 20 }
@@ -881,6 +889,7 @@
     "looks_like": "spear_stone",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "SPEAR", "REACH_ATTACK", "SHEATH_SPEAR" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "melee_damage": { "bash": 8, "stab": 20 }
@@ -892,8 +901,8 @@
     "description": "This is a long polearm with an oar-like oval head covered with razors.  Its shape make it suitable for both thrusting and slashing.  It resembles the Mesoamerican Tepoztopili, though the shaft is not very sturdy.",
     "weight": "1900 g",
     "volume": "3 L",
-    "price": "15 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
     "symbol": "/",
     "color": "brown",
     "material": [ "wood" ],
@@ -911,8 +920,8 @@
     "description": "This is a long polearm with an oar-like oval head covered with glass.  Its shape make it suitable for both thrusting and slashing.  It resembles the Mesoamerican Tepoztopili, though the shaft is not very sturdy.",
     "weight": "1850 g",
     "volume": "3 L",
-    "price": "10 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
     "symbol": "/",
     "color": "brown",
     "material": [ "wood", "glass" ],
@@ -930,8 +939,8 @@
     "description": "This is a long polearm with an oar-like oval head covered with stones.  Its shape make it suitable for both thrusting and slashing.  It resembles the Mesoamerican Tepoztopili, though the shaft is not very sturdy.",
     "weight": "2000 g",
     "volume": "3 L",
-    "price": "10 USD",
-    "price_postapoc": "2 USD 50 cent",
+    "price": "2 USD",
+    "price_postapoc": "50 cent",
     "symbol": "/",
     "color": "brown",
     "material": [ "wood", "stone" ],

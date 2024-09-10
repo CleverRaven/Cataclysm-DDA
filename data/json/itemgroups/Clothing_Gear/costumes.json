@@ -70,7 +70,7 @@
       { "item": "clown_nose", "prob": 20 },
       { "item": "plastic_mandible_guard", "prob": 5 },
       { "item": "leg_sheath6", "prob": 20 },
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 1 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 1 },
       { "item": "punch_dagger", "container-item": "gartersheath1", "prob": 1 },
       { "item": "gartersheath1", "prob": 25 },
       { "item": "gartersheath2", "prob": 10 },
@@ -81,7 +81,7 @@
   {
     "type": "item_group",
     "id": "costume_cloacks",
-    "//": "cloacks for costumes, cosplay and costume parties",
+    "//": "cloaks for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
       { "item": "cloak_vampire", "prob": 25 },
@@ -316,7 +316,7 @@
       { "item": "rashguard", "variant": "skull_rashguard_shirt", "prob": 10 },
       { "item": "rashguard", "variant": "gothic_rashguard_shirt", "prob": 10 },
       { "item": "postman_shirt", "prob": 10 },
-      { "item": "flag_shirt", "prob": 15 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "dress_shirt", "prob": 10 },
       { "item": "longshirt", "prob": 10 },
       { "item": "striped_shirt", "prob": 15 }
@@ -383,7 +383,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "flag_jumpsuit", "prob": 25 },
-      { "item": "flag_shirt", "prob": 25 },
+      { "item": "tshirt", "variant": "flag_shirt" },
       { "item": "pants", "variant": "pants_flag", "prob": 25 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },

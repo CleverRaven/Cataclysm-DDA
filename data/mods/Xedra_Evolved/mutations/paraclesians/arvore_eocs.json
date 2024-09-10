@@ -1,6 +1,100 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "ARVORE" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD_ON_OMT_ENTER_2",
+            "condition": { "not": { "u_near_om_location": "road", "range": 2 } },
+            "effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "1" ] } ],
+            "false_effect": [ { "math": [ "u_arvore_is_in_wilderness", "=", "0" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_ARVORE_IS_IN_FOREST_ON_OMT_ENTER",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_enters_omt",
+    "condition": { "u_has_trait": "ARVORE" },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CONDITION_CHECK_ARVORE_IS_IN_FOREST_ON_OMT_ENTER_2",
+            "condition": {
+              "or": [
+                { "u_at_om_location": "forest" },
+                { "u_at_om_location": "forest_thick" },
+                { "u_at_om_location": "arvore_genius_loci_NW" },
+                { "u_at_om_location": "arvore_genius_loci_NE" },
+                { "u_at_om_location": "arvore_genius_loci_SW" },
+                { "u_at_om_location": "arvore_genius_loci_SE" },
+                { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
+                { "u_near_om_location": "great_tree_z0_se", "range": 2 },
+                { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
+                { "u_near_om_location": "great_tree_z1_se", "range": 2 },
+                { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
+                { "u_near_om_location": "great_tree_z2_se", "range": 2 },
+                { "u_near_om_location": "great_tree_z3_06", "range": 2 },
+                { "u_near_om_location": "great_tree_z3_11", "range": 2 },
+                { "u_near_om_location": "great_tree_z4_06", "range": 2 },
+                { "u_near_om_location": "great_tree_z4_11", "range": 2 },
+                { "u_near_om_location": "great_tree_z5_06", "range": 2 },
+                { "u_near_om_location": "great_tree_z5_11", "range": 2 },
+                { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
+                { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+                { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
+                { "u_near_om_location": "great_tree_z6_se", "range": 2 },
+                { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
+                { "u_near_om_location": "great_tree_z7_se", "range": 2 },
+                { "u_near_om_location": "great_tree_crown_06", "range": 2 },
+                { "u_near_om_location": "great_tree_crown_11", "range": 2 },
+                { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
+                { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
+                { "u_near_om_location": "great_tree_roots", "range": 2 },
+                { "u_near_om_location": "great_tree_roots_se", "range": 2 },
+                { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+              ]
+            },
+            "effect": [ { "math": [ "u_arvore_is_in_forest", "=", "1" ] } ],
+            "false_effect": [ { "math": [ "u_arvore_is_in_forest", "=", "0" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN",
+    "condition": {
+      "or": [
+        { "u_is_on_terrain_with_flag": "SHRUB" },
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "u_is_on_terrain_with_flag": "YOUNG" }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST",
+    "condition": { "math": [ "u_arvore_is_in_forest", "==", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD",
+    "condition": { "math": [ "u_arvore_is_in_wilderness", "==", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_BRIARS_SELECTOR",
     "effect": [
       {
@@ -27,24 +121,8 @@
     "condition": {
       "and": [
         "u_is_outside",
-        {
-          "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain_with_flag": "YOUNG" }
-          ]
-        },
-        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-        { "not": { "u_near_om_location": "road_end", "range": 1 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
-        { "not": { "u_near_om_location": "road", "range": 1 } }
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
     "effect": [
@@ -56,10 +134,15 @@
           ]
         }
       },
+      { "u_lose_morale": "morale_forest_unity" },
       {
         "u_add_morale": "morale_forest_unity",
-        "bonus": 10,
-        "max_bonus": 15,
+        "bonus": {
+          "math": [
+            "(5 + u_spell_level('arvore_commune_with_nature') ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+          ]
+        },
+        "max_bonus": 40,
         "duration": {
           "math": [
             "( 600 + (u_spell_level('arvore_commune_with_nature') * 240) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
@@ -182,24 +265,8 @@
     "condition": {
       "and": [
         "u_is_outside",
-        {
-          "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain_with_flag": "YOUNG" }
-          ]
-        },
-        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-        { "not": { "u_near_om_location": "road_end", "range": 1 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
-        { "not": { "u_near_om_location": "road", "range": 1 } }
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "cultivate_goblin_fruit_real" } } ],
@@ -275,24 +342,8 @@
     "condition": {
       "and": [
         "u_is_outside",
-        {
-          "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain_with_flag": "YOUNG" }
-          ]
-        },
-        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
-        { "not": { "u_near_om_location": "road_end", "range": 1 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
-        { "not": { "u_near_om_location": "road", "range": 1 } }
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "arvore_summon_preservation_container_real" } } ],
@@ -585,36 +636,8 @@
                 { "not": { "u_at_om_location": "field" } }
               ]
             },
-            { "u_at_om_location": "arvore_genius_loci_NW" },
-            { "u_at_om_location": "arvore_genius_loci_NE" },
-            { "u_at_om_location": "arvore_genius_loci_SW" },
-            { "u_at_om_location": "arvore_genius_loci_SE" },
             { "u_is_on_terrain": "t_barkfloor" },
-            { "u_near_om_location": "great_tree_z0_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z0_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z1_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z1_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z2_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z2_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z3_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z3_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z4_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z4_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z5_06", "range": 2 },
-            { "u_near_om_location": "great_tree_z5_11", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_n2", "range": 2 },
-            { "u_near_om_location": "great_tree_z6_se", "range": 2 },
-            { "u_near_om_location": "great_tree_z7_nw", "range": 2 },
-            { "u_near_om_location": "great_tree_z7_se", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_06", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_11", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_top_01", "range": 2 },
-            { "u_near_om_location": "great_tree_crown_top_04", "range": 2 },
-            { "u_near_om_location": "great_tree_roots", "range": 2 },
-            { "u_near_om_location": "great_tree_roots_se", "range": 2 },
-            { "u_near_om_location": "great_tree_roots_nw", "range": 2 }
+            { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" }
           ]
         }
       ]
@@ -640,33 +663,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_TREE_FORM_ON",
-    "condition": {
-      "and": [
-        "u_is_outside",
-        {
-          "or": [
-            { "u_is_on_terrain_with_flag": "SHRUB" },
-            { "u_is_on_terrain_with_flag": "DIGGABLE" },
-            { "u_is_on_terrain": "t_tree_young" },
-            { "u_is_on_terrain": "t_bamboo_tall" },
-            { "u_is_on_terrain": "t_dirt" },
-            { "u_is_on_terrain": "t_dirtmound" },
-            { "u_is_on_terrain": "t_clay" },
-            { "u_is_on_terrain": "t_sand" },
-            { "u_is_on_terrain": "t_sandmound" },
-            { "u_is_on_terrain": "t_grave" },
-            { "u_is_on_terrain": "t_forestfloor" },
-            { "u_is_on_terrain": "t_grass" },
-            { "u_is_on_terrain": "t_grass_long" },
-            { "u_is_on_terrain": "t_grass_tall" },
-            { "u_is_on_terrain": "t_grass_dead" },
-            { "u_is_on_terrain": "t_mud" },
-            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-            { "u_is_on_terrain": "t_moss" }
-          ]
-        }
-      ]
-    },
+    "condition": { "and": [ "u_is_outside", { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" } ] },
     "effect": [
       { "u_add_trait": "CHLOROMORPH" },
       { "u_add_trait": "LEAVES3" },
@@ -780,15 +777,8 @@
     "condition": {
       "and": [
         "u_is_outside",
-        {
-          "or": [
-            { "u_at_om_location": "forest_thick" },
-            { "u_at_om_location": "arvore_genius_loci_NW" },
-            { "u_at_om_location": "arvore_genius_loci_NE" },
-            { "u_at_om_location": "arvore_genius_loci_SW" },
-            { "u_at_om_location": "arvore_genius_loci_SE" }
-          ]
-        }
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+        { "not": { "u_at_om_location": "field" } }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "paraclesian_translocate" } } ],
@@ -800,15 +790,8 @@
     "condition": {
       "and": [
         "u_is_outside",
-        {
-          "or": [
-            { "u_at_om_location": "forest_thick" },
-            { "u_at_om_location": "arvore_genius_loci_NW" },
-            { "u_at_om_location": "arvore_genius_loci_NE" },
-            { "u_at_om_location": "arvore_genius_loci_SW" },
-            { "u_at_om_location": "arvore_genius_loci_SE" }
-          ]
-        }
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_FOREST" },
+        { "not": { "u_at_om_location": "field" } }
       ]
     },
     "effect": [ { "u_cast_spell": { "id": "arvore_forest_translocate_attune_real" }, "targeted": true } ],

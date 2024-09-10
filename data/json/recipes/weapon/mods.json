@@ -301,20 +301,6 @@
     "components": [ [ [ "offset_sight_rail", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
-    "result": "stabilizer_mod",
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ [ "gun", 6 ] ],
-    "time": "30 m",
-    "autolearn": true,
-    "tools": [ [ [ "large_repairkit", 25 ], [ "small_repairkit", 45 ] ] ],
-    "components": [ [ [ "stabilizer", 1 ] ], [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
     "result": "muzzle_brake_mod",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
@@ -625,7 +611,7 @@
     "time": "15 m",
     "decomp_learn": 3,
     "book_learn": [ [ "manual_rifle", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [
@@ -777,7 +763,7 @@
     "time": "10 m",
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "super_glue", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -793,21 +779,6 @@
     "book_learn": [ [ "mag_archery", 1 ], [ "manual_archery", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "fur", 1 ] ], [ [ "bone_glue", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "pipe_launcher40mm",
-    "//": "underbarrel mount",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "mechanics",
-    "skills_required": [ "launcher", 3 ],
-    "difficulty": 6,
-    "time": "30 m",
-    "book_learn": [ [ "manual_launcher", 3 ], [ "mag_launcher", 4 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "duct_tape", 50 ] ], [ [ "nail", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1288,8 +1259,7 @@
     "tools": [
       [
         [ "modular_ar15", -1 ],
-        [ "ar_pistol", -1 ],
-        [ "oa93", -1 ],
+        [ "modular_ar_pistol", -1 ],
         [ "modular_m27_assault_rifle", -1 ],
         [ "modular_m16_auto_rifle", -1 ],
         [ "modular_m4_carbine", -1 ],
@@ -1314,10 +1284,7 @@
     "//": "Simple to manufacture, hence it's not gonna be in published in too much detail in gun-mags.",
     "book_learn": [ [ "manual_rifle", 6 ], [ "textbook_anarch", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "tools": [
-      [ [ "modular_ar15", -1 ], [ "ar_pistol", -1 ], [ "oa93", -1 ] ],
-      [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
-    ],
+    "tools": [ [ [ "modular_ar15", -1 ], [ "modular_ar_pistol", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 2 ] ] ]
   },
   {

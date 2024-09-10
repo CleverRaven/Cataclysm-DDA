@@ -75,7 +75,7 @@
             "entries": [
               { "group": "ammo_rifle_common_collection", "prob": 25 },
               { "group": "ammo_shotgun_common_collection", "prob": 40 },
-              { "group": "mags_rifle_common_gunstore", "prob": 35 }
+              { "group": "mags_common", "prob": 35 }
             ]
           },
           "chance": 100,
@@ -530,7 +530,7 @@
             "entries": [
               { "group": "ammo_rifle_common_collection", "prob": 25 },
               { "group": "ammo_shotgun_common_collection", "prob": 40 },
-              { "group": "mags_rifle_common_gunstore", "prob": 35 }
+              { "group": "mags_common", "prob": 35 }
             ]
           },
           "chance": 7,

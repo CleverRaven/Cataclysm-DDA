@@ -354,6 +354,12 @@
     "restriction": "Item must be some kind of face shield"
   },
   {
+    "id": "HELMET_FRONT_ATTACHMENT",
+    "type": "json_flag",
+    "info": "This item is attachable in the front of <info>military helmets</info>.",
+    "restriction": "Item must be some kind of frontal helmet attachment"
+  },
+  {
     "id": "HELMET_EAR_ATTACHMENT",
     "type": "json_flag",
     "info": "This item is attachable in <info>hard hats and helmets</info> to cover the ears.",
@@ -911,11 +917,6 @@
     "type": "json_flag"
   },
   {
-    "id": "SLOWS_MOVEMENT",
-    "type": "json_flag",
-    "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
-  },
-  {
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
@@ -1174,9 +1175,39 @@
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
   },
   {
+    "id": "TEMPORARY_SHAPESHIFT",
+    "type": "json_flag",
+    "//": "The character is in a form other than their natural one due to some preternatural effect."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_TINY",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Tiny."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_SMALL",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Small."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_LARGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Large."
+  },
+  {
+    "id": "SHAPESHIFT_SIZE_HUGE",
+    "type": "json_flag",
+    "//": "Due to shapeshifting, the character is size Huge."
+  },
+  {
     "id": "NON_THRESH",
     "type": "json_flag",
     "//": "This mutation does not count toward thresholds at all."
+  },
+  {
+    "id": "ROBUST_GENETIC",
+    "type": "json_flag",
+    "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
   },
   {
     "id": "HIDDEN_HALLU",
@@ -1568,6 +1599,11 @@
     "type": "json_flag"
   },
   {
+    "id": "MODULE_HOLDER",
+    "//": "Allows enchantment check to get modules in pockets of this item (modules are items which have an enchantment effect and the HAS:WORN flag.",
+    "type": "json_flag"
+  },
+  {
     "id": "MOUNTED_GUN",
     "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use.",
     "type": "json_flag"
@@ -1687,6 +1723,10 @@
   },
   {
     "id": "NPC_THROW_NOW",
+    "type": "json_flag"
+  },
+  {
+    "id": "NVG_GREEN",
     "type": "json_flag"
   },
   {
@@ -1891,6 +1931,10 @@
   },
   {
     "id": "USES_BIONIC_POWER",
+    "type": "json_flag"
+  },
+  {
+    "id": "USES_NEARBY_AMMO",
     "type": "json_flag"
   },
   {
@@ -2329,6 +2373,18 @@
     "name": "gas mask cartridge"
   },
   {
+    "id": "PANORAMIC_OUTSERT",
+    "type": "json_flag",
+    "info": "This item is meant to be externally attached to the eyepiece of a single-lens gas mask.",
+    "restriction": "Item must be designed to clip onto the external Lenz brackets of a panoramic-view gas mask."
+  },
+  {
+    "id": "PANORAMIC_INSERT",
+    "type": "json_flag",
+    "info": "This item is intended to be inserted behind the visor of a single-lens gas mask.",
+    "restriction": "Item must be able to clip into place within a gas mask that has a single, panoramic eyepiece."
+  },
+  {
     "id": "REBREATHER_CART",
     "type": "json_flag",
     "info": "A filter for a rebreather.",
@@ -2360,6 +2416,11 @@
     "id": "ETHEREAL",
     "type": "json_flag",
     "info": "You feel like you would keep all your items if you somehow became incorporeal."
+  },
+  {
+    "id": "CLIMB_FLYING",
+    "type": "json_flag",
+    "info": "You can ascend straight up even with no physical surface to climb on."
   },
   {
     "id": "TREE_COMMUNION_PLUS",
@@ -2455,5 +2516,35 @@
   {
     "id": "DRACULIN_VENOM",
     "type": "json_flag"
+  },
+  {
+    "id": "PREFIX_XL",
+    "type": "json_flag",
+    "item_prefix": "XL "
+  },
+  {
+    "id": "PREFIX_XS",
+    "type": "json_flag",
+    "item_prefix": "XS "
+  },
+  {
+    "id": "DECAYS_IN_AIR",
+    "type": "json_flag",
+    "info": "This will eventually <bad>go bad</bad> if left in the open air too long."
+  },
+  {
+    "id": "IRRITANT_IMMUNE",
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>skin irritants</info>."
+  },
+  {
+    "id": "ITEM_WATERPROOFING",
+    "type": "json_flag",
+    "info": "Something is preventing your worn and carried items from being effected by water."
+  },
+  {
+    "id": "WATERWALKING",
+    "type": "json_flag",
+    "info": "You can walk across the surface of water."
   }
 ]

@@ -11,7 +11,8 @@
     "coverage": 60,
     "floor_bedding_warmth": 800,
     "comfort": 1,
-    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "EASY_DECONSTRUCT", "NO_SIGHT" ],
+    "connect_groups": "INDOORFLOOR",
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "NO_SIGHT" ],
     "bash": {
       "str_min": 4,
       "str_max": 60,

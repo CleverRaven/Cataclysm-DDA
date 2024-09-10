@@ -891,7 +891,7 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "lizard_sample", 1 ] ],
-      [ [ "egg_reptile", 1 ] ],
+      [ [ "eggs_reptile", 1, "LIST" ] ],
       [ [ "bfipowder", 4 ], [ "lizard_sample", 1 ] ]
     ],
     "flags": [ "SECRET" ]

@@ -85,7 +85,6 @@ jobs:
             os: ubuntu-20.04
             tiles: 0
             sound: 0
-            release: 1
             cmake: 0
             localize: 1
             test-stage: 1
@@ -93,6 +92,7 @@ jobs:
             pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
+            mods: --mods=magiclysm
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
             # ~190MB in a clean build
             # ~30MB compressed
@@ -102,7 +102,6 @@ jobs:
 
           - compiler: clang++
             os: macos-12
-            release: 1
             cmake: 0
             native: osx
             pch: 0
@@ -116,7 +115,6 @@ jobs:
 
           - compiler: g++-9
             os: ubuntu-latest
-            release: 1
             cmake: 0
             tiles: 0
             sound: 0
@@ -126,6 +124,7 @@ jobs:
             libbacktrace: 1
             native: linux64
             pch: 1
+            cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
@@ -135,7 +134,6 @@ jobs:
 
           - compiler: clang++-12
             os: ubuntu-22.04
-            release: 0
             cmake: 0
             tiles: 1
             sound: 0
@@ -144,7 +142,6 @@ jobs:
             pch: 1
             sanitize: address
             cxxflags: --gcc-toolchain=/opt/mock-gcc-11
-            mods: --mods=magiclysm
             dont_skip_data_only_changes: 1
             title: Clang 12, Ubuntu, Tiles, ASan
             # ~390MB in a clean build
@@ -155,7 +152,6 @@ jobs:
 
           - compiler: g++-11
             os: ubuntu-latest
-            release: 0
             cmake: 0
             tiles: 0
             sound: 0
@@ -172,7 +168,6 @@ jobs:
 
           - compiler: g++
             os: ubuntu-latest
-            release: 0
             cmake: 0
             native:
             pch: 1
@@ -192,7 +187,6 @@ jobs:
 
           - compiler: g++-9
             os: ubuntu-latest
-            release: 1
             cmake: 1
             tiles: 1
             sound: 1
@@ -235,7 +229,7 @@ jobs:
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         LIBBACKTRACE: ${{ matrix.libbacktrace }}
-        RELEASE: ${{ matrix.release }}
+        RELEASE: 1
         ARCHIVE_SUCCESS: ${{ matrix.archive-success }}
         CCACHE_LIMIT: ${{ matrix.ccache_limit }}
         CCACHE_FILECLONE: true
@@ -244,6 +238,11 @@ jobs:
         SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
         SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
+    - name: Maximize build space
+      if: ${{ runner.os == 'Linux' }}
+      uses: AdityaGarg8/remove-unwanted-software@v4.1
+      with:
+        remove-android: 'true'
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
       uses: actions/checkout@v4
@@ -350,3 +349,9 @@ jobs:
         name: cata_test
         path: tests/cata_test*
         if-no-files-found: ignore
+        retention-days: 9
+  emscripten:
+    needs: [ varied_builds ]
+    uses: ./.github/workflows/emscripten.yml
+    if: ${{ success() && github.event.pull_request.draft == false }}
+    secrets: inherit

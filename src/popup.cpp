@@ -22,6 +22,12 @@ class query_popup_impl : public cataimgui::window
         nc_color default_text_color;
         query_popup *parent;
         short last_keyboard_selected_option;
+
+        std::vector<std::vector<std::string>> fold_query(
+                                               const std::string &category,
+                                               keyboard_mode pref_kbd_mode,
+                                               const std::vector<query_popup::query_option> &options,
+                                               int max_width, int horz_padding );
     public:
         short keyboard_selected_option;
 
@@ -52,13 +58,15 @@ void query_popup_impl::draw_controls()
     mouse_selected_option = -1;
 
     for( const std::string &line : parent->folded_msg ) {
-        nc_color col = parent->default_text_color;
-        draw_colored_text( line, col, float( msg_width ) );
+        cataimgui::draw_colored_text( line, parent->default_text_color );
     }
 
     if( !parent->buttons.empty() ) {
         int current_line = 0;
         for( size_t ind = 0; ind < parent->buttons.size(); ++ind ) {
+            if( ind != 0 && current_line == parent->buttons[ind].pos.y ) {
+                ImGui::SameLine();
+            }
             ImGui::SetCursorPosX( float( parent->buttons[ind].pos.x ) );
             ImGui::Button( remove_color_tags( parent->buttons[ind].text ).c_str() );
             if( ImGui::IsItemHovered() ) {
@@ -67,9 +75,6 @@ void query_popup_impl::draw_controls()
             if( keyboard_selected_option != last_keyboard_selected_option &&
                 keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
                 ImGui::SetKeyboardFocusHere( -1 );
-            }
-            if( current_line == parent->buttons[ind].pos.y ) {
-                ImGui::SameLine();
             }
             current_line = parent->buttons[ind].pos.y;
         }
@@ -81,15 +86,15 @@ void query_popup_impl::on_resized()
     size_t frame_padding = size_t( ImGui::GetStyle().FramePadding.x * 2 );
     size_t item_padding = size_t( ImGui::GetStyle().ItemSpacing.x );
     // constexpr size_t vert_padding = 1;
-    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 1 * 2 );
+    size_t max_line_width = str_width_to_pixels( FULL_SCREEN_WIDTH - 3 );
 
     // Fold message text
-    parent->folded_msg = foldstring( parent->text, max_line_width );
+    parent->folded_msg = foldstring( parent->text, FULL_SCREEN_WIDTH - 3 );
 
     // Fold query buttons
-    const auto &folded_query = query_popup::fold_query( parent->category, parent->pref_kbd_mode,
-                               parent->options, max_line_width,
-                               frame_padding + item_padding );
+    const auto &folded_query = fold_query( parent->category, parent->pref_kbd_mode,
+                                           parent->options, max_line_width,
+                                           frame_padding + item_padding );
 
     // Calculate size of message part
     msg_width = 0;
@@ -123,10 +128,11 @@ void query_popup_impl::on_resized()
                 for( const auto &opt : line ) {
                     button_width += get_text_width( remove_color_tags( opt ) );
                 }
+                button_width += btn_padding( line.size() );
                 // Right align.
                 // TODO: multi-line buttons
-                size_t button_x = std::max( size_t( 0 ),
-                                            size_t( msg_width - button_width - btn_padding( line.size() ) ) );
+                size_t button_x = button_width > int( msg_width ) ? size_t( 0 ) :
+                                  size_t( msg_width - button_width );
                 for( const auto &opt : line ) {
                     parent->buttons.emplace_back( opt, point( button_x, line_idx ) );
                     button_x += get_text_width( remove_color_tags( opt ) ) + frame_padding + item_padding;
@@ -219,10 +225,10 @@ query_popup &query_popup::preferred_keyboard_mode( const keyboard_mode mode )
     return *this;
 }
 
-std::vector<std::vector<std::string>> query_popup::fold_query(
+std::vector<std::vector<std::string>> query_popup_impl::fold_query(
                                        const std::string &category,
                                        const keyboard_mode pref_kbd_mode,
-                                       const std::vector<query_option> &options,
+                                       const std::vector<query_popup::query_option> &options,
                                        const int max_width, const int horz_padding )
 {
     input_context ctxt( category, pref_kbd_mode );
@@ -235,7 +241,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
     for( const query_popup::query_option &opt : options ) {
         const std::string &name = ctxt.get_action_name( opt.action );
         const std::string &desc = ctxt.get_desc( opt.action, name, opt.filter );
-        const int this_query_width = utf8_width( desc, true ) + horz_padding;
+        const int this_query_width = get_text_width( remove_color_tags( desc ) ) + horz_padding;
         ++query_cnt;
         query_width += this_query_width;
         if( query_width > max_width + horz_padding ) {
@@ -369,7 +375,7 @@ query_popup::result query_popup::query_once()
     } else {
         for( size_t ind = 0; ind < options.size(); ++ind ) {
             if( res.action == options[ind].action ) {
-                cur = ind;
+                impl->keyboard_selected_option = ind;
                 if( options[ind].filter( res.evt ) ) {
                     res.wait_input = false;
                     break;

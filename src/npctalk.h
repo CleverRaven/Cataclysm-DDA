@@ -47,7 +47,6 @@ void barber_beard( npc & );
 void barber_hair( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
-void morale_chat( npc & );
 void morale_chat_activity( npc & );
 void start_trade( npc & );
 void sort_loot( npc & );
@@ -105,6 +104,9 @@ void start_training( npc & );
 void start_training_npc( npc & );
 void start_training_seminar( npc &p );
 void start_training_gen( Character &teacher, std::vector<Character *> &students, teach_domain &d );
+
+// used for NPC camps
+void distribute_food_auto( npc &p );
 
 void wake_up( npc & );
 void copy_npc_rules( npc &p );

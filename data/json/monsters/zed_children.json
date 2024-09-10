@@ -13,7 +13,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_child" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_child" ],
     "vision_day": 30,
     "special_attacks": [
       { "id": "bite_humanoid", "attack_upper": false, "cooldown": 5 },

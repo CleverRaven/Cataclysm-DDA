@@ -11,10 +11,9 @@
     "color": "yellow",
     "price_postapoc": "10 USD",
     "use_action": [ "install_bionic" ],
-    "flags": [ "CBM" ],
+    "flags": [ "CBM", "FRAGILE_MELEE" ],
     "is_upgrade": false,
-    "faults": [ "fault_bionic_salvaged" ],
-    "melee_damage": { "bash": 8 }
+    "faults": [ "fault_bionic_salvaged" ]
   },
   {
     "abstract": "bionic_general_npc_usable",
@@ -309,6 +308,24 @@
     "price_postapoc": "25 USD",
     "weight": "500 g",
     "difficulty": 6
+  },
+  {
+    "id": "bio_voice_b",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "AudioVox CBM" },
+    "description": "An implanted set of vocal cords and speakers allowing the user to remodulate and project their voice at will.",
+    "weight": "100 g",
+    "difficulty": 6
+  },
+  {
+    "id": "bio_mp3",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "WearMan CBM" },
+    "description": "A set of speakers implanted into the skull, able to pick up local radiowaves and play downloaded music.",
+    "weight": "100 g",
+    "difficulty": 5
   },
   {
     "id": "bio_sonar",
@@ -693,7 +710,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Artificial Night Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "When active, this bionic eliminates all light within a 15-tile radius of the user through destructive interference.",
+    "description": "When active, this bionic eliminates all light within a 2 tile radius of the user through destructive interference.",
     "price": "8 kUSD 500 USD",
     "price_postapoc": "80 USD",
     "difficulty": 5
@@ -1016,6 +1033,28 @@
     "price": "8 kUSD",
     "price_postapoc": "50 USD",
     "difficulty": 6
+  },
+  {
+    "id": "bio_multimeter",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated Multimeter CBM" },
+    "looks_like": "bio_tools",
+    "description": "A set of electrical leads to be embedded in the user's fingers, connected to a multimeter unit in their hand.  Allows the user to measure voltage, resistance, and current using their fingertips, and provides slight protection against electric shocks.",
+    "price": "2 kUSD",
+    "price_postapoc": "20 USD",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_electrokit",
+    "copy-from": "bionic_general_npc_usable",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Integrated Circuitry Toolset CBM" },
+    "looks_like": "bio_tools",
+    "description": "A soldering iron, multimeter, and set of fine screwdrivers implanted in the user's hands.  Contains all the tools required for manipulating bench-scale electrical circuits, and provides slight protection against electric shocks.",
+    "price": "4 kUSD",
+    "price_postapoc": "35 USD",
+    "difficulty": 5
   },
   {
     "id": "bio_torsionratchet",
@@ -1379,7 +1418,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Throwing Assist CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "The culmination of decades of research into hominid palaeoanthropology and biomechanical modelling, the throwing assist CBM was brought to market to revolutionize Beqball tournaments, soon becoming exhibitions of cybernetic human effort and engineering.  A network of neurostimulators and sensors, mostly in the arms and hands, work in tandem with the eyes for a significant increase in throwing accuracy and precision.  When the Exodii came upon this cybernetic enhancement suite, they found it to be an economical way to ensure precise grenade placement in partial cyborgs.",
+    "description": "The culmination of decades of research into hominid palaeoanthropology and biomechanical modeling, the throwing assist CBM was brought to market to revolutionize Beqball tournaments, soon becoming exhibitions of cybernetic human effort and engineering.  A network of neurostimulators and sensors, mostly in the arms and hands, work in tandem with the eyes for a significant increase in throwing accuracy and precision.  When the Exodii came upon this cybernetic enhancement suite, they found it to be an economical way to ensure precise grenade placement in partial cyborgs.",
     "price": "2 kUSD 200 USD",
     "weight": "1000 g",
     "difficulty": 3

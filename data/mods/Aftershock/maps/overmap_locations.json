@@ -12,6 +12,12 @@
     "terrain": [ "afs_crashed_escape_pod" ]
   },
   {
+    "type": "start_location",
+    "id": "sloc_crashed_gunship",
+    "name": "Crashed gunship",
+    "terrain": [ "afs_crashed_gunship" ]
+  },
+  {
     "type": "overmap_location",
     "id": "ravine_edge",
     "terrains": [ "ravine_edge" ]

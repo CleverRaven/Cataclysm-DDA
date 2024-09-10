@@ -43,6 +43,7 @@
     "name": "[Ψ]Overcome Pain (C)",
     "description": "You can lessen the impact of pain on your performance, though this has no effect on the underlying injuries.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -80,6 +81,7 @@
     "name": "[Ψ]Oxygen Absorption (C)",
     "description": "You can make the entire surface of your skin selectively permeable, allowing you to 'breathe' through it.  You can breathe in low-oxygen environments or underwater, but are more vulnerable to toxic gas.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Oxygen Absorption <color_red>cannot be active</color> with Sealed System.",
     "message": "",
+    "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
@@ -142,14 +144,36 @@
     "type": "SPELL",
     "name": "[Ψ]Burst of Speed",
     "description": "Like a cheetah, you can run with incredible speed for a short distance.",
-    "message": "You move faster than the eye can see.",
+    "message": "",
     "teachable": false,
-    "valid_targets": [ "ground", "ally", "hostile" ],
+    "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_DASH_CHECKER",
+    "shape": "blast",
+    "energy_source": "STAMINA",
+    "base_energy_cost": 3000,
+    "final_energy_cost": 1500,
+    "energy_increment": -190,
+    "base_casting_time": 75,
+    "final_casting_time": 15,
+    "casting_time_increment": -4.5
+  },
+  {
+    "id": "biokin_dash_real",
+    "type": "SPELL",
+    "name": "[Ψ]Burst of Speed Real",
+    "description": "The actual effect that causes the burst of speed.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "ground", "ally", "hostile" ],
+    "spell_class": "BIOKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "dash",
     "shape": "blast",
     "min_damage": 0,
@@ -159,14 +183,7 @@
         "min( (( (u_spell_level('biokin_dash') * 0.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 12)"
       ]
     },
-    "max_range": 12,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 3000,
-    "final_energy_cost": 1500,
-    "energy_increment": -190,
-    "base_casting_time": 75,
-    "final_casting_time": 15,
-    "casting_time_increment": -4.5
+    "max_range": 12
   },
   {
     "id": "biokin_change_appearance",
@@ -195,9 +212,9 @@
   {
     "id": "biokin_armor_skin",
     "type": "SPELL",
-    "name": "[Ψ]Hardened Skin",
-    "description": "You can increase the strength of your skin, making it almost like armor while still allowing you to move freely.",
-    "message": "Your skin itches slightly and takes on a waxy appearance.",
+    "name": "[Ψ]Hardened Skin (C)",
+    "description": "You can increase the strength of your skin, making it almost like armor while still allowing you to move freely.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "BIOKINETIC",
@@ -205,26 +222,30 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_biokin_armor_skin",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIOKIN_HARDENED_SKIN_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('biokin_armor_skin') * 800) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_armor_skin') * 8600) + 35600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('biokin_armor_skin') * 1500) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('biokin_armor_skin') * 24400) + 69300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
-    "final_energy_cost": 750,
-    "energy_increment": -125,
-    "base_casting_time": 150,
-    "final_casting_time": 50,
-    "casting_time_increment": -8.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_biokin_armor_skin') > 0 ? 0 : max((2500 - (u_spell_level('biokin_armor_skin') * 125)), 750)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_biokin_armor_skin') > 0 ? 10 : max((150 -(u_spell_level('biokin_armor_skin') * 8.5)), 50)"
+      ]
+    }
   },
   {
     "id": "biokin_adrenaline",
@@ -369,7 +390,7 @@
     "id": "biokin_reflex_enhance",
     "type": "SPELL",
     "name": "[Ψ]Heightened Reflexes (C)",
-    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "You can improve your sensory acuity and the speed at which your brain processes sensory inputs.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -545,7 +566,7 @@
     "id": "biokin_perfected_motion",
     "type": "SPELL",
     "name": "[Ψ]Perfected Motion",
-    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
+    "description": "Your control over your body allows you to move incredibly quickly.  While this does not allow you to attack more quickly, you can cross distances in the blink of an eye and outrun a cheetah.  You could even run on water, though not walk on it.\n\nPerfected Motion <color_red>cannot be active</color> with Hurricane Blows.",
     "message": "The world around you slows down to a crawl.",
     "teachable": false,
     "valid_targets": [ "self" ],

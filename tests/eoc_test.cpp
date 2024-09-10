@@ -16,6 +16,10 @@ static const activity_id ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
 static const activity_id ACT_GENERIC_EOC( "ACT_GENERIC_EOC" );
 
 static const effect_on_condition_id
+effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE( "EOC_TEST_PURIFIABILITY_FALSE" );
+static const effect_on_condition_id
+effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE( "EOC_TEST_PURIFIABILITY_TRUE" );
+static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_RADIUS( "EOC_TEST_TRANSFORM_RADIUS" );
@@ -39,6 +43,8 @@ static const effect_on_condition_id
 effect_on_condition_EOC_item_teleport_test( "EOC_item_teleport_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_jmath_test( "EOC_jmath_test" );
+static const effect_on_condition_id
+effect_on_condition_EOC_loc_relative_test( "EOC_loc_relative_test" );
 static const effect_on_condition_id effect_on_condition_EOC_map_test( "EOC_map_test" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
@@ -142,6 +148,8 @@ static const ter_str_id ter_t_grass( "t_grass" );
 
 static const trait_id trait_process_mutation( "process_mutation" );
 static const trait_id trait_process_mutation_two( "process_mutation_two" );
+static const trait_id trait_purifiability_first( "purifiability_first" );
+static const trait_id trait_purifiability_second( "purifiability_second" );
 
 namespace
 {
@@ -504,7 +512,7 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key_charge_count" ).empty() );
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "300" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "32" );
 }
 
 TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )
@@ -600,6 +608,33 @@ TEST_CASE( "EOC_mutation_test", "[eoc][mutations]" )
     CHECK( std::stod( globvars.get_global_value( "npctalk_var_test_val" ) ) == Approx(
                1 ) );
     CHECK( globvars.get_global_value( "npctalk_var_context_test" ) == "process_mutation" );
+}
+
+TEST_CASE( "EOC_purifiability", "[eoc][mutations]" )
+{
+    clear_avatar();
+    clear_map();
+    avatar &me = get_avatar();
+
+    // Gain both traits
+    me.toggle_trait( trait_purifiability_first );
+    me.toggle_trait( trait_purifiability_second );
+    // Check assumptions
+    REQUIRE( me.purifiable( trait_purifiability_first ) );
+    REQUIRE( !me.purifiable( trait_purifiability_second ) );
+
+    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    // Try to set both traits to non-purifiable
+    REQUIRE( effect_on_condition_EOC_TEST_PURIFIABILITY_FALSE->activate( d ) );
+    // Neither are purifiable
+    CHECK( !me.purifiable( trait_purifiability_first ) );
+    CHECK( !me.purifiable( trait_purifiability_second ) );
+
+    // Try to set both traits purifiable
+    REQUIRE( effect_on_condition_EOC_TEST_PURIFIABILITY_TRUE->activate( d ) );
+    // The by default non-purifiable trait stays non-purifiable, the other resets
+    CHECK( me.purifiable( trait_purifiability_first ) );
+    CHECK( !me.purifiable( trait_purifiability_second ) );
 }
 
 TEST_CASE( "EOC_monsters_nearby", "[eoc][math_parser]" )
@@ -698,7 +733,7 @@ TEST_CASE( "dialogue_copy", "[eoc]" )
     CHECK( d_copy.actor( true )->get_character() != nullptr );
 
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
     computer comp( "test_computer", 0, tripoint_zero );
     dialogue d2( get_talker_for( hloc ), get_talker_for( comp ) );
     dialogue d2_copy( d2 );
@@ -722,7 +757,7 @@ TEST_CASE( "EOC_meta_test", "[eoc]" )
     standard_npc dude;
     monster zombie( mon_zombie );
     item hammer( "hammer" ) ;
-    item_location hloc( map_cursor( tripoint_zero ), &hammer );
+    item_location hloc( map_cursor( tripoint_bub_ms( tripoint_zero ) ), &hammer );
     computer comp( "test_computer", 0, tripoint_zero );
 
     dialogue d_empty( std::make_unique<talker>(), std::make_unique<talker>() );
@@ -1278,6 +1313,38 @@ TEST_CASE( "EOC_map_test", "[eoc]" )
     CHECK( effect_on_condition_EOC_map_test->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_distance_loc" ) == "14" );
     CHECK( globvars.get_global_value( "npctalk_var_key_distance_npc" ) == "10" );
+}
+
+TEST_CASE( "EOC_loc_relative_test", "[eoc]" )
+{
+    global_variables &globvars = get_globals();
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
+
+    map &m = get_map();
+    g->place_player( tripoint_zero );
+
+    const tripoint_abs_ms start = get_avatar().get_location();
+    const tripoint tgt = m.getlocal( start + tripoint_north );
+    m.furn_set( tgt, furn_test_f_eoc );
+    m.furn( tgt )->examine( get_avatar(), tgt );
+
+    const tripoint target_pos = get_avatar().pos() + point_east * 10;
+    npc &npc_dst = spawn_npc( target_pos.xy(), "thug" );
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( npc_dst ) );
+
+    CHECK( effect_on_condition_EOC_loc_relative_test->activate( d ) );
+    tripoint_abs_ms tmp_abs_a = tripoint_abs_ms( tripoint::from_string(
+                                    globvars.get_global_value( "npctalk_var_map_test_loc_a" ) ) );
+    tripoint_abs_ms tmp_abs_b = tripoint_abs_ms( tripoint::from_string(
+                                    globvars.get_global_value( "npctalk_var_map_test_loc_b" ) ) );
+    CHECK( m.getlocal( tmp_abs_a ) == tripoint( 70, 70, 0 ) );
+    CHECK( m.getlocal( tmp_abs_b ) == tripoint( 70, 60, 0 ) );
+
+    globvars.clear_global_values();
+    clear_avatar();
+    clear_map();
 }
 
 TEST_CASE( "EOC_martial_art_test", "[eoc]" )

@@ -8,7 +8,6 @@
     "volume": "250 ml",
     "price": "30 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "flip_flops",
@@ -49,7 +48,7 @@
     "volume": "2500 ml",
     "price": "100 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "dress_shoes",
     "color": "dark_gray",
@@ -88,19 +87,19 @@
   {
     "id": "xl_boots",
     "type": "ARMOR",
-    "name": { "str": "pair of XL boots", "str_pl": "pairs of XL boots" },
+    "name": { "str": "pair of boots", "str_pl": "pairs of boots" },
     "copy-from": "boots",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots",
     "type": "ARMOR",
     "copy-from": "boots",
     "looks_like": "boots",
-    "name": { "str": "pair of XS boots", "str_pl": "pairs of XS boots" },
+    "name": { "str": "pair of boots", "str_pl": "pairs of boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_bone",
@@ -159,7 +158,6 @@
     "volume": "3500 ml",
     "price": "130 USD",
     "price_postapoc": "15 USD",
-    "to_hit": 2,
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "dark_gray",
@@ -208,7 +206,7 @@
     "volume": "4250 ml",
     "price": "135 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "boots_bone",
@@ -235,24 +233,24 @@
       },
       { "coverage": 75, "covers": [ "foot_l", "foot_r" ], "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ] }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_boots_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
+    "name": { "str": "pair of chitinous boots", "str_pl": "pairs of chitinous boots" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_chitin",
     "type": "ARMOR",
     "copy-from": "boots_chitin",
     "looks_like": "boots_chitin",
-    "name": { "str": "pair of XS chitinous boots", "str_pl": "pairs of XS chitinous boots" },
+    "name": { "str": "pair of chitinous boots", "str_pl": "pairs of chitinous boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_acidchitin",
@@ -267,18 +265,18 @@
   {
     "id": "xl_boots_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
+    "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
     "copy-from": "boots_acidchitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_acidchitin",
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
-    "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
+    "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_combat",
@@ -290,7 +288,7 @@
     "volume": "2 L",
     "price": "70 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
@@ -340,7 +338,7 @@
     "volume": "3 L",
     "price": "60 USD",
     "price_postapoc": "6 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "{",
     "color": "light_blue",
     "looks_like": "boots",
@@ -376,7 +374,8 @@
       }
     ],
     "warmth": 20,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "foot_protectors_eod",
@@ -424,7 +423,7 @@
     "weight": "907 g",
     "volume": "1 L",
     "price": "25 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic", "steel" ],
     "symbol": "[",
     "color": "brown",
@@ -440,7 +439,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 2 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "boots_fur",
@@ -451,7 +450,7 @@
     "volume": "4500 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "fur" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -495,18 +494,18 @@
   {
     "id": "xl_boots_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fur boots", "str_pl": "pairs of XL fur boots" },
+    "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
     "copy-from": "boots_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_fur",
     "type": "ARMOR",
     "copy-from": "boots_fur",
-    "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
+    "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_faux_fur",
@@ -517,7 +516,7 @@
     "volume": "4500 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
     "looks_like": "boots_fur",
@@ -561,18 +560,18 @@
   {
     "id": "xl_boots_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL faux fur boots", "str_pl": "pairs of XL faux fur boots" },
+    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
     "copy-from": "boots_faux_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_faux_fur",
     "type": "ARMOR",
     "copy-from": "boots_faux_fur",
-    "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
+    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_hiking",
@@ -583,7 +582,7 @@
     "volume": "2 L",
     "price": "140 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -630,7 +629,7 @@
     "volume": "2 L",
     "price": "125 USD",
     "price_postapoc": "17 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots",
@@ -640,23 +639,23 @@
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
     "armor": [ { "encumbrance": 18, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leather armor boots", "str_pl": "pairs of XL leather armor boots" },
+    "name": { "str": "pair of leather armor boots", "str_pl": "pairs of leather armor boots" },
     "copy-from": "boots_larmor",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_larmor",
     "type": "ARMOR",
     "copy-from": "boots_larmor",
-    "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
+    "name": { "str": "pair of leather armor boots", "str_pl": "pairs of leather armor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_plate",
@@ -668,7 +667,6 @@
     "volume": "3250 ml",
     "price": "500 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "boots_steel",
     "color": "light_gray",
@@ -711,18 +709,18 @@
   {
     "id": "xl_boots_plate",
     "type": "ARMOR",
-    "name": { "str": "pair of XL armored boots", "str_pl": "pairs of XL armored boots" },
+    "name": { "str": "pair of armored boots", "str_pl": "pairs of armored boots" },
     "copy-from": "boots_plate",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_plate",
     "type": "ARMOR",
     "copy-from": "boots_plate",
-    "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
+    "name": { "str": "pair of armored boots", "str_pl": "pairs of armored boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_rubber",
@@ -733,7 +731,6 @@
     "volume": "3500 ml",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 2,
     "symbol": "[",
     "looks_like": "boots",
     "color": "dark_gray",
@@ -776,7 +773,7 @@
     "volume": "3 L",
     "price": "120 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "boots_steel",
@@ -813,23 +810,23 @@
         "coverage": 80
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_boots_scrap",
     "type": "ARMOR",
-    "name": { "str": "pair of XL scrap boots", "str_pl": "pairs of XL scrap boots" },
+    "name": { "str": "pair of scrap boots", "str_pl": "pairs of scrap boots" },
     "copy-from": "boots_scrap",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_scrap",
     "type": "ARMOR",
     "copy-from": "boots_scrap",
-    "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
+    "name": { "str": "pair of scrap boots", "str_pl": "pairs of scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "sabaton_metal_sheets",
@@ -841,7 +838,6 @@
     "volume": "750 ml",
     "price": "4 USD",
     "price_postapoc": "2 USD",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "lc_sabaton",
     "material": [ "lc_steel" ],
@@ -891,7 +887,7 @@
     "volume": "3 L",
     "price": "120 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "boots_combat",
     "color": "brown",
@@ -925,7 +921,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 4 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "sneakers_steel",
@@ -939,7 +935,7 @@
     "price": "120 USD",
     "price_postapoc": "9 USD 25 cent",
     "material": [ "leather", "plastic", "steel" ],
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "sneakers",
     "color": "light_blue",
@@ -980,7 +976,7 @@
         "coverage": 100
       }
     ],
-    "melee_damage": { "bash": 3 }
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "boots_western",
@@ -1036,7 +1032,7 @@
     "volume": "3500 ml",
     "price": "70 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "wool", "plastic" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -1073,23 +1069,24 @@
         ],
         "coverage": 100
       }
-    ]
+    ],
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "xl_boots_winter",
     "type": "ARMOR",
-    "name": { "str": "pair of XL winter boots", "str_pl": "pairs of XL winter boots" },
+    "name": { "str": "pair of winter boots", "str_pl": "pairs of winter boots" },
     "copy-from": "boots_winter",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_winter",
     "type": "ARMOR",
     "copy-from": "boots_winter",
-    "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
+    "name": { "str": "pair of winter boots", "str_pl": "pairs of winter boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cleats",
@@ -1197,7 +1194,6 @@
     "volume": "1250 ml",
     "price": "40 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": -2,
     "material": [ "wood" ],
     "symbol": "[",
     "looks_like": "leathersandals",
@@ -1239,7 +1235,6 @@
     "volume": "3500 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1276,8 +1271,7 @@
         ],
         "coverage": 100
       }
-    ],
-    "melee_damage": { "bash": 14 }
+    ]
   },
   {
     "id": "dance_shoes",
@@ -1288,7 +1282,7 @@
     "volume": "1500 ml",
     "price": "120 USD",
     "price_postapoc": "1 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1332,7 +1326,7 @@
     "volume": "1500 ml",
     "price": "120 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sneakers",
@@ -1375,7 +1369,6 @@
     "volume": "250 ml",
     "price": "5 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "sneakers",
     "color": "blue",
@@ -1406,7 +1399,6 @@
     "volume": "250 ml",
     "price": "105 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "rubber", "leather" ],
     "symbol": "[",
     "looks_like": "flip_flops",
@@ -1525,12 +1517,11 @@
     "id": "geta",
     "type": "ARMOR",
     "name": { "str": "pair of geta", "str_pl": "pairs of geta" },
-    "description": "Simple wooden geta.",
+    "description": "A simple pair of geta.  Traditional wooden Japanese sandals with a fabric thong similar to flip flops.",
     "weight": "460 g",
     "volume": "1 L",
     "price": "65 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "clogs",
     "color": "yellow",
@@ -1566,7 +1557,6 @@
     "volume": "750 ml",
     "price": "40 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "dress_shoes",
@@ -1636,7 +1626,7 @@
     "longest_side": "33 cm",
     "price": "80 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -1710,7 +1700,7 @@
     "volume": "3750 ml",
     "price": "80 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "symbol": "[",
     "looks_like": "knee_high_boots",
     "color": "dark_gray",
@@ -1763,7 +1753,6 @@
     "volume": "250 ml",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "flip_flops",
     "color": "brown",
@@ -1803,7 +1792,6 @@
     "volume": "750 ml",
     "price": "15 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "sneakers",
     "color": "dark_gray",
@@ -1931,7 +1919,6 @@
     "volume": "3750 ml",
     "price": "85 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
     "looks_like": "rollerskates",
@@ -1980,7 +1967,6 @@
     "volume": "3 L",
     "price": "85 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -2,
     "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "roller_blades",
@@ -2163,7 +2149,6 @@
     "volume": "250 ml",
     "price": "6 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "socks_wool",
@@ -2206,7 +2191,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
-    "weight": "840 g",
+    "weight": "454 g",
     "volume": "1500 ml",
     "price": "100 USD",
     "price_postapoc": "2 USD 50 cent",
@@ -2251,7 +2236,6 @@
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "leathersandals",
     "color": "light_gray",
@@ -2291,7 +2275,7 @@
     "volume": "4250 ml",
     "price": "80 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "boots_larmor",
@@ -2460,7 +2444,6 @@
     "price": "50 USD 12 cent",
     "price_postapoc": "20 USD",
     "material": [ "budget_steel_chain", "leather" ],
-    "to_hit": -1,
     "symbol": "[",
     "color": "light_red",
     "flags": [ "VARSIZE", "STURDY", "OUTER" ],
@@ -2502,7 +2485,6 @@
     "volume": "500 ml",
     "price": "50 USD 12 cent",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
     "color": "light_red",
@@ -2539,17 +2521,17 @@
     "id": "xl_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
-    "name": { "str": "pair of XL mild steel chainmail chausses", "str_pl": "pairs of XL mild steel chainmail chausses" },
+    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
-    "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
+    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_chainmail_feet",
@@ -2563,18 +2545,18 @@
     "id": "xl_mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
-    "name": { "str": "pair of XL medium steel chainmail chausses", "str_pl": "pairs of XL medium steel chainmail chausses" },
+    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
     "looks_like": "chainmail_feet",
-    "name": { "str": "pair of XS medium steel chainmail chausses", "str_pl": "pairs of XS medium steel chainmail chausses" },
+    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_chainmail_feet",
@@ -2588,17 +2570,17 @@
     "id": "xl_hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "name": { "str": "pair of XL high steel chainmail chausses", "str_pl": "pairs of XL high steel chainmail chausses" },
+    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "name": { "str": "pair of XS high steel chainmail chausses", "str_pl": "pairs of XS high steel chainmail chausses" },
+    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_chainmail_feet",
@@ -2612,17 +2594,17 @@
     "id": "xl_ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_feet",
-    "name": { "str": "pair of XL hardened steel chainmail chausses", "str_pl": "pairs of XL hardened steel chainmail chausses" },
+    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_feet",
-    "name": { "str": "pair of XS hardened steel chainmail chausses", "str_pl": "pairs of XS hardened steel chainmail chausses" },
+    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_chainmail_feet",
@@ -2636,17 +2618,17 @@
     "id": "xl_qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_feet",
-    "name": { "str": "pair of XL tempered steel chainmail chausses", "str_pl": "pairs of XL tempered steel chainmail chausses" },
+    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_feet",
-    "name": { "str": "pair of XS tempered steel chainmail chausses", "str_pl": "pairs of XS tempered steel chainmail chausses" },
+    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "nomex_socks",
@@ -2657,7 +2639,6 @@
     "volume": "750 ml",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "socks",
@@ -2671,19 +2652,19 @@
   {
     "id": "xlnomex_socks",
     "type": "ARMOR",
-    "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsnomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
-    "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
+    "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "socks",
@@ -2706,19 +2687,19 @@
   {
     "id": "xlsocks",
     "type": "ARMOR",
-    "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
+    "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssocks",
     "type": "ARMOR",
     "copy-from": "socks",
-    "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
+    "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "socks_ankle",
@@ -2837,19 +2818,19 @@
   {
     "id": "xlsocks_wool",
     "type": "ARMOR",
-    "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "name": { "str": "pair of wool socks", "str_pl": "pairs of wool socks" },
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssocks_wool",
     "type": "ARMOR",
     "copy-from": "socks_wool",
-    "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
+    "name": { "str": "pair of wool socks", "str_pl": "pairs of wool socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "stockings",
@@ -3255,7 +3236,7 @@
     "id": "tabi_dress",
     "type": "ARMOR",
     "name": { "str": "pair of tabi", "str_pl": "pairs of tabi" },
-    "description": "A pair of black tabi, as worn with traditional Japanese clothes.",
+    "description": "A pair of split toe black tabi socks.  Usually worn as a part of traditional Japanese clothing.  The big toe is separated from the others by the fabric to be comfortably worn with thonged footwear.",
     "weight": "50 g",
     "volume": "250 ml",
     "price": "25 USD",
@@ -3273,7 +3254,7 @@
     "id": "tabi_gi",
     "type": "ARMOR",
     "name": { "str": "pair of gi tabi", "str_pl": "pairs of gi tabi" },
-    "description": "A pair of white tabi, as used by martial arts practitioners.",
+    "description": "A pair of split toe white tabi socks, as used by martial arts practitioners.  Usually worn as a part of traditional Japanese clothing.  The big toe is separated from the others by the fabric to be comfortably worn with thonged footwear.",
     "weight": "50 g",
     "volume": "250 ml",
     "price": "25 USD",
@@ -3296,7 +3277,6 @@
     "volume": "750 ml",
     "price": "400 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -2,
     "symbol": "[",
     "looks_like": "boots_steel",
     "material": [ "lc_steel" ],
@@ -3321,9 +3301,9 @@
     "id": "xl_lc_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
-    "name": { "str": "XL mild steel sabaton" },
+    "name": { "str": "mild steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mc_sabaton",
@@ -3336,9 +3316,9 @@
     "id": "xl_mc_sabaton",
     "type": "ARMOR",
     "copy-from": "mc_sabaton",
-    "name": { "str": "XL medium steel sabaton" },
+    "name": { "str": "medium steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "hc_sabaton",
@@ -3351,9 +3331,9 @@
     "id": "xl_hc_sabaton",
     "type": "ARMOR",
     "copy-from": "hc_sabaton",
-    "name": { "str": "XL high steel sabaton" },
+    "name": { "str": "high steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "ch_sabaton",
@@ -3366,9 +3346,9 @@
     "id": "xl_ch_sabaton",
     "type": "ARMOR",
     "copy-from": "ch_sabaton",
-    "name": { "str": "XL hardened steel sabaton" },
+    "name": { "str": "hardened steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "qt_sabaton",
@@ -3381,8 +3361,148 @@
     "id": "xl_qt_sabaton",
     "type": "ARMOR",
     "copy-from": "qt_sabaton",
-    "name": { "str": "XL tempered steel sabaton" },
+    "name": { "str": "tempered steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
+  },
+  {
+    "id": "espadrilles",
+    "type": "ARMOR",
+    "name": { "str_sp": "espadrilles" },
+    "description": "Originating from the Pyrenees and made from a rope sole and cloth, these shoes are perfect for the hot weather, sipping Sangria and dodging tourists.",
+    "looks_like": "leathersandals",
+    "price": "20 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": "cotton",
+    "volume": "600 ml",
+    "weight": "500 g",
+    "flags": [ "VARSIZE" ],
+    "warmth": 2,
+    "armor": [
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 4,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l", "foot_heel_r", "foot_heel_l" ],
+        "material": [ { "type": "cotton", "thickness": 1 } ]
+      },
+      {
+        "layers": [ "NORMAL" ],
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_arch_r", "foot_arch_l", "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "dry_plant", "thickness": 6 } ]
+      }
+    ]
+  },
+  {
+    "id": "xl_espadrilles",
+    "copy-from": "espadrilles",
+    "type": "ARMOR",
+    "name": { "str_sp": "espadrilles" },
+    "extend": { "flags": [ "PREFIX_XL", "OVERSIZE" ] },
+    "proportional": { "weight": 1.5, "volume": 1.5 }
+  },
+  {
+    "id": "xs_espadrilles",
+    "copy-from": "espadrilles",
+    "type": "ARMOR",
+    "name": { "str_sp": "espadrilles" },
+    "extend": { "flags": [ "PREFIX_XS", "UNDERSIZE" ] },
+    "proportional": { "weight": 0.5, "volume": 0.5 }
+  },
+  {
+    "id": "jikatabi",
+    "type": "ARMOR",
+    "name": { "str": "pair of jika-tabi", "str_pl": "pairs of jika-tabi" },
+    "description": "A pair of thin traditional Japanese split toed boots sewn out of leather.",
+    "weight": "230 g",
+    "volume": "500 ml",
+    "price": "30 USD",
+    "price_postapoc": "3 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "boots",
+    "color": "brown",
+    "warmth": 20,
+    "material_thickness": 1.0,
+    "flags": [ "VARSIZE", "WATERPROOF" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "encumbrance": 4,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 80
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.0 } ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "jikatabi_sneakers",
+    "type": "ARMOR",
+    "name": { "str": "pair of jika-tabi sneakers", "str_pl": "pairs of jika-tabi sneakers" },
+    "description": "A pair of comfortable modern split toed jika-tabi shoes with a rubber base.  Also known as ninja shoes.  Though originally developed for laborers in Japan, in the west they are usually found being used in outdoor martial arts practice.",
+    "weight": "454 g",
+    "volume": "1500 ml",
+    "price": "40 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "canvas", "rubber" ],
+    "symbol": "[",
+    "looks_like": "sneakers",
+    "color": "dark_gray",
+    "warmth": 20,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1 } ],
+        "encumbrance": 2,
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_toes_r", "foot_toes_l" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
+        "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "coverage": 100
+      },
+      {
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
+        "material": [
+          { "type": "canvas", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
+        ],
+        "coverage": 100
+      }
+    ]
   }
 ]

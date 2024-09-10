@@ -52,7 +52,7 @@ static void test_bash_set( const bash_test_set &set )
             int tries = 0;
             while( here.furn( test_pt ) == furn && tries < max_tries ) {
                 ++tries;
-                here.bash( test_pt.raw(), guy.smash_ability() );
+                here.bash( test_pt, guy.smash_ability() );
             }
             auto it = test.furn_tries.find( furn );
             if( it == test.furn_tries.end() ) {
@@ -69,7 +69,7 @@ static void test_bash_set( const bash_test_set &set )
             int tries = 0;
             while( here.ter( test_pt ) == ter && tries < max_tries ) {
                 ++tries;
-                here.bash( test_pt.raw(), guy.smash_ability() );
+                here.bash( test_pt, guy.smash_ability() );
             }
             auto it = test.ter_tries.find( ter );
             if( it == test.ter_tries.end() ) {
@@ -110,13 +110,13 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.furn( test_pt ) == furn_test_f_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy it
         CHECK( here.furn( test_pt ) == furn_test_f_bash_persist );
         // There is any map damage
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
-        here.bash( test_pt.raw(), 999 );
+        here.bash( test_pt, 999 );
         CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.furn( test_pt ) != furn_test_f_bash_persist );
@@ -128,13 +128,13 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.ter( test_pt ) == ter_test_t_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy the terrain
         CHECK( here.ter( test_pt ) == ter_test_t_bash_persist );
         // There is any map damage
         CHECK( here.get_map_damage( test_pt ) > 0 );
         // Bash it again to destroy it
-        here.bash( test_pt.raw(), 999 );
+        here.bash( test_pt, 999 );
         CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
         // Then, it is gone and there is no map damage
         CHECK( here.ter( test_pt ) != ter_test_t_bash_persist );
@@ -146,7 +146,7 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.ter( test_pt ) == ter_test_t_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy the terrain
         CHECK( here.ter( test_pt ) == ter_test_t_bash_persist );
         // There is any map damage
@@ -162,7 +162,7 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         REQUIRE( here.furn( test_pt ) == furn_test_f_bash_persist );
         REQUIRE( here.get_map_damage( test_pt ) == 0 );
         // One above str_min, but well below str_max
-        here.bash( test_pt.raw(), 5 );
+        here.bash( test_pt, 5 );
         // Does not destroy the terrain
         CHECK( here.furn( test_pt ) == furn_test_f_bash_persist );
         // There is any map damage
@@ -172,4 +172,93 @@ TEST_CASE( "map_bash_ephemeral_persistence", "[map][bash]" )
         CHECK( here.furn( test_pt ) == furn_test_f_eoc );
         CHECK( here.get_map_damage( test_pt ) == 0 );
     }
+}
+
+static void shoot_at_terrain( npc &shooter, const std::string &ter_str, tripoint wall_pos,
+                              bool expected_to_break, tripoint aim_pos = tripoint_zero )
+{
+    map &here = get_map();
+    // Place a terrain
+    ter_str_id id{ ter_str };
+    if( aim_pos == tripoint_zero ) {
+        aim_pos = wall_pos;
+    }
+    here.ter_set( wall_pos, id );
+    REQUIRE( here.ter( wall_pos ) == id );
+    // This is a workaround for nonsense where you can't shoot terrain or furniture unless it
+    // obscures sight, specifically map::is_transparent() must return false.
+    here.build_map_cache( 0, true );
+
+    // Shoot it a bunch
+    for( int i = 0; i < 5; ++i ) {
+        shooter.recoil = 0;
+        shooter.set_moves( 100 );
+        shooter.fire_gun( aim_pos );
+    }
+    // is it gone?
+    INFO( here.ter( wall_pos ).id().str() );
+    CHECK( ( here.ter( wall_pos ) != id ) == expected_to_break );
+}
+
+TEST_CASE( "shooting_at_terrain", "[map][bash][ranged]" )
+{
+    clear_map();
+
+    // Make a shooter
+    standard_npc shooter( "Shooter", { 10, 10, 0 } );
+    shooter.set_body();
+    shooter.worn.wear_item( shooter, item( "backpack" ), false, false );
+    SECTION( "birdshot vs adobe wall point blank" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_adobe_brick_wall", shooter.pos() + point_east, false );
+    }
+    SECTION( "birdshot vs adobe wall near" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_adobe_brick_wall", shooter.pos() + point_east * 2, false );
+    }
+    SECTION( "birdshot vs opaque glass door point blank" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "test_t_door_glass_opaque_c", shooter.pos() + point_east, true );
+    }
+    SECTION( "birdshot vs opaque glass door near" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "test_t_door_glass_opaque_c", shooter.pos() + point_east * 2, false );
+    }
+    SECTION( "birdshot vs door near" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_door_c", shooter.pos() + point_east * 2, false );
+    }
+    // I thought I saw some failures based on whether an unseen monster was present,
+    // But I think it was just shooting at door wthout a 100% chance to break it and getting unlucky.
+    SECTION( "birdshot through door at nothing" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_door_c", shooter.pos() + point_east, true,
+                          shooter.pos() + point_east * 2 );
+    }
+    SECTION( "birdshot through door at monster" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        spawn_test_monster( "mon_zombie", shooter.pos() + point_east * 2 );
+        shoot_at_terrain( shooter, "t_door_c", shooter.pos() + point_east, true,
+                          shooter.pos() + point_east * 2 );
+    }
+    // TODO: If we get a feature where damage accumulates a test for it would go here.
+    // These are failing because you can't shoot transparent terrain.
+    /*
+    SECTION( "birdshot vs glass door point blank" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_door_glass_c", shooter.pos() + point_east, true );
+    }
+    SECTION( "birdshot vs glass door near" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_door_glass_c", shooter.pos() + point_east * 2, false );
+    }
+    SECTION( "birdshot vs screen door point blank" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_door_screen_c", shooter.pos() + point_east, true );
+    }
+    SECTION( "birdshot vs screen door near" ) {
+        arm_shooter( shooter, "remington_870", {}, "shot_bird" );
+        shoot_at_terrain( shooter, "t_door_screen_c", shooter.pos() + point_east * 2, true );
+    }
+    */
 }

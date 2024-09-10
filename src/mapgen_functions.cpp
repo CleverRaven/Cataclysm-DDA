@@ -328,6 +328,9 @@ void mapgen_subway( mapgendata &dat )
             break;
     }
 
+    // Rotate the map backwards so things can can be placed in their 'normal' orientation.
+    m->rotate( 4 - rot );
+
     // rotate the arrays left by rot steps
     nesw_array_rotate( subway_nesw, rot );
     nesw_array_rotate( curvedir_nesw, rot );
@@ -554,7 +557,7 @@ void mapgen_subway( mapgendata &dat )
             break;
     }
 
-    // finally, unrotate the map
+    // finally, unrotate the map back to its normal orientation, resulting in the new addition being rotated.
     m->rotate( rot );
 }
 
@@ -566,6 +569,19 @@ void mapgen_river_center( mapgendata &dat )
 void mapgen_river_curved_not( mapgendata &dat )
 {
     map *const m = &dat.m;
+    int rot = 0;
+
+    if( dat.terrain_type() == oter_river_c_not_se ) {
+        rot = 1;
+    } else if( dat.terrain_type() == oter_river_c_not_sw ) {
+        rot = 2;
+    } else if( dat.terrain_type() == oter_river_c_not_nw ) {
+        rot = 3;
+    }
+
+    // Rotate the map backwards so things can can be placed in their 'normal' orientation.
+    m->rotate( 4 - rot );
+
     fill_background( m, ter_t_water_moving_dp );
     // this is not_ne, so deep on all sides except ne corner, which is shallow
     // shallow is 20,0, 23,4
@@ -586,76 +602,81 @@ void mapgen_river_curved_not( mapgendata &dat )
         }
     }
 
-    if( dat.terrain_type() == oter_river_c_not_se ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == oter_river_c_not_sw ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == oter_river_c_not_nw ) {
-        m->rotate( 3 );
-    }
+    // finally, unrotate the map back to its normal orientation, resulting in the new addition being rotated.
+    m->rotate( rot );
 }
 
 void mapgen_river_straight( mapgendata &dat )
 {
     map *const m = &dat.m;
+    int rot = 0;
+
+    if( dat.terrain_type() == oter_river_east ) {
+        rot = 1;
+    } else if( dat.terrain_type() == oter_river_south ) {
+        rot = 2;
+    } else if( dat.terrain_type() == oter_river_west ) {
+        rot = 3;
+    }
+
+    // Rotate the map backwards so things can can be placed in their 'normal' orientation.
+    m->rotate( 4 - rot );
+
     fill_background( m, ter_t_water_moving_dp );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ), dat.zlevel() );
     }
 
-    if( dat.terrain_type() == oter_river_east ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == oter_river_south ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == oter_river_west ) {
-        m->rotate( 3 );
-    }
+    // finally, unrotate the map back to its normal orientation, resulting in the new addition being rotated.
+    m->rotate( rot );
 }
 
 void mapgen_river_curved( mapgendata &dat )
 {
     map *const m = &dat.m;
+    int rot = 0;
+
+    if( dat.terrain_type() == oter_river_se ) {
+        rot = 1;
+    } else if( dat.terrain_type() == oter_river_sw ) {
+        rot = 2;
+    } else if( dat.terrain_type() == oter_river_nw ) {
+        rot = 3;
+    }
+
+    // Rotate the map backwards so things can can be placed in their 'normal' orientation.
+    m->rotate( 4 - rot );
+
     fill_background( m, ter_t_water_moving_dp );
     // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
         int shallow_edge = rng( 4, 6 );
-        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ) );
+        line( m, grass_or_dirt(), point( x, 0 ), point( x, ground_edge ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ), dat.zlevel() );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
         int shallow_edge = rng( 16, 18 );
-        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ) );
+        line( m, grass_or_dirt(), point( ground_edge, y ), point( SEEX * 2 - 1, y ), dat.zlevel() );
         if( one_in( 25 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
-        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
+        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ), dat.zlevel() );
     }
 
-    if( dat.terrain_type() == oter_river_se ) {
-        m->rotate( 1 );
-    }
-    if( dat.terrain_type() == oter_river_sw ) {
-        m->rotate( 2 );
-    }
-    if( dat.terrain_type() == oter_river_nw ) {
-        m->rotate( 3 );
-    }
+    // finally, unrotate the map back to its normal orientation, resulting in the new addition being rotated.
+    m->rotate( rot );
 }
 
 void mapgen_rock_partial( mapgendata &dat )
@@ -1135,7 +1156,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 
@@ -1195,7 +1216,7 @@ void mapgen_lake_shore( mapgendata &dat )
             if( did_extend_adjacent_terrain ) {
                 for( int x = 0; x < SEEX * 2; x++ ) {
                     for( int y = 0; y < SEEY * 2; y++ ) {
-                        m->i_clear( point( x, y ) );
+                        m->i_clear( point_bub_ms( x, y ) );
                     }
                 }
             }
@@ -1647,7 +1668,7 @@ void mapgen_ocean_shore( mapgendata &dat )
             if( did_extend_adjacent_terrain ) {
                 for( int x = 0; x < SEEX * 2; x++ ) {
                     for( int y = 0; y < SEEY * 2; y++ ) {
-                        m->i_clear( point( x, y ) );
+                        m->i_clear( point_bub_ms( x, y ) );
                     }
                 }
             }
@@ -2111,47 +2132,81 @@ void mapgen_ravine_edge( mapgendata &dat )
 
     //With that done, we generate the maps.
     if( straight ) {
-        for( int x = 0; x < SEEX * 2; x++ ) {
-            int ground_edge = 12 + rng( 1, 3 );
-            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
-        }
+        int rot = 0;
+
         if( w_ravine ) {
-            m->rotate( 1 );
+            rot += 1;
         }
         if( n_ravine ) {
-            m->rotate( 2 );
+            rot += 2;
         }
         if( e_ravine ) {
-            m->rotate( 3 );
+            rot += 3;
         }
-    } else if( interior_corner ) {
+
+        rot %= 4;
+
+        // Rotate the map 'backwards' to allow the new addition to be placed at its normal orientation.
+        m->rotate( 4 - rot );
+
         for( int x = 0; x < SEEX * 2; x++ ) {
-            int ground_edge = 12 + rng( 1, 3 ) + x;
-            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            int ground_edge = 12 + rng( 1, 3 );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ), dat.zlevel() );
         }
+
+        // Rotate the map back to its normal rotation, resulting in the new contents becoming rotated.
+        m->rotate( rot );
+
+    } else if( interior_corner ) {
+        int rot = 0;
+
         if( nw_ravine ) {
-            m->rotate( 1 );
+            rot += 1;
         }
         if( ne_ravine ) {
-            m->rotate( 2 );
+            rot += 2;
         }
         if( se_ravine ) {
-            m->rotate( 3 );
+            rot += 3;
         }
-    } else if( exterior_corner ) {
+
+        rot %= 4;
+
+        // Rotate the map 'backwards' to allow the new addition to be placed at its normal orientation.
+        m->rotate( 4 - rot );
+
         for( int x = 0; x < SEEX * 2; x++ ) {
-            int ground_edge =  12  + rng( 1, 3 ) - x;
-            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+            int ground_edge = 12 + rng( 1, 3 ) + x;
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ), dat.zlevel() );
         }
+
+        // Rotate the map back to its normal rotation, resulting in the new contents becoming rotated.
+        m->rotate( rot );
+
+    } else if( exterior_corner ) {
+        int rot = 0;
+
         if( w_ravine && s_ravine ) {
-            m->rotate( 1 );
+            rot += 1;
         }
         if( w_ravine && n_ravine ) {
-            m->rotate( 2 );
+            rot += 2;
         }
         if( e_ravine && n_ravine ) {
-            m->rotate( 3 );
+            rot += 3;
         }
+
+        rot %= 4;
+
+        // Rotate the map 'backwards' to allow the new addition to be placed at its normal orientation.
+        m->rotate( 4 - rot );
+
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge =  12  + rng( 1, 3 ) - x;
+            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ), dat.zlevel() );
+        }
+        // Rotate the map back to its normal rotation, resulting in the new contents becoming rotated.
+        m->rotate( rot );
     }
     // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
     // in the other levels they are converted into open air to generate the cliffside.
@@ -2162,26 +2217,23 @@ void mapgen_ravine_edge( mapgendata &dat )
     }
 }
 
-void mremove_trap( map *m, const point &p, trap_id type )
+void mremove_trap( map *m, const tripoint_bub_ms &p, trap_id type )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    const trap_id trap_at_loc = m->maptile_at( actual_location ).get_trap().id();
+    const trap_id trap_at_loc = m->maptile_at( p ).get_trap().id();
     if( type == tr_null || trap_at_loc == type ) {
-        m->remove_trap( actual_location );
+        m->remove_trap( p );
     }
 }
 
-void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
+void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
-                      m->get_abs_sub().z() ) ) ), true );
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( p ) ), true );
         if( c ) {
             return;
         }
     }
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    m->trap_set( actual_location, type );
+    m->trap_set( p, type );
 }
 
 void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
@@ -2203,10 +2255,9 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 
-void mremove_fields( map *m, const point &p )
+void mremove_fields( map *m, const tripoint_bub_ms &p )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
-    m->clear_fields( actual_location );
+    m->clear_fields( p.raw() );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

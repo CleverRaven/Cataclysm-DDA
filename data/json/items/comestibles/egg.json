@@ -1,11 +1,11 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "egg_bird",
-    "name": { "str": "bird egg" },
+    "id": "egg_chicken",
+    "name": { "str": "chicken egg" },
     "weight": "50 g",
     "color": "brown",
-    "spoils_in": "7 days",
+    "spoils_in": "11 days",
     "comestible_type": "FOOD",
     "symbol": "o",
     "quench": 4,
@@ -17,23 +17,14 @@
     "volume": "50 ml",
     "fun": -8,
     "flags": [ "FREEZERBURN", "RAW" ],
-    "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ] ],
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_chicken",
-    "name": { "str": "chicken egg" },
-    "copy-from": "egg_bird",
     "rot_spawn": "GROUP_EGG_CHICKEN",
+    "vitamins": [ [ "iron", "900 μg" ], [ "calcium", "28 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn_chance": 70
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_bird_unfert",
-    "copy-from": "egg_bird",
-    "looks_like": "egg_bird",
+    "copy-from": "egg_chicken",
     "name": { "str": "unfertilized bird egg" },
     "description": "A nutritious egg laid by a bird.  This one is unfertilized and probably from a farm.",
     "rot_spawn_chance": 0
@@ -41,14 +32,17 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_grouse",
-    "name": { "str": "grouse egg" },
+    "name": { "str": "ruffed grouse egg" },
+    "spoils_in": "13 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_GROUSE"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_pigeon",
     "name": { "str": "feral pigeon egg" },
+    "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.3, "weight": 0.3, "calories": 0.3 },
     "rot_spawn": "GROUP_EGG_PIGEON"
@@ -57,6 +51,7 @@
     "type": "COMESTIBLE",
     "id": "egg_crow",
     "name": { "str": "American crow egg" },
+    "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.34, "weight": 0.34, "calories": 0.34 },
     "rot_spawn": "GROUP_EGG_CROW"
@@ -65,6 +60,7 @@
     "type": "COMESTIBLE",
     "id": "egg_raven",
     "name": { "str": "raven egg" },
+    "spoils_in": "11 days",
     "copy-from": "egg_crow",
     "rot_spawn": "GROUP_EGG_RAVEN"
   },
@@ -72,6 +68,7 @@
     "type": "COMESTIBLE",
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
+    "spoils_in": "9 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.18, "weight": 0.18, "calories": 0.18 },
     "rot_spawn": "GROUP_EGG_BLUEJAY"
@@ -80,6 +77,7 @@
     "type": "COMESTIBLE",
     "id": "egg_cardinal",
     "name": { "str": "cardinal egg" },
+    "spoils_in": "7 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.09, "weight": 0.09, "calories": 0.09 },
     "rot_spawn": "GROUP_EGG_CARDINAL"
@@ -88,6 +86,7 @@
     "type": "COMESTIBLE",
     "id": "egg_robin",
     "name": { "str": "American robin egg" },
+    "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "description": "A nutritious egg laid by a robin.  The shell is colored a distinctive light blue.",
     "color": "light_blue",
@@ -98,6 +97,7 @@
     "type": "COMESTIBLE",
     "id": "egg_sparrow",
     "name": { "str": "sparrow egg" },
+    "spoils_in": "7 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_SPARROW"
@@ -106,6 +106,7 @@
     "type": "COMESTIBLE",
     "id": "egg_chickadee",
     "name": { "str": "black-capped chickadee egg" },
+    "spoils_in": "6 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.03, "weight": 0.03, "calories": 0.03 },
     "rot_spawn": "GROUP_EGG_CHICKADEE"
@@ -114,6 +115,7 @@
     "type": "COMESTIBLE",
     "id": "egg_waxwing",
     "name": { "str": "cedar waxwing egg" },
+    "spoils_in": "8 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_WAXWING"
@@ -121,61 +123,93 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_duck",
-    "name": { "str": "duck egg" },
+    "name": { "str": "mallard egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 1.4, "weight": 1.4 },
     "calories": 130,
-    "volume": "83 ml",
-    "weight": "70 g",
-    "vitamins": [ [ "calcium", 5 ], [ "iron", 15 ] ],
+    "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "45 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_duck_domestic",
+    "name": { "str": "domestic duck egg" },
+    "copy-from": "egg_duck",
+    "rot_spawn": "GROUP_EGG_DUCK_DOMESTIC"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_goose_canadian",
-    "name": { "str": "goose egg" },
+    "name": { "str": "Canada goose egg" },
+    "spoils_in": "15 days",
     "copy-from": "egg_chicken",
-    "calories": 266,
-    "volume": "130 ml",
-    "weight": "143 g",
-    "vitamins": [ [ "calcium", 9 ], [ "iron", 29 ] ],
+    "proportional": { "volume": 3.26, "weight": 3.26 },
+    "calories": 302,
+    "vitamins": [ [ "iron", "6 mg" ], [ "calcium", "98 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_turkey",
-    "name": { "str": "turkey egg" },
+    "name": { "str": "wild turkey egg" },
+    "spoils_in": "15 days",
     "copy-from": "egg_chicken",
-    "volume": "83 ml",
-    "weight": "79 g",
+    "proportional": { "volume": 1.58, "weight": 1.58 },
     "calories": 135,
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 18 ] ],
+    "vitamins": [ [ "iron", "3 mg" ], [ "calcium", "78 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_turkey_domestic",
+    "name": { "str": "domestic turkey egg" },
+    "copy-from": "egg_turkey",
+    "rot_spawn": "GROUP_EGG_TURKEY_DOMESTIC"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_pheasant",
-    "name": { "str": "pheasant egg" },
+    "name": { "str": "ring-necked pheasant egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_PHEASANT"
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_reptile",
-    "name": { "str": "reptile egg" },
-    "weight": "60 g",
-    "color": "white",
+    "id": "egg_wormsnake",
+    "name": { "str": "worm snake egg" },
+    "spoils_in": "23 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
+    "rot_spawn": "GROUP_EGG_WORMSNAKE"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_turtle_painted",
+    "name": { "str": "painted turtle egg" },
+    "spoils_in": "40 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.25, "weight": 0.25, "calories": 0.25 },
+    "rot_spawn": "GROUP_EGG_TURTLE_PAINTED"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_turtle_snapping_common",
+    "name": { "str": "common snapping turtle egg" },
+    "spoils_in": "51 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.25, "weight": 0.25, "calories": 0.25 },
+    "rot_spawn": "GROUP_EGG_TURTLE_SNAPPING_COMMON"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_skink_fivelined",
+    "name": { "str": "five-lined skink egg" },
     "spoils_in": "28 days",
-    "comestible_type": "FOOD",
-    "symbol": "o",
-    "quench": 3,
-    "calories": 87,
-    "description": "An egg laid by one of reptile species found in New England.",
-    "price": "62 cent",
-    "price_postapoc": "12 cent",
-    "material": [ "egg" ],
-    "volume": "62 ml",
-    "fun": -12,
-    "flags": [ "RAW" ]
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
+    "rot_spawn": "GROUP_EGG_SKINK_FIVELINED"
   },
   {
     "type": "COMESTIBLE",
@@ -195,7 +229,7 @@
     "price_postapoc": "1 USD",
     "spoils_in": "5 days",
     "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME" ],
-    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ] ]
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 18 ], [ "mutant_toxin", 25 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -207,7 +241,7 @@
     "price_postapoc": "5 USD",
     "material": [ "egg" ],
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
-    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
+    "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 100
   },
@@ -371,10 +405,37 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_fly",
-    "name": "fly egg",
+    "name": { "str": "fly egg" },
     "description": "The egg of a fly.",
     "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_FLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moth_fly",
+    "name": { "str": "moth fly egg" },
+    "description": "The egg of a moth fly.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_MOTH_FLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_silverfish",
+    "name": { "str": "silverfish egg" },
+    "description": "The egg of a silverfish.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SILVERFISH",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_centipede_house",
+    "name": { "str": "house centipede egg" },
+    "description": "The egg of a house centipede.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_CENTIPEDE_HOUSE",
     "rot_spawn_chance": 50
   },
   {
@@ -486,7 +547,7 @@
     "price_postapoc": "7 USD 50 cent",
     "material": [ "flesh" ],
     "volume": "250 ml",
-    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "meat_allergen", 1 ] ],
     "fun": 5,
     "flags": [ "RAW" ]
   },
@@ -507,7 +568,7 @@
     "material": [ "egg" ],
     "volume": "25 ml",
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "egg_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -872,7 +933,7 @@
     "price_postapoc": "10 cent",
     "material": [ "egg" ],
     "fun": -8,
-    "vitamins": [ [ "vitC", 12 ], [ "mutant_toxin", 27 ] ],
+    "vitamins": [ [ "vitC", 12 ], [ "mutant_toxin", 27 ], [ "egg_allergen", 1 ] ],
     "flags": [ "RAW" ]
   },
   {
@@ -901,12 +962,13 @@
     "volume": "15 ml",
     "flags": [ "EDIBLE_FROZEN", "NO_AUTO_CONSUME" ],
     "fun": -4,
-    "freezing_point": -274
+    "freezing_point": -274,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_eggs",
-    "copy-from": "egg_bird",
+    "copy-from": "egg_chicken",
     "name": { "str_sp": "rehydrated egg" },
     "color": "yellow",
     "symbol": "%",
@@ -936,7 +998,8 @@
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 3,
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -961,7 +1024,8 @@
     "fun": 2,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_NULL",
-    "rot_spawn_chance": 0
+    "rot_spawn_chance": 0,
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -976,7 +1040,8 @@
     "price_postapoc": "50 cent",
     "material": [ "egg" ],
     "fun": 4,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -991,7 +1056,8 @@
     "price": "5 USD",
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1015,7 +1081,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "veggy" ],
     "fun": 10,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1031,7 +1098,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "wheat" ],
     "fun": 4,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1047,39 +1115,8 @@
     "price_postapoc": "1 USD 20 cent",
     "material": [ "egg", "wheat" ],
     "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "fried_egg_sandwich_wheat_free",
-    "name": { "str": "wheat-free fried egg sandwich", "str_pl": "wheat-free fried egg sandwiches" },
-    "copy-from": "scrambled_eggs",
-    "color": "yellow",
-    "symbol": "%",
-    "quench": -1,
-    "calories": 422,
-    "description": "Sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.  Made into a sandwich with wheat-free bread, just like Sunday morning.",
-    "price": "5 USD",
-    "price_postapoc": "1 USD 20 cent",
-    "material": [ "egg", "veggy" ],
-    "fun": 4,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "deluxe_fried_egg_sandwich_wheat_free",
-    "name": { "str": "wheat-free deluxe fried egg sandwich", "str_pl": "wheat-free deluxe fried egg sandwiches" },
-    "copy-from": "scrambled_eggs",
-    "color": "yellow",
-    "symbol": "%",
-    "quench": -1,
-    "calories": 422,
-    "description": "Deluxe sunny-side up eggs fried with a runny yolk and just a bit of crisp on the edges.  Made into a sandwich with wheat-free bread, just like Sunday morning.",
-    "price": "5 USD",
-    "price_postapoc": "1 USD 20 cent",
-    "material": [ "egg", "veggy" ],
-    "fun": 12,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "wheat_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1093,7 +1130,8 @@
     "price": "5 USD",
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1107,7 +1145,8 @@
     "price": "5 USD",
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk", "veggy" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1121,7 +1160,8 @@
     "price": "5 USD",
     "price_postapoc": "70 cent",
     "material": [ "egg", "milk", "veggy", "flesh" ],
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "meat_allergen", 1 ], [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ], [ "milk_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1138,7 +1178,8 @@
     "material": [ "bread", "egg" ],
     "primary_material": "bread",
     "volume": "649 ml",
-    "fun": 10
+    "fun": 10,
+    "vitamins": [ [ "egg_allergen", 1 ], [ "bread_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1154,7 +1195,8 @@
     "price_postapoc": "75 cent",
     "material": [ "egg" ],
     "fun": 2,
-    "flags": [ "FREEZERBURN" ]
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "egg_allergen", 1 ] ]
   },
   {
     "id": "curing_roe",
@@ -1198,59 +1240,64 @@
   {
     "type": "COMESTIBLE",
     "id": "egg_goose",
-    "name": "goose egg",
-    "copy-from": "egg_goose_canadian",
-    "rot_spawn": "GROUP_EGG_GOOSE"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_goose_golden",
-    "name": "golden goose egg",
-    "copy-from": "egg_goose_canadian",
-    "proportional": { "weight": 2, "calories": 2, "volume": 2 },
+    "name": { "str": "domestic goose egg" },
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 2.88, "weight": 2.88 },
+    "calories": 266,
+    "vitamins": [ [ "iron", "5 mg" ], [ "calcium", "86 mg" ], [ "egg_allergen", 1 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_hummingbird",
-    "name": "hummingbird egg",
-    "copy-from": "egg_crow",
+    "name": { "str": "ruby-throated hummingbird egg" },
+    "spoils_in": "7 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "weight": 0.01 },
     "volume": "1 ml",
-    "weight": "1 g",
+    "calories": 1,
+    "//": "Volume and calories defined manually because proportional rounded them down to 0",
     "rot_spawn": "GROUP_EGG_HUMMINGBIRD"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_woodpecker",
-    "name": "woodpecker egg",
-    "copy-from": "egg_crow",
+    "name": { "str": "downy woodpecker egg" },
+    "spoils_in": "6 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.06, "weight": 0.06, "calories": 0.06 },
     "rot_spawn": "GROUP_EGG_WOODPECKER"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_coot",
-    "name": "coot egg",
+    "name": { "str": "American coot egg" },
+    "spoils_in": "13 days",
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_COOT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_cormorant",
-    "name": "cormorant egg",
+    "name": { "str": "double-crested cormorant egg" },
+    "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_CORMORANT"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_moorhen",
-    "name": "moorhen egg",
+    "name": { "str": "common gallinule egg" },
     "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.73, "weight": 0.73, "calories": 0.73 },
     "rot_spawn": "GROUP_EGG_MOORHEN"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_grebe",
-    "name": "grebe egg",
+    "name": { "str": "horned grebe egg" },
+    "spoils_in": "12 days",
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_GREBE"
   },
@@ -1313,7 +1360,8 @@
     "price_postapoc": "2 USD 50 cent",
     "material": [ "egg", "veggy" ],
     "fun": 5,
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ],
+    "vitamins": [ [ "veggy_allergen", 1 ], [ "egg_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1424,6 +1472,57 @@
     "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
     "rot_spawn": "GROUP_EGG_SHIFT_FROG",
     "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mink_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A tight, spherical cluster of eggs, often found near submerged vegetation.  This cluster is polar, with dark pigment collected near the tops of the eggs and white left on the underside.",
+    "rot_spawn": "GROUP_EGG_MINK_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_pickerel_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A globular mass of frog's eggs.  The individual eggs are colored a dark brown on top and a yellow-cream on the bottom.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_PICKEREL_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_palette_frog",
+    "copy-from": "egg_pickerel_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_PALETTE_FROG",
+    "vitamins": [ [ "iron", 4 ], [ "mutant_toxin", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_green_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "A thin sheet of clear, gelatinous eggs with dark embryos peppered throughout.",
+    "rot_spawn": "GROUP_EGG_GREEN_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_wood_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "This softball-sized mass of gooey eggs clings together like a bunch of soft, transparent grapes.  The \"seeds\" inside these appear to be growing legs.",
+    "rot_spawn": "GROUP_EGG_WOOD_FROG"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spade_frog",
+    "copy-from": "egg_proxy_frog",
+    "name": { "str": "cluster of frog's eggs", "str_pl": "clusters of frog's eggs" },
+    "description": "Several short strands of tightly clustered black eggs connected together by their viscous coverings.",
+    "use_action": [ "POISON" ],
+    "rot_spawn": "GROUP_EGG_SPADE_FROG"
   },
   {
     "type": "COMESTIBLE",

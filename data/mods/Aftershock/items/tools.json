@@ -48,7 +48,6 @@
     "volume": "850 ml",
     "longest_side": "20 cm",
     "price": "10 kUSD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -75,7 +74,6 @@
     "volume": "650 ml",
     "price": "6 kUSD",
     "longest_side": "20 cm",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -184,7 +182,6 @@
         "type": "transform"
       }
     ],
-    "tick_action": [ "MP3_ON" ],
     "extend": { "flags": [ "TRADER_AVOID", "LIGHT_25" ] }
   },
   {
@@ -280,7 +277,6 @@
     "longest_side": "20 cm",
     "price": "1 kUSD",
     "price_postapoc": "30 USD",
-    "to_hit": -2,
     "material": [ "plastic", "aluminum" ],
     "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
@@ -318,7 +314,13 @@
     "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming gasoline, but can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
-    "use_action": { "target": "afs_power_cutter", "msg": "Your power cutter falls quiet.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "target": "afs_power_cutter",
+      "msg": "Your power cutter falls quiet.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 7, "cut": 80 }
@@ -350,10 +352,15 @@
     "type": "TOOL",
     "name": { "str": "murdersaw (on)", "str_pl": "murdersaws (on)" },
     "description": "This fearsome weapon is currently whirring loudly and shaking with the force of its own power.  Use it to turn it off.",
-    "to_hit": 2,
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
-    "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "target": "afs_murdersaw",
+      "msg": "Your murdersaw falls quiet.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 10 ], [ "BUTCHER", -50 ] ],
     "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "melee_damage": { "bash": 6, "cut": 80 }
@@ -379,6 +386,8 @@
     "description": "This is a unified power supply, or UPS.  It is a device developed jointly by military and scientific interests for use in combat and the field.  The UPS is designed to power armor and some guns, but drains batteries quickly.  It can be worn strapped to either leg for ease of access, and it's been waterproofed to protect the delicate electronics.  Has its own custom battery, rechargeable and with higher capacity, but not removable",
     "ammo": [ "battery" ],
     "sided": true,
+    "price": "1300 USD",
+    "price_postapoc": "1300 USD",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "BELTED", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
     "material": [ "aluminum", "plastic" ],
@@ -482,7 +491,13 @@
     "name": { "str": "control laptop - lit screen", "str_pl": "control laptops - lit screen" },
     "power_draw": "1 W",
     "revert_to": "control_laptop",
-    "use_action": { "target": "control_laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "target": "control_laptop",
+      "msg": "You stop lighting up the screen.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "tick_action": [ "EPIC_MUSIC" ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID" ]
   },
@@ -526,7 +541,7 @@
     "type": "TOOL",
     "id": "afs_shuttle_radiobeacon",
     "name": { "str": "drone shuttle beacon" },
-    "description": "A portable high-power radiobeacon.  Signals a drone shuttle from Port Augustmoon, which will make landfall in about 30 minutes and leave 4 hours later, wether you board it or not.  Single use, all expenses paid in advance, and non refundable.",
+    "description": "A portable high-power radiobeacon.  Signals a drone shuttle from Port Augustmoon, which will make landfall in about 30 minutes and leave 4 hours later, whether you board it or not.  Single use, all expenses paid in advance, and non refundable.",
     "weight": "340 g",
     "volume": "1 L",
     "category": "tools",
@@ -553,7 +568,13 @@
     "name": { "str": "VR rig - holosuite deployed", "str_pl": "VR rigs - holosuite deployed" },
     "power_draw": "1 W",
     "revert_to": "vr_laptop",
-    "use_action": { "target": "vr_laptop", "msg": "You power down the virtual overlay.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "target": "vr_laptop",
+      "msg": "You power down the virtual overlay.",
+      "ammo_scale": 0,
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "flags": [ "WATCH", "TRADER_AVOID" ],
     "relic_data": {
       "passive_effects": [
@@ -583,11 +604,10 @@
     "symbol": "u",
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_nano_forge" },
-    "to_hit": -2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "material": [ "superalloy" ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "HEAVY_TOOL" ],
     "melee_damage": { "bash": 5 }
   },
   {
@@ -598,13 +618,31 @@
     "weight": "6464 g",
     "volume": "11356 ml",
     "price": "200 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "qualities": [ [ "NANO_FORGE", 1 ] ],
     "symbol": "H",
     "color": "light_gray",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 9 }
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "folding_solar_panel",
+    "id": "afs_cRTG",
+    "name": { "str": "U-344 RTG" },
+    "description": "A compact power source that employs the decay of transuranic elements to generate a small but constant amount of electricity and is commonly used in remote locations to power up equipment.  Must be integrated into a power grid before use.",
+    "weight": "17500 g",
+    "volume": "2 L",
+    "longest_side": "30 cm",
+    "color": "light_green",
+    "symbol": "]",
+    "material": [ "lead", "steel" ],
+    "use_action": { "type": "deploy_appliance", "base": "afs_cRTG" },
+    "extend": { "flags": [ "RECHARGE", "NO_UNLOAD", "NO_RELOAD", "WATERPROOF", "LEAK_DAM", "RADIOACTIVE" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1000 } } ],
+    "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "5 m" } },
+    "price": "5600 USD",
+    "price_postapoc": "5600 USD"
   },
   {
     "id": "syringe",
@@ -637,7 +675,6 @@
     "symbol": "u",
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_diamond_press" },
-    "to_hit": -2,
     "material": [ "superalloy" ],
     "flags": [ "DURABLE_MELEE" ],
     "melee_damage": { "bash": 5 }
@@ -650,7 +687,6 @@
     "weight": "6464 g",
     "volume": "11356 ml",
     "price": "200 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "qualities": [ [ "DIAMONDPRESS", 1 ] ],
     "symbol": "H",
@@ -662,7 +698,7 @@
     "id": "multi_cooker",
     "copy-from": "multi_cooker",
     "type": "TOOL",
-    "//": "Makes it look more sci-fi so it isnt out of place, not many actual changes otherwise.",
+    "//": "Makes it look more sci-fi so it isn't out of place, not many actual changes otherwise.",
     "name": { "str": "micro-cooker" },
     "description": "A rugged kitchen in one tool, made for use within small spaceships or in the wilderness.  It can automatically prepare a variety of dishes while its owner focuses on other tasks.",
     "weight": "5 kg",
@@ -729,7 +765,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_plus_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "melee_damage": { "bash": 4 }

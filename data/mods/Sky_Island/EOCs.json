@@ -546,6 +546,7 @@
         "u_message": "Warp home behavior set to whole room.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "0" ] },
+      { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -557,6 +558,7 @@
         "u_message": "Warp home behavior set to whole room at a cost.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "1" ] },
+      { "u_learn_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -568,6 +570,7 @@
         "u_message": "Warp home behavior set to self only.  You can use the Difficulty Adjuster if you wish to change your setting at any time."
       },
       { "math": [ "roomteleportselector", "=", "2" ] },
+      { "u_forget_recipe": "warp_vortex_token" },
       { "run_eocs": "EOC_difficultycheck_3" }
     ]
   },
@@ -804,6 +807,15 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_SKY_ISLAND_GAME_LOAD_WARPED_POND_GRANTER",
+    "eoc_type": "EVENT",
+    "//": "Delete after 0.I",
+    "required_event": "game_load",
+    "condition": { "math": [ "islandrank", ">=", "2" ] },
+    "effect": [ { "u_learn_recipe": "sky_island_warped_pond" } ]
+  },
+  {
     "id": "warp_home",
     "type": "SPELL",
     "name": "Warp Home",
@@ -903,5 +915,112 @@
     "condition": { "math": [ "u_monsters_nearby('radius': u_search_radius == 10)", "<=", "0" ] },
     "effect": [ { "u_assign_activity": "ACT_WARP_HOME", "duration": "60 seconds" } ],
     "false_effect": [ { "u_message": "You cannot warp home with enemies nearby!", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_WATERWALKING",
+    "effect": [
+      { "u_consume_item": "warp_waterwalking_stone", "count": 1 },
+      { "u_message": "You feel somehow lighter.", "type": "good" },
+      { "u_add_effect": "effect_warped_waterwalking", "duration": 180 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION",
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "around",
+          "target_var": { "context_val": "warped_pond_location" },
+          "message": "Select nearby water source"
+        },
+        "then": {
+          "if": {
+            "or": [
+              { "map_terrain_with_flag": "LIQUID", "loc": { "context_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_wooden_well", "loc": { "context_val": "warped_pond_location" } },
+              { "map_terrain_id": "t_water_pump", "loc": { "context_val": "warped_pond_location" } }
+            ]
+          },
+          "then": {
+            "run_eoc_selector": [
+              "EOC_WARPED_POND_CREATION_NW",
+              "EOC_WARPED_POND_CREATION_NE",
+              "EOC_WARPED_POND_CREATION_SW",
+              "EOC_WARPED_POND_CREATION_SE"
+            ],
+            "names": [ "Northwest", "Northeast", "Southwest", "Southeast" ],
+            "title": "Choose the location for a pond",
+            "descriptions": [
+              "Place a pond in the northwest.",
+              "Place a pond in the northeast.",
+              "Place a pond in the southwest.",
+              "Place a pond in the southeast."
+            ]
+          },
+          "else": [
+            { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
+            { "u_message": "Canceled.", "type": "neutral" }
+          ]
+        },
+        "else": [
+          { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
+          { "u_message": "You must be near a water source to created a warped pond.", "type": "neutral" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_NW",
+    "effect": [
+      {
+        "mapgen_update": "mx_skyisland_pond",
+        "om_terrain": "sky_island_core",
+        "search_range": 4,
+        "offset_x": -1,
+        "offset_y": -1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_NE",
+    "effect": [
+      {
+        "mapgen_update": "mx_skyisland_pond",
+        "om_terrain": "sky_island_core",
+        "search_range": 4,
+        "offset_x": 1,
+        "offset_y": -1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_SW",
+    "effect": [
+      {
+        "mapgen_update": "mx_skyisland_pond",
+        "om_terrain": "sky_island_core",
+        "search_range": 4,
+        "offset_x": -1,
+        "offset_y": 1
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WARPED_POND_CREATION_SE",
+    "effect": [
+      {
+        "mapgen_update": "mx_skyisland_pond",
+        "om_terrain": "sky_island_core",
+        "search_range": 4,
+        "offset_x": 1,
+        "offset_y": 1
+      }
+    ]
   }
 ]

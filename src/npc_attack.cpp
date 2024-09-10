@@ -312,7 +312,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
         }
     } else if( source.mem_combat.formation_distance != -1 &&
                source.mem_combat.formation_distance <= target_distance &&
-               rng( -10, 10 ) > source.personality.aggression ) {
+               rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX ) > source.personality.aggression ) {
         add_msg_debug( debugmode::DF_NPC_MOVEAI,
                        "<color_light_gray>%s decided to fall back to formation with allies.</color>", source.name );
         source.look_for_player( get_player_character() );
@@ -585,8 +585,10 @@ void npc_attack_activate_item::use( npc &source, const tripoint &/*location*/ ) 
     if( !source.wield( activatable_item ) ) {
         debugmsg( "%s can't wield %s it tried to activate", source.disp_name(),
                   activatable_item.display_name() );
+        return;
     }
-    source.activate_item( activatable_item );
+    // npc::wield may invalidate activatable_item's reference
+    source.activate_item( *source.get_wielded_item() );
 }
 
 bool npc_attack_activate_item::can_use( const npc &source ) const
@@ -635,7 +637,7 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
     if( has_obstruction( source.pos(), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-          !source.wont_hit_friend( location, thrown_item, false ) ) ) {
+          !source.wont_hit_friend( location, thrown_item, true ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {
@@ -725,6 +727,13 @@ npc_attack_rating npc_attack_throw::evaluate(
     npc_attack_rating effectiveness( std::nullopt, source.pos() );
     if( !can_use( source ) ) {
         // please don't throw your pants...
+        return effectiveness;
+    }
+    const inventory &available_weapons = source.crafting_inventory( tripoint_zero, -1 );
+    if( &thrown_item == source.evaluate_best_weapon() &&
+        available_weapons.amount_of( thrown_item.typeId() ) <= 1 &&
+        available_weapons.charges_of( thrown_item.typeId() ) <= 1 ) {
+        // Don't throw if it's the best individual killy-thing we've got
         return effectiveness;
     }
     const int penalty = base_penalty( source );

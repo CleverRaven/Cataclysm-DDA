@@ -7,7 +7,7 @@ static const field_type_str_id field_fd_acid( "fd_acid" );
 
 TEST_CASE( "throw_activation", "[item]" )
 {
-    item acid_bomb( "acidbomb" );
+    item acid_bomb( "acidbomb_test" );
 
     SECTION( "acid_bomb_hits_ground" ) {
         acid_bomb.activate_thrown( tripoint_zero );

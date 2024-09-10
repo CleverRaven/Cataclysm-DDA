@@ -108,9 +108,6 @@
         { "u_near_om_location": "psi_phavian_lab_block5D1", "range": 2 },
         { "u_near_om_location": "psi_phavian_lab_block5B3", "range": 2 },
         { "u_near_om_location": "psi_phavian_lab_block5D3", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
-        { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
         { "u_near_om_location": "LIXA_surface_1b_north", "range": 2 },
         { "u_near_om_location": "LIXA_roof_1a_north", "range": 2 },
         { "u_near_om_location": "LIXA_stairshaft_1a_north", "range": 2 },
@@ -126,10 +123,27 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_YOU_ARE_IN_NETHER_LOCATION",
+    "condition": {
+      "or": [
+        { "u_near_om_location": "nether_glass_deep", "range": 2 },
+        { "u_near_om_location": "nether_glass", "range": 2 },
+        { "u_at_om_location": "microlab_portal_elevator_nether_glass" },
+        { "u_near_om_location": "void_spider_lair_entrance", "range": 2 },
+        { "u_near_om_location": "void_spider_lair_a1", "range": 2 },
+        { "u_near_om_location": "void_spider_lair_a2", "range": 2 },
+        {
+          "and": [ { "math": [ "u_val('pos_z')", "==", "6" ] }, { "not": "u_is_outside" }, { "u_is_on_terrain": "t_floor_warped" } ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_COMBAT",
     "condition": {
       "or": [
-        { "u_has_trait": "CLAIR_SPEED_READ" },
         { "u_has_effect": "effect_clair_speed_reader" },
         { "u_has_effect": "effect_clair_see_auras" },
         { "u_has_effect": "effect_clair_craft_bonus" },
@@ -167,6 +181,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CONDITION_LIST_OF_POWERS_CANCELLED_BY_MELEE_COMBAT_SPECIFICALLY",
+    "condition": { "or": [ { "u_has_effect": "effect_photokin_invisibility" } ] },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CONDITION_AWAKENING_X_IN_Y_CHANCE",
     "condition": { "x_in_y_chance": { "x": { "math": [ "100 - u_awakening_reducer" ] }, "y": 100 } },
     "effect": [  ]
@@ -193,6 +213,30 @@
         }
       ]
     },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ODDS_OF_RANDOM_NO_PREREQ_POWER_INSIGHT",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 3 } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 20 } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_TWO_POWER_INSIGHT",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 40 } },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_THREE_POWER_INSIGHT",
+    "condition": { "x_in_y_chance": { "x": 1, "y": 80 } },
     "effect": [  ]
   }
 ]

@@ -130,6 +130,7 @@
     "required_str": 5,
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
     "deployed_item": "mannequin",
+    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
     "examine_action": "deployed_furniture",
     "bash": {
       "str_min": 6,
@@ -234,6 +235,24 @@
   },
   {
     "type": "furniture",
+    "id": "f_lighthouse_light",
+    "name": "lighthouse light",
+    "description": "Very high power, modern lighthouse LED light source with attached heatsinks.",
+    "symbol": "%",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "deconstruct": { "items": [ { "item": "lightstrip_inactive" }, { "item": "material_aluminium_ingot", "count": 4 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 80,
+      "sound": "clang!",
+      "sound_fail": "ting.",
+      "items": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "e_scrap", "count": [ 1, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_winter_wreath",
     "name": "pine wreath",
     "description": "A decorative wreath for the winter holidays.",
@@ -314,6 +333,26 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_indoor_flagpole",
+    "name": "indoor flagpole",
+    "description": "A 2.5-meter tall flagpole on a weighted stand.  You could hoist up a flag here.",
+    "symbol": "F",
+    "color": "light_gray",
+    "move_cost_mod": 2,
+    "coverage": 20,
+    "required_str": 1,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
+    "max_volume": "2 L",
+    "bash": {
+      "str_min": 10,
+      "str_max": 30,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [ { "item": "material_aluminium_ingot", "count": [ 4, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ]
     }
   }
 ]

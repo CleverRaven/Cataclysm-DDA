@@ -98,6 +98,16 @@ int convert_length( const units::length &length );
 std::string length_units( const units::length &length );
 std::string length_to_string( const units::length &length, bool compact = false );
 
+/**
+* Rounds length so that reasonably large units can be used (kilometers/meters or miles/yards).
+* If value is >0.5km or >0.5mi then uses km/mi respectively, otherwise uses meters/yards.
+* Outputs to two decimal places (km/mi) or as integer (meters/yards).
+* Should always be accessed through length_to_string_approx()
+*/
+double convert_length_approx( const units::length &length, bool &display_as_integer );
+std::string length_units_approx( const units::length &length );
+std::string length_to_string_approx( const units::length &length );
+
 /** Convert length to inches or cm. Used in pickup UI */
 double convert_length_cm_in( const units::length &length );
 

@@ -120,6 +120,15 @@ void craft_command::execute( const std::optional<tripoint> &new_loc )
     execute();
 }
 
+void craft_command::execute( const std::optional<tripoint_bub_ms> &new_loc )
+{
+    std::optional<tripoint> tmp;
+    if( new_loc.has_value() ) {
+        tmp = new_loc.value().raw();
+    }
+    craft_command::execute( tmp );
+}
+
 void craft_command::execute( bool only_cache_comps )
 {
     if( empty() ) {
@@ -278,7 +287,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         };
 
         const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
-        std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<std::pair<const tripoint_bub_ms, item>> map_items;
         std::vector<std::pair<const vpart_reference, item>> veh_items;
         std::vector<item> inv_items;
 

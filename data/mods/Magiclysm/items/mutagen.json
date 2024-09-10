@@ -1,32 +1,17 @@
 [
   {
-    "type": "COMESTIBLE",
     "id": "manatouched_serum",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
     "name": { "str_sp": "concentrated mana mutagenic primer" },
-    "weight": "250 g",
     "color": "light_blue",
-    "addiction_type": "mutagen",
-    "stim": -20,
-    "container": "flask_glass",
-    "comestible_type": "DRINK",
-    "symbol": "~",
-    "healthy": -10,
-    "addiction_potential": 5,
-    "calories": 26,
     "description": "A very concentrated form of mana potion.",
-    "price": "600 USD",
-    "volume": "500 ml",
-    "phase": "liquid",
-    "charges": 2,
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject the concentrated mana mutagenic primer.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_manatouched", 450, 550 ] ]
-    },
-    "flags": [ "EATEN_COLD", "NUTRIENT_OVERRIDE", "MUTAGEN_PRIMER" ],
-    "freezing_point": -30,
-    "fun": -15
+    }
   },
   {
     "id": "manatouched_mutagen",

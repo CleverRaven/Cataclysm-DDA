@@ -27,171 +27,29 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "ar_pistol",
-    "copy-from": "rifle_semi",
-    "looks_like": "oa93",
+    "id": "modular_ar_pistol",
+    "copy-from": "pistol_base",
+    "//": "Roughly based on https://www.cheaperthandirt.com/del-ton-lima-ar-15-semi-auto-pistol-5.56-nato-7.5-barrel-30-rounds-m-lok-handguard-black/FC-848456002687.html, with the upper subtracted.",
+    "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "AR pistol" },
-    "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
-    "weight": "2267 g",
-    "volume": "1758 ml",
-    "longest_side": "584 mm",
-    "barrel_length": "191 mm",
-    "price": "914 USD",
+    "description": "The common AR-15 platform, with its stock removed and buffer tube covered by a sleeve.  AR pistols lack stocks, or have arm braces due to restrictions on short barreled rifles, and so without a stock, they're legally classified as a pistol.",
+    "weight": "1043 g",
+    "volume": "748 ml",
+    "longest_side": "373 mm",
+    "price": "245 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -2,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "aluminum" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "223" ],
-    "skill": "pistol",
-    "range": -6,
-    "dispersion": 380,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "plr16",
-    "copy-from": "rifle_semi",
-    "looks_like": "oa93",
-    "type": "GUN",
-    "name": { "str": "Rifle caliber pistol" },
-    "description": "This is a semi-automatic pistol chambered in 5.56x45, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "plr16",
-        "name": { "str": "Kel-Tec PLR16 pistol" },
-        "description": "This is a semi-automatic pistol chambered in 5.56 NATO, using a gas piston to reduce length and a frame constructed from reinforced polymer to make it both durable and light-weight.  This one comes with a plastic handguard."
-      }
-    ],
-    "weight": "1800 g",
-    "volume": "1665 ml",
-    "longest_side": "485 mm",
-    "barrel_length": "234 mm",
-    "price": "869 USD",
-    "price_postapoc": "55 USD",
-    "to_hit": -2,
-    "material": [ "steel", "aluminum", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "skill": "pistol",
-    "range": -6,
-    "dispersion": 300,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
-  },
-  {
-    "id": "fs2000",
-    "copy-from": "rifle_semi",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "FS2000" },
-    "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
-    "weight": "3319 g",
-    "volume": "7986 ml",
-    "longest_side": "740 mm",
-    "barrel_length": "442 mm",
-    "price": "1 kUSD 250 USD",
-    "price_postapoc": "20 USD",
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
+    "ammo": [ "NULL" ],
     "dispersion": 150,
-    "durability": 9,
+    "durability": 7,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "factory_handguard" ],
-    "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
-    "valid_mod_locations": [
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "stanag30", "stanag30ranger" ] } ],
-    "melee_damage": { "bash": 12 }
+    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
+    "flags": [ "NO_TURRET" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
@@ -245,6 +103,7 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
+    "melee_damage": { "bash": 12 },
     "flags": [ "NO_TURRET" ],
     "//3": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
   },
@@ -313,27 +172,27 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "id": "hk_g36",
-    "copy-from": "rifle_auto",
+    "id": "sl8",
+    "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "G36 assault rifle" },
-    "description": "An assault rifle chambered in 5.56x45mm and accepting G36 magazines.",
-    "weight": "3630 g",
-    "volume": "4640 ml",
-    "longest_side": "1004 mm",
-    "barrel_length": "480 mm",
-    "price": "2 kUSD 100 USD",
-    "price_postapoc": "60 USD",
+    "name": { "str": "SL8 civilian rifle" },
+    "description": "A semi-automatic clone of an older German assault rifle.  Due to importation bans, it is semi-auto and can only feed from 10 round magazines.",
+    "weight": "3901 g",
+    "volume": "3919 ml",
+    "longest_side": "987 mm",
+    "barrel_length": "635 mm",
+    "price": "1 kUSD 789 USD",
+    "price_postapoc": "5 USD",
     "variant_type": "gun",
     "variants": [
       {
-        "id": "hk_g36",
-        "name": { "str": "H&K G36 rifle" },
-        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much lighter .223 round, allowing for a higher ammo capacity."
+        "id": "sl8",
+        "name": { "str": "SL8-6" },
+        "description": "The SL8 is an importation-legal gun similar to the German G36, made to be semi-auto only, and to only feed from 10 round single stack magazines.  It also features a distinctive thumbhole stock, a polymer handguard, and a top rail for mounting optics."
       }
     ],
-    "to_hit": -1,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -341,8 +200,16 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ] } ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "sl8mag" ] } ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -445,7 +312,7 @@
         "id": "m4_cqbr",
         "name": { "str": "Mk 18 CQBR carbine" },
         "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations.",
-        "weight": 1
+        "weight": 0
       }
     ],
     "to_hit": -1,
@@ -458,7 +325,6 @@
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "default_mods": [ "retool_ar15_223rem_medium" ],
     "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
@@ -499,7 +365,7 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
+    "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it.",
     "id": "modular_m16_auto_rifle",
     "copy-from": "modular_m16a4",
     "type": "GUN",
@@ -511,145 +377,11 @@
         "id": "modular_m16a3",
         "name": { "str": "M16A3 rifle" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
-      },
-      {
-        "id": "modular_acr",
-        "name": { "str": "Remington ACR carbine" },
-        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
     ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "flags": [ "NO_TURRET" ],
     "//2": "This should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow."
-  },
-  {
-    "id": "m231pfw",
-    "type": "GUN",
-    "copy-from": "modular_m4_carbine",
-    "name": { "str": "M16 firing port gun" },
-    "description": "The M16 firing port gun is an M16 rifle modified to fire with an open-bolt design at ludicrous speeds, without sights.  It has a threaded handguard to screw into an armored vehicle's firing ports.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
-    "weight": "3330 g",
-    "volume": "2400 ml",
-    "longest_side": "727 mm",
-    "barrel_length": "396 mm",
-    "price": "34 kUSD 500 USD",
-    "price_postapoc": "35 USD",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "m231pfw",
-        "name": { "str": "M231 port firing weapon" },
-        "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard does nothing to protect you from the potentially scorching hot barrel collar, making it slightly less than ergonomic.  You could screw it into a firing port if you were so inclined.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable."
-      }
-    ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "material": [ "aluminum", "steel", "plastic" ],
-    "ammo": [ "223" ],
-    "dispersion": 350,
-    "sight_dispersion": 500,
-    "durability": 7,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "//": "This weapon has an extremely high rate of fire, due to the open bolt design. This is based on a cyclic rate of fire of 1150 RPM, which is close to 19 rounds per second. 6 rounds is comparable to to other weapons with similar rates, such as the MAC-11.",
-    "modes": [ [ "DEFAULT", "auto", 6 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 12 }
-  },
-  {
-    "id": "oa93",
-    "copy-from": "rifle_semi",
-    "looks_like": "modular_ar15",
-    "type": "GUN",
-    "name": { "str": "OA-93 pistol" },
-    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
-    "weight": "2023 g",
-    "volume": "2135 ml",
-    "longest_side": "456 mm",
-    "barrel_length": "165 mm",
-    "price": "1 kUSD 250 USD",
-    "price_postapoc": "55 USD",
-    "to_hit": -2,
-    "material": [ "steel", "aluminum" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "ammo": [ "223" ],
-    "skill": "pistol",
-    "range": -6,
-    "dispersion": 380,
-    "durability": 6,
-    "min_cycle_recoil": 1350,
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 2 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger",
-          "stanag40",
-          "stanag40ranger",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150",
-          "survivor223mag"
-        ]
-      }
-    ],
-    "melee_damage": { "bash": 9 }
   },
   {
     "id": "ruger_mini",
@@ -696,25 +428,25 @@
     "melee_damage": { "bash": 12 }
   },
   {
-    "//": "Name changed to match the non-branded version. Also changed to the SIG 553, as the 552 is discontinued and the 553 is still in production and is identical to the 552.",
+    "//": "Changed from SG 553, which itself was originally the Sig 550, to the civilian legal copy",
     "id": "sig_assault_rifle",
-    "copy-from": "rifle_auto",
+    "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "SIG assault rifle" },
-    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
-    "weight": "3200 g",
-    "volume": "2950 ml",
-    "longest_side": "741 mm",
-    "barrel_length": "348 mm",
+    "name": { "str": "SIG civilian rifle" },
+    "description": "A civilian variant of an automatic Swiss rifle for military service.  Accepts STANAG magazines.",
+    "weight": "4100 g",
+    "volume": "3146 ml",
+    "longest_side": "1020 mm",
+    "barrel_length": "406 mm",
     "price": "3 kUSD 200 USD",
-    "price_postapoc": "60 USD",
+    "price_postapoc": "30 USD",
     "variant_type": "gun",
     "variants": [
       {
         "id": "sig553",
-        "name": { "str": "SIG 553" },
-        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock."
+        "name": { "str": "SIG SG 556" },
+        "description": "The SG 556 is a civilian model of the Swiss SIG SG 550 series, manufactured in New Hampshire.  It lacks any automatic fire capability and has a 16 inch barrel, but still retains a folding stock, with the feature of feeding from STANAG magazines instead of the SG 550 series magazines."
       }
     ],
     "to_hit": -1,
@@ -723,7 +455,7 @@
     "dispersion": 180,
     "durability": 9,
     "min_cycle_recoil": 1350,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "built_in_mods": [ "folding_stock" ],
     "pocket_data": [
       {
@@ -805,7 +537,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm AK rifle" },
+    "name": { "str": "ZPAP AK-style rifle" },
     "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.",
     "variant_type": "gun",
     "variants": [
@@ -850,14 +582,14 @@
     "copy-from": "pistol_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "5.56x45mm Mini Draco rifle" },
-    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock",
+    "name": { "str": "ZPAP AK-style pistol" },
+    "description": "A civilian AK pattern rifle, chambered in 5.56x45 NATO.  This one is shorter and without a stock.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "zpap85",
         "name": { "str": "ZPAP 85 rifle" },
-        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock"
+        "description": "A Serbian-made AK pattern rifle made by Zastava in 5.56x45mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts.  This one is shorter and without a stock."
       }
     ],
     "weight": "2563 g",
@@ -968,7 +700,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Bren 5.56x45mm carbine" },
-    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the standard magazines of the AR-15 platform and a 5.56x45mm cartridge.",
     "variant_type": "gun",
     "variants": [
       {
@@ -1095,7 +827,6 @@
     "barrel_length": "439 mm",
     "price": "1 kUSD",
     "price_postapoc": "55 USD",
-    "to_hit": -2,
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",

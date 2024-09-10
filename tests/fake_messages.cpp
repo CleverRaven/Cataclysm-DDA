@@ -70,6 +70,10 @@ void add_msg_if_player_sees( const tripoint &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }
+void add_msg_if_player_sees( const tripoint_bub_ms &, std::string m )
+{
+    Messages::add_msg( std::move( m ) );
+}
 void add_msg_if_player_sees( const Creature &, std::string m )
 {
     Messages::add_msg( std::move( m ) );

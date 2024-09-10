@@ -4,6 +4,7 @@
 #include <memory>
 #include <new>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -50,10 +51,10 @@ static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_READ( "ACT_READ" );
+static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
@@ -197,6 +198,11 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
                 extra_info = string_format( "%d%%", percentage );
             }
         }
+
+        if( type == ACT_SPELLCASTING ) {
+            const std::string spell_name = spell_id( name )->name.translated();
+            extra_info = string_format( "%s …", spell_name );
+        }
     }
 
     if( actor ) {
@@ -334,8 +340,6 @@ void player_activity::do_turn( Character &you )
         }
 
         auto_resume = true;
-        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 5_minutes ) );
-        new_act.values.push_back( you.get_stamina_max() );
         if( you.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue.  Keep trying?" );
@@ -358,7 +362,7 @@ void player_activity::do_turn( Character &you )
             }
         }
         if( !ignoreQuery && auto_resume ) {
-            you.assign_activity( new_act );
+            you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
         return;
     }
@@ -380,6 +384,7 @@ void player_activity::do_turn( Character &you )
             }
         }
         get_event_bus().send<event_type::character_finished_activity>( you.getID(), type, false );
+        g->wait_popup_reset();
         if( actor ) {
             actor->finish( *this, you );
         } else {
@@ -406,6 +411,7 @@ void player_activity::canceled( Character &who )
         actor->canceled( *this, who );
     }
     get_event_bus().send<event_type::character_finished_activity>( who.getID(), type, true );
+    g->wait_popup_reset();
 }
 
 float player_activity::exertion_level() const

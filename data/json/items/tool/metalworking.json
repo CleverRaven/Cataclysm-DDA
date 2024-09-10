@@ -1,5 +1,21 @@
 [
   {
+    "id": "crude_bronze_nail",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "crude bronze nail" },
+    "description": "A crude bronze nail.  Probably not useful for many things due to its size and shape.",
+    "ascii_picture": "nail",
+    "weight": "7 g",
+    "volume": "1ml",
+    "longest_side": "40 mm",
+    "price": "1 USD",
+    "price_postapoc": "10 cent",
+    "material": [ "bronze" ],
+    "symbol": "=",
+    "color": "yellow"
+  },
+  {
     "id": "anvil",
     "type": "TOOL",
     "name": { "str": "anvil" },
@@ -91,7 +107,6 @@
     "volume": "8 L",
     "price": "200 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -111,10 +126,10 @@
     "volume": "7500 ml",
     "price": "160 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "use_action": [ "HEAT_LIQUID_ITEMS" ],
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "melee_damage": { "bash": 10 }
   },
@@ -155,7 +170,6 @@
     "volume": "2 L",
     "price": "1 kUSD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -2,
     "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -170,6 +184,7 @@
       }
     ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -181,7 +196,6 @@
     "volume": "2500 ml",
     "price": "600 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
@@ -196,6 +210,7 @@
       }
     ],
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HEAT_ALL_ITEMS" ],
     "melee_damage": { "bash": 10 }
   },
   {
@@ -207,7 +222,6 @@
     "volume": "6 L",
     "price": "400 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -226,7 +240,6 @@
     "volume": "10 L",
     "price": "1 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": ";",
     "color": "brown"
@@ -241,7 +254,6 @@
     "volume": "10 L",
     "price": "1 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -265,7 +277,6 @@
     "volume": "10 L",
     "price": "1 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -2,
     "material": [ "steel", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -406,7 +417,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "melee_damage": { "bash": 3 },
     "//": "Based on https://www.amazon.com/dp/B07Q5CJDM9"
@@ -432,7 +443,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "melee_damage": { "bash": 9 },
@@ -524,7 +535,6 @@
     "longest_side": "40 cm",
     "price": "8 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -2,
     "material": [ "sand", "clay", "wood" ],
     "symbol": ";",
     "color": "brown",
@@ -540,7 +550,6 @@
     "volume": "3 L",
     "price": "4 USD",
     "price_postapoc": "15 cent",
-    "to_hit": -2,
     "material": [ "stone" ],
     "color": "dark_gray",
     "symbol": ";",

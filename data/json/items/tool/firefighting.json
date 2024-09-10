@@ -60,6 +60,7 @@
     "price": "200 USD",
     "longest_side": "90 cm",
     "price_postapoc": "15 USD",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "uneven" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
     "color": "light_gray",
@@ -94,6 +95,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "DIG", 1 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
@@ -191,6 +193,7 @@
     "longest_side": "160 cm",
     "to_hit": -1,
     "qualities": [ [ "COOK", 1 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "melee_damage": { "bash": 20, "cut": 6 }
   },
   {

@@ -126,7 +126,6 @@
   },
   {
     "id": "integrated_ierde_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "ierde eyes" },
@@ -135,14 +134,13 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "black",
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
@@ -241,7 +239,6 @@
   },
   {
     "id": "integrated_arvore_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "arvore eyes" },
@@ -250,14 +247,13 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "green",
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
@@ -377,7 +373,6 @@
   },
   {
     "id": "integrated_salamander_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "salamander eyes" },
@@ -386,7 +381,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "red",
@@ -394,7 +388,7 @@
     "material_thickness": 1.5,
     "environmental_protection": 10,
     "qualities": [ [ "GLARE", 1 ] ],
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
@@ -472,7 +466,6 @@
   },
   {
     "id": "integrated_undine_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "undine eyes" },
@@ -481,7 +474,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -491,7 +483,7 @@
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
-      "SKINTIGHT",
+      "PERSONAL",
       "SOFT",
       "WATER_FRIENDLY",
       "SUN_GLASSES",
@@ -534,6 +526,31 @@
       }
     ],
     "flags": [ "INTEGRATED", "PADDED", "SEMITANGIBLE", "ZERO_WEIGHT", "TARDIS", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "item_gracken_shadowstuff_pocket",
+    "type": "GENERIC",
+    "category": "clothing",
+    "name": { "str": "shadowstuff organ" },
+    "description": "You have an organ inside of your body that grows a material you can create improved versions of your body parts with.  You must combine it with components taken from monsters with abilities you wish to gain and magickal essence.",
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "scrap_shadowstuff": 3 }, "airtight": true } ],
+    "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "168 h", "regenerate_ammo": true } },
+    "flags": [
+      "INTEGRATED",
+      "NO_UNLOAD",
+      "PADDED",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "TARDIS",
+      "UNBREAKABLE",
+      "PERSONAL",
+      "SOFT",
+      "WATER_FRIENDLY"
+    ]
   },
   {
     "id": "integrated_cloud_skin",
@@ -587,7 +604,6 @@
   },
   {
     "id": "integrated_sylph_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "sylph eyes" },
@@ -596,7 +612,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -606,7 +621,7 @@
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
-      "SKINTIGHT",
+      "PERSONAL",
       "SOFT",
       "WATER_FRIENDLY",
       "SUN_GLASSES",
@@ -635,7 +650,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -704,7 +718,6 @@
   },
   {
     "id": "integrated_homullus_eyes",
-    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "homullus eyes" },
@@ -713,14 +726,13 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "fae_flesh" ],
     "symbol": "[",
     "color": "black",
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "fae_flesh", "covered_by_mat": 100, "thickness": 0.5 } ],
@@ -799,5 +811,76 @@
       }
     ],
     "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
+  },
+  {
+    "id": "integrated_nobreathe",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "vestigial lungs" },
+    "description": "Breathing is now something you decide to do, rather than a biological necessity.",
+    "volume": "1 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "flesh" ],
+    "symbol": "o",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "REBREATHER", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE", "TRADER_AVOID" ],
+    "environmental_protection": 15,
+    "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "mouth" ] } ]
+  },
+  {
+    "id": "integrated_claws_werewolf",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "werewolf claws" },
+    "description": "You have massive claws on your end of your furry fingers.",
+    "weight": "100 g",
+    "volume": "250 ml",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ] ],
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "chitin" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "techniques": [ "CLAWS_SHAPESHIFTER", "CLAWS_SHAPESHIFTER_RENDING", "CLAWS_SHAPESHIFTER_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
+    "armor": [
+      {
+        "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 20,
+        "encumbrance": 3
+      }
+    ],
+    "melee_damage": { "cut": 16 }
+  },
+  {
+    "id": "integrated_werewolf_teeth",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "werewolf teeth" },
+    "description": "A mouth full of vicious sharp teeth, almost twice as large as a wolf's.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": "0 cent",
+    "price_postapoc": "0 cent",
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE_SHAPESHIFTER", "FANGS_BITE_SHAPESHIFTER_CRIT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "specifically_covers": [ "mouth_lips" ],
+        "coverage": 100,
+        "encumbrance": 0
+      }
+    ],
+    "melee_damage": { "stab": 13 }
   }
 ]

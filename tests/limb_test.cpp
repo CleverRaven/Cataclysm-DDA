@@ -19,6 +19,9 @@ static const bodypart_str_id body_part_test_bird_wing_r( "test_bird_wing_r" );
 static const bodypart_str_id body_part_test_corvid_beak( "test_corvid_beak" );
 static const bodypart_str_id body_part_test_lizard_tail( "test_lizard_tail" );
 
+static const character_modifier_id character_modifier_liquid_consume_mod( "liquid_consume_mod" );
+static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
+
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_winded_arm_r( "winded_arm_r" );
 
@@ -200,6 +203,24 @@ TEST_CASE( "drying_rate", "[character][limb]" )
     CHECK( low_dry == Approx( 900 ).margin( 300 ) );
 }
 
+TEST_CASE( "Limb_consumption", "[limb]" )
+{
+    standard_npc dude( "Test NPC" );
+    const item solid( "test_pine_nuts" );
+    const item liquid( "test_liquid" );
+    clear_character( dude, true );
+    // Normal chars are normal
+    REQUIRE( dude.get_modifier( character_modifier_liquid_consume_mod ) == 1.0f );
+    REQUIRE( dude.get_modifier( character_modifier_solid_consume_mod ) == 1.0f );
+    const time_duration base_solid = dude.get_consume_time( solid );
+    const time_duration base_liquid = dude.get_consume_time( liquid );
+    create_bird_char( dude );
+    // Testbird chars are birdy
+    REQUIRE( dude.get_modifier( character_modifier_liquid_consume_mod ) == 2.0f );
+    REQUIRE( dude.get_modifier( character_modifier_solid_consume_mod ) == 0.5f );
+    CHECK( dude.get_consume_time( liquid ) == base_liquid * 2 );
+    CHECK( dude.get_consume_time( solid ) == base_solid / 2 );
+}
 TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
 {
     standard_npc dude( "Test NPC" );

@@ -47,10 +47,10 @@
         "s": "t_sidewalk",
         "w": "t_window_domestic",
         "|": "t_wall_w",
-        "3": "t_atm",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "3": "f_atm_off",
         "#": "f_rack_wood",
         "@": "f_rack",
         "c": "f_counter",

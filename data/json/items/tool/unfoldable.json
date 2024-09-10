@@ -62,7 +62,7 @@
     "type": "TOOL",
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "skateboard" },
-    "description": "A Skateboard.",
+    "description": "A skateboard.",
     "weight": "2898 g",
     "volume": "3750 ml",
     "symbol": "/",

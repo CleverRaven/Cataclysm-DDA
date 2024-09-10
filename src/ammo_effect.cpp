@@ -30,35 +30,35 @@ const ammo_effect &int_id<ammo_effect>::obj() const
 
 /** @relates int_id */
 template<>
-const string_id<ammo_effect> &int_id<ammo_effect>::id() const
+const ammo_effect_str_id &int_id<ammo_effect>::id() const
 {
     return get_all_ammo_effects().convert( *this );
 }
 
 /** @relates string_id */
 template<>
-bool string_id<ammo_effect>::is_valid() const
+bool ammo_effect_str_id::is_valid() const
 {
     return get_all_ammo_effects().is_valid( *this );
 }
 
 /** @relates string_id */
 template<>
-const ammo_effect &string_id<ammo_effect>::obj() const
+const ammo_effect &ammo_effect_str_id::obj() const
 {
     return get_all_ammo_effects().obj( *this );
 }
 
 /** @relates string_id */
 template<>
-int_id<ammo_effect> string_id<ammo_effect>::id() const
+int_id<ammo_effect> ammo_effect_str_id::id() const
 {
     return get_all_ammo_effects().convert( *this, AE_NULL );
 }
 
 /** @relates int_id */
 template<>
-int_id<ammo_effect>::int_id( const string_id<ammo_effect> &id ) : _id( id.id() )
+int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
@@ -93,6 +93,10 @@ void ammo_effect::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "do_flashbang", do_flashbang, false );
     optional( jo, was_loaded, "do_emp_blast", do_emp_blast, false );
     optional( jo, was_loaded, "foamcrete_build", foamcrete_build, false );
+    optional( jo, was_loaded, "eoc", eoc );
+    optional( jo, was_loaded, "spell_data", spell_data );
+    optional( jo, was_loaded, "always_cast_spell", always_cast_spell, false );
+
 
 }
 

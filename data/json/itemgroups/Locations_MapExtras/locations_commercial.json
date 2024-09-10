@@ -15,8 +15,6 @@
       { "item": "cigar_punch", "prob": 8 },
       { "item": "sponge", "prob": 10 },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
-      { "item": "rm103a_pistol", "prob": 1 },
-      { "item": "rm228", "prob": 2 },
       { "item": "vibrator", "prob": 3, "charges": [ 0, 100 ] },
       { "item": "condom", "prob": 5, "count": [ 1, 3 ] },
       { "item": "mag_porn", "prob": 20 },
@@ -58,7 +56,7 @@
     "type": "item_group",
     "id": "public_sink",
     "//": "Items you might find in the sink of a public place, like a bathroom.",
-    "items": [ { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 } ]
+    "items": [ { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges": [ 1, -1 ] } ]
   },
   {
     "id": "glass_shop",
@@ -99,11 +97,10 @@
       [ "toilet_paper", 10 ],
       { "item": "handflare", "prob": 15, "charges": 300 },
       [ "duct_tape", 25 ],
-      [ "superglue", 20 ],
+      { "group": "superglue", "prob": 45 },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
       [ "thread", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 25 },
-      [ "superglue", 25 ],
       { "item": "candle", "prob": 25, "charges": [ 0, 100 ] },
       [ "hammer", 20 ],
       [ "screwdriver", 20 ],
@@ -229,7 +226,7 @@
       [ "silver_watch", 20 ],
       [ "sf_watch", 7 ],
       [ "platinum_watch", 1 ],
-      { "item": "smart_phone", "prob": 31, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 31, "charges": [ 0, -1 ] },
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "eink_tablet_pc", "prob": 12, "charges": [ 0, 100 ] },
@@ -260,7 +257,19 @@
       [ "silver_locket", 1 ],
       [ "gold_locket", 1 ],
       [ "platinum_locket", 1 ],
-      { "group": "mags_pawnshop", "prob": 300 }
+      [ "gold_anklet", 1 ],
+      [ "silver_anklet", 2 ],
+      [ "gold_lip_ring_loop", 1 ],
+      [ "gold_lip_ring_stud", 1 ],
+      [ "silver_lip_ring_loop", 2 ],
+      [ "silver_lip_ring_stud", 2 ],
+      [ "gold_nose_ring_loop", 1 ],
+      [ "gold_nose_ring_stud", 1 ],
+      [ "silver_nose_ring_loop", 2 ],
+      [ "silver_nose_ring_stud", 2 ],
+      [ "gold_toe_ring", 1 ],
+      [ "silver_toe_ring", 2 ],
+      { "group": "mags_common", "prob": 300 }
     ]
   },
   {
@@ -268,7 +277,7 @@
     "id": "pawn",
     "items": [
       [ "mag_fieldrepair", 50 ],
-      { "item": "oxylamp", "prob": 50, "charges-min": 0 },
+      { "item": "oxylamp", "prob": 50, "charges": [ 0, -1 ] },
       [ "bathroom_scale", 50 ],
       [ "polisher", 6 ],
       [ "folded_inflatable_boat", 10 ],
@@ -310,7 +319,10 @@
       [ "cigar_cutter", 3 ],
       [ "cigar_punch", 3 ],
       [ "collarpin", 3 ],
-      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      {
+        "distribution": [ { "item": "mask_gas", "charges": [ 0, -1 ], "prob": 50 }, { "group": "gasmask_bag_full", "prob": 50 } ],
+        "prob": 10
+      },
       [ "goggles_welding", 70 ],
       [ "glasses_monocle", 2 ],
       [ "fancy_sunglasses", 15 ],
@@ -349,7 +361,7 @@
       [ "hammer_sledge_engineer", 1 ],
       [ "hammer_sledge_heavy", 1 ],
       [ "ax", 8 ],
-      [ "knife_butcher", 10 ],
+      { "item": "knife_huge", "variant": "knife_butcher", "prob": 10 },
       [ "knife_KABAR", 14 ],
       { "group": "infantry_knives", "prob": 1 },
       [ "kukri", 2 ],
@@ -434,7 +446,7 @@
       [ "chainsaw_off", 7 ],
       { "item": "elec_chainsaw_off", "prob": 4, "charges": [ 0, 500 ] },
       { "item": "elec_chainsaw_cord_off", "prob": 4 },
-      { "item": "carver_off", "prob": 7, "charges": [ 0, 500 ] },
+      { "item": "carver_off", "prob": 7 },
       [ "jackhammer", 2 ],
       [ "elec_jackhammer", 1 ],
       [ "pickaxe", 1 ],
@@ -536,10 +548,11 @@
       [ "alarmclock", 5 ],
       [ "bagh_nakha", 2 ],
       [ "leathersandals", 10 ],
+      [ "espadrilles", 5 ],
       [ "maid_dress", 3 ],
       [ "maid_dress_short", 3 ],
       [ "maid_hat", 3 ],
-      [ "miner_hat", 3 ],
+      { "group": "hat_hard_flashlight", "prob": 3 },
       [ "grapnel", 1 ],
       [ "razor_blade", 6 ],
       [ "scabbard", 4 ],
@@ -590,7 +603,6 @@
       [ "magnifying_glass", 2 ],
       [ "ear_spool", 30 ],
       [ "halter_top", 40 ],
-      [ "linuxtshirt", 15 ],
       [ "kilt", 5 ],
       [ "nanoskirt", 10 ],
       [ "sleeveless_tunic", 5 ],
@@ -633,16 +645,13 @@
       [ "silver_medal", 2 ],
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
+      [ "bat_anklet", 1 ],
+      [ "flower_anklet", 1 ],
+      [ "woven_anklet", 1 ],
       { "group": "tinware", "prob": 10 },
       { "group": "pens", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_pawnshop",
-    "subtype": "distribution",
-    "entries": [ { "group": "mags_obscure", "prob": 10 } ]
   },
   {
     "id": "my_precious",
@@ -679,7 +688,7 @@
       [ "hand_pump", 40 ],
       [ "throwing_knife", 14 ],
       [ "leg_sheath6", 10 ],
-      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count": [ 1, 6 ], "entry-wrapper": "leg_sheath6", "prob": 5 },
       [ "throwing_axe", 4 ],
       [ "duffelbag", 25 ],
       [ "backpack_tactical_large", 10 ],
@@ -811,8 +820,8 @@
       [ "restaurantmap", 5 ],
       [ "touristmap", 5 ],
       [ "fried_seeds", 5 ],
-      { "prob": 20, "group": "seasoning_salt_bag_plastic_100" },
-      { "prob": 20, "group": "pepper_bag_plastic_100" },
+      { "prob": 20, "group": "seasoning_salt_various" },
+      { "prob": 20, "group": "pepper_various" },
       [ "cinnamon", 10 ],
       [ "cup_plastic", 10 ],
       [ "ceramic_cup", 80 ],
@@ -1186,7 +1195,7 @@
       { "item": "screwdriver", "prob": 40 },
       { "item": "screwdriver_set", "prob": 20 },
       { "item": "socket_screwdriver_set", "prob": 10 },
-      { "item": "superglue", "prob": 30 },
+      { "group": "superglue", "prob": 55 },
       { "item": "hacksaw", "prob": 17 },
       { "item": "pliers", "prob": 40 },
       { "item": "gloves_leather", "prob": 45 },
@@ -1195,8 +1204,7 @@
       { "item": "manual_mechanics", "prob": 35 },
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70, "charges": [ 50, 200 ] },
-      { "item": "superglue", "prob": 25 },
-      { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
+      { "item": "misc_repairkit", "prob": 15 },
       { "group": "tools_toolbox", "prob": 2 }
     ]
   },
@@ -1256,8 +1264,8 @@
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "socket_screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
-          { "item": "superglue", "prob": 10 },
-          { "item": "misc_repairkit", "prob": 25, "charges": 200 },
+          { "group": "superglue", "prob": 10 },
+          { "item": "misc_repairkit", "prob": 25 },
           { "group": "tools_toolbox", "prob": 2 }
         ]
       }
@@ -1279,12 +1287,12 @@
       [ "pork_beans", 15 ],
       [ "glazed_tenderloin", 5 ],
       { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
-      { "item": "smart_phone", "prob": 3, "charges-min": 0 },
+      { "item": "smart_phone", "prob": 3, "charges": [ 0, -1 ] },
       [ "glass", 40 ],
       [ "spoon", 25 ],
       [ "fork", 25 ],
       [ "knife_butter", 20 ],
-      [ "knife_steak", 15 ],
+      { "item": "knife_small", "variant": "knife_steak", "prob": 15 },
       [ "spork", 5 ],
       [ "foon", 5 ]
     ]
@@ -1336,13 +1344,13 @@
     "id": "sugar_house_furnace",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "maple_sap", "container-item": "metal_tank", "charges-min": 2, "charges-max": 15 } ]
+    "entries": [ { "item": "maple_sap", "container-item": "metal_tank", "charges": [ 2, 15 ] } ]
   },
   {
     "id": "sugar_house_drum",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "syrup", "container-item": "55gal_drum", "charges-min": 2, "charges-max": 150 } ]
+    "entries": [ { "item": "syrup", "container-item": "55gal_drum", "charges": [ 2, 150 ] } ]
   },
   {
     "id": "petstore_misc",
@@ -1434,7 +1442,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       [ "hand_controls", 1 ],
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ]
@@ -1445,16 +1453,9 @@
     "id": "oa_ig_cd_fuel",
     "//": "for cs_car_dealership",
     "items": [
-      {
-        "item": "gasoline",
-        "prob": 20,
-        "charges-min": 450,
-        "charges-max": 2000,
-        "container-item": "jug_plastic",
-        "sealed": false
-      },
-      { "item": "gasoline", "prob": 30, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
-      { "item": "gasoline", "prob": 10, "charges-min": 2650, "charges-max": 10000, "container-item": "jerrycan_big" }
+      { "item": "gasoline", "prob": 20, "charges": [ 450, 2000 ], "container-item": "jug_plastic", "sealed": false },
+      { "item": "gasoline", "prob": 30, "charges": [ 450, 4000 ], "container-item": "jerrycan" },
+      { "item": "gasoline", "prob": 10, "charges": [ 2650, 10000 ], "container-item": "jerrycan_big" }
     ]
   },
   {
@@ -1501,7 +1502,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
@@ -1532,7 +1533,7 @@
       [ "glasses_safety", 10 ],
       [ "solar_cell", 10 ],
       [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       { "item": "polisher", "prob": 15, "charges": [ 0, 100 ] },
       [ "solar_panel", 15 ],
       [ "spare_tire_carrier", 10 ],
@@ -1662,7 +1663,7 @@
     "type": "item_group",
     "items": [
       [ "magnifying_glass", 5 ],
-      { "item": "sewing_kit", "prob": 15, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 15, "charges": [ 0, -1 ] },
       [ "scissors", 10 ],
       { "item": "gasoline_lantern", "prob": 7, "charges": [ 0, 500 ] },
       { "item": "flashlight", "prob": 25, "charges": [ 0, 300 ] },
@@ -1790,7 +1791,7 @@
       { "item": "soldering_iron", "prob": 65 },
       { "item": "soldering_iron_portable", "prob": 65, "charges": [ 0, 50 ] },
       [ "solder_wire", 50 ],
-      [ "superglue", 55 ],
+      { "group": "superglue", "prob": 55 },
       [ "screwdriver", 60 ],
       [ "motor_small", 30 ]
     ]
@@ -1904,7 +1905,7 @@
     "items": [
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 30 },
-      { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 5, "charges": [ 1, -1 ] },
       { "group": "full_1st_aid", "prob": 10 },
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
       { "prob": 15, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
@@ -1975,20 +1976,7 @@
       { "group": "full_1st_aid", "prob": 30 },
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
-      { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
-    ]
-  },
-  {
-    "id": "daycare_misc",
-    "type": "item_group",
-    "items": [
-      [ "magnifying_glass", 2 ],
-      { "item": "sewing_kit", "prob": 1, "charges-min": 0 },
-      [ "scissors", 1 ],
-      [ "phonebook", 2 ],
-      { "item": "flashlight", "prob": 2, "charges": [ 0, 300 ] },
-      [ "petpack", 1 ],
-      [ "mag_comic", 5 ]
+      { "item": "anesthetic_kit", "prob": 10, "charges": [ 0, -1 ] }
     ]
   },
   {
@@ -2016,15 +2004,17 @@
       [ "under_armor", 20 ],
       [ "protein_shake", 8 ],
       [ "tshirt", 30 ],
+      [ "tshirt_cropped", 3 ],
       [ "sneakers", 30 ],
       [ "hot_pants", 14 ],
       [ "undershirt", 30 ],
       [ "hoodie", 20 ],
+      [ "hoodie_cropped", 2 ],
       [ "shorts", 30 ],
       { "prob": 3, "group": "coke_bag_zipper_1_8" },
       [ "longshirt", 30 ],
       { "group": "adhesive_bandages_box_used", "prob": 10 },
-      { "item": "liq_bandage_spray", "prob": 2, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 2, "charges": [ 1, -1 ] },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "count": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
@@ -2070,10 +2060,10 @@
       { "group": "tailoring_fabric", "prob": 30 },
       [ "awl_steel", 10 ],
       { "item": "loom_frame", "prob": 2 },
-      { "item": "sewing_kit", "prob": 30, "charges-min": 0 },
+      { "item": "sewing_kit", "prob": 30, "charges": [ 0, -1 ] },
       { "item": "shed_stick", "prob": 2 },
-      { "item": "tailors_kit", "prob": 9, "charges-min": 0 },
-      { "item": "electric_spinwheel", "prob": 9, "charges-min": 0 },
+      { "item": "tailors_kit", "prob": 9, "charges": [ 0, -1 ] },
+      { "item": "electric_spinwheel", "prob": 9 },
       [ "knitting_needles", 15 ],
       [ "sheet_kevlar_layered", 10 ],
       [ "leather", 10 ],
@@ -2088,7 +2078,7 @@
       [ "yarn", 15 ],
       [ "sinew", 15 ],
       [ "duct_tape", 15 ],
-      [ "superglue", 5 ],
+      { "group": "superglue", "prob": 5 },
       [ "feather", 15 ],
       [ "mag_animecon", 15 ],
       [ "mag_beauty", 15 ],
@@ -2131,10 +2121,7 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [
-      { "group": "quicklime_bag", "prob": 85 },
-      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 }
-    ]
+    "items": [ { "group": "quicklime_bag", "prob": 85 }, { "item": "chem_saltpetre", "prob": 15, "charges": [ 10, 50 ] } ]
   },
   {
     "id": "farm_supply_animal_feed",

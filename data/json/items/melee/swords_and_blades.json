@@ -239,7 +239,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
+    "flags": [ "ALLOWS_BODY_BLOCK", "CONDUCTIVE", "NO_SALVAGE" ],
     "weapon_category": [ "SHIVS" ],
     "variant_type": "generic",
     "variants": [
@@ -312,6 +312,7 @@
     "material": [ "hc_steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "looks_like": "knife_combat",
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
@@ -330,7 +331,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "pipe_launcher40mm",
         "rm121aux",
         "rm121aux_mod",
         "masterkey",
@@ -383,6 +383,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
+    "looks_like": "knife_combat",
     "gunmod_data": {
       "location": "bayonet lug",
       "mod_targets": [ "pistol", "smg", "rifle", "shotgun", "launcher", "crossbow" ],
@@ -401,7 +402,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "pipe_launcher40mm",
         "rm121aux",
         "rm121aux_mod",
         "masterkey",
@@ -460,7 +460,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "pipe_launcher40mm",
         "rm121aux",
         "rm121aux_mod",
         "masterkey",
@@ -521,6 +520,7 @@
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
     "material": [ "hc_steel", "leather" ],
     "repairs_with": [ "steel" ],
+    "looks_like": "knife_combat",
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 27 ] ],
@@ -633,10 +633,9 @@
     "symbol": "/",
     "color": "dark_gray",
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "stab": 19 }
   },
@@ -781,6 +780,7 @@
     "type": "TOOL",
     "name": { "str": "baselard" },
     "description": "A medieval dagger forged from rough iron.  It is not the sharpest tool in the shed, but it is certainly one of the largest.",
+    "category": "weapons",
     "weight": "380 g",
     "volume": "187 ml",
     "longest_side": "36 cm",
@@ -1689,7 +1689,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "pipe_launcher40mm",
         "rm121aux",
         "rm121aux_mod",
         "masterkey",
@@ -1702,6 +1701,7 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 2 ] ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "PUMP_RAIL_COMPATIBLE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "melee_damage": { "bash": 7, "stab": 21 }
@@ -2913,6 +2913,7 @@
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {
@@ -3002,6 +3003,7 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {
@@ -3120,7 +3122,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "pipe_launcher40mm",
         "rm121aux",
         "rm121aux_mod",
         "masterkey",
@@ -3133,6 +3134,7 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
+    "use_action": [ "HEAT_SOLID_ITEMS" ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ]
   },
@@ -3169,7 +3171,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "pipe_launcher40mm",
         "rm121aux",
         "rm121aux_mod",
         "masterkey",

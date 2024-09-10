@@ -94,6 +94,8 @@ Property                 | Description
 `path_settings`          | (object) How monster may find a path, open doors, avoid traps, or bash obstacles
 `biosignature`           | (object) Droppings or feces left by the animal or monster
 `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
+`dissect`                | (string) (Optional) ID of a "harvest" type describing what is returned when a corpse of this monster is dissected
+`decay`                  | (string) (Optional) ID of a "harvest" type describing what is left when a corpse of this monster rots away
 `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 `shearing`               | (array of objects) Items produced when the monster is sheared
@@ -350,7 +352,7 @@ Field              | Description
 `armor_penalty`    | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
 `crit_mult`        | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
-`required_effects` | list of effect names applied to the monster required to hit the weakpoint.
+`condition`        | condition, that need to be met for weakpoint to be used. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `effects`          | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
 The `effects` field is a list of objects with the following subfields:
@@ -358,6 +360,7 @@ The `effects` field is a list of objects with the following subfields:
 Field              | Description
 ---                | ---
 `effect`           | The effect type.
+`effect_on_conditions` | Array of EoCs that would be run. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `chance`           | The probability of causing the effect.
 `duration`         | The duration of the effect. Either a (min, max) pair or a single value.
 `permanent`        | Whether the effect is permanent.
@@ -542,8 +545,9 @@ The monster's reproduction cycle, if any. Supports:
 
 Field          | Description
 ---            | ---
-`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
+`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this, `baby_monster_group` or `baby_egg` for reproduction to work.
+`baby_monster_group` | (string, optional) the id of the monstergroup spawned on reproduction for monsters who give live births. You must declare either this, `baby_monster`, or `baby_egg` for reproduction to work.
+`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this, `baby_monster_group` or `baby_monster` for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
 

@@ -80,17 +80,17 @@
     "id": "xl_lc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
-    "name": { "str": "XL mild steel chainmail coif" },
+    "name": { "str": "mild steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_hood",
-    "name": { "str": "XS mild steel chainmail coif" },
+    "name": { "str": "mild steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_chainmail_hood",
@@ -103,17 +103,17 @@
     "id": "xl_mc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_hood",
-    "name": { "str": "XL medium steel chainmail coif" },
+    "name": { "str": "medium steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_hood",
-    "name": { "str": "XS medium steel chainmail coif" },
+    "name": { "str": "medium steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_chainmail_hood",
@@ -126,17 +126,17 @@
     "id": "xl_hc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hood",
-    "name": { "str": "XL high steel chainmail coif" },
+    "name": { "str": "high steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_hood",
-    "name": { "str": "XS high steel chainmail coif" },
+    "name": { "str": "high steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_chainmail_hood",
@@ -149,17 +149,17 @@
     "id": "xl_ch_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_hood",
-    "name": { "str": "XL hardened steel chainmail coif" },
+    "name": { "str": "hardened steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_hood",
-    "name": { "str": "XS hardened steel chainmail coif" },
+    "name": { "str": "hardened steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_chainmail_hood",
@@ -172,17 +172,17 @@
     "id": "xl_qt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hood",
-    "name": { "str": "XL tempered steel chainmail coif" },
+    "name": { "str": "tempered steel chainmail coif" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_chainmail_hood",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_hood",
-    "name": { "str": "XS tempered steel chainmail coif" },
+    "name": { "str": "tempered steel chainmail coif" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hood_rain",

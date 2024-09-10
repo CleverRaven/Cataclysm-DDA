@@ -21,7 +21,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "compatibility.h"
-#include "coordinates.h"
+#include "coords_fwd.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -317,7 +317,12 @@ class Creature : public viewer
         inline int posz() const {
             return get_location().z();
         }
+        // TODO: Get rid of untyped overload
         void setpos( const tripoint &p );
+        void setpos( const tripoint_bub_ms &p );
+
+        /** Checks if the creature fits confortably into a given tile. */
+        bool will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) const;
         /** Moves the creature to the given location and calls the on_move() handler. */
         void move_to( const tripoint_abs_ms &loc );
 
@@ -807,6 +812,11 @@ class Creature : public viewer
         body_part_set get_drenching_body_parts( bool upper = true, bool mid = true,
                                                 bool lower = true ) const;
 
+        /* Returns the which limbs are being used for movement of a given type*/
+        std::vector<bodypart_id> get_ground_contact_bodyparts( bool arms_legs = false ) const;
+
+        std::string string_for_ground_contact_bodyparts( const std::vector<bodypart_id> &bps ) const;
+
         /* Returns the number of bodyparts of a given type*/
         int get_num_body_parts_of_type( body_part_type::type part_type ) const;
 
@@ -936,11 +946,13 @@ class Creature : public viewer
         /** Returns settings for pathfinding. */
         virtual const pathfinding_settings &get_pathfinding_settings() const = 0;
         /** Returns a set of points we do not want to path through. */
-        virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
+        virtual std::function<bool( const tripoint & )> get_path_avoid() const = 0;
 
         bool underwater;
-        void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, const point_bub_ms &origin, bool inverted ) const;
+        // TODO: Get rid of the untyped overload
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
+        void draw( const catacurses::window &w, const tripoint_bub_ms &origin, bool inverted ) const;
         /**
          * Write information about this creature.
          * @param w the window to print the text into.
@@ -1183,6 +1195,7 @@ class Creature : public viewer
         void clear_killer();
         // summoned creatures via spells
         void set_summon_time( const time_duration &length );
+        time_point get_summon_time();
         // handles removing the creature if the timer runs out
         void decrement_summon_timer();
         void set_summoner( Creature *summoner );
@@ -1330,6 +1343,7 @@ class Creature : public viewer
         // do messaging and SCT for projectile hit
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
+        void print_proj_avoid_msg( Creature *source, viewer &player_view ) const;
 };
 std::unique_ptr<talker> get_talker_for( Creature &me );
 std::unique_ptr<talker> get_talker_for( const Creature &me );

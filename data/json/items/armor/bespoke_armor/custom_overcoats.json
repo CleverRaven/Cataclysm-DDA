@@ -9,7 +9,6 @@
     "volume": "9500 ml",
     "price": "400 USD",
     "price_postapoc": "80 USD",
-    "to_hit": -1,
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_leather",
@@ -78,18 +77,18 @@
   {
     "id": "xl_duster_survivor",
     "type": "ARMOR",
-    "name": { "str": "XL survivor duster" },
+    "name": { "str": "survivor duster" },
     "copy-from": "duster_survivor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_survivor",
     "type": "ARMOR",
     "copy-from": "duster_survivor",
-    "name": { "str": "XS survivor duster" },
+    "name": { "str": "survivor duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "sleeveless_duster_survivor",
@@ -102,7 +101,6 @@
     "volume": "8 L",
     "price": "340 USD",
     "price_postapoc": "45 USD",
-    "to_hit": -1,
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_survivor",
@@ -141,7 +139,6 @@
     "volume": "7500 ml",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "armor_scavenger",
@@ -234,7 +231,6 @@
     "volume": "7 L",
     "price": "400 USD",
     "price_postapoc": "80 USD",
-    "to_hit": -1,
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -317,7 +313,6 @@
     "volume": "6 L",
     "price": "340 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_survivor",

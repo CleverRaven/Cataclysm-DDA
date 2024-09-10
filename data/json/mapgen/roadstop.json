@@ -206,7 +206,7 @@
         "....S464SS464SS46S__....",
         "..._8S4SSSS4SSSS4S._....",
         "..._########777###._....",
-        "..._# 999ccc    5##3##..",
+        "..._# (99ccc    5##3##..",
         "..._#           5#A A#..",
         "..._3           5#   #..",
         "..._#           5#3#3#..",
@@ -239,7 +239,8 @@
         "7": "f_counter",
         "c": "f_cupboard",
         "8": "f_trashcan",
-        "9": "f_fridge",
+        "9": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "A": "f_sink",
         "i": "f_oven",
         "o": [ "f_dumpster", "f_recycle_bin" ]

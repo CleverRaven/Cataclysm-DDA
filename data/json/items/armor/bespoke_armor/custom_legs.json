@@ -67,17 +67,17 @@
     "id": "xl_lsurvivor_pants",
     "type": "ARMOR",
     "copy-from": "lsurvivor_pants",
-    "name": { "str_sp": "XL light survivor cargo pants" },
+    "name": { "str_sp": "light survivor cargo pants" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lsurvivor_pants",
     "type": "ARMOR",
     "copy-from": "lsurvivor_pants",
-    "name": { "str_sp": "XS light survivor cargo pants" },
+    "name": { "str_sp": "light survivor cargo pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "pants_survivor",
@@ -162,17 +162,17 @@
     "id": "xl_pants_survivor",
     "type": "ARMOR",
     "copy-from": "pants_survivor",
-    "name": { "str_sp": "XL survivor cargo pants" },
+    "name": { "str_sp": "survivor cargo pants" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_pants_survivor",
     "type": "ARMOR",
     "copy-from": "pants_survivor",
-    "name": { "str_sp": "XS survivor cargo pants" },
+    "name": { "str_sp": "survivor cargo pants" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_mercenary_bottom",
@@ -180,11 +180,10 @@
     "name": { "str_sp": "mercenary pants" },
     "description": "A sturdy pair of pants fit for a soldier of fortune.  Made from work pants padded with Kevlar panels.  It gives good protection and decent storage, but the added thickness makes it uncomfortable to wear any armor over it.",
     "//": "weight is currently an estimation could be better",
-    "weight": "3000 g",
+    "weight": "3 kg",
     "volume": "7500 ml",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "canvas" ],
     "symbol": "[",
     "looks_like": "pants_army",

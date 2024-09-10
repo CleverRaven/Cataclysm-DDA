@@ -124,8 +124,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 3,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_clair_weak_point",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLAIR_DISCERN_WEAKNESS",
     "shape": "blast",
     "min_range": {
       "math": [
@@ -540,24 +540,6 @@
     "base_casting_time": 6000
   },
   {
-    "id": "clair_astral_projection_passwall",
-    "type": "SPELL",
-    "name": "[Ψ]Pass Through Wall",
-    "description": "Walls are no barrier to a body of pure spirit.",
-    "message": "",
-    "teachable": false,
-    "valid_targets": [ "ground" ],
-    "spell_class": "CLAIRSENTIENT",
-    "skill": "metaphysics",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "TARGET_TELEPORT", "IGNORE_WALLS", "NO_PROJECTILE", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "effect": "short_range_teleport",
-    "shape": "blast",
-    "min_range": 2,
-    "max_range": 2,
-    "energy_source": "STAMINA",
-    "base_energy_cost": 100
-  },
-  {
     "id": "clair_astral_projection_return",
     "type": "SPELL",
     "name": "[Ψ]Follow the Silver Cord",
@@ -567,7 +549,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "CLAIRSENTIENT",
     "skill": "metaphysics",
-    "flags": [ "NO_FAIL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "flags": [ "PSIONIC", "NO_FAIL", "NON_MAGICAL", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_ASTRAL_PROJECTION_DEACTIVATE",
     "shape": "blast"

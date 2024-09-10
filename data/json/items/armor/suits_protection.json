@@ -9,7 +9,6 @@
     "volume": "9500 ml",
     "price": "260 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -23,13 +22,12 @@
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 6.5 } ]
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 18 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 18 }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 18 }
     ],
     "warmth": 20,
     "material_thickness": 6,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "armor_chitin",
@@ -41,7 +39,6 @@
     "volume": "17500 ml",
     "price": "1 kUSD 200 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
     "material": [ "chitin" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -64,19 +61,19 @@
   {
     "id": "xl_armor_chitin",
     "type": "ARMOR",
-    "name": { "str": "XL chitinous armor" },
+    "name": { "str": "chitinous armor" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_chitin_xs",
     "type": "ARMOR",
     "copy-from": "armor_chitin",
     "looks_like": "armor_chitin",
-    "name": { "str": "XS chitinous armor" },
+    "name": { "str": "chitinous armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_acidchitin",
@@ -93,19 +90,19 @@
   {
     "id": "xl_armor_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "XL biosilicified chitin armor" },
+    "name": { "str": "biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_acidchitin_xs",
     "type": "ARMOR",
     "copy-from": "armor_acidchitin",
     "looks_like": "armor_acidchitin",
-    "name": { "str": "XS biosilicified chitin armor" },
+    "name": { "str": "biosilicified chitin armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_farmor",
@@ -117,7 +114,6 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "15 USD",
-    "to_hit": -5,
     "material": [ "fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
@@ -147,25 +143,24 @@
     "warmth": 45,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_farmor",
     "type": "ARMOR",
-    "name": { "str": "XL fur body armor" },
+    "name": { "str": "fur body armor" },
     "copy-from": "armor_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_farmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_farmor",
     "looks_like": "armor_farmor",
-    "name": { "str": "XS fur body armor" },
+    "name": { "str": "fur body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_faux_farmor",
@@ -177,7 +172,6 @@
     "volume": "10 L",
     "price": "1 kUSD",
     "price_postapoc": "15 USD",
-    "to_hit": -5,
     "material": [ "faux_fur" ],
     "symbol": "[",
     "longest_side": "30 cm",
@@ -206,25 +200,23 @@
     ],
     "warmth": 40,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_faux_farmor",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur body armor" },
+    "name": { "str": "faux fur body armor" },
     "copy-from": "armor_faux_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_faux_farmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_faux_farmor",
-    "looks_like": "armor_farmor",
-    "name": { "str": "XS faux fur body armor" },
+    "name": { "str": "faux fur body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_larmor",
@@ -236,7 +228,6 @@
     "volume": "7 L",
     "price": "120 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -5,
     "material": [ "leather" ],
     "symbol": "[",
     "longest_side": "60 cm",
@@ -250,30 +241,29 @@
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4.5 } ]
       },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": 14 },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 85, "encumbrance": 14 }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": 14 }
     ],
     "warmth": 25,
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
-    "melee_damage": { "bash": 2 }
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
   },
   {
     "id": "xl_armor_larmor",
     "type": "ARMOR",
-    "name": { "str": "XL leather body armor" },
+    "name": { "str": "leather body armor" },
     "copy-from": "armor_larmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_larmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_larmor",
     "looks_like": "armor_larmor",
-    "name": { "str": "XS leather body armor" },
+    "name": { "str": "leather body armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER", "UNDERSIZE", "PREFIX_XS" ]
   },
   {
     "id": "armor_junk_lightplate",
@@ -285,7 +275,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "budget_steel", "leather" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -307,7 +297,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "12 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -342,7 +332,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "13 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -411,7 +401,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "13 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -461,7 +451,7 @@
     "volume": "17500 ml",
     "price": "60 USD",
     "price_postapoc": "13 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_junk_lightplate",
@@ -586,7 +576,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -632,10 +622,10 @@
   {
     "id": "xl_armor_lc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light plate armor" },
+    "name": { "str": "mild steel light plate armor" },
     "copy-from": "armor_lc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_lightplate",
@@ -648,10 +638,10 @@
   {
     "id": "xl_armor_mc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light plate armor" },
+    "name": { "str": "medium steel light plate armor" },
     "copy-from": "armor_mc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_lightplate",
@@ -664,10 +654,10 @@
   {
     "id": "xl_armor_hc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel light plate armor" },
+    "name": { "str": "high steel light plate armor" },
     "copy-from": "armor_hc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_lightplate",
@@ -680,10 +670,10 @@
   {
     "id": "xl_armor_ch_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL hardened light plate armor" },
+    "name": { "str": "hardened steel light plate armor" },
     "copy-from": "armor_ch_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_lightplate",
@@ -696,10 +686,10 @@
   {
     "id": "xl_armor_qt_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel light plate armor" },
+    "name": { "str": "tempered steel light plate armor" },
     "copy-from": "armor_qt_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_plate",
@@ -711,7 +701,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -757,10 +747,10 @@
   {
     "id": "xl_armor_lc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel plate armor" },
+    "name": { "str": "mild steel plate armor" },
     "copy-from": "armor_lc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_plate",
@@ -773,10 +763,10 @@
   {
     "id": "xl_armor_mc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel plate armor" },
+    "name": { "str": "medium steel plate armor" },
     "copy-from": "armor_mc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_plate",
@@ -790,27 +780,27 @@
   {
     "id": "xl_armor_hc_plate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel plate armor" },
+    "name": { "str": "high steel plate armor" },
     "copy-from": "armor_hc_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_plate",
     "type": "ARMOR",
     "copy-from": "armor_lc_plate",
     "material": [ "ch_steel", "ch_steel_chain" ],
-    "name": { "str": "hardened plate armor" },
+    "name": { "str": "hardened steel plate armor" },
     "description": "A suit of plate armor with a 4 mm thick chestpiece.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
     "id": "xl_armor_ch_plate",
     "type": "ARMOR",
-    "name": { "str": "XL hardened plate armor" },
+    "name": { "str": "hardened steel plate armor" },
     "copy-from": "armor_ch_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_plate",
@@ -824,10 +814,10 @@
   {
     "id": "xl_armor_qt_plate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel plate armor" },
+    "name": { "str": "tempered steel plate armor" },
     "copy-from": "armor_qt_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_heavyplate",
@@ -839,7 +829,7 @@
     "volume": "17500 ml",
     "price": "600 USD",
     "price_postapoc": "120 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "lc_steel", "lc_steel_chain" ],
     "symbol": "[",
     "looks_like": "armor_larmor",
@@ -885,10 +875,10 @@
   {
     "id": "xl_armor_lc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy plate armor" },
+    "name": { "str": "mild steel heavy plate armor" },
     "copy-from": "armor_lc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_heavyplate",
@@ -901,10 +891,10 @@
   {
     "id": "xl_armor_mc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel heavy plate armor" },
+    "name": { "str": "medium steel heavy plate armor" },
     "copy-from": "armor_mc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_heavyplate",
@@ -917,10 +907,10 @@
   {
     "id": "xl_armor_hc_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel heavy plate armor" },
+    "name": { "str": "high steel heavy plate armor" },
     "copy-from": "armor_hc_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_heavyplate",
@@ -933,10 +923,10 @@
   {
     "id": "xl_armor_ch_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL hardened heavy plate armor" },
+    "name": { "str": "hardened steel heavy plate armor" },
     "copy-from": "armor_ch_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_heavyplate",
@@ -949,10 +939,10 @@
   {
     "id": "xl_armor_qt_heavyplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered heavy plate armor" },
+    "name": { "str": "tempered steel heavy plate armor" },
     "copy-from": "armor_qt_heavyplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_plarmor",
@@ -964,7 +954,7 @@
     "volume": "9 L",
     "price": "1 kUSD 100 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "leather", "budget_steel" ],
     "symbol": "[",
     "color": "brown",
@@ -999,7 +989,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
+        "coverage": 95,
         "encumbrance": 22,
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 4 },
@@ -1009,7 +999,7 @@
       },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
+        "coverage": 95,
         "encumbrance": 0,
         "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 4 } ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_knee_l", "leg_knee_r" ]
@@ -1023,19 +1013,19 @@
   {
     "id": "xl_armor_plarmor",
     "type": "ARMOR",
-    "name": { "str": "XL plated leather armor" },
+    "name": { "str": "plated leather armor" },
     "copy-from": "armor_plarmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_plarmor_xs",
     "type": "ARMOR",
     "copy-from": "armor_plarmor",
     "looks_like": "armor_plarmor",
-    "name": { "str": "XS plated leather armor" },
+    "name": { "str": "plated leather armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_junk_plate",
@@ -1047,7 +1037,7 @@
     "volume": "30 L",
     "price": "7 kUSD 800 USD",
     "price_postapoc": "60 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "leather" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1069,7 +1059,6 @@
     "volume": "12500 ml",
     "price": "600 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -3,
     "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1158,7 +1147,7 @@
     "volume": "15500 ml",
     "price": "600 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "budget_steel", "cotton" ],
     "symbol": "[",
     "looks_like": "armor_lightplate",
@@ -1195,23 +1184,23 @@
         "encumbrance": 15
       }
     ],
-    "melee_damage": { "bash": 6, "cut": 8 }
+    "melee_damage": { "bash": 6, "cut": 3 }
   },
   {
     "id": "armor_xl_scrapsuit",
     "type": "ARMOR",
     "copy-from": "armor_scrapsuit",
-    "name": { "str": "XL scrap suit" },
+    "name": { "str": "scrap suit" },
     "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_xs_scrapsuit",
     "type": "ARMOR",
     "copy-from": "armor_scrapsuit",
-    "name": { "str": "XS scrap suit" },
+    "name": { "str": "scrap suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_tiresuit",
@@ -1223,7 +1212,6 @@
     "volume": "15500 ml",
     "price": "500 USD",
     "price_postapoc": "2 USD",
-    "to_hit": -5,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "armor_scrapsuit",
@@ -1243,7 +1231,6 @@
     "volume": "3500 ml",
     "price": "120 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hazmat_suit",
@@ -1335,7 +1322,7 @@
   {
     "abstract": "xl_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "XL chainmail hauberk" },
+    "name": { "str": "chainmail hauberk" },
     "copy-from": "base_chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1373,13 +1360,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_hauberk",
     "type": "ARMOR",
     "copy-from": "base_chainmail_hauberk",
-    "name": { "str": "XS chainmail hauberk" },
+    "name": { "str": "chainmail hauberk" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1416,7 +1403,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_ELBOWS" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "chainmail_junk_hauberk",
@@ -1452,14 +1439,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail hauberk" }
+    "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "lc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail hauberk" }
+    "name": { "str": "mild steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk",
@@ -1473,14 +1460,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail hauberk" }
+    "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "mc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail hauberk" }
+    "name": { "str": "medium steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk",
@@ -1494,14 +1481,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail hauberk" }
+    "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "hc_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail hauberk" }
+    "name": { "str": "high steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk",
@@ -1515,14 +1502,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail hauberk" }
+    "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "ch_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail hauberk" }
+    "name": { "str": "hardened steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk",
@@ -1536,14 +1523,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail hauberk" }
+    "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "id": "qt_chainmail_hauberk_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_hauberk",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail hauberk" }
+    "name": { "str": "tempered steel chainmail hauberk" }
   },
   {
     "abstract": "base_chainmail_sjumpsuit",
@@ -1606,7 +1593,7 @@
   {
     "abstract": "xl_chainmail_sjumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit" },
     "copy-from": "base_chainmail_sjumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1644,13 +1631,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_sjumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_sjumpsuit",
-    "name": { "str": "XS chainmail sleeveless jumpsuit" },
+    "name": { "str": "chainmail sleeveless jumpsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -1687,7 +1674,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_chainmail_sjumpsuit",
@@ -1701,14 +1688,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "lc_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "mild steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "mc_chainmail_sjumpsuit",
@@ -1722,14 +1709,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "mc_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "medium steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "hc_chainmail_sjumpsuit",
@@ -1743,14 +1730,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "hc_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "high steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "ch_chainmail_sjumpsuit",
@@ -1764,14 +1751,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "ch_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "hardened steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "qt_chainmail_sjumpsuit",
@@ -1785,14 +1772,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "id": "qt_chainmail_sjumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_sjumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail sleeveless jumpsuit" }
+    "name": { "str": "tempered steel chainmail sleeveless jumpsuit" }
   },
   {
     "abstract": "base_chainmail_jumpsuit",
@@ -1875,7 +1862,7 @@
   {
     "abstract": "xl_chainmail_jumpsuit",
     "type": "ARMOR",
-    "name": { "str": "XL chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit" },
     "copy-from": "base_chainmail_jumpsuit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -1935,13 +1922,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_jumpsuit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_jumpsuit",
-    "name": { "str": "XS chainmail jumpsuit" },
+    "name": { "str": "chainmail jumpsuit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -2000,7 +1987,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_chainmail_jumpsuit",
@@ -2014,14 +2001,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail jumpsuit" }
+    "name": { "str": "mild steel chainmail jumpsuit" }
   },
   {
     "id": "lc_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail jumpsuit" }
+    "name": { "str": "mild steel chainmail jumpsuit" }
   },
   {
     "id": "mc_chainmail_jumpsuit",
@@ -2035,14 +2022,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail jumpsuit" }
+    "name": { "str": "medium steel chainmail jumpsuit" }
   },
   {
     "id": "mc_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail jumpsuit" }
+    "name": { "str": "medium steel chainmail jumpsuit" }
   },
   {
     "id": "hc_chainmail_jumpsuit",
@@ -2056,14 +2043,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail jumpsuit" }
+    "name": { "str": "high steel chainmail jumpsuit" }
   },
   {
     "id": "hc_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail jumpsuit" }
+    "name": { "str": "high steel chainmail jumpsuit" }
   },
   {
     "id": "ch_chainmail_jumpsuit",
@@ -2077,14 +2064,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail jumpsuit" }
+    "name": { "str": "hardened steel chainmail jumpsuit" }
   },
   {
     "id": "ch_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail jumpsuit" }
+    "name": { "str": "hardened steel chainmail jumpsuit" }
   },
   {
     "id": "qt_chainmail_jumpsuit",
@@ -2098,14 +2085,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail jumpsuit" }
+    "name": { "str": "tempered steel chainmail jumpsuit" }
   },
   {
     "id": "qt_chainmail_jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_jumpsuit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail jumpsuit" }
+    "name": { "str": "tempered steel chainmail jumpsuit" }
   },
   {
     "abstract": "base_chainmail_suit",
@@ -2183,7 +2170,7 @@
   {
     "abstract": "xl_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "XL chainmail armor" },
+    "name": { "str": "chainmail armor" },
     "copy-from": "base_chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -2243,13 +2230,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_suit",
     "type": "ARMOR",
     "copy-from": "base_chainmail_suit",
-    "name": { "str": "XS chainmail armor" },
+    "name": { "str": "chainmail armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -2308,7 +2295,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "chainmail_junk_suit",
@@ -2338,14 +2325,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XL mild steel chainmail armor" }
+    "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "lc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "lc_steel_chain" },
-    "name": { "str": "XS mild steel chainmail armor" }
+    "name": { "str": "mild steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit",
@@ -2359,14 +2346,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XL medium steel chainmail armor" }
+    "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "mc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "mc_steel_chain" },
-    "name": { "str": "XS medium steel chainmail armor" }
+    "name": { "str": "medium steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit",
@@ -2380,14 +2367,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XL high steel chainmail armor" }
+    "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "hc_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "hc_steel_chain" },
-    "name": { "str": "XS high steel chainmail armor" }
+    "name": { "str": "high steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit",
@@ -2401,14 +2388,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XL hardened steel chainmail armor" }
+    "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "ch_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "ch_steel_chain" },
-    "name": { "str": "XS hardened steel chainmail armor" }
+    "name": { "str": "hardened steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit",
@@ -2422,14 +2409,14 @@
     "type": "ARMOR",
     "copy-from": "xl_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XL tempered steel chainmail armor" }
+    "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "qt_chainmail_suit_xs",
     "type": "ARMOR",
     "copy-from": "xs_chainmail_suit",
     "replace_materials": { "steel": "qt_steel_chain" },
-    "name": { "str": "XS tempered steel chainmail armor" }
+    "name": { "str": "tempered steel chainmail armor" }
   },
   {
     "id": "chainmail_suit_faraday",
@@ -2495,7 +2482,7 @@
     "id": "xl_chainmail_suit_faraday",
     "type": "ARMOR",
     "copy-from": "chainmail_suit_faraday",
-    "name": { "str": "XL faraday chainmail suit" },
+    "name": { "str": "faraday chainmail suit" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -2544,14 +2531,14 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "chainmail_suit_faraday_xs",
     "type": "ARMOR",
     "copy-from": "chainmail_suit_faraday",
     "looks_like": "chainmail_suit_faraday",
-    "name": { "str": "XS faraday chainmail suit" },
+    "name": { "str": "faraday chainmail suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -2600,7 +2587,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_KNEES" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cleansuit",
@@ -2647,7 +2634,7 @@
     "longest_side": "30 cm",
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
     "armor": [
       {
         "encumbrance": 50,
@@ -2659,19 +2646,19 @@
   {
     "id": "xl_entry_suit",
     "type": "ARMOR",
-    "name": { "str": "XL entry suit" },
+    "name": { "str": "entry suit" },
     "copy-from": "entry_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "entry_suit_xs",
     "type": "ARMOR",
     "copy-from": "entry_suit",
     "looks_like": "entry_suit",
-    "name": { "str": "XS entry suit" },
+    "name": { "str": "entry suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bite_suit",
@@ -2682,7 +2669,6 @@
     "volume": "8255 ml",
     "price": "200 USD",
     "price_postapoc": "100 USD",
-    "to_hit": -5,
     "//": "real bite suits are made with linen, but we don't have linen, so denim is the closest approx. (canvas is always waterproofed and these suits are not)",
     "material": [ "kevlar", "denim" ],
     "symbol": "[",
@@ -2752,7 +2738,17 @@
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER", "SOFT" ],
+    "flags": [
+      "VARSIZE",
+      "WATERPROOF",
+      "IRRITANT_IMMUNE",
+      "RAINPROOF",
+      "GAS_PROOF",
+      "RAD_PROOF",
+      "ELECTRIC_IMMUNE",
+      "OUTER",
+      "SOFT"
+    ],
     "armor": [
       {
         "encumbrance": 37,
@@ -2770,7 +2766,6 @@
     "volume": "1500 ml",
     "price": "130 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -5,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -2784,19 +2779,19 @@
   {
     "id": "xl_nomex_suit",
     "type": "ARMOR",
-    "name": { "str": "XL flame-resistant suit" },
+    "name": { "str": "flame-resistant suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "nomex_suit_xs",
     "type": "ARMOR",
     "copy-from": "nomex_suit",
     "looks_like": "nomex_suit",
-    "name": { "str": "XS flame-resistant suit" },
+    "name": { "str": "flame-resistant suit" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "robofac_enviro_suit",
@@ -2957,7 +2952,7 @@
       "msg": "You slip out of the top of the suit and tie the sleeves around your waist.",
       "target": "robofac_enviro_suit_casual"
     },
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
   },
   {
     "id": "robofac_enviro_suit_casual",
@@ -3047,7 +3042,7 @@
       "msg": "You untie the sleeves and put back on the top of the suit.",
       "target": "robofac_enviro_suit"
     },
-    "delete": { "flags": [ "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
+    "delete": { "flags": [ "RAINPROOF", "IRRITANT_IMMUNE", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE" ] }
   },
   {
     "id": "xedra_enviro_suit",
@@ -3090,8 +3085,13 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_MOVEMENT", "MUNDANE" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 } ] } ] },
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "MUNDANE" ],
+    "relic_data": {
+      "passive_effects": [
+        { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 } ] },
+        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
+      ]
+    },
     "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
@@ -3103,7 +3103,6 @@
     "volume": "4750 ml",
     "price": "200 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -3184,7 +3183,7 @@
     "volume": "6500 ml",
     "price": "580 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -5,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "leather", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
@@ -3250,7 +3249,6 @@
     "volume": "4750 ml",
     "price": "224 USD",
     "price_postapoc": "5 USD 50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "suit",
@@ -3284,7 +3282,6 @@
     "volume": "4687 ml",
     "price": "220 USD 65 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "nomex" ],
     "symbol": "[",
     "looks_like": "touring_suit",

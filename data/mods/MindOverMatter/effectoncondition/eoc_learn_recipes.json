@@ -439,6 +439,7 @@
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STUN_ROBOTS",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
           "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
@@ -516,6 +517,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
     "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_radio')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_photokinetic_radio" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_STUN_ROBOTS",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_stun_robots')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_stun_robots" } ]
   },
   {
     "type": "effect_on_condition",
@@ -685,6 +692,7 @@
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_MOMENTUM",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLOWFALL",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LIFTING_FIELD",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_STRENGTH",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_HAMMER",
           "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_VEHICLE_LIFT",
@@ -701,13 +709,13 @@
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_push')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_pull')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" } ]
   },
   {
     "type": "effect_on_condition",
@@ -732,6 +740,12 @@
     "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
     "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_wave')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_telekinetic_wave" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LIFTING_FIELD",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_lifting_field')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_lifting_field" } ]
   },
   {
     "type": "effect_on_condition",
@@ -916,6 +930,7 @@
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_EPHEMERAL_WALK",
           "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH"
         ]
       }
@@ -983,8 +998,14 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_EPHEMERAL_WALK",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_ephemeral_walk')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_ephemeral_walk" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH",
-    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_breach')", ">=", "0" ] } ] },
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_summon')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_teleport_breach" } ]
   },
   {
@@ -1004,12 +1025,12 @@
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLOW_BLEEDING",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALTH_POWER",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_BLEEDING",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CONCENTRATED_HEALING",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TOUCH",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_REMOVE_POISON",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CURE_DISEASE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
-          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
@@ -1042,6 +1063,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CONCENTRATED_HEALING",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_concentrated_healing')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_concentrated_healing" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_hurt_touch" } ]
@@ -1069,12 +1096,6 @@
     "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
     "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "0" ] } ] },
     "effect": [ { "u_learn_recipe": "practice_vita_sleeping_trance" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
-    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "0" ] } ] },
-    "effect": [ { "u_learn_recipe": "practice_vita_pain_split" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1127,9 +1148,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PSI_LEARNING_VITAMIN_COUNTER",
-    "recurrence": [ "12 hours", "168 hours" ],
+    "recurrence": [
+      { "math": [ "jmath_psi_learning_counter_time_low(global_insight_power_learning_time_low)" ] },
+      { "math": [ "jmath_psi_learning_counter_time_high(global_insight_power_learning_time_high)" ] }
+    ],
     "condition": {
       "and": [
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
         {
           "u_has_any_trait": [
             "BIOKINETIC",
@@ -1176,5 +1201,75 @@
       }
     ],
     "false_effect": [ { "u_message": "Without a laptop, you can't access the data on the USB", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
+        { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "2" ] },
+            { "math": [ "u_pain()", ">=", "35" ] },
+            { "math": [ "u_val('focus')", "<=", "15" ] }
+          ]
+        },
+        {
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+        },
+        { "math": [ "_success", "!=", "false" ] }
+      ]
+    },
+    "effect": [ { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_EXTENDED_CHANNELING_TRIGGER",
+    "condition": { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+    "effect": [
+      { "u_learn_recipe": "psi_research_extended_channeling" },
+      {
+        "u_message": "The state of mind necessary to channel while maintaining other powers has you thinking.  It requires fine control to maintain your concentration on multiple things at once, but what if you applied that level of control to a single power at a time?  If you slowly and carefully drew on just as much energy as you needed, maybe there would be fewer side effects?  With some experimentation, perhaps you can discover a way.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "test_eoc": "EOC_CONDITION_SPELLCASTING_FINISH_TRAIT_AND_SCHOOL_LIST" },
+        { "not": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } },
+        { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
+        {
+          "x_in_y_chance": { "x": 1, "y": { "math": [ "1000 - (u_skill('metaphysics') * 50) - (u_val('intelligence') * 25)" ] } }
+        },
+        { "math": [ "_success", "!=", "false" ] }
+      ]
+    },
+    "effect": [
+      { "queue_eocs": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER", "time_in_future": [ "6 hours", "24 hours" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSI_RESEARCH_LEARN_TORRENTIAL_CHANNELING_TRIGGER",
+    "condition": { "not": { "u_know_recipe": "psi_research_torrential_channeling" } },
+    "effect": [
+      { "u_learn_recipe": "psi_research_torrential_channeling" },
+      {
+        "u_message": "Safety is all well and good, but sometimes you need power.  The ebb and flow of Nether energy…if you deliberately drew on it more deeply, could you charge your powers up more quickly?  Maybe you can figure out a way with some more experimentation.",
+        "popup": true
+      }
+    ]
   }
 ]

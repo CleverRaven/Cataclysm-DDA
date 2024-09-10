@@ -58,10 +58,11 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
     "difficulty": 1,
-    "time": "10m",
+    "time": "1m",
     "autolearn": true,
+    "charges": 8,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
-    "components": [ [ [ "pebble", 10 ] ] ]
+    "components": [ [ [ "pebble", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -425,6 +426,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "copper",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 h",
+    "autolearn": false,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "charges": 19,
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "//": "There is a loss of approximately 4.687 grams, for the math check #74702.",
+    "components": [ [ [ "copper_wire", 21 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_chunk",
     "id_suffix": "from_plastic_bags",
@@ -451,6 +467,7 @@
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
         [ "bag_plastic", 10 ],
+        [ "bag_plastic_small", 20 ],
         [ "plastic_sheet_small", 10 ],
         [ "tumbler_plastic", 4 ],
         [ "plastic_bowl_kids", 8 ],
@@ -609,7 +626,7 @@
     "time": "10 m",
     "autolearn": true,
     "tools": [ [ [ "carding_paddles", -1 ] ] ],
-    "components": [ [ [ "felt_patch", 1 ] ] ]
+    "components": [ [ [ "felt_patch", 7 ] ] ]
   },
   {
     "type": "recipe",
@@ -954,7 +971,8 @@
     "time": "45 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_polymerworking" } ],
-    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ], [ [ "superglue", 1 ] ] ]
+    "using": [ [ "glue_strong", 450 ] ],
+    "components": [ [ [ "sheet_kevlar", 16 ], [ "sheet_kevlar_layered", 1 ] ] ]
   },
   {
     "result": "sheet_cotton",
@@ -1392,7 +1410,7 @@
     "time": "4 m",
     "charges": 3,
     "batch_time_factors": [ 30, 2 ],
-    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "red_phosphorous", 3 ], [ "gunpowder", 30 ] ] ]
+    "components": [ [ [ "rolling_paper", 1 ] ], [ [ "chem_black_powder", 3 ], [ "red_phosphorous_small", 3 ], [ "gunpowder", 30 ] ] ]
   },
   {
     "result": "wire",
@@ -1713,7 +1731,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "bag_plastic", 1 ] ] ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ] ]
   },
   {
     "type": "recipe",

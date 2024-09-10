@@ -141,7 +141,8 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
         return ret_val<void>::make_failure( _( "Can't wear that, it's filthy!" ) );
     }
 
-    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_SEMITANGIBLE ) &&
+    if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_INTEGRATED ) &&
+        !it.has_flag( flag_SEMITANGIBLE ) &&
         !it.has_flag( flag_UNRESTRICTED ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const mutation_branch &branch = mut.obj();
@@ -685,9 +686,9 @@ bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item 
     return worn.is_worn_item_visible( worn_item, worn_item_body_parts );
 }
 
-std::list<item> Character::get_visible_worn_items() const
+std::list<item_location> Character::get_visible_worn_items() const
 {
-    return worn.get_visible_worn_items( *this );
+    return const_cast<outfit &>( worn ).get_visible_worn_items( *this );
 }
 
 double Character::armwear_factor() const
@@ -991,7 +992,8 @@ bool outfit::is_worn_module( const item &thing ) const
 {
     return thing.has_flag( flag_CANT_WEAR ) &&
     std::any_of( worn.cbegin(), worn.cend(), [&thing]( item const & elem ) {
-        return elem.contained_where( thing ) != nullptr;
+        return elem.has_flag( flag_MODULE_HOLDER ) &&
+               elem.contained_where( thing ) != nullptr;
     } );
 }
 
@@ -1071,12 +1073,13 @@ item *outfit::item_worn_with_id( const itype_id &i )
     return it_with_id;
 }
 
-std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
+std::list<item_location> outfit::get_visible_worn_items( const Character &guy )
 {
-    std::list<item> result;
-    for( auto i = worn.cbegin(), end = worn.cend(); i != end; ++i ) {
+    std::list<item_location> result;
+    for( auto i = worn.begin(), end = worn.end(); i != end; ++i ) {
         if( guy.is_worn_item_visible( i ) ) {
-            result.push_back( *i );
+            item_location loc_here( const_cast<Character &>( guy ), &*i );
+            result.emplace_back( loc_here );
         }
     }
     return result;
@@ -1169,6 +1172,9 @@ std::list<item> outfit::remove_worn_items_with( const std::function<bool( item &
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
+            if( iter->can_unload() ) {
+                iter->spill_contents( guy );
+            }
             iter->on_takeoff( guy );
             result.splice( result.begin(), worn, iter++ );
         } else {
@@ -2192,55 +2198,11 @@ item *outfit::best_shield()
     return ret;
 }
 
-item *outfit::current_unarmed_weapon( const std::string &attack_vector )
+item *outfit::current_unarmed_weapon( const sub_bodypart_str_id &contact_area )
 {
     item *cur_weapon = &null_item_reference();
-
     for( item &worn_item : worn ) {
-        bool covers = false;
-
-        if( attack_vector == "HAND" || attack_vector == "GRAPPLE" || attack_vector == "THROW" ) {
-            covers = worn_item.covers( bodypart_id( "hand_l" ) ) &&
-                     worn_item.covers( bodypart_id( "hand_r" ) );
-        } else if( attack_vector == "ARM" ) {
-            covers = worn_item.covers( bodypart_id( "arm_l" ) ) &&
-                     worn_item.covers( bodypart_id( "arm_r" ) );
-        } else if( attack_vector == "ELBOW" ) {
-            covers = worn_item.covers( sub_bodypart_id( "arm_elbow_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "arm_elbow_r" ) );
-        } else if( attack_vector == "FINGERS" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_fingers_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_fingers_r" ) );
-        } else if( attack_vector == "WRIST" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_wrist_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_wrist_r" ) );
-        } else if( attack_vector == "PALM" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_palm_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_palm_r" ) );
-        } else if( attack_vector == "HAND_BACK" ) {
-            covers = worn_item.covers( sub_bodypart_id( "hand_back_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "hand_back_r" ) );
-        } else if( attack_vector == "SHOULDER" ) {
-            covers = worn_item.covers( sub_bodypart_id( "arm_shoulder_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "arm_shoulder_r" ) );
-        } else if( attack_vector == "FOOT" ) {
-            covers = worn_item.covers( bodypart_id( "foot_l" ) ) &&
-                     worn_item.covers( bodypart_id( "foot_r" ) );
-        } else if( attack_vector == "LOWER_LEG" ) {
-            covers = worn_item.covers( sub_bodypart_id( "leg_lower_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "leg_lower_r" ) );
-        } else if( attack_vector == "KNEE" ) {
-            covers = worn_item.covers( sub_bodypart_id( "leg_knee_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "leg_knee_r" ) );
-        } else if( attack_vector == "HIP" ) {
-            covers = worn_item.covers( sub_bodypart_id( "leg_hip_l" ) ) &&
-                     worn_item.covers( sub_bodypart_id( "leg_hip_r" ) );
-        } else if( attack_vector == "HEAD" ) {
-            covers = worn_item.covers( bodypart_id( "head" ) );
-        } else if( attack_vector == "TORSO" ) {
-            covers = worn_item.covers( bodypart_id( "torso" ) );
-        }
-
+        bool covers = worn_item.covers( contact_area );
         // Uses enum layer_level to make distinction for top layer.
         if( covers ) {
             if( cur_weapon->is_null() || ( worn_item.get_layer() >= cur_weapon->get_layer() ) ) {

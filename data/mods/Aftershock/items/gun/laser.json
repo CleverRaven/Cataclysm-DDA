@@ -6,7 +6,6 @@
     "name": { "str": "wrist-stunner" },
     "description": "A severed robotic hand from a Wraitheon Sentinel.  The powerful electro-laser stun gun embed on its wrist is still functional, and can be used when connected to an UPS.",
     "price": "7 kUSD 200 USD",
-    "to_hit": -2,
     "material": [ "superalloy", "plastic" ],
     "color": "cyan",
     "range": 10,
@@ -72,7 +71,7 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "ammo_effects": [ "LASER", "INCENDIARY" ],
+    "ammo_effects": [ "LASER", "IGNITE" ],
     "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ],
     "melee_damage": { "bash": 4 }
   },
@@ -168,7 +167,7 @@
     "overheat_threshold": 150,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ammo_to_fire": 0,
-    "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
+    "ammo_effects": [ "IGNITE", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
     "energy_drain": "30 kJ",
     "built_in_mods": [ "afs_holo_aim_assist" ],
@@ -227,7 +226,8 @@
     "overheat_threshold": 100,
     "cooling_value": 1,
     "heat_per_shot": 20,
-    "volume": "3 L",
+    "volume": "8 L",
+    "longest_side": "1065 mm",
     "range": 37,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "extend": { "ammo_effects": [ "TACTICAL_LASER_EXPLOSION" ] },
@@ -296,6 +296,14 @@
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
+  },
+  {
+    "id": "afs_a7_mon",
+    "type": "GUN",
+    "copy-from": "afs_a7",
+    "name": { "str": "mounted a7 laser rifle" },
+    "energy_drain": "0 kJ",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
     "id": "makeshift_scrambler",

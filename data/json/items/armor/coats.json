@@ -9,7 +9,6 @@
     "volume": "5 L",
     "price": "910 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "nomex", "kevlar", "lycra" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -55,7 +54,6 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -84,7 +82,6 @@
     "volume": "5750 ml",
     "price": "5 kUSD",
     "price_postapoc": "5 USD",
-    "to_hit": -5,
     "material": [ "fur", "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -211,18 +208,18 @@
   {
     "id": "xl_coat_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur coat" },
+    "name": { "str": "fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
-    "name": { "str": "XS fur coat" },
+    "name": { "str": "fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_faux_fur",
@@ -239,18 +236,18 @@
   {
     "id": "xl_coat_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_faux_fur",
-    "name": { "str": "XS faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_lab",
@@ -261,7 +258,6 @@
     "volume": "2250 ml",
     "price": "25 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -387,7 +383,6 @@
     "volume": "6750 ml",
     "price": "140 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_rain",
@@ -440,7 +435,6 @@
     "volume": "5750 ml",
     "price": "155 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -514,7 +508,6 @@
     "volume": "9750 ml",
     "price": "979 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -1,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "duster_leather",
@@ -582,34 +575,34 @@
   {
     "id": "xl_duster_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur duster" },
+    "name": { "str": "fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
-    "name": { "str": "XS fur duster" },
+    "name": { "str": "fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_duster",
     "type": "ARMOR",
-    "name": { "str": "XL duster" },
+    "name": { "str": "duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster",
     "type": "ARMOR",
     "copy-from": "duster",
-    "name": { "str": "XS duster" },
+    "name": { "str": "duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_faux_fur",
@@ -625,18 +618,18 @@
   {
     "id": "xl_duster_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_faux_fur",
-    "name": { "str": "XS faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_leather",
@@ -647,7 +640,6 @@
     "volume": "7 L",
     "price": "245 USD",
     "price_postapoc": "12 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "duster",
@@ -715,18 +707,18 @@
   {
     "id": "xl_duster_leather",
     "type": "ARMOR",
-    "name": { "str": "XL leather duster" },
+    "name": { "str": "leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_leather",
     "type": "ARMOR",
     "copy-from": "duster_leather",
-    "name": { "str": "XS leather duster" },
+    "name": { "str": "leather duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "greatcoat",
@@ -737,7 +729,6 @@
     "volume": "8 L",
     "price": "180 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -850,7 +841,6 @@
     "volume": "2 L",
     "price": "22 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "coat_lab",
@@ -890,7 +880,7 @@
   },
   {
     "id": "jacket_army",
-    "//": "Intended to be, and modelled off of, an M65 combat jacket.",
+    "//": "Intended to be, and modeled off of, an M65 combat jacket.",
     "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
     "type": "ARMOR",
     "looks_like": "coat_winter",
@@ -1054,7 +1044,7 @@
       {
         "id": "m65_coyote",
         "name": { "str": "coyote combat jacket" },
-        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively hansom coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
+        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively handsome coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
         "color": "brown",
         "weight": 20,
         "append": true
@@ -1480,7 +1470,6 @@
     "volume": "2000 ml",
     "price": "179 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
@@ -1534,7 +1523,6 @@
     "volume": "1500 ml",
     "price": "179 USD",
     "price_postapoc": "5 USD",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
@@ -1588,7 +1576,6 @@
     "volume": "1500 ml",
     "price": "80 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": 1,
     "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
@@ -1699,7 +1686,17 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "windbreaker_fbi",
+        "name": { "str": "FBI raid jacket" },
+        "description": "A distinctive deep blue windbreaker with \"FBI\" emblazoned on the left breast, on the sides of the sleeves, and across the back in large, yellow lettering.  It is only issued to FBI field agents, preventing misidentification.",
+        "color": "blue",
+        "weight": 0
+      }
+    ]
   },
   {
     "id": "jacket_varsity",
@@ -1875,7 +1872,6 @@
     "volume": "5500 ml",
     "price": "300 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1894,7 +1890,6 @@
     "volume": "5000 ml",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kimono",
@@ -1950,7 +1945,6 @@
     "volume": "5 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -1989,7 +1983,6 @@
     "volume": "3 L",
     "price": "50 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "kimono",
@@ -2028,7 +2021,6 @@
     "volume": "2 L",
     "price": "300 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "house_coat",
@@ -2056,7 +2048,6 @@
     "volume": "4 L",
     "price": "200 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -2085,7 +2076,6 @@
     "volume": "3500 ml",
     "price": "300 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -3,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "motorbike_armor",
@@ -2164,7 +2154,6 @@
     "volume": "3 L",
     "price": "180 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -3,
     "material": [ "wool" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -2217,7 +2206,6 @@
     "volume": "5 L",
     "price": "50 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2302,7 +2290,6 @@
     "volume": "500 ml",
     "price": "28 USD",
     "price_postapoc": "80 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2338,7 +2325,6 @@
     "volume": "550 ml",
     "price": "20 USD",
     "price_postapoc": "60 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "sheet",
@@ -2376,7 +2362,6 @@
     "volume": "550 ml",
     "price": "35 USD",
     "price_postapoc": "90 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cloak",
@@ -2506,7 +2491,6 @@
     "volume": "2250 ml",
     "price": "65 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -2535,7 +2519,6 @@
     "volume": "4500 ml",
     "price": "450 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -5,
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "red",
@@ -2595,7 +2578,6 @@
     "volume": "2000 ml",
     "price": "180 USD",
     "price_postapoc": "70 cent",
-    "to_hit": -5,
     "symbol": "[",
     "looks_like": "jacket_leather_red",
     "color": "red",
@@ -2699,7 +2681,6 @@
     "volume": "4500 ml",
     "price": "131 USD 75 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "duster",
@@ -2779,7 +2760,6 @@
     "volume": "8250 ml",
     "price": "832 USD 15 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "duster_fur",
@@ -2869,7 +2849,6 @@
     "volume": "6 L",
     "price": "208 USD 25 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "duster_leather",
@@ -2949,7 +2928,6 @@
     "volume": "3750 ml",
     "price": "131 USD 75 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster",
@@ -2998,7 +2976,6 @@
     "volume": "6750 ml",
     "price": "832 USD 15 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_fur",
@@ -3057,7 +3034,6 @@
     "volume": "4250 ml",
     "price": "208 USD 25 cent",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_leather",
@@ -3105,7 +3081,6 @@
     "volume": "1 L",
     "price": "40 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "vest_leather",
@@ -3139,7 +3114,6 @@
     "volume": "4500 ml",
     "price": "100 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "robe",
@@ -3158,7 +3132,6 @@
     "volume": "4250 ml",
     "price": "155 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -1,
     "material": [ "canvas" ],
     "symbol": "[",
     "looks_like": "coat_winter",
@@ -3201,7 +3174,6 @@
     "volume": "7250 ml",
     "price": "979 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "fur" ],
     "symbol": "[",
     "looks_like": "trenchcoat_leather",
@@ -3254,7 +3226,6 @@
     "volume": "5250 ml",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -3297,7 +3268,6 @@
     "volume": "1250 ml",
     "price": "42 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "sweatshirt",
@@ -3355,7 +3325,6 @@
     "volume": "5500 ml",
     "price": "210 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -5,
     "symbol": "[",
     "looks_like": "suit",
     "color": "dark_gray",
@@ -3536,7 +3505,6 @@
     "volume": "5250 ml",
     "price": "245 USD",
     "price_postapoc": "7 USD 50 cent",
-    "to_hit": -1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
@@ -3571,7 +3539,6 @@
     "volume": "5 L",
     "price": "8 USD",
     "price_postapoc": "60 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cassock",
@@ -3600,7 +3567,6 @@
     "volume": "5 L",
     "price": "10 USD",
     "price_postapoc": "80 cent",
-    "to_hit": -5,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "cassock",
@@ -3733,7 +3699,7 @@
       {
         "id": "tacjacket_jungle",
         "name": { "str": "jungle-camo tactical jacket" },
-        "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging guerilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
+        "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging guerrilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
         "color": "green",
         "weight": 15,
         "append": true

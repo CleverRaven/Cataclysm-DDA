@@ -47,7 +47,7 @@
     "extra_effects": [
       { "id": "gravitymage_graviton_damage" },
       { "id": "gravitymage_graviton_centerdamage" },
-      { "id": "eoc_evocation_setup" }
+      { "id": "eoc_evocation_setup", "hit_self": true }
     ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crack"
@@ -80,7 +80,7 @@
     "description": "Decrease your weight to a minimum, and use a mana flow to jump to your enemies from a long distance.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_conveyance_setup" } ],
+    "extra_effects": [ { "id": "eoc_conveyance_setup", "hit_self": true } ],
     "effect": "dash",
     "shape": "cone",
     "damage_type": "bash",
@@ -108,20 +108,20 @@
     "effect_str": "gravity_mage_melee",
     "shape": "blast",
     "flags": [ "NO_LEGS", "SILENT", "NO_EXPLOSION_SFX", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
     "spell_class": "GRAVITY_MAGE",
     "energy_source": "MANA",
     "difficulty": 7,
-    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500)" ] },
-    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(150)" ] },
-    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-10)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(500, 30)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(150, 30)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-10, 0.03)" ] },
     "base_energy_cost": 500,
     "final_energy_cost": 150,
     "energy_increment": -10,
     "max_level": 35,
-    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(20000)" ] },
-    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(720000)" ] },
-    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(20000)" ] }
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(20000, 2300)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(720000, 2300)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(20000, 0.03)" ] }
   },
   {
     "id": "gravity_mage_melee",

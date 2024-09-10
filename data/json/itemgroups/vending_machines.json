@@ -10,9 +10,9 @@
     "subtype": "collection",
     "id": "vending_food",
     "entries": [
-      { "group": "vending_food_items", "count-min": 5, "count-max": 20 },
-      { "group": "vending_food_items", "prob": 66, "count-min": 5, "count-max": 25 },
-      { "group": "vending_food_items", "prob": 20, "count-min": 5, "count-max": 25 }
+      { "group": "vending_food_items", "count": [ 5, 20 ] },
+      { "group": "vending_food_items", "prob": 66, "count": [ 5, 25 ] },
+      { "group": "vending_food_items", "prob": 20, "count": [ 5, 25 ] }
     ]
   },
   {
@@ -20,9 +20,9 @@
     "subtype": "collection",
     "id": "vending_drink",
     "entries": [
-      { "group": "vending_drink_items", "count-min": 5, "count-max": 20 },
-      { "group": "vending_drink_items", "prob": 66, "count-min": 5, "count-max": 25 },
-      { "group": "vending_drink_items", "prob": 20, "count-min": 5, "count-max": 25 }
+      { "group": "vending_drink_items", "count": [ 5, 20 ] },
+      { "group": "vending_drink_items", "prob": 66, "count": [ 5, 25 ] },
+      { "group": "vending_drink_items", "prob": 20, "count": [ 5, 25 ] }
     ]
   },
   {

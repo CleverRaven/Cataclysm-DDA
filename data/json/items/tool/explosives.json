@@ -1,29 +1,5 @@
 [
   {
-    "id": "acidbomb",
-    "type": "AMMO",
-    "category": "weapons",
-    "name": { "str": "acid bomb" },
-    "description": "A fragile container filled with acid.  Throw it to spill out a pool of potent acid.  It could also be used in a staff sling with a modified cradle.",
-    "weight": "650 g",
-    "volume": "680 ml",
-    "longest_side": "132 mm",
-    "price": "50 USD",
-    "price_postapoc": "5 USD",
-    "to_hit": -1,
-    "material": [ "glass" ],
-    "symbol": "*",
-    "color": "yellow",
-    "use_action": [ "ACIDBOMB_ACT" ],
-    "flags": [ "ACT_ON_RANGED_HIT", "NPC_THROWN" ],
-    "ammo_type": "sling-ready_grenade",
-    "damage": { "damage_type": "bash", "amount": 4 },
-    "range": 11,
-    "dispersion": 14,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "ACIDBOMB" ],
-    "melee_damage": { "bash": 4 }
-  },
-  {
     "id": "c4",
     "type": "TOOL",
     "category": "weapons",
@@ -55,7 +31,8 @@
     "color": "light_gray",
     "use_action": { "type": "message", "message": "You've already set the %s's timer, you might want to get away from it." },
     "countdown_action": { "type": "explosion", "explosion": { "power": 2000 } },
-    "flags": [ "TRADER_AVOID" ]
+    "countdown_interval": "6 seconds",
+    "flags": [ "NPC_THROW_NOW" ]
   },
   {
     "id": "dynamite",
@@ -432,6 +409,7 @@
     "color": "green",
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": { "type": "explosion", "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.02 } } },
+    "countdown_interval": "5 seconds",
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ],
     "melee_damage": { "bash": 6 }
   },
@@ -623,8 +601,16 @@
     "id": "LAW_Packed",
     "type": "GENERIC",
     "category": "guns",
-    "name": { "str": "packed M72 LAW" },
-    "description": "An M72 LAW, packed in its storage form.  Activate it to pop it out and make it ready to fire.  Once it is activated, it cannot be repacked.",
+    "name": { "str": "packed disposable rocket launcher" },
+    "description": "A packed, disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.  Activate it to pop it out and make it ready to fire.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "LAW_Packed",
+        "name": { "str": "M72 LAW (packed)", "str_pl": "M72 LAWs (packed)" },
+        "description": "The M72 LAW (Light Anti-armor Weapon) is a one-time use lightweight rocket launcher, meant to take out tanks and other armored vehicles.  Designed to replace the earlier Bazookas, it features a shaped-charge warhead to pierce armor.  Though weaker than the more modern and heavier AT4, it's still in service to this day.  Due to its design, you must unpack it to use it, and it cannot be reloaded.  Activate to unpack."
+      }
+    ],
     "weight": "2500 g",
     "volume": "1500 ml",
     "longest_side": "63 cm",
@@ -815,7 +801,6 @@
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
@@ -840,7 +825,6 @@
     "volume": "250 ml",
     "price": "0 cent",
     "price_postapoc": "0 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
@@ -981,7 +965,6 @@
     "weight": "8760 g",
     "volume": "3900 ml",
     "price": "200 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "red",
@@ -1236,7 +1219,6 @@
     "weight": "6500 g",
     "volume": "3900 ml",
     "price": "100 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "red",
@@ -1261,7 +1243,6 @@
     "weight": "6500 g",
     "volume": "3900 ml",
     "price": "0 cent",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "light_red",

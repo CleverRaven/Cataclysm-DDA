@@ -72,6 +72,13 @@
     "qty": 120
   },
   {
+    "id": "emit_anti_psi_void",
+    "type": "emit",
+    "field": "fd_neutralizing_field",
+    "intensity": 3,
+    "qty": 120
+  },
+  {
     "id": "emit_shock_burst_electrokin_overload",
     "type": "emit",
     "field": "fd_electricity",

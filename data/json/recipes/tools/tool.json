@@ -185,10 +185,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "bone_sturdy", 1, "LIST" ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ]
-    ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ], [ [ "any_water", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -200,7 +197,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nails", 1, "LIST" ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nails", 1, "LIST" ], [ "crude_bronze_nail", 1 ] ] ]
   },
   {
     "result": "shed_stick",
@@ -227,9 +224,9 @@
     "time": "30 s",
     "autolearn": true,
     "components": [
-      [ [ "knife_butcher", 1 ] ],
-      [ [ "knife_carving", 1 ] ],
-      [ [ "knife_meat_cleaver", 1 ] ],
+      [ [ "knife_huge", 1 ] ],
+      [ [ "knife_large", 1 ] ],
+      [ [ "knife_cleaver", 1 ] ],
       [ [ "leather", 2 ], [ "cotton_patchwork", 2 ] ],
       [ [ "cordage_short", 2, "LIST" ] ]
     ]
@@ -305,9 +302,8 @@
         [ "platinum_hairpin", 1 ],
         [ "gold_hairpin", 1 ],
         [ "silver_hairpin", 1 ],
-        [ "knife_steak", 1 ],
+        [ "knife_small", 1 ],
         [ "knife_butter", 1 ],
-        [ "knife_paring", 1 ],
         [ "fork", 1 ],
         [ "lc_wire", 1 ],
         [ "hc_wire", 1 ],
@@ -472,7 +468,7 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -555,7 +551,6 @@
     "difficulty": 5,
     "skills_required": [ "mechanics", 3 ],
     "time": "300 m",
-    "reversible": true,
     "book_learn": [ [ "manual_mechanics", 3 ], [ "manual_fabrication", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "proficiencies": [
@@ -576,7 +571,6 @@
     "difficulty": 2,
     "skills_required": [ "mechanics", 1 ],
     "time": "100 m",
-    "reversible": true,
     "book_learn": [ [ "manual_mechanics", 1 ], [ "manual_fabrication", 2 ], [ "textbook_fabrication", 2 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 2 ] ] ]
@@ -591,7 +585,6 @@
     "difficulty": 3,
     "skills_required": [ "mechanics", 2 ],
     "time": "200 m",
-    "reversible": true,
     "//": "50cm weld",
     "book_learn": [ [ "manual_mechanics", 2 ], [ "manual_fabrication", 3 ], [ "textbook_fabrication", 3 ] ],
     "using": [ [ "welding_standard", 50 ] ],
@@ -633,12 +626,8 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "material_sand", -1 ] ] ],
     "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "cu_pipe", 1 ] ],
-      [ [ "bone_glue", 1 ], [ "superglue", 1 ] ],
-      [ [ "duct_tape", 10 ] ]
-    ]
+    "using": [ [ "glue_waterproof", 15 ] ],
+    "components": [ [ [ "pot", 1 ], [ "pot_copper", 1 ] ], [ [ "cu_pipe", 1 ] ], [ [ "duct_tape", 10 ] ] ]
   },
   {
     "result": "electrolyzer_makeshift",
@@ -837,8 +826,9 @@
     "difficulty": 4,
     "time": "30 m",
     "reversible": true,
+    "//1": "Item disassembly based on reversible craft and manually defined uncraft integration. Read ITEM_DISASSEMBLY.mb for more info.",
     "autolearn": true,
-    "//": "50cm weld",
+    "//2": "50cm weld",
     "using": [ [ "welding_standard", 50 ], [ "blacksmithing_standard", 14 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -872,11 +862,7 @@
     "book_learn": [ [ "atomic_survival", 0 ], [ "textbook_survival", 0 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knapping" } ],
-    "components": [
-      [ [ "rock", 2 ] ],
-      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ]
-    ]
+    "components": [ [ [ "rock", 2 ] ], [ [ "any_water", 1, "LIST" ] ], [ [ "material_sand", 1 ], [ "material_gravel", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1388,7 +1374,8 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "SEW", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
-    "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
+    "using": [ [ "glue_waterproof", 12 ] ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "filament", 40, "LIST" ] ] ]
   },
   {
     "result": "masonrysaw_off",
@@ -1447,7 +1434,7 @@
       [ "textbook_electronics", 4 ],
       [ "textbook_carpentry", 5 ]
     ],
-    "using": [ [ "surface_heat", 10 ], [ "soldering_standard", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 }
@@ -1524,7 +1511,7 @@
     "time": "5 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 3 ] ],
     "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
   },
   {

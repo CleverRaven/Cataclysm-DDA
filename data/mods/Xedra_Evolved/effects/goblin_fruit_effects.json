@@ -142,6 +142,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_goblin_fruit_shadow",
+    "name": [ "Muffled" ],
+    "desc": [ "Your movements are muffled." ],
+    "apply_message": "Your footsteps feel quieter.",
+    "remove_message": "Your steps are normal once again.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_goblin_fruit_nobleed",
     "name": [ "Stopped Bleeding" ],
     "desc": [ "Your blood is all being contained within your body." ],

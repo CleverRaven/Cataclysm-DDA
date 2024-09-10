@@ -315,6 +315,12 @@ void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
     sound( p, vol, category, description, true );
 }
 
+void sounds::ambient_sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                            const std::string &description )
+{
+    sounds::ambient_sound( p.raw(), vol, category, description );
+}
+
 void sounds::sound( const tripoint &p, int vol, sound_t category, const std::string &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
@@ -631,7 +637,7 @@ void sounds::process_sound_markers( Character *you )
 
         // Noises from vehicle player is in.
         if( you->controlling_vehicle ) {
-            vehicle *veh = veh_pointer_or_null( get_map().veh_at( you->pos() ) );
+            vehicle *veh = veh_pointer_or_null( get_map().veh_at( you->pos_bub() ) );
             const int noise = veh ? static_cast<int>( veh->vehicle_noise ) : 0;
 
             you->volume = std::max( you->volume, noise );
@@ -912,7 +918,7 @@ void sfx::do_vehicle_engine_sfx()
     } else if( player_character.in_sleep_state() && audio_muted ) {
         return;
     }
-    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos() );
+    optional_vpart_position vpart_opt = get_map().veh_at( player_character.pos_bub() );
     vehicle *veh;
     if( vpart_opt.has_value() ) {
         veh = &vpart_opt->vehicle();
@@ -1627,7 +1633,7 @@ void sfx::do_danger_music()
     prev_hostiles = hostiles;
 }
 
-void sfx::do_sleepiness()
+void sfx::do_low_stamina_sfx()
 {
     if( test_mode ) {
         return;
@@ -1642,48 +1648,48 @@ void sfx::do_sleepiness()
     16: Stamina 50%
     17: Stamina 25%*/
     if( player_character.get_stamina() >= player_character.get_stamina_max() * .75 ) {
-        fade_audio_group( group::sleepiness, 2000 );
+        fade_audio_group( group::low_stamina, 2000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_m_low", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_low", seas_str, indoors,
                                     night, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_m_med", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_med", seas_str, indoors,
                                     night, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_m_high", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_m_high", seas_str, indoors,
                                     night, 100, channel::stamina_35, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .74 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .5 &&
                !player_character.male && !is_channel_playing( channel::stamina_75 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_f_low", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_low", seas_str, indoors,
                                     night, 100, channel::stamina_75, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .49 &&
                player_character.get_stamina() >= player_character.get_stamina_max() * .25 &&
                !player_character.male && !is_channel_playing( channel::stamina_50 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_f_med", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_med", seas_str, indoors,
                                     night, 100, channel::stamina_50, 1000 );
         return;
     } else if( player_character.get_stamina() <= player_character.get_stamina_max() * .24 &&
                player_character.get_stamina() >= 0 && !player_character.male &&
                !is_channel_playing( channel::stamina_35 ) ) {
-        fade_audio_group( group::sleepiness, 1000 );
-        play_ambient_variant_sound( "plmove", "sleepiness_f_high", seas_str, indoors,
+        fade_audio_group( group::low_stamina, 1000 );
+        play_ambient_variant_sound( "plmove", "fatigue_f_high", seas_str, indoors,
                                     night, 100, channel::stamina_35, 1000 );
         return;
     }
@@ -1834,7 +1840,7 @@ void sfx::do_footstep()
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
         };
 
-        auto veh_displayed_part = get_map().veh_at( player_character.pos() ).part_displayed();
+        auto veh_displayed_part = get_map().veh_at( player_character.pos_bub() ).part_displayed();
 
         const season_type seas = season_of_year( calendar::turn );
         const std::string seas_str = season_str( seas );
@@ -2031,7 +2037,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
 void sfx::stop_sound_effect_fade( channel, int ) { }
 void sfx::stop_sound_effect_timed( channel, int ) { }
 void sfx::do_player_death_hurt( const Character &, bool ) { }
-void sfx::do_sleepiness() { }
+void sfx::do_low_stamina_sfx() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
                               const std::optional<bool> &, const std::optional<bool> &, int ) { }
@@ -2053,6 +2059,11 @@ int sfx::get_heard_volume( const tripoint &source )
     }
     heard_volume *= g_sfx_volume_multiplier;
     return heard_volume;
+}
+
+int sfx::get_heard_volume( const tripoint_bub_ms &source )
+{
+    return sfx::get_heard_volume( source.raw() );
 }
 
 units::angle sfx::get_heard_angle( const tripoint &source )

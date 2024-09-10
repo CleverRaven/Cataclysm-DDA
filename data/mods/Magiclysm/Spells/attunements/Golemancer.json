@@ -29,7 +29,7 @@
     "min_range": 3,
     "max_range": 3,
     "components": "summon_golem",
-    "extra_effects": [ { "id": "summon_golem_focus" }, { "id": "eoc_summon_setup" } ],
+    "extra_effects": [ { "id": "summon_golem_focus" }, { "id": "eoc_summon_setup", "hit_self": true } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ]
   },
   {
@@ -60,7 +60,7 @@
     "shape": "blast",
     "valid_targets": [ "hostile" ],
     "flags": [ "LOUD", "VERBAL", "SOMATIC", "MUST_HAVE_CLASS_TO_LEARN", "NO_HANDS" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
+    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "spell_class": "GOLEMANCER",
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(5, 0.2)" ] },
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(16, 0.5)" ] },

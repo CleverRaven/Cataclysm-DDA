@@ -73,6 +73,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "gene_sting",
+    "name": "yugg stinger",
+    "default": "gene_sting_barb"
+  },
+  {
+    "type": "ammunition_type",
     "id": "BB",
     "name": "BBs",
     "default": "bb"
@@ -445,6 +451,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "crude_oil",
+    "name": "crude oil",
+    "default": "crude_oil"
+  },
+  {
+    "type": "ammunition_type",
     "id": "thread",
     "name": "thread",
     "default": "thread"
@@ -466,6 +478,12 @@
     "id": "tape",
     "name": "duct tape",
     "default": "duct_tape"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "superglue",
+    "name": "super glue",
+    "default": "super_glue"
   },
   {
     "type": "ammunition_type",

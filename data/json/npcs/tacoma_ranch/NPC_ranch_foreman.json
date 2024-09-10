@@ -21,7 +21,7 @@
     },
     "responses": [
       {
-        "text": "[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you.",
+        "text": "The merchant at the Refugee Center sent me to get a prospectus from you.",
         "topic": "TALK_RANCH_FOREMAN_PROSPECTUS",
         "condition": { "and": [ { "u_has_mission": "MISSION_FREE_MERCHANTS_EVAC_3" }, { "not": { "u_has_effect": "has_prospectus" } } ] }
       },
@@ -42,13 +42,16 @@
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } ]
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
+          ]
         }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
-        "condition": { "not": { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } }
+        "condition": { "not": { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -72,17 +75,14 @@
     "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ],
       "no": {
-        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ],
         "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
         "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
       },
       "yes": {
-        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ],
         "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
         "yes": "I'm afraid I don't have anything to offer."
       }
@@ -93,8 +93,10 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
+            }
           ]
         }
       },
@@ -103,8 +105,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "and": [
-            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
-            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
           ]
         }
       },
@@ -171,12 +173,12 @@
       "update_mapgen": [
         {
           "om_terrain": "ranch_camp_65",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
         },
         {
           "om_terrain": "ranch_camp_66",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [
             { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },
             { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 13, "y": 0 },
@@ -185,12 +187,12 @@
         },
         {
           "om_terrain": "ranch_camp_74",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
         },
         {
           "om_terrain": "ranch_camp_75",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [
             { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },
             { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 13, "y": 0 },
@@ -204,11 +206,18 @@
     "id": "MISSION_RANCH_FOREMAN_2",
     "type": "mission_definition",
     "name": { "str": "Find 25 Blankets" },
-    "goal": "MGOAL_FIND_ITEM",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "u_has_items_sum": [
+        { "item": "blanket", "amount": 25 },
+        { "item": "fur_blanket", "amount": 25 },
+        { "item": "down_blanket", "amount": 25 },
+        { "item": "blanket_weighted", "amount": 25 },
+        { "item": "electric_blanket", "amount": 25 }
+      ]
+    },
     "difficulty": 5,
     "value": 50000,
-    "item": "blanket",
-    "count": 25,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_3",
     "dialogue": {
@@ -261,6 +270,17 @@
           ],
           "place_npcs": [ { "class": "ranch_construction_2", "x": 19, "y": 8 } ]
         }
+      ],
+      "effect": [
+        {
+          "u_consume_item_sum": [
+            { "item": "blanket", "amount": 25 },
+            { "item": "fur_blanket", "amount": 25 },
+            { "item": "down_blanket", "amount": 25 },
+            { "item": "blanket_weighted", "amount": 25 },
+            { "item": "electric_blanket", "amount": 25 }
+          ]
+        }
       ]
     }
   },
@@ -291,7 +311,7 @@
         {
           "om_terrain": "ranch_camp_46",
           "//": "tilled soil in the fields",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 7, "y": 4, "x2": 22, "y2": 23 },
             { "square": "terrain", "id": "t_dirtmound", "x": 8, "y": 5, "x2": 9, "y2": 22 },
@@ -301,7 +321,7 @@
         {
           "om_terrain": "ranch_camp_55",
           "//": "tilled soil in the fields",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 7, "y": 0, "x2": 22, "y2": 18 },
             { "square": "terrain", "id": "t_dirtmound", "x": 8, "y": 2, "x2": 9, "y2": 17 },
@@ -310,7 +330,7 @@
         },
         {
           "om_terrain": "ranch_camp_56",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [ { "vehicle": "hippie_van", "x": 13, "y": 19, "rotation": 270, "chance": 100, "faction": "tacoma_commune" } ]
         },
         {
@@ -325,20 +345,20 @@
   {
     "id": "MISSION_RANCH_FOREMAN_4",
     "type": "mission_definition",
-    "name": { "str": "Gather 300 Salt" },
+    "name": { "str": "Gather 30lb Salt" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "salt",
-    "count": 300,
+    "count": 3888,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up, but the only thing they are willing to trade it for is salt.  I negotiated them down from 500 units to 300… we were hoping you might have access to a source.",
+      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up, but the only thing they are willing to trade it for is salt.  I negotiated them down from 50 lbs to 30… we were hoping you might have access to a source.",
       "accepted": "Salt is key to preserving meat and other perishables… without any excess food it wouldn't do us much good now, but I imagine we'll need to send you out to get more in the future.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "If you can find a source of salt water you should be able to boil it down.",
+      "advice": "If you can find a source of salt water you should be able to boil it down.  Alternatively, you can go into the cities and search restaurants.",
       "inquire": "Do you have the salt?",
       "success": "We are going to begin preparing our fields immediately.",
       "success_lie": "What good does this do us?",
@@ -373,17 +393,17 @@
         },
         {
           "om_terrain": "ranch_camp_57",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_npcs": [ { "class": "ranch_crop_overseer", "x": 12, "y": 7 } ]
         },
         {
           "om_terrain": "ranch_camp_58",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_nested": [ { "chunks": [ "tacoma_commune_lumbermill_4" ], "x": 0, "y": 2 } ]
         },
         {
           "om_terrain": "ranch_camp_67",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [ { "square": "terrain", "id": "t_palisade", "x": 21, "y": 19, "x2": 23, "y2": 19 } ]
         }
       ]
@@ -392,17 +412,17 @@
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
-    "name": { "str": "Gather 30 Liquid Fertilizer" },
+    "name": { "str": "Gather 30 Bottles of Liquid Fertilizer" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "fertilizer_liquid",
-    "count": 30,
+    "count": 120,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_6",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Well, our first crop will be planted shortly, but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop, our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output.",
+      "offer": "Well, our first crop will be planted shortly, but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop, our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 120 units or 30 full bottles to make a significant improvement in our output.",
       "accepted": "I don't know the exact recipe, but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "I'd look through a few basic chemistry books to find a simple recipe.",
@@ -607,7 +627,7 @@
     "followup": "MISSION_RANCH_FOREMAN_10_1",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities, I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse, I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 5 gallon jugs of bleach so we can get started.",
+      "offer": "Disease and infection remains a persistent problem among the refugees.  Without dedicated medical personnel and facilities, I doubt everyone will be willing to stick around when the next outbreak happens.  Until we can get a former medic or nurse, I'm just going to have to improvise.  Sterilization would be the first step I imagine.  Bring me 150 units of bleach so we can get started.",
       "accepted": "I'm sure you can find bleach in most homes…",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "If you can't find a large supply I'd recommend checking hospitals or research labs.",
@@ -657,7 +677,7 @@
     },
     "end": {
       "update_mapgen": [
-        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_1" ], "x": 3, "y": 0 } ] }
+        { "om_terrain": "ranch_camp_59", "place_nested": [ { "chunks": [ "tacoma_commune_clinic_10_1" ], "x": 2, "y": 0 } ] }
       ]
     }
   },
@@ -740,7 +760,7 @@
         },
         {
           "om_terrain": "ranch_camp_69",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "set": [ { "square": "terrain", "id": "t_palisade", "x": 0, "y": 12, "x2": 2, "y2": 12 } ],
           "place_vehicles": [
             { "vehicle": "car_chassis", "chance": 100, "rotation": 0, "x": 3, "y": 14, "faction": "tacoma_commune" },
@@ -785,7 +805,7 @@
         },
         {
           "om_terrain": "ranch_camp_69",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [
             { "vehicle": "cube_van", "chance": 100, "rotation": 180, "x": 13, "y": 15, "faction": "tacoma_commune" },
             { "vehicle": "car_sports", "chance": 100, "rotation": 0, "x": 21, "y": 14, "faction": "tacoma_commune" }
@@ -826,7 +846,7 @@
         { "om_terrain": "ranch_camp_66", "place_npcs": [ { "class": "ranch_barber", "x": 5, "y": 3 } ] },
         {
           "om_terrain": "ranch_camp_70",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [ { "vehicle": "car_sports", "chance": 100, "rotation": 90, "x": 9, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
@@ -866,7 +886,7 @@
         },
         {
           "om_terrain": "ranch_camp_61",
-          "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
+          "place_ter_furn_transforms": [ { "transform": "cut_foliage", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
           "place_vehicles": [ { "vehicle": "ambulance", "chance": 100, "rotation": 270, "x": 13, "y": 2, "faction": "tacoma_commune" } ]
         }
       ]
@@ -908,12 +928,12 @@
   {
     "id": "MISSION_RANCH_FOREMAN_16",
     "type": "mission_definition",
-    "name": { "str": "Gather 80 Sugar" },
+    "name": { "str": "Gather 80lb Sugar" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "sugar",
-    "count": 80,
+    "count": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_17",
     "dialogue": {
@@ -921,7 +941,7 @@
       "offer": "Just flipping through the book, I can tell that one ingredient in most of the alcoholic drinks that we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't going to last us long, so starting our first large batch is a priority.  Could you bring in 80 units of sugar?  That should last us until we can start producing our own supply.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "You might get lucky finding it, but you could always boil it out of fruit if you are familiar with the process.",
+      "advice": "You might get lucky finding it, but you could always boil it out of fruit if you are familiar with the process.  Or go into the cities and look in restaurants and bakeries.",
       "inquire": "Do you have the sugar?",
       "success": "There is a large group of thirsty individuals in our outpost that are truly thankful for your work.",
       "success_lie": "What good does this do us?",

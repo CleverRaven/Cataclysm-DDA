@@ -17,14 +17,13 @@
     "weight": "96 g",
     "volume": "80 ml",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "range": 8,
     "dispersion": 150,
     "durability": 6,
     "clip_size": 1,
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   },
   {
     "id": "slingshot",
@@ -43,7 +42,6 @@
     "weight": "254 g",
     "volume": "250 ml",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": 3 },
     "range": 5,
     "dispersion": 75,
@@ -51,7 +49,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel mount", 1 ], [ "stock mount", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   },
   {
     "id": "staff_sling",
@@ -91,7 +89,7 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "bore", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 }, "open_container": true } ],
     "melee_damage": { "bash": 16 }
   },
   {
@@ -111,7 +109,6 @@
     "weight": "322 g",
     "volume": "500 ml",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -2,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
     "range": 8,
     "dispersion": 45,
@@ -119,6 +116,6 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel mount", 1 ] ],
     "reload": 50,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pebble": 1 }, "open_container": true } ]
   }
 ]

@@ -128,6 +128,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_turn_off_powers",
+    "//": "This exists to trigger EoCs or as a rider on other psi effects",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_psi_neutralized",
     "name": [ "Neutralized" ],
     "//": "Same as above but it also cancels all active psionic buffs on the target.  Should be used very rarely.",
@@ -205,6 +213,7 @@
       "effect_telepathic_morale",
       "effect_telepath_invisibility",
       "effect_telepath_network_effect",
+      "effect_teleport_ephemeral_walk",
       "effect_teleport_stride",
       "effect_vita_health",
       "effect_vitakin_purge_rads",
@@ -244,6 +253,16 @@
     "max_intensity": 10,
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "str_mod": [ -1.2 ], "dex_mod": [ -1.2 ] },
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "MELEE_STAMINA_CONSUMPTION",
+            "multiply": { "math": [ "-0.15 - ( u_vitamin('vitamin_psionic_drain') * -0.01)" ] }
+          }
+        ]
+      }
+    ],
     "limb_score_mods": [
       { "limb_score": "lift", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
       { "limb_score": "grip", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
@@ -290,10 +309,11 @@
     "apply_message": "Your limbs twitch involuntarily!",
     "remove_message": "The twitching stops",
     "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "SLEEPY", "add": { "math": [ "-0.1 * ( u_vitamin('vitamin_psionic_drain'))" ] } } ] } ],
     "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
       { "limb_score": "grip", "modifier": 0.8 },
-      { "limb_score": "block", "modifier": 0.9 }
+      { "limb_score": "block", "modifier": 0.8 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -346,9 +366,21 @@
     "remove_message": "The air feels much cooler now.",
     "rating": "bad",
     "base_mods": { "per_mod": [ -2 ], "health_min": [ -1 ], "health_chance": [ 25 ] },
-    "enchantments": [ "enchant_pyrokin_fever" ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": { "math": [ "-15 - ( u_vitamin('vitamin_psionic_drain') / 10)" ] } } ]
+      },
+      { "values": [ { "value": "SWEAT_MULTIPLIER", "multiply": 5 } ] }
+    ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.7 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_pyrokin_fever_burning",
+    "name": [ "Burning" ],
+    "desc": [ "The air around you is overheating!" ],
+    "enchantments": [ "enchant_pyrokin_fever" ]
   },
   {
     "type": "effect_type",
@@ -360,6 +392,16 @@
     "remove_message": "With a jolt, you feel more solid again.",
     "rating": "bad",
     "enchantments": [ "enchant_riftwalker_teleport" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_teleporter_overload",
+    "name": [ "Warped Space" ],
+    "desc": [ "Nothing is quite where it seems to be." ],
+    "apply_message": "Your vision doesn't agree with where things seem to actually be",
+    "remove_message": "Distances resolve themselves again.",
+    "rating": "bad",
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 }, { "value": "MOVE_COST", "multiply": 0.33 } ] } ]
   },
   {
     "type": "effect_type",
@@ -379,7 +421,7 @@
     "remove_message": "The oppressive weight vanishes.",
     "rating": "bad",
     "max_intensity": 10,
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 }, { "value": "MOVE_COST", "multiply": 1.5 } ] } ],
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.75 }, { "value": "MOVE_COST", "multiply": 0.5 } ] } ],
     "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.7 }, { "limb_score": "reaction", "modifier": 0.7 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -394,6 +436,12 @@
     "max_intensity": 10,
     "base_mods": { "sleepiness_tick": [ 300 ], "sleepiness_min": [ 1 ], "health_min": [ -1 ], "health_tick": [ 400 ] },
     "scaling_mods": { "sleepiness_min": [ 1 ], "health_min": [ -1 ] },
+    "enchantments": [
+      {
+        "values": [ { "value": "REGEN_HP", "multiply": { "math": [ "-0.125 - ( u_vitamin('vitamin_psionic_drain') * -0.0035)" ] } } ]
+      },
+      { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.5 } ] }
+    ],
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.8 }, { "limb_score": "manip", "modifier": 0.8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
