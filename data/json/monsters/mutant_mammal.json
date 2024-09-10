@@ -145,7 +145,7 @@
       { "id": "scratch_grab_required" }
     ],
     "stomach_size": 500,
-    "reproduction": { "baby_monster": "mon_coyote_pup_mutant_shark", "baby_count": 4, "baby_timer": 63 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_coyote_pup_mutant_shark" }, "baby_count": 4, "baby_timer": 63 },
     "harvest": "dog_with_skull_fur_mutant",
     "path_settings": { "max_dist": 7 }
   },
@@ -169,7 +169,7 @@
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "path_settings": { "max_dist": 7 },
-    "reproduction": { "baby_monster": "mon_coyote_pup_mutant_venom", "baby_count": 4, "baby_timer": 63 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_coyote_pup_mutant_venom" }, "baby_count": 4, "baby_timer": 63 },
     "harvest": "dog_with_skull_fur_mutant",
     "extend": { "flags": [ "BADVENOM" ] }
   },
