@@ -65,12 +65,7 @@
       ]
     },
     "effect": [ { "math": [ "u_val('morale')", "=", "0" ] } ],
-    "false_effect": [
-      {
-        "u_message": "You are already in the mindset of stone.  Patient and eternal.",
-        "type": "mixed"
-      }
-    ]
+    "false_effect": [ { "u_message": "You are already in the mindset of stone.  Patient and eternal.", "type": "mixed" } ]
   },
   {
     "type": "effect_on_condition",
