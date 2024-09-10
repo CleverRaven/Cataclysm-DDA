@@ -7812,7 +7812,7 @@
       "both": {
         "items": [ "dress_shoes", "socks", "pants", "wristwatch", "file", "dress_shirt" ],
         "entries": [
-          { "group": "charged_smart_phone" },
+          { "group": "charged_smart_phone" }
         ]
       },
       "male": [ "boxer_briefs" ],
@@ -7831,7 +7831,7 @@
       "both": {
         "items": [ "dress_shirt", "jeans", "socks", "boots_steel", "wristwatch" ],
         "entries": [
-          { "group": "charged_smart_phone" },
+          { "group": "charged_smart_phone" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -7852,13 +7852,12 @@
           "pants",
           "tshirt_text",
           "socks",
-		  "dress_shoes"
+		  "dress_shoes",
           "caffeine",
           "caff_gum",
           "usb_drive"
         ],
         "entries": [
-          { "item": },
           { "group": "charged_smart_phone" },
           { "group": "charged_laptop" }
         ]
@@ -7874,14 +7873,14 @@
     "description": "You know your way around the periodic table and you can name fifty industrial processes that involve sulfur in some way, but that did not prevent the prospect of employment from looking bleak for you. Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
     "points": 2,
     "skills": [
-      { "level": 4, "name": "chemistry" },
+      { "level": 4, "name": "chemistry" }
     ],
     "proficiencies": [ "prof_intro_chemistry", "prof_intro_biology", "prof_chemical_engineering" ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
         "entries": [
-          { "group": "charged_smart_phone" },
+          { "group": "charged_smart_phone" }
         ]
       },
       "male": [ "briefs" ],
