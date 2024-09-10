@@ -2035,7 +2035,7 @@
     "name": [ "Hidden from Mortal Eyes" ],
     "desc": [ "They could have sworn you were there a moment ago." ],
     "rating": "good",
-    "flags": [ "INVISIBLE" ]
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
   },
   {
     "type": "effect_type",

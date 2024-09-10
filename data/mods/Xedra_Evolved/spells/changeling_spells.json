@@ -35,8 +35,8 @@
     "effect": "attack",
     "effect_str": "effect_changeling_invisibility",
     "shape": "blast",
-    "min_duration": { "math": [ "(u_val('intelligence') * 200) + (u_skill('deduction') * 400) + 2600" ] },
-    "max_duration": { "math": [ "(u_val('intelligence') * 600) + (u_skill('deduction') * 1200) + 12000" ] },
+    "min_duration": { "math": [ "(u_val('intelligence') * 200) + (u_skill('deduction') * 500) + 2600" ] },
+    "max_duration": { "math": [ "(u_val('intelligence') * 650) + (u_skill('deduction') * 1200) + 13900" ] },
     "energy_source": "MANA",
     "base_energy_cost": 450,
     "base_casting_time": 150
