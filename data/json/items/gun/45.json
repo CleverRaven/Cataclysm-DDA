@@ -206,7 +206,6 @@
       "fault_gun_dirt",
       "fault_gun_chamber_spent",
       "fault_fail_to_feed",
-      "fault_stovepipe",
       "fault_double_feed"
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ],
@@ -347,7 +346,6 @@
       "fault_gun_dirt",
       "fault_gun_chamber_spent",
       "fault_fail_to_feed",
-      "fault_stovepipe",
       "fault_double_feed"
     ],
     "pocket_data": [
@@ -534,7 +532,6 @@
       "fault_gun_dirt",
       "fault_gun_chamber_spent",
       "fault_fail_to_feed",
-      "fault_stovepipe",
       "fault_double_feed"
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "greasegun30mag" ] } ],
