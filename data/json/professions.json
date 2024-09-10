@@ -7810,7 +7810,7 @@
     "skills": [ { "level": 4, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "dress_shoes", "socks", "pants", "wristwatch", "file", "dress_shirt" ],
+        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "file" ],
         "entries": [
           { "group": "charged_smart_phone" }
         ]
