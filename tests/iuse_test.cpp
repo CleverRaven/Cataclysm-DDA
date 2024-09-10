@@ -45,7 +45,7 @@ static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 
-static const furn_str_id furn_f_toilet("f_toilet");
+static const furn_str_id furn_f_toilet( "f_toilet" );
 
 static const itype_id itype_55gal_drum( "55gal_drum" );
 static const itype_id itype_albuterol( "albuterol" );
@@ -62,7 +62,7 @@ static const itype_id itype_water_purifying( "water_purifying" );
 
 static const morale_type morale_wet( "morale_wet" );
 
-static const ter_str_id ter_t_grass("t_grass");
+static const ter_str_id ter_t_grass( "t_grass" );
 
 TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
 {

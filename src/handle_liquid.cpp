@@ -379,7 +379,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
     switch( target.dest_opt ) {
         case LD_CONSUME:
             if( source_pos ) {
-                liquid_loc = item_location( map_cursor( tripoint_bub_ms(*source_pos) ), &liquid );
+                liquid_loc = item_location( map_cursor( tripoint_bub_ms( *source_pos ) ), &liquid );
             } else if( source_veh ) {
                 liquid_loc = item_location( vehicle_cursor( *source_veh, part_num ), &liquid );
             } else {

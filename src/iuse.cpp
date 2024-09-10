@@ -2516,7 +2516,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     // Try to match crafting recipe at 5m for 1, 90% batch time savings:
     int req_moves = to_moves<int>( 5_minutes );
     req_moves = req_moves * 0.1 * to_consume_f;
-    p->mod_moves(-req_moves);
+    p->mod_moves( -req_moves );
 
     for( item *water : liquids ) {
         water->convert( itype_water_purifying, p ).poison = 0;
