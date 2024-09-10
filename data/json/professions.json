@@ -7806,7 +7806,7 @@
     "name": "Electrical Engineer",
     "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder at a time. Now, you are not even sure if the complete failure of the powergrid makes your field obsolete or all the more necessary.",
     "points": 2,
-    "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits", "prof_electromagnetics" ],
+    "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits", "prof_electromagnetics", "prof_elec_semiconductors" ],
     "skills": [ { "level": 4, "name": "electronics" } ],
     "items": {
       "both": {
@@ -7843,7 +7843,7 @@
     "id": "engineer_comp",
     "name": "Computer Engineer",
     "description": "Computers are your bread and butter, and you know them just like the back of your hand. Unfortunately, the power has gone out and your laptop's internal battery can only last so long, but the Cataclysm may finally provide you with a much needed respite from having to insist that you are not a hacker.",
-	"proficiencies": [ "prof_elec_circuits", "prof_elec_integrated_circuits", "prof_elec_soldering" ],
+	"proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits" ],
     "points": 2,
     "skills": [ { "level": 4, "name": "computer" } ],
     "items": {
@@ -7875,7 +7875,7 @@
     "skills": [
       { "level": 4, "name": "chemistry" }
     ],
-    "proficiencies": [ "prof_intro_chemistry", "prof_intro_biology", "prof_chemical_engineering" ],
+    "proficiencies": [ "prof_intro_chemistry", "prof_chemical_engineering" ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
