@@ -173,6 +173,7 @@ static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
@@ -8122,6 +8123,53 @@ std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+
+void wait_stamina_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void wait_stamina_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    if( stamina_threshold != -1 ) {
+        // Record intial stamina only when waiting until a given threshold.
+        initial_stamina = you.get_stamina();
+    }
+
+    int stamina_max = stamina_threshold == -1 ? you.get_stamina_max() : stamina_threshold;
+    if( you.get_stamina() >= stamina_max ) {
+        finish( act, you );
+    }
+}
+
+void wait_stamina_activity_actor::finish( player_activity &act, Character &you )
+{
+    if( stamina_threshold != -1 ) {
+        const int stamina_initial = initial_stamina != -1 ? initial_stamina : you.get_stamina();
+        if( you.get_stamina() < stamina_threshold && you.get_stamina() <= stamina_initial ) {
+            debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
+                      act.values.front(), you.get_stamina() );
+        }
+    } else if( you.get_stamina() < you.get_stamina_max() ) {
+        you.add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
+    } else {
+        you.add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
+    }
+    act.set_to_null();
+}
+
+void wait_stamina_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> wait_stamina_activity_actor::deserialize( JsonValue & )
+{
+    return wait_stamina_activity_actor().clone();
+}
+
+
 namespace activity_actors
 {
 
@@ -8187,6 +8235,7 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
+    { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
     { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },

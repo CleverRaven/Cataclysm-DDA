@@ -171,7 +171,6 @@ static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const ammotype ammo_battery( "battery" );
@@ -297,7 +296,6 @@ activity_handlers::do_turn_functions = {
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn },
-    { ACT_WAIT_STAMINA, wait_stamina_do_turn },
     { ACT_MULTIPLE_CRAFT, multiple_craft_do_turn },
     { ACT_MULTIPLE_DIS, multiple_dis_do_turn },
     { ACT_MULTIPLE_READ, multiple_read_do_turn },
@@ -337,7 +335,6 @@ activity_handlers::finish_functions = {
     { ACT_WAIT, wait_finish },
     { ACT_WAIT_WEATHER, wait_weather_finish },
     { ACT_WAIT_NPC, wait_npc_finish },
-    { ACT_WAIT_STAMINA, wait_stamina_finish },
     { ACT_SOCIALIZE, socialize_finish },
     { ACT_OPERATION, operation_finish },
     { ACT_VIBE, vibe_finish },
@@ -3114,38 +3111,6 @@ void activity_handlers::find_mount_do_turn( player_activity *act, Character *you
 void activity_handlers::wait_npc_finish( player_activity *act, Character *you )
 {
     you->add_msg_if_player( _( "%s finishes with you…" ), act->str_values[0] );
-    act->set_to_null();
-}
-
-void activity_handlers::wait_stamina_do_turn( player_activity *act, Character *you )
-{
-    int stamina_threshold = you->get_stamina_max();
-    if( !act->values.empty() ) {
-        stamina_threshold = act->values[0];
-        // remember initial stamina, only for waiting-with-threshold
-        if( act->values.size() == 1 ) {
-            act->values.push_back( you->get_stamina() );
-        }
-    }
-    if( you->get_stamina() >= stamina_threshold ) {
-        wait_stamina_finish( act, you );
-    }
-}
-
-void activity_handlers::wait_stamina_finish( player_activity *act, Character *you )
-{
-    if( !act->values.empty() ) {
-        const int stamina_threshold = act->values[0];
-        const int stamina_initial = ( act->values.size() > 1 ) ? act->values[1] : you->get_stamina();
-        if( you->get_stamina() < stamina_threshold && you->get_stamina() <= stamina_initial ) {
-            debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
-                      act->values.front(), you->get_stamina() );
-        }
-    } else if( you->get_stamina() < you->get_stamina_max() ) {
-        you->add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
-    } else {
-        you->add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
-    }
     act->set_to_null();
 }
 

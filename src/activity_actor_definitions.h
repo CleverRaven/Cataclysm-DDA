@@ -2220,4 +2220,35 @@ class pulp_activity_actor : public activity_actor
         bool pulp_acid;
 };
 
+class wait_stamina_activity_actor : public activity_actor
+{
+
+    public:
+        // Wait until stamina is at the maximum.
+        wait_stamina_activity_actor() = default;
+
+        // If we're given a threshold, wait until stamina is at least this value.
+        explicit wait_stamina_activity_actor( int stamina_threshold ) : stamina_threshold(
+                stamina_threshold ) {};
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_WAIT_STAMINA" );
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_stamina_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int stamina_threshold = -1;
+        int initial_stamina = -1;
+};
+
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
