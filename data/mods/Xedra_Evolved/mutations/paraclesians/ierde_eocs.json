@@ -42,7 +42,7 @@
         }
       ]
     },
-    "effect": [ { "u_add_morale": { "math": [ "u_val('morale')", "0" ] } } ],
+    "effect": [ { "math": [ "u_val('morale')", "=", "0" ] } ],
     "false_effect": [
       {
         "u_message": "You are already in the mindset of stone.  Patient and eternal.",
