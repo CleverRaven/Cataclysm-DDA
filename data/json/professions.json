@@ -7817,9 +7817,7 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "file" ],
-        "entries": [
-          { "group": "charged_smart_phone" }
-        ]
+        "entries": [ { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
