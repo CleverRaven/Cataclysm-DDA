@@ -7863,9 +7863,7 @@
     "name": "Chemical Engineer",
     "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you. Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
     "points": 2,
-    "skills": [
-      { "level": 5, "name": "chemistry" }
-    ],
+    "skills": [ { "level": 5, "name": "chemistry" } ],
     "proficiencies": [ "prof_intro_chemistry", "prof_chemical_engineering" ],
     "items": {
       "both": {
