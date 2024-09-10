@@ -117,6 +117,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "HOTPLATE",
+    "name": { "str": "hotplate" }
+  },
+  {
+    "type": "tool_quality",
     "id": "BOIL",
     "name": { "str": "boiling" }
   },
@@ -309,6 +314,17 @@
     "name": { "str": "chromatography" },
     "//": "Think of this as 'fine separating'. Chromatography represents a number of precise separation techniques",
     "//2": "useful in both analysis and purification."
+  },
+  {
+    "type": "tool_quality",
+    "id": "LUTHIER",
+    "name": { "str": "luthier" },
+    "//": "Tools specifically for turning wood into musical instruments.  Used for a complete tool kit of objects required for this process."
+  },
+  {
+    "type": "tool_quality",
+    "id": "SNOW_MAKING",
+    "name": { "str": "snow making" }
   },
   {
     "type": "tool_quality",

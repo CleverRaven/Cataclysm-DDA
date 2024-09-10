@@ -217,6 +217,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -241,6 +242,7 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 6,
     "time": "3 h",
+    "reversible": { "time": "5 m" },
     "autolearn": true,
     "qualities": [
       { "id": "PUNCH", "level": 1 },
@@ -539,23 +541,6 @@
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "long_pole", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "spear_survivor",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_CUTTING",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ "melee", 5 ],
-    "time": "20 m",
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 5 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
-    "components": [ [ [ "blade", 1 ] ], [ [ "spike", 1 ] ], [ [ "pipe", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   },
   {
     "type": "recipe",
@@ -860,14 +845,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
@@ -921,14 +899,7 @@
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick_long", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ]
     ]
   },
@@ -947,14 +918,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [
       [ [ "spear_shaft", 1 ] ],
-      [
-        [ "spike", 1 ],
-        [ "knife_steak", 1 ],
-        [ "knife_paring", 1 ],
-        [ "knife_folding", 1 ],
-        [ "scalpel", 1 ],
-        [ "xacto", 1 ]
-      ],
+      [ [ "spike", 1 ], [ "knife_small", 1 ], [ "knife_folding", 1 ], [ "scalpel", 1 ], [ "xacto", 1 ] ],
       [ [ "nails", 2, "LIST" ], [ "nuts_bolts", 2 ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
@@ -967,15 +931,14 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "time": "2 h",
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -1010,9 +973,8 @@
     "components": [
       [ [ "stick_long", 1 ], [ "long_pole", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -1067,9 +1029,8 @@
     "components": [
       [ [ "spear_shaft", 1 ] ],
       [
-        [ "knife_butcher", 1 ],
-        [ "knife_chef", 1 ],
-        [ "knife_carving", 1 ],
+        [ "knife_huge", 1 ],
+        [ "knife_large", 1 ],
         [ "knife_combat", 1 ],
         [ "knife_combat_army", 1 ],
         [ "knife_combat_marine", 1 ],
@@ -1466,16 +1427,10 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "fencing_foil_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "fencing_foil_sharpened", 1 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1489,16 +1444,10 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "fencing_epee_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "fencing_epee_sharpened", 1 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1512,16 +1461,10 @@
     "time": "2 h",
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "adhesive", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering" }, { "proficiency": "prof_shock_weapons" } ],
-    "components": [
-      [ [ "fencing_sabre_sharpened", 1 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ],
-      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "fencing_sabre_sharpened", 1 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "type": "recipe",

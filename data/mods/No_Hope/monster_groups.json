@@ -1,5 +1,62 @@
 [
   {
+    "name": "GROUP_NECROPOLIS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 899 },
+      { "monster": "mon_irradiated_wanderer_1", "weight": 90 },
+      { "monster": "mon_irradiated_wanderer_2", "weight": 10 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 1 }
+    ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_SEWERS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_irradiated_wanderer_1", "weight": 848 },
+      { "monster": "mon_irradiated_wanderer_2", "weight": 40 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 10 },
+      { "monster": "mon_irradiated_wanderer_4", "weight": 1 },
+      { "monster": "mon_charred_nightmare", "weight": 1 },
+      { "monster": "mon_centipede_giant", "weight": 100 }
+    ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_VAULT",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_irradiated_wanderer_1", "weight": 40 },
+      { "monster": "mon_irradiated_wanderer_2", "weight": 910 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 40 },
+      { "monster": "mon_irradiated_wanderer_4", "weight": 5 },
+      { "monster": "mon_charred_nightmare", "weight": 5 }
+    ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_VAULT2",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_irradiated_wanderer_2", "weight": 30 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 920 },
+      { "monster": "mon_irradiated_wanderer_4", "weight": 30 },
+      { "monster": "mon_charred_nightmare", "weight": 20 }
+    ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_VAULT3",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_irradiated_wanderer_4", "weight": 890 },
+      { "monster": "mon_irradiated_wanderer_3", "weight": 20 },
+      { "monster": "mon_charred_nightmare", "weight": 90 }
+    ]
+  },
+  {
+    "name": "GROUP_NECROPOLIS_SWIMMING",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_sewer_fish", "weight": 995 }, { "monster": "mon_irradiated_wanderer_2", "weight": 5 } ]
+  },
+  {
     "name": "GROUP_NECROPOLIS_ROBOT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0 } ]
@@ -20,6 +77,7 @@
   },
   {
     "type": "monstergroup",
+    "//": "Used in the military bunker",
     "name": "GROUP_MIL_BASE",
     "monsters": [
       { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
@@ -39,6 +97,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_MIL_STRONG",
+    "//": "Used in the military bunker, LIXA and Hub01 convoy ambush",
     "monsters": [
       { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
       { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
@@ -57,7 +116,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "name": "GROUP_NETHER_REALITY_TEAR_FIELD",
     "monsters": [ { "monster": "mon_staring_eye", "weight": 100, "cost_multiplier": 0 } ]
   },
   {

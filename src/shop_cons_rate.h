@@ -17,7 +17,7 @@ struct icg_entry {
     itype_id itype;
     item_category_id category;
     item_group_id item_group;
-    std::string message;
+    translation message;
 
     std::function<bool( dialogue & )> condition;
 

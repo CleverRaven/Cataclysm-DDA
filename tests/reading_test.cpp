@@ -12,7 +12,6 @@
 #include "item.h"
 #include "itype.h"
 #include "map_helpers.h"
-#include "morale_types.h"
 #include "player_helpers.h"
 #include "skill.h"
 #include "type_id.h"
@@ -25,6 +24,8 @@ static const efftype_id effect_darkness( "darkness" );
 static const flag_id json_flag_INSPIRATIONAL( "INSPIRATIONAL" );
 
 static const limb_score_id limb_score_vision( "vision" );
+
+static const morale_type morale_feeling_bad( "morale_feeling_bad" );
 
 static const skill_id skill_chemistry( "chemistry" );
 
@@ -363,7 +364,7 @@ TEST_CASE( "reasons_for_not_being_able_to_read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read boring books when your morale is too low" ) {
-            dummy.add_morale( MORALE_FEELING_BAD, -50, -100 );
+            dummy.add_morale( morale_feeling_bad, -50, -100 );
             REQUIRE_FALSE( dummy.has_morale_to_read() );
 
             CHECK( dummy.get_book_reader( *alpha, reasons ) == nullptr );

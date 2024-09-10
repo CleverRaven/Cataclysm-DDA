@@ -4,6 +4,7 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -18,9 +19,11 @@
 #include "mod_manager.h"
 #include "output.h"
 #include "string_formatter.h"
+#include "translation.h"
 #include "translations.h"
 #include "ui_manager.h"
 #include "viewer.h"
+#include "vpart_position.h"
 
 static const skill_id skill_survival( "survival" );
 

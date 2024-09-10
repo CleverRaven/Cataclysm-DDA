@@ -10,9 +10,9 @@
     "ammo": 50,
     "magazine": 100,
     "items": [
-      { "item": "lighter", "prob": 50, "charges-min": 0, "charges-max": 10 },
-      { "item": "matches", "prob": 50, "charges-min": 0, "charges-max": 20 },
-      { "item": "ref_matches", "prob": 50, "charges-min": 0, "charges-max": 32 },
+      { "item": "lighter", "prob": 50, "charges": [ 0, 10 ] },
+      { "item": "matches", "prob": 50, "charges": [ 0, 20 ] },
+      { "item": "ref_matches", "prob": 50, "charges": [ 0, 32 ] },
       { "prob": 20, "group": "cig_box_cigarette_1_5" },
       [ "plastic_shopping_bag", 50 ],
       [ "wrapper", 50 ],
@@ -72,6 +72,6 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count-min": 1, "count-max": 5 } ]
+    "entries": [ { "item": "cig", "container-item": "null", "count": [ 1, 5 ] } ]
   }
 ]

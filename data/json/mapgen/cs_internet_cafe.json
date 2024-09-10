@@ -44,10 +44,10 @@
         "g": "t_wall_glass_alarm",
         "G": "t_door_glass_c",
         "<": "t_stairs_up",
-        "4": "t_gutter_downspout",
-        "A": "t_atm"
+        "4": "t_gutter_downspout"
       },
       "furniture": {
+        "A": "f_atm_off",
         "P": "f_console_broken",
         "c": "f_displaycase",
         "C": "f_counter",

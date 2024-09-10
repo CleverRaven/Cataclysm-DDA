@@ -266,22 +266,7 @@
   },
   {
     "type": "recipe",
-    "result": "rifle_9mm",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_40",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rifle_44",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_45",
     "obsolete": true
   },
   {
@@ -291,37 +276,7 @@
   },
   {
     "type": "recipe",
-    "result": "rifle_380",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_32",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "rifle_9x18",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "rifle_223",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "triple_launcher_simple",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "launcher_simple",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "pipe_launcher40mm",
     "obsolete": true
   },
   {
@@ -1227,6 +1182,16 @@
   {
     "type": "recipe",
     "result": "bp_458wm",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ruger_1022_auto",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ruger_charger_auto",
     "obsolete": true
   }
 ]

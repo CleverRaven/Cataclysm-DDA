@@ -32,7 +32,6 @@
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
-      { "monster": "mon_zombie_bio_op2", "weight": 25, "cost_multiplier": 5, "starts": "60 days" },
       { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_feral_soldier", "weight": 15 }
     ]

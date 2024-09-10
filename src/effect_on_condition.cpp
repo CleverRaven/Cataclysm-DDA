@@ -1,14 +1,33 @@
 #include "effect_on_condition.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <list>
+#include <ostream>
+#include <queue>
+#include <set>
+
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "cata_variant.h"
 #include "character.h"
+#include "character_id.h"
 #include "condition.h"
+#include "creature.h"
+#include "debug.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "npctalk.h"
+#include "init.h"
+#include "mod_tracker.h"
+#include "npc.h"
+#include "output.h"
 #include "scenario.h"
+#include "string_formatter.h"
 #include "talker.h"
+#include "translations.h"
 #include "type_id.h"
 
 namespace io
@@ -56,7 +75,7 @@ void effect_on_conditions::check_consistency()
 {
 }
 
-void effect_on_condition::load( const JsonObject &jo, const std::string_view )
+void effect_on_condition::load( const JsonObject &jo, const std::string_view src )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "eoc_type", type, eoc_type::NUM_EOC_TYPES );
@@ -79,10 +98,10 @@ void effect_on_condition::load( const JsonObject &jo, const std::string_view )
         read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
-    true_effect.load_effect( jo, "effect" );
+    true_effect.load_effect( jo, "effect", std::string( src ) );
 
     if( jo.has_member( "false_effect" ) ) {
-        false_effect.load_effect( jo, "false_effect" );
+        false_effect.load_effect( jo, "false_effect", std::string( src ) );
         has_false_effect = true;
     }
 
@@ -98,7 +117,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string_view )
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
-        const std::string &src )
+        const std::string_view src )
 {
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );
@@ -298,7 +317,7 @@ bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) 
     if( require_callstack_check ) {
         d.amend_callstack( "EOC: " + id.str() );
         if( d.get_callstack().size() > 5000 ) {
-            if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
+            if( query_yn( string_format( _( "Possible infinite loop in EOC %s.  Stop execution?" ),
                                          id.str() ) ) ) {
                 return false;
             }

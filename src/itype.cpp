@@ -38,6 +38,8 @@ std::string enum_to_string<condition_type>( condition_type data )
     switch( data ) {
         case condition_type::FLAG:
             return "FLAG";
+        case condition_type::VITAMIN:
+            return "VITAMIN";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
         case condition_type::COMPONENT_ID_SUBSTRING:

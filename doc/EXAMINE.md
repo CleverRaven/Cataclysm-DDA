@@ -98,7 +98,7 @@ Integer (0 or greater).
 For cards with the `PRESERVE_SPAWN_OMT` flag, how many overmap tiles away a card can spawn and be accepted for this cardreader.
 For cards without the flag, this field is ignored.
 
-### `mapgen_id`
+#### `mapgen_id`
 Optional.
 String.
 Update mapgen ID to apply on opening the door.

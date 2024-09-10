@@ -222,5 +222,57 @@
       "sound_fail": "whump.",
       "items": [ { "item": "scrap_dreamdross", "count": [ 50, 80 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_homullus_translocator_location",
+    "name": "civilization",
+    "symbol": "+",
+    "description": "A part of one of the last bastions of civilization.  You could travel here in moments from any road you found yourself on.",
+    "color": "brown",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ierde_translocator_location",
+    "name": "living earth",
+    "symbol": "+",
+    "description": "The rock of the living earth.  You could travel here in moments as long as you are deep underground.",
+    "color": "light_gray",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sylph_translocator_location",
+    "name": "open to the sky",
+    "symbol": "+",
+    "description": "The rock of the living earth.  You could travel here in moments as long as you are high above the earth or surrounded by the blowing wind.",
+    "color": "white",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ierde_lithic_gaol_fang",
+    "name": "Rocky fang",
+    "description": "A thick, jagged spike of rock.",
+    "symbol": "|",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "color": "light_gray",
+    "coverage": 85,
+    "flags": [ "MINEABLE", "NOITEM", "TRANSPARENT", "BLOCKSDOOR", "PERMEABLE" ],
+    "bash": { "str_min": 20, "str_max": 50, "sound_fail": "smash!", "items": [ { "item": "rock", "count": [ 20, 100 ] } ] }
   }
 ]

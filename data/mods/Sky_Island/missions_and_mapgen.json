@@ -21,7 +21,7 @@
       { "u_add_trait": "awayfromhome" },
       { "math": [ "timeawayfromhome", "=", "0 - bonuspulses" ] },
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
-      { "run_eocs": [ "EOC_create_slaughter" ] },
+      { "run_eocs": [ "EOC_create_slaughter", "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
       {
         "switch": { "math": [ "bonusmissions" ] },
         "cases": [
@@ -1085,33 +1085,6 @@
     "method": "json",
     "update_mapgen_id": "mapgen_dummyplace",
     "//": "This is a stopgap.  If revert_location is called without a mapgen update, the game crashes.  So this is a blank map update that does nothing but still prevents the crash.  To be removed if the bug gets patched.",
-    "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ]
-    }
+    "object": {  }
   }
 ]

@@ -1,13 +1,19 @@
 #include "character_martial_arts.h"
 
+#include <algorithm>
+
 #include "action.h"
 #include "character.h"
 #include "color.h"
 #include "enums.h"
+#include "flexbuffer_json-inl.h"
+#include "flexbuffer_json.h"
 #include "json.h"
+#include "json_error.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "output.h"
+#include "translation.h"
 #include "translations.h"
 
 static const matype_id style_kicks( "style_kicks" );

@@ -116,6 +116,13 @@ void ImGui_ImplSDLRenderer2_NewFrame()
         ImGui_ImplSDLRenderer2_CreateDeviceObjects();
 }
 
+std::function<void(const ImFontGlyphToDraw &)> drawFallbackGlyphCallback;
+
+void ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback(std::function<void(const ImFontGlyphToDraw &)> func)
+{
+    drawFallbackGlyphCallback = func;
+}
+
 void ImGui_ImplSDLRenderer2_RenderDrawData(ImDrawData* draw_data)
 {
 	ImGui_ImplSDLRenderer2_Data* bd = ImGui_ImplSDLRenderer2_GetBackendData();
@@ -203,6 +210,14 @@ void ImGui_ImplSDLRenderer2_RenderDrawData(ImDrawData* draw_data)
                     uv, (int)sizeof(ImDrawVert),
                     cmd_list->VtxBuffer.Size - pcmd->VtxOffset,
                     idx_buffer + pcmd->IdxOffset, pcmd->ElemCount, sizeof(ImDrawIdx));
+            }
+
+            if(drawFallbackGlyphCallback)
+            {
+                for(const ImFontGlyphToDraw &glyphToDraw : cmd_list->FallbackGlyphs)
+                {
+                    drawFallbackGlyphCallback(glyphToDraw);
+                }
             }
         }
     }

@@ -1,21 +1,14 @@
 [
   {
-    "id": "afs_bio_precision_solderers",
-    "type": "bionic",
-    "name": { "str": "Precision Solderers" },
-    "description": "Your hands have been outfitted with precise soldering tools, wire cutters, and cable spools.  They're too small to use in most crafting, but in the absence of proper machinery, they're essential for creating bionics without better tools.",
-    "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "passive_pseudo_items": [ "afs_solderers_item" ]
+    "type": "bionic_migration",
+    "from": "afs_bio_precision_solderers",
+    "//": "remove after 0.I",
+    "to": "bio_tools"
   },
   {
-    "id": "afs_bio_wind_turbine",
-    "type": "bionic",
-    "name": { "str": "Wind Turbines" },
-    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
-    "occupied_bodyparts": [ [ "torso", 10 ] ],
-    "fuel_options": [ "wind" ],
-    "fuel_efficiency": 0.25,
-    "time": "1 s",
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "type": "bionic_migration",
+    "from": "afs_bio_wind_turbine",
+    "//": "remove after 0.I",
+    "to": "bio_torsionratchet"
   }
 ]

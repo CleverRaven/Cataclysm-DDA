@@ -144,7 +144,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POTION_FRUIT_ELDERBERRY",
-    "effect": [ { "math": [ "u_val('fatigue')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
     "type": "COMESTIBLE",
@@ -296,7 +296,7 @@
     "extend": { "flags": [ "NO_AUTO_CONSUME" ] },
     "use_action": {
       "type": "effect_on_conditions",
-      "description": "Eat the mayapple potion fruits.",
+      "description": "Eat the mayapple potion fruit.",
       "effect_on_conditions": [ "EOC_POTION_FRUIT_MAYAPPLE" ]
     }
   },

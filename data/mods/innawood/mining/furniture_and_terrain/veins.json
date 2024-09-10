@@ -19,6 +19,8 @@
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -38,6 +40,8 @@
     "symbol": "#",
     "color": "white",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -57,6 +61,8 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -76,6 +82,8 @@
     "symbol": "#",
     "color": "yellow",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -95,6 +103,8 @@
     "symbol": "#",
     "color": "light_red",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -114,6 +124,8 @@
     "symbol": "#",
     "color": "white",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -133,6 +145,8 @@
     "symbol": "#",
     "color": "yellow",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -152,6 +166,8 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -171,6 +187,8 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -190,6 +208,8 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {
@@ -209,6 +229,8 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE" ],
     "roof": "t_rock_floor",
     "bash": {

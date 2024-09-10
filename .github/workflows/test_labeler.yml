@@ -24,7 +24,7 @@ jobs:
         fi
     - name: Download success artifact from basic build
       if: ${{ github.event.workflow_run.name == 'General build matrix' }}
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v3.1.4
       with:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
@@ -33,7 +33,7 @@ jobs:
       id: set-basic-build-success
       run: echo "basic-build-success=$( cat basic-build )" >> $GITHUB_OUTPUT
     - name: Download pr id artifact
-      uses: dawidd6/action-download-artifact@v2
+      uses: dawidd6/action-download-artifact@v3.1.4
       with:
         workflow: ${{ github.event.workflow_run.name }}
         run_id: ${{ github.event.workflow_run.id }}
@@ -43,7 +43,7 @@ jobs:
       run: echo "pr-id=$( cat pull_request_id )" >> $GITHUB_OUTPUT
     - name: set-label
       if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.conclusion != 'skipped' || steps.set-basic-build-success.outputs.basic-build-success == 'true' }}
-      uses: actions/github-script@v6.3.3
+      uses: actions/github-script@v7
       with:
         script: |
             if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
@@ -58,7 +58,7 @@ jobs:
             }
     - name: remove-label
       if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.set-basic-build-success.outputs.basic-build-success != 'true' }}
-      uses: actions/github-script@v6.3.3
+      uses: actions/github-script@v7
       with:
         script: |
             if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {

@@ -1613,7 +1613,8 @@ void vehicles::finalize_prototypes()
                     blueprint.get_tools( vp ).emplace_back( it, calendar::turn );
                 }
                 if( pt.fuel ) {
-                    vp.ammo_set( pt.fuel, vp.ammo_capacity( pt.fuel->ammo->type ) );
+                    vp.ammo_set( pt.fuel,
+                                 pt.fuel->ammo ? vp.ammo_capacity( pt.fuel->ammo->type ) : vp.item_capacity( pt.fuel ) );
                 }
             }
 

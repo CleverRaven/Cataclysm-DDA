@@ -17,8 +17,8 @@
     "material": [ "rubber", "steel" ],
     "weight": "850 g",
     "volume": "500 ml",
-    "price": 1200,
-    "price_postapoc": 500
+    "price": "12 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "drivebelt_makeshift",
@@ -29,8 +29,8 @@
     "material": [ "cotton", "leather" ],
     "weight": "1250 g",
     "volume": "750 ml",
-    "price": 200,
-    "price_postapoc": 50
+    "price": "2 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "five-point_harness",
@@ -41,8 +41,8 @@
     "material": [ "nylon", "steel" ],
     "weight": "2204 g",
     "volume": "750 ml",
-    "price": 10000,
-    "price_postapoc": 5000
+    "price": "100 USD",
+    "price_postapoc": "50 USD"
   },
   {
     "id": "filter_air",
@@ -53,8 +53,8 @@
     "material": [ "plastic", "paper" ],
     "weight": "360 g",
     "volume": "500 ml",
-    "price": 1900,
-    "price_postapoc": 200
+    "price": "19 USD",
+    "price_postapoc": "2 USD"
   },
   {
     "id": "filter_air_makeshift",
@@ -65,20 +65,21 @@
     "material": [ "plastic", "paper" ],
     "weight": "480 g",
     "volume": "750 ml",
-    "price": 200,
-    "price_postapoc": 50
+    "price": "2 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "filter_liquid",
     "copy-from": "spare_part",
     "type": "GENERIC",
+    "//": "wix 51333",
     "name": { "str": "automotive filter" },
     "description": "A steel can containing filter paper designed for automotive use.",
     "material": [ "steel", "paper" ],
-    "weight": "480 g",
-    "volume": "500 ml",
-    "price": 1900,
-    "price_postapoc": 250
+    "weight": "644 g",
+    "volume": "1225 ml",
+    "price": "19 USD",
+    "price_postapoc": "2 USD 50 cent"
   },
   {
     "id": "filter_liquid_makeshift",
@@ -89,8 +90,8 @@
     "material": [ "steel", "paper" ],
     "weight": "690 g",
     "volume": "750 ml",
-    "price": 200,
-    "price_postapoc": 50
+    "price": "2 USD",
+    "price_postapoc": "50 cent"
   },
   {
     "id": "glowplug",
@@ -101,8 +102,8 @@
     "material": [ "plastic", "copper" ],
     "weight": "260 g",
     "volume": "250 ml",
-    "price": 2300,
-    "price_postapoc": 500
+    "price": "23 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "pump_complex",
@@ -113,8 +114,8 @@
     "material": [ "iron" ],
     "weight": "2800 g",
     "volume": "1250 ml",
-    "price": 28900,
-    "price_postapoc": 750,
+    "price": "289 USD",
+    "price_postapoc": "7 USD 50 cent",
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
@@ -126,8 +127,8 @@
     "material": [ "iron" ],
     "weight": "2400 g",
     "volume": "1 L",
-    "price": 1800,
-    "price_postapoc": 500
+    "price": "18 USD",
+    "price_postapoc": "5 USD"
   },
   {
     "id": "compressor",
@@ -139,8 +140,8 @@
     "weight": "7 kg",
     "volume": "3 L",
     "to_hit": -4,
-    "price": 10000,
-    "price_postapoc": 2000,
+    "price": "100 USD",
+    "price_postapoc": "20 USD",
     "melee_damage": { "bash": 16 }
   },
   {
@@ -153,8 +154,8 @@
     "weight": "2 kg",
     "volume": "500 ml",
     "longest_side": "60 cm",
-    "price": 40000,
-    "price_postapoc": 2000,
+    "price": "400 USD",
+    "price_postapoc": "20 USD",
     "melee_damage": { "bash": 12 }
   },
   {
@@ -165,8 +166,8 @@
     "description": "A small but strong permanent magnet made from alnico alloy, which produces a magnetic field that attracts ferromagnetic materials such as steel.  Useful for crafting.",
     "weight": "180 g",
     "volume": "25 ml",
-    "price": 500,
-    "price_postapoc": 10,
+    "price": "5 USD",
+    "price_postapoc": "10 cent",
     "material": [ "iron" ],
     "symbol": ",",
     "color": "light_gray",
@@ -181,8 +182,8 @@
     "material": [ "steel" ],
     "weight": "4 kg",
     "volume": "500 ml",
-    "price": 5000,
-    "price_postapoc": 2000,
+    "price": "50 USD",
+    "price_postapoc": "20 USD",
     "melee_damage": { "bash": 16 }
   },
   {
@@ -194,8 +195,8 @@
     "material": [ "steel" ],
     "weight": "2 kg",
     "volume": "1500 ml",
-    "price": 5000,
-    "price_postapoc": 2000
+    "price": "50 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "hd_valve",
@@ -206,8 +207,8 @@
     "material": [ "steel" ],
     "weight": "5 kg",
     "volume": "2 L",
-    "price": 10000,
-    "price_postapoc": 2000
+    "price": "100 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "pressure_gauge",
@@ -218,8 +219,8 @@
     "material": [ "steel" ],
     "weight": "2 kg",
     "volume": "1 L",
-    "price": 10000,
-    "price_postapoc": 2000
+    "price": "100 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "pyrometer",
@@ -230,8 +231,8 @@
     "material": [ "steel" ],
     "weight": "500 g",
     "volume": "250 ml",
-    "price": 10000,
-    "price_postapoc": 2000
+    "price": "100 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "hd_compressor",
@@ -242,8 +243,8 @@
     "material": [ "steel" ],
     "weight": "30 kg",
     "volume": "6 L",
-    "price": 60000,
-    "price_postapoc": 2000
+    "price": "600 USD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "large_pressure_vessel",
@@ -255,8 +256,8 @@
     "weight": "300 kg",
     "volume": "200 L",
     "longest_side": "300 cm",
-    "price": 200000,
-    "price_postapoc": 2000
+    "price": "2 kUSD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "small_pressure_vessel",
@@ -268,8 +269,8 @@
     "weight": "30 kg",
     "volume": "10 L",
     "longest_side": "40 cm",
-    "price": 200000,
-    "price_postapoc": 2000
+    "price": "2 kUSD",
+    "price_postapoc": "20 USD"
   },
   {
     "id": "pipe_fittings",
@@ -280,8 +281,8 @@
     "material": [ "iron" ],
     "weight": "500 g",
     "volume": "1 L",
-    "price": 1800,
-    "price_postapoc": 25
+    "price": "18 USD",
+    "price_postapoc": "25 cent"
   },
   {
     "id": "simple_crank",
@@ -292,7 +293,7 @@
     "material": [ "iron" ],
     "weight": "750 g",
     "volume": "1 L",
-    "price": 2400,
-    "price_postapoc": 700
+    "price": "24 USD",
+    "price_postapoc": "7 USD"
   }
 ]

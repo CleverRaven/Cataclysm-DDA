@@ -19,25 +19,92 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmh_0_cooking_northeast",
+    "nested_mapgen_id": "fbmh_0_cooking_shack_northeast",
     "object": {
       "parameters": {
-        "fbmh_0_cooking_palette": {
+        "fbmh_0_cooking_shack_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_fireplace_palette", "fbmh_0_stove_palette" ] }
+          "default": { "distribution": [ "fbmh_0_fireplace_shack_palette", "fbmh_0_stove_shack_palette" ] }
         }
       },
       "mapgensize": [ 1, 1 ],
       "rows": [ "f" ],
-      "palettes": [ { "param": "fbmh_0_cooking_palette" } ]
+      "palettes": [ { "param": "fbmh_0_cooking_shack_palette" } ]
     }
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "fbmh_0_cooking_northeast",
     "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_0_cooking_northeast" ], "x": 19, "y": 6 } ] }
+    "nested_mapgen_id": "fbmh_0_cooking_tent_northeast",
+    "object": {
+      "parameters": {
+        "fbmh_0_cooking_tent_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmh_0_fireplace_tent_palette", "fbmh_0_stove_tent_palette" ] }
+        }
+      },
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "f" ],
+      "palettes": [ { "param": "fbmh_0_cooking_tent_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_0_cooking_shack_roof_northeast",
+    "object": {
+      "parameters": {
+        "fbmh_0_cooking_shack_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmh_0_fireplace_shack_palette", "fbmh_0_stove_shack_palette" ] }
+        }
+      },
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "C" ],
+      "palettes": [ { "param": "fbmh_0_cooking_shack_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_0_cooking_tent_roof_northeast",
+    "object": {
+      "parameters": {
+        "fbmh_0_cooking_tent_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": { "distribution": [ "fbmh_0_fireplace_tent_palette", "fbmh_0_stove_tent_palette" ] }
+        }
+      },
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "C" ],
+      "palettes": [ { "param": "fbmh_0_cooking_tent_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_0_cooking_shack_northeast",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_0_cooking_shack_northeast" ], "x": 19, "y": 6, "z": 0 },
+        { "chunks": [ "fbmh_0_cooking_shack_roof_northeast" ], "x": 19, "y": 6, "z": 1 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_0_cooking_tent_northeast",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmh_0_cooking_tent_northeast" ], "x": 19, "y": 6, "z": 0 },
+        { "chunks": [ "fbmh_0_cooking_tent_roof_northeast" ], "x": 19, "y": 6, "z": 1 }
+      ]
+    }
   },
   {
     "type": "mapgen",
@@ -171,8 +238,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_counter", "x": 13, "y": 10 },
-        { "point": "furniture", "id": "f_fireplace", "x": 12, "y": 11 }
+        { "point": "furniture", "id": "f_counter", "x": 13, "y": 10, "z": 0 },
+        { "point": "furniture", "id": "f_fireplace", "x": 12, "y": 11, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 12, "y": 11, "z": 1 }
       ]
     }
   },
@@ -223,8 +291,9 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_counter", "x": 10, "y": 19 },
-        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 19 }
+        { "point": "furniture", "id": "f_counter", "x": 10, "y": 19, "z": 0 },
+        { "point": "furniture", "id": "f_woodstove", "x": 11, "y": 19, "z": 0 },
+        { "point": "furniture", "id": "f_vent_pipe", "x": 11, "y": 19, "z": 1 }
       ]
     }
   },

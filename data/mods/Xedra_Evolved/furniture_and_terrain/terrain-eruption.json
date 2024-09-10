@@ -9,7 +9,9 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
-    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "BLOCK_WIND" ]
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
     "type": "terrain",
@@ -23,7 +25,9 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_obsidian_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 120,
       "str_max": 400,
@@ -40,7 +44,7 @@
     "description": "A relatively flat area of igneous rock.  Looks stable enough to be mined with the proper mining gear.",
     "symbol": ".",
     "color": "light_gray",
-    "connect_groups": "OBSIDIANFLOOR",
+    "connect_groups": [ "OBSIDIANFLOOR", "INDOORFLOOR" ],
     "connects_to": "OBSIDIANFLOOR",
     "move_cost": 2,
     "roof": "t_obsidian_roof",
@@ -57,6 +61,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,
@@ -89,6 +95,8 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
     "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
     "bash": {
       "str_min": 120,

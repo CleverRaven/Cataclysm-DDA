@@ -4,157 +4,76 @@
     "id": "triffid_grove",
     "name": "triffid grove",
     "copy-from": "generic_forest",
+    "vision_levels": "unusual_structure",
     "sym": "T",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "triffid_roots",
+    "vision_levels": "underground_dirt",
+    "id": [
+      "triffid_roots",
+      "triffid_rootss",
+      "triffid_rootsn",
+      "triffid_rootse",
+      "triffid_rootsw",
+      "triffid_rootsen",
+      "triffid_rootsnw",
+      "triffid_rootssw",
+      "triffid_rootsse"
+    ],
     "name": "triffid roots",
     "sym": "T",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootss",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootsn",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootse",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootsw",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootsen",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootsnw",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootssw",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_rootsse",
-    "name": "triffid roots",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "mondensity": 2,
-    "spawns": { "group": "GROUP_TRIFFID", "population": [ 40, 45 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "triffid_finale",
+    "vision_levels": "underground_dirt",
     "name": "triffid heart",
     "sym": "T",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
     "spawns": { "group": "GROUP_TRIFFID_HEARTGUARDS", "population": [ 50, 60 ], "chance": 80 },
-    "flags": [ "KNOWN_UP", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
-    "id": "triffid_grove_z3",
+    "id": [ "triffid_grove_z3", "triffid_grove_z2" ],
+    "vision_levels": "unusual_structure",
     "name": "triffid grove trunk",
     "sym": "T",
     "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "triffid_grove_z2",
-    "name": "triffid grove trunk",
-    "sym": "T",
-    "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "triffid_grove_roof",
+    "vision_levels": "roof_or_air",
     "name": "triffid grove roof",
     "sym": "T",
     "color": "light_red",
-    "see_cost": 5,
-    "flags": [ "KNOWN_DOWN", "RISK_HIGH" ]
+    "see_cost": "none",
+    "flags": [ "KNOWN_DOWN", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "triffid_field",
+    "vision_levels": "unusual_structure",
     "name": "vibrant field",
     "copy-from": "generic_forest",
     "sym": ".",
     "color": "green",
-    "see_cost": 5,
+    "see_cost": "spaced_high",
     "mondensity": 2,
     "flags": [ "REQUIRES_PREDECESSOR" ]
   }

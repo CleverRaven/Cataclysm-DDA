@@ -55,6 +55,7 @@
       { "group": "grim_reaper_costume_unisex", "prob": 35 },
       { "group": "clown_costume_unisex", "prob": 25 },
       { "group": "army_costume_unisex", "prob": 20 },
+      { "group": "fbi_costume_unisex", "prob": 15 },
       { "group": "chef_costume_unisex", "prob": 20 },
       { "group": "leather_jacket_costume_unisex", "prob": 15 },
       { "group": "cowboy_costume_unisex", "prob": 25 },
@@ -1074,6 +1075,42 @@
     ]
   },
   {
+    "id": "fbi_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for fbi zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "hat_ball", "variant": "hat_fbi", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "jacket_windbreaker", "variant": "windbreaker_fbi", "damage": [ 1, 4 ] },
+          { "item": "tie_clipon", "prob": 70, "damage": [ 1, 4 ] },
+          { "item": "sunglasses", "prob": 70, "damage": [ 1, 4 ] },
+          { "item": "dress_shirt", "damage": [ 1, 4 ] },
+          { "item": "dress_shoes", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "pants", "variant": "pants_black", "prob": 95, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 2, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "army_costume_unisex",
     "type": "item_group",
     "//": "For use in halloween as a set of zombie cloth drops for army cosplay zombies",
@@ -1132,7 +1169,13 @@
           { "item": "hat_chef", "prob": 70, "damage": [ 1, 4 ] },
           { "group": "shirts_unisex", "prob": 75, "damage": [ 1, 4 ] },
           { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
-          { "item": "knife_butcher", "container-item": "sheath", "prob": 60, "damage": [ 1, 4 ] },
+          {
+            "item": "knife_huge",
+            "variant": "knife_butcher",
+            "container-item": "sheath",
+            "prob": 60,
+            "damage": [ 1, 4 ]
+          },
           { "group": "socks_unisex", "damage": [ 1, 4 ] },
           {
             "distribution": [

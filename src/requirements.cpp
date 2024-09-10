@@ -243,6 +243,9 @@ void tool_comp::load( const JsonValue &value )
         comp.read( 0, type, true );
         count = comp.get_int( 1 );
         requirement = comp.size() > 2 && comp.get_string( 2 ) == "LIST";
+        if( comp.size() > 2 && comp.get_string( 2 ) != "LIST" ) {
+            value.throw_error( R"(expected "LIST")" );
+        }
     }
     if( count == 0 ) {
         value.throw_error( "tool count must not be 0" );
@@ -273,6 +276,8 @@ void item_comp::load( const JsonValue &value )
             recoverable = false;
         } else if( flag == "LIST" ) {
             requirement = true;
+        } else {
+            value.throw_error( R"(expected "LIST" or "NO_RECOVER")" );
         }
     }
     if( count <= 0 ) {
@@ -1645,6 +1650,10 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
             alter_item_comp_vector without_dupes = next.components;
             without_dupes[next.index] = this_requirement;
             pending.push( { without_dupes, next.index + 1 } );
+        }
+
+        if( alternatives_.empty() && pending.empty() ) {
+            debugmsg( "Recipe definition %s somehow has no valid recipes!", context.str() );
         }
 
         // Because this algorithm is super-exponential in the worst case, add a

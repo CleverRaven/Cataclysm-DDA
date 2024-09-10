@@ -27,13 +27,12 @@
         "|....6666^|SU|SU|''qq''|",
         "|||a|||||||||||||''''''|",
         "|^....tt.{{{|XX.d''''''|",
-        "|...............|SSooff|",
+        "|...............|SSoo(f|",
         "|#..............||||||||",
         "|tt#..THHH.^|<|.bccDD4cc",
         "|||||||||||||||||ccccccc"
       ],
       "terrain": {
-        "&": "t_atm",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
         ".": "t_floor",
@@ -58,6 +57,7 @@
       },
       "toilets": { "U": {  } },
       "furniture": {
+        "&": "f_atm_off",
         "#": "f_chair",
         "C": "f_counter",
         "q": "f_counter",
@@ -66,7 +66,8 @@
         "T": "f_trashcan",
         "X": "f_cardboard_box",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
-        "f": "f_fridge",
+        "f": "f_heavy_duty_fridge",
+        "(": "f_heavy_duty_freezer",
         "o": "f_oven",
         "p": "f_pool_table",
         "r": "f_rack",
@@ -241,7 +242,6 @@
         "P": "t_concrete",
         "9": "t_region_shrub_decorative",
         " ": "t_region_groundcover_urban",
-        "a": "t_atm",
         "b": [ "t_door_metal_c", "t_door_metal_elocked" ],
         "c": "t_door_metal_locked",
         "s": "t_sidewalk",
@@ -251,6 +251,7 @@
       },
       "toilets": { "U": {  } },
       "furniture": {
+        "a": "f_atm_off",
         "#": "f_chair",
         "&": "f_trashcan",
         "D": "f_dumpster",

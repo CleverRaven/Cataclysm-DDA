@@ -267,7 +267,7 @@ static int swimming_steps( avatar &swimmer )
     constexpr int STOP_STEPS = 9000;
     int last_moves = swimmer.get_speed();
     int last_stamina = swimmer.get_stamina_max();
-    swimmer.moves = last_moves;
+    swimmer.set_moves( last_moves );
     swimmer.set_stamina( last_stamina );
     while( swimmer.get_stamina() > 0 && !swimmer.has_effect( effect_winded ) && steps < STOP_STEPS ) {
         if( steps % 2 == 0 ) {
@@ -278,8 +278,8 @@ static int swimming_steps( avatar &swimmer )
             REQUIRE( avatar_action::move( swimmer, here, tripoint_west ) );
         }
         ++steps;
-        REQUIRE( swimmer.moves < last_moves );
-        if( swimmer.moves <= 0 ) {
+        REQUIRE( swimmer.get_moves() < last_moves );
+        if( swimmer.get_moves() <= 0 ) {
             calendar::turn += 1_turns;
             const int stamina_cost = last_stamina - swimmer.get_stamina();
             REQUIRE( stamina_cost > 0 );
@@ -287,7 +287,7 @@ static int swimming_steps( avatar &swimmer )
             swimmer.process_turn();
             last_stamina = swimmer.get_stamina();
         }
-        last_moves = swimmer.moves;
+        last_moves = swimmer.get_moves();
     }
     swimmer.setpos( left );
     return steps;

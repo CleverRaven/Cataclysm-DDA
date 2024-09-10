@@ -3,6 +3,7 @@
     "id": "mon_broken_cyborg",
     "type": "MONSTER",
     "name": { "str": "broken cyborg" },
+    "//": "The human mind is no longer working in this body, therefore it qualifies as a ROBOT and not as a CYBORG",
     "description": "A robot body with the head of a human.  All kinds of electronic wires and devices are implanted in its head.  The remaining patches of skin look diseased or rotting.  This cyborg moves erratically and has a confused and deranged look in its eyes.  Any personality or humanity it once had is clearly gone for good.",
     "default_faction": "science",
     "bodytype": "human",
@@ -25,7 +26,7 @@
     "revert_to_itype": "bot_broken_cyborg",
     "special_attacks": [ [ "PARROT", 100 ] ],
     "weakpoint_sets": [ "wps_cyborg_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "harvest": "mon_broken_cyborg",
     "dissect": "dissect_mon_broken_cyborg",
     "flags": [
@@ -50,7 +51,7 @@
     "description": "A human fused with a mess of metal parts and wires.  While their eyes are empty, the flashes of pain that occasionally cross their face remind you that, deep down, there is a person just like you trapped in this grotesque body.  Someone with enough surgical skills might be able to restore some of their humanity.  If only anyone cared…",
     "default_faction": "science",
     "bodytype": "human",
-    "species": [ "ROBOT" ],
+    "species": [ "CYBORG" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 60,
@@ -70,7 +71,7 @@
     "revert_to_itype": "bot_prototype_cyborg",
     "special_attacks": [ [ "PARROT", 100 ] ],
     "weakpoint_sets": [ "wps_cyborg_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "harvest": "mon_broken_cyborg",
     "dissect": "dissect_mon_broken_cyborg",
     "flags": [
@@ -83,7 +84,7 @@
       "WARM",
       "STUMBLES",
       "HUMAN",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS"
     ],
     "armor": { "bash": 10, "cut": 6, "bullet": 5 }
@@ -115,7 +116,7 @@
     "vision_night": 10,
     "revert_to_itype": "e_scrap",
     "weakpoint_sets": [ "wps_cyborg_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
@@ -127,7 +128,7 @@
       "HAS_MIND",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN"
     ],
@@ -194,7 +195,7 @@
       "HAS_MIND",
       "NOHEAD",
       "NO_BREATHE",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN"
     ],
@@ -229,7 +230,7 @@
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab" }, [ "scratch", 20 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "weakpoint_sets": [ "wps_cyborg_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
     "upgrades": { "half_life": 43, "into": "mon_zomborg_devourer" },
@@ -274,7 +275,7 @@
     "bleed_rate": 25,
     "vision_night": 3,
     "weakpoint_sets": [ "wps_cyborg_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_cyborg" ],
     "harvest": "mon_zomborg",
     "dissect": "dissect_mon_zomborg",
     "grab_strength": 50,
@@ -293,7 +294,7 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "FILTHY"
     ],
     "armor": { "bash": 12, "cut": 28, "bullet": 8 }

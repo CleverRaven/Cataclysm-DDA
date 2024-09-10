@@ -17,7 +17,7 @@
     "color": "magenta",
     "death_function": { "corpse_type": "BROKEN" },
     "placate_triggers": [ "HURT" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN" ]
   },
   {
     "id": "mon_marshmallow_kid",
@@ -234,23 +234,56 @@
     "anger_triggers": [ "HURT" ],
     "harvest": "gummy_bear",
     "reproduction": { "baby_egg": "candy3", "baby_count": 1, "baby_timer": 10 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER", "WARM", "BASHES", "ATTACKMON", "NO_BREATHE" ],
     "armor": { "bash": 2 }
   },
   {
     "id": "mon_gummy_gator",
     "type": "MONSTER",
     "name": "gummy gator",
-    "copy-from": "mon_gator",
     "description": "Slowly moving through the chocolate like a gummy log along the surface.  You notice it's eye's following your movement as you approach.",
     "default_faction": "gummy_bears",
+    "bodytype": "gator",
+    "categories": [ "WILDLIFE" ],
     "species": [ "GUMMY" ],
+    "volume": "108500 ml",
+    "weight": "120 kg",
+    "hp": 90,
+    "speed": 90,
     "material": [ "sugar" ],
     "symbol": "C",
     "color": "light_red",
+    "aggression": 30,
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 10,
+    "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
+    "dodge": 2,
+    "vision_day": 3,
+    "vision_night": 35,
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "harvest": "gummy_bear",
+    "dissect": "dissect_lizard_sample_large",
+    "path_settings": { "max_dist": 8 },
+    "grab_strength": 50,
+    "special_attacks": [
+      {
+        "id": "bite_grab",
+        "cooldown": 20,
+        "accuracy": 6,
+        "damage_max_instance": [
+          { "damage_type": "stab", "amount": 9, "armor_multiplier": 0.5 },
+          { "damage_type": "bash", "amount": 27, "armor_multiplier": 0.5 }
+        ],
+        "infection_chance": 50
+      }
+    ],
     "reproduction": { "baby_egg": "candy3gator", "baby_count": 1, "baby_timer": 10 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "ANIMAL", "PUSH_MON", "SWIMS", "ATTACKMON" ],
+    "armor": { "bash": 6, "cut": 8, "bullet": 6 }
   },
   {
     "id": "mon_small_cracker",
@@ -350,7 +383,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER" ],
     "reproduction": { "baby_egg": "cookies", "baby_count": 10, "baby_timer": 5 }
   },
   {
@@ -371,7 +404,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
     "reproduction": { "baby_egg": "cookies_egg", "baby_count": 1, "baby_timer": 5 }
   },
   {
@@ -392,7 +425,7 @@
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "dodge": 2,
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "SWIMS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER", "SWIMS" ],
     "upgrades": { "age_grow": 200, "into": "mon_cookie_hydra" }
   },
   {

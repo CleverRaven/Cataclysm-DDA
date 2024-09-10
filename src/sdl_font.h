@@ -85,7 +85,8 @@ class CachedTTFFont : public Font
                          unsigned char color, float opacity = 1.0f ) override;
 
     protected:
-        SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch, int color );
+        SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch,
+                                      int &ch_width, int color );
 
         TTF_Font_Ptr font;
         // Maps (character code, color) to SDL_Texture*

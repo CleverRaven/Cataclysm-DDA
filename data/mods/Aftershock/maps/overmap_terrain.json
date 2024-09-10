@@ -11,7 +11,7 @@
     "name": "municipal reactor",
     "sym": "O",
     "color": "light_green",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -30,7 +30,7 @@
     "name": "crashed escape pod",
     "sym": "+",
     "color": "i_red",
-    "see_cost": 2,
+    "see_cost": "medium",
     "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
@@ -39,7 +39,7 @@
     "name": "drone shuttle landing site",
     "sym": "^",
     "color": "yellow",
-    "see_cost": 2,
+    "see_cost": "low",
     "flags": [ "SOURCE_SAFETY", "NO_ROTATE" ]
   },
   {
@@ -48,7 +48,7 @@
     "name": "warehouse",
     "sym": "w",
     "color": "pink",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -58,7 +58,7 @@
     "name": "waste storage",
     "sym": "O",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -67,7 +67,7 @@
     "name": "waste storage",
     "sym": "O",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -76,7 +76,7 @@
     "name": "reactor control",
     "sym": "O",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -85,7 +85,7 @@
     "name": "reactor room",
     "sym": "O",
     "color": "light_red",
-    "see_cost": 5,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -94,9 +94,27 @@
     "name": "fungal tower",
     "sym": "T",
     "color": "pink",
-    "see_cost": 3,
+    "see_cost": "spaced_high",
     "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle",
+    "type": "overmap_terrain",
+    "name": "crashed cargo droneship",
+    "sym": "s",
+    "color": "i_red",
+    "see_cost": "medium",
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "id": "afs_crashed_cargo_shuttle_wraitheon",
+    "type": "overmap_terrain",
+    "name": "crashed military droneship",
+    "sym": "s",
+    "color": "light_green",
+    "see_cost": "medium",
+    "flags": [ "RISK_EXTREME", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
     "type": "overmap_terrain",
@@ -106,7 +124,7 @@
     "sym": "r",
     "color": "light_gray",
     "flags": [ "SIDEWALK" ],
-    "see_cost": 3
+    "see_cost": "spaced_high"
   },
   {
     "type": "overmap_terrain",
@@ -121,7 +139,7 @@
     "sym": "P",
     "color": "yellow",
     "flags": [ "SIDEWALK" ],
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -139,7 +157,7 @@
     "sym": "i",
     "color": "cyan",
     "flags": [ "SOURCE_FABRICATION", "SOURCE_ELECTRONICS", "SOURCE_CONSTRUCTION" ],
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -149,7 +167,7 @@
     "sym": "Q",
     "color": "cyan",
     "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -158,7 +176,7 @@
     "sym": "t",
     "color": "yellow",
     "flags": [ "SIDEWALK" ],
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -168,7 +186,7 @@
     "sym": "L",
     "color": "light_green",
     "flags": [ "SIDEWALK", "SOURCE_FOOD" ],
-    "see_cost": 3,
+    "see_cost": "high",
     "mondensity": 3
   },
   {
@@ -177,7 +195,7 @@
     "name": "county mortuary",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3,
+    "see_cost": "high",
     "flags": [ "SIDEWALK" ]
   },
   {
@@ -186,7 +204,7 @@
     "name": "county mortuary basement",
     "sym": "M",
     "color": "white",
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -194,7 +212,7 @@
     "name": "county mortuary second floor",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -202,7 +220,7 @@
     "name": "county mortuary roof",
     "sym": "M",
     "color": "light_green",
-    "see_cost": 3
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -210,7 +228,7 @@
     "name": "LMOE shelter",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "spaced_high",
     "flags": [ "KNOWN_DOWN", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -219,7 +237,7 @@
     "name": "LMOE shelter",
     "sym": ".",
     "color": "brown",
-    "see_cost": 2,
+    "see_cost": "none",
     "flags": [ "KNOWN_DOWN" ]
   },
   {
@@ -228,7 +246,7 @@
     "name": "LMOE shelter",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -237,7 +255,7 @@
     "name": "LMOE shelter",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   },
   {
@@ -246,7 +264,7 @@
     "name": "robot dispatch center",
     "sym": "R",
     "color": "i_pink",
-    "see_cost": 2,
+    "see_cost": "high",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
   },
@@ -256,7 +274,7 @@
     "name": "robot dispatch center",
     "sym": "R",
     "color": "i_pink",
-    "see_cost": 2,
+    "see_cost": "high",
     "mondensity": 2
   },
   {
@@ -265,7 +283,7 @@
     "name": "landing pad outpost",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "low",
     "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
@@ -287,7 +305,7 @@
     "name": "landing pad",
     "sym": "#",
     "color": "light_gray",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "SOURCE_PEOPLE", "SOURCE_SAFETY" ]
   },
   {
@@ -298,7 +316,7 @@
     "color": "green",
     "spawns": { "group": "GROUP_ZOMBIE", "population": [ 1, 4 ], "chance": 50 },
     "flags": [ "SIDEWALK" ],
-    "see_cost": 3
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
@@ -306,7 +324,7 @@
     "name": "house roof",
     "sym": "<",
     "color": "green",
-    "see_cost": 3
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -336,7 +354,7 @@
     "name": "Desolate Arcology - Ground Level",
     "sym": "A",
     "color": "light_blue",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
   },
@@ -368,7 +386,7 @@
     "name": "Arcology - Ground Level",
     "sym": "A",
     "color": "light_blue",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "mondensity": 2,
     "flags": [ "RISK_HIGH" ]
   },
@@ -388,7 +406,152 @@
     ],
     "sym": "+",
     "color": "i_red",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Shuttle Landing Pad",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_shuttle_pad_a1", "afs_shuttle_pad_a2", "afs_shuttle_pad_a1_roof", "afs_shuttle_pad_a2_roof" ],
+    "sym": "-",
+    "color": "light_blue",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Solar Array",
+    "id": [ "afs_solar_arrary_a1", "afs_solar_array_a2", "afs_solar_arrary_a1_roof", "afs_solar_array_a2_roof" ],
+    "sym": "S",
+    "color": "light_blue",
+    "see_cost": "medium",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Malamute Transport Wreck",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [
+      "afs_freight_transport_a1",
+      "afs_freight_transport_a2",
+      "afs_freight_transport_roof_a1",
+      "afs_freight_transport_roof_a2"
+    ],
+    "sym": "M",
+    "color": "light_gray",
+    "see_cost": "medium",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Habitat Block",
+    "id": [
+      "afs_habblock_1_a1",
+      "afs_hablock_1_a2",
+      "afs_habblock_1_floor2_a1",
+      "afs_hablock_1_floor2_a2",
+      "afs_habblock_1_roof_a1",
+      "afs_hablock_1_roof_a2",
+      "afs_habblock_2_a1",
+      "afs_hablock_2_a2",
+      "afs_habblock_2_a3",
+      "afs_habblock_2_a4",
+      "afs_habblock_2_floor2_a1",
+      "afs_hablock_2_floor2_a2",
+      "afs_habblock_2_floor2_a3",
+      "afs_habblock_2_floor2_a4",
+      "afs_habblock_2_floor3_a1",
+      "afs_hablock_2_floor3_a2",
+      "afs_habblock_2_floor3_a3",
+      "afs_habblock_2_floor3_a4",
+      "afs_habblock_2_floor4_a1",
+      "afs_hablock_2_floor4_a2",
+      "afs_habblock_2_floor4_a3",
+      "afs_habblock_2_floor4_a4",
+      "afs_habblock_2_floor5_a1",
+      "afs_hablock_2_floor5_a2",
+      "afs_habblock_2_floor5_a3",
+      "afs_habblock_2_floor5_a4",
+      "afs_habblock_2_roof_a1",
+      "afs_habblock_2_roof_a2",
+      "afs_habblock_3_ground",
+      "afs_habblock_3_floor_2",
+      "afs_habblock_3_floor_3",
+      "afs_habblock_3_floor_4",
+      "afs_habblock_3_roof"
+    ],
+    "sym": "H",
+    "color": "light_green",
+    "see_cost": "full_high",
+    "mondensity": 3,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "General Store",
+    "spawns": { "group": "GROUP_ZOMBIE", "population": [ 2, 5 ], "chance": 80 },
+    "id": [ "afs_general_store_n1", "afs_general_store_n2", "afs_general_store_n3" ],
+    "sym": "g",
+    "color": "light_green",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Enclosed Park",
+    "id": [ "afs_park_dome_ground_floor", "afs_park_dome_2nd_floor", "afs_park_dome_roof" ],
+    "sym": "P",
+    "color": "green",
+    "see_cost": "spaced_high",
+    "mondensity": 1,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Enforcer Station",
+    "id": [ "afs_enforcer_station_a1", "afs_enforcer_station_a1_floor2", "afs_enforcer_station_a1_roof" ],
+    "sym": "E",
+    "color": "blue",
+    "see_cost": "high",
+    "mondensity": 3,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "afs_pwr_sub_s", "afs_pwr_sub_s_roof" ],
+    "name": "small power substation",
+    "sym": "H",
+    "color": "light_cyan",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "afs_pwr_large_entrance",
+      "afs_pwr_large_2",
+      "afs_pwr_large_3",
+      "afs_pwr_large_4",
+      "afs_pwr_large_entrance_roof",
+      "afs_pwr_large_2_roof"
+    ],
+    "name": "large power substation",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": "high"
+  },
+  {
+    "type": "overmap_terrain",
+    "name": "Exosuit Garage",
+    "id": [ "afs_exosuit_garage_a1", "afs_exosuit_garage_a1_roof", "afs_exosuit_garage_2_a1", "afs_exosuit_garage_2_a1_roof" ],
+    "sym": "e",
+    "color": "yellow",
+    "see_cost": "high",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
   }
 ]

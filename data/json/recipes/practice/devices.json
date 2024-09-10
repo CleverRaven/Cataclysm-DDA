@@ -74,7 +74,7 @@
     "time": "1 h",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 25 ] ],
+      [ [ "super_glue", 1 ], [ "duct_tape", 25 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "bb", 60 ], [ "nails", 30, "LIST" ] ]
     ],

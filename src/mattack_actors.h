@@ -140,6 +140,8 @@ class melee_actor : public mattack_actor
         grab grab_data;
         bool is_grab = false;
 
+        std::vector<effect_on_condition_id> eoc;
+
         /**
          * If empty, regular melee roll body part selection is used.
          * If non-empty, a body part is selected from the map to be targeted,
@@ -261,7 +263,7 @@ class gun_actor : public mattack_actor
         bool require_sunlight = false;
 
         bool try_target( monster &z, Creature &target ) const;
-        void shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+        bool shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                     int inital_recoil = 0 ) const;
         int get_max_range() const;
 

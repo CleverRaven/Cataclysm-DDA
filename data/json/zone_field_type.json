@@ -296,7 +296,7 @@
   {
     "id": "fd_no_npc_pickup_zone",
     "type": "field_type",
-    "intensity_levels": [ { "name": "no npc pickup zone", "sym": "2", "dangerous": false } ],
+    "intensity_levels": [ { "name": "no NPC pickup zone", "sym": "2", "dangerous": false } ],
     "priority": 1,
     "display_field": true
   },
@@ -310,14 +310,14 @@
   {
     "id": "fd_npc_investigation_area_zone",
     "type": "field_type",
-    "intensity_levels": [ { "name": "npc investigation area zone", "sym": "4", "dangerous": false } ],
+    "intensity_levels": [ { "name": "NPC investigation area zone", "sym": "4", "dangerous": false } ],
     "priority": 1,
     "display_field": true
   },
   {
     "id": "fd_npc_retreat_zone",
     "type": "field_type",
-    "intensity_levels": [ { "name": "npc retreat zone", "sym": "5", "dangerous": false } ],
+    "intensity_levels": [ { "name": "NPC retreat zone", "sym": "5", "dangerous": false } ],
     "priority": 1,
     "display_field": true
   },

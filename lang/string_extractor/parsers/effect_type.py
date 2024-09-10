@@ -45,9 +45,15 @@ def parse_effect_type(json, origin):
                    .format(effect_name))
 
     if "apply_message" in json:
-        write_text(json["apply_message"], origin,
-                   comment="Apply message of effect type \"{}\""
-                   .format(effect_name))
+        if type(json["apply_message"]) is list:
+            for msg in json["apply_message"]:
+                write_text(msg[0], origin,
+                           comment="Apply message of effect type \"{}\""
+                           .format(effect_name))
+        elif type(json["apply_message"]) is str:
+            write_text(json["apply_message"], origin,
+                       comment="Apply message of effect type \"{}\""
+                       .format(effect_name))
 
     if "remove_message" in json:
         write_text(json["remove_message"], origin,

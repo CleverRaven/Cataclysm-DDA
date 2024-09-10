@@ -48,15 +48,23 @@ enum class mod : int {
     REGEN_STAMINA,
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
+    MUT_INSTABILITY_MOD,
+    RANGE_DODGE,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
-    FATIGUE,       // fatigue rate
-    FATIGUE_REGEN,
+    SLEEPINESS,       // sleepiness rate
+    SLEEPINESS_REGEN,
     PAIN,
     PAIN_REMOVE,
+    PAIN_PENALTY_MOD_STR,
+    PAIN_PENALTY_MOD_DEX,
+    PAIN_PENALTY_MOD_INT,
+    PAIN_PENALTY_MOD_PER,
+    PAIN_PENALTY_MOD_SPEED,
+    DODGE_CHANCE,
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
@@ -64,6 +72,7 @@ enum class mod : int {
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
+    VISION_RANGE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
     SIGHT_RANGE_FAE,
@@ -139,6 +148,7 @@ enum class mod : int {
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
     ITEM_ATTACK_SPEED,
+    EQUIPMENT_DAMAGE_CHANCE,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     COMBAT_CATCHUP,
@@ -153,6 +163,7 @@ enum class mod : int {
     MOVECOST_SWIM_MOD,
     MOVECOST_OBSTACLE_MOD,
     MOVECOST_FLATGROUND_MOD,
+    PHASE_DISTANCE,
     SHOUT_NOISE_STR_MULT,
     NIGHT_VIS,
     HEARING_MULT,
@@ -163,8 +174,11 @@ enum class mod : int {
     VOMIT_MUL,
     SCENT_MASK,
     CONSUME_TIME_MOD,
+    THROW_STR,
+    THROW_DAMAGE,
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
+    MOVEMENT_EXERTION_MODIFIER,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -284,6 +298,7 @@ class enchant_cache : public enchantment
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs, const monster &mon );
         void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 

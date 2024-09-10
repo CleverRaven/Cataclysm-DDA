@@ -3,6 +3,7 @@
 #include "character.h"
 #include "character_modifier.h"
 #include "damage.h"
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "magic_enchantment.h"
@@ -18,7 +19,11 @@ static const bodypart_str_id body_part_test_bird_wing_r( "test_bird_wing_r" );
 static const bodypart_str_id body_part_test_corvid_beak( "test_corvid_beak" );
 static const bodypart_str_id body_part_test_lizard_tail( "test_lizard_tail" );
 
+static const character_modifier_id character_modifier_liquid_consume_mod( "liquid_consume_mod" );
+static const character_modifier_id character_modifier_solid_consume_mod( "solid_consume_mod" );
+
 static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_winded_arm_r( "winded_arm_r" );
 
 static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PARTS" );
 static const enchantment_id enchantment_ENCH_TEST_LIZARD_TAIL( "ENCH_TEST_LIZARD_TAIL" );
@@ -99,6 +104,15 @@ TEST_CASE( "limb_conditional_flags", "[character][encumbrance][limb]" )
     REQUIRE( dude.get_part_encumbrance_data( body_part_test_bird_wing_l ).encumbrance >= 15 );
     CHECK( !dude.has_bodypart_with_flag( json_flag_WALL_CLING ) );
     CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
+
+    // Reset our right wing, flag still is enabled again
+    dude.set_part_hp_cur( body_part_test_bird_wing_r, 100 );
+    CHECK( dude.count_flag( json_flag_WALL_CLING ) == 1 );
+    // Disable it with a windage effect
+    dude.add_effect( effect_winded_arm_r, 1_hours, body_part_test_bird_wing_r, false, 1, true );
+    REQUIRE( dude.get_effects_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ).size() == 1 );
+    CHECK( dude.count_flag( json_flag_WALL_CLING ) == 0 );
+
 }
 
 TEST_CASE( "Limb_ugliness_calculations", "[character][npc][limb]" )
@@ -144,6 +158,69 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
     }
 }
 
+TEST_CASE( "drying_rate", "[character][limb]" )
+{
+    standard_npc dude( "Test NPC" );
+    clear_character( dude, true );
+    const weather_manager weather = get_weather();
+    REQUIRE( body_part_arm_l->drying_rate == 1.0f );
+    dude.drench( 100, dude.get_drenching_body_parts(), false );
+    REQUIRE( dude.get_part_wetness( body_part_arm_l ) == 200 );
+
+    // Baseline arm dries in 450ish turns
+    int base_dry = 0;
+    while( dude.get_part_wetness( body_part_arm_l ) > 0 ) {
+        dude.update_body_wetness( *weather.weather_precise );
+        base_dry++;
+    }
+    REQUIRE( base_dry == Approx( 450 ).margin( 125 ) );
+
+    // Birdify, clear water
+    clear_character( dude, true );
+    create_bird_char( dude );
+    REQUIRE( body_part_test_bird_wing_l->drying_rate == 2.0f );
+    REQUIRE( body_part_test_bird_wing_r->drying_rate == 0.5f );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 0 );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_r ) == 0 );
+    dude.drench( 100, dude.get_drenching_body_parts(), false );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 200 );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_r ) == 200 );
+
+    int high_dry = 0;
+    int low_dry = 0;
+    // Filter on the slower drying limb
+    while( dude.get_part_wetness( body_part_test_bird_wing_r ) > 0 ) {
+        dude.update_body_wetness( *weather.weather_precise );
+        if( dude.get_part_wetness( body_part_test_bird_wing_l ) > 0 ) {
+            high_dry++;
+        }
+        low_dry++;
+    }
+
+    // A drying rate of 2 should halve the drying time
+    // Higher margin for the lower rate to account for the randomness
+    CHECK( high_dry == Approx( 200 ).margin( 100 ) );
+    CHECK( low_dry == Approx( 900 ).margin( 300 ) );
+}
+
+TEST_CASE( "Limb_consumption", "[limb]" )
+{
+    standard_npc dude( "Test NPC" );
+    const item solid( "test_pine_nuts" );
+    const item liquid( "test_liquid" );
+    clear_character( dude, true );
+    // Normal chars are normal
+    REQUIRE( dude.get_modifier( character_modifier_liquid_consume_mod ) == 1.0f );
+    REQUIRE( dude.get_modifier( character_modifier_solid_consume_mod ) == 1.0f );
+    const time_duration base_solid = dude.get_consume_time( solid );
+    const time_duration base_liquid = dude.get_consume_time( liquid );
+    create_bird_char( dude );
+    // Testbird chars are birdy
+    REQUIRE( dude.get_modifier( character_modifier_liquid_consume_mod ) == 2.0f );
+    REQUIRE( dude.get_modifier( character_modifier_solid_consume_mod ) == 0.5f );
+    CHECK( dude.get_consume_time( liquid ) == base_liquid * 2 );
+    CHECK( dude.get_consume_time( solid ) == base_solid / 2 );
+}
 TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
 {
     standard_npc dude( "Test NPC" );

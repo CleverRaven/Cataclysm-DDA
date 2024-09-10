@@ -121,7 +121,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "fatigue_desc_label", "hunger_desc_label" ]
+    "widgets": [ "sleepiness_desc_label", "hunger_desc_label" ]
   },
   {
     "id": "ll_heat_weight_desc_layout",

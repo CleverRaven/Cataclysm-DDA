@@ -493,13 +493,13 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "#": "t_brick_wall",
-        "A": "t_atm",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
       "furniture": {
+        "A": "f_atm_off",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "$": "f_counter",
         "c": "f_counter",
@@ -587,13 +587,13 @@
         "-": "t_wall_w",
         "|": "t_wall_w",
         "#": "t_brick_wall",
-        "A": "t_atm",
         "s": "t_sidewalk",
         "d": "t_region_groundcover_forest",
         "G": "t_door_glass_c",
         "H": "t_wall_glass"
       },
       "furniture": {
+        "A": "f_atm_off",
         "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "$": "f_counter",
         "c": "f_counter",

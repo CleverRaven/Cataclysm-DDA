@@ -69,7 +69,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "rifle_22", "prob": 5 },
-      { "item": "rifle_9mm", "prob": 5 },
       { "item": "ruger_1022", "prob": 10 },
       { "item": "browning_blr", "prob": 10 },
       { "item": "remington_700", "prob": 10 },
@@ -95,8 +94,8 @@
       { "item": "dry_fish", "prob": 10 },
       { "item": "dry_veggy", "prob": 10, "count": 2 },
       { "item": "dry_fruit", "prob": 10 },
-      { "prob": 10, "group": "salt_bag_plastic_100" },
-      { "prob": 10, "group": "pepper_bag_plastic_100" },
+      { "prob": 10, "group": "salt_various" },
+      { "prob": 10, "group": "pepper_various" },
       { "item": "meat_smoked", "prob": 10 },
       { "item": "meat_smoked", "prob": 10 },
       { "item": "bone", "prob": 10 },

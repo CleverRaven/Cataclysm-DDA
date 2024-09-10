@@ -21,7 +21,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -30,7 +30,13 @@
     "stomach_size": 700,
     "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "spell_feral_wizard_base" }, "cooldown": 10 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_feral_wizard_base" },
+        "monster_message": "%1$s chants and gestures erratically!",
+        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "cooldown": 10
+      },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
     ],
@@ -45,7 +51,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_feral_lab_magician",
@@ -69,7 +75,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -88,6 +94,7 @@
         "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
         "dodgeable": false,
         "blockable": false,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
@@ -111,6 +118,7 @@
         "range": 8,
         "throw_strength": 40,
         "blockable": false,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "hit_dmg_u": "%1$s gestures at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -124,7 +132,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ]
   },
   {
     "id": "mon_feral_radiation_mage",
@@ -148,7 +156,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "emit_fields": [ { "emit_id": "emit_rad_leak", "delay": "5 s" } ],
@@ -170,6 +178,7 @@
         "type": "spell",
         "spell_data": { "id": "feral_rad_mage_rad_spell", "min_level": 5 },
         "cooldown": 25,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s makes arcane motions and the air is filled with burning gas!"
       },
       {
@@ -177,6 +186,7 @@
         "type": "spell",
         "spell_data": { "id": "mirror_image_rad_mage", "min_level": 0 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s smiles and duplicates appear!"
       },
       {
@@ -184,6 +194,7 @@
         "type": "spell",
         "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
         "cooldown": 30,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
       },
       {
@@ -191,6 +202,7 @@
         "type": "spell",
         "spell_data": { "id": "disjunction_monster", "min_level": 8 },
         "cooldown": 50,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s waves their hands in a gesture of negation!"
       },
       [ "BROWSE", 100 ],
@@ -213,7 +225,7 @@
       "NO_BREATHE",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "EATS"
     ]
   },
@@ -240,7 +252,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -255,6 +267,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "min_level": 10, "hit_self": true },
         "cooldown": 25,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s weaves their hands in a complicated gesture!"
       },
       {
@@ -267,6 +280,7 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
         "dodgeable": true,
         "blockable": false,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "hit_dmg_u": "%1$s screams words of magic and jagged shards of wood impact your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and jagged shards of wood impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid jagged shards of wood!",
@@ -279,6 +293,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
         "cooldown": 35,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       [ "BROWSE", 100 ],
@@ -288,7 +303,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
@@ -315,7 +330,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 3,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -330,6 +345,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "min_level": 25, "hit_self": true },
         "cooldown": 20,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s weaves their hands in a complicated gesture!"
       },
       {
@@ -343,6 +359,7 @@
         "effects": [ { "id": "root_impale", "duration": 60, "chance": 100, "affect_hit_bp": false } ],
         "dodgeable": true,
         "blockable": false,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "hit_dmg_u": "%1$s screams words of magic and sharp roots thrust from the ground into your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and sharp roots thrust from the ground into <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid sharp roots thrusting from the ground!",
@@ -355,6 +372,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
         "cooldown": 25,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       {
@@ -362,6 +380,7 @@
         "type": "spell",
         "spell_data": { "id": "summon_wolf_druid_monster", "min_level": 10 },
         "cooldown": 45,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s throws back their head and howls!"
       },
       [ "BROWSE", 100 ],
@@ -374,7 +393,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the Bark mutation and accounting for partial coverage.",
     "armor": { "bash": 15, "cut": 10, "stab": 7, "bullet": 10, "electric": 5 }
   },
@@ -401,7 +420,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -453,7 +472,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the stoneskin spell.",
     "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
   },
@@ -480,7 +499,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 6 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -549,6 +568,7 @@
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 10 },
         "cooldown": 40,
+        "condition": { "not": { "u_has_flag": "MUTE" } },
         "monster_message": "%1$s claps both hands in the air and shouts at %3$s."
       },
       [ "BROWSE", 100 ],
@@ -561,7 +581,7 @@
     "zombify_into": "mon_zombie",
     "fungalize_into": "mon_feral_human_pipe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER", "EATS" ],
     "//": "armor values below taken from the stoneskin spell.",
     "armor": { "bash": 15, "cut": 15, "stab": 12, "bullet": 7, "acid": 2 }
   }

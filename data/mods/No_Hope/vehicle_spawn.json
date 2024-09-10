@@ -2,6 +2,7 @@
   {
     "type": "vehicle_spawn",
     "id": "default_bridge",
+    "//": "Legacy mechanic, remove after #68496 merges",
     "spawn_types": [
       { "//": "Clear section of bridge", "weight": 849000, "vehicle_function": "no_vehicles" },
       {

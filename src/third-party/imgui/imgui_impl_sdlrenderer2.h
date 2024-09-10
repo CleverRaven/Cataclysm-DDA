@@ -12,6 +12,7 @@
 //  [X] Renderer: Large meshes support (64k+ vertices) with 16-bit indices.
 
 #pragma once
+#include <functional>
 #include "imgui.h"      // IMGUI_IMPL_API
 
 struct SDL_Renderer;
@@ -19,6 +20,7 @@ struct SDL_Renderer;
 IMGUI_IMPL_API bool     ImGui_ImplSDLRenderer2_Init(SDL_Renderer* renderer);
 IMGUI_IMPL_API void     ImGui_ImplSDLRenderer2_Shutdown();
 IMGUI_IMPL_API void     ImGui_ImplSDLRenderer2_NewFrame();
+IMGUI_IMPL_API void     ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback(std::function<void(const ImFontGlyphToDraw &)> func);
 IMGUI_IMPL_API void     ImGui_ImplSDLRenderer2_RenderDrawData(ImDrawData* draw_data);
 
 // Called by Init/NewFrame/Shutdown
