@@ -575,7 +575,7 @@
     "price_postapoc": "12 USD 50 cent",
     "material": [ "wood", "cotton" ],
     "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "clumsy" },
-    "melee_damage": { "bash": 6 },
+    "melee_damage": { "bash": 1 },
     "techniques": [ "WBLOCK_1" ],
     "warmth": 15,
     "flags": [ "VARSIZE", "STURDY", "PADDED", "WATERPROOF", "NO_REPAIR" ],
@@ -617,8 +617,7 @@
         "specifically_covers": [ "mouth_cheeks" ],
         "coverage": 20
       }
-    ],
-    "melee_damage": { "bash": 1 }
+    ]
   },
   {
     "id": "helmet_barbute",
