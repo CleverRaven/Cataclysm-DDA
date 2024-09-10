@@ -209,11 +209,7 @@
     ],
     "points": 7,
     "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
-    "skills": [
-      { "level": 2, "name": "gun" },
-      { "level": 2, "name": "rifle" },
-      { "level": 1, "name": "survival" }
-    ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
         "ammo": 100,
