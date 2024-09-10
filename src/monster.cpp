@@ -605,20 +605,25 @@ void monster::try_reproduce()
         }
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
-            if( type->baby_monster ) {
-                here.add_spawn( type->baby_monster, spawn_cnt, pos_bub(), friendly );
-            } else if( type->baby_monster_group ) {
+            if( !type->baby_type.baby_monster.is_null() ) {
+                here.add_spawn( type->baby_type.baby_monster, spawn_cnt, pos_bub(), friendly );
+            }
+            if( !type->baby_type.baby_monster_group.is_null() ) {
                 std::vector<MonsterGroupResult> babies = MonsterGroupManager::GetResultFromGroup(
-                            type->baby_monster_group, &spawn_cnt,
+                            type->baby_type.baby_monster_group, &spawn_cnt,
                             nullptr, false, nullptr, true );
                 for( const MonsterGroupResult &mgr : babies ) {
-                    here.add_spawn( mgr.name, spawn_cnt * mgr.pack_size, pos_bub(), friendly );
+                    here.add_spawn( mgr.name, std::max( 1, spawn_cnt * mgr.pack_size ), pos_bub(), friendly );
                 }
-            } else {
-                const item egg( type->baby_egg, *baby_timer );
+            }
+            if( !type->baby_type.baby_egg.is_null() ) {
+                const item egg( type->baby_type.baby_egg, *baby_timer );
                 for( int i = 0; i < spawn_cnt; i++ ) {
                     here.add_item_or_charges( pos_bub(), egg, true );
                 }
+            }
+            if( !type->baby_type.baby_egg_group.is_null() ) {
+                here.spawn_items( pos(), item_group::items_from( type->baby_type.baby_egg_group ) );
             }
         }
         *baby_timer += *type->baby_timer;
