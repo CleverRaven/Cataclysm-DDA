@@ -35,5 +35,54 @@
     "required_event": "character_takes_damage",
     "condition": { "u_has_trait": "iso_hypo_o" },
     "effect": [ { "u_add_effect": "iso_eff_hypo_o", "duration": "2 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_GEAS",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "u_has_trait": "iso_geas" },
+    "effect": [
+      { "u_location_variable": { "u_val": "avatar_new_pos" }, "min_radius": 0, "max_radius": 0 },
+      {
+        "u_run_monster_eocs": [
+          {
+            "id": "_EOC_ISO_GEAS",
+            "condition": { "math": [ "u_val('difficulty')", ">=", "30" ] },
+            "effect": [ { "run_eoc_with": "geas_monster", "beta_talker": "avatar" } ]
+          }
+        ],
+        "monster_range": 65,
+        "monster_must_see": true
+      },
+      { "u_location_variable": { "u_val": "avatar_old_pos" }, "min_radius": 0, "max_radius": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "geas_monster",
+    "effect": [
+      { "math": [ "u_new_distance", "=", "distance('u', 'npc')" ] },
+      { "u_location_variable": { "u_val": "monster_pos" }, "min_radius": 0, "max_radius": 0 },
+      {
+        "if": {
+          "and": [
+            { "math": [ "has_var(u_old_distance)" ] },
+            { "math": [ "u_new_distance", ">", "u_old_distance" ] },
+            { "npc_can_see_location": { "u_val": "monster_pos" } }
+          ]
+        },
+        "then": [
+          { "npc_teleport": { "npc_val": "avatar_old_pos" } },
+          { "npc_message": "You cannot flee from the abomination." },
+          { "npc_add_effect": "iso_eff_geas_buff", "duration": "10 seconds" }
+        ],
+        "else": [
+          { "u_message": "Oh ho!  Then come as close as you like." },
+          { "npc_add_effect": "iso_eff_geas_buff", "duration": "10 seconds" }
+        ]
+      },
+      { "math": [ "u_old_distance", "=", "distance('u', 'npc')" ] }
+    ]
   }
 ]
