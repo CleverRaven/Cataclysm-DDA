@@ -431,7 +431,11 @@
     ]
   },
   {
-    "id": [ "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING", "TALK_ROBOFAC_INTERCOM_ARMOR_ONGOING", "TALK_ROBOFAC_INTERCOM_ROBOT_ONGOING" ],
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING",
+      "TALK_ROBOFAC_INTERCOM_ARMOR_ONGOING",
+      "TALK_ROBOFAC_INTERCOM_ROBOT_ONGOING"
+    ],
     "//": "default response to any project that isn't completed",
     "type": "talk_topic",
     "dynamic_line": "Work is still ongoing.  These things can take time.",
@@ -517,18 +521,9 @@
       ]
     },
     "responses": [
-      {
-        "text": "What about another project?",
-        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
-      },
-      {
-        "text": "I want to talk about something else.",
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "I'll check in later.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -544,18 +539,9 @@
       ]
     },
     "responses": [
-      {
-        "text": "What about another project?",
-        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
-      },
-      {
-        "text": "I want to talk about something else.",
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "I'll check in later.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -571,18 +557,9 @@
       ]
     },
     "responses": [
-      {
-        "text": "What about another project?",
-        "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
-      },
-      {
-        "text": "I want to talk about something else.",
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
-      },
-      {
-        "text": "I'll check in later.",
-        "topic": "TALK_DONE"
-      }
+      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
+      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
   {
