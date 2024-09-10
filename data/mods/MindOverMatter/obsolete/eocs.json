@@ -54,5 +54,10 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_LEARNING_PAIN_SPLIT",
+    "effect": [  ]
   }
 ]

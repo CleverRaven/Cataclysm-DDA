@@ -139,45 +139,5 @@
       { "item": "UPS_OFF" },
       { "item": "mininuke" }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "flour_bag_paper_powder_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_paper_powder",
-    "entries": [ { "item": "flour", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "codeine_bottle_plastic_pill_painkiller_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "codeine", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "oxycodone_bottle_plastic_pill_prescription_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "oxycodone", "container-item": "null", "count": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "cig_box_cigarette_20",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "box_cigarette",
-    "entries": [ { "item": "cig", "container-item": "null", "count": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "meth_bag_zipper_6",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bag_zipper",
-    "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
   }
 ]

@@ -28,7 +28,7 @@
           { "item": "diving_watch" },
           { "item": "ballistic_vest_esapi" },
           {
-            "item": "acr_300blk",
+            "item": "sig_mcx_rattler_sbr",
             "ammo-item": "300blk_ss",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope", "grip", "suppressor" ]

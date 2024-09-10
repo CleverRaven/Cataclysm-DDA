@@ -1917,5 +1917,10 @@
     "id": "stabilizer_mod",
     "type": "MIGRATION",
     "replace": "rail_laser_sight"
+  },
+  {
+    "id": "acr_300blk",
+    "type": "MIGRATION",
+    "replace": "sig_mcx_rattler_sbr"
   }
 ]
