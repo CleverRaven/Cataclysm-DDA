@@ -246,7 +246,7 @@ static std::string print_and_format_helper( map_test_case &t, int zshift,
 std::string map_test_case_common::printers::fields( map_test_case &t, int zshift )
 {
     map &here = get_map();
-    return print_and_format_helper( t, zshift, [&]( tripoint p, auto & out ) {
+    return print_and_format_helper( t, zshift, [&]( tripoint_bub_ms p, auto & out ) {
         bool first = true;
         for( auto &pr : here.field_at( p ) ) {
             out << ( first ? " " : "," ) << pr.second.name();

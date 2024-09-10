@@ -28,7 +28,7 @@ TEST_CASE( "putting_items_into_inventory_with_put_in_or_i_add", "[pickup][invent
     clear_map();
 
     // Spawn items on the map at this location
-    const tripoint ground = they.pos();
+    const tripoint_bub_ms ground = they.pos_bub();
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );
 
@@ -141,7 +141,7 @@ TEST_CASE( "pickup_m4_with_a_rope_in_a_hiking_backpack", "[pickup][container]" )
     clear_map();
 
     // Spawn items on the map at this location
-    const tripoint ground = they.pos();
+    const tripoint_bub_ms ground = they.pos_bub();
     item &m4a1 = here.add_item( ground, item( itype_debug_modular_m4_carbine ) );
     item &rope_map = here.add_item( ground, item( itype_rope_6 ) );
     item &backpack_map = here.add_item( ground, item( itype_backpack_hiking ) );

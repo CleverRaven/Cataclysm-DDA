@@ -57,7 +57,6 @@ void Messages::display_messages() {}
 void Messages::display_messages( const catacurses::window &, int, int, int, int ) {}
 void Messages::serialize( JsonOut & ) {}
 void Messages::deserialize( const JsonObject & ) {}
-
 void add_msg( std::string m )
 {
     Messages::add_msg( std::move( m ) );

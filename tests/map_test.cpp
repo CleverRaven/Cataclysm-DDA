@@ -184,7 +184,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
     CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
     REQUIRE( here.get_submaps_with_active_items().empty() );
     here.check_submap_active_item_consistency();
-    tripoint const test_loc;
+    tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
     item bottle_plastic( "bottle_plastic" );
@@ -198,7 +198,7 @@ TEST_CASE( "inactive_container_with_active_contents", "[active_item][map]" )
 
     item &bp = here.add_item( test_loc, bottle_plastic );
     here.update_submaps_with_active_items();
-    item_location bp_loc( map_cursor( tripoint_bub_ms( test_loc ) ), &bp );
+    item_location bp_loc( map_cursor( test_loc ), &bp );
     item_location dis_loc( bp_loc, &bp.only_item() );
 
     REQUIRE( here.get_submaps_with_active_items().count( test_loc_sm ) != 0 );
@@ -224,13 +224,13 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     CAPTURE( here.get_abs_sub(), here.get_submaps_with_active_items() );
     here.check_submap_active_item_consistency();
     REQUIRE( here.get_submaps_with_active_items().empty() );
-    tripoint const test_loc;
+    tripoint_bub_ms const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
     restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                 get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
-    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );
+    REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc.raw() ) ) == 21 );
 
     item almond_milk( "almond_milk" );
     item *bp = nullptr;
@@ -276,7 +276,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
 {
     clear_map();
     get_avatar().setpos( tripoint_zero );
-    tripoint start_loc = get_avatar().pos() + tripoint_east;
+    tripoint_bub_ms start_loc = get_avatar().pos_bub() + tripoint_east;
     map &here = get_map();
     restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                 get_weather().forced_temperature );
@@ -294,7 +294,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     }
     REQUIRE( bag_plastic.put_in( cookie, pocket_type::CONTAINER ).success() );
 
-    monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
+    monster &zombo = spawn_test_monster( "mon_zombie", start_loc.raw(), true );
     zombo.no_extra_death_drops = true;
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );
