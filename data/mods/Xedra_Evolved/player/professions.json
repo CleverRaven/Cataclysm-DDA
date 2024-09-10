@@ -529,7 +529,7 @@
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
-    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_ROOT_AND_SOIL" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_NURTURE_GREEN" ],
     "items": {
       "both": {
         "entries": [
