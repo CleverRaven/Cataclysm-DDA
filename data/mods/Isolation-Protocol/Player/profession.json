@@ -132,5 +132,45 @@
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "quiver_geas_knight",
+    "entries": [ { "item": "iso_bolt_blackwood_bodkin", "charges": 16 } ]
+  },
+  {
+    "type": "profession",
+    "id": "iso_geas_knight",
+    "name": "Geas Knight",
+    "description": "A warrior from a destroyed land, still bound by ancient oaths sworn to mountains and stars.",
+    "points": 6,
+    "skills": [
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "cutting" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "dodge" }
+    ],
+    "traits": [ "iso_trait" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "iso_old_cloak" },
+          { "item": "iso_old_armor" },
+          { "item": "iso_crossbow_sling" },
+          { "item": "socks_wool" },
+          { "item": "boots" },
+          { "item": "iso_old_sword" },
+          { "item": "iso_repeating_crossbow", "ammo-item": "iso_bolt_blackwood_bodkin", "charges": 4 },
+          { "item": "quiver", "contents-group": "quiver_geas_knight" },
+          { "item": "baldric" },
+          { "item": "loincloth" }
+        ]
+      },
+      "female": { "entries": [ { "item": "undershirt" } ] }
+    }
   }
 ]
