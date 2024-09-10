@@ -7850,19 +7850,8 @@
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-          "pants",
-          "tshirt_text",
-          "socks",
-		  "dress_shoes",
-          "caffeine",
-          "caff_gum",
-          "usb_drive"
-        ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "group": "charged_laptop" }
-        ]
+        "items": [ "pants", "tshirt_text", "socks", "dress_shoes", "caffeine", "caff_gum", "usb_drive" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_laptop" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
