@@ -139,6 +139,7 @@ Add persistent boomer bile effect that causes a stench and skin irritation
 Place_vending function can place unpowered machines
 Add option to make the bleeding of a pet stop
 Add different levels of vision to the overmap
+Allow some small parts on helicopters
 Google Maps
 Dynamic trait purifiability
 Add drugs and mutagens to your faction camp stores.
@@ -307,6 +308,8 @@ Overhaul and flesh out Barry Isherwood's rescue mission, part 2.
 Adds a home canning hobby/background to character creation
 Mute very divergent mouth mutations
 Added apiary overmap tile to farm generation
+Add Variable Snippets for Home Pictures
+More detailed sunset/sunrise morale based on actual weather and traits
 More detailed sunset/sunrise morale based on actual weather and traits
 Sand and gravel pit location
 Neutral NPCs may now be shoved.
@@ -398,6 +401,7 @@ Zone Manager: "Show All / Hide Distant" highlights selection
 Add sorting by amount and value/volume in advanced inventory search
 Addiction withdrawals are a toggleable distraction
 The filter is reset when you open the construction menu
+Select CC-Sounds as default soundpack if it's present on first run
 Removes XS/XXXL traits from the player display
 Fix message 'There is nothing to pickup'
 migrate uilist implementation to use ImGui
@@ -624,6 +628,9 @@ Document how spellcasting proficiencies work.
 [Magiclysm] Add WATERWALKING and ITEM_WATERPROOFING to Body of Spirit spell
 [Bombastic Perks] Sword and sorcery-esque perks
 [XE] make Tier 5 of vampirism attainable + more vampire-related tweaks
+XE Stalking Warper and Cryptid Video snippets
+Add a bunch of new perks to Bombastic Perks
+[Sky Island] Add bunker climate control upgrade
 [MoM] Make Oxygen Absorption effect visible
 [MoM] Update morphic reinforcement serum with MUT_INSTABILITY_MOD, switch it and noetic resilience treatment over to `consume_drug` use action
 [XE] Add Tier 5 vampire powers
@@ -737,6 +744,8 @@ more monster balance documentation
 update Hub 01 armor repair fees and timeframes
 Add Wound Care proficiency for Park Rangers
 Opiate shakes caused by cravings go away after taking opiates. Other shakes are unaffected.
+Remove guaranteed residential solar, add random residential solar
+Mortar is now a recipe on cement bags
 let hospitalized humans revive as zed crawlers
 Cramped space doesn't prevent sleep
 rebalance beverage quench based on oral hydration index
@@ -960,6 +969,15 @@ Civilianize Semi Auto MP40
 Stop wasting dodge attempts on things you can't even see
 [MoM] Fix possibility of studying new powers concurrently.
 Wrong header restoring saved AIM layout
+Provide insertion failure reasons from only eligible pockets
+Prevent segfault when unloading from spillable container
+safer NPC ranged weapon use
+XE Undine and Salamanders no longer sweat
+Prevent segfault when target of firstaid_activity_actor disappears
+Prevent segfault if repair item disappears
+Prevent negative array index for floor_cache
+Set owner of disassembly result
+Avoid crash when the character has no proficiencies and we press enter on them inside Character menu "@
 Prevent phantom cramped space on empty tiles
 increase Flame Immunity heat resist so you're actually immune to fire for real this time
 Removes superglue recipe
@@ -1014,6 +1032,7 @@ Decrease memory overhead by about 200MB or about 15% by slimming down mapgen dat
 Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
 cache available recipe list in craft menu
+Optimize typed coordinate conversion functions for widespread savings
 NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 
@@ -1080,6 +1099,8 @@ LIXA connect_group
 Allow EOCs to check and modify battery charge in items
 clean up overmap drawing code and consolidate to one function
 Jsonized end screen
+Quick setup at start for debug worlds/characters
+Random NPC classes can define weighted chance of spawning, relative to other random NPC classes
 Specify see_cost for overmap terrain with an enum instead of an integer
 Add Flathub download button and Flatpak manifest
 [EOC] Support user-input text in EOC (similar to num_input in `math`)
