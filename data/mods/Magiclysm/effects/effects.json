@@ -936,7 +936,7 @@
   {
     "type": "effect_type",
     "id": "effect_animist_vocalize",
-    "name": [ "Vocalize" ],
+    "name": [ "The Inner Voice" ],
     "desc": [ "Your soul gives voice to your magical prowess." ],
     "apply_message": "",
     "remove_message": "Your soul no longer speaks directly.",

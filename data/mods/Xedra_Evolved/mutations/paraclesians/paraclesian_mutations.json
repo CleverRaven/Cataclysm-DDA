@@ -640,9 +640,7 @@
       "FAIR_FOLK_COMMONER_POOKA",
       "FAIR_FOLK_COMMONER_SELKIE",
       "FAIR_FOLK_COMMONER_TROW"
-    ],
-    "active": true,
-    "activated_eocs": [ "EOC_PARACLESIAN_GOSSAMER_RECIPES" ]
+    ]
   },
   {
     "type": "mutation",

@@ -143,6 +143,8 @@ Google Maps
 Dynamic trait purifiability
 Add drugs and mutagens to your faction camp stores.
 Allow military night vision goggles to attach to combat exoskeleton head armors
+Butchering now require proficiency to do it fast and effectively
+Functioning toasters
 
 
 ## Content:
@@ -406,6 +408,11 @@ Fix ImGui Demo in curses
 make ImTui render text as text, so that the players can read our spiffy new menus
 toggle to only draw overmap during autotravel
 mouse input in uilists does not block keyboard navigation
+Print church/school bells ringing sound in the message log once again
+Add imgui version of the iteminfo window
+Updated default keybindings for changing start dates in character creation menu
+rewrite the loading screen to use ImGui
+Custom loading screen the game deserves
 
 
 ## Mods:
@@ -643,6 +650,9 @@ Isolation Protocol: Add roguelike style health regen and pain reduction
 [MoM] Add Illuminate Photokinetic power
 [MoM] Add Headblind trait and Latent Psion trait
 [Xedra Evolved] Extend hedge magic research system
+[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON 
+XE Playable Gracken 
+[Magiclysm] Add spell school deficiency traits
 
 
 ## Balance:
@@ -1005,6 +1015,7 @@ Faster ascii overmap drawing
 Optimize item::stacks as well as allocation patterns in item and elsewhere
 cache available recipe list in craft menu
 NPCs take less time to check for enemies.
+Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 
 
 ## Infrastructure:
@@ -1075,6 +1086,7 @@ Add Flathub download button and Flatpak manifest
 Added support for multiple randomized field sprite variants
 JSON-ify sleep-affecting mutations
 Extend/delete support for harvest lists
+Migrate ACT_PULP to the new activity actor system.
 
 
 ## Build:
