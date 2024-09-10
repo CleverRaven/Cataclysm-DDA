@@ -38,8 +38,8 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "ARVORE_ROOT_AND_SOIL",
-    "name": "The way of root and soil.",
+    "id": "ARVORE_NURTURE_GREEN",
+    "name": "Born a seedbearer.",
     "description": "A gift from your birth world?  A quirk of nature?  For reasons unknown to you, you can sprout seeds from this planet.  You can't control what seeds you get, however.",
     "points": 1,
     "traits": [ "SEED_BEARER" ]
