@@ -7845,7 +7845,7 @@
     "id": "engineer_comp",
     "name": "Computer Engineer",
     "description": "Computers are your bread and butter, and you know them just like the back of your hand. Unfortunately, the power has gone out and your laptop's internal battery can only last so long, but the Cataclysm may finally provide you with a much needed respite from having to insist that you are not a hacker.",
-	"proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits" ],
+    "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits" ],
     "points": 2,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
