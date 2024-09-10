@@ -213,7 +213,28 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
 int Character::get_total_in_category( const mutation_category_id &categ,
                                       enum mut_count_type count_type ) const
 {
+    std::vector<trait_id> list = get_in_category( categ, count_type );
+    return list.size();
+
+}
+
+int Character::get_total_in_category_char_has( const mutation_category_id &categ,
+        enum mut_count_type count_type ) const
+{
     int mut_count = 0;
+    std::vector<trait_id> list = get_in_category( categ, count_type );
+    for( const trait_id mut : list ) {
+        if( has_trait( mut ) ) {
+            mut_count++;
+        }
+    }
+    return mut_count;
+}
+
+std::vector<trait_id> Character::get_in_category( const mutation_category_id &categ,
+        enum mut_count_type count_type ) const
+{
+    std::vector<trait_id> list;
     bool is_type;
 
     // Iterate through all available traits in this category and count every one that match our count_type.
@@ -232,10 +253,10 @@ int Character::get_total_in_category( const mutation_category_id &categ,
                 break;
         }
         if( is_type && !mdata.threshold ) {
-            mut_count += 1;
+            list.push_back( mdata.id );
         }
     }
-    return mut_count;
+    return list;
 }
 
 void Character::toggle_trait( const trait_id &trait_, const std::string &var_ )
