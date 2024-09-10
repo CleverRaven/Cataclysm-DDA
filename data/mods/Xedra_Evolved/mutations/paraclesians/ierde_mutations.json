@@ -570,6 +570,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_STONE_MEDITATIONS",
+    "name": { "str": "Stone Meditations" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ],
+    "active": true,
+    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_STONE_FORM",
     "name": { "str": "Form of the Solid Earth" },
     "points": 8,
