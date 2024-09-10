@@ -236,7 +236,7 @@
           { "item": "colt_saa", "ammo-item": "45colt", "container-item": "holster", "charges": 6 },
           { "item": "45colt", "count": 30 },
           { "group": "military_ballistic_vest_light" },
-          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] }
+          { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] },
           { "item": "legpouch_large", "contents-group": "army_mags_tac338" }
         ]
       },
