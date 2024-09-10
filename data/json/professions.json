@@ -7803,7 +7803,7 @@
   {
     "type": "profession",
     "id": "engineer_el",
-    "name": "Electral Engineer",
+    "name": "Electrical Engineer",
     "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder at a time. Now, you are just not sure if the complete failure of the powergrid makes your field obsolete or all the more necessary.",
     "points": 2,
     "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits", "prof_electromagnetics" ],
