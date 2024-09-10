@@ -7802,9 +7802,9 @@
   },
   {
     "type": "profession",
-    "id": "engineer_el",
+    "id": "engineer_ee",
     "name": "Electrical Engineer",
-    "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder at a time. Now, you are just not sure if the complete failure of the powergrid makes your field obsolete or all the more necessary.",
+    "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder at a time. Now, you are not even sure if the complete failure of the powergrid makes your field obsolete or all the more necessary.",
     "points": 2,
     "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_semiconductors", "prof_elec_integrated_circuits", "prof_electromagnetics" ],
     "skills": [ { "level": 4, "name": "electronics" } ],
@@ -7823,7 +7823,7 @@
     "type": "profession",
     "id": "engineer_mech",
     "name": "Mechanical Engineer",
-    "description": "You've always loved machines, and even enrolled to extensively make them into your career. Not long after you receive your degree, you seem to be the one being subjected to the stress-test, and it remains unclear if you will retain your structural integrity.",
+    "description": "You've always loved machines, and have extensively incorporated them into your career. Not long after you receive your degree, you seem to be the one being subjected to the stress-test, and it remains unclear if you will retain your structural integrity.",
     "proficiencies": [ "prof_basic_engines", "prof_high_pressure_systems", "prof_pneumatics" ],
     "points": 2,
     "skills": [ { "level": 4, "name": "mechanics" } ],
@@ -7842,7 +7842,7 @@
     "type": "profession",
     "id": "engineer_comp",
     "name": "Computer Engineer",
-    "description": "From a young age, computers were your passion, and you saw no better opportunity to get closer to them than to professionally learn their ins and outs. Unfortunately, the power has gone out and your laptop's internal battery can only last so long, but the Cataclysm may finally provide you with a much needed respite from having to insist that you are not a hacker.",
+    "description": "Computers are your bread and butter, and you know them just like the back of your hand. Unfortunately, the power has gone out and your laptop's internal battery can only last so long, but the Cataclysm may finally provide you with a much needed respite from having to insist that you are not a hacker.",
 	"proficiencies": [ "prof_elec_circuits", "prof_elec_integrated_circuits", "prof_elec_soldering" ],
     "points": 2,
     "skills": [ { "level": 4, "name": "computer" } ],
@@ -7870,7 +7870,7 @@
     "type": "profession",
     "id": "engineer_chem",
     "name": "Chemical Engineer",
-    "description": "You know your way around the periodic table and you can name fifty industrial processes that involve sulfur in some way, but that did not prevent the prospect of employment from looking bleak for you. Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
+    "description": "You know your way around the periodic table and you can name ten different industrial processes that involve any chemical that one can think of, but that did not prevent the prospect of employment from looking bleak for you. Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
     "points": 2,
     "skills": [
       { "level": 4, "name": "chemistry" }
