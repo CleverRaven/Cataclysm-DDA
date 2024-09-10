@@ -117,6 +117,7 @@ enum action_id : int;
 enum class recipe_filter_flags : int;
 enum class steed_type : int;
 enum class proficiency_bonus_type : int;
+enum mut_count_type;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -1608,6 +1609,8 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
+        /** Return sum of all mutation character have */
+        int get_total_in_category( const mutation_category_id &categ, mut_count_type count_type ) const;
         /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
         bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */

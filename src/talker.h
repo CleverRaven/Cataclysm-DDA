@@ -225,6 +225,10 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual int get_total_in_category( const mutation_category_id &, enum mut_count_type ) const {
+            return 0;
+        }
+
         virtual bool is_trait_purifiable( const trait_id & ) const {
             return false;
         }
