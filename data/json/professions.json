@@ -7864,7 +7864,13 @@
     "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you.  Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
     "points": 2,
     "skills": [ { "level": 5, "name": "chemistry" } ],
-    "proficiencies": [ "prof_intro_chemistry", "prof_intro_chem_synth", "prof_organic_chemistry", "prof_inorganic_chemistry", "prof_chemical_engineering" ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_chem_synth",
+      "prof_organic_chemistry",
+      "prof_inorganic_chemistry",
+      "prof_chemical_engineering"
+    ],
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
