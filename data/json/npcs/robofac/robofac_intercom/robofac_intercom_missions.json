@@ -852,7 +852,7 @@
         "effect": [
           { "assign_mission": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1" },
           { "u_spawn_item": "nre_recorder", "count": 1 },
-          { "u_spawn_item": "light_battery_cell", "count": 1 }
+          { "u_spawn_item": "medium_battery_cell", "count": 1 }
         ],
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED"
       },

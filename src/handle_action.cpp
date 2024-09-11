@@ -449,8 +449,8 @@ static void rcdrive( const point &d )
         add_msg( m_warning, _( "No radio car connected." ) );
         return;
     }
-    tripoint c;
-    car_location_string >> c.x >> c.y >> c.z;
+    tripoint_bub_ms c;
+    car_location_string >> c.x() >> c.y() >> c.z();
 
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
@@ -1234,9 +1234,12 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
-
-        player_character.assign_activity( new_act );
+        if( actType == ACT_WAIT_STAMINA ) {
+            player_character.assign_activity( wait_stamina_activity_actor() );
+        } else {
+            player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
+            player_character.assign_activity( new_act );
+        }
     }
 }
 
