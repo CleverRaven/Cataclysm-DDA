@@ -1495,7 +1495,7 @@
     "components": [ [ [ "filament", 20, "LIST" ], [ "sheet_nylon", 1 ] ] ],
     "byproducts": [ [ "scrap_nylon", 3 ] ]
   },
-
+  {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "side_carrier_shotgun_plastic",
