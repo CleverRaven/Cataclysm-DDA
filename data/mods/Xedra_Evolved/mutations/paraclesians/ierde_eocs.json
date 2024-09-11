@@ -49,24 +49,7 @@
       }
     ]
   },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_IERDE_STONE_MEDITATIONS",
-    "condition": {
-      "or": [
-        {
-          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
-          "msg_on": { "text": "Everything is terrible but this shall pass.", "rating": "mixed" }
-        },
-        {
-          "condition": { "math": [ "u_val('morale')", "<", "50" ] },
-          "msg_on": { "text": "Everything is wonderful and this too shall pass.", "rating": "mixed" }
-        }
-      ]
-    },
-    "effect": [ { "math": [ "u_val('morale')", "=", "0" ] } ],
-    "false_effect": [ { "u_message": "You are already in the mindset of stone.  Patient and eternal.", "type": "mixed" } ]
-  },
+something like this is accepted when creating a new game
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF",
