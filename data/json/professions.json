@@ -7817,7 +7817,11 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "socks", "dress_shoes", "wristwatch", "file" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "item": "pants", "variant": "pants_black" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
