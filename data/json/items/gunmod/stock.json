@@ -603,8 +603,8 @@
   {
     "id": "stock_ammo_loops_plastic",
     "type": "GUNMOD",
-    "name": { "str": "buttstock ammunition loops" },
-    "description": "Plastic loops on the shoulder stock of a long arm holding five to 10 individual shotshells or rifle cartridges.",
+    "name": { "str": "buttstock ammunition clips" },
+    "description": "Plastic clips on the shoulder stock of a long arm holding five to 10 individual shotshells or rifle cartridges.",
     "copy-from": "stock_ammo_loops_canvas",
     "material": [ "plastic" ],
     "color": "white",

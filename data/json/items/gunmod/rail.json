@@ -95,5 +95,103 @@
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "flags": [ "LASER_SIGHT" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
+  },
+  {
+    "id": "side_carrier_rifle",
+    "type": "GUNMOD",
+    "name": "2-shot side carrier"
+    "//": "https://www.amazon.com/dp/B076HR8WPC?th=1",
+    "description": "A pair of Neoprene loops on a small velcro belt to hold bullets or shells for easy access.  The belt wraps around the body of a longarm, holding the bullets parallel with the gun.",
+    "weight": "9 g",
+    "integral_longest_side": "0 cm",
+    "volume": "65 ml",
+    "price": "14 USD 65 cent",
+    "price_postapoc": "2 USD",
+    "install_time": "10 sec",
+    "material": [ "neoprene" ],
+    "symbol": ":",
+    "color": "black",
+    "location": "rail",
+    "mod_targets": [ "rifle", "shotgun" ]
+    "min_skills": [ [ "weapon", 0 ] ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "ammo_restriction": {
+          "20x66mm": 2,
+          "22": 2,
+          "223": 2,
+          "270win": 2,
+          "300blk": 2,
+          "545x39": 2,
+          "3006": 2,
+          "123ln": 2,
+          "303": 2,
+          "77mm_arisaka": 2,
+          "308": 2,
+          "300": 2,
+          "762": 2,
+          "762R": 2,
+          "8x40mm": 2,
+          "4570": 2,
+          "50beowulf": 2,
+          "450": 2,
+          "410shot": 2,
+          "338lapua": 2,
+          "50": 2,
+          "458wm": 2,
+          "shot": 2
+        },
+        "moves": 20
+      }
+    ]
+  },
+  {
+    "id": "side_carrier_shotgun_cloth",
+    "copy-from": "side_carrier_rifle",
+    "type": "GUNMOD",
+    "name": "fabric side carrier",
+    "//": "https://www.amazon.com/dp/B0CVV6J1PS?th=1",
+    "description": "Six nylon loops on a small strap, to hold shotgun shells for easy access.  The strap adheres to the receiver of a shotgun, holding the shells perpendicular with the gun.",
+    "weight": "40 g",
+    "volume": "164 ml",
+    "price": "3 USD 50 cent",
+    "material": [ "nylon" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "ammo_restriction": {
+          "20x66mm": 6,
+          "410shot": 6,
+          "shot": 6
+        },
+        "moves": 20
+      }
+    ]
+  },
+  {
+    "id": "side_carrier_shotgun_plastic",
+    "copy-from": "side_carrier_shotgun_cloth",
+    "type": "GUNMOD",
+    "name": "plastic side carrier",
+    "//": "https://www.amazon.com/dp/B09PDJQ6PN",
+    "description": "A piece of plastic with six clips to hold shotgun shells for easy access.  The holder adheres to the receiver of a shotgun, holding the shells perpendicular with the gun.",
+    "volume": "290 ml",
+    "price": "5 USD",
+    "material": [ "plastic" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "ammo_restriction": {
+          "20x66mm": 6,
+          "410shot": 6,
+          "shot": 6
+        },
+        "moves": 20
+      }
+    ]
   }
 ]
