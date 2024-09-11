@@ -627,13 +627,15 @@ void uilist::calc_data()
     bool has_titlebar = !title.empty();
     if( has_titlebar ) {
         title_size = calc_size( title );
-        title_size.y += s.FramePadding.y * 2.0;
+        float expected_num_lines = title_size.y / ImGui::GetTextLineHeight();
+        title_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
     ImVec2 text_size = {};
     if( !text.empty() ) {
         text_size = calc_size( text );
-        text_size.y += s.ItemSpacing.y * 2.0;
+        float expected_num_lines = text_size.y / ImGui::GetTextLineHeight();
+        text_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
 
     ImVec2 desc_size = {};
@@ -647,7 +649,8 @@ void uilist::calc_data()
         if( desc_size.y <= 0.0 ) {
             desc_enabled = false;
         }
-        desc_size.y += s.ItemSpacing.y * 2.0;
+        float expected_num_lines = desc_size.y / ImGui::GetTextLineHeight();
+        desc_size.y += ( s.ItemSpacing.y * expected_num_lines ) + ( s.ItemSpacing.y * 2.0 );
     }
     float additional_height = title_size.y + text_size.y + desc_size.y + 2.0 *
                               ( s.FramePadding.y + s.WindowBorderSize );
