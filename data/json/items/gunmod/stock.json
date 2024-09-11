@@ -112,6 +112,41 @@
     "flags": [ "FOLDED_STOCK" ]
   },
   {
+    "id": "stock_mag_pouch",
+    "type": "GUNMOD",
+    "name": { "str": "buttstock magazine pouch", "str_pl": "buttstock magazine pouches" },
+    "description": "A pouch for one or two magazines that slips over the butt of a long arm.  Incompatible with bullpup weapons, whose actions are located in the stock.",
+    "weight": "91 g",
+    "volume": "250 ml",
+    "price": "25 USD",
+    "price_postapoc": "2 USD",
+    "install_time": "5 m",
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "color": "green",
+    "location": "stock accessory",
+    "mod_targets": [ "rifle", "shotgun" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_item_length": "240 mm",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "2 kg",
+        "moves": 40,
+        "flag_restriction": [ "MAG_COMPACT" ]
+      }
+    ]
+  },
+  {
     "id": "wire_stock",
     "type": "GUNMOD",
     "name": { "str": "collapsing wire stock" },
@@ -155,6 +190,46 @@
     "//": "10 is the modifier that stocked weapons normally get",
     "handling_modifier": -10,
     "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
+  },
+  { "id": "stock_mauser",
+    "type": "GUNMOD",
+    "name": { "str": "mauser C96 stock" },
+    "description": "The hollow removable wooden pistol stock of the C96 mauser pistol, which doubles as a holster.  It fits both the original clip-loaded C96 and later reproductions that use magazines, but a gun with an extended magazine won't fit without modification.",
+    "copy-from": "pistol_stock",
+    "volume": "680 ml",
+    "integral_volume": "680 ml",
+    "integral_weight": "590 g",
+    "integral_longest_side": "35 cm",
+    "weight": "590 g",
+    "material": [ "wood" ],
+    "color": "brown",
+    "location": "stock mount",
+    "mod_targets": [ "mauser_c96", "mauser_m714" ],
+    "min_skills": [ [ "weapon", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "rigid": true,
+        "item_restriction": [ "mauser_c96", "mauser_m714" ],
+        "max_contains_volume": "650 ml",
+        "max_contains_weight": "1815 g",
+        "max_item_length": "32 cm",
+        "moves": 50
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "BELT_CLIP", "OVERSIZE" ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "thickness": 5 } ],
+          "encumbrance": [ 3, 4 ],
+          "covers": [ "leg_l", "leg_r" ],
+          "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
+        }
+      ]
+    }
   },
   {
     "id": "stock_none",
@@ -430,6 +505,140 @@
         "max_contains_volume": "200 ml",
         "max_contains_weight": "200 g"
       }
+    ]
+  },
+  {
+    "id": "shotshell_stock",
+    "type": "GUNMOD",
+    "name": { "str": "speedload shotgun stock" },
+    "description": "A fixed stock with two spring-loaded tubes, each holding two shotshells.",
+    "weight": "350 g",
+    "volume": "500 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": "400 USD",
+    "price_postapoc": "5 USD",
+    "install_time": "10 m",
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "shotgun" ],
+    "melee_damage": { "bash": 6 },
+    "pocket_mods": [
+      {
+        "description": "Shotshell tube.",
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "ammo_restriction": { "20x66mm": 2, "410shot": 2, "shot": 2 }
+      },
+      {
+        "description": "Shotshell tube.",
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "ammo_restriction": { "20x66mm": 2, "410shot": 2, "shot": 2 }
+      }
+    ],
+    "min_skills": [ [ "weapon", 2 ] ]
+  },
+  {
+    "id": "stock_ammo_loops_canvas",
+    "type": "GUNMOD",
+    "name": { "str": "buttstock ammunition loops" },
+    "description": "Cloth loops on the shoulder stock of a long arm holding five to 10 individual shotshells or rifle cartridges.",
+    "weight": "91 g",
+    "volume": "200 ml",
+    "price": "25 USD",
+    "price_postapoc": "2 USD",
+    "install_time": "5 m",
+    "material": [ "canvas" ],
+    "symbol": ":",
+    "color": "white",
+    "location": "stock accessory",
+    "mod_targets": [ "rifle", "shotgun" ],
+    "min_skills": [ [ "weapon", 0 ] ], 
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "ammo_restriction": {
+          "20x66mm": 5,
+          "22": 10,
+          "223": 10,
+          "270win": 8,
+          "300blk": 7,
+          "545x39": 10,
+          "3006": 7,
+          "123ln": 7,
+          "303": 7,
+          "77mm_arisaka": 7,
+          "308": 7,
+          "300": 7,
+          "762": 7,
+          "762R": 7,
+          "8x40mm": 7,
+          "4570": 5,
+          "50beowulf": 5,
+          "450": 5,
+          "410shot": 5,
+          "338lapua": 6,
+          "50": 5,
+          "458wm": 5,
+          "shot": 5
+        },
+        "moves": 20
+      }
+    ]
+  },
+  {
+    "id": "stock_ammo_loops_leather",
+    "type": "GUNMOD",
+    "name": { "str": "buttstock ammunition loops" },
+    "description": "Leather loops on the shoulder stock of a long arm holding five to 10 individual shotshells or rifle cartridges.",
+    "copy-from": "stock_ammo_loops_canvas",
+    "material": [ "leather" ],
+    "color": "brown"
+  },
+  {
+    "id": "stock_ammo_loops_plastic",
+    "type": "GUNMOD",
+    "name": { "str": "buttstock ammunition loops" },
+    "description": "Plastic loops on the shoulder stock of a long arm holding five to 10 individual shotshells or rifle cartridges.",
+    "copy-from": "stock_ammo_loops_canvas",
+    "material": [ "plastic" ],
+    "color": "white",
+    "pocket_mods": [
+         {
+           "pocket_type": "CONTAINER",
+           "rigid": true,
+           "ammo_restriction": {
+             "20x66mm": 5,
+             "22": 10,
+             "223": 10,
+             "270win": 8,
+             "300blk": 7,
+             "545x39": 10,
+             "3006": 7,
+             "123ln": 7,
+             "303": 7,
+             "77mm_arisaka": 7,
+             "308": 7,
+             "300": 7,
+             "762": 7,
+             "762R": 7,
+             "8x40mm": 7,
+             "4570": 5,
+             "50beowulf": 5,
+             "450": 5,
+             "410shot": 5,
+             "338lapua": 6,
+             "50": 5,
+             "458wm": 5,
+             "shot": 5
+         },
+         "moves": 20
+       }
     ]
   }
 ]
