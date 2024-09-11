@@ -3867,7 +3867,7 @@
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "tshirt", "socks", "dress_shoes", "caffeine", "caff_gum", "usb_drive" ],
+        "items": [ "tshirt", "socks", "dress_shoes", "usb_drive" ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
