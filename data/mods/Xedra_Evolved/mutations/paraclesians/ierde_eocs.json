@@ -59,7 +59,8 @@
         { "condition": { "math": [ "u_val('morale')", ">", "50" ] } }
       ]
     },
-    "effect": [ { "u_lose_morale": "morale_food_good" },
+    "effect": [
+      { "u_lose_morale": "morale_food_good" },
       { "u_lose_morale": "morale_food_hot" },
       { "u_lose_morale": "morale_chat" },
       { "u_lose_morale": "morale_ate_with_table" },
