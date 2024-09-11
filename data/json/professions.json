@@ -1053,7 +1053,7 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
-  }
+    }
   },
   {
     "type": "profession",
