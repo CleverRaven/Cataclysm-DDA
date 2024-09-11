@@ -7804,7 +7804,7 @@
     "type": "profession",
     "id": "engineer_ee",
     "name": "Electrical Engineer",
-    "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder at a time. Now, you are not even sure if the complete failure of the powergrid makes your field obsolete or all the more necessary.",
+    "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder joint at a time. Now, you are not even sure if the complete failure of the power grid makes your field obsolete or all the more necessary.",
     "points": 2,
     "proficiencies": [
       "prof_elec_soldering",
