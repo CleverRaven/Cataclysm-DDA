@@ -151,7 +151,7 @@
       { "u_lose_morale": "morale_bile" },
       { "u_lose_morale": "morale_sunrise" },
       { "u_lose_morale": "morale_sunset" }
-     ],
+    ],
     "false_effect": [ { "u_message": "You are already in the mindset of stone.  Patient and eternal.", "type": "mixed" } ]
   },
   {
