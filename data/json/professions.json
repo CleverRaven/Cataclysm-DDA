@@ -7816,8 +7816,8 @@
     "skills": [ { "level": 5, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "file" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ]
+        "items": [ "dress_shirt", "socks", "dress_shoes", "wristwatch", "file" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "item": "pants", "variant": "pants_black" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
@@ -7850,8 +7850,8 @@
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "socks", "dress_shoes", "caffeine", "caff_gum", "usb_drive" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "group": "charged_laptop" } ]
+        "items": [ "tshirt", "socks", "dress_shoes", "caffeine", "caff_gum", "usb_drive" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "group": "charged_laptop" } , { "item": "pants", "variant": "pants_brown" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -7873,8 +7873,8 @@
     ],
     "items": {
       "both": {
-        "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ]
+        "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } , { "item": "pants", "variant": "pants_stone" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
