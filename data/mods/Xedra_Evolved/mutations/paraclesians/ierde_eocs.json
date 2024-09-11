@@ -49,7 +49,6 @@
       }
     ]
   },
-something like this is accepted when creating a new game
   {
     "type": "effect_on_condition",
     "id": "EOC_IERDE_DETECT_NEARBY_MONSTERS_EARTH_OFF",
