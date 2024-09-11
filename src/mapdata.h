@@ -134,6 +134,7 @@ struct plant_data {
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
+ * TRANSLUCENT - Must be paired with TRANSPARENT. Allows light to pass through, but blocks vision.
  * FLAT - Player can build and move furniture on
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
@@ -201,6 +202,7 @@ struct plant_data {
  */
 enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
+    TFLAG_TRANSLUCENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,

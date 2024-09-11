@@ -4,6 +4,7 @@
 #include <memory>
 #include <new>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -54,7 +55,6 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
-static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
@@ -340,8 +340,6 @@ void player_activity::do_turn( Character &you )
         }
 
         auto_resume = true;
-        player_activity new_act( ACT_WAIT_STAMINA, to_moves<int>( 5_minutes ) );
-        new_act.values.push_back( you.get_stamina_max() );
         if( you.is_avatar() && !ignoreQuery ) {
             uilist tired_query;
             tired_query.text = _( "You struggle to continue.  Keep trying?" );
@@ -364,7 +362,7 @@ void player_activity::do_turn( Character &you )
             }
         }
         if( !ignoreQuery && auto_resume ) {
-            you.assign_activity( new_act );
+            you.assign_activity( wait_stamina_activity_actor( you.get_stamina_max() ) );
         }
         return;
     }

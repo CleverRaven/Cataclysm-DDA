@@ -1382,7 +1382,7 @@ void complete_construction( Character *you )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( you->pos(), item_group::items_from( *built.byproduct_item_group,
+        here.spawn_items( you->pos_bub(), item_group::items_from( *built.byproduct_item_group,
                           calendar::turn ) );
     }
 

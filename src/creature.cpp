@@ -481,7 +481,7 @@ bool Creature::sees( const Creature &critter ) const
 
     // Creature has stumbled into an invisible player and is now aware of them
     if( has_effect( effect_stumbled_into_invisible ) &&
-        here.has_field_at( critter.pos(), field_fd_last_known ) && critter.is_avatar() ) {
+        here.has_field_at( critter.pos_bub(), field_fd_last_known ) && critter.is_avatar() ) {
         return true;
     }
 
@@ -1514,10 +1514,10 @@ bool Creature::stumble_invis( const Creature &player, const bool stumblemsg )
     add_effect( effect_stumbled_into_invisible, 6_seconds );
     map &here = get_map();
     // Mark last known location, or extend duration if exists
-    if( here.has_field_at( player.pos(), field_fd_last_known ) ) {
-        here.set_field_age( player.pos(), field_fd_last_known, 0_seconds );
+    if( here.has_field_at( player.pos_bub(), field_fd_last_known ) ) {
+        here.set_field_age( player.pos_bub(), field_fd_last_known, 0_seconds );
     } else {
-        here.add_field( player.pos(), field_fd_last_known );
+        here.add_field( player.pos_bub(), field_fd_last_known );
     }
     moves = 0;
     return true;

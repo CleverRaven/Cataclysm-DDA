@@ -855,14 +855,14 @@ void resonance_cascade( const tripoint &p )
     int endx = p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8;
     int starty = p.y < 8 ? 0 : p.y - 8;
     int endy = p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8;
-    tripoint dest( startx, starty, p.z );
+    tripoint_bub_ms dest( startx, starty, p.z );
     map &here = get_map();
-    for( int &i = dest.x; i <= endx; i++ ) {
-        for( int &j = dest.y; j <= endy; j++ ) {
+    for( int &i = dest.x(); i <= endx; i++ ) {
+        for( int &j = dest.y(); j <= endy; j++ ) {
             switch( rng( 1, 80 ) ) {
                 case 1:
                 case 2:
-                    emp_blast( dest );
+                    emp_blast( dest.raw() );
                     break;
                 case 3:
                 case 4:
@@ -923,7 +923,7 @@ void resonance_cascade( const tripoint &p )
                     here.destroy( dest );
                     break;
                 case 19:
-                    explosion( &player_character, dest, rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
+                    explosion( &player_character, dest.raw(), rng( 1, 10 ), rng( 0, 1 ) * rng( 0, 6 ), one_in( 4 ) );
                     break;
                 default:
                     break;
