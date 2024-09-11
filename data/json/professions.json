@@ -7855,7 +7855,12 @@
     "items": {
       "both": {
         "items": [ "tshirt", "socks", "dress_shoes", "caffeine", "caff_gum", "usb_drive" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" }, { "group": "charged_laptop" } , { "item": "pants", "variant": "pants_brown" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_laptop" },
+          { "item": "pants", "variant": "pants_brown" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
