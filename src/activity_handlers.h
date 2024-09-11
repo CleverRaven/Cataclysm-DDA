@@ -242,7 +242,6 @@ void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
 void vibe_do_turn( player_activity *act, Character *you );
 void view_recipe_do_turn( player_activity *act, Character *you );
-void wait_stamina_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -277,7 +276,6 @@ void vibe_finish( player_activity *act, Character *you );
 void view_recipe_finish( player_activity *act, Character *you );
 void wait_finish( player_activity *act, Character *you );
 void wait_npc_finish( player_activity *act, Character *you );
-void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );

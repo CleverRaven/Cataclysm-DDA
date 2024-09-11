@@ -2150,6 +2150,7 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "anger", &talker::get_anger },
     { "bmi_permil", &talker::get_bmi_permil },
     { "cash", &talker::cash },
+    { "difficulty", &talker::get_difficulty },
     { "dexterity_base", &talker::get_dex_max },
     { "dexterity_bonus", &talker::get_dex_bonus },
     { "dexterity", &talker::dex_cur },

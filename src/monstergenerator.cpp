@@ -1188,12 +1188,36 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             baby_timer = read_from_json_string<time_duration>( repro.get_member( "baby_timer" ),
                          time_duration::units );
         }
-        optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
-                  mtype_id::NULL_ID() );
-        optional( repro, was_loaded, "baby_monster_group", baby_monster_group, mongroup_id::NULL_ID() );
-        optional( repro, was_loaded, "baby_egg", baby_egg, string_id_reader<::itype> {},
-                  itype_id::NULL_ID() );
-        reproduces = true;
+
+        if( repro.has_object( "baby_type" ) ) {
+            JsonObject jo_type = repro.get_object( "baby_type" );
+            if( jo_type.has_member( "baby_monster" ) ) {
+                mandatory( jo_type, was_loaded, "baby_monster", baby_type.baby_monster );
+                baby_type.baby_monster_group = mongroup_id::NULL_ID();
+                baby_type.baby_egg = itype_id::NULL_ID();
+                baby_type.baby_egg_group = item_group_id::NULL_ID();
+            } else if( jo_type.has_member( "baby_monster_group" ) ) {
+                mandatory( jo_type, was_loaded, "baby_monster_group", baby_type.baby_monster_group );
+                baby_type.baby_monster = mtype_id::NULL_ID();
+                baby_type.baby_egg = itype_id::NULL_ID();
+                baby_type.baby_egg_group = item_group_id::NULL_ID();
+            } else if( jo_type.has_member( "baby_egg" ) ) {
+                mandatory( jo_type, was_loaded, "baby_egg", baby_type.baby_egg );
+                baby_type.baby_monster = mtype_id::NULL_ID();
+                baby_type.baby_monster_group = mongroup_id::NULL_ID();
+                baby_type.baby_egg_group = item_group_id::NULL_ID();
+            } else if( jo_type.has_member( "baby_egg_group" ) ) {
+                mandatory( jo_type, was_loaded, "baby_egg_group", baby_type.baby_egg_group );
+                baby_type.baby_monster = mtype_id::NULL_ID();
+                baby_type.baby_monster_group = mongroup_id::NULL_ID();
+                baby_type.baby_egg = itype_id::NULL_ID();
+            }
+            if( jo_type.has_member( "baby_monster" ) + jo_type.has_member( "baby_monster_group" ) +
+                jo_type.has_member( "baby_egg" ) + jo_type.has_member( "baby_egg_group" ) > 1 ) {
+                debugmsg( "Reproduction has more than one baby_type defined, which is prohibited" );
+            }
+            reproduces = true;
+        }
     }
 
     if( jo.has_member( "baby_flags" ) ) {
@@ -1755,6 +1779,7 @@ void MonsterGenerator::check_monster_definitions() const
         }
 
         if( mon.reproduces ) {
+
             if( !mon.baby_timer || *mon.baby_timer <= 0_seconds ) {
                 debugmsg( "Time between reproductions (%d) is invalid for %s",
                           mon.baby_timer ? to_turns<int>( *mon.baby_timer ) : -1, mon.id.c_str() );
@@ -1763,29 +1788,30 @@ void MonsterGenerator::check_monster_definitions() const
                 debugmsg( "Number of children (%d) is invalid for %s",
                           mon.baby_count, mon.id.c_str() );
             }
-            if( !mon.baby_monster && mon.baby_egg.is_null() && !mon.baby_monster_group ) {
-                debugmsg( "No baby, baby group, or egg defined for monster %s", mon.id.c_str() );
+
+            bool baby_monster = mon.baby_type.baby_monster != mtype_id::NULL_ID(); // if null then false
+            bool baby_monster_group = mon.baby_type.baby_monster_group != mongroup_id::NULL_ID();
+            bool baby_egg = mon.baby_type.baby_egg != itype_id::NULL_ID();
+            bool baby_egg_group = mon.baby_type.baby_egg_group != item_group_id::NULL_ID();
+            if( !baby_monster && !baby_monster_group && !baby_egg && !baby_egg_group ) {
+                debugmsg( "No baby_monster, baby_monster_group, baby_egg or baby_egg_group defined for monster %s",
+                          mon.id.c_str() );
             }
-            if( mon.baby_monster && !mon.baby_egg.is_null() ) {
-                debugmsg( "Both an egg and a live birth baby are defined for %s", mon.id.c_str() );
-            }
-            if( mon.baby_monster_group && !mon.baby_egg.is_null() ) {
-                debugmsg( "Both an egg and a baby group are defined for %s", mon.id.c_str() );
-            }
-            if( mon.baby_monster && mon.baby_monster_group ) {
-                debugmsg( "Both baby and a baby group are defined for %s", mon.id.c_str() );
-            }
-            if( !mon.baby_monster.is_valid() ) {
+            if( !mon.baby_type.baby_monster.is_valid() ) {
                 debugmsg( "baby_monster %s of monster %s is not a valid monster id",
-                          mon.baby_monster.c_str(), mon.id.c_str() );
+                          mon.baby_type.baby_monster.c_str(), mon.id.c_str() );
             }
-            if( !mon.baby_monster_group.is_valid() ) {
+            if( !mon.baby_type.baby_monster_group.is_valid() ) {
                 debugmsg( "baby_monster_group %s of monster %s is not a valid monster group id",
-                          mon.baby_monster.c_str(), mon.id.c_str() );
+                          mon.baby_type.baby_monster.c_str(), mon.id.c_str() );
             }
-            if( !item::type_is_defined( mon.baby_egg ) ) {
+            if( !item::type_is_defined( mon.baby_type.baby_egg ) ) {
                 debugmsg( "item_id %s of monster %s is not a valid item id",
-                          mon.baby_egg.c_str(), mon.id.c_str() );
+                          mon.baby_type.baby_egg.c_str(), mon.id.c_str() );
+            }
+            if( !item_group::group_is_defined( mon.baby_type.baby_egg_group ) && baby_egg_group ) {
+                debugmsg( "item_group_id %s of monster %s is not a valid itemgroup id",
+                          mon.baby_type.baby_egg_group.c_str(), mon.id.c_str() );
             }
         }
 

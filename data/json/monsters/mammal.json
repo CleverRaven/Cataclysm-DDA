@@ -132,7 +132,7 @@
     "harvest": "bear_with_skull",
     "dissect": "dissect_ursine_sample_small",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_bear_cub" }, "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 15, "infection_chance": 44 }, [ "BROWSE", 40 ] ],
@@ -324,7 +324,7 @@
     "harvest": "boar_with_skull",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "reproduction": { "baby_monster": "mon_boar_wild_piglet", "baby_count": 8, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_boar_wild_piglet" }, "baby_count": 8, "baby_timer": 154 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "path_settings": { "max_dist": 10 },
@@ -430,7 +430,7 @@
     "harvest": "cat_small_with_skull",
     "dissect": "dissect_feline_sample_single",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_kitten" }, "baby_count": 4, "baby_timer": 60 },
     "petfood": {
       "food": [ "CATFOOD" ],
       "feed": "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines.",
@@ -470,7 +470,7 @@
     "volume": "5000 ml",
     "weight": "5 kg",
     "//": "Longer fur, more cold protection",
-    "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_longhair_kitten" }, "baby_count": 4, "baby_timer": 60 },
     "armor": { "cold": 4 }
   },
   {
@@ -491,7 +491,7 @@
     "volume": "6100 ml",
     "weight": "6100 g",
     "hp": 16,
-    "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_maine_coon_kitten" }, "baby_count": 4, "baby_timer": 60 },
     "armor": { "cold": 4 }
   },
   {
@@ -509,7 +509,7 @@
     "copy-from": "mon_cat",
     "name": { "str": "Siamese cat" },
     "description": "This cat has the distinctive dark extremities of a Siamese, first native to Asia but a common domestic breed in North America.",
-    "reproduction": { "baby_monster": "mon_cat_siamese_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_siamese_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_siamese_kitten",
@@ -527,7 +527,7 @@
     "volume": "4100 ml",
     "weight": "4100 g",
     "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed.  Its fur is already matted without anyone being able to groom it.",
-    "reproduction": { "baby_monster": "mon_cat_persian_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_persian_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_persian_kitten",
@@ -545,7 +545,7 @@
     "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.  Domesticated but very energetic.",
     "volume": "4200 ml",
     "weight": "4200 g",
-    "reproduction": { "baby_monster": "mon_cat_bengal_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_bengal_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_bengal_kitten",
@@ -563,7 +563,7 @@
     "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
     "volume": "3400 ml",
     "weight": "3400 g",
-    "reproduction": { "baby_monster": "mon_cat_devon_rex_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_devon_rex_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_devon_rex_kitten",
@@ -580,7 +580,7 @@
     "name": { "str": "Sphynx cat" },
     "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
     "//": "No fur, no cold protection",
-    "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_sphynx_kitten" }, "baby_count": 4, "baby_timer": 60 },
     "armor": { "cold": 0 }
   },
   {
@@ -597,7 +597,7 @@
     "copy-from": "mon_cat",
     "name": { "str": "tabby cat" },
     "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings provide excellent camouflage.",
-    "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_tabby_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_tabby_kitten",
@@ -613,7 +613,7 @@
     "copy-from": "mon_cat",
     "name": { "str": "calico cat" },
     "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The calico was the Maryland state cat, back when there were still states.",
-    "reproduction": { "baby_monster": "mon_cat_calico_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_calico_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_cat_calico_kitten",
@@ -635,7 +635,7 @@
     "speed": 100,
     "dodge": 5,
     "//": "Fat helps keeping their body warm",
-    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 4, "baby_timer": 60 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_chonker_kitten" }, "baby_count": 4, "baby_timer": 60 },
     "armor": { "cold": 3 }
   },
   {
@@ -660,7 +660,7 @@
     "copy-from": "mon_cat",
     "name": { "str": "black cat" },
     "description": "A black ball of fur with prominent green eyes staring right into your soul.",
-    "reproduction": { "baby_monster": "mon_cat_black_kitten", "baby_count": 4, "baby_timer": 60 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cat_black_kitten" }, "baby_count": 4, "baby_timer": 60 }
   },
   {
     "id": "mon_chipmunk",
@@ -722,7 +722,7 @@
     "harvest": "cougar_with_skull",
     "dissect": "dissect_feline_sample_small",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "reproduction": { "baby_monster": "mon_cougar_kitten", "baby_count": 6, "baby_timer": 92 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cougar_kitten" }, "baby_count": 6, "baby_timer": 92 },
     "//": "Cougars can breed all year, but mainly do so between January and August, they can have between 1 to 6 kittens at a time.",
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "HIT_AND_RUN", "KEENNOSE" ],
@@ -860,7 +860,7 @@
     "dissect": "dissect_cattle_sample_small",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cow_calf" }, "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "GRAZE", 20 ], [ "EAT_CROP", 60 ] ],
@@ -911,7 +911,7 @@
     "dodge": 4,
     "vision_night": 20,
     "path_settings": { "max_dist": 10 },
-    "reproduction": { "baby_monster": "mon_coyote_pup", "baby_count": 4, "baby_timer": 63 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_coyote_pup" }, "baby_count": 4, "baby_timer": 63 },
     "//": "Average litter size of 4 pups, with gestation taking 63 days, but pupping occurs only from March to May",
     "baby_flags": [ "SPRING" ],
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "PLAYER_NEAR_BABY" ],
@@ -1035,7 +1035,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zeer",
-    "reproduction": { "baby_monster": "mon_deer_fawn", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_deer_fawn" }, "baby_count": 1, "baby_timer": 330 },
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -1076,7 +1076,7 @@
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
     "path_settings": { "max_dist": 10 },
-    "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
@@ -1168,7 +1168,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "vision_night": 4,
     "harvest": "dog_with_skull_leather",
-    "reproduction": { "baby_monster": "mon_dog_bull_pup", "baby_count": 7, "baby_timer": 300 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_bull_pup" }, "baby_count": 7, "baby_timer": 300 },
     "//": "7 puppies and 300-320 days per-litter for size medium canines"
   },
   {
@@ -1200,7 +1200,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "harvest": "dog_with_skull_leather",
-    "reproduction": { "baby_monster": "mon_dog_pitbullmix_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_pitbullmix_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
   {
@@ -1229,7 +1229,7 @@
     "melee_dice_sides": 1,
     "stomach_size": 115,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "reproduction": { "baby_monster": "mon_dog_beagle_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_beagle_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size tiny canines"
   },
   {
@@ -1257,7 +1257,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
     "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
-    "reproduction": { "baby_monster": "mon_dog_bcollie_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_bcollie_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
   {
@@ -1290,7 +1290,7 @@
     "harvest": "dog_with_skull_leather",
     "fear_triggers": [ "HURT" ],
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
-    "reproduction": { "baby_monster": "mon_dog_boxer_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_boxer_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
   {
@@ -1322,7 +1322,7 @@
     "stomach_size": 115,
     "vision_night": 6,
     "harvest": "dog_tiny_with_skull",
-    "reproduction": { "baby_monster": "mon_dog_chihuahua_pup", "baby_count": 3, "baby_timer": 240 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_chihuahua_pup" }, "baby_count": 3, "baby_timer": 240 },
     "//": "1-3 puppies & 240 days per-litter for size tiny canines"
   },
   {
@@ -1360,7 +1360,7 @@
     "stomach_size": 115,
     "vision_night": 6,
     "harvest": "dog_small_with_skull_leather",
-    "reproduction": { "baby_monster": "mon_dog_dachshund_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_dachshund_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
   {
@@ -1393,7 +1393,7 @@
     "vision_night": 6,
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
     "delete": { "flags": [ "HIT_AND_RUN" ] },
-    "reproduction": { "baby_monster": "mon_dog_gshepherd_pup", "baby_count": 7, "baby_timer": 300 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_gshepherd_pup" }, "baby_count": 7, "baby_timer": 300 },
     "//": "1-7 puppies & 300-320 days per-litter for size medium canines"
   },
   {
@@ -1429,7 +1429,7 @@
     "vision_night": 6,
     "stomach_size": 650,
     "harvest": "dog_with_skull_fur",
-    "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_gpyrenees_pup" }, "baby_count": 7, "baby_timer": 320 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines"
   },
   {
@@ -1466,7 +1466,7 @@
     "stomach_size": 650,
     "harvest": "dog_with_skull_leather",
     "extend": { "special_attacks": [ [ "LUNGE", 5 ] ] },
-    "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_rottweiler_pup" }, "baby_count": 7, "baby_timer": 300 },
     "//2": "1-7 puppies & 300-320 days per-litter for size medium canines"
   },
   {
@@ -1498,7 +1498,7 @@
     "dodge": 4,
     "vision_night": 6,
     "extend": { "special_attacks": [ [ "LUNGE", 5 ], { "type": "leap", "cooldown": 8, "max_range": 2 } ] },
-    "reproduction": { "baby_monster": "mon_dog_auscattle_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_auscattle_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
   {
@@ -1526,7 +1526,7 @@
     "morale": 10,
     "aggression": -20,
     "stomach_size": 650,
-    "reproduction": { "baby_monster": "mon_dog_samoyed_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_samoyed_pup" }, "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines"
   },
   {
@@ -1643,7 +1643,7 @@
     "copy-from": "mon_rabbit_base",
     "volume": "7500 ml",
     "weight": "1500 g",
-    "reproduction": { "baby_monster": "mon_hare_baby", "baby_count": 3, "baby_timer": 37 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_hare_baby" }, "baby_count": 3, "baby_timer": 37 }
   },
   {
     "id": "mon_hare_baby",
@@ -1738,7 +1738,7 @@
     "dissect": "dissect_cattle_sample_small",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "reproduction": { "baby_monster": "mon_horse_foal", "baby_count": 1, "baby_timer": 360 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_horse_foal" }, "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 50 ] ],
@@ -1854,7 +1854,7 @@
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
-    "reproduction": { "baby_monster": "mon_moose_calf", "baby_count": 1, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_moose_calf" }, "baby_count": 1, "baby_timer": 154 },
     "upgrades": { "half_life": 90, "into": "mon_tusked_moose" },
     "harvest": "moose_with_skull",
     "dissect": "dissect_cattle_sample_large",
@@ -1934,7 +1934,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_CLOSE" ],
     "baby_flags": [ "SPRING" ],
-    "reproduction": { "baby_monster": "mon_tusked_moose_calf", "baby_count": 1, "baby_timer": 104 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_tusked_moose_calf" }, "baby_count": 1, "baby_timer": 104 },
     "//": "Baby mutant moose are born quicker that their natural counterparts since they are mutants and that way they can be seen a little more often.",
     "harvest": "tusked_moose_with_skull",
     "dissect": "dissect_cattle_sample_large",
@@ -2201,7 +2201,7 @@
     "harvest": "pig_with_skull",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "reproduction": { "baby_monster": "mon_pig_piglet", "baby_count": 8, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_pig_piglet" }, "baby_count": 8, "baby_timer": 154 },
     "//": "116 days gestation, 3-5 weeks until the piglets get weaned, 10-30 days of maturation",
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
@@ -2285,7 +2285,7 @@
     "name": { "str": "domestic rabbit" },
     "description": "A small mammal with a cute wiggling nose, a cotton ball tail, and a body made of delicious flesh.",
     "copy-from": "mon_rabbit_base",
-    "reproduction": { "baby_monster": "mon_rabbit_baby", "baby_count": 6, "baby_timer": 33 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_rabbit_baby" }, "baby_count": 6, "baby_timer": 33 },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." }
   },
   {
@@ -2305,7 +2305,7 @@
     "copy-from": "mon_rabbit_base",
     "looks_like": "mon_rabbit",
     "weight": "1200 g",
-    "reproduction": { "baby_monster": "mon_wild_rabbit_baby", "baby_count": 5, "baby_timer": 28 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_wild_rabbit_baby" }, "baby_count": 5, "baby_timer": 28 }
   },
   {
     "id": "mon_wild_rabbit_baby",
@@ -2449,7 +2449,7 @@
     "dissect": "dissect_cattle_sample_single",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "reproduction": { "baby_monster": "mon_sheep_lamb", "baby_count": 1, "baby_timer": 275 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_sheep_lamb" }, "baby_count": 1, "baby_timer": 275 },
     "//": "Sheep are seasonal breeders. The natural sexual season is positioned so that lambs will be born in the spring when the weather is warmer and grass is available.",
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
@@ -2498,7 +2498,7 @@
     "dodge": 3,
     "shearing": [ { "result": "wool_staple", "amount": 5 } ],
     "harvest": "goat_with_skull",
-    "reproduction": { "baby_monster": "mon_goat_kid", "baby_count": 1, "baby_timer": 275 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_goat_kid" }, "baby_count": 1, "baby_timer": 275 },
     "//": "Timer copied from sheep",
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_CROP", 100 ], [ "GRAZE", 60 ] ],
@@ -2633,7 +2633,7 @@
     "dissect": "dissect_lupine_sample_single",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_canine" ],
-    "reproduction": { "baby_monster": "mon_wolf_pup", "baby_count": 6, "baby_timer": 365 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_wolf_pup" }, "baby_count": 6, "baby_timer": 365 },
     "//": "Wolves breed once a year, 4 to 6 puppies in one litter.",
     "baby_flags": [ "SPRING" ],
     "path_settings": { "max_dist": 10 },
@@ -2703,7 +2703,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "zombify_into": "mon_zeindeer",
-    "reproduction": { "baby_monster": "mon_reindeer_fawn", "baby_count": 5, "baby_timer": 340 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_reindeer_fawn" }, "baby_count": 5, "baby_timer": 340 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
     "baby_flags": [ "WINTER", "AUTUMN" ],
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
@@ -2797,7 +2797,7 @@
     "dissect": "dissect_cattle_sample_single",
     "weakpoint_sets": [ "wps_animal_quadruped" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_ungulate" ],
-    "reproduction": { "baby_monster": "mon_llama_calf", "baby_count": 1, "baby_timer": 275 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_llama_calf" }, "baby_count": 1, "baby_timer": 275 },
     "//": "Llamas produce offspring between summer and fall according to internet sources, makes sense due to the southern hemisphere seasons.",
     "baby_flags": [ "FALL" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 3 },
@@ -2849,7 +2849,7 @@
       "pet": "The %s lets out a happy squeak as you give its head a small scritch."
     },
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "reproduction": { "baby_monster": "mon_ferret_kit", "baby_count": 5, "baby_timer": 100 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_ferret_kit" }, "baby_count": 5, "baby_timer": 100 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ]
   },
