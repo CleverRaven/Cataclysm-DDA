@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "farming_seeds",
     "items": [
-      [ "seed_blueberries", 60 ],
+      [ "seed_blueberries", 6 ],
       [ "seed_strawberries", 60 ],
       [ "seed_blackberries", 60 ],
       [ "seed_cranberries", 60 ],
