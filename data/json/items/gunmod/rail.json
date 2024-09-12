@@ -112,7 +112,7 @@
     "symbol": ":",
     "color": "black",
     "location": "rail",
-    "mod_targets": [ "rifle", "shotgun" ]
+    "mod_targets": [ "rifle", "shotgun" ],
     "min_skills": [ [ "weapon", 0 ] ],
     "pocket_mods": [
       {
