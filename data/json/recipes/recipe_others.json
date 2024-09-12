@@ -138,7 +138,7 @@
         [ "birchbark_funnel", 1 ],
         [ "leather_funnel", 1 ]
       ],
-      [ [ "lc_wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
       [ [ "rock", 40 ] ]
@@ -177,7 +177,7 @@
         [ "birchbark_funnel", 1 ],
         [ "leather_funnel", 1 ]
       ],
-      [ [ "lc_wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
       [ [ "rock", 40 ] ]
@@ -683,6 +683,7 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "lc_wire",
+	"id_suffix": "scrap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -698,7 +699,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "lc_wire",
-    "id_suffix": "wire_draw_machine",
+    "id_suffix": "scrap_wire_draw_machine",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -1113,7 +1114,7 @@
     "decomp_learn": 0,
     "flags": [ "BLIND_HARD" ],
     "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
-    "components": [ [ [ "cable", 10 ], [ "lc_wire", 1 ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
+    "components": [ [ [ "cable", 10 ], [ "any_wire", 1, "LIST" ] ], [ [ "hotplate", 1 ] ], [ [ "chemistry_set_basic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2879,7 +2880,7 @@
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 18 ], [ "cu_pipe", 18 ], [ "frame", 3 ] ],
       [ [ "nails", 12, "LIST" ] ],
-      [ [ "lc_wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "spike", 4 ] ],
       [ [ "pipe_fittings", 15 ] ]
@@ -2907,7 +2908,7 @@
       [ [ "scrap", 6 ] ],
       [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
       [ [ "nails", 12, "LIST" ] ],
-      [ [ "lc_wire", 6 ], [ "rope_natural_short", 6, "LIST" ] ],
+      [ [ "any_wire", 6, "LIST" ], [ "rope_natural_short", 6, "LIST" ] ],
       [ [ "spike", 4 ] ],
       [ [ "pipe_fittings", 30 ] ]
     ]

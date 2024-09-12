@@ -439,7 +439,7 @@
     "time": "2 h",
     "autolearn": true,
     "using": [ [ "tailoring_cotton_patchwork", 1 ], [ "fastener_small", 3 ] ],
-    "components": [ [ [ "lc_wire", 1 ] ] ],
+    "components": [ [ [ "any_wire", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -448,7 +448,7 @@
     "copy-from": "bra",
     "time": "3 h",
     "using": [ [ "tailoring_cotton_patchwork", 2 ], [ "fastener_small", 5 ] ],
-    "components": [ [ [ "lc_wire", 2 ] ] ]
+    "components": [ [ [ "any_wire", 2, "LIST" ] ] ]
   },
   {
     "result": "xs_bra",

@@ -295,7 +295,6 @@
     "//": "First item in the components list is serving as a torsion wrench. Many small flat items can be jammed in and turned to apply torsion.  Second item in the list is the pick itself which has to be a small, bent bit of wire or pin.",
     "components": [
       [
-        [ "lc_wire", 1 ],
         [ "hairpin", 1 ],
         [ "fc_hairpin", 1 ],
         [ "copper_hairpin", 1 ],
@@ -305,23 +304,12 @@
         [ "knife_small", 1 ],
         [ "knife_butter", 1 ],
         [ "fork", 1 ],
-        [ "lc_wire", 1 ],
-        [ "hc_wire", 1 ],
-        [ "ch_wire", 1 ],
-        [ "lc_wire", 1 ],
-        [ "mc_wire", 1 ],
-        [ "qt_wire", 1 ]
+        [ "any_wire", 1, "LIST" ]
       ],
       [
-        [ "lc_wire", 1 ],
         [ "hairpin", 1 ],
         [ "cable", 1 ],
-        [ "lc_wire", 1 ],
-        [ "hc_wire", 1 ],
-        [ "ch_wire", 1 ],
-        [ "lc_wire", 1 ],
-        [ "mc_wire", 1 ],
-        [ "qt_wire", 1 ]
+        [ "any_wire", 1, "LIST" ]
       ]
     ]
   },
@@ -539,7 +527,7 @@
     ],
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 100 ], [ "cordage", 2 ] ],
-    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "lc_wire", 2 ] ] ]
+    "components": [ [ [ "leather", 30 ], [ "tanned_hide", 5 ], [ "fur", 30 ], [ "tanned_pelt", 5 ] ], [ [ "any_wire", 2, "LIST" ] ] ]
   },
   {
     "result": "jack",
@@ -1512,7 +1500,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "using": [ [ "soldering_standard", 10 ], [ "plastic_molding", 3 ] ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lc_wire", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

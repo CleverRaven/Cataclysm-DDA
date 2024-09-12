@@ -464,8 +464,7 @@
       [ [ "sheet_cotton", 7 ] ],
       [ [ "cotton_patchwork", 4 ] ],
       [ [ "sheet", 4 ] ],
-      [ [ "spring", 4 ] ],
-      [ [ "lc_wire", 20 ] ]
+      [ [ "hc_wire", 30 ] ]
     ]
   },
   {

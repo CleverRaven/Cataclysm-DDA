@@ -217,7 +217,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "lc_wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -233,7 +233,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "lc_wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -250,7 +250,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "lc_wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -266,7 +266,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "lc_wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -283,7 +283,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "lc_wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "bismuth", 200 ] ]
     ]
