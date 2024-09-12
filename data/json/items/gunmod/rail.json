@@ -162,11 +162,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": false,
-        "ammo_restriction": {
-          "20x66mm": 6,
-          "410shot": 6,
-          "shot": 6
-        },
+        "ammo_restriction": { "20x66mm": 6, "410shot": 6, "shot": 6 },
         "moves": 20
       }
     ]
@@ -185,11 +181,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "ammo_restriction": {
-          "20x66mm": 6,
-          "410shot": 6,
-          "shot": 6
-        },
+        "ammo_restriction": { "20x66mm": 6, "410shot": 6, "shot": 6 },
         "moves": 20
       }
     ]

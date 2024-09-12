@@ -191,7 +191,8 @@
     "handling_modifier": -10,
     "flags": [ "COLLAPSED_STOCK", "IRREMOVABLE" ]
   },
-  { "id": "stock_mauser",
+  {
+    "id": "stock_mauser",
     "type": "GUNMOD",
     "name": { "str": "mauser C96 stock" },
     "description": "The hollow removable wooden pistol stock of the C96 mauser pistol, which doubles as a holster.  It fits both the original clip-loaded C96 and later reproductions that use magazines, but a gun with an extended magazine won't fit without modification.",
@@ -557,7 +558,7 @@
     "color": "white",
     "location": "stock accessory",
     "mod_targets": [ "rifle", "shotgun" ],
-    "min_skills": [ [ "weapon", 0 ] ], 
+    "min_skills": [ [ "weapon", 0 ] ],
     "pocket_mods": [
       {
         "pocket_type": "CONTAINER",
@@ -609,36 +610,36 @@
     "material": [ "plastic" ],
     "color": "white",
     "pocket_mods": [
-         {
-           "pocket_type": "CONTAINER",
-           "rigid": true,
-           "ammo_restriction": {
-             "20x66mm": 5,
-             "22": 10,
-             "223": 10,
-             "270win": 8,
-             "300blk": 7,
-             "545x39": 10,
-             "3006": 7,
-             "123ln": 7,
-             "303": 7,
-             "77mm_arisaka": 7,
-             "308": 7,
-             "300": 7,
-             "762": 7,
-             "762R": 7,
-             "8x40mm": 7,
-             "4570": 5,
-             "50beowulf": 5,
-             "450": 5,
-             "410shot": 5,
-             "338lapua": 6,
-             "50": 5,
-             "458wm": 5,
-             "shot": 5
-         },
-         "moves": 20
-       }
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "ammo_restriction": {
+          "20x66mm": 5,
+          "22": 10,
+          "223": 10,
+          "270win": 8,
+          "300blk": 7,
+          "545x39": 10,
+          "3006": 7,
+          "123ln": 7,
+          "303": 7,
+          "77mm_arisaka": 7,
+          "308": 7,
+          "300": 7,
+          "762": 7,
+          "762R": 7,
+          "8x40mm": 7,
+          "4570": 5,
+          "50beowulf": 5,
+          "450": 5,
+          "410shot": 5,
+          "338lapua": 6,
+          "50": 5,
+          "458wm": 5,
+          "shot": 5
+        },
+        "moves": 20
+      }
     ]
   }
 ]
