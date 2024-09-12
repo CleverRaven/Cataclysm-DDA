@@ -192,6 +192,70 @@
   },
   {
     "type": "mutation",
+    "id": "CHANGELING_NOBLE_CURE_BAD_CONDITIONS",
+    "name": { "str": "Lights of Imbolc" },
+    "points": 2,
+    "description": "The end of winter brings hope for the coming of spring, and in the light of the candles lit at Imbolc the dust and gloom of the long nights end.",
+    "prereqs": [ "DISRESISTANT" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_cure_bad_conditions_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_BURNING_WEAPON",
+    "name": { "str": "Fires of Bealtaine" },
+    "points": 3,
+    "description": "The bonfires of Bealtaine drive away evil and purify both man and beast.",
+    "prereqs": [ "PARACLESIAN_FAE_SIGHT_1", "PARACLESIAN_FAE_SIGHT_2" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_burning_weapon_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_MOVEMENT_BUFFS",
+    "name": { "str": "Deeds of Lughnasadh" },
+    "points": 4,
+    "description": "Lughnasadh is a time for bringing in the harvest and for contests of skill and stamina.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_movement_buffs_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_SUMMON_GHOSTS",
+    "name": { "str": "Hosts of Samhain" },
+    "points": 8,
+    "description": "As the year dies and winter's winds begin to blow, the dead return for a short time to visit the living.",
+    "prereqs": [ "CHANGELING_SUMMON_WILL_O_THE_WISPS", "CHANGELING_NOBLE_RIGHT_OF_PASSAGE" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "spells_learned": [ [ "changeling_noble_summon_ghosts_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE",
+    "name": { "str": "Right of Passage" },
+    "points": 8,
+    "description": "The Fair Folk have dealt with many mortal civilizations over the aeons, and have come to mutually beneficial arrangements with some of them.  Activate this trait to make your fae nature obvious, invoking those ancient agreements.  This <color_yellow>may anger</color> some who have especially bad relationships with the fae.",
+    "prereqs": [ "PRETTY" ],
+    "category": [ "FAIR_FOLK_NOBLE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_ON" ],
+    "deactivated_eocs": [ "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS",
+    "name": { "str": "Right of Passage Mechanics" },
+    "description": "The mechanical effects of Right of Passage.  You should never see this.",
+    "points": 10,
+    "valid": false,
+    "player_display": false,
+    "ignored_by": [ "PLANT", "MIGO", "CHANGELING", "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
+    "anger_relations": [ [ "CYBORG", 50 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BROWNIE_CRAFTING_BONUS",
     "name": { "str": "Household Artistry" },
     "//": "This and the upgrades below should ideally require you to be unobserved, but having no one nearby will have to suffice for now.",
@@ -287,6 +351,84 @@
         "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_ANTLERS",
+    "name": { "str": "Antlers (Shapeshift)" },
+    "points": 2,
+    "description": "Grow an impressive rack of antlers, allowing you to make a headbutt attack but preventing you from wearing a helmet.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_ANTLERS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_ANTLERS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_WOLF_EARS",
+    "name": { "str": "Wolf Ears (Shapeshift)" },
+    "points": 2,
+    "description": "Change your ears into the ears of a wolf, granting you increased hearing.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_WOLF_EARS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_WOLF_EARS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CLAWS",
+    "name": { "str": "Claws (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of claws, improving your unarmed damage if you aren't wearing gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_CLAWS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_CLAWS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_STAINLESS_CLAWS",
+    "name": { "str": "Vicious Claws (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a powerful set of claws, nearly as hard as steel, greatly improving your unarmed damage if you aren't wearing gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_WOLF_TAIL",
+    "name": { "str": "Wolf Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a wolf, making it harder to wear pants but improving your balance.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_WOLF_TAIL_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_WOLF_TAIL_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_TAIL_LONG",
+    "name": { "str": "Cat Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a cat, making it harder to wear pants but improving your balance.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_TAIL_LONG_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_TAIL_LONG_OFF" ]
   },
   {
     "type": "mutation",
@@ -475,5 +617,28 @@
       "FAIR_FOLK_COMMONER_TROW"
     ],
     "spells_learned": [ [ "changeling_summon_will_o_the_wisps_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FAE_IMMORTALITY",
+    "name": { "str": "Faerie Eternity" },
+    "points": 8,
+    "description": "You seem to have stopped aging.  That would have been an amazing gift before the Cataclysm, but now at least you might live long enough to find some way back to your birthplace Under the Hill.",
+    "prereqs": [ "DISIMMUNE" ],
+    "prereqs2": [ "PARACLESIAN_STR_DEX_2", "PARACLESIAN_INT_PER_2" ],
+    "category": [
+      "FAIR_FOLK_NOBLE",
+      "FAIR_FOLK_COMMONER_BROWNIE",
+      "FAIR_FOLK_COMMONER_POOKA",
+      "FAIR_FOLK_COMMONER_SELKIE",
+      "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
+    ]
   }
 ]

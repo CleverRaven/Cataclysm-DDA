@@ -275,8 +275,8 @@
       {
         "queue_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END",
         "time_in_future": [
-          { "math": [ "(u_val('intelligence') * 90) + (u_skill('deduction') * 230) + 351" ] },
-          { "math": [ "(u_val('intelligence') * 230) + (u_skill('deduction') * 560) + 789" ] }
+          { "math": [ "(changeling_common_traits() * 22.5) + (u_skill('deduction') * 230) + 351" ] },
+          { "math": [ "(changeling_common_traits() * 57.5) + (u_skill('deduction') * 560) + 789" ] }
         ]
       }
     ],
@@ -309,5 +309,295 @@
       ]
     },
     "effect": [ { "run_eocs": "EOC_CHANGELING_DISGUISE_AS_NATURE_END" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_BURNING_WEAPON",
+    "condition": "u_has_weapon",
+    "effect": [
+      { "u_message": "Your weapon kindles into white-gold flame.", "type": "good" },
+      {
+        "u_add_effect": "effect_changeling_noble_burning_weapon",
+        "duration": {
+          "math": [
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 2.4) + (u_skill('deduction') * 26) + 278) , ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8.8) + (u_skill('deduction') * 175) + 915))"
+          ]
+        }
+      }
+    ],
+    "false_effect": [
+      { "u_message": "Fires of Bealtaine requires a weapon to affect in order to take hold.", "type": "bad" },
+      {
+        "math": [
+          "u_val('mana')",
+          "+=",
+          "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 3) - (u_skill('deduction') * 20)), 200)"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_CURE_BAD_CONDITIONS",
+    "effect": [
+      {
+        "if": { "u_has_effect": "dermatik" },
+        "then": [ { "u_lose_effect": "dermatik" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "dermatik_visible" },
+        "then": [ { "u_lose_effect": "dermatik_visible" }, { "math": [ "u_val('sleepiness')", "+=", "125" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison" },
+        "then": [ { "u_lose_effect": "poison" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "head" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "head" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "torso" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "torso" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "arm_r" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "arm_l" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "leg_r" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "poison", "bodypart": "leg_l" },
+        "then": [ { "u_lose_effect": "poison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness')", "+=", "20" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison" },
+        "then": [ { "u_lose_effect": "badpoison" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "head" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "head" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "torso" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "torso" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "arm_r" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_r" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "arm_l" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "arm_l" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "leg_r" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_r" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "badpoison", "bodypart": "leg_l" },
+        "then": [ { "u_lose_effect": "badpoison", "target_part": "leg_l" }, { "math": [ "u_val('sleepiness')", "+=", "50" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_dmg" },
+        "then": [ { "u_lose_effect": "venom_dmg" }, { "math": [ "u_val('sleepiness')", "+=", "35" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_weaken" },
+        "then": [ { "u_lose_effect": "venom_weaken" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_blind" },
+        "then": [ { "u_lose_effect": "venom_blind" }, { "math": [ "u_val('sleepiness')", "+=", "30" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "venom_pain" },
+        "then": [ { "u_lose_effect": "venom_pain" }, { "math": [ "u_val('sleepiness')", "+=", "40" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "paralyzepoison" },
+        "then": [ { "u_lose_effect": "paralyzepoison" }, { "math": [ "u_val('sleepiness')", "+=", "45" ] } ]
+      },
+      {
+        "if": { "u_has_effect": "pre_common_cold" },
+        "then": [
+          { "u_lose_effect": "pre_common_cold" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "25" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "common_cold" },
+        "then": [
+          { "u_lose_effect": "common_cold" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "50" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "pre_flu" },
+        "then": [
+          { "u_lose_effect": "pre_flu" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "40" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "flu" },
+        "then": [
+          { "u_lose_effect": "flu" },
+          { "u_add_effect": "effect_hedge_cure_cold_or_flu", "duration": "10 days" },
+          { "math": [ "u_val('sleepiness')", "+=", "80" ] }
+        ]
+      },
+      {
+        "if": { "u_has_effect": "conjunctivitis", "bodypart": "eyes" },
+        "then": [ { "u_lose_effect": "conjunctivitis", "target_part": "eyes" }, { "math": [ "u_val('sleepiness')", "+=", "35" ] } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_MOVEMENT_BUFFS",
+    "condition": "u_is_npc",
+    "effects": [
+      { "math": [ "u_glamoured_changeling_noble_traits", "=", "n_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE')" ] },
+      { "math": [ "u_glamoured_deduction_movement_buff", "=", "n_skill('deduction')" ] },
+      {
+        "u_add_effect": "effect_changeling_noble_movement_buffs_ally",
+        "duration": {
+          "math": [
+            "rng( ( (u_glamoured_changeling_noble_traits * 5.5) + (u_glamoured_deduction_movement_buff * 39) + 225), ((u_glamoured_changeling_noble_traits * 12.3) + (u_glamoured_deduction_movement_buff * 89) + 691) )"
+          ]
+        }
+      }
+    ],
+    "false_effects": [
+      { "u_message": "Your stretch your limbs and bounce on your heels.", "type": "neutral" },
+      {
+        "u_add_effect": "effect_changeling_noble_movement_buffs",
+        "duration": {
+          "math": [
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 5.5) + (u_skill('deduction') * 39) + 225), ((u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 12.3) + (u_skill('deduction') * 89) + 691) )"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_ON",
+    "effect": [ { "u_add_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_OFF",
+    "effect": [ { "u_lose_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK",
+    "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK_2",
+            "condition": {
+              "math": [ "pooka_shapeshift_traits()", ">=", "2 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 25)" ]
+            },
+            "effect": [ { "math": [ "u_val('mana')", "--" ] } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You do not have enough mana to maintain all of your shapeshifts!", "type": "bad" },
+      { "queue_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+    "effect": [
+      { "u_deactivate_trait": "POOKA_ANTLERS" },
+      { "u_deactivate_trait": "POOKA_WOLF_EARS" },
+      { "u_deactivate_trait": "POOKA_CLAWS" },
+      { "u_deactivate_trait": "POOKA_STAINLESS_CLAWS" },
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_ANTLERS_ON",
+    "effect": [ { "u_add_trait": "ANTLERS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_ANTLERS_OFF",
+    "effect": [ { "u_lose_trait": "ANTLERS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_EARS_ON",
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_add_trait": "LUPINE_EARS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_EARS_OFF",
+    "effect": [ { "u_lose_trait": "LUPINE_EARS" }, { "u_add_trait": "ELFA_EARS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CLAWS_ON",
+    "effect": [ { "u_add_trait": "CLAWS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CLAWS_OFF",
+    "effect": [ { "u_lose_trait": "CLAWS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_STAINLESS_CLAWS_ON",
+    "effect": [ { "u_add_trait": "CLAWS_ST" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_STAINLESS_CLAWS_OFF",
+    "effect": [ { "u_lose_trait": "CLAWS_ST" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_TAIL_ON",
+    "effect": [ { "u_deactivate_trait": "POOKA_TAIL_LONG" }, { "u_add_trait": "TAIL_FLUFFY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_WOLF_TAIL_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_FLUFFY" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_LONG_ON",
+    "effect": [ { "u_deactivate_trait": "POOKA_WOLF_TAIL" }, { "u_add_trait": "TAIL_LONG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_LONG_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_LONG" } ]
   }
 ]

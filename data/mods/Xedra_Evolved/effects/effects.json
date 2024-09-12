@@ -2039,6 +2039,115 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_noble_burning_weapon",
+    "name": [ "Fires of Bealtaine" ],
+    "desc": [ "Your weapon is burning with white-gold fire." ],
+    "remove_message": "The flames on your weapon go out.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "LUMINATION", "add": 25 } ],
+        "hit_you_effect": [ { "id": "changeling_noble_burning_weapon_fire_damage" }, { "id": "changeling_noble_burning_weapon_anti_nether" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_noble_movement_buffs",
+    "name": [ "Deeds of Lughnasadh" ],
+    "desc": [ "You would have definitely won the contests." ],
+    "remove_message": "Your athletic prowess fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('deduction') * 0.25) )" ] }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('deduction') * 0.2) )" ] }
+          },
+          {
+            "value": "THROW_STR",
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('deduction') * 0.35) )" ] }
+          },
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('deduction') * 0.02) )), 0.98)"
+              ]
+            }
+          },
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "CLIMB_NO_LADDER", "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_noble_movement_buffs_ally",
+    "name": [ "Deeds of Lughnasadh" ],
+    "desc": [ "You would have definitely won the contests." ],
+    "remove_message": "Your athletic prowess fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "1 + ( (u_glamoured_changeling_noble_traits * 0.08) + (u_glamoured_deduction_movement_buff * 0.25) )" ] }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "1 + ( (u_glamoured_changeling_noble_traits * 0.05) + (u_glamoured_deduction_movement_buff * 0.2) )" ] }
+          },
+          {
+            "value": "THROW_STR",
+            "add": { "math": [ "1 + ( (u_glamoured_changeling_noble_traits * 0.07) + (u_glamoured_deduction_movement_buff * 0.35) )" ] }
+          },
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "min( (0.33 + ( (u_glamoured_changeling_noble_traits * 0.005) + (u_glamoured_deduction_movement_buff * 0.02) )), 0.98)"
+              ]
+            }
+          },
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_glamoured_changeling_noble_traits * 0.0015) - (u_glamoured_deduction_movement_buff * 0.015) )" ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": {
+              "math": [ "-0.1 - ( u_glamoured_changeling_noble_traits * 0.0015) - (u_glamoured_deduction_movement_buff * 0.015) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "CLIMB_NO_LADDER", "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_brownie_attacked_someone",
     "name": [ "Conspicuous" ],
     "desc": [ "People can definitely see you now." ],
