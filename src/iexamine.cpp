@@ -417,7 +417,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
-            on_table = here.items_with( valid_location.raw(), [&]( const item & it ) {
+            on_table = here.items_with( valid_location, [&]( const item & it ) {
                 return it.has_flag( flag_NANOFAB_REPAIR );
             } );
             break;
@@ -3443,8 +3443,8 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
         add_firestarter( it, firestarters, you, examp );
     }
 
-    for( const tripoint &pos : closest_points_first( you.pos(), PICKUP_RANGE ) ) {
-        if( pos == examp ) {
+    for( const tripoint_bub_ms &pos : closest_points_first( you.pos_bub(), PICKUP_RANGE ) ) {
+        if( pos.raw() == examp ) {
             // stuff in the fireplace can't light or quench itself
             continue;
         }

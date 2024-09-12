@@ -1110,7 +1110,7 @@
   {
     "id": "animist_cast_spells_when_silent",
     "type": "SPELL",
-    "name": "Vocalize",
+    "name": "The Inner Voice",
     "description": "Channel magic through your soul instead of your voice, allowing you to cast spells that require speech even when mute.",
     "valid_targets": [ "self" ],
     "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "NO_LEGS" ],

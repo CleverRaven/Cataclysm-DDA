@@ -258,12 +258,12 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         test_monster.set_special( "SPLIT", 0 );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        here.add_item( test_monster.pos(), item( "frame" ) );
+        here.add_item( test_monster.pos_bub(), item( "frame" ) );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
 
         mattack::absorb_items( &test_monster );
         // test that the frame is removed and no items remain
-        CHECK( here.i_at( test_monster.pos() ).empty() );
+        CHECK( here.i_at( test_monster.pos_bub() ).empty() );
 
         test_monster.set_special( "ABSORB_ITEMS", 0 );
 
@@ -277,7 +277,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
         test_monster.set_special( "ABSORB_ITEMS", 0 );
-        here.add_item( test_monster.pos(), item( "frame" ) );
+        here.add_item( test_monster.pos_bub(), item( "frame" ) );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
 
@@ -316,13 +316,13 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         item corpse = item( "corpse" );
         corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
 
-        here.add_item( test_monster.pos(), corpse );
+        here.add_item( test_monster.pos_bub(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
 
         mattack::absorb_items( &test_monster );
 
         // test that the pencil remains after the corpse is absorbed
-        CHECK( ( here.i_at( test_monster.pos() ).begin() )->display_name().rfind( "pencil" ) !=
+        CHECK( ( here.i_at( test_monster.pos_bub() ).begin() )->display_name().rfind( "pencil" ) !=
                std::string::npos );
 
         CHECK( monster_goals.tick( &oracle ) == "idle" );
@@ -333,7 +333,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.set_hp( new_hp );
 
         // also set proper conditions for ABSORB_ITEMS to make sure SPLIT takes priority
-        here.add_item( test_monster.pos(), item( "corpse" ) );
+        here.add_item( test_monster.pos_bub(), item( "corpse" ) );
         test_monster.set_special( "ABSORB_ITEMS", 0 );
 
         CHECK( monster_goals.tick( &oracle ) == "SPLIT" );
@@ -374,14 +374,14 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         item corpse = item( "corpse" );
         corpse.force_insert_item( item( "pencil" ), pocket_type::CONTAINER );
 
-        here.add_item( test_monster.pos(), corpse );
+        here.add_item( test_monster.pos_bub(), corpse );
         CHECK( monster_goals.tick( &oracle ) == "ABSORB_ITEMS" );
 
         mattack::absorb_items( &test_monster );
 
         // test that the pencil does not remain after the corpse is absorbed
         // because this shoggoth absorbs all matter indiscriminately
-        CHECK( here.i_at( test_monster.pos() ).empty() );
+        CHECK( here.i_at( test_monster.pos_bub() ).empty() );
 
         CHECK( monster_goals.tick( &oracle ) == "idle" );
     }

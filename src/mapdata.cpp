@@ -260,8 +260,9 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
         case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
-		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
-		case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
+        case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
+        case ter_furn_flag::TFLAG_TRANSLUCENT: return "TRANSLUCENT";
+        case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
         case ter_furn_flag::TFLAG_GRAZABLE: return "GRAZABLE";
         case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
         case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
@@ -679,7 +680,8 @@ void load_terrain( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 {
-    if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
+    if( !transparent && ( flag == ter_furn_flag::TFLAG_TRANSPARENT ||
+                          flag == ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         transparent = true;
     }
 

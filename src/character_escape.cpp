@@ -42,6 +42,7 @@ static const efftype_id effect_webbed( "webbed" );
 
 static const flag_id json_flag_GRAB( "GRAB" );
 
+static const itype_id itype_beartrap( "beartrap" );
 static const itype_id itype_rope_6( "rope_6" );
 static const itype_id itype_snare_trigger( "snare_trigger" );
 
@@ -89,7 +90,7 @@ void Character::try_remove_bear_trap()
     /* Real bear traps can't be removed without the proper tools or immense strength; eventually this should
        allow normal players two options: removal of the limb or removal of the trap from the ground
        (at which point the player could later remove it from the leg with the right tools).
-       As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
+       As such we are currently making it a bit easier for players and NPCs to get out of bear traps.
     */
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
     if( is_avatar() && is_mounted() ) {
@@ -98,6 +99,7 @@ void Character::try_remove_bear_trap()
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
                 remove_effect( effect_beartrap );
+                get_map().spawn_item( pos_bub(), itype_beartrap );
                 add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
             } else {
                 add_msg_if_player( m_bad,
@@ -107,6 +109,7 @@ void Character::try_remove_bear_trap()
     } else {
         if( can_escape_trap( 100 ) ) {
             remove_effect( effect_beartrap );
+            get_map().spawn_item( pos_bub(), itype_beartrap );
             add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
                                    _( "<npcname> frees themselves from the bear trap!" ) );
         } else {

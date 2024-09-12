@@ -2073,7 +2073,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_vocalize",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Vocalize", "str_pl": "Scrolls of Vocalize" },
+    "name": { "str": "Scroll of The Inner Voice", "str_pl": "Scrolls of The Inner Voice" },
     "description": "Speak with your soul instead of your voice, allowing casting spells in silence.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_cast_spells_when_silent" ] }
   },

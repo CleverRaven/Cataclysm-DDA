@@ -410,7 +410,7 @@ bool npc::could_move_onto( const tripoint &p ) const
         return true;
     }
 
-    const field fields_here = here.field_at( pos() );
+    const field fields_here = here.field_at( pos_bub() );
     for( const auto &e : here.field_at( p ) ) {
         if( !is_dangerous_field( e.second ) ) {
             continue;
@@ -779,13 +779,13 @@ void npc::assess_danger()
     const field_type_id fd_fire = ::fd_fire;
     // first, check if we're about to be consumed by fire
     // `map::get_field` uses `field_cache`, so in general case (no fire) it provides an early exit
-    for( const tripoint &pt : here.points_in_radius( pos(), 6 ) ) {
-        if( pt == pos() || !here.get_field( pt, fd_fire ) ||
+    for( const tripoint_bub_ms &pt : here.points_in_radius( pos_bub(), 6 ) ) {
+        if( pt == pos_bub() || !here.get_field( pt, fd_fire ) ||
             here.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER,  pt ) ) {
             continue;
         }
-        int dist = rl_dist( pos(), pt );
-        cur_threat_map[direction_from( pos(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
+        int dist = rl_dist( pos_bub(), pt );
+        cur_threat_map[direction_from( pos_bub(), pt )] += 2.0f * ( NPC_MONSTER_DANGER_MAX - dist );
         if( dist < 3 && !has_effect( effect_npc_fire_bad ) ) {
             warn_about( "fire_bad", 1_minutes );
             add_effect( effect_npc_fire_bad, 5_turns );

@@ -4355,6 +4355,18 @@
     "id": "convict",
     "name": "Convict",
     "description": "Your trial was contentious, but ultimately you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
+    "points": -1,
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "hardened_convict",
+    "name": "Hardened Convict",
+    "description": "Most of your adult life has been spent in prison doing hard time.  It's been rough but you've learned a few tricks to keep them on their toes.  Time to see how tough these zombies are.",
     "points": 0,
     "proficiencies": [ "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [
@@ -4367,7 +4379,8 @@
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
