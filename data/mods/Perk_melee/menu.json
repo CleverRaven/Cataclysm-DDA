@@ -513,7 +513,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_MA_PERK_MENU_HELP",
-    "dynamic_line": "XP is gained by killing enemies, either by melee or ranged combat, with tougher enemies giving more XP.  You'll gain a perk point every time you level up, which can be refunded at any time through this menu.  Most perks are completely passive, and apply their effects automatically on movement, combat or waiting.\n\nPerks and techniques cannot be refunded or disabled once learned, consider your choices carefully.",
+    "dynamic_line": "XP is gained by killing enemies, either by melee or ranged combat, with tougher enemies giving more XP.  You'll gain a perk point every time you level up, which can be used to unlock a perk through this menu.  Most perks are completely passive, and apply their effects automatically on movement, combat or waiting.\n\nPerks cannot be refunded or disabled once learned, consider your choices carefully.",
     "responses": [ { "text": "Go back.", "topic": "TALK_NONE" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
   }
 ]
