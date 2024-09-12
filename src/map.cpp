@@ -148,8 +148,6 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_murky( "water_murky" );
 
 static const material_id material_glass( "glass" );
 
@@ -188,7 +186,6 @@ static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
-static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_soil( "t_soil" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
