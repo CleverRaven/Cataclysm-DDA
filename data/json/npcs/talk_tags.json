@@ -1376,7 +1376,7 @@
       "Watch my back while I stitch my arm back on, <name_g>.",
       "Gotta bandage this or I'll bleed out.  Give me a sec.",
       "Let me fix myself up here for a second.",
-      "I'm not dying here. Gimme a minute to patch myself up.",
+      "I'm not dying here.  Gimme a minute to patch myself up.",
       "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this.",
       "I've been through too much to bleed out now!  Bandaging this up!"
     ]
@@ -1683,7 +1683,7 @@
       "Batteries not included here, need some more soon.",
       "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge.",
       "My batteries are all out of juice, need to recharge.",
-      "Got any batteries? I'm running out of power."
+      "Got any batteries?  I'm running out of power."
     ]
   },
   {
@@ -2034,7 +2034,7 @@
       "<swear>! Fire!",
       "Somebody get some water or something!",
       "Danger hot!",
-      "It's a little hot for comfort. I'm bailing.",
+      "It's a little hot for comfort.  I'm bailing.",
       "Somebody grab a bucket!"
     ]
   },
