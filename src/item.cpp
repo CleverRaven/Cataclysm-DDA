@@ -5602,7 +5602,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
                      damage_info_order::info_type::MELEE ) ) {
                 // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
                 // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                info.emplace_back( "BASE", string_format( "%s: ", uppercase_first_letter( dio.verb.translated() ) ),
+                info.emplace_back( "BASE", string_format( "%s: ",
+                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ),
                                    "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
                 //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
                 //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)

@@ -79,7 +79,6 @@ class field_entry;
 class item;
 class kill_tracker;
 class live_view;
-class loading_ui;
 class map;
 class map_item_stack;
 class memorial_logger;
@@ -170,7 +169,7 @@ class game
         void load_static_data();
 
         /** Loads core dynamic data. May throw. */
-        void load_core_data( loading_ui &ui );
+        void load_core_data();
 
         /** Returns whether the core data is currently loaded. */
         bool is_core_data_loaded() const;
@@ -180,17 +179,17 @@ class game
          *  @param opts check specific mods (or all if unspecified)
          *  @return whether all mods were successfully loaded
          */
-        bool check_mod_data( const std::vector<mod_id> &opts, loading_ui &ui );
+        bool check_mod_data( const std::vector<mod_id> &opts );
 
         /** Loads core data and mods from the active world. May throw. */
-        void load_world_modfiles( loading_ui &ui );
+        void load_world_modfiles();
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
          *  @param packs content packs to load in correct dependent order
          *  @param ui structure for load progress display
          */
-        void load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
+        void load_packs( const std::string &msg, const std::vector<mod_id> &packs );
 
         /**
          * @brief Should be invoked whenever options change.
@@ -199,7 +198,7 @@ class game
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
-        void load_data_from_dir( const cata_path &path, const std::string &src, loading_ui &ui );
+        void load_data_from_dir( const cata_path &path, const std::string &src );
     public:
         void setup();
         /** Saving and loading functions. */

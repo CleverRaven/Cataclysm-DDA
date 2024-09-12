@@ -310,6 +310,24 @@
     "difficulty": 6
   },
   {
+    "id": "bio_voice_b",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "AudioVox CBM" },
+    "description": "An implanted set of vocal cords and speakers allowing the user to remodulate and project their voice at will.",
+    "weight": "100 g",
+    "difficulty": 6
+  },
+  {
+    "id": "bio_mp3",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "WearMan CBM" },
+    "description": "A set of speakers implanted into the skull, able to pick up local radiowaves and play downloaded music.",
+    "weight": "100 g",
+    "difficulty": 5
+  },
+  {
     "id": "bio_sonar",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

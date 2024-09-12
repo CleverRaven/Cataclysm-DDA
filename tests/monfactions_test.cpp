@@ -15,7 +15,7 @@ static const mfaction_str_id monfaction_test_monfaction3( "test_monfaction3" );
 static const mfaction_str_id monfaction_test_monfaction5( "test_monfaction5" );
 static const mfaction_str_id monfaction_test_monfaction7( "test_monfaction7" );
 static const mfaction_str_id monfaction_test_monfaction_extend( "test_monfaction_extend" );
-static const mfaction_str_id monfaction_vermin( "vermin" );
+static const mfaction_str_id monfaction_tiny_animal( "tiny_animal" );
 
 static std::string att_enum_to_string( mf_attitude att )
 {
@@ -106,7 +106,7 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         // based on the current state of json
         REQUIRE( attitude( "animal", "small_animal" ) == MFA_NEUTRAL );
         REQUIRE( monfaction_small_animal->base_faction == monfaction_animal );
-        REQUIRE( monfaction_vermin->base_faction == monfaction_small_animal );
+        REQUIRE( monfaction_tiny_animal->base_faction == monfaction_small_animal );
         REQUIRE( monfaction_fish->base_faction == monfaction_animal );
         REQUIRE( monfaction_bear->base_faction == monfaction_animal );
 
@@ -120,8 +120,8 @@ TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
         INFO( "fish is inherited from animal and should be neutral toward small_animal" );
         CHECK( attitude( "fish", "small_animal" ) == MFA_NEUTRAL );
 
-        INFO( "dog is inherited from animal, but hates small animals, of which vermin is a child" );
-        CHECK( attitude( "dog", "vermin" ) == MFA_HATE );
+        INFO( "dog is inherited from animal, but hates small animals, of which tiny_animal is a child" );
+        CHECK( attitude( "dog", "tiny_animal" ) == MFA_HATE );
         CHECK( attitude( "dog", "fish" ) == MFA_NEUTRAL );
 
     }

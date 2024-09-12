@@ -1926,6 +1926,11 @@
   {
     "id": "piano_wire",
     "type": "MIGRATION",
-    "replace": "qt_wire"
+    "replace": "qt_wire",
+  },
+  {
+    "id": "acr_300blk",
+    "type": "MIGRATION",
+    "replace": "sig_mcx_rattler_sbr"
   }
 ]

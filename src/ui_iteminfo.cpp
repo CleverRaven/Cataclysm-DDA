@@ -5,38 +5,10 @@
 #include "imgui/imgui_internal.h"
 
 
-static void set_scroll( scroll &s )
+void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int width,
+                           cataimgui::scroll &s )
 {
-    int scroll_px = 0;
-    int line_height = ImGui::GetTextLineHeightWithSpacing();
-    int page_height = ImGui::GetContentRegionAvail().y;
-
-    switch( s ) {
-        case scroll::none:
-            break;
-        case scroll::line_up:
-            scroll_px = -line_height;
-            break;
-        case scroll::line_down:
-            scroll_px = line_height;
-            break;
-        case scroll::page_up:
-            scroll_px = -page_height;
-            break;
-        case scroll::page_down:
-            scroll_px = page_height;
-            break;
-    }
-
-    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
-
-    s = scroll::none;
-}
-
-void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int width, scroll &s )
-{
-    // Setting scroll needs to happen before drawing contents for page scroll to work properly
-    set_scroll( s );
+    cataimgui::set_scroll( s );
 
     float wrap_width = window.str_width_to_pixels( width - 2 );
     nc_color base_color = c_light_gray;
@@ -174,13 +146,13 @@ void iteminfo_window::execute()
         std::string action = ctxt.handle_input();
 
         if( data.handle_scrolling && data.arrow_scrolling && action == "UP" ) {
-            s = scroll::line_up;
+            s = cataimgui::scroll::line_up;
         } else if( data.handle_scrolling && data.arrow_scrolling && action == "DOWN" ) {
-            s = scroll::line_down;
+            s = cataimgui::scroll::line_down;
         } else if( data.handle_scrolling && action == "PAGE_UP" ) {
-            s = scroll::page_up;
+            s = cataimgui::scroll::page_up;
         } else if( data.handle_scrolling && action == "PAGE_DOWN" ) {
-            s = scroll::page_down;
+            s = cataimgui::scroll::page_down;
         } else if( action == "CONFIRM" || action == "QUIT" ||
                    ( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) ) {
             break;

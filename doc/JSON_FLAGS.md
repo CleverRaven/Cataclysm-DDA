@@ -701,6 +701,7 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```TRANSLOCATOR``` Tile is a translocator gate, for purposes of the `translocator` examine action.
 - ```TRANSPARENT_FLOOR``` This terrain allows light to the z-level below.
 - ```TRANSPARENT``` Players and monsters can see through/past it.  Also sets ter_t.transparent.
+- ```TRANSLUCENT``` Player and monsters can't see through/past it, but it can pass the light
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle.  Used for fungal conversion, and also implies `CONNECT_WITH_WALL`.
@@ -1185,7 +1186,6 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SWIMS``` Treats water as 50 movement point terrain.
 - ```VAMP_VIRUS``` This monster can inflict the `vampire_virus` effect.  Used by Xedra Evolved mod.
 - ```VENOM``` Attack may poison the player.
-- ```VERMIN``` Obsolete flag for inconsequential monsters, now prevents loading.
 - ```WARM``` Warm blooded.
 - ```WATER_CAMOUFLAGE``` If in water, stays invisible up to (current Perception, + base Perception if the character has the Spotting proficiency) tiles away, even in broad daylight.  Monsters see it from the lower of `vision_day` and `vision_night` ranges.  Can also make it harder to see in deep water or across z-levels if it is underwater and the viewer is not.
 - ```WEBWALK``` Doesn't destroy webs and won't get caught in them.

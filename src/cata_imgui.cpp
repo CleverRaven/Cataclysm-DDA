@@ -451,6 +451,40 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
     }
 }
 
+/**
+ * Scrolls the current ImGui window by a scroll action
+ *
+ * Setting scroll needs to happen before drawing contents for page scroll to work properly
+ * @param s an enum for the currently pending scroll action
+ */
+void cataimgui::set_scroll( scroll &s )
+{
+    int scroll_px = 0;
+    int line_height = ImGui::GetTextLineHeightWithSpacing();
+    int page_height = ImGui::GetContentRegionAvail().y;
+
+    switch( s ) {
+        case scroll::none:
+            break;
+        case scroll::line_up:
+            scroll_px = -line_height;
+            break;
+        case scroll::line_down:
+            scroll_px = line_height;
+            break;
+        case scroll::page_up:
+            scroll_px = -page_height;
+            break;
+        case scroll::page_down:
+            scroll_px = page_height;
+            break;
+    }
+
+    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+
+    s = scroll::none;
+}
+
 void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,
                                    float wrap_width, bool *is_selected, bool *is_focused, bool *is_hovered )
 {

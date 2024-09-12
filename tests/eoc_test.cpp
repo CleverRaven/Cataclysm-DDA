@@ -489,8 +489,8 @@ TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    get_map().add_field( get_avatar().pos(), fd_blood, 3 );
-    get_map().add_field( get_avatar().pos() + point_south, fd_blood_insect, 3 );
+    get_map().add_field( get_avatar().pos_bub(), fd_blood, 3 );
+    get_map().add_field( get_avatar().pos_bub() + point_south, fd_blood_insect, 3 );
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength_north" ).empty() );

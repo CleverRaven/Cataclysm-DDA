@@ -974,8 +974,9 @@
       [ "keikogi", 25 ],
       [ "zubon_gi", 25 ],
       [ "hakama_gi", 10 ],
-      [ "mouthpiece", 5 ],
       [ "obi_gi", 10 ],
+      [ "mouthpiece", 5 ],
+      [ "jikatabi_sneakers", 5 ],
       [ "geta", 1 ],
       [ "haori", 1 ],
       [ "yukata", 1 ]
