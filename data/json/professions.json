@@ -3859,28 +3859,6 @@
   },
   {
     "type": "profession",
-    "id": "engineer_comp",
-    "name": "Computer Engineer",
-    "description": "Computers are your bread and butter, and you know them just like the back of your hand.  Unfortunately, the power has gone out and your laptop's internal battery can only last so long, but the Cataclysm may finally provide you with a much needed respite from having to insist that you are not a hacker.",
-    "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits", "prof_elec_integrated_circuits" ],
-    "points": 2,
-    "skills": [ { "level": 5, "name": "computer" } ],
-    "items": {
-      "both": {
-        "items": [ "tshirt", "socks", "dress_shoes", "usb_drive" ],
-        "entries": [
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "group": "charged_laptop" },
-          { "item": "pants", "variant": "pants_brown" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "backpacker",
     "name": "Backpacker",
     "description": "For the past few years you've been traveling the world, sightseeing and living off your parents' trust fund.  You came home to find the world in ruins, and the only thing between you and death is the open road and your backpack.",
