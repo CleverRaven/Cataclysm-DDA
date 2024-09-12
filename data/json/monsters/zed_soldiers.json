@@ -85,8 +85,8 @@
     "bleed_rate": 50,
     "harvest": "zombie_humanoid_acid",
     "delete": { "categories": [ "CLASSIC" ] },
-    "upgrades": false,
-    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": -2, "vision_night": -3 },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_soldier_acid_3" },
+    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 5 },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 10 ],
@@ -101,7 +101,38 @@
           "require_targeting_player": false,
           "target_moving_vehicles": true,
           "description": "The %s launches a corrosive dart!",
-          "ranges": [ [ 2, 20, "DEFAULT" ] ]
+          "ranges": [ [ 2, 12, "DEFAULT" ] ]
+        }
+      ],
+      "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
+    }
+  },
+  {
+    "id": "mon_zombie_soldier_acid_3",
+    "type": "MONSTER",
+    "name": { "str": "acidic sniper zombie" },
+    "description": "This rotting soldier stands and walks perfectly straight and rigidly, its many, many eyes darting every which way and in every direction. It would be a mere curiosity, if not for the pitch black protrusion where its face used to be; dripping a steaming, caustic bile.",
+    "copy-from": ""mon_zombie_soldier_acid_1"",
+    "looks_like": ""mon_zombie_soldier_acid_1"",
+    "harvest": "zombie_humanoid_acid",
+    "delete": { "categories": [ "CLASSIC" ] },
+    "upgrades": { false }
+    "relative": { "hp": 10, "vision_day": 3, "vision_night": 2 },
+    "extend": {
+      "special_attacks": [
+        [ "ACID_BARF", 10 ],
+        {
+          "type": "gun",
+          "cooldown": 15,
+          "move_cost": 90,
+          "gun_type": "acid_sniper",
+          "fake_skills": [ [ "gun", 6 ], [ "rifle", 6 ] ],
+          "fake_dex": 10,
+          "fake_per": 10,
+          "require_targeting_player": false,
+          "target_moving_vehicles": true,
+          "description": "The %s launches a corrosive dart!",
+          "ranges": [ [ 2, 18, "DEFAULT" ] ]
         }
       ],
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
