@@ -264,7 +264,7 @@
   {
     "id": "pyrokinetic_fire_tool",
     "type": "TOOL_ARMOR",
-    "name": { "str": "[Ψ]banked flames" },
+    "name": { "str_sp": "[Ψ]banked flames" },
     "description": "Dancing flames hovering over your hand.  You can use this to provide heat and light when necessary.",
     "weight": "0 g",
     "volume": "0 L",
