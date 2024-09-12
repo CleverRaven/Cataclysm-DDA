@@ -280,10 +280,10 @@ struct mount_item_data {
 };
 
 struct reproduction_type {
-    mtype_id baby_monster;
-    mongroup_id baby_monster_group;
-    itype_id baby_egg;
-    item_group_id baby_egg_group;
+    mtype_id baby_monster = mtype_id::NULL_ID();
+    mongroup_id baby_monster_group = mongroup_id::NULL_ID();
+    itype_id baby_egg = itype_id::NULL_ID();
+    item_group_id baby_egg_group = item_group_id::NULL_ID();
 };
 
 struct mtype {
