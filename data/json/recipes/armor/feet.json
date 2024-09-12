@@ -1744,7 +1744,7 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 4 ],
       [ "lc_steel_standard", 1 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_lc_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1765,7 +1765,7 @@
       [ "fabric_leather_fur_hide", 3 ],
       [ "blacksmithing_standard", 8 ],
       [ "lc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_lc_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1819,7 +1819,7 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 4 ],
       [ "mc_steel_standard", 1 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_mc_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1840,7 +1840,7 @@
       [ "fabric_leather_fur_hide", 3 ],
       [ "blacksmithing_standard", 8 ],
       [ "mc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_mc_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1859,7 +1859,7 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 4 ],
       [ "hc_steel_standard", 1 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_hc_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1880,7 +1880,7 @@
       [ "fabric_leather_fur_hide", 3 ],
       [ "blacksmithing_standard", 8 ],
       [ "hc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_hc_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1899,7 +1899,7 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 4 ],
       [ "lc_steel_standard", 1 ],
-      [ "armor_chainmail_assembling", 1 ],
+      [ "armor_lc_chainmail_assembling", 1 ],
       [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1922,7 +1922,7 @@
       [ "fabric_leather_fur_hide", 3 ],
       [ "blacksmithing_standard", 8 ],
       [ "lc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 2 ],
+      [ "armor_lc_chainmail_assembling", 2 ],
       [ "carbon", 3 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1942,7 +1942,7 @@
       [ "fabric_leather_fur_hide", 2 ],
       [ "blacksmithing_standard", 4 ],
       [ "mc_steel_standard", 1 ],
-      [ "armor_chainmail_assembling", 1 ]
+      [ "armor_mc_chainmail_assembling", 1 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
@@ -1964,7 +1964,7 @@
       [ "fabric_leather_fur_hide", 3 ],
       [ "blacksmithing_standard", 8 ],
       [ "mc_steel_standard", 2 ],
-      [ "armor_chainmail_assembling", 2 ]
+      [ "armor_mc_chainmail_assembling", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
