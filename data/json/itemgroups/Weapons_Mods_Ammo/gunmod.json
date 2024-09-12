@@ -21,12 +21,7 @@
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
-      [ "choke", 50 ],
-      [ "stock_ammo_loops_canvas", 40 ],
-      [ "stock_ammo_loops_plastic", 40 ],
-      [ "stock_mag_pouch", 30 ],
-      [ "side_carrier_shotgun_cloth", 30 ],
-      [ "side_carrier_shotgun_plastic", 30 ]
+      [ "choke", 50 ]
     ]
   },
   {
@@ -65,9 +60,7 @@
       [ "bipod_handguard", 10 ],
       [ "high_end_folding_stock", 10 ],
       [ "stock_mauser", 5 ],
-      [ "stock_ammo_loops_leather", 40 ],
-      [ "muzzle_weight", 10 ],
-      [ "side_carrier_rifle", 30 ]
+      [ "muzzle_weight", 10 ]
     ]
   },
   {
