@@ -286,7 +286,7 @@
     ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HOTPLATE" } ],
-    "armor": [ { "encumbrance": 15, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "armor": [ { "encumbrance": 25, "coverage": 0, "covers": [ "hand_l" ] } ],
     "relic_data": { "passive_effects": [ { "id": "pyrokinetic_banked_fire_damage_enchant" } ] }
   },
   {
