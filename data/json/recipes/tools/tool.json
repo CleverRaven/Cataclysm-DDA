@@ -306,11 +306,7 @@
         [ "fork", 1 ],
         [ "any_wire", 1, "LIST" ]
       ],
-      [
-        [ "hairpin", 1 ],
-        [ "cable", 1 ],
-        [ "any_wire", 1, "LIST" ]
-      ]
+      [ [ "hairpin", 1 ], [ "cable", 1 ], [ "any_wire", 1, "LIST" ] ]
     ]
   },
   {

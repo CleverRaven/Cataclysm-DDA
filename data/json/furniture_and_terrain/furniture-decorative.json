@@ -203,7 +203,11 @@
       "str_max": 10,
       "sound": "smash!",
       "sound_fail": "clang!",
-      "items": [ { "item": "pipe", "count": [ 1, 6 ] }, { "item": "lc_wire", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 1, 6 ] } ]
+      "items": [
+        { "item": "pipe", "count": [ 1, 6 ] },
+        { "item": "lc_wire", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 1, 6 ] }
+      ]
     }
   },
   {
