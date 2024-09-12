@@ -15,6 +15,7 @@ struct point;
 struct tripoint;
 
 /**
+ * test change
  * Enumerates all discrete actions that can be performed by player
  */
 enum action_id : int {
