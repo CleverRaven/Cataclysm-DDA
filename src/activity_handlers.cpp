@@ -2929,7 +2929,8 @@ void activity_handlers::travel_do_turn( player_activity *act, Character *you )
             const activity_id act_travel = ACT_TRAVELLING;
             you->set_destination( route_to, player_activity( act_travel ) );
         } else {
-            you->add_msg_if_player( _( "You cannot reach that destination" ) );
+            you->add_msg_if_player( m_warning, _( "You cannot reach that destination." ) );
+            ui::omap::force_quit();
         }
     } else {
         you->add_msg_if_player( m_info, _( "You have reached your destination." ) );
