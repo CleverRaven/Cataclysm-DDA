@@ -78,7 +78,7 @@
     "id": "mon_zombie_soldier_acid_1",
     "type": "MONSTER",
     "name": { "str": "bilious soldier zombie" },
-    "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask protrudes some sort of hardened, fleshy proboscis, with steaming corrosive fluid leaking from the end.",
+    "description": "This staggering soldier wears a burnt gasmask, now fused to its face.  Through the melted, bile-encrusted ruination of the mask protrudes some sort of hardened, fleshy proboscis, with steaming corrosive fluid leaking from the end.  Its abnormally large eyes have swelled to fill the space where the lenses once were.",
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
@@ -86,7 +86,7 @@
     "harvest": "zombie_humanoid_acid",
     "delete": { "categories": [ "CLASSIC" ] },
     "upgrades": false,
-    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
+    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 3 },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 10 ],
