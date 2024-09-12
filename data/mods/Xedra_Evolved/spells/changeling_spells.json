@@ -148,7 +148,7 @@
     "id": "changeling_noble_movement_buffs_spell",
     "type": "SPELL",
     "name": "Deeds of Lughnasadh",
-    "description": "Enchance yourself or an ally with the athleticism and prowess of the dancers, runners, and hurlers of Lughnasadh.  This increases movement and attack speed, dodging ability, and allows the target to leap to a rooftop from a standing start.",
+    "description": "Enhance yourself or an ally with the athleticism and prowess of the dancers, runners, and hurlers of Lughnasadh.  This increases movement and attack speed, dodging ability, and allows the target to leap to a rooftop from a standing start.",
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "RANDOM_DURATION" ],
     "valid_targets": [ "self", "ally" ],

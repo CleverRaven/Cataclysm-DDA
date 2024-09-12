@@ -539,6 +539,7 @@ BBs
 BCE
 BDSM
 BDU
+Bealtaine
 bearcub
 bearmantle
 bearmantles
@@ -2808,6 +2809,7 @@ imager
 imagers
 Imaginifer
 Imaginifers
+Imbolc
 imbuement
 IMEs
 ImGui
@@ -3491,6 +3493,7 @@ Ludlow
 Ludos
 Ludwig
 Luger
+Lughnasadh
 Luigi
 Luke
 Luliya
@@ -4768,6 +4771,8 @@ polymorphed
 polypous
 polysexual
 Pontius
+pooka
+pookas
 Popol
 populifolia
 Populus
@@ -5255,6 +5260,7 @@ Sambal
 Sambucus
 samghati
 samghatis
+Samhain
 Sâmhita
 Sammarinese
 Sammy
@@ -5404,6 +5410,8 @@ segmentata
 Segway
 Seinerweisen
 seldomly
+selkie
+selkies
 selfie
 Semin
 semirural
@@ -6356,6 +6364,7 @@ Trollope
 Troodon
 TropiCataclysm
 Trotsky
+trow
 TRS
 truckstop
 TrueFoodperson
