@@ -111,7 +111,7 @@
     "id": "mon_zombie_soldier_acid_3",
     "type": "MONSTER",
     "name": { "str": "acidic sniper zombie" },
-    "description": "This rotting soldier stands and walks perfectly straight and rigidly, its many, many eyes darting every which way and in every direction. It would be a mere curiosity, if not for the pitch black protrusion where its face used to be; dripping a steaming, caustic bile.",
+    "description": "This rotting soldier stands and walks perfectly straight and rigidly, its many, many eyes darting every which way and in every direction.  It would be a mere curiosity, if not for the pitch black protrusion where its face used to be; dripping a steaming, caustic bile.",
     "copy-from": "mon_zombie_soldier_acid_1",
     "looks_like": "mon_zombie_soldier_acid_1",
     "harvest": "zombie_humanoid_acid",
