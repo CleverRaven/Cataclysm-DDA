@@ -258,6 +258,62 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NOBLE_ATTACKS_SOMEONE_WHILE_RIGHT_OF_PASSAGE_RANGED_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" },
+        {
+          "or": [
+            { "npc_has_species": "PLANT" },
+            { "npc_has_species": "MIGO" },
+            { "npc_has_species": "CHANGELING" },
+            { "npc_has_species": "ARVORE" },
+            { "npc_has_species": "IERDE" },
+            { "npc_has_species": "HOMULLUS" },
+            { "npc_has_species": "SALAMANDER" },
+            { "npc_has_species": "SYLPH" },
+            { "npc_has_species": "UNDINE" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
+      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NOBLE_ATTACKS_SOMEONE_WHILE_RIGHT_OF_PASSAGE_MELEE_MONSTER",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" },
+        {
+          "or": [
+            { "npc_has_species": "PLANT" },
+            { "npc_has_species": "MIGO" },
+            { "npc_has_species": "CHANGELING" },
+            { "npc_has_species": "ARVORE" },
+            { "npc_has_species": "IERDE" },
+            { "npc_has_species": "HOMULLUS" },
+            { "npc_has_species": "SALAMANDER" },
+            { "npc_has_species": "SYLPH" },
+            { "npc_has_species": "UNDINE" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "effect_changeling_noble_broken_right_of_passage", "duration": 3600 },
+      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHANGELING_DISGUISE_AS_NATURE",
     "condition": "u_is_outside",
     "effect": [
@@ -493,7 +549,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_ON",
-    "effect": [ { "u_add_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ]
+    "condition": { "not": { "u_has_effect": "effect_changeling_noble_broken_right_of_passage" } },
+    "effect": [ { "u_add_trait": "CHANGELING_NOBLE_RIGHT_OF_PASSAGE_MECHANICS" } ],
+    "false_effect": [
+      { "u_message": "After your actions you may not invoke the right of passage.", "type": "bad" },
+      { "queue_eocs": "EOC_CHANGELING_NOBLE_RIGHT_OF_PASSAGE_deactivate_future", "time_in_future": 0 }
+    ]
   },
   {
     "type": "effect_on_condition",

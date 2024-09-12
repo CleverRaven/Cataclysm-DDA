@@ -2148,6 +2148,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_noble_broken_right_of_passage",
+    "name": [ "Broken Right of Passage" ],
+    "desc": [ "You are no longer protected by the contracts of eld." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_brownie_attacked_someone",
     "name": [ "Conspicuous" ],
     "desc": [ "People can definitely see you now." ],
