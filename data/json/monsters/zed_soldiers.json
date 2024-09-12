@@ -86,7 +86,7 @@
     "harvest": "zombie_humanoid_acid",
     "delete": { "categories": [ "CLASSIC" ] },
     "upgrades": false,
-    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 3 },
+    "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 5 },
     "extend": {
       "special_attacks": [
         [ "ACID_BARF", 10 ],
