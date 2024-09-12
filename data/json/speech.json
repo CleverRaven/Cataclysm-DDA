@@ -2981,7 +2981,7 @@
     "sound": "a reverberating, open-throated scream.",
     "volume": 70
   },
-{
+  {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
     "sound": "a soft whistle.",
@@ -3010,13 +3010,13 @@
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
     "sound": "a choir of cries.",
-    "volume": 25
+    "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
     "sound": "a choir of laughs.",
-    "volume": 25
+    "volume": 20
   },
   {
     "type": "speech",
@@ -3045,56 +3045,26 @@
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"No, I haven't seen a fungus like this before?-\"",
-    "volume": 20
+    "sound": "\"It'll be painless, I promise.  Forive me.\"",
+    "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
     "sound": "repeated choking sounds, followed by wheezing.",
-    "volume": 20
+    "volume": 30
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"It just spored me!  Get me some medicine!\"",
-    "volume": 20
+    "sound": "\"It's so cold..\"",
+    "volume": 15
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Erio, do you hear that?  I swear I just heard another voice just now.\"",
-    "volume": 20
-  },
-   {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Activate emergency protocols.  Specimen has breached the testing box.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"What do you mean it's spreading?  There's nothing for it to grow on!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Abandon sector 3.  Any infected are to be burned, DO NOT attempt to salvage any gear.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Symptoms include nausea, paranoia, itching, graying and cracking skin, and an increased desire for physical contact.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"more symptoms include fever, possible delusion, increased appetite, and an increased desire to travel.\"",
-    "volume": 20
+    "sound": "\"It's so warm..\"",
+    "volume": 15
   },
   {
     "type": "speech",
@@ -3112,150 +3082,96 @@
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
     "sound": "frantic begging, followed by the sound of popping.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"...  We sing the hymns so we may...\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"We sing the hymns so we may learn to live in unity.\"",
+    "sound": "\"...  learn to live in unity...\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"This land cares and provides for us.\"",
+    "sound": "\"hello?  hello?  hello?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "uncoordinated harmonizing, shushed by a whistle at the end.",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Celebrate the feast.\"",
+    "sound": "repeated jingling of bells.",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Unity of spirit, of mind, and body.\"",
+    "sound": "repeated swinging of bells.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "an uncomfortably long breathe out.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "an uncomfortably long breathe in.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a whisper of words, in a language you don't understand.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a series of upbeat whistles, but with wheezing pauses in between.",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Why do you look at me like that?  Stop staring at me!\"",
+    "sound": "the sound of wind whistling, with rhythmic thumping.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the creak of wood floors.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sharp sound of snapping bones.",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"It's not fair.  It's not fair.\"",
+    "sound": "the sharp sound of snapping wood.",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Fire seems to be the only effective way of preventing spread.  Prepare gasoline for the next test.\"",
+    "sound": "\"I dont want to die like this..\"",
     "volume": 20
   },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Marloss berries, they called them?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"I don't trust it.  I've never seen a berry like that.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"A prayer for the lost, and for the found.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"He wouldn't stop laughing after he ate that weird berry.  I've never seen him like that.  he acted like a different person.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"She wouldn't stop crying after she ate that weird berry.  I've never seen her like that.  She cut my arm while Lug and I tried to pull him away.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"We'll care for you.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"We'll protect you.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"We'll feed you.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Don't you wish to see them again?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Do you know what's happening?  My arms itch, and I can't stop scratching them.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"No matter how many times I wash my mouth out, I can still taste mushrooms.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Where did you go?  Why did you leave us?  Have you been taught nothing?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Those spores seem to stick to whatever they touch.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"I watched a dog attempt to scratch them off, but they just got lodged deeper into its fur.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"Those marloss evangelists, or whatever they call themselves, are weirdos.  They'd always look past me, instead of at me.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"I should've known it was too good to be true!  They spiked my water!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"We just want to be your friend.  Please don't push us away.\"",
-    "volume": 20
-  }
 ]
