@@ -116,7 +116,7 @@
     "looks_like": "mon_zombie_soldier_acid_1",
     "harvest": "zombie_humanoid_acid",
     "delete": { "categories": [ "CLASSIC" ] },
-    "upgrades": { false }
+    "upgrades": false,
     "relative": { "hp": 10, "vision_day": 3, "vision_night": 2 },
     "extend": {
       "special_attacks": [
