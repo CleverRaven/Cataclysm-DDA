@@ -1937,32 +1937,6 @@
     ]
   },
   {
-    "id": "nested_rm614_lmg",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "rm614_lmg", "charges": [ 0, 100 ] },
-      { "item": "8x40_250_mag" },
-      { "item": "8x40_250_mag", "prob": 50 },
-      { "group": "on_hand_8x40" }
-    ]
-  },
-  {
-    "id": "nested_rm88_battle_rifle",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "rm88_battle_rifle", "charges": [ 0, 50 ] },
-      { "item": "8x40_50_mag" },
-      { "item": "8x40_50_mag", "prob": 50 },
-      { "group": "on_hand_8x40" }
-    ]
-  },
-  {
     "id": "nested_sig_assault_rifle",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

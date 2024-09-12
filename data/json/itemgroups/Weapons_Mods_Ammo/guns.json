@@ -399,8 +399,6 @@
       { "group": "nested_m60", "prob": 15 },
       { "group": "nested_rm11b_sniper_rifle", "prob": 1 },
       { "group": "nested_rm51_assault_rifle", "prob": 1 },
-      { "group": "nested_rm614_lmg", "prob": 1 },
-      { "group": "nested_rm88_battle_rifle", "prob": 1 },
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },
