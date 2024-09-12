@@ -1970,13 +1970,13 @@ class jmapgen_field : public jmapgen_piece
                 return;
             }
             if( remove ) {
-                if ( x_in_y( chance, 100 ) ) {
+                if( x_in_y( chance, 100 ) ) {
                     dat.m.remove_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
                 }
             } else {
-                if ( x_in_y( chance, 100 ) ) {
+                if( x_in_y( chance, 100 ) ) {
                     dat.m.add_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
-                                    random_entry( intensities ), age );
+                                     random_entry( intensities ), age );
                 }
             }
         }
