@@ -70,7 +70,7 @@
     "id": "changeling_noble_cure_bad_conditions_spell",
     "type": "SPELL",
     "name": "Lights of Imbolc",
-    "description": "Purify yourself or an ally, removing a wide variety of debilitating conditons such as disease or poison.  However, doing so will fatigue the target; too many problems will lead to a long period of recovery afterwards.",
+    "description": "Purify yourself or an ally, removing a wide variety of debilitating conditions such as disease or poison.  However, doing so will fatigue the target; too many problems will lead to a long period of recovery afterwards.",
     "message": "You wave your hand at your target.",
     "flags": [ "NO_FAIL", "VERBAL", "SOMATIC" ],
     "valid_targets": [ "self", "ally" ],
