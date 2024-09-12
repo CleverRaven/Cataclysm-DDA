@@ -9170,17 +9170,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_FBI",
-    "//": "This doesn't do anything at the moment, as I am too scared of breaking C++ things, but it will eventually.",
-    "name": { "str": "Special Agent" },
-    "points": 0,
-    "description": "You are a member of the Federal Bureau of Investigation, also known as the FBI.  You have jurisdiction throughout the remaining 49 States, Indian Country, and any other territories of the USA.  Whether that means anything now is another question.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
     "id": "PROF_CHURL",
     "name": { "str": "Churl" },
     "points": 0,
