@@ -3002,7 +3002,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "a droning chorous.",
+    "sound": "a droning chorus.",
     "volume": 20
   },
   {
@@ -3044,7 +3044,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"It'll be painless, I promise.  Forive me.\"",
+    "sound": "\"It'll be painless, I promise.  Forgive me.\"",
     "volume": 30
   },
   {
@@ -3170,7 +3170,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"I dont want to die like this..\"",
+    "sound": "\"I don't want to die like this..\"",
     "volume": 20
   }
 ]
