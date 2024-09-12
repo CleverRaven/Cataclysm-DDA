@@ -240,7 +240,6 @@ std::vector<trait_id> Character::get_in_category( const mutation_category_id &ca
     // Iterate through all available traits in this category and count every one that match our count_type.
     for( const trait_id &traits_iter : mutations_category[categ] ) {
         const mutation_branch &mdata = traits_iter.obj();
-        is_type = false;
         switch( count_type ) {
             case mut_count_type::POSITIVE:
                 is_type = ( mdata.points >= 0 );
