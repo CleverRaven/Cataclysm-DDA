@@ -3086,13 +3086,13 @@
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"...  We sing the hymns so we may...\"",
+    "sound": "\"..  We sing the hymns so we may..\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
-    "sound": "\"...  learn to live in unity...\"",
+    "sound": "\"..  learn to live in unity..\"",
     "volume": 20
   },
   {
