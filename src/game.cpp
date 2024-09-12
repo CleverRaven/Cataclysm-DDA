@@ -4264,7 +4264,7 @@ Creature *game::is_hostile_within( int distance, bool dangerous )
 field_entry *game::is_in_dangerous_field()
 {
     map &here = get_map();
-    for( std::pair<const field_type_id, field_entry> &field : here.field_at( u.pos() ) ) {
+    for( std::pair<const field_type_id, field_entry> &field : here.field_at( u.pos_bub() ) ) {
         if( u.is_dangerous_field( field.second ) ) {
             return &field.second;
         }
@@ -9947,7 +9947,7 @@ void game::wield( item_location loc )
     // Can't use loc.obtain() here because that would cause things to spill.
     item to_wield = *loc.get_item();
     item_location::type location_type = loc.where();
-    tripoint pos = loc.position();
+    tripoint_bub_ms pos = loc.pos_bub();
     const int obtain_cost = loc.obtain_cost( u );
     int worn_index = INT_MIN;
 
@@ -10383,7 +10383,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
     const tripoint_bub_ms furn_pos = u.pos_bub() + u.grab_point;
-    const tripoint furn_dest = dest_loc + tripoint( u.grab_point.xy().raw(), 0 );
+    const tripoint_bub_ms furn_dest = tripoint_bub_ms( dest_loc ) + tripoint_rel_ms( u.grab_point.xy(),
+                                      0 );
 
     bool grabbed = u.get_grab_type() != object_type::NONE;
     if( grabbed ) {
@@ -10647,8 +10648,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     if( pulling ) {
-        const tripoint shifted_furn_pos = furn_pos.raw() - ms_shift;
-        const tripoint shifted_furn_dest = furn_dest - ms_shift;
+        const tripoint_bub_ms shifted_furn_pos = furn_pos - ms_shift;
+        const tripoint_bub_ms shifted_furn_dest = furn_dest - ms_shift;
         const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
         const int fire_intensity = m.get_field_intensity( shifted_furn_pos, fd_fire );
         m.remove_field( shifted_furn_pos, fd_fire );
@@ -11449,7 +11450,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( fire_intensity == 1 && !pulling_furniture ) {
         m.remove_field( fpos, fd_fire );
         m.set_field_intensity( fdest, fd_fire, fire_intensity );
-        m.set_field_age( fdest.raw(), fd_fire, fire_age );
+        m.set_field_age( fdest, fd_fire, fire_age );
     }
 
     // Is there is only liquids on the ground, remove them after moving furniture.
@@ -12243,7 +12244,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
     // Upon force movement, traps can not be avoided.
-    if( !wall_cling && ( get_map().tr_at( u.pos() ) == tr_ledge &&
+    if( !wall_cling && ( get_map().tr_at( u.pos_bub() ) == tr_ledge &&
                          !u.has_effect( effect_gliding ) ) )  {
         here.creature_on_trap( u, !force );
     }
@@ -12318,19 +12319,23 @@ std::optional<tripoint> game::find_stairs( const map &mp, int z_after, const tri
     int best = INT_MAX;
     std::optional<tripoint> stairs;
     const int omtilesz = SEEX * 2 - 1;
-    real_coords rc( mp.getabs( pos.xy() ) );
-    tripoint omtile_align_start( mp.getlocal( rc.begin_om_pos() ), z_after );
-    tripoint omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+    const tripoint_abs_ms abs_omt_base( project_to<coords::ms>( project_to<coords::omt>( mp.getglobal(
+                                            pos ) ) ) );
 
-    if( get_map().tr_at( u.pos() ) != tr_ledge ) {
-        for( const tripoint &dest : mp.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
-            if( rl_dist( u.pos(), dest ) <= best &&
+    tripoint_bub_ms omtile_align_start( mp.bub_from_abs( tripoint_abs_ms( abs_omt_base.xy(),
+                                        z_after ) ) );
+    tripoint_bub_ms omtile_align_end( omtile_align_start + point( omtilesz, omtilesz ) );
+
+    if( get_map().tr_at( u.pos_bub() ) != tr_ledge ) {
+        for( const tripoint_bub_ms &dest : mp.points_in_rectangle( omtile_align_start,
+                omtile_align_end ) ) {
+            if( rl_dist( u.pos_bub(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
                                     mp.ter( dest ) == ter_t_manhole_cover ) ) ||
                   ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
-                stairs.emplace( dest );
-                best = rl_dist( u.pos(), dest );
+                stairs.emplace( dest.raw() );
+                best = rl_dist( u.pos_bub(), dest );
             }
         }
     }
@@ -12400,7 +12405,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
         return stairs;
     }
 
-    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos() ) == tr_ledge ) {
+    if( u.has_effect( effect_gliding ) && get_map().tr_at( u.pos_bub() ) == tr_ledge ) {
         return stairs;
     }
 

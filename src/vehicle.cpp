@@ -4073,7 +4073,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
         return;
     }
     intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
-    const tripoint dest = exhaust_dest( part );
+    const tripoint_bub_ms dest = tripoint_bub_ms( exhaust_dest( part ) );
     get_map().mod_field_intensity( dest, type, intensity );
 }
 
