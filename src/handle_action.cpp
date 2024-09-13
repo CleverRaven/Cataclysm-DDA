@@ -1457,65 +1457,69 @@ static void loot()
         return;
     }
 
+    auto wrap60 = []( const std::string & text ) {
+        return string_join( foldstring( text, 60 ), "\n" );
+    };
+
     uilist menu;
-    menu.text = _( "Pick action:" );
+    menu.title = _( "Pick action:" );
     menu.desc_enabled = true;
 
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLootStatic, true, 'o', _( "Sort out my loot (static zones only)" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring personal zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            wrap60( _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring personal zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) ) );
         menu.addentry_desc( SortLootPersonal, true, 'O', _( "Sort out my loot (personal zones only)" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring static zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            wrap60( _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring static zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) ) );
         menu.addentry_desc( SortLoot, true, 'I', _( "Sort out my loot (all)" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            wrap60( _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) ) );
     }
 
     if( flags & UnloadLoot ) {
         menu.addentry_desc( UnloadLoot, true, 'U', _( "Unload nearby containers" ),
-                            _( "Unloads any corpses or containers that are in their respective zones." ) );
+                            wrap60( _( "Unloads any corpses or containers that are in their respective zones." ) ) );
     }
 
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
                             !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                            _( "Fertilize any nearby Farm: Plot zones." ) );
+                            wrap60( _( "Fertilize any nearby Farm: Plot zones." ) ) );
     }
 
     if( flags & ConstructPlots ) {
         menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
-                            _( "Work on any nearby Blueprint: construction zones." ) );
+                            wrap60( _( "Work on any nearby Blueprint: construction zones." ) ) );
     }
     if( flags & MultiFarmPlots ) {
         menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm plots" ),
-                            _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) );
+                            wrap60( _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) ) );
     }
     if( flags & Multichoptrees ) {
         menu.addentry_desc( Multichoptrees, true, 'C', _( "Chop trees" ),
-                            _( "Chop down any trees in the designated zone - auto-fetch tools." ) );
+                            wrap60( _( "Chop down any trees in the designated zone - auto-fetch tools." ) ) );
     }
     if( flags & Multichopplanks ) {
         menu.addentry_desc( Multichopplanks, true, 'P', _( "Chop planks" ),
-                            _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) );
+                            wrap60( _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) ) );
     }
     if( flags & Multideconvehicle ) {
         menu.addentry_desc( Multideconvehicle, true, 'v', _( "Deconstruct vehicle" ),
-                            _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & Multirepairvehicle ) {
         menu.addentry_desc( Multirepairvehicle, true, 'V', _( "Repair vehicle" ),
-                            _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiButchery ) {
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
-                            _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
+                            wrap60( _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) ) );
     }
     if( flags & MultiMining ) {
         menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
-                            _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-mine anything in mining zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiDis ) {
         menu.addentry_desc( MultiDis, true, 'D', _( "Disassemble items" ),
-                            _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) ) );
 
     }
     if( flags & MultiMopping ) {
