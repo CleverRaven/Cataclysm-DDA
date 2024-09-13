@@ -41,7 +41,10 @@
     "type": "harvest",
     "copy-from": "mammal_large_leather",
     "delete": {
-      "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 } ]
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
+      ]
     },
     "extend": {
       "entries": [
@@ -74,7 +77,10 @@
     "type": "harvest",
     "copy-from": "mammal_large_leather",
     "delete": {
-      "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 } ]
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
+      ]
     },
     "extend": {
       "entries": [
