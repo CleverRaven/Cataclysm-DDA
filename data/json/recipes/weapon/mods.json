@@ -1481,16 +1481,11 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "pistol", 4 ], [ "gun", 3 ], [ "mechanics", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_gunsmithing_basic" }
-    ],
-    "difficulty": 7,
+    "skills_required": [ [ "pistol", 3 ], [ "gun", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "difficulty": 4,
     "time": "5 h",
-    "book_learn": [ [ "manual_pistol", 6 ], [ "text_gunsmith", 6 ] ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "text_gunsmith", 3 ] ],
     "qualities": [
       { "id": "ANVIL", "level": 1 },
       { "id": "HAMMER", "level": 1 },
@@ -1500,6 +1495,7 @@
       { "id": "SCREW", "level": 1 }
     ],
     "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 150 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "byproducts": [ [ "scrap_aluminum", 3 ] ],
     "components": [ [ [ "material_aluminium_ingot", 1 ] ] ]
   }
 ]
