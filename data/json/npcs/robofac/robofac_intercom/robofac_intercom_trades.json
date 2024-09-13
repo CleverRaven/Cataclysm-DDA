@@ -251,7 +251,7 @@
     "dynamic_line": "Beautiful; please put them into loading area.  We'll issue a reward depending on what you managed to scavenge.",
     "responses": [
       {
-        "text": "[Put in broken trifacet.]",
+        "text": "[Deliver a broken trifacet.]",
         "condition": { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
         "effect": [
           { "u_consume_item": "broken_yrax_trifacet", "count": 1, "popup": true },
@@ -338,7 +338,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
       },
       {
-        "text": "[Put in broken delta.]",
+        "text": "[Deliver a broken delta.]",
         "condition": {
           "and": [
             { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
@@ -419,7 +419,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX",
     "type": "talk_topic",
-    "dynamic_line": "Come back later, we are not sure how soon we can finish studying this remains",
+    "dynamic_line": "Come back later, we are not sure how soon we can finish studying these remains",
     "responses": [
       { "text": "What else do you have?", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "See you later then.", "topic": "TALK_DONE" }
@@ -428,31 +428,31 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS_ONGOIN_RESEARCH",
     "type": "talk_topic",
-    "dynamic_line": "We don't have any free hands to process your new findings.",
+    "dynamic_line": "We don't have the capacity to process your findings at the moment.",
     "responses": [ { "text": "I see, I'll bother you later then.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
     "type": "talk_topic",
-    "dynamic_line": "I believe we already have similar model in better condition but it is nice to have something for reference.",
+    "dynamic_line": "We already have a similar model in better condition but this one is useful as a reference.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
     "type": "talk_topic",
-    "dynamic_line": "We can probably gain some insight from studying this unit, but  it appears seriously damaged",
+    "dynamic_line": "We can probably gain some insight from studying this unit, but  it appears seriously damaged.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH",
     "type": "talk_topic",
-    "dynamic_line": "That is quite a lot of broken metal, let's hope R&D can at least salvage materials.",
+    "dynamic_line": "That is quite a lot of broken metal, let's hope R&D can at least salvage some materials.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_DELTA",
     "type": "talk_topic",
-    "dynamic_line": "You don't need to pick up all glossy scrap that you find.",
+    "dynamic_line": "We don't need all of your glossy scrap.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
@@ -476,13 +476,13 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS",
     "type": "talk_topic",
-    "dynamic_line": "Oh what an interesting piece R&D will have a field day with it.",
+    "dynamic_line": "Oh what an interesting piece.  R&D will have a field day with it.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH",
     "type": "talk_topic",
-    "dynamic_line": "I assume you were trying to figure out limits of hm12.  I guess they are right here.",
+    "dynamic_line": "I assume you were trying to figure out limits of the hm12.  I guess they are right here.",
     "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   },
   {
