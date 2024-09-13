@@ -7092,6 +7092,17 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
+    if( actually_used->is_comestible() &&
+        actually_used->type->use_methods.find( "delayed_transform" ) ==
+        actually_used->type->use_methods.end() ) {
+        // Assume that when activating food that can be transformed, you're trying to transform it.  Otherwise...
+        // Try to eat it.
+        add_msg_if_player( m_info, string_format( "Attempting to eat %s", actually_used->display_name() ) );
+        assign_activity( consume_activity_actor( item_location( *this, actually_used ) ) );
+        // If the character isn't eating, then invoking the item failed somewhere
+        return !activity.is_null();
+    }
+
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
                                       pt, method );
     if( !charges_used.has_value() ) {
@@ -7103,16 +7114,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         // Not really used.
         // The item may also have been deleted
         return false;
-    }
-
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
     }
 
     actually_used->activation_consume( charges_used.value(), pt, this );
