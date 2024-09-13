@@ -677,7 +677,7 @@
     "diff": 1,
     "volume": "20000 ml",
     "weight": "12000 g",
-    "hp": 35,
+    "hp": 45,
     "speed": 100,
     "material": [ "veggy" ],
     "symbol": "I",
