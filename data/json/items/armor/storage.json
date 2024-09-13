@@ -3403,5 +3403,117 @@
     "armor": [
       { "encumbrance": [ 30, 250 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ]
+  },
+  {
+    "id": "alu_frame_pack",
+    "type": "ARMOR",
+    "name": { "str": "aluminum frame" },
+    "description": "An aluminum frame for securing a backpack more firmly to your body, increasing ease of movement by reducing how much the bag shifts, though it does come at the cost of the weight of the frame itself and the fact it conducts electricity.",
+    "weight": "3 kg",
+    "volume": "2 L",
+    "price": "8 USD",
+    "price_postapoc": "10 USD 50 cent",
+    "material": [ "aluminum" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "150 kg",
+        "moves": 300,
+        "min_item_volume": "1 L"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "CONDUCTIVE" ],
+    "armor": [ { "encumbrance": [ 8, 10 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "alu_bigframe_pack",
+    "type": "ARMOR",
+    "name": { "str": "big aluminum frame" },
+    "description": "A larger aluminum frame for securing a backpack more firmly to your body, increasing ease of movement by reducing how much the bag shifts, though it does come at the cost of the weight of the frame itself and the fact it conducts electricity.",
+    "weight": "9 kg",
+    "volume": "6 L",
+    "price": "8 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "aluminum" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "400 L",
+        "max_contains_weight": "300 kg",
+        "moves": 300,
+        "min_item_volume": "1 L"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "CONDUCTIVE" ],
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "xl_alu_frame_pack",
+    "type": "ARMOR",
+    "name": { "str": "XL aluminum frame" },
+    "description": "An aluminum frame for securing a backpack more firmly to your body, increasing ease of movement by reducing how much the bag shifts, though it does come at the cost of the weight of the frame itself and the fact it conducts electricity. This one is specifically designed for abnormally large, mutated bodies.",
+    "weight": "6 kg",
+    "volume": "4 L",
+    "price": "8 USD",
+    "price_postapoc": "10 USD 50 cent",
+    "material": [ "aluminum" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "400 L",
+        "max_contains_weight": "300 kg",
+        "moves": 300,
+        "min_item_volume": "1 L"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE", "CONDUCTIVE" ],
+    "armor": [ { "encumbrance": [ 8, 10 ], "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "id": "xl_alu_bigframe_pack",
+    "type": "ARMOR",
+    "name": { "str": "XL big aluminum frame" },
+    "description": "A larger aluminum frame for securing a backpack more firmly to your body, increasing ease of movement by reducing how much the bag shifts, though it does come at the cost of the weight of the frame itself and the fact it conducts electricity. This one is specifically designed for abnormally large, mutated bodies.",
+    "weight": "18 kg",
+    "volume": "12 L",
+    "price": "8 USD",
+    "price_postapoc": "15 USD 50 cent",
+    "material": [ "aluminum" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "max_contains_volume": "800 L",
+        "max_contains_weight": "600 kg",
+        "moves": 300,
+        "min_item_volume": "1 L"
+      }
+    ],
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "OVERSIZE", "CONDUCTIVE" ],
+    "armor": [ { "encumbrance": [ 8, 12 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
   }
 ]
