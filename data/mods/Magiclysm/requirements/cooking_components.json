@@ -1,6 +1,6 @@
 [
   {
-    "id": "meat_raw_steak",
+    "id": "meat_red_raw_steak",
     "type": "requirement",
     "extend": { "components": [ [ [ "purified_meat", 1 ], [ "impure_meat", 1 ] ] ] }
   }
