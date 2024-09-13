@@ -4,7 +4,12 @@
     "//": "drops regular stomach and small skull",
     "type": "harvest",
     "copy-from": "mammal_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_dino_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -20,7 +25,12 @@
     "//": "drops regular stomach and small skull",
     "type": "harvest",
     "copy-from": "mammal_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_dino_pred_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -36,7 +46,12 @@
     "//": "drops large stomach and regular skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_dino_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -72,7 +87,12 @@
     "//": "drops large stomach and skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -86,7 +106,12 @@
     "//": "drops large stomach and medium skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_dino_pred_med", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -102,7 +127,12 @@
     "//": "drops large stomach and skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_dino_pred_large", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -118,7 +148,12 @@
     "//": "drops large stomach and skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_tyrannosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -134,7 +169,12 @@
     "//": "drops large stomach and skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_allosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -150,7 +190,12 @@
     "//": "drops large stomach and skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_acrocanthosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
@@ -166,7 +211,12 @@
     "//": "drops large stomach and skull",
     "type": "harvest",
     "copy-from": "mammal_large_leather",
-    "delete": { "entries": [ { "drop": "bone", "type": "bone", "mass_ratio": 0.15 }, { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 } ] },
+    "delete": {
+      "entries": [
+        { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+        { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 }
+      ]
+    },
     "extend": {
       "entries": [
         { "drop": "skull_giganotosaurus", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
