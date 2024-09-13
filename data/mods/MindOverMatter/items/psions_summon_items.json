@@ -294,21 +294,24 @@
     "type": "TOOL_ARMOR",
     "name": { "str_sp": "[Ψ]banked flames" },
     "copy-from": "pyrokinetic_fire_tool",
-    "armor": [ { "encumbrance": 12, "coverage": 0, "covers": [ "hand_l" ] } ]
+    "armor": [ { "encumbrance": 12, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
   },
   {
     "id": "pyrokinetic_fire_tool_six_arms",
     "type": "TOOL_ARMOR",
     "name": { "str_sp": "[Ψ]banked flames" },
     "copy-from": "pyrokinetic_fire_tool",
-    "armor": [ { "encumbrance": 8, "coverage": 0, "covers": [ "hand_l" ] } ]
+    "armor": [ { "encumbrance": 8, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
   },
   {
     "id": "pyrokinetic_fire_tool_eight_arms",
     "type": "TOOL_ARMOR",
     "name": { "str_sp": "[Ψ]banked flames" },
     "copy-from": "pyrokinetic_fire_tool",
-    "armor": [ { "encumbrance": 5, "coverage": 0, "covers": [ "hand_l" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
   },
   {
     "id": "pyrokinetic_torch_weld",

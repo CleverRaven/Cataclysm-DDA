@@ -741,7 +741,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     }
 
     // don't drive over visible traps
-    if( here.can_see_trap_at( pt.raw(), driver ) ) {
+    if( here.can_see_trap_at( pt, driver ) ) {
         return false;
     }
 

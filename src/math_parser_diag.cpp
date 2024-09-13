@@ -363,7 +363,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
             loc = d.actor( beta )->global_pos();
         }
         field_type_id ft = field_type_id( field_value.str( d ) );
-        field_entry *fp = here.field_at( here.getlocal( loc ) ).find_field( ft );
+        field_entry *fp = here.field_at( here.bub_from_abs( loc ) ).find_field( ft );
         return fp ? fp->get_field_intensity() :  0;
     };
 }

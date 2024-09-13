@@ -7092,6 +7092,17 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
+    if( actually_used->is_comestible() &&
+        actually_used->type->use_methods.find( "delayed_transform" ) ==
+        actually_used->type->use_methods.end() ) {
+        // Assume that when activating food that can be transformed, you're trying to transform it.  Otherwise...
+        // Try to eat it.
+        add_msg_if_player( m_info, string_format( "Attempting to eat %s", actually_used->display_name() ) );
+        assign_activity( consume_activity_actor( item_location( *this, actually_used ) ) );
+        // If the character isn't eating, then invoking the item failed somewhere
+        return !activity.is_null();
+    }
+
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
                                       pt, method );
     if( !charges_used.has_value() ) {
@@ -7103,16 +7114,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         // Not really used.
         // The item may also have been deleted
         return false;
-    }
-
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
     }
 
     actually_used->activation_consume( charges_used.value(), pt, this );
@@ -7456,8 +7457,8 @@ tripoint Character::adjacent_tile() const
     int dangerous_fields = 0;
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
-        if( p == pos() ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( p == pos_bub() ) {
             // Don't consider player position
             continue;
         }
@@ -7484,7 +7485,7 @@ tripoint Character::adjacent_tile() const
         }
 
         if( dangerous_fields == 0 ) {
-            ret.push_back( p );
+            ret.push_back( p.raw() );
         }
     }
 
@@ -8439,7 +8440,7 @@ void Character::blossoms()
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( pos_bub(), 2 ) ) {
         here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
@@ -9562,7 +9563,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from nearby map
     if( qty != 0_kJ && radius > 0 ) {
-        qty -= get_map().consume_ups( pos(), radius, qty );
+        qty -= get_map().consume_ups( pos_bub(), radius, qty );
     }
 
     return wanted_qty - qty;
@@ -9602,7 +9603,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos(), radius, what, qty, return_true<item>, nullptr, in_tools );
+        get_map().use_charges( pos_bub(), radius, what, qty, return_true<item>, nullptr, in_tools );
     }
     if( qty > 0 ) {
         visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
@@ -10437,24 +10438,24 @@ void Character::echo_pulse()
         sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp." ), true,
                        "none", "none" );
     }
-    for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.sees( pos(), origin, pulse_range, false ) ) {
+    for( tripoint_bub_ms origin : points_in_radius( pos_bub(), pulse_range ) ) {
+        if( here.move_cost( origin ) == 0 && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin ) && here.sees( pos(), origin, pulse_range, false ) ) {
+        } else if( is_obstacle( origin.raw() ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
         if( !knows_trap( origin ) && tr.detected_by_echolocation() ) {
-            const std::string direction = direction_name( direction_from( pos(), origin ) );
+            const std::string direction = direction_name( direction_from( pos_bub(), origin ) );
             add_msg_if_player( m_warning, _( "You detect a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( origin, tr );
+            add_known_trap( origin.raw(), tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.sees( pos(), origin, pulse_range, false ) ) {
+        if( critter && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
@@ -11004,9 +11005,9 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
-    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
-        get_map().tr_at( pos() ).trigger( pos(), *this );
-        get_map().update_visibility_cache( pos().z );
+    if( get_map().tr_at( pos_bub() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
+        get_map().tr_at( pos_bub() ).trigger( pos(), *this );
+        get_map().update_visibility_cache( pos_bub().z() );
     }
 }
 
@@ -11258,8 +11259,8 @@ bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) 
 bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
-    if( std::abs( pos().z - critter.pos().z ) > fov_3d_z_range ) {
+    const int dist = rl_dist( pos_bub(), critter.pos_bub() );
+    if( std::abs( pos_bub().z() - critter.pos_bub().z() ) > fov_3d_z_range ) {
         return false;
     }
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
@@ -11270,7 +11271,7 @@ bool Character::sees( const Creature &critter ) const
     }
     // Only players can spot creatures through clairvoyance fields
     if( is_avatar() && field_fd_clairvoyant.is_valid() &&
-        get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
+        get_map().get_field( critter.pos_bub(), field_fd_clairvoyant ) ) {
         return true;
     }
     return Creature::sees( critter );
@@ -12765,17 +12766,17 @@ void Character::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( const tripoint &tp : here.points_in_radius( pos(), 5 ) ) {
+    for( const tripoint_bub_ms &tp : here.points_in_radius( pos_bub(), 5 ) ) {
         const trap &tr = here.tr_at( tp );
-        if( tr.is_null() || tp == pos() ) {
+        if( tr.is_null() || tp == pos_bub() ) {
             continue;
         }
         // Note that echolocation and SONAR also do this separately in echo_pulse()
         if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
-            const std::string direction = direction_name( direction_from( pos(), tp ) );
+            const std::string direction = direction_name( direction_from( pos_bub(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( tp, tr );
+            add_known_trap( tp.raw(), tr );
         }
         if( !sees( tp ) ) {
             continue;
@@ -12785,11 +12786,11 @@ void Character::search_surroundings()
             continue;
         }
         // Chance to detect traps we haven't yet seen.
-        if( tr.detect_trap( tp, *this ) ) {
+        if( tr.detect_trap( tp.raw(), *this ) ) {
             if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
-                                                  direction_from( pos(), tp ) );
+                                                  direction_from( pos_bub(), tp ) );
                 practice_proficiency( proficiency_prof_spotting, 1_minutes );
                 // Seeing a trap set properly gives you a little bonus to trapsetting profs.
                 practice_proficiency( proficiency_prof_traps, 10_seconds );
@@ -12797,7 +12798,7 @@ void Character::search_surroundings()
                 add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                    tr.name(), direction );
             }
-            add_known_trap( tp, tr );
+            add_known_trap( tp.raw(), tr );
         }
     }
 }

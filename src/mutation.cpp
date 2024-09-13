@@ -822,7 +822,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        get_map().add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos_bub(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_LONG_TONGUE2 ||
                mut == trait_GASTROPOD_EXTREMITY2 ||
@@ -831,7 +831,7 @@ void Character::activate_mutation( const trait_id &mut )
         assign_activity( ACT_PULL_CREATURE, to_moves<int>( 1_seconds ), 0, 0, mutation_name( mut ) );
         return;
     } else if( mut == trait_SNAIL_TRAIL ) {
-        get_map().add_field( pos(), fd_sludge, 1 );
+        get_map().add_field( pos_bub(), fd_sludge, 1 );
         add_msg_if_player( _( "You start leaving a trail of sludge as you go." ) );
     } else if( mut == trait_BURROW || mut == trait_BURROWLARGE ) {
         tdata.powered = false;
