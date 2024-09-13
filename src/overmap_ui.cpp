@@ -1135,7 +1135,8 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
 
     mvwprintz( wbar, point( 1, 12 ), c_magenta, _( "Use movement keys to pan." ) );
-    mvwprintz( wbar, point( 1, 13 ), c_magenta, _( "Press W to preview route." ) );
+    mvwprintz( wbar, point( 1, 13 ), c_magenta, _( string_format( "Press %s to preview route.",
+               inp_ctxt.get_desc( "CHOOSE_DESTINATION" ) ) ) );
     mvwprintz( wbar, point( 1, 14 ), c_magenta, _( "Press again to confirm." ) );
     int y = 16;
 
