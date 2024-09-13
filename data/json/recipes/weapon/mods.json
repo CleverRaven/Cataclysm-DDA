@@ -1482,10 +1482,7 @@
     "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ [ "pistol", 3 ], [ "gun", 1 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "difficulty": 4,
     "time": "5 h",
     "book_learn": [ [ "manual_pistol", 3 ], [ "text_gunsmith", 3 ] ],
