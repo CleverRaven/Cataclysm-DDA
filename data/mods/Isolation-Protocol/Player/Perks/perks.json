@@ -49,5 +49,16 @@
     "category": [ "iso_start_perk" ],
     "purifiable": false,
     "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "iso_geas",
+    "name": { "str": "Ancient Vow" },
+    "points": 0,
+    "description": "A lifetime ago you swore to protect your vanished homeland.  This oath binds you still.\n\nYou cannot flee from high danger enemies but gain increased damage and stamina regeneration when fighting them.",
+    "category": [ "iso_start_perk" ],
+    "enchantments": [ "iso_ench_geas_buff" ],
+    "purifiable": false,
+    "valid": false
   }
 ]
