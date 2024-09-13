@@ -708,6 +708,38 @@
     ]
   },
   {
+    "id": "telepathic_mentality_adjustment",
+    "type": "SPELL",
+    "name": "[Ψ]Adjust Mentality",
+    "description": "You sink into a deep trance where you can only sense yourself, allowing you to permanently adjust your mental state and view of the outside world.  Will the end result still be you?",
+    "message": "You sink your mind deep within your body and enter a trance.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "TELEPATH",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 10,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TELEPATHIC_MENTALITY_ADJUSTMENT_SELECTOR",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_mentality_adjustment') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('telepathic_mentality_adjustment') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": 10000,
+    "final_energy_cost": 8000,
+    "energy_increment": -150,
+    "base_casting_time": 1200
+  },
+  {
     "id": "telepathic_network",
     "type": "SPELL",
     "name": "[Ψ]Network Effect",
