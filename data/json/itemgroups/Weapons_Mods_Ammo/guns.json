@@ -161,7 +161,11 @@
     "type": "item_group",
     "id": "guns_pistol_collectible",
     "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally suppressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
-    "items": [ { "item": "mauser_c96", "prob": 50, "contents-item": "c96_mods" }, { "item": "colt_navy", "prob": 40 }, { "item": "colt_army", "prob": 40 } ]
+    "items": [
+      { "item": "mauser_c96", "prob": 50, "contents-item": "c96_mods" },
+      { "item": "colt_navy", "prob": 40 },
+      { "item": "colt_army", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",
