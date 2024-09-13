@@ -235,7 +235,7 @@ std::vector<trait_id> Character::get_in_category( const mutation_category_id &ca
         enum mut_count_type count_type ) const
 {
     std::vector<trait_id> list;
-    bool is_type;
+    bool is_type = false;
 
     // Iterate through all available traits in this category and count every one that match our count_type.
     for( const trait_id &traits_iter : mutations_category[categ] ) {
@@ -247,8 +247,8 @@ std::vector<trait_id> Character::get_in_category( const mutation_category_id &ca
             case mut_count_type::NEGATIVE:
                 is_type = ( mdata.points <= 0 );
                 break;
-            case mut_count_type::ALL:
-                is_type = true;
+            default:
+                is_type = true; // all traits
                 break;
         }
         if( is_type && !mdata.threshold ) {
