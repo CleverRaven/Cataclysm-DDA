@@ -45,7 +45,7 @@
         { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
         { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
       ]
-    }
+    },
     "extend": {
       "entries": [
         { "drop": "bone", "type": "bone", "mass_ratio": 0.1 },
@@ -65,13 +65,14 @@
         { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
         { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.02 }
       ]
-    }
+    },
     "extend": {
       "entries": [
         { "drop": "bone", "type": "bone", "mass_ratio": 0.02 },
         { "drop": "large_bone", "type": "bone", "mass_ratio": 0.13 },
         { "drop": "raw_fur", "type": "skin", "mass_ratio": 0.005 }
-    ]
+      ]
+    }
   },
   {
     "id": "leather_megafauna",
@@ -83,7 +84,7 @@
         { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
         { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 }
       ]
-    }
+    },
     "extend": {
       "entries": [
         { "drop": "bone", "type": "bone", "mass_ratio": 0.02 },
