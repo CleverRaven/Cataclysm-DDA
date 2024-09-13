@@ -111,8 +111,9 @@
     "color": "light_gray",
     "location": "rail",
     "handling_modifier": 2,
-    "aim_speed_modifier": 5,
+    "aim_speed_modifier": 3,
     "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "blacklist_mods": [ "light_grip", "pistol_grip", "breacher_grip" ],
     "min_skills": [ [ "gun", 2 ] ]
   }
 ]
