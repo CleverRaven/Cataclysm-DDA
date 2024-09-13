@@ -97,6 +97,7 @@
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
+    "delete": { "proportional": [ "price": 0.2, "calories": 0.5 ] },
     "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",
     "price": "1 USD"
