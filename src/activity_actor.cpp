@@ -219,25 +219,25 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
-static const itype_id itype_detergent("detergent");
-static const itype_id itype_disassembly("disassembly");
-static const itype_id itype_liquid_soap("liquid_soap");
-static const itype_id itype_log("log");
-static const itype_id itype_paper("paper");
-static const itype_id itype_pseudo_bio_picklock("pseudo_bio_picklock");
+static const itype_id itype_detergent( "detergent" );
+static const itype_id itype_disassembly( "disassembly" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
+static const itype_id itype_log( "log" );
+static const itype_id itype_paper( "paper" );
+static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 static const itype_id
-itype_robofac_yrax_delta_deactivation_manual("robofac_yrax_delta_deactivation_manual");
+itype_robofac_yrax_delta_deactivation_manual( "robofac_yrax_delta_deactivation_manual" );
 static const itype_id
-itype_robofac_yrax_golden_monolith_deactivation_manual("robofac_yrax_golden_monolith_deactivation_manual");
+itype_robofac_yrax_golden_monolith_deactivation_manual( "robofac_yrax_golden_monolith_deactivation_manual" );
 static const itype_id
-itype_robofac_yrax_triakis_deactivation_manual("robofac_yrax_triakis_deactivation_manual");
+itype_robofac_yrax_triakis_deactivation_manual( "robofac_yrax_triakis_deactivation_manual" );
 static const itype_id
-itype_robofac_yrax_trifacet_deactivation_manual("robofac_yrax_trifacet_deactivation_manual");
-static const itype_id itype_soap("soap");
-static const itype_id itype_splinter("splinter");
-static const itype_id itype_stick_long("stick_long");
-static const itype_id itype_water("water");
-static const itype_id itype_water_clean("water_clean");
+itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
+static const itype_id itype_soap( "soap" );
+static const itype_id itype_splinter( "splinter" );
+static const itype_id itype_stick_long( "stick_long" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
