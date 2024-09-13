@@ -7859,7 +7859,6 @@
       { "level": 1, "name": "throw" },
       { "level": 3, "name": "swimming" }
     ],
-    "traits": [ "PROF_FBI" ],
     "items": {
       "both": {
         "entries": [

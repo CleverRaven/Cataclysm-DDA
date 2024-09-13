@@ -9,10 +9,10 @@
     "id": "TALK_MA_PERK_MENU_MAIN",
     "dynamic_line": "Level <u_val:ma_current_level>.\n<u_val:num_ma_perks> perk points to spend.\nCurrent EXP: <u_val:ma_available_exp>.\nEXP to next level: <u_val:ma_exp_to_perk>.",
     "responses": [
-      { "text": "Tempo Techniques", "topic": "TALK_MA_PERK_MENU_TEMPO" },
-      { "text": "Momentum Techniques", "topic": "TALK_MA_PERK_MENU_MOMENTUM" },
-      { "text": "Standalone Techniques", "topic": "TALK_MA_PERK_MENU_STANDALONE" },
-      { "text": "Help", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Tempo Techniques.", "topic": "TALK_MA_PERK_MENU_TEMPO" },
+      { "text": "Momentum Techniques.", "topic": "TALK_MA_PERK_MENU_MOMENTUM" },
+      { "text": "Standalone Techniques.", "topic": "TALK_MA_PERK_MENU_STANDALONE" },
+      { "text": "Help.", "topic": "TALK_MA_PERK_MENU_STANDALONE" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -476,7 +476,7 @@
         ],
         "topic": "TALK_MA_PERK_MENU_SELECT"
       },
-      { "text": "Go back", "topic": "TALK_MA_PERK_MENU_MAIN" },
+      { "text": "Go back.", "topic": "TALK_MA_PERK_MENU_MAIN" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -509,5 +509,11 @@
     "id": "TALK_PERK_MENU_FAIL",
     "dynamic_line": "You don't have a perk point, or meet the prerequisites for this perk.",
     "responses": [ { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MA_PERK_MENU_HELP",
+    "dynamic_line": "XP is gained by killing enemies, either by melee or ranged combat, with tougher enemies giving more XP.  You'll gain a perk point every time you level up, which can be used to unlock a perk through this menu.  Most perks are completely passive, and apply their effects automatically on movement, combat or waiting.\n\nPerks cannot be refunded or disabled once learned, consider your choices carefully.",
+    "responses": [ { "text": "Go back.", "topic": "TALK_NONE" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
   }
 ]
