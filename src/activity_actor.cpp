@@ -218,7 +218,7 @@ static const item_group_id Item_spawn_data_forage_summer( "forage_summer" );
 static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
-static const itype_id itype_2x4("2x4");
+static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_detergent("detergent");
 static const itype_id itype_disassembly("disassembly");
 static const itype_id itype_liquid_soap("liquid_soap");
@@ -250,11 +250,10 @@ static const morale_type morale_shave( "morale_shave" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
-static const mtype_id mon_golden_monolith("mon_golden_monolith");
-static const mtype_id mon_yrax_delta("mon_yrax_delta");
-static const mtype_id mon_yrax_triakis("mon_yrax_triakis");
-static const mtype_id mon_yrax_trifacet("mon_yrax_trifacet");
-
+static const mtype_id mon_golden_monolith( "mon_golden_monolith" );
+static const mtype_id mon_yrax_delta( "mon_yrax_delta" );
+static const mtype_id mon_yrax_triakis( "mon_yrax_triakis" );
+static const mtype_id mon_yrax_trifacet( "mon_yrax_trifacet" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
