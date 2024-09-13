@@ -110,7 +110,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "rail",
-    "handling_modifier": 2,
+    "handling_modifier": 4,
     "aim_speed_modifier": 3,
     "mod_targets": [ "shotgun", "smg", "rifle" ],
     "blacklist_mods": [ "light_grip", "pistol_grip", "breacher_grip" ],
