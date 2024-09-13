@@ -23,7 +23,7 @@
       [ "red_dot_sight", 70 ],
       [ "choke", 50 ],
       [ "big_brass_catcher", 20 ],
-      [ "offset_grip", 25 ]
+      [ "offset_grip", 5 ]
     ]
   },
   {
