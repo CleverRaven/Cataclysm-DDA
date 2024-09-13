@@ -605,20 +605,25 @@ void monster::try_reproduce()
         }
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
-            if( type->baby_monster ) {
-                here.add_spawn( type->baby_monster, spawn_cnt, pos_bub(), friendly );
-            } else if( type->baby_monster_group ) {
+            if( !type->baby_type.baby_monster.is_null() ) {
+                here.add_spawn( type->baby_type.baby_monster, spawn_cnt, pos_bub(), friendly );
+            }
+            if( !type->baby_type.baby_monster_group.is_null() ) {
                 std::vector<MonsterGroupResult> babies = MonsterGroupManager::GetResultFromGroup(
-                            type->baby_monster_group, &spawn_cnt,
+                            type->baby_type.baby_monster_group, &spawn_cnt,
                             nullptr, false, nullptr, true );
                 for( const MonsterGroupResult &mgr : babies ) {
-                    here.add_spawn( mgr.name, spawn_cnt * mgr.pack_size, pos_bub(), friendly );
+                    here.add_spawn( mgr.name, std::max( 1, spawn_cnt * mgr.pack_size ), pos_bub(), friendly );
                 }
-            } else {
-                const item egg( type->baby_egg, *baby_timer );
+            }
+            if( !type->baby_type.baby_egg.is_null() ) {
+                const item egg( type->baby_type.baby_egg, *baby_timer );
                 for( int i = 0; i < spawn_cnt; i++ ) {
                     here.add_item_or_charges( pos_bub(), egg, true );
                 }
+            }
+            if( !type->baby_type.baby_egg_group.is_null() ) {
+                here.spawn_items( pos_bub(), item_group::items_from( type->baby_type.baby_egg_group ) );
             }
         }
         *baby_timer += *type->baby_timer;
@@ -1781,7 +1786,7 @@ void monster::process_triggers()
         int ret = 0;
         map &here = get_map();
         const field_type_id fd_fire = ::fd_fire; // convert to int_id once
-        for( const tripoint &p : here.points_in_radius( pos(), 3 ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 3 ) ) {
             // note using `has_field_at` without bound checks,
             // as points that come from `points_in_radius` are guaranteed to be in bounds
             const int fire_intensity =
@@ -2795,7 +2800,7 @@ void monster::process_turn()
             }
         } else {
             weather_manager &weather = get_weather();
-            for( const tripoint &zap : here.points_in_radius( pos(), 1 ) ) {
+            for( const tripoint_bub_ms &zap : here.points_in_radius( pos_bub(), 1 ) ) {
                 const map_stack items = here.i_at( zap );
                 for( const item &item : items ) {
                     if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
@@ -2804,17 +2809,17 @@ void monster::process_turn()
                         break;
                     }
                 }
-                if( zap != pos() ) {
-                    explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
+                if( zap != pos_bub() ) {
+                    explosion_handler::emp_blast( zap.raw() ); // Fries electronics due to the intensity of the field
                 }
                 const ter_id t = here.ter( zap );
                 if( t == ter_t_gas_pump || t == ter_t_gas_pump_a ) {
                     if( one_in( 4 ) ) {
                         explosion_handler::explosion( this, pos(), 40, 0.8, true );
-                        add_msg_if_player_sees( zap, m_warning, _( "The %s explodes in a fiery inferno!" ),
+                        add_msg_if_player_sees( zap.raw(), m_warning, _( "The %s explodes in a fiery inferno!" ),
                                                 here.tername( zap ) );
                     } else {
-                        add_msg_if_player_sees( zap, m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
+                        add_msg_if_player_sees( zap.raw(), m_warning, _( "Lightning from %1$s engulfs the %2$s!" ),
                                                 name(), here.tername( zap ) );
                         here.add_field( zap, fd_fire, 1, 2_turns );
                     }
@@ -3017,7 +3022,7 @@ void monster::die( Creature *nkiller )
             if( corpse ) {
                 corpse->put_in( it, pocket_type::CORPSE );
             } else {
-                get_map().add_item( pos(), it );
+                get_map().add_item( pos_bub(), it );
             }
         }
     }

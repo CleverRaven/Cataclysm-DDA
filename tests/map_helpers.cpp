@@ -163,8 +163,8 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
 void build_test_map( const ter_id &terrain )
 {
     map &here = get_map();
-    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
-            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_rectangle( tripoint_bub_ms_zero,
+            tripoint_bub_ms( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
         here.furn_set( p, furn_id( "f_null" ) );
         here.ter_set( p, terrain );
         here.trap_set( p, trap_id( "tr_null" ) );

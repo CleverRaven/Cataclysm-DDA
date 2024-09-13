@@ -652,6 +652,9 @@ class talker
         virtual int get_friendly() const {
             return 0;
         }
+        virtual int get_difficulty() const {
+            return 0;
+        }
         virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}

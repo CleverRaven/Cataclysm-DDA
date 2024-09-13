@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "perk_melee_system",
+    "name": "Martial Mastery",
+    "authors": [ "John-Candlebury" ],
+    "maintainers": [ "John-Candlebury" ],
+    "description": "Fight enemies to level up and build your own fighting style.",
+    "category": "misc_additions",
+    "dependencies": [ "dda" ]
+  }
+]

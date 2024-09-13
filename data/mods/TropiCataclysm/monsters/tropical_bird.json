@@ -24,7 +24,7 @@
     "harvest": "bird_large",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_rhea", "baby_count": 22, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_rhea" }, "baby_count": 22, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -58,7 +58,7 @@
     "harvest": "bird_small",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_guinea_fowl", "baby_count": 6, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_guinea_fowl" }, "baby_count": 6, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -91,7 +91,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_quail", "baby_count": 7, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_quail" }, "baby_count": 7, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -131,7 +131,7 @@
     "weight": "650 g",
     "hp": 6,
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_toucan", "baby_count": 4, "baby_timer": 63 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_toucan" }, "baby_count": 4, "baby_timer": 63 }
   },
   {
     "id": "mon_toucan_chick",
@@ -149,7 +149,7 @@
     "volume": "220 ml",
     "weight": "165 g",
     "color": "light_green",
-    "reproduction": { "baby_egg": "egg_parrot", "baby_count": 3, "baby_timer": 38 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_parrot" }, "baby_count": 3, "baby_timer": 38 }
   },
   {
     "id": "mon_parrot_chick",
@@ -173,7 +173,7 @@
     "weight": "1350 g",
     "hp": 8,
     "color": "light_blue",
-    "reproduction": { "baby_egg": "egg_macaw", "baby_count": 3, "baby_timer": 116 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_macaw" }, "baby_count": 3, "baby_timer": 116 }
   },
   {
     "id": "mon_macaw_chick",
@@ -196,7 +196,7 @@
     "color": "yellow",
     "volume": "27 ml",
     "weight": "20 g",
-    "reproduction": { "baby_egg": "egg_finch_saffron", "baby_count": 5, "baby_timer": 16 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_finch_saffron" }, "baby_count": 5, "baby_timer": 16 },
     "//": "Values for reproduction and chick growth copied from the cedar waxwing, as no info could be found online."
   },
   {
@@ -214,7 +214,7 @@
     "color": "yellow",
     "volume": "80 ml",
     "weight": "60 g",
-    "reproduction": { "baby_egg": "egg_great_kiskadee", "baby_count": 5, "baby_timer": 18 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_great_kiskadee" }, "baby_count": 5, "baby_timer": 18 },
     "//": "Values for reproduction and chick growth copied from the bluejay, as no info could be found online."
   },
   {
@@ -231,7 +231,7 @@
     "copy-from": "mon_bird_flying_base",
     "volume": "60 ml",
     "weight": "45 g",
-    "reproduction": { "baby_egg": "egg_rufous_hornero", "baby_count": 4, "baby_timer": 44 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_rufous_hornero" }, "baby_count": 4, "baby_timer": 44 }
   },
   {
     "id": "mon_rufous_hornero_chick",
@@ -265,7 +265,7 @@
     "harvest": "bird_small",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_tinamou", "baby_count": 6, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_tinamou" }, "baby_count": 6, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
@@ -296,7 +296,7 @@
     "vision_day": 50,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "reproduction": { "baby_egg": "egg_seriema", "baby_count": 6, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_seriema" }, "baby_count": 6, "baby_timer": 10 },
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]
   },
@@ -311,7 +311,7 @@
     "hp": 5,
     "speed": 110,
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_chachalaca", "baby_count": 2, "baby_timer": 6 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_chachalaca" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
   },
@@ -321,7 +321,7 @@
     "copy-from": "mon_tinamou",
     "name": { "str": "guan" },
     "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on forested areas.",
-    "reproduction": { "baby_egg": "egg_guan", "baby_count": 2, "baby_timer": 6 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_guan" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
   },
@@ -331,7 +331,7 @@
     "copy-from": "mon_tinamou",
     "name": { "str": "curassow" },
     "description": "A bird belonging to the Cracidae family.  They resemble turkeys to a degree and live on forested areas, easily distinguished by their crested heads.",
-    "reproduction": { "baby_egg": "egg_curassow", "baby_count": 2, "baby_timer": 6 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_curassow" }, "baby_count": 2, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 }
   },
