@@ -89,6 +89,7 @@ void uilist_impl::draw_controls()
         ImGui::TableSetColumnIndex( 1 );
 
         float entry_height = ImGui::GetTextLineHeightWithSpacing();
+        ImGuiStyle &style = ImGui::GetStyle();
         if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false,
                                ImGuiWindowFlags_NavFlattened ) ) {
             if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
@@ -139,7 +140,9 @@ void uilist_impl::draw_controls()
                             // this row is hovered and the hover state just changed, show context for it
                             parent.hovered = parent.fentries[ i ];
                         }
-                        ImGui::SameLine( 0, 0 );
+
+                        // Force the spacing to be set to the padding value.
+                        ImGui::SameLine( 0, style.CellPadding.x );
                         if( entry.hotkey.has_value() ) {
                             cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
                                                           is_selected ? parent.hilight_color : parent.hotkey_color );
@@ -154,6 +157,10 @@ void uilist_impl::draw_controls()
                         cataimgui::draw_colored_text( entry.txt, color );
 
                         ImGui::TableSetColumnIndex( 2 );
+                        // Right-align text.
+                        ImVec2 curPos = ImGui::GetCursorScreenPos();
+                        // Remove the edge padding so that the last pixel just touches the border.
+                        ImGui::SetCursorScreenPos( ImVec2( ImMax( 0.0f, curPos.x + style.CellPadding.x ), curPos.y ) );
                         cataimgui::draw_colored_text( entry.ctxt, color );
 
                         ImGui::PopID();
