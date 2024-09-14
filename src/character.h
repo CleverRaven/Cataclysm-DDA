@@ -33,7 +33,6 @@
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
 #include "coords_fwd.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -68,6 +67,7 @@ class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
