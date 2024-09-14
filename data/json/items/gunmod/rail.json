@@ -113,7 +113,25 @@
     "handling_modifier": 4,
     "aim_speed_modifier": 3,
     "mod_targets": [ "shotgun", "smg", "rifle" ],
-    "blacklist_mod": [ "combination_gun_shotgun", "grip", "grip_mod", "wooden_grip", "m203", "m203_mod", "m320_mod", "m320_mod_mod", "m6_shotgun", "masterkey", "masterkey_mod", "m26_mass", "m26_mass_mod", "rm121aux", "rm121aux_mod", "u_shotgun", "u_shotgun_mod" ],
+    "blacklist_mod": [
+      "combination_gun_shotgun",
+      "grip",
+      "grip_mod",
+      "wooden_grip",
+      "m203",
+      "m203_mod",
+      "m320_mod",
+      "m320_mod_mod",
+      "m6_shotgun",
+      "masterkey",
+      "masterkey_mod",
+      "m26_mass",
+      "m26_mass_mod",
+      "rm121aux",
+      "rm121aux_mod",
+      "u_shotgun",
+      "u_shotgun_mod"
+    ],
     "min_skills": [ [ "gun", 2 ] ]
   }
 ]
