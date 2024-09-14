@@ -3226,7 +3226,6 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         }
         load_data_from_dir( mod.path, mod.ident.str() );
     }
-    loading_ui::done();
 
     std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
