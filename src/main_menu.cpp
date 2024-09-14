@@ -1167,9 +1167,8 @@ bool main_menu::load_character_tab( const std::string &worldname )
     for( const save_t &s : savegames ) {
         std::optional<std::chrono::seconds> playtime = get_playtime_from_save( cur_world, s );
         std::string save_str = s.decoded_name();
-        std::string playtime_str = "";
+        std::string playtime_str;
         if( playtime ) {
-            int padding = std::max( 16 - utf8_width( save_str ), 0 ) + 2;
             std::chrono::seconds::rep tmp_sec = playtime->count();
             int pt_sec = static_cast<int>( tmp_sec % 60 );
             int pt_min = static_cast<int>( tmp_sec % 3600 ) / 60;
