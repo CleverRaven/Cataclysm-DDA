@@ -753,7 +753,7 @@ void emp_blast( const tripoint &p )
             //should spawn item 1 tile north
             here.spawn_item(p + tripoint(0, -1, 0), itype_bot_yrax_trifacet, 1, 0, calendar::turn);
         }
-        if (rn > 9 && rn < 10) {
+        if (rn > 9 && rn < 20) {
             //should spawn item 1 tile north
             int moncount = 1;
             std::vector<MonsterGroupResult> spawn_details =
