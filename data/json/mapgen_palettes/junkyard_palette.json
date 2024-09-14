@@ -42,10 +42,9 @@
       "b": "f_sink",
       "I": "f_desk",
       "n": "f_table",
-      "p": "f_table",
-      "F": "f_vending_c",
-      "K": "f_vending_c"
+      "p": "f_table"
     },
+    "vendingmachines": { "F": { "item_group": "vending_drink", "lootable": true }, "K": { "item_group": "vending_food", "lootable": true } },
     "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
   }
 ]

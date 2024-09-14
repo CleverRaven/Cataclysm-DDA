@@ -171,10 +171,9 @@
       "<": "t_ladder_up",
       "4": "t_gutter_downspout"
     },
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "furniture": {
       "c": "f_counter",
-      "D": "f_vending_c",
-      "F": "f_vending_c",
       "S": "f_sink",
       "T": "f_toilet",
       "h": "f_chair",
@@ -216,8 +215,6 @@
       "e": "f_fridge",
       "l": "f_locker",
       "W": "f_washer",
-      "F": "f_vending_c",
-      "U": "f_vending_c",
       "D": "f_desk",
       "x": "f_console_broken"
     },
