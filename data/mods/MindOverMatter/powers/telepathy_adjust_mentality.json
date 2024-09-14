@@ -79,8 +79,6 @@
             "EOC_TELEPATH_MENTALITY_SLOWREADER_02",
             "EOC_TELEPATH_MENTALITY_FASTREADER_01",
             "EOC_TELEPATH_MENTALITY_FASTREADER_02",
-            "EOC_TELEPATH_MENTALITY_ILLITERATE_01",
-            "EOC_TELEPATH_MENTALITY_ILLITERATE_02",
             "EOC_TELEPATH_MENTALITY_ADDICTIVE_01",
             "EOC_TELEPATH_MENTALITY_ADDICTIVE_02",
             "EOC_TELEPATH_MENTALITY_NONADDICTIVE_01",
@@ -189,8 +187,6 @@
             "Stop Slowing your Reading",
             "Speed up your Reading",
             "Stop speeding your Reading",
-            "Become Illiterate",
-            "Fix Illiteracy",
             "Welcome Addiction",
             "Fight against Addiction",
             "Prevent Addiction",
@@ -957,26 +953,6 @@
               "effect": [
                 { "u_lose_trait": "FASTREADER" },
                 { "u_message": "Time to slow down and take your time with all that reading.", "type": "bad" }
-              ]
-            },
-            {
-              "case": 65,
-              "effect": [
-                { "u_add_trait": "ILLITERATE" },
-                {
-                  "u_message": "All those shapes and scribbles suddenly mean nothing to you.  You better hope that you never have to read again.",
-                  "type": "bad"
-                }
-              ]
-            },
-            {
-              "case": 66,
-              "effect": [
-                { "u_lose_trait": "ILLITERATE" },
-                {
-                  "u_message": "Those 'Letters' and 'Words' suddenly make sense.  You think you can piece together a sentence now, albeit fairly slowly.",
-                  "type": "good"
-                }
               ]
             },
             {
@@ -2396,41 +2372,6 @@
           "duration": { "math": [ "28800 - clamp( ( u_spell_level('telepathic_mentality_adjustment') * 1080), 0, 27000)" ] }
         },
         { "math": [ "u_mentality_picked", "=", "64" ] }
-      ]
-    },
-    {
-      "type": "effect_on_condition",
-      "id": "EOC_TELEPATH_MENTALITY_ILLITERATE_01",
-      "condition": {
-        "and": [
-          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "15" ] },
-          { "not": { "u_has_trait": "ILLITERATE" } },
-          { "u_has_trait": "SLOWREADER" },
-          { "not": { "u_has_trait": "FASTREADER" } }
-        ]
-      },
-      "effect": [
-        { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
-        {
-          "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-          "duration": { "math": [ "28800 - clamp( ( u_spell_level('telepathic_mentality_adjustment') * 1080), 0, 27000)" ] }
-        },
-        { "math": [ "u_mentality_picked", "=", "65" ] }
-      ]
-    },
-    {
-      "type": "effect_on_condition",
-      "id": "EOC_TELEPATH_MENTALITY_ILLITERATE_02",
-      "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "19" ] }, { "u_has_trait": "ILLITERATE" } ]
-      },
-      "effect": [
-        { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
-        {
-          "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-          "duration": { "math": [ "28800 - clamp( ( u_spell_level('telepathic_mentality_adjustment') * 1080), 0, 27000)" ] }
-        },
-        { "math": [ "u_mentality_picked", "=", "66" ] }
       ]
     },
     {
