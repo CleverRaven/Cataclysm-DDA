@@ -97,7 +97,7 @@ static void update_state( const std::string &context, const std::string &step )
         std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
         for( mod_id &some_mod : active_mod_list ) {
             const MOD_INFORMATION &mod = *some_mod;
-            for( std::string img_name : mod.loading_images ) {
+            for( const std::string &img_name : mod.loading_images ) {
                 // There may be more than one file matching the name, so we need to get all of them
                 for( cata_path &img_path : get_files_from_path( img_name, mod.path, true ) ) {
                     imgs.emplace_back( img_path );
