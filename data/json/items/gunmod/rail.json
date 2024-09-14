@@ -96,24 +96,38 @@
     "flags": [ "LASER_SIGHT" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
-  {
-    "id": "offset_grip",
-    "type": "GUNMOD",
-    "name": { "str": "offset grip" },
-    "description": "An angled grip set at 45° that attaches to a side rail, allowing for a grip while leaving the underbarrel rail free, or on guns that have integral bipods.  Also allows for slightly greater control with smaller movements.",
-    "weight": "125 g",
-    "volume": "250 ml",
-    "price": "300 USD",
-    "price_postapoc": "7 USD 50 cent",
-    "install_time": "2 m",
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "rail",
-    "handling_modifier": 4,
-    "aim_speed_modifier": 3,
-    "mod_targets": [ "shotgun", "smg", "rifle" ],
-    "blacklist_mod": [ "light_grip", "pistol_grip", "breacher_grip" ],
-    "min_skills": [ [ "gun", 2 ] ]
-  }
+{
+  "id": "offset_grip",
+  "type": "GUNMOD",
+  "name": {
+    "str": "offset grip"
+  },
+  "description": "An angled grip set at 45° that attaches to a side rail, allowing for a grip while leaving the underbarrel rail free, or on guns that have integral bipods.  Also allows for slightly greater control with smaller movements.",
+  "weight": "125 g",
+  "volume": "250 ml",
+  "price": "300 USD",
+  "price_postapoc": "7 USD 50 cent",
+  "install_time": "2 m",
+  "material": [
+    "steel"
+  ],
+  "symbol": ":",
+  "color": "light_gray",
+  "location": "rail",
+  "handling_modifier": 4,
+  "aim_speed_modifier": 3,
+  "mod_targets": [
+    "shotgun",
+    "smg",
+    "rifle"
+  ],
+  "blacklist_mod": [
+    "light_grip",
+    "pistol_grip",
+    "breacher_grip"
+  ],
+  "min_skills": [
+    [ "gun", 2 ]
+  ]
+}
 ]
