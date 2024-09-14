@@ -1430,7 +1430,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_NYCTOPHOBIA_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "19" ] }, { "u_has_trait": "NYCTOPHOBIA" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "19" ] },
+          { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "1" ] },
+          { "u_has_trait": "NYCTOPHOBIA" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -1677,7 +1681,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_HATES_WATER_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] }, { "u_has_trait": "HATES_WATER" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] },
+          { "u_has_item": "water" },
+          { "u_has_trait": "HATES_WATER" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -1694,6 +1702,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "6" ] },
+          { "u_has_item": "water" },
           { "not": { "u_has_trait": "OUTDOORSMAN" } },
           { "not": { "u_has_trait": "HATES_WATER" } }
         ]
@@ -1744,7 +1753,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_BRAWLER_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "16" ] }, { "u_has_trait": "BRAWLER" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "16" ] },
+          { "u_has_item_category": "gun" },
+          { "u_has_trait": "BRAWLER" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -1920,6 +1933,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "12" ] },
+          { "u_has_item": "dnd_handbook" },
           { "not": { "u_has_trait": "PROF_DICEMASTER" } }
         ]
       },
@@ -2003,7 +2017,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_TRUTHTELLER_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "6" ] }, { "u_has_trait": "TRUTHTELLER" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "6" ] },
+          { "math": [ "u_skill('social')", ">=", "3" ] },
+          { "u_has_trait": "TRUTHTELLER" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2020,6 +2038,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] },
+          { "math": [ "u_skill('social')", ">=", "6" ] },
           { "not": { "u_has_trait": "LIAR" } },
           { "not": { "u_has_trait": "TRUTHTELLER" } }
         ]
@@ -2186,7 +2205,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_MOODSWINGS_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] }, { "u_has_trait": "MOODSWINGS" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] },
+          { "math": [ "u_spell_level('telepathic_morale')", ">=", "10" ] },
+          { "u_has_trait": "MOODSWINGS" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2285,7 +2308,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_SCHIZOPHRENIC_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "16" ] }, { "u_has_trait": "SCHIZOPHRENIC" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "16" ] },
+          { "math": [ "u_spell_level('telepathic_shield')", ">=", "12" ] },
+          { "u_has_trait": "SCHIZOPHRENIC" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2320,7 +2347,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_SLOWREADER_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "12" ] }, { "u_has_trait": "SLOWREADER" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "12" ] },
+          { "math": [ "u_spell_level('clair_speed_reading')", ">=", "6" ] },
+          { "u_has_trait": "SLOWREADER" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2337,6 +2368,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "16" ] },
+          { "math": [ "u_spell_level('clair_speed_reading')", ">=", "12" ] },
           { "not": { "u_has_trait": "FASTREADER" } },
           { "not": { "u_has_trait": "SLOWREADER" } },
           { "not": { "u_has_trait": "ILLITERATE" } }
@@ -2668,7 +2700,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_SLOWLEARNER_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "11" ] }, { "u_has_trait": "SLOWLEARNER" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "11" ] },
+          { "math": [ "u_spell_level('telepathic_concentration')", ">=", "6" ] },
+          { "u_has_trait": "SLOWLEARNER" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2685,6 +2721,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "18" ] },
+          { "math": [ "u_spell_level('telepathic_concentration')", ">=", "16" ] },
           { "not": { "u_has_trait": "FASTLEARNER" } },
           { "not": { "u_has_trait": "SLOWLEARNER" } },
           { "not": { "u_has_trait": "CEPH_MIND" } }
@@ -2806,7 +2843,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_BADTEMPER_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] }, { "u_has_trait": "BADTEMPER" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "7" ] },
+          { "math": [ "u_spell_level('telepathic_morale')", ">=", "6" ] },
+          { "u_has_trait": "BADTEMPER" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2823,6 +2864,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "9" ] },
+          { "math": [ "u_spell_level('telepathic_morale')", ">=", "12" ] },
           { "not": { "u_has_trait": "OPTIMISTIC" } },
           { "not": { "u_has_trait": "BADTEMPER" } },
           { "not": { "u_has_trait": "SEASONAL_AFFECTIVE" } }
@@ -2913,7 +2955,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_UNOBSERVANT_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "9" ] }, { "u_has_trait": "UNOBSERVANT" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "9" ] },
+          { "math": [ "u_spell_level('clair_see_map')", ">=", "6" ] },
+          { "u_has_trait": "UNOBSERVANT" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
@@ -2930,6 +2976,7 @@
       "condition": {
         "and": [
           { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "11" ] },
+          { "math": [ "u_spell_level('clair_see_map')", ">=", "12" ] },
           { "not": { "u_has_trait": "EAGLEEYED" } },
           { "not": { "u_has_trait": "UNOBSERVANT" } }
         ]
@@ -3114,7 +3161,11 @@
       "type": "effect_on_condition",
       "id": "EOC_TELEPATH_MENTALITY_INATTENTIVE_02",
       "condition": {
-        "and": [ { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "11" ] }, { "u_has_trait": "INATTENTIVE" } ]
+        "and": [
+          { "math": [ "u_spell_level('telepathic_mentality_adjustment')", ">=", "11" ] },
+          { "math": [ "u_spell_level('clair_see_auras')", ">=", "6" ] },
+          { "u_has_trait": "INATTENTIVE" }
+        ]
       },
       "effect": [
         { "run_eocs": "EOC_TELEPATH_ADJUST_MENTALITY_MESSAGE" },
