@@ -1071,7 +1071,7 @@
     "type": "terrain",
     "id": "t_yrax_exposed_wall",
     "name": "damaged wall",
-    "description": "An identical piece of golden wall with unusual artificall pattern on it, but this one is heavily damaged and exposes crystaline structure covered in network of golden threads.",
+    "description": "An identical piece of golden wall with an unusual artificial pattern on it, but this one is heavily damaged and exposes a crystalline structure covered in a network of golden threads.",
     "//": "Science",
     "symbol": "6",
     "color": "yellow",

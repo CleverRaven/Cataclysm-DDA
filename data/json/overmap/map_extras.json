@@ -217,7 +217,7 @@
   {
     "id": "mx_yrax_pyramid_cage",
     "type": "map_extra",
-    "name": { "str": "Golden monoliths" },
+    "name": { "str": "Golden pyramid" },
     "description": "Here is golden pyramid with asymetricals patterns carven in it.",
     "generator": { "generator_method": "update_mapgen", "generator_id": "yrax_pyramid_cage_1" },
     "min_max_zlevel": [ 0, 0 ],

@@ -50,7 +50,14 @@
         ",": "t_yrax_exposed_wall",
         "#": "t_yrax_cage"
       },
-      "place_nested": [ { "chunks": [ "yrax_pyramid_cage_1_roof" ], "x": 0, "y": 0, "z": 1 } ]
+      "place_nested": [
+        {
+          "chunks": [ "yrax_pyramid_cage_1_roof" ],
+          "x": 0,
+          "y": 0,
+          "z": 1
+        }
+      ]
     }
   },
   {
@@ -85,9 +92,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": {
-        ".": "t_yrax_roof"
-      }
+      "terrain": { ".": "t_yrax_roof" }
     }
   }
 ]
