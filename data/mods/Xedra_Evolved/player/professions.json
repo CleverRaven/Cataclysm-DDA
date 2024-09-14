@@ -209,10 +209,9 @@
     ],
     "points": 7,
     "proficiencies": [ "prof_wp_netherium_abomination", "prof_unarmed_familiar", "prof_traps" ],
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "rifle" }, { "level": 1, "name": "survival" } ],
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 3, "name": "rifle" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "ammo": 100,
         "entries": [
           { "item": "under_armor" },
           { "item": "under_armor_shorts" },
@@ -230,7 +229,7 @@
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
           { "item": "colt_saa", "ammo-item": "45colt_jhp", "container-item": "holster", "charges": 6 },
-          { "item": "45colt_jhp", "count": 30 },
+          { "item": "45colt_jhp", "charges": 30 },
           { "group": "military_ballistic_vest_light" },
           { "item": "tac338", "ammo-item": "338lapua_fmjbt", "charges": 5, "contents-item": [ "shoulder_strap" ] },
           { "item": "legpouch_large", "contents-group": "army_mags_tac338" }
