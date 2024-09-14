@@ -619,10 +619,8 @@
     "points": 1,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
-    "category": [ "IERDE" ],
-    "active": true,
-    "activated_eocs": [ "EOC_IERDE_STONE_MEDITATIONS" ]
+    "description": "[ WIP Does nothing ]The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ]
   },
   {
     "type": "mutation",
