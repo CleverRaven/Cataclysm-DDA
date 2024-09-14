@@ -258,7 +258,6 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
         case ter_furn_flag::TFLAG_AMMOTYPE_RELOAD: return "AMMOTYPE_RELOAD";
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
-        case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
         case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
         case ter_furn_flag::TFLAG_TRANSLUCENT: return "TRANSLUCENT";
@@ -862,6 +861,19 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;
             }
+        }
+    }
+
+    if( jo.has_object( "liquid_source" ) ) {
+        JsonObject liquid_source = jo.get_object( "liquid_source" );
+        mandatory( liquid_source, was_loaded, "id", liquid_source_item_id );
+        optional( liquid_source, was_loaded, "min_temp", liquid_source_min_temp );
+        if( liquid_source.has_int( "count" ) ) {
+            mandatory( liquid_source, was_loaded, "count", liquid_source_count.first );
+            mandatory( liquid_source, was_loaded, "count", liquid_source_count.second );
+        } else if( liquid_source.has_array( "count" ) ) {
+            JsonArray ja = liquid_source.get_array( "count" );
+            liquid_source_count = { ja.get_int( 0 ), ja.get_int( 1 ) };
         }
     }
 
