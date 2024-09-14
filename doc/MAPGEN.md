@@ -856,6 +856,7 @@ Example:
 | intensity | (optional, integer, array ) how concentrated the field is, from 1 to 3 or more.  Arrays are randomized.  See `data/json/field_type.json`
 | age       | (optional, integer) field age. Defaults to 0.
 | remove    | (optional, bool) If true the given field will be removed rather than added. Defaults to false.
+| chance    | (optional, integer) chance to spawn field; default `100` as 100%
 
 
 ### Place NPCs with "npcs"
