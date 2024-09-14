@@ -725,19 +725,14 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('telepathic_mentality_adjustment') * 3000) + 20000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_duration": {
-      "math": [
-        "( (u_spell_level('telepathic_mentality_adjustment') * 6000) + 35000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "28800 - clamp( ( u_spell_level('telepathic_mentality_adjustment') * 1080), 0, 27000)"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
     "final_energy_cost": 8000,
     "energy_increment": -150,
-    "base_casting_time": 1200
+    "base_casting_time": 0
   },
   {
     "id": "telepathic_network",
