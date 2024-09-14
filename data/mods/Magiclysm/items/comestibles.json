@@ -90,6 +90,7 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "name": { "str_sp": "purified meat" },
     "description": "Indistinguishable from pre-Cataclysm lab grown beef.  It should be excellent but somehow it's just edible.",
+    "calories": 402,
     "price": "4 USD"
   },
   {
