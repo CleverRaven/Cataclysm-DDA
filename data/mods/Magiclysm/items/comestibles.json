@@ -95,14 +95,11 @@
   {
     "id": "impure_meat",
     "type": "COMESTIBLE",
-    "copy-from": "meat",
+    "copy-from": "mutant_meat",
     "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",
-    "looks_like": "mutant_meat",
-    "cooks_like": "mutant_meat_cooked",
-    "proportional": { "calories": 0.5 },
+    "calories": 201,
     "price": "1 USD",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 1 ], [ "iron", 6 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
-    "flags": [ "SMOKABLE", "BAD_TASTE", "RAW", "PREDATOR_FUN", "NUTRIENT_OVERRIDE" ]
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   }
 ]
