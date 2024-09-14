@@ -337,6 +337,7 @@ assistive
 asswagon
 asswipe
 astrodon
+astrodons
 astrolaspis
 astrolaspises
 Aśvaghosa
