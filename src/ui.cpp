@@ -76,19 +76,21 @@ void uilist_impl::draw_controls()
     // left/right column to add additional content to the
     // window. There should only ever be one row.
     if( ImGui::BeginTable( "table", 3,
-                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_NoPadOuterX | ImGuiTableFlags_Hideable) ) {
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_NoPadOuterX |
+                           ImGuiTableFlags_Hideable ) ) {
         ImGui::TableSetupColumn( "left", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_left );
         ImGui::TableSetupColumn( "menu", ImGuiTableColumnFlags_WidthFixed, parent.calculated_menu_size.x );
         ImGui::TableSetupColumn( "right", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_right );
 
-        ImGui::TableSetColumnEnabled(0, parent.extra_space_left < 1.0f ? false : true);
-        ImGui::TableSetColumnEnabled(2, parent.extra_space_right < 1.0f ? false : true);
+        ImGui::TableSetColumnEnabled( 0, parent.extra_space_left < 1.0f ? false : true );
+        ImGui::TableSetColumnEnabled( 2, parent.extra_space_right < 1.0f ? false : true );
 
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 1 );
 
         float entry_height = ImGui::GetTextLineHeightWithSpacing();
-        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false, ImGuiWindowFlags_NavFlattened ) ) {
+        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false,
+                               ImGuiWindowFlags_NavFlattened ) ) {
             if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
                 ImGui::TableSetupColumn( "hotkey", ImGuiTableColumnFlags_WidthFixed,
                                          parent.calculated_hotkey_width );
