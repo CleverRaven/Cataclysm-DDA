@@ -35,6 +35,10 @@ namespace omap
  */
 void display();
 /**
+ * Display overmap centered at starting_pos.
+ */
+void look_around_map( tripoint_abs_ms starting_pos );
+/**
  * Display overmap centered at the given NPC's position and visually move across their intended OMT path.
  */
 void display_npc_path( tripoint_abs_omt starting_pos,
@@ -117,6 +121,11 @@ struct overmap_draw_data_t {
     std::vector<tripoint_abs_omt> display_path = {};
     //center of UI view; usually player OMT position
     tripoint_abs_omt origin_pos = tripoint_abs_omt( -1, -1, -1 );
+    /**
+     * remainder for smooth toggle between map and look_around
+     * SEEX = SEEY is half of OMT, so point_rel_ms( SEEX, SEEY ) is middle of a tile
+     */
+    point_omt_ms origin_remainder = point_omt_ms( SEEX, SEEY );
     //UI view cursor position
     tripoint_abs_omt cursor_pos = tripoint_abs_omt( -1, -1, -1 );
     //the UI adaptor for the overmap; this can keep the overmap displayed while turns are processed

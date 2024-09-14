@@ -7421,6 +7421,9 @@ look_around_result game::look_around(
         ctxt.register_action( "LEVEL_DOWN" );
     }
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
+    if( !has_first_point && !select_zone && !peeking && !is_moving_zone ) {
+        ctxt.register_action( "map" );
+    }
     ctxt.register_action( "CHANGE_MONSTER_NAME" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
     ctxt.register_action( "SELECT" );
@@ -7582,6 +7585,11 @@ look_around_result game::look_around(
             list_items_monsters();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
+        } else if( action == "map" ) {
+            uistate.open_menu = [center]() {
+                ui::omap::look_around_map( get_map().getglobal( center ) );
+            };
+            break;
         } else if( action == "toggle_pixel_minimap" ) {
             toggle_pixel_minimap();
 
