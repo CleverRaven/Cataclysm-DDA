@@ -1081,5 +1081,17 @@
       { "monster": "mon_zombie_hazmat", "weight": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fireman", "weight": 25, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "name": "GROUP_ZOMBIE_YRAX_STUDY",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_master" },
+      { "monster": "mon_lieutenant_shadow" },
+      { "monster": "mon_archunk_medium" },
+      { "monster": "mon_archunk_weak" },
+      { "monster": "mon_archunk_strong" },
+      { "monster": "mon_skeleton_hulk" }
+    ]
   }
 ]

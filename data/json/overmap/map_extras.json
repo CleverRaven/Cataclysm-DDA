@@ -215,6 +215,18 @@
     "flags": [ "YRAX" ]
   },
   {
+    "id": "mx_yrax_pyramid_cage",
+    "type": "map_extra",
+    "name": { "str": "Golden monoliths" },
+    "description": "Here is golden pyramid with asymetricals patterns carven in it.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "yrax_pyramid_cage_1" },
+    "min_max_zlevel": [ 0, 0 ],
+    "sym": "x",
+    "color": "yellow",
+    "autonote": true,
+    "flags": [ "YRAX" ]
+  },
+  {
     "id": "mx_lab_concourse_area",
     "type": "map_extra",
     "name": { "str": "Start location concourse area" },

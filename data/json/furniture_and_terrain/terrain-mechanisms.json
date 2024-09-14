@@ -1066,5 +1066,20 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_yrax_exposed_wall",
+    "name": "damaged wall",
+    "description": "An identical piece of golden wall with unusual artificall pattern on it, but this one is heavily damaged and exposes crystaline structure covered in network of golden threads.",
+    "//": "Science",
+    "symbol": "6",
+    "color": "yellow",
+    "move_cost": 0,
+    "roof": "t_yrax_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
+    "examine_action": "sign"
   }
 ]
