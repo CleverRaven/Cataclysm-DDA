@@ -70,7 +70,7 @@
     "looks_like": "crown_golden",
     "color": "yellow",
     "material_thickness": 2,
-    "flags": [ "FANCY" ],
+    "flags": [ "SUPER_FANCY" ],
     "armor": [ { "encumbrance": 20, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
