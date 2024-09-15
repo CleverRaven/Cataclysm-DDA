@@ -100,7 +100,7 @@
     "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",
     "delete": { "proportional": { "price": 0.2, "calories": 0.5 } },
-    "calories": 301,
+    "calories": 201,
     "price": "1 USD",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   }
