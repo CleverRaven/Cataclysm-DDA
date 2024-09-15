@@ -12901,9 +12901,7 @@
         {
           "id": [
             "ants",
-            "ants_acid",
-            "rural_road",
-            "rural_road_forest"
+            "ants_acid"
           ],
           "fg": 97,
           "multitile": true,
@@ -12941,9 +12939,9 @@
               "id": "end_piece",
               "fg": [
                 90,
-                89,
+                92,
                 91,
-                92
+                89
               ]
             },
             {
@@ -12954,6 +12952,56 @@
               ]
             }
           ]
+        },
+        {
+          "id": [
+            "dirt_road",
+            "dirt_road_forest",
+            "rural_road",
+            "rural_road_forest"
+          ],
+          "fg": [
+            88,
+            87,
+            88,
+            87
+          ],
+          "rotates": true
+        },
+        {
+          "id": [
+            "dirt_road_3way",
+            "dirt_road_3way_forest",
+            "rural_road_3way",
+            "rural_road_3way_forest"
+          ],
+          "fg": [
+            94,
+            93,
+            95,
+            96
+          ],
+          "rotates": true
+        },
+        {
+          "id": "dirt_road_turn_forest",
+          "fg": [
+            83,
+            85,
+            86,
+            84
+          ],
+          "rotates": true
+        },
+        {
+          "id": "dirt_road_turn1_forest",
+          "fg": [
+            84,
+            83,
+            85,
+            86
+          ],
+          "rotates": true
         },
         {
           "id": [
