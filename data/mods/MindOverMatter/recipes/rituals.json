@@ -4,7 +4,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "name": "engineer mind",
     "id": "recipe_mental_engineering",
-    "description": "With the help of a telepathic focusing tool, you can sink into a deep trance where you can only sense yourself, allowing you to permanently adjust your mental state and view of the outside world.  Will the end result still be you?",
+    "description": "With the help of a telepathic focusing tool and your (hopefully) extensive telepathic powers, you can sink into a deep trance where you can only sense yourself, allowing you to permanently adjust your mental state and view of the outside world.  Will the end result still be you?",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_RITUALS",
     "skill_used": "metaphysics",
@@ -13,7 +13,7 @@
     "book_learn": [ [ "schematics_telepathic_focusing_tool", 4 ] ],
     "tools": [ [ [ "telepathic_focusing_tool", -1 ] ] ],
     "flags": [ "SECRET" ],
-    "result_eocs": [ "EOC_TELEPATHIC_MENTALITY_ADJUSTMENT_SELECTOR" ]
+    "result_eocs": [ "EOC_TELEPATHIC_MENTAL_ENGINEERING_SELECTOR" ]
   },
   {
     "type": "recipe",

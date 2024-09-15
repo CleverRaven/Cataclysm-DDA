@@ -40,6 +40,6 @@
     "rooted": true,
     "based_on": "time",
     "can_resume": false,
-    "completion_eoc": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY_FINISH"
+    "completion_eoc": "ACT_PSI_TELEPATH_MENTAL_ENGINEERING_FINISH"
   }
 ]
