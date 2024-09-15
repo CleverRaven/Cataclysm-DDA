@@ -2138,7 +2138,7 @@
           {
             "value": "ATTACK_SPEED",
             "multiply": {
-              "math": [ "-0.1 - ( u_glamoured_changeling_noble_traits * 0.0015) - (u_glamoured_deduction_movement_buff * 0.015) )" ]
+              "math": [ "-0.1 - ( (u_glamoured_changeling_noble_traits * 0.0015) - (u_glamoured_deduction_movement_buff * 0.015) )" ]
             }
           }
         ]

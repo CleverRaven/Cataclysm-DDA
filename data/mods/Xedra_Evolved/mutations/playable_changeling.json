@@ -21,7 +21,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_NOBLE",
-    "name": { "str": "Noble Changeling" },
+    "name": { "str": "Noble" },
     "points": 0,
     "description": "You have awakened your long-slumbering heritage as one of the nobility of the Fair Folk.",
     "valid": false,
@@ -67,7 +67,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 100" ] } },
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 70" ] } },
           {
             "value": "REGEN_MANA",
             "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.02" ] }
@@ -85,7 +85,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 45" ] } },
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 40" ] } },
           {
             "value": "REGEN_MANA",
             "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 0.01" ] }
@@ -97,7 +97,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
-    "name": { "str": "Brownie Changeling" },
+    "name": { "str": "Brownie" },
     "points": 0,
     "description": "You have awakened your long-slumbering heritage as a brownie, hard-working and mostly unseen.",
     "valid": false,
@@ -114,7 +114,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 65" ] } },
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 50" ] } },
           {
             "value": "REGEN_MANA",
             "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.01" ] }
@@ -126,7 +126,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_POOKA",
-    "name": { "str": "Pooka Changeling" },
+    "name": { "str": "Pooka" },
     "points": 0,
     "description": "You have awakened your long-slumbering heritage as a pooka, a shapeshifter close to nature.",
     "valid": false,
@@ -143,7 +143,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 35" ] } },
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 25" ] } },
           {
             "value": "REGEN_MANA",
             "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 0.01" ] }
@@ -155,7 +155,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
-    "name": { "str": "Selkie Changeling" },
+    "name": { "str": "Selkie" },
     "points": 0,
     "description": "You have awakened your long-slumbering heritage as a selkie, with one foot on the land and one in the sea.",
     "valid": false,
@@ -172,7 +172,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 20" ] } },
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 15" ] } },
           {
             "value": "REGEN_MANA",
             "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 0.01" ] }
@@ -184,7 +184,7 @@
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_TROW",
-    "name": { "str": "Trow Changeling" },
+    "name": { "str": "Trow" },
     "points": 0,
     "description": "You have awakened your long-slumbering heritage as a trow, strong and enduring as the mountains.",
     "valid": false,
@@ -323,7 +323,7 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
             { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
           ]
         },
@@ -345,7 +345,7 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
             { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
           ]
         },
@@ -367,7 +367,7 @@
       {
         "condition": {
           "and": [
-            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': both)", "==", "0" ] },
+            { "math": [ "u_monsters_nearby('radius': 8, 'attitude': 'both')", "==", "0" ] },
             { "math": [ "u_characters_nearby('radius': 8)", "==", "0" ] }
           ]
         },
@@ -381,7 +381,7 @@
     "name": { "str": "Unobtrusive" },
     "description": "Your appearance hasn't changed, but people don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're easy to overlook.",
     "points": 3,
-    "prereqs": [ "FAIR_FOLK_INVISIBILITY" ],
+    "prereqs": [ "CHANGELING_INVISIBILITY" ],
     "changes_to": [ "BROWNIE_EASY_OVERLOOK2" ],
     "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
     "enchantments": [
@@ -397,7 +397,7 @@
     "name": { "str": "Inconspicuous" },
     "description": "Your appearance hasn't changed, but people really don't seem to notice you as much as they used to.  As long as you don't engage in combat, you're very easy to overlook.",
     "points": 6,
-    "prereqs": [ "FAIR_FOLK_INVISIBILITY" ],
+    "prereqs": [ "CHANGELING_INVISIBILITY" ],
     "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
     "enchantments": [
@@ -553,7 +553,7 @@
     "name": { "str": "Cutting Through the Waves" },
     "points": 1,
     "description": "Your hands and feet haven't changed at all, but they seem to be much better at swimming than before.  You gain a speed bonus when in water, increased when not wearing shoes.",
-    "prereqs": [ "SELKIE_BREATHING_WATER1", "SELKIE_BREATHING_WATER2" ],
+    "prereqs": [ "SELKIE_BREATHING_WATER", "SELKIE_BREATHING_WATER2" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ]
   },
@@ -613,7 +613,7 @@
       "FAIR_FOLK_COMMONER_SELKIE",
       "FAIR_FOLK_COMMONER_TROW"
     ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.75" ] } } ] } ]
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 0.65" ] } } ] } ]
   },
   {
     "type": "mutation",
@@ -624,7 +624,7 @@
     "prereqs": [ "FAE_NIGHTVISION" ],
     "category": [ "FAIR_FOLK_COMMONER_POOKA", "FAIR_FOLK_COMMONER_TROW" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA", "THRESH_FAIR_FOLK_COMMONER_TROW" ],
-    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.5" ] } } ] } ]
+    "enchantments": [ { "values": [ { "value": "NIGHT_VIS", "add": { "math": [ "u_val('perception') * 1.3" ] } } ] } ]
   },
   {
     "type": "mutation",

@@ -54,6 +54,7 @@
     "default_faction": "player",
     "melee_skill": 5,
     "speed": 95,
+    "vision_night": 15,
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "extend": { "flags": [ "SUNDEATH" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
@@ -68,6 +69,7 @@
     "default_faction": "player",
     "melee_skill": 5,
     "speed": 95,
+    "vision_night": 15,
     "delete": { "special_attacks": [ "BROWSE", "EAT_FOOD", "PARROT" ] },
     "extend": { "flags": [ "SUNDEATH" ] },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s fades away." }
@@ -82,6 +84,7 @@
     "default_faction": "player",
     "melee_skill": 5,
     "speed": 95,
+    "vision_night": 15,
     "delete": { "special_attacks": [ "PARROT_AT_DANGER" ] },
     "extend": { "flags": [ "SUNDEATH" ] },
     "armor": { "bash": 20, "cut": 20, "stab": 15, "bullet": 12 },
