@@ -5234,6 +5234,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
       { "seasons": [ "spring", "autumn" ], "id": "burdock_harv" },
       { "seasons": [ "summer" ], "id": "burdock_summer_harv" }
     ],
+    "liquid_source": { "id": "water", "min_temp": 7.8, "count": [ 24, 48 ] },
     "roof": "t_roof",
     "examine_action": "pit",
     "boltcut": {
@@ -5442,6 +5443,19 @@ Defines how this terrain will interact with ranged projectiles. Has the followin
 Example:
 ```json
 "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "blackjack_harv" } ],
+```
+
+#### `liquid_source`
+
+(Optional) Object, that contain liquids this terrain or furniture can give
+
+Example:
+```c++
+"liquid_source": {
+  "id": "water",      // id of a liquid given by ter/furn
+  "min_temp": 7.8,    // liquid picked from here can't go below this temperature, in centigrade; Used only by "water_source" examine action
+  "count": [ 24, 48 ] // if source is finite, how much there should be of it. Omit if it need to have infinite amount of liquid. Accepts either single number, or array of two numbers. Used only by "finite_water_source" examine action
+}
 ```
 
 #### `roof`

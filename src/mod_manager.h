@@ -47,6 +47,9 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
+        /** Full filenames (including extension) of any loading screens this mod may have */
+        std::set<std::string> loading_images;
+
         translation description;
         std::string version;
 

@@ -649,7 +649,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 8 minutes and 30 seconds to 30 minutes, plus 50 seconds to 20 minutes and 40 seconds per level<br />
 *Stamina Cost*: 2500, minus 150 per level to a minimum of 800<br />
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 75 moves<br />
-*Effects*: Summon a controlled fire in the palm of the psion's hand or nearby. The fire sheds a small amount of light and can be used for anything fire can normally be used for; heating food, cooking, lightning other fires, and so on. The banked flame requires more intense concentration and cannot be sustained in combat.<br />
+*Effects*: Summon a controlled fire in the palm of the psion's hand. The fire sheds a small amount of light and can be used for anything fire can normally be used for; heating food, cooking, lightning other fires, and so on. The banked flame requires more intense concentration and cannot be sustained in combat.  In addition, it encumbers one of your hands and prevents you from using any weapon requiring two hands.<br />
 *Prerequisites*: Fountain of Flames 4<br />
 
 ## Quell Fire

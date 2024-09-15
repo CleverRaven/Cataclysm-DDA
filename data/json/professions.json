@@ -1030,6 +1030,33 @@
   },
   {
     "type": "profession",
+    "id": "engineer_chem",
+    "name": "Chemical Engineer",
+    "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you.  Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
+    "points": 2,
+    "skills": [ { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_chem_synth",
+      "prof_organic_chemistry",
+      "prof_inorganic_chemistry",
+      "prof_chemical_engineering"
+    ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "pants", "variant": "pants_stone" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "mechanic",
     "name": "Home Mechanic",
     "description": "You've always loved cars, and there's nothing like getting under the hood and fixing it yourself.  You've kept ahold of some handy tools for the job, and at least now you'll never want for parts.",
@@ -1056,6 +1083,23 @@
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "engineer_mech",
+    "name": "Mechanical Engineer",
+    "description": "You've always loved machines, and have extensively incorporated them into your career.  Not long after receiving your degree, you seem to be the one being subjected to a stress test, and it remains unclear if you will retain your structural integrity.",
+    "proficiencies": [ "prof_basic_engines", "prof_high_pressure_systems", "prof_pneumatics" ],
+    "points": 2,
+    "skills": [ { "level": 5, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "jeans", "socks", "boots_steel", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
@@ -3755,6 +3799,33 @@
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "engineer_ee",
+    "name": "Electrical Engineer",
+    "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder joint at a time.  Now, you are not even sure if the complete failure of the power grid makes your field obsolete or all the more necessary.",
+    "points": 2,
+    "proficiencies": [
+      "prof_elec_soldering",
+      "prof_elec_circuits",
+      "prof_elec_integrated_circuits",
+      "prof_electromagnetics",
+      "prof_elec_semiconductors"
+    ],
+    "skills": [ { "level": 5, "name": "electronics" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "socks", "dress_shoes", "wristwatch", "file" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
+      },
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
