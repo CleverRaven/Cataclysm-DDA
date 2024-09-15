@@ -15,7 +15,7 @@
     "name": "Born with the gift of gab.",
     "description": "You've never met another person but already you are ready for the conversations that will ensue.",
     "points": 1,
-    "skills": [ { "level": 3, "name": "social" } ]
+    "skills": [ { "level": 3, "name": "speech" } ]
   },
   {
     "type": "profession",
@@ -42,7 +42,7 @@
     "name": "Born a seedbearer.",
     "description": "A gift from your birth world?  A quirk of nature?  For reasons unknown to you, you can sprout seeds from this planet.  You can't control what seeds you get, however.",
     "points": 1,
-    "traits": [ "SEED_BEARER" ]
+    "traits": [ "ARVORE_SEED_BEARER" ]
   },
   {
     "type": "profession",
@@ -62,6 +62,6 @@
     "description": "Before you were born, your thoughts and dreams were those of stone.  When this world sucks you into it's highs and lows, you can remember the eternity that is stone.",
     "points": 3,
     "//": "Trait grants an EOC that doing 30 minutes of meditation resets your morale to zero.  Consider making IERDE abilities that function better or only at morales between the range of -15 and 15.",
-    "traits": [ "STONE_MEDITATIONS" ]
+    "traits": [ "IERDE_STONE_MEDITATIONS" ]
   }
 ]
