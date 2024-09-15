@@ -1624,7 +1624,7 @@
     "melee_dice": 6,
     "hp": 465,
     "zombify_into": "mon_zastrodon",
-    "description": "Gigantic, long-necked, four-legged dinosaur with very prominent flared nostrils and a line of colorful head spikes.",
+    "description": "Gigantic, long-necked, four-legged dinosaur with a round body.",
     "reproduction": { "baby_type": { "baby_egg": "egg_astrodon" }, "baby_count": 3, "baby_timer": 24 }
   },
   {
