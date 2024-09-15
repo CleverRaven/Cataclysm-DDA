@@ -41,7 +41,7 @@
     "name": "Black liquid",
     "density": 2,
     "//": "It desires to remain a liquid",
-    "specific_heat_liquid": 15,
+    "specific_heat_liquid": 1,
     "specific_heat_solid": 0.108,
     "latent_heat": 800,
     "conductive": false,

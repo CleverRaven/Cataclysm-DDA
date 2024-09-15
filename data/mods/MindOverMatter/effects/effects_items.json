@@ -80,5 +80,12 @@
       "sleepiness_max_val": [ 700 ]
     },
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -40 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_black_nether_water_nightmares",
+    "//": "Hidden effect to set off an EoC",
+    "name": [ "" ],
+    "desc": [ "" ]
   }
 ]
