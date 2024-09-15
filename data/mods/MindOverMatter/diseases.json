@@ -8,5 +8,15 @@
     "max_intensity": 1,
     "health_threshold": 210,
     "symptoms": "effect_black_nether_water_disease"
+  },
+  {
+    "type": "disease_type",
+    "id": "black_nether_water_disease_masses",
+    "min_duration": "2 s",
+    "max_duration": "2 s",
+    "min_intensity": 1,
+    "max_intensity": 1,
+    "health_threshold": 210,
+    "symptoms": "effect_black_nether_water_disease"
   }
 ]
