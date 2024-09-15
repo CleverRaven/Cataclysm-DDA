@@ -5380,6 +5380,6 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_fungus_01_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_fungus_roof_01_north" }
-	 ]
+    ]
   }
 ]
