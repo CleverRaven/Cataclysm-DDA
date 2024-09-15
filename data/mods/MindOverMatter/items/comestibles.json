@@ -209,7 +209,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
     "name": { "str_sp": "black liquid" },
-    "description": "You don't know what this is but now that you've gotten a closer look it's definitely not water.  It's completely opaque and freezing cold to the touch, but when you pull your fingertip out of it, your skin is completely dry.",
+    "description": "You don't know what this is but now that you've gotten a closer look it's definitely not water.  It's completely opaque and freezing cold to the touch, but when you pull your fingertip out of it, your skin is dry as a bone.",
     "category": "food",
     "material": [ "black_liquid" ],
     "weight": "500 g",
