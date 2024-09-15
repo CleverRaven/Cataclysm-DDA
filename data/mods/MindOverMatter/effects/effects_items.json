@@ -55,5 +55,25 @@
     "name": [ "" ],
     "desc": [ "" ],
     "flags": [ "TELEKIN_SHIELD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_black_nether_water_disease",
+    "name": [ "Unearthly Cold" ],
+    "desc": [ "You are chilled from the inside out." ],
+    "apply_message": "A numbing cold spreads out from your stomach to your whole body.",
+    "rating": "bad",
+    "base_mods": {
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "speed_mod": [ -10 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 300, 900 ],
+      "vomit_chance": [ 600, 1200 ],
+      "health_min": [ -1 ],
+      "health_chance": [ 2 ],
+      "health_tick": [ 60 ]
+    },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": -40 } ] } ]
   }
 ]
