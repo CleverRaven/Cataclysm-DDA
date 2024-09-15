@@ -451,7 +451,6 @@
       { "id": "hammer", "description": " Craft: Hammer" },
       { "id": "tongs", "description": " Craft: Pair of Kitchen Tongs" },
       { "id": "nail", "description": " Craft: Nail" },
-      { "id": "lc_wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
       { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
       { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
