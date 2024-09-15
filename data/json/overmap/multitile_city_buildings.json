@@ -5374,7 +5374,7 @@
     ]
   },
   {
-	"type": "city_building",
+    "type": "city_building",
     "id": "house_fungus_01",
     "locations": [ "land" ],
     "overmaps": [
