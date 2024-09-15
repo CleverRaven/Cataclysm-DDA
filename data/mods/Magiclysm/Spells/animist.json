@@ -682,7 +682,7 @@
     "spell_class": "ANIMIST",
     "difficulty": 2,
     "base_casting_time": 250,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 1)" ] },
+    "base_energy_cost": 300,
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 8,
