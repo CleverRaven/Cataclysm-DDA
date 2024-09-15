@@ -2117,10 +2117,10 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      { "item": "lc_wire", "prob": 50, "charges": [ 20, 50 ] },
-      { "item": "mc_wire", "prob": 5, "charges": [ 0, 20 ] },
-      { "item": "hc_wire", "prob": 5, "charges": [ 0, 20 ] },
-      { "item": "qt_wire", "prob": 5, "charges": [ 0, 20 ] },
+      { "item": "lc_wire", "prob": 50, "count": [ 20, 50 ] },
+      { "item": "mc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "hc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "qt_wire", "prob": 5, "count": [ 0, 20 ] },
       { "item": "wire_barbed", "prob": 40, "count": [ 20, 50 ] }
     ]
   },
