@@ -1,5 +1,95 @@
 # 0.H
 
+# Statistics
+5503 files changed, 12706358 insertions(+), 9312909 deletions(-)
+6,526 commits
+454 authors
+212 new authors
+
+New game entities (core): 5373
+Items: 1408
+    633 articles of clothing, 119 books, 128 comestibles, 84 tools,
+    106 guns and gun related items, 102 ammunition variants, 236 misc items
+Mapgen: 1187
+    941 item spawn groups, 112 monster spawn groups, 88 map metadata,
+    33 city buildings, 8 vehicle spawn groups, 3 overmap locations, 2 overmap terrains
+Player Traits: 404
+    96 proficiencies, 54 practice actions, 53 professions, 52 effect types, 49 mutations
+    28 start locations, 21 body parts, 13 starting scenarios, 8 fighting techniques
+    5 activity types, 4 morale types, 4 vitamins, 4 dreams, 3 bionics, 3 mutation types,
+    3 character stat modifiers, 3 proficiency categories, 1 mutation categories
+UI and Sidebar: 417
+    188 nested categories, 121 ascii art, 54 widgets, 47 construction groups,
+    4 item ctegories, 3 recipe groups
+Crafting: 356
+    125 construction activitiess, 73 crafting requirements, 158 uncraft recipes
+NPCs and Interactions: 346
+    281 conversation topics, 27 npc definitions, 23 npc classes, 14 missions, 1 factions
+Achievements: 206
+    74 achievements, 5 conducts, 113 event metadata entries, 14 score trackers
+Map Traits: 190
+    156 furnitures, 22 terrains, 5 field types, 5 traps, 2 weather types
+Monsters: 287
+    148 monster definitions, 54 harvest entries, 41 monster attacks, 21 monster barks
+    15 weakpoint sets, 6 monster factions, 1 monster species, 1 body graphs
+Item Traits: 79
+    13 ammunition types, 21 ammunition effects, 35 materials, 9 tool qualities, 1 gun faults
+Vehicles: 64
+    60 vehicle definitions, 4 vehicle parts
+Magic: 37
+    31 spells, 6 enchantments
+Misc: 392
+    233 effect on condition entries, 97 text snippets, 58 json flags, 4 loot zones
+
+New game entities (mods): 4850
+Player Traits: 924
+    429 mutations, 292 effect types, 48 bionics, 41 professions, 28 proficiencies.
+    25 start locations, 26 body parts, 10 mutation categories, 7 mutation types.
+    6 practice actions, 4 starting scenarios, 4 morale types,
+    2 skills, 1 addiction types, 1 scent types
+
+Items: 810
+    231 tools, 163 misc items, 132 articles of clothing,
+    102 guns and gun related items, 80 comestibles, 76 books, 26 ammunition variants
+
+Mapgen: 699
+    324 mapgen entries, 260 item spawn groups, 79 monster spawn groups,
+    19 map extra definitions, 8 city buildings, 4 overmap locations,
+    5 overmap special definitions
+
+Magic: 652
+    545 spells, 107 enchantments
+
+Crafting: 592
+    501 crafting recipes, 49 disassembly recipes,
+    24 crafting requirements, 18 constrution activities
+
+Monsters: 569
+    449 monster definitons, 37 monster barks, 36 species, 20 monster factions.
+    19 harvest entries, 5 monster attacks, 3 weakpoint sets
+
+NPCs and Interactions: 303
+    207 conversation topics, 71 missions, 17 npc definitions, 8 npc classes
+
+Map Traits: 108
+    41 terrain types, 29 furniture types, 21 field types, 17 emission definitions
+
+UI and Sidebar: 76
+    23 construction groups, 16 nested categories, 16 sidebar widgets, 12 trait groups.
+    4 proficiency categories, 4 recipe categories, 1 overlay order specifications
+
+Item Traits: 24
+    10 ammunition types, 5 materials, 4 tool qualities, 3 relic definitions, 2 ammo effects
+
+Vehicles: 11
+    11 vehicles
+
+Achievements: 1
+    1 achievements
+
+Misc: 1481
+    1425 effect on condition entries, 20 json flags, 36 text snippets
+
 ## Features:
 Tilesets: Automatically prevent occlusions via semi-transparent sprites (similar to retraction)
 Add parametric mapgen to consolidate similar basecamp definitions
