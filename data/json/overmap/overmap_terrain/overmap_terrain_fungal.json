@@ -46,6 +46,7 @@
     "type": "overmap_terrain",
     "id": "house_fungus_roof_01",
     "name": "house roof",
+    "sym": "H",
     "color": "cyan",
     "see_cost": "high",
     "spawns": { "group": "GROUP_FUNGI_ZOMBIE", "population": [ 0, 3 ], "chance": 4 }
