@@ -107,6 +107,7 @@
       { "monster": "mon_barosaurus_hatchling", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camarasaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brachiosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_astrodon_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_alamosaurus_hatchling", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_scutellosaurus_hatchling", "weight": 10, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus_hatchling", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -252,6 +253,7 @@
       { "monster": "mon_barosaurus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_camarasaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_brachiosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_astrodon", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_alamosaurus", "weight": 5, "cost_multiplier": 25, "pack_size": [ 1, 2 ] },
       { "monster": "mon_stegosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_hesperosaurus", "weight": 5, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
@@ -395,6 +397,7 @@
       { "monster": "mon_barosaurus", "weight": 10, "cost_multiplier": 20, "pack_size": [ 4, 12 ] },
       { "monster": "mon_camarasaurus", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brachiosaurus", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_astrodon", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] },
       { "monster": "mon_alamosaurus", "weight": 10, "cost_multiplier": 25, "pack_size": [ 4, 12 ] }
     ]
   },
