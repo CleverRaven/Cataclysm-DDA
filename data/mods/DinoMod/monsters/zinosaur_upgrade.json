@@ -785,6 +785,28 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zastrodon_brute",
+    "name": { "str": "Astrodon Assault" },
+    "copy-from": "mon_zastrodon",
+    "description": "Gigantic four-legged dinosaur corpse with an enormous nose.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
+      "vision_night": 1,
+      "armor": { "bash": 4, "cut": 6, "bullet": 5 }
+    },
+    "bleed_rate": 50,
+    "upgrades": { "half_life": 42, "into_group": "GROUP_zapatosaurus_BRUTE" },
+    "special_attacks": [ [ "SMASH", 30 ] ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zalamosaurus_brute",
     "name": { "str_sp": "Anabolic Alamosaurus" },
     "copy-from": "mon_zalamosaurus",
@@ -3608,7 +3630,7 @@
     "copy-from": "mon_zarosaurus",
     "color": "white",
     "material": [ "bone" ],
-    "description": "This zombified sauropod has grown dense bone armor, completely covering the massive, four-legged body and small head.",
+    "description": "This zombified barosaurus has grown dense bone armor, completely covering the massive, four-legged body and small head.",
     "proportional": { "hp": 0.4, "speed": 0.875 },
     "relative": {
       "melee_dice": 9,
@@ -3631,7 +3653,7 @@
     "name": { "str_sp": "armored camarasaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.8 },
-    "description": "This zombified Camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
+    "description": "This zombified camarasaurus has grown dense body armor, completely covering the massive, long-necked, four-legged body."
   },
   {
     "type": "MONSTER",
@@ -3639,7 +3661,15 @@
     "name": { "str_sp": "armored brachiosaurus" },
     "copy-from": "mon_sapatosaurus",
     "proportional": { "speed": 0.6, "hp": 3 },
-    "description": "This zombified Brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
+    "description": "This zombified brachiosaurus has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sastrodon",
+    "name": { "str": "armored astrodon" },
+    "copy-from": "mon_sapatosaurus",
+    "proportional": { "speed": 0.7, "hp": 2 },
+    "description": "This zombified astrodon has grown dense body armor, completely covering the gigantic, long-necked, four-legged body."
   },
   {
     "type": "MONSTER",
