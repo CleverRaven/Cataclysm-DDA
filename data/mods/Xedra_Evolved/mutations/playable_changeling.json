@@ -27,7 +27,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.75 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -103,7 +103,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.35 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -132,7 +132,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.45 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -161,7 +161,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -190,7 +190,7 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
