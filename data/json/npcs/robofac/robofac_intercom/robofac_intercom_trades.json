@@ -264,8 +264,7 @@
         "text": "[Deliver a broken triakis drone.]",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
-            { "math": [ "hub01_yrax_triakis_researched", "==", "1" ] }
+            { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } }
           ]
         },
         "effect": [
@@ -279,8 +278,7 @@
         "text": "[Deliver a broken monolith.]",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
-            { "math": [ "hub01_yrax_triakis_researched", "==", "1" ] }
+            { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } }
           ]
         },
         "effect": [
@@ -294,8 +292,7 @@
         "text": "[Deliver a broken delta drone.]",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
-            { "math": [ "hub01_yrax_delta_researched", "==", "1" ] }
+            { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } }
           ]
         },
         "effect": [
@@ -304,54 +301,6 @@
           { "u_spend_cash": -200 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_BROKEN_YRAX_DELTA"
-      },
-      {
-        "text": "[Put in broken triakias.]",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
-            { "math": [ "hub01_yrax_triakis_researched", "!=", "1" ] }
-          ]
-        },
-        "effect": [
-          { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_research", "=", "time('now')" ] },
-          { "u_add_var": "dialogue_hub_rnd_u_gave_broken_yrax_triakis", "value": "yes" },
-          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
-        ],
-        "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
-      },
-      {
-        "text": "[Roll in broken monolith.]",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
-            { "math": [ "hub01_golden_monolith_researched", "!=", "1" ] }
-          ]
-        },
-        "effect": [
-          { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_research", "=", "time('now')" ] },
-          { "u_add_var": "dialogue_hub_rnd_u_gave_broken_golden_monolith", "value": "yes" },
-          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
-        ],
-        "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
-      },
-      {
-        "text": "[Deliver a broken delta.]",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
-            { "math": [ "hub01_yrax_delta_researched", "!=", "1" ] }
-          ]
-        },
-        "effect": [
-          { "u_consume_item": "broken_yrax_delta", "count": 1, "popup": true },
-          { "math": [ "u_timer_hub_rnd_u_waiting_on_research", "=", "time('now')" ] },
-          { "u_add_var": "dialogue_hub_rnd_u_gave_broken_yrax_delta", "value": "yes" },
-          { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "yes" }
-        ],
-        "topic": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX"
       },
       {
         "text": "[Drag in broken quadraphract leg.]",
@@ -415,21 +364,6 @@
       },
       { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_ACCEPT_BROKEN_YRAX",
-    "type": "talk_topic",
-    "dynamic_line": "Come back later, we are not sure how soon we can finish studying these remains",
-    "responses": [
-      { "text": "What else do you have?", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
-      { "text": "See you later then.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS_ONGOIN_RESEARCH",
-    "type": "talk_topic",
-    "dynamic_line": "We don't have the capacity to process your findings at the moment.",
-    "responses": [ { "text": "I see, I'll bother you later then.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" } ]
   },
   {
     "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",

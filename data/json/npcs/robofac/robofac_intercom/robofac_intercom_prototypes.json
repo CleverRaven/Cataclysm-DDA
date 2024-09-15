@@ -28,72 +28,6 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ARMOR_BREAKTHROUGH"
       },
       {
-        "text": "It's been a while.  Did you make any sense of that robot?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_research)", "<", "time('8 d')" ] },
-            { "math": [ "hub01_yrax_triakis_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_broken_yrax_triakis" } ] }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_ROBOT_ONGOING"
-      },
-      {
-        "text": "It's been a while.  Did you make any sense of that robot?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_research)", "<", "time('30 d')" ] },
-            { "math": [ "hub01_golden_monolith_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_broken_golden_monolith" } ] }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_ROBOT_ONGOING"
-      },
-      {
-        "text": "It's been a while.  Did you make any sense of that robot?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_research)", "<", "time('1 d')" ] },
-            { "math": [ "hub01_yrax_delta_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_broken_yrax_delta" } ] }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_ROBOT_ONGOING"
-      },
-      {
-        "text": "It's been a while.  Did you make any sense of that robot?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_research)", ">", "time('8 d')" ] },
-            { "math": [ "hub01_yrax_triakis_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_broken_yrax_triakis" } ] }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_YRAX_TRIAKIS_BREAKTHROUGH"
-      },
-      {
-        "text": "It's been a while.  Did you make any sense of that robot?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_research)", ">", "time('30 d')" ] },
-            { "math": [ "hub01_golden_monolith_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_broken_golden_monolith" } ] }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_GOLDEN_MONOLITH_BREAKTHROUGH"
-      },
-      {
-        "text": "It's been a while.  Did you make any sense of that robot?",
-        "condition": {
-          "and": [
-            { "math": [ "time_since(u_timer_hub_rnd_u_waiting_on_research)", ">", "time('1 d')" ] },
-            { "math": [ "hub01_yrax_delta_researched", "!=", "1" ] },
-            { "compare_string": [ "yes", { "u_val": "dialogue_hub_rnd_u_gave_broken_yrax_delta" } ] }
-          ]
-        },
-        "topic": "TALK_ROBOFAC_INTERCOM_YRAX_DELTA_BREAKTHROUGH"
-      },
-      {
         "text": "[6 HGC] I'd like to buy the rest of the armor set now.",
         "condition": {
           "and": [
@@ -506,60 +440,6 @@
         "effect": [ { "u_add_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" } ],
         "topic": "TALK_DONE"
       }
-    ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_YRAX_TRIAKIS_BREAKTHROUGH",
-    "//": "armor reward blurb after waiting",
-    "type": "talk_topic",
-    "dynamic_line": "Yes we have!  We are providing you with manual for capturing them undamaged",
-    "speaker_effect": {
-      "effect": [
-        { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
-        { "u_spawn_item": "robofac_yrax_triakis_deactivation_manual" },
-        { "math": [ "hub01_yrax_triakis_researched", "=", "1" ] }
-      ]
-    },
-    "responses": [
-      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
-      { "text": "I'll check in later.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_GOLDEN_MONOLITH_BREAKTHROUGH",
-    "//": "armor reward blurb after waiting",
-    "type": "talk_topic",
-    "dynamic_line": "Yes we have!  We are providing you with manual for capturing them undamaged",
-    "speaker_effect": {
-      "effect": [
-        { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
-        { "u_spawn_item": "robofac_yrax_golden_monolith_deactivation_manual" },
-        { "math": [ "hub01_yrax_triakis_researched", "=", "1" ] }
-      ]
-    },
-    "responses": [
-      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
-      { "text": "I'll check in later.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_ROBOFAC_INTERCOM_YRAX_DELTA_BREAKTHROUGH",
-    "//": "armor reward blurb after waiting",
-    "type": "talk_topic",
-    "dynamic_line": "Yes we have!  We are providing you with manual for capturing them undamaged",
-    "speaker_effect": {
-      "effect": [
-        { "u_add_var": "dialogue_hub_rnd_u_project_ongoing", "value": "no" },
-        { "u_spawn_item": "robofac_yrax_delta_deactivation_manual" },
-        { "math": [ "hub01_yrax_delta_researched", "=", "1" ] }
-      ]
-    },
-    "responses": [
-      { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
-      { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
   {
