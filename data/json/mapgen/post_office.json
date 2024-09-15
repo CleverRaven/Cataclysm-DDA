@@ -47,10 +47,10 @@
         "s": "t_sidewalk",
         "w": "t_window_domestic",
         "|": "t_wall_w",
-        "3": "t_atm",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "3": "f_atm_off",
         "#": "f_rack_wood",
         "@": "f_rack",
         "c": "f_counter",
@@ -70,12 +70,12 @@
         "f": "f_filing_cabinet",
         "K": "f_stool",
         "t": "f_table",
-        "v": "f_vending_c",
         "{": "f_locker",
         "/": "f_flagpole"
       },
       "vehicles": { "Á": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 } },
       "toilets": { "T": {  } },
+      "vendingmachines": { "v": { "item_group": "vending_drink_items", "lootable": true } },
       "item": { "#": { "item": "greeting_card", "repeat": [ 10, 30 ] }, "/": { "item": "american_flag", "chance": 100 } },
       "items": {
         "X": [ { "item": "antique", "chance": 50 }, { "item": "art", "chance": 50 }, { "item": "jewelry_safe", "chance": 10 } ],

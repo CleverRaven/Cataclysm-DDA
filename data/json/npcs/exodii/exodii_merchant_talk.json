@@ -32,12 +32,12 @@
       {
         "text": "Can you do something for me?",
         "topic": "TALK_EXODII_MERCHANT_DoSomething",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       {
         "text": "I'm here to talk about a job.",
         "topic": "TALK_EXODII_MERCHANT_TalkJob",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "text": "Are you some kind of robot?", "topic": "TALK_EXODII_MERCHANT_Robot" },
@@ -49,25 +49,25 @@
       {
         "text": "What are you doing here?",
         "topic": "TALK_EXODII_MERCHANT_Purpose",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       { "text": "What kind of place is this?", "topic": "TALK_EXODII_MERCHANT_Base" },
       {
         "text": "[PER 6] Some of this tech looks… weird.",
         "topic": "TALK_EXODII_MERCHANT_Tech",
-        "condition": { "and": [ { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }, { "u_has_perception": 6 } ] }
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }, { "u_has_perception": 6 } ] }
       },
       {
         "text": "What's with those weird metal zombies I've been seeing?  They resemble some of the robots around here.",
-        "condition": { "u_has_var": "dialogue_exodii_seen_zomborg", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_seen_zomborg" } ] },
         "topic": "TALK_EXODII_MERCHANT_Zomborgs"
       },
       {
         "text": "You wanted to ask me some questions earlier, and I think I was rude about it.  What did you want to ask?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_started_rubik_intro", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_midpoint_rubik_intro", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_midpoint_rubik_intro" } ] } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro1b"
@@ -76,9 +76,9 @@
         "text": "Can we continue our conversation about your arrival in this world?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_started_rubik_intro", "value": "yes" },
-            { "u_has_var": "dialogue_midpoint_rubik_intro", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_completed_rubik_intro", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_midpoint_rubik_intro" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_completed_rubik_intro" } ] } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro2a"
@@ -90,9 +90,7 @@
             { "u_has_faction_trust": 2 },
             { "u_has_mission": "MISSION_ISHERWOOD_CHRIS_1_GET_GEAR" },
             { "math": [ "isherwood_gear_status", "<", "1" ] },
-            {
-              "not": { "npc_has_var": "npc_bought_riot_gear", "type": "dialogue", "context": "exodii", "value": "yes" }
-            }
+            { "not": { "compare_string": [ "yes", { "npc_val": "npc_dialogue_exodii_npc_bought_riot_gear" } ] } }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_You_Buy_Riot_Gear"
@@ -115,8 +113,7 @@
         "Ah, a returnin', an I'm ken."
       ],
       "no": {
-        "u_has_var": "general_meeting_u_met_Rubik",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ],
         "yes": [
           "And a fine return, matey.\"  Rubik puts a hand on the countertop, and gestures you closer with the other.",
           "Fine and you still ain't dead.\"  Their gravelly voice is cheerful.  \"What brings ye roun' Rubik's neckawoods?",
@@ -133,7 +130,7 @@
       },
       {
         "sentinel": "first_meeting_effects",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
         "effect": [ { "math": [ "u_timer_first_meeting_u_met_Rubik", "=", "time('now')" ] } ]
       },
       {
@@ -151,38 +148,38 @@
       {
         "text": "Who are you?  What is this place?",
         "topic": "TALK_EXODII_MERCHANT_New",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
         "effect": { "u_add_var": "general_meeting_u_met_Rubik", "value": "yes" }
       },
       {
         "text": "What've you got for trade?",
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       {
         "text": "Actually, I wanted to talk.",
         "topic": "TALK_EXODII_MERCHANT_Talk",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       {
         "text": "Can you do something for me?",
         "topic": "TALK_EXODII_MERCHANT_DoSomething",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       {
         "text": "I'm here to talk about a job.",
         "topic": "TALK_EXODII_MERCHANT_TalkJob",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] }
       },
       {
         "text": "Hell no, I'm out of here.",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Just popping in to say hi.  See you later, alligator.",
-        "condition": { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
         "topic": "TALK_DONE"
       },
       {
@@ -190,7 +187,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", "<", "time('1 d')" ] },
-            { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Ongoing"
@@ -200,7 +197,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_exodii_cybor_rescue_operating)", ">", "time('1 d')" ] },
-            { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] }
           ]
         },
         "topic": "TALK_EXODII_MERCHANT_Experiment_Cyborg_Rescue_Complete"
@@ -209,8 +206,8 @@
         "text": "Fast, can you help this lad?",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_Rubik", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "yes" } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_Rubik" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_cybor_rescue_ongoing" } ] } },
             {
               "or": [
                 { "u_has_items": { "item": "bot_broken_cyborg", "count": 1 } },
@@ -269,7 +266,7 @@
     "id": "TALK_EXODII_MERCHANT_Stock_Medieval",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armour and weapons to trade.",
+      "//~": "It's a bit of a surprise, isn't it?  Before we came here, we were in a place about 600 years earlier in time, or so.  We landed in the middle of a war that turned wrong when the dead started joining back in.  Truth be told, not a very unusual situation.  The Enemy makes us fight.  By and by, we came in, and by then the killing fields were ready for us to harvest their bronze.  It's no steel-of-the-lake, but it's a good strong metal for stopping a nibbling mouth, so we kept some of their armor and weapons to trade.",
       "str": "That be a right welcher, eh?  Afore us'n were to this land, the preface were on a half-score century by the reckonin'.  Landed us in amidst of a war'd turned wrong, for an' as the dead had come back in.  By the butcher's block, not much an unusual case, really.  The Enemy makes us fight.  By an' by, we came in, an' by then the killin' fields were plump and ready to harvest the bronze.  'Tain't no steel-of-the-lake, but 'tis a good dross metal for holdin' off a nibblin' mouth, so we kept a few o' their vestments an' stickers for to trade."
     },
     "responses": [
@@ -285,7 +282,7 @@
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the Enemy for a long time, and over the years we've worked out some armour for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
+      "//~": "Ah, you've got a discerning eye.  They're the result of many years of work.  We've been fighting the Enemy for a long time, and over the years we've worked out some armor for the job.  Keeps you going a bit longer in the field, if you ask me.  I keep some of the parts in stock, but you'll have to put it together yourself.",
       "str": "Ah, a real monger's eye, ye be.  Them's the mettle o' many a year of trials.  Us'n've been clashin wi' the Enemy for a long an' then, an' o'er the turns us've worked out some vestments for the job.  Keep's a walker walkin' longer, an I'm ken.  This'n keeps some o' the parst in an' around, but ye'd be tassed to make the vestment with the grease o' your own brow."
     },
     "responses": [
@@ -300,7 +297,7 @@
     "id": "TALK_EXODII_MERCHANT_Stock_Nomad2",
     "type": "talk_topic",
     "dynamic_line": {
-      "//~": "This and that, you know.  It's made for a travelling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails.",
+      "//~": "This and that, you know.  It's made for a traveling scavenger, you see.  What I mean is, it's well suited to carry around whatever you pick up in the wastelands, without making it too hard to get around nor giving any easy handholds for scrambling arms.  That, and I'd say it's as tough as nails.",
       "str": "This 'n that, an I'm ken.  It be made for a fine wander, beladen with the goods o' the hunt, y'see.  By which I'm to say, 'tis well suited to carry all ye can wrest from the cold arms o' the deadlands, without troublin' your gait nor makin' it easy for the cold clutch o' the scrabblin' arm.  Be an' it is tough as a tarket's nut, I'd razz."
     },
     "responses": [
@@ -342,8 +339,7 @@
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_started_rubik_intro",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_started_rubik_intro" } ],
       "yes": {
         "//~": "You can surely try.  I'm not the greatest speaker, and I won't just chat forever for free, you know.",
         "str": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit."
@@ -372,7 +368,10 @@
       {
         "text": "I think I'm ready to try becoming a cyborg now.",
         "condition": {
-          "and": [ { "u_has_var": "mission_completed_anusfetick", "value": "yes" }, { "not": { "u_has_trait": "CBM_Interface" } } ]
+          "and": [
+            { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
+            { "not": { "u_has_trait": "CBM_Interface" } }
+          ]
         },
         "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
       },
@@ -381,16 +380,21 @@
         "topic": "TALK_EXODII_MERCHANT_Exodize",
         "condition": {
           "and": [
-            { "u_has_var": "knowledge_exodization_u_knows_exodiilore", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "knowledge_exodization_u_knows_exodiilore" } ] },
             {
-              "not": { "or": [ { "u_has_mission": "RUBIK_ANUS_FETICK" }, { "u_has_var": "mission_completed_anusfetick", "value": "yes" } ] }
+              "not": {
+                "or": [
+                  { "u_has_mission": "RUBIK_ANUS_FETICK" },
+                  { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] }
+                ]
+              }
             }
           ]
         }
       },
       {
         "text": "Would you be willing to sell some of your robots?",
-        "condition": { "u_has_var": "dialogue_exodii_rubik_offered_robosell", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_exodii_rubik_offered_robosell" } ] },
         "topic": "TALK_EXODII_MERCHANT_Robot_Buy"
       },
       {
@@ -424,13 +428,13 @@
       },
       {
         "text": "I paid a visit to the bunker.",
-        "condition": { "and": [ { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } ] },
         "effect": [ { "u_lose_var": "mission_completed_u_scouted_bunker" }, { "math": [ "exodii_knows_hub01", "=", "1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_1_complete"
       },
       {
         "text": "I found the warehouse.",
-        "condition": { "and": [ { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } ] },
         "effect": [ { "u_lose_var": "mission_completed_u_found_warehouse" }, { "math": [ "warehouse_was_found", "=", "1" ] } ],
         "topic": "TALK_EXODII_MERCHANT_mission_2_complete"
       },
@@ -454,7 +458,9 @@
     "responses": [
       {
         "text": "Of course, it is time for us to talk.",
-        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "yank_out_all_bionics_from_prototype" },
+        "condition": {
+          "compare_string": [ "yank_out_all_bionics_from_prototype", { "u_val": "dialogue_exodii_cybor_rescue_ongoing_current_type" } ]
+        },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -472,7 +478,9 @@
       },
       {
         "text": "Of course, it is time for us to talk.",
-        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "repair_and_rescue_prototype" },
+        "condition": {
+          "compare_string": [ "repair_and_rescue_prototype", { "u_val": "dialogue_exodii_cybor_rescue_ongoing_current_type" } ]
+        },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -489,7 +497,9 @@
       },
       {
         "text": "Of course, it is time for us to talk.",
-        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "reverse_cybernization_prototype" },
+        "condition": {
+          "compare_string": [ "reverse_cybernization_prototype", { "u_val": "dialogue_exodii_cybor_rescue_ongoing_current_type" } ]
+        },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -506,7 +516,9 @@
       },
       {
         "text": "Let's see what I get.",
-        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "pull_out_from_rotten_cyborg" },
+        "condition": {
+          "compare_string": [ "pull_out_from_rotten_cyborg", { "u_val": "dialogue_exodii_cybor_rescue_ongoing_current_type" } ]
+        },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -517,7 +529,7 @@
       },
       {
         "text": "It is time to put this body to rest.",
-        "condition": { "u_has_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "dress_up_rotten_cyborg" },
+        "condition": { "compare_string": [ "dress_up_rotten_cyborg", { "u_val": "dialogue_exodii_cybor_rescue_ongoing_current_type" } ] },
         "effect": [
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing", "value": "no" },
           { "u_add_var": "dialogue_exodii_cybor_rescue_ongoing_current_type", "value": "none" },
@@ -746,7 +758,7 @@
     "responses": [
       {
         "text": "I don't know what fusillies and mobbings are.",
-        "condition": { "not": { "u_has_var": "dictionary_known_fussily", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dictionary_known_fussily" } ] } },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro5"
       },
       {
@@ -825,7 +837,7 @@
     "responses": [
       {
         "text": "You said this was an especially good jump?",
-        "condition": { "not": { "u_has_var": "dialogue_completed_rubik_intro", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_completed_rubik_intro" } ] } },
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro3"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -896,7 +908,7 @@
           "not": {
             "or": [
               { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "u_has_var": "mission_completed_anusfetick", "value": "yes" },
+              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
               { "u_has_trait": "CBM_Interface" }
             ]
           }
@@ -930,7 +942,7 @@
               "not": {
                 "or": [
                   { "u_has_mission": "RUBIK_ANUS_FETICK" },
-                  { "u_has_var": "mission_completed_anusfetick", "value": "yes" },
+                  { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
                   { "u_has_trait": "CBM_Interface" }
                 ]
               }
@@ -1008,7 +1020,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Ah, good question.  Enough cybernetic implants can keep someone from coming back as a zombie, but it's not a sure thing.  Some come back anyway, and some just don't have enough cybernetics.  Most of them aren't full Exodii like old Rubik, they're more our friends - like you.  Sooner or later we'll get out there, put them down, and bring their parts back for cleaning.",
-      "str": "'Tis a good an' yark, sooth.  Them as can have the metal deep in, can be saved for the risen, but it b'ain't a sure course.  Some as comes back anyway, an' some be too much flesh.  The grander lot are no exodii like ol' Rubik, most be friends more kin to thyself.  Us'll harken out and trundle home the pieces for a scrub-and-bucket."
+      "str": "'Tis a good an' yark, sooth.  Them as can have the metal deep in, can be saved for the risen, but it b'ain't a sure course.  Some as comes back anyway, an' some be too much flesh.  The grander lot are no Exodii like ol' Rubik, most be friends more kin to thyself.  Us'll hearken out and trundle home the pieces for a scrub-and-bucket."
     },
     "responses": [
       {
@@ -1109,7 +1121,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },
-            { "not": { "u_has_var": "mission_completed_u_scouted_bunker", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_scouted_bunker" } ] } },
             { "math": [ "exodii_knows_hub01", "!=", "1" ] }
           ]
         },
@@ -1120,7 +1132,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_WAREHOUSE" } },
-            { "not": { "u_has_var": "mission_completed_u_found_warehouse", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_completed_u_found_warehouse" } ] } },
             { "math": [ "warehouse_was_found", "!=", "1" ] },
             { "math": [ "exodii_knows_hub01", "==", "1" ] }
           ]
@@ -1169,7 +1181,7 @@
     },
     "responses": [
       {
-        "condition": { "u_has_var": "knowledge_exodii_transdimensional_u_knows_exodiilore", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_exodii_transdimensional_u_knows_exodiilore" } ] },
         "text": "Wait, am I following this right?  You're from a place where this happened before, and you escaped to our world?",
         "topic": "TALK_EXODII_MERCHANT_Exodus3"
       },
@@ -1259,7 +1271,7 @@
     "//": "The probes don't return variable is not yet used but we should store it for when players might be offered the option to try going to previous deadlands, so they can object if they want.",
     "responses": [
       {
-        "text": "So travelling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
+        "text": "So traveling off-world is definitely an option.  Or getting to the ISS, maybe stepping off from there.",
         "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline3"
       },
       {
@@ -1381,7 +1393,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "That takes me way back.  That's a bit of the old King's Landing right there, you know, calling back from when I was just little.  It… ah, it's really hard for me to think about those old days.  Maybe another time.",
-      "str": "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to harken back yonder.  Mayhap another time."
+      "str": "*seems to become wistful for a moment.  \"Harks this'n yonder, right so.  'Tis a bit o' t'ol' King's Landing right there, kennit, yarkin' from back when Rubik were nigh smaller than a kelpie.  It…\"  Rubik's gravelly voice falters.  \"Ah, 'tis mightily tassed to hearken back yonder.  Mayhap another time."
     },
     "responses": [
       { "text": "Maybe later then.  What were you saying about the job?", "topic": "TALK_EXODII_MERCHANT_mission_1_intro" },
@@ -1491,7 +1503,7 @@
           "not": {
             "or": [
               { "u_has_mission": "RUBIK_ANUS_FETICK" },
-              { "u_has_var": "mission_completed_anusfetick", "value": "yes" },
+              { "compare_string": [ "yes", { "u_val": "mission_completed_anusfetick" } ] },
               { "u_has_trait": "CBM_Interface" }
             ]
           }
@@ -1500,7 +1512,7 @@
       {
         "text": "Wait.  I thought you were still flesh and bone, under that metal.",
         "topic": "TALK_EXODII_MERCHANT_Survival2",
-        "condition": { "u_has_var": "knowledge_rubik_is_cyborg_u_knows_exodiilore", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_rubik_is_cyborg_u_knows_exodiilore" } ] }
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }

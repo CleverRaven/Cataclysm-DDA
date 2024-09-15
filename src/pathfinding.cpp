@@ -122,7 +122,7 @@ static bool vertical_move_destination( const map &m, ter_furn_flag flag, tripoin
 {
     const pathfinding_cache &pf_cache = m.get_pathfinding_cache_ref( t.z );
     for( const point &p : closest_points_first( t.xy(), SEEX ) ) {
-        if( pf_cache.special[p.x][p.y] & PF_UPDOWN ) {
+        if( pf_cache.special[p.x][p.y] & ( PathfindingFlag::GoesDown | PathfindingFlag::GoesUp ) ) {
             const tripoint t2( p, t.z );
             if( m.has_flag( flag, t2 ) ) {
                 t = t2;
@@ -195,7 +195,9 @@ std::vector<tripoint_bub_ms> map::straight_route( const tripoint_bub_ms &f,
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( f.z() );
         // Check all points for any special case (including just hard terrain)
         if( std::any_of( ret.begin(), ret.end(), [&pf_cache]( const tripoint_bub_ms & p ) {
-        constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
+        constexpr PathfindingFlags non_normal = PathfindingFlag::Slow |
+                                                PathfindingFlag::Obstacle | PathfindingFlag::Vehicle | PathfindingFlag::DangerousTrap |
+                                                PathfindingFlag::Sharp;
         return pf_cache.special[p.x()][p.y()] & non_normal;
         } ) ) {
             ret.clear();
@@ -208,9 +210,11 @@ static constexpr int PF_IMPASSABLE = -1;
 static constexpr int PF_IMPASSABLE_FROM_HERE = -2;
 int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                        const pathfinding_settings &settings,
-                       pf_special p_special ) const
+                       PathfindingFlags p_special ) const
 {
-    constexpr pf_special non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP | PF_SHARP;
+    constexpr PathfindingFlags non_normal = PathfindingFlag::Slow |
+                                            PathfindingFlag::Obstacle | PathfindingFlag::Vehicle | PathfindingFlag::DangerousTrap |
+                                            PathfindingFlag::Sharp;
     if( !( p_special & non_normal ) ) {
         // Boring flat dirt - the most common case above the ground
         return 2;
@@ -220,7 +224,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
         return PF_IMPASSABLE;
     }
 
-    if( settings.avoid_sharp && ( p_special & PF_SHARP ) ) {
+    if( settings.avoid_sharp && ( p_special & PathfindingFlag::Sharp ) ) {
         return PF_IMPASSABLE;
     }
 
@@ -288,7 +292,7 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
     }
 
     // If we can climb it, great!
-    if( climb_cost > 0 && p_special & PF_CLIMBABLE ) {
+    if( climb_cost > 0 && p_special & PathfindingFlag::Climbable ) {
         return climb_cost;
     }
 
@@ -328,9 +332,9 @@ int map::cost_to_pass( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
 }
 
 int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &p,
-                        const pathfinding_settings &settings, pf_special p_special ) const
+                        const pathfinding_settings &settings, PathfindingFlags p_special ) const
 {
-    if( settings.avoid_traps && ( p_special & PF_TRAP ) ) {
+    if( settings.avoid_traps && ( p_special & PathfindingFlag::DangerousTrap ) ) {
         const const_maptile &tile = maptile_at_internal( p );
         const ter_t &terrain = tile.get_ter_t();
         const trap &ter_trp = terrain.trap.obj();
@@ -342,7 +346,7 @@ int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &
         }
     }
 
-    if( settings.avoid_dangerous_fields && ( p_special & PF_FIELD ) ) {
+    if( settings.avoid_dangerous_fields && ( p_special & PathfindingFlag::DangerousField ) ) {
         // We'll walk through even known-dangerous fields if we absolutely have to.
         return 500;
     }
@@ -352,7 +356,7 @@ int map::cost_to_avoid( const tripoint_bub_ms & /*cur*/, const tripoint_bub_ms &
 
 int map::extra_cost( const tripoint_bub_ms &cur, const tripoint_bub_ms &p,
                      const pathfinding_settings &settings,
-                     pf_special p_special ) const
+                     PathfindingFlags p_special ) const
 {
     int pass_cost = cost_to_pass( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
     if( pass_cost < 0 ) {
@@ -436,7 +440,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         layer.closed[parent_index] = true;
 
         const pathfinding_cache &pf_cache = get_pathfinding_cache_ref( cur.z );
-        const pf_special cur_special = pf_cache.special[cur.x][cur.y];
+        const PathfindingFlags cur_special = pf_cache.special[cur.x][cur.y];
 
         // 7 3 5
         // 1 . 2
@@ -464,7 +468,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             // Penalize for diagonals or the path will look "unnatural"
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
-            const pf_special p_special = pf_cache.special[p.x][p.y];
+            const PathfindingFlags p_special = pf_cache.special[p.x][p.y];
             const int cost = extra_cost( tripoint_bub_ms( cur ), tripoint_bub_ms( p ), settings, p_special );
             if( cost < 0 ) {
                 if( cost == PF_IMPASSABLE ) {
@@ -477,7 +481,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             // Special case: pathfinders that avoid traps can avoid ledges by
             // climbing down. This can't be covered by |extra_cost| because it
             // can add a new point to the search.
-            if( settings.avoid_traps && ( p_special & PF_TRAP ) ) {
+            if( settings.avoid_traps && ( p_special & PathfindingFlag::DangerousTrap ) ) {
                 const const_maptile &tile = maptile_at_internal( p );
                 const ter_t &terrain = tile.get_ter_t();
                 const trap &ter_trp = terrain.trap.obj();
@@ -505,7 +509,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             pf.add_point( newg, newg + 2 * rl_dist( p, t ), cur, p );
         }
 
-        if( !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
+        // TODO: We should be able to go up ramps even if we can't climb stairs.
+        if( !( cur_special & ( PathfindingFlag::GoesUp | PathfindingFlag::GoesDown ) ) ||
+            !settings.allow_climb_stairs ) {
             // The part below is only for z-level pathing
             continue;
         }

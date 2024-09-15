@@ -312,5 +312,21 @@
     "material": [ "paper" ],
     "weight": "1 g",
     "volume": "1 ml"
+  },
+  {
+    "id": "necropolis_freq",
+    "type": "BOOK",
+    "name": { "str": "frequency list" },
+    "description": "A notepad with a number of frequencies scribbled on it.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": "30 USD",
+    "price_postapoc": "50 cent",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "pocket_firstaid",
+    "color": "light_cyan",
+    "intelligence": 2,
+    "time": "10 m"
   }
 ]

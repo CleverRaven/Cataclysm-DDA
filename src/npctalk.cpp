@@ -3448,6 +3448,78 @@ talk_effect_fun_t::func f_consume_item( const JsonObject &jo, std::string_view m
     };
 }
 
+talk_effect_fun_t::func f_consume_item_sum( const JsonObject &jo, std::string_view member,
+        const std::string_view, bool is_npc )
+{
+    // Only after i implemented it, i realised it is a bad way to make it
+    // What it should be is an expansion of f_run_inv_eocs
+    // that allow to pick multiple ids and limit it to some amount of it
+
+    std::vector<std::pair<str_or_var, dbl_or_var>> item_and_amount;
+
+    for( const JsonObject jsobj : jo.get_array( member ) ) {
+        const str_or_var item = get_str_or_var( jsobj.get_member( "item" ), "item", true );
+        const dbl_or_var amount = get_dbl_or_var( jsobj, "amount", true, 1 );
+        item_and_amount.emplace_back( item, amount );
+    }
+
+    return [item_and_amount, is_npc]( dialogue & d ) {
+        add_msg_debug( debugmode::DF_TALKER, "using _consume_item_sum:" );
+
+        itype_id item_to_remove;
+        double percent = 0.0f;
+        double count_desired;
+        double count_present;
+        double charges_present;
+
+        for( const auto &pair : item_and_amount ) {
+            item_to_remove = itype_id( pair.first.evaluate( d ) );
+            count_desired = pair.second.evaluate( d );
+            count_present = d.actor( is_npc )->get_amount( item_to_remove );
+            charges_present = d.actor( is_npc )->charges_of( item_to_remove );
+            if( charges_present > count_present ) {
+                percent += charges_present / count_desired;
+                // if percent is equal or less than 1, it is safe to remove all charges_present
+                // otherwise loop to remove charges one by one
+                if( percent <= 1 ) {
+                    d.actor( is_npc )->use_charges( item_to_remove, charges_present, true );
+
+                    add_msg_debug( debugmode::DF_TALKER,
+                                   "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing all",
+                                   item_to_remove.c_str(), count_desired, charges_present, percent );
+                } else {
+                    percent -= charges_present / count_desired;
+                    while( percent < 1.0f ) {
+                        percent += 1 / count_desired;
+                        d.actor( is_npc )->use_charges( item_to_remove, 1, true );
+                        add_msg_debug( debugmode::DF_TALKER,
+                                       "removing item: %s, count_desired: %f, charges_present: %f, percent: %f, removing one by one",
+                                       item_to_remove.c_str(), count_desired, charges_present, percent );
+                    }
+                }
+            } else {
+                percent += count_present / count_desired;
+                if( percent <= 1 ) {
+                    d.actor( is_npc )->use_amount( item_to_remove, count_present );
+                    add_msg_debug( debugmode::DF_TALKER,
+                                   "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing all",
+                                   item_to_remove.c_str(), count_desired, count_present, percent );
+                } else {
+                    percent -= count_present / count_desired;
+                    while( percent < 1.0f ) {
+                        percent += 1 / count_desired;
+                        d.actor( is_npc )->use_amount( item_to_remove, 1 );
+
+                        add_msg_debug( debugmode::DF_TALKER,
+                                       "removing item: %s, count_desired: %f, count_present: %f, percent: %f, removing one by one",
+                                       item_to_remove.c_str(), count_desired, count_present, percent );
+                    }
+                }
+            }
+        }
+    };
+}
+
 talk_effect_fun_t::func f_remove_item_with( const JsonObject &jo, std::string_view member,
         const std::string_view, bool is_npc )
 {
@@ -3685,10 +3757,10 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             int min_target_dist = dov_target_min_radius.evaluate( d );
             std::string cur_search_target = search_target.value().evaluate( d );
             bool found = false;
-            tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
-                                              size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
-            for( const tripoint &search_loc : points ) {
-                if( rl_dist( here.bub_from_abs( talker_pos ).raw(), search_loc ) <= min_target_dist ) {
+            tripoint_range<tripoint_bub_ms> points = here.points_in_radius( here.bub_from_abs( abs_ms ),
+                    size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
+            for( const tripoint_bub_ms &search_loc : points ) {
+                if( rl_dist( here.bub_from_abs( talker_pos ), search_loc ) <= min_target_dist ) {
                     continue;
                 }
                 if( search_type.value() == "terrain" ) {
@@ -3732,8 +3804,8 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 } else if( search_type.value() == "npc" ) {
                     for( shared_ptr_fast<npc> &person : overmap_buffer.get_npcs_near( project_to<coords::sm>( abs_ms ),
                             1 ) ) {
-                        if( person->pos() == search_loc && ( person->myclass.c_str() == cur_search_target ||
-                                                             cur_search_target.empty() ) ) {
+                        if( person->pos_bub() == search_loc && ( person->myclass.c_str() == cur_search_target ||
+                                cur_search_target.empty() ) ) {
                             target_pos = here.getabs( search_loc );
                             found = true;
                             break;
@@ -4758,19 +4830,31 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         if( input_params.has_value() ) {
             string_input_popup popup;
             popup
-            .title( input_params.value().title.evaluate( d ) )
-            .description( input_params.value().description.evaluate( d ) )
+            .title( input_params.value().title ? input_params.value().title->evaluate( d ) : "" )
+            .description( input_params.value().description ? input_params.value().description->evaluate(
+                              d ) : "" )
             .width( input_params.value().width )
-            .identifier( input_params.value().identifier );
+            .identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
+                             d ) : "" );
 
             if( input_params.value().only_digits ) {
-                int num_temp;
+                int num_temp = 0;
+                try {
+                    num_temp = std::stoi( input_params.value().default_text.has_value() ?
+                                          input_params.value().default_text->evaluate(
+                                              d ) : "0" );
+                } catch( const std::out_of_range &e ) {
+                    debugmsg( "The number is too large to fit in an int." );
+                } catch( const std::invalid_argument &e ) {
+                };
                 popup.edit( num_temp );
                 if( !popup.canceled() ) {
                     str = std::to_string( num_temp );
                 }
             } else {
-                std::string str_temp;
+                std::string str_temp = input_params.value().default_text ?
+                                       input_params.value().default_text->evaluate(
+                                           d ) : "";
                 popup.edit( str_temp );
                 if( !popup.canceled() ) {
                     str = str_temp;
@@ -6335,7 +6419,7 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
-        for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
+        for( const tripoint_bub_ms &dest : get_map().points_in_radius( get_map().bub_from_abs( target_pos ),
                 radius ) ) {
             if( ( !outdoor_only || get_map().is_outside( dest ) ) && ( !indoor_only ||
                     !get_map().is_outside( dest ) ) ) {
@@ -6655,6 +6739,7 @@ parsers = {
     { "u_unset_flag", "npc_unset_flag", jarg::member, &talk_effect_fun::f_unset_flag },
     { "u_activate", "npc_activate", jarg::member, &talk_effect_fun::f_activate },
     { "u_consume_item", "npc_consume_item", jarg::member, &talk_effect_fun::f_consume_item },
+    { "u_consume_item_sum", "npc_consume_item_sum", jarg::array, &talk_effect_fun::f_consume_item_sum },
     { "u_remove_item_with", "npc_remove_item_with", jarg::member, &talk_effect_fun::f_remove_item_with },
     { "u_bulk_trade_accept", "npc_bulk_trade_accept", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
     { "u_bulk_donate", "npc_bulk_donate", jarg::member, &talk_effect_fun::f_bulk_trade_accept },
@@ -6828,6 +6913,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( clear_overrides ),
             WRAP( pick_style ),
             WRAP( do_disassembly ),
+            WRAP( distribute_food_auto ),
             WRAP( nothing )
 #undef WRAP
         }

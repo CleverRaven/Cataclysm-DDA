@@ -58,7 +58,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
 
     CHECK( p.has_effect( effect_invisibility ) );
 
-    const field &fields_here = get_map().field_at( p.pos() );
+    const field &fields_here = get_map().field_at( p.pos_bub() );
     CHECK( fields_here.find_field( field_type_id( "fd_shadow" ) ) != nullptr );
 
     // place a zombie next to the avatar

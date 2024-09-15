@@ -1,0 +1,8 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "perk_insight_scaling_factor",
+    "num_args": 0,
+    "return": "( n_effect_intensity('perk_blind_check') > 14 ? 5 : 1 )"
+  }
+]

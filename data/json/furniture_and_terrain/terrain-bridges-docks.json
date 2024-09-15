@@ -42,6 +42,7 @@
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE" ],
     "connect_groups": "WATER",
+    "liquid_source": { "id": "water" },
     "examine_action": "water_source",
     "deconstruct": { "ter_set": "t_water_moving_dp", "items": [ { "item": "spike", "count": 4 }, { "item": "wood_beam", "count": 1 } ] },
     "looks_like": "t_column",

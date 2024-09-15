@@ -179,7 +179,7 @@
     "name": { "str": "fungaloid shambler" },
     "description": "A large white fungus, a bulging gray stalk supporting a bloom at the top.  Spores float from its gills and tendrils extend from the base.  Chunks of rock, metal, bone, and wood are held by tendrils as a kind of armor.",
     "copy-from": "mon_fungaloid",
-    "volume": "12 L",
+    "volume": "120 L",
     "weight": "160 kg",
     "hp": 150,
     "speed": 20,

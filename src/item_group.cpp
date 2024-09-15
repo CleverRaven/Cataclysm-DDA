@@ -230,6 +230,11 @@ item Single_item_creator::create_single_without_container( const time_point &bir
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.set_flag( flag_FIT );
     }
+
+    if( active.has_value() ) {
+        tmp.active = *active;
+    }
+
     if( components_items ) {
         for( itype_id component_id : *components_items ) {
             if( !component_id.is_valid() ) {

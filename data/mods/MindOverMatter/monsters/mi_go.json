@@ -121,7 +121,7 @@
       {
         "id": "psi_mi-go_illumination",
         "type": "spell",
-        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 5 },
+        "spell_data": { "id": "photokinetic_illumination_migo", "min_level": 5 },
         "cooldown": { "math": [ "15 + rand(30)" ] },
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
         "monster_message": "The mi-go's numerous antennae sync their movements for a brief moment."

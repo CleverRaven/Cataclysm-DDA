@@ -13,15 +13,47 @@
       "TALK_GODCO_Katherine_Jeremiah"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Katherine_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Katherine_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things here?", "topic": "TALK_GODCO_Katherine_Mood" },
-      { "text": "Can you tell me about Arturo?", "topic": "TALK_GODCO_Katherine_Arturo" },
-      { "text": "Can you tell me about Corrie?", "topic": "TALK_GODCO_Katherine_Corrie" },
-      { "text": "Can you tell me about Jane?", "topic": "TALK_GODCO_Katherine_Jane" },
-      { "text": "Can you tell me about Sonia?", "topic": "TALK_GODCO_Katherine_Sonia" },
-      { "text": "Can you tell me about Zachary?", "topic": "TALK_GODCO_Katherine_Zachary" },
-      { "text": "Can you tell me about Simon?", "topic": "TALK_GODCO_Katherine_Simon" },
-      { "text": "Can you tell me about Jeremiah?", "topic": "TALK_GODCO_Katherine_Jeremiah" },
+      {
+        "text": "Can you tell me about Arturo?",
+        "topic": "TALK_GODCO_Katherine_Arturo",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
+      {
+        "text": "Can you tell me about Corrie?",
+        "topic": "TALK_GODCO_Katherine_Corrie",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
+      {
+        "text": "Can you tell me about Jane?",
+        "topic": "TALK_GODCO_Katherine_Jane",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
+      {
+        "text": "Can you tell me about Sonia?",
+        "topic": "TALK_GODCO_Katherine_Sonia",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
+      {
+        "text": "Can you tell me about Zachary?",
+        "topic": "TALK_GODCO_Katherine_Zachary",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
+      {
+        "text": "Can you tell me about Simon?",
+        "topic": "TALK_GODCO_Katherine_Simon",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
+      {
+        "text": "Can you tell me about Jeremiah?",
+        "topic": "TALK_GODCO_Katherine_Jeremiah",
+        "condition": { "math": [ "n_npc_value()", ">=", "2" ] }
+      },
       { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -39,11 +71,16 @@
       "TALK_GODCO_Katherine_Joinee_Opinion"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Katherine_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Katherine_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_GODCO_Katherine_Job" },
       {
         "text": "You don't seem to like the joinees very much.  Why is that?",
-        "topic": "TALK_GODCO_Katherine_Joinee_Opinion"
+        "topic": "TALK_GODCO_Katherine_Joinee_Opinion",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
       },
       { "text": "Do you know where I could find some work?", "topic": "TALK_MISSION_LIST" },
       { "text": "How are things here?", "topic": "TALK_GODCO_Katherine_Mood" }
@@ -53,14 +90,16 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": { "gendered_line": "Oh well, yet another sinner.  Don't talk to me.", "relevant_genders": [ "u" ] },
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_katherine",
-        "value": "yes",
-        "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
-        "no": { "gendered_line": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine.", "relevant_genders": [ "u" ] }
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "Please go away, I'm not in the mood to talk right now.",
+        "no": {
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ],
+          "yes": [ "Praise the Lord.", "<u_name>, bless you." ],
+          "no": { "gendered_line": "Oh well, yet another survivor.  Welcome to our group, I'm Katherine.", "relevant_genders": [ "u" ] }
+        }
       }
     },
     "responses": [
@@ -69,8 +108,9 @@
         "topic": "TALK_GODCO_Katherine_2a",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         }
       },
@@ -79,20 +119,50 @@
         "effect": { "npc_add_var": "general_meeting_u_met_godco_katherine", "value": "yes" },
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_katherine", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_katherine" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "topic": "TALK_GODCO_Katherine_Firstmeet"
       },
       {
+        "text": "You sure, I've got plenty of time.",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
+        "topic": "TALK_GODCO_Katherine_Angry"
+      },
+      {
         "text": "I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Okay, I'll see you later.",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, fuck you then.",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" },
+        "condition": {
+          "or": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
+          ]
+        },
         "topic": "TALK_DONE"
       }
     ]
@@ -160,8 +230,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Corrie",
     "dynamic_line": {
-      "u_has_var": "mission_completed_godco_corrie_machine",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_completed_godco_corrie_machine" } ],
       "yes": "She knows this and that about electronics.  The generator we have here was made by her.  Nice to have one here, even though there's not much use for it yet.",
       "no": "I hear she knows this and that about electronics.    She keeps herself occupied by doing menial tasks around the camp, looking for payment."
     }
@@ -190,8 +259,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Katherine_Zachary",
     "dynamic_line": {
-      "u_has_var": "mission_completed_godco_corrie_machine",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_completed_godco_corrie_machine" } ],
       "yes": "He can keep his distance with his smug nothingness.  At least he's a bit more useful than some of the others.  He helped Corrie make that generator.",
       "no": "I'm not planning to communicate with him, that's for certain.  He can keep his distance with his smug nothingness.  At least he knows how to cut lumber."
     }
@@ -236,5 +304,24 @@
       { "text": "What was it you said earlier?", "topic": "TALK_NONE" },
       { "text": "I'll talk to her then.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Katherine_Angry",
+    "dynamic_line": "Look, I'm rather upset and just need some time alone, okay?  I'm sure you're very busy.",
+    "responses": [
+      {
+        "text": "I don't have the time to wait, now can we get on with business?",
+        "topic": "TALK_GODCO_Katherine_Angry_Pressed"
+      },
+      { "text": "Okay, I'll see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Katherine_Angry_Pressed",
+    "dynamic_line": "&Katherine scowls with anger at you.  \"This is the exact <swear> reason I don't want to talk to you, now go away!\"",
+    "speaker_effect": [ { "effect": { "math": [ "n_npc_anger()", "++" ] } } ],
+    "responses": [ { "text": "Fuck's sake <name_b>, I'm leaving!", "topic": "TALK_DONE" } ]
   }
 ]

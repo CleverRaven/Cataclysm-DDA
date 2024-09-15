@@ -30,7 +30,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "A roar fills your mind and you stagger!",
@@ -51,7 +51,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed_zap",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "Your body twitches under the electrical assault!",
@@ -149,6 +149,18 @@
       [ 1, 5 ],
       [ 1, 1 ]
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_illuminate_enemy",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A faint glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 35 } ] } ]
   },
   {
     "type": "effect_type",

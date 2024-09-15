@@ -104,6 +104,8 @@ static const mtype_id mon_secubot( "mon_secubot" );
 static const oter_type_str_id oter_type_sewer( "sewer" );
 static const oter_type_str_id oter_type_subway( "subway" );
 
+static const overmap_special_id overmap_special_Crater( "Crater" );
+
 static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
@@ -496,7 +498,7 @@ void computer_session::action_toll()
         reset_terminal();
     } else {
         comp.next_attempt = calendar::turn + 1_minutes;
-        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::alarm,
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 
@@ -593,9 +595,9 @@ void computer_session::action_portal()
 {
     get_event_bus().send<event_type::opens_portal>();
     map &here = get_map();
-    for( const tripoint &tmp : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &tmp : here.bub_points_on_zlevel() ) {
         int numtowers = 0;
-        for( const tripoint &tmp2 : here.points_in_radius( tmp, 2 ) ) {
+        for( const tripoint_bub_ms &tmp2 : here.points_in_radius( tmp, 2 ) ) {
             if( here.ter( tmp2 ) == ter_t_radio_tower ) {
                 numtowers++;
             }
@@ -754,15 +756,15 @@ void computer_session::action_miss_launch()
     }
 
     //Put some smoke gas and explosions at the nuke location.
-    const tripoint nuke_location = { get_player_character().pos() - point( 12, 0 ) };
-    for( const tripoint &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+    const tripoint_bub_ms nuke_location = { get_player_character().pos_bub() - point( 12, 0 ) };
+    for( const tripoint_bub_ms &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
         if( one_in( 4 ) ) {
             get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
         }
     }
 
     //Only explode once. But make it large.
-    explosion_handler::explosion( &get_player_character(), nuke_location, 2000, 0.7, true );
+    explosion_handler::explosion( &get_player_character(), nuke_location.raw(), 2000, 0.7, true );
 
     //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
     // For each level between here and the surface, remove the missile
@@ -779,16 +781,8 @@ void computer_session::action_miss_launch()
         tmpmap.save();
     }
 
-    for( const tripoint_abs_omt &p : points_in_radius( target, 2 ) ) {
-        // give it a nice rounded shape
-        if( !( p.x() == target.x() - 2 && p.y() == target.y() - 2 ) &&
-            !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
-            !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
-            !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "field" ) );
-        }
-    }
-    explosion_handler::nuke( target );
+    overmap_buffer.place_special( *overmap_special_Crater, target, om_direction::type::north, false,
+                                  true );
 
     activate_failure( COMPFAIL_SHUTDOWN );
 }
@@ -1537,7 +1531,7 @@ void computer_session::action_deactivate_shock_vent()
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     bool has_vent = false;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 10 ) ) {
         if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
         }

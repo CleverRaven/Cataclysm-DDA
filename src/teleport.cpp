@@ -62,6 +62,11 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
     tripoint_abs_ms abs_ms( here.getabs( target ) );
+    if( abs_ms.z() > OVERMAP_HEIGHT || abs_ms.z() < -OVERMAP_DEPTH ) {
+        debugmsg( "%s cannot teleport to point %s: too high or too deep.", critter.get_name(),
+                  abs_ms.to_string() );
+        return false;
+    }
     //The teleportee is dimensionally anchored so nothing happens
     if( !force && p && ( p->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                          p->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||

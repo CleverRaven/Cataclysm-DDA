@@ -352,8 +352,7 @@ Field              | Description
 `armor_penalty`    | object mapping damage types to flat penalties on the monster's protection, applied after the multiplier.
 `damage_mult`      | object mapping damage types to multipliers on the post-armor damage, when hitting the weakpoint.
 `crit_mult`        | object mapping damage types to multipliers on the post-armor damage, when critically hitting the weakpoint. Defaults to `damage_mult`, if not specified.
-`required_effects` | list of effect names applied to the monster required to hit the weakpoint.
-`disabled_by`      | list of effect names applied to the monster which prevent you to hit the weakpoint.
+`condition`        | condition, that need to be met for weakpoint to be used. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `effects`          | list of effects objects that may be applied to the monster by hitting the weakpoint.
 
 The `effects` field is a list of objects with the following subfields:
@@ -361,6 +360,7 @@ The `effects` field is a list of objects with the following subfields:
 Field              | Description
 ---                | ---
 `effect`           | The effect type.
+`effect_on_conditions` | Array of EoCs that would be run. `u_` is attacker (if presented, use `has_alpha` condition for safety), `npc_` is victim. See EFFECT_ON_CONDITION.md for more information
 `chance`           | The probability of causing the effect.
 `duration`         | The duration of the effect. Either a (min, max) pair or a single value.
 `permanent`        | Whether the effect is permanent.
@@ -545,10 +545,9 @@ The monster's reproduction cycle, if any. Supports:
 
 Field          | Description
 ---            | ---
-`baby_monster` | (string, optional) the id of the monster spawned on reproduction for monsters who give live births. You must declare either this or `baby_egg` for reproduction to work.
-`baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work. (see [JSON_INFO.md](JSON_INFO.md#comestibles) `rot_spawn`)
 `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 `baby_timer`   | (int) Number of days between reproduction events.
+`baby_type`    | (object) Specifies the type of reproduction. Types can be `{ "baby_type": { "baby_egg": "item_id" }`, `{ "baby_type": { "baby_egg_group": "item_group_id" }`, `{ "baby_type": { "baby_monster": "monster_id" }`, `{ "baby_type": { "baby_monster_group": "monster_group_id" }`. Only one type can be used.
 
 ## "zombify_into"
 (monster string id, optional)

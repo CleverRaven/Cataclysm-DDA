@@ -49,6 +49,7 @@ enum class mod : int {
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
     MUT_INSTABILITY_MOD,
+    RANGE_DODGE,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
@@ -162,6 +163,7 @@ enum class mod : int {
     MOVECOST_SWIM_MOD,
     MOVECOST_OBSTACLE_MOD,
     MOVECOST_FLATGROUND_MOD,
+    PHASE_DISTANCE,
     SHOUT_NOISE_STR_MULT,
     NIGHT_VIS,
     HEARING_MULT,

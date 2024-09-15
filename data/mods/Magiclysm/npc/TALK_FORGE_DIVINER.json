@@ -487,7 +487,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_GOBLIN",
     "type": "talk_topic",
-    "dynamic_line": "Good choice.  It seems that shortly before the world started to end, a few of them got it in their heads to just leave civilization alone for a bit and go live in the woods with other goblins.  And wargs.  Not a terrible idea if you ask me.  Anyways, theres a few different types of places they gather, are you looking for an encampment or an outpost?",
+    "dynamic_line": "Good choice.  It seems that shortly before the world started to end, a few of them got it in their heads to just leave civilization alone for a bit and go live in the woods with other goblins.  And wargs.  Not a terrible idea if you ask me.  Anyways, there's a few different types of places they gather, are you looking for an encampment or an outpost?",
     "responses": [
       { "text": "An encampment.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN_ENCAMPMENT" },
       { "text": "An outpost.", "topic": "TALK_FORGE_LORD_DIVINER_GOBLIN_OUTPOST" },
@@ -578,7 +578,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LAB",
     "type": "talk_topic",
-    "dynamic_line": "Deeply buried secret installations where shady government organizations conducted unethical experiments, free from moral constrains.  Did such places really exist before the cataclysm, or did humanity's collective mistrust, superstition and conspiracy theories cause the portal storms to dream these places into existence?  I honestly can't tell, but I suppose it doesn't matter now.  These places do exist, and are ripe with mysteries, dangers, and loot.  You'll have to specify which kind you're looking for.",
+    "dynamic_line": "Deeply buried secret installations where shady government organizations conducted unethical experiments, free from moral constrains.  Did such places really exist before the Cataclysm, or did humanity's collective mistrust, superstition and conspiracy theories cause the portal storms to dream these places into existence?  I honestly can't tell, but I suppose it doesn't matter now.  These places do exist, and are ripe with mysteries, dangers, and loot.  You'll have to specify which kind you're looking for.",
     "responses": [
       { "text": "Just a normal one.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_NORMAL" },
       { "text": "A central lab.", "topic": "TALK_FORGE_LORD_DIVINER_LAB_CENTRAL" },
@@ -942,7 +942,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
     "type": "talk_topic",
-    "dynamic_line": "There are these city-sized creatures called Void Leviathans that lives in the vast nether regions between realities.  Sometimes they used to wash up onto Earths that had recently had a cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  But I haven't seen any of them in quite a while.  Perhaps they retreated deeper into the empty parts of the nether?  Sorry, I haven't seen any in this reality yet.  I can't help you.",
+    "dynamic_line": "There are these city-sized creatures called Void Leviathans that lives in the vast nether regions between realities.  Sometimes they used to wash up onto Earths that had recently had a Cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  But I haven't seen any of them in quite a while.  Perhaps they retreated deeper into the empty parts of the nether?  Sorry, I haven't seen any in this reality yet.  I can't help you.",
     "//": "This is for if nether_monster_corpse gets implemented.",
     "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },

@@ -53,27 +53,29 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_luliya",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ],
       "yes": [ "Inikwani dehina metahi tegwazhi." ],
       "no": "&You see a tall golden figure with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind in their hand."
     },
     "responses": [
       {
         "text": "[Push the big red button.]",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] } },
         "topic": "TALK_LULIYA_BUTTON"
       },
       {
         "text": "[Use Stethoscope] Is this alive?",
         "condition": {
-          "and": [ { "not": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" } }, { "u_has_item": "stethoscope" } ]
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] } },
+            { "u_has_item": "stethoscope" }
+          ]
         },
         "topic": "TALK_LULIYA_PULSE"
       },
       {
         "text": "[Do nothing.]",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] } },
         "topic": "TALK_DONE"
       },
       {
@@ -81,8 +83,8 @@
         "topic": "TALK_LULIYA_ENGLISH",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" },
-            { "not": { "u_has_var": "general_language_u_not_english_luliya", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_language_u_not_english_luliya" } ] } }
           ]
         }
       },
@@ -91,8 +93,8 @@
         "topic": "TALK_LULIYA_NAME",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" },
-            { "not": { "u_has_var": "general_name_u_luliya_name", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_name_u_luliya_name" } ] } }
           ]
         }
       },
@@ -100,7 +102,7 @@
         "text": "I heard you playing that.  [You point at the golden harp she holds]  La la la.  Do you like music, Luliya?",
         "condition": {
           "and": [
-            { "u_has_var": "general_name_u_luliya_name", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_name_u_luliya_name" } ] },
             { "math": [ "time_since(u_timer_meeting_luliya_music_timer)", ">=", "time('3 d')" ] }
           ]
         },
@@ -108,7 +110,7 @@
       },
       {
         "text": "I can't understand you.",
-        "condition": { "u_has_var": "general_meeting_u_met_luliya", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_luliya" } ] },
         "topic": "TALK_DONE"
       }
     ]

@@ -12,12 +12,16 @@
       "TALK_GODCO_Gemma_Joinee"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Gemma_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Gemma_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things here?", "topic": "TALK_GODCO_Gemma_Mood" },
       { "text": "What does a dorm leader do exactly?", "topic": "TALK_GODCO_Gemma_Leader" },
       {
         "text": "Can I help you with anything?",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] },
         "topic": "TALK_GODCO_Gemma_Help"
       },
       {
@@ -25,8 +29,9 @@
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } }
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } }
           ]
         }
       }
@@ -36,17 +41,19 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": {
         "gendered_line": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
         "relevant_genders": [ "u" ]
       },
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_gemma",
-        "value": "yes",
-        "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>.", "Hey <u_name>.  How can I help you?" ],
-        "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "I'm rather busy at the moment, I don't have the time to talk right now.",
+        "no": {
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ],
+          "yes": [ "Praise the Lord.", "Good to see you're still around, <granny_name_g>.", "Hey <u_name>.  How can I help you?" ],
+          "no": "Great to see a new face.  I'm Gemma.  Will you be staying here with us?"
+        }
       }
     },
     "responses": [
@@ -55,9 +62,9 @@
         "topic": "TALK_GODCO_Gemma_Leave",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
@@ -67,8 +74,8 @@
         "topic": "TALK_GODCO_Gemma_Join",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
@@ -78,9 +85,9 @@
         "topic": "TALK_GODCO_Gemma_Firstmeet",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" } },
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
@@ -88,22 +95,42 @@
       {
         "text": "Hi, Gemma.  How're you doing?",
         "topic": "TALK_GODCO_Gemma_Mood",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_gemma", "value": "yes" }
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] }
+          ]
+        }
       },
       {
         "text": "Hello, Gemma.  I'm afraid I can't talk right now.",
-        "condition": { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
+          ]
+        },
         "topic": "TALK_DONE"
+      },
+      {
+        "text": "Are you sure?  I've got all the time in the world.",
+        "topic": "TALK_GODCO_Gemma_Angry",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_gemma" } ] }
+          ]
+        }
       },
       {
         "text": "What's the harsh reception about?",
         "topic": "TALK_GODCO_Gemma_You_Mutant",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
       },
       {
         "text": "Fine then, screw you.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
       }
     ]
   },
@@ -174,8 +201,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Mood",
     "dynamic_line": {
-      "npc_has_var": "mission_meeting_gemma_got_supplements",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "mission_meeting_gemma_got_supplements" } ],
       "yes": "I'm feeling great!  Even if the world's over, I always have myself and God above.",
       "no": "I'm feeling alright, just working away."
     },
@@ -183,12 +209,12 @@
       {
         "text": "I'm happy to hear that, Gemma.  I'd best be going.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "mission_meeting_gemma_got_supplements", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "mission_meeting_gemma_got_supplements" } ] }
       },
       {
         "text": "I'll see you around.",
         "topic": "TALK_DONE",
-        "condition": { "not": { "npc_has_var": "mission_meeting_gemma_got_supplements", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "mission_meeting_gemma_got_supplements" } ] } }
       }
     ]
   },
@@ -206,6 +232,12 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_You_Mutant",
     "dynamic_line": "You certainly have the marks of one.  I don't understand how you can go walking around looking like an abomination, cursed by God, and think everything's alright.  I'm not interested in learning, either, so be gone with you.",
+    "responses": [ { "text": "Sure.  See ya.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Gemma_Angry",
+    "dynamic_line": "If you really want to know the truth, I;m quite upset with how you've been acting as of late, and I don't want to talk to you.  Now please, leave me be.",
     "responses": [ { "text": "Sure.  See ya.", "topic": "TALK_DONE" } ]
   }
 ]

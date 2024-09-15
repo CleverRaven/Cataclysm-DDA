@@ -22,15 +22,15 @@
       { "text": "What's with all the weapons and armor?", "topic": "TALK_BLACKSMITH_SHOP_ABOUT" },
       {
         "text": "What is this place?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_blacksmith_mentioned_jay", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_mentioned_jay" } ] } },
         "topic": "TALK_BLACKSMITH_LOCATION_ABOUT"
       },
       {
         "text": "Are you and Jay close?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_blacksmith_mentioned_jay", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_artisans_blacksmith_accepted_quest", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_mentioned_jay" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_accepted_quest" } ] } }
           ]
         },
         "topic": "TALK_BLACKSMITH_JAY"
@@ -39,8 +39,8 @@
         "text": "[Motion to the sketches.] What is it that you are working on?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" },
-            { "not": { "u_has_var": "dialogue_artisans_artisans_made_up", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_seen_blacksmith_sketches" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_artisans_made_up" } ] } }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_NOT_FEELING_IT"
@@ -49,15 +49,15 @@
         "text": "[Motion to the sketches.] You seem more excited about this stuff recently.",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_seen_blacksmith_sketches", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_artisans_made_up", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_seen_blacksmith_sketches" } ] },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_artisans_made_up" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_FEELING_IT"
       },
       {
         "text": "I'd like to know more about some of your 'special' projects.",
-        "condition": { "and": [ { "u_has_var": "dialogue_artisans_blacksmith_can_prototype", "value": "yes" } ] },
+        "condition": { "and": [ { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_can_prototype" } ] } ] },
         "topic": "TALK_BLACKSMITH_PROTOTYPE"
       },
       {
@@ -65,7 +65,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "bp_nomad_jumpsuit", "count": 1 } },
-            { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting_EXODII", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting_EXODII" } ] } }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII"
@@ -75,7 +75,7 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "FMCNote", "count": 100 } },
-            { "u_has_var": "dialogue_artisans_blacksmith_can_buy_coop", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_can_buy_coop" } ] }
           ]
         },
         "effect": [
@@ -92,14 +92,14 @@
       },
       {
         "text": "Why do you hate merch?",
-        "condition": { "u_has_var": "dialogue_artisans_blacksmith_hates_currency", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_hates_currency" } ] },
         "topic": "TALK_BLACKSMITH_MONEY_RAMBLE"
       },
       {
         "text": "Any jobs you need done?",
         "condition": {
           "and": [
-            { "u_has_var": "dialogue_artisans_artisans_made_up", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_artisans_made_up" } ] },
             { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] }
           ]
         },
@@ -107,6 +107,30 @@
       },
       {
         "text": "Could you make me a suit of armor?",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_heard_the_deal" } ] }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE"
+      },
+      {
+        "text": "Could you make me a suit of armor?",
+        "condition": {
+          "and": [
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
+            {
+              "//": "this variable means that you have completed quest 1 for Cody and shown Jay",
+              "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ]
+            }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_FABRICATE"
+      },
+      {
+        "text": "Could you make me a weapon?",
         "condition": {
           "and": [
             { "not": { "u_has_var": "dialogue_artisans_gunsmith_mentioned_quest", "value": "yes" } },
@@ -117,7 +141,7 @@
         "topic": "TALK_BLACKSMITH_NOT_INTERESTED_FABRICATE"
       },
       {
-        "text": "Could you make me a suit of armor?",
+        "text": "Could you make me a weapon?",
         "condition": {
           "and": [
             { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
@@ -128,7 +152,7 @@
             }
           ]
         },
-        "topic": "TALK_BLACKSMITH_FABRICATE"
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH"
       },
       {
         "text": "How is my armor coming?",
@@ -136,8 +160,8 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('21 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "armor" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -148,8 +172,8 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('21 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "3" ] },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "armor" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -160,8 +184,8 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('28 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "armor" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -172,8 +196,8 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('28 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "4" ] },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "armor" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
@@ -184,8 +208,8 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", "<", "time('35 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "armor" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_NOT_READY"
@@ -196,25 +220,35 @@
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_armor)", ">=", "time('35 d')" ] },
             { "math": [ "u_number_artisans_blacksmith_wait", "==", "5" ] },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "armor" }
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
+            { "compare_string": [ "armor", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_ARMOR_READY"
       },
       {
+        "text": "How is my weapon coming?",
+        "condition": {
+          "and": [
+            { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
+            { "u_has_var": "dialogue_artisans_u_current_project", "value": "weapon" }
+          ]
+        },
+        "topic": "TALK_BLACKSMITH_WEAPON_READY"
+      },
+      {
         "text": "You mentioned you'd need some special materials to make that nomad armor?",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "dialogue_artisans_blacksmith_has_exodii_items", "value": "yes" } },
-            { "u_has_var": "dialogue_artisans_blacksmith_crafting_EXODII", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_has_exodii_items" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting_EXODII" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_EXODII_ITEMS"
       },
       {
         "text": "Let's trade.",
-        "condition": { "u_has_var": "dialogue_artisans_blacksmith_heard_the_deal", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_heard_the_deal" } ] },
         "topic": "TALK_BLACKSMITH_SERVICES",
         "effect": "start_trade"
       },

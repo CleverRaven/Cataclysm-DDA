@@ -61,8 +61,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
         { "item": "hose", "count": [ 3, 6 ] },
-        { "item": "motor_small", "count": 1 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_small", "count": 1 }
       ]
     },
     "bash": {
@@ -439,8 +438,7 @@
         { "item": "sheet_metal", "count": [ 2, 4 ] },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "motor_tiny", "count": 1 },
-        { "item": "solder_wire", "charges": [ 1, 15 ] }
+        { "item": "motor_tiny", "count": 1 }
       ]
     },
     "bash": {
