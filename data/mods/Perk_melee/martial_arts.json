@@ -43,7 +43,7 @@
     ],
     "onblock_buffs": [
       {
-        "id": "buff_perk_block",
+        "id": "MELEE_PERK_RIPOSTE",
         "name": "Parry",
         "description": "Successful blocking has left you in a favorable position.",
         "melee_allowed": true,
@@ -51,6 +51,16 @@
         "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
+    "static_eocs": [
+      {
+        "id": "EOC_PERK_CHECK_BLIND",
+        "condition": { "and": [ { "u_has_flag": "MELEE_PERK_BLIND_CALCULUS" }, { "not": "u_can_see" } ] },
+        "effect": { "u_add_effect": "perk_blind_check", "duration": "4 days" },
+        "false_effect": { "u_lose_effect": "perk_blind_check" }
+      }
+    ],
+    "onhit_eocs": [ "EOC_PERK_SPEND_INSIGHT" ],
+    "onkill_eocs": [ "EOC_PERK_TWILIGHT_FORM" ],
     "onmove_eocs": [ "EOC_PERK_MOMENTUM_2" ],
     "ondodge_eocs": [
       {
