@@ -9,9 +9,11 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui/imgui.h"
 #undef IMGUI_DEFINE_MATH_OPERATORS
+#include "mod_manager.h"
 #include "path_info.h"
 #include "sdltiles.h"
 #include "sdl_wrappers.h"
+#include "worldfactory.h"
 #else
 #include "cursesdef.h"
 #endif // TILES
@@ -23,6 +25,7 @@ struct ui_state {
     ImVec2 window_size;
     ImVec2 splash_size;
     SDL_Texture_Ptr splash;
+    cata_path chosen_load_img;
 #else
     size_t splash_width = 0;
     std::vector<std::string> splash;
@@ -90,8 +93,25 @@ static void update_state( const std::string &context, const std::string &step )
         } );
 
 #ifdef TILES
-        cata_path path = PATH_INFO::gfxdir() / "cdda.png";
-        SDL_Surface_Ptr surf = load_image( path.get_unrelative_path().u8string().c_str() );
+        std::vector<cata_path> imgs;
+        std::vector<mod_id> &active_mod_list = world_generator->active_world->active_mod_order;
+        for( mod_id &some_mod : active_mod_list ) {
+            const MOD_INFORMATION &mod = *some_mod;
+            for( const std::string &img_name : mod.loading_images ) {
+                // There may be more than one file matching the name, so we need to get all of them
+                for( cata_path &img_path : get_files_from_path( img_name, mod.path, true ) ) {
+                    imgs.emplace_back( img_path );
+                }
+            }
+        }
+        if( gLUI->chosen_load_img == cata_path() ) {
+            if( imgs.empty() ) {
+                gLUI->chosen_load_img = PATH_INFO::gfxdir() / "cdda.png"; //default load screen
+            } else {
+                gLUI->chosen_load_img = random_entry( imgs );
+            }
+        }
+        SDL_Surface_Ptr surf = load_image( gLUI->chosen_load_img.get_unrelative_path().u8string().c_str() );
         gLUI->splash_size = { static_cast<float>( surf->w ), static_cast<float>( surf->h ) };
         gLUI->splash = CreateTextureFromSurface( get_sdl_renderer(), surf );
         gLUI->window_size = gLUI->splash_size + ImVec2{ 0.0f, 2.0f * ImGui::GetTextLineHeightWithSpacing() };
@@ -126,6 +146,9 @@ void loading_ui::show( const std::string &context, const std::string &step )
 void loading_ui::done()
 {
     if( gLUI != nullptr ) {
+#ifdef TILES
+        gLUI->chosen_load_img = cata_path();
+#endif
         delete gLUI->ui;
         delete gLUI->bg;
         delete gLUI;

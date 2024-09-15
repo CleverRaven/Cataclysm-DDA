@@ -215,6 +215,18 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+int talker_character_const::get_total_in_category( const mutation_category_id &categ,
+        mut_count_type count_type ) const
+{
+    return me_chr_const->get_total_in_category( categ, count_type );
+}
+
+int talker_character_const::get_total_in_category_char_has( const mutation_category_id &categ,
+        mut_count_type count_type ) const
+{
+    return me_chr_const->get_total_in_category_char_has( categ, count_type );
+}
+
 bool talker_character_const::is_trait_purifiable( const trait_id &trait_to_check ) const
 {
     return me_chr_const->purifiable( trait_to_check );

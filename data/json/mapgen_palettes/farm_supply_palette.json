@@ -34,7 +34,6 @@
       "m": "f_atm_off",
       "b": "f_bench",
       "B": "f_bench",
-      "V": "f_vending_c",
       "C": "f_chair",
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "c": "f_counter",
@@ -87,6 +86,7 @@
       "g": "f_trashcan",
       "z": "f_safe_l"
     },
+    "vendingmachines": { "V": { "lootable": true } },
     "toilets": { "T": {  } }
   },
   {

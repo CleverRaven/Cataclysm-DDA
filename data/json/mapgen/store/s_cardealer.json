@@ -48,7 +48,8 @@
         "n": "t_floor",
         ";": "t_gutter_downspout"
       },
-      "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker", "n": "f_vending_c" },
+      "furniture": { "j": "f_sink", "k": "f_table", "l": "f_chair", "m": "f_locker" },
+      "vendingmachines": { "n": { "lootable": true } },
       "toilets": { "i": {  } },
       "place_loot": [
         { "group": "office", "chance": 50, "repeat": [ 5 ], "x": [ 7, 7 ], "y": [ 22, 22 ] },

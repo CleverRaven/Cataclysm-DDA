@@ -671,22 +671,22 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
-                              const bool manual, bool update_avatar, bool skip_cache_update )
+                              const bool manual, bool update_avatar, bool skip_cache_update, bool suppress_display_update )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
     }
-    bool displayed = is_displayed;
+    bool adjust_display = is_displayed && !suppress_display_update;
 
-    if( displayed ) {
+    if( adjust_display ) {
         toggle_display();
     }
 
     start = position.first;
     end = position.second;
 
-    if( displayed ) {
+    if( adjust_display ) {
         toggle_display();
     }
 
@@ -1507,7 +1507,7 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
             target_map.getglobal( tripoint( std::max( z_l_start.x, z_l_end.x ),
                                             std::max( z_l_start.y, z_l_end.y ),
                                             z_end.z ) );
-        zone.set_position( std::make_pair( first.raw(), second.raw() ), false );
+        zone.set_position( std::make_pair( first.raw(), second.raw() ), false, true, false, true );
     }
 }
 

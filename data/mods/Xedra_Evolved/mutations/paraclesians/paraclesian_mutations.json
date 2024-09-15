@@ -459,10 +459,8 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Like your fae ancestors, you can turn gossamer into clothing and armor.  Activate this trait to learn a gossamer recipe (once per week).",
-    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
-    "active": true,
-    "activated_eocs": [ "EOC_PARACLESIAN_GOSSAMER_RECIPES" ]
+    "description": "Like your fae ancestors, you can turn gossamer into clothing and armor.  New recipes will be occasionally revealed to you in your dreams.",
+    "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ]
   },
   {
     "type": "mutation",

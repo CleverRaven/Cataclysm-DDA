@@ -1858,7 +1858,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
         SECTION( act + " interruption by dangerous field" ) {
             cleanup( dummy );
 
-            m.add_field( dummy.pos(), field_fd_smoke );
+            m.add_field( dummy.pos_bub(), field_fd_smoke );
 
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
@@ -1870,7 +1870,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             cleanup( dummy );
 
             spawn_test_monster( mon_zombie.str(), zombie_pos_near );
-            m.add_field( dummy.pos(), field_fd_smoke );
+            m.add_field( dummy.pos_bub(), field_fd_smoke );
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
             CHECK( dists.size() == 2 );

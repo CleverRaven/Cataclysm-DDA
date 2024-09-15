@@ -53,28 +53,17 @@
         "C": "f_counter",
         "t": "f_toilet",
         "h": "f_chair",
-        "V": "f_vending_c",
         "S": "f_sink",
         "L": "f_locker"
       },
       "toilets": { "t": { "//": "no values needed here" } },
+      "vendingmachines": { "V": { "item_group": "ic_merch_vending", "lootable": true } },
       "items": {
         "c": { "item": "ic_merch", "chance": 20 },
         "C": { "item": "cash_register_random", "chance": 100 },
-        "V": { "item": "ic_merch_vending", "chance": 100 },
         "L": { "item": "cleaning", "chance": 100 }
       },
-      "add": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ],
-      "place_items": [
-        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 7, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 },
-        { "item": "ic_merch_vending", "x": 3, "y": 8, "chance": 90 }
-      ]
+      "add": [ { "item": "mop", "x": [ 11, 12 ], "y": [ 17, 20 ], "chance": 2 } ]
     }
   },
   {
