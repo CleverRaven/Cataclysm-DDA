@@ -24468,8 +24468,8 @@
         {
           "id": [
             "knife_combat",
-            "knife_small_var_knife_steak",
-            "knife_huge_var_knife_butcher",
+            "knife_steak",
+            "knife_butcher",
             "diveknife",
             "makeshift_knife",
             "primitive_knife",
@@ -30960,12 +30960,13 @@
         {
           "id": [
             "overlay_female_wielded_knife_rambo",
-            "overlay_female_wielded_knife_huge_var_knife_butcher",
+            "overlay_female_wielded_knife_butcher",
             "overlay_female_wielded_kris",
             "overlay_female_wielded_knife_hunting",
             "overlay_female_wielded_knife_rm42"
           ],
-          "fg": 5182
+          "fg": 5182,
+          "rotates": false
         },
         {
           "id": [
@@ -31806,12 +31807,13 @@
         {
           "id": [
             "overlay_male_wielded_knife_rambo",
-            "overlay_male_wielded_knife_huge_var_knife_butcher",
+            "overlay_male_wielded_knife_butcher",
             "overlay_male_wielded_kris",
             "overlay_male_wielded_knife_hunting",
             "overlay_male_wielded_knife_rm42"
           ],
-          "fg": 5250
+          "fg": 5250,
+          "rotates": false
         },
         {
           "id": [

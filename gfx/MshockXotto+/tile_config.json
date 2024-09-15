@@ -3171,8 +3171,9 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_knife_small_var_knife_steak",
-          "fg": 652
+          "id": "overlay_wielded_knife_steak",
+          "fg": 652,
+          "rotates": false
         },
         {
           "id": "overlay_wielded_knuckle_brass",
@@ -34284,19 +34285,19 @@
           "fg": 741
         },
         {
-          "id": "overlay_wielded_knife_cleaver_var_knife_meat_cleaver",
+          "id": "overlay_wielded_knife_butcher",
           "fg": 742
         },
         {
-          "id": "overlay_wielded_knife_cleaver_var_knife_vegetable_cleaver",
+          "id": "overlay_wielded_knife_chef",
           "fg": 743
         },
         {
-          "id": "overlay_wielded_knife_huge_var_knife_butcher",
+          "id": "overlay_wielded_knife_meat_cleaver",
           "fg": 744
         },
         {
-          "id": "overlay_wielded_knife_large_var_knife_chef",
+          "id": "overlay_wielded_knife_vegetable_cleaver",
           "fg": 745
         },
         {
@@ -34820,7 +34821,7 @@
           "fg": 883
         },
         {
-          "id": "overlay_wielded_knife_large_var_knife_carving",
+          "id": "overlay_wielded_knife_carving",
           "fg": 884
         },
         {
@@ -39232,11 +39233,11 @@
           "fg": 3002
         },
         {
-          "id": "knife_small_var_knife_paring",
+          "id": "knife_paring",
           "fg": 3003
         },
         {
-          "id": "knife_small_var_knife_steak",
+          "id": "knife_steak",
           "fg": 3004
         },
         {
@@ -51117,7 +51118,7 @@
           "fg": 9101
         },
         {
-          "id": "egg_chicken",
+          "id": "egg_bird",
           "fg": 9102
         },
         {
@@ -51293,19 +51294,19 @@
           "fg": 9147
         },
         {
-          "id": "knife_cleaver_var_knife_meat_cleaver",
+          "id": "knife_butcher",
           "fg": 9148
         },
         {
-          "id": "knife_cleaver_var_knife_vegetable_cleaver",
+          "id": "knife_chef",
           "fg": 9149
         },
         {
-          "id": "knife_huge_var_knife_butcher",
+          "id": "knife_meat_cleaver",
           "fg": 9150
         },
         {
-          "id": "knife_large_var_knife_chef",
+          "id": "knife_vegetable_cleaver",
           "fg": 9151
         },
         {
@@ -53421,7 +53422,7 @@
           "fg": 9700
         },
         {
-          "id": "knife_large_var_knife_carving",
+          "id": "knife_carving",
           "fg": 9701
         },
         {

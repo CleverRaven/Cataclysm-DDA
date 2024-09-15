@@ -7699,8 +7699,8 @@
         },
         {
           "id": [
-            "knife_small_var_knife_steak",
-            "knife_huge_var_knife_butcher",
+            "knife_steak",
+            "knife_butcher",
             "knife_combat",
             "diveknife",
             "makeshift_knife",
@@ -7716,7 +7716,8 @@
             "kris_fake",
             "knife_folding"
           ],
-          "fg": 646
+          "fg": 646,
+          "rotates": false
         },
         {
           "id": "knuckle_brass",
@@ -9695,7 +9696,7 @@
             "irradiated_potato",
             "kiwi",
             "irradiated_kiwi",
-            "egg_chicken"
+            "egg_bird"
           ],
           "fg": 1758,
           "rotates": false

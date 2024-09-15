@@ -23230,8 +23230,8 @@
           "fg": 6361
         },
         {
-          "id": "egg_chicken",
-          "fg": 6369
+          "id": "egg_bird",
+          "fg": 6366
         },
         {
           "id": "grapes",
@@ -23553,7 +23553,7 @@
         },
         {
           "id": "screwdriver_set",
-          "fg": 6632
+          "fg": 6631
         },
         {
           "id": "wrench",
@@ -23568,25 +23568,33 @@
           "fg": 6618
         },
         {
+          "id": "knife_meat_cleaver",
+          "fg": 6628
+        },
+        {
+          "id": "knife_vegetable_cleaver",
+          "fg": 6636
+        },
+        {
           "id": "lighter",
           "fg": [
             {
               "weight": 1,
-              "sprite": 6625
+              "sprite": 6623
+            },
+            {
+              "weight": 1,
+              "sprite": 6622
             },
             {
               "weight": 1,
               "sprite": 6624
-            },
-            {
-              "weight": 1,
-              "sprite": 6626
             }
           ]
         },
         {
           "id": "makeshift_crowbar",
-          "fg": 6627
+          "fg": 6625
         },
         {
           "id": "esbit_stove",
@@ -23594,7 +23602,7 @@
         },
         {
           "id": "usb_drive",
-          "fg": 6636
+          "fg": 6635
         },
         {
           "id": "bowl_plastic",
@@ -27665,47 +27673,47 @@
           "fg": 6208
         },
         {
-          "id": "knife_combat",
+          "id": "knife_bread",
           "fg": 6209
         },
         {
-          "id": "knife_folding",
+          "id": "knife_butcher",
           "fg": 6210
         },
         {
-          "id": "knife_huge_var_knife_butcher",
+          "id": "knife_carving",
           "fg": 6211
         },
         {
-          "id": "knife_hunting",
+          "id": "knife_chef",
           "fg": 6212
         },
         {
-          "id": "knife_large_var_knife_bread",
+          "id": "knife_combat",
           "fg": 6213
         },
         {
-          "id": "knife_large_var_knife_carving",
+          "id": "knife_folding",
           "fg": 6214
         },
         {
-          "id": "knife_large_var_knife_chef",
+          "id": "knife_hunting",
           "fg": 6215
         },
         {
-          "id": "knife_rambo",
+          "id": "knife_paring",
           "fg": 6216
         },
         {
-          "id": "knife_rm42",
+          "id": "knife_rambo",
           "fg": 6217
         },
         {
-          "id": "knife_small_var_knife_paring",
+          "id": "knife_rm42",
           "fg": 6218
         },
         {
-          "id": "knife_small_var_knife_steak",
+          "id": "knife_steak",
           "fg": 6219
         },
         {
@@ -28166,15 +28174,15 @@
         },
         {
           "id": "egg_butterfly",
-          "fg": 6366
-        },
-        {
-          "id": "egg_centipede",
           "fg": 6367
         },
         {
-          "id": "egg_centipede_house",
+          "id": "egg_centipede",
           "fg": 6368
+        },
+        {
+          "id": "egg_centipede_house",
+          "fg": 6369
         },
         {
           "id": "egg_cicada",
@@ -28981,40 +28989,32 @@
           "fg": 6621
         },
         {
-          "id": "knife_cleaver_var_knife_meat_cleaver",
-          "fg": 6622
-        },
-        {
-          "id": "knife_cleaver_var_knife_vegetable_cleaver",
-          "fg": 6623
-        },
-        {
           "id": "masonrysaw_off",
-          "fg": 6628
+          "fg": 6626
         },
         {
           "id": "masonrysaw_on",
-          "fg": 6629
+          "fg": 6627
         },
         {
           "id": "multimeter",
-          "fg": 6630
+          "fg": 6629
         },
         {
           "id": "reciprocating_saw",
-          "fg": 6631
+          "fg": 6630
         },
         {
           "id": "survival_marker",
-          "fg": 6633
+          "fg": 6632
         },
         {
           "id": "tin_snips",
-          "fg": 6634
+          "fg": 6633
         },
         {
           "id": "tire_iron",
-          "fg": 6635
+          "fg": 6634
         },
         {
           "id": "wood_smoother",
@@ -30069,11 +30069,11 @@
         },
         {
           "id": "overlay_wielded_cavalry_sabre_fake",
-          "fg": 7337
+          "fg": 7338
         },
         {
           "id": "overlay_wielded_cutlass_inferior",
-          "fg": 7318
+          "fg": 7319
         },
         {
           "id": [
@@ -30095,7 +30095,7 @@
             "overlay_wielded_jian_fake",
             "overlay_wielded_jian_inferior"
           ],
-          "fg": 7324
+          "fg": 7325
         },
         {
           "id": [
@@ -30106,57 +30106,57 @@
         },
         {
           "id": "overlay_wielded_kris_fake",
-          "fg": 7790
+          "fg": 7789
         },
         {
           "id": [
             "overlay_wielded_longsword_fake",
             "overlay_wielded_longsword_inferior"
           ],
-          "fg": 7793
+          "fg": 7792
         },
         {
           "id": "overlay_female_wielded_lucern_hammerfake",
-          "fg": 7794
+          "fg": 7793
         },
         {
           "id": "overlay_male_wielded_lucern_hammerfake",
-          "fg": 7795
+          "fg": 7794
         },
         {
           "id": [
             "overlay_wielded_mace_fake",
             "overlay_wielded_mace_inferior"
           ],
-          "fg": 7799
+          "fg": 7798
         },
         {
           "id": [
             "overlay_wielded_morningstar_fake",
             "overlay_wielded_morningstar_inferior"
           ],
-          "fg": 7800
+          "fg": 7799
         },
         {
           "id": [
             "overlay_female_wielded_naginata_fake",
             "overlay_female_wielded_naginata_inferior"
           ],
-          "fg": 7335
+          "fg": 7336
         },
         {
           "id": [
             "overlay_male_wielded_naginata_fake",
             "overlay_male_wielded_naginata_inferior"
           ],
-          "fg": 7336
+          "fg": 7337
         },
         {
           "id": [
             "overlay_wielded_nodachi_fake",
             "overlay_wielded_nodachi_inferior"
           ],
-          "fg": 7853
+          "fg": 7852
         },
         {
           "id": [
@@ -30167,7 +30167,7 @@
         },
         {
           "id": "overlay_wielded_rapier_fake",
-          "fg": 7881
+          "fg": 7880
         },
         {
           "id": [
@@ -30207,96 +30207,100 @@
           "fg": 7314
         },
         {
-          "id": "overlay_female_wielded_butterfly_swords",
+          "id": "overlay_wielded_knife_butcher",
           "fg": 7315
         },
         {
-          "id": "overlay_male_wielded_butterfly_swords",
+          "id": "overlay_female_wielded_butterfly_swords",
           "fg": 7316
         },
         {
-          "id": "overlay_wielded_cavalry_sabre",
-          "fg": 7337
-        },
-        {
-          "id": "overlay_wielded_sword_crude",
+          "id": "overlay_male_wielded_butterfly_swords",
           "fg": 7317
         },
         {
-          "id": "overlay_wielded_cutlass",
+          "id": "overlay_wielded_cavalry_sabre",
+          "fg": 7338
+        },
+        {
+          "id": "overlay_wielded_sword_crude",
           "fg": 7318
         },
         {
-          "id": "overlay_wielded_dao",
+          "id": "overlay_wielded_cutlass",
           "fg": 7319
         },
         {
-          "id": "overlay_wielded_diveknife",
+          "id": "overlay_wielded_dao",
           "fg": 7320
         },
         {
-          "id": "overlay_female_wielded_glaive",
+          "id": "overlay_wielded_diveknife",
           "fg": 7321
         },
         {
-          "id": "overlay_male_wielded_glaive",
+          "id": "overlay_female_wielded_glaive",
           "fg": 7322
         },
         {
-          "id": "overlay_wielded_glass_shiv",
+          "id": "overlay_male_wielded_glaive",
           "fg": 7323
         },
         {
-          "id": "overlay_wielded_jian",
+          "id": "overlay_wielded_glass_shiv",
           "fg": 7324
         },
         {
-          "id": "overlay_wielded_khopesh",
+          "id": "overlay_wielded_jian",
           "fg": 7325
         },
         {
-          "id": "overlay_wielded_kukri",
+          "id": "overlay_wielded_khopesh",
           "fg": 7326
         },
         {
-          "id": "overlay_wielded_lajatang",
+          "id": "overlay_wielded_kukri",
           "fg": 7327
         },
         {
-          "id": "overlay_wielded_machete",
+          "id": "overlay_wielded_lajatang",
           "fg": 7328
         },
         {
-          "id": "overlay_female_wielded_makeshift_halberd",
+          "id": "overlay_wielded_machete",
           "fg": 7329
         },
         {
-          "id": "overlay_male_wielded_makeshift_halberd",
+          "id": "overlay_female_wielded_makeshift_halberd",
           "fg": 7330
         },
         {
-          "id": "overlay_wielded_makeshift_machete",
+          "id": "overlay_male_wielded_makeshift_halberd",
           "fg": 7331
         },
         {
-          "id": "overlay_wielded_glass_macuahuitl",
+          "id": "overlay_wielded_makeshift_machete",
           "fg": 7332
         },
         {
-          "id": "overlay_female_wielded_makeshift_scythe_war",
+          "id": "overlay_wielded_glass_macuahuitl",
           "fg": 7333
         },
         {
-          "id": "overlay_male_wielded_makeshift_scythe_war",
+          "id": "overlay_female_wielded_makeshift_scythe_war",
           "fg": 7334
         },
         {
-          "id": "overlay_female_wielded_naginata",
+          "id": "overlay_male_wielded_makeshift_scythe_war",
           "fg": 7335
         },
         {
-          "id": "overlay_male_wielded_naginata",
+          "id": "overlay_female_wielded_naginata",
           "fg": 7336
+        },
+        {
+          "id": "overlay_male_wielded_naginata",
+          "fg": 7337
         },
         {
           "id": "overlay_wielded_knuckle_katar",
@@ -30919,123 +30923,123 @@
         },
         {
           "id": "overlay_female_wielded_knuckle_nail",
-          "fg": 7786
+          "fg": 7785
         },
         {
           "id": "overlay_male_wielded_knuckle_nail",
-          "fg": 7787
+          "fg": 7786
         },
         {
           "id": "overlay_female_wielded_knuckle_steel",
-          "fg": 7788
+          "fg": 7787
         },
         {
           "id": "overlay_male_wielded_knuckle_steel",
-          "fg": 7789
+          "fg": 7788
         },
         {
           "id": "overlay_wielded_kris",
-          "fg": 7790
+          "fg": 7789
         },
         {
           "id": "overlay_wielded_shillelagh_weighted",
-          "fg": 7791
+          "fg": 7790
         },
         {
           "id": "overlay_wielded_log",
-          "fg": 7792
+          "fg": 7791
         },
         {
           "id": "overlay_wielded_longsword",
-          "fg": 7793
+          "fg": 7792
         },
         {
           "id": "overlay_male_wielded_lucern_hammer",
-          "fg": 7795
-        },
-        {
-          "id": "overlay_female_wielded_lucern_hammer",
           "fg": 7794
         },
         {
+          "id": "overlay_female_wielded_lucern_hammer",
+          "fg": 7793
+        },
+        {
           "id": "overlay_wielded_mace",
-          "fg": 7799
+          "fg": 7798
         },
         {
           "id": "overlay_wielded_morningstar",
-          "fg": 7800
+          "fg": 7799
         },
         {
           "id": "overlay_wielded_makeshift_crowbar",
-          "fg": 7801
+          "fg": 7800
         },
         {
           "id": "overlay_wielded_makeshift_knife",
-          "fg": 7802
+          "fg": 7801
         },
         {
           "id": "overlay_wielded_makeshift_sap",
-          "fg": 7803
+          "fg": 7802
         },
         {
           "id": "overlay_wielded_antibiotics",
-          "fg": 7806
+          "fg": 7805
         },
         {
           "id": "overlay_wielded_weak_antibiotic",
-          "fg": 7818
-        },
-        {
-          "id": "overlay_wielded_strong_antibiotic",
-          "fg": 7815
-        },
-        {
-          "id": "overlay_wielded_calcium_tablet",
-          "fg": 7809
-        },
-        {
-          "id": "overlay_wielded_vitamins",
           "fg": 7817
         },
         {
-          "id": "overlay_wielded_gummy_vitamins",
-          "fg": 7810
-        },
-        {
-          "id": "overlay_wielded_antifungal",
-          "fg": 7807
-        },
-        {
-          "id": "overlay_wielded_antiparasitic",
-          "fg": 7808
-        },
-        {
-          "id": "overlay_wielded_iodine",
-          "fg": 7811
-        },
-        {
-          "id": "overlay_wielded_prussian_blue",
+          "id": "overlay_wielded_strong_antibiotic",
           "fg": 7814
         },
         {
-          "id": "overlay_wielded_tramadol",
+          "id": "overlay_wielded_calcium_tablet",
+          "fg": 7808
+        },
+        {
+          "id": "overlay_wielded_vitamins",
           "fg": 7816
         },
         {
-          "id": "overlay_wielded_oxycodone",
+          "id": "overlay_wielded_gummy_vitamins",
+          "fg": 7809
+        },
+        {
+          "id": "overlay_wielded_antifungal",
+          "fg": 7806
+        },
+        {
+          "id": "overlay_wielded_antiparasitic",
+          "fg": 7807
+        },
+        {
+          "id": "overlay_wielded_iodine",
+          "fg": 7810
+        },
+        {
+          "id": "overlay_wielded_prussian_blue",
           "fg": 7813
         },
         {
+          "id": "overlay_wielded_tramadol",
+          "fg": 7815
+        },
+        {
+          "id": "overlay_wielded_oxycodone",
+          "fg": 7812
+        },
+        {
           "id": "overlay_female_wielded_mjolnir",
-          "fg": 7819
+          "fg": 7818
         },
         {
           "id": "overlay_male_wielded_mjolnir",
-          "fg": 7820
+          "fg": 7819
         },
         {
           "id": "overlay_wielded_mop",
-          "fg": 7821
+          "fg": 7820
         },
         {
           "id": [
@@ -31044,143 +31048,147 @@
             "overlay_wielded_tourniquet_lower",
             "overlay_wielded_tourniquet_lower_XL"
           ],
-          "fg": 7847
+          "fg": 7846
         },
         {
           "id": "overlay_female_wielded_nailbat",
-          "fg": 7849
+          "fg": 7848
         },
         {
           "id": "overlay_male_wielded_nailbat",
-          "fg": 7850
+          "fg": 7849
         },
         {
           "id": "overlay_female_wielded_nailboard",
-          "fg": 7851
+          "fg": 7850
         },
         {
           "id": "overlay_male_wielded_nailboard",
-          "fg": 7852
+          "fg": 7851
         },
         {
           "id": "overlay_wielded_nodachi",
-          "fg": 7853
+          "fg": 7852
         },
         {
           "id": "overlay_male_wielded_2h_flail_wood",
-          "fg": 7855
-        },
-        {
-          "id": "overlay_female_wielded_2h_flail_wood",
           "fg": 7854
         },
         {
-          "id": "overlay_male_wielded_pillow",
-          "fg": 7859
+          "id": "overlay_female_wielded_2h_flail_wood",
+          "fg": 7853
         },
         {
-          "id": "overlay_female_wielded_pillow",
+          "id": "overlay_male_wielded_pillow",
           "fg": 7858
         },
         {
-          "id": "overlay_male_wielded_down_pillow",
+          "id": "overlay_female_wielded_pillow",
           "fg": 7857
         },
         {
-          "id": "overlay_female_wielded_down_pillow",
+          "id": "overlay_male_wielded_down_pillow",
           "fg": 7856
         },
         {
+          "id": "overlay_female_wielded_down_pillow",
+          "fg": 7855
+        },
+        {
           "id": "overlay_wielded_pipe",
-          "fg": 7860
+          "fg": 7859
         },
         {
           "id": "overlay_wielded_pitchfork",
-          "fg": 7861
+          "fg": 7860
         },
         {
           "id": "overlay_wielded_sharp_toothbrush",
-          "fg": 7862
+          "fg": 7861
         },
         {
           "id": "overlay_wielded_pockknife",
-          "fg": 7863
+          "fg": 7862
         },
         {
           "id": "overlay_female_wielded_pot",
-          "fg": 7866
+          "fg": 7865
         },
         {
           "id": "overlay_male_wielded_pot",
-          "fg": 7867
+          "fg": 7866
         },
         {
           "id": "overlay_female_wielded_pot_copper",
-          "fg": 7868
+          "fg": 7867
         },
         {
           "id": "overlay_male_wielded_pot_copper",
-          "fg": 7869
+          "fg": 7868
         },
         {
           "id": "overlay_wielded_punch_dagger",
-          "fg": 7870
+          "fg": 7869
         },
         {
           "id": "overlay_female_wielded_qiang",
-          "fg": 7871
+          "fg": 7870
         },
         {
           "id": "overlay_male_wielded_qiang",
-          "fg": 7872
+          "fg": 7871
         },
         {
           "id": "overlay_female_wielded_rag",
-          "fg": 7879
+          "fg": 7878
         },
         {
           "id": "overlay_male_wielded_rag",
-          "fg": 7880
+          "fg": 7879
         },
         {
           "id": "overlay_wielded_rapier",
-          "fg": 7881
+          "fg": 7880
         },
         {
           "id": "overlay_wielded_rebar",
-          "fg": 7882
+          "fg": 7881
         },
         {
           "id": "overlay_wielded_knife_rm42",
-          "fg": 7883
+          "fg": 7882
         },
         {
           "id": "overlay_wielded_rock",
-          "fg": 7884
+          "fg": 7883
         },
         {
           "id": "overlay_wielded_rock_sock",
-          "fg": 7885
+          "fg": 7884
         },
         {
           "id": "overlay_wielded_rolling_pin",
-          "fg": 7886
+          "fg": 7885
         },
         {
           "id": "overlay_wielded_scissors",
-          "fg": 7887
+          "fg": 7886
         },
         {
           "id": "overlay_wielded_sharp_rock",
-          "fg": 7889
+          "fg": 7888
         },
         {
           "id": "overlay_wielded_shillelagh",
-          "fg": 7890
+          "fg": 7889
         },
         {
           "id": "overlay_female_wielded_cigar_lit",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7895
+            },
             {
               "weight": 14,
               "sprite": 7896
@@ -31204,10 +31212,6 @@
             {
               "weight": 14,
               "sprite": 7901
-            },
-            {
-              "weight": 14,
-              "sprite": 7902
             }
           ],
           "animated": true
@@ -31215,6 +31219,10 @@
         {
           "id": "overlay_male_wielded_cigar_lit",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7904
+            },
             {
               "weight": 14,
               "sprite": 7905
@@ -31238,10 +31246,6 @@
             {
               "weight": 14,
               "sprite": 7910
-            },
-            {
-              "weight": 14,
-              "sprite": 7911
             }
           ],
           "animated": true
@@ -31249,6 +31253,10 @@
         {
           "id": "overlay_female_wielded_cig_lit",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7913
+            },
             {
               "weight": 14,
               "sprite": 7914
@@ -31272,10 +31280,6 @@
             {
               "weight": 14,
               "sprite": 7919
-            },
-            {
-              "weight": 14,
-              "sprite": 7920
             }
           ],
           "animated": true
@@ -31283,6 +31287,10 @@
         {
           "id": "overlay_male_wielded_cig_lit",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7922
+            },
             {
               "weight": 14,
               "sprite": 7923
@@ -31306,10 +31314,6 @@
             {
               "weight": 14,
               "sprite": 7928
-            },
-            {
-              "weight": 14,
-              "sprite": 7929
             }
           ],
           "animated": true
@@ -31317,6 +31321,10 @@
         {
           "id": "overlay_female_wielded_joint_lit",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7930
+            },
             {
               "weight": 14,
               "sprite": 7931
@@ -31340,10 +31348,6 @@
             {
               "weight": 14,
               "sprite": 7936
-            },
-            {
-              "weight": 14,
-              "sprite": 7937
             }
           ],
           "animated": true
@@ -31351,6 +31355,10 @@
         {
           "id": "overlay_male_wielded_joint_lit",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7939
+            },
             {
               "weight": 14,
               "sprite": 7940
@@ -31374,10 +31382,6 @@
             {
               "weight": 14,
               "sprite": 7945
-            },
-            {
-              "weight": 14,
-              "sprite": 7946
             }
           ],
           "animated": true
@@ -31385,6 +31389,10 @@
         {
           "id": "overlay_female_wielded_pipe_tobacco",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7947
+            },
             {
               "weight": 14,
               "sprite": 7948
@@ -31408,10 +31416,6 @@
             {
               "weight": 14,
               "sprite": 7953
-            },
-            {
-              "weight": 14,
-              "sprite": 7954
             }
           ],
           "animated": true
@@ -31419,6 +31423,10 @@
         {
           "id": "overlay_male_wielded_pipe_tobacco",
           "fg": [
+            {
+              "weight": 14,
+              "sprite": 7954
+            },
             {
               "weight": 14,
               "sprite": 7955
@@ -31442,92 +31450,92 @@
             {
               "weight": 14,
               "sprite": 7960
-            },
-            {
-              "weight": 14,
-              "sprite": 7961
             }
           ],
           "animated": true
         },
         {
           "id": "overlay_male_wielded_pointy_stick",
-          "fg": 7963
-        },
-        {
-          "id": "overlay_female_wielded_pointy_stick",
           "fg": 7962
         },
         {
-          "id": "overlay_male_wielded_spear_wood",
-          "fg": 7979
+          "id": "overlay_female_wielded_pointy_stick",
+          "fg": 7961
         },
         {
-          "id": "overlay_female_wielded_spear_wood",
+          "id": "overlay_male_wielded_spear_wood",
           "fg": 7978
         },
         {
-          "id": "overlay_male_wielded_spear_spike",
-          "fg": 7975
-        },
-        {
-          "id": "overlay_female_wielded_spear_spike",
-          "fg": 7974
-        },
-        {
-          "id": "overlay_male_wielded_spear_knife",
-          "fg": 7967
-        },
-        {
-          "id": "overlay_female_wielded_spear_knife",
-          "fg": 7966
-        },
-        {
-          "id": "overlay_male_wielded_spear_knife_superior",
-          "fg": 7969
-        },
-        {
-          "id": "overlay_female_wielded_spear_knife_superior",
-          "fg": 7968
-        },
-        {
-          "id": "overlay_male_wielded_spear_rebar",
-          "fg": 7973
-        },
-        {
-          "id": "overlay_female_wielded_spear_rebar",
-          "fg": 7972
-        },
-        {
-          "id": "overlay_male_wielded_spear_pipe",
-          "fg": 7971
-        },
-        {
-          "id": "overlay_female_wielded_spear_pipe",
-          "fg": 7970
-        },
-        {
-          "id": "overlay_male_wielded_spear_steel",
+          "id": "overlay_female_wielded_spear_wood",
           "fg": 7977
         },
         {
-          "id": "overlay_female_wielded_spear_steel",
-          "fg": 7976
+          "id": "overlay_male_wielded_spear_spike",
+          "fg": 7974
         },
         {
-          "id": "overlay_male_wielded_spear_copper",
+          "id": "overlay_female_wielded_spear_spike",
+          "fg": 7973
+        },
+        {
+          "id": "overlay_male_wielded_spear_knife",
+          "fg": 7966
+        },
+        {
+          "id": "overlay_female_wielded_spear_knife",
           "fg": 7965
         },
         {
-          "id": "overlay_female_wielded_spear_copper",
+          "id": "overlay_male_wielded_spear_knife_superior",
+          "fg": 7968
+        },
+        {
+          "id": "overlay_female_wielded_spear_knife_superior",
+          "fg": 7967
+        },
+        {
+          "id": "overlay_male_wielded_spear_rebar",
+          "fg": 7972
+        },
+        {
+          "id": "overlay_female_wielded_spear_rebar",
+          "fg": 7971
+        },
+        {
+          "id": "overlay_male_wielded_spear_pipe",
+          "fg": 7970
+        },
+        {
+          "id": "overlay_female_wielded_spear_pipe",
+          "fg": 7969
+        },
+        {
+          "id": "overlay_male_wielded_spear_steel",
+          "fg": 7976
+        },
+        {
+          "id": "overlay_female_wielded_spear_steel",
+          "fg": 7975
+        },
+        {
+          "id": "overlay_male_wielded_spear_copper",
           "fg": 7964
         },
         {
+          "id": "overlay_female_wielded_spear_copper",
+          "fg": 7963
+        },
+        {
           "id": "overlay_female_wielded_splinter",
-          "fg": 7980
+          "fg": 7979
         },
         {
           "id": "overlay_male_wielded_splinter",
+          "fg": 7980
+        },
+        {
+          "id": "overlay_wielded_knife_steak",
           "fg": 7981
         },
         {
@@ -36742,10 +36750,6 @@
           "fg": 7313
         },
         {
-          "id": "overlay_wielded_knife_huge_var_knife_butcher",
-          "fg": 7338
-        },
-        {
           "id": "overlay_female_wielded_clay_teapot",
           "fg": 7349
         },
@@ -38082,236 +38086,232 @@
           "fg": 7766
         },
         {
-          "id": "overlay_wielded_knife_small_var_knife_steak",
+          "id": "overlay_wielded_primitive_knife",
           "fg": 7784
         },
         {
-          "id": "overlay_wielded_primitive_knife",
-          "fg": 7785
-        },
-        {
           "id": "overlay_wielded_mace_bronze",
-          "fg": 7796
+          "fg": 7795
         },
         {
           "id": "overlay_wielded_mace_simple",
-          "fg": 7797
+          "fg": 7796
         },
         {
           "id": "overlay_wielded_mace_trench",
-          "fg": 7798
+          "fg": 7797
         },
         {
           "id": "overlay_female_wielded_manhole_cover",
-          "fg": 7804
+          "fg": 7803
         },
         {
           "id": "overlay_male_wielded_manhole_cover",
-          "fg": 7805
+          "fg": 7804
         },
         {
           "id": "overlay_wielded_eyedrops",
-          "fg": 7812
+          "fg": 7811
         },
         {
           "id": "overlay_female_wielded_baseball",
-          "fg": 7822
+          "fg": 7821
         },
         {
           "id": "overlay_female_wielded_basketball",
-          "fg": 7823
+          "fg": 7822
         },
         {
           "id": "overlay_female_wielded_beach_volleyball",
-          "fg": 7824
+          "fg": 7823
         },
         {
           "id": "overlay_female_wielded_mre_beef_box",
-          "fg": 7825
+          "fg": 7824
         },
         {
           "id": "overlay_female_wielded_puck",
-          "fg": 7826
+          "fg": 7825
         },
         {
           "id": "overlay_male_wielded_baseball",
-          "fg": 7827
+          "fg": 7826
         },
         {
           "id": "overlay_male_wielded_basketball",
-          "fg": 7828
+          "fg": 7827
         },
         {
           "id": "overlay_male_wielded_beach_volleyball",
-          "fg": 7829
+          "fg": 7828
         },
         {
           "id": "overlay_male_wielded_mre_beef_box",
-          "fg": 7830
+          "fg": 7829
         },
         {
           "id": "overlay_male_wielded_puck",
-          "fg": 7831
+          "fg": 7830
         },
         {
           "id": "overlay_wielded_PR24-extended",
-          "fg": 7832
+          "fg": 7831
         },
         {
           "id": "overlay_wielded_PR24-retracted",
-          "fg": 7833
+          "fg": 7832
         },
         {
           "id": "overlay_wielded_baton-extended",
-          "fg": 7834
+          "fg": 7833
         },
         {
           "id": "overlay_wielded_baton",
-          "fg": 7835
+          "fg": 7834
         },
         {
           "id": "overlay_wielded_battery_car",
-          "fg": 7836
+          "fg": 7835
         },
         {
           "id": "overlay_wielded_bowling_ball",
-          "fg": 7837
+          "fg": 7836
         },
         {
           "id": "overlay_wielded_cell_phone",
-          "fg": 7838
+          "fg": 7837
         },
         {
           "id": "overlay_wielded_cell_phone_flashlight",
-          "fg": 7839
+          "fg": 7838
         },
         {
           "id": "overlay_wielded_codeine",
-          "fg": 7840
+          "fg": 7839
         },
         {
           "id": "overlay_wielded_flask_hip",
-          "fg": 7841
+          "fg": 7840
         },
         {
           "id": "overlay_wielded_football",
-          "fg": 7842
+          "fg": 7841
         },
         {
           "id": "overlay_wielded_golf_ball",
-          "fg": 7843
+          "fg": 7842
         },
         {
           "id": "overlay_wielded_indoor_volleyball",
-          "fg": 7844
+          "fg": 7843
         },
         {
           "id": "overlay_wielded_misc_repairkit",
-          "fg": 7845
+          "fg": 7844
         },
         {
           "id": "overlay_wielded_portable_game",
-          "fg": 7846
+          "fg": 7845
         },
         {
           "id": "overlay_wielded_two_way_radio",
-          "fg": 7848
+          "fg": 7847
         },
         {
           "id": "overlay_female_wielded_pool_cue",
-          "fg": 7864
+          "fg": 7863
         },
         {
           "id": "overlay_male_wielded_pool_cue",
-          "fg": 7865
+          "fg": 7864
         },
         {
           "id": "overlay_female_wielded_i_staff",
-          "fg": 7873
+          "fg": 7872
         },
         {
           "id": "overlay_female_wielded_q_staff",
-          "fg": 7874
+          "fg": 7873
         },
         {
           "id": "overlay_female_wielded_shock_staff",
-          "fg": 7875
+          "fg": 7874
         },
         {
           "id": "overlay_male_wielded_i_staff",
-          "fg": 7876
+          "fg": 7875
         },
         {
           "id": "overlay_male_wielded_q_staff",
-          "fg": 7877
+          "fg": 7876
         },
         {
           "id": "overlay_male_wielded_shock_staff",
-          "fg": 7878
+          "fg": 7877
         },
         {
           "id": "overlay_wielded_shark_plushie",
-          "fg": 7888
+          "fg": 7887
         },
         {
           "id": "overlay_wielded_bronze_sickle",
-          "fg": 7891
+          "fg": 7890
         },
         {
           "id": "overlay_wielded_sickle",
-          "fg": 7892
+          "fg": 7891
         },
         {
           "id": "overlay_wielded_sickle_stone",
-          "fg": 7893
+          "fg": 7892
         },
         {
           "id": "overlay_female_wielded_cigar",
-          "fg": 7894
+          "fg": 7893
         },
         {
           "id": "overlay_female_wielded_cigar_butt",
-          "fg": 7895
+          "fg": 7894
         },
         {
           "id": "overlay_male_wielded_cigar",
-          "fg": 7903
+          "fg": 7902
         },
         {
           "id": "overlay_male_wielded_cigar_butt",
-          "fg": 7904
+          "fg": 7903
         },
         {
           "id": "overlay_female_wielded_cig",
-          "fg": 7912
+          "fg": 7911
         },
         {
           "id": "overlay_female_wielded_cig_butt",
-          "fg": 7913
+          "fg": 7912
         },
         {
           "id": "overlay_male_wielded_cig",
-          "fg": 7921
+          "fg": 7920
         },
         {
           "id": "overlay_male_wielded_cig_butt",
-          "fg": 7922
+          "fg": 7921
         },
         {
           "id": "overlay_female_wielded_joint",
-          "fg": 7930
+          "fg": 7929
         },
         {
           "id": "overlay_female_wielded_joint_roach",
-          "fg": 7938
+          "fg": 7937
         },
         {
           "id": "overlay_male_wielded_joint",
-          "fg": 7939
+          "fg": 7938
         },
         {
           "id": "overlay_male_wielded_joint_roach",
-          "fg": 7947
+          "fg": 7946
         },
         {
           "id": "overlay_female_wielded_sword_wood_large",
