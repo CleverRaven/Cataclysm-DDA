@@ -52,5 +52,28 @@
       { "monster": "mon_zombie_child_fungus", "weight": 50, "cost_multiplier": 0 },
       { "monster": "mon_fungaloid_seeder", "weight": 0, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FUNGI_ZOMBIE",
+    "monsters": [
+      { "monster": "mon_fungal_blossom", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_fungaloid_shambler", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fungus", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_boomer_fungus", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_child_fungus", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_gasbag_fungus", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_smoker_fungus", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_skeleton_fungus", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_runner_fungal", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_rot_fungal", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_tough_fungal", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_crawler_fungal", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat_fungus", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_beekeeper_fungal", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fungus_acidic", "weight": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_dog_fungus", "weight": 50, "cost_multiplier": 0 }
+    ]
   }
 ]
