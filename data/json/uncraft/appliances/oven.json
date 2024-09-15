@@ -126,7 +126,6 @@
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 6 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "solder_wire", 8 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
   }

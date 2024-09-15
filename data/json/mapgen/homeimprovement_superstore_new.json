@@ -63,7 +63,6 @@
     "furniture": {
       "$": "f_atm_off",
       "x": "f_console_broken",
-      "V": "f_vending_c",
       "h": "f_chair",
       "C": "f_chair",
       "T": "f_table",
@@ -206,7 +205,6 @@
         "d": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
         "D": { "item": "hardware_trash", "chance": 40, "repeat": [ 1, 3 ] },
         "Q": { "item": "bed", "chance": 65, "repeat": [ 1, 2 ] },
-        "V": { "item": "vending_drink_home_impr", "chance": 85, "repeat": [ 5, 12 ] },
         "1": { "item": "paint", "chance": 80, "repeat": [ 1, 8 ] },
         "2": { "item": "rug", "chance": 80, "repeat": [ 1, 8 ] },
         "3": [
@@ -234,6 +232,7 @@
           { "item": "hardware_clothing", "chance": 55, "repeat": [ 1, 8 ] }
         ]
       },
+      "vendingmachines": { "V": { "item_group": "vending_drink_home_impr", "lootable": true } },
       "place_monster": [
         { "group": "GROUP_CIVILIAN", "x": [ 24, 45 ], "y": [ 2, 23 ], "repeat": [ 1, 3 ] },
         { "group": "GROUP_CIVILIAN", "x": [ 24, 45 ], "y": [ 24, 47 ], "repeat": [ 1, 3 ] },

@@ -52,7 +52,7 @@
       "rows": [
         "----------------------ss",
         "-__________________|vsss",
-        "-__________________|vsss",
+        "-__________________|Vsss",
         "-__|||||||||||||||||ssss",
         "-__|...{{..........wssss",
         "-__|...............wssss",
@@ -105,21 +105,19 @@
         "f": "f_dahlia",
         "h": "f_hay",
         "i": "f_indoor_plant",
-        "v": "f_vending_c",
         "{": "f_rack"
       },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
       "place_item": [ { "item": "rock", "repeat": 1, "x": 9, "y": 15 }, { "item": "pine_bough", "repeat": 1, "x": 9, "y": 21 } ],
       "place_items": [
         { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
-        { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
         { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
         { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
         { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
         { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
-        { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
-        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
+        { "chance": 75, "item": "shirts", "x": 4, "y": 11 }
       ],
       "place_monster": [
         { "monster": "mon_velociraptor", "x": 8, "y": 16 },
@@ -139,7 +137,7 @@
       "rows": [
         "----------------------ss",
         "-__________________|vsss",
-        "-__________________|vsss",
+        "-__________________|Vsss",
         "-__|||||||||||||||||ssss",
         "-__|...{{..........wssss",
         "-__|...............wssss",
@@ -191,20 +189,18 @@
         "f": "f_dahlia",
         "h": "f_hay",
         "i": "f_indoor_plant",
-        "v": "f_vending_c",
         "{": "f_rack"
       },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
         { "chance": 55, "item": "toy_store", "x": 12, "y": [ 6, 7 ] },
-        { "chance": 75, "item": "vending_food", "x": 20, "y": 2 },
         { "chance": 55, "item": "trash", "x": 13, "y": 15 },
         { "chance": 55, "item": "trash", "x": 13, "y": 10 },
         { "chance": 55, "item": "snacks", "x": 10, "y": 11 },
         { "chance": 55, "item": "snacks", "x": [ 7, 8 ], "y": 4 },
         { "chance": 55, "item": "candy_shop", "x": 10, "y": [ 6, 7 ] },
         { "chance": 75, "item": "shirts", "x": 10, "y": 12 },
-        { "chance": 75, "item": "shirts", "x": 4, "y": 11 },
-        { "chance": 75, "item": "vending_drink", "x": 20, "y": 1 }
+        { "chance": 75, "item": "shirts", "x": 4, "y": 11 }
       ],
       "place_item": [
         { "item": "rock", "repeat": 1, "x": 9, "y": 15 },
@@ -355,7 +351,7 @@
       "rows": [
         "..----------------------",
         "...#||||||||{..|dc_ddd_|",
-        "...#|&|&|HT|{..+d+dd_dd|",
+        "...#|&|&|HT|}..+d+dd_dd|",
         "....|a|a|ff|...bcc_ddud|",
         "...#|fffffC|...bsddd__d|",
         "...#|fffffS|...bssd____|",
@@ -416,9 +412,9 @@
         "T": "f_trashcan",
         "e": "f_chamomile",
         "h": "f_dandelion",
-        "t": "f_trashcan",
-        "{": "f_vending_c"
+        "t": "f_trashcan"
       },
+      "vendingmachines": { "{": { "item_group": "vending_drink", "lootable": true }, "}": { "item_group": "vending_food", "lootable": true } },
       "place_item": [
         { "item": "stick", "repeat": 1, "x": 19, "y": 1 },
         { "item": "stick", "repeat": 1, "x": 20, "y": 4 },
@@ -428,8 +424,6 @@
         { "item": "stick", "repeat": 1, "x": 6, "y": 15 }
       ],
       "place_items": [
-        { "chance": 55, "item": "vending_drink", "x": 12, "y": 2 },
-        { "chance": 65, "item": "vending_food", "x": 12, "y": 1 },
         { "chance": 55, "item": "trash", "x": 8, "y": 19 },
         { "chance": 55, "item": "trash", "x": 12, "y": 6 },
         { "chance": 55, "item": "trash", "x": 10, "y": 2 }
@@ -460,7 +454,7 @@
       "rows": [
         "..----------------------",
         "...#||||||||{..|dc_ddd_|",
-        "...#|&|&|HT|{..+d+dd_dd|",
+        "...#|&|&|HT|}..+d+dd_dd|",
         "....|a|a|ff|...bcc_ddud|",
         "...#|fffffC|...bsddd__d|",
         "...#|fffffS|...bssd____|",
@@ -520,12 +514,10 @@
         "T": "f_trashcan",
         "e": "f_chamomile",
         "h": "f_dandelion",
-        "t": "f_trashcan",
-        "{": "f_vending_c"
+        "t": "f_trashcan"
       },
+      "vendingmachines": { "{": { "item_group": "vending_drink", "lootable": true }, "}": { "item_group": "vending_food", "lootable": true } },
       "place_items": [
-        { "chance": 55, "item": "vending_drink", "x": 12, "y": 2 },
-        { "chance": 65, "item": "vending_food", "x": 12, "y": 1 },
         { "chance": 55, "item": "trash", "x": 8, "y": 19 },
         { "chance": 55, "item": "trash", "x": 12, "y": 6 },
         { "chance": 55, "item": "trash", "x": 10, "y": 2 }
