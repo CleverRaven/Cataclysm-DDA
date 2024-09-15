@@ -683,48 +683,6 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "lc_wire",
-    "id_suffix": "scrap",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "3 h",
-    "result_mult": 6,
-    "autolearn": true,
-    "using": [ [ "blacksmithing_scrap", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "lc_wire",
-    "id_suffix": "scrap_wire_draw_machine",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "1 h 30 m",
-    "result_mult": 6,
-    "autolearn": true,
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_wiremaking" }
-    ],
-    "tools": [
-      [ [ "metalworking_tongs_any", 1, "LIST" ] ],
-      [ [ "hotcut_any", 1, "LIST" ] ],
-      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
-      [ [ "wire_draw_machine", 100 ] ]
-    ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "lc_wire",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
