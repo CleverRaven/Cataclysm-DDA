@@ -95,7 +95,7 @@
     "id": "changeling_noble_burning_weapon_spell",
     "type": "SPELL",
     "name": "Fires of Bealtaine",
-    "description": "Set a weapon to burn with the purifying light of Bealtaine's bonfires, illuminating your surroundings and causing the weapon to burn anything it strikes.   It does additional damage to creatures of the Nether.  The glamour will not work without a weapon to affect.",
+    "description": "Set a weapon to burn with the purifying light of Bealtaine's bonfires, illuminating your surroundings and causing the weapon to burn anything it strikes.  It does additional damage to creatures of the Nether.  The glamour will not work without a weapon to affect.",
     "message": "",
     "flags": [ "NO_FAIL", "VERBAL", "RANDOM_DURATION" ],
     "valid_targets": [ "self" ],

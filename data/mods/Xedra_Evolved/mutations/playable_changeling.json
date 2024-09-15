@@ -7,7 +7,7 @@
     "name": "Unknowing Changeling, Noble (Species)",
     "description": "You grew up thinking you were human, just another person among billions, but you were born Under the Hill and swapped for a human baby shortly after birth.  Your parents were the nobility of the Fair Folk, the great lords and ladies who traveled in spider-silk carriages on roads built of moonbeams and danced the unending nights away before leading fantastic armies in battle the next morning.  When the Cataclysm hit, your parents' slumbering power asserted itself, giving you access to a portion of their fae magick.  Hopefully it will help you survive.",
     "points": 4,
-    "traits": [ "THRESH_FAIR_FOLK_NOBLE", "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ]
+    "traits": [ "ELFA_EARS", "CHANGELING_MAGIC", "UNKNOWING_CHANGELING_NOBLE" ]
   },
   {
     "type": "profession",
@@ -23,10 +23,11 @@
     "id": "THRESH_FAIR_FOLK_NOBLE",
     "name": { "str": "Noble Changeling" },
     "points": 0,
-    "description": "You are one of the nobility of the Fair Folk.",
+    "description": "You have awakened your long-slumbering heritage as one of the nobility of the Fair Folk.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.75 } ] } ]
   },
   {
     "type": "mutation",
@@ -63,7 +64,17 @@
     "category": [ "FAIR_FOLK_NOBLE" ],
     "types": [ "HERITAGE" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 100" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.02" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -71,17 +82,28 @@
     "copy-from": "UNKNOWING_CHANGELING_NOBLE",
     "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
     "allowed_category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 45" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 0.01" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
     "name": { "str": "Brownie Changeling" },
     "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from brownies.",
+    "description": "You have awakened your long-slumbering heritage as a brownie, hard-working and mostly unseen.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.35 } ] } ]
   },
   {
     "type": "mutation",
@@ -89,17 +111,28 @@
     "copy-from": "UNKNOWING_CHANGELING_NOBLE",
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
     "allowed_category": [ "FAIR_FOLK_COMMONER_POOKA" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 65" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.01" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_POOKA",
     "name": { "str": "Pooka Changeling" },
     "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from pookas.",
+    "description": "You have awakened your long-slumbering heritage as a pooka, a shapeshifter close to nature.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.45 } ] } ]
   },
   {
     "type": "mutation",
@@ -107,17 +140,28 @@
     "copy-from": "UNKNOWING_CHANGELING_NOBLE",
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "allowed_category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 35" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 0.01" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_SELKIE",
     "name": { "str": "Selkie Changeling" },
     "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from selkies.",
+    "description": "You have awakened your long-slumbering heritage as a selkie, with one foot on the land and one in the sea.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -125,17 +169,28 @@
     "copy-from": "UNKNOWING_CHANGELING_NOBLE",
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
     "allowed_category": [ "FAIR_FOLK_COMMONER_TROW" ],
-    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_MANA", "add": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 20" ] } },
+          {
+            "value": "REGEN_MANA",
+            "multiply": { "math": [ "u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') * 0.01" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
     "id": "THRESH_FAIR_FOLK_COMMONER_TROW",
     "name": { "str": "Trow Changeling" },
     "points": 0,
-    "description": "You are one of the masses of the Fair Folk, descended from trow.",
+    "description": "You have awakened your long-slumbering heritage as a trow, strong and enduring as the mountains.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -519,7 +574,6 @@
     "prereqs2": [ "STR_UP_2", "STR_UP_3" ],
     "changes_to": [ "PAINRESIST_TROW2" ],
     "category": [ "FAIR_FOLK_COMMONER_TROW" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ],
     "enchantments": [
       {
         "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_val('pos_z')", "<=", "-1" ] } ] },
