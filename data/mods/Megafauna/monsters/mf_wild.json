@@ -30,7 +30,7 @@
     "harvest": "pelt_megafauna",
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND", "FIRE" ],
-    "reproduction": { "baby_monster": "mon_giant_beaver_cub", "baby_count": 4, "baby_timer": 360 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_giant_beaver_cub" }, "baby_count": 4, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "SWIMS", "WARM" ],
     "armor": { "bash": 5, "cut": 10, "stab": 5 }
@@ -87,7 +87,7 @@
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "shearing": [ { "result": "wool_staple", "ratio_volume": 0.05 } ],
     "fear_triggers": [ "FIRE" ],
-    "reproduction": { "baby_monster": "mon_large_claw_sloth_cub", "baby_count": 1, "baby_timer": 1080 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_large_claw_sloth_cub" }, "baby_count": 1, "baby_timer": 1080 },
     "baby_flags": [ "SPRING" ],
     "petfood": {
       "food": [ "CATTLEFOOD" ],
@@ -148,7 +148,7 @@
     "starting_ammo": { "milk_raw": 3 },
     "anger_triggers": [ "HURT", "MATING_SEASON", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FIRE", "SOUND" ],
-    "reproduction": { "baby_monster": "mon_stagmoose_cub", "baby_count": 1, "baby_timer": 360 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_stagmoose_cub" }, "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SPRING", "AUTUMN" ],
     "harvest": "pelt_megafauna",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
@@ -221,7 +221,7 @@
     "fear_triggers": [ "FIRE" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 1 },
     "harvest": "woolly_mammoth",
-    "reproduction": { "baby_monster": "mon_mammoth_cub", "baby_count": 1, "baby_timer": 720 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_mammoth_cub" }, "baby_count": 1, "baby_timer": 720 },
     "baby_flags": [ "AUTUMN" ],
     "special_attacks": [
       [ "EAT_FOOD", 100 ],
@@ -336,7 +336,7 @@
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY", "MATING_SEASON" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 1 },
     "harvest": "mammoth",
-    "reproduction": { "baby_monster": "mon_mastodon_cub", "baby_count": 1, "baby_timer": 720 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_mastodon_cub" }, "baby_count": 1, "baby_timer": 720 },
     "baby_flags": [ "AUTUMN" ],
     "special_attacks": [
       [ "EAT_FOOD", 100 ],
@@ -448,7 +448,7 @@
     "fear_triggers": [ "FIRE", "SOUND" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 4 },
     "harvest": "pelt_megafauna",
-    "reproduction": { "baby_monster": "mon_shortface_cub", "baby_count": 1, "baby_timer": 720 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_shortface_cub" }, "baby_count": 1, "baby_timer": 720 },
     "baby_flags": [ "SPRING" ],
     "special_attacks": [
       [ "EAT_FOOD", 60 ],
@@ -512,7 +512,7 @@
     "dissect": "dissect_bird_sample_single",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_auk", "baby_count": 1, "baby_timer": 360 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_auk" }, "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "SWIMS" ]
@@ -556,7 +556,7 @@
     "fear_triggers": [ "SOUND" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 4 },
     "harvest": "glyptotherium",
-    "reproduction": { "baby_monster": "mon_glyptotherium_young", "baby_count": 1, "baby_timer": 120 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_glyptotherium_young" }, "baby_count": 1, "baby_timer": 120 },
     "baby_flags": [ "SPRING" ],
     "special_attacks": [
       [ "EAT_FOOD", 60 ],
@@ -625,7 +625,7 @@
     "starting_ammo": { "milk_raw": 1 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "reproduction": { "baby_monster": "mon_zebra_foal", "baby_count": 1, "baby_timer": 360 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_zebra_foal" }, "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "AUTUMN" ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "mountable_weight_ratio": 0.3,
