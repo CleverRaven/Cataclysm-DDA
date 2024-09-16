@@ -21,1831 +21,859 @@
           {
             "case": 1,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PSYCHOPATH_1",
-                    "effect": [
-                      { "u_mutate_towards": "PSYCHOPATH" },
-                      {
-                        "u_message": "It's a good thing that all of those people don't really matter.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "PSYCHOPATH" },
+              { "u_message": "It's a good thing that all of those people don't really matter.", "type": "neutral" }
             ]
           },
           {
             "case": 2,
             "effect": [
+              { "u_lose_trait": "PSYCHOPATH" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PSYCHOPATH_2",
-                    "effect": [
-                      { "u_lose_trait": "PSYCHOPATH" },
-                      {
-                        "u_message": "Looking back at your past actions, you really hope you didn't do anything that you will now regret.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Looking back at your past actions, you really hope you didn't do anything that you will now regret.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 3,
             "effect": [
+              { "u_mutate_towards": "KILLER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_KILLER_1",
-                    "effect": [
-                      { "u_mutate_towards": "KILLER" },
-                      {
-                        "u_message": "Its a good thing the Cataclysm has given you more targets than you'll ever be able to kill.  You can dream about it though.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Its a good thing the Cataclysm has given you more targets than you'll ever be able to kill.  You can dream about it though.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 4,
             "effect": [
+              { "u_lose_trait": "KILLER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_KILLER_2",
-                    "effect": [
-                      { "u_lose_trait": "KILLER" },
-                      {
-                        "u_message": "Was killing all those things really necessary?  You just don't see the point anymore.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Was killing all those things really necessary?  You just don't see the point anymore.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 5,
             "effect": [
+              { "u_mutate_towards": "PACIFIST" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PACIFIST_1",
-                    "effect": [
-                      { "u_mutate_towards": "PACIFIST" },
-                      {
-                        "u_message": "You cannot stop thinking of the more peaceful times before this all started.  Maybe there's a way for you to just stop fighting?",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You cannot stop thinking of the more peaceful times before this all started.  Maybe there's a way for you to just stop fighting?",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 6,
             "effect": [
+              { "u_lose_trait": "PACIFIST" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PACIFIST_2",
-                    "effect": [
-                      { "u_lose_trait": "PACIFIST" },
-                      {
-                        "u_message": "Your past desires were really holding you back.  Now you're more at ease with what you must do.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Your past desires were really holding you back.  Now you're more at ease with what you must do.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 7,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NUMB_1",
-                    "effect": [ { "u_mutate_towards": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
           },
           {
             "case": 8,
             "effect": [
+              { "u_lose_trait": "NUMB" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NUMB_2",
-                    "effect": [
-                      { "u_lose_trait": "NUMB" },
-                      {
-                        "u_message": "Compared to your prior state, you are suddenly overwhelmed with emotion!",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Compared to your prior state, you are suddenly overwhelmed with emotion!",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 9,
             "effect": [
+              { "u_mutate_towards": "NYCTOPHOBIA" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NYCTOPHOBIA_1",
-                    "effect": [
-                      { "u_mutate_towards": "NYCTOPHOBIA" },
-                      {
-                        "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because that's so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because that's so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 10,
             "effect": [
+              { "u_lose_trait": "NYCTOPHOBIA" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NYCTOPHOBIA_2",
-                    "effect": [
-                      { "u_lose_trait": "NYCTOPHOBIA" },
-                      {
-                        "u_message": "How could you ever have let just a little bit of darkness affect you so much?",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "How could you ever have let just a little bit of darkness affect you so much?",
+                "type": "good"
               }
             ]
           },
           {
             "case": 11,
             "effect": [
+              { "u_mutate_towards": "VANITY" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_VANITY_1",
-                    "effect": [
-                      { "u_mutate_towards": "VANITY" },
-                      {
-                        "u_message": "It's so much easier to recognize how you are just that much more attractive than everyone else.  You need to make sure they know it.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "It's so much easier to recognize how you are just that much more attractive than everyone else.  You need to make sure they know it.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 12,
             "effect": [
+              { "u_lose_trait": "VANITY" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_VANITY_2",
-                    "effect": [
-                      { "u_lose_trait": "VANITY" },
-                      {
-                        "u_message": "How could you have ever thought that way?  Of all the silly things to feel, especially in times like these.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "How could you have ever thought that way?  Of all the silly things to feel, especially in times like these.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 13,
             "effect": [
+              { "u_mutate_towards": "PICKYEATER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PICKYEATER_1",
-                    "effect": [
-                      { "u_mutate_towards": "PICKYEATER" },
-                      {
-                        "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slightest taste of that slop!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slightest taste of that slop!",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 14,
             "effect": [
+              { "u_lose_trait": "PICKYEATER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PICKYEATER_2",
-                    "effect": [
-                      { "u_lose_trait": "PICKYEATER" },
-                      {
-                        "u_message": "Your mind and stomach simultaneously grown in relief at your food palette expanding.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Your mind and stomach simultaneously grown in relief at your food palette expanding.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 15,
             "effect": [
+              { "u_mutate_towards": "SOCIAL1" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SOCIAL1_1",
-                    "effect": [
-                      { "u_mutate_towards": "SOCIAL1" },
-                      {
-                        "u_message": "Since there's so few people left alive, you're at least happy that you generally enjoy their company.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Since there's so few people left alive, you're at least happy that you generally enjoy their company.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 16,
             "effect": [
+              { "u_lose_trait": "SOCIAL1" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SOCIAL1_2",
-                    "effect": [
-                      { "u_lose_trait": "SOCIAL1" },
-                      {
-                        "u_message": "Getting your energy from interacting with others was not the worst idea in the world, but also not the best.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Getting your energy from interacting with others was not the worst idea in the world, but also not the best.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 17,
             "effect": [
+              { "u_mutate_towards": "SOCIAL2" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SOCIAL2_1",
-                    "effect": [
-                      { "u_mutate_towards": "SOCIAL2" },
-                      {
-                        "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot believe that the Cataclysm is getting in the way of that!",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot believe that the Cataclysm is getting in the way of that!",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 18,
             "effect": [
+              { "u_mutate_towards": "SOCIAL1" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SOCIAL2_2",
-                    "effect": [
-                      { "u_mutate_towards": "SOCIAL1" },
-                      {
-                        "u_message": "As much as you enjoy a good conversation, you've gotten over the reality that people just aren't around anymore. You'll have to live with that.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "As much as you enjoy a good conversation, you've gotten over the reality that people just aren't around anymore. You'll have to live with that.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 19,
             "effect": [
+              { "u_mutate_towards": "ASOCIAL1" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_ASOCIAL1_1",
-                    "effect": [
-                      { "u_mutate_towards": "ASOCIAL1" },
-                      {
-                        "u_message": "Since there's so few people left alive, you are no longer forced to talk with anyone.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Since there's so few people left alive, you are no longer forced to talk with anyone.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 20,
             "effect": [
+              { "u_lose_trait": "ASOCIAL1" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_ASOCIAL1_2",
-                    "effect": [
-                      { "u_lose_trait": "ASOCIAL1" },
-                      {
-                        "u_message": "There's definitely someone out there right? It's a shame you cannot enjoy your solitude anymore.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "There's definitely someone out there right? It's a shame you cannot enjoy your solitude anymore.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 21,
             "effect": [
+              { "u_mutate_towards": "ASOCIAL2" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_ASOCIAL2_1",
-                    "effect": [
-                      { "u_mutate_towards": "ASOCIAL2" },
-                      {
-                        "u_message": "You absolutely detest having to interact with anyone else!  It's a good thing you'll never have to again!",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You absolutely detest having to interact with anyone else!  It's a good thing you'll never have to again!",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 22,
             "effect": [
+              { "u_mutate_towards": "ASOCIAL1" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_ASOCIAL2_2",
-                    "effect": [
-                      { "u_mutate_towards": "ASOCIAL1" },
-                      {
-                        "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you definitely don't have a problem with other people anymore.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you definitely don't have a problem with other people anymore.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 23,
             "effect": [
+              { "u_mutate_towards": "HATES_WATER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_HATES_WATER_1",
-                    "effect": [
-                      { "u_mutate_towards": "HATES_WATER" },
-                      {
-                        "u_message": "The thought of getting your fur wet is completely terrible!  You need to remain warm and dry!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "The thought of getting your fur wet is completely terrible!  You need to remain warm and dry!",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 24,
             "effect": [
+              { "u_lose_trait": "HATES_WATER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_HATES_WATER_2",
-                    "effect": [
-                      { "u_lose_trait": "HATES_WATER" },
-                      {
-                        "u_message": "Earlier you was over-reacting a bit.  You cannot really connect with why water was just that bad.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Earlier you was over-reacting a bit.  You cannot really connect with why water was just that bad.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 25,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_OUTDOORSMAN_1",
-                    "effect": [
-                      { "u_mutate_towards": "OUTDOORSMAN" },
-                      { "u_message": "Being wet is just a natural part of living.  Especially now.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "OUTDOORSMAN" },
+              { "u_message": "Being wet is just a natural part of living.  Especially now.", "type": "good" }
             ]
           },
           {
             "case": 26,
             "effect": [
+              { "u_lose_trait": "OUTDOORSMAN" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_OUTDOORSMAN_2",
-                    "effect": [
-                      { "u_lose_trait": "OUTDOORSMAN" },
-                      {
-                        "u_message": "You go back to the pre-cataclysm baseline of disliking being soaked.  Useful for pretending you're in a better time.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You go back to the pre-cataclysm baseline of disliking being soaked.  Useful for pretending you're in a better time.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 27,
             "effect": [
+              { "u_mutate_towards": "BRAWLER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_BRAWLER_1",
-                    "effect": [
-                      { "u_mutate_towards": "BRAWLER" },
-                      {
-                        "u_message": "Guns are just too scary.  The loud bang, the thought of them being used on you...  Despite their utility, there's no way you could get close to one of them.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Guns are just too scary.  The loud bang, the thought of them being used on you...  Despite their utility, there's no way you could get close to one of them.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 28,
             "effect": [
+              { "u_lose_trait": "BRAWLER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_BRAWLER_2",
-                    "effect": [
-                      { "u_lose_trait": "BRAWLER" },
-                      {
-                        "u_message": "The thought of getting shot may still scare you, but the thought of not being able to fight back is on another level.  How did you ever let yourself not use these tools?",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "The thought of getting shot may still scare you, but the thought of not being able to fight back is on another level.  How did you ever let yourself not use these tools?",
+                "type": "good"
               }
             ]
           },
           {
             "case": 29,
             "effect": [
+              { "u_mutate_towards": "WAYFARER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_WAYFARER_1",
-                    "effect": [
-                      { "u_mutate_towards": "WAYFARER" },
-                      {
-                        "u_message": "There's so much that could go wrong if you ever got behind a wheel.  Cars used to be one of the largest causes of death before the Cataclysm, and there's definitely no need to decrease your odds by getting in one now!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "There's so much that could go wrong if you ever got behind a wheel.  Cars used to be one of the largest causes of death before the Cataclysm, and there's definitely no need to decrease your odds by getting in one now!",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 30,
             "effect": [
+              { "u_lose_trait": "WAYFARER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_WAYFARER_2",
-                    "effect": [
-                      { "u_lose_trait": "WAYFARER" },
-                      {
-                        "u_message": "No buses, no trains, no planes.  You've been met with a simultaneous need to travel distances and a vast reduction in your tools to do so.  Forcing yourself to be able to drive cars was a good idea.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "No buses, no trains, no planes.  You've been met with a simultaneous need to travel distances and a vast reduction in your tools to do so.  Forcing yourself to be able to drive cars was a good idea.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 31,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NOMAD_1",
-                    "effect": [
-                      { "u_mutate_towards": "NOMAD" },
-                      {
-                        "u_message": "You immediately start considering all the places you haven't seen.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "NOMAD" },
+              { "u_message": "You immediately start considering all the places you haven't seen.", "type": "bad" }
             ]
           },
           {
             "case": 32,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NOMAD_2",
-                    "effect": [ { "u_lose_trait": "NOMAD" }, { "u_message": "You cannot wait to finally settle down.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_lose_trait": "NOMAD" }, { "u_message": "You cannot wait to finally settle down.", "type": "good" } ]
           },
           {
             "case": 33,
             "effect": [
+              { "u_mutate_towards": "NOMAD2" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NOMAD2_1",
-                    "effect": [
-                      { "u_mutate_towards": "NOMAD2" },
-                      {
-                        "u_message": "This place sucks.  You really want to see something else, and you cannot wait to get there.  Onwards!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "This place sucks.  You really want to see something else, and you cannot wait to get there.  Onwards!",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 34,
             "effect": [
+              { "u_mutate_towards": "NOMAD" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NOMAD2_2",
-                    "effect": [
-                      { "u_mutate_towards": "NOMAD" },
-                      {
-                        "u_message": "The thought of that far-away place seems just a little less necessary.  You still want to go there though.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "The thought of that far-away place seems just a little less necessary.  You still want to go there though.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 35,
             "effect": [
+              { "u_mutate_towards": "NOMAD3" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NOMAD3_1",
-                    "effect": [
-                      { "u_mutate_towards": "NOMAD3" },
-                      {
-                        "u_message": "Keep moving keep moving keep moving keep moving keep moving keep moving!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Keep moving keep moving keep moving keep moving keep moving keep moving!",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 36,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NOMAD3_2",
-                    "effect": [
-                      { "u_mutate_towards": "NOMAD2" },
-                      { "u_message": "Perhaps you can wait a couple of minutes before leaving.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "NOMAD2" },
+              { "u_message": "Perhaps you can wait a couple of minutes before leaving.", "type": "good" }
             ]
           },
           {
             "case": 37,
             "effect": [
+              { "u_mutate_towards": "SQUEAMISH" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SQUEAMISH_1",
-                    "effect": [
-                      { "u_mutate_towards": "SQUEAMISH" },
-                      {
-                        "u_message": "The blood and cuts that come alongside combat is bad enough. Putting such disgusting clothes on your skin is absolutely not an option.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "The blood and cuts that come alongside combat is bad enough. Putting such disgusting clothes on your skin is absolutely not an option.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 38,
             "effect": [
+              { "u_lose_trait": "SQUEAMISH" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SQUEAMISH_2",
-                    "effect": [
-                      { "u_lose_trait": "SQUEAMISH" },
-                      {
-                        "u_message": "Tainted clothes are still gross, and with other options you'll obviously never use them.  There's probably some situation out there though that could make it worth it.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Tainted clothes are still gross, and with other options you'll obviously never use them.  There's probably some situation out there though that could make it worth it.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 39,
             "effect": [
+              { "u_mutate_towards": "PROF_DICEMASTER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PROF_DICEMASTER_1",
-                    "effect": [
-                      { "u_mutate_towards": "PROF_DICEMASTER" },
-                      {
-                        "u_message": "You know, maybe you can find some people to DM with.  If not though, you think that there's probably some side benefits to adjusting your head this way.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You know, maybe you can find some people to DM with.  If not though, you think that there's probably some side benefits to adjusting your head this way.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 40,
             "effect": [
+              { "u_lose_trait": "PROF_DICEMASTER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PROF_DICEMASTER_2",
-                    "effect": [
-                      { "u_lose_trait": "PROF_DICEMASTER" },
-                      {
-                        "u_message": "That nerd stuff isn't for you.  Who needs to be able to read complicated topics in this day and age?",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "That nerd stuff isn't for you.  Who needs to be able to read complicated topics in this day and age?",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 41,
             "effect": [
+              { "u_mutate_towards": "PYROMANIA" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PYROMANIA_1",
-                    "effect": [
-                      { "u_mutate_towards": "PYROMANIA" },
-                      {
-                        "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 42,
             "effect": [
+              { "u_lose_trait": "PYROMANIA" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PYROMANIA_2",
-                    "effect": [
-                      { "u_lose_trait": "PYROMANIA" },
-                      {
-                        "u_message": "Nothing's preventing you from starting fires, but nothing's forcing you to do so either.  Flame just seems less attractive.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Nothing's preventing you from starting fires, but nothing's forcing you to do so either.  Flame just seems less attractive.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 43,
             "effect": [
+              { "u_mutate_towards": "TRUTHTELLER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_TRUTHTELLER_1",
-                    "effect": [
-                      { "u_mutate_towards": "TRUTHTELLER" },
-                      {
-                        "u_message": "Thinking about lying to someone just immediately causes you to blush and stutter.  Best not even bother.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Thinking about lying to someone just immediately causes you to blush and stutter.  Best not even bother.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 44,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_TRUTHTELLER_2",
-                    "effect": [
-                      { "u_lose_trait": "TRUTHTELLER" },
-                      { "u_message": "You can now lie to your hearts content!  Mostly to a mirror.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "TRUTHTELLER" },
+              { "u_message": "You can now lie to your hearts content!  Mostly to a mirror.", "type": "good" }
             ]
           },
           {
             "case": 45,
             "effect": [
+              { "u_mutate_towards": "LIAR" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_LIAR_1",
-                    "effect": [
-                      { "u_mutate_towards": "LIAR" },
-                      {
-                        "u_message": "You can instinctively tell ways to mislead others.  Their reactions are just so predictable.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You can instinctively tell ways to mislead others.  Their reactions are just so predictable.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 46,
             "effect": [
+              { "u_lose_trait": "LIAR" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_LIAR_2",
-                    "effect": [
-                      { "u_lose_trait": "LIAR" },
-                      {
-                        "u_message": "It's hard to tell yourself, but you feel that your face got a lot more tells.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "It's hard to tell yourself, but you feel that your face got a lot more tells.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 47,
             "effect": [
+              { "u_mutate_towards": "VEGAN" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_VEGAN_1",
-                    "effect": [
-                      { "u_mutate_towards": "VEGAN" },
-                      {
-                        "u_message": "You refuse to even tangentially benefit from the suffering of all those innocent animals!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You refuse to even tangentially benefit from the suffering of all those innocent animals!",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 48,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_VEGAN_2",
-                    "effect": [ { "u_lose_trait": "VEGAN" }, { "u_message": "You could use a hamburger.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_lose_trait": "VEGAN" }, { "u_message": "You could use a hamburger.", "type": "good" } ]
           },
           {
             "case": 49,
             "effect": [
+              { "u_mutate_towards": "STRICT_HUMANITARIAN" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_STRICT_HUMANITARIAN_1",
-                    "effect": [
-                      { "u_mutate_towards": "STRICT_HUMANITARIAN" },
-                      {
-                        "u_message": "Your palette just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Your palette just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
+                "type": "good"
               }
             ]
           },
           {
             "case": 50,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_STRICT_HUMANITARIAN_2",
-                    "effect": [
-                      { "u_lose_trait": "STRICT_HUMANITARIAN" },
-                      { "u_message": "How were you able to eat those humany things so easily?", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "STRICT_HUMANITARIAN" },
+              { "u_message": "How were you able to eat those humany things so easily?", "type": "bad" }
             ]
           },
           {
             "case": 51,
             "effect": [
+              { "u_mutate_towards": "CANNIBAL" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_CANNIBAL_1",
-                    "effect": [
-                      { "u_mutate_towards": "CANNIBAL" },
-                      {
-                        "u_message": "Your fellow survivors just got a lot more attractive.  To your taste buds.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Your fellow survivors just got a lot more attractive.  To your taste buds.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 52,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_CANNIBAL_2",
-                    "effect": [ { "u_lose_trait": "CANNIBAL" }, { "u_message": "What have you done?", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_lose_trait": "CANNIBAL" }, { "u_message": "What have you done?", "type": "bad" } ]
           },
           {
             "case": 53,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_MOODSWINGS_1",
-                    "effect": [
-                      { "u_mutate_towards": "MOODSWINGS" },
-                      { "u_message": "You feel that your prior mental balance and peace has ended.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "MOODSWINGS" },
+              { "u_message": "You feel that your prior mental balance and peace has ended.", "type": "bad" }
             ]
           },
           {
             "case": 54,
             "effect": [
+              { "u_lose_trait": "MOODSWINGS" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_MOODSWINGS_2",
-                    "effect": [
-                      { "u_lose_trait": "MOODSWINGS" },
-                      {
-                        "u_message": "You cannot wait to start living life without all those distracting and conflicting emotions.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You cannot wait to start living life without all those distracting and conflicting emotions.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 55,
             "effect": [
+              { "u_mutate_towards": "SAVANT" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SAVANT_1",
-                    "effect": [
-                      { "u_mutate_towards": "SAVANT" },
-                      {
-                        "u_message": "It's hard to even understand how you used to think.  There's only one thing that makes sense now.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "It's hard to even understand how you used to think.  There's only one thing that makes sense now.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 56,
             "effect": [
+              { "u_lose_trait": "SAVANT" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SAVANT_2",
-                    "effect": [
-                      { "u_lose_trait": "SAVANT" },
-                      {
-                        "u_message": "All that information that you didn't used to be able to really handle just got a lot easier to process.  Unfortunately, your prior favorite subject just got a lot more harder to process.",
-                        "type": "neutral"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "All that information that you didn't used to be able to really handle just got a lot easier to process.  Unfortunately, your prior favorite subject just got a lot more harder to process.",
+                "type": "neutral"
               }
             ]
           },
           {
             "case": 57,
             "effect": [
+              { "u_mutate_towards": "HOARDER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_HOARDER_1",
-                    "effect": [
-                      { "u_mutate_towards": "HOARDER" },
-                      {
-                        "u_message": "You NEED to make sure that nothing gets left behind.  Every single thing is important.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You NEED to make sure that nothing gets left behind.  Every single thing is important.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 58,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_HOARDER_2",
-                    "effect": [
-                      { "u_lose_trait": "HOARDER" },
-                      {
-                        "u_message": "You almost sigh in relief at all the stuff you can get rid of.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "HOARDER" },
+              { "u_message": "You almost sigh in relief at all the stuff you can get rid of.", "type": "good" }
             ]
           },
           {
             "case": 59,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SCHIZOPHRENIC_1",
-                    "effect": [
-                      { "u_mutate_towards": "SCHIZOPHRENIC" },
-                      {
-                        "u_message": "It's hard to hear yourself think over all of the voices in your head!",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "SCHIZOPHRENIC" },
+              { "u_message": "It's hard to hear yourself think over all of the voices in your head!", "type": "bad" }
             ]
           },
           {
             "case": 60,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SCHIZOPHRENIC_2",
-                    "effect": [
-                      { "u_lose_trait": "SCHIZOPHRENIC" },
-                      { "u_message": "It's been so long since you've been alone in your head.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "SCHIZOPHRENIC" },
+              { "u_message": "It's been so long since you've been alone in your head.", "type": "good" }
             ]
           },
           {
             "case": 61,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SLOWREADER_1",
-                    "effect": [ { "u_mutate_towards": "SLOWREADER" }, { "u_message": "The words on the page seem more daunting.", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "SLOWREADER" }, { "u_message": "The words on the page seem more daunting.", "type": "bad" } ]
           },
           {
             "case": 62,
             "effect": [
+              { "u_lose_trait": "SLOWREADER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SLOWREADER_2",
-                    "effect": [
-                      { "u_lose_trait": "SLOWREADER" },
-                      {
-                        "u_message": "Compared to before, you think you can blow through a textbook if you wanted.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Compared to before, you think you can blow through a textbook if you wanted.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 63,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_FASTREADER_1",
-                    "effect": [
-                      { "u_mutate_towards": "FASTREADER" },
-                      { "u_message": "No amount of reading assignments will ever get you down.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "FASTREADER" },
+              { "u_message": "No amount of reading assignments will ever get you down.", "type": "good" }
             ]
           },
           {
             "case": 64,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_FASTREADER_2",
-                    "effect": [
-                      { "u_lose_trait": "FASTREADER" },
-                      { "u_message": "Time to slow down and take your time with all that reading.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "FASTREADER" },
+              { "u_message": "Time to slow down and take your time with all that reading.", "type": "bad" }
             ]
           },
           {
             "case": 67,
             "effect": [
+              { "u_mutate_towards": "ADDICTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_ADDICTIVE_1",
-                    "effect": [
-                      { "u_mutate_towards": "ADDICTIVE" },
-                      {
-                        "u_message": "Right now, you don't feel any change.  Something tells you that touching drugs or alcohol may have just became a worse idea, however.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Right now, you don't feel any change.  Something tells you that touching drugs or alcohol may have just became a worse idea, however.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 68,
             "effect": [
+              { "u_lose_trait": "ADDICTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_ADDICTIVE_2",
-                    "effect": [
-                      { "u_lose_trait": "ADDICTIVE" },
-                      {
-                        "u_message": "Nothing immediately changes, but you do feel like you're less likely to become obsessed with things now.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "Nothing immediately changes, but you do feel like you're less likely to become obsessed with things now.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 69,
             "effect": [
+              { "u_mutate_towards": "NONADDICTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NONADDICTIVE_1",
-                    "effect": [
-                      { "u_mutate_towards": "NONADDICTIVE" },
-                      {
-                        "u_message": "You suddenly feel that you're less likely to become unhealthily obsessed with things.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You suddenly feel that you're less likely to become unhealthily obsessed with things.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 70,
             "effect": [
+              { "u_lose_trait": "NONADDICTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_NONADDICTIVE_2",
-                    "effect": [
-                      { "u_lose_trait": "NONADDICTIVE" },
-                      {
-                        "u_message": "You feel... completely normal.  You have an average person's addiction tolerance.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You feel... completely normal.  You have an average person's addiction tolerance.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 71,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_FORGETFUL_1",
-                    "effect": [ { "u_mutate_towards": "FORGETFUL" }, { "u_message": "What were you doing again?", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "FORGETFUL" }, { "u_message": "What were you doing again?", "type": "bad" } ]
           },
           {
             "case": 72,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_FORGETFUL_2",
-                    "effect": [
-                      { "u_lose_trait": "FORGETFUL" },
-                      { "u_message": "Everything in the past seems just a little clearer.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "FORGETFUL" },
+              { "u_message": "Everything in the past seems just a little clearer.", "type": "good" }
             ]
           },
           {
             "case": 73,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_GOODMEMORY_1",
-                    "effect": [
-                      { "u_mutate_towards": "GOODMEMORY" },
-                      {
-                        "u_message": "The past, your skills, really just everything seems so much clearer.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "GOODMEMORY" },
+              { "u_message": "The past, your skills, really just everything seems so much clearer.", "type": "good" }
             ]
           },
           {
             "case": 74,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_GOODMEMORY_2",
-                    "effect": [
-                      { "u_lose_trait": "GOODMEMORY" },
-                      { "u_message": "What used to be crystal clear is now a bit foggy.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "GOODMEMORY" },
+              { "u_message": "What used to be crystal clear is now a bit foggy.", "type": "bad" }
             ]
           },
           {
             "case": 75,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PROJUNK_1",
-                    "effect": [ { "u_mutate_towards": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
           },
-          {
-            "case": 76,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PROJUNK_2",
-                    "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
-          },
+          { "case": 76, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
           {
             "case": 77,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_HATES_BOOKS_1",
-                    "effect": [ { "u_mutate_towards": "HATES_BOOKS" }, { "u_message": "All that nerdy stuff can stay by the wayside.", "type": "bad" } ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "HATES_BOOKS" },
+              { "u_message": "All that nerdy stuff can stay by the wayside.", "type": "bad" }
             ]
           },
           {
             "case": 78,
             "effect": [
+              { "u_lose_trait": "HATES_BOOKS" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_HATES_BOOKS_2",
-                    "effect": [
-                      { "u_lose_trait": "HATES_BOOKS" },
-                      {
-                        "u_message": "A survival guide may be useful information now.  You could see yourself giving it a look.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "A survival guide may be useful information now.  You could see yourself giving it a look.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 79,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_LOVES_BOOKS_1",
-                    "effect": [
-                      { "u_mutate_towards": "LOVES_BOOKS" },
-                      {
-                        "u_message": "You cannot wait to curl up with a good book for a couple of hours.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "LOVES_BOOKS" },
+              { "u_message": "You cannot wait to curl up with a good book for a couple of hours.", "type": "good" }
             ]
           },
           {
             "case": 80,
             "effect": [
+              { "u_lose_trait": "LOVES_BOOKS" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_LOVES_BOOKS_2",
-                    "effect": [
-                      { "u_lose_trait": "LOVES_BOOKS" },
-                      {
-                        "u_message": "You still enjoy reading some good non-fiction novels.  That textbook looks a lot less appetizing however.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You still enjoy reading some good non-fiction novels.  That textbook looks a lot less appetizing however.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 81,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SLOWLEARNER_1",
-                    "effect": [
-                      { "u_mutate_towards": "SLOWLEARNER" },
-                      { "u_message": "Thinking of new ideas just got a good bit harder.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "SLOWLEARNER" },
+              { "u_message": "Thinking of new ideas just got a good bit harder.", "type": "bad" }
             ]
           },
           {
             "case": 82,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SLOWLEARNER_2",
-                    "effect": [ { "u_lose_trait": "SLOWLEARNER" }, { "u_message": "New ideas seem to piece together normally.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_lose_trait": "SLOWLEARNER" }, { "u_message": "New ideas seem to piece together normally.", "type": "good" } ]
           },
           {
             "case": 83,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_FASTLEARNER_1",
-                    "effect": [ { "u_mutate_towards": "FASTLEARNER" }, { "u_message": "You can piece together new concepts even now.", "type": "good" } ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "FASTLEARNER" },
+              { "u_message": "You can piece together new concepts even now.", "type": "good" }
             ]
           },
           {
             "case": 84,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_FASTLEARNER_2",
-                    "effect": [
-                      { "u_lose_trait": "FASTLEARNER" },
-                      { "u_message": "Everything seems to take just a bit longer to learn.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "FASTLEARNER" },
+              { "u_message": "Everything seems to take just a bit longer to learn.", "type": "bad" }
             ]
           },
           {
             "case": 85,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_DISORGANIZED_1",
-                    "effect": [
-                      { "u_mutate_towards": "DISORGANIZED" },
-                      { "u_message": "You think it's going to take longer to sort things now.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "DISORGANIZED" },
+              { "u_message": "You think it's going to take longer to sort things now.", "type": "bad" }
             ]
           },
           {
             "case": 86,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_DISORGANIZED_2",
-                    "effect": [
-                      { "u_lose_trait": "DISORGANIZED" },
-                      { "u_message": "It just became quicker to sort out your backpack.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "DISORGANIZED" },
+              { "u_message": "It just became quicker to sort out your backpack.", "type": "good" }
             ]
           },
           {
             "case": 87,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PACKMULE_1",
-                    "effect": [ { "u_mutate_towards": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
           },
           {
             "case": 88,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_PACKMULE_2",
-                    "effect": [ { "u_lose_trait": "PACKMULE" }, { "u_message": "You are now forced to sort your bags normally.", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_lose_trait": "PACKMULE" }, { "u_message": "You are now forced to sort your bags normally.", "type": "bad" } ]
           },
           {
             "case": 89,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_BADTEMPER_1",
-                    "effect": [ { "u_mutate_towards": "BADTEMPER" }, { "u_message": "You feel unhappy.", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "BADTEMPER" }, { "u_message": "You feel unhappy.", "type": "bad" } ]
           },
           {
             "case": 90,
             "effect": [
+              { "u_lose_trait": "BADTEMPER" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_BADTEMPER_2",
-                    "effect": [
-                      { "u_lose_trait": "BADTEMPER" },
-                      {
-                        "u_message": "The haze of unhappiness fades.  Now you can be down about all the other things in your hopefully not ending soon life!",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "The haze of unhappiness fades.  Now you can be down about all the other things in your hopefully not ending soon life!",
+                "type": "good"
               }
             ]
           },
           {
             "case": 91,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_OPTIMISTIC_1",
-                    "effect": [ { "u_mutate_towards": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
           },
           {
             "case": 92,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_OPTIMISTIC_2",
-                    "effect": [
-                      { "u_lose_trait": "OPTIMISTIC" },
-                      { "u_message": "Your good mood fades.  Everything sucks a bit more.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "OPTIMISTIC" },
+              { "u_message": "Your good mood fades.  Everything sucks a bit more.", "type": "bad" }
             ]
           },
           {
             "case": 93,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SEASONAL_AFFECTIVE_1",
-                    "effect": [
-                      { "u_mutate_towards": "SEASONAL_AFFECTIVE" },
-                      { "u_message": "You really hope things remain bright and sunny.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "SEASONAL_AFFECTIVE" },
+              { "u_message": "You really hope things remain bright and sunny.", "type": "bad" }
             ]
           },
           {
             "case": 94,
             "effect": [
+              { "u_lose_trait": "SEASONAL_AFFECTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SEASONAL_AFFECTIVE_2",
-                    "effect": [
-                      { "u_lose_trait": "SEASONAL_AFFECTIVE" },
-                      {
-                        "u_message": "General darkness and dreariness might not be your favorite thing in the world, but you'll live.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "General darkness and dreariness might not be your favorite thing in the world, but you'll live.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 95,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_UNOBSERVANT_1",
-                    "effect": [ { "u_mutate_towards": "UNOBSERVANT" }, { "u_message": "Where are you?", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "UNOBSERVANT" }, { "u_message": "Where are you?", "type": "bad" } ]
           },
           {
             "case": 96,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_UNOBSERVANT_2",
-                    "effect": [
-                      { "u_lose_trait": "UNOBSERVANT" },
-                      { "u_message": "You suddenly have a much better idea of the area around you!", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "UNOBSERVANT" },
+              { "u_message": "You suddenly have a much better idea of the area around you!", "type": "good" }
             ]
           },
           {
             "case": 97,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_EAGLEEYED_1",
-                    "effect": [ { "u_mutate_towards": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
           },
           {
             "case": 98,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_EAGLEEYED_2",
-                    "effect": [ { "u_lose_trait": "EAGLEEYED" }, { "u_message": "Your sense of direction just got a lot more normal.", "type": "bad" } ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "EAGLEEYED" },
+              { "u_message": "Your sense of direction just got a lot more normal.", "type": "bad" }
             ]
           },
           {
             "case": 99,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_STYLISH_1",
-                    "effect": [ { "u_mutate_towards": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
           },
           {
             "case": 100,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_STYLISH_2",
-                    "effect": [
-                      { "u_lose_trait": "STYLISH" },
-                      {
-                        "u_message": "Your previous source of clothing-based happiness means nothing to you.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "STYLISH" },
+              { "u_message": "Your previous source of clothing-based happiness means nothing to you.", "type": "bad" }
             ]
           },
           {
             "case": 101,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_MASOCHIST_1",
-                    "effect": [
-                      { "u_mutate_towards": "MASOCHIST" },
-                      { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
-                    ]
-                  }
-                ]
-              }
+              { "u_mutate_towards": "MASOCHIST" },
+              { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
           {
             "case": 102,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_MASOCHIST_2",
-                    "effect": [
-                      { "u_lose_trait": "MASOCHIST" },
-                      {
-                        "u_message": "The aches and pains of combat suddenly seem far less appealing.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "MASOCHIST" },
+              { "u_message": "The aches and pains of combat suddenly seem far less appealing.", "type": "bad" }
             ]
           },
           {
             "case": 103,
             "effect": [
+              { "u_mutate_towards": "SPIRITUAL" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SPIRITUAL_1",
-                    "effect": [
-                      { "u_mutate_towards": "SPIRITUAL" },
-                      {
-                        "u_message": "You can now see the things unexplainable by science.  And right now, that's your entire life.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You can now see the things unexplainable by science.  And right now, that's your entire life.",
+                "type": "good"
               }
             ]
           },
           {
             "case": 104,
             "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_SPIRITUAL_2",
-                    "effect": [
-                      { "u_lose_trait": "SPIRITUAL" },
-                      { "u_message": "Your prior source of comfort with your life is now gone.", "type": "bad" }
-                    ]
-                  }
-                ]
-              }
+              { "u_lose_trait": "SPIRITUAL" },
+              { "u_message": "Your prior source of comfort with your life is now gone.", "type": "bad" }
             ]
           },
           {
             "case": 105,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_TABLEMANNERS_1",
-                    "effect": [ { "u_mutate_towards": "TABLEMANNERS" }, { "u_message": "You better make sure you have a fork.", "type": "bad" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "TABLEMANNERS" }, { "u_message": "You better make sure you have a fork.", "type": "bad" } ]
           },
           {
             "case": 106,
-            "effect": [
-              {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_TABLEMANNERS_2",
-                    "effect": [ { "u_lose_trait": "TABLEMANNERS" }, { "u_message": "Do you really need a table to eat a sandwich?", "type": "good" } ]
-                  }
-                ]
-              }
-            ]
+            "effect": [ { "u_lose_trait": "TABLEMANNERS" }, { "u_message": "Do you really need a table to eat a sandwich?", "type": "good" } ]
           },
           {
             "case": 107,
             "effect": [
+              { "u_mutate_towards": "INATTENTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_INATTENTIVE_1",
-                    "effect": [
-                      { "u_mutate_towards": "INATTENTIVE" },
-                      {
-                        "u_message": "The emotions on people's faces and movements of animals means nothing to you.  Not in an emotional sense, but because you really don't understand them anymore.",
-                        "type": "bad"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "The emotions on people's faces and movements of animals means nothing to you.  Not in an emotional sense, but because you really don't understand them anymore.",
+                "type": "bad"
               }
             ]
           },
           {
             "case": 108,
             "effect": [
+              { "u_lose_trait": "INATTENTIVE" },
               {
-                "run_eocs": [
-                  {
-                    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_INATTENTIVE_2",
-                    "effect": [
-                      { "u_lose_trait": "INATTENTIVE" },
-                      {
-                        "u_message": "You can make some normal inferences such as a 'smile' likely indicating that somebody is friendly.",
-                        "type": "good"
-                      }
-                    ]
-                  }
-                ]
+                "u_message": "You can make some normal inferences such as a 'smile' likely indicating that somebody is friendly.",
+                "type": "good"
               }
             ]
           }
@@ -2855,7 +1883,10 @@
           { "case": 76, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
           {
             "case": 77,
-            "effect": [ { "u_mutate_towards": "HATES_BOOKS" }, { "u_message": "All that nerdy stuff can stay by the wayside.", "type": "bad" } ]
+            "effect": [
+              { "u_mutate_towards": "HATES_BOOKS" },
+              { "u_message": "All that nerdy stuff can stay by the wayside.", "type": "bad" }
+            ]
           },
           {
             "case": 78,
@@ -2897,7 +1928,10 @@
           },
           {
             "case": 83,
-            "effect": [ { "u_mutate_towards": "FASTLEARNER" }, { "u_message": "You can piece together new concepts even now.", "type": "good" } ]
+            "effect": [
+              { "u_mutate_towards": "FASTLEARNER" },
+              { "u_message": "You can piece together new concepts even now.", "type": "good" }
+            ]
           },
           {
             "case": 84,
