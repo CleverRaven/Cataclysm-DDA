@@ -249,7 +249,7 @@
                     "effect": [
                       { "u_add_trait": "VANITY" },
                       {
-                        "u_message": "Its so much easier to recognize how you are just that much more attractive than everyone else.  You need to make sure they know it.",
+                        "u_message": "It's so much easier to recognize how you are just that much more attractive than everyone else.  You need to make sure they know it.",
                         "type": "bad"
                       }
                     ]
@@ -269,7 +269,7 @@
                     "effect": [
                       { "u_lose_trait": "VANITY" },
                       {
-                        "u_message": "How could you have ever thought that way?  Of all the silly things to feel, especially in times like these",
+                        "u_message": "How could you have ever thought that way?  Of all the silly things to feel, especially in times like these.",
                         "type": "good"
                       }
                     ]
@@ -449,7 +449,7 @@
                     "effect": [
                       { "u_lose_trait": "ASOCIAL1" },
                       {
-                        "u_message": "There's definitely someone out there right? Its a shame you cannot enjoy your solitude anymore.",
+                        "u_message": "There's definitely someone out there right? It's a shame you cannot enjoy your solitude anymore.",
                         "type": "neutral"
                       }
                     ]
@@ -470,7 +470,7 @@
                       { "u_add_trait": "ASOCIAL2" },
                       { "u_lose_trait": "ASOCIAL1" },
                       {
-                        "u_message": "You absolutely detest having to interact with anyone else!  Its a good thing you'll never have to again!",
+                        "u_message": "You absolutely detest having to interact with anyone else!  It's a good thing you'll never have to again!",
                         "type": "neutral"
                       }
                     ]
@@ -972,7 +972,7 @@
                     "effect": [
                       { "u_lose_trait": "LIAR" },
                       {
-                        "u_message": "Its hard to tell yourself, but you feel that your face got a lot more tells.",
+                        "u_message": "It's hard to tell yourself, but you feel that your face got a lot more tells.",
                         "type": "bad"
                       }
                     ]
@@ -1164,7 +1164,7 @@
                     "effect": [
                       { "u_add_trait": "SAVANT" },
                       {
-                        "u_message": "Its hard to even understand how you used to think.  There's only one thing that makes sense now.",
+                        "u_message": "It's hard to even understand how you used to think.  There's only one thing that makes sense now.",
                         "type": "neutral"
                       }
                     ]
@@ -1244,7 +1244,7 @@
                     "effect": [
                       { "u_add_trait": "SCHIZOPHRENIC" },
                       {
-                        "u_message": "Its hard to hear yourself think over all of the voices in your head!",
+                        "u_message": "It's hard to hear yourself think over all of the voices in your head!",
                         "type": "bad"
                       }
                     ]
@@ -1263,7 +1263,7 @@
                     "condition": { "and": [ { "u_has_trait": "SCHIZOPHRENIC" } ] },
                     "effect": [
                       { "u_lose_trait": "SCHIZOPHRENIC" },
-                      { "u_message": "Its been so long since you've been alone in your head.", "type": "good" }
+                      { "u_message": "It's been so long since you've been alone in your head.", "type": "good" }
                     ]
                   }
                 ]
@@ -1708,7 +1708,7 @@
                     "condition": { "and": [ { "not": { "u_has_trait": "DISORGANIZED" } }, { "not": { "u_has_trait": "PACKMULE" } } ] },
                     "effect": [
                       { "u_add_trait": "DISORGANIZED" },
-                      { "u_message": "You think its going to take longer to sort things now.", "type": "bad" }
+                      { "u_message": "You think it's going to take longer to sort things now.", "type": "bad" }
                     ]
                   }
                 ]
@@ -1933,7 +1933,7 @@
                   {
                     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS_EAGLEEYED_2",
                     "condition": { "and": [ { "u_has_trait": "EAGLEEYED" } ] },
-                    "effect": [ { "u_lose_trait": "EAGLEEYED" }, { "u_message": "Your sense of direction just got a lot normal-er", "type": "bad" } ]
+                    "effect": [ { "u_lose_trait": "EAGLEEYED" }, { "u_message": "Your sense of direction just got a lot more normal.", "type": "bad" } ]
                   }
                 ]
               }
@@ -2367,7 +2367,7 @@
           "Use your incredible telepathic powers to prevent yourself from tolerating untasty food.  The markings of a real apocalyptic survivor.",
           "Rather than expanding your pallete the normal way, use your incredible telepathic powers to force yourself to be OK with untasty looking food.  At least it gets the job done.",
           "Force yourself to appreciate the company of others by making yourself an extrovert.  Hopefully you'll be able to find people to interact with.",
-          "Stop yourself from enjoying the company of others by removing your extroversion.  Its not like there's anybody around anyways, right?",
+          "Stop yourself from enjoying the company of others by removing your extroversion.  It's not like there's anybody around anyways, right?",
           "Force yourself to require the company of others by making yourself incredibly sociable.  Hopefully you have friends.",
           "Work on youself by stopping your need for other's presence.  A workablew lifestyle turned problem which started with the death of everyone you knew and loved.",
           "Make sure that you're happy alone by making yourself an introvert.  With near everyone dead, this mindset just got a lot more viable.",
@@ -2396,20 +2396,20 @@
           "As fun as it is, you can begrugingly agree that there's better things to do than setting fires.  Put a hypothetical therapist out of business with your psychic powers and fix that.",
           "Maybe people will trust you more if you're visibly terrible at telling the slightest lie?  Who knows.",
           "Being able to lie could be an important part of your life... if there was even anyone to lie to.  You doubt this would help you much.",
-          "There's still a couple of survivors around, and being good at lying to them might give you some opportunities you otherwise would lack.  It might also get you in trouble",
+          "There's still a couple of survivors around, and being good at lying to them might give you some opportunities you otherwise would lack.  It might also get you in trouble.",
           "Reduce your ability to lie with some damaging psychic surgery.  May or may not make you a better person.",
           "Turn what would normally be a personal decision into a psychically mandated behavior.  You might starve to death, but at least you won't hurt any animals while doing so.",
           "Even the thought of doing this makes you incredibly uncomfortable, but of all the reasons to quite veganism, the complete destruction of your entire world probably qualifies.",
-          "Logically speaking, those things that kind of look human really aren't.  It might currently feel uncomfortable, but its hard to think of a real argument against eating them.  May as well get over your emotions.  Telepathically!",
+          "Logically speaking, those things that kind of look human really aren't.  It might currently feel uncomfortable, but it's hard to think of a real argument against eating them.  May as well get over your emotions.  Telepathically!",
           "You feel just fine eating those not-humans, but a tiny part of your brain tells you that this might be a slippery slope.  It might not be logical, but you can stop this immediately.",
           "Completely disgusting, and potentially quite unhealthy.  However, given the times it may be your only option.  Can you force yourself to enjoy the taste of human flesh?",
-          "As tasty as humans are, its gotten you some negative looks from other survivors when you accidently referred to your 'taste.'  Are you willing to change yourself just to meet their expectations?",
+          "As tasty as humans are, it's gotten you some negative looks from other survivors when you accidently referred to your 'taste.'  Are you willing to change yourself just to meet their expectations?",
           "Disrupt your current mental balance by breaking many centers of your brain intended to healthily regulate your emotions.  Start funding big pharma today!",
           "Help balance your mood by fixing the centers of your brain that are responsible for regulating it.  Be a little more at peace with yourself.",
           "You've heard stories of people who heavily specialize in certain skills at the expense of all others.  With a bit of work, you think you can replicate this in yourself.",
           "Can you really care about all those other things that don't matter or even make that much sense.  With a bit of telepathic brain surgery you can!",
           "Everything you find has the potential to be the difference between life and death!  Alter your mind to force youself to never leave anything behind ever again.",
-          "You can begrugingly admit that an old candy wrapper might not be the most useful thing in the world.  Help yourself physically drop it by mentally dropping your hording sensibilities.",
+          "You can begrudgingly admit that an old candy wrapper might not be the most useful thing in the world.  Help yourself physically drop it by mentally dropping your hording sensibilities.",
           "With a significant amount of effort and knowledge you can make your brain more susceptible to the Nether in an entirely negative way.  Do this to lose sanity.",
           "At least one of the voices recommended you do this, and they seemed trustworthy.",
           "Perhaps you feel that you are positively absorbing information and you need to slow down a bit?  Take more time to truly enjoy the prose?  You can mentally slow down you ability to read to accomplish this.",
@@ -2434,9 +2434,9 @@
           "Improve the areas relegated to learning new information in your brain that you've noticed are operating a little poorly.  This has no downsides.",
           "Take some notes on how you brain functions while you're in concentration trances and permanently replicate a small part of that efficiency in your head to help you learn everything quicker.",
           "Learning quickly makes your life too easy.  Reduce your survival ability in one easy step!",
-          "Negatively alter the areas of your brain responsible spacial understanding and 3d visualization.  As bad as it sounds, this mostly just makes your organizational abilities worse.",
-          "Improve your 3d awareness and planning by adjusting your brain.  There's definitely ways of packing that you're currently missing.",
-          "Dramatically improve your 3d awareness by making several efficiency alterations to your brain.  Seeing how things fit together will get a lot easier.",
+          "Negatively alter the areas of your brain responsible spacial understanding and 3D visualization.  As bad as it sounds, this mostly just makes your organizational abilities worse.",
+          "Improve your 3D awareness and planning by adjusting your brain.  There's definitely ways of packing that you're currently missing.",
+          "Dramatically improve your 3D awareness by making several efficiency alterations to your brain.  Seeing how things fit together will get a lot easier.",
           "Lower your packing and sorting speed by some unneeded mental surgery.  Probably won't matter that much, but this is still a strange decision to make.",
           "Artificially stimulate the areas of your brain that mandate anger and your mood, immediately worsening your mood and pissing you off.  Some people just want to be angry.",
           "You already have enough to be angry about right now, you don't need your brain naturally being pissed off as well.  Instead of pills or therapy, use your telepathic powers!",
@@ -2448,15 +2448,15 @@
           "Fix your innability to remember locations and direct yourself by connecting locations of your brain that were erroneously disconnected.",
           "With a deep analysis of how you remember locations you think you can improve your ability to do so.",
           "Your ability to explore and remember what you see is unmatched.  For some reason, you can take a chisel to your good traits if you so choose.",
-          "Be a fashionista by improving your happiness while wearing designer clothing, shiny gems, and other things like that.  Its a shame that nobody is around to appreciate this anymore.",
-          "Is a suit really the best thing to wear in the apocalypse?  You think your sense of style is resulting in poor decisions just to keep you happy, so its time for it to go.",
+          "Be a fashionista by improving your happiness while wearing designer clothing, shiny gems, and other things like that.  It's a shame that nobody is around to appreciate this anymore.",
+          "Is a suit really the best thing to wear in the apocalypse?  You think your sense of style is resulting in poor decisions just to keep you happy, so it's time for it to go.",
           "Rewire your way of feeling pain into something slightly positive.  It will still be incredibly distracting and debilitating, but at least you'll enjoy it.  Hopefully not enough to intentionally seek it out.",
           "Your enjoyment of pain has lead to too many bad decisions.  Get rid of it before a zombie gets rid of you.",
           "The dream of a person struggling with their faith.  Force yourself to see spirituality in everything by mentally adjusting your brain to mirror somebody elses faith.  It may not be the typical way of finding spirituality, but you reckon the end result will be similar.",
           "Even your immense spirituality cannot compete with the horrors around you.  Intentionally lose a major element of who you are so you don't have to deal with it.",
-          "Use your psychic powers to forget all of your memories mandating you eat with good manners.  Hopefully you don't lose anything else important",
+          "Use your psychic powers to forget all of your memories mandating you eat with good manners; hopefully, you won't lose anything else important.",
           "Draw up some fake memories incentivizing you to eat at a table.  Despite knowing they aren't real, they'll still affect you just fine.",
-          "Break the regions of your brain responsible for predicting the actions of others.  You will no longer be able to tell if something looks like its going to attack you.  Maybe you can just preemtively attack everything first?",
+          "Break the regions of your brain responsible for predicting the actions of others.  You will no longer be able to tell if something looks like it's going to attack you.  Maybe you can just preemptively attack everything first?",
           "Fix up the regions of your brain responsible for predicting the actions of others.  A surprisingly comprehensive surgery.",
           "Do something else"
         ],
