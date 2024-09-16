@@ -1956,7 +1956,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                         stop_engines();
                     } else
                     {
-                        start_engines();
+                        start_engines( &get_player_character() );
                     }
                 } );
             }

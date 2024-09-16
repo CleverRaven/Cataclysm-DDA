@@ -753,11 +753,11 @@ bool Character::handle_gun_damage( item &it )
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
     } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
-               faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
+               it.can_have_fault_type( gun_mechanical_simple ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        it.faults.insert( faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) );
+        it.faults.insert( random_entry( it.faults_potential_of_type( gun_mechanical_simple ) ) );
         return false;
 
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.

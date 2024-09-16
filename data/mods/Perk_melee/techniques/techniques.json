@@ -96,7 +96,11 @@
     "required_char_flags_all": [ "MELEE_PERK_JUST_HIT_IT" ],
     "melee_allowed": true,
     "condition": {
-      "and": [ { "not": { "u_has_effect": "mabuff:buff_perk_tempo" } }, { "not": { "u_has_effect": "mabuff:buff_perk_momentum" } } ]
+      "and": [
+        { "not": { "u_has_effect": "mabuff:buff_perk_tempo" } },
+        { "not": { "u_has_effect": "mabuff:buff_perk_momentum" } },
+        { "not": { "u_has_effect": "perk_insight" } }
+      ]
     },
     "crit_ok": true,
     "weapon_categories_allowed": [ "GREAT_AXES", "GREAT_SWORDS", "GREAT_HAMMERS", "AXE", "MEDIUM-SWORDS", "LONG_SWORDS", "MACES", "AXES", "FLAILS" ],
