@@ -174,7 +174,7 @@
                     "effect": [
                       { "u_mutate_towards": "NYCTOPHOBIA" },
                       {
-                        "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because thats so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
+                        "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because that's so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
                         "type": "bad"
                       }
                     ]
@@ -250,7 +250,7 @@
                     "effect": [
                       { "u_mutate_towards": "PICKYEATER" },
                       {
-                        "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slighest taste of that slop!",
+                        "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slightest taste of that slop!",
                         "type": "bad"
                       }
                     ]
@@ -269,7 +269,7 @@
                     "effect": [
                       { "u_lose_trait": "PICKYEATER" },
                       {
-                        "u_message": "Your mind and stomach simultaneously grown in relief at your food pallete expanding.",
+                        "u_message": "Your mind and stomach simultaneously grown in relief at your food palette expanding.",
                         "type": "good"
                       }
                     ]
@@ -326,7 +326,7 @@
                     "effect": [
                       { "u_mutate_towards": "SOCIAL2" },
                       {
-                        "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot belive that the Cataclysm is getting in the way of that!",
+                        "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot believe that the Cataclysm is getting in the way of that!",
                         "type": "neutral"
                       }
                     ]
@@ -421,7 +421,7 @@
                     "effect": [
                       { "u_mutate_towards": "ASOCIAL1" },
                       {
-                        "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you defintely don't have a problem with other people anymore.",
+                        "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you definitely don't have a problem with other people anymore.",
                         "type": "good"
                       }
                     ]
@@ -770,7 +770,7 @@
                     "effect": [
                       { "u_mutate_towards": "PYROMANIA" },
                       {
-                        "u_message": "All that stuff is looking awfully flamable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
+                        "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
                         "type": "neutral"
                       }
                     ]
@@ -913,7 +913,7 @@
                     "effect": [
                       { "u_mutate_towards": "STRICT_HUMANITARIAN" },
                       {
-                        "u_message": "Your pallete just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
+                        "u_message": "Your palette just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
                         "type": "good"
                       }
                     ]
@@ -2075,8 +2075,8 @@
           "Reject your Spirituality",
           "Enforce your Table Manners",
           "Neglect your Table Manners",
-          "Become Innatentive",
-          "Fix your Innatentiveness",
+          "Become Inattentive",
+          "Fix your Inattentiveness",
           "cancel"
         ],
         "descriptions": [
@@ -2088,16 +2088,16 @@
           "Lose your pacifistic desires to do no harm.  Even thinking about what you might do afterwards unnerves you.",
           "Stop caring about all the little ups and downs of the Cataclysm.  You feel this is only possible due to your extensive consumption of Medical mutagen.",
           "Let yourself be affected by all the ups and downs of the Cataclysm.  Hopefully more up than down.",
-          "Perform a disaterous mental surgery that causes you to become completely paralyzed by the dark.  Under no circumstances is this a good idea.",
+          "Perform a disastrous mental surgery that causes you to become completely paralyzed by the dark.  Under no circumstances is this a good idea.",
           "Perform a comprehensive and corrective surgery to your fear of the dark.  No longer will you be paralyzed by errant shadows.",
           "Immensely inflate your ego at your attractiveness to an incredibly overwhelming extent.  Maybe you'll feel happier?",
           "Deflate your perfectly logical, justified, and factual acknowledgement of your beauty.  How could you deprive everyone else of your looks?",
           "Use your incredible telepathic powers to prevent yourself from tolerating untasty food.  The markings of a real apocalyptic survivor.",
-          "Rather than expanding your pallete the normal way, use your incredible telepathic powers to force yourself to be OK with untasty looking food.  At least it gets the job done.",
+          "Rather than expanding your palette the normal way, use your incredible telepathic powers to force yourself to be OK with untasty looking food.  At least it gets the job done.",
           "Force yourself to appreciate the company of others by making yourself an extrovert.  Hopefully you'll be able to find people to interact with.",
           "Stop yourself from enjoying the company of others by removing your extroversion.  It's not like there's anybody around anyways, right?",
           "Force yourself to require the company of others by making yourself incredibly sociable.  Hopefully you have friends.",
-          "Work on youself by stopping your need for other's presence.  A workablew lifestyle turned problem which started with the death of everyone you knew and loved.",
+          "Work on yourself by stopping your need for other's presence.  A workable lifestyle turned problem which started with the death of everyone you knew and loved.",
           "Make sure that you're happy alone by making yourself an introvert.  With near everyone dead, this mindset just got a lot more viable.",
           "Stop yourself from enjoying being alone by removing your introversion.  You now feel positively neutral.",
           "Force yourself to hate interacting with others.  What would have been a debilitating mentality in pre-Cataclysm life might actually help you.  What's the chance you'll actually have to talk to someone now?",
@@ -2105,7 +2105,7 @@
           "Embrace your inner (and with the help of mutagen, outer) cat by making sure that you hate the touch of water.  In for a penny, in for a pound.",
           "As much as you currently hate water, you can begrudgingly accept that it would be easier if you didn't feel that way.",
           "You now have a lot more reasons to be outside while it's raining.  Being wet doesn't really hurt you physically, and with your telepathic power you can make sure it doesn't hurt you mentally either.",
-          "Being alright with being wet all the time was (probably?) building bad habbits.  Whatever your justification, you can force your outlook back to normal.",
+          "Being alright with being wet all the time was (probably?) building bad habits.  Whatever your justification, you can force your outlook back to normal.",
           "Use your psychic powers to install a mental block on using ranged weaponry.  Surely you won't need them with the more metaphysical abilities available to you?",
           "Replace therapy and many other normal, healthy options for getting over your inability to use guns.  At least this method is quick.",
           "The Cataclysm ruined most of the vehicles that once existed.  Use your psychic powers to prevent you from using the remaining ones ever again.  A great idea.",
@@ -2120,7 +2120,7 @@
           "Logically speaking, your refusal to wear tainted clothing really isn't that bad.  There may be some benefit to reducing your squeamishness, though.",
           "Finding time to DM a game is probably not going to happen again.  Even so, by spending an inordinate amount of time studying a DM'ing guide while under the effect of your psychic powers you think you can get some ideas on how to do it again but quicker.",
           "RPG board gaming is for nerds!  Make yourself not a nerd by giving yourself a tiny bit of brain damage to emphasize your desire to do other things and reduce your ability to be a nerd!",
-          "The government is gone and so are the owners of all these buildings.  And trees.  And really everything flamable.  You think you can make yourself enjoy the act a lot more than you may already do, but this may have some side effects.",
+          "The government is gone and so are the owners of all these buildings.  And trees.  And really everything flammable.  You think you can make yourself enjoy the act a lot more than you may already do, but this may have some side effects.",
           "As fun as it is, you can begrudgingly agree that there's better things to do than setting fires.  Put a hypothetical therapist out of business with your psychic powers and fix that.",
           "Maybe people will trust you more if you're visibly terrible at telling the slightest lie?  Who knows.",
           "Being able to lie could be an important part of your life... if there was even anyone to lie to.  You doubt this would help you much.",
@@ -2136,7 +2136,7 @@
           "Help balance your mood by fixing the centers of your brain that are responsible for regulating it.  Be a little more at peace with yourself.",
           "You've heard stories of people who heavily specialize in certain skills at the expense of all others.  With a bit of work, you think you can replicate this in yourself.",
           "Can you really care about all those other things that don't matter or even make that much sense.  With a bit of telepathic brain surgery you can!",
-          "Everything you find has the potential to be the difference between life and death!  Alter your mind to force youself to never leave anything behind ever again.",
+          "Everything you find has the potential to be the difference between life and death!  Alter your mind to force yourself to never leave anything behind ever again.",
           "You can begrudgingly admit that an old candy wrapper might not be the most useful thing in the world.  Help yourself physically drop it by mentally dropping your hording sensibilities.",
           "With a significant amount of effort and knowledge you can make your brain more susceptible to the Nether in an entirely negative way.  Do this to lose sanity.",
           "At least one of the voices recommended you do this, and they seemed trustworthy.",
@@ -2172,15 +2172,15 @@
           "Do you really deserve to be happy right now?  Make sure you aren't.",
           "Perform an incredibly intricate mental surgery to allow your brain to be affected by the darker months of the year.  A whole lot of effort for the sole purpose of making you dislike winter.",
           "Winter already has some real issues for your survival.  There's no need for you to be depressed on top of it.  Fix that up with some intricate mental surgery.",
-          "Dramatically alter your ability to recognize landmarks and destroy your sense of direction with several disasterous changes to your head.  Hope you have a map.",
-          "Fix your innability to remember locations and direct yourself by connecting locations of your brain that were erroneously disconnected.",
+          "Dramatically alter your ability to recognize landmarks and destroy your sense of direction with several disastrous changes to your head.  Hope you have a map.",
+          "Fix your inability to remember locations and direct yourself by connecting locations of your brain that were erroneously disconnected.",
           "With a deep analysis of how you remember locations you think you can improve your ability to do so.",
           "Your ability to explore and remember what you see is unmatched.  For some reason, you can take a chisel to your good traits if you so choose.",
           "Be a fashionista by improving your happiness while wearing designer clothing, shiny gems, and other things like that.  It's a shame that nobody is around to appreciate this anymore.",
           "Is a suit really the best thing to wear in the apocalypse?  You think your sense of style is resulting in poor decisions just to keep you happy, so it's time for it to go.",
           "Rewire your way of feeling pain into something slightly positive.  It will still be incredibly distracting and debilitating, but at least you'll enjoy it.  Hopefully not enough to intentionally seek it out.",
           "Your enjoyment of pain has lead to too many bad decisions.  Get rid of it before a zombie gets rid of you.",
-          "The dream of a person struggling with their faith.  Force yourself to see spirituality in everything by mentally adjusting your brain to mirror somebody elses faith.  It may not be the typical way of finding spirituality, but you reckon the end result will be similar.",
+          "The dream of a person struggling with their faith.  Force yourself to see spirituality in everything by mentally adjusting your brain to mirror somebody else's faith.  It may not be the typical way of finding spirituality, but you reckon the end result will be similar.",
           "Even your immense spirituality cannot compete with the horrors around you.  Intentionally lose a major element of who you are so you don't have to deal with it.",
           "Use your psychic powers to forget all of your memories mandating you eat with good manners; hopefully, you won't lose anything else important.",
           "Draw up some fake memories incentivizing you to eat at a table.  Despite knowing they aren't real, they'll still affect you just fine.",
@@ -2204,7 +2204,7 @@
           {
             "case": 1,
             "effect": [
-              { "u_add_trait": "PSYCHOPATH" },
+              { "u_mutate_towards": "PSYCHOPATH" },
               { "u_message": "It's a good thing that all of those people don't really matter.", "type": "neutral" }
             ]
           },
@@ -2221,7 +2221,7 @@
           {
             "case": 3,
             "effect": [
-              { "u_add_trait": "KILLER" },
+              { "u_mutate_towards": "KILLER" },
               {
                 "u_message": "Its a good thing the Cataclysm has given you more targets than you'll ever be able to kill.  You can dream about it though.",
                 "type": "neutral"
@@ -2241,7 +2241,7 @@
           {
             "case": 5,
             "effect": [
-              { "u_add_trait": "PACIFIST" },
+              { "u_mutate_towards": "PACIFIST" },
               {
                 "u_message": "You cannot stop thinking of the more peaceful times before this all started.  Maybe there's a way for you to just stop fighting?",
                 "type": "neutral"
@@ -2260,7 +2260,7 @@
           },
           {
             "case": 7,
-            "effect": [ { "u_add_trait": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
+            "effect": [ { "u_mutate_towards": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
           },
           {
             "case": 8,
@@ -2275,9 +2275,9 @@
           {
             "case": 9,
             "effect": [
-              { "u_add_trait": "NYCTOPHOBIA" },
+              { "u_mutate_towards": "NYCTOPHOBIA" },
               {
-                "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because thats so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
+                "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because that's so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
                 "type": "bad"
               }
             ]
@@ -2295,7 +2295,7 @@
           {
             "case": 11,
             "effect": [
-              { "u_add_trait": "VANITY" },
+              { "u_mutate_towards": "VANITY" },
               {
                 "u_message": "Its so much easier to recognize how you are just that much more attractive than everyone else.  You need to make sure they know it.",
                 "type": "bad"
@@ -2315,9 +2315,9 @@
           {
             "case": 13,
             "effect": [
-              { "u_add_trait": "PICKYEATER" },
+              { "u_mutate_towards": "PICKYEATER" },
               {
-                "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slighest taste of that slop!",
+                "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slightest taste of that slop!",
                 "type": "bad"
               }
             ]
@@ -2327,7 +2327,7 @@
             "effect": [
               { "u_lose_trait": "PICKYEATER" },
               {
-                "u_message": "Your mind and stomach simultaneously grown in relief at your food pallete expanding.",
+                "u_message": "Your mind and stomach simultaneously grown in relief at your food palette expanding.",
                 "type": "good"
               }
             ]
@@ -2335,7 +2335,7 @@
           {
             "case": 15,
             "effect": [
-              { "u_add_trait": "SOCIAL1" },
+              { "u_mutate_towards": "SOCIAL1" },
               {
                 "u_message": "Since there's so few people left alive, you're at least happy that you generally enjoy their company.",
                 "type": "good"
@@ -2355,10 +2355,10 @@
           {
             "case": 17,
             "effect": [
-              { "u_add_trait": "SOCIAL2" },
+              { "u_mutate_towards": "SOCIAL2" },
               { "u_lose_trait": "SOCIAL1" },
               {
-                "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot belive that the Cataclysm is getting in the way of that!",
+                "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot believe that the Cataclysm is getting in the way of that!",
                 "type": "neutral"
               }
             ]
@@ -2367,7 +2367,7 @@
             "case": 18,
             "effect": [
               { "u_lose_trait": "SOCIAL2" },
-              { "u_add_trait": "SOCIAL1" },
+              { "u_mutate_towards": "SOCIAL1" },
               {
                 "u_message": "As much as you enjoy a good conversation, you've gotten over the reality that people just aren't around anymore. You'll have to live with that.",
                 "type": "good"
@@ -2377,7 +2377,7 @@
           {
             "case": 19,
             "effect": [
-              { "u_add_trait": "ASOCIAL1" },
+              { "u_mutate_towards": "ASOCIAL1" },
               {
                 "u_message": "Since there's so few people left alive, you are no longer forced to talk with anyone.",
                 "type": "good"
@@ -2397,7 +2397,7 @@
           {
             "case": 21,
             "effect": [
-              { "u_add_trait": "ASOCIAL2" },
+              { "u_mutate_towards": "ASOCIAL2" },
               { "u_lose_trait": "ASOCIAL1" },
               {
                 "u_message": "You absolutely detest having to interact with anyone else!  Its a good thing you'll never have to again!",
@@ -2409,9 +2409,9 @@
             "case": 22,
             "effect": [
               { "u_lose_trait": "ASOCIAL2" },
-              { "u_add_trait": "ASOCIAL1" },
+              { "u_mutate_towards": "ASOCIAL1" },
               {
-                "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you defintely don't have a problem with other people anymore.",
+                "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you definitely don't have a problem with other people anymore.",
                 "type": "good"
               }
             ]
@@ -2419,7 +2419,7 @@
           {
             "case": 23,
             "effect": [
-              { "u_add_trait": "HATES_WATER" },
+              { "u_mutate_towards": "HATES_WATER" },
               {
                 "u_message": "The thought of getting your fur wet is completely terrible!  You need to remain warm and dry!",
                 "type": "bad"
@@ -2439,7 +2439,7 @@
           {
             "case": 25,
             "effect": [
-              { "u_add_trait": "OUTDOORSMAN" },
+              { "u_mutate_towards": "OUTDOORSMAN" },
               { "u_message": "Being wet is just a natural part of living.  Especially now.", "type": "good" }
             ]
           },
@@ -2456,7 +2456,7 @@
           {
             "case": 27,
             "effect": [
-              { "u_add_trait": "BRAWLER" },
+              { "u_mutate_towards": "BRAWLER" },
               {
                 "u_message": "Guns are just too scary.  The loud bang, the thought of them being used on you...  Despite their utility, there's no way you could get close to one of them.",
                 "type": "bad"
@@ -2476,7 +2476,7 @@
           {
             "case": 29,
             "effect": [
-              { "u_add_trait": "WAYFARER" },
+              { "u_mutate_towards": "WAYFARER" },
               {
                 "u_message": "There's so much that could go wrong if you ever got behind a wheel.  Cars used to be one of the largest causes of death before the Cataclysm, and there's definitely no need to decrease your odds by getting in one now!",
                 "type": "bad"
@@ -2496,7 +2496,7 @@
           {
             "case": 31,
             "effect": [
-              { "u_add_trait": "NOMAD" },
+              { "u_mutate_towards": "NOMAD" },
               { "u_message": "You immediately start considering all the places you haven't seen.", "type": "bad" }
             ]
           },
@@ -2507,7 +2507,7 @@
           {
             "case": 33,
             "effect": [
-              { "u_add_trait": "NOMAD2" },
+              { "u_mutate_towards": "NOMAD2" },
               { "u_lose_trait": "NOMAD" },
               {
                 "u_message": "This place sucks.  You really want to see something else, and you cannot wait to get there.  Onwards!",
@@ -2519,7 +2519,7 @@
             "case": 34,
             "effect": [
               { "u_lose_trait": "NOMAD2" },
-              { "u_add_trait": "NOMAD" },
+              { "u_mutate_towards": "NOMAD" },
               {
                 "u_message": "The thought of that far-away place seems just a little less necessary.  You still want to go there though.",
                 "type": "good"
@@ -2529,7 +2529,7 @@
           {
             "case": 35,
             "effect": [
-              { "u_add_trait": "NOMAD3" },
+              { "u_mutate_towards": "NOMAD3" },
               { "u_lose_trait": "NOMAD2" },
               {
                 "u_message": "Keep moving keep moving keep moving keep moving keep moving keep moving!",
@@ -2541,14 +2541,14 @@
             "case": 36,
             "effect": [
               { "u_lose_trait": "NOMAD3" },
-              { "u_add_trait": "NOMAD2" },
+              { "u_mutate_towards": "NOMAD2" },
               { "u_message": "Perhaps you can wait a couple of minutes before leaving.", "type": "good" }
             ]
           },
           {
             "case": 37,
             "effect": [
-              { "u_add_trait": "SQUEAMISH" },
+              { "u_mutate_towards": "SQUEAMISH" },
               {
                 "u_message": "The blood and cuts that come alongside combat is bad enough. Putting such disgusting clothes on your skin is absolutely not an option.",
                 "type": "bad"
@@ -2568,7 +2568,7 @@
           {
             "case": 37,
             "effect": [
-              { "u_add_trait": "PROF_DICEMASTER" },
+              { "u_mutate_towards": "PROF_DICEMASTER" },
               {
                 "u_message": "You know, maybe you can find some people to DM with.  If not though, you think that there's probably some side benefits to adjusting your head this way.",
                 "type": "good"
@@ -2588,9 +2588,9 @@
           {
             "case": 41,
             "effect": [
-              { "u_add_trait": "PYROMANIA" },
+              { "u_mutate_towards": "PYROMANIA" },
               {
-                "u_message": "All that stuff is looking awfully flamable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
+                "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
                 "type": "neutral"
               }
             ]
@@ -2608,7 +2608,7 @@
           {
             "case": 43,
             "effect": [
-              { "u_add_trait": "TRUTHTELLER" },
+              { "u_mutate_towards": "TRUTHTELLER" },
               {
                 "u_message": "Thinking about lying to someone just immediately causes you to blush and stutter.  Best not even bother.",
                 "type": "bad"
@@ -2625,7 +2625,7 @@
           {
             "case": 45,
             "effect": [
-              { "u_add_trait": "LIAR" },
+              { "u_mutate_towards": "LIAR" },
               {
                 "u_message": "You can instinctively tell ways to mislead others.  Their reactions are just so predictable.",
                 "type": "good"
@@ -2645,7 +2645,7 @@
           {
             "case": 47,
             "effect": [
-              { "u_add_trait": "VEGAN" },
+              { "u_mutate_towards": "VEGAN" },
               {
                 "u_message": "You refuse to even tangentially benefit from the suffering of all those innocent animals!",
                 "type": "bad"
@@ -2659,9 +2659,9 @@
           {
             "case": 49,
             "effect": [
-              { "u_add_trait": "STRICT_HUMANITARIAN" },
+              { "u_mutate_towards": "STRICT_HUMANITARIAN" },
               {
-                "u_message": "Your pallete just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
+                "u_message": "Your palette just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
                 "type": "good"
               }
             ]
@@ -2676,7 +2676,7 @@
           {
             "case": 51,
             "effect": [
-              { "u_add_trait": "CANNIBAL" },
+              { "u_mutate_towards": "CANNIBAL" },
               {
                 "u_message": "Your fellow survivors just got a lot more attractive.  To your taste buds.",
                 "type": "good"
@@ -2690,7 +2690,7 @@
           {
             "case": 53,
             "effect": [
-              { "u_add_trait": "MOODSWINGS" },
+              { "u_mutate_towards": "MOODSWINGS" },
               { "u_message": "You feel that your prior mental balance and peace has ended.", "type": "bad" }
             ]
           },
@@ -2707,7 +2707,7 @@
           {
             "case": 55,
             "effect": [
-              { "u_add_trait": "SAVANT" },
+              { "u_mutate_towards": "SAVANT" },
               {
                 "u_message": "Its hard to even understand how you used to think.  There's only one thing that makes sense now.",
                 "type": "neutral"
@@ -2727,7 +2727,7 @@
           {
             "case": 57,
             "effect": [
-              { "u_add_trait": "HOARDER" },
+              { "u_mutate_towards": "HOARDER" },
               {
                 "u_message": "You NEED to make sure that nothing gets left behind.  Every single thing is important.",
                 "type": "bad"
@@ -2744,7 +2744,7 @@
           {
             "case": 59,
             "effect": [
-              { "u_add_trait": "SCHIZOPHRENIC" },
+              { "u_mutate_towards": "SCHIZOPHRENIC" },
               { "u_message": "Its hard to hear yourself think over all of the voices in your head!", "type": "bad" }
             ]
           },
@@ -2757,7 +2757,7 @@
           },
           {
             "case": 61,
-            "effect": [ { "u_add_trait": "SLOWREADER" }, { "u_message": "The words on the page seem more daunting.", "type": "bad" } ]
+            "effect": [ { "u_mutate_towards": "SLOWREADER" }, { "u_message": "The words on the page seem more daunting.", "type": "bad" } ]
           },
           {
             "case": 62,
@@ -2772,7 +2772,7 @@
           {
             "case": 63,
             "effect": [
-              { "u_add_trait": "FASTREADER" },
+              { "u_mutate_towards": "FASTREADER" },
               { "u_message": "No amount of reading assignments will ever get you down.", "type": "good" }
             ]
           },
@@ -2786,7 +2786,7 @@
           {
             "case": 67,
             "effect": [
-              { "u_add_trait": "ADDICTIVE" },
+              { "u_mutate_towards": "ADDICTIVE" },
               {
                 "u_message": "Right now, you don't feel any change.  Something tells you that touching drugs or alcohol may have just became a worse idea, however.",
                 "type": "bad"
@@ -2806,7 +2806,7 @@
           {
             "case": 69,
             "effect": [
-              { "u_add_trait": "NONADDICTIVE" },
+              { "u_mutate_towards": "NONADDICTIVE" },
               {
                 "u_message": "You suddenly feel that you're less likely to become unhealthily obsessed with things.",
                 "type": "good"
@@ -2825,7 +2825,7 @@
           },
           {
             "case": 71,
-            "effect": [ { "u_add_trait": "FORGETFUL" }, { "u_message": "What were you doing again?", "type": "bad" } ]
+            "effect": [ { "u_mutate_towards": "FORGETFUL" }, { "u_message": "What were you doing again?", "type": "bad" } ]
           },
           {
             "case": 72,
@@ -2837,7 +2837,7 @@
           {
             "case": 73,
             "effect": [
-              { "u_add_trait": "GOODMEMORY" },
+              { "u_mutate_towards": "GOODMEMORY" },
               { "u_message": "The past, your skills, really just everything seems so much clearer.", "type": "good" }
             ]
           },
@@ -2850,12 +2850,12 @@
           },
           {
             "case": 75,
-            "effect": [ { "u_add_trait": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
+            "effect": [ { "u_mutate_towards": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
           },
           { "case": 76, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
           {
             "case": 77,
-            "effect": [ { "u_add_trait": "HATES_BOOKS" }, { "u_message": "All that nerdy stuff can stay by the wayside.", "type": "bad" } ]
+            "effect": [ { "u_mutate_towards": "HATES_BOOKS" }, { "u_message": "All that nerdy stuff can stay by the wayside.", "type": "bad" } ]
           },
           {
             "case": 78,
@@ -2870,7 +2870,7 @@
           {
             "case": 79,
             "effect": [
-              { "u_add_trait": "LOVES_BOOKS" },
+              { "u_mutate_towards": "LOVES_BOOKS" },
               { "u_message": "You cannot wait to curl up with a good book for a couple of hours.", "type": "good" }
             ]
           },
@@ -2887,7 +2887,7 @@
           {
             "case": 81,
             "effect": [
-              { "u_add_trait": "SLOWLEARNER" },
+              { "u_mutate_towards": "SLOWLEARNER" },
               { "u_message": "Thinking of new ideas just got a good bit harder.", "type": "bad" }
             ]
           },
@@ -2897,7 +2897,7 @@
           },
           {
             "case": 83,
-            "effect": [ { "u_add_trait": "FASTLEARNER" }, { "u_message": "You can piece together new concepts even now.", "type": "good" } ]
+            "effect": [ { "u_mutate_towards": "FASTLEARNER" }, { "u_message": "You can piece together new concepts even now.", "type": "good" } ]
           },
           {
             "case": 84,
@@ -2909,7 +2909,7 @@
           {
             "case": 85,
             "effect": [
-              { "u_add_trait": "DISORGANIZED" },
+              { "u_mutate_towards": "DISORGANIZED" },
               { "u_message": "You think its going to take longer to sort things now.", "type": "bad" }
             ]
           },
@@ -2922,7 +2922,7 @@
           },
           {
             "case": 87,
-            "effect": [ { "u_add_trait": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
+            "effect": [ { "u_mutate_towards": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
           },
           {
             "case": 88,
@@ -2930,7 +2930,7 @@
           },
           {
             "case": 89,
-            "effect": [ { "u_add_trait": "BADTEMPER" }, { "u_message": "You feel unhappy.", "type": "bad" } ]
+            "effect": [ { "u_mutate_towards": "BADTEMPER" }, { "u_message": "You feel unhappy.", "type": "bad" } ]
           },
           {
             "case": 90,
@@ -2944,7 +2944,7 @@
           },
           {
             "case": 91,
-            "effect": [ { "u_add_trait": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
+            "effect": [ { "u_mutate_towards": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
           },
           {
             "case": 92,
@@ -2956,7 +2956,7 @@
           {
             "case": 93,
             "effect": [
-              { "u_add_trait": "SEASONAL_AFFECTIVE" },
+              { "u_mutate_towards": "SEASONAL_AFFECTIVE" },
               { "u_message": "You really hope things remain bright and sunny.", "type": "bad" }
             ]
           },
@@ -2972,7 +2972,7 @@
           },
           {
             "case": 95,
-            "effect": [ { "u_add_trait": "UNOBSERVANT" }, { "u_message": "Where are you?", "type": "bad" } ]
+            "effect": [ { "u_mutate_towards": "UNOBSERVANT" }, { "u_message": "Where are you?", "type": "bad" } ]
           },
           {
             "case": 96,
@@ -2983,7 +2983,7 @@
           },
           {
             "case": 97,
-            "effect": [ { "u_add_trait": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
+            "effect": [ { "u_mutate_towards": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
           },
           {
             "case": 98,
@@ -2991,7 +2991,7 @@
           },
           {
             "case": 99,
-            "effect": [ { "u_add_trait": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
+            "effect": [ { "u_mutate_towards": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
           },
           {
             "case": 100,
@@ -3003,7 +3003,7 @@
           {
             "case": 101,
             "effect": [
-              { "u_add_trait": "MASOCHIST" },
+              { "u_mutate_towards": "MASOCHIST" },
               { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
@@ -3017,7 +3017,7 @@
           {
             "case": 103,
             "effect": [
-              { "u_add_trait": "SPIRITUAL" },
+              { "u_mutate_towards": "SPIRITUAL" },
               {
                 "u_message": "You can now see the things unexplainable by science.  And right now, that's your entire life.",
                 "type": "good"
@@ -3033,7 +3033,7 @@
           },
           {
             "case": 105,
-            "effect": [ { "u_add_trait": "TABLEMANNERS" }, { "u_message": "You better make sure you have a fork.", "type": "bad" } ]
+            "effect": [ { "u_mutate_towards": "TABLEMANNERS" }, { "u_message": "You better make sure you have a fork.", "type": "bad" } ]
           },
           {
             "case": 106,
@@ -3042,7 +3042,7 @@
           {
             "case": 107,
             "effect": [
-              { "u_add_trait": "INATTENTIVE" },
+              { "u_mutate_towards": "INATTENTIVE" },
               {
                 "u_message": "The emotions on people's faces and movements of animals means nothing to you.  Not in an emotional sense, but because you really don't understand them anymore.",
                 "type": "bad"
