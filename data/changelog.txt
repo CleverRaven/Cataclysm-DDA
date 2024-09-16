@@ -146,6 +146,11 @@ Add drugs and mutagens to your faction camp stores.
 Allow military night vision goggles to attach to combat exoskeleton head armors
 Butchering now require proficiency to do it fast and effectively
 Functioning toasters
+Nerf the convict and add a hardened convict
+Zombies make zombie sounds
+Allow multiple possible loading screens, including from mods
+Improved description of crow and raven
+Grazing animals actually eat grass, and it regrows every season
 
 
 ## Content:
@@ -324,6 +329,9 @@ A few new reptiles to populate the world
 A bunch of new mutant arthropods underground
 Make dermatik pregnancy and birth suck significantly more
 Add painkiller eyedrops
+Adds the AudioVox CBM as well as the WearMan CBM, the first transforming CBM.
+Gum spiders now spawn as new baby versions.
+Adds Electrical, Mechanical and Chemical Engineering as professions.
 
 
 ## Interface:
@@ -417,6 +425,8 @@ Add imgui version of the iteminfo window
 Updated default keybindings for changing start dates in character creation menu
 rewrite the loading screen to use ImGui
 Custom loading screen the game deserves
+wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
+Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 
 
 ## Mods:
@@ -660,6 +670,13 @@ Isolation Protocol: Add roguelike style health regen and pain reduction
 [Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON 
 XE Playable Gracken 
 [Magiclysm] Add spell school deficiency traits
+[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON (Kelvinist/Magus edition)
+[Xedra Evolved] Gossamer Artisan does not need to be Active
+Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
+Isolation Protocol: Geas knight starting class
+[MoM] Rebalance Banked Fire (the item)
+Martial Mastery: Add insight buff and related perkline
+[Xedra Evolved] Add playable changelings
 
 
 ## Balance:
@@ -1003,6 +1020,19 @@ Fixed segfault when monster tries to grab-drag another monster out of reality bu
 Prevent being teleported beyond OVERMAP_DEPTH
 NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
+Obsolete ACRs
+Hub01 now gives NRE recorder with fitting battery on their quest
+An electronic halo(on) increases weapon dispersion, but it's supposed to decrease it according to its description
+fix compilation error calling Character::spawn_items
+Spawn triggered bear trap only after creature escapes from it
+Cleanup loading screen when loading fails
+Water purification tablets purify 1-4 water each
+Fixes fast travel overmap UI when failing to reach destination
+uilist line padding accounts for number of lines in text
+Remove remaining furniture disassembly and uncrafts
+Remove Rivtech LMG/battle rifle
+Remove milk_allergen from hard cheeses
+safer vehicle grabbing/dragging
 
 
 ## Performance:
@@ -1108,6 +1138,7 @@ Added support for multiple randomized field sprite variants
 JSON-ify sleep-affecting mutations
 Extend/delete support for harvest lists
 Migrate ACT_PULP to the new activity actor system.
+Migrate ACT_WAIT_STAMINA to an activity_actor
 
 
 ## Build:
