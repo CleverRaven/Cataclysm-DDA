@@ -1103,6 +1103,13 @@
   },
   {
     "type": "keybinding",
+    "id": "look",
+    "category": "OVERMAP",
+    "name": "Look around",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete note",
@@ -2776,6 +2783,12 @@
     "category": "DEFAULTMODE",
     "id": "map",
     "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View map",
+    "id": "map",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
   },
   {
     "type": "keybinding",

@@ -3012,6 +3012,11 @@ bool game::handle_action()
         // starts destination activity after the player successfully reached his destination
         player_character.start_destination_activity();
         return false;
+    } else if( uistate.open_menu ) {
+        std::optional<std::function<void()>> open_menu_tmp = std::nullopt;
+        std::swap( uistate.open_menu, open_menu_tmp );
+        open_menu_tmp.value()();
+        return false;
     } else {
         // No auto-move, ask player for input
         ctxt = get_player_input( action );
