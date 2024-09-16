@@ -20,8 +20,6 @@
   - [Conjuration](#conjuration)
   - [Enhancement](#enhancement)
   - [Conveyance](#conveyance)
-  - [How The JMATH Works](#how-the-jmath-works)
-    - [How JMATH Outputs are Used in Spells](#how-jmath-outputs-are-used-in-spells)
   - [Advice for Using Proficiencies in Spells](#advice-for-using-proficiencies-in-spells)
 
 ---
@@ -106,78 +104,11 @@ Enervation spells are the opposite of Enhancement, being spells that reduce the 
 Conveyance encompasses spells which involve translocating, teleporting, or moving the caster/target. Some spells covered are Phase Door, Magus's Mark, Shocking Dash, or Translocate Self. Proficiency in Conveyance will extend the range of the spell and lower the mana cost of the incantation.
 
 ## Restoration
-Restoration spells return the physical, spiritually, emotional, or magical capabilities of the target to its ideal state. Spells like Cure Light Wounds, Sacrificial Regrowth, Mind over Pain, or Stone's Endurance are all restoration spells. Proficiency in Restoration will reduce the casting time and increase the amount healed.
+Restoration spells generally return the physical, spiritually, emotional, or magical capabilities of the target to its ideal state. Spells like Cure Light Wounds, Sacrificial Regrowth, Mind over Pain, or Stone's Endurance are all restoration spells. Restoratiojn also has a dark side, however; spells that drain the target of some capability to restore it to the caster are also restoration spells. Proficiency in Restoration will reduce the casting time and increase the amount healed.
 
 ## Transformation
 Transformation spells change one thing into another, such as changing a handful of leaves into gold or changing a charging enemy into a housecat. This also includes partial tranformations of the target. Spells like Harvest of the Hunter, Vicious Tentacle, or Convert are transformation spells. Proficiency in Transformation will increase the duration and reduce the casting time. 
 
-#### How The JMATH Works
-The JMATH behind spellcasting proficiencies is fairly simple, this is how it works:
-
-Take for example this function for evocation proficiency bonuses:
-```JSON
-    "type": "jmath_function",
-    "id": "evocation_proficiency_bonus_calculate",
-    "num_args": 2,
-    "return": "_0 + ((((u_proficiency('prof_magic_evocation_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_evocation_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_evocation_master', 'format': 'percent') * 1) / 10)) * _1 )"  
-```
-What this does is it takes the three associated proficiencies for Evocation (Beginner, Apprentice, and Master) and sees how much you know of that proficiency, on the percent scale of 0% to 100%. It will then take this found value and convert it from a percent to an integer by multiplying it by 1, and this allows the value to be used in `math` calculations. The function then divides the converted integer by 10. This is used for balancing reasons, since initial testing of `math` calculations using a 1 to 1 conversion resulted in spells producing insane damage numbers and costing 0 mana to cast. It repeats this process for all three proficiencies, and then adds them together, giving us a maximum value of 30. This number is used by the game to determine how big of a bonus you get to things like damage and cost reduction, since this maximum value requires that the character master all 3 of these proficiencies in full.
-
-All of the proficiency bonus and negation JMATH functions work the same way, just with different listed proficiencies to calculate off of. One works just like the other, except if it adds or subtracts using the output value.
-
-_0 and _1 will be discussed in [How JMATH Outputs are Used in Spells](#how-jmath-outputs-are-used-in-spells)
-
-##### How JMATH Outputs are Used in Spells
-For our next example, let's take a look at the JSON of the classic Kelvinist staple, Point Flare:
-```JSON
-    "id": "point_flare",
-    "type": "SPELL",
-    "name": "Point Flare",
-    "description": "Generates strong heat at the targeted location, damaging anything susceptible to high temperatures.",
-    "valid_targets": [ "hostile" ],
-    "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
-    "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
-    "effect": "attack",
-    "shape": "blast",
-    "damage_type": "heat",
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(16, 0.5)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.0, 0.0625)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(80, 0.5)" ] },
-    "min_range": 3,
-    "range_increment": 0.5,
-    "max_range": 11,
-    "base_energy_cost": 75,
-    "spell_class": "KELVINIST",
-    "difficulty": 4,
-    "max_level": 16,
-    "base_casting_time": 300,
-    "energy_source": "MANA"
-```
-
-There are a few important numbers out of this that relate to how the previous JMATH is used.
-
-Min and Max Damage:
-```JSON
-    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(16, 0.5)" ] },
-    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(80, 0.5)" ] }
-```
-The first value listed in the `min_damage` and `max_damage` arrays is the base damage of the spell, the _0 in [How The JMATH Works](#how-the-jmath-works). This is what damage the spell would do if the player had no experience at all in Evocation proficiencies, and is what the calculated bonus is added too in the aforementioned example. 0.5 is the _1 that was seen in [How The JMATH Works](#how-the-jmath-works), and this is a scaling modifier. Not all spells do the same damage or scale the same way, so this serves as a way to tune the bonuses of JMATH calculations. In greater detail, this value is what the sum of the three proficiencies is multiplied by at the end of the JMATH calculation to produce the final bonus value, which is added to _0. 
-
-Damage Increments:
-```JSON
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.0, 0.0625)" ] }
-```
-Damage increments work off of the same logic as stated above, with 4.0 being the base increase with no proficiency, and 0.0625 being the scaling modifier. In this case, the scaling modifier limits how much bonus damage is added to the spell upon level-up, thus keeping the natural flow of spell progression in check. Without this value, spells would hit their max damage after 4-6 level-ups, giving players no reason to study above that level and breaking magic balance. To find the scaling modifier for damage increments, simply divide the base `damage_increment` with the difference between base `max_damage` and base `min_damage` of the spell in question. Mathematically expressed, it looks like this for Point Flare;
-```JSON
-    4.0 / (80 - 16)
-    4.0 / 64 
-      0.0625
-``` 
-which gives us our result of 0.0625. This already accounts for spell levels and such, so you don't have to worry about that.
-
-This same process can be repeated for all needed calculations in proficiency bonuses and negations. For example, this process applies to `base_energy_cost`, `final_energy_cost`, and `energy_increment` when calculating the proficiency negations on mana costs for Conjuration spells, or `min_duration`, `max_duration`, and `duration_increment` for Enhancement bonusues extending the buff's time.
-
 ### Advice for Using Proficiencies in Spells
-1. When determining scaling modifiers for proficiency bonuses, remeber to account for the maximum possible bonus (all three proficiencies at 100%, max spell level). If this is not done, then your spell might not scale properly at higher power levels, or become too strong when the player accquires all used proficiencies.
-2. Ideally, bonuses should cap around 20% of the base values at maximum proficiency, but this is mainly a rule of thumb. It's up to the discretion of the programmer for how big they want their bonuses to go. So, if something feels to powerful, then reel it back in at bit. If it feels underwhelming, don't be afraid to buff it.
-3. When working on spells with multiple effects, such as an `extra_effects` entry, be sure to account for all of the sub-spells and have them use the proper `math` functions. Otherwise, your spell won't scale properly.
+1. When picking a spell category, make sure to add the appropriate flag (such as `CHANNELING_SPELL` or `RESTORATION_SPELL`) and add an `extra_effects` to call the appropriate spell to grant proficiency xp. If you're using multiple subspells, make sure to add the flag to all the subspells as well. 
+2. When working on spells with multiple effects, such as an `extra_effects` entry, be sure to account for all of the sub-spells and have them use the proper `math` functions. Otherwise, your spell won't scale properly.
