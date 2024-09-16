@@ -530,7 +530,6 @@
       [ "atomic_coffeepot", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
-      [ "rm120c", 2 ],
       [ "knee_pads", 10 ],
       { "item": "oxygen_tank", "prob": 10, "charges": 24 },
       { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
