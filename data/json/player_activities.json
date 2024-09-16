@@ -945,15 +945,6 @@
     "can_resume": false
   },
   {
-    "id": "ACT_VIEW_RECIPE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "viewing recipe",
-    "rooted": true,
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_SPELLCASTING",
     "type": "activity_type",
     "activity_level": "LIGHT_EXERCISE",
