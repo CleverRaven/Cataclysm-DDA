@@ -9882,6 +9882,28 @@ std::set<fault_id> item::faults_potential() const
     return res;
 }
 
+bool item::can_have_fault_type( const std::string &fault_type ) const
+{
+    std::set<fault_id> res;
+    for( const auto &some_fault : type->faults ) {
+        if( some_fault->type() == fault_type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::set<fault_id> item::faults_potential_of_type( const std::string &fault_type ) const
+{
+    std::set<fault_id> res;
+    for( const auto &some_fault : type->faults ) {
+        if( some_fault->type() == fault_type ) {
+            res.emplace( some_fault );
+        }
+    }
+    return res;
+}
+
 int item::wheel_area() const
 {
     return is_wheel() ? type->wheel->diameter * type->wheel->width : 0;
