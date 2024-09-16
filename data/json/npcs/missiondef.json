@@ -103,11 +103,11 @@
         "npc_thankful",
         {
           "if": { "u_has_item": "antibiotics" },
-          "then": { "u_consume_item": "antibiotics" },
+          "then": { "u_consume_item": "antibiotics", "popup": true },
           "else": {
             "if": { "u_has_item": "strong_antibiotic" },
-            "then": { "u_consume_item": "strong_antibiotic" },
-            "else": { "u_consume_item": "panacea" }
+            "then": { "u_consume_item": "strong_antibiotic", "popup": true },
+            "else": { "u_consume_item": "panacea", "popup": true }
           }
         }
       ]
