@@ -113,7 +113,7 @@
       {
         "id": "knife_vegetable_cleaver",
         "name": { "str": "vegetable cleaver" },
-        "description": "A menacing-looking knife with a broad, square shaped blade, curved for fast vegetable chopping.  Its heft and sharpness make it a decent weapon as well, although not as good as a meat cleaver.",
+        "description": "A menacing-looking knife with a broad, square shaped blade, curved for fast vegetable chopping.  Its heft and sharpness make it a decent weapon.",
         "ascii_picture": "knife_vegetable_cleaver"
       }
     ],
