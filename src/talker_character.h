@@ -173,6 +173,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool wielded_with_weapon_category( const weapon_category_id &w_cat ) const override;
+        bool wielded_with_weapon_skill( const skill_id &w_skill ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 

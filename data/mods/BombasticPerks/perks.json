@@ -1178,5 +1178,25 @@
     "valid": false,
     "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
     "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "revolvers_are_cool",
+    "name": { "str": "Double Action Action" },
+    "description": "You always knew nothing can beat the good old six shooters.  You have a minor bonus using revolvers.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_has_wielded_with_flag": "RELOAD_ONE" }, { "u_has_wielded_with_skill": "pistol" } ] },
+        "values": [
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "add": 6 },
+          { "value": "RANGE", "add": 4 }
+        ]
+      }
+    ]
   }
 ]
