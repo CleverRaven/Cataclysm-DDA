@@ -483,7 +483,7 @@
     "type": "mutation",
     "id": "BROWNIE_SENSE_INTRUDERS",
     "name": { "str": "Sense Intruders" },
-    "description": "With the knowledge of one's home comes the knowledge that something is off about it.  You can sense any intuders nearby, as long as you are indoors and have been in the same location for some time.",
+    "description": "With the knowledge of one's home comes the knowledge that something is off about it.  You can sense any intruders nearby, as long as you are indoors and have been in the same location for some time.",
     "points": 8,
     "prereqs": [ "BROWNIE_HOMEBODY" ],
     "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
@@ -500,11 +500,21 @@
     "id": "BROWNIE_BLINK_INDOORS",
     "name": { "str": "Slip Through the Cracks" },
     "points": 4,
-    "description": "Lughnasadh is a time for bringing in the harvest and for contests of skill and stamina.",
+    "description": "You can tell every nook and cranny of indoor spaces, and know how to quickly get from one place to another.",
     "prereqs": [ "BROWNIE_HOMEBODY" ],
     "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
-    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
     "spells_learned": [ [ "changeling_brownie_blink_indoors_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_TELEPORT_HOME",
+    "name": { "str": "Hurry Home" },
+    "points": 8,
+    "description": "You can return home from anywhere, as quick as a wink.",
+    "prereqs": [ "BROWNIE_BLINK_INDOORS" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "changeling_teleport_home_spell", 1 ] ]
   },
   {
     "type": "mutation",

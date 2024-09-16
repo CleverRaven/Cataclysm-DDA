@@ -551,7 +551,13 @@
     "type": "effect_on_condition",
     "id": "EOC_BROWNIE_HOMEBODY_RAISING_EOC",
     "recurrence": [ "1 hours", "1 hours" ],
-    "condition": { "and": [ { "u_has_trait": "BROWNIE_HOMEBODY" }, { "math": [ "u_brownie_homebody_speed_bonus", "<=", "19" ] } ] },
+    "condition": {
+      "and": [
+        { "u_has_trait": "BROWNIE_HOMEBODY" },
+        { "math": [ "u_brownie_homebody_speed_bonus", "<=", "19" ] },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
     "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "++" ] }, { "math": [ "u_brownie_sense_intruders", "++" ] } ]
   },
   {
@@ -690,6 +696,67 @@
       }
     ],
     "false_effect": { "u_message": "You must be indoors to slip through the cracks.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOME_TELEPORT_SET_DESTINATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus", ">=", "12" ] } ] },
+    "effect": [ { "u_location_variable": { "u_val": "brownie_home_teleport_loc" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
+    "condition": {
+      "and": [
+        { "not": "u_is_outside" },
+        {
+          "or": [
+            { "u_is_on_terrain": "t_door_white_frame" },
+            { "u_is_on_terrain": "t_door_frame" },
+            { "u_is_on_terrain": "t_door_lab_frame" },
+            { "u_is_on_terrain": "t_door_red_frame" },
+            { "u_is_on_terrain": "t_door_green_frame" },
+            { "u_is_on_terrain": "t_door_gray_frame" },
+            { "u_is_on_terrain": "t_mdoor_lab_frame" },
+            { "u_is_on_terrain": "t_mdoor_frame" },
+            { "u_is_on_terrain": "t_door_bar_o" },
+            { "u_is_on_terrain": "t_door_o" },
+            { "u_is_on_terrain": "t_door_lab_o" },
+            { "u_is_on_terrain": "t_door_green_o" },
+            { "u_is_on_terrain": "t_door_gray_o" },
+            { "u_is_on_terrain": "t_door_red_o" },
+            { "u_is_on_terrain": "t_door_white_o" },
+            { "u_is_on_terrain": "t_door_glass_gray_o" },
+            { "u_is_on_terrain": "t_door_glass_green_o" },
+            { "u_is_on_terrain": "t_door_glass_red_o" },
+            { "u_is_on_terrain": "t_door_glass_lab_o" },
+            { "u_is_on_terrain": "t_door_glass_o" },
+            { "u_is_on_terrain": "t_door_metal_lab_o" },
+            { "u_is_on_terrain": "t_door_metal_o" },
+            { "u_is_on_terrain": "t_door_glass_white_o" },
+            { "u_is_on_terrain": "t_secretdoor_concrete_o" },
+            { "u_is_on_terrain": "t_secretdoor_metal_o" },
+            { "u_is_on_terrain": "t_screen_door_o" },
+            { "u_is_on_terrain": "t_door_metal_bulkhead_o" },
+            { "u_is_on_terrain": "t_door_glass_frosted_lab_o" },
+            { "u_is_on_terrain": "t_door_glass_frosted_o" },
+            { "u_is_on_terrain": "t_laminated_door_glass_o" },
+            { "u_is_on_terrain": "t_rdoor_o" },
+            { "u_is_on_terrain": "t_ballistic_door_glass_o" },
+            { "u_is_on_terrain": "t_door_metal_corrugated_o" },
+            { "u_is_on_terrain": "t_reinforced_door_glass_o" },
+            { "u_is_on_terrain": "t_reinforced_door_glass_lab_o" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
+      { "u_message": "You slip through the door and head straight home.", "type": "good" }
+    ],
+    "false_effect": { "u_message": "You must be in a doorway to hurry home.", "type": "bad" }
   },
   {
     "type": "effect_on_condition",
