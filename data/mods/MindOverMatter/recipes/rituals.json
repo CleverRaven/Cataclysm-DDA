@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "name": "engineer mind",
+    "name": "enact the PATIENT MOSAIC process",
     "id": "recipe_mental_engineering",
     "description": "With the help of a telepathic focusing tool and your (hopefully) extensive telepathic powers, you can sink into a deep trance where you can only sense yourself, allowing you to permanently adjust your mental state and view of the outside world.  Will the end result still be you?",
     "category": "CC_PSIONIC",
@@ -10,8 +10,12 @@
     "skill_used": "metaphysics",
     "difficulty": 9,
     "time": "0 h",
-    "book_learn": [ [ "schematics_telepathic_focusing_tool", 4 ] ],
+    "book_learn": [ [ "phavian_psionic_telepathic_mental_engineering_book", 8 ] ],
     "tools": [ [ [ "telepathic_focusing_tool", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_psionic_basic", "required": true },
+      { "proficiency": "prof_psionic_ritual", "required": true }
+    ],
     "flags": [ "SECRET" ],
     "result_eocs": [ "EOC_TELEPATHIC_MENTAL_ENGINEERING_SELECTOR" ]
   },
