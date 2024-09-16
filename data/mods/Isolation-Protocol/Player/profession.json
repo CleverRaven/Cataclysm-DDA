@@ -143,7 +143,7 @@
     "type": "profession",
     "id": "iso_geas_knight",
     "name": "Geas Knight",
-    "description": "A warrior from a destroyed land, still bound by ancient oaths sworn to mountains and stars.",
+    "description": "A warrior from a destroyed land, bound by ancient oaths sworn in the language of stars and stone.",
     "points": 6,
     "skills": [
       { "level": 3, "name": "melee" },
@@ -154,7 +154,7 @@
       { "level": 2, "name": "rifle" },
       { "level": 3, "name": "dodge" }
     ],
-    "traits": [ "iso_trait" ],
+    "traits": [ "iso_trait", "iso_geas" ],
     "items": {
       "both": {
         "entries": [

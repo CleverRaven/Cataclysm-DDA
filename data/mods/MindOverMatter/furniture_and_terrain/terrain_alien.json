@@ -20,7 +20,8 @@
     "color": "black",
     "move_cost": 6,
     "emissions": [ "emit_cold_nether_water" ],
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "MURKY" ],
+    "//liquid_source": { "id": "water_murky" },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER"
   },
@@ -34,7 +35,8 @@
     "color": "black",
     "move_cost": 10,
     "emissions": [ "emit_cold_deep_nether_water" ],
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "MURKY" ],
+    "//liquid_source": { "id": "water_murky" },
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
     "connect_groups": "WATER",
     "connects_to": "WATER"
   },

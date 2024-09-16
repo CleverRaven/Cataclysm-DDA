@@ -181,7 +181,6 @@
         "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "{": "f_bigmirror",
         "#": "f_counter",
-        "H": "f_vending_c",
         "&": "f_counter",
         "*": "f_shower",
         "@": [ "f_treadmill", "f_treadmill_mechanical" ],
@@ -192,12 +191,13 @@
         "T": "f_toilet",
         "t": "f_sink"
       },
+      "vendingmachines": { "H": { "item_group": "vending_drink", "lootable": true } },
       "place_monster": [
         { "group": "GROUP_SEARCH_FITNESS", "x": [ 0, 23 ], "y": [ 0, 15 ], "chance": 75, "repeat": [ 3, 8 ] },
         { "group": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ], "chance": 75, "repeat": [ 2, 5 ] }
       ],
       "toilets": { "T": {  } },
-      "items": { "O": { "item": "gym", "chance": 80 }, "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } },
+      "items": { "O": { "item": "gym", "chance": 80 } },
       "place_loot": [ { "group": "cash_register_random", "x": [ 17, 19 ], "y": 2 } ]
     }
   },

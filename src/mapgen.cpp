@@ -1947,10 +1947,12 @@ class jmapgen_field : public jmapgen_piece
         mapgen_value<field_type_id> ftype;
         std::vector<int> intensities;
         time_duration age;
+        int chance;
         bool remove;
         jmapgen_field( const JsonObject &jsi, const std::string_view/*context*/ ) :
             ftype( jsi.get_member( "field" ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
+            , chance( jsi.get_int( "chance", 100 ) )
             , remove( jsi.get_bool( "remove", false ) ) {
             if( jsi.has_array( "intensity" ) ) {
                 for( JsonValue jv : jsi.get_array( "intensity" ) ) {
@@ -1968,10 +1970,14 @@ class jmapgen_field : public jmapgen_piece
                 return;
             }
             if( remove ) {
-                dat.m.remove_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
+                if( x_in_y( chance, 100 ) ) {
+                    dat.m.remove_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
+                }
             } else {
-                dat.m.add_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
-                                 random_entry( intensities ), age );
+                if( x_in_y( chance, 100 ) ) {
+                    dat.m.add_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
+                                     random_entry( intensities ), age );
+                }
             }
         }
 

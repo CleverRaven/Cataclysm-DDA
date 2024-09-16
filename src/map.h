@@ -1501,8 +1501,8 @@ class map
             return i_at( tripoint_bub_ms( p, abs_sub.z() ) );
         }
         // TODO: Get rid of untyped overload.
-        item water_from( const tripoint &p );
-        item water_from( const tripoint_bub_ms &p ) const;
+        item liquid_from( const tripoint &p );
+        item liquid_from( const tripoint_bub_ms &p ) const;
         // TODO: Get rid of untyped overload.
         void i_clear( const tripoint &p );
         void i_clear( const tripoint_bub_ms &p );
