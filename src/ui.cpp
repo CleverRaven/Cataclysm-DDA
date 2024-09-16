@@ -37,12 +37,14 @@ class uilist_impl : cataimgui::window
         uilist &parent;
     public:
         explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ),
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
             parent( parent ) {
         }
 
         uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
-                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ),
+                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
             parent( parent ) {
         }
 
@@ -90,8 +92,7 @@ void uilist_impl::draw_controls()
 
         float entry_height = ImGui::GetTextLineHeightWithSpacing();
         ImGuiStyle &style = ImGui::GetStyle();
-        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false,
-                               ImGuiWindowFlags_NavFlattened ) ) {
+        if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false ) ) {
             if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
                 ImGui::TableSetupColumn( "hotkey", ImGuiTableColumnFlags_WidthFixed,
                                          parent.calculated_hotkey_width );
