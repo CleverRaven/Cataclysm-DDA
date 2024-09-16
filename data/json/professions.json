@@ -6822,7 +6822,6 @@
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "swimming" }
     ],
-    "traits": [ "PROF_MED" ],
     "proficiencies": [
       "prof_spotting",
       "prof_wound_care",
