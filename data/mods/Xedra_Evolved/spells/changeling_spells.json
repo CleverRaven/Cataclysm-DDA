@@ -235,7 +235,7 @@
     "id": "changeling_teleport_home_spell",
     "type": "SPELL",
     "name": "Hurry Home",
-    "description": "You always know your home and can return to it at need.  When standing in a doorway, you can use this glamour to return to the last place you slept, as long as you spent at least a day at that place previously.",
+    "description": "You always know your home and can return to it at need.  When standing in a doorway, you can use this glamour to return to the last place you slept, as long as you spent at least a day at that place previously and as long as you are unobserved.",
     "flags": [ "NO_FAIL", "SOMATIC" ],
     "valid_targets": [ "self" ],
     "spell_class": "CHANGELING_MAGIC",

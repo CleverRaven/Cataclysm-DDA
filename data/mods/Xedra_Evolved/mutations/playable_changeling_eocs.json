@@ -753,8 +753,27 @@
       ]
     },
     "effect": [
-      { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
-      { "u_message": "You slip through the door and head straight home.", "type": "good" }
+      { "math": [ "brownie_home_teleport", "=", "0" ] },
+      {
+        "u_run_monster_eocs": [
+          { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_MONSTER", "effect": { "math": [ "brownie_home_teleport", "=", "1" ] } }
+        ],
+        "monster_range": 45,
+        "monster_must_see": true
+      },
+      {
+        "u_run_npc_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_NPC", "effect": { "math": [ "brownie_home_teleport", "=", "1" ] } } ],
+        "npc_range": 45,
+        "npc_must_see": true
+      },
+      {
+        "if": { "math": [ "brownie_home_teleport", "==", "0" ] },
+        "then": [
+          { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
+          { "u_message": "You slip through the door and head straight home.", "type": "good" }
+        ],
+        "else": { "u_message": "You must be unobserved to hurry home!", "type": "bad" }
+      }
     ],
     "false_effect": { "u_message": "You must be in a doorway to hurry home.", "type": "bad" }
   },
