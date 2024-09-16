@@ -528,20 +528,14 @@
     "id": "ammo_shotgun_rare",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
-    "entries": [
-      { "item": "shot_dragon", "prob": 10 },
-      { "item": "shot_beanbag", "prob": 20 }
-    ]
+    "entries": [ { "item": "shot_dragon", "prob": 10 }, { "item": "shot_beanbag", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_shotgun_rare_collection",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
     "subtype": "collection",
-    "entries": [
-      { "item": "shot_dragon", "prob": 20 },
-      { "item": "shot_beanbag", "prob": 40 }
-    ]
+    "entries": [ { "item": "shot_dragon", "prob": 20 }, { "item": "shot_beanbag", "prob": 40 } ]
   },
   {
     "type": "item_group",
