@@ -7144,17 +7144,8 @@ void map::rotate( int turns )
             continue;
         }
 
-        const point_abs_sm npc_sm( np.global_sm_location().xy() );
-        const point_bub_ms npc_bub( np.pos_bub().xy() );
-        point_bub_ms old( npc_bub.x() % SEEX, npc_bub.y() % SEEY );
-
-        // Note: We are rotating the entire overmap square (2x2 of submaps)
-        if( npc_sm.x() % 2 != 0 ) {
-            old.x() += SEEX;
-        }
-        if( npc_sm.y() % 2 != 0 ) {
-            old.y() += SEEY;
-        }
+        // Translate bubble -> global -> current map.
+        const point_bub_ms old( bub_from_abs( get_map().getglobal( np.pos_bub() ).xy() ) );
 
         const point_bub_ms new_pos( old.raw().rotate( turns, {SEEX * 2, SEEY * 2} ) );
         np.spawn_at_precise( getglobal( tripoint_bub_ms( new_pos, sq.z() ) ) );

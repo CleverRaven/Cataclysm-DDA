@@ -3516,39 +3516,60 @@ See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
 
 ### Ammo
 
-```C++
-"type" : "AMMO",      // Defines this as ammo
-...                   // same entries as above for the generic item.
-                      // additional some ammo specific entries:
-"ammo_type" : "shot", // Determines what it can be loaded in 
-"damage": {           // Ranged damage when fired
-  "damage_type": "bullet", // Type of the damage that would be dealt
-  "amount": 39,            // Amount of the damage to deal
-  "armor_penetration": 2,  // Flat armor penetration
-  "barrels": [             // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
-    { "barrel_length": "28 mm", "amount": 13 }, //if weapon has barrel lengh this or less, this amount of the damage would be applied
-    { "barrel_length": "30 mm", "amount": 14 },
-    { "barrel_length": "35 mm", "amount": 15 },
-    { "barrel_length": "39 mm", "amount": 16 }
-  ]
+```json
+{
+  "id": "223",            // ID of the ammo
+  "type": "AMMO",         // Defines this as ammo. It can use the same entries as a GENERIC item
+                          // Additionally, some AMMO specific entries consist of the following:
+  "ammo_type": "shot",    // Determines where the items can be loaded in. Requires a proper `"ammunition_type"` to be declared (see below). In this case, the `223` rounds can be loaded into magazines that accept `shot`-type ammo
+  "damage": {             // Ranged damage when fired
+    "damage_type": "bullet",  // Type of the damage that would be dealt
+    "amount": 39,             // Amount of damage to be dealt
+    "armor_penetration": 2,   // Flat armor penetration
+    "barrels": [              // Replaces the `amount` when weapon has barrel lenghth defined, allow to change the damage of the single round depending on the barrel length.
+      { "barrel_length": "28 mm", "amount": 13 },  // If weapon has barrel lengh this or less, this amount of the damage would be applied
+      { "barrel_length": "30 mm", "amount": 14 },
+      { "barrel_length": "35 mm", "amount": 15 },
+      { "barrel_length": "39 mm", "amount": 16 }
+    ]
+  },
+  "range": 5,             // Range when fired
+  "recovery_chance": 6,   // Percentage of chance to recover the ammo after firing
+  "dispersion": 0,        // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
+  "shot_counter": 5,      // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5). Designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
+  "projectile_count": 5,  // Amount of pellets, that the ammo will shot, like in shotgun-like weapon. If used, `"shot_damage"` should be specified
+  "multi_projectile_effects": true,  // (Optional) Boolean, default false. If the projectile_count is greater than 1, determines if the extra projectiles will also trigger any ammo effects. (For more on ammo effects see below)
+  "shot_damage": { "damage_type": "bullet", "amount": 15 },  // (Optional) Specifies the damage caused by a single projectile fired from this round. If present, projectile_count must also be specified. Syntax is the same as `"damage"`
+  "critical_multiplier": 4,  // If the hit is a critical hit, all ranged damage dealt will be multiplied by this
+  "shot_spread": 100,     // (Optional) Specifies the additional dispersion of single projectiles. Only meaningful if shot_count is present.
+  "recoil": 18,           // Recoil caused when firing
+  "count": 25,            // Number of rounds that spawn together
+  "stack_size": 50,       // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
+  "show_stats": true,     // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
+  "loudness": 10,         // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
+  "casing": "223_casing", // Casing of the ammo that would be left after shooting
+  "effects": ["COOKOFF", "SHOT"]  // Ammo effcts, see below
 },
-"range" : 5,          // Range when fired
-"recovery_chance": 6, // Percentage of chance to recover the ammo after firing
-"dispersion" : 0,     // Inaccuracy of ammo, measured in 100ths of Minutes Of Angle (MOA)
-"shot_counter": 5,    // Increases amount of shots produced by gun by this amount. `"shot_counter": 5` means each shot will be counted as 6 shots (1 you actually perform + 5); designed for using in suppressor mod breakage and for stuff like replaceable barrels, but not used anywhere at this moment
-"projectile_count": 5,// amount of pellets, that the ammo will shot, like in shotgun-like weapon; if used, shot_damage should be specified
-"multi_projectile_effects": true,// (Optional) Boolean, default false. If the projectile_count is greater than 1, determines if the extra projectiles will also trigger any ammo effects. (For more on ammo effects see below)
-"shot_damage": { "damage_type": "bullet", "amount": 15 } // Optional field specifying the damage caused by a single projectile fired from this round. If present projectile_count must also be specified; syntax is equal to damage
-"critical_multiplier": 4, // All ranged damage dealt would be multiplied by this, if it was a critical hit
-"shot_spread": 100,   // Optional field specifying the additional dispersion of single projectiles. Only meaningful if shot_count is present.
-"recoil" : 18,        // Recoil caused when firing
-"count" : 25,         // Number of rounds that spawn together
-"stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
-"show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
-"loudness": 10,       // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
-"casing": "223_casing", // casing of the ammo, that would be left after the shot
-"effects" : ["COOKOFF", "SHOT"] // ammo effcts, see below
 ```
+
+Additionally, non-`"type": "AMMO"` items can be considered as ammo (capable of being shot, capable of being loaded into a `MAGAZINE` pocket), by adding the `ammo_data` field. Do note that a proper `ammunition_type` is also required:
+
+```json
+  {
+    "id": "water_clean",
+    "type": "COMESTIBLE",
+    ...
+    "ammo_data": { "ammo_type": "water" },
+    ...
+  },
+  {
+    "id": "water",
+    "type": "ammunition_type",
+    "name": "water",
+    "default": "water"
+  },
+```
+
 
 ### Ammo Effects
 
