@@ -48,7 +48,7 @@
   {
     "type": "terrain",
     "id": "t_folded_wall",
-    "name": "folded  wall",
+    "name": "folded wall",
     "description": "When looked at out of the side of the eye, this wall seems to bend and curve in on itself and when looked at head on it seems to be a repeating pattern of solid concrete hexagons.",
     "symbol": "LINE_OXOX",
     "color": "yellow_cyan", 
@@ -69,7 +69,7 @@
   {
     "type": "terrain",
     "id": "t_unfolded_wall",
-    "name": "unfolded  wall",
+    "name": "unfolded wall",
     "description": "This wall tessellates as you view it.",
     "symbol": "LINE_OXOX",
     "color": "cyan_red", 
