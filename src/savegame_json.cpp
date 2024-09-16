@@ -370,7 +370,7 @@ void player_activity::deserialize( const JsonObject &data )
     bool is_obsolete = false;
     std::set<std::string> obs_activities {
         "ACT_VIEW_RECIPE", // Remove after 0.I
-        "ACT_MAKE_ZLAVE" // Remove after 0.F
+        "ACT_ADV_INVENTORY" // Remove after 0.I
     };
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.

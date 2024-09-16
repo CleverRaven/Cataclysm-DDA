@@ -29,7 +29,6 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -141,8 +140,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         return std::optional<std::string>();
     }
 
-    if( type == ACT_ADV_INVENTORY ||
-        type == ACT_AIM ||
+    if( type == ACT_AIM ||
         type == ACT_ARMOR_LAYERS ||
         type == ACT_ATM ||
         type == ACT_CONSUME_DRINK_MENU ||
