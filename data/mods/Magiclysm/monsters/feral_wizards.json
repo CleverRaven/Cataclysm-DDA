@@ -588,7 +588,7 @@
   {
     "id": "mon_feral_magus",
     "type": "MONSTER",
-    "name": { "str": "feral magus" },
+    "name": { "str": "feral magus", "str_pl": "feral magi" },
     "description": "A mage gone feral, their bloodshot eyes looking to and fro as eldritch light occasionally trails from their hands.  The arcane sigils on their clothing and the rings and jewelry they wear bespeak that they were once a mage of considerable power before the Cataclysm took their mind.",
     "default_faction": "zombie",
     "looks_like": "chud",
@@ -669,7 +669,7 @@
   {
     "id": "mon_feral_magus_enhanced",
     "type": "MONSTER",
-    "name": { "str": "feral high magus" },
+    "name": { "str": "feral high magus", "str_pl": "feral high magi" },
     "description": "A mage gone feral, their bloodshot eyes looking to and fro as eldritch light occasionally trails from their hands.  They randomly make half-remembered arcane gestures, but the occasional spells that result are no less potent for it.",
     "default_faction": "zombie",
     "looks_like": "chud",
