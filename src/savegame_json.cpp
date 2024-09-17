@@ -369,6 +369,7 @@ void player_activity::deserialize( const JsonObject &data )
 
     bool is_obsolete = false;
     std::set<std::string> obs_activities {
+        "ACT_PICKUP_MENU", // Remove after 0.I
         "ACT_VIEW_RECIPE", // Remove after 0.I
         "ACT_ADV_INVENTORY" // Remove after 0.I
     };

@@ -3023,6 +3023,8 @@ bool game::handle_action()
         player_character.start_destination_activity();
         return false;
     } else if( uistate.open_menu ) {
+        // make a copy so that uistate.open_menu can be assigned a new function
+        // during the execution of the copied old function
         std::optional<std::function<void()>> open_menu_tmp = std::nullopt;
         std::swap( uistate.open_menu, open_menu_tmp );
         open_menu_tmp.value()();
