@@ -7995,9 +7995,7 @@
     "name": "IT Technician",
     "description": "Your prayers were answered when you were just one broken fax machine away from a complete mental breakdown, although you are now starting to think that wish might have been better used on something else.",
     "points": 1,
-    "skills": [
-      { "level": 5, "name": "computer" }
-    ],
+    "skills": [ { "level": 5, "name": "computer" } ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
       "both": {
