@@ -292,7 +292,7 @@
     "sym": ",",
     "color": "red",
     "travel_cost_type": "field",
-    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "spawns": { "group": "GROUP_ALIEN_MEADOW", "population": [ 0, 1 ], "chance": 13 },
     "flags": [ "REQUIRES_PREDECESSOR" ]
   },
   {

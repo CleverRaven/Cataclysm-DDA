@@ -1,7 +1,7 @@
 [
   {
     "type": "palette",
-    "id": "meadow_palette",
+    "id": "alien_meadow_palette",
     "terrain": {
       "1": [
         [ "t_region_soil", 1 ],
