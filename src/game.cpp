@@ -2322,7 +2322,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 }
                 case 'i':
                     if( oThisItem.is_container() ) {
-                        game_menus::inv::insert_items( u, locThisItem );
+                        game_menus::inv::insert_items( locThisItem );
                     }
                     break;
                 case 'o':
@@ -9044,7 +9044,7 @@ void game::insert_item()
         return;
     }
 
-    game_menus::inv::insert_items( u, item_loc );
+    game_menus::inv::insert_items( item_loc );
 }
 
 void game::unload_container()

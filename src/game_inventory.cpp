@@ -1810,8 +1810,9 @@ drop_locations game_menus::inv::holster( const item_location &holster )
     return insert_menu.execute();
 }
 
-void game_menus::inv::insert_items( avatar &you, item_location &holster )
+void game_menus::inv::insert_items( item_location &holster )
 {
+    avatar &you = get_avatar();
     if( holster->will_spill_if_unsealed()
         && holster.where() != item_location::type::map
         && !you.is_wielding( *holster ) ) {
