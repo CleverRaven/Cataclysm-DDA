@@ -549,6 +549,236 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOMEBODY_RAISING_EOC",
+    "recurrence": [ "1 hours", "1 hours" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "BROWNIE_HOMEBODY" },
+        { "math": [ "u_brownie_homebody_speed_bonus", "<=", "19" ] },
+        { "not": { "u_has_effect": "sleep" } }
+      ]
+    },
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "++" ] }, { "math": [ "u_brownie_sense_intruders", "++" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOMEBODY_LOWERING_EOC",
+    "required_event": "avatar_enters_omt",
+    "eoc_type": "EVENT",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "math": [ "u_brownie_homebody_speed_bonus", ">", "0" ] },
+        {
+          "not": {
+            "or": [
+              { "u_at_om_location": "FACTION_CAMP_ANY" },
+              { "u_at_om_location": "mansion_e1" },
+              { "u_at_om_location": "mansion_boarded_e1" },
+              { "u_at_om_location": "mansion_e2" },
+              { "u_at_om_location": "mansion_+1" },
+              { "u_at_om_location": "mansion_+1d" },
+              { "u_at_om_location": "mansion_+1u" },
+              { "u_at_om_location": "mansion_+1_roof" },
+              { "u_at_om_location": "mansion_+2" },
+              { "u_at_om_location": "mansion_+2d" },
+              { "u_at_om_location": "mansion_+2u" },
+              { "u_at_om_location": "mansion_+2_roof" },
+              { "u_at_om_location": "mansion_+3" },
+              { "u_at_om_location": "mansion_+3u" },
+              { "u_at_om_location": "mansion_+3_roof" },
+              { "u_at_om_location": "mansion_+4" },
+              { "u_at_om_location": "mansion_+4d" },
+              { "u_at_om_location": "mansion_+4u" },
+              { "u_at_om_location": "mansion_+4_roof" },
+              { "u_at_om_location": "mansion_boarded_c1" },
+              { "u_at_om_location": "mansion_c1" },
+              { "u_at_om_location": "mansion_c1d" },
+              { "u_at_om_location": "mansion_boarded_c1u" },
+              { "u_at_om_location": "mansion_c1u" },
+              { "u_at_om_location": "mansion_c1_roof" },
+              { "u_at_om_location": "mansion_boarded_c2" },
+              { "u_at_om_location": "mansion_c2" },
+              { "u_at_om_location": "mansion_c2d" },
+              { "u_at_om_location": "mansion_boarded_c2u" },
+              { "u_at_om_location": "mansion_c2u" },
+              { "u_at_om_location": "mansion_c2_roof" },
+              { "u_at_om_location": "mansion_boarded_c3" },
+              { "u_at_om_location": "mansion_c3" },
+              { "u_at_om_location": "mansion_c3d" },
+              { "u_at_om_location": "mansion_boarded_c3u" },
+              { "u_at_om_location": "mansion_c3u" },
+              { "u_at_om_location": "mansion_c3_roof" },
+              { "u_at_om_location": "mansion_boarded_c4" },
+              { "u_at_om_location": "mansion_c4" },
+              { "u_at_om_location": "mansion_c4d" },
+              { "u_at_om_location": "mansion_boarded_c4u" },
+              { "u_at_om_location": "mansion_c4u" },
+              { "u_at_om_location": "mansion_c4_roof" },
+              { "u_at_om_location": "mansion_c5" },
+              { "u_at_om_location": "mansion_c5d" },
+              { "u_at_om_location": "mansion_c5u" },
+              { "u_at_om_location": "mansion_c5_roof" },
+              { "u_at_om_location": "mansion_e1d" },
+              { "u_at_om_location": "mansion_boarded_e1u" },
+              { "u_at_om_location": "mansion_e1u" },
+              { "u_at_om_location": "mansion_e1_roof" },
+              { "u_at_om_location": "mansion_e2d" },
+              { "u_at_om_location": "mansion_e2u" },
+              { "u_at_om_location": "mansion_e2_roof" },
+              { "u_at_om_location": "mansion_t1" },
+              { "u_at_om_location": "mansion_t1d" },
+              { "u_at_om_location": "mansion_t1u" },
+              { "u_at_om_location": "mansion_t1_roof" },
+              { "u_at_om_location": "mansion_boarded_t2" },
+              { "u_at_om_location": "mansion_boarded_t2_start" },
+              { "u_at_om_location": "mansion_t2" },
+              { "u_at_om_location": "mansion_boarded_t2d" },
+              { "u_at_om_location": "mansion_boarded_t2d_start" },
+              { "u_at_om_location": "mansion_t2d" },
+              { "u_at_om_location": "mansion_boarded_t2u" },
+              { "u_at_om_location": "mansion_t2u" },
+              { "u_at_om_location": "mansion_t2_roof" },
+              { "u_at_om_location": "mansion_boarded_t4" },
+              { "u_at_om_location": "mansion_t4" },
+              { "u_at_om_location": "mansion_t4d" },
+              { "u_at_om_location": "mansion_boarded_t4u" },
+              { "u_at_om_location": "mansion_t4u" },
+              { "u_at_om_location": "mansion_t4_roof" },
+              { "u_at_om_location": "mansion_t5" },
+              { "u_at_om_location": "mansion_t5d" },
+              { "u_at_om_location": "mansion_t5u" },
+              { "u_at_om_location": "mansion_t5_roof" },
+              { "u_at_om_location": "mansion_t6" },
+              { "u_at_om_location": "mansion_t6d" },
+              { "u_at_om_location": "mansion_t6u" },
+              { "u_at_om_location": "mansion_t6_roof" },
+              { "u_at_om_location": "mansion_t7" },
+              { "u_at_om_location": "mansion_t7d" },
+              { "u_at_om_location": "mansion_t7u" },
+              { "u_at_om_location": "mansion_t7_roof" }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_brownie_homebody_speed_bonus", "--" ] }, { "math": [ "u_brownie_sense_intruders", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_LEARN_CHEESE_AND_BUTTER",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "BROWNIE_MAKE_CHEESE_AND_BUTTER", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "cheese_hard_brownie" }, { "u_learn_recipe": "butter_brownie" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_INDOOR_BLINK",
+    "condition": { "not": "u_is_outside" },
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "brownie_teleport" },
+        "passable_only": true,
+        "min_radius": 5,
+        "max_radius": 10,
+        "true_eocs": [
+          {
+            "id": "EOC_BROWNIE_INDOOR_BLINK_SUCCESS",
+            "condition": { "map_terrain_with_flag": "INDOORS", "loc": { "context_val": "brownie_teleport" } },
+            "effect": [
+              { "u_teleport": { "context_val": "brownie_teleport" } },
+              { "u_message": "You carefully slip through the cracks.", "type": "good" }
+            ],
+            "false_effect": [ { "run_eocs": "EOC_BROWNIE_INDOOR_BLINK" } ]
+          }
+        ]
+      }
+    ],
+    "false_effect": { "u_message": "You must be indoors to slip through the cracks.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOME_TELEPORT_SET_DESTINATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": { "and": [ { "u_has_trait": "BROWNIE_TELEPORT_HOME" }, { "math": [ "u_brownie_homebody_speed_bonus", ">=", "12" ] } ] },
+    "effect": [ { "u_location_variable": { "u_val": "brownie_home_teleport_loc" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
+    "condition": {
+      "and": [
+        { "not": "u_is_outside" },
+        {
+          "or": [
+            { "u_is_on_terrain": "t_door_white_frame" },
+            { "u_is_on_terrain": "t_door_frame" },
+            { "u_is_on_terrain": "t_door_lab_frame" },
+            { "u_is_on_terrain": "t_door_red_frame" },
+            { "u_is_on_terrain": "t_door_green_frame" },
+            { "u_is_on_terrain": "t_door_gray_frame" },
+            { "u_is_on_terrain": "t_mdoor_lab_frame" },
+            { "u_is_on_terrain": "t_mdoor_frame" },
+            { "u_is_on_terrain": "t_door_bar_o" },
+            { "u_is_on_terrain": "t_door_o" },
+            { "u_is_on_terrain": "t_door_lab_o" },
+            { "u_is_on_terrain": "t_door_green_o" },
+            { "u_is_on_terrain": "t_door_gray_o" },
+            { "u_is_on_terrain": "t_door_red_o" },
+            { "u_is_on_terrain": "t_door_white_o" },
+            { "u_is_on_terrain": "t_door_glass_gray_o" },
+            { "u_is_on_terrain": "t_door_glass_green_o" },
+            { "u_is_on_terrain": "t_door_glass_red_o" },
+            { "u_is_on_terrain": "t_door_glass_lab_o" },
+            { "u_is_on_terrain": "t_door_glass_o" },
+            { "u_is_on_terrain": "t_door_metal_lab_o" },
+            { "u_is_on_terrain": "t_door_metal_o" },
+            { "u_is_on_terrain": "t_door_glass_white_o" },
+            { "u_is_on_terrain": "t_secretdoor_concrete_o" },
+            { "u_is_on_terrain": "t_secretdoor_metal_o" },
+            { "u_is_on_terrain": "t_screen_door_o" },
+            { "u_is_on_terrain": "t_door_metal_bulkhead_o" },
+            { "u_is_on_terrain": "t_door_glass_frosted_lab_o" },
+            { "u_is_on_terrain": "t_door_glass_frosted_o" },
+            { "u_is_on_terrain": "t_laminated_door_glass_o" },
+            { "u_is_on_terrain": "t_rdoor_o" },
+            { "u_is_on_terrain": "t_ballistic_door_glass_o" },
+            { "u_is_on_terrain": "t_door_metal_corrugated_o" },
+            { "u_is_on_terrain": "t_reinforced_door_glass_o" },
+            { "u_is_on_terrain": "t_reinforced_door_glass_lab_o" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "brownie_home_teleport", "=", "0" ] },
+      {
+        "u_run_monster_eocs": [
+          { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_MONSTER", "effect": { "math": [ "brownie_home_teleport", "=", "1" ] } }
+        ],
+        "monster_range": 45,
+        "monster_must_see": true
+      },
+      {
+        "u_run_npc_eocs": [ { "id": "EOC_BROWNIE_HOME_TELEPORT_SIGHT_CHECK_NPC", "effect": { "math": [ "brownie_home_teleport", "=", "1" ] } } ],
+        "npc_range": 45,
+        "npc_must_see": true
+      },
+      {
+        "if": { "math": [ "brownie_home_teleport", "==", "0" ] },
+        "then": [
+          { "u_teleport": { "u_val": "brownie_home_teleport_loc" } },
+          { "u_message": "You slip through the door and head straight home.", "type": "good" }
+        ],
+        "else": { "u_message": "You must be unobserved to hurry home!", "type": "bad" }
+      }
+    ],
+    "false_effect": { "u_message": "You must be in a doorway to hurry home.", "type": "bad" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK",
     "condition": { "math": [ "u_val('mana')", ">=", "1" ] },
     "effect": [

@@ -17,8 +17,8 @@
     "min_duration": { "math": [ "(changeling_common_traits() * 2250) + (u_skill('deduction') * 23400) + 35100" ] },
     "max_duration": { "math": [ "(changeling_common_traits() * 5750) + (u_skill('deduction') * 56300) + 78900" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 75,
-    "base_casting_time": 50
+    "base_energy_cost": { "math": [ "max(( 150 - (changeling_common_traits() * 2) - (u_skill('deduction') * 3)), 50)" ] },
+    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 30)" ] }
   },
   {
     "id": "changeling_invisibility_spell",
@@ -38,8 +38,8 @@
     "min_duration": { "math": [ "(changeling_common_traits() * 50) + (u_skill('deduction') * 500) + 2600" ] },
     "max_duration": { "math": [ "(changeling_common_traits() * 163) + (u_skill('deduction') * 1200) + 13900" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 450,
-    "base_casting_time": 150
+    "base_energy_cost": { "math": [ "max(( 750 - (changeling_common_traits() * 5) - (u_skill('deduction') * 20)), 350)" ] },
+    "base_casting_time": { "math": [ "max(( 250 - (changeling_common_traits() * 3) - (u_skill('deduction') * 8)), 50)" ] }
   },
   {
     "id": "changeling_summon_will_o_the_wisps_spell",
@@ -65,8 +65,8 @@
     "min_aoe": 3,
     "max_aoe": 3,
     "energy_source": "MANA",
-    "base_energy_cost": 150,
-    "base_casting_time": 75
+    "base_energy_cost": { "math": [ "max(( 300 - (changeling_common_traits() * 3) - (u_skill('deduction') * 10)), 100)" ] },
+    "base_casting_time": { "math": [ "max(( 100 - changeling_common_traits() - (u_skill('deduction') * 3)), 50)" ] }
   },
   {
     "id": "changeling_noble_cure_bad_conditions_spell",
@@ -202,6 +202,59 @@
     },
     "base_casting_time": {
       "math": [ "max(( 400 - (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 8) - (u_skill('deduction') * 15)), 150)" ]
+    }
+  },
+  {
+    "id": "changeling_brownie_blink_indoors_spell",
+    "type": "SPELL",
+    "name": "Slip Through the Cracks",
+    "description": "When in danger of being discovered, brownies can slip away in moments.  This glamour allows you to vanish and reappear elsewhere in the house.  It cannot be used outdoors.",
+    "message": "",
+    "flags": [ "NO_FAIL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BROWNIE_INDOOR_BLINK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "max(( 500 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 15)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 150 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 1) - (u_skill('deduction') * 4)), 50)"
+      ]
+    }
+  },
+  {
+    "id": "changeling_teleport_home_spell",
+    "type": "SPELL",
+    "name": "Hurry Home",
+    "description": "You always know your home and can return to it at need.  When standing in a doorway, you can use this glamour to return to the last place you slept, as long as you spent at least a day at that place previously and as long as you are unobserved.",
+    "flags": [ "NO_FAIL", "SOMATIC" ],
+    "valid_targets": [ "self" ],
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "skill": "deduction",
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BROWNIE_HOME_TELEPORT_ACTUAL_TELEPORT",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "max(( 800 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 10) - (u_skill('deduction') * 25)), 400)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 100 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 5)), 25)"
+      ]
     }
   }
 ]
