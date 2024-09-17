@@ -937,7 +937,9 @@
       "prof_food_prep",
       "prof_knife_skills",
       "prof_intro_biology",
+      "prof_gross_anatomy",
       "prof_wp_basic_bird",
+      "prof_wp_ungulate",
       "prof_knives_familiar",
       "prof_butchering_basic",
       "prof_butchering_adv",
@@ -1389,6 +1391,7 @@
       "prof_gunsmithing_basic",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1506,6 +1509,7 @@
       "prof_gunsmithing_basic",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1872,6 +1876,7 @@
       "prof_wound_care",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1931,6 +1936,7 @@
       "prof_wound_care",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1997,6 +2003,7 @@
       "prof_spotting",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar"
     ],
     "skills": [
@@ -2313,7 +2320,7 @@
     "requirement": "achievement_kill_100_monsters",
     "description": "The boss always said he could rely on you to pull through on the tough jobs.  Shame he got himself smoked.  No problem; the world's always got a place for someone with your kind of talents.",
     "points": 4,
-    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar", "prof_gross_anatomy" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -2893,7 +2900,8 @@
       "prof_batons_pro",
       "prof_unarmed_familiar",
       "prof_unarmed_pro",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "items": {
       "both": {
@@ -2936,7 +2944,8 @@
       "prof_spotting",
       "prof_gun_cleaning",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 7, "name": "gun" },
@@ -2995,7 +3004,7 @@
       { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_gross_anatomy", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
         "entries": [
@@ -3130,7 +3139,15 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bowyery", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_bowyery",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "archery" },
@@ -3168,7 +3185,15 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_gunsmithing_spring",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [
       { "level": 4, "name": "rifle" },
       { "level": 4, "name": "gun" },
@@ -3210,7 +3235,15 @@
     "name": "Shotgun Hunter",
     "description": "Ever since you were a child you loved hunting, and one year you got a shotgun for your birthday.  Why, if the world ended, there's nothing you'd want at your side more than your trusty shotgun.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_gun_cleaning", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_wp_basic_bird",
+      "prof_wp_ungulate"
+    ],
     "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "shotgun" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
@@ -3249,7 +3282,14 @@
     "name": "Rifle Hunter",
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_gun_cleaning", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
@@ -3288,7 +3328,14 @@
     "name": "Big-Bore Hunter",
     "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
     "points": 3,
-    "proficiencies": [ "prof_gun_cleaning", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
@@ -4067,7 +4114,15 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 3,
     "skills": [ { "level": 6, "name": "traps" }, { "level": 4, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_fibers_rope",
+      "prof_traps",
+      "prof_trapsetting",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "recipes": [ "beartrap" ],
     "items": {
       "both": {
@@ -4480,7 +4535,14 @@
       { "level": 3, "name": "unarmed" },
       { "level": 3, "name": "dodge" }
     ],
-    "proficiencies": [ "prof_knives_familiar", "prof_knives_pro", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_shivs_familiar" ],
+    "proficiencies": [
+      "prof_knives_familiar",
+      "prof_knives_pro",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro",
+      "prof_shivs_familiar",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "PROF_ASSASSIN_CONVICT" ],
     "items": {
       "both": {
@@ -4913,7 +4975,7 @@
       "style_wingchun",
       "style_zui_quan"
     ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
     "skills": [
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "unarmed" },
@@ -4952,7 +5014,7 @@
       "style_wingchun",
       "style_zui_quan"
     ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master", "prof_gross_anatomy" ],
     "skills": [
       { "level": 8, "name": "melee" },
       { "level": 8, "name": "unarmed" },
@@ -5151,7 +5213,10 @@
       "prof_knitting",
       "prof_closures",
       "prof_long_swords_familiar",
-      "prof_auto_rifles_familiar"
+      "prof_auto_rifles_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
     ],
     "skills": [
       { "level": 4, "name": "gun" },
@@ -5346,7 +5411,7 @@
     "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" }, { "level": 2, "name": "swimming" } ],
-    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar", "prof_butchering_basic" ],
     "items": {
       "both": {
         "entries": [
@@ -5994,7 +6059,7 @@
       { "level": 6, "name": "dodge" },
       { "level": 4, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro" ],
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_gross_anatomy" ],
     "starting_styles": [ "style_fencing" ],
     "items": {
       "both": {
@@ -6053,6 +6118,7 @@
     "description": "Taking care of cows, horses, and other animals is your passion, but the ways things are going, this isn't going to be just another day at the ranch.",
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" } ],
+    "proficiencies": [ "prof_gross_anatomy", "prof_wp_ungulate" ],
     "items": {
       "both": {
         "entries": [
@@ -6280,7 +6346,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 4, "name": "gun" },
@@ -6523,7 +6590,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 7, "name": "gun" },
@@ -6737,7 +6805,7 @@
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 3,
     "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver" ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver", "prof_gross_anatomy" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -6774,7 +6842,8 @@
       "prof_intro_biology",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -6833,7 +6902,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "items": {
       "both": {
@@ -6949,7 +7019,8 @@
       "prof_intro_biology",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -7020,7 +7091,7 @@
       { "level": 3, "name": "unarmed" },
       { "level": 3, "name": "dodge" }
     ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_auto_pistols_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -7155,7 +7226,7 @@
       { "level": 4, "name": "throw" },
       { "level": 2, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_long_swords_familiar" ],
+    "proficiencies": [ "prof_long_swords_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -7477,7 +7548,8 @@
       "prof_auto_pistols_familiar",
       "prof_auto_pistols_pro",
       "prof_unarmed_familiar",
-      "prof_unarmed_pro"
+      "prof_unarmed_pro",
+      "prof_gross_anatomy"
     ],
     "items": {
       "both": {
@@ -7541,7 +7613,14 @@
       { "level": 5, "name": "dodge" },
       { "level": 4, "name": "speech" }
     ],
-    "proficiencies": [ "prof_spotting", "prof_wp_syn_armored", "prof_knives_familiar", "prof_knives_pro", "prof_knives_master" ],
+    "proficiencies": [
+      "prof_spotting",
+      "prof_wp_syn_armored",
+      "prof_knives_familiar",
+      "prof_knives_pro",
+      "prof_knives_master",
+      "prof_gross_anatomy"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -7700,7 +7779,14 @@
     "name": "RV Hunter",
     "description": "Ever since you were a child you loved hunting and traveling; so when you scraped enough money, you bought yourself an old RV, a gun, and hit the road.  You've been all over the country, hunting for good game.  Unfortunately the country is all over this time, and even more unfortunately you've lost your ol' reliable in the chaos.  Now you gotta find a new reliable.",
     "points": 4,
-    "proficiencies": [ "prof_driver", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_driver",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "skills": [
       { "level": 3, "name": "rifle" },
       { "level": 3, "name": "gun" },
@@ -7832,7 +7918,7 @@
       "style_wingchun"
     ],
     "starting_styles_choices_amount": 3,
-    "proficiencies": [ "prof_unarmed_familiar" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": { "entries": [ { "item": "gloves_fingerless" }, { "item": "b_shorts" }, { "item": "mouthpiece" } ] },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
