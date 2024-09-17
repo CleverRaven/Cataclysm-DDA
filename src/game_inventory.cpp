@@ -435,8 +435,8 @@ item_location game_menus::inv::wear( Character &you, const bodypart_id &bp )
 class take_off_inventory_preset: public armor_inventory_preset
 {
     public:
-        take_off_inventory_preset( Character &you, const std::string &color ) :
-            armor_inventory_preset( you, color )
+        explicit take_off_inventory_preset( const std::string &color ) :
+            armor_inventory_preset( get_avatar(), color )
         {}
 
         bool is_shown( const item_location &loc ) const override {
@@ -454,10 +454,10 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 };
 
-item_location game_menus::inv::take_off( avatar &you )
+item_location game_menus::inv::take_off()
 {
-    return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
-                         _( "You're not wearing anything." ) );
+    return inv_internal( get_avatar(), take_off_inventory_preset( "color_red" ), _( "Take off item" ),
+                         1, _( "You're not wearing anything." ) );
 }
 
 item_location game::inv_map_splice( const item_filter &filter, const std::string &title, int radius,
