@@ -1036,10 +1036,7 @@
     "name": "Physicist",
     "description": "Your degree in physics might not have been theoretical, but the Cataclysm purely was. Now that your antithesis has been irrefutably debunked, you might want to switch over to a career with higher chances of survival.",
     "points": 3,
-    "skills": [
-      { "level": 4, "name": "mechanics" },
-      { "level": 4, "name": "electronics" }
-    ],
+    "skills": [ { "level": 4, "name": "mechanics" }, { "level": 4, "name": "electronics" } ],
     "proficiencies": [ "prof_electromagnetics", "prof_pneumatics" ],
     "items": {
       "both": {
