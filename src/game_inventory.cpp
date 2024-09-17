@@ -1001,8 +1001,9 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you, const item_location &loc )
+item_location game_menus::inv::consume( const item_location &loc )
 {
+    avatar &you = get_avatar();
     static item_location container_location;
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
@@ -1032,8 +1033,9 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         bool( *predicate )( const item &it );
 };
 
-item_location game_menus::inv::consume_food( avatar &you )
+item_location game_menus::inv::consume_food()
 {
+    avatar &you = get_avatar();
     if( !you.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
         you.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
@@ -1048,8 +1050,9 @@ item_location game_menus::inv::consume_food( avatar &you )
     get_consume_needs_hint( you ) );
 }
 
-item_location game_menus::inv::consume_drink( avatar &you )
+item_location game_menus::inv::consume_drink()
 {
+    avatar &you = get_avatar();
     if( !you.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
         you.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
@@ -1064,8 +1067,9 @@ item_location game_menus::inv::consume_drink( avatar &you )
     get_consume_needs_hint( you ) );
 }
 
-item_location game_menus::inv::consume_meds( avatar &you )
+item_location game_menus::inv::consume_meds()
 {
+    avatar &you = get_avatar();
     if( !you.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
         you.assign_activity( ACT_CONSUME_MEDS_MENU );
     }

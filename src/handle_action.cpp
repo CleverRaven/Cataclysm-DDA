@@ -1885,17 +1885,17 @@ void game::open_consume_item_menu()
     avatar &player_character = get_avatar();
     switch( as_m.ret ) {
         case 0: {
-            item_location loc = game_menus::inv::consume_food( player_character );
+            item_location loc = game_menus::inv::consume_food();
             avatar_action::eat( player_character, loc );
             break;
         }
         case 1: {
-            item_location loc = game_menus::inv::consume_drink( player_character );
+            item_location loc = game_menus::inv::consume_drink();
             avatar_action::eat( player_character, loc );
             break;
         }
         case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
             break;
         default:
             break;
@@ -2479,7 +2479,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
+                avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
             }
             break;
 
