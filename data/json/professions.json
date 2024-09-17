@@ -3555,7 +3555,6 @@
       { "level": 5, "name": "mechanics" },
       { "level": 5, "name": "traps" }
     ],
-    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "electronics" }, { "level": 5, "name": "mechanics" }, { "level": 5, "name": "traps" } ],
     "items": {
       "both": {
         "entries": [
