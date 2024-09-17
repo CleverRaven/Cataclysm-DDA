@@ -93,9 +93,7 @@
         "damage_max_instance": [ { "damage_type": "nether", "amount": 25 } ],
         "dodgeable": true,
         "blockable": false,
-        "condition": {
-          "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s rumbles words of magic and an eldritch bolt impacts your %2$s!",
         "hit_dmg_npc": "%1$s rumbles words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
         "miss_msg_u": "%1$s rumbles words of magic and you narrowly avoid an eldritch bolt!",
