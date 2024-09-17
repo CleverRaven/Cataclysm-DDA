@@ -169,9 +169,7 @@
         "uncanny_dodgeable": true,
         "dodgeable": false,
         "blockable": false,
-        "condition": {
-          "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns!",
         "hit_dmg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns!",
         "miss_msg_u": "%1$s chatters words of magic and you narrowly avoid a cloud of scratching thorns!",
