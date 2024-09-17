@@ -6348,7 +6348,7 @@ void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
     std::optional<tripoint_bub_ms> p( where );
     std::vector<drop_location> s( selection );
     who.cancel_activity();
-    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
+    who.pick_up( game_menus::inv::pickup( p, s ) );
 }
 
 void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const

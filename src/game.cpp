@@ -6023,13 +6023,13 @@ void game::pickup()
         return;
     }
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( u, *where_ ) );
+    u.pick_up( game_menus::inv::pickup( *where_ ) );
 }
 
 void game::pickup_all()
 {
     // Pick up items from current and all adjacent tiles
-    u.pick_up( game_menus::inv::pickup( u ) );
+    u.pick_up( game_menus::inv::pickup() );
 }
 
 void game::pickup( const tripoint &p )
@@ -6046,7 +6046,7 @@ void game::pickup( const tripoint_bub_ms &p )
     add_draw_callback( hilite_cb );
 
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( u, p ) );
+    u.pick_up( game_menus::inv::pickup( p ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.

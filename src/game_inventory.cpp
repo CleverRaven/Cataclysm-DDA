@@ -2206,9 +2206,10 @@ drop_locations game_menus::inv::multidrop( Character &you )
     return inv_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you,
-                                        const std::optional<tripoint> &target, const std::vector<drop_location> &selection )
+drop_locations game_menus::inv::pickup( const std::optional<tripoint> &target,
+                                        const std::vector<drop_location> &selection )
 {
+    avatar &you = get_avatar();
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
 
@@ -2239,14 +2240,14 @@ drop_locations game_menus::inv::pickup( avatar &you,
     return pick_s.execute();
 }
 
-drop_locations game_menus::inv::pickup( avatar &you,
-                                        const std::optional<tripoint_bub_ms> &target, const std::vector<drop_location> &selection )
+drop_locations game_menus::inv::pickup( const std::optional<tripoint_bub_ms> &target,
+                                        const std::vector<drop_location> &selection )
 {
     std::optional<tripoint> tmp;
     if( target.has_value() ) {
         tmp = target.value().raw();
     }
-    return game_menus::inv::pickup( you, tmp, selection );
+    return game_menus::inv::pickup( tmp, selection );
 }
 
 class smokable_selector_preset : public inventory_selector_preset

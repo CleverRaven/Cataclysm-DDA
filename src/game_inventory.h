@@ -88,9 +88,9 @@ drop_locations multidrop( Character &you );
  */
 // TODO: Get rid of untyped overload. Restore the target default while doing so (removed
 // to allow profiles to be distinguished.
-drop_locations pickup( avatar &you, const std::optional<tripoint> &target = std::nullopt,
+drop_locations pickup( const std::optional<tripoint> &target = std::nullopt,
                        const std::vector<drop_location> &selection = {} );
-drop_locations pickup( avatar &you, const std::optional<tripoint_bub_ms> &target,
+drop_locations pickup( const std::optional<tripoint_bub_ms> &target,
                        const std::vector<drop_location> &selection = {} );
 
 drop_locations smoke_food( Character &you, units::volume total_capacity,
