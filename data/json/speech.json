@@ -3039,7 +3039,7 @@
     "type": "speech",
     "speaker": [ "mon_whisper_fungus" ],
     "sound": "joyful humming.",
-    "volume: 20
+    "volume": 20
   },
   {
     "type": "speech",
