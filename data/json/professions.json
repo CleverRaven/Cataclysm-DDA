@@ -1077,12 +1077,12 @@
         "entries": [
           { "item": "dress_shirt" },
           { "item": "pants", "variant": "pants_stone" },
-		  { "item": "socks" },
-		  { "item": "boots" },
-		  { "item": "coat_lab" },
-		  { "item": "gloves_rubber" },
-		  { "item": "glasses_safety" },
-		  { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "coat_lab" },
+          { "item": "gloves_rubber" },
+          { "item": "glasses_safety" },
+          { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
@@ -1097,24 +1097,35 @@
     "name": "Biologist",
     "description": "At an age in which you thought your chances of discovering a new species were next to none, your luck might finally be turning around.  You are fully aware, however, that you are now at the very bottom of the food chain.",
     "points": 3,
-    "skills": [
-      { "level": 3, "name": "firstaid" },
-      { "level": 3, "name": "chemistry" }
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_intro_biology",
+      "prof_intro_chemistry",
+      "prof_physiology",
+      "prof_dissect_humans",
+      "prof_wp_basic_amphibian",
+      "prof_wp_basic_bird",
+      "prof_wp_canine",
+      "prof_wp_ungulate",
+      "prof_wp_basic_bug",
+      "prof_wp_hymenoptera",
+      "prof_wp_flying",
+      "prof_wp_skeleton",
+      "prof_mycology"
     ],
-    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_physiology", "prof_dissect_humans", "prof_wp_basic_amphibian", "prof_wp_basic_bird", "prof_wp_canine", "prof_wp_ungulate", "prof_wp_basic_bug", "prof_wp_hymenoptera", "prof_wp_flying", "prof_wp_skeleton", "prof_mycology" ],
     "items": {
       "both": {
         "entries": [
           { "item": "dress_shirt" },
-		  { "item": "tie_necktie" },
-		  { "item": "tieclip" },
+          { "item": "tie_necktie" },
+          { "item": "tieclip" },
           { "item": "pants", "variant": "pants_stone" },
-		  { "item": "socks" },
-		  { "item": "boots" },
-		  { "item": "coat_lab" },
-		  { "item": "gloves_rubber" },
-		  { "item": "glasses_safety" },
-		  { "item": "wristwatch" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "coat_lab" },
+          { "item": "gloves_rubber" },
+          { "item": "glasses_safety" },
+          { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
         ]
