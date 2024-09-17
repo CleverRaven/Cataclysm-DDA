@@ -1042,8 +1042,8 @@
       "both": {
         "entries": [
           { "item": "dress_shirt" },
-		  { "item": "tie_necktie" },
-		  { "item": "tieclip" },
+          { "item": "tie_necktie" },
+          { "item": "tieclip" },
           { "item": "pants", "variant": "pants_stone" },
 		  { "item": "socks" },
 		  { "item": "dress_shoes" },
