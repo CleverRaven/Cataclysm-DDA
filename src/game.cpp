@@ -3226,7 +3226,6 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         }
         load_data_from_dir( mod.path, mod.ident.str() );
     }
-    loading_ui::done();
 
     std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
@@ -7421,6 +7420,9 @@ look_around_result game::look_around(
         ctxt.register_action( "LEVEL_DOWN" );
     }
     ctxt.register_action( "TOGGLE_FAST_SCROLL" );
+    if( !has_first_point && !select_zone && !peeking && !is_moving_zone ) {
+        ctxt.register_action( "map" );
+    }
     ctxt.register_action( "CHANGE_MONSTER_NAME" );
     ctxt.register_action( "EXTENDED_DESCRIPTION" );
     ctxt.register_action( "SELECT" );
@@ -7582,6 +7584,11 @@ look_around_result game::look_around(
             list_items_monsters();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
             fast_scroll = !fast_scroll;
+        } else if( action == "map" ) {
+            uistate.open_menu = [center]() {
+                ui::omap::look_around_map( get_map().getglobal( center ) );
+            };
+            break;
         } else if( action == "toggle_pixel_minimap" ) {
             toggle_pixel_minimap();
 
@@ -10377,6 +10384,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
     const optional_vpart_position vp_here = m.veh_at( u.pos_bub() );
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
+    const optional_vpart_position vp_grab = m.veh_at( u.pos_bub() + u.grab_point );
+    const vehicle *grabbed_vehicle = veh_pointer_or_null( vp_grab );
 
     bool pushing = false; // moving -into- grabbed tile; skip check for move_cost > 0
     bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
@@ -10394,8 +10403,6 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     // Now make sure we're actually holding something
-    const vehicle *grabbed_vehicle = nullptr;
-    const optional_vpart_position vp_grabbed = m.veh_at( u.pos_bub() + u.grab_point );
     if( grabbed && u.get_grab_type() == object_type::FURNITURE ) {
         // We only care about shifting, because it's the only one that can change our destination
         if( m.has_furn( u.pos_bub() + u.grab_point ) ) {
@@ -10405,10 +10412,16 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             grabbed = false;
         }
     } else if( grabbed && u.get_grab_type() == object_type::VEHICLE ) {
-        grabbed_vehicle = veh_pointer_or_null( m.veh_at( u.pos_bub() + u.grab_point ) );
-        if( grabbed_vehicle == nullptr ) {
+        if( !vp_grab ) {
             // We were grabbing a vehicle that isn't there anymore
             grabbed = false;
+        }
+        //can't board vehicle with solid parts while grabbing it
+        else if( vp_there && !pushing && !m.impassable( dest_loc ) &&
+                 !empty( grabbed_vehicle->get_avail_parts( VPFLAG_OBSTACLE ) ) &&
+                 vp_there->vehicle().om_id == grabbed_vehicle->om_id ) {
+            add_msg( m_warning, _( "You move into the %s, releasing it." ), grabbed_vehicle->name );
+            u.grab( object_type::NONE );
         }
     } else if( grabbed ) {
         // We were grabbing something WEIRD, let's pretend we weren't
@@ -10644,7 +10657,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( grabbed_vehicle ) {
         // Vehicle might be at different z level than the grabbed part.
-        u.grab_point.z() = vp_grabbed->pos().z - u.posz();
+        u.grab_point.z() = vp_grab->pos().z - u.posz();
     }
 
     if( pulling ) {

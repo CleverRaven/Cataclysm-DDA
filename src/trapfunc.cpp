@@ -195,8 +195,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
 
         // Messages
         c->add_msg_player_or_npc( m_bad,
-                                  string_format( _( "A bear trap closes on your %s" ), body_part_name_accusative( hit ) ),
-                                  string_format( _( "A bear trap closes on <npcname>'s %s" ), body_part_name( hit ) ) );
+                                  string_format( _( "A bear trap closes on your %s!" ), body_part_name_accusative( hit ) ),
+                                  string_format( _( "A bear trap closes on <npcname>'s %s!" ), body_part_name( hit ) ) );
 
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
@@ -219,7 +219,6 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         c->check_dead_state();
     }
 
-    here.spawn_item( p, "beartrap" );
     return true;
 }
 

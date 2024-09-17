@@ -315,6 +315,7 @@
       "the worst!",
       "what",
       "darn",
+      "darn it",
       "fuck",
       "goddamn",
       "goddamnit",
@@ -348,6 +349,7 @@
       "bummed",
       "depressed",
       "unhappy",
+      "in the dumps",
       "<very> <sad>",
       "dejected",
       { "text": { "ctxt": "<sad>", "str": "down" } },
@@ -403,6 +405,7 @@
       "I don't think so",
       "no way in hell",
       "nuh uh",
+      "I'm not doing that.",
       "nope",
       "absolutely not.",
       "uh, no.",
@@ -434,7 +437,8 @@
       "So, this is us.  Goodbye.",
       "We're done, until next time.",
       "That's the end of that, then.",
-      "It's not you, it's me."
+      "It's not you, it's me.",
+      "It's not me, it's you."
     ]
   },
   {
@@ -531,6 +535,8 @@
       "What's the rush?",
       "Wait for me <name_g>, I can't keep up with you like this!",
       "Where's the rush?",
+      "Where's the fire, <name_g>?",
+      "What's the hurry?",
       "Hey!  Slow down!"
     ]
   },
@@ -602,6 +608,7 @@
       "Keep up!",
       "Keep it moving!",
       "Stay with me!",
+      "Come on, let's go!",
       "It's my way or the highway!",
       "If you can't keep up, don't step up.",
       "There's gonna be one speed, mine.",
@@ -614,7 +621,7 @@
       "I don't have all day!",
       "Are you coming?",
       "Quit dawdling!",
-      "Your slower than cold molasses going uphill",
+      "You're slower than cold molasses going uphill",
       "My grandmother moves faster than you!"
     ]
   },
@@ -633,6 +640,7 @@
       "Can we rest for a while, <name_g>?",
       "I <really> need to rest.",
       "<ill_die> if we don't stop for a moment.",
+      "I could use a siesta.",
       "Did you know that lack of rest kills faster than lack of food?",
       "I'll just go to sleep, <okay>?",
       "I just… gotta close my eyes for a bit, okay?",
@@ -651,6 +659,7 @@
     "//": "Complaint when the NPC is actually going off to bed.",
     "text": [
       "I'm going to sleep now.",
+      "See you mañana.",
       "I'm off to bed.  Wake me if you need me.",
       "I'm going to sleep over there.",
       "Time for bed!  See you in the morning.",
@@ -681,11 +690,14 @@
       "quite",
       "really",
       "utterly",
+      "fricking",
       "fucking",
+      "hella",
       "super",
       "wicked",
       "very",
       "mega",
+      "totally",
       "uber",
       "ultra",
       "so <very>",
@@ -735,10 +747,12 @@
       "fucking",
       "absolutely",
       "definitely",
+      "literally",
       "for real",
       "honestly",
       "<really> <really>",
       "most <really>",
+      "totally",
       "urgently",
       "REALLY"
     ]
@@ -755,6 +769,7 @@
       "Step aside, <name_g>!",
       "Can I get past you, <name_g>?",
       "I need to get past you, <name_g>.",
+      "Let me just sneak by.",
       "Move your <swear> ass, <name_b>!",
       "Out of my way, <name_b>!",
       "Move it, <name_g>!",
@@ -768,6 +783,7 @@
       "Out of my <swear> way!",
       "I need to get by.",
       "Pardon me.",
+      "You're in the way.",
       "Can I just squeeze by you?"
     ]
   },
@@ -776,6 +792,7 @@
     "category": "<done_mugging>",
     "//": "Said when a hostile NPC completes mugging the player",
     "text": [
+      "A fool and his money are soon parted.",
       "Thanks for the cash, <name_b>!",
       "So long, <name_b>!",
       "Thanks a lot, <name_g>!",
@@ -785,6 +802,7 @@
       "Hasta luego, <name_g>!",
       "I'm outta here!  <done_mugging>",
       "Bye bye, <name_b>!",
+      "Haw-haw!",
       "Thanks, <name_g>!",
       "Pleasure doing business with you.",
       "Nice haul, see you soon.",
@@ -828,6 +846,7 @@
       "overjoyed",
       "pleased",
       "ecstatic",
+      "gleeful",
       "thrilled",
       "stoked",
       "<very> <happy>",
@@ -855,6 +874,7 @@
       "Drop it, the <yrwp>.",
       "<yrwp>, drop it!",
       "Alright, drop the <yrwp>!",
+      "Hey now, there's no need for violence, put <yrwp> down.",
       "Hey, put that weapon down!",
       "Please put down your weapon.  I'll give you to the count of three.  One…",
       "Let's take it easy now, okay?  Put the weapon down."
@@ -868,6 +888,7 @@
       "goddamn",
       "motherfucking",
       "freaking",
+      "fricking",
       "damn",
       "<swear> <swear>",
       "fuckin'",
@@ -962,6 +983,7 @@
     "//": "Complaint when the NPC is hungry and wants food.",
     "text": [
       "I almost want to eat my <mywp> now.",
+      "I'd kill for a burger or something.",
       "When we eatin'?",
       "I'd eat a burger if I had one.",
       "Perfect time for a lunch break.",
@@ -1063,6 +1085,7 @@
       "Get cover!",
       "Get down!",
       "Hit the dirt!",
+      "Hit the floor!",
       "Touch your toes!  Down!",
       "Pull up your socks, duck!",
       "This <swear> shit is gonna blow!",
@@ -1151,7 +1174,8 @@
       "Ambush!",
       "We've got company",
       "Bogies incoming!",
-      "Nerd alert!"
+      "Nerd alert!",
+      "Wakey wakey!"
     ]
   },
   {
@@ -1214,6 +1238,7 @@
       "Look what you made me do.",
       "It's better you than me.",
       "Phew, that was close.",
+      "Easy-peasy.",
       "Did we win?"
     ]
   },
@@ -1266,6 +1291,7 @@
       "You're going down,",
       "Get fucked,",
       "Time to meet your maker,",
+      "Eat shit,",
       "I'm going to fuck you up,"
     ]
   },
@@ -1323,10 +1349,12 @@
       "You're going down!",
       "Get fucked!",
       "I'm going to fuck you up!",
+      "Eat shit and die!",
       "Time to die!",
       "Prepare to die!",
       "See you in hell!",
-      "Rot in hell!"
+      "Rot in hell!",
+      "Say your prayers!"
     ]
   },
   {
@@ -1348,6 +1376,7 @@
       "Watch my back while I stitch my arm back on, <name_g>.",
       "Gotta bandage this or I'll bleed out.  Give me a sec.",
       "Let me fix myself up here for a second.",
+      "I'm not dying here.  Gimme a minute to patch myself up.",
       "I ain't got time to ble-wait, that's a lot of blood.  Give me a second while I patch this.",
       "I've been through too much to bleed out now!  Bandaging this up!"
     ]
@@ -1423,7 +1452,8 @@
       "Shut it, something is going on.",
       "Shut it, I hear something.",
       "Shut it, noise over there.",
-      "Hush, what is that noise?"
+      "Hush, what is that noise?",
+      "Thought I heard something."
     ]
   },
   {
@@ -1481,7 +1511,8 @@
       "Is that the sound of",
       "I think I heard",
       "I think that was the sound of",
-      "I could have sworn I just heard"
+      "I could have sworn I just heard",
+      "Was that"
     ]
   },
   {
@@ -1537,12 +1568,14 @@
       "Fine by me.",
       "Not a problem.",
       "Loud and clear.",
+      "Donezo.",
       "I'll have that covered in no time.",
       "That all?",
       "Done.",
       "Already on it.",
       "Remind me why I follow you again?",
-      "Consider it done."
+      "Consider it done.",
+      "Yeah, I can do that."
     ]
   },
   {
@@ -1649,7 +1682,8 @@
       "Power's nearly out, need a top up.",
       "Batteries not included here, need some more soon.",
       "All these implants I got are going to turn to useless scrap real soon if I don't get some batteries to recharge.",
-      "My batteries are all out of juice, need to recharge."
+      "My batteries are all out of juice, need to recharge.",
+      "Got any batteries?  I'm running out of power."
     ]
   },
   {
@@ -1794,6 +1828,7 @@
       "Let's change the subject.",
       "I'd like to ask you about something else.",
       "I'd like to talk about something else.",
+      "I wanted to ask you about something else.",
       "Let's move on.",
       "And swiftly moving on.",
       "So, let's change gear here.",
@@ -1825,7 +1860,7 @@
       "We can pick it up later.",
       "Time and a place, later.",
       "Another time, perhaps.",
-      "I'll good for now, let's go.",
+      "All good for now, let's go.",
       "Let's do this another time.",
       "Let's get a boogie on.",
       "Let's get a shift on.",
@@ -1924,7 +1959,8 @@
       "Armageddon",
       "the end of days",
       "the end",
-      "the reckoning"
+      "the reckoning",
+      "Ragnarok"
     ]
   },
   {
@@ -1944,6 +1980,7 @@
       "Please, I don't want to die.",
       "Me go, you stay.",
       "Not that way!  Go left!",
+      "Time for a tactical retreat.",
       "Game over!  Run!",
       "Run, faster!",
       "<swear>! Run!  Go!",
@@ -1989,14 +2026,16 @@
       "Somebody get some water!",
       "Fire, fire, FIRE!",
       "Get an extinguisher!",
-      "Bootleg fireworks, Fire!",
+      "Bootleg fireworks, fire!",
       "Get the water <name_b>!",
       "Quick, fire!",
       "Fire?  Fire!",
       "FIIIIREE!",
       "<swear>! Fire!",
       "Somebody get some water or something!",
-      "Danger hot!"
+      "Danger hot!",
+      "It's a little hot for comfort.  I'm bailing.",
+      "Somebody grab a bucket!"
     ]
   },
   {
@@ -2016,6 +2055,7 @@
       "We cannot go on like this.",
       "I am not standing for this any longer.",
       "No, enough is enough.  I am not doing this.",
+      "I'm out, <name_g>.",
       "I am not a tool for you to use, I have needs too!",
       "There's only a couple hundred people left in the world, and I relied on the dumbest one!",
       "You're a monster!",
@@ -2075,6 +2115,7 @@
       "Larder is a little bare.  Really bare in fact.",
       "Larder is empty, completely cleared out.",
       "We need more food in the basecamp larder; it's empty.",
+      "We're outta grub, <name_g>.",
       "Uhm, <name_g>, I don't meant to criticize, but we should focus on distributing some food into the basecamp larder."
     ]
   },

@@ -623,7 +623,7 @@ void monster::try_reproduce()
                 }
             }
             if( !type->baby_type.baby_egg_group.is_null() ) {
-                here.spawn_items( pos(), item_group::items_from( type->baby_type.baby_egg_group ) );
+                here.spawn_items( pos_bub(), item_group::items_from( type->baby_type.baby_egg_group ) );
             }
         }
         *baby_timer += *type->baby_timer;

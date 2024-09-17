@@ -1947,10 +1947,12 @@ class jmapgen_field : public jmapgen_piece
         mapgen_value<field_type_id> ftype;
         std::vector<int> intensities;
         time_duration age;
+        int chance;
         bool remove;
         jmapgen_field( const JsonObject &jsi, const std::string_view/*context*/ ) :
             ftype( jsi.get_member( "field" ) )
             , age( time_duration::from_turns( jsi.get_int( "age", 0 ) ) )
+            , chance( jsi.get_int( "chance", 100 ) )
             , remove( jsi.get_bool( "remove", false ) ) {
             if( jsi.has_array( "intensity" ) ) {
                 for( JsonValue jv : jsi.get_array( "intensity" ) ) {
@@ -1968,10 +1970,14 @@ class jmapgen_field : public jmapgen_piece
                 return;
             }
             if( remove ) {
-                dat.m.remove_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
+                if( x_in_y( chance, 100 ) ) {
+                    dat.m.remove_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id );
+                }
             } else {
-                dat.m.add_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
-                                 random_entry( intensities ), age );
+                if( x_in_y( chance, 100 ) ) {
+                    dat.m.add_field( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id,
+                                     random_entry( intensities ), age );
+                }
             }
         }
 
@@ -7138,17 +7144,8 @@ void map::rotate( int turns )
             continue;
         }
 
-        const point_abs_sm npc_sm( np.global_sm_location().xy() );
-        const point_bub_ms npc_bub( np.pos_bub().xy() );
-        point_bub_ms old( npc_bub.x() % SEEX, npc_bub.y() % SEEY );
-
-        // Note: We are rotating the entire overmap square (2x2 of submaps)
-        if( npc_sm.x() % 2 != 0 ) {
-            old.x() += SEEX;
-        }
-        if( npc_sm.y() % 2 != 0 ) {
-            old.y() += SEEY;
-        }
+        // Translate bubble -> global -> current map.
+        const point_bub_ms old( bub_from_abs( get_map().getglobal( np.pos_bub() ).xy() ) );
 
         const point_bub_ms new_pos( old.raw().rotate( turns, {SEEX * 2, SEEY * 2} ) );
         np.spawn_at_precise( getglobal( tripoint_bub_ms( new_pos, sq.z() ) ) );

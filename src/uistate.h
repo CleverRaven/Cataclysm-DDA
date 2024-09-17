@@ -214,6 +214,13 @@ class uistatedata
         std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
         }
+        /**
+         * A function pointer to be run before the player's next action.
+         *
+         * Useful for opening a menu with passed arguments.
+         */
+        // NOLINTNEXTLINE(cata-serialize)
+        std::optional<std::function<void()>> open_menu;
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>

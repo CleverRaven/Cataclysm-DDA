@@ -187,22 +187,6 @@
     "qualities": [ [ "HACK", 4 ] ]
   },
   {
-    "id": "pyrokinetic_fire_tool",
-    "type": "TOOL_ARMOR",
-    "name": { "str": "[Ψ]pyrokinetic fire" },
-    "description": "Dancing flames hovering over your hand.  You can use this to provide heat and light when necessary.",
-    "weight": "0 g",
-    "volume": "0 L",
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "symbol": "$",
-    "color": "red",
-    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE", "NO_DROP" ],
-    "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
-    "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HOTPLATE" } ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
-  },
-  {
     "id": "item_photokinetic_radio",
     "type": "TOOL_ARMOR",
     "name": { "str_sp": "[Ψ]radio sense (speaking)" },
@@ -276,6 +260,58 @@
         "encumbrance": 0
       }
     ]
+  },
+  {
+    "id": "pyrokinetic_fire_tool",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]banked flames" },
+    "description": "Dancing flames hovering over your hand.  You can use this to provide heat and light when necessary.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": "1 cent",
+    "price_postapoc": "1 cent",
+    "symbol": "$",
+    "color": "red",
+    "flags": [
+      "PERSONAL",
+      "PADDED",
+      "UNBREAKABLE",
+      "INTEGRATED",
+      "RESTRICT_HANDS",
+      "ZERO_WEIGHT",
+      "MUNDANE",
+      "LIGHT_20",
+      "FIRE",
+      "NO_DROP"
+    ],
+    "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
+    "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HOTPLATE" } ],
+    "armor": [ { "encumbrance": 25, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "relic_data": { "passive_effects": [ { "id": "pyrokinetic_banked_fire_damage_enchant" } ] }
+  },
+  {
+    "id": "pyrokinetic_fire_tool_four_arms",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]banked flames" },
+    "copy-from": "pyrokinetic_fire_tool",
+    "armor": [ { "encumbrance": 12, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
+  },
+  {
+    "id": "pyrokinetic_fire_tool_six_arms",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]banked flames" },
+    "copy-from": "pyrokinetic_fire_tool",
+    "armor": [ { "encumbrance": 8, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
+  },
+  {
+    "id": "pyrokinetic_fire_tool_eight_arms",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]banked flames" },
+    "copy-from": "pyrokinetic_fire_tool",
+    "armor": [ { "encumbrance": 5, "coverage": 0, "covers": [ "hand_l" ] } ],
+    "delete": { "flags": [ "RESTRICT_HANDS" ] }
   },
   {
     "id": "pyrokinetic_torch_weld",

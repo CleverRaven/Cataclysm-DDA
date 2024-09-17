@@ -3132,7 +3132,7 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 12,
-    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to Kevlar.",
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, and bone.",
     "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 }, { "value": "BODYTEMP_SLEEP", "add": 0.25 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -3707,8 +3707,7 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
-    "social_modifiers": { "lie": 15, "persuade": 10 },
-    "player_display": false
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -9164,17 +9163,6 @@
     "name": { "str": "SWAT Officer" },
     "points": 0,
     "description": "You are a duly sworn law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether that means anything now is another question.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
-    "id": "PROF_FBI",
-    "//": "This doesn't do anything at the moment, as I am too scared of breaking C++ things, but it will eventually.",
-    "name": { "str": "Special Agent" },
-    "points": 0,
-    "description": "You are a member of the Federal Bureau of Investigation, also known as the FBI.  You have jurisdiction throughout the remaining 49 States, Indian Country, and any other territories of the USA.  Whether that means anything now is another question.",
     "valid": false,
     "purifiable": false,
     "profession": true

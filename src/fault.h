@@ -29,8 +29,6 @@ void reset();
 void finalize();
 void check_consistency();
 
-const fault_id &get_random_of_type_item_can_have( const item &it, const std::string &type );
-
 const fault_id &random_of_type( const std::string &type );
 const fault_id &random_of_type_item_has( const item &it, const std::string &type );
 } // namespace faults
