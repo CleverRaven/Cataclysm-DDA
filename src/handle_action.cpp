@@ -2452,7 +2452,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_COMPARE:
-            game_menus::inv::compare( player_character, std::nullopt );
+            game_menus::inv::compare( std::nullopt );
             break;
 
         case ACTION_ORGANIZE:

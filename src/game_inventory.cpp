@@ -2403,8 +2403,9 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     return action == "CONFIRM";
 }
 
-void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
+void game_menus::inv::compare( const std::optional<tripoint> &offset )
 {
+    avatar &you = get_avatar();
     you.inv->restack( you );
 
     inventory_compare_selector inv_s( you );
