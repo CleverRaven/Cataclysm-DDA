@@ -742,7 +742,7 @@
     "volume": "60 L",
     "weight": "40 kg",
     "speed": 220,
-    "hp": 70,
+    "hp": 50,
     "vision_day": 40,
     "vision_night": 4,
     "path_settings": { "max_dist": 10 },
