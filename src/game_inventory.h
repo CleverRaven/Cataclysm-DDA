@@ -127,7 +127,7 @@ drop_locations ebooksave( Character &who, item_location &ereader );
 /** Menu for stealing stuff. */
 item_location steal( Character &victim );
 /** Item activation menu. */
-item_location use( avatar &you );
+item_location use();
 /** Item wielding/unwielding menu. */
 item_location wield( avatar &you );
 /** Item wielding/unwielding menu. */

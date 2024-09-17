@@ -1086,8 +1086,8 @@ item_location game_menus::inv::consume_meds()
 class activatable_inventory_preset : public pickup_inventory_preset
 {
     public:
-        explicit activatable_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
-            you( you ) {
+        explicit activatable_inventory_preset() : pickup_inventory_preset( get_avatar() ),
+            you( get_avatar() ) {
             _collate_entries = true;
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
@@ -1189,9 +1189,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         const Character &you;
 };
 
-item_location game_menus::inv::use( avatar &you )
+item_location game_menus::inv::use()
 {
-    return inv_internal( you, activatable_inventory_preset( you ),
+    return inv_internal( get_avatar(), activatable_inventory_preset(),
                          _( "Use item" ), 1,
                          _( "You don't have any items you can use." ) );
 }
