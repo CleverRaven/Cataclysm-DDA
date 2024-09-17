@@ -3367,36 +3367,34 @@ mfaction_id npc::get_monster_faction() const
     return monfaction_human.id();
 }
 
-std::string npc::extended_description() const
+std::vector<std::string> npc::extended_description() const
 {
-    std::string ss;
-    // For some reason setting it using str or constructor doesn't work
-    ss += Character::extended_description();
+    std::vector<std::string> tmp = Character::extended_description();
 
-    ss += "\n--\n";
-    if( attitude == NPCATT_KILL ) {
-        ss += _( "Is trying to kill you." );
-    } else if( attitude == NPCATT_FLEE || attitude == NPCATT_FLEE_TEMP ) {
-        ss += _( "Is trying to flee from you." );
-    } else if( is_player_ally() ) {
-        ss += _( "Is your friend." );
-    } else if( is_following() ) {
-        ss += _( "Is following you." );
-    } else if( is_leader() ) {
-        ss += _( "Is guiding you." );
-    } else if( guaranteed_hostile() ) {
-        ss += _( "Will try to kill you or flee from you if you reveal yourself." );
-    } else {
-        ss += _( "Is neutral." );
-    }
+    tmp.emplace_back( "--" );
+
+    Character &player_character = get_player_character();
+    Attitude att = attitude_to( player_character );
+    const std::pair<translation, nc_color> res = Creature::get_attitude_ui_data( att );
+    tmp.emplace_back( string_format( "%s; %s", colorize( res.first, res.second ),
+                                     colorize( npc_attitude_name( get_attitude() ), symbol_color() ) ) );
+
+    tmp.emplace_back( sees( player_character ) ? colorize( _( "Aware of your presence" ), c_yellow ) :
+                      colorize( _( "Unaware of you" ), c_green ) );
 
     if( hit_by_player ) {
-        ss += "--\n";
-        ss += _( "Is still innocent and killing them will be considered murder." );
+        tmp.emplace_back( "--" );
+        tmp.emplace_back( _( "Is still innocent and killing them will be considered murder." ) );
         // TODO: "But you don't care because you're an edgy psycho"
     }
 
-    return replace_colors( ss );
+    std::vector<std::string> ret;
+    ret.reserve( tmp.size() );
+    for( const std::string &s : tmp ) {
+        ret.emplace_back( replace_colors( s ) );
+    }
+
+    return ret;
 }
 
 std::string npc::get_epilogue() const
