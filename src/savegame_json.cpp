@@ -4581,15 +4581,15 @@ void ter_furn_migrations::load( const JsonObject &jo )
     furn_str_id to_furn = furn_str_id::NULL_ID();
     if( is_ter_migration ) {
         ter_str_id from_ter;
-        mandatory( jo, true, "from_ter", from_ter );
-        mandatory( jo, true, "to_ter", to_ter );
-        optional( jo, true, "to_furn", to_furn );
+        mandatory( jo, false, "from_ter", from_ter );
+        mandatory( jo, false, "to_ter", to_ter );
+        optional( jo, false, "to_furn", to_furn, furn_str_id::NULL_ID() );
         ter_migrations.insert( std::make_pair( from_ter, std::make_pair( to_ter, to_furn ) ) );
     } else {
         furn_str_id from_furn;
-        mandatory( jo, true, "from_furn", from_furn );
-        optional( jo, true, "to_ter", to_ter );
-        mandatory( jo, true, "to_furn", to_furn );
+        mandatory( jo, false, "from_furn", from_furn );
+        optional( jo, false, "to_ter", to_ter, ter_str_id::NULL_ID() );
+        mandatory( jo, false, "to_furn", to_furn );
         furn_migrations.insert( std::make_pair( from_furn, std::make_pair( to_ter, to_furn ) ) );
     }
 }
@@ -4921,9 +4921,9 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                         auto migrate_terstr = [&]( ter_str_id terstr ) {
                             if( auto it = ter_migrations.find( terstr ); it != ter_migrations.end() ) {
                                 terstr = it->second.first;
-                                if( it->second.second != furn_str_id::NULL_ID() ) {
-                                    iid_furn = it->second.second.id();
-                                }
+                                iid_furn = it->second.second.id();
+                            } else {
+                                iid_furn = furn_str_id::NULL_ID().id();
                             }
                             if( terstr.is_valid() ) {
                                 iid_ter = terstr.id();
