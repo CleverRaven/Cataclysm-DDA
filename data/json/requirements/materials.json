@@ -354,6 +354,12 @@
     "components": [ [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_natural_short", 5, "LIST" ] ] ]
   },
   {
+    "id": "chain_material",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible, per 1080 g/9 m of rope",
+    "components": [ [ [ "chain", 1 ] ] ]
+  },
+  {
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
