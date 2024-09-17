@@ -1032,6 +1032,104 @@
   },
   {
     "type": "profession",
+    "id": "physicist",
+    "name": "Physicist",
+    "description": "Your degree in physics might not have been theoretical, but the Cataclysm purely was. Now that your antithesis has been irrefutably debunked, you might want to switch over to a career with higher chances of survival.",
+    "points": 3,
+    "skills": [
+      { "level": 4, "name": "mechanics" },
+      { "level": 4, "name": "electronics" }
+    ],
+    "proficiencies": [ "prof_electromagnetics", "prof_pneumatics" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+		  { "item": "tie_necktie" },
+		  { "item": "tieclip" },
+          { "item": "pants", "variant": "pants_stone" },
+		  { "item": "socks" },
+		  { "item": "dress_shoes" },
+		  { "item": "coat_lab" },
+		  { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "chemist",
+    "name": "Chemist",
+    "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab. With your colleagues presumably dead and lab overrun, you question whether if it truly is the time to break bad.",
+    "points": 3,
+    "skills": [
+      { "level": 5, "name": "chemistry" }
+    ],
+    "proficiencies": [ 
+	"prof_intro_chemistry", 
+	"prof_organic_chemistry", 
+	"prof_inorganic_chemistry", 
+	"prof_intro_chem_synth", 
+	"prof_chem_synth", 
+	"prof_distilling" 
+	],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants", "variant": "pants_stone" },
+		  { "item": "socks" },
+		  { "item": "boots" },
+		  { "item": "coat_lab" },
+		  { "item": "gloves_rubber" },
+		  { "item": "glasses_safety" },
+		  { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "biologist",
+    "name": "Biologist",
+    "description": "At an age in which you thought your chances of discovering a new species were next to none, your luck might finally be turning around. You are fully aware, however, that you are now at the very bottom of the food chain.",
+    "points": 3,
+    "skills": [
+      { "level": 3, "name": "firstaid" },
+      { "level": 3, "name": "chemistry" }
+    ],
+    "proficiencies": [ "prof_intro_biology", "prof_intro_chemistry", "prof_physiology", "prof_dissect_humans", "prof_wp_basic_amphibian", "prof_wp_basic_bird", "prof_wp_canine", "prof_wp_ungulate", "prof_wp_basic_bug", "prof_wp_hymenoptera", "prof_wp_flying", "prof_wp_skeleton", "prof_mycology" ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+		  { "item": "tie_necktie" },
+		  { "item": "tieclip" },
+          { "item": "pants", "variant": "pants_stone" },
+		  { "item": "socks" },
+		  { "item": "boots" },
+		  { "item": "coat_lab" },
+		  { "item": "gloves_rubber" },
+		  { "item": "glasses_safety" },
+		  { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "engineer_chem",
     "name": "Chemical Engineer",
     "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you.  Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
@@ -3440,6 +3538,39 @@
   },
   {
     "type": "profession",
+    "id": "tech_maint",
+    "name": "Maintenance Technician",
+    "description": "From heat exchangers to washing machines, if it exists; you've probably gotten your hands on it at least once, working behind the scenes to ensure that the things everyone look for granted worked smoothly and properly. It barely matters to you how and who screwed up this time, you will get it back in working order in no time.",
+    "points": 5,
+    "proficiencies": [
+      "prof_plumbing",
+      "prof_elec_soldering",
+      "prof_metalworking",
+      "prof_appliance_repair"
+    ],
+    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "electronics" }, { "level": 5, "name": "mechanics" }, { "level": 5, "name": "traps" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "boots_steel" },
+          { "item": "multitool" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "tool_belt", "contents-item": "hammer" },
+		  { "item": "hat_hard", "variant": "yellow_hat_hard" },
+		  { "item": "glasses_safety" },
+          { "item": "jumpsuit" },
+		  { "group": "charged_electrical_measuring" },
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "trucker",
     "name": "Trucker",
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
@@ -3894,6 +4025,35 @@
           { "item": "memory_card" },
           { "item": "usb_drive" },
           { "item": "portable_game", "charges": 150 },
+          { "item": "pants", "variant": "pants_stone" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_laptop" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "programmer",
+    "name": "Programmer",
+    "description": "You used to spend most of your free time working on an open source apocalypse survival game; now, however, you find yourself living through it.",
+    "points": 3,
+    "skills": [ { "level": 7, "name": "computer" } ],
+	"addictions": [ { "intensity": 10, "type": "caffeine" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "tshirt", "variant": "tshirt_linux" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "caffeine", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_small" },
+          { "item": "caff_gum", "count": 3 },
+          { "item": "memory_card" },
+          { "item": "usb_drive" },
           { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
@@ -6951,6 +7111,67 @@
   },
   {
     "type": "profession",
+    "id": "mili_doc",
+    "name": "Military Physician",
+    "requirement": "achievement_reach_military_bunker",
+    "description": "You were a practicing doctor with the Medical Corps when the Cataclysm happened. The medical facility that you were stationed in was quickly overrun, first by the injured, then by the things that they turned into. Your training and sidearm allowed you to survive what no other doctor could, but there is still a long road ahead.",
+    "points": 6,
+    "skills": [
+      { "level": 7, "name": "firstaid" },
+      { "level": 4, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "survival" },
+	  { "level": 3, "name": "speech" },
+      { "level": 2, "name": "swimming" }
+    ],
+    "traits": [ "PROF_MED" ],
+    "proficiencies": [
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_intro_biology",
+	  "prof_intro_chemistry",
+      "prof_physiology",
+      "prof_burn_care",
+      "prof_dissect_humans",
+      "prof_auto_pistols_familiar"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "pants_army" },
+          { "item": "undershirt" },
+          { "item": "combat_shirt" },
+		  { "item": "gloves_medical" },
+		  { "item": "coat_lab" },
+          { "item": "socks" },
+          { "item": "boots_combat" },
+          { "item": "wristwatch" },
+          { "item": "thermometer" },
+          { "item": "bandages", "count": 3 },
+          { "item": "scalpel" },
+          { "item": "syringe" },
+          { "item": "morphine" },
+          { "group": "charged_aspirin" },
+          { "group": "charged_antibiotic" },
+          { "item": "disinfectant" },
+          { "item": "pepto" },
+          { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
+          { "group": "full_ifak" },
+          { "item": "water_clean", "container-item": "canteen" },
+		  { "item": "p320_357sig", "ammo-item": "357sig_fmj", "charges": 13, "container-item": "holster" },
+		  { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "relief_volunteer",
     "name": "Relief Volunteer",
     "description": "You were a member of a nonprofit organization dedicated to helping out where help was needed.  When the riots happened, you were eager to lend a hand.  But you had to cut your plans short when everyone was less interested in handouts, and more interested in eating you.",
@@ -7752,6 +7973,35 @@
       { "level": 2, "name": "cooking" },
       { "level": 2, "name": "throw" },
       { "level": 2, "name": "speech" }
+    ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "undershirt" },
+          { "item": "socks" },
+          { "item": "tie_clipon" },
+          { "item": "dress_shoes" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_penblack" },
+          { "item": "pants", "variant": "pants_black" },
+          { "item": "coffee", "container-item": "coffeepot" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "ittech",
+    "name": "IT Technician",
+    "description": "Your prayers were answered when you were just one broken fax machine away from a complete mental breakdown, although you are now starting to think that wish might have been better used on something else.",
+    "points": 1,
+    "skills": [
+      { "level": 5, "name": "computer" },
     ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
