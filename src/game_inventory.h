@@ -64,7 +64,7 @@ void common();
 void common( item_location &loc );
 void compare( const std::optional<tripoint> &offset );
 void reassign_letter( item &it );
-void swap_letters( avatar &you );
+void swap_letters();
 
 /**
 * Compares two items, if confirm_message isn't empty then it will be printed

@@ -2462,8 +2462,9 @@ void game_menus::inv::reassign_letter( item &it )
     }
 }
 
-void game_menus::inv::swap_letters( avatar &you )
+void game_menus::inv::swap_letters()
 {
+    avatar &you = get_avatar();
     you.inv->restack( you );
 
     inventory_pick_selector inv_s( you );
