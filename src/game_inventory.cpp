@@ -1782,8 +1782,9 @@ item_location game_menus::inv::wield()
                          _( "You have nothing to wield." ) );
 }
 
-drop_locations game_menus::inv::holster( avatar &you, const item_location &holster )
+drop_locations game_menus::inv::holster( const item_location &holster )
 {
+    avatar &you = get_avatar();
     const std::string holster_name = holster->tname( 1, false );
     const use_function *use = holster->type->get_use( "holster" );
     const holster_actor *actor = use == nullptr ? nullptr : dynamic_cast<const holster_actor *>
@@ -1819,7 +1820,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
                                holster->type_name() );
         return;
     }
-    drop_locations holstered_list = game_menus::inv::holster( you, holster );
+    drop_locations holstered_list = game_menus::inv::holster( holster );
 
     if( !holstered_list.empty() ) {
         you.assign_activity( insert_item_activity_actor( holster, holstered_list ) );
