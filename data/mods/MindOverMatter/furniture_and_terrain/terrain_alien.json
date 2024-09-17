@@ -20,10 +20,11 @@
     "color": "black",
     "move_cost": 6,
     "emissions": [ "emit_cold_nether_water" ],
-    "//liquid_source": { "id": "water_murky" },
+    "liquid_source": { "id": "black_nether_water", "min_temp": 15 },
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE" ],
     "connect_groups": "WATER",
-    "connects_to": "WATER"
+    "connects_to": "WATER",
+    "examine_action": "water_source"
   },
   {
     "type": "terrain",
@@ -35,10 +36,11 @@
     "color": "black",
     "move_cost": 10,
     "emissions": [ "emit_cold_deep_nether_water" ],
-    "//liquid_source": { "id": "water_murky" },
+    "liquid_source": { "id": "black_nether_water", "min_temp": 15 },
     "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER" ],
     "connect_groups": "WATER",
-    "connects_to": "WATER"
+    "connects_to": "WATER",
+    "examine_action": "water_source"
   },
   {
     "type": "terrain",
