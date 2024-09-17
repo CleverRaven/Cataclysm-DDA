@@ -3562,7 +3562,7 @@
 		  { "item": "hat_hard", "variant": "yellow_hat_hard" },
 		  { "item": "glasses_safety" },
           { "item": "jumpsuit" },
-		  { "group": "charged_electrical_measuring" },
+		  { "group": "charged_electrical_measuring" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7163,7 +7163,7 @@
 		  { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -8001,7 +8001,7 @@
     "description": "Your prayers were answered when you were just one broken fax machine away from a complete mental breakdown, although you are now starting to think that wish might have been better used on something else.",
     "points": 1,
     "skills": [
-      { "level": 5, "name": "computer" },
+      { "level": 5, "name": "computer" }
     ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
