@@ -1072,14 +1072,6 @@
       "prof_chem_synth",
       "prof_distilling"
     ],
-    "proficiencies": [ 
-	"prof_intro_chemistry", 
-	"prof_organic_chemistry", 
-	"prof_inorganic_chemistry", 
-	"prof_intro_chem_synth", 
-	"prof_chem_synth", 
-	"prof_distilling" 
-	],
     "items": {
       "both": {
         "entries": [
