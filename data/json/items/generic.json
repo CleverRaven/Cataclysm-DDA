@@ -1067,7 +1067,7 @@
     "id": "qt_wire",
     "copy-from": "lc_wire",
     "name": { "str": "tempered steel wire" },
-    "description": "A length of flexible and durable steel wire, made of tempered spring steel.  Often used in industrial and automotive springs, and as music wire.",
+    "description": "A length of flexible and durable steel wire, made of tempered spring steel.  Often used in industrial and automotive springs, and the wire in musical instruments.",
     "material": [ "qt_steel" ]
   },
   {
