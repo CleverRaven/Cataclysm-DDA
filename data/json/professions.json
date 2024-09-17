@@ -1063,8 +1063,14 @@
     "name": "Chemist",
     "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab. With your colleagues presumably dead and lab overrun, you question whether if it truly is the time to break bad.",
     "points": 3,
-    "skills": [
-      { "level": 5, "name": "chemistry" }
+    "skills": [ { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_organic_chemistry",
+      "prof_inorganic_chemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth",
+      "prof_distilling"
     ],
     "proficiencies": [ 
 	"prof_intro_chemistry", 
