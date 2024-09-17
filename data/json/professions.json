@@ -3535,7 +3535,7 @@
     "type": "profession",
     "id": "tech_maint",
     "name": "Maintenance Technician",
-    "description": "From heat exchangers to washing machines, if it exists; you've probably gotten your hands on it at least once, working behind the scenes to ensure that the things everyone look for granted worked smoothly and properly. It barely matters to you how and who screwed up this time, you will get it back in working order in no time.",
+    "description": "From heat exchangers to washing machines; if it exists, you've probably gotten your hands on it at least once, working behind the scenes to ensure that the things everyone took for granted worked smoothly and properly.  It barely matters to you how and who screwed up this time, you will get it back in working order in no time.",
     "points": 5,
     "proficiencies": [
       "prof_plumbing",
