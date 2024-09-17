@@ -129,7 +129,7 @@ item_location steal( Character &victim );
 /** Item activation menu. */
 item_location use();
 /** Item wielding/unwielding menu. */
-item_location wield( avatar &you );
+item_location wield();
 /** Item wielding/unwielding menu. */
 drop_locations holster( avatar &you, const item_location &holster );
 void insert_items( avatar &you, item_location &holster );

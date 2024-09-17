@@ -10011,7 +10011,7 @@ void game::wield( item_location loc )
 
 void game::wield()
 {
-    item_location loc = game_menus::inv::wield( u );
+    item_location loc = game_menus::inv::wield();
 
     if( loc ) {
         wield( loc );

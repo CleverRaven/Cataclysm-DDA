@@ -1776,9 +1776,9 @@ class weapon_inventory_preset: public inventory_selector_preset
         const Character &you;
 };
 
-item_location game_menus::inv::wield( avatar &you )
+item_location game_menus::inv::wield()
 {
-    return inv_internal( you, weapon_inventory_preset( you ), _( "Wield item" ), 1,
+    return inv_internal( get_avatar(), weapon_inventory_preset( get_avatar() ), _( "Wield item" ), 1,
                          _( "You have nothing to wield." ) );
 }
 
