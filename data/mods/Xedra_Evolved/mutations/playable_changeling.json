@@ -531,6 +531,19 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_HORNS",
+    "name": { "str": "Curled Horns (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of spiraling curled horns, allowing you to make a headbutt attack but preventing you from wearing a helmet.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_HORNS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_HORNS_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_WOLF_EARS",
     "name": { "str": "Wolf Ears (Shapeshift)" },
     "points": 2,
@@ -541,6 +554,19 @@
     "activated_eocs": [ "EOC_POOKA_WOLF_EARS_ON" ],
     "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
     "deactivated_eocs": [ "EOC_POOKA_WOLF_EARS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_FELINE_EARS",
+    "name": { "str": "Feline Ears (Shapeshift)" },
+    "points": 2,
+    "description": "Change your ears into the ears of a great cat, granting you increased hearing.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_FELINE_EARS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_FELINE_EARS_OFF" ]
   },
   {
     "type": "mutation",
@@ -570,6 +596,105 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_BIRD_WINGS",
+    "name": { "str": "Bird Wings (Shapeshift)" },
+    "points": 2,
+    "description": "Transform your arms into bird wings, allow you to slow your fall when jumping from a high place and glide short distances.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_BIRD_WINGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_BIRD_WINGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_URSINE_FUR",
+    "name": { "str": "Thick Fur (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a coat of thick fur, keeping you warm in the winter and protecting you from attacks.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_URSINE_FUR_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_URSINE_FUR_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CHITIN",
+    "name": { "str": "Chitin Carapace (Shapeshift)" },
+    "points": 2,
+    "description": "Grow an armored suit of chitin, protecting you and making your punches hit harder.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_CHITIN_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_CHITIN_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_QUADRUPED",
+    "name": { "str": "Quadruped (Shapeshift)" },
+    "points": 2,
+    "description": "Grow paws and animal-like legs, allowing you to run much faster on all fours, but preventing you from wearing shoes or gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_QUADRUPED_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_QUADRUPED_OFF" ]
+  },
+  {
+    "//": "The existing quadruped mutations check for thresholds so we need this custom one.",
+    "type": "mutation",
+    "id": "POOKA_QUADRUPED_TRAITS",
+    "name": { "str": "Quadruped" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 6,
+    "description": "Your arms, hands, and legs are animal-like, allowing you to move quickly when running on all fours, but preventing you from wearing shoes or gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "restricts_gear": [ "foot_l", "foot_r", "hand_l", "hand_r" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              { "u_has_move_mode": "crouch" },
+              { "not": "u_can_drop_weapon" }
+            ]
+          },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You come out of your quadrupedal posture." }
+        }
+      ]
+    ],
+    "enchantments": [
+      "ench_quadruped_movement_full",
+      {
+        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
+      },
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_LEAPING_LEGS",
+    "name": { "str": "Leaping Legs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow strong frog- or cat-like legs, allowing you to leap great distances.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_LEAPING_LEGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_LEAPING_LEGS_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_WOLF_TAIL",
     "name": { "str": "Wolf Tail (Shapeshift)" },
     "points": 2,
@@ -593,6 +718,35 @@
     "activated_eocs": [ "EOC_POOKA_TAIL_LONG_ON" ],
     "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
     "deactivated_eocs": [ "EOC_POOKA_TAIL_LONG_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD",
+    "name": { "str": "Initiate of Forms" },
+    "points": 2,
+    "description": "You are getting better at shapeshifting and are able to maintain one more simultaneous shapeshift without drawing on your mana.",
+    "changes_to": [ "POOKA_SHAPESHIFT_GOOD2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD2",
+    "name": { "str": "Adept of Forms" },
+    "points": 4,
+    "description": "You are getting much better at shapeshifting and are able to maintain two more simultaneous shapeshifts without drawing on your mana.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD" ],
+    "changes_to": [ "POOKA_SHAPESHIFT_GOOD3" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD3",
+    "name": { "str": "Master of Forms" },
+    "points": 6,
+    "description": "You are a master of shapeshifting and are able to maintain four more simultaneous shapeshifts without drawing on your mana.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
   },
   {
     "type": "mutation",
