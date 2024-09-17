@@ -888,6 +888,22 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zastrodon",
+    "name": { "str": "astrodon zombie" },
+    "copy-from": "mon_zapatosaurus",
+    "looks_like": "mon_apatosaurus",
+    "//": "When large weights and volumes are fixed this should be 20000 L and 20000 kg",
+    "speed": 45,
+    "attack_cost": 45,
+    "melee_dice": 6,
+    "hp": 475,
+    "description": "Gigantic, long-necked, four-legged dinosaur corpse with a round, bloated body.",
+    "burn_into": "mon_zastrodon_scorched",
+    "fungalize_into": "mon_zastrodon_fungus",
+    "upgrades": { "half_life": 30, "into_group": "GROUP_zastrodon_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zalamosaurus",
     "name": { "str": "alamosaurus zombie" },
     "copy-from": "mon_zapatosaurus",
@@ -1997,6 +2013,18 @@
     "fungalize_into": "mon_zrachiosaurus_fungus",
     "upgrades": { "half_life": 30, "into": "mon_zrachiosaurus" },
     "armor": { "bash": 8, "cut": 8, "bullet": 3 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zastrodon_juvenile",
+    "name": { "str": "juvenile sauropod zombie" },
+    "copy-from": "mon_zapatosaurus_juvenile",
+    "looks_like": "mon_apatosaurus",
+    "speed": 45,
+    "melee_dice": 5,
+    "burn_into": "mon_zastrodon_scorched",
+    "fungalize_into": "mon_zastrodon_fungus",
+    "upgrades": { "half_life": 30, "into": "mon_zastrodon" }
   },
   {
     "type": "MONSTER",
