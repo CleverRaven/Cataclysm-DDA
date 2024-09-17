@@ -44,6 +44,7 @@
         "targeting_timeout_extend": -1,
         "targeting_sound": "\"TARGET ACQUIRED.\"",
         "targeting_volume": 70,
+        "ammo_type": "battery",
         "no_ammo_sound": "TARGET ACQUIRED.  *beeeeeeeeep*.  OUT OF AMMO."
       }
     ],
