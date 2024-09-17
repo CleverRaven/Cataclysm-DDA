@@ -1856,5 +1856,43 @@
     "subtype": "collection",
     "id": "group_forge_warp_items",
     "items": [ { "item": "forge_warp_scroll", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ravenfolk_jewelry",
+    "//": "copied from jewelry_accessories with ear and teeth jewelry removed, plus no wedding/engagement rings",
+    "items": [
+      [ "gold_ring", 30 ],
+      [ "gold_bracelet", 30 ],
+      [ "gold_necklace", 30 ],
+      [ "gold_locket", 20 ],
+      [ "gold_hairpin", 20 ],
+      [ "platinum_ring", 2 ],
+      [ "platinum_bracelet", 2 ],
+      [ "platinum_necklace", 2 ],
+      [ "platinum_locket", 1 ],
+      [ "platinum_hairpin", 1 ],
+      [ "silver_necklace", 40 ],
+      [ "silver_bracelet", 40 ],
+      [ "silver_ring", 40 ],
+      [ "silver_locket", 30 ],
+      [ "silver_hairpin", 30 ],
+      [ "copper_bracelet", 15 ],
+      [ "copper_ring", 15 ],
+      [ "copper_necklace", 15 ],
+      [ "cowrie_necklace", 15 ],
+      [ "copper_locket", 15 ],
+      [ "copper_hairpin", 10 ],
+      [ "ring_purity", 5 ],
+      [ "cufflinks", 25 ],
+      [ "cufflinks_intricate", 15 ],
+      [ "diamond_ring", 10 ],
+      [ "jade_brooch", 30 ],
+      [ "tieclip", 35 ],
+      [ "pearl_collar", 30 ],
+      [ "holy_symbol", 20 ],
+      [ "gold_anklet", 20 ],
+      [ "silver_anklet", 30 ]
+    ]
   }
 ]
