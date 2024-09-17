@@ -1782,22 +1782,6 @@ item_location game_menus::inv::wield( avatar &you )
                          _( "You have nothing to wield." ) );
 }
 
-class holster_inventory_preset: public weapon_inventory_preset
-{
-    public:
-        holster_inventory_preset( const Character &you, const holster_actor &actor, const item &holster ) :
-            weapon_inventory_preset( you ), actor( actor ), holster( holster ) {
-        }
-
-        bool is_shown( const item_location &loc ) const override {
-            return actor.can_holster( holster, *loc );
-        }
-
-    private:
-        const holster_actor &actor;
-        const item &holster;
-};
-
 drop_locations game_menus::inv::holster( avatar &you, const item_location &holster )
 {
     const std::string holster_name = holster->tname( 1, false );
