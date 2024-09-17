@@ -2437,8 +2437,9 @@ void game_menus::inv::compare( const std::optional<tripoint> &offset )
     } while( true );
 }
 
-void game_menus::inv::reassign_letter( avatar &you, item &it )
+void game_menus::inv::reassign_letter( item &it )
 {
+    avatar &you = get_avatar();
     while( true ) {
         const int invlet = popup_getkey(
                                _( "Enter new letter.  Press SPACE to clear a manually-assigned letter, ESCAPE to cancel." ) );
@@ -2496,7 +2497,7 @@ void game_menus::inv::swap_letters( avatar &you )
             break;
         }
 
-        reassign_letter( you, *loc );
+        reassign_letter( *loc );
     }
 }
 

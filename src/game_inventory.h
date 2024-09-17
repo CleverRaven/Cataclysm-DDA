@@ -63,7 +63,7 @@ drop_locations titled_multi_filter_menu( const item_location_filter &filter, Cha
 void common();
 void common( item_location &loc );
 void compare( const std::optional<tripoint> &offset );
-void reassign_letter( avatar &you, item &it );
+void reassign_letter( item &it );
 void swap_letters( avatar &you );
 
 /**
