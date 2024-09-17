@@ -786,6 +786,8 @@ bool talker_character_const::wielded_with_weapon_skill( const skill_id &w_skill 
         item *it = me_chr_const->get_wielded_item().get_item();
         skill_id it_skill = it->is_gun() ? it->gun_skill() : it->melee_skill();
         return it_skill == w_skill;
+    } else {
+        return false;
     }
 }
 
