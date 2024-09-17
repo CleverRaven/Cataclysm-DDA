@@ -1095,7 +1095,7 @@
     "type": "profession",
     "id": "biologist",
     "name": "Biologist",
-    "description": "At an age in which you thought your chances of discovering a new species were next to none, your luck might finally be turning around. You are fully aware, however, that you are now at the very bottom of the food chain.",
+    "description": "At an age in which you thought your chances of discovering a new species were next to none, your luck might finally be turning around.  You are fully aware, however, that you are now at the very bottom of the food chain.",
     "points": 3,
     "skills": [
       { "level": 3, "name": "firstaid" },
