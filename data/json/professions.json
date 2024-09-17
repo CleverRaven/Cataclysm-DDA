@@ -3548,11 +3548,12 @@
     "name": "Maintenance Technician",
     "description": "From heat exchangers to washing machines; if it exists, you've probably gotten your hands on it at least once, working behind the scenes to ensure that the things everyone took for granted worked smoothly and properly.  It barely matters to you how and who screwed up this time, you will get it back in working order in no time.",
     "points": 5,
-    "proficiencies": [
-      "prof_plumbing",
-      "prof_elec_soldering",
-      "prof_metalworking",
-      "prof_appliance_repair"
+    "proficiencies": [ "prof_plumbing", "prof_elec_soldering", "prof_metalworking", "prof_appliance_repair" ],
+    "skills": [
+      { "level": 5, "name": "fabrication" },
+      { "level": 5, "name": "electronics" },
+      { "level": 5, "name": "mechanics" },
+      { "level": 5, "name": "traps" }
     ],
     "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "electronics" }, { "level": 5, "name": "mechanics" }, { "level": 5, "name": "traps" } ],
     "items": {
@@ -3565,10 +3566,10 @@
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
           { "item": "tool_belt", "contents-item": "hammer" },
-		  { "item": "hat_hard", "variant": "yellow_hat_hard" },
-		  { "item": "glasses_safety" },
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
+          { "item": "glasses_safety" },
           { "item": "jumpsuit" },
-		  { "group": "charged_electrical_measuring" }
+          { "group": "charged_electrical_measuring" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -4048,7 +4049,7 @@
     "description": "You used to spend most of your free time working on an open source apocalypse survival game; now, however, you find yourself living through it.",
     "points": 3,
     "skills": [ { "level": 7, "name": "computer" } ],
-	"addictions": [ { "intensity": 10, "type": "caffeine" } ],
+    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
     "items": {
       "both": {
         "entries": [
