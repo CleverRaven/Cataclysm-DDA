@@ -42,13 +42,16 @@
         "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
         "topic": "TALK_RANCH_FOREMAN_Nunez",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } ]
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
+          ]
         }
       },
       {
         "text": "Hey, are you looking for workers here?",
         "topic": "TALK_RANCH_FOREMAN_Nunez_Clue",
-        "condition": { "not": { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_1" } }
+        "condition": { "not": { "compare_string": [ "phase_1", { "u_val": "recruit_general_Nunez_Tacoma" } ] } }
       },
       { "text": "I've got to go…", "topic": "TALK_DONE" }
     ]
@@ -72,17 +75,14 @@
     "id": "TALK_RANCH_FOREMAN_ANESTHETIC_FOR_DOCTOR",
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ],
       "no": {
-        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ],
         "no": "I don't have anything to offer, but you could talk to the scavenger boss and the scrappers; They might be able to help.",
         "yes": "I don't have anything to offer, but maybe the scavenger boss could help find some materials."
       },
       "yes": {
-        "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ],
         "no": "I don't have anything to offer, but maybe the scrappers could help find some materials.",
         "yes": "I'm afraid I don't have anything to offer."
       }
@@ -93,8 +93,10 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "or": [
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" } },
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] } },
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
+            }
           ]
         }
       },
@@ -103,8 +105,8 @@
         "topic": "TALK_RANCH_FOREMAN",
         "condition": {
           "and": [
-            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped", "value": "yes" },
-            { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scavengers_helped" } ] },
+            { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
           ]
         }
       },
@@ -343,20 +345,20 @@
   {
     "id": "MISSION_RANCH_FOREMAN_4",
     "type": "mission_definition",
-    "name": { "str": "Gather 300 Salt" },
+    "name": { "str": "Gather 30lb Salt" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "salt",
-    "count": 300,
+    "count": 3888,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_5",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up, but the only thing they are willing to trade it for is salt.  I negotiated them down from 500 units to 300… we were hoping you might have access to a source.",
+      "offer": "I'm sure you've noticed the new workers that have started trickling in.  The Free Merchant counsel is demanding that we immediately begin projects to become self-sufficient due to limited supplies.  We are going to need to rapidly setup an agricultural industry before winter and starvation catches us unprepared and unsupported.  In order to get a half dozen shovels and a couple of bags of seeds, we are going to have to trade for it.  I've already got the deal lined up, but the only thing they are willing to trade it for is salt.  I negotiated them down from 50 lbs to 30… we were hoping you might have access to a source.",
       "accepted": "Salt is key to preserving meat and other perishables… without any excess food it wouldn't do us much good now, but I imagine we'll need to send you out to get more in the future.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "If you can find a source of salt water you should be able to boil it down.",
+      "advice": "If you can find a source of salt water you should be able to boil it down.  Alternatively, you can go into the cities and search restaurants.",
       "inquire": "Do you have the salt?",
       "success": "We are going to begin preparing our fields immediately.",
       "success_lie": "What good does this do us?",
@@ -410,17 +412,17 @@
   {
     "id": "MISSION_RANCH_FOREMAN_5",
     "type": "mission_definition",
-    "name": { "str": "Gather 30 Liquid Fertilizer" },
+    "name": { "str": "Gather 30 Bottles of Liquid Fertilizer" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "fertilizer_liquid",
-    "count": 30,
+    "count": 120,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_6",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Well, our first crop will be planted shortly, but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop, our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 30 units to make a significant improvement in our output.",
+      "offer": "Well, our first crop will be planted shortly, but I'm starting to suspect that our profit margin is going to be much smaller than we expect.  With limited seed for our original crop, our next course of action is to increase the soil's fertility.  Is there any way you could find or produce a basic liquid fertilizer for us?  We'd need at least 120 units or 30 full bottles to make a significant improvement in our output.",
       "accepted": "I don't know the exact recipe, but I'm sure you could make it from a commercial fertilizer or produce it from bonemeal.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "I'd look through a few basic chemistry books to find a simple recipe.",
@@ -926,12 +928,12 @@
   {
     "id": "MISSION_RANCH_FOREMAN_16",
     "type": "mission_definition",
-    "name": { "str": "Gather 80 Sugar" },
+    "name": { "str": "Gather 80lb Sugar" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
     "item": "sugar",
-    "count": 80,
+    "count": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RANCH_FOREMAN_17",
     "dialogue": {
@@ -939,7 +941,7 @@
       "offer": "Just flipping through the book, I can tell that one ingredient in most of the alcoholic drinks that we don't have a large supply of is sugar.  What alcohol we have been able to loot isn't going to last us long, so starting our first large batch is a priority.  Could you bring in 80 units of sugar?  That should last us until we can start producing our own supply.",
       "accepted": "I'm counting on you.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
-      "advice": "You might get lucky finding it, but you could always boil it out of fruit if you are familiar with the process.",
+      "advice": "You might get lucky finding it, but you could always boil it out of fruit if you are familiar with the process.  Or go into the cities and look in restaurants and bakeries.",
       "inquire": "Do you have the sugar?",
       "success": "There is a large group of thirsty individuals in our outpost that are truly thankful for your work.",
       "success_lie": "What good does this do us?",

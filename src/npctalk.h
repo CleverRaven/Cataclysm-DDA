@@ -105,6 +105,9 @@ void start_training_npc( npc & );
 void start_training_seminar( npc &p );
 void start_training_gen( Character &teacher, std::vector<Character *> &students, teach_domain &d );
 
+// used for NPC camps
+void distribute_food_auto( npc &p );
+
 void wake_up( npc & );
 void copy_npc_rules( npc &p );
 void set_npc_pickup( npc &p );

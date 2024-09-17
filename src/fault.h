@@ -30,6 +30,7 @@ void finalize();
 void check_consistency();
 
 const fault_id &random_of_type( const std::string &type );
+const fault_id &random_of_type_item_has( const item &it, const std::string &type );
 } // namespace faults
 
 class fault_fix

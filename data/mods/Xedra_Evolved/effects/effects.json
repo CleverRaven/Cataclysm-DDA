@@ -1072,6 +1072,50 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_changeling_wearing_iron",
+    "name": [ "Touching Iron" ],
+    "desc": [ "You are in contact with iron.  It will cause you pain and discomfort until removed." ],
+    "rating": "bad",
+    "apply_message": "As the iron touches you, your skin begins to itch fiercely.",
+    "remove_message": "The itch from the iron finally fades.",
+    "base_mods": {
+      "pain_amount": [ 5 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 5 ],
+      "pain_max_val": [ 35 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.9 },
+      { "limb_score": "breathing", "modifier": 0.85 },
+      { "limb_score": "lift", "modifier": 0.9 },
+      { "limb_score": "grip", "modifier": 0.9 },
+      { "limb_score": "reaction", "modifier": 0.9 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_wearing_steel",
+    "name": [ "Touching Steel" ],
+    "desc": [ "You are in contact with steel.  It will cause you pain and discomfort until removed." ],
+    "rating": "bad",
+    "apply_message": "As the steel touches you, your skin begins to itch.",
+    "remove_message": "The itching from the steel finally fades.",
+    "base_mods": {
+      "pain_amount": [ 2 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 3 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 15 ],
+      "pain_tick": [ 120 ]
+    },
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.95 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
@@ -1505,10 +1549,10 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_sylph_levitation",
+    "id": "effect_sylph_climb_flying",
     "//": "Hidden, paired with the previous effect sometimes but not always.",
-    "name": [  ],
-    "desc": [  ],
+    "name": [ "" ],
+    "desc": [ "" ],
     "flags": [ "CLIMB_FLYING" ]
   },
   {
@@ -1695,6 +1739,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_xe_deciphering_hedge_tome",
+    "//": "Hidden effect, used to check that you're still researching.",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_nether_eye_paste",
     "name": [ "Blood-and-Ash Paste" ],
     "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
@@ -1778,6 +1829,45 @@
     "name": [ "Animalistic Mind" ],
     "desc": [ "Hunt.  Kill.  Feed.  Sleep." ],
     "flags": [ "CANNIBAL", "PRED4", "PSYCHOPATH", "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_walk_on_water_magic_square",
+    "name": [ "Water-Walking" ],
+    "desc": [ "NAHARIAMA\nA  Q\nH      E\nA Q\nR\nI\nA      Q\nM     QA\nA" ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "remove_message": "Your water-walking charm has faded.",
+    "decay_messages": [ [ "Your water-walking charm is about to fade.", "bad" ] ],
+    "max_duration": "30 m",
+    "max_intensity": 30,
+    "int_dur_factor": "1 m",
+    "flags": [ "ITEM_WATERPROOFING", "WATERWALKING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_breathe_water_magic_square",
+    "name": [ "Water-Breathing" ],
+    "desc": [ "BURNAHEU\nULORIPTE\nROMILAPH\nNRITILIA\nAILITIRN\nHPALIMOR\nETPIROLU\nUEHANRUB" ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "remove_message": "Your water-breathing charm has faded.",
+    "decay_messages": [ [ "Your water-breathing charm is about to fade.", "bad" ] ],
+    "max_duration": "2 h",
+    "max_intensity": 120,
+    "int_dur_factor": "1 m",
+    "flags": [ "ITEM_WATERPROOFING", "GILLS", "EYE_MEMBRANE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_invisibility_magic_square",
+    "name": [ "Invisibility" ],
+    "desc": [ "TALAC\nA   A\nL   L\nA   A\nCALAT" ],
+    "//": "The above description replicates a magic square and should not be translated",
+    "remove_message": "Your invisibility charm has faded.",
+    "decay_messages": [ [ "Your invisibility charm is about to fade.", "bad" ] ],
+    "max_duration": "77 m",
+    "max_intensity": 77,
+    "int_dur_factor": "1 m",
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1903,6 +1993,172 @@
     "scaling_mods": { "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Dangerous levels of oxygen and nitrogen in blood sample"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_noble",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_brownie",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_pooka",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_selkie",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_fair_folk_commoner_trow",
+    "name": [ "Fair Folk Mutation" ],
+    "desc": [ "You are gaining Fair Folk powers.  This should only be visible for a moment." ],
+    "max_intensity": 3
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_invisibility",
+    "name": [ "Hidden from Mortal Eyes" ],
+    "desc": [ "They could have sworn you were there a moment ago." ],
+    "rating": "good",
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_noble_burning_weapon",
+    "name": [ "Fires of Bealtaine" ],
+    "desc": [ "Your weapon is burning with white-gold fire." ],
+    "remove_message": "The flames on your weapon go out.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "LUMINATION", "add": 25 } ],
+        "hit_you_effect": [ { "id": "changeling_noble_burning_weapon_fire_damage" }, { "id": "changeling_noble_burning_weapon_anti_nether" } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_noble_movement_buffs",
+    "name": [ "Deeds of Lughnasadh" ],
+    "desc": [ "You would have definitely won the contests." ],
+    "remove_message": "Your athletic prowess fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.08) + (u_skill('deduction') * 0.25) )" ] }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.05) + (u_skill('deduction') * 0.2) )" ] }
+          },
+          {
+            "value": "THROW_STR",
+            "add": { "math": [ "1 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.07) + (u_skill('deduction') * 0.35) )" ] }
+          },
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "min( (0.33 + ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.005) + (u_skill('deduction') * 0.02) )), 0.98)"
+              ]
+            }
+          },
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') * 0.0015) - (u_skill('deduction') * 0.015) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "CLIMB_NO_LADDER", "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_noble_movement_buffs_ally",
+    "name": [ "Deeds of Lughnasadh" ],
+    "desc": [ "You would have definitely won the contests." ],
+    "remove_message": "Your athletic prowess fades.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "1 + ( (u_glamoured_changeling_noble_traits * 0.08) + (u_glamoured_deduction_movement_buff * 0.25) )" ] }
+          },
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "1 + ( (u_glamoured_changeling_noble_traits * 0.05) + (u_glamoured_deduction_movement_buff * 0.2) )" ] }
+          },
+          {
+            "value": "THROW_STR",
+            "add": { "math": [ "1 + ( (u_glamoured_changeling_noble_traits * 0.07) + (u_glamoured_deduction_movement_buff * 0.35) )" ] }
+          },
+          {
+            "value": "RANGE_DODGE",
+            "add": {
+              "math": [
+                "min( (0.33 + ( (u_glamoured_changeling_noble_traits * 0.005) + (u_glamoured_deduction_movement_buff * 0.02) )), 0.98)"
+              ]
+            }
+          },
+          {
+            "value": "MOVE_COST",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_glamoured_changeling_noble_traits * 0.0015) - (u_glamoured_deduction_movement_buff * 0.015) )" ]
+            }
+          },
+          {
+            "value": "ATTACK_SPEED",
+            "multiply": {
+              "math": [ "-0.1 - ( (u_glamoured_changeling_noble_traits * 0.0015) - (u_glamoured_deduction_movement_buff * 0.015) )" ]
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "CLIMB_NO_LADDER", "FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_changeling_noble_broken_right_of_passage",
+    "name": [ "Broken Right of Passage" ],
+    "desc": [ "You are no longer protected by the contracts of eld." ],
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_brownie_attacked_someone",
+    "name": [ "Conspicuous" ],
+    "desc": [ "People can definitely see you now." ],
+    "rating": "bad"
   },
   {
     "type": "effect_type",

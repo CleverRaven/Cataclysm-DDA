@@ -74,7 +74,7 @@
     "type": "item_group",
     "id": "REFUGEE_Pablo_wield",
     "subtype": "collection",
-    "entries": [ { "item": "heavy_flashlight", "ammo-item": "battery", "charges": 200 } ]
+    "entries": [ { "item": "heavy_flashlight", "charges": 200 } ]
   },
   {
     "type": "talk_topic",
@@ -98,7 +98,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -109,7 +109,10 @@
         "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
         "topic": "TALK_REFUGEE_Pablo_Tacoma2",
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_TACOMA_Nunez" }, { "u_has_var": "recruit_general_Nunez_Tacoma", "value": "phase_3" } ]
+          "and": [
+            { "u_has_mission": "MISSION_TACOMA_Nunez" },
+            { "compare_string": [ "phase_3", { "u_val": "recruit_general_Nunez_Tacoma" } ] }
+          ]
         }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -189,7 +192,7 @@
       {
         "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
         "topic": "TALK_REFUGEE_Pablo_Background2_cleared",
-        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] }
       }
     ]
   },
@@ -213,7 +216,7 @@
         "effect": { "assign_mission": "MISSION_TACOMA_Nunez" },
         "condition": {
           "and": [
-            { "u_has_var": "knowledge_flag_tacoma_started", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "knowledge_flag_tacoma_started" } ] },
             { "not": { "u_has_mission": "MISSION_TACOMA_Nunez" } }
           ]
         }

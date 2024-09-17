@@ -116,6 +116,12 @@
         "id": "glock_19",
         "name": { "str": "Glock 19 pistol" },
         "description": "Possibly the most popular pistol in existence, the Glock 19 can be summed up as being fundamentally a more compact brother to the full-sized Glock 17 pistol.  Sporting a mainly polymer-based design, the Glock 19 is often derided for its plastic construction which lends the handgun a deceptively flimsy feel.  Even so, the Glock 19 remains both a remarkably reliable firearm and a quite shootable gun in its own right."
+      },
+      {
+        "id": "glock_19_cop",
+        "name": { "str": "Glock 19M MOS" },
+        "description": "A close relative to the stock Glock 19, this all-black pistol features a specialized mount for a red dot sight, extended mag release, and a 4.02-inch Marksman barrel.  It is most commonly used by law enforcement, and is the current standard-issue sidearm of the FBI.",
+        "weight": 0
       }
     ],
     "ascii_picture": "glock_19",
@@ -1326,7 +1332,7 @@
     "variants": [
       {
         "id": "draco_9mm",
-        "name": { "str": "NAK 9" },
+        "name": { "str": "Century Arms NAK 9" },
         "description": "The NAK 9 is a Century Arms imported gun.  It is essentially a shortened AK with no stock, chambered in 9mm and accepting Glock magazines, with an 11.14\" barrel."
       }
     ],

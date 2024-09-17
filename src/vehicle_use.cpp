@@ -992,7 +992,7 @@ void vehicle::transform_terrain()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
-        const tripoint start_pos = vp.pos();
+        const tripoint_bub_ms start_pos = vp.pos_bub();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
@@ -1073,7 +1073,7 @@ void vehicle::operate_planter()
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
-        const tripoint loc = vp.pos();
+        const tripoint_bub_ms loc = vp.pos_bub();
         vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
@@ -1956,7 +1956,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                         stop_engines();
                     } else
                     {
-                        start_engines();
+                        start_engines( &get_player_character() );
                     }
                 } );
             }

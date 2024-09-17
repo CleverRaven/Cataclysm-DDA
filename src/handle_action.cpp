@@ -80,6 +80,7 @@
 #include "ranged.h"
 #include "rng.h"
 #include "safemode_ui.h"
+#include "sleep.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -114,7 +115,6 @@ static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
-static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -154,9 +154,6 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
-static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
-static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WATERSLEEPER( "WATERSLEEPER" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const zone_type_id zone_type_CHOP_TREES( "CHOP_TREES" );
@@ -452,8 +449,8 @@ static void rcdrive( const point &d )
         add_msg( m_warning, _( "No radio car connected." ) );
         return;
     }
-    tripoint c;
-    car_location_string >> c.x >> c.y >> c.z;
+    tripoint_bub_ms c;
+    car_location_string >> c.x() >> c.y() >> c.z();
 
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
@@ -977,9 +974,7 @@ static void smash()
     }
 
     if( should_pulp ) {
-        // do activity forever. ACT_PULP stops itself
-        player_character.assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-        player_character.activity.placement = here.getglobal( smashp );
+        player_character.assign_activity( pulp_activity_actor( here.getglobal( smashp ), true ) );
         return; // don't smash terrain if we've smashed a corpse
     }
 
@@ -1239,9 +1234,12 @@ static void wait()
             actType = ACT_WAIT;
         }
 
-        player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
-
-        player_character.assign_activity( new_act );
+        if( actType == ACT_WAIT_STAMINA ) {
+            player_character.assign_activity( wait_stamina_activity_actor() );
+        } else {
+            player_activity new_act( actType, 100 * to_turns<int>( time_to_wait ), 0 );
+            player_character.assign_activity( new_act );
+        }
     }
 }
 
@@ -1257,14 +1255,19 @@ static void sleep()
         return;
     }
 
-    vehicle *const boat = veh_pointer_or_null( get_map().veh_at( player_character.pos_bub() ) );
-    if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos_bub() ) &&
-        !player_character.has_trait( trait_WATERSLEEPER ) &&
-        !player_character.has_trait( trait_WATERSLEEP ) &&
-        !player_character.has_trait( trait_UNDINE_SLEEP_WATER ) &&
-        boat == nullptr ) {
-        add_msg( m_info, _( "You cannot sleep while swimming." ) );
-        return;
+    const map &here = get_map();
+    const tripoint_bub_ms &p = player_character.pos_bub();
+    const optional_vpart_position vp = here.veh_at( p );
+    const comfort_data::response &comfort = player_character.get_comfort_at( p );
+    if( !vp && comfort.data->human_or_impossible() ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
+            add_msg( m_info, _( "You cannot sleep while swimming." ) );
+            return;
+        }
+        if( here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+            add_msg( m_info, _( "You cannot sleep while airborne." ) );
+            return;
+        }
     }
 
     uilist as_m;
@@ -1454,65 +1457,69 @@ static void loot()
         return;
     }
 
+    auto wrap60 = []( const std::string & text ) {
+        return string_join( foldstring( text, 60 ), "\n" );
+    };
+
     uilist menu;
-    menu.text = _( "Pick action:" );
+    menu.title = _( "Pick action:" );
     menu.desc_enabled = true;
 
     if( flags & SortLoot ) {
         menu.addentry_desc( SortLootStatic, true, 'o', _( "Sort out my loot (static zones only)" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring personal zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            wrap60( _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring personal zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) ) );
         menu.addentry_desc( SortLootPersonal, true, 'O', _( "Sort out my loot (personal zones only)" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring static zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            wrap60( _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones ignoring static zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) ) );
         menu.addentry_desc( SortLoot, true, 'I', _( "Sort out my loot (all)" ),
-                            _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) );
+                            wrap60( _( "Sorts out the loot from Loot: Unsorted zone to nearby appropriate Loot zones.  Uses empty space in your inventory or utilizes a cart, if you are holding one." ) ) );
     }
 
     if( flags & UnloadLoot ) {
         menu.addentry_desc( UnloadLoot, true, 'U', _( "Unload nearby containers" ),
-                            _( "Unloads any corpses or containers that are in their respective zones." ) );
+                            wrap60( _( "Unloads any corpses or containers that are in their respective zones." ) ) );
     }
 
     if( flags & FertilizePlots ) {
         menu.addentry_desc( FertilizePlots, has_fertilizer, 'f',
                             !has_fertilizer ? _( "Fertilize plots… you don't have any fertilizer" ) : _( "Fertilize plots" ),
-                            _( "Fertilize any nearby Farm: Plot zones." ) );
+                            wrap60( _( "Fertilize any nearby Farm: Plot zones." ) ) );
     }
 
     if( flags & ConstructPlots ) {
         menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct plots" ),
-                            _( "Work on any nearby Blueprint: construction zones." ) );
+                            wrap60( _( "Work on any nearby Blueprint: construction zones." ) ) );
     }
     if( flags & MultiFarmPlots ) {
         menu.addentry_desc( MultiFarmPlots, true, 'm', _( "Farm plots" ),
-                            _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) );
+                            wrap60( _( "Till and plant on any nearby farm plots - auto-fetch seeds and tools." ) ) );
     }
     if( flags & Multichoptrees ) {
         menu.addentry_desc( Multichoptrees, true, 'C', _( "Chop trees" ),
-                            _( "Chop down any trees in the designated zone - auto-fetch tools." ) );
+                            wrap60( _( "Chop down any trees in the designated zone - auto-fetch tools." ) ) );
     }
     if( flags & Multichopplanks ) {
         menu.addentry_desc( Multichopplanks, true, 'P', _( "Chop planks" ),
-                            _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) );
+                            wrap60( _( "Auto-chop logs in wood loot zones into planks - auto-fetch tools." ) ) );
     }
     if( flags & Multideconvehicle ) {
         menu.addentry_desc( Multideconvehicle, true, 'v', _( "Deconstruct vehicle" ),
-                            _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-deconstruct vehicle in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & Multirepairvehicle ) {
         menu.addentry_desc( Multirepairvehicle, true, 'V', _( "Repair vehicle" ),
-                            _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-repair vehicle in designated zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiButchery ) {
         menu.addentry_desc( MultiButchery, true, 'B', _( "Butcher corpses" ),
-                            _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) );
+                            wrap60( _( "Auto-butcher anything in corpse loot zones - auto-fetch tools." ) ) );
     }
     if( flags & MultiMining ) {
         menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
-                            _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-mine anything in mining zone - auto-fetch tools." ) ) );
     }
     if( flags & MultiDis ) {
         menu.addentry_desc( MultiDis, true, 'D', _( "Disassemble items" ),
-                            _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) );
+                            wrap60( _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) ) );
 
     }
     if( flags & MultiMopping ) {
@@ -1778,13 +1785,11 @@ static void cast_spell()
         }
     }
 
-    const int spell_index = player_character.magic->select_spell( player_character );
-    if( spell_index < 0 ) {
+    spell &sp = player_character.magic->select_spell( player_character );
+    // if no spell was selected
+    if( sp.id().is_null() ) {
         return;
     }
-
-    spell &sp = *player_character.magic->get_spells()[spell_index];
-
     player_character.cast_spell( sp, false, std::nullopt );
 }
 
@@ -2254,13 +2259,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     act = player_character.get_next_auto_move_direction();
                     const point dest_next = get_delta_from_movement_action( act, iso_rotate::yes );
                     if( dest_next == point_zero ) {
-                        player_character.clear_destination();
+                        player_character.abort_automove();
                     }
                     dest_delta = dest_next;
                 }
                 if( !avatar_action::move( player_character, m, dest_delta ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
-                    player_character.clear_destination();
+                    player_character.abort_automove();
                 }
 
                 if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MOPPING" ) &&
@@ -2999,7 +3004,7 @@ bool game::handle_action()
         act = player_character.get_next_auto_move_direction();
         if( act == ACTION_NULL ) {
             add_msg( m_info, _( "Auto-move canceled" ) );
-            player_character.clear_destination();
+            player_character.abort_automove();
             return false;
         }
         handle_key_blocking_activity();

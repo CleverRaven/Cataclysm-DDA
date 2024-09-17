@@ -65,7 +65,7 @@
     "name": { "str": "spectacled bear" },
     "copy-from": "mon_bear",
     "description": "The Andean bear, sometimes called spectacled bear is the only bear species native to South America.  It lives in a very diverse array of ecosystems on low to high altitudes.",
-    "reproduction": { "baby_monster": "mon_cub_andean", "baby_count": 1, "baby_timer": 700 }
+    "reproduction": { "baby_type": { "baby_monster": "mon_cub_andean" }, "baby_count": 1, "baby_timer": 700 }
   },
   {
     "id": "mon_cub_andean",
@@ -141,7 +141,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 2,
     "harvest": "mammal_large_boar",
-    "reproduction": { "baby_monster": "mon_tapir_calf", "baby_count": 1, "baby_timer": 330 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_tapir_calf" }, "baby_count": 1, "baby_timer": 330 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
@@ -302,7 +302,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
     "harvest": "mammal_fur",
-    "reproduction": { "baby_monster": "mon_capybara_baby", "baby_count": 8, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_capybara_baby" }, "baby_count": 8, "baby_timer": 154 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
@@ -379,7 +379,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "reproduction": { "baby_monster": "mon_peccari_piglet", "baby_count": 8, "baby_timer": 154 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_peccari_piglet" }, "baby_count": 8, "baby_timer": 154 },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
@@ -410,7 +410,7 @@
     "dodge": 2,
     "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "reproduction": { "baby_monster": "mon_guinea_pig", "baby_count": 3, "baby_timer": 55 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_guinea_pig" }, "baby_count": 3, "baby_timer": 55 },
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER" ]
   },
@@ -452,7 +452,7 @@
     "dodge": 2,
     "harvest": "mammal_fur",
     "special_attacks": [ [ "EAT_CROP", 120 ], { "type": "leap", "cooldown": 15, "move_cost": 0, "max_range": 12, "min_consider_range": 4 } ],
-    "reproduction": { "baby_monster": "mon_kangaroo_wallaby", "baby_count": 1, "baby_timer": 275 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_kangaroo_wallaby" }, "baby_count": 1, "baby_timer": 275 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM" ]

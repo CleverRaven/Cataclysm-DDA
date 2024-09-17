@@ -34,7 +34,7 @@
             "damage_required": [ 31, 100 ]
           }
         ],
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "coverage": 8
       },
       {
@@ -286,7 +286,7 @@
         "armor_mult": { "cut": 1.5, "stab": 1.5, "bash": 1.5 },
         "coverage_mult": { "ranged": 0.8, "melee": 0 },
         "//": "Note that most bullet hits on an armour plate probably shatter it, but not all of them shatter it enough to matter for future attacks.",
-        "disabled_by": [ "shattered" ],
+        "condition": { "not": { "npc_has_any_effect": [ "shattered" ] } },
         "effects": [
           {
             "effect": "shattered",
@@ -318,7 +318,7 @@
         "armor_mult": { "cut": 1.3, "stab": 1.15, "bash": 1.15 },
         "coverage_mult": { "ranged": 0, "melee": 0.8 },
         "//": "Note that most bullet hits on an armour plate probably shatter it, but not all of them shatter it enough to matter for future attacks.",
-        "disabled_by": [ "shattered" ],
+        "condition": { "not": { "npc_has_any_effect": [ "shattered" ] } },
         "effects": [
           {
             "effect": "shattered",
@@ -351,7 +351,7 @@
         "difficulty": { "broad": 3, "point": 2 },
         "coverage_mult": { "ranged": 0.8 },
         "coverage": 40,
-        "required_effects": [ "shattered" ]
+        "condition": { "npc_has_any_effect": [ "shattered" ] }
       },
       {
         "id": "side_armour",
@@ -671,7 +671,7 @@
             "damage_required": [ 31, 100 ]
           }
         ],
-        "required_effects": [ "grabbing" ],
+        "condition": { "npc_has_any_effect": [ "grabbing" ] },
         "coverage": 8
       },
       {

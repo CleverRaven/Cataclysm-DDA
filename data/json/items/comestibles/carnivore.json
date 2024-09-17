@@ -194,7 +194,7 @@
     "description": "The stomach of a human.  It is surprisingly durable.",
     "material": [ "hflesh" ],
     "delete": { "flags": [ "PREDATOR_FUN" ] },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "hstomach_large",
@@ -211,7 +211,7 @@
     "name": { "str": "chunk of human fat", "str_pl": "chunks of human fat" },
     "description": "A chunk of raw fat, harvested from a human body.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -222,7 +222,7 @@
     "price": "5 USD",
     "//": "*May* have been commercially traded.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -239,7 +239,7 @@
     "name": { "str_sp": "human flesh" },
     "description": "A chunk of raw meat, butchered from a human body.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "human_flesh_vitamin", 100 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "human_flesh_vitamin", 1 ], [ "meat_allergen", 1 ] ],
     "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -391,7 +391,7 @@
     "looks_like": "meat_scrap",
     "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
     "description": "A tiny scrap of raw human flesh.",
-    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "human_flesh_vitamin", 10 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "human_flesh_vitamin", 1 ], [ "meat_allergen", 1 ] ],
     "material": [ "hflesh" ]
   },
   {
@@ -453,7 +453,14 @@
     "name": { "str_sp": "mutant humanoid meat" },
     "description": "Raw meat butchered from the body of a heavily mutated creature that was unsettlingly humanoid in appearance.  It has odd bits of fur and other tissue lodged in it that clearly don't belong.  You'd have to be crazy or starving to eat this.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [
+      [ "vitC", 2 ],
+      [ "calcium", 1 ],
+      [ "iron", 6 ],
+      [ "mutant_toxin", 25 ],
+      [ "meat_allergen", 1 ],
+      [ "human_flesh_vitamin", 1 ]
+    ]
   },
   {
     "id": "mutant_human_blood",
@@ -470,7 +477,8 @@
     "material": "hblood",
     "charges": 1,
     "phase": "liquid",
-    "delete": { "flags": [ "SMOKABLE" ] }
+    "delete": { "flags": [ "SMOKABLE" ] },
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "mutant_human_cooked",
@@ -988,7 +996,7 @@
     "name": { "str": "piece of raw human lung", "str_pl": "pieces of raw human lung" },
     "description": "A portion of lung from a human.  It's spongy and pink, and spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "demihuman_lung",
@@ -1020,7 +1028,7 @@
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_lung_cooked",
@@ -1028,6 +1036,91 @@
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
     "snippet_category": "cooked_mutant_lung_desc",
+    "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "id": "heart",
+    "type": "COMESTIBLE",
+    "copy-from": "flesh",
+    "looks_like": "offal",
+    "name": { "str": "piece of raw heart", "str_pl": "pieces of raw heart" },
+    "description": "A portion of an animal's heart.  It's tough but not that chewy, and it spoils very quickly.",
+    "weight": "55 g",
+    "volume": "50 ml",
+    "color": "pink",
+    "spoils_in": "1 day",
+    "price_postapoc": "6 cent",
+    "fun": -10,
+    "calories": 67,
+    "vitamins": [ [ "vitC", "3 mg" ], [ "calcium", "2840 μg" ], [ "iron", "2660 μg" ], [ "meat_allergen", 1 ] ],
+    "extend": { "flags": [ "PREDATOR_FUN" ] }
+  },
+  {
+    "id": "human_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "looks_like": "heart",
+    "name": { "str": "piece of raw human heart", "str_pl": "pieces of raw human heart" },
+    "description": "A portion of heart from a human.  It's tough but not that chewy, and it spoils very quickly.  It appears to have been extracted too crudely to ever be useful as a transplant.",
+    "material": [ "hflesh" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
+  },
+  {
+    "id": "demihuman_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "looks_like": "heart",
+    "name": { "str": "piece of raw demihuman heart", "str_pl": "pieces of raw demihuman heart" },
+    "description": "A portion of heart from a demihuman being.  It's tough but not that chewy, and it spoils very quickly.",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
+  },
+  {
+    "id": "heart_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "fun": -5,
+    "looks_like": "offal_cooked",
+    "name": { "str": "cooked piece of heart", "str_pl": "cooked pieces of heart" },
+    "description": "A roasted piece of heart.  It doesn't look any tastier than it did raw, but any parasites are all cooked out.",
+    "parasites": 0,
+    "extend": { "flags": [ "EATEN_HOT" ] },
+    "delete": { "flags": [ "RAW" ] }
+  },
+  {
+    "id": "mutant_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "name": { "str": "piece of raw mutant heart", "str_pl": "pieces of raw mutant heart" },
+    "snippet_category": "mutant_heart_desc",
+    "fun": -15,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BAD_TASTE" ] },
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 14 ], [ "mutant_toxin", 10 ], [ "meat_allergen", 1 ] ]
+  },
+  {
+    "id": "mutant_human_heart",
+    "type": "COMESTIBLE",
+    "copy-from": "heart",
+    "name": { "str": "piece of raw mutant humanoid heart", "str_pl": "pieces of raw mutant humanoid heart" },
+    "snippet_category": "mutant_heart_desc",
+    "fun": -15,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend": { "flags": [ "BAD_TASTE" ] },
+    "vitamins": [
+      [ "vitC", 0 ],
+      [ "calcium", 3 ],
+      [ "iron", 14 ],
+      [ "mutant_toxin", 10 ],
+      [ "meat_allergen", 1 ],
+      [ "human_flesh_vitamin", 1 ]
+    ]
+  },
+  {
+    "id": "mutant_heart_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "heart_cooked",
+    "name": { "str": "cooked piece of mutant heart", "str_pl": "cooked pieces of mutant heart" },
+    "snippet_category": "cooked_mutant_heart_desc",
     "delete": { "flags": [ "RAW" ] }
   },
   {
@@ -1039,7 +1132,7 @@
     "description": "You're pretty sure this is lung tissue.",
     "looks_like": "lung",
     "proportional": { "price_postapoc": 0.1, "calories": 0.65 },
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
+    "vitamins": [ [ "vitC", 9 ], [ "calcium", 0 ], [ "iron", 14 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ],
     "extend": { "flags": [ "BAD_TASTE" ] }
   },
   {
@@ -1062,7 +1155,7 @@
     "name": { "str": "piece of raw human liver", "str_pl": "pieces of raw human liver" },
     "description": "A piece of liver from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "demihuman_liver",
@@ -1094,7 +1187,7 @@
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 40 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 28 ], [ "mutant_toxin", 40 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_liver_cooked",
@@ -1127,7 +1220,7 @@
     "name": { "str": "portion of raw human bone marrow", "str_pl": "portions of raw human bone marrow" },
     "description": "Soft, spongy marrow tissue from a human bone.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "demihuman_marrow",
@@ -1154,7 +1247,7 @@
     "name": { "str": "portion of raw mutant human bone marrow", "str_pl": "portions of raw mutant human bone marrow" },
     "description": "Soft, spongy and oddly-colored marrow tissue from the bone of a heavily mutated creature that was unsettlingly humanoid in appearance.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "iron", 17 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "brain",
@@ -1178,7 +1271,7 @@
     "name": { "str": "piece of raw human brain", "str_pl": "pieces of raw human brain" },
     "description": "A chunk of brain from a human.  Eating this may cause kuru, but you probably won't live long enough to care about that anyway.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "demihuman_brain",
@@ -1212,7 +1305,7 @@
     "proportional": { "price_postapoc": 0.5 },
     "fun": -20,
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 50 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 3 ], [ "iron", 10 ], [ "mutant_toxin", 50 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_brain_cooked",
@@ -1243,7 +1336,7 @@
     "name": { "str": "piece of raw human kidney", "str_pl": "pieces of raw human kidney" },
     "description": "A chunk of kidney from a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "demihuman_kidney",
@@ -1276,7 +1369,7 @@
     "snippet_category": "mutant_kidney_desc",
     "proportional": { "price_postapoc": 0.5 },
     "extend": { "flags": [ "BAD_TASTE" ] },
-    "vitamins": [ [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 1 ], [ "iron", 25 ], [ "mutant_toxin", 25 ], [ "meat_allergen", 1 ] ]
   },
   {
     "id": "mutant_kidney_cooked",
@@ -1308,7 +1401,7 @@
     "name": { "str": "piece of raw human sweetbread", "str_pl": "pieces of raw human sweetbread" },
     "description": "A piece of the thymus or pancreas of a human, which appears to have been extracted too crudely to ever be useful as a transplant.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "vitC", 11 ], [ "calcium", 0 ], [ "iron", 5 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "id": "demihuman_sweetbread",
@@ -1349,7 +1442,7 @@
     "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1432,7 +1525,7 @@
     "name": { "str": "chunk of mutant humanoid fat", "str_pl": "chunks of mutant humanoid fat" },
     "description": "Raw fat butchered from a heavily-mutated humanoid.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1441,7 +1534,7 @@
     "copy-from": "mutant_tallow",
     "description": "A smooth white block of cleaned and rendered fat, sourced from a mutant humanoid.  It won't rot for a very long time, and can be used as an ingredient in many foods and projects.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1612,7 +1705,7 @@
     "name": { "str": "boiled large human stomach" },
     "description": "A boiled stomach from a large humanoid creature, nothing else.  It looks all but appetizing.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1640,7 +1733,7 @@
     "name": { "str": "boiled human stomach" },
     "description": "A small boiled stomach from a human, nothing else.  It looks all but appetizing.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1695,7 +1788,7 @@
     "name": { "str_sp": "raw human skin" },
     "description": "A carefully folded raw skin harvested from a human.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": [ "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1745,7 +1838,7 @@
     "name": { "str_sp": "raw human pelt" },
     "description": "A carefully folded raw skin harvested from a fur-bearing mutant human.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": [ "fur", "hflesh" ],
-    "vitamins": [ [ "meat_allergen", 1 ] ]
+    "vitamins": [ [ "meat_allergen", 1 ], [ "human_flesh_vitamin", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -1925,6 +2018,7 @@
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] },
     "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }

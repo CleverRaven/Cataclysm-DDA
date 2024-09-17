@@ -703,7 +703,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": { "and": [ "u_can_see", { "math": [ "u_madness", ">", "10" ] } ] },
+    "condition": { "and": [ { "or": [ "u_can_see", { "u_has_flag": "BLIND" } ] }, { "math": [ "u_madness", ">", "10" ] } ] },
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },

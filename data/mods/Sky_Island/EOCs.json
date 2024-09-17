@@ -961,10 +961,13 @@
           },
           "else": [
             { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
-            { "u_message": "You must be near a water source to created a warped pond.", "type": "neutral" }
+            { "u_message": "Canceled.", "type": "neutral" }
           ]
         },
-        "else": { "u_message": "Canceled" }
+        "else": [
+          { "u_spawn_item": "warptoken", "count": 30, "suppress_message": true },
+          { "u_message": "You must be near a water source to created a warped pond.", "type": "neutral" }
+        ]
       }
     ]
   },

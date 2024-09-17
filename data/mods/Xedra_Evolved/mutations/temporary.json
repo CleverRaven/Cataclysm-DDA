@@ -175,5 +175,46 @@
     ],
     "override_look": { "id": "mon_bear", "tile_category": "monster" },
     "integrated_armor": [ "integrated_claws_st", "integrated_fangs", "integrated_ursine_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Bush disguise" },
+    "points": 99,
+    "description": "You are a bush and no one can see you.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "override_look": { "id": "t_shrub", "tile_category": "terrain" },
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_TREE",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Tree disguise" },
+    "override_look": { "id": "t_tree", "tile_category": "terrain" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_POND",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Pond disguise" },
+    "override_look": { "id": "t_water_sh", "tile_category": "terrain" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_GRASS",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Grass disguise" },
+    "override_look": { "id": "t_grass_long", "tile_category": "terrain" }
+  },
+  {
+    "type": "mutation",
+    "id": "CHANGELING_DISGUISE_AS_NATURE_ROCK",
+    "copy-from": "CHANGELING_DISGUISE_AS_NATURE_BUSH",
+    "name": { "str": "Changeling Rock disguise" },
+    "override_look": { "id": "f_boulder_medium", "tile_category": "furniture" }
   }
 ]

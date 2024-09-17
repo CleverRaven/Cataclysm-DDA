@@ -40,7 +40,13 @@
     ],
     "overmaps": {
       "surface": { "overmap": "nether_glass_impassable_north", "below": "duct_to_surface", "locations": [ "iso_nether" ] },
-      "closing_chunk": { "overmap": "iso_elevator_microlab_embed_next_north", "north": "microlab_to_hallway" },
+      "closing_chunk": {
+        "overmap": "iso_elevator_microlab_embed_next_north",
+        "north": "microlab_to_hallway",
+        "east": { "id": "microlab_to_hallway", "type": "available" },
+        "south": { "id": "microlab_to_hallway", "type": "available" },
+        "west": { "id": "microlab_to_hallway", "type": "available" }
+      },
       "microlab": {
         "overmap": "microlab_generic",
         "north": { "id": "microlab_to_microlab", "alternatives": [ "microlab_to_hallway" ] },

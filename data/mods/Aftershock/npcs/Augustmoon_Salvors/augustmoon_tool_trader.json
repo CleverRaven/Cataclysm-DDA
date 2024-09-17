@@ -59,12 +59,7 @@
     "subtype": "distribution",
     "ammo": 100,
     "magazine": 100,
-    "items": [
-      [ "heavy_disposable_cell", 1 ],
-      [ "medium_disposable_cell", 2 ],
-      [ "light_disposable_cell", 4 ],
-      [ "light_minus_disposable_cell", 1 ]
-    ]
+    "items": [ [ "light_battery_cell", 4 ], [ "light_minus_disposable_cell", 1 ] ]
   },
   {
     "id": "afs_augustmoon_batteries_rechargeable",

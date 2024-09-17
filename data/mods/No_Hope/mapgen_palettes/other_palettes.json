@@ -171,10 +171,9 @@
       "<": "t_ladder_up",
       "4": "t_gutter_downspout"
     },
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
     "furniture": {
       "c": "f_counter",
-      "D": "f_vending_c",
-      "F": "f_vending_c",
       "S": "f_sink",
       "T": "f_toilet",
       "h": "f_chair",
@@ -216,8 +215,6 @@
       "e": "f_fridge",
       "l": "f_locker",
       "W": "f_washer",
-      "F": "f_vending_c",
-      "U": "f_vending_c",
       "D": "f_desk",
       "x": "f_console_broken"
     },
@@ -932,10 +929,10 @@
       "<": "t_stairs_up",
       ";": "t_gutter_downspout",
       "W": "t_strconc_wall",
-      "$": "t_atm",
       "Z": "t_bars"
     },
     "furniture": {
+      "$": "f_atm_off",
       "C": "f_counter",
       "3": "f_counter",
       "R": "f_counter",
@@ -996,7 +993,7 @@
         "item": {
           "//": "civilian magazines kept on racks behind the counter in the FoH",
           "subtype": "collection",
-          "entries": [ { "group": "mags_common_gunstore", "prob": 20 }, { "group": "mags_pistol_rare", "prob": 30 } ]
+          "entries": [ { "group": "mags_common", "prob": 20 }, { "group": "mags_common", "prob": 30 } ]
         },
         "chance": 65
       },

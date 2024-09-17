@@ -26,7 +26,7 @@ static std::set<tripoint_abs_ms> count_fields_near(
     map &m = get_map();
     std::set<tripoint_abs_ms> live_fields;
     for( const tripoint_abs_ms &cursor : closest_points_first( p, 10 ) ) {
-        field_entry *entry = m.get_field( m.getlocal( cursor ), field_type );
+        field_entry *entry = m.get_field( m.bub_from_abs( cursor ), field_type );
         if( entry && entry->is_field_alive() ) {
             live_fields.insert( cursor );
         }
@@ -98,10 +98,10 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         tripoint_abs_ms p2 = player_initial_pos + tripoint_east * 11;
         tripoint_abs_ms p3 = player_initial_pos + tripoint_east * 12;
         tripoint_abs_ms p4 = player_initial_pos + tripoint_east * 13;
-        m.add_field( m.getlocal( p1 ), fd_fatigue, 1, 1_hours );
-        m.add_field( m.getlocal( p2 ), fd_fatigue, 2, 1_hours );
-        m.add_field( m.getlocal( p3 ), fd_fatigue, 3, 1_hours );
-        m.add_field( m.getlocal( p4 ), fd_fatigue, 3, 1_hours );
+        m.add_field( m.bub_from_abs( p1 ), fd_fatigue, 1, 1_hours );
+        m.add_field( m.bub_from_abs( p2 ), fd_fatigue, 2, 1_hours );
+        m.add_field( m.bub_from_abs( p3 ), fd_fatigue, 3, 1_hours );
+        m.add_field( m.bub_from_abs( p4 ), fd_fatigue, 3, 1_hours );
 
         if( with_light ) {
             player_add_headlamp();

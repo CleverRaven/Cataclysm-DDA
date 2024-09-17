@@ -166,7 +166,10 @@
       { "u_lose_trait": "hair_braid" },
       { "u_lose_trait": "hair_detective" },
       { "u_lose_trait": "hair_super_princess" },
-      { "u_lose_trait": "hair_twintails" }
+      { "u_lose_trait": "hair_twintails" },
+      { "u_lose_trait": "hair_bald" },
+      { "u_lose_trait": "hair_fro" },
+      { "u_lose_trait": "hair_ponytail" }
     ]
   },
   {

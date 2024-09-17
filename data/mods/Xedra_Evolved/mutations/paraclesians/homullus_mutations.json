@@ -420,16 +420,6 @@
       {
         "condition": {
           "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
             { "u_near_om_location": "road", "range": 3 },
             { "u_near_om_location": "dirt_road", "range": 3 },
             { "u_near_om_location": "subway", "range": 3 },
@@ -487,7 +477,7 @@
     "id": "HOMULLUS_EAT_DEMIHUMANS",
     "name": { "str": "The Top of the Food Chain" },
     "points": 5,
-    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.",
+    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.  However, the food that pre-Cataclysm humanity would slowly poison themselves with is anathema to you, and you will eat only good-tasting food unless you are starving.",
     "types": [ "DIET" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
@@ -607,7 +597,7 @@
     "visibility": 0,
     "ugliness": 0,
     "purifiable": false,
-    "description": "As a spirit of humanity, you lack the natural biology required for mutagens to function.  However, your powers have grown far enough to allow you to use even the most abstract of human tools, allowing you to consume mutagens to change your body.  Unlike humans, however, there are thresholds you will never be able to reach.",
+    "description": "As a spirit of humanity, you lack the natural biology required for mutagens to function.  However, your powers have grown far enough to allow you to use even the most abstract of human tools, allowing you to consume mutagens to change your body.  Unlike humans, however, there are thresholds you will never be able to reach, and should you choose this route, further development of your native spirit powers will be closed off to you.",
     "threshreq": [ "THRESH_HOMULLUS" ],
     "prereqs": [ "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
@@ -627,6 +617,48 @@
     "allowed_category": [ "HOMULLUS" ],
     "changes_to": [ "HOMULLUS_EXPANDED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_NO_DOLL_MUTATIONS",
+    "name": "Homullus No Doll Mutations",
+    "//": "For Homullus who choose to consume mutagen, prevent them from mutating any more homullus traits.",
+    "valid": false,
+    "player_display": false,
+    "purifiable": false,
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You have chosen the path of human mutation and further Homullus mutation is closed off to you.  You should not see this in-game.",
+    "vitamin_rates": [ [ "mutagen_dollkin", 1 ] ],
+    "allowed_category": [
+      "ALPHA",
+      "BATRACHIAN",
+      "BEAST",
+      "BIRD",
+      "CATTLE",
+      "CEPHALOPOD",
+      "CHIMERA",
+      "CHIROPTERAN",
+      "CRUSTACEAN",
+      "ELFA",
+      "FELINE",
+      "FISH",
+      "GASTROPOD",
+      "INSECT",
+      "LIZARD",
+      "LUPINE",
+      "MEDICAL",
+      "MOUSE",
+      "PLANT",
+      "RABBIT",
+      "RAPTOR",
+      "RAT",
+      "SLIME",
+      "SPIDER",
+      "TROGLOBITE",
+      "URSINE"
+    ]
   },
   {
     "type": "mutation",
@@ -749,37 +781,43 @@
     "type": "mutation",
     "id": "PRETTY",
     "copy-from": "PRETTY",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL",
     "copy-from": "BEAUTIFUL",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ] }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL2",
     "copy-from": "BEAUTIFUL2",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "BEAUTIFUL3",
     "copy-from": "BEAUTIFUL3",
-    "extend": { "category": [ "HOMULLUS" ], "threshreq": [ "THRESH_HOMULLUS" ] }
+    "extend": {
+      "category": [ "HOMULLUS", "FAIR_FOLK_NOBLE", "FAIR_FOLK_COMMONER_SELKIE" ],
+      "threshreq": [ "THRESH_HOMULLUS", "THRESH_FAIR_FOLK_NOBLE", "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
+    }
   },
   {
     "type": "mutation",
     "id": "STR_UP",
     "copy-from": "STR_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
     "id": "STR_UP_2",
     "copy-from": "STR_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_TROW" ] }
   },
   {
     "type": "mutation",
@@ -791,13 +829,13 @@
     "type": "mutation",
     "id": "DEX_UP",
     "copy-from": "DEX_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
     "id": "DEX_UP_2",
     "copy-from": "DEX_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
@@ -827,13 +865,13 @@
     "type": "mutation",
     "id": "PER_UP",
     "copy-from": "PER_UP",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",
     "id": "PER_UP_2",
     "copy-from": "PER_UP_2",
-    "extend": { "category": [ "HOMULLUS" ] }
+    "extend": { "category": [ "HOMULLUS", "FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
     "type": "mutation",

@@ -682,8 +682,7 @@
             "colt_ro635": 1,
             "bt_apc9k": 1,
             "calico": 1,
-            "cx4": 1,
-            "feral_m9": 1
+            "cx4": 1
           }
         },
         {
@@ -728,8 +727,7 @@
             "ak556": 1,
             "minidraco556": 1,
             "bren2_556": 1,
-            "rdb_223": 1,
-            "feral_militia_gun": 1
+            "rdb_223": 1
           }
         },
         {
@@ -872,11 +870,7 @@
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "saiga_410": 1, "shotgun_410": 1 } },
-        {
-          "type": "300blk",
-          "weight": 2,
-          "items": { "acr_300blk": 1, "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 }
-        },
+        { "type": "300blk", "weight": 2, "items": { "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 } },
         { "type": "123ln", "weight": 1, "items": { "pamd68": 1, "pamd71z": 1 } },
         {
           "type": "10mm",
@@ -949,8 +943,6 @@
             "rm2000_smg": 1,
             "rm298": 1,
             "rm51_assault_rifle": 1,
-            "rm614_lmg": 1,
-            "rm88_battle_rifle": 1,
             "makarov": 1,
             "skorpion_82": 1,
             "rifle_9x18": 1
@@ -986,7 +978,6 @@
             "draco_micro": 1,
             "draco_mini": 1,
             "emp_frond": 1,
-            "feral_m9": 1,
             "fn1910": 1,
             "fn57": 1,
             "glock_17": 1,
@@ -1079,7 +1070,6 @@
           "weight": 357,
           "items": {
             "1895sbl": 1,
-            "acr_300blk": 1,
             "ak308": 1,
             "ak47": 1,
             "ak556": 1,
@@ -1195,8 +1185,6 @@
             "rm11b_sniper_rifle": 1,
             "rm298": 1,
             "rm51_assault_rifle": 1,
-            "rm614_lmg": 1,
-            "rm88_battle_rifle": 1,
             "rossi_gallery": 1,
             "ruger_1022": 1,
             "ruger_1022_auto": 1,

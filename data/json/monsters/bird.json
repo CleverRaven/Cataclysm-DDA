@@ -5,7 +5,7 @@
     "name": { "str": "flying bird abstract" },
     "description": "This is an abstract monster for other flying birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.  Use this when your bird can fly, but cannot swim.",
     "bodytype": "bird",
-    "default_faction": "small_animal",
+    "default_faction": "bird_small_flying",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
     "volume": "467 ml",
@@ -50,6 +50,7 @@
     "name": { "str": "flightless bird abstract" },
     "description": "This is an abstract monster for other flightless birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.  Use this when your bird can neither fly nor swim.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_small_flightless",
     "speed": 105,
     "delete": { "flags": [ "FLIES" ] }
   },
@@ -59,6 +60,7 @@
     "name": { "str": "water bird abstract" },
     "description": "This is an abstract monster for other water birds to copy from, so that we have some common foundation to work with.  If it appears in the game that's a bug.  Use this when your bird can both fly and swim.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_small_waterfowl",
     "speed": 85,
     "extend": { "flags": [ "SWIMS" ] }
   },
@@ -67,7 +69,7 @@
     "type": "MONSTER",
     "name": { "str": "brown chick" },
     "description": "A tiny darkly-colored chick, it could be from a number of different species.",
-    "default_faction": "small_animal",
+    "default_faction": "bird_tiny_flightless",
     "bodytype": "bird",
     "categories": [ "WILDLIFE" ],
     "species": [ "BIRD" ],
@@ -121,6 +123,7 @@
     "name": { "str": "waterfowl chick" },
     "description": "A tiny yellow and brown waterfowl chick, it could be from a number of different species.",
     "copy-from": "mon_generic_chick",
+    "default_faction": "bird_tiny_waterfowl",
     "upgrades": { "age_grow": 14, "into": "mon_duck" },
     "//": "Grows up into a duck as a fallback",
     "extend": { "flags": [ "SWIMS" ] }
@@ -136,7 +139,7 @@
     "hp": 5,
     "speed": 95,
     "color": "white",
-    "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_chicken" }, "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -154,27 +157,27 @@
     "weight": "645 g",
     "speed": 140,
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_grouse", "baby_count": 11, "baby_timer": 35 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_grouse" }, "baby_count": 11, "baby_timer": 35 }
   },
   {
     "id": "mon_crow",
     "type": "MONSTER",
     "name": { "str": "American crow" },
-    "description": "A fairly large, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
+    "description": "Sleek and glossy feathers cover this dark bird.  Its pointed bill and more streamlined body distinguish it from the larger, stouter raven.  They call with loud caws and if captured can be taught to mimic human speech.",
     "copy-from": "mon_bird_flying_base",
     "volume": "600 ml",
     "weight": "450 g",
     "color": "dark_gray",
     "stomach_size": 30,
     "special_attacks": [ [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
-    "reproduction": { "baby_egg": "egg_crow", "baby_count": 4, "baby_timer": 18 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_crow" }, "baby_count": 4, "baby_timer": 18 },
     "extend": { "flags": [ "EATS" ] }
   },
   {
     "id": "mon_raven",
     "type": "MONSTER",
     "name": { "str": "raven" },
-    "description": "A small, elegant black bird, famous for its distinctive call.  A clever bird, there is a glitter of mischief behind its eyes.",
+    "description": "Slightly smaller than a chicken, this glossy black bird has a heavy beak and dark, sparkly eyes.  It emits a variety of sounds including croaks and a knocking sound.",
     "copy-from": "mon_bird_flying_base",
     "volume": "1960 ml",
     "weight": "1470 g",
@@ -182,7 +185,7 @@
     "color": "dark_gray",
     "stomach_size": 50,
     "special_attacks": [ [ "EAT_CARRION", 40 ], [ "EAT_FOOD", 120 ] ],
-    "reproduction": { "baby_egg": "egg_raven", "baby_count": 5, "baby_timer": 18 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_raven" }, "baby_count": 5, "baby_timer": 18 },
     "extend": { "flags": [ "EATS" ] }
   },
   {
@@ -191,10 +194,11 @@
     "name": { "str": "blue jay" },
     "description": "A small, noisy bird with distinctive blue feathers.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "120 ml",
     "weight": "90 g",
     "color": "light_blue",
-    "reproduction": { "baby_egg": "egg_bluejay", "baby_count": 5, "baby_timer": 18 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bluejay" }, "baby_count": 5, "baby_timer": 18 }
   },
   {
     "id": "mon_cardinal",
@@ -202,10 +206,11 @@
     "name": { "str": "cardinal" },
     "description": "A small songbird, famous for its distinctive crest and facial markings.  A well-known example of sexual dimorphism, the males are colored much more vibrantly than the females.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "60 ml",
     "weight": "45 g",
     "color": "red",
-    "reproduction": { "baby_egg": "egg_cardinal", "baby_count": 3, "baby_timer": 16 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_cardinal" }, "baby_count": 3, "baby_timer": 16 }
   },
   {
     "id": "mon_robin",
@@ -213,10 +218,11 @@
     "name": { "str": "American robin" },
     "description": "A brown songbird with a reddish-orange breast.  Their eggs are a distinctive shade of blue.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "103 ml",
     "weight": "77 g",
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_robin", "baby_count": 5, "baby_timer": 16 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_robin" }, "baby_count": 5, "baby_timer": 16 }
   },
   {
     "id": "mon_sparrow",
@@ -224,9 +230,10 @@
     "name": { "str": "house sparrow" },
     "description": "A small bird with brown and gray feathers.  Introduced to North America in the 1850s, it is now one of the most abundant birds in the continent.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "40 ml",
     "weight": "30 g",
-    "reproduction": { "baby_egg": "egg_sparrow", "baby_count": 5, "baby_timer": 16 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_sparrow" }, "baby_count": 5, "baby_timer": 16 }
   },
   {
     "id": "mon_chickadee",
@@ -234,9 +241,10 @@
     "name": { "str": "black-capped chickadee" },
     "description": "A tiny species of tit native to North America, with a distinctive black cap on its head.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "16 ml",
     "weight": "12 g",
-    "reproduction": { "baby_egg": "egg_chickadee", "baby_count": 8, "baby_timer": 14 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_chickadee" }, "baby_count": 8, "baby_timer": 14 }
   },
   {
     "id": "mon_chickadee_chick",
@@ -250,9 +258,10 @@
     "name": { "str": "cedar waxwing" },
     "description": "A small species of waxwing with a distinctive feathered crest and a black mask pattern on its face.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "40 ml",
     "weight": "30 g",
-    "reproduction": { "baby_egg": "egg_waxwing", "baby_count": 5, "baby_timer": 16 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_waxwing" }, "baby_count": 5, "baby_timer": 16 }
   },
   {
     "id": "mon_waxwing_chick",
@@ -270,7 +279,7 @@
     "weight": "1040 g",
     "hp": 2,
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_duck", "baby_count": 13, "baby_timer": 88 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_duck" }, "baby_count": 13, "baby_timer": 88 },
     "baby_flags": [ "SPRING" ]
   },
   {
@@ -296,7 +305,7 @@
     "weight": "1800 g",
     "hp": 4,
     "color": "white",
-    "reproduction": { "baby_egg": "egg_duck_domestic", "baby_count": 8, "baby_timer": 14 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_duck_domestic" }, "baby_count": 8, "baby_timer": 14 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -329,7 +338,7 @@
     "morale": 15,
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_goose_canadian", "baby_count": 10, "baby_timer": 350 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_goose_canadian" }, "baby_count": 10, "baby_timer": 350 },
     "baby_flags": [ "SPRING" ]
   },
   {
@@ -344,7 +353,7 @@
     "hp": 16,
     "speed": 140,
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_turkey", "baby_count": 17, "baby_timer": 151 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_turkey" }, "baby_count": 17, "baby_timer": 151 }
   },
   {
     "id": "mon_turkey_chick",
@@ -368,7 +377,7 @@
     "weight": "8 kg",
     "hp": 20,
     "color": "white",
-    "reproduction": { "baby_egg": "egg_turkey_domestic", "baby_count": 10, "baby_timer": 21 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_turkey_domestic" }, "baby_count": 10, "baby_timer": 21 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -398,7 +407,7 @@
     "//": "0.9kg for females, 1.2kg for males. We don't differentiate genders, so lets take a rough middle ground.",
     "hp": 3,
     "speed": 140,
-    "reproduction": { "baby_egg": "egg_pheasant", "baby_count": 15, "baby_timer": 108 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pheasant" }, "baby_count": 15, "baby_timer": 108 },
     "baby_flags": [ "SPRING" ]
   },
   {
@@ -561,7 +570,7 @@
     "name": { "str": "feral pigeon" },
     "description": "A gentle, plump, small-billed bird with a skin saddle, or cere, between its bill and forehead.  On the ground, it struts about with a characteristic bobbing of the head.  It is a strong, swift flier thanks to its long wings and powerful flight muscles.",
     "copy-from": "mon_bird_flying_base",
-    "reproduction": { "baby_egg": "egg_pigeon", "baby_count": 3, "baby_timer": 32 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pigeon" }, "baby_count": 3, "baby_timer": 32 },
     "petfood": {
       "food": [ "BIRDFOOD" ],
       "feed": "The %s seems to like you!  It runs around your legs and seems friendly.",
@@ -592,7 +601,7 @@
     "aggression": 1,
     "morale": 15,
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_goose", "baby_count": 15, "baby_timer": 35 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_goose" }, "baby_count": 15, "baby_timer": 35 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "petfood": {
       "food": [ "BIRDFOOD" ],
@@ -617,10 +626,11 @@
     "name": { "str": "ruby-throated hummingbird" },
     "description": "A very small hummingbird of varied colorful feathers.  It flies at incredible speeds while seeking nectar among flowers.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "5 ml",
     "weight": "3600 mg",
     "color": "light_green",
-    "reproduction": { "baby_egg": "egg_hummingbird", "baby_count": 3, "baby_timer": 36 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_hummingbird" }, "baby_count": 3, "baby_timer": 36 },
     "baby_flags": [ "SPRING" ]
   },
   {
@@ -629,9 +639,10 @@
     "name": { "str": "downy woodpecker" },
     "description": "A small bird with woody colors and a colored crest on its head.  Well known for its ability to poke holes on trees while looking for grubs.",
     "copy-from": "mon_bird_flying_base",
+    "default_faction": "bird_tiny_flying",
     "volume": "35 ml",
     "weight": "26 g",
-    "reproduction": { "baby_egg": "egg_woodpecker", "baby_count": 5, "baby_timer": 30 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_woodpecker" }, "baby_count": 5, "baby_timer": 30 }
   },
   {
     "id": "mon_hummingbird_chick",
@@ -653,19 +664,20 @@
     "copy-from": "mon_bird_water_base",
     "volume": "733 ml",
     "weight": "550 g",
-    "reproduction": { "baby_egg": "egg_coot", "baby_count": 10, "baby_timer": 83 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_coot" }, "baby_count": 10, "baby_timer": 83 }
   },
   {
     "id": "mon_cormorant",
     "type": "MONSTER",
-    "copy-from": "mon_coot",
     "name": { "str": "double-crested cormorant" },
     "description": "An aquatic bird with a long snake-like neck.  While often considered coastal birds, they feel just as at home in freshwater habitats.",
+    "copy-from": "mon_bird_water_base",
+    "default_faction": "bird_small_waterfowl_predator",
     "volume": "2467 ml",
     "weight": "1850 g",
     "hp": 5,
     "speed": 110,
-    "reproduction": { "baby_egg": "egg_cormorant", "baby_count": 7, "baby_timer": 98 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_cormorant" }, "baby_count": 7, "baby_timer": 98 }
   },
   {
     "id": "mon_moorhen",
@@ -676,7 +688,7 @@
     "volume": "511 ml",
     "weight": "383 g",
     "speed": 110,
-    "reproduction": { "baby_egg": "egg_moorhen", "baby_count": 8, "baby_timer": 78 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_moorhen" }, "baby_count": 8, "baby_timer": 78 }
   },
   {
     "id": "mon_grebe",
@@ -684,10 +696,11 @@
     "name": { "str": "horned grebe" },
     "description": "A medium-sized aquatic bird with a long neck.  They can be distinguished by their strange leg placement which makes them great at diving.",
     "copy-from": "mon_bird_water_base",
+    "default_faction": "bird_small_waterfowl_predator",
     "volume": "580 ml",
     "weight": "435 g",
     "color": "brown",
-    "reproduction": { "baby_egg": "egg_grebe", "baby_count": 8, "baby_timer": 49 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_grebe" }, "baby_count": 8, "baby_timer": 49 }
   },
   {
     "id": "mon_coot_chick",

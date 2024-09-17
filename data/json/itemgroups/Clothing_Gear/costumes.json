@@ -81,7 +81,7 @@
   {
     "type": "item_group",
     "id": "costume_cloacks",
-    "//": "cloacks for costumes, cosplay and costume parties",
+    "//": "cloaks for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
       { "item": "cloak_vampire", "prob": 25 },

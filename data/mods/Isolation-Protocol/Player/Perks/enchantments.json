@@ -7,6 +7,12 @@
   },
   {
     "type": "enchantment",
+    "id": "iso_pain_adjust",
+    "condition": "ALWAYS",
+    "values": [ { "value": "PAIN", "multiply": { "math": [ "u_pain() > 40 ? -1 : -0.4" ] } } ]
+  },
+  {
+    "type": "enchantment",
     "id": "iso_ench_deliverator",
     "condition": "ALWAYS",
     "name": { "str": "The Deliverator" },
@@ -28,5 +34,17 @@
     "description": "OH you aren't getting away with that.",
     "condition": { "u_has_effect": "iso_eff_hypo_o" },
     "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.5 }, { "value": "RANGED_DAMAGE", "multiply": 0.5 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_ench_geas_buff",
+    "name": { "str": "Ancient vow" },
+    "description": "Lightless monste!  I give you oblivion!\n\n Deal 15% more damage and regen 100% more stamine per turn when fighting high danger enemies.",
+    "condition": { "u_has_effect": "iso_eff_geas_buff" },
+    "values": [
+      { "value": "RANGED_DAMAGE", "multiply": 0.15 },
+      { "value": "MELEE_DAMAGE", "multiply": 0.15 },
+      { "value": "STAMINA_REGEN_MOD", "add": 1 }
+    ]
   }
 ]

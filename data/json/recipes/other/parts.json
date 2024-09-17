@@ -280,7 +280,7 @@
     "difficulty": 9,
     "time": "300 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "lc_steel_standard", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -314,7 +314,7 @@
     "difficulty": 5,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "lc_steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -891,13 +891,7 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "pilot_light", 1 ] ],
-      [
-        [ "light_minus_battery_cell", 1 ],
-        [ "light_minus_disposable_cell", 1 ],
-        [ "light_battery_cell", 1 ],
-        [ "light_disposable_cell", 1 ],
-        [ "light_plus_battery_cell", 1 ]
-      ],
+      [ [ "light_minus_battery_cell", 1 ], [ "light_minus_disposable_cell", 1 ], [ "light_battery_cell", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]

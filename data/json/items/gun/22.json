@@ -142,7 +142,20 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
-      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
+      {
+        "magazine_well": "34 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "ruger1022mag",
+          "ruger1022mag_15",
+          "ruger1022bigmag",
+          "ruger1022mag_30",
+          "ruger1022mag_32",
+          "ruger1022mag_55",
+          "ruger1022mag_70",
+          "ruger1022mag_110"
+        ]
+      }
     ],
     "melee_damage": { "bash": 12 }
   },
@@ -413,7 +426,20 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "built_in_mods": [ "bipod" ],
     "pocket_data": [
-      { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ruger1022mag", "ruger1022bigmag" ] }
+      {
+        "magazine_well": "34 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "ruger1022mag",
+          "ruger1022mag_15",
+          "ruger1022bigmag",
+          "ruger1022mag_30",
+          "ruger1022mag_32",
+          "ruger1022mag_55",
+          "ruger1022mag_70",
+          "ruger1022mag_110"
+        ]
+      }
     ],
     "melee_damage": { "bash": 12 }
   },
@@ -487,7 +513,7 @@
     "id": "rough_rider_pistol",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": ".22 six-shooter" },
+    "name": { "str": ".22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 6.5 inch barrel.",
     "ascii_picture": "redhawk",
     "weight": "947 g",
@@ -512,7 +538,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str_sp": "Heritage Rough Rider 6.5\"" },
+        "name": { "str": "Heritage Rough Rider 6.5\"", "str_pl": "Heritage Rough Riders 6.5\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun."
       }
     ]
@@ -521,7 +547,7 @@
     "id": "rough_rider_pistol_9",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": "large .22 six-shooter" },
+    "name": { "str": "large .22 six-shooter" },
     "description": "A revolver chambered in .22 LR, with 6 shots and a 9 inch barrel.",
     "ascii_picture": "redhawk",
     "weight": "1046 g",
@@ -548,7 +574,7 @@
     "variants": [
       {
         "id": "rough_rider_pistol",
-        "name": { "str_sp": "Heritage Rough Rider 9\"" },
+        "name": { "str": "Heritage Rough Rider 9\"", "str_pl": "Heritage Rough Riders 9\"" },
         "description": "A cheap, single action revolver chambered in .22 LR.  While it makes for a handy plinking gun, the single action mechanism, size of the firearm, combined with the lack of a swing out cylinder makes for a less than ideal zombie fighting handgun, even with the slightly increased performance from the longer barrel."
       }
     ]
@@ -585,7 +611,7 @@
     "variants": [
       {
         "id": "1911_22",
-        "name": { "str_sp": "1911-22" },
+        "name": { "str": "1911-22" },
         "description": "A 1911 handgun with \"1911-22\" stamped on the slide.  While .22 LR 1911s were first devised as a training aid for US soldiers, it found large civilian use from concealed carry to plinking thanks to the readily available ammunition and familiar platform."
       }
     ]

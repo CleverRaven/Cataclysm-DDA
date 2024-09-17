@@ -51,7 +51,9 @@ effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
-effect_on_condition_EOC_math_addiction( "EOC_math_addiction" );
+effect_on_condition_EOC_math_addiction_check( "EOC_math_addiction_check" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_addiction_setup( "EOC_math_addiction_setup" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
@@ -455,7 +457,12 @@ TEST_CASE( "EOC_math_addiction", "[eoc][math_parser]" )
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key_add_intensity" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_add_turn" ).empty() );
-    CHECK( effect_on_condition_EOC_math_addiction->activate( d ) );
+    CHECK( effect_on_condition_EOC_math_addiction_setup->activate( d ) );
+    // Finish drinking
+    complete_activity( get_avatar() );
+
+    CHECK( effect_on_condition_EOC_math_addiction_check->activate( d ) );
+
     CHECK( globvars.get_global_value( "npctalk_var_key_add_intensity" ) == "1" );
     CHECK( globvars.get_global_value( "npctalk_var_key_add_turn" ) == "3600" );
 }
@@ -489,8 +496,8 @@ TEST_CASE( "EOC_math_field", "[eoc][math_parser]" )
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
-    get_map().add_field( get_avatar().pos(), fd_blood, 3 );
-    get_map().add_field( get_avatar().pos() + point_south, fd_blood_insect, 3 );
+    get_map().add_field( get_avatar().pos_bub(), fd_blood, 3 );
+    get_map().add_field( get_avatar().pos_bub() + point_south, fd_blood_insect, 3 );
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key_field_strength_north" ).empty() );
@@ -512,7 +519,7 @@ TEST_CASE( "EOC_math_item", "[eoc][math_parser]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key_charge_count" ).empty() );
     CHECK( effect_on_condition_EOC_math_item_count->activate( d ) );
     CHECK( globvars.get_global_value( "npctalk_var_key_item_count" ) == "2" );
-    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "66" );
+    CHECK( globvars.get_global_value( "npctalk_var_key_charge_count" ) == "32" );
 }
 
 TEST_CASE( "EOC_math_proficiency", "[eoc][math_parser]" )

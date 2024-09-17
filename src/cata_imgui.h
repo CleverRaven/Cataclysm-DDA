@@ -48,6 +48,14 @@ enum class dialog_result {
     NoClicked
 };
 
+enum class scroll : int {
+    none = 0,
+    line_up,
+    line_down,
+    page_up,
+    page_down
+};
+
 class client
 {
         std::vector<int> cata_input_trail;
@@ -60,8 +68,9 @@ class client
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                 const GeometryRenderer_Ptr &sdl_geometry );
-        void load_fonts( const std::unique_ptr<Font> &cata_font,
-                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette );
+        void load_fonts( const std::unique_ptr<Font> &cata_fonts,
+                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                         const std::vector<std::string> &typeface );
 #endif
         ~client();
 
@@ -85,6 +94,8 @@ void point_to_imvec2( point *src, ImVec2 *dest );
 void imvec2_to_point( ImVec2 *src, point *dest );
 
 ImVec4 imvec4_from_color( nc_color &color );
+
+void set_scroll( scroll &s );
 
 void draw_colored_text( std::string const &text, const nc_color &color,
                         float wrap_width = 0.0F, bool *is_selected = nullptr,
