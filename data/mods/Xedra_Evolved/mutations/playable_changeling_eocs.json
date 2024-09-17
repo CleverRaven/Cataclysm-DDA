@@ -787,7 +787,11 @@
           {
             "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK_2",
             "condition": {
-              "math": [ "pooka_shapeshift_traits()", ">=", "1 + u_has_trait('POOKA_SHAPESHIFT_GOOD') + (u_has_trait('POOKA_SHAPESHIFT_GOOD2') * 2) + (u_has_trait('POOKA_SHAPESHIFT_GOOD3') * 4) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 25)" ]
+              "math": [
+                "pooka_shapeshift_traits()",
+                ">=",
+                "1 + u_has_trait('POOKA_SHAPESHIFT_GOOD') + (u_has_trait('POOKA_SHAPESHIFT_GOOD2') * 2) + (u_has_trait('POOKA_SHAPESHIFT_GOOD3') * 4) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 25)"
+              ]
             },
             "effect": [ { "math": [ "u_val('mana')", "--" ] } ]
           }
