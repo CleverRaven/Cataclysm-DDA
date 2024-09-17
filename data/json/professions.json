@@ -7116,7 +7116,7 @@
       { "level": 4, "name": "gun" },
       { "level": 3, "name": "pistol" },
       { "level": 2, "name": "survival" },
-	  { "level": 3, "name": "speech" },
+      { "level": 3, "name": "speech" },
       { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_MED" ],
