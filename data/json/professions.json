@@ -4046,7 +4046,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt", "variant": "tshirt_linux" },
+          { "item": "tshirt", "variant": "tux" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "backpack" },
