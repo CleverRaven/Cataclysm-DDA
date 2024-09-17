@@ -177,6 +177,23 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_emu",
+    "name": "emu egg",
+    "spoils in": "56 days",
+    "copy_from": "egg_chicken",
+    "proportional": { "weight": 10, "calories": 10, "volume": 10 },
+    "color": "green",
+    "symbol": "O",
+    "description": "A nutritious egg laid by a bird.  This one is an enchanting green and nearly as large as a whole carton of eggs from the grocer.",
+    "price": "18 USD",
+    "price_postapoc": "4 USD",
+    "material": [ "egg" ],
+    "fun": -12,
+    "rot_spawn": "GROUP_EGG_EMU",
+    "vitamins": [ [ "iron", "10 mg" ], [ "calcium", "100 mg" ], [ "egg_allergen", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_wormsnake",
     "name": { "str": "worm snake egg" },
     "spoils_in": "23 days",
