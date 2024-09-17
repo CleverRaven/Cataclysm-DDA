@@ -125,7 +125,7 @@ item_location ebookread( Character &you, item_location &ereader );
 /** Select books to save to E-Book reader menu. */
 drop_locations ebooksave( Character &who, item_location &ereader );
 /** Menu for stealing stuff. */
-item_location steal( avatar &you, Character &victim );
+item_location steal( Character &victim );
 /** Item activation menu. */
 item_location use( avatar &you );
 /** Item wielding/unwielding menu. */

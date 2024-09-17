@@ -1659,8 +1659,8 @@ drop_locations game_menus::inv::ebooksave( Character &who, item_location &ereade
 class steal_inventory_preset : public pickup_inventory_preset
 {
     public:
-        steal_inventory_preset( const avatar &you, const Character &victim ) :
-            pickup_inventory_preset( you ), victim( victim ) {}
+        explicit steal_inventory_preset( const Character &victim ) :
+            pickup_inventory_preset( get_avatar() ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
             return !victim.is_worn( *loc ) && victim.get_wielded_item() != loc;
@@ -1670,9 +1670,9 @@ class steal_inventory_preset : public pickup_inventory_preset
         const Character &victim;
 };
 
-item_location game_menus::inv::steal( avatar &you, Character &victim )
+item_location game_menus::inv::steal( Character &victim )
 {
-    return inv_internal( victim, steal_inventory_preset( you, victim ),
+    return inv_internal( victim, steal_inventory_preset( victim ),
                          string_format( _( "Steal from %s" ), victim.get_name() ), -1,
                          string_format( _( "%s's inventory is empty." ), victim.get_name() ) );
 }
