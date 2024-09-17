@@ -44,10 +44,25 @@
     "name": "tall alien grass",
     "description": "An area of something that vaguely resembles grass.  Head high and such a dark red as to be nearly black, the ends of the long stalks are a burst of fine fronds all tangled into and around each other, forming a canopy.",
     "transforms_into": "t_alien_meadow_grass_long",
-    "symbol": "'",
+    "symbol": "/",
     "color": "red",
     "move_cost": 6,
     "coverage": 50,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap_roots_tall_grass",
+    "//": "Looks exactly the same so it's not obvious unless the player spots the trap",
+    "name": "tall alien grass",
+    "description": "An area of something that vaguely resembles grass.  Dark red in color and almost waist-high, each stalk splits into two to four other stalks which similarly split on various places along their length, ending in fine fern-like fronds.",
+    "transforms_into": "t_alien_meadow_grass",
+    "symbol": "/",
+    "color": "red",
+    "move_cost": 6,
+    "coverage": 50,
+    "trap": "tr_alien_tree_trap_roots",
     "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
@@ -254,6 +269,7 @@
   {
     "type": "terrain",
     "id": "t_alien_meadow_tree_trap_roots_obvious",
+    "name": "alien roots",
     "description": "A cluster of dark roots from an alien tree are visible here.  Did one of them just move?",
     "symbol": ".",
     "color": "red",
@@ -265,9 +281,10 @@
   {
     "type": "terrain",
     "id": "t_alien_meadow_pond_goo",
+    "name": "strange pool",
     "description": "A pool of some very thick, nearly-opaque liquid.  The surface is almost perfectly smooth.",
     "symbol": "~",
-    "color": "dark_gray",
+    "color": "green",
     "move_cost": 8,
     "flags": [ "TRANSPARENT", "ROUGH", "PERMEABLE", "SHORT", "UNSTABLE" ]
   }
