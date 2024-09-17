@@ -244,8 +244,9 @@ static drop_locations inv_internal_multi( Character &u, const inventory_selector
     return inv_s.execute();
 }
 
-void game_menus::inv::common( avatar &you )
+void game_menus::inv::common()
 {
+    avatar &you = get_avatar();
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
@@ -283,8 +284,9 @@ void game_menus::inv::common( avatar &you )
     } while( loop_options.count( res ) != 0 );
 }
 
-void game_menus::inv::common( item_location &loc, avatar &you )
+void game_menus::inv::common( item_location &loc )
 {
+    avatar &you = get_avatar();
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
