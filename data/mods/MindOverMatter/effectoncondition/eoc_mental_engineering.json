@@ -1718,7 +1718,6 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] },
-        { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "1" ] },
         { "u_has_trait": "NYCTOPHOBIA" }
       ]
     },
