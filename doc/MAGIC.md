@@ -639,6 +639,8 @@ There are two possible syntaxes.  The first is by defining an enchantment object
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
+    "name": { "str": "Invisibility" },
+    "description": "You are invisible.  Just that.",
     "condition": "ALWAYS",
     "has": "WIELD",
     "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
@@ -661,7 +663,7 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     }
   }
 ```
-Note: all fields except for `type` and `id` are optional.
+Note: all fields except for `type` and `id` are optional.  This includes the otherwise obligatory `name` and `description`.
 
 ```json
   {
