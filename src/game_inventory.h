@@ -133,7 +133,7 @@ item_location wield();
 /** Item wielding/unwielding menu. */
 drop_locations holster( const item_location &holster );
 void insert_items( item_location &holster );
-drop_locations unload_container( avatar &you );
+drop_locations unload_container();
 /** Choosing a gun to saw down it's barrel. */
 item_location saw_barrel( Character &you, item &tool );
 /** Choosing a gun to saw down its barrel. */

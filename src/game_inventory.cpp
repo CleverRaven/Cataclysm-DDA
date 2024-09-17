@@ -1841,8 +1841,9 @@ static bool valid_unload_container( const item_location &container )
         && !container->contains_no_solids();
 }
 
-drop_locations game_menus::inv::unload_container( avatar &you )
+drop_locations game_menus::inv::unload_container()
 {
+    avatar &you = get_avatar();
     inventory_filter_preset unload_preset( valid_unload_container );
 
     inventory_drop_selector insert_menu( you, unload_preset, _( "CONTAINERS TO UNLOAD" ),

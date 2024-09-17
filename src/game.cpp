@@ -9050,7 +9050,7 @@ void game::insert_item()
 void game::unload_container()
 {
     if( const std::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
-        u.drop( game_menus::inv::unload_container( u ), *pnt );
+        u.drop( game_menus::inv::unload_container(), *pnt );
     }
 }
 
