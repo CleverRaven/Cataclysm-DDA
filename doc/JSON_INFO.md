@@ -3552,14 +3552,14 @@ See [GAME_BALANCE.md](GAME_BALANCE.md#to-hit-value)
 },
 ```
 
-Additionally, non-`"type": "AMMO"` items can be considered as ammo (capable of being shot, capable of being loaded into a `MAGAZINE` pocket), by adding the `ammo_data` field. Do note that a proper `ammunition_type` is also required:
+Additionally, non-`"type": "AMMO"` items can be considered as ammo (capable of being shot, capable of being loaded into a `MAGAZINE` pocket), by adding the `ammo_data` field, which supports the same fields as the `AMMO` type. Do note that a proper `ammunition_type` is also required:
 
 ```json
   {
     "id": "water_clean",
     "type": "COMESTIBLE",
     ...
-    "ammo_data": { "ammo_type": "water" },
+    "ammo_data": { "ammo_type": "water", "damage": { "damage_type": "cold", "amount": 2 }, "range": 4 },
     ...
   },
   {
