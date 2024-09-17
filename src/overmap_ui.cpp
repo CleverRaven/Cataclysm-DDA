@@ -1159,6 +1159,7 @@ static void draw_om_sidebar( ui_adaptor &ui,
 
     print_hint( "LEVEL_UP" );
     print_hint( "LEVEL_DOWN" );
+    print_hint( "look" );
     print_hint( "CENTER" );
     print_hint( "CENTER_ON_DESTINATION" );
     print_hint( "GO_TO_DESTINATION" );
@@ -1782,6 +1783,7 @@ static tripoint_abs_omt display()
     ictxt.register_action( "GO_TO_DESTINATION" );
 
     // Actions whose keys we want to display.
+    ictxt.register_action( "look" );
     ictxt.register_action( "CENTER" );
     ictxt.register_action( "CREATE_NOTE" );
     ictxt.register_action( "DELETE_NOTE" );
@@ -1867,6 +1869,14 @@ static tripoint_abs_omt display()
         } else if( action == "SELECT" &&
                    ( mouse_pos = ictxt.get_coordinates( g->w_overmap, point_zero, true ) ) ) {
             curs += mouse_pos->xy();
+        } else if( action == "look" ) {
+            tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
+            tripoint pos_rel = get_map().getlocal( pos );
+            uistate.open_menu = [pos_rel]() {
+                tripoint pos_cpy = pos_rel;
+                g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
+            };
+            action = "QUIT";
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z() > -OVERMAP_DEPTH ) {
@@ -2279,6 +2289,14 @@ void ui::omap::display()
 {
     g->overmap_data = overmap_ui::overmap_draw_data_t(); //reset data
     g->overmap_data.origin_pos = get_player_character().global_omt_location();
+    overmap_ui::display();
+}
+
+void ui::omap::look_around_map( tripoint_abs_ms starting_pos )
+{
+    g->overmap_data = overmap_ui::overmap_draw_data_t(); //reset data
+    std::tie( g->overmap_data.origin_pos,
+              g->overmap_data.origin_remainder ) = project_remain<coords::omt>( starting_pos );
     overmap_ui::display();
 }
 

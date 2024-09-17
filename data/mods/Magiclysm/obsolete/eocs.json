@@ -87,12 +87,8 @@
     "difficulty": 4,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": {
-      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
-    },
-    "max_duration": {
-      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
-    }
+    "min_duration": { "math": [ "(u_spell_level('druid_water_walking') * 30000) * enhancement_proficiency_modifier()" ] },
+    "max_duration": { "math": [ "(u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_modifier()" ] }
   },
   {
     "type": "effect_on_condition",

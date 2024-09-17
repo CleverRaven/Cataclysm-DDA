@@ -76,7 +76,9 @@
       { "monster": "mon_feral_druid", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_feral_druid_enhanced", "weight": 5, "cost_multiplier": 4 },
       { "monster": "mon_feral_earthshaper", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_feral_earthshaper_enhanced", "weight": 5, "cost_multiplier": 4 }
+      { "monster": "mon_feral_earthshaper_enhanced", "weight": 5, "cost_multiplier": 4 },
+      { "monster": "mon_feral_magus", "weight": 50, "cost_multiplier": 2 },
+      { "monster": "mon_feral_magus_enhanced", "weight": 5, "cost_multiplier": 4 }
     ]
   },
   {

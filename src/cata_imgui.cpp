@@ -264,6 +264,11 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
+
+    ImGuiStyle &style = ImGui::GetStyle();
+    // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
+    ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
+
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
 }
