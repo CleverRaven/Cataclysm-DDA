@@ -1919,6 +1919,26 @@
     "replace": "rail_laser_sight"
   },
   {
+    "id": "wire",
+    "type": "MIGRATION",
+    "replace": "lc_wire"
+  },
+  {
+    "id": "piano_wire",
+    "type": "MIGRATION",
+    "replace": "qt_wire"
+  },
+  {
+    "id": "chain_link",
+    "type": "MIGRATION",
+    "replace": "lc_chain_link"
+  },
+  {
+    "id": "link_sheet",
+    "type": "MIGRATION",
+    "replace": "lc_link_sheet"
+  },
+  {
     "id": "acr_300blk",
     "type": "MIGRATION",
     "replace": "sig_mcx_rattler_sbr"

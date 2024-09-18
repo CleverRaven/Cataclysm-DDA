@@ -29,7 +29,7 @@
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "welding_standard", 50 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ], [ [ "pipe_fittings", 4 ] ] ]
+    "components": [ [ [ "pipe", 8 ] ], [ [ "any_wire", 8, "LIST" ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "result": "pallet_lifter",
@@ -116,7 +116,7 @@
       [ [ "steel_standard", 1, "LIST" ] ],
       [ [ "clockworks", 2 ] ],
       [ [ "clockworks", 2 ], [ "lock", 1 ] ],
-      [ [ "wire", 1 ] ]
+      [ [ "any_wire", 1, "LIST" ] ]
     ]
   },
   {
@@ -166,7 +166,7 @@
     "//": "60cm weld",
     "using": [ [ "rope_natural", 2 ], [ "welding_standard", 60 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "wire", 40 ] ], [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 3 ] ] ]
+    "components": [ [ [ "any_wire", 40, "LIST" ] ], [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 3 ] ] ]
   },
   {
     "type": "recipe",

@@ -43,7 +43,7 @@
       { "item": "luthier_toolset", "prob": 100 },
       { "item": "tonewood", "prob": 100, "count": [ 1, 6 ] },
       { "item": "tuning_pegs", "prob": 100, "count": [ 5, 15 ] },
-      { "item": "piano_wire", "prob": 100, "count": [ 1, 3 ] },
+      { "item": "qt_wire", "prob": 100, "count": [ 1, 3 ] },
       [ "hand_drill", 20 ],
       { "item": "super_glue", "prob": 100, "count": [ 1, 3 ] },
       [ "chisel", 10 ],

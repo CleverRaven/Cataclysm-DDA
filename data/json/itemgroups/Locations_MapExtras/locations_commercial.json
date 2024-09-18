@@ -2116,7 +2116,13 @@
     "id": "farm_supply_wire",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "wire", "prob": 80, "count": [ 20, 50 ] }, { "item": "wire_barbed", "prob": 20, "count": [ 20, 50 ] } ]
+    "items": [
+      { "item": "lc_wire", "prob": 50, "count": [ 20, 50 ] },
+      { "item": "mc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "hc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "qt_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "wire_barbed", "prob": 40, "count": [ 20, 50 ] }
+    ]
   },
   {
     "id": "farm_supply_quicklime_and_saltpetre",

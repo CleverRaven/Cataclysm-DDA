@@ -154,7 +154,7 @@
       { "proficiency": "prof_inorganic_chemistry" }
     ],
     "components": [
-      [ [ "wire", 4 ] ],
+      [ [ "any_wire", 4, "LIST" ] ],
       [ [ "copper", 1 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ]

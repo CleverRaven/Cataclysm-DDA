@@ -693,7 +693,7 @@
     "material": [ "platinum" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "link_sheet",
+    "looks_like": "lc_link_sheet",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 2 }
   },
