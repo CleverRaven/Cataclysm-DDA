@@ -544,6 +544,34 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_FANGS",
+    "name": { "str": "Fangs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of sharp fangs, allowing you to make a bite attack.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "changes_to": [ "POOKA_SABER_TEETH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_FANGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_FANGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SABER_TEETH",
+    "name": { "str": "Vicious Fangs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of long, saber-like fangs, preventing you from wearing mouth gear but allowing you to make rending bite attacks.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "prereqs": [ "POOKA_FANGS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SABER_TEETH_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_SABER_TEETH_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_WOLF_EARS",
     "name": { "str": "Wolf Ears (Shapeshift)" },
     "points": 2,
@@ -575,6 +603,7 @@
     "points": 2,
     "description": "Grow a set of claws, improving your unarmed damage if you aren't wearing gloves.",
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "changes_to": [ "POOKA_STAINLESS_CLAWS" ],
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_POOKA_CLAWS_ON" ],
@@ -585,9 +614,10 @@
     "type": "mutation",
     "id": "POOKA_STAINLESS_CLAWS",
     "name": { "str": "Vicious Claws (Shapeshift)" },
-    "points": 2,
+    "points": 4,
     "description": "Grow a powerful set of claws, nearly as hard as steel, greatly improving your unarmed damage if you aren't wearing gloves.",
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "prereqs": [ "POOKA_CLAWS" ],
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_ON" ],
@@ -742,6 +772,78 @@
     "prereqs": [ "POOKA_SHAPESHIFT_GOOD2" ],
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_UNARMED_ATTACK_BONUSES",
+    "name": { "str": "Instinctive Attacks" },
+    "points": 3,
+    "description": "You're getting used to moving and reacting like an animal.  When without weapons or armor and using your gifts of shapeshifting, your natural attacks do more damage.",
+    "prereqs": [ "POOKA_ANTLERS", "POOKA_HORNS" ],
+    "prereqs2": [ "POOKA_CLAWS", "POOKA_STAINLESS_CLAWS" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURY" } },
+            { "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST" ] }
+          ]
+        },
+        "values": [
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": { "math": [ "0.1 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.01)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_UNARMED_DODGE_BONUSES",
+    "name": { "str": "Animalistic Defense" },
+    "points": 5,
+    "description": "The best defense is not getting hit, especially if you're a wild animal.  When using your shapeshifting and not wearing armor or using a weapon, you gain a bonus to your dodging.",
+    "prereqs": [ "POOKA_UNARMED_ATTACK_BONUSES" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURY" } },
+            {
+              "u_has_any_trait": [ 
+                "ANTLERS", 
+                "HORNS_CURLED", 
+                "FANGS",
+                "SABER_TEETH",
+                "CLAWS", 
+                "CLAWS_ST", 
+                "WINGS_BIRD", 
+                "URSINE_FUR", 
+                "CHITIN2", 
+                "POOKA_QUADRUPED_TRAITS", 
+                "TAIL_FLUFFY", 
+                "TAIL_LONG" 
+              ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "min( (1 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.1)),4)" ] }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "min( (2 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.25) ),12)" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
