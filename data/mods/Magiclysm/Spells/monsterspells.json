@@ -363,7 +363,7 @@
     "min_duration": 720000,
     "max_duration": 2160000
   },
-   {
+  {
     "type": "SPELL",
     "id": "catoblepas_gaze_spell",
     "name": { "str": "catoblepas gaze" },
