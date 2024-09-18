@@ -9,10 +9,10 @@
     "avoidance": 10,
     "difficulty": 99,
     "action": "spell",
-    "flags": [ "UNDODGEABLE" ],
+    "flags": [ "UNDODGEABLE", "AVATAR_ONLY" ],
+    "//": "Needs to be AVATAR_ONLY, otherwise the summoned monsters trigger the trap again.",
     "spell_data": { "id": "alien_meadow_roots_trigger_spell" },
     "trigger_weight": "50000 g",
-    "//": "High weight is needed to prevent the waiting predators from triggering the trap themselves",
     "trigger_message_u": "As you step on the roots, they twitch slightly.",
     "trigger_message_npc": "As <npcname>' steps on the roots, they twitch slightly."
   },
@@ -24,11 +24,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ALIEN_TRAP_TREE_FIND_TREE",
     "shape": "blast",
-    "valid_targets": [ "ally", "hostile" ],
+    "valid_targets": [ "self", "hostile", "ally" ],
     "flags": [ "NO_EXPLOSION_SFX", "SILENT" ],
     "spell_class": "NONE",
     "min_range": 0,
-    "max_range": 0
+    "max_range": 0,
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "type": "effect_on_condition",
