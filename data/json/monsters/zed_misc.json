@@ -781,6 +781,7 @@
     "grab_strength": 30,
     "burn_into": "mon_zombie_scorched_brute",
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BRUTE" },
+		    "fungalize_into": "mon_zombie_brute_fungal",
     "armor": { "bash": 4, "cut": 6, "bullet": 5, "electric": 2 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH" ],
@@ -933,6 +934,7 @@
     "death_function": { "eoc": "EOC_NEMESIS_DIED" },
     "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
+	    "fungalize_into": "mon_zombie_hulk_fungal",
     "extend": {
       "flags": [ "ALL_SEEING", "GOODHEARING", "SMELLS", "KEENNOSE", "DESTROYS", "PUSH_VEH", "NEMESIS", "LOUDMOVES" ],
       "weakpoint_sets": [ "wps_humanoid_head_small" ],
@@ -1046,6 +1048,7 @@
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
+		    "fungalize_into": "mon_zombie_hulk_fungal",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {
