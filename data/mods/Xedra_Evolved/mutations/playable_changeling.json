@@ -746,6 +746,19 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_TAIL_STING",
+    "name": { "str": "Spiked Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a scorpion, making it harder to wear pants but allowing you to attack with the stinger.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_TAIL_STING_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_TAIL_STING_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_SHAPESHIFT_GOOD",
     "name": { "str": "Initiate of Forms" },
     "points": 2,
