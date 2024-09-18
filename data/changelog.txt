@@ -11,7 +11,7 @@ New mod: Mind over Matter - adds detailed psionics to the game, along with a var
 New scenario: Friends to the End. Ever wanted a NPC companion that feels more alive? With Liam you get a friend that cares and helps out during key moments.
 A massive nuclear power plant has been added. Get ready to explore its giant interior with proper gear.
 Accidentally bumping into neutral creatures and angering them is now (mostly) a problem of the past. Just enable safe mode and you will no longer inadvertently slap your clingy pet gracken.
-3D vision has been improved and you can now see the levels below you automatically, even without 3D FOV enabled. Additionally, you can now throw stuff of ledges to damage creatures below.
+3D vision has been improved and you can now see the levels below you automatically, even without 3D FOV enabled. Additionally, you can now throw stuff off ledges to damage creatures below.
 Certain monsters can now feast on corpses, graze and browse or gobble up your food and crops. That also means in order for an animal to e.g continue producing milk, it must be fed on a regular basis.
 Some monsters can also hide under furniture now.
 You can now find crazed civilians in the cities for the first couple of days. While they can not be turned or "cured" into NPCs, their behavior will make being in a city more dynamic.
