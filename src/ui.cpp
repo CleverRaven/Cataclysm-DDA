@@ -37,12 +37,14 @@ class uilist_impl : cataimgui::window
         uilist &parent;
     public:
         explicit uilist_impl( uilist &parent ) : cataimgui::window( "UILIST",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ),
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
             parent( parent ) {
         }
 
         uilist_impl( uilist &parent, const std::string &title ) : cataimgui::window( title,
-                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse ),
+                    ImGuiWindowFlags_None | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse |
+                    ImGuiWindowFlags_NoNavInputs ),
             parent( parent ) {
         }
 
@@ -69,19 +71,27 @@ void uilist_impl::draw_controls()
         ImGui::Separator();
     }
 
-    // An invisible table with three columns. Center column is for the
-    // menu, left and right are usually invisible. Caller may use
+    // An invisible table with three columns. Used to create a sidebar effect.
+    // Ideally we would use a layout engine for this, but ImGui does not natively support any.
+    // TODO: Investigate using Stack Layout (https://github.com/thedmd/imgui/tree/feature/layout-external)
+    // Center column is for the menu, left and right are usually invisible. Caller may use
     // left/right column to add additional content to the
     // window. There should only ever be one row.
     if( ImGui::BeginTable( "table", 3,
-                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_NoPadOuterX ) ) {
+                           ImGuiTableFlags_SizingFixedFit | ImGuiTableFlags_NoPadInnerX | ImGuiTableFlags_NoPadOuterX |
+                           ImGuiTableFlags_Hideable ) ) {
         ImGui::TableSetupColumn( "left", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_left );
         ImGui::TableSetupColumn( "menu", ImGuiTableColumnFlags_WidthFixed, parent.calculated_menu_size.x );
         ImGui::TableSetupColumn( "right", ImGuiTableColumnFlags_WidthFixed, parent.extra_space_right );
+
+        ImGui::TableSetColumnEnabled( 0, parent.extra_space_left < 1.0f ? false : true );
+        ImGui::TableSetColumnEnabled( 2, parent.extra_space_right < 1.0f ? false : true );
+
         ImGui::TableNextRow();
         ImGui::TableSetColumnIndex( 1 );
 
         float entry_height = ImGui::GetTextLineHeightWithSpacing();
+        ImGuiStyle &style = ImGui::GetStyle();
         if( ImGui::BeginChild( "scroll", parent.calculated_menu_size, false ) ) {
             if( ImGui::BeginTable( "menu items", 3, ImGuiTableFlags_SizingFixedFit ) ) {
                 ImGui::TableSetupColumn( "hotkey", ImGuiTableColumnFlags_WidthFixed,
@@ -131,7 +141,9 @@ void uilist_impl::draw_controls()
                             // this row is hovered and the hover state just changed, show context for it
                             parent.hovered = parent.fentries[ i ];
                         }
-                        ImGui::SameLine( 0, 0 );
+
+                        // Force the spacing to be set to the padding value.
+                        ImGui::SameLine( 0, style.CellPadding.x );
                         if( entry.hotkey.has_value() ) {
                             cataimgui::draw_colored_text( entry.hotkey.value().short_description(),
                                                           is_selected ? parent.hilight_color : parent.hotkey_color );
@@ -146,6 +158,10 @@ void uilist_impl::draw_controls()
                         cataimgui::draw_colored_text( entry.txt, color );
 
                         ImGui::TableSetColumnIndex( 2 );
+                        // Right-align text.
+                        ImVec2 curPos = ImGui::GetCursorScreenPos();
+                        // Remove the edge padding so that the last pixel just touches the border.
+                        ImGui::SetCursorScreenPos( ImVec2( ImMax( 0.0f, curPos.x + style.CellPadding.x ), curPos.y ) );
                         cataimgui::draw_colored_text( entry.ctxt, color );
 
                         ImGui::PopID();

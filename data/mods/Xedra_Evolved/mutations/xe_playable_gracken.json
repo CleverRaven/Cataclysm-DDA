@@ -231,7 +231,15 @@
     "purifiable": false,
     "mixed_effect": true,
     "points": 1,
-    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -1 }, { "value": "METABOLISM", "multiply": -0.8 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "KCAL", "multiply": -1 },
+          { "value": "METABOLISM", "multiply": -0.8 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }
+        ]
+      }
+    ],
     "category": [ "GRACKEN" ],
     "threshreq": [ "THRESH_SPECIES_GRACKEN" ]
   },

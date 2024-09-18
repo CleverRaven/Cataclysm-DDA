@@ -53,7 +53,8 @@
         "4": "t_gutter_downspout",
         "|": "t_wall_w",
         "<": "t_ladder_up",
-        "%": "t_door_c"
+        "%": "t_door_c",
+        "(": "t_linoleum_white"
       },
       "toilets": { "U": {  } },
       "furniture": {

@@ -291,7 +291,7 @@
     "name": { "str": "Right of Passage" },
     "points": 8,
     "description": "The Fair Folk have dealt with many mortal civilizations over the aeons, and have come to mutually beneficial arrangements with some of them.  Activate this trait to make your fae nature obvious, invoking those ancient agreements.  This <color_yellow>may anger</color> some who have especially bad relationships with the fae.",
-    "prereqs": [ "PRETTY" ],
+    "prereqs": [ "PRETTY", "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3" ],
     "category": [ "FAIR_FOLK_NOBLE" ],
     "active": true,
     "activated_is_setup": true,
@@ -406,6 +406,115 @@
         "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_COLD_TOLERANCE",
+    "name": { "str": "Cold Tolerance" },
+    "description": "The cold doesn't seem to bother you quite as much anymore.",
+    "points": 2,
+    "changes_to": [ "BROWNIE_COLD_TOLERANCE2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_COLD_TOLERANCE2",
+    "name": { "str": "Cold Endurance" },
+    "description": "Even on a winter day, you need only a light jacket now.",
+    "points": 4,
+    "prereqs": [ "PARACLESIAN_STR_DEX_1" ],
+    "prereqs2": [ "HIRSUTE_BROWNIE", "BROWNIE_FUR" ],
+    "changes_to": [ "BROWNIE_COLD_TOLERANCE3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_COLD_TOLERANCE3",
+    "name": { "str": "Inured to Cold" },
+    "description": "Legends say that brownies went about naked clad only in their almost-furry coat, and while you wouldn't go that far, you could wear a swimsuit in a blizzard without much trouble.",
+    "points": 8,
+    "prereqs": [ "PARACLESIAN_STR_DEX_2" ],
+    "prereqs2": [ "BROWNIE_FUR" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 120 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_MAKE_CHEESE_AND_BUTTER",
+    "name": { "str": "Churning As Quick as a Wink" },
+    "points": 1,
+    "description": "Brownies are famous for their ability to do household chores, and you now have an instinctive understanding of making milk and cheese.",
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HIRSUTE_BROWNIE",
+    "copy-from": "HIRSUTE",
+    "changes_to": [ "BROWNIE_FUR" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_FUR",
+    "name": { "str": "Coat of Fur" },
+    "description": "Your hair has thickened to almost the level of fur covering your entire body.  It's very warm and provides some level of protection against attacks.",
+    "points": 2,
+    "visibility": 6,
+    "ugliness": 2,
+    "prereqs": [ "HIRSUTE_BROWNIE" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "integrated_armor": [ "integrated_brownie_fur" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_HOMEBODY",
+    "name": { "str": "Homebody" },
+    "description": "Brownies know every corner of their homes, all the well-worn grooves in the floor and the quick paths from place to place.  Your speed is increased the longer you spend in the same area.",
+    "points": 6,
+    "prereqs": [ "BROWNIE_EASY_OVERLOOK" ],
+    "prereqs2": [ "BROWNIE_CRAFTING_BONUS2", "BROWNIE_CRAFTING_BONUS3" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "u_brownie_homebody_speed_bonus" ] } } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_SENSE_INTRUDERS",
+    "name": { "str": "Sense Intruders" },
+    "description": "With the knowledge of one's home comes the knowledge that something is off about it.  You can sense any intruders nearby, as long as you are indoors and have been in the same location for some time.",
+    "points": 8,
+    "prereqs": [ "BROWNIE_HOMEBODY" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "not": "u_is_outside" }, { "math": [ "u_brownie_sense_intruders", "!=", "0" ] } ] },
+        "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('perception') + u_brownie_homebody_speed_bonus" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_BLINK_INDOORS",
+    "name": { "str": "Slip Through the Cracks" },
+    "points": 4,
+    "description": "You can tell every nook and cranny of indoor spaces, and know how to quickly get from one place to another.",
+    "prereqs": [ "BROWNIE_HOMEBODY" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "changeling_brownie_blink_indoors_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "BROWNIE_TELEPORT_HOME",
+    "name": { "str": "Hurry Home" },
+    "points": 8,
+    "description": "You can return home from anywhere, as quick as a wink.",
+    "prereqs": [ "BROWNIE_BLINK_INDOORS" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ],
+    "spells_learned": [ [ "changeling_teleport_home_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -645,7 +754,7 @@
     "type": "mutation",
     "id": "CHANGELING_INVISIBILITY",
     "name": { "str": "Hidden from Mortal Eyes" },
-    "points": 2,
+    "points": 6,
     "description": "Like the Fair Folk of legend, you can remain unseen when you wish.",
     "prereqs": [ "CHANGELING_DISGUISE_AS_NATURE" ],
     "category": [
@@ -654,6 +763,13 @@
       "FAIR_FOLK_COMMONER_POOKA",
       "FAIR_FOLK_COMMONER_SELKIE",
       "FAIR_FOLK_COMMONER_TROW"
+    ],
+    "threshreq": [
+      "THRESH_FAIR_FOLK_NOBLE",
+      "THRESH_FAIR_FOLK_COMMONER_BROWNIE",
+      "THRESH_FAIR_FOLK_COMMONER_POOKA",
+      "THRESH_FAIR_FOLK_COMMONER_SELKIE",
+      "THRESH_FAIR_FOLK_COMMONER_TROW"
     ],
     "spells_learned": [ [ "changeling_invisibility_spell", 1 ] ]
   },

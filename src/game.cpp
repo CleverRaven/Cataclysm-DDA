@@ -195,6 +195,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "ui_extended_description.h"
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
@@ -7639,8 +7640,8 @@ look_around_result game::look_around(
         } else if( action == "debug_hour_timer" ) {
             toggle_debug_hour_timer();
         } else if( action == "EXTENDED_DESCRIPTION" ) {
-            // TODO: fix point types
-            extended_description( lp.raw() );
+            extended_description_window ext_desc( lp );
+            ext_desc.show();
         } else if( action == "CHANGE_MONSTER_NAME" ) {
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );

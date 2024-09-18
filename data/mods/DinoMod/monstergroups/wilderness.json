@@ -66,6 +66,7 @@
       { "monster": "mon_barosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_camarasaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_brachiosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
+      { "monster": "mon_astrodon_juvenile", "weight": 1, "pack_size": [ 4, 12 ] },
       { "monster": "mon_alamosaurus_juvenile", "weight": 1, "pack_size": [ 4, 12 ] }
     ]
   },

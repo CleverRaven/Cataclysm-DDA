@@ -203,5 +203,25 @@
     "name": { "str": "cockatrice egg" },
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_COCKATRICE"
+  },
+  {
+    "id": "black_nether_water",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "black liquid" },
+    "description": "You don't know what this is but now that you've gotten a closer look it's definitely not water.  It's completely opaque and freezing cold to the touch, but when you pull your fingertip out of it, your skin is dry as a bone.",
+    "category": "food",
+    "material": [ "black_liquid" ],
+    "weight": "500 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "calories": 0,
+    "quench": 0,
+    "symbol": "~",
+    "color": "black",
+    "phase": "liquid",
+    "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
+    "contamination": [ { "disease": "black_nether_water_disease", "probability": 100 } ],
+    "fun": -5
   }
 ]

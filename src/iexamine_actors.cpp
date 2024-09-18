@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "map.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "mtype.h"
