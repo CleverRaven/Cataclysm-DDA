@@ -808,9 +808,17 @@
     "id": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
     "effect": [
       { "u_deactivate_trait": "POOKA_ANTLERS" },
+      { "u_deactivate_trait": "POOKA_HORNS" },
+      { "u_deactivate_trait": "POOKA_FANGS" },
+      { "u_deactivate_trait": "POOKA_SABER_TEETH" },
       { "u_deactivate_trait": "POOKA_WOLF_EARS" },
+      { "u_deactivate_trait": "POOKA_FELINE_EARS" },
       { "u_deactivate_trait": "POOKA_CLAWS" },
       { "u_deactivate_trait": "POOKA_STAINLESS_CLAWS" },
+      { "u_deactivate_trait": "POOKA_URSINE_FUR" },
+      { "u_deactivate_trait": "POOKA_CHITIN" },
+      { "u_deactivate_trait": "POOKA_QUADRUPED" },
+      { "u_deactivate_trait": "POOKA_LEAPING_LEGS" },
       { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_LONG" }
     ]
@@ -834,6 +842,26 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_HORNS_OFF",
     "effect": [ { "u_lose_trait": "HORNS_CURLED" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FANGS_ON",
+    "effect": [ { "u_add_trait": "FANGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FANGS_OFF",
+    "effect": [ { "u_lose_trait": "FANGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SABER_TEETH_ON",
+    "effect": [ { "u_add_trait": "SABER_TEETH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SABER_TEETH_OFF",
+    "effect": [ { "u_lose_trait": "SABER_TEETH" } ]
   },
   {
     "type": "effect_on_condition",
