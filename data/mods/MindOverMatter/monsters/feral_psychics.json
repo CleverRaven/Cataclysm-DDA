@@ -112,9 +112,7 @@
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],
@@ -197,9 +195,7 @@
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": {
-          "and": [ { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
-        },
+        "condition": { "and": [ { "u_has_flag": "NO_PSIONICS" }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],
@@ -1257,10 +1253,7 @@
         "spell_data": { "id": "telekinetic_momentum_monster" },
         "cooldown": { "math": [ "5 + rand(10)" ] },
         "condition": {
-          "and": [
-            { "not": { "u_has_flag": "NO_PSIONICS" } },
-            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
-          ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
         },
         "monster_message": "The air around %1$s wavers."
       },
@@ -1370,10 +1363,7 @@
         "spell_data": { "id": "telekinetic_momentum_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [
-            { "not": { "u_has_flag": "NO_PSIONICS" } },
-            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
-          ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
         },
         "monster_message": "The air around %1$s wavers."
       },
