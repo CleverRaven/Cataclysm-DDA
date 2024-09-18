@@ -22,13 +22,7 @@
     "durability": 7,
     "min_cycle_recoil": 380,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
-    "pocket_data": [
-      {
-        "magazine_well": "250 ml",
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "hh9mag" ]
-      }
-    ],
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hh9mag" ] } ],
     "melee_damage": { "bash": 8 }
   }
 ]
