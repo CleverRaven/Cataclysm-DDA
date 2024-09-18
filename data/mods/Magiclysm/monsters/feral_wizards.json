@@ -759,7 +759,7 @@
         "spell_data": { "id": "magus_silence", "min_level": 5 },
         "cooldown": 25,
         "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
-        "monster_message": "%1$s screams words of magic."
+        "monster_message": "%1$s screams words of magic and the sounds around you grow muffled."
       },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
