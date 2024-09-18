@@ -129,7 +129,8 @@
       "rm121aux",
       "rm121aux_mod",
       "u_shotgun",
-      "u_shotgun_mod"
+      "u_shotgun_mod",
+      "robofac_handguard"
     ],
     "min_skills": [ [ "gun", 2 ] ]
   }
