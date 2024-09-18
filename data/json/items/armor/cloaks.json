@@ -1503,6 +1503,15 @@
         "description": "A flag of seven horizontal stripes of green, yellow, red, black, red, yellow and green with a black edged white isosceles triangle base on the hoist side bearing a Zimbabwe bird superimposed on a red five pointed star.",
         "weight": 10,
         "append": true
+      },
+      {
+        "id": "brazilempire_flag",
+        "name": { "str": "Brazilian Imperial flag" },
+        "description": "A fag which posses a green background, with a white diamond in the centre bearing the arms of the Brazilian Emperor: a green shield bearing an armilliary sphere surrounded by a ring of stars, an Imperial crown above, the whole surrounded by branches of coffee and tobacco tied with a blue ribbon.",
+        "weight": 1,
+        "append": true
+      }
+    ]
       }
     ]
   },
