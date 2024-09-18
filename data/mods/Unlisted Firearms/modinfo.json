@@ -1,11 +1,11 @@
 [
   {
-	"type": "MOD_INFO", 
-	"id": "unlisted_firearms", 
-	"name": "Unlisted Firearms", 
-	"authors": [ "Megamimed" ], 
-	"description": "I don't care if the FAMAS isn't on gunbroker! I'll just get one off craigslist.", 
-	"category": "items", 
-	"dependencies": [ "dda" ]
+    "type": "MOD_INFO",
+    "id": "unlisted_firearms",
+    "name": "Unlisted Firearms",
+    "authors": [ "Megamimed" ],
+    "description": "I don't care if the FAMAS isn't on gunbroker! I'll just get one off craigslist.",
+    "category": "items",
+    "dependencies": [ "dda" ]
   }
 ]
