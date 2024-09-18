@@ -141,9 +141,7 @@
     "condition": { "not": { "u_has_flag": "MUTATION_THRESHOLD" } },
     "//": "Each potion is one trait",
     "effect": [
-      {
-        "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence."
-      },
+      { "u_message": "As you imbibe the concoction, you feel the stolen power fusing with your essence." },
       { "u_add_trait": "FALSE_HOMULLUS_HATRED" },
       { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "500" ] },
       { "math": [ "u_vitamin('mutagen')", "+=", "1000" ] },
