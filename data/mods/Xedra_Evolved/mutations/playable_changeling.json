@@ -660,12 +660,7 @@
     "triggers": [
       [
         {
-          "condition": {
-            "and": [
-              { "u_has_move_mode": "crouch" },
-              { "not": "u_can_drop_weapon" }
-            ]
-          },
+          "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
           "msg_on": { "text": "You drop down on all fours." },
           "msg_off": { "text": "You come out of your quadrupedal posture." }
         }
@@ -745,7 +740,7 @@
     "points": 6,
     "description": "You are a master of shapeshifting and are able to maintain four more simultaneous shapeshifts without drawing on your mana.",
     "prereqs": [ "POOKA_SHAPESHIFT_GOOD2" ],
-    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
     "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
   },
   {
