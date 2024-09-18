@@ -9993,7 +9993,7 @@
   {
     "type": "mutation",
     "id": "GUNSHY",
-    "name": { "str": "Brawler" },
+    "name": { "str": "Gun-shy" },
     "points": -3,
     "description": "Whether from personal choice or childhood trauma, using a firearm is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
