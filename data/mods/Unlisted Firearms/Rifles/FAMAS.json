@@ -50,6 +50,6 @@
         ]
       }
     ],
-	"melee_damage": { "bash": 12 }
+    "melee_damage": { "bash": 12 }
   }
 ]
