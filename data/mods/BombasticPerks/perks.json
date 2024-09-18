@@ -1198,5 +1198,21 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "22_is_cool",
+    "name": { "str": "Twenty two weakpoints" },
+    "description": "You always appreciated the size of this little fella named \"Dot Two Two Long Rifle\", but they laughed at you.  Not anymore!  You found that small size of a bullet is perfect to hit into little spots between armor or narrow places.  Gives additional armor penetration and quadruple your chances to hit a weakpoint if you use .22 weapon.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_ammotype": "22" },
+        "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
+      }
+    ]
   }
 ]
