@@ -1371,12 +1371,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "bench_vise", -1 ] ] ],
-    "components": [
-      [ [ "ruger_1022", 1 ] ],
-      [ [ "qt_wire", 1 ], [ "piano_wire", 1 ] ],
-      [ [ "sheet_metal_small", 2 ] ],
-      [ [ "super_glue", 5 ] ]
-    ]
+    "components": [ [ [ "ruger_1022", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "super_glue", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1399,11 +1394,6 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "tools": [ [ [ "bench_vise", -1 ] ] ],
-    "components": [
-      [ [ "ruger_charger", 1 ] ],
-      [ [ "qt_wire", 1 ], [ "piano_wire", 1 ] ],
-      [ [ "sheet_metal_small", 2 ] ],
-      [ [ "super_glue", 5 ] ]
-    ]
+    "components": [ [ [ "ruger_charger", 1 ] ], [ [ "qt_wire", 1 ] ], [ [ "sheet_metal_small", 2 ] ], [ [ "super_glue", 5 ] ] ]
   }
 ]

@@ -7066,7 +7066,7 @@
     "name": "chainmail sheets",
     "description": "Recipes related to making sheets of chainmail of different steel qualities.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "link_sheet_fabrication", "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ],
+    "nested_category_data": [ "lc_link_sheet", "mc_link_sheet", "hc_link_sheet", "ch_link_sheet", "qt_link_sheet" ],
     "difficulty": 3
   },
   {

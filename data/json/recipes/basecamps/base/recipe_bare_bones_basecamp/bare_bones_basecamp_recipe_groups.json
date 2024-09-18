@@ -81,7 +81,7 @@
       { "id": "metalworking_tongs", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
-      { "id": "wire", "description": " Craft: Wire" },
+      { "id": "lc_wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
       { "id": "blade", "description": " Craft: Blade" },
       { "id": "bearing", "description": " Craft: Bearings" },

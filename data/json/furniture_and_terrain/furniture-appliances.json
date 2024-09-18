@@ -362,7 +362,7 @@
         { "item": "tanned_hide", "count": [ 1, 2 ] },
         { "item": "2x4", "count": [ 2, 4 ] },
         { "item": "spring", "count": [ 1, 2 ] },
-        { "item": "wire", "count": [ 1, 4 ] }
+        { "item": "lc_wire", "count": [ 1, 4 ] }
       ]
     },
     "max_volume": "40 L",
@@ -375,7 +375,7 @@
         { "item": "leather", "count": [ 1, 4 ] },
         { "item": "2x4", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 0, 6 ] },
-        { "item": "wire", "count": [ 1, 3 ] }
+        { "item": "lc_wire", "count": [ 1, 3 ] }
       ]
     }
   },

@@ -10420,7 +10420,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         //can't board vehicle with solid parts while grabbing it
         else if( vp_there && !pushing && !m.impassable( dest_loc ) &&
                  !empty( grabbed_vehicle->get_avail_parts( VPFLAG_OBSTACLE ) ) &&
-                 vp_there->vehicle().om_id == grabbed_vehicle->om_id ) {
+                 &vp_there->vehicle() == grabbed_vehicle ) {
             add_msg( m_warning, _( "You move into the %s, releasing it." ), grabbed_vehicle->name );
             u.grab( object_type::NONE );
         }
