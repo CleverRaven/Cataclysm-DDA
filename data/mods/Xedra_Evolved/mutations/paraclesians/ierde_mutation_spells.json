@@ -60,8 +60,8 @@
   {
     "id": "ierde_iron_armor_spell",
     "type": "SPELL",
-    "name": "Invulnerable Earthen Armor",
-    "description": "While on living earth or stone, the Ierde may infuse their body with the essence of the earth, slowing their movement and attacks but rendering them much safer from harm.",
+    "name": "Invulnerable Iron Armor",
+    "description": "While on living earth or stone, the Ierde may infuse their body with fae iron, slowing their movement and attacks but rendering them much safer from harm.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "IERDE",
