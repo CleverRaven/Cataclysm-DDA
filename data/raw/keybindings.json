@@ -1243,6 +1243,13 @@
   },
   {
     "type": "keybinding",
+    "id": "MODIFY_HORDE",
+    "category": "OVERMAP",
+    "name": "Modify existing horde or place new one",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
