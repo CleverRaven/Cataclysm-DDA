@@ -1,0 +1,50 @@
+[
+  {
+    "id": "fn2000",
+    "copy-from": "rifle_semi",
+    "looks_like": "modular_ar15",
+    "type": "GUN",
+    "name": { "str": "FN2000" },
+    "description": "A sleek bullpup designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
+    "weight": "3600 g",
+    "volume": "7986 ml",
+    "longest_side": "740 mm",
+    "price": 125000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "dispersion": 150,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger"
+        ]
+      }
+    ],
+	"melee_damage": { "bash": 12 }
+  }
+]
