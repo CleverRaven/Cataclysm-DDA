@@ -1190,6 +1190,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
     bool bIsNewLine = true;
 
     for( const iteminfo &i : vItemDisplay ) {
+        if( i.bIsArt ) {
+            cataimgui::PushMonoFont();
+        }
         if( i.sType == "DESCRIPTION" ) {
             // Always start a new line for sType == "DESCRIPTION"
             if( !bIsNewLine ) {
@@ -1255,6 +1258,9 @@ void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                     cataimgui::draw_colored_text( sPost, c_white );
                 }
             }
+        }
+        if( i.bIsArt ) {
+            ImGui::PopFont();
         }
 
         // Set bIsNewLine in case the next line should always start in a new line

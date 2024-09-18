@@ -68,9 +68,9 @@ class client
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                 const GeometryRenderer_Ptr &sdl_geometry );
-        void load_fonts( const std::unique_ptr<Font> &cata_fonts,
+        void load_fonts( const std::unique_ptr<Font> &gui_font, const std::unique_ptr<Font> &mono_font,
                          const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
-                         const std::vector<std::string> &typeface );
+                         const std::vector<std::string> &gui_typeface, const std::vector<std::string> &mono_typeface );
 #endif
         ~client();
 
@@ -149,4 +149,6 @@ void init_pair( int p, int f, int b );
 void load_colors();
 #endif
 
+void PushGuiFont();
+void PushMonoFont();
 } // namespace cataimgui

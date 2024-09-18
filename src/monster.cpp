@@ -1054,9 +1054,11 @@ void monster::print_info_imgui() const
     if( get_option<bool>( "ENABLE_ASCII_ART" ) ) {
         const ascii_art_id art = type->get_picture_id();
         if( art.is_valid() ) {
+            cataimgui::PushMonoFont();
             for( const std::string &line : art->picture ) {
                 cataimgui::draw_colored_text( line, c_white );
             }
+            ImGui::PopFont();
         }
     }
 }

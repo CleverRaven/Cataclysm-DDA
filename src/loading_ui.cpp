@@ -49,10 +49,10 @@ static void redraw()
                       ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
                       ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings ) ) {
         ImGui::Image( static_cast<void *>( gLUI->splash.get() ), gLUI->splash_size );
-        ImGui::SetCursorPosX( ( gLUI->splash_size.x / 2.0f ) - 120.0f );
-        ImGui::TextUnformatted( gLUI->context.c_str() );
-        ImGui::SameLine();
-        ImGui::TextUnformatted( gLUI->step.c_str() );
+        float w = ImGui::CalcTextSize( gLUI->context.c_str() ).x + ImGui::CalcTextSize( " " ).x +
+                  ImGui::CalcTextSize( gLUI->step.c_str() ).x;
+        ImGui::SetCursorPosX( ( ( ImGui::GetWindowWidth() - w ) * 0.5f ) );
+        ImGui::Text( "%s %s", gLUI->context.c_str(), gLUI->step.c_str() );
     }
     ImGui::End();
     ImGui::PopStyleColor();

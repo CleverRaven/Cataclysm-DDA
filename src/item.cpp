@@ -4364,7 +4364,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         std::vector<std::string> bg_lines = get_bodygraph_lines( get_player_character(), bg_cb,
                                             bodygraph_full_body_iteminfo );
         for( const std::string &line : bg_lines ) {
-            info.emplace_back( "ARMOR", line );
+            info.emplace_back( "ARMOR", line, iteminfo::is_art );
         }
         insert_separation_line( info );
     }
@@ -6123,7 +6123,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
         if( art.is_valid() ) {
             insert_separation_line( info );
             for( const std::string &line : art->picture ) {
-                info.emplace_back( "DESCRIPTION", line );
+                info.emplace_back( "DESCRIPTION", line, iteminfo::is_art );
             }
         }
     }
@@ -12535,6 +12535,7 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     bNewLine = !( Flags & no_newline );
     bLowerIsBetter = static_cast<bool>( Flags & lower_is_better );
     bDrawName = !( Flags & no_name );
+    bIsArt = Flags & is_art;
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, flags Flags )
