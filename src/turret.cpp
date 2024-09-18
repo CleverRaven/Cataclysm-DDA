@@ -417,10 +417,9 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
             _( "Pfft.  You are a brawler; using turrets is beneath you." ) );
         return false;
     }
-    
     if( player_character.has_trait( trait_GUNSHY ) ) {
         player_character.add_msg_if_player(
-            _( "Firing a gun isn't any better, even if it's mounted" ) );
+            _( "Firing a gun isn't any better, even if it's mounted." ) );
         return false;
     }
 
