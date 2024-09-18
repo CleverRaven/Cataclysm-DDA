@@ -38,16 +38,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "stanag30",
-          "stanag5",
-          "stanag5ranger",
-          "stanag10",
-          "stanag10ranger",
-          "stanag20",
-          "stanag20ranger",
-          "stanag30ranger"
-        ]
+        "item_restriction": [ "stanag30", "stanag5", "stanag5ranger", "stanag10", "stanag10ranger", "stanag20", "stanag20ranger", "stanag30ranger" ]
       }
     ],
     "melee_damage": { "bash": 12 }
