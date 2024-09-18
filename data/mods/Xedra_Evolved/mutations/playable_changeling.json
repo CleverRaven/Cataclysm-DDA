@@ -801,7 +801,7 @@
           "and": [
             { "not": "u_can_drop_weapon" },
             { "not": { "u_has_worn_with_flag": "STURY" } },
-            { "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST" ] }
+            { "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ] }
           ]
         },
         "values": [
