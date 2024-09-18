@@ -904,5 +904,15 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_HOMULLUS_HATRED",
+    "name": { "str": "False Homullus" },
+    "points": -4,
+    "description": "The homullus can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "HOMULLUS", 100 ] ]
   }
 ]
