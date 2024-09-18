@@ -459,8 +459,6 @@
     "copy-from": "mon_zombie_tough_fungal",
     "description": "This bulky fungal construct seems to have lost all facial features, its chest and face covered in thick fungal sprouts.  Its grotesquely swollen arms end in jagged points as fungal tendrils burst forth.",
     "diff": 2,
-    "hp": 110,
-    "speed": 80,
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "harvest": "zombie_humanoid_mushroom",
@@ -488,7 +486,6 @@
     "speed": 100,
     "melee_skill": 5,
     "melee_dice": 4,
-    "melee_dice_sides": 8,
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_hulk" ],
     "grab_strength": 40,
     "special_attacks": [
