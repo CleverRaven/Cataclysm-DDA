@@ -1047,7 +1047,6 @@
           { "item": "pants", "variant": "pants_stone" },
           { "item": "socks" },
           { "item": "dress_shoes" },
-          { "item": "coat_lab" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" }
