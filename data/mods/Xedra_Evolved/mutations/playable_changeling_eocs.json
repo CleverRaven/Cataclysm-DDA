@@ -1035,7 +1035,9 @@
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" },
-      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" }
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
     ]
   },
   {
@@ -1387,6 +1389,6 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
-    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" }
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
   }
 ]
