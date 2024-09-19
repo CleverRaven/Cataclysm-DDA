@@ -9994,11 +9994,12 @@
   {
     "type": "mutation",
     "id": "GUNSHY",
-    "name": { "str": "Gun-shy" },
+    "name": { "str": "Gun-Shy" },
     "points": -3,
-    "description": "Whether from personal choice or childhood trauma, using a firearm is off-limits to you, even if your life depended on it.",
+    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event. You can still use bows and slings.",
     "starting_trait": true,
     "valid": false
+    "cancels": [ "BRAWLER" ]
   },
   {
     "type": "mutation",
