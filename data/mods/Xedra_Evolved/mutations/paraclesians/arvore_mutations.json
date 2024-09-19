@@ -132,7 +132,7 @@
   {
     "type": "mutation",
     "id": "ARVORE_SEED_BEARER",
-    "name": { "str": "Nurturing the Green" },
+    "name": { "str": "Seed Bearer" },
     "points": 2,
     "visibility": 0,
     "ugliness": 0,
