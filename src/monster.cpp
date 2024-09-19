@@ -3017,6 +3017,9 @@ void monster::die( Creature *nkiller )
             add_item( item( "rope_6", calendar::turn_zero ) );
             add_item( item( "snare_trigger", calendar::turn_zero ) );
         }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
     }
 
     if( death_drops && !no_extra_death_drops ) {
