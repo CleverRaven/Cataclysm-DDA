@@ -299,6 +299,6 @@
     "id": "spell_components_restore_crystal_mana",
     "type": "requirement",
     "//": "Crystallized mana for the Mana Extraction spell",
-    "components": [ [ [ "crystallized_mana", 1 ] ] ]
+    "components": [ [ [ "crystallized_mana", 5 ] ] ]
   }
 ]
