@@ -42,7 +42,12 @@
     "purifiable": false,
     "activated_eocs": [ "EOC_ETHEREAL_WINGS_INITIATE" ],
     "//": "No body part is intentional.  The wings should not be attackable by enemies or get in the way of clothes or armor.  These are also intended as less of a wide stat boost than the other dream toggleable mutations and instead specifically allow flight and carry weight.",
-    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "math": [ "2500 * u_spell_level('spell_ethereal_wings')" ] } } ],
+        "ench_effects": [ { "effect": "effect_vampire_bat_form_levitation", "intensity": 1 } ]
+      }
+    ],
     "flags": [ "GLIDE", "FEATHER_FALL" ]
   },
   {
