@@ -559,7 +559,7 @@
     "id": "POOKA_CHARM_ANIMALS",
     "name": { "str": "Friend to Birds and Beasts" },
     "points": 3,
-    "description": "You are close enough to the birds and beasts that you can speak their langauge and ask them for aid.",
+    "description": "You are close enough to the birds and beasts that you can speak their language and ask them for aid.",
     "prereqs": [ "ANIMALEMPATH2" ],
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
     "spells_learned": [ [ "changeling_pooka_charm_animals_spell", 1 ] ]
