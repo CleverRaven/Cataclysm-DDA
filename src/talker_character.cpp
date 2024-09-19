@@ -807,9 +807,8 @@ bool talker_character_const::wielded_with_item_ammotype( const ammotype &w_ammot
         if( ammo == w_ammotype ) {
             match = true;
         }
-        return match;
     }
-
+    return match;
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
