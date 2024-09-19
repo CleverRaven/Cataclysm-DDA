@@ -263,7 +263,7 @@
     "name": "Friend to Birds and Beasts",
     "description": "You have learned to speak the secret tongues of birds and beasts and may use it to ask them for aid.  Casting this spell on a mammal or a bird will ally them with you, causing them to defend you against your enemies.",
     "valid_targets": [ "ally", "hostile" ],
-    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE" ],
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
     "effect": "charm_monster",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
@@ -277,6 +277,8 @@
     "max_duration": {
       "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 850) + (u_skill('deduction') * 8641) + 33145" ]
     },
+    "min_range": 10,
+    "max_range": 10,
     "energy_source": "MANA",
     "base_energy_cost": {
       "math": [
