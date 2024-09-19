@@ -7123,11 +7123,7 @@
     "points": 6,
     "skills": [
       { "level": 7, "name": "firstaid" },
-      { "level": 4, "name": "gun" },
-      { "level": 3, "name": "pistol" },
-      { "level": 2, "name": "survival" },
       { "level": 3, "name": "speech" },
-      { "level": 2, "name": "swimming" }
     ],
     "traits": [ "PROF_MED" ],
     "proficiencies": [
@@ -7138,7 +7134,6 @@
       "prof_physiology",
       "prof_burn_care",
       "prof_dissect_humans",
-      "prof_auto_pistols_familiar"
     ],
     "items": {
       "both": {
@@ -7147,7 +7142,6 @@
           { "item": "undershirt" },
           { "item": "combat_shirt" },
           { "item": "gloves_medical" },
-          { "item": "coat_lab" },
           { "item": "socks" },
           { "item": "boots_combat" },
           { "item": "wristwatch" },
@@ -7164,8 +7158,6 @@
           { "group": "starter_wallet_full" },
           { "group": "full_ifak" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "p320_357sig", "ammo-item": "357sig_fmj", "charges": 13, "container-item": "holster" },
-          { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] }
