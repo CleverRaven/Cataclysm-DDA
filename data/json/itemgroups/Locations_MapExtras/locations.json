@@ -2035,7 +2035,7 @@
       { "group": "book_mag_gen", "prob": 150 },
       { "group": "book_mag_interests", "prob": 20 },
       [ "breadboard", 70 ],
-      { "item": "voltmeter", "prob": 50, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 50 },
       { "item": "multimeter", "prob": 50, "charges": [ 0, 100 ] },
       [ "mask_hockey", 10 ],
       [ "hockey_stick", 20 ],
@@ -2118,7 +2118,7 @@
     "entries": [
       { "item": "balance_small", "prob": 5 },
       { "item": "ph_meter", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "voltmeter", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 5 },
       { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "thermometer", "prob": 5 },
       { "item": "melting_point", "prob": 5 },
