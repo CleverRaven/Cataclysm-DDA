@@ -9996,7 +9996,7 @@
     "id": "GUNSHY",
     "name": { "str": "Gun-Shy" },
     "points": -3,
-    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event. You can still use bows and slings.",
+    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event.  You can still use bows and slings.",
     "starting_trait": true,
     "valid": false
     "cancels": [ "BRAWLER" ]
