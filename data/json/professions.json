@@ -7121,10 +7121,7 @@
     "requirement": "achievement_reach_military_bunker",
     "description": "You were a practicing doctor with the Medical Corps when the Cataclysm happened.  The medical facility that you were stationed in was quickly overrun, first by the injured, then by the things that they turned into; and military command has gone quiet.",
     "points": 6,
-    "skills": [
-      { "level": 7, "name": "firstaid" },
-      { "level": 3, "name": "speech" }
-    ],
+    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 3, "name": "speech" } ],
     "traits": [ "PROF_MED" ],
     "proficiencies": [
       "prof_wound_care",
