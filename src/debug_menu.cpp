@@ -89,6 +89,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npctalk.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -270,6 +271,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 		case debug_menu::debug_menu_index::SIX_MILLION_DOLLAR_SURVIVOR: return "SIX_MILLION_DOLLAR_SURVIVOR";
 		case debug_menu::debug_menu_index::EDIT_FACTION: return "EDIT_FACTION";
 		case debug_menu::debug_menu_index::WRITE_CITY_LIST: return "WRITE_CITY_LIST";
+        case debug_menu::debug_menu_index::TALK_TOPIC: return "TALK_TOPIC";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -915,7 +917,14 @@ static int faction_uilist()
     return uilist( _( "Faction" ), uilist_initializer );
 }
 
+static int dialogue_uilist()
+{
+    const std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::TALK_TOPIC, true, 't', _( "Display talk topic" ) ) }
+    };
 
+    return uilist( _( "Dialogue…" ), uilist_initializer );
+}
 
 /**
  * Create the debug menu UI list.
@@ -926,7 +935,7 @@ static int faction_uilist()
 static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
 {
     enum {
-        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_QUICK_SETUP
+        D_INFO, D_GAME, D_SPAWNING, D_PLAYER, D_MONSTER, D_FACTION, D_VEHICLE, D_TELEPORT, D_MAP, D_DIALOGUE, D_QUICK_SETUP
     };
 
     std::vector<uilist_entry> menu = {
@@ -943,6 +952,7 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
             { uilist_entry( D_VEHICLE,     true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( D_TELEPORT,    true, 't', _( "Teleport…" ) ) },
             { uilist_entry( D_MAP,         true, 'm', _( "Map…" ) ) },
+            { uilist_entry( D_DIALOGUE,    true, 'd', _( "Dialogue…" ) ) },
             { uilist_entry( D_QUICK_SETUP, true, 'q', _( "Quick setup…" ) ) },
         };
 
@@ -997,6 +1007,9 @@ static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entri
                 break;
             case D_VEHICLE:
                 action = vehicle_uilist();
+                break;
+            case D_DIALOGUE:
+                action = dialogue_uilist();
                 break;
             case D_QUICK_SETUP:
                 action = quick_setup_uilist();
@@ -3055,6 +3068,43 @@ static void debug_menu_spawn_vehicle()
     }
 }
 
+static void display_talk_topic()
+{
+    avatar &a = get_avatar();
+    int menu_ind = 0;
+    uilist npc_menu;
+    npc_menu.text = _( "Choose NPC to hold topic:" );
+    std::vector<npc *> visible_npcs = g->get_npcs_if( [&]( const npc & n ) {
+        return a.sees( n );
+    } );
+    int npc_count = static_cast<int>( visible_npcs.size() );
+    if( npc_count > 0 ) {
+        for( npc *n : visible_npcs ) {
+            npc_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, n->disp_name() );
+        }
+        npc_menu.query();
+        if( npc_menu.ret >= 0 && npc_menu.ret < npc_count ) {
+            npc *selected_npc = visible_npcs[npc_menu.ret];
+            std::vector<std::string> dialogue_ids = get_all_talk_topic_ids();
+            std::sort( dialogue_ids.begin(), dialogue_ids.end(), localized_compare );
+            uilist talk_topic_menu;
+            talk_topic_menu.text = _( "Choose talk topic to display:" );
+            int menu_ind = 0;
+            for( auto &elem : dialogue_ids ) {
+                talk_topic_menu.addentry( menu_ind, true, MENU_AUTOASSIGN, elem );
+                ++menu_ind;
+            }
+            talk_topic_menu.query();
+            if( talk_topic_menu.ret >= 0 && talk_topic_menu.ret < static_cast<int>( dialogue_ids.size() ) ) {
+                const std::string selected_topic = dialogue_ids[talk_topic_menu.ret];
+                a.talk_to( get_talker_for( selected_npc ), false, false, false, selected_topic );
+            }
+        }
+    } else {
+        add_msg( m_bad, _( "You need an NPC to add a talk topic to." ) );
+    }
+}
+
 static void debug_menu_force_temperature()
 {
     uilist tempmenu;
@@ -4167,6 +4217,11 @@ void debug()
 
         case debug_menu_index::WRITE_CITY_LIST:
             write_city_list();
+            break;
+
+        case debug_menu_index::TALK_TOPIC:
+            display_talk_topic();
+            break;
 
         case debug_menu_index::last:
             return;

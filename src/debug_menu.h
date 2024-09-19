@@ -113,6 +113,7 @@ enum class debug_menu_index : int {
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
     WRITE_CITY_LIST,
+    TALK_TOPIC,
     last
 };
 
