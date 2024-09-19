@@ -5521,10 +5521,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }
-        /*case ledge_climb_down: {
-            g->climb_down( examp );
-            break;
-        }*/
         case ledge_peek_down: {
             // Peek
             tripoint where = examp;
@@ -5551,27 +5547,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             here.furn( just_below ).obj().examine( you, just_below );
             break;
         }
-        /*case ledge_cling_down: {
-            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-            if( !you.move_effects( false ) ) {
-                you.mod_moves( -to_moves<int>( 1_seconds ) );
-                return;
-            }
-
-            if( !here.valid_move( you.pos(), examp, false, true ) ) {
-                // Covered with something
-                return;
-            } else {
-                you.setpos( examp );
-                g->vertical_move( -1, false );
-                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
-                    you.set_underwater( true );
-                    g->water_affect_items( you );
-                    you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
-                }
-            }
-            break;
-        }*/
         case ledge_glide: {
             int glide_distance = 5;
             const weather_manager &weather = get_weather();
