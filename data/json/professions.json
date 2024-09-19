@@ -1032,32 +1032,6 @@
   },
   {
     "type": "profession",
-    "id": "physicist",
-    "name": "Physicist",
-    "description": "Your degree in physics might not have been theoretical, but the Cataclysm purely was.  Now that your antithesis has been irrefutably debunked, you might want to switch over to a career with higher chances of survival.",
-    "points": 3,
-    "skills": [ { "level": 4, "name": "mechanics" }, { "level": 4, "name": "electronics" } ],
-    "proficiencies": [ "prof_electromagnetics", "prof_pneumatics" ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "dress_shirt" },
-          { "item": "tie_necktie" },
-          { "item": "tieclip" },
-          { "item": "pants", "variant": "pants_stone" },
-          { "item": "socks" },
-          { "item": "dress_shoes" },
-          { "item": "wristwatch" },
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
     "id": "chemist",
     "name": "Chemist",
     "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab.  With your colleagues presumably dead and lab overrun, you question whether if it truly is the time to break bad.",
@@ -1075,49 +1049,6 @@
       "both": {
         "entries": [
           { "item": "dress_shirt" },
-          { "item": "pants", "variant": "pants_stone" },
-          { "item": "socks" },
-          { "item": "boots" },
-          { "item": "coat_lab" },
-          { "item": "gloves_rubber" },
-          { "item": "glasses_safety" },
-          { "item": "wristwatch" },
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "biologist",
-    "name": "Biologist",
-    "description": "At an age in which you thought your chances of discovering a new species were next to none, your luck might finally be turning around.  You are fully aware, however, that you are now at the very bottom of the food chain.",
-    "points": 3,
-    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "chemistry" } ],
-    "proficiencies": [
-      "prof_intro_biology",
-      "prof_intro_chemistry",
-      "prof_physiology",
-      "prof_dissect_humans",
-      "prof_wp_basic_amphibian",
-      "prof_wp_basic_bird",
-      "prof_wp_canine",
-      "prof_wp_ungulate",
-      "prof_wp_basic_bug",
-      "prof_wp_hymenoptera",
-      "prof_wp_flying",
-      "prof_wp_skeleton",
-      "prof_mycology"
-    ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "dress_shirt" },
-          { "item": "tie_necktie" },
-          { "item": "tieclip" },
           { "item": "pants", "variant": "pants_stone" },
           { "item": "socks" },
           { "item": "boots" },
@@ -7108,56 +7039,6 @@
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           }
-        ]
-      },
-      "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "mili_doc",
-    "name": "Military Physician",
-    "requirement": "achievement_reach_military_bunker",
-    "description": "You were a practicing doctor with the Medical Corps when the Cataclysm happened.  The medical facility that you were stationed in was quickly overrun, first by the injured, then by the things that they turned into; and military command has gone quiet.",
-    "points": 6,
-    "skills": [ { "level": 7, "name": "firstaid" }, { "level": 3, "name": "speech" } ],
-    "traits": [ "PROF_MED" ],
-    "proficiencies": [
-      "prof_wound_care",
-      "prof_wound_care_expert",
-      "prof_intro_biology",
-      "prof_intro_chemistry",
-      "prof_physiology",
-      "prof_burn_care",
-      "prof_dissect_humans"
-    ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "pants_army" },
-          { "item": "undershirt" },
-          { "item": "combat_shirt" },
-          { "item": "gloves_medical" },
-          { "item": "socks" },
-          { "item": "boots_combat" },
-          { "item": "wristwatch" },
-          { "item": "thermometer" },
-          { "item": "bandages", "count": 3 },
-          { "item": "scalpel" },
-          { "item": "syringe" },
-          { "item": "morphine" },
-          { "group": "charged_aspirin" },
-          { "group": "charged_antibiotic" },
-          { "item": "disinfectant" },
-          { "item": "pepto" },
-          { "group": "charged_two_way_radio" },
-          { "group": "starter_wallet_full" },
-          { "group": "full_ifak" },
-          { "item": "water_clean", "container-item": "canteen" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "mask_dust", "variant": "camo_mask_dust", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
