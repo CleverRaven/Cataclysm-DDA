@@ -1040,6 +1040,11 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BAT",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_BAT" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated",
     "condition": { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" } },
     "effect": [
