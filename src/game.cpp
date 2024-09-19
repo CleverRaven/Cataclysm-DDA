@@ -235,7 +235,6 @@ static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
 static const ascii_art_id ascii_art_ascii_tombstone( "ascii_tombstone" );
 
@@ -1893,6 +1892,47 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
     return hint_rating::iffy;
 }
 
+static void view_recipe_crafting_menu( const item &it )
+{
+    avatar &you = get_avatar();
+    std::string itname;
+    if( it.is_craft() ) {
+        recipe_id id = it.get_making().ident();
+        if( !you.get_group_available_recipes().contains( &id.obj() ) ) {
+            add_msg( m_info, _( "You don't know how to craft the %s!" ), id->result_name() );
+            return;
+        }
+        you.craft( std::nullopt, id );
+        return;
+    }
+    itype_id item = it.typeId();
+    itname = item->nname( 1U );
+
+    bool is_byproduct = false;  // product or byproduct
+    bool can_craft = false;
+    // Does a recipe for the item exist?
+    for( const auto& [_, r] : recipe_dict ) {
+        if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
+            is_byproduct = true;
+            // If a recipe exists, does my group know it?
+            if( you.get_group_available_recipes().contains( &r ) ) {
+                can_craft = true;
+                break;
+            }
+        }
+    }
+    if( !is_byproduct ) {
+        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
+        return;
+    } else if( !can_craft ) {
+        add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
+        return;
+    }
+
+    std::string filterstring = string_format( "r:%s", itname );
+    you.craft( std::nullopt, recipe_id(), filterstring );
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( it.is_container() ) {
@@ -2310,14 +2350,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 'V': {
-                    int is_recipe = 0;
-                    std::string this_itype = oThisItem.typeId().str();
-                    if( oThisItem.is_craft() ) {
-                        this_itype = oThisItem.get_making().ident().str();
-                        is_recipe = 1;
-                    }
-                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, is_recipe, 0, this_itype );
-                    u.assign_activity( recipe_act );
+                    view_recipe_crafting_menu( oThisItem );
                     break;
                 }
                 case 'i':

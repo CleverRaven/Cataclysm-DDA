@@ -532,14 +532,6 @@
     "auto_needs": true
   },
   {
-    "id": "ACT_ADV_INVENTORY",
-    "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
-    "verb": "interacting with inventory",
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_ARMOR_LAYERS",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -942,15 +934,6 @@
     "rooted": true,
     "based_on": "neither",
     "ignored_distractions": [ "hunger", "thirst" ],
-    "can_resume": false
-  },
-  {
-    "id": "ACT_VIEW_RECIPE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "viewing recipe",
-    "rooted": true,
-    "based_on": "neither",
     "can_resume": false
   },
   {
