@@ -122,7 +122,7 @@
           "else": {
             "if": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
             "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
-            "else": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" } } }
+            "else": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" }
           }
         }
       }
