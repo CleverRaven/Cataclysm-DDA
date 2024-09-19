@@ -518,6 +518,16 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_CHARM_ANIMALS",
+    "name": { "str": "Friend to Birds and Beasts" },
+    "points": 3,
+    "description": "You are close enough to the birds and beasts that you can speak their langauge and ask them for aid.",
+    "prereqs": [ "ANIMALEMPATH2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "spells_learned": [ [ "changeling_pooka_charm_animals_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_ANTLERS",
     "name": { "str": "Antlers (Shapeshift)" },
     "points": 2,
@@ -792,8 +802,8 @@
     "name": { "str": "Instinctive Attacks" },
     "points": 3,
     "description": "You're getting used to moving and reacting like an animal.  When without weapons or armor and using your gifts of shapeshifting, your natural attacks do more damage.",
-    "prereqs": [ "POOKA_ANTLERS", "POOKA_HORNS" ],
-    "prereqs2": [ "POOKA_CLAWS", "POOKA_STAINLESS_CLAWS" ],
+    "prereqs": [ "POOKA_ANTLERS", "POOKA_HORNS", "POOKA_FANGS", "POOKA_SABER_TEETH" ],
+    "prereqs2": [ "POOKA_CLAWS", "POOKA_STAINLESS_CLAWS", "POOKA_TAIL_STING" ],
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
     "enchantments": [
       {
@@ -801,7 +811,9 @@
           "and": [
             { "not": "u_can_drop_weapon" },
             { "not": { "u_has_worn_with_flag": "STURY" } },
-            { "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ] }
+            {
+              "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ]
+            }
           ]
         },
         "values": [
@@ -828,19 +840,19 @@
             { "not": "u_can_drop_weapon" },
             { "not": { "u_has_worn_with_flag": "STURY" } },
             {
-              "u_has_any_trait": [ 
-                "ANTLERS", 
-                "HORNS_CURLED", 
+              "u_has_any_trait": [
+                "ANTLERS",
+                "HORNS_CURLED",
                 "FANGS",
                 "SABER_TEETH",
-                "CLAWS", 
-                "CLAWS_ST", 
-                "WINGS_BIRD", 
-                "URSINE_FUR", 
-                "CHITIN2", 
-                "POOKA_QUADRUPED_TRAITS", 
-                "TAIL_FLUFFY", 
-                "TAIL_LONG" 
+                "CLAWS",
+                "CLAWS_ST",
+                "WINGS_BIRD",
+                "URSINE_FUR",
+                "CHITIN2",
+                "POOKA_QUADRUPED_TRAITS",
+                "TAIL_FLUFFY",
+                "TAIL_LONG"
               ]
             }
           ]
@@ -853,6 +865,51 @@
           {
             "value": "DODGE_CHANCE",
             "add": { "math": [ "min( (2 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.25) ),12)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SPEED_BONUSES",
+    "name": { "str": "Primal Alacrity" },
+    "points": 3,
+    "description": "Like the animals you mimic, you're quicker than you seem.  You gain a speed bonus while shapeshifted as long as you're unarmed and unarmored.",
+    "prereqs": [ "POOKA_UNARMED_ATTACK_BONUSES" ],
+    "prereqs2": [ "WINGS_BIRD", "POOKA_LEAPING_LEGS", "POOKA_QUADRUPED", "TAIL_FLUFFY", "TAIL_LONG" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURY" } },
+            {
+              "u_has_any_trait": [
+                "ANTLERS",
+                "HORNS_CURLED",
+                "FANGS",
+                "SABER_TEETH",
+                "CLAWS",
+                "CLAWS_ST",
+                "WINGS_BIRD",
+                "URSINE_FUR",
+                "CHITIN2",
+                "TAIL_FLUFFY",
+                "TAIL_LONG"
+              ]
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "min( (3 + (u_has_trait('ANTLERS') + (u_has_trait('HORNS_CURLED') + (u_has_trait('FANGS') + (u_has_trait('SABER_TEETH') + (u_has_trait('CLAWS') + (u_has_trait('CLAWS_ST') + (u_has_trait('WINGS_BIRD') + (u_has_trait('URSINE_FUR') + (u_has_trait('CHITIN2') + (u_has_trait('TAIL_FLUFFY') + (u_has_trait('TAIL_LONG') + )),30)"
+              ]
+            }
           }
         ]
       }

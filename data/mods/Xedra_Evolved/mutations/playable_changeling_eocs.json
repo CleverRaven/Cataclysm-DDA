@@ -957,10 +957,11 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_TAIL_ON",
-    "effect": [ 
-      { "u_deactivate_trait": "POOKA_TAIL_LONG" }, 
-      { "u_deactivate_trait": "POOKA_TAIL_STING" }, 
-      { "u_add_trait": "TAIL_FLUFFY" } ]
+    "effect": [
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_add_trait": "TAIL_FLUFFY" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -970,23 +971,25 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_LONG_ON",
-    "effect": [ 
-      { "u_deactivate_trait": "POOKA_WOLF_TAIL" }, 
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_STING" },
-      { "u_add_trait": "TAIL_LONG" } ]
+      { "u_add_trait": "TAIL_LONG" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_LONG_OFF",
     "effect": [ { "u_lose_trait": "TAIL_LONG" } ]
   },
-    {
+  {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_STING_ON",
-    "effect": [       
-      { "u_deactivate_trait": "POOKA_WOLF_TAIL" }, 
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_LONG" },
-      { "u_add_trait": "TAIL_STING" } ] ]
+      { "u_add_trait": "TAIL_STING" }
+    ]
   },
   {
     "type": "effect_on_condition",
