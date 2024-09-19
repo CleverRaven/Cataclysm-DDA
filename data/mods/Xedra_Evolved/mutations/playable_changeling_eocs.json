@@ -827,7 +827,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_ANTLERS_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_HORNS" }, { "u_add_trait": "ANTLERS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_HORNS" }, { "u_add_trait": "ANTLERS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -837,7 +845,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_HORNS_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -847,7 +863,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_FANGS_ON",
-    "effect": [ { "u_add_trait": "FANGS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "FANGS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -857,7 +881,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SABER_TEETH_ON",
-    "effect": [ { "u_add_trait": "SABER_TEETH" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "SABER_TEETH" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -867,7 +899,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_EARS_ON",
-    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -877,7 +917,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_FELINE_EARS_ON",
-    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -887,7 +935,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_CLAWS_ON",
-    "effect": [ { "u_add_trait": "CLAWS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "CLAWS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -897,7 +953,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_STAINLESS_CLAWS_ON",
-    "effect": [ { "u_add_trait": "CLAWS_ST" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "CLAWS_ST" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -907,7 +971,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_BIRD_WINGS_ON",
-    "effect": [ { "u_add_trait": "WINGS_BIRD" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "WINGS_BIRD" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -917,7 +989,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_URSINE_FUR_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -927,7 +1007,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_CHITIN_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -937,7 +1025,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_QUADRUPED_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -947,7 +1043,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_LEAPING_LEGS_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_QUADRUPED_TRAITS" }, { "u_add_trait": "LEAPING_LEGS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_QUADRUPED_TRAITS" }, { "u_add_trait": "LEAPING_LEGS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -957,10 +1061,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_TAIL_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
       { "u_deactivate_trait": "POOKA_TAIL_LONG" },
       { "u_deactivate_trait": "POOKA_TAIL_STING" },
       { "u_add_trait": "TAIL_FLUFFY" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
     ]
   },
   {
@@ -971,10 +1083,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_LONG_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
       { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_STING" },
       { "u_add_trait": "TAIL_LONG" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
     ]
   },
   {
@@ -985,10 +1105,18 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_STING_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
     "effect": [
       { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
       { "u_deactivate_trait": "POOKA_TAIL_LONG" },
       { "u_add_trait": "TAIL_STING" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
     ]
   },
   {
@@ -1030,7 +1158,7 @@
     "type": "effect_on_condition",
     "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
     "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] }, { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" } ],
+    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
     "false_effect": [
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
       { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },

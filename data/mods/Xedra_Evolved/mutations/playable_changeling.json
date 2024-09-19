@@ -967,6 +967,18 @@
             { "not": { "u_has_worn_with_flag": "STURDY" } },
             {
               "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
             }
           ]
         },
@@ -1008,6 +1020,18 @@
                 "TAIL_FLUFFY",
                 "TAIL_LONG"
               ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
             }
           ]
         },
@@ -1053,6 +1077,18 @@
                 "TAIL_FLUFFY",
                 "TAIL_LONG"
               ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
             }
           ]
         },
