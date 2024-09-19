@@ -200,14 +200,32 @@
   },
   {
     "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
     "id": "DEX_UP_3",
     "copy-from": "DEX_UP_3",
     "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
+    "id": "DEX_UP_4",
+    "copy-from": "DEX_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
+  },
+  {
+    "type": "mutation",
     "id": "PER_UP_3",
     "copy-from": "PER_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_4",
+    "copy-from": "PER_UP_4",
     "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
@@ -470,6 +488,26 @@
   },
   {
     "type": "mutation",
+    "id": "PER_UP_BROWNIE",
+    "name": { "str": "Seneschal's Gaze" },
+    "points": 3,
+    "description": "With a few quick glances you can take in the contents of an entire room.  +3 Perception.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_BROWNIE",
+    "name": { "str": "Chatelain's Mind" },
+    "points": 2,
+    "description": "It takes a keen mind to keep a household running smoothly.  +2 Intelligence.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "BROWNIE_HOMEBODY",
     "name": { "str": "Homebody" },
     "description": "Brownies know every corner of their homes, all the well-worn grooves in the floor and the quick paths from place to place.  Your speed is increased the longer you spend in the same area.",
@@ -707,12 +745,13 @@
       ]
     ],
     "enchantments": [
-      "ench_quadruped_movement_full",
       {
-        "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
-        "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ]
-      },
-      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+        "condition": {
+          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] }, { "not": "u_can_drop_weapon" } ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      }
     ]
   },
   {
@@ -769,6 +808,26 @@
   },
   {
     "type": "mutation",
+    "id": "STR_UP_POOKA",
+    "name": { "str": "Bestial Strength" },
+    "points": 2,
+    "description": "Even when not shapeshifted you can bring part of a wild animal's strength to bear.  +2 Strength.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_POOKA",
+    "name": { "str": "Untamed Agility" },
+    "points": 3,
+    "description": "You have the quick reactions of a wild animal.  +3 Dexterity.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_SHAPESHIFT_GOOD",
     "name": { "str": "Initiate of Forms" },
     "points": 2,
@@ -798,6 +857,101 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_SELECTOR",
+    "name": { "str": "Pinnacle of Forms" },
+    "points": 6,
+    "description": "This gives you access to the full shapeshift traits.  You should never seen it.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD2", "POOKA_SHAPESHIFT_GOOD3" ],
+    "player_display": false,
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_BAT",
+    "name": { "str": "Spirit of the Bat" },
+    "points": 10,
+    "description": "You can transform yourself into a bat.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_RAVEN",
+    "name": { "str": "Spirit of the Raven" },
+    "points": 10,
+    "description": "You can transform yourself into a raven.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_BEAR",
+    "name": { "str": "Spirit of the Bear" },
+    "points": 10,
+    "description": "You can transform yourself into a bear.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_DEER",
+    "name": { "str": "Spirit of the Deer" },
+    "points": 10,
+    "description": "You can transform yourself into a deer.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_WOLF",
+    "name": { "str": "Spirit of the Wolf" },
+    "points": 10,
+    "description": "You can transform yourself into a wolf.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_COUGAR",
+    "name": { "str": "Spirit of the Cougar" },
+    "points": 10,
+    "description": "You can transform yourself into a cougar.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivated" ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_UNARMED_ATTACK_BONUSES",
     "name": { "str": "Instinctive Attacks" },
     "points": 3,
@@ -810,7 +964,7 @@
         "condition": {
           "and": [
             { "not": "u_can_drop_weapon" },
-            { "not": { "u_has_worn_with_flag": "STURY" } },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
             {
               "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ]
             }
@@ -838,7 +992,7 @@
         "condition": {
           "and": [
             { "not": "u_can_drop_weapon" },
-            { "not": { "u_has_worn_with_flag": "STURY" } },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
             {
               "u_has_any_trait": [
                 "ANTLERS",
@@ -884,7 +1038,7 @@
         "condition": {
           "and": [
             { "not": "u_can_drop_weapon" },
-            { "not": { "u_has_worn_with_flag": "STURY" } },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
             {
               "u_has_any_trait": [
                 "ANTLERS",
