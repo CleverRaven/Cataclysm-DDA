@@ -1050,7 +1050,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
             elem.res_pen = enchantment_cache->modify_value( enchant_vals::mod::RANGED_ARMOR_PENETRATION,
-                           elem.amount );
+                           elem.res_pen );
         }
 
         dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
