@@ -929,10 +929,14 @@ void cataimgui::window::clear_filter()
 
 void cataimgui::PushGuiFont()
 {
+#ifdef TILES
     ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[0] );
+#endif
 }
 
 void cataimgui::PushMonoFont()
 {
+#ifdef TILES
     ImGui::PushFont( ImGui::GetIO().Fonts->Fonts[1] );
+#endif
 }
