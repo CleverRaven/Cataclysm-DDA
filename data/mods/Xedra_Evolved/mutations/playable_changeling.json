@@ -907,7 +907,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "min( (3 + (u_has_trait('ANTLERS') + (u_has_trait('HORNS_CURLED') + (u_has_trait('FANGS') + (u_has_trait('SABER_TEETH') + (u_has_trait('CLAWS') + (u_has_trait('CLAWS_ST') + (u_has_trait('WINGS_BIRD') + (u_has_trait('URSINE_FUR') + (u_has_trait('CHITIN2') + (u_has_trait('TAIL_FLUFFY') + (u_has_trait('TAIL_LONG') + )),30)"
+                "min( (3 + (u_has_trait('ANTLERS') * 2) + (u_has_trait('HORNS_CURLED') * 2) + (u_has_trait('FANGS') * 2) + (u_has_trait('SABER_TEETH') * 2) + (u_has_trait('CLAWS') * 2) + (u_has_trait('CLAWS_ST') * 2) + (u_has_trait('WINGS_BIRD') * 2) + (u_has_trait('URSINE_FUR') * 2) + (u_has_trait('CHITIN2') * 2) + (u_has_trait('TAIL_FLUFFY') * 2) + (u_has_trait('TAIL_LONG') * 2) ),30)"
               ]
             }
           }
