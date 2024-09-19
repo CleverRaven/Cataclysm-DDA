@@ -434,16 +434,15 @@
     "skill_used": "chemistry",
     "skills_required": [ [ "deduction", 5 ] ],
     "difficulty": 7,
-    "time": "55 m",
+    "time": "2 h",
     "flags": [ "SECRET" ],
     "tools": [ [ [ "mirror", -1 ] ], [ [ "mortar_pestle", -1 ] ] ],
     "components": [
       [ [ "blood", 1 ] ],
       [ [ "fae_blood", 1 ] ],
-      [ [ "life_extension_potion", 1 ] ],
       [ [ "homullus_sample", 5 ] ],
-      [ [ "faewild", 55 ] ],
-      [ [ "scrap_dreamdross", 55 ] ]
+      [ [ "faewild", 5 ] ],
+      [ [ "scrap_dreamdross", 5 ] ]
     ]
   }
 ]
