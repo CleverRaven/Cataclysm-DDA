@@ -12,6 +12,7 @@
 
 class Character;
 class Creature;
+struct mongroup;
 struct tripoint;
 
 template <typename E> struct enum_traits;
@@ -121,6 +122,8 @@ void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishitem( Character *you, const tripoint_bub_ms & );
 void wishmonster( const std::optional<tripoint> &p );
+void wishmonstergroup( tripoint_abs_omt &loc );
+void wishmonstergroup_mon_selection( mongroup &group );
 void wishmutate( Character *you );
 void wishbionics( Character *you );
 /*

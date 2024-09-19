@@ -223,5 +223,49 @@
     "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
     "contamination": [ { "disease": "black_nether_water_disease", "probability": 100 } ],
     "fun": -5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "alien_meadow_bush_2_fruit",
+    "name": { "str": "handful of alien berries", "str_pl": "handfuls of alien berries" },
+    "description": "A handful of white berries plucked from an otherworldly bush.  You're not sure if eating them is a good idea, but they sure look tasty.",
+    "weight": "156 g",
+    "color": "white",
+    "spoils_in": "2 days 12 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 2,
+    "calories": 54,
+    "price": "2 USD 21 cent",
+    "price_postapoc": "1 USD",
+    "material": [ "fruit" ],
+    "volume": "250 ml",
+    "fun": 1,
+    "flags": [ "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Eat the berries.",
+      "effect_on_conditions": [ "EOC_ALIEN_MEADOW_BUSH_2_BERRIES" ]
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "alien_meadow_tree_3_fruit",
+    "name": { "str": "alien fruit" },
+    "description": "A large fruit pulled from an alien tree.  The rind is extremely hard and you'll need to cut into it to eat it.",
+    "weight": "4518 g",
+    "color": "red",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 826,
+    "calories": 1355,
+    "price": "7 USD 58 cent",
+    "price_postapoc": "2 USD",
+    "material": [ "fruit" ],
+    "volume": "7150 ml",
+    "flags": [ "FREEZERBURN", "INEDIBLE" ],
+    "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "35800 μg" ], [ "calcium", "32300 μg" ] ],
+    "melee_damage": { "bash": 2 }
   }
 ]

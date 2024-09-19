@@ -1262,7 +1262,7 @@
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
-        { "item": "wire", "count": 1 },
+        { "item": "lc_wire", "count": 1 },
         { "item": "pipe", "count": [ 1, 4 ] },
         { "item": "chain", "prob": 10 },
         { "item": "scrap", "count": [ 1, 5 ] },

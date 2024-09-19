@@ -754,6 +754,16 @@ static void grab()
                 return;
             }
         }
+        //solid vehicles can't be grabbed while boarded
+        const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
+        if( vp_boarded ) {
+            const std::set<tripoint> grabbed_veh_points = vp->vehicle().get_points();
+            if( &vp_boarded->vehicle() == &vp->vehicle() &&
+                !empty( vp->vehicle().get_avail_parts( VPFLAG_OBSTACLE ) ) ) {
+                add_msg( m_info, _( "You can't move the %s while you're boarding it." ), veh_name );
+                return;
+            }
+        }
         you.grab( object_type::VEHICLE, grabp - you.pos_bub() );
         add_msg( _( "You grab the %s." ), veh_name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
@@ -1624,7 +1634,7 @@ static void wear()
 static void takeoff()
 {
     avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::take_off( player_character );
+    item_location loc = game_menus::inv::take_off();
 
     if( loc ) {
         player_character.takeoff( loc.obtain( player_character ) );
@@ -1885,17 +1895,17 @@ void game::open_consume_item_menu()
     avatar &player_character = get_avatar();
     switch( as_m.ret ) {
         case 0: {
-            item_location loc = game_menus::inv::consume_food( player_character );
+            item_location loc = game_menus::inv::consume_food();
             avatar_action::eat( player_character, loc );
             break;
         }
         case 1: {
-            item_location loc = game_menus::inv::consume_drink( player_character );
+            item_location loc = game_menus::inv::consume_drink();
             avatar_action::eat( player_character, loc );
             break;
         }
         case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
             break;
         default:
             break;
@@ -2448,15 +2458,15 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_INVENTORY:
-            game_menus::inv::common( player_character );
+            game_menus::inv::common();
             break;
 
         case ACTION_COMPARE:
-            game_menus::inv::compare( player_character, std::nullopt );
+            game_menus::inv::compare( std::nullopt );
             break;
 
         case ACTION_ORGANIZE:
-            game_menus::inv::swap_letters( player_character );
+            game_menus::inv::swap_letters();
             break;
 
         case ACTION_USE:
@@ -2479,7 +2489,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
+                avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
             }
             break;
 

@@ -1134,7 +1134,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     bool use_in_place = false;
 
     if( !loc ) {
-        loc = game_menus::inv::use( you );
+        loc = game_menus::inv::use();
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
