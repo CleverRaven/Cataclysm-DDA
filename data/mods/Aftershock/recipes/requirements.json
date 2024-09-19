@@ -15,7 +15,7 @@
   {
     "id": "electric_probing",
     "type": "requirement",
-    "tools": [ [ [ "voltmeter", 1 ], [ "toolset", -1 ] ] ]
+    "tools": [ [ [ "voltmeter", -1 ], [ "toolset", -1 ] ] ]
   },
   {
     "id": "welding_standard",
