@@ -146,6 +146,9 @@ Add drugs and mutagens to your faction camp stores.
 Allow military night vision goggles to attach to combat exoskeleton head armors
 Butchering now require proficiency to do it fast and effectively
 Functioning toasters
+Zombies make zombie sounds
+Allow multiple possible loading screens, including from mods
+Grazing animals actually eat grass, and it regrows every season
 
 
 ## Content:
@@ -417,6 +420,8 @@ Add imgui version of the iteminfo window
 Updated default keybindings for changing start dates in character creation menu
 rewrite the loading screen to use ImGui
 Custom loading screen the game deserves
+wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
+Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 
 
 ## Mods:
@@ -660,6 +665,8 @@ Isolation Protocol: Add roguelike style health regen and pain reduction
 [Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON 
 XE Playable Gracken 
 [Magiclysm] Add spell school deficiency traits
+Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
+[Xedra Evolved] Add playable changelings
 
 
 ## Balance:
@@ -1108,6 +1115,7 @@ Added support for multiple randomized field sprite variants
 JSON-ify sleep-affecting mutations
 Extend/delete support for harvest lists
 Migrate ACT_PULP to the new activity actor system.
+Migrate ACT_WAIT_STAMINA to an activity_actor
 
 
 ## Build:
