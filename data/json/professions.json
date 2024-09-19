@@ -7123,7 +7123,7 @@
     "points": 6,
     "skills": [
       { "level": 7, "name": "firstaid" },
-      { "level": 3, "name": "speech" },
+      { "level": 3, "name": "speech" }
     ],
     "traits": [ "PROF_MED" ],
     "proficiencies": [
