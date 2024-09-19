@@ -31,5 +31,24 @@
     "see_cost": "spaced_high",
     "extras": "marloss",
     "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_fungus_01",
+    "name": "strange house",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": "high",
+    "spawns": { "group": "GROUP_FUNGI_ZOMBIE", "population": [ 6, 8 ], "chance": 100 },
+    "extras": "marloss"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_fungus_roof_01",
+    "name": "house roof",
+    "sym": "H",
+    "color": "cyan",
+    "see_cost": "high",
+    "spawns": { "group": "GROUP_FUNGI_ZOMBIE", "population": [ 0, 3 ], "chance": 4 }
   }
 ]

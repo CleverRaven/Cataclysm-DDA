@@ -29,7 +29,6 @@
 #include "units.h"
 #include "value_ptr.h"
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AIM( "ACT_AIM" );
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 static const activity_id ACT_ATM( "ACT_ATM" );
@@ -54,7 +53,6 @@ static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
 static const activity_id ACT_WORKOUT_HARD( "ACT_WORKOUT_HARD" );
 static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
@@ -142,8 +140,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         return std::optional<std::string>();
     }
 
-    if( type == ACT_ADV_INVENTORY ||
-        type == ACT_AIM ||
+    if( type == ACT_AIM ||
         type == ACT_ARMOR_LAYERS ||
         type == ACT_ATM ||
         type == ACT_CONSUME_DRINK_MENU ||
@@ -151,8 +148,8 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         type == ACT_CONSUME_MEDS_MENU ||
         type == ACT_EAT_MENU ||
         type == ACT_INVOKE_ITEM ||
-        type == ACT_PICKUP_MENU ||
-        type == ACT_VIEW_RECIPE ) {
+        type == ACT_PICKUP_MENU
+      ) {
         return std::nullopt;
     }
 

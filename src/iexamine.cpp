@@ -4811,9 +4811,11 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         int amount_tmp = use_ammotype ?
                          count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
                          count_charges_in_list( ammo, here.i_at( examp ) );
-        if( allow_unload && amount_tmp > 0 ) {
+        if( amount_tmp > 0 ) {
             ammo_loaded = ammo;
             amount_in_furn = amount_tmp;
+        }
+        if( allow_unload && amount_tmp > 0 ) {
             if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                               ammo_itypeID->nname( amount_in_furn ) ) ) {
                 map_stack items = here.i_at( examp );

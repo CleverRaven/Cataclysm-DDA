@@ -2621,7 +2621,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
 
         // iuse_actor really needs to work with item_location
         item_location item_loc = form_loc( *you, p, it );
-        game_menus::inv::insert_items( *you->as_avatar(), item_loc );
+        game_menus::inv::insert_items( item_loc );
     }
 
     return 0;
