@@ -5511,7 +5511,7 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can glide from ledges, and wings will help you mitigate falling damage provided the height is not too great.",
+    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
