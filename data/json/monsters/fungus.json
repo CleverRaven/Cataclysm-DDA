@@ -695,7 +695,6 @@
     "harvest": "fungaloid",
     "special_attacks": [ [ "FUNGUS", 20 ], [ "PARROT", 0 ] ],
     "death_function": { "effect": { "id": "death_fungus", "hit_self": true } },
-    "death_drops": "default_zombie_death_drops",
     "flags": [ "SEES", "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE" ],
     "armor": { "bash": 2 }
   }
