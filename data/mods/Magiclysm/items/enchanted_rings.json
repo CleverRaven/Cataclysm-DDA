@@ -485,5 +485,23 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_fire_protection",
+    "price_postapoc": "6000 USD",
+    "name": { "str": "ring of fire protection", "str_pl": "rings of fire protection" },
+    "description": "A golden ring with a dappled pattern that protects you from fire.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_HEAT", "multiply": -0.5 } ],
+          "ench_effects": [ { "effect": "effect_mring_fire_protection", "intensity": 1 } ]
+        }
+      ]
+    }
   }
 ]

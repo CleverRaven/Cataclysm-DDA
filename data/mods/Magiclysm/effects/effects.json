@@ -1395,6 +1395,14 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_mring_fire_protection",
+    "//": "Hidden effect, used so the ring of fire protection will stop you from being set on fire",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "onfire" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
