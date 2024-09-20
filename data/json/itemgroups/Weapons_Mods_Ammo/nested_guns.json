@@ -2326,19 +2326,6 @@
     ]
   },
   {
-    "id": "nested_rm20",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "rm20", "charges": [ 0, 20 ] },
-      { "item": "20x66_20_mag" },
-      { "item": "20x66_20_mag", "prob": 50 },
-      { "group": "on_hand_20x66mm" }
-    ]
-  },
-  {
     "id": "nested_mossberg_590",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
