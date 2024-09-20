@@ -580,6 +580,28 @@
     "base_casting_time": 100
   },
   {
+    "id": "classless_restore_crystal_mana",
+    "//": "This spell does not have a corresponding Dabbler hobby because it's literally useless on its own.",
+    "type": "SPELL",
+    "name": "Mana Extraction",
+    "description": "Return crystallized mana into raw mana and absorb it, restoring some of your mana.  The process is slow and not very efficient, but it's easier to transport than mana potions.",
+    "message": "You slowly crush the crystallized mana and as it flares into a burst of light, absorb the now-free mana.",
+    "valid_targets": [ "self" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "SOMATIC", "NO_LEGS", "RANDOM_DAMAGE" ],
+    "effect": "recover_energy",
+    "effect_str": "MANA",
+    "shape": "blast",
+    "components": "spell_components_restore_crystal_mana",
+    "difficulty": 3,
+    "max_level": 10,
+    "min_damage": { "math": [ "(u_spell_level('classless_restore_crystal_mana') * 10) + 50" ] },
+    "max_damage": { "math": [ "(u_spell_level('classless_restore_crystal_mana') * 30) + 150" ] },
+    "energy_source": "MANA",
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "base_energy_cost": 0,
+    "base_casting_time": 12000
+  },
+  {
     "id": "eoc_evocation_setup",
     "type": "SPELL",
     "name": "Set Up Proficiency: Evocation",

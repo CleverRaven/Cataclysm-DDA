@@ -1583,6 +1583,7 @@
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
           { "item": "spell_scroll_blinding_flash", "prob": 50 },
+          { "item": "spell_scroll_classless_restore_crystal_mana", "prob": 40 },
           { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 },
           { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 50 }
         ],
