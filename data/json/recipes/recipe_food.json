@@ -7051,10 +7051,12 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "1 m 45 s",
+    "time": "10 m",
+    "batch_time_factors": [ 80, 2 ],
     "charges": 1,
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "//": "80-100g of meat: 7u, 5u for the cornmeal and oil",
     "components": [
