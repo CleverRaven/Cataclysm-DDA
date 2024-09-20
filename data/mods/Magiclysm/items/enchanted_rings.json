@@ -492,7 +492,8 @@
     "id": "mring_fire_protection",
     "price_postapoc": "6000 USD",
     "name": { "str": "ring of fire protection", "str_pl": "rings of fire protection" },
-    "description": "A golden ring with a dappled pattern that protects you from fire.",
+    "description": "A crimsonite ring with a dappled pattern that protects you from fire.",
+    "replace_materials": { "gold": "crimsonite_metal" },
     "relic_data": {
       "passive_effects": [
         {
