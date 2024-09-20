@@ -1,0 +1,26 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_dwarf",
+    "name": { "str": "zombie dwarf" },
+    "copy-from": "mon_zombie_tough",
+    "description": "Once a proud dwarf, this zombie now has rent flesh and a beard in tatters.  Its face is twisted in an expression of rage.",
+    "proportional": { "speed": 0.9, "volume": 0.7, "weight": 0.9 },
+    "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
+    "vision_day": 15,
+    "vision_night": 8,
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_DWARF_UPGRADE" }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zombie_elf",
+    "name": { "str": "zombie elf" },
+    "copy-from": "mon_zombie",
+    "description": "Its face twisted in an expression of pure rage and with glassy eyes, this elf looks nothing like the ethereal elves from before the Cataclysm.  Though it also lacks the elves' characteristic grace, its movements are quieter than the other dead.",
+    "proportional": { "hp": 0.82, "speed": 1.03, "weight": 0.85 },
+    "//": "Better night vision than default zombies, but not as good as living dwarves, and worse day vision.",
+    "vision_night": 5,
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_ELF_UPGRADE" },
+    "extend": { "flags": [ "QUIETMOVES" ] }
+  }
+]
