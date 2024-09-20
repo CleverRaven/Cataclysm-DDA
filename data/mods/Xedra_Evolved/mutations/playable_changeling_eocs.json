@@ -831,7 +831,7 @@
     "effect": [ { "u_deactivate_trait": "POOKA_HORNS" }, { "u_add_trait": "ANTLERS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -849,7 +849,7 @@
     "effect": [ { "u_deactivate_trait": "POOKA_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -867,7 +867,7 @@
     "effect": [ { "u_add_trait": "FANGS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -885,7 +885,7 @@
     "effect": [ { "u_add_trait": "SABER_TEETH" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -903,7 +903,7 @@
     "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -921,7 +921,7 @@
     "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -939,7 +939,7 @@
     "effect": [ { "u_add_trait": "CLAWS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -957,7 +957,7 @@
     "effect": [ { "u_add_trait": "CLAWS_ST" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -975,7 +975,7 @@
     "effect": [ { "u_add_trait": "WINGS_BIRD" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -993,7 +993,7 @@
     "effect": [ { "u_deactivate_trait": "POOKA_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -1011,7 +1011,7 @@
     "effect": [ { "u_deactivate_trait": "POOKA_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -1029,7 +1029,7 @@
     "effect": [ { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -1047,7 +1047,7 @@
     "effect": [ { "u_deactivate_trait": "POOKA_QUADRUPED_TRAITS" }, { "u_add_trait": "LEAPING_LEGS" } ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -1069,7 +1069,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -1091,7 +1091,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
@@ -1113,7 +1113,7 @@
     ],
     "false_effect": [
       {
-        "u_message": "You are in the form of an animal.  You must turn back bfore shapeshifting individual parts of your body.",
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
         "type": "bad"
       },
       { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
