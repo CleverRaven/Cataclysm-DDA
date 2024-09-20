@@ -455,45 +455,6 @@
     "melee_damage": { "stab": 6 }
   },
   {
-    "id": "rm121aux",
-    "copy-from": "underbarrel_base",
-    "type": "GUNMOD",
-    "name": { "str": "caseless aux shotgun" },
-    "description": "Designated the Rivtech RM121 auxiliary weapon system, this is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.",
-    "variant_type": "gun",
-    "variants": [
-      {
-        "id": "rm121aux",
-        "name": { "str": "RM121 aux shotgun" },
-        "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines."
-      }
-    ],
-    "weight": "1140 g",
-    "volume": "750 ml",
-    "longest_side": "380 mm",
-    "price": "1 kUSD 200 USD",
-    "price_postapoc": "50 USD",
-    "install_time": "5 m",
-    "material": [ "superalloy", "ceramic" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "underbarrel",
-    "blacklist_mod": [ "knife_combat_army", "knife_combat", "enfield_bayonet", "knife_combat_marine", "makeshift_bayonet", "sword_bayonet" ],
-    "mod_targets": [ "rifle", "crossbow" ],
-    "gun_data": { "barrel_length": "419 mm", "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
-    "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "20x66_10_mag" ] } ]
-  },
-  {
-    "id": "rm121aux_mod",
-    "copy-from": "rm121aux",
-    "type": "GUNMOD",
-    "name": { "str": "modified RM121 aux shotgun" },
-    "description": "The Rivtech RM121 auxiliary weapon system is a magazine-fed semi-automatic caseless shotgun, which can be mounted under the barrel of many rifles.  Accepts RMSA10 box magazines.  This one was modified and customized to mount on pretty much any weapon other than pistols, if you so want.",
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "u_shotgun",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",

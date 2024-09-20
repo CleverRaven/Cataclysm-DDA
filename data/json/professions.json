@@ -134,7 +134,7 @@
     "subtype": "collection",
     "id": "charged_electrical_measuring",
     "entries": [
-      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "voltmeter" },
+      { "item": "voltmeter" },
       { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "multimeter" }
     ]
   },
