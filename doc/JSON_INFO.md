@@ -188,6 +188,7 @@ Use the `Home` key to return to the top.
       - [`curtain_transform`](#curtain_transform)
       - [`shoot`](#shoot)
       - [`harvest_by_season`](#harvest_by_season)
+      - [`liquid_source`](#liquid_source)
       - [`roof`](#roof)
     - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
       - [`id`](#id-1)
