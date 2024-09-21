@@ -14908,8 +14908,7 @@ std::vector<item_comp> item::get_uncraft_components() const
                 if( component.has_flag( flag_UNRECOVERABLE ) ) {
                     continue;
                 }
-                // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
-                auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
+                auto iter = std::find_if( ret.begin(), ret.end(), [&component]( item_comp & obj ) {
                     return obj.type == component.typeId();
                 } );
 
