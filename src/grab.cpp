@@ -106,7 +106,7 @@ bool game::grabbed_veh_move( const tripoint_rel_ms &dp )
     valid_wheels = grabbed_vehicle->valid_wheel_config();
     if( valid_wheels ) {
         //check for bad push/pull angle
-        if( veh_has_solid && !veh_single_tile ) {
+        if( veh_has_solid && !veh_single_tile && grabbed_vehicle->steering_effectiveness() > 0 ) {
             tileray my_dir;
             my_dir.init( dp.xy().raw() );
             units::angle face_delta = angle_delta( grabbed_vehicle->face.dir(), my_dir.dir() );
