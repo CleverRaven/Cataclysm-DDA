@@ -1539,6 +1539,11 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
+    "id": "MORPHIC",
+    "type": "json_flag",
+    "info": "This is <info>naturally sized to the body</info>."
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag"
   },
