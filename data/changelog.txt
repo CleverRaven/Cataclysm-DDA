@@ -6,7 +6,7 @@ After over a year, we can finally release 0.H, boasting more changes than any pr
 
 Oceans! Travel far enough east and you'll be greeted by a sandy shore.
 Furthermore, the map changes as you travel. The farther east you travel, the bigger cities will be. Cities in the west will start to be farther apart. The forest will get more dense the farther north or west you travel.
-Portal storms are no longer engulfing the entire map and will move. A new boss fight related to portal storms, the void spider, can also be found.
+Portal storms are no longer engulfing the entire map and will move around while active. Additionally, in the depths of the earth now lurks an otherworldly horror: fight the new void spider boss if you can find its lair.
 New mod: Mind over Matter - adds detailed psionics to the game, along with a variety of new monsters, scenarios and game mechanics.
 New scenario: Friends to the End. Ever wanted a NPC companion that feels more alive? With Liam you get a friend that cares and helps out during key moments.
 A massive nuclear power plant has been added. Get ready to explore its giant interior with proper gear.
