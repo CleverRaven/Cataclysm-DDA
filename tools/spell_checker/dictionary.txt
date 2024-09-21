@@ -5474,6 +5474,8 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifting
+shapeshifts
 shapeshifter
 Shardspray
 Shardstorm
