@@ -200,14 +200,32 @@
   },
   {
     "type": "mutation",
+    "id": "STR_UP_4",
+    "copy-from": "STR_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_TROW" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_TROW" ] }
+  },
+  {
+    "type": "mutation",
     "id": "DEX_UP_3",
     "copy-from": "DEX_UP_3",
     "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
   },
   {
     "type": "mutation",
+    "id": "DEX_UP_4",
+    "copy-from": "DEX_UP_4",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_BROWNIE" ] }
+  },
+  {
+    "type": "mutation",
     "id": "PER_UP_3",
     "copy-from": "PER_UP_3",
+    "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PER_UP_4",
+    "copy-from": "PER_UP_4",
     "extend": { "category": [ "FAIR_FOLK_COMMONER_POOKA" ], "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ] }
   },
   {
@@ -470,6 +488,26 @@
   },
   {
     "type": "mutation",
+    "id": "PER_UP_BROWNIE",
+    "name": { "str": "Seneschal's Gaze" },
+    "points": 3,
+    "description": "With a few quick glances you can take in the contents of an entire room.  +3 Perception.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "INT_UP_BROWNIE",
+    "name": { "str": "Chatelain's Mind" },
+    "points": 2,
+    "description": "It takes a keen mind to keep a household running smoothly.  +2 Intelligence.",
+    "prereqs": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_BROWNIE" ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "BROWNIE_HOMEBODY",
     "name": { "str": "Homebody" },
     "description": "Brownies know every corner of their homes, all the well-worn grooves in the floor and the quick paths from place to place.  Your speed is increased the longer you spend in the same area.",
@@ -518,6 +556,16 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_CHARM_ANIMALS",
+    "name": { "str": "Friend to Birds and Beasts" },
+    "points": 3,
+    "description": "You are close enough to the birds and beasts that you can speak their language and ask them for aid.",
+    "prereqs": [ "ANIMALEMPATH2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "spells_learned": [ [ "changeling_pooka_charm_animals_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_ANTLERS",
     "name": { "str": "Antlers (Shapeshift)" },
     "points": 2,
@@ -528,6 +576,47 @@
     "activated_eocs": [ "EOC_POOKA_ANTLERS_ON" ],
     "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
     "deactivated_eocs": [ "EOC_POOKA_ANTLERS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_HORNS",
+    "name": { "str": "Curled Horns (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of spiraling curled horns, allowing you to make a headbutt attack but preventing you from wearing a helmet.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_HORNS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_HORNS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_FANGS",
+    "name": { "str": "Fangs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of sharp fangs, allowing you to make a bite attack.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "changes_to": [ "POOKA_SABER_TEETH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_FANGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_FANGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SABER_TEETH",
+    "name": { "str": "Vicious Fangs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a set of long, saber-like fangs, preventing you from wearing mouth gear but allowing you to make rending bite attacks.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "prereqs": [ "POOKA_FANGS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SABER_TEETH_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_SABER_TEETH_OFF" ]
   },
   {
     "type": "mutation",
@@ -544,11 +633,25 @@
   },
   {
     "type": "mutation",
+    "id": "POOKA_FELINE_EARS",
+    "name": { "str": "Feline Ears (Shapeshift)" },
+    "points": 2,
+    "description": "Change your ears into the ears of a great cat, granting you increased hearing.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_FELINE_EARS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_FELINE_EARS_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "POOKA_CLAWS",
     "name": { "str": "Claws (Shapeshift)" },
     "points": 2,
     "description": "Grow a set of claws, improving your unarmed damage if you aren't wearing gloves.",
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "changes_to": [ "POOKA_STAINLESS_CLAWS" ],
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_POOKA_CLAWS_ON" ],
@@ -559,14 +662,110 @@
     "type": "mutation",
     "id": "POOKA_STAINLESS_CLAWS",
     "name": { "str": "Vicious Claws (Shapeshift)" },
-    "points": 2,
+    "points": 4,
     "description": "Grow a powerful set of claws, nearly as hard as steel, greatly improving your unarmed damage if you aren't wearing gloves.",
     "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "prereqs": [ "POOKA_CLAWS" ],
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_ON" ],
     "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
     "deactivated_eocs": [ "EOC_POOKA_STAINLESS_CLAWS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_BIRD_WINGS",
+    "name": { "str": "Bird Wings (Shapeshift)" },
+    "points": 2,
+    "description": "Transform your arms into bird wings, allow you to slow your fall when jumping from a high place and glide short distances.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_BIRD_WINGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_BIRD_WINGS_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_URSINE_FUR",
+    "name": { "str": "Thick Fur (Shapeshift)" },
+    "points": 2,
+    "description": "Grow a coat of thick fur, keeping you warm in the winter and protecting you from attacks.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_URSINE_FUR_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_URSINE_FUR_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_CHITIN",
+    "name": { "str": "Chitin Carapace (Shapeshift)" },
+    "points": 2,
+    "description": "Grow an armored suit of chitin, protecting you and making your punches hit harder.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_CHITIN_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_CHITIN_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_QUADRUPED",
+    "name": { "str": "Quadruped (Shapeshift)" },
+    "points": 2,
+    "description": "Grow paws and animal-like legs, allowing you to run much faster on all fours, but preventing you from wearing shoes or gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_QUADRUPED_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_QUADRUPED_OFF" ]
+  },
+  {
+    "//": "The existing quadruped mutations check for thresholds so we need this custom one.",
+    "type": "mutation",
+    "id": "POOKA_QUADRUPED_TRAITS",
+    "name": { "str": "Quadruped" },
+    "points": 2,
+    "visibility": 8,
+    "ugliness": 6,
+    "description": "Your arms, hands, and legs are animal-like, allowing you to move quickly when running on all fours, but preventing you from wearing shoes or gloves.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "restricts_gear": [ "foot_l", "foot_r", "hand_l", "hand_r" ],
+    "triggers": [
+      [
+        {
+          "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" } ] },
+          "msg_on": { "text": "You drop down on all fours." },
+          "msg_off": { "text": "You come out of your quadrupedal posture." }
+        }
+      ]
+    ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [ { "or": [ { "u_has_move_mode": "crouch" }, { "u_has_move_mode": "run" } ] }, { "not": "u_can_drop_weapon" } ]
+        },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.5 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_LEAPING_LEGS",
+    "name": { "str": "Leaping Legs (Shapeshift)" },
+    "points": 2,
+    "description": "Grow strong frog- or cat-like legs, allowing you to leap great distances.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_LEAPING_LEGS_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_LEAPING_LEGS_OFF" ]
   },
   {
     "type": "mutation",
@@ -593,6 +792,318 @@
     "activated_eocs": [ "EOC_POOKA_TAIL_LONG_ON" ],
     "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
     "deactivated_eocs": [ "EOC_POOKA_TAIL_LONG_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_TAIL_STING",
+    "name": { "str": "Spiked Tail (Shapeshift)" },
+    "points": 2,
+    "description": "Grow the tail of a scorpion, making it harder to wear pants but allowing you to attack with the stinger.",
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_TAIL_STING_ON" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFTING_MANA_CHECK" ],
+    "deactivated_eocs": [ "EOC_POOKA_TAIL_STING_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "STR_UP_POOKA",
+    "name": { "str": "Bestial Strength" },
+    "points": 2,
+    "description": "Even when not shapeshifted you can bring part of a wild animal's strength to bear.  +2 Strength.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "DEX_UP_POOKA",
+    "name": { "str": "Untamed Agility" },
+    "points": 3,
+    "description": "You have the quick reactions of a wild animal.  +3 Dexterity.",
+    "prereqs": [ "PARACLESIAN_STR_DEX_1", "PARACLESIAN_STR_DEX_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD",
+    "name": { "str": "Initiate of Forms" },
+    "points": 2,
+    "description": "You are getting better at shapeshifting and are able to maintain one more simultaneous shapeshift without drawing on your mana.",
+    "changes_to": [ "POOKA_SHAPESHIFT_GOOD2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD2",
+    "name": { "str": "Adept of Forms" },
+    "points": 4,
+    "description": "You are getting much better at shapeshifting and are able to maintain two more simultaneous shapeshifts without drawing on your mana.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD" ],
+    "changes_to": [ "POOKA_SHAPESHIFT_GOOD3" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_GOOD3",
+    "name": { "str": "Master of Forms" },
+    "points": 6,
+    "description": "You are a master of shapeshifting and are able to maintain four more simultaneous shapeshifts without drawing on your mana.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD2" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_SELECTOR",
+    "name": { "str": "Pinnacle of Forms" },
+    "points": 6,
+    "description": "This gives you access to the full shapeshift traits.  You should never seen it.",
+    "prereqs": [ "POOKA_SHAPESHIFT_GOOD2", "POOKA_SHAPESHIFT_GOOD3" ],
+    "player_display": false,
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_POOKA" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_BAT",
+    "name": { "str": "Spirit of the Bat" },
+    "points": 10,
+    "description": "You can transform yourself into a bat.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_RAVEN",
+    "name": { "str": "Spirit of the Raven" },
+    "points": 10,
+    "description": "You can transform yourself into a raven.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_BEAR",
+    "name": { "str": "Spirit of the Bear" },
+    "points": 10,
+    "description": "You can transform yourself into a bear.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_DEER",
+    "name": { "str": "Spirit of the Deer" },
+    "points": 10,
+    "description": "You can transform yourself into a deer.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_WOLF",
+    "name": { "str": "Spirit of the Wolf" },
+    "points": 10,
+    "description": "You can transform yourself into a wolf.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SHAPESHIFT_FULL_COUGAR",
+    "name": { "str": "Spirit of the Cougar" },
+    "points": 10,
+    "description": "You can transform yourself into a cougar.",
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated" ],
+    "processed_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED" ],
+    "deactivated_eocs": [ "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_UNARMED_ATTACK_BONUSES",
+    "name": { "str": "Instinctive Attacks" },
+    "points": 3,
+    "description": "You're getting used to moving and reacting like an animal.  When without weapons or armor and using your gifts of shapeshifting, your natural attacks do more damage.",
+    "prereqs": [ "POOKA_ANTLERS", "POOKA_HORNS", "POOKA_FANGS", "POOKA_SABER_TEETH" ],
+    "prereqs2": [ "POOKA_CLAWS", "POOKA_STAINLESS_CLAWS", "POOKA_TAIL_STING" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
+            {
+              "u_has_any_trait": [ "ANTLERS", "HORNS_CURLED", "FANGS", "SABER_TEETH", "CLAWS", "CLAWS_ST", "TAIL_STING" ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "MELEE_DAMAGE",
+            "multiply": { "math": [ "0.1 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.01)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_UNARMED_DODGE_BONUSES",
+    "name": { "str": "Animalistic Defense" },
+    "points": 5,
+    "description": "The best defense is not getting hit, especially if you're a wild animal.  When using your shapeshifting and not wearing armor or using a weapon, you gain a bonus to your dodging.",
+    "prereqs": [ "POOKA_UNARMED_ATTACK_BONUSES" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
+            {
+              "u_has_any_trait": [
+                "ANTLERS",
+                "HORNS_CURLED",
+                "FANGS",
+                "SABER_TEETH",
+                "CLAWS",
+                "CLAWS_ST",
+                "WINGS_BIRD",
+                "URSINE_FUR",
+                "CHITIN2",
+                "POOKA_QUADRUPED_TRAITS",
+                "TAIL_FLUFFY",
+                "TAIL_LONG"
+              ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "BONUS_DODGE",
+            "add": { "math": [ "min( (1 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.1)),4)" ] }
+          },
+          {
+            "value": "DODGE_CHANCE",
+            "add": { "math": [ "min( (2 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 0.25) ),12)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "POOKA_SPEED_BONUSES",
+    "name": { "str": "Primal Alacrity" },
+    "points": 3,
+    "description": "Like the animals you mimic, you're quicker than you seem.  You gain a speed bonus while shapeshifted as long as you're unarmed and unarmored.",
+    "prereqs": [ "POOKA_UNARMED_ATTACK_BONUSES" ],
+    "prereqs2": [ "WINGS_BIRD", "POOKA_LEAPING_LEGS", "POOKA_QUADRUPED", "TAIL_FLUFFY", "TAIL_LONG" ],
+    "category": [ "FAIR_FOLK_COMMONER_POOKA" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "not": "u_can_drop_weapon" },
+            { "not": { "u_has_worn_with_flag": "STURDY" } },
+            {
+              "u_has_any_trait": [
+                "ANTLERS",
+                "HORNS_CURLED",
+                "FANGS",
+                "SABER_TEETH",
+                "CLAWS",
+                "CLAWS_ST",
+                "WINGS_BIRD",
+                "URSINE_FUR",
+                "CHITIN2",
+                "TAIL_FLUFFY",
+                "TAIL_LONG"
+              ]
+            },
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "VAMPIRE_BAT_FORM_TRAITS",
+                  "TURN_INTO_RAVEN_TRAITS",
+                  "TURN_INTO_BEAR_TRAITS",
+                  "TURN_INTO_DEER_TRAITS",
+                  "VAMPIRE_WOLF_FORM_TRAITS",
+                  "TURN_INTO_COUGAR_TRAITS"
+                ]
+              }
+            }
+          ]
+        },
+        "values": [
+          {
+            "value": "SPEED",
+            "add": {
+              "math": [
+                "min( (3 + (u_has_trait('ANTLERS') * 2) + (u_has_trait('HORNS_CURLED') * 2) + (u_has_trait('FANGS') * 2) + (u_has_trait('SABER_TEETH') * 2) + (u_has_trait('CLAWS') * 2) + (u_has_trait('CLAWS_ST') * 2) + (u_has_trait('WINGS_BIRD') * 2) + (u_has_trait('URSINE_FUR') * 2) + (u_has_trait('CHITIN2') * 2) + (u_has_trait('TAIL_FLUFFY') * 2) + (u_has_trait('TAIL_LONG') * 2) ),30)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

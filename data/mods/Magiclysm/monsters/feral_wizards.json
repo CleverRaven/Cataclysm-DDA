@@ -34,7 +34,7 @@
         "type": "spell",
         "spell_data": { "id": "spell_feral_wizard_base" },
         "monster_message": "%1$s chants and gestures erratically!",
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "cooldown": 10
       },
       [ "BROWSE", 100 ],
@@ -94,7 +94,7 @@
         "damage_max_instance": [ { "damage_type": "nether", "amount": 7 } ],
         "dodgeable": false,
         "blockable": false,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
@@ -107,6 +107,7 @@
         "type": "spell",
         "spell_data": { "id": "blinding_flash", "min_level": 0 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s gestures and light explodes everywhere!"
       },
       {
@@ -118,7 +119,7 @@
         "range": 8,
         "throw_strength": 40,
         "blockable": false,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s gestures at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s gestures at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s gestures at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -171,6 +172,7 @@
         "type": "spell",
         "spell_data": { "id": "stormshaper_wall_of_fog", "min_level": 3 },
         "cooldown": 15,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "monster_message": "%1$s gestures and a sudden force slams you to the ground!"
       },
       {
@@ -178,7 +180,7 @@
         "type": "spell",
         "spell_data": { "id": "feral_rad_mage_rad_spell", "min_level": 5 },
         "cooldown": 25,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s makes arcane motions and the air is filled with burning gas!"
       },
       {
@@ -186,7 +188,7 @@
         "type": "spell",
         "spell_data": { "id": "mirror_image_rad_mage", "min_level": 0 },
         "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s smiles and duplicates appear!"
       },
       {
@@ -194,7 +196,7 @@
         "type": "spell",
         "spell_data": { "id": "feral_rad_mage_summon_spell", "min_level": 0 },
         "cooldown": 30,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s intones words of power and a corpse claws its way out of the ground!"
       },
       {
@@ -202,7 +204,7 @@
         "type": "spell",
         "spell_data": { "id": "disjunction_monster", "min_level": 8 },
         "cooldown": 50,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands in a gesture of negation!"
       },
       [ "BROWSE", 100 ],
@@ -267,7 +269,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "min_level": 10, "hit_self": true },
         "cooldown": 25,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s weaves their hands in a complicated gesture!"
       },
       {
@@ -280,7 +282,7 @@
         "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ],
         "dodgeable": true,
         "blockable": false,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s screams words of magic and jagged shards of wood impact your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and jagged shards of wood impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid jagged shards of wood!",
@@ -293,7 +295,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
         "cooldown": 35,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       [ "BROWSE", 100 ],
@@ -345,7 +347,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_heal_spell", "min_level": 25, "hit_self": true },
         "cooldown": 20,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s weaves their hands in a complicated gesture!"
       },
       {
@@ -359,7 +361,7 @@
         "effects": [ { "id": "root_impale", "duration": 60, "chance": 100, "affect_hit_bp": false } ],
         "dodgeable": true,
         "blockable": false,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s screams words of magic and sharp roots thrust from the ground into your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and sharp roots thrust from the ground into <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid sharp roots thrusting from the ground!",
@@ -372,7 +374,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
         "cooldown": 25,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       {
@@ -380,7 +382,7 @@
         "type": "spell",
         "spell_data": { "id": "summon_wolf_druid_monster", "min_level": 10 },
         "cooldown": 45,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s throws back their head and howls!"
       },
       [ "BROWSE", 100 ],
@@ -443,6 +445,7 @@
         "effects_require_dmg": false,
         "dodgeable": false,
         "blockable": false,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
         "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
         "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
@@ -458,12 +461,13 @@
         "move_cost": 100,
         "range": 12,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 25 } ],
-        "hit_dmg_u": "%1$s rumbles words of magic and heavy chunks of rock impact your %2$s!",
-        "hit_dmg_npc": "%1$s rumbles words of magic and heavy chunks of rock impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s rumbles words of magic and you narrowly avoid heavy chunks of rock!",
-        "miss_msg_npc": "%1$s rumbles words of magic and <npcname> narrowly avoids heavy chunks of rock!",
-        "no_dmg_msg_u": "%1$s rumbles words of magic your %2$s is impacted by heavy chunks of rock, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s rumbles words of magic and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
+        "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
+        "miss_msg_npc": "%1$s makes a throwing gesture and <npcname> narrowly avoids heavy chunks of rock!",
+        "no_dmg_msg_u": "%1$s makes a throwing gesture your %2$s is impacted by heavy chunks of rock, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s makes a throwing gesture and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
       },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
@@ -522,6 +526,7 @@
         "effects_require_dmg": false,
         "dodgeable": false,
         "blockable": false,
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
         "hit_dmg_u": "%1$s stomps heavily and the ground shakes!",
         "hit_dmg_npc": "%1$s stomps heavily and the ground shakes!",
         "miss_msg_u": "%1$s stomps heavily and the ground shakes!",
@@ -537,12 +542,13 @@
         "move_cost": 100,
         "range": 12,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ],
-        "hit_dmg_u": "%1$s rumbles words of magic and heavy chunks of rock impact your %2$s!",
-        "hit_dmg_npc": "%1$s rumbles words of magic and heavy chunks of rock impact <npcname>'s %2$s!",
-        "miss_msg_u": "%1$s rumbles words of magic and you narrowly avoid heavy chunks of rock!",
-        "miss_msg_npc": "%1$s rumbles words of magic and <npcname> narrowly avoids heavy chunks of rock!",
-        "no_dmg_msg_u": "%1$s rumbles words of magic and your %2$s is impacted by heavy chunks of rock, but they do no damage.",
-        "no_dmg_msg_npc": "%1$s rumbles words of magic and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "hit_dmg_u": "%1$s makes a throwing gesture and heavy chunks of rock impact your %2$s!",
+        "hit_dmg_npc": "%1$s makes a throwing gesture and heavy chunks of rock impact <npcname>'s %2$s!",
+        "miss_msg_u": "%1$s makes a throwing gesture and you narrowly avoid heavy chunks of rock!",
+        "miss_msg_npc": "%1$s makes a throwing gesture and <npcname> narrowly avoids heavy chunks of rock!",
+        "no_dmg_msg_u": "%1$s makes a throwing gesture your %2$s is impacted by heavy chunks of rock, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s makes a throwing gesture and <npcname>'s %2$s is impacted by heavy chunks of rock, but they do no damage."
       },
       {
         "type": "monster_attack",
@@ -626,7 +632,7 @@
         "damage_max_instance": [ { "damage_type": "nether", "amount": 9 } ],
         "dodgeable": false,
         "blockable": false,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
@@ -639,7 +645,7 @@
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
         "cooldown": 30,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s screams words of magic."
       },
       {
@@ -647,7 +653,7 @@
         "type": "spell",
         "spell_data": { "id": "magus_light_target", "min_level": 5 },
         "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s screams words of magic and waves their hands."
       },
       {
@@ -655,7 +661,8 @@
         "type": "spell",
         "spell_data": { "id": "phase_door", "min_level": 6 },
         "cooldown": 15,
-        "monster_message": "%1$s screams words of magic and disappears."
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s makes a quick gesture and disappears."
       },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]
@@ -706,7 +713,7 @@
         "range": 15,
         "damage_max_instance": [ { "damage_type": "nether", "amount": 30 } ],
         "blockable": false,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s screams words of magic and an eldritch bolt impacts your %2$s!",
         "hit_dmg_npc": "%1$s screams words of magic and an eldritch bolt impacts <npcname>'s %2$s!",
         "miss_msg_u": "%1$s screams words of magic and you narrowly avoid an eldritch bolt!",
@@ -719,6 +726,7 @@
         "type": "spell",
         "spell_data": { "id": "dispel_magic_monster", "min_level": 5 },
         "cooldown": 30,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s screams words of magic."
       },
       {
@@ -726,7 +734,7 @@
         "type": "spell",
         "spell_data": { "id": "magus_light_target", "min_level": 5 },
         "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s screams words of magic and waves their hands."
       },
       {
@@ -734,7 +742,7 @@
         "type": "spell",
         "spell_data": { "id": "magus_slow", "min_level": 3 },
         "cooldown": 35,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s screams words of magic and the world suddenly starts moving much slower."
       },
       {
@@ -742,15 +750,16 @@
         "type": "spell",
         "spell_data": { "id": "phase_door", "min_level": 10 },
         "cooldown": 15,
-        "condition": { "not": { "u_has_flag": "MUTE" } },
-        "monster_message": "%1$s screams words of magic and disappears."
+        "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
+        "monster_message": "%1$s makes a quick gesture and disappears."
       },
       {
         "id": "feral_high_magus_silence",
         "type": "spell",
         "spell_data": { "id": "magus_silence", "min_level": 5 },
         "cooldown": 25,
-        "monster_message": "%1$s screams words of magic and disappears."
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "monster_message": "%1$s screams words of magic and the sounds around you grow muffled."
       },
       [ "BROWSE", 100 ],
       [ "EAT_FOOD", 100 ]

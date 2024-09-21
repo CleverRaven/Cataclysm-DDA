@@ -22,5 +22,24 @@
     "name": [ "" ],
     "desc": [ "" ],
     "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "alienfoodpoison",
+    "name": [ "Food Poisoning" ],
+    "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],
+    "//": "Separate id because there's no reason Poison Resistance would help you against alien toxins.",
+    "apply_message": "Your stomach is seized with cramps!",
+    "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
+    "rating": "bad",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "str_mod": [ -3, -1 ],
+      "speed_mod": [ -20 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 300, 900 ],
+      "vomit_chance": [ 600, 1200 ]
+    }
   }
 ]

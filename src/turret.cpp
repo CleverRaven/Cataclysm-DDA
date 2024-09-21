@@ -33,6 +33,8 @@ static const skill_id skill_gun( "gun" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
 
+static const trait_id trait_GUNSHY( "GUNSHY" );
+
 std::vector<vehicle_part *> vehicle::turrets()
 {
     std::vector<vehicle_part *> res;
@@ -413,6 +415,12 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
     if( player_character.has_trait( trait_BRAWLER ) ) {
         player_character.add_msg_if_player(
             _( "Pfft.  You are a brawler; using turrets is beneath you." ) );
+        return false;
+    }
+    if( player_character.has_trait( trait_GUNSHY ) ) {
+        // Check if any turret is a firearm
+        player_character.add_msg_if_player(
+            _( "Firing a gun isn't any better, even if it's mounted." ) );
         return false;
     }
 
