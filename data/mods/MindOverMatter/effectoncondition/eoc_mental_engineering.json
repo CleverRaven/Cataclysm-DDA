@@ -610,7 +610,7 @@
             ]
           },
           {
-            "case": 6,
+            "case": 5,
             "effect": [
               { "u_lose_trait": "PACIFIST" },
               {
@@ -620,11 +620,11 @@
             ]
           },
           {
-            "case": 7,
+            "case": 6,
             "effect": [ { "u_add_trait": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
           },
           {
-            "case": 8,
+            "case": 7,
             "effect": [
               { "u_lose_trait": "NUMB" },
               {
@@ -634,7 +634,7 @@
             ]
           },
           {
-            "case": 10,
+            "case": 8,
             "effect": [
               { "u_lose_trait": "NYCTOPHOBIA" },
               {
@@ -644,7 +644,7 @@
             ]
           },
           {
-            "case": 12,
+            "case": 9,
             "effect": [
               { "u_lose_trait": "VANITY" },
               {
@@ -654,7 +654,7 @@
             ]
           },
           {
-            "case": 14,
+            "case": 10,
             "effect": [
               { "u_lose_trait": "PICKYEATER" },
               {
@@ -664,7 +664,7 @@
             ]
           },
           {
-            "case": 15,
+            "case": 11,
             "effect": [
               { "u_add_trait": "SOCIAL1" },
               {
@@ -674,7 +674,7 @@
             ]
           },
           {
-            "case": 16,
+            "case": 12,
             "effect": [
               { "u_lose_trait": "SOCIAL1" },
               {
@@ -684,7 +684,7 @@
             ]
           },
           {
-            "case": 17,
+            "case": 13,
             "effect": [
               { "u_add_trait": "SOCIAL2" },
               { "u_lose_trait": "SOCIAL1" },
@@ -695,7 +695,7 @@
             ]
           },
           {
-            "case": 18,
+            "case": 14,
             "effect": [
               { "u_lose_trait": "SOCIAL2" },
               { "u_add_trait": "SOCIAL1" },
@@ -706,7 +706,7 @@
             ]
           },
           {
-            "case": 19,
+            "case": 15,
             "effect": [
               { "u_add_trait": "ASOCIAL1" },
               {
@@ -716,7 +716,7 @@
             ]
           },
           {
-            "case": 20,
+            "case": 16,
             "effect": [
               { "u_lose_trait": "ASOCIAL1" },
               {
@@ -726,7 +726,7 @@
             ]
           },
           {
-            "case": 21,
+            "case": 17,
             "effect": [
               { "u_add_trait": "ASOCIAL2" },
               { "u_lose_trait": "ASOCIAL1" },
@@ -737,7 +737,7 @@
             ]
           },
           {
-            "case": 22,
+            "case": 18,
             "effect": [
               { "u_lose_trait": "ASOCIAL2" },
               { "u_add_trait": "ASOCIAL1" },
@@ -748,7 +748,7 @@
             ]
           },
           {
-            "case": 24,
+            "case": 19,
             "effect": [
               { "u_lose_trait": "HATES_WATER" },
               {
@@ -758,14 +758,14 @@
             ]
           },
           {
-            "case": 25,
+            "case": 20,
             "effect": [
               { "u_add_trait": "OUTDOORSMAN" },
               { "u_message": "Being wet is just a natural part of living.  Especially now.", "type": "good" }
             ]
           },
           {
-            "case": 28,
+            "case": 21,
             "effect": [
               { "u_lose_trait": "BRAWLER" },
               {
@@ -775,7 +775,7 @@
             ]
           },
           {
-            "case": 30,
+            "case": 22,
             "effect": [
               { "u_lose_trait": "WAYFARER" },
               {
@@ -785,11 +785,11 @@
             ]
           },
           {
-            "case": 32,
+            "case": 23,
             "effect": [ { "u_lose_trait": "NOMAD" }, { "u_message": "You cannot wait to finally settle down.", "type": "good" } ]
           },
           {
-            "case": 34,
+            "case": 24,
             "effect": [
               { "u_lose_trait": "NOMAD2" },
               { "u_add_trait": "NOMAD" },
@@ -800,7 +800,7 @@
             ]
           },
           {
-            "case": 36,
+            "case": 25,
             "effect": [
               { "u_lose_trait": "NOMAD3" },
               { "u_add_trait": "NOMAD2" },
@@ -808,7 +808,7 @@
             ]
           },
           {
-            "case": 38,
+            "case": 26,
             "effect": [
               { "u_lose_trait": "SQUEAMISH" },
               {
@@ -818,7 +818,7 @@
             ]
           },
           {
-            "case": 37,
+            "case": 27,
             "effect": [
               { "u_add_trait": "PROF_DICEMASTER" },
               {
@@ -828,7 +828,7 @@
             ]
           },
           {
-            "case": 41,
+            "case": 28,
             "effect": [
               { "u_add_trait": "PYROMANIA" },
               {
@@ -838,7 +838,7 @@
             ]
           },
           {
-            "case": 42,
+            "case": 29,
             "effect": [
               { "u_lose_trait": "PYROMANIA" },
               {
@@ -848,14 +848,14 @@
             ]
           },
           {
-            "case": 44,
+            "case": 30,
             "effect": [
               { "u_lose_trait": "TRUTHTELLER" },
               { "u_message": "You can now lie to your hearts content!  Mostly to a mirror.", "type": "good" }
             ]
           },
           {
-            "case": 45,
+            "case": 31,
             "effect": [
               { "u_add_trait": "LIAR" },
               {
@@ -865,7 +865,7 @@
             ]
           },
           {
-            "case": 46,
+            "case": 32,
             "effect": [
               { "u_lose_trait": "LIAR" },
               {
@@ -875,11 +875,11 @@
             ]
           },
           {
-            "case": 48,
+            "case": 33,
             "effect": [ { "u_lose_trait": "VEGAN" }, { "u_message": "You could use a hamburger.", "type": "good" } ]
           },
           {
-            "case": 49,
+            "case": 34,
             "effect": [
               { "u_add_trait": "STRICT_HUMANITARIAN" },
               {
@@ -889,14 +889,14 @@
             ]
           },
           {
-            "case": 50,
+            "case": 35,
             "effect": [
               { "u_lose_trait": "STRICT_HUMANITARIAN" },
               { "u_message": "How were you able to eat those humany things so easily?", "type": "bad" }
             ]
           },
           {
-            "case": 51,
+            "case": 36,
             "effect": [
               { "u_add_trait": "CANNIBAL" },
               {
@@ -906,11 +906,11 @@
             ]
           },
           {
-            "case": 52,
+            "case": 37,
             "effect": [ { "u_lose_trait": "CANNIBAL" }, { "u_message": "What have you done?", "type": "bad" } ]
           },
           {
-            "case": 54,
+            "case": 38,
             "effect": [
               { "u_lose_trait": "MOODSWINGS" },
               {
@@ -920,7 +920,7 @@
             ]
           },
           {
-            "case": 55,
+            "case": 39,
             "effect": [
               { "u_add_trait": "SAVANT" },
               {
@@ -930,7 +930,7 @@
             ]
           },
           {
-            "case": 56,
+            "case": 40,
             "effect": [
               { "u_lose_trait": "SAVANT" },
               {
@@ -940,21 +940,21 @@
             ]
           },
           {
-            "case": 58,
+            "case": 41,
             "effect": [
               { "u_lose_trait": "HOARDER" },
               { "u_message": "You almost sigh in relief at all the stuff you can get rid of.", "type": "good" }
             ]
           },
           {
-            "case": 60,
+            "case": 42,
             "effect": [
               { "u_lose_trait": "SCHIZOPHRENIC" },
               { "u_message": "Its been so long since you've been alone in your head.", "type": "good" }
             ]
           },
           {
-            "case": 62,
+            "case": 43,
             "effect": [
               { "u_lose_trait": "SLOWREADER" },
               {
@@ -964,14 +964,14 @@
             ]
           },
           {
-            "case": 63,
+            "case": 44,
             "effect": [
               { "u_add_trait": "FASTREADER" },
               { "u_message": "No amount of reading assignments will ever get you down.", "type": "good" }
             ]
           },
           {
-            "case": 68,
+            "case": 45,
             "effect": [
               { "u_lose_trait": "ADDICTIVE" },
               {
@@ -981,7 +981,7 @@
             ]
           },
           {
-            "case": 69,
+            "case": 46,
             "effect": [
               { "u_add_trait": "NONADDICTIVE" },
               {
@@ -991,33 +991,26 @@
             ]
           },
           {
-            "case": 72,
+            "case": 47,
             "effect": [
               { "u_lose_trait": "FORGETFUL" },
               { "u_message": "Everything in the past seems just a little clearer.", "type": "good" }
             ]
           },
           {
-            "case": 73,
+            "case": 48,
             "effect": [
               { "u_add_trait": "GOODMEMORY" },
               { "u_message": "The past, your skills, really just everything seems so much clearer.", "type": "good" }
             ]
           },
           {
-            "case": 74,
-            "effect": [
-              { "u_lose_trait": "GOODMEMORY" },
-              { "u_message": "What used to be crystal clear is now a bit foggy.", "type": "bad" }
-            ]
-          },
-          {
-            "case": 75,
+            "case": 49,
             "effect": [ { "u_add_trait": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
           },
-          { "case": 76, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
+          { "case": 50, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
           {
-            "case": 78,
+            "case": 51,
             "effect": [
               { "u_lose_trait": "HATES_BOOKS" },
               {
@@ -1027,36 +1020,36 @@
             ]
           },
           {
-            "case": 79,
+            "case": 52,
             "effect": [
               { "u_add_trait": "LOVES_BOOKS" },
               { "u_message": "You cannot wait to curl up with a good book for a couple of hours.", "type": "good" }
             ]
           },
           {
-            "case": 82,
+            "case": 53,
             "effect": [ { "u_lose_trait": "SLOWLEARNER" }, { "u_message": "New ideas seem to piece together normally.", "type": "good" } ]
           },
           {
-            "case": 83,
+            "case": 54,
             "effect": [
               { "u_add_trait": "FASTLEARNER" },
               { "u_message": "You can piece together new concepts even now.", "type": "good" }
             ]
           },
           {
-            "case": 86,
+            "case": 55,
             "effect": [
               { "u_lose_trait": "DISORGANIZED" },
               { "u_message": "It just became quicker to sort out your backpack.", "type": "good" }
             ]
           },
           {
-            "case": 87,
+            "case": 56,
             "effect": [ { "u_add_trait": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
           },
           {
-            "case": 90,
+            "case": 57,
             "effect": [
               { "u_lose_trait": "BADTEMPER" },
               {
@@ -1066,11 +1059,11 @@
             ]
           },
           {
-            "case": 91,
+            "case": 58,
             "effect": [ { "u_add_trait": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
           },
           {
-            "case": 94,
+            "case": 59,
             "effect": [
               { "u_lose_trait": "SEASONAL_AFFECTIVE" },
               {
@@ -1080,43 +1073,43 @@
             ]
           },
           {
-            "case": 96,
+            "case": 60,
             "effect": [
               { "u_lose_trait": "UNOBSERVANT" },
               { "u_message": "You suddenly have a much better idea of the area around you!", "type": "good" }
             ]
           },
           {
-            "case": 97,
+            "case": 61,
             "effect": [ { "u_add_trait": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
           },
           {
-            "case": 99,
+            "case": 62,
             "effect": [ { "u_add_trait": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
           },
           {
-            "case": 100,
+            "case": 63,
             "effect": [
               { "u_lose_trait": "STYLISH" },
               { "u_message": "Your previous source of clothing-based happiness means nothing to you.", "type": "bad" }
             ]
           },
           {
-            "case": 101,
+            "case": 64,
             "effect": [
               { "u_add_trait": "MASOCHIST" },
               { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
           {
-            "case": 102,
+            "case": 65,
             "effect": [
               { "u_lose_trait": "MASOCHIST" },
               { "u_message": "The aches and pains of combat suddenly seem far less appealing.", "type": "bad" }
             ]
           },
           {
-            "case": 103,
+            "case": 66,
             "effect": [
               { "u_add_trait": "SPIRITUAL" },
               {
@@ -1126,18 +1119,18 @@
             ]
           },
           {
-            "case": 104,
+            "case": 67,
             "effect": [
               { "u_lose_trait": "SPIRITUAL" },
               { "u_message": "Your prior source of comfort with your life is now gone.", "type": "bad" }
             ]
           },
           {
-            "case": 106,
+            "case": 68,
             "effect": [ { "u_lose_trait": "TABLEMANNERS" }, { "u_message": "Do you really need a table to eat a sandwich?", "type": "good" } ]
           },
           {
-            "case": 108,
+            "case": 69,
             "effect": [
               { "u_lose_trait": "INATTENTIVE" },
               {
@@ -1232,7 +1225,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "6" ] }
+      { "math": [ "u_mentality_picked", "=", "5" ] }
     ]
   },
   {
@@ -1253,7 +1246,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "7" ] }
+      { "math": [ "u_mentality_picked", "=", "6" ] }
     ]
   },
   {
@@ -1266,7 +1259,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "8" ] }
+      { "math": [ "u_mentality_picked", "=", "7" ] }
     ]
   },
   {
@@ -1284,7 +1277,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "10" ] }
+      { "math": [ "u_mentality_picked", "=", "8" ] }
     ]
   },
   {
@@ -1297,7 +1290,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "12" ] }
+      { "math": [ "u_mentality_picked", "=", "9" ] }
     ]
   },
   {
@@ -1310,7 +1303,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "14" ] }
+      { "math": [ "u_mentality_picked", "=", "10" ] }
     ]
   },
   {
@@ -1333,7 +1326,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "15" ] }
+      { "math": [ "u_mentality_picked", "=", "11" ] }
     ]
   },
   {
@@ -1346,7 +1339,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "16" ] }
+      { "math": [ "u_mentality_picked", "=", "12" ] }
     ]
   },
   {
@@ -1365,7 +1358,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "17" ] }
+      { "math": [ "u_mentality_picked", "=", "13" ] }
     ]
   },
   {
@@ -1378,7 +1371,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "18" ] }
+      { "math": [ "u_mentality_picked", "=", "14" ] }
     ]
   },
   {
@@ -1401,7 +1394,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "19" ] }
+      { "math": [ "u_mentality_picked", "=", "15" ] }
     ]
   },
   {
@@ -1414,7 +1407,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "20" ] }
+      { "math": [ "u_mentality_picked", "=", "16" ] }
     ]
   },
   {
@@ -1433,7 +1426,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "21" ] }
+      { "math": [ "u_mentality_picked", "=", "17" ] }
     ]
   },
   {
@@ -1446,7 +1439,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "22" ] }
+      { "math": [ "u_mentality_picked", "=", "18" ] }
     ]
   },
   {
@@ -1465,7 +1458,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "24" ] }
+      { "math": [ "u_mentality_picked", "=", "19" ] }
     ]
   },
   {
@@ -1485,7 +1478,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "25" ] }
+      { "math": [ "u_mentality_picked", "=", "20" ] }
     ]
   },
   {
@@ -1504,7 +1497,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "28" ] }
+      { "math": [ "u_mentality_picked", "=", "21" ] }
     ]
   },
   {
@@ -1517,7 +1510,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "30" ] }
+      { "math": [ "u_mentality_picked", "=", "22" ] }
     ]
   },
   {
@@ -1530,7 +1523,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "32" ] }
+      { "math": [ "u_mentality_picked", "=", "23" ] }
     ]
   },
   {
@@ -1543,7 +1536,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "34" ] }
+      { "math": [ "u_mentality_picked", "=", "24" ] }
     ]
   },
   {
@@ -1556,7 +1549,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "36" ] }
+      { "math": [ "u_mentality_picked", "=", "25" ] }
     ]
   },
   {
@@ -1569,7 +1562,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "38" ] }
+      { "math": [ "u_mentality_picked", "=", "26" ] }
     ]
   },
   {
@@ -1588,7 +1581,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "39" ] }
+      { "math": [ "u_mentality_picked", "=", "27" ] }
     ]
   },
   {
@@ -1603,7 +1596,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "41" ] }
+      { "math": [ "u_mentality_picked", "=", "28" ] }
     ]
   },
   {
@@ -1616,7 +1609,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "42" ] }
+      { "math": [ "u_mentality_picked", "=", "29" ] }
     ]
   },
   {
@@ -1635,7 +1628,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "44" ] }
+      { "math": [ "u_mentality_picked", "=", "30" ] }
     ]
   },
   {
@@ -1655,7 +1648,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "45" ] }
+      { "math": [ "u_mentality_picked", "=", "31" ] }
     ]
   },
   {
@@ -1679,7 +1672,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "47" ] }
+      { "math": [ "u_mentality_picked", "=", "32" ] }
     ]
   },
   {
@@ -1692,7 +1685,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "48" ] }
+      { "math": [ "u_mentality_picked", "=", "33" ] }
     ]
   },
   {
@@ -1716,7 +1709,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "49" ] }
+      { "math": [ "u_mentality_picked", "=", "34" ] }
     ]
   },
   {
@@ -1731,7 +1724,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "50" ] }
+      { "math": [ "u_mentality_picked", "=", "35" ] }
     ]
   },
   {
@@ -1755,7 +1748,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "51" ] }
+      { "math": [ "u_mentality_picked", "=", "36" ] }
     ]
   },
   {
@@ -1768,7 +1761,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "52" ] }
+      { "math": [ "u_mentality_picked", "=", "37" ] }
     ]
   },
   {
@@ -1787,7 +1780,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "54" ] }
+      { "math": [ "u_mentality_picked", "=", "38" ] }
     ]
   },
   {
@@ -1802,7 +1795,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "55" ] }
+      { "math": [ "u_mentality_picked", "=", "39" ] }
     ]
   },
   {
@@ -1815,7 +1808,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "56" ] }
+      { "math": [ "u_mentality_picked", "=", "40" ] }
     ]
   },
   {
@@ -1828,7 +1821,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "58" ] }
+      { "math": [ "u_mentality_picked", "=", "41" ] }
     ]
   },
   {
@@ -1847,7 +1840,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "60" ] }
+      { "math": [ "u_mentality_picked", "=", "42" ] }
     ]
   },
   {
@@ -1866,7 +1859,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "62" ] }
+      { "math": [ "u_mentality_picked", "=", "43" ] }
     ]
   },
   {
@@ -1887,7 +1880,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "63" ] }
+      { "math": [ "u_mentality_picked", "=", "44" ] }
     ]
   },
   {
@@ -1900,7 +1893,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "68" ] }
+      { "math": [ "u_mentality_picked", "=", "45" ] }
     ]
   },
   {
@@ -1920,7 +1913,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "69" ] }
+      { "math": [ "u_mentality_picked", "=", "46" ] }
     ]
   },
   {
@@ -1933,7 +1926,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "72" ] }
+      { "math": [ "u_mentality_picked", "=", "47" ] }
     ]
   },
   {
@@ -1952,7 +1945,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "73" ] }
+      { "math": [ "u_mentality_picked", "=", "48" ] }
     ]
   },
   {
@@ -1972,7 +1965,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "75" ] }
+      { "math": [ "u_mentality_picked", "=", "49" ] }
     ]
   },
   {
@@ -1985,7 +1978,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "76" ] }
+      { "math": [ "u_mentality_picked", "=", "50" ] }
     ]
   },
   {
@@ -1998,7 +1991,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "78" ] }
+      { "math": [ "u_mentality_picked", "=", "51" ] }
     ]
   },
   {
@@ -2018,7 +2011,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "79" ] }
+      { "math": [ "u_mentality_picked", "=", "52" ] }
     ]
   },
   {
@@ -2037,7 +2030,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "82" ] }
+      { "math": [ "u_mentality_picked", "=", "53" ] }
     ]
   },
   {
@@ -2058,7 +2051,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "83" ] }
+      { "math": [ "u_mentality_picked", "=", "54" ] }
     ]
   },
   {
@@ -2071,7 +2064,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "86" ] }
+      { "math": [ "u_mentality_picked", "=", "55" ] }
     ]
   },
   {
@@ -2090,7 +2083,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "87" ] }
+      { "math": [ "u_mentality_picked", "=", "56" ] }
     ]
   },
   {
@@ -2109,7 +2102,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "90" ] }
+      { "math": [ "u_mentality_picked", "=", "57" ] }
     ]
   },
   {
@@ -2130,7 +2123,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "91" ] }
+      { "math": [ "u_mentality_picked", "=", "58" ] }
     ]
   },
   {
@@ -2145,7 +2138,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "94" ] }
+      { "math": [ "u_mentality_picked", "=", "59" ] }
     ]
   },
   {
@@ -2164,7 +2157,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "96" ] }
+      { "math": [ "u_mentality_picked", "=", "60" ] }
     ]
   },
   {
@@ -2184,7 +2177,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "97" ] }
+      { "math": [ "u_mentality_picked", "=", "61" ] }
     ]
   },
   {
@@ -2199,7 +2192,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "99" ] }
+      { "math": [ "u_mentality_picked", "=", "62" ] }
     ]
   },
   {
@@ -2212,7 +2205,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "100" ] }
+      { "math": [ "u_mentality_picked", "=", "63" ] }
     ]
   },
   {
@@ -2232,7 +2225,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "101" ] }
+      { "math": [ "u_mentality_picked", "=", "64" ] }
     ]
   },
   {
@@ -2245,7 +2238,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "102" ] }
+      { "math": [ "u_mentality_picked", "=", "65" ] }
     ]
   },
   {
@@ -2260,7 +2253,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "103" ] }
+      { "math": [ "u_mentality_picked", "=", "66" ] }
     ]
   },
   {
@@ -2273,7 +2266,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "104" ] }
+      { "math": [ "u_mentality_picked", "=", "67" ] }
     ]
   },
   {
@@ -2286,7 +2279,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "106" ] }
+      { "math": [ "u_mentality_picked", "=", "68" ] }
     ]
   },
   {
@@ -2305,7 +2298,7 @@
         "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
-      { "math": [ "u_mentality_picked", "=", "108" ] }
+      { "math": [ "u_mentality_picked", "=", "69" ] }
     ]
   },
   {
