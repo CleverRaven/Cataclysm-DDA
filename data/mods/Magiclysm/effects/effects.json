@@ -1395,6 +1395,23 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_mring_fire_protection",
+    "//": "Hidden effect, used so the ring of fire protection will stop you from being set on fire",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "onfire" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ring_of_flight",
+    "name": [ "Flying" ],
+    "desc": [ "You're flying." ],
+    "rating": "good",
+    "remove_message": "Your magical flight ends.",
+    "flags": [ "CLIMB_FLYING", "LEVITATION" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1610,7 +1627,8 @@
       "gravity_mage_melee",
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
-      "effect_burning_trail"
+      "effect_burning_trail",
+      "effect_ring_of_flight"
     ]
   },
   {

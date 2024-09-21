@@ -510,6 +510,7 @@
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "item": "mring_fire_protection", "prob": 3 },
       { "group": "enchanted_combat_items", "prob": 10 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "magical_reagents", "prob": 8 },
@@ -733,6 +734,7 @@
       { "item": "mring_speed_7", "prob": 10 },
       { "item": "mring_protection_6", "prob": 10 },
       { "item": "storage_ring_greater", "prob": 10 },
+      { "item": "mring_fire_protection", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -748,6 +750,7 @@
       { "item": "mring_perception_4", "prob": 10 },
       { "item": "mring_speed_10", "prob": 10 },
       { "item": "mring_protection_8", "prob": 10 },
+      { "item": "mring_flying", "prob": 10 },
       { "item": "mring_wizardry_greater", "prob": 5 }
     ]
   },
