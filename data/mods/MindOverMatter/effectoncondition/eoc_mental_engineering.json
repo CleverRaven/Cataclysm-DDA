@@ -575,7 +575,7 @@
           {
             "case": 1,
             "effect": [
-              { "u_mutate_towards": "PSYCHOPATH" },
+              { "u_add_trait": "PSYCHOPATH" },
               { "u_message": "It's a good thing that all of those people don't really matter.", "type": "neutral" }
             ]
           },
@@ -592,7 +592,7 @@
           {
             "case": 3,
             "effect": [
-              { "u_mutate_towards": "KILLER" },
+              { "u_add_trait": "KILLER" },
               {
                 "u_message": "Its a good thing the Cataclysm has given you more targets than you'll ever be able to kill.  You can dream about it though.",
                 "type": "neutral"
@@ -621,7 +621,7 @@
           },
           {
             "case": 7,
-            "effect": [ { "u_mutate_towards": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
+            "effect": [ { "u_add_trait": "NUMB" }, { "u_message": "Nothing seems to matter anymore.", "type": "neutral" } ]
           },
           {
             "case": 8,
@@ -666,7 +666,7 @@
           {
             "case": 15,
             "effect": [
-              { "u_mutate_towards": "SOCIAL1" },
+              { "u_add_trait": "SOCIAL1" },
               {
                 "u_message": "Since there's so few people left alive, you're at least happy that you generally enjoy their company.",
                 "type": "good"
@@ -686,7 +686,7 @@
           {
             "case": 17,
             "effect": [
-              { "u_mutate_towards": "SOCIAL2" },
+              { "u_add_trait": "SOCIAL2" },
               { "u_lose_trait": "SOCIAL1" },
               {
                 "u_message": "You absolutely love and absolutely need to be able to talk to people.  You cannot believe that the Cataclysm is getting in the way of that!",
@@ -698,7 +698,7 @@
             "case": 18,
             "effect": [
               { "u_lose_trait": "SOCIAL2" },
-              { "u_mutate_towards": "SOCIAL1" },
+              { "u_add_trait": "SOCIAL1" },
               {
                 "u_message": "As much as you enjoy a good conversation, you've gotten over the reality that people just aren't around anymore. You'll have to live with that.",
                 "type": "good"
@@ -708,7 +708,7 @@
           {
             "case": 19,
             "effect": [
-              { "u_mutate_towards": "ASOCIAL1" },
+              { "u_add_trait": "ASOCIAL1" },
               {
                 "u_message": "Since there's so few people left alive, you are no longer forced to talk with anyone.",
                 "type": "good"
@@ -728,7 +728,7 @@
           {
             "case": 21,
             "effect": [
-              { "u_mutate_towards": "ASOCIAL2" },
+              { "u_add_trait": "ASOCIAL2" },
               { "u_lose_trait": "ASOCIAL1" },
               {
                 "u_message": "You absolutely detest having to interact with anyone else!  Its a good thing you'll never have to again!",
@@ -740,7 +740,7 @@
             "case": 22,
             "effect": [
               { "u_lose_trait": "ASOCIAL2" },
-              { "u_mutate_towards": "ASOCIAL1" },
+              { "u_add_trait": "ASOCIAL1" },
               {
                 "u_message": "Your prior level of hatred of social interaction was a bit much.  You no longer enjoy the solitude quite as much but you definitely don't have a problem with other people anymore.",
                 "type": "good"
@@ -760,7 +760,7 @@
           {
             "case": 25,
             "effect": [
-              { "u_mutate_towards": "OUTDOORSMAN" },
+              { "u_add_trait": "OUTDOORSMAN" },
               { "u_message": "Being wet is just a natural part of living.  Especially now.", "type": "good" }
             ]
           },
@@ -792,7 +792,7 @@
             "case": 34,
             "effect": [
               { "u_lose_trait": "NOMAD2" },
-              { "u_mutate_towards": "NOMAD" },
+              { "u_add_trait": "NOMAD" },
               {
                 "u_message": "The thought of that far-away place seems just a little less necessary.  You still want to go there though.",
                 "type": "good"
@@ -803,7 +803,7 @@
             "case": 36,
             "effect": [
               { "u_lose_trait": "NOMAD3" },
-              { "u_mutate_towards": "NOMAD2" },
+              { "u_add_trait": "NOMAD2" },
               { "u_message": "Perhaps you can wait a couple of minutes before leaving.", "type": "good" }
             ]
           },
@@ -820,7 +820,7 @@
           {
             "case": 37,
             "effect": [
-              { "u_mutate_towards": "PROF_DICEMASTER" },
+              { "u_add_trait": "PROF_DICEMASTER" },
               {
                 "u_message": "You know, maybe you can find some people to DM with.  If not though, you think that there's probably some side benefits to adjusting your head this way.",
                 "type": "good"
@@ -830,7 +830,7 @@
           {
             "case": 41,
             "effect": [
-              { "u_mutate_towards": "PYROMANIA" },
+              { "u_add_trait": "PYROMANIA" },
               {
                 "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
                 "type": "neutral"
@@ -857,7 +857,7 @@
           {
             "case": 45,
             "effect": [
-              { "u_mutate_towards": "LIAR" },
+              { "u_add_trait": "LIAR" },
               {
                 "u_message": "You can instinctively tell ways to mislead others.  Their reactions are just so predictable.",
                 "type": "good"
@@ -881,7 +881,7 @@
           {
             "case": 49,
             "effect": [
-              { "u_mutate_towards": "STRICT_HUMANITARIAN" },
+              { "u_add_trait": "STRICT_HUMANITARIAN" },
               {
                 "u_message": "Your palette just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
                 "type": "good"
@@ -898,7 +898,7 @@
           {
             "case": 51,
             "effect": [
-              { "u_mutate_towards": "CANNIBAL" },
+              { "u_add_trait": "CANNIBAL" },
               {
                 "u_message": "Your fellow survivors just got a lot more attractive.  To your taste buds.",
                 "type": "good"
@@ -922,7 +922,7 @@
           {
             "case": 55,
             "effect": [
-              { "u_mutate_towards": "SAVANT" },
+              { "u_add_trait": "SAVANT" },
               {
                 "u_message": "Its hard to even understand how you used to think.  There's only one thing that makes sense now.",
                 "type": "neutral"
@@ -966,7 +966,7 @@
           {
             "case": 63,
             "effect": [
-              { "u_mutate_towards": "FASTREADER" },
+              { "u_add_trait": "FASTREADER" },
               { "u_message": "No amount of reading assignments will ever get you down.", "type": "good" }
             ]
           },
@@ -983,7 +983,7 @@
           {
             "case": 69,
             "effect": [
-              { "u_mutate_towards": "NONADDICTIVE" },
+              { "u_add_trait": "NONADDICTIVE" },
               {
                 "u_message": "You suddenly feel that you're less likely to become unhealthily obsessed with things.",
                 "type": "good"
@@ -1000,7 +1000,7 @@
           {
             "case": 73,
             "effect": [
-              { "u_mutate_towards": "GOODMEMORY" },
+              { "u_add_trait": "GOODMEMORY" },
               { "u_message": "The past, your skills, really just everything seems so much clearer.", "type": "good" }
             ]
           },
@@ -1013,7 +1013,7 @@
           },
           {
             "case": 75,
-            "effect": [ { "u_mutate_towards": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
+            "effect": [ { "u_add_trait": "PROJUNK" }, { "u_message": "You'd love to have a snicker.", "type": "good" } ]
           },
           { "case": 76, "effect": [ { "u_lose_trait": "PROJUNK" }, { "u_message": "Candy.  Meh.", "type": "bad" } ] },
           {
@@ -1029,7 +1029,7 @@
           {
             "case": 79,
             "effect": [
-              { "u_mutate_towards": "LOVES_BOOKS" },
+              { "u_add_trait": "LOVES_BOOKS" },
               { "u_message": "You cannot wait to curl up with a good book for a couple of hours.", "type": "good" }
             ]
           },
@@ -1040,7 +1040,7 @@
           {
             "case": 83,
             "effect": [
-              { "u_mutate_towards": "FASTLEARNER" },
+              { "u_add_trait": "FASTLEARNER" },
               { "u_message": "You can piece together new concepts even now.", "type": "good" }
             ]
           },
@@ -1053,7 +1053,7 @@
           },
           {
             "case": 87,
-            "effect": [ { "u_mutate_towards": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
+            "effect": [ { "u_add_trait": "PACKMULE" }, { "u_message": "Time to start packing!", "type": "good" } ]
           },
           {
             "case": 90,
@@ -1067,7 +1067,7 @@
           },
           {
             "case": 91,
-            "effect": [ { "u_mutate_towards": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
+            "effect": [ { "u_add_trait": "OPTIMISTIC" }, { "u_message": "You feel happy.", "type": "good" } ]
           },
           {
             "case": 94,
@@ -1088,11 +1088,11 @@
           },
           {
             "case": 97,
-            "effect": [ { "u_mutate_towards": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
+            "effect": [ { "u_add_trait": "EAGLEEYED" }, { "u_message": "You know exactly where you are.", "type": "good" } ]
           },
           {
             "case": 99,
-            "effect": [ { "u_mutate_towards": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
+            "effect": [ { "u_add_trait": "STYLISH" }, { "u_message": "Time to find some rings.", "type": "good" } ]
           },
           {
             "case": 100,
@@ -1104,7 +1104,7 @@
           {
             "case": 101,
             "effect": [
-              { "u_mutate_towards": "MASOCHIST" },
+              { "u_add_trait": "MASOCHIST" },
               { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
@@ -1118,7 +1118,7 @@
           {
             "case": 103,
             "effect": [
-              { "u_mutate_towards": "SPIRITUAL" },
+              { "u_add_trait": "SPIRITUAL" },
               {
                 "u_message": "You can now see the things unexplainable by science.  And right now, that's your entire life.",
                 "type": "good"
