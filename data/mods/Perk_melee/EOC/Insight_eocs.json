@@ -8,10 +8,12 @@
     },
     "effect": [
       {
-        "if": { "u_has_flag": "MELEE_PERK_SIXTH_SENSE" },
+        "if": {
+          "and": [ { "u_has_flag": "MELEE_PERK_SIXTH_SENSE" }, { "math": [ "u_effect_intensity('perk_insight')", "<", "20" ] } ]
+        },
         "then": [
           {
-            "if": { "math": [ "u_monsters_nearby('radius': 20)", ">", "0" ] },
+            "if": { "math": [ "u_monsters_nearby('radius': 15)", ">", "0" ] },
             "then": [ { "run_eoc_with": "EOC_GAIN_INSIGHT", "beta_talker": "avatar" } ]
           }
         ],
@@ -66,8 +68,8 @@
     "shape": "blast",
     "valid_targets": [ "hostile" ],
     "flags": [ "RANDOM_CRITTER", "RANDOM_TARGET", "NO_EXPLOSION_SFX", "SILENT" ],
-    "min_range": 20,
-    "max_range": 20,
+    "min_range": 15,
+    "max_range": 15,
     "effect": "effect_on_condition",
     "effect_str": "EOC_GAIN_INSIGHT"
   },
@@ -77,7 +79,7 @@
     "effect": [
       {
         "if": {
-          "or": [ { "npc_has_flag": "MELEE_PERK_INSIGHT_INFINITE" }, { "math": [ "n_effect_intensity('perk_insight')", "<", "19" ] } ]
+          "or": [ { "npc_has_flag": "MELEE_PERK_INSIGHT_INFINITE" }, { "math": [ "n_effect_intensity('perk_insight')", "<", "20" ] } ]
         },
         "then": [
           {
