@@ -27,13 +27,7 @@
           },
           {
             "case": 2,
-            "effect": [
-              { "u_mutate_towards": "KILLER" },
-              {
-                "u_message": "Your urge to commit violence grows.",
-                "type": "neutral"
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "KILLER" }, { "u_message": "Your urge to commit violence grows.", "type": "neutral" } ]
           },
           {
             "case": 3,
@@ -77,42 +71,27 @@
           },
           {
             "case": 7,
-            "effect": [
-              { "u_mutate_towards": "SOCIAL1" },
-              {
-                "u_message": "You feel a lot more sociable than previously.",
-                "type": "good"
-              }
-            ]
+            "effect": [ { "u_mutate_towards": "SOCIAL1" }, { "u_message": "You feel a lot more sociable than previously.", "type": "good" } ]
           },
           {
             "case": 8,
             "effect": [
               { "u_mutate_towards": "SOCIAL2" },
-              {
-                "u_message": "You feel an enormous need to interact with others!",
-                "type": "neutral"
-              }
+              { "u_message": "You feel an enormous need to interact with others!", "type": "neutral" }
             ]
           },
           {
             "case": 9,
             "effect": [
               { "u_mutate_towards": "ASOCIAL1" },
-              {
-                "u_message": "You feel much more comfortable at not interacting with people .",
-                "type": "good"
-              }
+              { "u_message": "You feel much more comfortable at not interacting with people .", "type": "good" }
             ]
           },
           {
             "case": 10,
             "effect": [
               { "u_mutate_towards": "ASOCIAL2" },
-              {
-                "u_message": "You feel an incredible need to avoid others!",
-                "type": "neutral"
-              }
+              { "u_message": "You feel an incredible need to avoid others!", "type": "neutral" }
             ]
           },
           {
@@ -276,10 +255,7 @@
           },
           {
             "case": 29,
-            "effect": [
-              { "u_mutate_towards": "HATES_BOOKS" },
-              { "u_message": "Your desire to read seems lesser.", "type": "bad" }
-            ]
+            "effect": [ { "u_mutate_towards": "HATES_BOOKS" }, { "u_message": "Your desire to read seems lesser.", "type": "bad" } ]
           },
           {
             "case": 30,
@@ -1032,10 +1008,7 @@
           },
           {
             "case": 54,
-            "effect": [
-              { "u_add_trait": "FASTLEARNER" },
-              { "u_message": "You can piece together new concepts even now.", "type": "good" }
-            ]
+            "effect": [ { "u_add_trait": "FASTLEARNER" }, { "u_message": "You can piece together new concepts even now.", "type": "good" } ]
           },
           {
             "case": 55,
@@ -1265,12 +1238,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_NYCTOPHOBIA_02",
-    "condition": {
-      "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] },
-        { "u_has_trait": "NYCTOPHOBIA" }
-      ]
-    },
+    "condition": { "and": [ { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "190" ] }, { "u_has_trait": "NYCTOPHOBIA" } ] },
     "effect": [
       { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
       {
