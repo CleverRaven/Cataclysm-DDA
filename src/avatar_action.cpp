@@ -843,8 +843,9 @@ void avatar_action::mend( avatar &you, item_location loc )
     }
 }
 
-bool avatar_action::eat_here( avatar &you )
+bool avatar_action::eat_here()
 {
+    avatar &you = get_avatar();
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos_bub() ) &&

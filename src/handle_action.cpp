@@ -2494,13 +2494,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_EAT:
-            if( !avatar_action::eat_here( player_character ) ) {
+            if( !avatar_action::eat_here() ) {
                 avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
             }
             break;
 
         case ACTION_OPEN_CONSUME:
-            if( !avatar_action::eat_here( player_character ) ) {
+            if( !avatar_action::eat_here() ) {
                 open_consume_item_menu();
             }
             break;
