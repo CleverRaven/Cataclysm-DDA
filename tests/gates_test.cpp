@@ -165,7 +165,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE( here.ter_set( pos, ter_t_door_c ) );
         REQUIRE( here.ter( pos ).obj().id == ter_t_door_c->id );
 
-        REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+        REQUIRE( avatar_action::move( tripoint_east ) );
 
         THEN( "avatar should spend move points" ) {
             CHECK( they.get_moves() == -open_move_cost );
@@ -175,7 +175,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE( here.ter_set( pos, ter_t_door_locked ) );
         REQUIRE( here.ter( pos ).obj().id == ter_t_door_locked->id );
 
-        REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+        REQUIRE_FALSE( avatar_action::move( tripoint_east ) );
 
         THEN( "avatar should not spend move points" ) {
             CHECK( they.get_moves() == 0 );
@@ -188,7 +188,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             REQUIRE( here.ter_set( pos, ter_t_window_no_curtains ) );
             REQUIRE( here.ter( pos ).obj().id == ter_t_window_no_curtains->id );
 
-            REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
+            REQUIRE_FALSE( avatar_action::move( tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
                 CHECK( they.get_moves() == 0 );
@@ -227,7 +227,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             REQUIRE( here.ter_set( pos, ter_t_window_no_curtains ) );
             REQUIRE( here.ter( pos ).obj().id == ter_t_window_no_curtains->id );
 
-            REQUIRE( avatar_action::move( they, here, tripoint_east ) );
+            REQUIRE( avatar_action::move( tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
                 CHECK( they.get_moves() == -open_move_cost );

@@ -176,8 +176,10 @@ static bool check_water_affect_items( avatar &you )
     return true;
 }
 
-bool avatar_action::move( avatar &you, map &m, const tripoint &d )
+bool avatar_action::move( const tripoint &d )
 {
+    avatar &you = get_avatar();
+    map &m = get_map();
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
@@ -703,7 +705,7 @@ void avatar_action::autoattack( avatar &you, map &m )
 
     const tripoint diff = best.pos() - you.pos();
     if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, tripoint( diff.xy(), 0 ) );
+        move( tripoint( diff.xy(), 0 ) );
         return;
     }
 

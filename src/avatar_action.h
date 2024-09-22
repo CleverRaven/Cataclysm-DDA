@@ -33,11 +33,7 @@ void eat_or_use( item_location loc );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool move( avatar &you, map &m, const tripoint &d );
-inline bool move( avatar &you, map &m, const point &d )
-{
-    return move( you, m, tripoint( d, 0 ) );
-}
+bool move( const tripoint &d );
 
 /** Handles swimming by the player. Called by avatar_action::move(). */
 void swim( map &m, avatar &you, const tripoint &p );
