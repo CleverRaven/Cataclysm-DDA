@@ -9,7 +9,6 @@
 #include "point.h"
 
 class aim_activity_actor;
-class avatar;
 class Character;
 class gun_mode;
 class item;
@@ -48,7 +47,7 @@ trajectory mode_turret_manual( turret_data &turret );
 trajectory mode_turrets( vehicle &veh, const std::vector<vehicle_part *> &turrets );
 
 /** Casting a spell */
-trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
+trajectory mode_spell( spell &casting, bool no_fail, bool no_mana );
 } // namespace target_handler
 
 void practice_archery_proficiency( Character &p, const item &relevant );

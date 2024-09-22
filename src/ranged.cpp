@@ -542,18 +542,17 @@ target_handler::trajectory target_handler::mode_turrets( vehicle &veh,
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casting, bool no_fail,
-        bool no_mana )
+target_handler::trajectory target_handler::mode_spell( spell &casting, bool no_fail, bool no_mana )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::Spell;
     ui.casting = &casting;
-    ui.range = casting.range( you );
+    ui.range = casting.range( *ui.you );
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
