@@ -448,14 +448,14 @@ class target_ui
         void on_target_accepted( bool harmful ) const;
 };
 
-target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
+target_handler::trajectory target_handler::mode_select_only( int range )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::SelectOnly;
     ui.range = range;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
