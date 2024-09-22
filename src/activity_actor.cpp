@@ -417,7 +417,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     g->temp_exit_fullscreen();
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    target_handler::trajectory trajectory = target_handler::mode_fire( *this );
     g->reenter_fullscreen();
 
     if( aborted ) {

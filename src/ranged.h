@@ -33,7 +33,7 @@ trajectory mode_select_only( int range );
 /**
  * Firing ranged weapon. This mode allows spending moves on aiming.
  */
-trajectory mode_fire( avatar &you, aim_activity_actor &activity );
+trajectory mode_fire( aim_activity_actor &activity );
 
 /** Throwing item */
 trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );

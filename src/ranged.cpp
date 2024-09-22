@@ -459,15 +459,15 @@ target_handler::trajectory target_handler::mode_select_only( int range )
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
+target_handler::trajectory target_handler::mode_fire( aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
     ui.relevant = &*activity.get_weapon();
     gun_mode gun = ui.relevant->gun_current_mode();
-    ui.range = gun.target->gun_range( &you );
+    ui.range = gun.target->gun_range( ui.you );
     ui.ammo = gun->ammo_data();
 
     return ui.run();
