@@ -47,7 +47,7 @@ void mend( item_location loc );
  * Used for validating ACT_AIM and turret weapon
  * @return True if all conditions are true, otherwise false.
  */
-bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
+bool can_fire_weapon( const item &weapon );
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
 void fire_wielded_weapon( avatar &you );
