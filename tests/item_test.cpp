@@ -866,7 +866,7 @@ TEST_CASE( "module_inheritance", "[item][armor]" )
     guy.wear_item( hat_hard );
     item_location worn_hat = guy.worn.top_items_loc( guy ).front();
     item_location worn_muffs( worn_hat, &worn_hat->only_item() );
-    avatar_action::use_item( guy, worn_muffs, "transform" );
+    avatar_action::use_item( worn_muffs, "transform" );
     CHECK( worn_hat->has_flag( json_flag_DEAF ) );
 }
 

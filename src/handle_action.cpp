@@ -2478,7 +2478,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_USE:
             // Shell-users are presumed to be able to mess with their inventories, etc
             // while in the shell.  Eating, gear-changing, and item use are OK.
-            avatar_action::use_item( player_character );
+            avatar_action::use_item();
             break;
 
         case ACTION_USE_WIELDED:

@@ -963,9 +963,8 @@ void Character::disp_medical()
             }
             info_scroll_position = 0;
         } else if( action == "APPLY" ) {
-            avatar *a = this->as_avatar();
-            if( a ) {
-                avatar_action::use_item( *a );
+            if( this->as_avatar() ) {
+                avatar_action::use_item();
             } else {
                 popup( _( "Applying not implemented for NPCs." ) );
             }

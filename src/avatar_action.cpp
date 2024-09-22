@@ -937,7 +937,7 @@ void avatar_action::eat( item_location &loc,
 void avatar_action::eat_or_use( avatar &you, item_location loc )
 {
     if( loc && loc->is_medical_tool() ) {
-        avatar_action::use_item( you, loc, "heal" );
+        avatar_action::use_item( loc, "heal" );
     } else {
         avatar_action::eat( loc );
     }
@@ -1065,14 +1065,15 @@ static void update_lum( item_location loc, bool add )
     }
 }
 
-void avatar_action::use_item( avatar &you )
+void avatar_action::use_item()
 {
     item_location loc;
-    avatar_action::use_item( you, loc );
+    avatar_action::use_item( loc );
 }
 
-void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
+void avatar_action::use_item( item_location &loc, std::string const &method )
 {
+    avatar &you = get_avatar();
     if( you.has_effect( effect_incorporeal ) ) {
         you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
         return;
