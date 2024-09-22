@@ -61,8 +61,7 @@ int range_with_even_chance_of_good_hit( int dispersion );
  * @param messages Used to store messages describing failed checks
  * @return True if all conditions are true
  */
-bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode );
+bool gunmode_checks_common( std::vector<std::string> &messages, const gun_mode &gmode );
 
 /**
  * Various checks for gunmode when firing a weapon

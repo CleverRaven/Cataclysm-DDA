@@ -3213,14 +3213,14 @@ void target_ui::update_status()
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
-               ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
+               ( !gunmode_checks_common( msgbuf, relevant->gun_current_mode() ) ||
                  !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
              ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
         // TODO: it might be some other error, but that's highly unlikely to happen, so a catch-all 'Out of ammo' is fine
         status = Status::OutOfAmmo;
     } else if( mode == TargetMode::TurretManual && ( turret->query() != turret_data::status::ready ||
-               !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ) ) {
+               !gunmode_checks_common( msgbuf, relevant->gun_current_mode() ) ) ) {
         status = Status::OutOfAmmo;
     } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
                                     casting->is_valid_target( spell_target::self ) ) ) {
@@ -4171,9 +4171,9 @@ void target_ui::on_target_accepted( bool harmful ) const
     }
 }
 
-bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode )
+bool gunmode_checks_common( std::vector<std::string> &messages, const gun_mode &gmode )
 {
+    avatar &you = get_avatar();
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
         messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
@@ -4193,7 +4193,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    const optional_vpart_position vp = m.veh_at( you.pos_bub() );
+    const optional_vpart_position vp = get_map().veh_at( you.pos_bub() );
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
         messages.push_back( string_format( _( "You can't fire your %s while driving." ),
