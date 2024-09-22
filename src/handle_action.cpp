@@ -1670,7 +1670,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj = target_handler::mode_reach( you.get_wielded_item() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
