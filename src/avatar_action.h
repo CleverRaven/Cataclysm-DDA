@@ -50,7 +50,7 @@ void mend( item_location loc );
 bool can_fire_weapon( const item &weapon );
 
 /** Checks if the wielded weapon is a gun and can be fired then starts interactive aiming */
-void fire_wielded_weapon( avatar &you );
+void fire_wielded_weapon();
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
 void fire_ranged_mutation( Character &you, const item &fake_gun );

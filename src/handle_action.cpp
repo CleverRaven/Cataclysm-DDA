@@ -1703,7 +1703,7 @@ static void fire()
     }
     // try firing gun
     if( weapon && weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( you );
+        avatar_action::fire_wielded_weapon();
         return;
     }
     // try firing turrets
@@ -2554,7 +2554,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( weapon ) {
                 gun_mode_id original_mode = weapon->gun_get_mode_id();
                 if( weapon->gun_set_mode( gun_mode_AUTO ) ) {
-                    avatar_action::fire_wielded_weapon( player_character );
+                    avatar_action::fire_wielded_weapon();
                     weapon->gun_set_mode( original_mode );
                 }
             }
