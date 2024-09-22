@@ -227,7 +227,7 @@
   {
     "type": "MONSTER",
     "id": "mon_catoblepas_zombie",
-    "name": "zombified catoblepas",
+    "name": { "str": "zombified catoblepas", "str_pl": "zombified catoblepases" },
     "description": "Already foul in life, this catoblepas now has oozing sores on its body and an even more rank odor.  At least whatever was odd about its eyes is gone, now that they're black and filled with rage.",
     "looks_like": "mon_catoblepas",
     "default_faction": "zombie",
