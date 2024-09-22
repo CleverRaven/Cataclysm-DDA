@@ -473,16 +473,15 @@ target_handler::trajectory target_handler::mode_fire( aim_activity_actor &activi
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_throw( avatar &you, item &relevant,
-        bool blind_throwing )
+target_handler::trajectory target_handler::mode_throw( item &relevant, bool blind_throwing )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = blind_throwing ? target_ui::TargetMode::ThrowBlind : target_ui::TargetMode::Throw;
     ui.relevant = &relevant;
-    ui.range = you.throw_range( relevant );
+    ui.range = ui.you->throw_range( relevant );
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 

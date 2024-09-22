@@ -221,7 +221,7 @@ void avatar::longpull( const std::string &name )
 {
     item wtmp( itype_mut_longpull );
     g->temp_exit_fullscreen();
-    target_handler::trajectory traj = target_handler::mode_throw( *this, wtmp, false );
+    target_handler::trajectory traj = target_handler::mode_throw( wtmp, false );
     g->reenter_fullscreen();
     if( traj.empty() ) {
         return; // cancel
