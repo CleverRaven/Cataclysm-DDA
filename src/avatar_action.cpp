@@ -677,8 +677,9 @@ static float rate_critter( const Creature &c )
     return m->type->difficulty;
 }
 
-void avatar_action::autoattack( avatar &you, map &m )
+void avatar_action::autoattack()
 {
+    avatar &you = get_avatar();
     const item_location weapon = you.get_wielded_item();
     int reach = weapon ? weapon->reach_range( you ) : 1;
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );

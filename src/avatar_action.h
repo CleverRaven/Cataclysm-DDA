@@ -38,7 +38,7 @@ bool move( const tripoint &d );
 /** Handles swimming by the player. Called by avatar_action::move(). */
 void swim( const tripoint &p );
 
-void autoattack( avatar &you, map &m );
+void autoattack();
 
 void mend( avatar &you, item_location loc );
 

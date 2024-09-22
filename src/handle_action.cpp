@@ -2997,7 +2997,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_AUTOATTACK:
-            avatar_action::autoattack( player_character, m );
+            avatar_action::autoattack();
             break;
 
         default:
