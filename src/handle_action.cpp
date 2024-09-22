@@ -2539,7 +2539,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_THROW: {
             item_location loc;
-            avatar_action::plthrow( player_character, loc );
+            avatar_action::plthrow( loc );
             break;
         }
 

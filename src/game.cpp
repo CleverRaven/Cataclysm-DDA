@@ -2311,7 +2311,7 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 't': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    avatar_action::plthrow( u, locThisItem );
+                    avatar_action::plthrow( locThisItem );
                     handler.handle_by( u );
                     break;
                 }
@@ -6156,7 +6156,7 @@ void game::peek( const tripoint_bub_ms &p )
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         item_location loc;
-        avatar_action::plthrow( u, loc, p );
+        avatar_action::plthrow( loc, p );
     }
     m.invalidate_map_cache( p.z() );
     m.invalidate_visibility_cache();

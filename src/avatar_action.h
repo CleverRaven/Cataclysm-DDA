@@ -66,7 +66,7 @@ void fire_ranged_bionic( const item &fake_gun );
 bool fire_turret_manual( turret_data &turret );
 
 // Throw an item  't'
-void plthrow( avatar &you, item_location loc,
+void plthrow( item_location loc,
               const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 /**
  * Opens up a menu to Unload a container, gun, or tool
