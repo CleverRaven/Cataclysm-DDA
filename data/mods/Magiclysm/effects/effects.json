@@ -403,6 +403,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_catoblepas_gaze",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_catoblepas_gaze_monster",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 4 ], "hurt_max": [ 9 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 3 ], "hurt_max": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "biomancer_visceral_side_effects",
     "name": [ "Visceral Overexertion" ],
     "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],

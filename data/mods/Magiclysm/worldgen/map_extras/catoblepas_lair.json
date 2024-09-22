@@ -1,0 +1,45 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_catoblepas_lair",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "          ---           ",
+        "           TTT--        ",
+        "         -T---T-        ",
+        "        -T-----T        ",
+        "        T--C----T-      ",
+        "      --T-------T-      ",
+        "       -T----c--T       ",
+        "       --T-X---T        ",
+        "         -TX--T--       ",
+        "         --TTT--        ",
+        "            --          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "T": [ [ "t_region_tree_forest", 1 ], [ "t_region_groundcover_swamp", 1 ], [ "t_region_shrub_swamp", 1 ] ],
+        "-": [ [ "t_region_groundcover_swamp", 3 ], [ "t_region_shrub_swamp", 1 ] ],
+        "C": [ [ "t_region_groundcover_swamp", 3 ], [ "t_region_shrub_swamp", 1 ] ],
+        "c": [ [ "t_region_groundcover_swamp", 3 ], [ "t_region_shrub_swamp", 1 ] ],
+        "X": "t_region_groundcover_swamp"
+      },
+      "items": { "X": [ { "item": "corpses", "chance": 5, "repeat": 1 }, { "item": "default_zombie_death_drops", "chance": 85 } ] },
+      "monster": { "C": { "monster": "mon_catoblepas" }, "c": { "monster": "mon_catoblepas", "chance": 80 } }
+    }
+  }
+]
