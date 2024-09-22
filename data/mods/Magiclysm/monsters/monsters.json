@@ -933,6 +933,6 @@
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "REVIVES", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
     "zombify_into": "mon_catoblepas_zombie",
-    "armor": { "bash": 5, "cut": 2, "bullet": 2 }
+    "armor": { "bash": 4, "cut": 2, "necrotic": 25, "poison": 30 }
   }
 ]

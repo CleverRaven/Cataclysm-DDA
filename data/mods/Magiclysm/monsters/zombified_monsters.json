@@ -250,6 +250,7 @@
     "harvest": "zombie_leather",
     "//": "No deathgaze for the zombie",
     "special_attacks": [ { "id": "stretch_bite", "cooldown": 1, "range": 2 } ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "STUMBLES", "BASHES", "POISON", "NO_BREATHE", "REVIVES" ],
+    "armor": { "bash": 4, "cut": 2, "necrotic": 75, "poison": 30 }
   }
 ]
