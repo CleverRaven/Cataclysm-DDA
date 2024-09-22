@@ -934,7 +934,7 @@ void avatar_action::eat( item_location &loc,
     you.last_item = item( *loc ).typeId();
 }
 
-void avatar_action::eat_or_use( avatar &you, item_location loc )
+void avatar_action::eat_or_use( item_location loc )
 {
     if( loc && loc->is_medical_tool() ) {
         avatar_action::use_item( loc, "heal" );

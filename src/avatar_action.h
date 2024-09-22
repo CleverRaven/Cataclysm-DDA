@@ -29,7 +29,7 @@ void eat( item_location &loc,
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here();
-void eat_or_use( avatar &you, item_location loc );
+void eat_or_use( item_location loc );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
