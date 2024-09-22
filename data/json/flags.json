@@ -2203,6 +2203,11 @@
     "info": "Allows movement in open air."
   },
   {
+    "id": "ALL_TERRAIN_NAVIGATION",
+    "type": "json_flag",
+    "info": "Allows movement over rough and sharp terrain without penalty."
+  },
+  {
     "id": "EXO_SMALL",
     "type": "json_flag",
     "info": "This is meant for a small exosuit hardpoint."
