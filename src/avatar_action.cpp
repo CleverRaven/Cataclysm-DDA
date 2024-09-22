@@ -1039,7 +1039,7 @@ void avatar_action::plthrow( item_location loc,
     g->temp_exit_fullscreen();
 
     item_location weapon = you.get_wielded_item();
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
+    target_handler::trajectory trajectory = target_handler::mode_throw( *weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
