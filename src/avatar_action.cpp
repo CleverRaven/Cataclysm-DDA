@@ -949,9 +949,10 @@ void avatar_action::eat_or_use( item_location loc )
     }
 }
 
-void avatar_action::plthrow( avatar &you, item_location loc,
+void avatar_action::plthrow( item_location loc,
                              const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
+    avatar &you = get_avatar();
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
