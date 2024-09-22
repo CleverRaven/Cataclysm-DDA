@@ -45,7 +45,7 @@ trajectory mode_reach( item_location weapon );
 trajectory mode_turret_manual( turret_data &turret );
 
 /** Selecting target for turrets (when using vehicle controls) */
-trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_part *> &turrets );
+trajectory mode_turrets( vehicle &veh, const std::vector<vehicle_part *> &turrets );
 
 /** Casting a spell */
 trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );

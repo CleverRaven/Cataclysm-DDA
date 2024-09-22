@@ -511,9 +511,10 @@ target_handler::trajectory target_handler::mode_turret_manual( turret_data &turr
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &veh,
+target_handler::trajectory target_handler::mode_turrets( vehicle &veh,
         const std::vector<vehicle_part *> &turrets )
 {
+    avatar &you = get_avatar();
     // Find radius of a circle centered at u encompassing all points turrets can aim at
     // FIXME: this calculation is fine for square distances, but results in an underestimation
     //        when used with real circles
