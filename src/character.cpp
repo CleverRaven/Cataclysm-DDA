@@ -276,8 +276,6 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
-static const faction_id faction_no_faction( "no_faction" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -11901,7 +11899,7 @@ bool Character::add_faction_warning( const faction_id &id ) const
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_avatar() && fac->id != faction_no_faction ) {
+    if( fac != nullptr && is_avatar() && !fac->lone_wolf_faction ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
         fac->trusts_u -= 1;
