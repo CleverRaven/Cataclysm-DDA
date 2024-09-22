@@ -1637,7 +1637,6 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
         std::optional<tripoint> loc;
         Character *ch = d.actor( is_npc )->get_character();
         if( ch && ch->as_avatar() ) {
-            avatar *you = ch->as_avatar();
             if( type == "anywhere" ) {
                 if( !message.empty() ) {
                     static_popup popup;
@@ -1653,7 +1652,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                     popup.on_top( true );
                     popup.message( "%s", message );
                 }
-                target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
+                target_handler::trajectory traj = target_handler::mode_select_only( range.evaluate( d ) );
                 if( !traj.empty() ) {
                     loc = traj.back().raw();
                 }
