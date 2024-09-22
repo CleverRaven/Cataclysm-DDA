@@ -102,6 +102,27 @@
     "condition": { "math": [ "magic_weather_rainstorm", "==", "1" ] }
   },
   {
+    "id": "magic_weather_thunder",
+    "type": "weather_type",
+    "name": "Thunder Storm",
+    "color": "dark_gray",
+    "map_color": "i_blue",
+    "sym": "%",
+    "ranged_penalty": 4,
+    "sight_penalty": 1.2,
+    "light_modifier": -40,
+    "sun_multiplier": 0.01,
+    "sound_attn": 8,
+    "dangerous": false,
+    "precip": "heavy",
+    "rains": true,
+    "tiles_animation": "weather_rain_drop",
+    "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
+    "sound_category": "thunder",
+    "priority": 70,
+    "condition": { "math": [ "magic_weather_thunder", "==", "1" ] }
+  },
+  {
     "id": "magic_weather_lightning",
     "type": "weather_type",
     "name": "Lightning Storm",

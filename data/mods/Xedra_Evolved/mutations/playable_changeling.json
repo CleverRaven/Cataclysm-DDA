@@ -1128,13 +1128,21 @@
   {
     "type": "mutation",
     "id": "SELKIE_CHANGE_WEATHER_RAIN",
-    "name": { "str": "Aria of the Rains" },
+    "name": { "str": "Aria of the Droplets" },
     "points": 3,
     "description": "Call a rain shower, letting the rains water the earth.",
     "prereqs": [ "SELKIE_CHANGE_WEATHER_DENSE_FOG" ],
     "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "spells_learned": [ [ "selkie_change_weather_rains_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_RAINSTORM",
+    "name": { "str": "Canticle of Rainstorms" },
+    "points": 3,
+    "description": "Call a rain shower, letting the rains water the earth.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ]
   },
   {
     "type": "mutation",

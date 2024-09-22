@@ -1580,57 +1580,28 @@
     "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
     "condition": { "math": [ "magic_weather_rain", "!=", "1" ] },
     "effect": [
-      { "u_message": "As the clouds roll in, drops of rain begin to fall.", "type": "neutral" },
-      { "math": [ "magic_weather_drizzle", "=", "1" ] },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "u_weather_change_limit", "=", "3" ] },
+      { "math": [ "u_weather_stage_up_lower_bound", "=", "60" ] },
+      { "math": [ "u_weather_stage_up_upper_bound", "=", "180" ] },
       {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_UP",
-        "time_in_future": [ "60 seconds", "60 seconds" ]
+        "queue_eocs": "EOC_WEATHER_CONTROL_INITIATE",
+        "time_in_future": [ { "math": [ "u_weather_stage_up_lower_bound" ] }, { "math": [ "u_weather_stage_up_upper_bound" ] } ]
       },
       {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_REMOVE",
+        "queue_eocs": "EOC_WEATHER_CONTROL_DOWNGRADE",
         "time_in_future": [
           {
             "math": [
-              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9.8) + (u_skill('deduction') * 34.53) + 203.10) * selkie_has_weather_mastery()"
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 17.15) + (u_skill('deduction') * 60.43) + 355.43) * selkie_has_weather_mastery()"
             ]
           },
           {
             "math": [
-              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 24.15) + (u_skill('deduction') * 102.75) + 747.75) * selkie_has_weather_mastery()"
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 42.26) + (u_skill('deduction') * 179.81) + 1233.79) * selkie_has_weather_mastery()"
             ]
           }
         ]
       }
-    ],
-    "false_effect": [
-      { "u_message": "You release your command over the rains and the storm begins to let up.", "type": "neutral" },
-      { "math": [ "magic_weather_rain", "=", "0" ] },
-      { "math": [ "magic_weather_drizzle", "=", "1" ] },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
-      {
-        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_DOWN",
-        "time_in_future": [ "60 seconds", "60 seconds" ]
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_UP",
-    "condition": { "math": [ "magic_weather_drizzle", "=", "1" ] },
-    "effect": [
-      { "math": [ "magic_weather_drizzle", "=", "0" ] },
-      { "math": [ "magic_weather_rain", "=", "1" ] },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_DOWN",
-    "condition": { "math": [ "magic_weather_drizzle", "=", "1" ] },
-    "effect": [
-      { "math": [ "magic_weather_drizzle", "=", "0" ] },
-      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
     ]
   }
 ]

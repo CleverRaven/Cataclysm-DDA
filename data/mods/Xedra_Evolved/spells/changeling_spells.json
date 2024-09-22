@@ -377,12 +377,12 @@
     "max_level": 1,
     "min_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 980) + (u_skill('deduction') * 3453) + 20310) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
       ]
     },
     "max_duration": {
       "math": [
-        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2415) + (u_skill('deduction') * 10275) + 74775) * selkie_has_weather_mastery()"
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
       ]
     },
     "energy_source": "MANA",
