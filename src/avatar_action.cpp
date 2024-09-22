@@ -778,9 +778,9 @@ void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
     you.assign_activity( aim_activity_actor::use_mutation( fake_gun ) );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
+void avatar_action::fire_ranged_bionic( const item &fake_gun )
 {
-    you.assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
+    get_avatar().assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
 bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
