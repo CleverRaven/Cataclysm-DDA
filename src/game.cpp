@@ -8165,7 +8165,7 @@ void game::list_items_monsters()
     }
 
     if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u );
+        avatar_action::fire_wielded_weapon();
     }
     reenter_fullscreen();
 }

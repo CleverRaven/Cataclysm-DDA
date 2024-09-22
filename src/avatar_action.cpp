@@ -747,8 +747,9 @@ bool avatar_action::can_fire_weapon( const item &weapon )
     return false;
 }
 
-void avatar_action::fire_wielded_weapon( avatar &you )
+void avatar_action::fire_wielded_weapon()
 {
+    avatar &you = get_avatar();
     const item_location weapon = you.get_wielded_item();
 
     if( !weapon ) {
