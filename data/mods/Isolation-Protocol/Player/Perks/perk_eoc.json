@@ -84,5 +84,27 @@
       },
       { "math": [ "u_old_distance", "=", "distance('u', 'npc')" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIO_VAMPIRE_RESTORE",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "math": [ "u_bionic_in_melee", "==", "1" ] },
+    "effect": [ { "math": [ "u_val('power')", "+=", "50000 + (n_val('difficulty') * 75000)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIO_VAMPIRE_RESTORE_IN_MELEE",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "effect": [ { "math": [ "u_bionic_in_melee", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIO_VAMPIRE_RESTORE_AT_RANGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "effect": [ { "math": [ "u_bionic_in_melee", "=", "0" ] } ]
   }
 ]

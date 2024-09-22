@@ -172,5 +172,60 @@
       },
       "female": { "entries": [ { "item": "undershirt" } ] }
     }
+  },
+  {
+    "type": "profession",
+    "id": "iso_bionic_vampire",
+    "name": "Bionic Vampire",
+    "description": "An assassin more metal than meat, driven onward by their faulty cybernetics.",
+    "points": 6,
+    "CBMs": [
+      "bio_blade",
+      "bio_tattoo_led",
+      "bio_watch",
+      "bio_armor_eyes",
+      "bio_hydraulics",
+      "bio_shock",
+      "bio_carbon",
+      "bio_climate",
+      "bio_weight",
+      "bio_targeting",
+      "bio_uncanny_dodge",
+      "bio_adrenaline",
+      "bio_night_vision",
+      "bio_blood_filter",
+      "bio_ods",
+      "bio_soporific",
+      "bio_faraday",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII",
+      "bio_power_storage_mkII"
+    ],
+    "traits": [ "iso_trait", "iso_bionic_vampire" ],
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "dodge" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "tank_top" },
+          { "item": "jacket_leather" },
+          { "item": "pants_leather" },
+          { "item": "boots" },
+          { "item": "gloves_fingerless" },
+          { "item": "wristwatch" },
+          { "item": "gum" },
+          { "group": "charged_smart_phone" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" }, { "item": "ruby_gold_earring" } ] }
+    }
   }
 ]
