@@ -2162,6 +2162,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_selkie_fog_cloak",
+    "name": [ "Cloak of Fog" ],
+    "desc": [ "The fog shields you from sight." ],
+    "apply_message": "",
+    "remove_message": "The fog begins to dissipate.",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "enchantments": [ "enchant_selkie_fog_cloak" ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]

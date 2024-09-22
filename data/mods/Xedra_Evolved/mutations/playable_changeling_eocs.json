@@ -1518,5 +1518,119 @@
     "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future",
     "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
     "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_FOG_CLOAK",
+    "condition": { "not": { "u_has_effect": "effect_selkie_fog_cloak" } },
+    "effect": [
+      {
+        "u_add_effect": "effect_selkie_fog_cloak",
+        "duration": {
+          "math": [
+            "rng( ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5.6) + (u_skill('deduction') * 51.2) + 135.4), ((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 13.8) + (u_skill('deduction') * 123.05) + 498.5))"
+          ]
+        }
+      }
+    ],
+    "false_effect": [ { "u_lose_effect": "effect_selkie_fog_cloak" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
+    "condition": { "math": [ "magic_weather_dense_fog", "!=", "1" ] },
+    "effect": [
+      { "u_message": "A thick fog begins to rise.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog", "=", "1" ] },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+        "time_in_future": [
+          {
+            "math": [
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9.8) + (u_skill('deduction') * 34.53) + 203.10) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "math": [
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 24.15) + (u_skill('deduction') * 102.75) + 747.75) * selkie_has_weather_mastery()"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the fog and it begins to disperse.", "type": "neutral" },
+      { "math": [ "magic_weather_dense_fog", "=", "0" ] },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG_REMOVE",
+    "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] },
+    "effect": [
+      { "u_message": "The thick fog begins to disperse.", "type": "neutral" },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      { "math": [ "magic_weather_dense_fog", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
+    "condition": { "math": [ "magic_weather_rain", "!=", "1" ] },
+    "effect": [
+      { "u_message": "As the clouds roll in, drops of rain begin to fall.", "type": "neutral" },
+      { "math": [ "magic_weather_drizzle", "=", "1" ] },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_UP",
+        "time_in_future": [ "60 seconds", "60 seconds" ]
+      },
+      {
+        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_REMOVE",
+        "time_in_future": [
+          {
+            "math": [
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 9.8) + (u_skill('deduction') * 34.53) + 203.10) * selkie_has_weather_mastery()"
+            ]
+          },
+          {
+            "math": [
+              "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 24.15) + (u_skill('deduction') * 102.75) + 747.75) * selkie_has_weather_mastery()"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You release your command over the rains and the storm begins to let up.", "type": "neutral" },
+      { "math": [ "magic_weather_rain", "=", "0" ] },
+      { "math": [ "magic_weather_drizzle", "=", "1" ] },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] },
+      {
+        "queue_eocs": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_DOWN",
+        "time_in_future": [ "60 seconds", "60 seconds" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_UP",
+    "condition": { "math": [ "magic_weather_drizzle", "=", "1" ] },
+    "effect": [
+      { "math": [ "magic_weather_drizzle", "=", "0" ] },
+      { "math": [ "magic_weather_rain", "=", "1" ] },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SELKIE_CHANGE_WEATHER_RAINS_TO_DRIZZLE_DOWN",
+    "condition": { "math": [ "magic_weather_drizzle", "=", "1" ] },
+    "effect": [
+      { "math": [ "magic_weather_drizzle", "=", "0" ] },
+      { "queue_eocs": "EOC_CALL_NEXT_WEATHER", "time_in_future": [ "15 seconds", "45 seconds" ] }
+    ]
   }
 ]
