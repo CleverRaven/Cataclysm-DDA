@@ -820,7 +820,7 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
 
     // all checks passed - start aiming
     g->temp_exit_fullscreen();
-    target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
+    target_handler::trajectory trajectory = target_handler::mode_turret_manual( turret );
 
     if( !trajectory.empty() ) {
         turret.fire( you, trajectory.back() );

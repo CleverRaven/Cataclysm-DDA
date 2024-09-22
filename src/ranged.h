@@ -43,7 +43,7 @@ trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
 trajectory mode_reach( avatar &you, item_location weapon );
 
 /** Manually firing vehicle turret */
-trajectory mode_turret_manual( avatar &you, turret_data &turret );
+trajectory mode_turret_manual( turret_data &turret );
 
 /** Selecting target for turrets (when using vehicle controls) */
 trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_part *> &turrets );
