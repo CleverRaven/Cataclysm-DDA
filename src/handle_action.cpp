@@ -2534,7 +2534,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_MEND:
-            avatar_action::mend( player_character, item_location() );
+            avatar_action::mend( item_location() );
             break;
 
         case ACTION_THROW: {

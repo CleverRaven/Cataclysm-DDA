@@ -2334,7 +2334,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     reload( locThisItem, true );
                     break;
                 case 'm':
-                    avatar_action::mend( u, locThisItem );
+                    avatar_action::mend( locThisItem );
                     break;
                 case 'R':
                     u.read( locThisItem );
