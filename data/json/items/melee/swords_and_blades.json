@@ -2573,7 +2573,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": { "str": "butterfly sword", "str_pl": "butterfly swords" },
-    "description": "A Shaolin butterfly sword, about the same size as a machete but with hand guards and wider blades.  Traditionally used in pairs, but one should be just as deadly.",
+    "description": "A Shaolin butterfly sword, about the same size as a machete but with hand guards and wider blades.  Traditionally used in pairs, but just one is more than enough.",
     "price": "500 USD",
     "price_postapoc": "60 USD",
     "material": [ "steel" ],
