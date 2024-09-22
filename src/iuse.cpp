@@ -2232,7 +2232,7 @@ class exosuit_interact
                     return to_moves<int>( 5_seconds );
                 } else if( ret == 2 ) {
                     if( !!loc_it ) {
-                        avatar_action::use_item( get_avatar(), loc_it );
+                        avatar_action::use_item( loc_it );
                     }
                     return 0;
                 } else if( ret == 3 ) {
