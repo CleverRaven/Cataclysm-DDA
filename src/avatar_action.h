@@ -11,7 +11,6 @@
 #include "point.h"
 
 class Character;
-class avatar;
 class item;
 class item_location;
 class turret_data;
@@ -69,7 +68,11 @@ bool fire_turret_manual( turret_data &turret );
 void plthrow( item_location loc,
               const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
-void unload( avatar &you );
+/**
+ * Opens up a menu to Unload a container, gun, or tool
+ * If it's a gun, some gunmods can also be loaded
+ */
+void unload();
 
 // Use item; also tries E,R,W  'a'
 void use_item( item_location &loc, std::string const &method = {} );
