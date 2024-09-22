@@ -2165,7 +2165,9 @@ const bodypart *Creature::get_part( const bodypart_id &id ) const
 {
     auto found = body.find( get_part_id( id ).id() );
     if( found == body.end() ) {
-        debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+        if( debug_mode ) {
+            debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+        }
         return nullptr;
     }
     return &found->second;
@@ -2236,7 +2238,7 @@ bodypart_id Creature::get_part_id( const bodypart_id &id,
             }
         }
     }
-    if( best.first == body_part_bp_null && !suppress_debugmsg ) {
+    if( debug_mode && best.first == body_part_bp_null && !suppress_debugmsg ) {
         debugmsg( "Could not find equivalent bodypart id %s in %s's body", id.id().c_str(), get_name() );
     }
 
