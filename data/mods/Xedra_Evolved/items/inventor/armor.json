@@ -54,7 +54,6 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [
       "MORPHIC",
-      "UNRESTRICTED",
       "WATERPROOF",
       "STURDY",
       "PADDED",
@@ -152,7 +151,7 @@
     ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "MORPHIC", "UNRESTRICTED", "BELTED", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "MORPHIC",  "BELTED", "WATER_FRIENDLY", "MUNDANE", "INVENTOR_CRAFTED" ],
     "use_action": [ { "type": "attach_molle", "size": 8 }, { "type": "detach_molle" } ],
     "armor": [
       {
@@ -176,7 +175,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "MORPHIC", "UNRESTRICTED", "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC",  "STURDY", "OUTER", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "ammo": "battery",
     "use_action": {
       "target": "inventor_leg_weight_on",
@@ -238,7 +237,7 @@
     "symbol": "[",
     "looks_like": "legguard_hard",
     "color": "light_red",
-    "flags": [ "MORPHIC", "UNRESTRICTED", "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC",  "STURDY", "OUTER", "SOFT", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "ammo": "battery",
     "charges_per_use": 150,
     "use_action": { "type": "cast_spell", "spell_id": "jump_boots_leap", "no_fail": true, "level": 0 },
@@ -350,7 +349,7 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "MORPHIC", "UNRESTRICTED", "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
+    "flags": [ "MORPHIC",  "WATERPROOF", "STURDY", "SOFT", "TRADER_AVOID", "BELTED", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ]
   },
   {
     "id": "aura_force_on",
@@ -395,7 +394,7 @@
     "material_thickness": 0.1,
     "flags": [
       "MORPHIC",
-      "UNRESTRICTED",
+      
       "WATCH",
       "ALARMCLOCK",
       "SKINTIGHT",
@@ -477,7 +476,7 @@
     "material": [ "aluminum", "steel" ],
     "volume": "11678 ml",
     "weight": "3970 g",
-    "flags": [ "MORPHIC", "UNRESTRICTED", "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED", "PROVIDES_TECHNIQUES" ],
+    "flags": [ "MORPHIC",  "DURABLE_MELEE", "PADDED", "MUNDANE", "INVENTOR_CRAFTED", "PROVIDES_TECHNIQUES" ],
     "techniques": [ "WBLOCK_3", "BRUTAL", "SWEEP" ],
     "material_thickness": 1,
     "armor": [
@@ -552,7 +551,7 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "ammo": [ "battery" ],
-    "flags": [ "MORPHIC", "UNRESTRICTED", "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": [ "MORPHIC",  "ONLY_ONE", "TRADER_AVOID", "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "use_action": [
       {
         "target": "inventor_electric_fist_act",
@@ -615,7 +614,7 @@
     "color": "dark_gray",
     "material_thickness": 0.4,
     "environmental_protection": 4,
-    "flags": ["MORPHIC", "UNRESTRICTED",  "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
+    "flags": ["MORPHIC",   "MUNDANE", "INVENTOR_CRAFTED", "ELECTROKINETIC_CHARGEABLE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 0.6 } ] } ]
     },
@@ -682,7 +681,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "MORPHIC", "UNRESTRICTED", "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
+    "flags": [ "MORPHIC",  "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]
