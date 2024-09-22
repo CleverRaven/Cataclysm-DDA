@@ -176,8 +176,10 @@ static bool check_water_affect_items( avatar &you )
     return true;
 }
 
-bool avatar_action::move( avatar &you, map &m, const tripoint &d )
+bool avatar_action::move( const tripoint &d )
 {
+    avatar &you = get_avatar();
+    map &m = get_map();
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
@@ -584,7 +586,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.xy(), -1 ) );
+            move( tripoint( dp.xy(), -1 ) );
             // No penalty for misaligned stairs here
             // Also cheaper than climbing up
             return true;
@@ -616,7 +618,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     const tripoint dp = dest_loc - you.pos();
     const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.xy(), 1 ) );
+    move( tripoint( dp.xy(), 1 ) );
     // We can't just take the result of the above function here
     if( you.pos() != old_pos ) {
         const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
@@ -758,7 +760,7 @@ void avatar_action::autoattack( avatar &you, map &m )
 
     const tripoint diff = best.pos() - you.pos();
     if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, tripoint( diff.xy(), 0 ) );
+        move( tripoint( diff.xy(), 0 ) );
         return;
     }
 
