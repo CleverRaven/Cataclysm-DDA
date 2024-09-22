@@ -40,7 +40,7 @@ void swim( const tripoint &p );
 
 void autoattack();
 
-void mend( avatar &you, item_location loc );
+void mend( item_location loc );
 
 /**
  * Checks if the weapon is valid and if the player meets certain conditions for firing it.

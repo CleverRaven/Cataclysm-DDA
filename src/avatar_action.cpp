@@ -826,9 +826,9 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     return true;
 }
 
-void avatar_action::mend( avatar &you, item_location loc )
+void avatar_action::mend( item_location loc )
 {
-
+    avatar &you = get_avatar();
     if( you.fine_detail_vision_mod() > 4 ) {
         add_msg( m_bad, _( "It's too dark to work on mending this." ) );
         return;
