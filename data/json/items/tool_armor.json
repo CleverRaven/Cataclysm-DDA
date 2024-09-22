@@ -2276,7 +2276,7 @@
     "warmth": 15,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 15,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxl",
@@ -2285,7 +2285,7 @@
     "looks_like": "mask_lsurvivor",
     "name": { "str": "survivor half mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxs",
@@ -2294,7 +2294,7 @@
     "looks_like": "mask_lsurvivor",
     "name": { "str": "survivor half mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
   },
   {
     "id": "mask_survivor",
