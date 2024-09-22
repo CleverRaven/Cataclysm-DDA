@@ -36,7 +36,7 @@ void eat_or_use( item_location loc );
 bool move( const tripoint &d );
 
 /** Handles swimming by the player. Called by avatar_action::move(). */
-void swim( map &m, avatar &you, const tripoint &p );
+void swim( const tripoint &p );
 
 void autoattack( avatar &you, map &m );
 
