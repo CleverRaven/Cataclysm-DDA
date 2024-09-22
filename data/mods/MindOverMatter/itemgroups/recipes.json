@@ -28,7 +28,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "psionic_recipes_powers",
-    "items": [ [ "phavian_psionic_martial_power_book", 1 ], [ "phavian_psionic_telepathic_mental_engineering_book", 1] ]
+    "items": [ [ "phavian_psionic_martial_power_book", 1 ], [ "phavian_psionic_telepathic_mental_engineering_book", 1 ] ]
   },
   {
     "type": "item_group",
