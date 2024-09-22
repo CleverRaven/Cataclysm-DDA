@@ -39,7 +39,7 @@ trajectory mode_fire( aim_activity_actor &activity );
 trajectory mode_throw( item &relevant, bool blind_throwing );
 
 /** Reach attacking */
-trajectory mode_reach( avatar &you, item_location weapon );
+trajectory mode_reach( item_location weapon );
 
 /** Manually firing vehicle turret */
 trajectory mode_turret_manual( turret_data &turret );

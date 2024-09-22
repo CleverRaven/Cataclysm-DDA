@@ -485,15 +485,15 @@ target_handler::trajectory target_handler::mode_throw( item &relevant, bool blin
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_reach( avatar &you, item_location weapon )
+target_handler::trajectory target_handler::mode_reach( item_location weapon )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::Reach;
     ui.relevant = weapon.get_item();
-    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
+    ui.range = weapon ? weapon->current_reach_range( *ui.you ) : 1;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
