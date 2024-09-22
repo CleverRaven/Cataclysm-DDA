@@ -2577,7 +2577,7 @@
     "price": "500 USD",
     "price_postapoc": "60 USD",
     "material": [ "steel" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD"],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "SHORT_SWORDS" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "883 g",
