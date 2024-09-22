@@ -485,7 +485,7 @@ bool avatar_action::move( const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), get_avatar(), dest_loc.raw() );
+            avatar_action::swim( dest_loc.raw() );
         }
 
         g->on_move_effects();
@@ -573,8 +573,10 @@ bool avatar_action::move( const tripoint &d )
     return false;
 }
 
-void avatar_action::swim( map &m, avatar &you, const tripoint &p )
+void avatar_action::swim( const tripoint &p )
 {
+    avatar &you = get_avatar();
+    map &m = get_map();
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";

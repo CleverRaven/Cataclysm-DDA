@@ -260,7 +260,6 @@ struct swim_scenario {
 
 static int swimming_steps( avatar &swimmer )
 {
-    map &here = get_map();
     const tripoint left = swimmer.pos();
     const tripoint right = left + tripoint_east;
     int steps = 0;

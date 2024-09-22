@@ -4884,7 +4884,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 break;
             }
             if( m.has_flag( ter_furn_flag::TFLAG_LIQUID, u.pos_bub() ) && force_remaining == 0 ) {
-                avatar_action::swim( m, u, u.pos() );
+                avatar_action::swim( u.pos() );
             } else {
                 u.setpos( traj[i] );
             }
