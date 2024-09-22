@@ -16,7 +16,7 @@
       { "proficiency": "prof_psionic_basic", "required": true },
       { "proficiency": "prof_psionic_ritual", "required": true }
     ],
-    "flags": [ "SECRET" ],
+    "flags": [ "SECRET", "BLIND_EASY" ],
     "result_eocs": [ "EOC_TELEPATHIC_MENTAL_ENGINEERING_SELECTOR" ]
   },
   {
