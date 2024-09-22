@@ -918,20 +918,21 @@
     "melee_dice_sides": 6,
     "dodge": 1,
     "vision_night": 5,
-    "path_settings": { "max_dist": 25 },
-    "harvest": "owlbear",
+    "path_settings": { "max_dist": 25, "avoid_sharp": true },
+    "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_beast_sample_large",
-    "special_attacks": [ 
-      { "type": "stretch_bite", "cooldown": 1, "range": 2 },
+    "special_attacks": [
+      { "id": "stretch_bite", "cooldown": 1, "range": 2 },
       {
         "id": "catoblepas_gaze",
         "type": "spell",
         "spell_data": { "id": "catoblepas_gaze_spell", "min_level": 20 },
-        "monster_message": "The catoblepas looks at <npcname>!",
+        "monster_message": "The catoblepas looks at %3$s!",
         "cooldown": 15
-      },
+      }
     ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER", "WARM" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "REVIVES", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
+    "zombify_into": "mon_catoblepas_zombie",
     "armor": { "bash": 5, "cut": 2, "bullet": 2 }
   }
 ]
