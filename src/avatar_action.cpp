@@ -718,15 +718,13 @@ void avatar_action::autoattack()
 // TODO: Move data/functions related to targeting out of game class
 bool avatar_action::can_fire_weapon( const item &weapon )
 {
-    avatar &you = get_avatar();
-    const map &m = get_map();
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
         return false;
     }
 
-    if( !you.try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
-                                  _( "You can't fire your weapon, it's too heavy…" ) ) ) {
+    if( !get_avatar().try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
+                                           _( "You can't fire your weapon, it's too heavy…" ) ) ) {
         return false;
     }
 
@@ -734,7 +732,7 @@ bool avatar_action::can_fire_weapon( const item &weapon )
 
     for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
         bool check_common = gunmode_checks_common( messages, mode_map.second );
-        bool check_weapon = gunmode_checks_weapon( you, m, messages, mode_map.second );
+        bool check_weapon = gunmode_checks_weapon( messages, mode_map.second );
         bool can_use_mode = check_common && check_weapon;
         if( can_use_mode ) {
             return true;
