@@ -3214,7 +3214,7 @@ void target_ui::update_status()
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
                ( !gunmode_checks_common( msgbuf, relevant->gun_current_mode() ) ||
-                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
+                 !gunmode_checks_weapon( msgbuf, relevant->gun_current_mode() ) )
              ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
         // TODO: it might be some other error, but that's highly unlikely to happen, so a catch-all 'Out of ammo' is fine
@@ -4211,9 +4211,10 @@ bool gunmode_checks_common( std::vector<std::string> &messages, const gun_mode &
     return result;
 }
 
-bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode )
+bool gunmode_checks_weapon( std::vector<std::string> &messages, const gun_mode &gmode )
 {
+    avatar &you = get_avatar();
+    const map &m = get_map();
     bool result = true;
     if( !gmode->ammo_sufficient( &you ) &&
         !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {

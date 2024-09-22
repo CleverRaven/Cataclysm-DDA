@@ -14,7 +14,6 @@ class Character;
 class gun_mode;
 class item;
 class item_location;
-class map;
 class spell;
 class turret_data;
 class vehicle;
@@ -68,8 +67,7 @@ bool gunmode_checks_common( std::vector<std::string> &messages, const gun_mode &
  * @param messages Used to store messages describing failed checks
  * @return True if all conditions are true
  */
-bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode );
+bool gunmode_checks_weapon( std::vector<std::string> &messages, const gun_mode &gmode );
 
 int throw_cost( const Character &c, const item &to_throw );
 
