@@ -733,7 +733,7 @@ bool avatar_action::can_fire_weapon( const item &weapon )
     std::vector<std::string> messages;
 
     for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
-        bool check_common = gunmode_checks_common( you, m, messages, mode_map.second );
+        bool check_common = gunmode_checks_common( messages, mode_map.second );
         bool check_weapon = gunmode_checks_weapon( you, m, messages, mode_map.second );
         bool can_use_mode = check_common && check_weapon;
         if( can_use_mode ) {
@@ -808,8 +808,8 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     std::vector<std::string> messages;
     const std::map<gun_mode_id, gun_mode> gunmodes = turret.base()->gun_all_modes();
     if( !std::any_of( gunmodes.begin(), gunmodes.end(),
-    [&you, &m, &messages]( const std::pair<const gun_mode_id, gun_mode> &p ) {
-    return gunmode_checks_common( you, m, messages, p.second );
+    [&messages]( const std::pair<const gun_mode_id, gun_mode> &p ) {
+    return gunmode_checks_common( messages, p.second );
     } ) ) {
         // no gunmode is usable, dump reason messages why not
         for( const std::string &msg : messages ) {
