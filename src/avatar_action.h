@@ -14,7 +14,6 @@ class Character;
 class avatar;
 class item;
 class item_location;
-class map;
 class turret_data;
 
 namespace avatar_action
@@ -64,7 +63,7 @@ void fire_ranged_bionic( const item &fake_gun );
  * Assumes that the turret is on player position.
  * @return true if attempt to fire was successful (aim then cancel is also considered success)
  */
-bool fire_turret_manual( avatar &you, map &m, turret_data &turret );
+bool fire_turret_manual( turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,

@@ -781,7 +781,7 @@ void avatar_action::fire_ranged_bionic( const item &fake_gun )
     get_avatar().assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
-bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
+bool avatar_action::fire_turret_manual( turret_data &turret )
 {
     if( !turret.base()->is_gun() ) {
         debugmsg( "Expected turret base to be a gun." );
@@ -821,7 +821,7 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     target_handler::trajectory trajectory = target_handler::mode_turret_manual( turret );
 
     if( !trajectory.empty() ) {
-        turret.fire( you, trajectory.back() );
+        turret.fire( get_avatar(), trajectory.back() );
     }
     g->reenter_fullscreen();
     return true;

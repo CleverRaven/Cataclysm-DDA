@@ -1710,7 +1710,7 @@ static void fire()
     // try firing turrets
     if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
         if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
-            if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
+            if( avatar_action::fire_turret_manual( turret_here ) ) {
                 return;
             }
         } else if( ovp.part_with_feature( VPFLAG_CONTROLS, true ) ) {
