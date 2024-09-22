@@ -904,22 +904,24 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you, item_location &loc )
+void avatar_action::eat( item_location &loc )
 {
+    avatar &you = get_avatar();
     std::string filter;
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
-    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
+    avatar_action::eat( loc, you.activity.values, you.activity.targets, filter,
                         you.activity.id() );
 }
 
-void avatar_action::eat( avatar &you, item_location &loc,
+void avatar_action::eat( item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter,
                          activity_id type )
 {
+    avatar &you = get_avatar();
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
@@ -936,7 +938,7 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
     if( loc && loc->is_medical_tool() ) {
         avatar_action::use_item( you, loc, "heal" );
     } else {
-        avatar_action::eat( you, loc );
+        avatar_action::eat( loc );
     }
 }
 

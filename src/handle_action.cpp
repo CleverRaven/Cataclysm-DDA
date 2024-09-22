@@ -1902,12 +1902,12 @@ void game::open_consume_item_menu()
     switch( as_m.ret ) {
         case 0: {
             item_location loc = game_menus::inv::consume_food();
-            avatar_action::eat( player_character, loc );
+            avatar_action::eat( loc );
             break;
         }
         case 1: {
             item_location loc = game_menus::inv::consume_drink();
-            avatar_action::eat( player_character, loc );
+            avatar_action::eat( loc );
             break;
         }
         case 2:

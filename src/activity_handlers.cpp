@@ -2817,16 +2817,14 @@ void activity_handlers::eat_menu_do_turn( player_activity *, Character *you )
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, Character * )
 {
-    avatar &player_character = get_avatar();
     item_location loc = game_menus::inv::consume_food();
-    avatar_action::eat( player_character, loc );
+    avatar_action::eat( loc );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, Character * )
 {
-    avatar &player_character = get_avatar();
     item_location loc = game_menus::inv::consume_drink();
-    avatar_action::eat( player_character, loc );
+    avatar_action::eat( loc );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character * )
