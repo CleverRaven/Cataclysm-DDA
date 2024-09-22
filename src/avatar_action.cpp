@@ -716,8 +716,10 @@ void avatar_action::autoattack()
 }
 
 // TODO: Move data/functions related to targeting out of game class
-bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
+bool avatar_action::can_fire_weapon( const item &weapon )
 {
+    avatar &you = get_avatar();
+    const map &m = get_map();
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
         return false;
