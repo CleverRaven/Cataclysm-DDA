@@ -73,6 +73,14 @@ std::vector<cata_path> get_files_from_path( const std::string &pattern,
         const cata_path &root_path, bool recursive_search = false,
         bool match_extension = false );
 
+        
+std::vector<std::string> get_files_from_path_with_path_exclusion( const std::string &pattern, const std::string &pattern_clash,
+        const std::string &root_path = "", bool recursive_search = false,
+        bool match_extension = false );
+std::vector<cata_path> get_files_from_path_with_path_exclusion( const std::string &pattern, const std::string &pattern_clash,
+        const cata_path &root_path, bool recursive_search = false,
+        bool match_extension = false );
+
 //--------------------------------------------------------------------------------------------------
 /**
  * Returns a vector of directories which contain files matching any of @p patterns.
@@ -91,6 +99,10 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
 
 std::vector<cata_path> get_directories_with( const std::string &pattern,
         const cata_path &root_path = {}, bool recursive_search = false );
+
+std::vector<std::string> get_directories( const std::string &root_path = "", bool recursive_search = false );
+
+std::vector<cata_path> get_directories( const cata_path &root_path = {}, bool recursive_search = false );
 
 bool copy_file( const std::string &source_path, const std::string &dest_path );
 bool copy_file( const cata_path &source_path, const cata_path &dest_path );

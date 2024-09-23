@@ -140,6 +140,19 @@ class DynamicDataLoader
          */
         /*@{*/
         void load_data_from_path( const cata_path &path, const std::string &src );
+
+        /**
+         * Load all data from json files located in
+         * the path (recursive) except for those within the mod_interactions folder, which are
+         * only loaded if the matching mod is loaded.
+         * @param path Either a folder (recursively load all
+         * files with the extension .json), or a file (load only
+         * that file, don't check extension).
+         * @param src String identifier for mod this data comes from
+         * @throws std::exception on all kind of errors.
+         */
+        /*@{*/
+        void load_mod_data_from_path( const cata_path &path, const std::string &src );
         /*@}*/
         /**
          * Deletes and unloads all the data previously loaded with
