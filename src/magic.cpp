@@ -855,8 +855,10 @@ std::optional<tripoint> spell::select_target( Creature *source )
     } else if( has_flag( spell_flag::RANDOM_TARGET ) ) {
         const std::optional<tripoint> target_ = random_valid_target( *source, source->pos() );
         if( !target_ ) {
-            source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                       _( "You can't find a suitable target." ) );
+            if( !type->description.empty() ) {
+                source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                           _( "You can't find a suitable target." ) );
+            }
             return std::nullopt;
         }
         target = *target_;

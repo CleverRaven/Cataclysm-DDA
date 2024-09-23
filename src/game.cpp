@@ -235,7 +235,6 @@ static const activity_id ACT_SKIN( "ACT_SKIN" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAIN_TEACHER( "ACT_TRAIN_TEACHER" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 
 static const ascii_art_id ascii_art_ascii_tombstone( "ascii_tombstone" );
 
@@ -306,6 +305,7 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
+static const json_character_flag json_flag_ALL_TERRAIN_NAVIGATION( "ALL_TERRAIN_NAVIGATION" );
 static const json_character_flag json_flag_CLIMB_FLYING( "CLIMB_FLYING" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -1893,6 +1893,47 @@ static hint_rating rate_action_view_recipe( avatar &you, const item &it )
     return hint_rating::iffy;
 }
 
+static void view_recipe_crafting_menu( const item &it )
+{
+    avatar &you = get_avatar();
+    std::string itname;
+    if( it.is_craft() ) {
+        recipe_id id = it.get_making().ident();
+        if( !you.get_group_available_recipes().contains( &id.obj() ) ) {
+            add_msg( m_info, _( "You don't know how to craft the %s!" ), id->result_name() );
+            return;
+        }
+        you.craft( std::nullopt, id );
+        return;
+    }
+    itype_id item = it.typeId();
+    itname = item->nname( 1U );
+
+    bool is_byproduct = false;  // product or byproduct
+    bool can_craft = false;
+    // Does a recipe for the item exist?
+    for( const auto& [_, r] : recipe_dict ) {
+        if( !r.obsolete && ( item == r.result() || r.in_byproducts( item ) ) ) {
+            is_byproduct = true;
+            // If a recipe exists, does my group know it?
+            if( you.get_group_available_recipes().contains( &r ) ) {
+                can_craft = true;
+                break;
+            }
+        }
+    }
+    if( !is_byproduct ) {
+        add_msg( m_info, _( "You wonder if it's even possible to craft the %s…" ), itname );
+        return;
+    } else if( !can_craft ) {
+        add_msg( m_info, _( "You don't know how to craft the %s!" ), itname );
+        return;
+    }
+
+    std::string filterstring = string_format( "r:%s", itname );
+    you.craft( std::nullopt, recipe_id(), filterstring );
+}
+
 static hint_rating rate_action_eat( const avatar &you, const item &it )
 {
     if( it.is_container() ) {
@@ -2238,7 +2279,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( !locThisItem.get_item()->is_container() ) {
                         avatar_action::eat( u, locThisItem );
                     } else {
-                        avatar_action::eat_or_use( u, game_menus::inv::consume( u, locThisItem ) );
+                        avatar_action::eat_or_use( u, game_menus::inv::consume( locThisItem ) );
                     }
                     break;
                 case 'W': {
@@ -2310,28 +2351,21 @@ int game::inventory_item_menu( item_location locThisItem,
                     }
                     break;
                 case 'V': {
-                    int is_recipe = 0;
-                    std::string this_itype = oThisItem.typeId().str();
-                    if( oThisItem.is_craft() ) {
-                        this_itype = oThisItem.get_making().ident().str();
-                        is_recipe = 1;
-                    }
-                    player_activity recipe_act = player_activity( ACT_VIEW_RECIPE, 0, is_recipe, 0, this_itype );
-                    u.assign_activity( recipe_act );
+                    view_recipe_crafting_menu( oThisItem );
                     break;
                 }
                 case 'i':
                     if( oThisItem.is_container() ) {
-                        game_menus::inv::insert_items( u, locThisItem );
+                        game_menus::inv::insert_items( locThisItem );
                     }
                     break;
                 case 'o':
                     if( oThisItem.is_container() && oThisItem.num_item_stacks() > 0 ) {
-                        game_menus::inv::common( locThisItem, u );
+                        game_menus::inv::common( locThisItem );
                     }
                     break;
                 case '=':
-                    game_menus::inv::reassign_letter( u, oThisItem );
+                    game_menus::inv::reassign_letter( oThisItem );
                     break;
                 case KEY_PPAGE:
                     iScrollPos -= iScrollHeight;
@@ -6023,13 +6057,13 @@ void game::pickup()
         return;
     }
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( u, *where_ ) );
+    u.pick_up( game_menus::inv::pickup( *where_ ) );
 }
 
 void game::pickup_all()
 {
     // Pick up items from current and all adjacent tiles
-    u.pick_up( game_menus::inv::pickup( u ) );
+    u.pick_up( game_menus::inv::pickup() );
 }
 
 void game::pickup( const tripoint &p )
@@ -6046,7 +6080,7 @@ void game::pickup( const tripoint_bub_ms &p )
     add_draw_callback( hilite_cb );
 
     // Pick up items only from the selected tile
-    u.pick_up( game_menus::inv::pickup( u, p ) );
+    u.pick_up( game_menus::inv::pickup( p ) );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
@@ -8414,7 +8448,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         bool recalc_unread = false;
         if( action == "COMPARE" && activeItem ) {
-            game_menus::inv::compare( u, active_pos );
+            game_menus::inv::compare( active_pos );
             recalc_unread = highlight_unread_items;
         } else if( action == "FILTER" ) {
             ui.invalidate_ui();
@@ -9044,13 +9078,13 @@ void game::insert_item()
         return;
     }
 
-    game_menus::inv::insert_items( u, item_loc );
+    game_menus::inv::insert_items( item_loc );
 }
 
 void game::unload_container()
 {
     if( const std::optional<tripoint> pnt = choose_adjacent( _( "Unload where?" ) ) ) {
-        u.drop( game_menus::inv::unload_container( u ), *pnt );
+        u.drop( game_menus::inv::unload_container(), *pnt );
     }
 }
 
@@ -10011,7 +10045,7 @@ void game::wield( item_location loc )
 
 void game::wield()
 {
-    item_location loc = game_menus::inv::wield( u );
+    item_location loc = game_menus::inv::wield();
 
     if( loc ) {
         wield( loc );
@@ -10319,12 +10353,14 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
 
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) &&
         !m.has_flag( ter_furn_flag::TFLAG_ROUGH, u.pos_bub() ) &&
+        !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
         !veh_dest &&
         ( u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < 5 ||
           u.get_armor_type( damage_bash, bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     } else if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) &&
                !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos_bub() ) &&
+               !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
                !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
                u.dex_cur < 78 &&
                !( u.is_mounted() &&
@@ -10719,7 +10755,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
     if( m.has_flag( ter_furn_flag::TFLAG_ROUGH, dest_loc ) && ( !u.in_vehicle ) &&
-        ( !u.is_mounted() ) ) {
+        ( !u.is_mounted() ) && !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) ) {
         if( one_in( 5 ) && u.get_armor_type( damage_bash, bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( ter_furn_flag::TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
@@ -10735,6 +10771,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) && !one_in( 3 ) &&
+        !u.has_flag( json_flag_ALL_TERRAIN_NAVIGATION ) &&
         !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
@@ -12658,7 +12695,6 @@ void game::update_overmap_seen()
 {
     const tripoint_abs_omt ompos = u.global_omt_location();
     const int dist = u.overmap_modified_sight_range( light_level( u.posz() ) );
-    const int base_sight = u.overmap_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, om_vision_level::full );
@@ -12695,11 +12731,11 @@ void game::update_overmap_seen()
             } while( seen.z() >= 0 );
         };
         int tiles_from = rl_dist( p, ompos );
-        if( tiles_from < std::floor( base_sight / 2 ) ) {
+        if( tiles_from < std::floor( dist / 2 ) ) {
             set_seen( p, om_vision_level::full );
-        } else if( tiles_from < base_sight ) {
+        } else if( tiles_from < dist ) {
             set_seen( p, om_vision_level::details );
-        } else if( tiles_from < base_sight * 2 ) {
+        } else if( tiles_from < dist * 2 ) {
             set_seen( p, om_vision_level::outlines );
         } else {
             set_seen( p, om_vision_level::vague );

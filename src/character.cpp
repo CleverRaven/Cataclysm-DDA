@@ -130,7 +130,6 @@
 class activity_actor;
 struct dealt_projectile_attack;
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -152,7 +151,6 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -8857,13 +8855,8 @@ void Character::cancel_activity()
         stop_hauling();
     }
     // Clear any backlog items that aren't auto-resume.
-    // but keep only one instance of ACT_ADV_INVENTORY
-    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
-    bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume &&
-            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+        if( backlog_item->auto_resume ) {
             backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
@@ -9082,7 +9075,6 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_CONSUME_FOOD_MENU ) ||
            has_activity( ACT_CONSUME_DRINK_MENU ) ||
            has_activity( ACT_CONSUME_MEDS_MENU ) ||
-           has_activity( ACT_VIEW_RECIPE ) ||
            has_activity( ACT_STUDY_SPELL );
 }
 

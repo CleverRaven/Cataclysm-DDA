@@ -2862,7 +2862,7 @@ void avatar::steal( npc &target )
         return;
     }
 
-    item_location loc = game_menus::inv::steal( *this, target );
+    item_location loc = game_menus::inv::steal( target );
     if( !loc ) {
         return;
     }

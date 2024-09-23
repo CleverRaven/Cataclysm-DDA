@@ -256,5 +256,38 @@
         "max(( 100 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') * 3) - (u_skill('deduction') * 5)), 25)"
       ]
     }
+  },
+  {
+    "id": "changeling_pooka_charm_animals_spell",
+    "type": "SPELL",
+    "name": "Friend to Birds and Beasts",
+    "description": "You have learned to speak the secret tongues of birds and beasts and may use it to ask them for aid.  Casting this spell on a mammal or a bird will ally them with you, causing them to defend you against your enemies.",
+    "valid_targets": [ "ally", "hostile" ],
+    "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
+    "effect": "charm_monster",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "max_level": 1,
+    "min_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 3) + (u_skill('deduction') * 10) + 15" ] },
+    "max_damage": { "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 7) + (u_skill('deduction') * 25) + 60" ] },
+    "min_duration": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 286) + (u_skill('deduction') * 3455) + 9450" ]
+    },
+    "max_duration": {
+      "math": [ "(u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 850) + (u_skill('deduction') * 8641) + 33145" ]
+    },
+    "min_range": 10,
+    "max_range": 10,
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "max(( 600 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 8) - (u_skill('deduction') * 25)), 250)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 4) - (u_skill('deduction') * 8)), 50)" ]
+    },
+    "targeted_monster_species": [ "MAMMAL", "BIRD" ]
   }
 ]

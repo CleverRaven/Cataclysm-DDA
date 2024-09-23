@@ -2094,5 +2094,14 @@
     "name": { "str": "Scroll of Faerie Fire", "str_pl": "Scrolls of Faerie Fire" },
     "description": "Limn the target in a soft green or blue light.  Great at parties.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_light_target" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_restore_crystal_mana",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Mana Extraction", "str_pl": "Scrolls of Mana Extraction" },
+    "description": "Turn crystallized mana back into mana you can use.  Doing that repeatedly is a great way to make huge quatities of mana vanish into the Aethereum.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_restore_crystal_mana" ] }
   }
 ]

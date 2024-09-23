@@ -78,7 +78,7 @@
     "id": "MELEE_PERK_SIXTH_SENSE",
     "copy-from": "MELEE_PERK_BASE",
     "name": { "str": "Sixth Sense" },
-    "description": "You accumulate insight stacks even from enemies you can't see.  You can perceive unseen enemies within 10 tiles if you have at least 5 insight stacks.",
+    "description": "You accumulate up to 20 insight stacks even from enemies you can't see.  You can perceive unseen enemies within 10 tiles if you have at least 5 insight stacks.",
     "flags": "MELEE_PERK_SIXTH_SENSE",
     "enchantments": [ "melee_perk_ench_six_sense" ]
   },

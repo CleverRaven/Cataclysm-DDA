@@ -40,7 +40,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": { "math": [ "6 + rand(12)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -48,7 +48,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 4 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s!"
       },
       {
@@ -62,7 +62,7 @@
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
         "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
         "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
@@ -82,7 +82,7 @@
         "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -94,10 +94,7 @@
         "spell_data": { "id": "telekinetic_momentum_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [
-            { "not": { "u_has_effect": "effect_psi_null" } },
-            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
-          ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
         },
         "monster_message": "The air around %1$s wavers."
       },
@@ -107,7 +104,7 @@
         "spell_data": { "id": "telekinetic_barrier_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
         },
         "monster_message": "The air around %1$s distorts."
       },
@@ -167,22 +164,20 @@
         "attack_upper": true,
         "throw_strength": 50,
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       [ "BIO_OP_DISARM", 15 ],
       {
         "id": "bio_op_takedown",
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       {
         "id": "psi_biokin_guard_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 120,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],

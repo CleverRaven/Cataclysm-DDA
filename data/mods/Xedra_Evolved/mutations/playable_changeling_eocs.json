@@ -787,7 +787,11 @@
           {
             "id": "EOC_POOKA_SHAPESHIFTING_MANA_CHECK_2",
             "condition": {
-              "math": [ "pooka_shapeshift_traits()", ">=", "2 + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 25)" ]
+              "math": [
+                "pooka_shapeshift_traits()",
+                ">=",
+                "1 + u_has_trait('POOKA_SHAPESHIFT_GOOD') + (u_has_trait('POOKA_SHAPESHIFT_GOOD2') * 2) + (u_has_trait('POOKA_SHAPESHIFT_GOOD3') * 4) + (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') / 50)"
+              ]
             },
             "effect": [ { "math": [ "u_val('mana')", "--" ] } ]
           }
@@ -804,17 +808,34 @@
     "id": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
     "effect": [
       { "u_deactivate_trait": "POOKA_ANTLERS" },
+      { "u_deactivate_trait": "POOKA_HORNS" },
+      { "u_deactivate_trait": "POOKA_FANGS" },
+      { "u_deactivate_trait": "POOKA_SABER_TEETH" },
       { "u_deactivate_trait": "POOKA_WOLF_EARS" },
+      { "u_deactivate_trait": "POOKA_FELINE_EARS" },
       { "u_deactivate_trait": "POOKA_CLAWS" },
       { "u_deactivate_trait": "POOKA_STAINLESS_CLAWS" },
+      { "u_deactivate_trait": "POOKA_URSINE_FUR" },
+      { "u_deactivate_trait": "POOKA_CHITIN" },
+      { "u_deactivate_trait": "POOKA_QUADRUPED" },
+      { "u_deactivate_trait": "POOKA_LEAPING_LEGS" },
       { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
-      { "u_deactivate_trait": "POOKA_TAIL_LONG" }
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_ANTLERS_ON",
-    "effect": [ { "u_add_trait": "ANTLERS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_HORNS" }, { "u_add_trait": "ANTLERS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -823,8 +844,70 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POOKA_HORNS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_ANTLERS" }, { "u_add_trait": "HORNS_CURLED" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_HORNS_OFF",
+    "effect": [ { "u_lose_trait": "HORNS_CURLED" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FANGS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "FANGS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FANGS_OFF",
+    "effect": [ { "u_lose_trait": "FANGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SABER_TEETH_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "SABER_TEETH" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SABER_TEETH_OFF",
+    "effect": [ { "u_lose_trait": "SABER_TEETH" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_EARS_ON",
-    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_add_trait": "LUPINE_EARS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_FELINE_EARS" }, { "u_add_trait": "LUPINE_EARS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -833,8 +916,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POOKA_FELINE_EARS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_lose_trait": "ELFA_EARS" }, { "u_deactivate_trait": "POOKA_WOLF_EARS" }, { "u_add_trait": "FELINE_EARS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_FELINE_EARS_OFF",
+    "effect": [ { "u_lose_trait": "FELINE_EARS" }, { "u_add_trait": "ELFA_EARS" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POOKA_CLAWS_ON",
-    "effect": [ { "u_add_trait": "CLAWS" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "CLAWS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -844,7 +953,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_STAINLESS_CLAWS_ON",
-    "effect": [ { "u_add_trait": "CLAWS_ST" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "CLAWS_ST" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -853,8 +970,110 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_POOKA_BIRD_WINGS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_add_trait": "WINGS_BIRD" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_BIRD_WINGS_OFF",
+    "effect": [ { "u_lose_trait": "WINGS_BIRD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_URSINE_FUR_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_CHITIN" }, { "u_add_trait": "URSINE_FUR" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_URSINE_FUR_OFF",
+    "effect": [ { "u_lose_trait": "URSINE_FUR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CHITIN_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_URSINE_FUR" }, { "u_add_trait": "CHITIN2" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_CHITIN_OFF",
+    "effect": [ { "u_lose_trait": "CHITIN2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_QUADRUPED_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_LEAPING_LEGS" }, { "u_add_trait": "POOKA_QUADRUPED_TRAITS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_QUADRUPED_OFF",
+    "effect": [ { "u_lose_trait": "POOKA_QUADRUPED_TRAITS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_LEAPING_LEGS_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [ { "u_deactivate_trait": "POOKA_QUADRUPED_TRAITS" }, { "u_add_trait": "LEAPING_LEGS" } ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_LEAPING_LEGS_OFF",
+    "effect": [ { "u_lose_trait": "LEAPING_LEGS" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_POOKA_WOLF_TAIL_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_TAIL_LONG" }, { "u_add_trait": "TAIL_FLUFFY" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_add_trait": "TAIL_FLUFFY" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -864,11 +1083,440 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_LONG_ON",
-    "effect": [ { "u_deactivate_trait": "POOKA_WOLF_TAIL" }, { "u_add_trait": "TAIL_LONG" } ]
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
+      { "u_deactivate_trait": "POOKA_TAIL_STING" },
+      { "u_add_trait": "TAIL_LONG" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_POOKA_TAIL_LONG_OFF",
     "effect": [ { "u_lose_trait": "TAIL_LONG" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_STING_ON",
+    "condition": { "not": { "u_has_flag": "TEMPORARY_SHAPESHIFT" } },
+    "effect": [
+      { "u_deactivate_trait": "POOKA_WOLF_TAIL" },
+      { "u_deactivate_trait": "POOKA_TAIL_LONG" },
+      { "u_add_trait": "TAIL_STING" }
+    ],
+    "false_effect": [
+      {
+        "u_message": "You are in the form of an animal.  You must turn back before shapeshifting individual parts of your body.",
+        "type": "bad"
+      },
+      { "run_eocs": "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_TAIL_STING_OFF",
+    "effect": [ { "u_lose_trait": "TAIL_STING" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT",
+    "required_event": "gains_mutation",
+    "eoc_type": "EVENT",
+    "condition": { "compare_string": [ "POOKA_SHAPESHIFT_FULL_SELECTOR", { "context_val": "trait" } ] },
+    "effect": [
+      {
+        "run_eoc_selector": [
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BAT",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_RAVEN",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BEAR",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_DEER",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_WOLF",
+          "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_COUGAR"
+        ],
+        "title": "What form will you be able to assume?",
+        "names": [ "Bat", "Raven", "Bear", "Deer", "Wolf", "Cougar" ],
+        "keys": [ "1", "2", "3", "4", "5", "6" ],
+        "descriptions": [
+          "You will be able to assume the form of a bat.",
+          "You will be able to assume the form of a raven.",
+          "You will be able to assume the form of a bear.",
+          "You will be able to assume the form of a deer.",
+          "You will be able to assume the form of a wolf.",
+          "You will be able to assume the form of a cougar."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_PROCESSED",
+    "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
+    "false_effect": [
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" },
+      { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BAT",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_BAT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_activated_2",
+            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              { "u_add_trait": "ECHOLOCATION" },
+              { "math": [ "u_calories()", "/=", "4" ] },
+              {
+                "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a bat.", "type": "bad" },
+              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "ECHOLOCATION" },
+              { "math": [ "u_calories()", "*=", "4" ] },
+              { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
+              {
+                "u_message": "Your body shifts and your fingers separate as you return to your previous form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BAT_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BAT" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_RAVEN",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_activated_2",
+            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_RAVEN_TRAITS" },
+              { "math": [ "u_calories()", "/=", "4" ] },
+              {
+                "u_message": "Your body shifts and warps as your fingers extend into wings and feathers burst from your skin as you take to the air.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a raven.", "type": "bad" },
+              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_RAVEN_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "math": [ "u_calories()", "*=", "4" ] },
+              { "u_lose_trait": "TURN_INTO_RAVEN_TRAITS" },
+              {
+                "u_message": "Your body shifts and your feathers vanish as you return to your previous form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_RAVEN_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_RAVEN" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_BEAR",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_BEAR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_activated_2",
+            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_BEAR_TRAITS" },
+              { "math": [ "u_calories()", "*=", "3" ] },
+              {
+                "u_message": "Your body shifts and expands as fur sprouts from your skin and your mouth and teeth lengthen.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a bear.", "type": "bad" },
+              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_BEAR_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "math": [ "u_calories()", "/=", "3" ] },
+              { "u_lose_trait": "TURN_INTO_BEAR_TRAITS" },
+              {
+                "u_message": "Your body shifts and contracts and you return to your humanoid form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_BEAR_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_BEAR" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_DEER",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_DEER" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_DEER_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_activated_2",
+            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_DEER_TRAITS" },
+              {
+                "u_message": "Your body shifts and warps as your fingers and feet fuse into hooves and majestic antlers sprout from your head.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a deer.", "type": "bad" },
+              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_DEER_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "TURN_INTO_DEER_TRAITS" },
+              {
+                "u_message": "Your body shifts and contracts and you return to your humanoid form.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_DEER_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_DEER" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_WOLF",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_WOLF" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated",
+    "condition": { "not": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_activated_2",
+            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+              {
+                "u_message": "Your nose pushes out into a muzzle as you fall forward on all fours and let out a snarl.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a wolf.", "type": "bad" },
+              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivated",
+            "condition": { "u_has_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "VAMPIRE_WOLF_FORM_TRAITS" },
+              { "u_message": "Your fur disappears and you walk once again on two legs.", "type": "neutral" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_WOLF_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_WOLF" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKIE_GAIN_PINNACLE_OF_FORMS_TRAIT_COUGAR",
+    "effect": [ { "u_add_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated",
+    "condition": { "not": { "u_has_trait": "TURN_INTO_COUGAR_TRAITS" } },
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_POOKA_SHAPESHIFTS_REMOVE_deactivate_future",
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_activated_2",
+            "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_add_trait": "TURN_INTO_COUGAR_TRAITS" },
+              { "u_add_trait": "FELINE_LEAP" },
+              { "u_add_trait": "WHISKERS" },
+              {
+                "u_message": "Your nose pushes out into a muzzle and whiskers sprout from it as you fall forward on all fours and let out a growl.",
+                "type": "good"
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You don't have enough mana to transform into a cougar.", "type": "bad" },
+              { "queue_eocs": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future", "time_in_future": 0 }
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivated",
+            "condition": { "u_has_trait": "TURN_INTO_COUGAR_TRAITS" },
+            "effect": [
+              { "u_assign_activity": "ACT_GENERIC_EOC", "duration": 2.5 },
+              { "u_lose_trait": "TURN_INTO_COUGAR_TRAITS" },
+              { "u_lose_trait": "FELINE_LEAP" },
+              { "u_lose_trait": "WHISKERS" },
+              {
+                "u_message": "Your fur and whiskers disappear and you walk once again on two legs.",
+                "type": "neutral"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POOKA_SHAPESHIFT_FULL_COUGAR_deactivate_future",
+    "//": "This is necessary because calling u_deactivate_trait from within the trait EoC does not work",
+    "effect": { "u_deactivate_trait": "POOKA_SHAPESHIFT_FULL_COUGAR" }
   }
 ]

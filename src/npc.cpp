@@ -2366,7 +2366,7 @@ bool npc::is_stationary( bool include_guards ) const
     if( include_guards && is_guarding() ) {
         return true;
     }
-    return mission == NPC_MISSION_SHELTER || mission == NPC_MISSION_SHOPKEEP ||
+    return ( !is_following() && mission == NPC_MISSION_SHELTER ) || mission == NPC_MISSION_SHOPKEEP ||
            has_effect( effect_infection );
 }
 

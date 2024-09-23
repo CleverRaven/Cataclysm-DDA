@@ -870,7 +870,7 @@
     "material_thickness": 1.4,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "WATERPROOF", "STURDY", "PADDED", "MORPHIC" ]
   },
   {
     "id": "dreamforged_helmet",
@@ -887,7 +887,7 @@
     "warmth": 10,
     "material_thickness": 1.4,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
@@ -907,7 +907,7 @@
     "longest_side": "60 cm",
     "material_thickness": 2,
     "use_action": [ { "type": "attach_molle", "size": 4 }, { "type": "detach_molle" } ],
-    "flags": [ "OUTER", "STURDY", "ONLY_ONE", "BLOCK_WHILE_WORN", "PADDED" ],
+    "flags": [ "OUTER", "STURDY", "ONLY_ONE", "BLOCK_WHILE_WORN", "PADDED", "MORPHIC" ],
     "armor": [
       {
         "material": [ { "type": "forged_dreamstuff", "covered_by_mat": 100, "thickness": 2 } ],
@@ -944,7 +944,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 1.2,
-    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN", "PADDED" ],
+    "flags": [ "MORPHIC", "OUTER", "STURDY", "BLOCK_WHILE_WORN", "PADDED" ],
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
@@ -972,7 +972,7 @@
     "warmth": 10,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ],
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ],
     "armor": [
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1065,7 +1065,7 @@
     "warmth": 5,
     "material_thickness": 0.7,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "PADDED" ]
+    "flags": [ "MORPHIC", "WATERPROOF", "STURDY", "PADDED" ]
   },
   {
     "id": "dreamforged_armguard_plate_gunslinger",

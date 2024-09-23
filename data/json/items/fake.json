@@ -198,13 +198,6 @@
     "qualities": [ [ "ANVIL", 4 ] ]
   },
   {
-    "id": "fake_anvil_crude",
-    "type": "TOOL",
-    "copy-from": "fake_item",
-    "name": { "str": "anvil" },
-    "qualities": [ [ "ANVIL", 2 ] ]
-  },
-  {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",

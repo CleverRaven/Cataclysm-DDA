@@ -6,7 +6,7 @@
     "items": [
       { "item": "cable", "prob": 40, "count": [ 1, 2 ] },
       { "item": "cable", "prob": 25, "count": [ 2, 4 ] },
-      { "item": "voltmeter", "prob": 40, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 40 },
       { "item": "multimeter", "prob": 40, "charges": [ 0, 100 ] },
       { "item": "emf_detector", "prob": 20, "charges": [ 0, 100 ] },
       [ "light_detector", 5 ],
