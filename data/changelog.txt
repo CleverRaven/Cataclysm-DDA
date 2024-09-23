@@ -313,7 +313,6 @@ Mute very divergent mouth mutations
 Added apiary overmap tile to farm generation
 Add Variable Snippets for Home Pictures
 More detailed sunset/sunrise morale based on actual weather and traits
-More detailed sunset/sunrise morale based on actual weather and traits
 Sand and gravel pit location
 Neutral NPCs may now be shoved.
 Add game screenshots to data/screenshots
