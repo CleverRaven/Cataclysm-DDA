@@ -90,25 +90,23 @@
     "id": "EOC_ISO_BIO_VAMPIRE_RESTORE",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "math": [ "u_bionic_in_melee", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "u_bionic_in_melee", "==", "1" ] }, { "u_has_trait": "iso_bionic_vampire" } ] },
+    "//": "* in math is so the number before the * is kJ of bionic power restored",
     "effect": [
-      { "math": [ "u_val('power')", "+=", "100000" ] },
+      { "math": [ "u_val('power')", "+=", "1.75 * 1000000" ] },
+      { "if": { "npc_has_flag": "PUSH_MON" }, "then": { "math": [ "u_val('power')", "+=", "50 * 1000000" ] } },
       {
-        "if": { "math": [ "n_val('difficulty')", ">=", "25" ] },
-        "then": { "math": [ "u_val('power')", "+=", "25000)" ] }
+        "if": { "npc_has_flag": "CORNERED_FIGHTER " },
+        "then": { "math": [ "u_val('power')", "+=", "0.5 * 1000000" ] }
       },
       {
-        "if": { "math": [ "n_val('difficulty')", ">=", "50" ] },
-        "then": { "math": [ "u_val('power')", "+=", "65000)" ] }
+        "if": { "npc_has_flag": "PRIORITIZE_TARGETS  " },
+        "then": { "math": [ "u_val('power')", "+=", "15 * 1000000" ] }
       },
-      {
-        "if": { "math": [ "n_val('difficulty')", ">=", "75" ] },
-        "then": { "math": [ "u_val('power')", "+=", "95000)" ] }
-      },
-      {
-        "if": { "math": [ "n_val('difficulty')", ">=", "110" ] },
-        "then": { "math": [ "u_val('power')", "+=", "150000)" ] }
-      }
+      { "if": { "npc_has_flag": "ELECTRIC" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HARDTOSHOOT" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
+      { "if": { "npc_has_species": "NETHER" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
+      { "if": { "npc_has_species": "ROBOT" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } }
     ]
   },
   {
@@ -116,6 +114,7 @@
     "id": "EOC_ISO_BIO_VAMPIRE_RESTORE_IN_MELEE",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
+    "condition": { "u_has_trait": "iso_bionic_vampire" },
     "effect": [ { "math": [ "u_bionic_in_melee", "=", "1" ] } ]
   },
   {
@@ -123,6 +122,7 @@
     "id": "EOC_ISO_BIO_VAMPIRE_RESTORE_AT_RANGE",
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_monster",
+    "condition": { "u_has_trait": "iso_bionic_vampire" },
     "effect": [ { "math": [ "u_bionic_in_melee", "=", "0" ] } ]
   }
 ]

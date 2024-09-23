@@ -180,6 +180,7 @@
     "description": "An assassin more metal than meat, driven onward by their faulty cybernetics.",
     "points": 6,
     "proficiencies": [ "prof_gross_anatomy", "prof_bionic_swords_familiar", "prof_bionic_swords_pro" ],
+    "//": "Once it's possible, this guy should have fully-cybernetic arms. Right now, bio_armor_arms + bio_hydraulics will have to do.",
     "CBMs": [
       "bio_blade",
       "bio_tattoo_led",
@@ -187,9 +188,9 @@
       "bio_armor_eyes",
       "bio_hydraulics",
       "bio_shock",
-      "bio_carbon",
       "bio_climate",
       "bio_weight",
+      "bio_armor_arms",
       "bio_targeting",
       "bio_uncanny_dodge",
       "bio_adrenaline",
