@@ -103,8 +103,11 @@
         "if": { "npc_has_flag": "PRIORITIZE_TARGETS  " },
         "then": { "math": [ "u_val('power')", "+=", "15 * 1000000" ] }
       },
+      { "if": { "npc_has_flag": "DROPS_AMMO" }, "then": { "math": [ "u_val('power')", "+=", "35 * 1000000" ] } },
+      { "if": { "npc_has_flag": "STUN_IMMUNE" }, "then": { "math": [ "u_val('power')", "+=", "2 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HAS_MIND" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
       { "if": { "npc_has_flag": "ELECTRIC" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } },
-      { "if": { "npc_has_flag": "HARDTOSHOOT" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
+      { "if": { "npc_has_flag": "HARDTOSHOOT" }, "then": { "math": [ "u_val('power')", "+=", "20 * 1000000" ] } },
       { "if": { "npc_has_species": "NETHER" }, "then": { "math": [ "u_val('power')", "+=", "10 * 1000000" ] } },
       { "if": { "npc_has_species": "ROBOT" }, "then": { "math": [ "u_val('power')", "+=", "5 * 1000000" ] } }
     ]
