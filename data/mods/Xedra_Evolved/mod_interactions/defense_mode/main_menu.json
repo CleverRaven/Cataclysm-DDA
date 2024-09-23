@@ -1,0 +1,27 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_DEFENSE_MODE_PRESET_GAME_MENU",
+    "responses": [
+      {
+        "text": "<color_yellow>Assault On Precinct 13</color>: (Hold out against the Exodii with five of your coworkers in your office building.)",
+        "effect": [
+          { "math": [ "regular_zombies_allowed", "=", "0" ] },
+          { "math": [ "special_zombies_allowed", "=", "0" ] },
+          { "math": [ "spiders_allowed", "=", "0" ] },
+          { "math": [ "triffids_allowed", "=", "0" ] },
+          { "math": [ "robots_allowed", "=", "0" ] },
+          { "math": [ "subspace_allowed", "=", "0" ] },
+          { "math": [ "exodii_allowed", "=", "1" ] },
+          {
+            "u_location_variable": { "global_val": "your_spawnpoint" },
+            "target_params": { "om_terrain": "dm_field_office_8", "search_range": 500, "z": 0 }
+          },
+          { "u_teleport": { "global_val": "your_spawnpoint" } },
+          { "mapgen_update": "precinct_13_spawns" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  }
+]

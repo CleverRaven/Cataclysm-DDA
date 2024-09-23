@@ -1,0 +1,7 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "HUMAN",
+    "flags": [ "ALL_SEEING", "NEMESIS" ]
+  }
+]

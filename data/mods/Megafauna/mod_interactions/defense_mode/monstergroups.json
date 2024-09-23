@@ -1,0 +1,13 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MEGAFAUNA_DM",
+    "default": "mon_direwolf",
+    "monsters": [
+      { "monster": "mon_direwolf_dm", "weight": 10 },
+      { "monster": "mon_sabcat_dm", "weight": 10 },
+      { "monster": "mon_cave_lion_dm", "weight": 10 },
+      { "monster": "mon_titanis_walleri_dm", "weight": 10 }
+    ]
+  }
+]
