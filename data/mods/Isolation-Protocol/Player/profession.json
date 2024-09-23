@@ -184,6 +184,7 @@
     "CBMs": [
       "bio_blade",
       "bio_tattoo_led",
+      "bio_ar",
       "bio_watch",
       "bio_armor_eyes",
       "bio_hydraulics",
@@ -196,6 +197,7 @@
       "bio_adrenaline",
       "bio_night_vision",
       "bio_blood_filter",
+      "bio_ads",
       "bio_ods",
       "bio_soporific",
       "bio_faraday",
