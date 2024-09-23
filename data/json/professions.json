@@ -3483,7 +3483,6 @@
       { "level": 5, "name": "fabrication" },
       { "level": 5, "name": "electronics" },
       { "level": 5, "name": "mechanics" },
-      { "level": 3, "name": "traps" }
     ],
     "items": {
       "both": {
@@ -3961,35 +3960,6 @@
           { "item": "memory_card" },
           { "item": "usb_drive" },
           { "item": "portable_game", "charges": 150 },
-          { "item": "pants", "variant": "pants_stone" },
-          { "group": "charged_smart_phone" },
-          { "group": "starter_wallet_full" },
-          { "group": "charged_laptop" }
-        ]
-      },
-      "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "programmer",
-    "name": "Programmer",
-    "description": "You used to spend most of your free time working on an open source apocalypse survival game; now, however, you find yourself living through it.",
-    "points": 3,
-    "skills": [ { "level": 7, "name": "computer" } ],
-    "addictions": [ { "intensity": 10, "type": "caffeine" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "tshirt", "variant": "tux" },
-          { "item": "socks" },
-          { "item": "sneakers" },
-          { "item": "backpack" },
-          { "item": "caffeine", "count": 10, "container-item": "null", "entry-wrapper": "bottle_plastic_small" },
-          { "item": "caff_gum", "count": 3 },
-          { "item": "memory_card" },
-          { "item": "usb_drive" },
           { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
           { "group": "starter_wallet_full" },
