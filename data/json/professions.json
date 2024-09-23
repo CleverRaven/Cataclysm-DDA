@@ -7859,7 +7859,6 @@
           { "group": "starter_wallet_full" },
           { "group": "charged_penblack" },
           { "item": "pants", "variant": "pants_black" },
-          { "item": "coffee", "container-item": "coffeepot" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
