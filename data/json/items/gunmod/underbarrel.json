@@ -571,5 +571,26 @@
       "moves": 150
     },
     "flags": [ "BIPOD", "SLOW_WIELD", "ZERO_WEIGHT" ]
+  },
+  {
+    "id": "muzzle_weight",
+    "type": "GUNMOD",
+    "name": { "str": "muzzle weight" },
+    "description": "A small weight attached below the barrel of a firearm to reduce muzzle climb, increasing bulk but allowing for faster follow-up shots.  Mainly used on competition handguns, but it can be added to combat pistols, too.",
+    "//": "Based on https://stores.sjcguns.com/sjc-full-size-m-p-frame-weight/, which was selected as an 'average' WRT weight.  This model does not extend beyond the barrel or the slide, and so is compatible with compensators, suppressors, etc.  Realistically every distinct model and chambering of pistol would need a custom-made weight, but that level of granularity doesn't seem to square with that of existing gunmods.",
+    "weight": "179 g",
+    "volume": "68 ml",
+    "longest_side": "68 mm",
+    "integral_longest_side": "0 cm",
+    "handling_modifier": 2,
+    "price": "175 USD",
+    "price_postapoc": "5 USD",
+    "install_time": "1 m",
+    "material": [ "aluminum" ],
+    "symbol": ":",
+    "color": "white",
+    "location": "underbarrel",
+    "mod_targets": [ "smg", "pistol" ],
+    "min_skills": [ [ "weapon", 3 ], [ "gun", 1 ] ]
   }
 ]

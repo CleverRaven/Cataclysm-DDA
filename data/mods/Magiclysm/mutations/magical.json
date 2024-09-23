@@ -126,7 +126,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_cougar", "tile_category": "monster" },
     "integrated_armor": [ "integrated_fangs", "integrated_feline_fur", "integrated_claws" ]
   },

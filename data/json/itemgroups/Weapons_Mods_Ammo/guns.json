@@ -141,7 +141,7 @@
       { "group": "nested_bfr", "prob": 100 },
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
-      { "group": "nested_mauser_c96", "prob": 39 },
+      { "group": "nested_mauser_c96", "prob": 39, "contents-group": "c96_mods" },
       { "group": "nested_chiappa_rhino", "prob": 5 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
@@ -161,7 +161,11 @@
     "type": "item_group",
     "id": "guns_pistol_collectible",
     "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally suppressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
-    "items": [ { "item": "mauser_c96", "prob": 50 }, { "item": "colt_navy", "prob": 40 }, { "item": "colt_army", "prob": 40 } ]
+    "items": [
+      { "item": "mauser_c96", "prob": 50, "contents-group": "c96_mods" },
+      { "item": "colt_navy", "prob": 40 },
+      { "item": "colt_army", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",
