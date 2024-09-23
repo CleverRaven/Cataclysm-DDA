@@ -575,7 +575,7 @@ std::vector<cata_path> get_directories_with( const std::vector<std::string> &pat
  * @param recursive_search Be recurse or not.
  * @return vector or directories without pattern filename at end.
  */
-std::vector<std::string> get_directories( const std::string &root_path = "", const bool recursive_search )
+std::vector<std::string> get_directories( const std::string &root_path, const bool recursive_search )
 {
     auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
     bool ) {
