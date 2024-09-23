@@ -23,6 +23,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_matrix_potion_nether_boost",
+    "//": "Hidden effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "300 s" ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biokin_potion",
     "name": [ "Pink Elixir" ],
     "desc": [ "You drank the concentrated matrix crystal concoction." ],
