@@ -22,7 +22,8 @@
         "condition": {
           "and": [
             { "u_has_items": { "item": "broken_kord", "count": 1 } },
-            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } }
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_gunsmith_mentioned_quest" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_completed_quest" } ] }
           ]
         },
         "topic": "TALK_GUNSMITH_KORD"
