@@ -31,8 +31,11 @@
         { "item": "dining", "chance": 10 },
         { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] }
       ],
-      "m": { "item": "SUS_fridge_survivor", "chance": 48 },
-      "F": { "item": "SUS_fridge_survivor", "chance": 60 },
+      "m": [ { "item": "SUS_fridge_survivor", "chance": 48 }, { "group": "concentrated_matrix_elixirs", "prob": 3 } ],
+      "F": [
+        { "item": "SUS_fridge_survivor", "chance": 60 },
+        { "group": "concentrated_matrix_elixirs", "prob": 4, "repeat": [ 1, 2 ] }
+      ],
       "J": [ { "item": "cannedfood", "chance": 50, "repeat": [ 1, 2 ] } ],
       "6": [
         { "item": "SUS_pantry", "chance": 12 },
