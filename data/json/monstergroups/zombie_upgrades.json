@@ -189,11 +189,9 @@
     "name": "GROUP_FERROUS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_rust", "weight": 600 },
-      { "monster": "mon_zombie_shell", "weight": 175 },
-      { "monster": "mon_zombie_plated", "weight": 75, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_urchin", "weight": 75, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_hammer_hands", "weight": 75, "cost_multiplier": 2 }
+      { "monster": "mon_zombie_shell", "weight": 500 },
+      { "monster": "mon_zombie_urchin", "weight": 250, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_hammer_hands", "weight": 250, "cost_multiplier": 2 }
     ]
   },
   {
@@ -216,21 +214,19 @@
     "name": "GROUP_SKELETON_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_skeleton", "weight": 600 },
-      { "monster": "mon_skeleton_slasher", "weight": 120, "cost_multiplier": 2 },
-      { "monster": "mon_skeleton_brute", "weight": 160, "cost_multiplier": 2 },
-      { "monster": "mon_skeleton_master", "weight": 60, "cost_multiplier": 2 },
-      { "monster": "mon_skeleton_necro", "weight": 60, "cost_multiplier": 2 }
+      { "monster": "mon_skeleton_slasher", "weight": 300, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_brute", "weight": 400, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_master", "weight": 150, "cost_multiplier": 2 },
+      { "monster": "mon_skeleton_necro", "weight": 150, "cost_multiplier": 2 }
     ]
   },
   {
     "name": "GROUP_ZOMBIE_MINER_UPGRADE",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_miner" },
-      { "monster": "mon_zombie_shady", "weight": 150 },
-      { "monster": "mon_zombie_rust", "weight": 110 },
-      { "monster": "mon_zombie_tough", "weight": 60 }
+      { "monster": "mon_zombie_shady", "weight": 450 },
+      { "monster": "mon_zombie_rust", "weight": 350 },
+      { "monster": "mon_zombie_tough", "weight": 200 }
     ]
   }
 ]
