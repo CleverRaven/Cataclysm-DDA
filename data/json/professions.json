@@ -125,16 +125,14 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_soldering_iron",
-    "entries": [
-      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "soldering_iron_portable" }
-    ]
+    "entries": [ { "item": "soldering_iron_portable", "charges": 150 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_electrical_measuring",
     "entries": [
-      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "voltmeter" },
+      { "item": "voltmeter" },
       { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "multimeter" }
     ]
   },

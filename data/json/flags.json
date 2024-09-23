@@ -1539,6 +1539,11 @@
     "info": "This is <info>integrated into the body</info>."
   },
   {
+    "id": "MORPHIC",
+    "type": "json_flag",
+    "info": "This is <info>naturally sized to the body</info>."
+  },
+  {
     "id": "IR_EFFECT",
     "type": "json_flag"
   },
@@ -2196,6 +2201,11 @@
     "id": "LEVITATION",
     "type": "json_flag",
     "info": "Allows movement in open air."
+  },
+  {
+    "id": "ALL_TERRAIN_NAVIGATION",
+    "type": "json_flag",
+    "info": "Allows movement over rough and sharp terrain without penalty."
   },
   {
     "id": "EXO_SMALL",

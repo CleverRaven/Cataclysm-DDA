@@ -20,6 +20,11 @@
     "replace": "qt_steel_chunk"
   },
   {
+    "id": "fake_anvil_crude",
+    "type": "MIGRATION",
+    "replace": "fake_anvil"
+  },
+  {
     "id": "power_armor_generator",
     "type": "MIGRATION",
     "replace": "qt_steel_chunk"

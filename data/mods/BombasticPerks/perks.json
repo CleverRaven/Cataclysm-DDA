@@ -377,6 +377,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_all_terrain",
+    "name": { "str": "All Terrain" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
+    "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_bedtime_reader",
     "name": { "str": "Bedtime Stories" },
     "points": 0,

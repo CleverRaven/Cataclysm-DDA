@@ -261,5 +261,19 @@
     "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
     "effect": { "u_message": "You sense <npc_name> trying to enter your mind, but you repel!", "type": "warning" },
     "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALIEN_MEADOW_BUSH_2_BERRIES",
+    "//": "This sets up a delayed reaction to eating the berries",
+    "effect": [ { "queue_eocs": "EOC_ALIEN_MEADOW_BUSH_2_BERRIES_2", "time_in_future": [ "5 minutes", "20 minutes" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ALIEN_MEADOW_BUSH_2_BERRIES_2",
+    "effect": [
+      { "u_message": "Your stomach is seized with cramps!", "type": "bad" },
+      { "u_add_effect": "alienfoodpoison", "duration": { "math": [ "3600 + rand(16200)" ] } }
+    ]
   }
 ]

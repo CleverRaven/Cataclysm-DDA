@@ -1452,6 +1452,7 @@
         [ "sheet_metal", -1 ],
         [ "fire_brick", -1 ],
         [ "anvil", -1 ],
+        [ "anvil_crude", -1 ],
         [ "anvil_bronze", -1 ],
         [ "casting_mold_small", -1 ]
       ],

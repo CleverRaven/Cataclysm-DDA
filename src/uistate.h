@@ -215,12 +215,12 @@ class uistatedata
             return input_history[id];
         }
         /**
-         * A function pointer to be run before the player's next action.
+         * A function pointer to be run before the player's next action (but after activities conclude).
          *
          * Useful for opening a menu with passed arguments.
+         * As it is not serialized it should not be used for any game state logic! Like moving a character.
          */
-        // NOLINTNEXTLINE(cata-serialize)
-        std::optional<std::function<void()>> open_menu;
+        std::optional<std::function<void()>> open_menu; // NOLINT(cata-serialize)
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>

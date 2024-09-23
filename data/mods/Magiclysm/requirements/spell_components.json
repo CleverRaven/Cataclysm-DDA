@@ -294,5 +294,11 @@
     "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "components": [ [ [ "lens", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_restore_crystal_mana",
+    "type": "requirement",
+    "//": "Crystallized mana for the Mana Extraction spell",
+    "components": [ [ [ "crystallized_mana", 5 ] ] ]
   }
 ]

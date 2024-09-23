@@ -171,6 +171,7 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
+static const trait_id trait_GUNSHY( "GUNSHY" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -4174,6 +4175,12 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
         messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    if( you.has_trait( trait_GUNSHY ) ) {
+        messages.push_back( string_format( _( "You're too gun-shy to use this." ),
                                            gmode->tname() ) );
         result = false;
     }
