@@ -7843,7 +7843,7 @@
     "type": "profession",
     "id": "ittech",
     "name": "IT Technician",
-    "description": "Your prayers were answered when you were just one broken fax machine away from a complete mental breakdown, although you are now starting to think that wish might have been better used on something else.",
+    "description": "You were the backbone of any serious office, setting up and maintaining the systems that entire companies relied on to survive.  Now that the offices and the companies that owned them are no more, you start to realize that your skillset just might not be sufficient to solve the one particular problem that is the Cataclysm.",
     "points": 1,
     "skills": [ { "level": 5, "name": "computer" } ],
     "addictions": [ { "intensity": 10, "type": "caffeine" } ],
