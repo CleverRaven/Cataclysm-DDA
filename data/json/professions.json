@@ -1034,7 +1034,7 @@
     "type": "profession",
     "id": "chemist",
     "name": "Chemist",
-    "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab.  With your colleagues presumably dead and lab overrun, you question whether if it truly is the time to break bad.",
+    "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab.  With your colleagues presumably dead and all the institutions of science overrun, you wonder if Alchemy will be making its return.",
     "points": 3,
     "skills": [ { "level": 5, "name": "chemistry" } ],
     "proficiencies": [
