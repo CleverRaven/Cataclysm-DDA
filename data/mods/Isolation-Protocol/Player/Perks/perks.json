@@ -66,7 +66,7 @@
     "id": "iso_bionic_vampire",
     "name": { "str": "Power Drain" },
     "points": 0,
-    "description": "Your cybernetic implants are constantly losing power, but a quirk of their design allows you regain power through murder.\n\nYou lose bionic power every second, but melee kills restore power, scaling by with the danger level of your target.",
+    "description": "Your cybernetic implants are constantly losing power, but a quirk of their design allows you regain power through murder.\n\nYou lose bionic power every second, but melee kills restore power, scaling with the danger level of your target.",
     "category": [ "iso_start_perk" ],
     "enchantments": [ "iso_bionic_vampire_buff" ],
     "purifiable": false,
