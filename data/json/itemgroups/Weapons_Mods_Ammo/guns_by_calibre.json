@@ -2,90 +2,109 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_9mm",
-    "//": "Pistols that are reasonably prolific amongst civilians, commonly owned and reliably obtainable by citizens and that are found in many locations.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "//": "Pistols that are able to be obtained legally, regardless of how rare they'd be.  Numbers are based off of Gunbroker, and any prob of 100 is the base gun that the other ones are compared to.",
+    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.  The rare/other itemgroups are to handle firearms that are too rare to show up as a whole number, but would still exist in some capacity.",
     "items": [
-      { "group": "nested_glock_17", "prob": 12 },
-      { "group": "nested_glock_19", "prob": 15 },
-      { "group": "nested_m9", "prob": 11 },
-      { "group": "nested_px4", "prob": 11 },
-      { "group": "nested_hi_power_9mm", "prob": 2 },
-      { "group": "nested_walther_ppq_9mm", "prob": 4 },
-      { "group": "nested_cz75", "prob": 1 },
-      { "group": "nested_kpf9", "prob": 13 },
-      { "group": "nested_hptc9", "prob": 2 },
-      { "group": "nested_walther_ccp", "prob": 7 }
+      { "group": "nested_glock_17", "prob": 73 },
+      { "group": "nested_glock_19", "prob": 100 },
+      { "group": "nested_m9", "prob": 22 },
+      { "group": "nested_px4", "prob": 5 },
+      { "group": "nested_hi_power_9mm", "prob": 9 },
+      { "group": "nested_walther_ppq_9mm", "prob": 8 },
+      { "group": "nested_cz75", "prob": 65 },
+      { "group": "nested_hptc9", "prob": 12 },
+      { "group": "nested_walther_ccp", "prob": 2 },
+      { "group": "nested_m18", "prob": 22 },
+      { "group": "nested_m11", "prob": 15 },
+      { "group": "nested_hk_mp5_semi_pistol", "prob": 10 },
+      { "group": "nested_m17", "prob": 24 },
+      { "group": "nested_p226_9mm", "prob": 73 },
+      { "group": "nested_sp2022", "prob": 4 },
+      { "group": "nested_usp_9mm", "prob": 38 },
+      { "group": "nested_walther_p38", "prob": 9 },
+      { "group": "guns_pistol_rare_9mm", "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_22",
     "items": [
-      { "group": "nested_walther_p22", "prob": 40 },
-      { "group": "nested_ruger_lcr_22", "prob": 40 },
-      { "group": "nested_rough_rider_pistol", "prob": 25 },
-      { "group": "nested_rough_rider_pistol_9", "prob": 4 },
-      { "group": "nested_sig_mosquito", "prob": 18 },
-      { "group": "nested_cp33", "prob": 9 },
-      { "group": "nested_ruger_mk4", "prob": 74 },
-      { "group": "nested_ruger_charger", "prob": 1 },
-      { "group": "nested_1911_22", "prob": 40 }
+      { "group": "nested_walther_p22", "prob": 45 },
+      { "group": "nested_ruger_lcr_22", "prob": 2 },
+      { "group": "nested_rough_rider_pistol", "prob": 61 },
+      { "group": "nested_rough_rider_pistol_9", "prob": 14 },
+      { "group": "nested_sig_mosquito", "prob": 65 },
+      { "group": "nested_cp33", "prob": 16 },
+      { "group": "nested_ruger_mk4", "prob": 113 },
+      { "group": "nested_ruger_charger", "prob": 16 },
+      { "group": "nested_1911_22", "prob": 100 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_45",
     "items": [
-      { "group": "nested_glock_21", "prob": 5 },
-      { "group": "nested_m1911", "prob": 17 },
-      { "group": "nested_walther_ppq_45", "prob": 2 },
-      { "group": "nested_hptjhp", "prob": 1 }
+      { "group": "nested_glock_21", "prob": 14 },
+      { "group": "nested_m1911", "prob": 100 },
+      { "group": "nested_walther_ppq_45", "prob": 1 },
+      { "group": "nested_hptjhp", "prob": 2 },
+      { "group": "nested_usp_45", "prob": 4 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_380",
-    "items": [
-      { "group": "nested_kp3at", "prob": 10 },
-      { "group": "nested_rugerlcp", "prob": 10 },
-      { "group": "nested_hptcf380", "prob": 2 },
-      { "group": "nested_taurus_spectrum", "prob": 6 }
-    ]
+    "items": [ { "group": "nested_rugerlcp", "prob": 231 }, { "group": "nested_hptcf380", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_40",
     "items": [
-      { "group": "nested_glock_22", "prob": 10 },
-      { "group": "nested_px4_40", "prob": 5 },
-      { "group": "nested_hi_power_40", "prob": 2 },
-      { "group": "nested_walther_ppq_40", "prob": 3 },
-      { "group": "nested_hptjcp", "prob": 1 }
+      { "group": "nested_glock_22", "prob": 100 },
+      { "group": "nested_px4_40", "prob": 20 },
+      { "group": "nested_hi_power_40", "prob": 3 },
+      { "group": "nested_hptjcp", "prob": 29 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_357mag",
     "items": [
-      { "group": "nested_sw_619", "prob": 3 },
-      { "group": "nested_rp63", "prob": 3 },
-      { "group": "nested_colt_python", "prob": 3 }
+      { "group": "nested_sw_619", "prob": 100 },
+      { "group": "nested_rp63", "prob": 11 },
+      { "group": "nested_colt_python", "prob": 96 },
+      { "group": "nested_chiappa_rhino", "prob": 72 },
+      { "group": "nested_modular_deagle_357", "prob": 38 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_38",
-    "items": [ { "group": "nested_ruger_lcr_38", "prob": 5 }, { "group": "nested_model_10_revolver", "prob": 10 } ]
+    "items": [ { "group": "nested_ruger_lcr_38", "prob": 66 }, { "group": "nested_model_10_revolver", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_44",
-    "items": [ { "group": "nested_sw629", "prob": 5 }, { "group": "nested_colt_anaconda", "prob": 4 } ]
+    "items": [
+      { "group": "nested_sw629", "prob": 100 },
+      { "group": "nested_colt_anaconda", "prob": 47 },
+      { "group": "nested_modular_deagle_44", "prob": 52 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_10mm",
-    "items": [ { "group": "nested_sw_610", "prob": 5 } ]
+    "items": [
+      { "group": "nested_glock_40", "prob": 100 },
+      { "group": "nested_m1911_10", "prob": 30 },
+      { "group": "nested_p220_10", "prob": 35 },
+      { "group": "nested_xd_10", "prob": 85 },
+      { "group": "nested_witness_10", "prob": 10 },
+      { "group": "nested_TDI_10", "prob": 183 },
+      { "group": "nested_glock_20", "prob": 121 },
+      { "group": "nested_glock_29", "prob": 62 },
+      { "group": "nested_sw_610", "prob": 34 }
+    ]
   },
   {
     "type": "item_group",
@@ -108,8 +127,39 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_57",
+    "items": [
+      { "group": "nested_ruger_57", "prob": 100 },
+      { "group": "nested_fn57", "prob": 13 },
+      { "group": "nested_p50", "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_32",
+    "items": [ { "group": "nested_kp32", "prob": 100 }, { "group": "nested_walther_ppk", "prob": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_45colt",
+    "items": [
+      { "group": "nested_raging_bull", "prob": 9 },
+      { "group": "nested_taurus_judge", "prob": 100 },
+      { "group": "nested_colt_saa", "prob": 26 },
+      { "group": "nested_bond_410", "prob": 16 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_other",
-    "items": [ { "group": "nested_kp32", "prob": 5 }, { "group": "nested_taurus_judge", "prob": 3 } ]
+    "items": [
+      { "group": "nested_glock_31", "prob": 42 },
+      { "group": "nested_bfr", "prob": 5 },
+      { "group": "nested_modular_deagle_50", "prob": 10 },
+      { "group": "nested_sw_500", "prob": 29 },
+      { "group": "nested_makarov", "prob": 7 },
+      { "group": "nested_tokarev", "prob": 7 }
+    ]
   },
   {
     "type": "item_group",
@@ -322,10 +372,12 @@
     "type": "item_group",
     "id": "guns_pistol_rare_9mm",
     "items": [
-      { "group": "nested_90two", "prob": 20 },
-      { "group": "nested_usp_9mm", "prob": 13 },
-      { "group": "nested_p08", "prob": 7 },
-      { "group": "nested_draco_9mm", "prob": 14 }
+      { "group": "nested_90two", "prob": 5 },
+      { "group": "nested_p08", "prob": 13 },
+      { "group": "nested_draco_9mm", "prob": 29 },
+      { "group": "nested_mauser_c96", "prob": 11 },
+      { "group": "nested_mp40semi", "prob": 1 },
+      { "group": "nested_tec9", "prob": 1 }
     ]
   },
   {

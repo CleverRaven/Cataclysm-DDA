@@ -365,6 +365,45 @@
     ]
   },
   {
+    "id": "nested_p226_9mm",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "p226_357sig", "charges": [ 0, 15 ] },
+      { "item": "p226mag_15rd_9x19mm" },
+      { "item": "p226mag_15rd_9x19mm", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_p226_9mm",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "p226_9mm", "charges": [ 0, 15 ] },
+      { "item": "p226mag_15rd_9x19mm" },
+      { "item": "p226mag_15rd_9x19mm", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_sp2022",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "sp2022", "charges": [ 0, 15 ] },
+      { "item": "sp2022mag_15rd_9mm" },
+      { "item": "sp2022mag_15rd_9mm", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
     "id": "nested_p320_357sig",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -945,6 +984,18 @@
       { "item": "m18", "charges": [ 0, 17 ] },
       { "item": "p320mag_17rd_9x19mm" },
       { "item": "p320mag_17rd_9x19mm", "prob": 50 },
+      { "group": "on_hand_9mm" }
+    ]
+  },
+  {
+    "id": "nested_m11",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m11", "charges": [ 0, 13 ] },
+      { "item": "p228mag_13rd_9x19mm" },
+      { "item": "p228mag_13rd_9x19mm", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },
