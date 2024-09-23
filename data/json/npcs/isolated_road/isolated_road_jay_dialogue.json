@@ -26,6 +26,7 @@
             { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_completed_quest" } ] }
           ]
         },
+        "effect": { "u_sell_item": "broken_kord" },
         "topic": "TALK_GUNSMITH_KORD"
       },
       {
@@ -200,7 +201,6 @@
         "text": "I'm listening.",
         "effect": [
           { "add_mission": "MISSION_GUNSMITH_1" },
-          { "u_sell_item": "broken_kord" },
           { "u_add_var": "dialogue_artisans_gunsmith_accepted_quest", "value": "yes" }
         ],
         "topic": "TALK_GUNSMITH_Q1_DETAILS"
