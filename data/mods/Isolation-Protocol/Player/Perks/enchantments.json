@@ -61,6 +61,6 @@
         ]
       }
     },
-    "values": [ { "value": "POWER_TRICKLE", "add": -1000 } ]
+    "values": [ { "value": "POWER_TRICKLE", "add": -2000 } ]
   }
 ]

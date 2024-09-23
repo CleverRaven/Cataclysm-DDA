@@ -179,6 +179,7 @@
     "name": "Bionic Vampire",
     "description": "An assassin more metal than meat, driven onward by their faulty cybernetics.",
     "points": 6,
+    "proficiencies": [ "prof_gross_anatomy", "prof_bionic_swords_familiar", "prof_bionic_swords_pro" ],
     "CBMs": [
       "bio_blade",
       "bio_tattoo_led",
@@ -204,12 +205,10 @@
       "bio_power_storage_mkII",
       "bio_power_storage_mkII",
       "bio_power_storage_mkII",
-      "bio_power_storage_mkII",
-      "bio_power_storage_mkII",
       "bio_power_storage_mkII"
     ],
     "traits": [ "iso_trait", "iso_bionic_vampire" ],
-    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "dodge" } ],
+    "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "dodge" }, { "level": 2, "name": "firstaid" } ],
     "items": {
       "both": {
         "entries": [
@@ -221,11 +220,14 @@
           { "item": "gloves_fingerless" },
           { "item": "wristwatch" },
           { "item": "gum" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "item": "ruby_gold_earring" },
+          { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
+          { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" }, { "item": "ruby_gold_earring" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     }
   }
 ]

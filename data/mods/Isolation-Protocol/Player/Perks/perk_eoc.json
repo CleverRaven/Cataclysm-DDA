@@ -91,7 +91,25 @@
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
     "condition": { "math": [ "u_bionic_in_melee", "==", "1" ] },
-    "effect": [ { "math": [ "u_val('power')", "+=", "50000 + (n_val('difficulty') * 75000)" ] } ]
+    "effect": [
+      { "math": [ "u_val('power')", "+=", "100000" ] },
+      {
+        "if": { "math": [ "n_val('difficulty')", ">=", "25" ] },
+        "then": { "math": [ "u_val('power')", "+=", "25000)" ] }
+      },
+      {
+        "if": { "math": [ "n_val('difficulty')", ">=", "50" ] },
+        "then": { "math": [ "u_val('power')", "+=", "65000)" ] }
+      },
+      {
+        "if": { "math": [ "n_val('difficulty')", ">=", "75" ] },
+        "then": { "math": [ "u_val('power')", "+=", "95000)" ] }
+      },
+      {
+        "if": { "math": [ "n_val('difficulty')", ">=", "110" ] },
+        "then": { "math": [ "u_val('power')", "+=", "150000)" ] }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
