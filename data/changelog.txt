@@ -149,12 +149,7 @@ Functioning toasters
 Zombies make zombie sounds
 Allow multiple possible loading screens, including from mods
 Grazing animals actually eat grass, and it regrows every season
-make recipes using multimeters cost much less power and make voltmeters cost no power
-Magic rings resize to fit even mutated anatomy
-Homemade corn dog audit
 New characters get random natural hair color during character generation
-Move plastic bag ascii image to the shopping bag
-Add shopping bags to the kitchen
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
 
@@ -339,10 +334,6 @@ Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
-Small typo fix for Aleesha Seward
-Adds Gun-shy Trait
-2 new gunmods + added to spawn pool
-Added more gunmods
 
 
 ## Interface:
@@ -439,8 +430,6 @@ Custom loading screen the game deserves
 wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
-Improve ImGui uilist spacing and fix text alignment
-Add myself to GitHub commands
 
 
 ## Mods:
@@ -686,31 +675,11 @@ XE Playable Gracken
 [Magiclysm] Add spell school deficiency traits
 Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
 [Xedra Evolved] Add playable changelings
-[Magiclysm] Move bulk of spellcasting proficiency processing to dedicated EoCs and out of spell JSON (Finish)
 [Magiclysm] Add feral magus/high magus
-[DinoMod] monster attack fixes
 [MoM] The liquid from the black Nether pools is now collectible and drinkable
-[DinoMod] Astrodon
-[Magiclysm] Feral ravenfolk are blinged out
-[Xedra Evolved] Add more Brownie changeling traits +bugfixes
+[DinoMod] Astrodon 
 [MoM] Add Alien Meadow mutable map special
-[Magiclysm] Add `NO_SPELLCASTING` flag to magic-using monster conditions
-[MoM] Replace specific effect check in monster powers with check for `NO_PSIONICS` flag
-[Magiclysm] Add Mana Extraction classless spell
-Fixes Ierde's iron allergy to their spellcasted armor.
-[Xedra Evolved] Add more pooka changeling traits
-[Magiclysm] Add cat form as possible shifter druid form
-[Magiclysm] Add two magical rings
-[Xedra Evolved] Ethereal wings actually let you fly
-[Magiclysm] Deer form update for natural stance
-[Xedra Evolved] Rework alchemical doll imbuement
-[XEDRA Evolved] Make grackens be able to try defending themselves.
-Martial Mastery: Nerf Insight Stacking from Sixth Sense
-[Magiclysm] Move yulecat to holiday spawns
-[Bombastic] Add All Terrain Perk
 [Magiclysm] Fantasy species zombies
-[Magiclysm] Add Catoblepas monster
-[Magiclysm] Add `UNRESTRICTED` flag to several Magiclysm summoned items
 
 
 ## Balance:
@@ -808,10 +777,7 @@ Change Frame, Heavy duty frame, steel plating, sheet metal, and related vehicle 
 Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
-Makes Combat Medics no longer be Doctors of Medicine.
 Obsolete and migrate legacy wire in favor of mild steel wire
-convenience for safer vehicle grabbing
-Made Scout a starting trait
 
 
 ## Bugfixes:
@@ -1058,27 +1024,8 @@ Fixed segfault when monster tries to grab-drag another monster out of reality bu
 Prevent being teleported beyond OVERMAP_DEPTH
 NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
-Changes kevlar in patchwork armor to insect flesh
-Fixed turning engines on from vehicle controls interact menu 
-[Magiclysm] Fix meat component
-Revert leftover from seasonal mutations
-[MoM] Cancelling Gateway area attunement cancels attunement
-Fix ATM terrain to furniture migration
-can't grab a solid vehicle while boarding it
-Remove the open container flag from vacuum sealed bags and packages
-[MoM] Fix channeling-modifying traits math
-[Sky Island] Fix climate control
-Remove Rivtech 20x66 Ammo and Guns 
-Gas mask ammo being dropped on saves converted from 0.G to 0.H
-Remove RM121 aux shotgun references
-Removes zombie drops from whispering fungi
-Ensure consistency in battery cell descriptions and naming
-Monsters won't be sending immobile targets into fly anymore.
-NPC not automatically picking up items from their filter list
-Fix missing string.
-Judge can shoot slugs/shot
+Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
-Rodentkin fixes
 
 
 ## Performance:
