@@ -129,8 +129,8 @@
     "replace": "apartment_freezer"
   },
   {
-    "type": "MIGRATION",
     "id": "mag_fieldrepair",
+    "type": "MIGRATION",
     "replace": "paper"
   },
   {
