@@ -288,93 +288,118 @@
     "type": "item_group",
     "id": "guns_pistol_common_display_9mm",
     "items": [
-      { "item": "glock_17", "prob": 11 },
-      { "item": "glock_19", "prob": 15 },
-      { "item": "m9", "variant": "m9", "prob": 11 },
-      { "item": "px4", "prob": 8 },
-      { "item": "kpf9", "prob": 12 },
-      { "item": "hi_power_9mm", "prob": 1 },
-      { "item": "walther_ppq_9mm", "prob": 4 },
-      { "item": "cz75", "prob": 6 },
-      { "item": "walther_ccp", "prob": 6 },
-      { "item": "hptc9", "prob": 2 }
+      { "item": "glock_17", "prob": 73 },
+      { "item": "glock_19", "prob": 100 },
+      { "item": "m9", "variant": "m9", "prob": 22 },
+      { "item": "px4", "prob": 5 },
+      { "item": "hi_power_9mm", "prob": 9 },
+      { "item": "walther_ppq_9mm", "prob": 8 },
+      { "item": "cz75", "prob": 65 },
+      { "item": "walther_ccp", "prob": 2 },
+      { "item": "hptc9", "prob": 12 },
+      { "item": "m18", "prob": 22 },
+      { "item": "m11", "prob": 6 },
+      { "item": "hk_mp5_semi_pistol", "prob": 10 },
+      { "item": "m17", "prob": 24 },
+      { "item": "p226_9mm", "prob": 73 },
+      { "item": "sp2022", "prob": 4 },
+      { "item": "usp_9mm", "prob": 38 },
+      { "item": "walther_p38", "prob": 9 },
+      { "group": "guns_pistol_rare_display_9mm", "prob": 10 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_22",
     "items": [
-      { "item": "sig_mosquito", "prob": 18 },
-      { "item": "walther_p22", "prob": 42 },
-      { "item": "ruger_lcr_22", "prob": 84 },
-      { "item": "rough_rider_pistol", "prob": 28 },
-      { "item": "rough_rider_pistol_9", "prob": 4 },
-      { "item": "cp33", "prob": 14 },
-      { "item": "ruger_mk4", "prob": 72 },
-      { "item": "ruger_charger", "prob": 10 },
-      { "item": "1911_22", "prob": 50 }
+      { "item": "walther_p22", "prob": 45 },
+      { "item": "ruger_lcr_22", "prob": 2 },
+      { "item": "rough_rider_pistol", "prob": 61 },
+      { "item": "rough_rider_pistol_9", "prob": 14 },
+      { "item": "sig_mosquito", "prob": 65 },
+      { "item": "cp33", "prob": 16 },
+      { "item": "ruger_mk4", "prob": 113 },
+      { "item": "ruger_charger", "prob": 16 },
+      { "item": "1911_22", "prob": 100 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_45",
     "items": [
-      { "item": "glock_21", "prob": 5 },
-      { "item": "m1911", "prob": 17 },
-      { "item": "walther_ppq_45", "prob": 3 },
-      { "item": "hptjhp", "prob": 1 }
+      { "item": "glock_21", "prob": 14 },
+      { "item": "m1911", "prob": 100 },
+      { "item": "walther_ppq_45", "prob": 1 },
+      { "item": "hptjhp", "prob": 2 },
+      { "item": "usp_45", "prob": 4 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_380",
-    "items": [
-      { "item": "kp3at", "prob": 10 },
-      { "item": "rugerlcp", "prob": 10 },
-      { "item": "hptcf380", "prob": 2 },
-      { "item": "taurus_spectrum", "prob": 6 }
-    ]
+    "items": [ { "item": "rugerlcp", "prob": 231 }, { "item": "hptcf380", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_40",
     "items": [
-      { "item": "glock_22", "prob": 10 },
-      { "item": "px4_40", "prob": 5 },
-      { "item": "hi_power_40", "prob": 2 },
-      { "item": "walther_ppq_40", "prob": 3 },
-      { "item": "hptjcp", "prob": 1 }
+      { "item": "glock_22", "prob": 100 },
+      { "item": "px4_40", "prob": 20 },
+      { "item": "hi_power_40", "prob": 3 },
+      { "item": "hptjcp", "prob": 29 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_357mag",
-    "items": [ { "item": "sw_619", "prob": 1 }, { "item": "rp63", "prob": 1 }, { "item": "colt_python", "prob": 2 } ]
+    "items": [
+      { "item": "sw_619", "prob": 100 },
+      { "item": "rp63", "prob": 11 },
+      { "item": "colt_python", "prob": 96 },
+      { "item": "chiappa_rhino", "prob": 72 },
+      { "group": "modular_deagle_357", "prob": 38 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_38",
-    "items": [ { "item": "ruger_lcr_38", "prob": 5 }, { "item": "model_10_revolver", "prob": 10 } ]
+    "items": [ { "item": "ruger_lcr_38", "prob": 66 }, { "item": "model_10_revolver", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_44",
     "items": [
-      { "item": "sw629", "prob": 150 },
-      { "item": "colt_anaconda_8", "prob": 33 },
-      { "item": "colt_anaconda_6", "prob": 50 },
-      { "item": "colt_anaconda_4", "prob": 16 }
+      { "item": "sw629", "prob": 100 },
+      { "item": "colt_anaconda_8", "prob": 15 },
+      { "item": "colt_anaconda_6", "prob": 24 },
+      { "item": "colt_anaconda_4", "prob": 8 },
+      { "group": "modular_deagle_44", "prob": 52 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_45colt",
-    "items": [ { "item": "colt_saa", "prob": 5 } ]
+    "items": [
+      { "item": "raging_bull", "prob": 9 },
+      { "item": "taurus_judge", "prob": 100 },
+      { "item": "colt_saa", "prob": 26 },
+      { "item": "bond_410", "prob": 16 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_display_10mm",
-    "items": [ { "item": "sw_610", "prob": 5 } ]
+    "items": [
+      { "item": "glock_40", "prob": 100 },
+      { "item": "m1911_10", "prob": 30 },
+      { "item": "p220_10", "prob": 35 },
+      { "item": "xd_10", "prob": 85 },
+      { "item": "witness_10", "prob": 10 },
+      { "item": "TDI_10", "prob": 183 },
+      { "item": "glock_20", "prob": 121 },
+      { "item": "glock_29", "prob": 62 },
+      { "item": "sw_610", "prob": 34 }
+    ]
   },
   {
     "type": "item_group",
@@ -393,8 +418,20 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_display_32",
+    "items": [ { "item": "kp32", "prob": 100 }, { "item": "walther_ppk", "prob": 71 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_display_other",
-    "items": [ { "item": "kp32", "prob": 5 }, { "item": "taurus_judge", "prob": 9 } ]
+    "items": [
+      { "item": "glock_31", "prob": 42 },
+      { "item": "bfr", "prob": 5 },
+      { "group": "modular_deagle_50", "prob": 10 },
+      { "item": "sw_500", "prob": 29 },
+      { "item": "makarov", "prob": 7 },
+      { "item": "tokarev", "prob": 7 }
+    ]
   },
   {
     "type": "item_group",
@@ -472,9 +509,11 @@
     "id": "guns_pistol_rare_display_9mm",
     "items": [
       { "item": "m9", "variant": "90two", "prob": 5 },
-      { "item": "usp_9mm", "prob": 48 },
-      { "item": "p08", "prob": 5 },
-      { "item": "draco_9mm", "prob": 21 }
+      { "item": "draco_9mm", "prob": 29 },
+      { "item": "p08", "prob": 13 },
+      { "item": "mauser_c96", "prob": 11 },
+      { "item": "mp40semi", "prob": 1 },
+      { "item": "tec9", "prob": 1 }
     ]
   },
   {

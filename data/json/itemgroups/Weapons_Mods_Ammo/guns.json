@@ -48,12 +48,12 @@
     "id": "guns_pistol_common_display",
     "//": "Empty and reasonably common pistols found exclusively in gun stores.",
     "items": [
-      { "group": "guns_pistol_common_display_9mm", "prob": 78 },
-      { "group": "guns_pistol_common_display_22", "prob": 78 },
-      { "group": "guns_pistol_common_display_45", "prob": 23 },
+      { "group": "guns_pistol_common_display_9mm", "prob": 74 },
+      { "group": "guns_pistol_common_display_22", "prob": 64 },
+      { "group": "guns_pistol_common_display_45", "prob": 20 },
       { "group": "guns_pistol_common_display_380", "prob": 28 },
-      { "group": "guns_pistol_common_display_40", "prob": 11 },
-      { "group": "guns_pistol_common_display_357mag", "prob": 4 },
+      { "group": "guns_pistol_common_display_40", "prob": 19 },
+      { "group": "guns_pistol_common_display_357mag", "prob": 12 },
       { "group": "guns_pistol_common_display_38", "prob": 11 },
       { "group": "guns_pistol_common_display_44", "prob": 1 },
       { "group": "guns_pistol_common_display_45colt", "prob": 5 },
@@ -61,6 +61,8 @@
       { "group": "guns_pistol_common_display_762_39", "prob": 1 },
       { "group": "guns_pistol_common_display_223", "prob": 17 },
       { "group": "guns_pistol_common_display_300", "prob": 10 },
+      { "group": "guns_pistol_common_display_57", "prob": 2 },
+      { "group": "guns_pistol_common_display_32", "prob": 1 },
       { "group": "guns_pistol_common_display_other", "prob": 46 }
     ]
   },
