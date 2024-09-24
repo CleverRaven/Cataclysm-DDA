@@ -1351,7 +1351,262 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 31,
-    "enchantments": [ "enchant_pyrokinetic_aura" ]
+    "enchantments": [
+      { "values": [ { "value": "LUMINATION", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 20 } ] },
+      {
+        "condition": {
+          "math": [
+            "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+            "<=",
+            "3"
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 5 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ],
+        "emitter": "emit_pyrokinetic_aura_1"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "3"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "6"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 20 } ],
+        "emitter": "emit_pyrokinetic_aura_2"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "6"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "9"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 15 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
+        "emitter": "emit_pyrokinetic_aura_3"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "9"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "12"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 20 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 40 } ],
+        "emitter": "emit_pyrokinetic_aura_4"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "12"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "15"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 25 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
+        "emitter": "emit_pyrokinetic_aura_5"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "15"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "18"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 60 } ],
+        "emitter": "emit_pyrokinetic_aura_6"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "18"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "21"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 35 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 70 } ],
+        "emitter": "emit_pyrokinetic_aura_7"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "21"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "24"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 40 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 80 } ],
+        "emitter": "emit_pyrokinetic_aura_8"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "24"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "27"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 45 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 90 } ],
+        "emitter": "emit_pyrokinetic_aura_9"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "27"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "30"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 100 } ],
+        "emitter": "emit_pyrokinetic_aura_10"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "30"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "33"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 55 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 110 } ],
+        "emitter": "emit_pyrokinetic_aura_11"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                ">",
+                "33"
+              ]
+            },
+            {
+              "math": [
+                "u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling",
+                "<=",
+                "36"
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "LUMINATION", "add": 60 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 120 } ],
+        "emitter": "emit_pyrokinetic_aura_12"
+      }
+    ]
   },
   {
     "type": "effect_type",
