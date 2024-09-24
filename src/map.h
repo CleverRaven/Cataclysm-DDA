@@ -20,6 +20,7 @@
 #include <variant>
 #include <vector>
 
+#include "active_item_cache.h"
 #include "calendar.h"
 #include "cata_assert.h"
 #include "cata_type_traits.h"
@@ -2545,6 +2546,8 @@ class map
 
     public:
         void process_items();
+        // All active items connected to the power_grid with their connection points.
+        std::vector<item_reference> item_network_connections( vehicle *power_grid );
     private:
         // Iterates over every item on the map, passing each item to the provided function.
         void process_items_in_submap( submap &current_submap, const tripoint_rel_sm &gridp );
