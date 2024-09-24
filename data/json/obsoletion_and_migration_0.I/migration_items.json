@@ -129,11 +129,6 @@
     "replace": "apartment_freezer"
   },
   {
-    "type": "MIGRATION",
-    "id": "mag_fieldrepair",
-    "replace": "paper"
-  },
-  {
     "id": "mold_plastic",
     "type": "MIGRATION",
     "replace": "vac_mold"
