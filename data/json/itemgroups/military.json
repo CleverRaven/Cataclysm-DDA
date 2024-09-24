@@ -792,6 +792,7 @@
       { "item": "mess_kit", "prob": 50 },
       { "item": "flashlight", "prob": 50, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
+      { "item": "mag_fieldrepair", "prob": 20 },
       { "item": "mag_comic", "prob": 20 },
       { "group": "book_gunmags", "prob": 20 },
       { "item": "thermos", "prob": 15 },
