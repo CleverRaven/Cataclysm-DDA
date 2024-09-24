@@ -1352,7 +1352,22 @@
     "max_duration": "7 days",
     "max_intensity": 31,
     "enchantments": [
-      { "values": [ { "value": "LUMINATION", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 20 } ] },
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": {
+              "math": [ "(u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 5) + 10" ]
+            }
+          },
+          {
+            "value": "CLIMATE_CONTROL_CHILL",
+            "add": {
+              "math": [ "(u_spell_level('pyrokinetic_aura') * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling * 12) + 20" ]
+            }
+          }
+        ]
+      },
       {
         "condition": {
           "math": [
@@ -1361,7 +1376,6 @@
             "3"
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 5 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ],
         "emitter": "emit_pyrokinetic_aura_1"
       },
       {
@@ -1383,7 +1397,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 20 } ],
         "emitter": "emit_pyrokinetic_aura_2"
       },
       {
@@ -1405,7 +1418,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 15 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
         "emitter": "emit_pyrokinetic_aura_3"
       },
       {
@@ -1427,7 +1439,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 20 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 40 } ],
         "emitter": "emit_pyrokinetic_aura_4"
       },
       {
@@ -1449,7 +1460,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 25 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
         "emitter": "emit_pyrokinetic_aura_5"
       },
       {
@@ -1471,7 +1481,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 60 } ],
         "emitter": "emit_pyrokinetic_aura_6"
       },
       {
@@ -1493,7 +1502,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 35 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 70 } ],
         "emitter": "emit_pyrokinetic_aura_7"
       },
       {
@@ -1515,7 +1523,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 40 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 80 } ],
         "emitter": "emit_pyrokinetic_aura_8"
       },
       {
@@ -1537,7 +1544,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 45 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 90 } ],
         "emitter": "emit_pyrokinetic_aura_9"
       },
       {
@@ -1559,7 +1565,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 100 } ],
         "emitter": "emit_pyrokinetic_aura_10"
       },
       {
@@ -1581,7 +1586,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 55 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 110 } ],
         "emitter": "emit_pyrokinetic_aura_11"
       },
       {
@@ -1603,7 +1607,6 @@
             }
           ]
         },
-        "values": [ { "value": "LUMINATION", "add": 60 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 120 } ],
         "emitter": "emit_pyrokinetic_aura_12"
       }
     ]
