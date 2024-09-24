@@ -113,6 +113,17 @@
         "values": [ { "value": "DEXTERITY", "add": 2 }, { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "multiply": 0.05 } ]
       },
       {
+        "condition": {
+          "or": [
+            { "math": [ "u_pain()", ">", "0" ] },
+            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+          ]
+        },
         "intermittent_activation": {
           "effects": [
             {
