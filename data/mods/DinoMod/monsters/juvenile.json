@@ -487,6 +487,13 @@
     "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
   },
   {
+    "id": "mon_astrodon_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zastrodon_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_astrodon" }
+  },
+  {
     "id": "mon_alamosaurus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_juvenile",

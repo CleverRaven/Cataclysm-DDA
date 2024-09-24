@@ -150,6 +150,7 @@ static const quality_id qual_CUT( "CUT" );
 static const skill_id skill_melee( "melee" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
+static const trait_id trait_GUNSHY( "GUNSHY" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -751,6 +752,16 @@ static void grab()
                 veh_name = split_vp->vehicle().name;
             } else {
                 debugmsg( "Lost the part to drag after splitting power grid!" );
+                return;
+            }
+        }
+        //solid vehicles can't be grabbed while boarded
+        const optional_vpart_position vp_boarded = here.veh_at( you.pos_bub() );
+        if( vp_boarded ) {
+            const std::set<tripoint> grabbed_veh_points = vp->vehicle().get_points();
+            if( &vp_boarded->vehicle() == &vp->vehicle() &&
+                !empty( vp->vehicle().get_avail_parts( VPFLAG_OBSTACLE ) ) ) {
+                add_msg( m_info, _( "You can't move the %s while you're boarding it." ), veh_name );
                 return;
             }
         }
@@ -1624,7 +1635,7 @@ static void wear()
 static void takeoff()
 {
     avatar &player_character = get_avatar();
-    item_location loc = game_menus::inv::take_off( player_character );
+    item_location loc = game_menus::inv::take_off();
 
     if( loc ) {
         player_character.takeoff( loc.obtain( player_character ) );
@@ -1684,6 +1695,10 @@ static void fire()
     }
     if( you.has_trait( trait_BRAWLER ) ) {
         add_msg( m_bad, _( "You refuse to use ranged weapons." ) );
+        return;
+    }
+    if( you.has_trait( trait_GUNSHY ) && weapon->is_firearm() ) {
+        add_msg( m_bad, _( "You refuse to use firearms." ) );
         return;
     }
     // try firing gun
@@ -1885,17 +1900,17 @@ void game::open_consume_item_menu()
     avatar &player_character = get_avatar();
     switch( as_m.ret ) {
         case 0: {
-            item_location loc = game_menus::inv::consume_food( player_character );
+            item_location loc = game_menus::inv::consume_food();
             avatar_action::eat( player_character, loc );
             break;
         }
         case 1: {
-            item_location loc = game_menus::inv::consume_drink( player_character );
+            item_location loc = game_menus::inv::consume_drink();
             avatar_action::eat( player_character, loc );
             break;
         }
         case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
             break;
         default:
             break;
@@ -2448,15 +2463,15 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_INVENTORY:
-            game_menus::inv::common( player_character );
+            game_menus::inv::common();
             break;
 
         case ACTION_COMPARE:
-            game_menus::inv::compare( player_character, std::nullopt );
+            game_menus::inv::compare( std::nullopt );
             break;
 
         case ACTION_ORGANIZE:
-            game_menus::inv::swap_letters( player_character );
+            game_menus::inv::swap_letters();
             break;
 
         case ACTION_USE:
@@ -2479,7 +2494,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
+                avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
             }
             break;
 
@@ -3011,6 +3026,13 @@ bool game::handle_action()
     } else if( player_character.has_destination_activity() ) {
         // starts destination activity after the player successfully reached his destination
         player_character.start_destination_activity();
+        return false;
+    } else if( uistate.open_menu ) {
+        // make a copy so that uistate.open_menu can be assigned a new function
+        // during the execution of the copied old function
+        std::optional<std::function<void()>> open_menu_tmp = std::nullopt;
+        std::swap( uistate.open_menu, open_menu_tmp );
+        open_menu_tmp.value()();
         return false;
     } else {
         // No auto-move, ask player for input

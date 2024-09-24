@@ -441,23 +441,6 @@
           "weight": 1,
           "items": { "bp_10mm_fmj": 1, "matchhead_10mm_fmj": 1, "10mm reloaded_10mm_fmj": 1 }
         },
-        {
-          "type": "20x66mm",
-          "weight": 1,
-          "items": {
-            "20x66_beanbag": 1,
-            "20x66_bootleg_flechette": 1,
-            "20x66_bootleg_shot": 1,
-            "20x66_bootleg_slug": 1,
-            "20x66_exp": 1,
-            "20x66_flare": 1,
-            "20x66_flechette": 1,
-            "20x66_frag": 1,
-            "20x66_inc": 1,
-            "20x66_shot": 1,
-            "20x66_slug": 1
-          }
-        },
         { "type": "300", "weight": 1, "items": { "300_winmag": 1, "bp_300_winmag": 1, "reloaded_300_winmag": 1 } },
         {
           "type": "303",
@@ -892,9 +875,6 @@
           "type": "other",
           "weight": 114,
           "items": {
-            "rm120c": 1,
-            "rm20": 1,
-            "rm228": 1,
             "m2010": 1,
             "weatherby_5": 1,
             "win70": 1,
@@ -1025,7 +1005,6 @@
             "raging_bull": 1,
             "remington_870_breacher": 1,
             "rm103a_pistol": 1,
-            "rm228": 1,
             "ruger_57": 1,
             "ruger_charger": 1,
             "ruger_charger_auto": 1,
@@ -1262,10 +1241,6 @@
             "remington_870": 1,
             "remington_870_express": 1,
             "revolver_shotgun": 1,
-            "rm120c": 1,
-            "rm121aux": 1,
-            "rm121aux_mod": 1,
-            "rm20": 1,
             "saiga_12": 1,
             "saiga_410": 1,
             "shotgun_410": 1,

@@ -2983,6 +2983,66 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a soft whistle.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a loud whistle.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of whistles.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a droning chorus.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of cries.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of laughs.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a choir of screams.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a voice crack breaks a rising note.",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "sorrowful humming.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "joyful humming.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [
       "mon_zombie",
       "mon_beekeeper",
@@ -3121,6 +3181,24 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"It'll be painless, I promise.  Forgive me.\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "repeated choking sounds, followed by wheezing.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"It's so cold..\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
     "speaker": [
       "mon_zombie",
       "mon_beekeeper",
@@ -3190,6 +3268,24 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"It's so warm..\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a wet squelch, followed by audible disgust.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "echoes of heavy footsteps.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [
       "mon_zombie",
       "mon_beekeeper",
@@ -3256,6 +3352,66 @@
     ],
     "sound": "groaning.",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "frantic begging, followed by the sound of popping.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"..  We sing the hymns so we may..\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"..  learn to live in unity..\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"hello?  hello?  hello?\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "uncoordinated harmonizing, shushed by a whistle at the end.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "repeated jingling of bells.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "repeated swinging of bells.",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "an uncomfortably long breathe out.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "an uncomfortably long breathe in.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a whisper of words, in a language you don't understand.",
+    "volume": 10
   },
   {
     "type": "speech",
@@ -3397,6 +3553,18 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "a series of upbeat whistles, but with wheezing pauses in between.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sound of wind whistling, with rhythmic thumping.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
     "speaker": [
       "mon_zombie",
       "mon_beekeeper",
@@ -3476,6 +3644,30 @@
     ],
     "sound": "gargling.",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the creak of wood floors.",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sharp sound of snapping bones.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "the sharp sound of snapping wood.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_whisper_fungus" ],
+    "sound": "\"I don't want to die like this..\"",
+    "volume": 20
   },
   {
     "type": "speech",

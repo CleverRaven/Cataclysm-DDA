@@ -217,6 +217,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
             }
         }
         c->check_dead_state();
+    } else {
+        here.spawn_item( p, "beartrap" );
     }
 
     return true;

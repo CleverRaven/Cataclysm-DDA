@@ -1685,6 +1685,10 @@ class item : public visitable
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
+        bool can_have_fault_type( const std::string &fault_type ) const;
+
+        std::set<fault_id> faults_potential_of_type( const std::string &fault_type ) const;
+
         /** Returns the total area of this wheel or 0 if it isn't one. */
         int wheel_area() const;
 

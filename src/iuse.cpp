@@ -4551,6 +4551,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        return 1;
     }
 
     if( vampire ) {

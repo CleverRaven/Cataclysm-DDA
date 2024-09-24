@@ -4,7 +4,7 @@
     "id": "electronics",
     "items": [
       [ "breadboard", 60 ],
-      { "item": "voltmeter", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 30 },
       { "item": "multimeter", "prob": 30, "charges": [ 0, 100 ] },
       [ "jumper_cable_heavy", 10 ],
       { "group": "superglue", "prob": 30 },
@@ -74,7 +74,7 @@
       [ "antenna", 18 ],
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "breadboard", 50 ],
-      { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 10 },
       { "item": "multimeter", "prob": 10, "charges": [ 0, 100 ] },
       { "item": "soldering_iron", "prob": 70 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },

@@ -818,5 +818,17 @@
     "effect_str": "EOC_FORGE_RETURN_TELEPORT",
     "shape": "blast",
     "base_casting_time": 30000
+  },
+  {
+    "id": "ring_of_flight_spell",
+    "type": "SPELL",
+    "name": "Flight",
+    "description": "You can fly.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_ring_of_flight",
+    "shape": "blast",
+    "min_duration": 90000,
+    "max_duration": 90000
   }
 ]

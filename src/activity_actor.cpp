@@ -156,7 +156,6 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -226,6 +225,8 @@ static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id
+itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
@@ -243,7 +244,7 @@ static const morale_type morale_shave( "morale_shave" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_yrax_trifacet( "mon_yrax_trifacet" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
@@ -4520,7 +4521,9 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
              !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
              !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
-           ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
+           ( !monster.type->revert_to_itype.is_empty() ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_trifacet_deactivation_manual ) ||
+             monster.type->id != mon_yrax_trifacet );
 }
 
 int disable_activity_actor::get_disable_turns()
@@ -6339,36 +6342,6 @@ std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonVal
 
     data.read( "item", actor.item );
     data.read( "method", actor.method );
-
-    return actor.clone();
-}
-
-void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
-{
-    std::optional<tripoint_bub_ms> p( where );
-    std::vector<drop_location> s( selection );
-    who.cancel_activity();
-    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
-}
-
-void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "where", where );
-    jsout.member( "selection", selection );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
-{
-    pickup_menu_activity_actor actor( {}, {} );
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "where", actor.where );
-    data.read( "selection", actor.selection );
 
     return actor.clone();
 }
@@ -8219,7 +8192,6 @@ deserialize_functions = {
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
-    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },

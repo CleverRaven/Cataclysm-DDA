@@ -1839,32 +1839,6 @@ class invoke_item_activity_actor : public activity_actor
         std::string method;
 };
 
-class pickup_menu_activity_actor : public activity_actor
-{
-    public:
-        pickup_menu_activity_actor( std::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( where ),
-            selection( std::move( selection ) ) {};
-        activity_id get_type() const override {
-            return activity_id( "ACT_PICKUP_MENU" );
-        }
-
-        void start( player_activity &, Character & ) override {};
-        void do_turn( player_activity &, Character &who ) override;
-        void finish( player_activity &, Character & ) override {};
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pickup_menu_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut & ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
-
-    private:
-        std::optional<tripoint> where;
-        std::vector<drop_location> selection;
-};
-
 class chop_logs_activity_actor : public activity_actor
 {
     public:

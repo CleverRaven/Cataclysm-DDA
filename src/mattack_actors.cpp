@@ -881,7 +881,7 @@ bool melee_actor::call( monster &z ) const
             }
         }
     }
-    if( throw_strength > 0 ) {
+    if( throw_strength > 0 && !target->has_flag( mon_flag_IMMOBILE ) ) {
         if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                                throw_strength ) ) {
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
