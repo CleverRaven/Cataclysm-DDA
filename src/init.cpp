@@ -529,7 +529,7 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     }
 }
 
-void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const std::string &src )
+std::tuple<bool, cata_path, std::string, std::vector<cata_path>> DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const std::string &src )
 {
     cata_assert( !finalized &&
                  "Can't load additional data after finalization.  Must be unloaded first." );
@@ -542,6 +542,8 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
     std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
 
     std::vector<cata_path> files;
+    std::vector<cata_path> post_load_files;
+    std::tuple<bool, cata_path, std::string, std::vector<cata_path>> post_load_data = {false, path, "", post_load_files};
     // if give path is a directory
     if( dir_exist( path.get_unrelative_path() ) ) {
         const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json", "mod_interactions", path, true, false );
@@ -549,7 +551,6 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
         // obtain folders within mod_interactions to see if they match loaded mod ids
         const std::vector<cata_path> interaction_folders = get_directories( path / "mod_interactions", false);
 
-        std::vector<cata_path> post_load_files;
 
         for (cata_path f : interaction_folders) {
             bool is_mod_loaded = false;
@@ -566,12 +567,13 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
 
 
         files.insert( files.end(), dir_files.begin(), dir_files.end() );
-        if (!post_load_files.empty()) {
-            files.insert( files.end(), post_load_files.begin(), post_load_files.end());
-        }
         // if given path is an individual file
     } else if( file_exist( path.get_unrelative_path() ) ) {
         files.emplace_back( path );
+    }
+
+    if (!post_load_files.empty()) {
+        post_load_data = {true, path, src, post_load_files};
     }
 
     // iterate over each file
@@ -580,6 +582,20 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
             // parse it
             JsonValue jsin = json_loader::from_path( file );
             load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+    return post_load_data;
+}
+
+void DynamicDataLoader::load_files( std::tuple<cata_path, std::string, std::vector<cata_path>> file_info ) {
+    // iterate over each file
+    for( const cata_path &file : std::get<2>(file_info) ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file );
+            load_all_from_json( jsin, std::get<1>(file_info), std::get<0>(file_info), file );
         } catch( const JsonError &err ) {
             throw std::runtime_error( err.what() );
         }

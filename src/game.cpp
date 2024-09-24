@@ -606,9 +606,9 @@ void game::load_data_from_dir( const cata_path &path, const std::string &src )
     DynamicDataLoader::get_instance().load_data_from_path( path, src );
 }
 
-void game::load_mod_data_from_dir( const cata_path &path, const std::string &src )
+std::tuple<bool, cata_path, std::string, std::vector<cata_path>> game::load_mod_data_from_dir( const cata_path &path, const std::string &src )
 {
-    DynamicDataLoader::get_instance().load_mod_data_from_path( path, src );
+    return DynamicDataLoader::get_instance().load_mod_data_from_path( path, src );
 }
 
 #if defined(TUI)
@@ -3238,7 +3238,10 @@ void game::load_world_modfiles()
     load_packs( _( "Loading files" ), mods );
 
     // Load additional mods from that world-specific folder
-    load_mod_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
+    std::tuple<bool, cata_path, std::string, std::vector<cata_path>> mod_interaction_files = load_mod_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
+    if (std::get<0>(mod_interaction_files)) {
+        DynamicDataLoader::get_instance().load_files({std::get<1>(mod_interaction_files),std::get<2>(mod_interaction_files),std::get<3>(mod_interaction_files)});
+    }
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
@@ -3256,6 +3259,8 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         }
     }
 
+    std::vector<std::tuple<bool, cata_path, std::string, std::vector<cata_path>>> mod_interaction_data;
+
     for( const auto &e : available ) {
         loading_ui::show( msg, e->name() );
         const MOD_INFORMATION &mod = *e;
@@ -3263,7 +3268,15 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_mod_data_from_dir( mod.path, mod.ident.str() );
+        std::tuple<bool, cata_path, std::string, std::vector<cata_path>> mod_interaction_files = load_mod_data_from_dir( mod.path, mod.ident.str() );
+        // checks if tuple contains a true boolean indicating that it contains useful data.
+        if (std::get<0>(mod_interaction_files)) {
+            mod_interaction_data.insert(mod_interaction_data.end(), mod_interaction_files);
+        }
+    }
+
+    for (std::tuple<bool, cata_path, std::string, std::vector<cata_path>> mod_interaction_files: mod_interaction_data) {
+        DynamicDataLoader::get_instance().load_files({std::get<1>(mod_interaction_files),std::get<2>(mod_interaction_files),std::get<3>(mod_interaction_files)});
     }
 
     std::unordered_set<mod_id> removed_mods {
