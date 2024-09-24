@@ -2320,7 +2320,6 @@
         { "id": "mag_computer", "fg": 1047, "rotates": false, "multitile": false },
         { "id": "mag_cutting", "fg": 1049, "rotates": false, "multitile": false },
         { "id": "mag_dude", "fg": 1052, "rotates": false, "multitile": false },
-        { "id": "mag_fieldrepair", "fg": 1045, "rotates": false, "multitile": false },
         { "id": "mag_launcher", "fg": 1048, "rotates": false, "multitile": false },
         { "id": "mag_mechanics", "fg": 1048, "rotates": false, "multitile": false },
         { "id": "mag_melee", "fg": 1049, "rotates": false, "multitile": false },

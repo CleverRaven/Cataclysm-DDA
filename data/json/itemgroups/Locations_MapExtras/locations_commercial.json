@@ -276,7 +276,6 @@
     "type": "item_group",
     "id": "pawn",
     "items": [
-      [ "mag_fieldrepair", 50 ],
       { "item": "oxylamp", "prob": 50, "charges": [ 0, -1 ] },
       [ "bathroom_scale", 50 ],
       [ "polisher", 6 ],
@@ -695,7 +694,6 @@
       { "group": "crossbow_bolts", "prob": 7 },
       [ "crossbow", 2 ],
       { "group": "book_gunmags", "prob": 70 },
-      [ "mag_fieldrepair", 100 ],
       [ "manual_brawl", 30 ],
       [ "manual_melee", 12 ],
       [ "manual_cutting", 12 ],

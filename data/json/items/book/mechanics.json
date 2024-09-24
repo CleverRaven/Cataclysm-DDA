@@ -32,16 +32,6 @@
     "fun": 1
   },
   {
-    "id": "mag_fieldrepair",
-    "copy-from": "book_magazine",
-    "type": "BOOK",
-    "category": "manuals",
-    "name": { "str": "army improvised field repairs manual" },
-    "price_postapoc": "5 USD",
-    "description": "A compact manual with faded print detailing a number of improvised field repairs that can be made to vehicles.",
-    "skill": "mechanics"
-  },
-  {
     "id": "mag_mechanics",
     "type": "BOOK",
     "category": "manuals",
