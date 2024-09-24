@@ -15,7 +15,7 @@
       { "group": "nested_hptc9", "prob": 12 },
       { "group": "nested_walther_ccp", "prob": 2 },
       { "group": "nested_m18", "prob": 22 },
-      { "group": "nested_m11", "prob": 15 },
+      { "group": "nested_m11", "prob": 6 },
       { "group": "nested_hk_mp5_semi_pistol", "prob": 10 },
       { "group": "nested_m17", "prob": 24 },
       { "group": "nested_p226_9mm", "prob": 73 },
@@ -164,75 +164,80 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_9mm",
+    "//": "If the gun is designed for conceal carry, such as being small, use prob from guns_pistol_common.  If full sized, 10-20% of the original prob.  This is an asspull but I know that full sized handguns are gonna be less commonly carried",
     "items": [
-      { "item": "glock_17", "prob": 11, "charges": [ 0, -1 ] },
-      { "item": "glock_19", "prob": 15, "charges": [ 0, -1 ] },
-      { "item": "m9", "variant": "m9", "prob": 11, "charges": [ 0, -1 ] },
-      { "item": "px4", "prob": 11, "charges": [ 0, -1 ] },
+      { "item": "glock_17", "prob": 7, "charges": [ 0, -1 ] },
+      { "item": "glock_19", "prob": 100, "charges": [ 0, -1 ] },
+      { "item": "m9", "variant": "m9", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "px4", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "hi_power_9mm", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "walther_ppq_9mm", "prob": 4, "charges": [ 0, -1 ] },
       { "item": "kpf9", "prob": 24, "charges": [ 0, -1 ] },
       { "item": "hptc9", "prob": 2, "charges": [ 0, -1 ] },
       { "item": "cz75", "prob": 7, "charges": [ 0, -1 ] },
-      { "item": "walther_ccp", "prob": 5, "charges": [ 0, -1 ] }
+      { "item": "walther_ccp", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "m18", "prob": 22, "charges": [ 0, -1 ] },
+      { "item": "m11", "prob": 6, "charges": [ 0, -1 ] },
+      { "item": "m17", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "p226_9mm", "prob": 11, "charges": [ 0, -1 ] },
+      { "item": "sp2022", "prob": 4, "charges": [ 0, -1 ] },
+      { "item": "usp_9mm", "prob": 6, "charges": [ 0, -1 ] },
+      { "item": "walther_p38", "prob": 1, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_22",
     "items": [
-      { "item": "sig_mosquito", "prob": 15, "charges": [ 0, -1 ] },
-      { "item": "walther_p22", "prob": 30, "charges": [ 0, -1 ] },
-      { "item": "ruger_lcr_22", "prob": 60, "charges": [ 0, -1 ] },
-      { "item": "ruger_mk4", "prob": 130, "charges": [ 0, -1 ] },
-      { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] }
+      { "item": "sig_mosquito", "prob": 6, "charges": [ 0, -1 ] },
+      { "item": "walther_p22", "prob": 45, "charges": [ 0, -1 ] },
+      { "item": "ruger_lcr_22", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "ruger_mk4", "prob": 16, "charges": [ 0, -1 ] },
+      { "item": "1911_22", "prob": 20, "charges": [ 0, -1 ] },
+      { "item": "cp33", "prob": 3, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_45",
     "items": [
-      { "item": "glock_21", "prob": 5, "charges": [ 0, -1 ] },
-      { "item": "m1911", "prob": 17, "charges": [ 0, -1 ] },
-      { "item": "walther_ppq_45", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "hptjhp", "prob": 1, "charges": [ 0, -1 ] }
+      { "item": "glock_21", "prob": 2, "charges": [ 0, -1 ] },
+      { "item": "m1911", "prob": 13, "charges": [ 0, -1 ] },
+      { "item": "walther_ppq_45", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "hptjhp", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "usp_45", "prob": 1, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_380",
-    "items": [
-      { "item": "kp3at", "prob": 10, "charges": [ 0, -1 ] },
-      { "item": "rugerlcp", "prob": 10, "charges": [ 0, -1 ] },
-      { "item": "hptcf380", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "taurus_spectrum", "prob": 6, "charges": [ 0, -1 ] }
-    ]
+    "items": [ { "item": "rugerlcp", "prob": 231, "charges": [ 0, -1 ] }, { "item": "hptcf380", "prob": 15, "charges": [ 0, -1 ] } ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_40",
     "items": [
       { "item": "glock_22", "prob": 10, "charges": [ 0, -1 ] },
-      { "item": "px4_40", "prob": 5, "charges": [ 0, -1 ] },
-      { "item": "hi_power_40", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "walther_ppq_40", "prob": 3, "charges": [ 0, -1 ] },
-      { "item": "hptjcp", "prob": 1, "charges": [ 0, -1 ] }
+      { "item": "px4_40", "prob": 20, "charges": [ 0, -1 ] },
+      { "item": "hi_power_40", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "hptjcp", "prob": 3, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_357mag",
     "items": [
-      { "item": "sw_619", "prob": 5, "charges": [ 0, -1 ] },
-      { "item": "rp63", "prob": 5, "charges": [ 0, -1 ] },
-      { "item": "colt_python", "prob": 5, "charges": [ 0, -1 ] }
+      { "item": "sw_619", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "rp63", "prob": 11, "charges": [ 0, -1 ] },
+      { "item": "colt_python", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "chiappa_rhino", "prob": 7, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_38",
     "items": [
-      { "item": "ruger_lcr_38", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "ruger_lcr_38", "prob": 66, "charges": [ 0, -1 ] },
       { "item": "model_10_revolver", "prob": 10, "charges": [ 0, -1 ] }
     ]
   },
@@ -240,21 +245,44 @@
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_44",
     "items": [
-      { "item": "sw629", "prob": 150, "charges": [ 0, -1 ] },
-      { "item": "colt_anaconda_8", "prob": 33, "charges": [ 0, -1 ] },
-      { "item": "colt_anaconda_6", "prob": 50, "charges": [ 0, -1 ] },
-      { "item": "colt_anaconda_4", "prob": 16, "charges": [ 0, -1 ] }
+      { "item": "sw629", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "colt_anaconda_6", "prob": 4, "charges": [ 0, -1 ] },
+      { "item": "colt_anaconda_4", "prob": 12, "charges": [ 0, -1 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_pistol_common_everyday_carry_10mm",
-    "items": [ { "item": "sw_610", "prob": 5, "charges": [ 0, -1 ] } ]
+    "items": [
+      { "item": "sw_610", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "sw_610", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "glock_40", "prob": 5, "charges": [ 0, -1 ] },
+      { "item": "m1911_10", "prob": 3, "charges": [ 0, -1 ] },
+      { "item": "p220_10", "prob": 4, "charges": [ 0, -1 ] },
+      { "item": "xd_10", "prob": 9, "charges": [ 0, -1 ] },
+      { "item": "witness_10", "prob": 1, "charges": [ 0, -1 ] },
+      { "item": "TDI_10", "prob": 18, "charges": [ 0, -1 ] },
+      { "item": "glock_20", "prob": 12, "charges": [ 0, -1 ] },
+      { "item": "glock_29", "prob": 62, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_common_everyday_carry_other",
-    "items": [ { "item": "kp32", "prob": 5, "charges": [ 0, -1 ] } ]
+    "id": "guns_pistol_common_everyday_carry_57",
+    "items": [ { "item": "ruger_57", "prob": 10, "charges": [ 0, -1 ] }, { "item": "fn57", "prob": 1, "charges": [ 0, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_everyday_carry_32",
+    "items": [ { "item": "kp32", "prob": 10, "charges": [ 0, -1 ] }, { "item": "walther_ppk", "prob": 1, "charges": [ 0, -1 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_everyday_carry_45colt",
+    "items": [
+      { "item": "taurus_judge", "prob": 10, "charges": [ 0, -1 ] },
+      { "item": "colt_saa", "prob": 2, "charges": [ 0, -1 ] }
+    ]
   },
   {
     "type": "item_group",
