@@ -268,7 +268,7 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
                 source.look_for_player( get_player_character() );
             }
         } else {
-            source.update_path( location );
+            source.update_path( tripoint_bub_ms( location ) );
             if( source.path.size() > 1 ) {
                 bool clear_path = can_move_melee( source );
                 if( clear_path && source.mem_combat.formation_distance == -1 ) {
@@ -435,7 +435,7 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
 
     if( has_obstruction( source.pos(), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-          !source.wont_hit_friend( location, gun, false ) ) ) {
+          !source.wont_hit_friend( tripoint_bub_ms( location ), gun, false ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {
@@ -564,7 +564,8 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     // Make attacks that involve moving to find clear LOS slightly less likely
     if( has_obstruction( source.pos(), location, avoids_friendly_fire ) ) {
         potential *= 0.9f;
-    } else if( avoids_friendly_fire && !source.wont_hit_friend( location, gun, false ) ) {
+    } else if( avoids_friendly_fire &&
+               !source.wont_hit_friend( tripoint_bub_ms( location ), gun, false ) ) {
         potential *= 0.95f;
     }
 
@@ -637,7 +638,7 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
 
     if( has_obstruction( source.pos(), location, false ) ||
         ( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-          !source.wont_hit_friend( location, thrown_item, true ) ) ) {
+          !source.wont_hit_friend( tripoint_bub_ms( location ), thrown_item, true ) ) ) {
         if( can_move( source ) ) {
             source.avoid_friendly_fire();
         } else {
@@ -820,7 +821,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     }
 
     if( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
-        !source.wont_hit_friend( location, thrown_item, true ) ) {
+        !source.wont_hit_friend( tripoint_bub_ms( location ), thrown_item, true ) ) {
         // Avoid friendy fire
         return npc_attack_rating( std::nullopt, location );
     }
