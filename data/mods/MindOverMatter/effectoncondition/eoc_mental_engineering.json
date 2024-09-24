@@ -758,7 +758,7 @@
             "effect": [
               { "u_lose_trait": "ASOCIAL1" },
               {
-                "u_message": "There's definitely someone out there right? Its a shame you cannot enjoy your solitude anymore.",
+                "u_message": "There's definitely someone out there right?  Its a shame you cannot enjoy your solitude anymore.",
                 "type": "neutral"
               }
             ]
