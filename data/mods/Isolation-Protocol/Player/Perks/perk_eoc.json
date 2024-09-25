@@ -133,6 +133,6 @@
     "type": "effect_on_condition",
     "id": "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE",
     "condition": { "u_has_trait": "iso_bionic_vampire" },
-    "effect": { "if": { "u_has_trait": "iso_bionic_vampire" }, "then": [ { "math": [ "u_val('power')", "+=", "500 * 1000000" ] } ] }
+    "effect": { "math": [ "u_val('power')", "+=", "500 * 1000000" ] }
   }
 ]
