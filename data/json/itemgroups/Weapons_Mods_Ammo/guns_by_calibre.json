@@ -151,6 +151,12 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_38super",
+    "//": "Yes it's a bit stupid to have a separate group for just 1 gun but it makes it look nicer and organized",
+    "items": [ { "group": "nested_m1911a1_38super", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_other",
     "items": [
       { "group": "nested_glock_31", "prob": 42 },
@@ -283,6 +289,11 @@
       { "item": "taurus_judge", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "colt_saa", "prob": 2, "charges": [ 0, -1 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_everyday_carry_38super",
+    "items": [ { "item": "m1911a1_38super", "prob": 100, "charges": [ 0, -1 ] } ]
   },
   {
     "type": "item_group",
@@ -420,6 +431,11 @@
     "type": "item_group",
     "id": "guns_pistol_common_display_32",
     "items": [ { "item": "kp32", "prob": 100 }, { "item": "walther_ppk", "prob": 71 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_common_display_38super",
+    "items": [ { "item": "m1911a1_38super", "prob": 100 } ]
   },
   {
     "type": "item_group",

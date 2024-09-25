@@ -20,6 +20,7 @@
       { "group": "guns_pistol_common_57", "prob": 2 },
       { "group": "guns_pistol_common_32", "prob": 1 },
       { "group": "guns_pistol_common_45colt", "prob": 1 },
+      { "group": "guns_pistol_common_38super", "prob": 1 },
       { "group": "guns_pistol_common_other", "prob": 2 }
     ]
   },
@@ -39,7 +40,8 @@
       { "group": "guns_pistol_common_everyday_carry_44", "prob": 1 },
       { "group": "guns_pistol_common_everyday_carry_10mm", "prob": 1 },
       { "group": "guns_pistol_common_everyday_carry_32", "prob": 2 },
-      { "group": "guns_pistol_common_everyday_carry_57", "prob": 2 }
+      { "group": "guns_pistol_common_everyday_carry_57", "prob": 2 },
+      { "group": "guns_pistol_common_everyday_carry_38super", "prob": 2 }
     ]
   },
   {
@@ -63,6 +65,7 @@
       { "group": "guns_pistol_common_display_300", "prob": 10 },
       { "group": "guns_pistol_common_display_57", "prob": 2 },
       { "group": "guns_pistol_common_display_32", "prob": 1 },
+      { "group": "guns_pistol_common_display_38super", "prob": 1 },
       { "group": "guns_pistol_common_display_other", "prob": 46 }
     ]
   },
