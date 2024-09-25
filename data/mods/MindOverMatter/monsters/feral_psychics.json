@@ -1101,7 +1101,7 @@
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -7 ], [ "effect_psi_null", -15 ] ],
     "bleed_rate": 0,
     "harvest": "human",
-    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "8 s" } ],
+    "emit_fields": [ { "emit_id": "emit_pyrokinetic_aura_7", "delay": "2 s" } ],
     "dissect": "dissect_human_sample_single",
     "vision_day": 45,
     "vision_night": 3,
