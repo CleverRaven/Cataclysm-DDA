@@ -1893,8 +1893,13 @@ class jmapgen_alternatively : public jmapgen_piece
                 chosen->get().apply( dat, x, y, z, context );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 };
 
@@ -2131,8 +2136,13 @@ class jmapgen_sign : public jmapgen_piece
             replace_city_tag( signtext, cityname );
             return signtext;
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 };
 /**
@@ -2213,8 +2223,13 @@ class jmapgen_vending_machine : public jmapgen_piece
             }
             dat.m.place_vending( r, chosen_id, reinforced, lootable, powered );
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -2248,8 +2263,13 @@ class jmapgen_toilet : public jmapgen_piece
                 dat.m.place_toilet( r, charges );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 };
 /**
@@ -2298,8 +2318,13 @@ class jmapgen_gaspump : public jmapgen_piece
                 dat.m.place_gas_pump( r, charges, chosen_fuel );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 };
 
@@ -2752,8 +2777,13 @@ class jmapgen_vehicle : public jmapgen_piece
                 dat.m.queue_main_cleanup();
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 
         void check( const std::string &context, const mapgen_parameters &parameters,
@@ -2980,8 +3010,13 @@ class jmapgen_trap : public jmapgen_piece
                 dat.m.trap_set( actual_loc, chosen_id );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3018,8 +3053,13 @@ class jmapgen_furniture : public jmapgen_piece
                 debugmsg( "Problem setting furniture in %s", context );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3186,8 +3226,13 @@ class jmapgen_terrain : public jmapgen_piece
             }
             dat.m.ter_set( p, chosen_id );
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 
         void check( const std::string &oter_name, const mapgen_parameters &parameters,
@@ -3339,8 +3384,13 @@ class jmapgen_computer : public jmapgen_piece
                 cpu->set_access_denied_msg( access_denied.translated() );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 };
 
@@ -3476,8 +3526,13 @@ class jmapgen_sealed_item : public jmapgen_piece
             furn_id chosen_furn = furniture.get( dat );
             dat.m.furn_set( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_furn );
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
-            return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value();
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+            if( dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(), dat.zlevel() + p.z() ) ).has_value() ) {
+                return dat.m.veh_at( tripoint_bub_ms( p.x(), p.y(),
+                                                      dat.zlevel() + p.z() ) ).value().vehicle().disp_name();
+            } else {
+                return "";
+            }
         }
 };
 
@@ -4018,11 +4073,11 @@ class jmapgen_nested : public jmapgen_piece
                           offending_nest_x.str(), oter_name, z.val, z.valmax );
             }
         }
-        bool has_vehicle_collision( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
+        std::string colliding_vehicle( const mapgendata &dat, const tripoint_rel_ms &p ) const override {
             const weighted_int_list<mapgen_value<nested_mapgen_id>> &selected_entries =
                         get_entries( dat );
             if( selected_entries.empty() ) {
-                return false;
+                return "";
             }
 
             for( const auto &entry : selected_entries ) {
@@ -4032,16 +4087,17 @@ class jmapgen_nested : public jmapgen_piece
                 }
                 const auto iter = nested_mapgens.find( id );
                 if( iter == nested_mapgens.end() ) {
-                    return false;
+                    return "";
                 }
                 for( const auto &nest : iter->second.funcs() ) {
-                    if( nest.obj->has_vehicle_collision( dat, p ) ) {
-                        return true;
+                    const std::string colliding_vehicle = nest.obj->colliding_vehicle( dat, p );
+                    if( !colliding_vehicle.empty() ) {
+                        return colliding_vehicle;
                     }
                 }
             }
 
-            return false;
+            return "";
         }
 };
 
@@ -5238,7 +5294,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
     return true;
 }
 
-bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
+std::string jmapgen_setmap::colliding_vehicle( const mapgendata &dat,
         const tripoint_rel_ms &offset ) const
 {
     static const auto get = []( const jmapgen_int & v, int v_offset ) {
@@ -5282,35 +5338,38 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
             break;
         /* if it's not a terrain, furniture, or trap, it can't collide */
         default:
-            return false;
+            return "";
     }
     for( const tripoint &p : dat.m.points_in_rectangle( start.raw(), end.raw() ) ) {
         if( dat.m.veh_at( p ) ) {
-            return true;
+            return dat.m.veh_at( p ).value().vehicle().disp_name();
         }
     }
-    return false;
+    return "";
 }
 
-bool mapgen_function_json_base::has_vehicle_collision(
+std::string mapgen_function_json_base::colliding_vehicle(
     const mapgendata &dat, const tripoint_rel_ms &offset ) const
 {
     for( const jmapgen_setmap &elem : setmap_points ) {
-        if( elem.has_vehicle_collision( dat, offset ) ) {
-            return true;
+        const std::string colliding_vehicle = elem.colliding_vehicle( dat, offset );
+        if( !colliding_vehicle.empty() ) {
+            return colliding_vehicle;
         }
     }
 
-    return objects.has_vehicle_collision( dat, offset );
+    return objects.colliding_vehicle( dat, offset );
 }
 
-static bool apply_mapgen_in_phases(
+static std::string apply_mapgen_in_phases(
     const mapgendata &md, const std::vector<jmapgen_setmap> &setmap_points,
     const jmapgen_objects &objects, const tripoint_rel_ms &offset, const std::string &context,
     bool verify = false )
 {
-    if( verify && objects.has_vehicle_collision( md, offset ) ) {
-        return false;
+    const std::string colliding_vehicle = objects.colliding_vehicle( md, offset );
+    if( verify &&  !colliding_vehicle.empty() ) {
+
+        return colliding_vehicle;
     }
 
     // We must apply all the mapgen in phases, but the mapgen is split between
@@ -5326,8 +5385,9 @@ static bool apply_mapgen_in_phases(
             if( elem.phase() != phase ) {
                 break;
             }
-            if( verify && elem.has_vehicle_collision( md, offset ) ) {
-                return false;
+            const std::string colliding_vehicle = elem.colliding_vehicle( md, offset );
+            if( verify && !colliding_vehicle.empty() ) {
+                return colliding_vehicle;
             }
             elem.apply( md, offset );
         }
@@ -5338,7 +5398,7 @@ static bool apply_mapgen_in_phases(
 
     resolve_regional_terrain_and_furniture( md );
 
-    return true;
+    return "";
 }
 
 /*
@@ -5473,19 +5533,21 @@ void jmapgen_objects::apply( const mapgendata &dat, mapgen_phase phase,
     }
 }
 
-bool jmapgen_objects::has_vehicle_collision( const mapgendata &dat,
+std::string jmapgen_objects::colliding_vehicle( const mapgendata &dat,
         const tripoint_rel_ms &offset ) const
 {
     for( const jmapgen_obj &obj : objects ) {
         jmapgen_place where = obj.first;
         where.offset( tripoint_rel_ms( - offset.raw() ) );
         const auto &what = *obj.second;
-        if( what.has_vehicle_collision( dat, tripoint_rel_ms( where.x.get(), where.y.get(),
-                                        where.z.get() ) ) ) {
-            return true;
+        const std::string colliding_vehicle = what.colliding_vehicle( dat, tripoint_rel_ms( where.x.get(),
+                                              where.y.get(),
+                                              where.z.get() ) );
+        if( !colliding_vehicle.empty() ) {
+            return colliding_vehicle;
         }
     }
-    return false;
+    return "";
 }
 
 /////////////
@@ -7982,13 +8044,13 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
     return true;
 }
 
-bool update_mapgen_function_json::update_map(
+std::string update_mapgen_function_json::update_map(
     const tripoint_abs_omt &omt_pos, const mapgen_arguments &args, const tripoint_rel_ms &offset,
     mission *miss, bool verify, bool mirror_horizontal, bool mirror_vertical, int rotation ) const
 {
     if( omt_pos == overmap::invalid_tripoint ) {
         debugmsg( "Mapgen update function called with overmap::invalid_tripoint" );
-        return false;
+        return _( "invalid position (not vehicle/appliance)" );
     }
 
     std::unique_ptr<smallmap> p_update_smap = std::make_unique<smallmap>();
@@ -8001,7 +8063,7 @@ bool update_mapgen_function_json::update_map(
     mapgendata md_base( omt_pos, *update_smap.cast_to_map(), 0.0f, calendar::start_of_cataclysm, miss );
     mapgendata md( md_base, args );
 
-    bool const u = update_map( md, offset, verify );
+    std::string const u = update_map( md, offset, verify );
     update_smap.mirror( mirror_horizontal, mirror_vertical );
     update_smap.rotate( rotation );
 
@@ -8048,7 +8110,8 @@ class rotation_guard
         const int rotation;
 };
 
-bool update_mapgen_function_json::update_map( const mapgendata &md, const tripoint_rel_ms &offset,
+std::string update_mapgen_function_json::update_map( const mapgendata &md,
+        const tripoint_rel_ms &offset,
         const bool verify ) const
 {
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
@@ -8079,14 +8142,17 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return null_function;
     }
     const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
-        json_data.update_map( omt_pos, {}, tripoint_rel_ms( tripoint_zero ), miss );
+        json_data.update_map( omt_pos, {}, tripoint_rel_ms_zero, miss );
     };
     defer = mapgen_defer::defer;
     mapgen_defer::jsi = JsonObject();
     return update_function;
 }
 
-bool run_mapgen_update_func(
+static const std::string missing_update_operation =
+    _( "missing update operation (not vehicle/appliance)" );
+
+std::string run_mapgen_update_func(
     const update_mapgen_id &update_mapgen_id, const tripoint_abs_omt &omt_pos,
     const mapgen_arguments &args, mission *miss, bool cancel_on_collision, bool mirror_horizontal,
     bool mirror_vertical, int rotation )
@@ -8094,21 +8160,21 @@ bool run_mapgen_update_func(
     const auto update_function = update_mapgens.find( update_mapgen_id );
 
     if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
-        return false;
+        return missing_update_operation;
     }
     return update_function->second.funcs()[0]->update_map(
-               omt_pos, args, tripoint_rel_ms( tripoint_zero ), miss, cancel_on_collision, mirror_horizontal,
+               omt_pos, args, tripoint_rel_ms_zero, miss, cancel_on_collision, mirror_horizontal,
                mirror_vertical, rotation );
 }
 
-bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendata &dat,
-                             const bool cancel_on_collision )
+std::string run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendata &dat,
+                                    const bool cancel_on_collision )
 {
     const auto update_function = update_mapgens.find( update_mapgen_id );
     if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
-        return false;
+        return missing_update_operation;
     }
-    return update_function->second.funcs()[0]->update_map( dat, tripoint_rel_ms( tripoint_zero ),
+    return update_function->second.funcs()[0]->update_map( dat, tripoint_rel_ms_zero,
             cancel_on_collision );
 }
 
@@ -8157,7 +8223,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
 
         rotation_guard rot( md );
 
-        if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
+        if( update_function->second.funcs()[0]->update_map( fake_md ).empty() ) {
             for( const tripoint &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
                 if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( pos ) ) {
                     if( apply ) {
@@ -8195,7 +8261,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 
-    if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
+    if( update_function->second.funcs()[0]->update_map( fake_md ).empty() ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
             for( const tripoint &pos : tmp_map.points_on_zlevel( z ) ) {
                 ter_id ter_at_pos = tmp_map.ter( pos );

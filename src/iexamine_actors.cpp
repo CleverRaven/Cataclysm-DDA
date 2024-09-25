@@ -132,8 +132,11 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     map &here = get_map();
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
-        if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
-            debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
+        const std::string colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
+                                              false );
+        if( !colliding_vehicle.empty() ) {
+            debugmsg( "Failed to apply magen function %s, collision with %s", mapgen_id.str(),
+                      colliding_vehicle );
         }
         set_queued_points();
         here.set_seen_cache_dirty( tripoint_bub_ms( examp ) );

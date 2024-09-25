@@ -1602,8 +1602,11 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
             tripoint_abs_omt omt_pos = you->global_omt_location();
             const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
-            if( !run_mapgen_update_func( regen_mapgen, omt_pos, {}, nullptr, false ) ) {
-                popup( _( "Failed to generate the new map" ) );
+            const std::string colliding_vehicle = run_mapgen_update_func( regen_mapgen, omt_pos, {}, nullptr,
+                                                  false );
+            if( !colliding_vehicle.empty() ) {
+                popup( _( "Failed to generate the new map, probably due to collision with the %s vehicle/appliance." ),
+                       colliding_vehicle );
                 return false;
             }
             set_queued_points();
