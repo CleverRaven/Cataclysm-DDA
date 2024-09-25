@@ -152,6 +152,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_photokinetic_illuminate_enemy",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A faint glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 35 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_photokinetic_illumination",
     "name": [ "Illuminated" ],
     "desc": [ "You are glowing.  The light is a color you have no name for, a kind of actinic purple-red." ],

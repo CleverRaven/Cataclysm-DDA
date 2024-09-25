@@ -243,6 +243,53 @@
     "max_range": 1
   },
   {
+    "id": "electro_potion_attacked",
+    "type": "SPELL",
+    "name": "Electrokinetic aura thorns",
+    "description": "Do electrical damage to a monster that attacked you and daze them.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "RANDOM_DAMAGE", "RANDOM_DURATION" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "dazed",
+    "damage_type": "electric",
+    "min_damage": { "math": [ "3 * u_nether_attunement_power_scaling" ] },
+    "max_damage": { "math": [ "7 * u_nether_attunement_power_scaling" ] },
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 100,
+    "max_duration": 400
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_electrokin_potion",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "ARMOR_ELEC", "add": -5 } ],
+    "hit_me_effect": [ { "id": "electro_potion_attacked", "hit_self": false } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_potion_rads",
+    "condition": { "math": [ "u_val('rad')", ">", "0" ] },
+    "has": "HELD",
+    "values": [ { "value": "LUMINATION", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_potion_hide",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "STEALTH_MODIFIER", "add": 25 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "enchant_photokin_potion_unhide",
+    "condition": "ALWAYS",
+    "has": "HELD",
+    "values": [ { "value": "STEALTH_MODIFIER", "add": -25 } ]
+  },
+  {
     "type": "enchantment",
     "id": "enchant_pyrokin_potion",
     "condition": "ALWAYS",

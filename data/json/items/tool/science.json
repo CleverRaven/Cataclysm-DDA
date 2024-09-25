@@ -389,12 +389,8 @@
         "magazine_well": "500 ml",
         "item_restriction": [
           "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_disposable_cell",
-          "medium_atomic_battery_cell",
           "heavy_battery_cell",
           "heavy_plus_battery_cell",
-          "heavy_disposable_cell",
           "heavy_atomic_battery_cell",
           "small_storage_battery",
           "medium_storage_battery",
@@ -697,7 +693,7 @@
     "material": [ "platinum" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "link_sheet",
+    "looks_like": "lc_link_sheet",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -898,22 +894,12 @@
     "volume": "1500 ml",
     "price": "60 USD",
     "price_postapoc": "2 USD 50 cent",
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
     "to_hit": -5,
     "material": [ "plastic" ],
     "use_action": [ "VOLTMETER" ],
     "flags": [ "WATER_BREAK" ],
     "symbol": ";",
     "color": "light_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -1376,7 +1362,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SETUP",
-          "condition": { "not": { "npc_has_var": "mbt_f_function_set", "value": "yes" } },
+          "condition": { "not": { "compare_string": [ "yes", { "npc_val": "mbt_f_function_set" } ] } },
           "effect": [
             { "npc_add_var": "mbt_f_function_set", "value": "yes" },
             { "npc_add_var": "mbt_f_function", "possible_values": [ "morale", "focus", "pain", "sleepiness" ] }
@@ -1384,7 +1370,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_MORALE",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "morale" },
+          "condition": { "compare_string": [ "morale", { "npc_val": "mbt_f_function" } ] },
           "effect": [
             { "u_message": "You feel amazing!" },
             {
@@ -1398,7 +1384,7 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "focus" },
+          "condition": { "compare_string": [ "focus", { "npc_val": "mbt_f_function" } ] },
           "effect": [
             { "u_message": "You feel incredibly focused!" },
             { "math": [ "u_val('focus')", "+=", "min( u_val('focus') + 30, 130)" ] }
@@ -1406,12 +1392,12 @@
         },
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "pain" },
+          "condition": { "compare_string": [ "pain", { "npc_val": "mbt_f_function" } ] },
           "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
-          "condition": { "npc_has_var": "mbt_f_function", "value": "sleepiness" },
+          "condition": { "compare_string": [ "sleepiness", { "npc_val": "mbt_f_function" } ] },
           "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
         }
       ]

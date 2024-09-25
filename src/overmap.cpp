@@ -7553,6 +7553,23 @@ void overmap::debug_force_add_group( const mongroup &group )
     add_mon_group( group, 1 );
 }
 
+std::vector<std::reference_wrapper<mongroup>> overmap::debug_unsafe_get_groups_at(
+            tripoint_abs_omt &loc )
+{
+    point_abs_om overmap;
+    tripoint_om_omt omt_within_overmap;
+    std::tie( overmap, omt_within_overmap ) = project_remain<coords::om>( loc );
+    tripoint_om_sm om_sm_pos = project_to<coords::sm>( omt_within_overmap );
+
+    std::vector<std::reference_wrapper <mongroup>> groups_at;
+    for( std::pair<const tripoint_om_sm, mongroup> &pair : zg ) {
+        if( pair.first == om_sm_pos ) {
+            groups_at.emplace_back( pair.second );
+        }
+    }
+    return groups_at;
+}
+
 void overmap::add_mon_group( const mongroup &group )
 {
     zg.emplace( group.rel_pos(), group );
@@ -7744,6 +7761,22 @@ std::string_view oter_no_dir( const oter_id &oter )
     for( const std::string &suffix : suffixes ) {
         if( string_ends_with( base_oter_id, suffix ) ) {
             base_oter_id = base_oter_id.substr( 0, base_oter_id.size() - suffix.size() );
+        }
+    }
+    return base_oter_id;
+}
+
+std::string_view oter_no_dir_or_connections( const oter_id &oter )
+{
+    std::string_view base_oter_id = oter_no_dir( oter );
+    for( const std::string &suffix : om_lines::mapgen_suffixes ) {
+        if( string_ends_with( base_oter_id, suffix ) ) {
+            base_oter_id = base_oter_id.substr( 0, base_oter_id.size() - suffix.size() );
+        }
+    }
+    for( const auto &connection_type : om_lines::all ) {
+        if( string_ends_with( base_oter_id, connection_type.suffix ) ) {
+            base_oter_id = base_oter_id.substr( 0, base_oter_id.size() - connection_type.suffix.size() );
         }
     }
     return base_oter_id;

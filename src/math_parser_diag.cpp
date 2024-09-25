@@ -14,6 +14,8 @@
 #include "math_parser_diag_value.h"
 #include "mongroup.h"
 #include "mtype.h"
+#include "enums.h"
+#include "npc.h"
 #include "options.h"
 #include "string_input_popup.h"
 #include "units.h"
@@ -362,7 +364,7 @@ std::function<double( dialogue & )> field_strength_eval( char scope,
             loc = d.actor( beta )->global_pos();
         }
         field_type_id ft = field_type_id( field_value.str( d ) );
-        field_entry *fp = here.field_at( here.getlocal( loc ) ).find_field( ft );
+        field_entry *fp = here.field_at( here.bub_from_abs( loc ) ).find_field( ft );
         return fp ? fp->get_field_intensity() :  0;
     };
 }
@@ -392,6 +394,66 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
 {
     return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
         return d.actor( beta )->has_trait( trait_id( tid.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> sum_traits_of_category_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+
+    diag_value type( std::string{ "ALL" } );
+    if( kwargs.count( "type" ) != 0 ) {
+        type = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), category = params[0], type]( dialogue const & d ) {
+
+        mutation_category_id cat = mutation_category_id( category.str() );
+        std::string thing = type.str( d );
+        mut_count_type count_type;
+
+        if( thing == "POSITIVE" ) {
+            count_type = mut_count_type::POSITIVE;
+        } else if( thing == "NEGATIVE" ) {
+            count_type = mut_count_type::NEGATIVE;
+        } else if( thing == "ALL" ) {
+            count_type = mut_count_type::ALL;
+        } else {
+            debugmsg( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+            return 0;
+        }
+
+        return d.actor( beta )->get_total_in_category( cat, count_type );
+    };
+}
+
+std::function<double( dialogue & )> sum_traits_of_category_char_has_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+
+    diag_value type( std::string{ "ALL" } );
+    if( kwargs.count( "type" ) != 0 ) {
+        type = *kwargs.at( "type" );
+    }
+
+    return [beta = is_beta( scope ), category = params[0], type]( dialogue const & d ) {
+
+        mutation_category_id cat = mutation_category_id( category.str() );
+        std::string thing = type.str( d );
+        mut_count_type count_type;
+
+        if( thing == "POSITIVE" ) {
+            count_type = mut_count_type::POSITIVE;
+        } else if( thing == "NEGATIVE" ) {
+            count_type = mut_count_type::NEGATIVE;
+        } else if( thing == "ALL" ) {
+            count_type = mut_count_type::ALL;
+        } else {
+            debugmsg( "Incorrect type '%s' in sum_traits_of_category", type.str() );
+            return 0;
+        }
+
+        return d.actor( beta )->get_total_in_category_char_has( cat, count_type );
     };
 }
 
@@ -1763,6 +1825,8 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
+    { "sum_traits_of_category", { "un", 1, sum_traits_of_category_eval } },
+    { "sum_traits_of_category_char_has", { "un", 1, sum_traits_of_category_char_has_eval } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "has_var", { "g", 1, has_var_eval } },
     { "hp", { "un", 1, hp_eval } },

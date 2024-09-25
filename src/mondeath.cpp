@@ -259,7 +259,7 @@ void mdeath::broken( monster &z )
                                 mags.insert( mags.end(), mag );
                                 ammo_count -= mag.type->magazine->capacity;
                             }
-                            here.spawn_items( z.pos(), mags );
+                            here.spawn_items( z.pos_bub(), mags );
                             spawned = true;
                             break;
                         }

@@ -11,7 +11,7 @@
           "and": [
             { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_Brigitte_LaCroix_01" },
-            { "not": { "u_has_var": "BOSS_mission_directions", "value": "Brigitte_LaCroix" } }
+            { "not": { "compare_string": [ "Brigitte_LaCroix", { "u_val": "BOSS_mission_directions" } ] } }
           ]
         },
         "effect": { "assign_mission": "directions_Brigitte_LaCroix" },

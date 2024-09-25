@@ -1160,7 +1160,7 @@
         { "item": "scrap", "count": 10 },
         { "item": "sheet_metal", "count": 2 },
         { "item": "rebar", "count": 2 },
-        { "item": "wire", "count": 2 }
+        { "item": "lc_wire", "count": 2 }
       ]
     },
     "bash": {

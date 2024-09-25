@@ -15,7 +15,12 @@
     "type": "item_group",
     "id": "SUS_book_nonf_soft",
     "copy-from": "SUS_book_nonf_soft",
-    "extend": { "items": [ { "item": "book_nonf_magic_origin_of_species", "prob": 1 } ] }
+    "extend": {
+      "items": [
+        { "item": "book_nonf_magic_origin_of_species", "prob": 1 },
+        { "item": "book_nonf_empty_social_history_no_magic", "prob": 3 }
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -135,9 +140,9 @@
   },
   {
     "type": "item_group",
-    "id": "mags_rifle_rare",
-    "copy-from": "mags_rifle_rare",
-    "extend": { "items": [ [ "borealmosin_clip", 5 ] ] }
+    "id": "mags_common",
+    "copy-from": "mags_common",
+    "extend": { "items": [ [ "borealmosin_clip", 4 ] ] }
   },
   {
     "type": "item_group",
@@ -505,6 +510,7 @@
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "item": "mring_fire_protection", "prob": 3 },
       { "group": "enchanted_combat_items", "prob": 10 },
       { "group": "enchanted_belts", "prob": 2 },
       { "group": "magical_reagents", "prob": 8 },
@@ -728,6 +734,7 @@
       { "item": "mring_speed_7", "prob": 10 },
       { "item": "mring_protection_6", "prob": 10 },
       { "item": "storage_ring_greater", "prob": 10 },
+      { "item": "mring_fire_protection", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -743,6 +750,7 @@
       { "item": "mring_perception_4", "prob": 10 },
       { "item": "mring_speed_10", "prob": 10 },
       { "item": "mring_protection_8", "prob": 10 },
+      { "item": "mring_flying", "prob": 10 },
       { "item": "mring_wizardry_greater", "prob": 5 }
     ]
   },
@@ -1191,6 +1199,7 @@
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
           { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_light_target", "prob": 50 },
           { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
           { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
@@ -1202,6 +1211,7 @@
           { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
           { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
           { "item": "spell_scroll_magus_escape", "prob": 50 },
+          { "item": "spell_scroll_magus_silence", "prob": 35 },
           { "item": "spell_scroll_cats_grace", "prob": 50 },
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
@@ -1245,6 +1255,7 @@
         "distribution": [
           { "item": "priest_advanced", "prob": 10 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_vocalize", "prob": 35 },
           { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
           { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
         ],
@@ -1575,6 +1586,7 @@
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
           { "item": "spell_scroll_blinding_flash", "prob": 50 },
+          { "item": "spell_scroll_classless_restore_crystal_mana", "prob": 40 },
           { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 },
           { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 50 }
         ],
@@ -1848,5 +1860,43 @@
     "subtype": "collection",
     "id": "group_forge_warp_items",
     "items": [ { "item": "forge_warp_scroll", "count": [ 1, 3 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ravenfolk_jewelry",
+    "//": "copied from jewelry_accessories with ear and teeth jewelry removed, plus no wedding/engagement rings",
+    "items": [
+      [ "gold_ring", 30 ],
+      [ "gold_bracelet", 30 ],
+      [ "gold_necklace", 30 ],
+      [ "gold_locket", 20 ],
+      [ "gold_hairpin", 20 ],
+      [ "platinum_ring", 2 ],
+      [ "platinum_bracelet", 2 ],
+      [ "platinum_necklace", 2 ],
+      [ "platinum_locket", 1 ],
+      [ "platinum_hairpin", 1 ],
+      [ "silver_necklace", 40 ],
+      [ "silver_bracelet", 40 ],
+      [ "silver_ring", 40 ],
+      [ "silver_locket", 30 ],
+      [ "silver_hairpin", 30 ],
+      [ "copper_bracelet", 15 ],
+      [ "copper_ring", 15 ],
+      [ "copper_necklace", 15 ],
+      [ "cowrie_necklace", 15 ],
+      [ "copper_locket", 15 ],
+      [ "copper_hairpin", 10 ],
+      [ "ring_purity", 5 ],
+      [ "cufflinks", 25 ],
+      [ "cufflinks_intricate", 15 ],
+      [ "diamond_ring", 10 ],
+      [ "jade_brooch", 30 ],
+      [ "tieclip", 35 ],
+      [ "pearl_collar", 30 ],
+      [ "holy_symbol", 20 ],
+      [ "gold_anklet", 20 ],
+      [ "silver_anklet", 30 ]
+    ]
   }
 ]

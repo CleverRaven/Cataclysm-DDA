@@ -403,6 +403,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_catoblepas_gaze",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_catoblepas_gaze_monster",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 4 ], "hurt_max": [ 9 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 3 ], "hurt_max": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "biomancer_visceral_side_effects",
     "name": [ "Visceral Overexertion" ],
     "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],
@@ -935,6 +957,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_vocalize",
+    "name": [ "The Inner Voice" ],
+    "desc": [ "Your soul gives voice to your magical prowess." ],
+    "apply_message": "",
+    "remove_message": "Your soul no longer speaks directly.",
+    "rating": "good",
+    "flags": [ "SILENT_SPELL" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_anti_heat",
     "name": [ "Water's Cooling Touch" ],
     "desc": [ "Your skin feels like you just splashed cool water on it." ],
@@ -1039,6 +1071,16 @@
         "values": [ { "value": "RANGE", "multiply": { "math": [ "(( u_spell_level('magus_ranged_increase') * 0.02) + 0.25 )" ] } } ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_faerie_fire",
+    "name": [ "Faerie Fire" ],
+    "desc": [ "You are glowing." ],
+    "apply_message": "",
+    "remove_message": "The glow around you fades.",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 10 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1203,6 +1245,16 @@
     "removes_effects": [ "bleed" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+          ]
+        },
         "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ],
@@ -1274,8 +1326,10 @@
     "desc": [ "You are immune to heat and fire." ],
     "rating": "good",
     "show_in_info": true,
-    "removes_effects": [ "onfire", "blisters" ],
-    "enchantments": [ "ench_heat_and_fire_immunity" ]
+    "blocks_effects": [ "blisters" ],
+    "removes_effects": [ "onfire" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_HEAT", "multiply": -1 } ] } ],
+    "flags": [ "HEAT_IMMUME" ]
   },
   {
     "type": "effect_type",
@@ -1305,6 +1359,17 @@
     "show_in_info": true,
     "remove_message": "Your mageshield fades as the attack impacts it.",
     "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_silence",
+    "name": [ "Silence" ],
+    "desc": [ "You are completely silent." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your footsteps make noise again.",
+    "enchantments": [ { "values": [ { "value": "ATTACK_NOISE", "multiply": -1 }, { "value": "FOOTSTEP_NOISE", "multiply": -1 } ] } ],
+    "flags": [ "MUTE" ]
   },
   {
     "type": "effect_type",
@@ -1362,6 +1427,23 @@
     "desc": [ "" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_mring_fire_protection",
+    "//": "Hidden effect, used so the ring of fire protection will stop you from being set on fire",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "onfire" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ring_of_flight",
+    "name": [ "Flying" ],
+    "desc": [ "You're flying." ],
+    "rating": "good",
+    "remove_message": "Your magical flight ends.",
+    "flags": [ "CLIMB_FLYING", "LEVITATION" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1405,10 +1487,12 @@
       "earthshaper_fortitude_of_stone",
       "effect_tremorsense",
       "effect_sense_outsiders",
+      "effect_animist_vocalize",
       "effect_kelvinist_anti_cold",
       "effect_kelvinist_anti_heat",
       "effect_magus_slowfall",
       "effect_magus_spiderclimb",
+      "effect_magus_faerie_fire",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_biomancer_slow_bleeding_01",
@@ -1418,6 +1502,7 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_magus_silence",
       "effect_magus_ranged_increase",
       "magic_slowed",
       "effect_classless_watch",
@@ -1534,6 +1619,7 @@
       "effect_kelvinist_anti_heat",
       "effect_magus_slowfall",
       "effect_magus_spiderclimb",
+      "effect_magus_faerie_fire",
       "effect_biomancer_swim_speed",
       "effect_biomancer_carrion_feast",
       "effect_classless_watch",
@@ -1543,6 +1629,7 @@
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
       "effect_animist_add_evasion",
+      "effect_animist_vocalize",
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
@@ -1550,6 +1637,7 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_magus_silence",
       "effect_magus_ranged_increase",
       "effect_spirit_walking",
       "effect_stormshaper_loud_voice",
@@ -1571,7 +1659,8 @@
       "gravity_mage_melee",
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
-      "effect_burning_trail"
+      "effect_burning_trail",
+      "effect_ring_of_flight"
     ]
   },
   {

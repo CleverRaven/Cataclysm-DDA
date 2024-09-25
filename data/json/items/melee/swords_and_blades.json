@@ -331,8 +331,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -402,8 +400,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -460,8 +456,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -1689,8 +1683,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -2913,6 +2905,7 @@
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {
@@ -3002,6 +2995,7 @@
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {
@@ -3120,8 +3114,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",
@@ -3169,8 +3161,6 @@
         "makeshift_bayonet",
         "m26_mass",
         "m26_mass_mod",
-        "rm121aux",
-        "rm121aux_mod",
         "masterkey",
         "masterkey_mod",
         "u_shotgun",

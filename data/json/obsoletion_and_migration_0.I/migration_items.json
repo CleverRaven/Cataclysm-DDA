@@ -20,6 +20,11 @@
     "replace": "qt_steel_chunk"
   },
   {
+    "id": "fake_anvil_crude",
+    "type": "MIGRATION",
+    "replace": "fake_anvil"
+  },
+  {
     "id": "power_armor_generator",
     "type": "MIGRATION",
     "replace": "qt_steel_chunk"
@@ -993,6 +998,61 @@
     "replace": "bread"
   },
   {
+    "id": "light_minus_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_minus_disposable_cell"
+  },
+  {
+    "id": "light_plus_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_dry_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "medium_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_plus_battery_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_dry_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "heavy_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "heavy_dry_cell",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
     "id": "scrap_cap1",
     "type": "MIGRATION",
     "replace": "hat_ball"
@@ -1844,6 +1904,11 @@
     "replace": "egg_goose"
   },
   {
+    "id": "egg_reptile",
+    "type": "MIGRATION",
+    "replace": "egg_turtle_painted"
+  },
+  {
     "id": "ar_pistol",
     "type": "MIGRATION",
     "replace": "rdb_223"
@@ -1857,5 +1922,30 @@
     "id": "stabilizer_mod",
     "type": "MIGRATION",
     "replace": "rail_laser_sight"
+  },
+  {
+    "id": "wire",
+    "type": "MIGRATION",
+    "replace": "lc_wire"
+  },
+  {
+    "id": "piano_wire",
+    "type": "MIGRATION",
+    "replace": "qt_wire"
+  },
+  {
+    "id": "chain_link",
+    "type": "MIGRATION",
+    "replace": "lc_chain_link"
+  },
+  {
+    "id": "link_sheet",
+    "type": "MIGRATION",
+    "replace": "lc_link_sheet"
+  },
+  {
+    "id": "acr_300blk",
+    "type": "MIGRATION",
+    "replace": "sig_mcx_rattler_sbr"
   }
 ]

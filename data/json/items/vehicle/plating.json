@@ -43,7 +43,7 @@
     "to_hit": -1,
     "color": "light_cyan",
     "symbol": "]",
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "volume": "3 L",
     "category": "veh_parts",
     "price": "120 USD",

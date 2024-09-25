@@ -406,7 +406,7 @@
     "//": "Standard set of clothes worn by a military helicopter pilot.",
     "items": [
       { "item": "chestrig", "prob": 40 },
-      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 80 },
       { "item": "nomex_gloves" },
       { "group": "loaded_webbing_belt" },
@@ -430,7 +430,7 @@
     "//": "todo: when #57228 would be closed, change this one to copy-from `clothing_military`",
     "items": [
       { "item": "chestrig", "prob": 40 },
-      { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": [ 0, 150 ] },
+      { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": [ 0, 150 ] },
       { "item": "mil_flight_suit", "prob": 80 },
       { "item": "nomex_gloves" },
       { "group": "loaded_webbing_belt" },
@@ -676,7 +676,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "hat_hard",
-    "items": [ { "item": "light_disposable_cell", "charges": [ 0, -1 ], "container-item": "flashlight" } ]
+    "items": [ { "item": "flashlight", "charges": [ 0, -1 ] } ]
   },
   {
     "id": "hat_hard_modified",
@@ -685,7 +685,7 @@
     "container-item": "hat_hard",
     "items": [
       { "group": "common_nape_protectors", "prob": 50 },
-      { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "flashlight", "prob": 50 },
+      { "item": "flashlight", "charges": [ 0, -1 ], "prob": 50 },
       { "group": "common_face_shields", "prob": 15 },
       { "item": "plastic_chin_guard", "prob": 10 },
       { "item": "attachable_ear_muffs", "prob": 5 }
@@ -974,8 +974,9 @@
       [ "keikogi", 25 ],
       [ "zubon_gi", 25 ],
       [ "hakama_gi", 10 ],
-      [ "mouthpiece", 5 ],
       [ "obi_gi", 10 ],
+      [ "mouthpiece", 5 ],
+      [ "jikatabi_sneakers", 5 ],
       [ "geta", 1 ],
       [ "haori", 1 ],
       [ "yukata", 1 ]

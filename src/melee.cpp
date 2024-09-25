@@ -607,6 +607,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
     }
 
+    recalculate_enchantment_cache();
+
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_avatar() ) {
@@ -2860,7 +2862,7 @@ void avatar::steal( npc &target )
         return;
     }
 
-    item_location loc = game_menus::inv::steal( *this, target );
+    item_location loc = game_menus::inv::steal( target );
     if( !loc ) {
         return;
     }

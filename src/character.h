@@ -33,7 +33,6 @@
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
 #include "coords_fwd.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -50,6 +49,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "safe_reference.h"
+#include "sleep.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "subbodypart.h"
@@ -67,6 +67,7 @@ class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
@@ -558,15 +559,6 @@ class Character : public Creature, public visitable
         /// Is currently in control of a vehicle
         bool controlling_vehicle = false;
 
-        enum class comfort_level : int {
-            impossible = -999,
-            uncomfortable = -7,
-            neutral = 0,
-            slightly_comfortable = 3,
-            comfortable = 5,
-            very_comfortable = 10
-        };
-
         /// @brief Character stats
         /// @todo Make those protected
         int str_max;
@@ -962,13 +954,6 @@ class Character : public Creature, public visitable
                                const std::map<bodypart_id, int> &warmth_per_bp );
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
-
-        struct comfort_response_t {
-            comfort_level level = comfort_level::neutral;
-            const item *aid = nullptr;
-        };
-        /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not sleepiness nor stimulants. */
-        comfort_response_t base_comfort_value( const tripoint_bub_ms &p ) const;
 
         /** Returns focus equilibrium cap due to sleepiness **/
         int focus_equilibrium_sleepiness_cap( int equilibrium ) const;
@@ -1403,7 +1388,9 @@ class Character : public Creature, public visitable
         int count_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
-
+        /** Returns the vector of all traits in category, good/bad/any */
+        std::vector<trait_id> get_in_category( const mutation_category_id &categ,
+                                               mut_count_type count_type ) const;
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id &, const std::string & = "" );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
@@ -1623,6 +1610,11 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that tree has */
+        int get_total_in_category( const mutation_category_id &categ, mut_count_type count_type ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that character has */
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const;
         /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
         bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */
@@ -2650,7 +2642,7 @@ class Character : public Creature, public visitable
         nc_color symbol_color() const override;
         const std::string &symbol() const override;
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
 
         std::string mutation_name( const trait_id &mut ) const;
         std::string mutation_desc( const trait_id &mut ) const;
@@ -3781,6 +3773,8 @@ class Character : public Creature, public visitable
         void set_destination( const std::vector<tripoint_bub_ms> &route,
                               const player_activity &new_destination_activity = player_activity() );
         void clear_destination();
+        //clear_destination(), also closes overmap UI if still open
+        void abort_automove();
         bool has_distant_destination() const;
 
         // true if the player is auto moving, or if the player is going to finish
@@ -3818,8 +3812,6 @@ class Character : public Creature, public visitable
         double vomit_mod();
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
-        /** Rate point's ability to serve as a bed. Takes all mutations, sleepiness and stimulants into account. */
-        int sleep_spot( const tripoint_bub_ms &p ) const;
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */
@@ -3857,6 +3849,28 @@ class Character : public Creature, public visitable
         std::pair<int, int> kcal_range(
             const itype_id &id,
             const std::function<bool( const item & )> &filter, Character &player_character ) const;
+
+        // --------------- Sleep Stuff ---------------
+        /**
+         * Searches mutations for comfort data and returns the least comfortable valid one.
+         *
+         * @details
+         * For mutations with multiple comfort data, the first data with passing conditions is
+         * selected. Out of each mutation with selected comfort data, the comfort data with the
+         * lowest `base_comfort` is selected and returned.
+         */
+        const comfort_data &get_comfort_data_for( const tripoint &p ) const;
+        const comfort_data &get_comfort_data_for( const tripoint_bub_ms &p ) const;
+        /**
+         * Calculates and caches the comfort of a location. Returns cached comfort if valid.
+         *
+         * @details
+         * Comfort is considered valid until any time has passed or a new location is evaluated.
+         * Gaining or losing mutations does not currently invalidate cached comfort.
+         */
+        const comfort_data::response &get_comfort_at( const tripoint &p );
+        const comfort_data::response &get_comfort_at( const tripoint_bub_ms &p );
+        comfort_data::response comfort_cache;
 
     protected:
         Character();

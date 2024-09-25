@@ -11,5 +11,70 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ "DBG_LUX_METER" ]
+  },
+  {
+    "id": "debug_item_damager",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str_sp": "debug item damager (simple)" },
+    "description": "Deals 1 full bar of damage to an item you wield.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Damage item",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_FIND_ITEM_simple",
+          "effect": {
+            "u_run_inv_eocs": "all",
+            "search_data": [ { "wielded_only": true } ],
+            "true_eocs": {
+              "id": "EOC_DAMAGE_ITEM_simple",
+              "effect": [
+                { "math": [ "_hp_before", "=", "n_hp('ALL')" ] },
+                { "math": [ "n_hp('ALL')", "-=", "1000" ] },
+                { "math": [ "_hp_after", "=", "n_hp('ALL')" ] },
+                { "u_message": "<npc_name> have had <context_val:hp_before> hp, now has <context_val:hp_after> hp." }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "debug_item_damager_adv",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str_sp": "debug item damager (advanced)" },
+    "description": "Deals damage to items you pick.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Damage item",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_FIND_ITEM",
+          "effect": {
+            "u_run_inv_eocs": "manual_mult",
+            "true_eocs": {
+              "id": "EOC_DAMAGE_ITEM",
+              "effect": [
+                { "math": [ "n_hp('ALL')", "-=", "num_input('Amount of damage, 1000 is one bar of damage.', 1000)" ] },
+                { "u_message": "Dealt damage to all items." }
+              ]
+            }
+          }
+        }
+      ]
+    }
   }
 ]

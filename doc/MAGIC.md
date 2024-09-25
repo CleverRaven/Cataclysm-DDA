@@ -632,13 +632,16 @@ Identifier                  | Description
 `mutations`                 | Grants the mutation/trait ID.  Note: enchantments effects added this way won't stack, due how mutations work.
 `ench_effects`              | Grants the effect_id.  Requires the `intensity` for the effect.
 
+All fields except for `type` and `id` are optional.  This includes the otherwise obligatory `name` and `description`.  If a name and description are set, they will be displayed in the EFFECTS tab.
 
-There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the effects as an inline enchantment of something (in this case, an item):
+There are two possible syntaxes.  The first is by defining an enchantment object and then referencing the ID, the second is by directly defining the inline enchantment inside something (in this case, an item):
 
 ```json
   {
     "type": "enchantment",
     "id": "ENCH_INVISIBILITY",
+    "name": { "str": "Invisibility" },
+    "description": "You are invisible.  Just that.",
     "condition": "ALWAYS",
     "has": "WIELD",
     "hit_you_effect": [ { "id": "AEA_FIREBALL", "hit_self": true, "once_in": 12 } ],
@@ -661,7 +664,6 @@ There are two possible syntaxes.  The first is by defining an enchantment object
     }
   }
 ```
-Note: all fields except for `type` and `id` are optional.
 
 ```json
   {
@@ -674,7 +676,6 @@ Note: all fields except for `type` and `id` are optional.
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 400 } ] } ] }
   }
 ```
-
 
 ### The `relic_data` field
 
@@ -853,7 +854,7 @@ Character status value  | Description
 `MELEE_DAMAGE`          | Adds damage to melee attacks
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
-`METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never wear
+`METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended; Since metabolism is directly connected to weariness, at this moment decreasing it makes you more weary the less metabolism you have; zero metabolism (`multiply: -1`) is handled separately, and makes you never weary.
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 `MOTION_VISION_RANGE`   | Reveals all monsters as a red `?` within the specified radius.
@@ -879,6 +880,7 @@ Character status value  | Description
 `POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
+`RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.

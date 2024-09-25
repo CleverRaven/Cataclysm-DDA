@@ -1886,6 +1886,7 @@ void Item_factory::init()
     add_iuse( "HEAT_SOLID_ITEMS", &iuse::heat_solid_items );
     add_iuse( "HEAT_ALL_ITEMS", &iuse::heat_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
+    add_iuse( "WATER_TABLETS", &iuse::water_tablets );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "SEXTANT", &iuse::sextant );
@@ -2839,6 +2840,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "heat_per_shot", slot.heat_per_shot, strict, 0.0 );
     assign( jo, "cooling_value", slot.cooling_value, strict, 0.0 );
     assign( jo, "overheat_threshold", slot.overheat_threshold, strict, -1.0 );
+    optional( jo, false, "gun_jam_mult", slot.gun_jam_mult, 1 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -3573,6 +3575,7 @@ void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::
     assign( jo, "count", slot.count, strict, 0 );
     assign( jo, "default_ammo", slot.default_ammo, strict );
     assign( jo, "reload_time", slot.reload_time, strict, 0 );
+    optional( jo, false, "mag_jam_mult", slot.mag_jam_mult, 1 );
     assign( jo, "linkage", slot.linkage, strict );
 }
 

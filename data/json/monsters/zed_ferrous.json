@@ -75,6 +75,7 @@
     "grab_strength": 35,
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 20 } ],
     "burn_into": "mon_zombie_scorched_rust",
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 5, "stab": 5, "bullet": 5 },
     "extend": { "flags": [ "SMELLS" ], "special_attacks": [ { "id": "impale" } ] }
   },
@@ -107,6 +108,7 @@
     ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_fiend_rust",
+    "upgrades": false,
     "armor": { "bash": 8, "cut": 8, "stab": 8, "bullet": 8 },
     "extend": { "flags": [ "SMELLS", "PUSH_VEH" ] },
     "delete": { "flags": [ "GRABS" ] }

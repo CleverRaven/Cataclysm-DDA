@@ -46,6 +46,7 @@
 #include "event_bus.h"
 #include "faction.h"
 #include "field_type.h"
+#include "fault.h"
 #include "flag.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
@@ -155,9 +156,9 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
+static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_READ( "ACT_READ" );
 static const activity_id ACT_REEL_CABLE( "ACT_REEL_CABLE" );
 static const activity_id ACT_RELOAD( "ACT_RELOAD" );
@@ -171,6 +172,7 @@ static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
@@ -180,6 +182,11 @@ static const activity_id ACT_WORKOUT_LIGHT( "ACT_WORKOUT_LIGHT" );
 static const activity_id ACT_WORKOUT_MODERATE( "ACT_WORKOUT_MODERATE" );
 
 static const ammotype ammo_plutonium( "plutonium" );
+
+static const damage_type_id damage_acid( "acid" );
+static const damage_type_id damage_bash( "bash" );
+static const damage_type_id damage_cut( "cut" );
+static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
@@ -218,6 +225,8 @@ static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id
+itype_robofac_yrax_trifacet_deactivation_manual( "robofac_yrax_trifacet_deactivation_manual" );
 static const itype_id itype_soap( "soap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
@@ -235,7 +244,7 @@ static const morale_type morale_shave( "morale_shave" );
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
 
-static const mtype_id mon_manhack( "mon_manhack" );
+static const mtype_id mon_yrax_trifacet( "mon_yrax_trifacet" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
@@ -252,6 +261,7 @@ static const quality_id qual_SHEAR( "SHEAR" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_fabrication( "fabrication" );
+static const skill_id skill_gun( "gun" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
@@ -282,6 +292,8 @@ static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_LOOT_IGNORE_FAVORITES( "LOOT_IGNORE_FAVORITES" );
 static const zone_type_id zone_type_STRIP_CORPSES( "STRIP_CORPSES" );
 static const zone_type_id zone_type_UNLOAD_ALL( "UNLOAD_ALL" );
+
+static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
@@ -317,11 +329,58 @@ aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
     return act;
 }
 
-void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
+void aim_activity_actor::start( player_activity &act, Character &who )
 {
+    item_location weapon = get_weapon();
+    item &it = *weapon.get_item();
+
+    if( !check_gun_ability_to_shoot( who, it ) ) {
+        aborted = true; // why doesn't interrupt?
+        act.set_to_null();
+    }
+
     // Time spent on aiming is determined on the go by the player
     act.moves_total = 1;
     act.moves_left = 1;
+}
+
+bool aim_activity_actor::check_gun_ability_to_shoot( Character &who, item &it )
+{
+
+    if( it.has_fault_flag( "RUINED_GUN" ) ) {
+        who.add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
+        return false;
+    }
+
+    // if it's a simple fault, character can try to fix it on the fly
+    if( faults::random_of_type_item_has( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
+        // fixing fault should cost more than 1 second
+        // but until game running the next activity actor without ever verifying
+        // was the previous one successful or not will be resolved,
+        // it would be safer to limit it somewhat
+        who.mod_moves( -who.get_speed() );
+        who.recoil = MAX_RECOIL;
+        if( one_in( std::max( 7.0f, ( 15.0f - ( 4.0f * who.get_skill_level( skill_gun ) ) ) ) ) ) {
+            who.add_msg_if_player( m_good,
+                                   _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, and it works now!" ),
+                                   it.tname() );
+            it.faults.erase( faults::random_of_type_item_has( it, gun_mechanical_simple ) );
+            it.set_var( "u_know_round_in_chamber", true );
+        } else {
+            who.add_msg_if_player( m_bad,
+                                   _( "Your %s has some mechanical malfunction.  You tried to quickly fix it, but failed!" ),
+                                   it.tname() );
+            return false;
+        }
+    }
+
+    if( it.has_fault_flag( "OVERHEATED_GUN" ) ) {
+        who.add_msg_if_player( m_warning,
+                               _( "Your %s is too hot, and little screen signalizes the gun is inoperable." ), it.tname() );
+        return false;
+    }
+
+    return true;
 }
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
@@ -602,6 +661,7 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
     }
+    ui::omap::force_quit();
     act.set_to_null();
 }
 
@@ -609,6 +669,7 @@ void autodrive_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
     player_vehicle->stop_autodriving( false );
+    ui::omap::force_quit();
     act.set_to_null();
 }
 
@@ -4460,7 +4521,9 @@ bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
     return ( ( monster.friendly != 0 || monster.has_effect( effect_sensor_stun ) ) &&
              !monster.has_flag( mon_flag_RIDEABLE_MECH ) &&
              !( monster.has_flag( mon_flag_PAY_BOT ) && monster.has_effect( effect_paid ) ) ) &&
-           ( !monster.type->revert_to_itype.is_empty() || monster.type->id == mon_manhack );
+           ( !monster.type->revert_to_itype.is_empty() ) &&
+           ( get_avatar().has_identified( itype_robofac_yrax_trifacet_deactivation_manual ) ||
+             monster.type->id != mon_yrax_trifacet );
 }
 
 int disable_activity_actor::get_disable_turns()
@@ -6283,36 +6346,6 @@ std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
-{
-    std::optional<tripoint_bub_ms> p( where );
-    std::vector<drop_location> s( selection );
-    who.cancel_activity();
-    who.pick_up( game_menus::inv::pickup( *who.as_avatar(), p, s ) );
-}
-
-void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "where", where );
-    jsout.member( "selection", selection );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
-{
-    pickup_menu_activity_actor actor( {}, {} );
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "where", actor.where );
-    data.read( "selection", actor.selection );
-
-    return actor.clone();
-}
-
 static void chop_single_do_turn( player_activity &act )
 {
     const map &here = get_map();
@@ -7915,6 +7948,201 @@ std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsi
     return actor.clone();
 }
 
+void pulp_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void pulp_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    map &here = get_map();
+
+    const item_location weapon = you.get_wielded_item();
+    int weap_cut = 0;
+    int weap_stab = 0;
+    int weap_bash = 0;
+    int mess_radius = 1;
+
+    if( weapon ) {
+        // FIXME: Hardcoded damage types
+        weap_cut = weapon->damage_melee( damage_cut );
+        weap_stab = weapon->damage_melee( damage_stab );
+        weap_bash = weapon->damage_melee( damage_bash );
+        if( weapon->has_flag( flag_MESSY ) ) {
+            mess_radius = 2;
+        }
+    }
+
+    // Stabbing weapons are a lot less effective at pulping
+    const int cut_power = std::max( weap_cut, weap_stab / 2 );
+
+    ///\EFFECT_STR increases pulping power, with diminishing returns
+    float pulp_power = std::sqrt( ( you.get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
+    float pulp_effort = you.str_cur + weap_bash;
+
+    // Multiplier to get the chance right + some bonus for survival skill
+    pulp_power *= 40 + you.get_skill_level( skill_survival ) * 5;
+
+    int moves = 0;
+    for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
+        const tripoint &pos = here.getlocal( *pos_iter );
+        map_stack corpse_pile = here.i_at( pos );
+        for( item &corpse : corpse_pile ) {
+            if( !corpse.is_corpse() || !corpse.can_revive() ) {
+                // Don't smash non-rezing corpses
+                continue;
+            }
+
+            const mtype *corpse_mtype = corpse.get_mtype();
+            const bool acid_immune = you.is_immune_damage( damage_acid ) ||
+                                     you.is_immune_field( fd_acid );
+            if( !pulp_acid && corpse_mtype->bloodType().obj().has_acid  && !acid_immune ) {
+                //don't smash acid zombies when auto pulping unprotected
+                continue;
+            }
+            while( corpse.damage() < corpse.max_damage() ) {
+                // Increase damage as we keep smashing ensuring we eventually smash the target.
+                if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+                    corpse.inc_damage();
+                    if( corpse.damage() == corpse.max_damage() ) {
+                        num_corpses++;
+                    }
+                }
+
+                if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
+                    // Splatter some blood around
+                    // Splatter a bit more randomly, so that it looks cooler
+                    const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
+                    const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+                    const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                                     corpse.get_mtype()->gibType() :
+                                                     corpse.get_mtype()->bloodType();
+                    here.add_splatter_trail( type_blood, pos, dest );
+                }
+
+                // mixture of isaac clarke stomps and swinging your weapon
+                you.burn_energy_all( -pulp_effort );
+                you.recoil = MAX_RECOIL;
+
+                if( one_in( 4 ) ) {
+                    // Smashing may not be butchery, but it involves some zombie anatomy
+                    you.practice( skill_survival, 2, 2 );
+                }
+
+                float stamina_ratio = static_cast<float>( you.get_stamina() ) / you.get_stamina_max();
+                moves += 100 / std::max( 0.25f,
+                                         stamina_ratio ) * you.exertion_adjusted_move_multiplier( act.exertion_level() );
+                if( stamina_ratio < 0.33 || you.is_npc() ) {
+                    you.set_moves( std::min( 0, you.get_moves() - moves ) );
+                    return;
+                }
+                if( moves >= you.get_moves() ) {
+                    // Enough for this turn;
+                    you.set_moves( you.get_moves() - moves );
+                    return;
+                }
+            }
+            corpse.set_flag( flag_PULPED );
+        }
+        //Upon reach here, we have cleared one maptile
+        pos_iter = placement.erase( pos_iter );
+    }
+
+    // If we reach this, all corpses have been pulped, finish the activity
+    act.moves_left = 0;
+    if( num_corpses == 0 ) {
+        you.add_msg_if_player( m_bad, _( "The corpse moved before you could finish smashing it!" ) );
+        return;
+    }
+    // TODO: Factor in how long it took to do the smashing.
+    you.add_msg_player_or_npc( n_gettext( "The corpse is thoroughly pulped.",
+                                          "The corpses are thoroughly pulped.", num_corpses ),
+                               n_gettext( "<npcname> finished pulping the corpse.",
+                                          "<npcname> finished pulping the corpses.", num_corpses ) );
+}
+
+void pulp_activity_actor::finish( player_activity &act, Character &you )
+{
+    if( you.is_npc() ) {
+        you.as_npc()->revert_after_activity();
+        you.as_npc()->pulp_location.reset();
+    } else {
+        act.set_to_null();
+    }
+}
+
+void pulp_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "num_corpses", num_corpses );
+    jsout.member( "placement", placement );
+    jsout.member( "pulp_acid", pulp_acid );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> pulp_activity_actor::deserialize( JsonValue &jsin )
+{
+    pulp_activity_actor actor;
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "num_corpses", actor.num_corpses );
+    data.read( "placement", actor.placement );
+    data.read( "pulp_acid", actor.pulp_acid );
+
+    return actor.clone();
+}
+
+
+void wait_stamina_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = calendar::INDEFINITELY_LONG;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+}
+
+void wait_stamina_activity_actor::do_turn( player_activity &act, Character &you )
+{
+    if( stamina_threshold != -1 ) {
+        // Record intial stamina only when waiting until a given threshold.
+        initial_stamina = you.get_stamina();
+    }
+
+    int stamina_max = stamina_threshold == -1 ? you.get_stamina_max() : stamina_threshold;
+    if( you.get_stamina() >= stamina_max ) {
+        finish( act, you );
+    }
+}
+
+void wait_stamina_activity_actor::finish( player_activity &act, Character &you )
+{
+    if( stamina_threshold != -1 ) {
+        const int stamina_initial = initial_stamina != -1 ? initial_stamina : you.get_stamina();
+        if( you.get_stamina() < stamina_threshold && you.get_stamina() <= stamina_initial ) {
+            debugmsg( "Failed to wait until stamina threshold %d reached, only at %d. You may not be regaining stamina.",
+                      act.values.front(), you.get_stamina() );
+        }
+    } else if( you.get_stamina() < you.get_stamina_max() ) {
+        you.add_msg_if_player( _( "You are bored of waiting, so you stop." ) );
+    } else {
+        you.add_msg_if_player( _( "You finish waiting and feel refreshed." ) );
+    }
+    act.set_to_null();
+}
+
+void wait_stamina_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
+
+std::unique_ptr<activity_actor> wait_stamina_activity_actor::deserialize( JsonValue & )
+{
+    return wait_stamina_activity_actor().clone();
+}
+
+
 namespace activity_actors
 {
 
@@ -7964,9 +8192,9 @@ deserialize_functions = {
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
-    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
+    { ACT_PULP, &pulp_activity_actor::deserialize },
     { ACT_READ, &read_activity_actor::deserialize },
     { ACT_REEL_CABLE, &reel_cable_activity_actor::deserialize },
     { ACT_RELOAD, &reload_activity_actor::deserialize },
@@ -7979,6 +8207,7 @@ deserialize_functions = {
     { ACT_UNLOAD, &unload_activity_actor::deserialize },
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
+    { ACT_WAIT_STAMINA, &wait_stamina_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
     { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },

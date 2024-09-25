@@ -280,7 +280,7 @@
     "difficulty": 9,
     "time": "300 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "blacksmithing_standard", 24 ], [ "lc_steel_standard", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -314,7 +314,7 @@
     "difficulty": 5,
     "time": "180 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 1 ], [ "lc_steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
@@ -626,7 +626,7 @@
     "//": "20cm weld",
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "omnicamera", 1 ] ], [ [ "wire", 4 ] ] ]
+    "components": [ [ [ "omnicamera", 1 ] ], [ [ "mc_wire", 4 ], [ "hc_wire", 4 ], [ "ch_wire", 4 ], [ "qt_wire", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -839,7 +839,7 @@
     "components": [
       [ [ "pipe", 6 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "wire", 3 ] ],
+      [ [ "any_wire", 3, "LIST" ] ],
       [ [ "cable", 10 ] ],
       [ [ "pipe_fittings", 4 ] ]
     ]
@@ -863,7 +863,7 @@
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "scrap", 2 ] ],
-      [ [ "wire", 5 ] ],
+      [ [ "any_wire", 5, "LIST" ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "transponder", 1 ] ],
       [ [ "e_scrap", 2 ] ],
@@ -891,13 +891,7 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "pilot_light", 1 ] ],
-      [
-        [ "light_minus_battery_cell", 1 ],
-        [ "light_minus_disposable_cell", 1 ],
-        [ "light_battery_cell", 1 ],
-        [ "light_disposable_cell", 1 ],
-        [ "light_plus_battery_cell", 1 ]
-      ],
+      [ [ "light_minus_battery_cell", 1 ], [ "light_minus_disposable_cell", 1 ], [ "light_battery_cell", 1 ] ],
       [ [ "amplifier", 1 ] ],
       [ [ "cable", 2 ] ]
     ]

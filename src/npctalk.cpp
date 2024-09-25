@@ -3757,10 +3757,10 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             int min_target_dist = dov_target_min_radius.evaluate( d );
             std::string cur_search_target = search_target.value().evaluate( d );
             bool found = false;
-            tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
-                                              size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
-            for( const tripoint &search_loc : points ) {
-                if( rl_dist( here.bub_from_abs( talker_pos ).raw(), search_loc ) <= min_target_dist ) {
+            tripoint_range<tripoint_bub_ms> points = here.points_in_radius( here.bub_from_abs( abs_ms ),
+                    size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
+            for( const tripoint_bub_ms &search_loc : points ) {
+                if( rl_dist( here.bub_from_abs( talker_pos ), search_loc ) <= min_target_dist ) {
                     continue;
                 }
                 if( search_type.value() == "terrain" ) {
@@ -3804,8 +3804,8 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 } else if( search_type.value() == "npc" ) {
                     for( shared_ptr_fast<npc> &person : overmap_buffer.get_npcs_near( project_to<coords::sm>( abs_ms ),
                             1 ) ) {
-                        if( person->pos() == search_loc && ( person->myclass.c_str() == cur_search_target ||
-                                                             cur_search_target.empty() ) ) {
+                        if( person->pos_bub() == search_loc && ( person->myclass.c_str() == cur_search_target ||
+                                cur_search_target.empty() ) ) {
                             target_pos = here.getabs( search_loc );
                             found = true;
                             break;
@@ -4830,19 +4830,31 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
         if( input_params.has_value() ) {
             string_input_popup popup;
             popup
-            .title( input_params.value().title.evaluate( d ) )
-            .description( input_params.value().description.evaluate( d ) )
+            .title( input_params.value().title ? input_params.value().title->evaluate( d ) : "" )
+            .description( input_params.value().description ? input_params.value().description->evaluate(
+                              d ) : "" )
             .width( input_params.value().width )
-            .identifier( input_params.value().identifier );
+            .identifier( input_params.value().identifier ? input_params.value().identifier->evaluate(
+                             d ) : "" );
 
             if( input_params.value().only_digits ) {
-                int num_temp;
+                int num_temp = 0;
+                try {
+                    num_temp = std::stoi( input_params.value().default_text.has_value() ?
+                                          input_params.value().default_text->evaluate(
+                                              d ) : "0" );
+                } catch( const std::out_of_range &e ) {
+                    debugmsg( "The number is too large to fit in an int." );
+                } catch( const std::invalid_argument &e ) {
+                };
                 popup.edit( num_temp );
                 if( !popup.canceled() ) {
                     str = std::to_string( num_temp );
                 }
             } else {
-                std::string str_temp;
+                std::string str_temp = input_params.value().default_text ?
+                                       input_params.value().default_text->evaluate(
+                                           d ) : "";
                 popup.edit( str_temp );
                 if( !popup.canceled() ) {
                     str = str_temp;
@@ -6407,7 +6419,7 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
-        for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
+        for( const tripoint_bub_ms &dest : get_map().points_in_radius( get_map().bub_from_abs( target_pos ),
                 radius ) ) {
             if( ( !outdoor_only || get_map().is_outside( dest ) ) && ( !indoor_only ||
                     !get_map().is_outside( dest ) ) ) {
@@ -6901,6 +6913,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( clear_overrides ),
             WRAP( pick_style ),
             WRAP( do_disassembly ),
+            WRAP( distribute_food_auto ),
             WRAP( nothing )
 #undef WRAP
         }

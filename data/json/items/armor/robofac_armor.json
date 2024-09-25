@@ -202,7 +202,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_atomic_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ],
     "ammo": "battery",
@@ -281,7 +281,6 @@
     "volume": "1200 ml",
     "price": "100 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -1,
     "material": [ "nylon", "kevlar" ],
     "symbol": "[",
     "color": "dark_gray",
@@ -308,7 +307,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_plus_battery_cell"
+        "default_magazine": "light_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",

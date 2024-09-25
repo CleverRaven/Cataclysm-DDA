@@ -40,7 +40,7 @@
         "attack_upper": true,
         "throw_strength": 30,
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       [ "BIO_OP_DISARM", 10 ]
     ],
@@ -99,22 +99,20 @@
         "attack_upper": true,
         "throw_strength": 50,
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       [ "BIO_OP_DISARM", 10 ],
       {
         "id": "bio_op_takedown",
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       {
         "id": "psi_biokin2_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],
@@ -175,7 +173,7 @@
         "attack_upper": true,
         "throw_strength": 50,
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       {
         "type": "leap",
@@ -183,23 +181,21 @@
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 5,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
       {
         "id": "bio_op_takedown",
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       {
         "id": "psi_biokin3_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
-        },
+        "condition": { "and": [ { "u_has_flag": "NO_PSIONICS" }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],
@@ -395,7 +391,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_shrieking_monster", "min_level": 3 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "Static fills your hearing for a moment, blotting out all other sounds!"
       }
     ],
@@ -459,7 +455,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's touches %3$s with a jolt!"
       }
     ],
@@ -519,7 +515,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 3 },
         "cooldown": { "math": [ "4 + rand(8)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's touches %3$s with a jolt!"
       },
       {
@@ -527,7 +523,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_lightning_bolt_monster", "min_level": 4 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's unleashes a bolt of lightning!"
       },
       {
@@ -535,7 +531,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_paralysis_monster", "min_level": 5 },
         "cooldown": { "math": [ "15 + rand(30)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's waves a hand at %3$s and sparks crackle over their skin!"
       }
     ],
@@ -596,7 +592,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 5 },
         "cooldown": { "math": [ "4 + rand(8)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's touches %3$s with a jolt!"
       },
       {
@@ -604,7 +600,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_lightning_blast_monster", "min_level": 8 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's unleashes a bolt of lightning!"
       },
       {
@@ -612,7 +608,7 @@
         "type": "spell",
         "spell_data": { "id": "electrokinetic_paralysis_monster", "min_level": 8 },
         "cooldown": { "math": [ "12 + rand(24)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's waves a hand at %3$s and sparks crackle over their skin!"
       },
       {
@@ -621,7 +617,7 @@
         "spell_data": { "id": "electrokinetic_revive_monster", "min_level": 5 },
         "cooldown": { "math": [ "25 + rand(50)" ] },
         "allow_no_target": true,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's gestures and lighting crackles around them!"
       }
     ],
@@ -681,7 +677,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 3 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
@@ -689,8 +685,16 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 2 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s fires a photon beam!"
+      },
+      {
+        "id": "psi_photokin1_illuminate",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 5 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s's looks at you for a moment."
       }
     ],
     "flags": [
@@ -749,7 +753,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 6 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
@@ -757,7 +761,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 5 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s fires a photon beam!"
       },
       {
@@ -765,7 +769,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 4 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
       },
       {
@@ -773,8 +777,16 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 7 },
         "cooldown": { "math": [ "12 + rand(24)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s and %3$s is enveloped in an eerie glow!"
+      },
+      {
+        "id": "psi_photokin2_illuminate",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 10 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s's looks at you for a moment."
       }
     ],
     "flags": [
@@ -839,7 +851,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_dodge_monster", "min_level": 7 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s's form is shifting with illusions!"
       },
       {
@@ -847,7 +859,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 6 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s fires a photon beam!"
       },
       {
@@ -855,7 +867,7 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_flash_monster", "min_level": 6 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s concentrates and unleashes a super-luminous flash!"
       },
       {
@@ -863,8 +875,16 @@
         "type": "spell",
         "spell_data": { "id": "photokinetic_radiation_attack_monster", "min_level": 10 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at you and you are enveloped in an eerie glow!"
+      },
+      {
+        "id": "psi_photokin3_illuminate",
+        "type": "spell",
+        "spell_data": { "id": "photokinetic_illumination_monster", "min_level": 15 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s's looks at you for a moment."
       }
     ],
     "flags": [
@@ -928,7 +948,7 @@
         "dodgeable": true,
         "blockable": false,
         "effects": [ { "id": "onfire", "duration": 60, "chance": 25, "affect_hit_bp": true } ],
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
         "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a burst of flame!",
@@ -941,7 +961,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 1 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       }
     ],
@@ -1011,7 +1031,7 @@
         "dodgeable": true,
         "blockable": false,
         "effects": [ { "id": "onfire", "duration": 60, "chance": 50, "affect_hit_bp": true } ],
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
         "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a burst of flame!",
@@ -1024,7 +1044,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 4 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       },
       {
@@ -1032,7 +1052,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 4 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s gestures and summons a conflagration!"
       }
     ],
@@ -1107,7 +1127,7 @@
         "dodgeable": true,
         "blockable": false,
         "effects": [ { "id": "onfire", "duration": 60, "chance": 75, "affect_hit_bp": true } ],
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s gestures and your %2$s is engulfed in flames!",
         "hit_dmg_npc": "%1$s gestures and <npcname>'s %2$s is engulfed in flames!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a burst of flame!",
@@ -1120,7 +1140,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_flash_monster", "min_level": 5 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The air erupts into an eye-searing flash!"
       },
       {
@@ -1128,7 +1148,7 @@
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_blast_monster", "min_level": 6 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s gestures and summons a conflagration!"
       }
     ],
@@ -1192,7 +1212,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 2 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -1205,7 +1225,7 @@
         "fake_skills": [ [ "throw", 6 ] ],
         "fake_str": 11,
         "require_targeting_player": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "ranges": [ [ 2, 10, "DEFAULT" ] ],
         "description": "%1$s makes a throwing motion and one of the rocks around them suddenly launches like a bullet!"
       },
@@ -1221,7 +1241,7 @@
         "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -1233,10 +1253,7 @@
         "spell_data": { "id": "telekinetic_momentum_monster" },
         "cooldown": { "math": [ "5 + rand(10)" ] },
         "condition": {
-          "and": [
-            { "not": { "u_has_effect": "effect_psi_null" } },
-            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
-          ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
         },
         "monster_message": "The air around %1$s wavers."
       },
@@ -1301,7 +1318,7 @@
         "type": "spell",
         "spell_data": { "id": "telekinetic_pull_monster", "min_level": 3 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
       },
       {
@@ -1315,7 +1332,7 @@
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
         "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
         "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
@@ -1334,7 +1351,7 @@
         "dodgeable": false,
         "uncanny_dodgeable": true,
         "blockable": false,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -1346,10 +1363,7 @@
         "spell_data": { "id": "telekinetic_momentum_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [
-            { "not": { "u_has_effect": "effect_psi_null" } },
-            { "not": { "u_has_effect": "effect_monster_momentum_alteration" } }
-          ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
         },
         "monster_message": "The air around %1$s wavers."
       },
@@ -1359,7 +1373,7 @@
         "spell_data": { "id": "telekinetic_barrier_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
         },
         "monster_message": "The air around %1$s distorts."
       },
@@ -1428,7 +1442,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -1436,7 +1450,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 1 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s!"
       }
     ],
@@ -1497,7 +1511,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 3 },
         "cooldown": { "math": [ "8 + rand(16)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -1505,7 +1519,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 2 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s!"
       },
       {
@@ -1513,7 +1527,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_horror_monster", "min_level": 4 },
         "cooldown": { "math": [ "12 + rand(24)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s!"
       }
     ],
@@ -1575,7 +1589,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_confusion_monster", "min_level": 5 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "A roar fills %3$s's mind and the world is blotted out!"
       },
       {
@@ -1583,7 +1597,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_blast_monster", "min_level": 5 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s!"
       },
       {
@@ -1592,7 +1606,7 @@
         "spell_data": { "id": "telepathic_horror_aoe_monster", "min_level": 15 },
         "allow_no_target": true,
         "cooldown": { "math": [ "12 + rand(24)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s eyes suddenly go wide!"
       },
       {
@@ -1600,7 +1614,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_primal_fear_monster", "min_level": 5 },
         "cooldown": { "math": [ "17 + rand(34)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares at %3$s and they freeze like a frightened rabbit!"
       }
     ],
@@ -1657,7 +1671,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 2 },
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s looks at %3$s and the world lurches."
       },
       {
@@ -1665,7 +1679,7 @@
         "cooldown": { "math": [ "4 + rand(8)" ] },
         "allow_no_target": true,
         "max_range": 8,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "message": "%1$s vanishes and reappears elsewhere!"
       }
     ],
@@ -1724,7 +1738,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 4 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
@@ -1736,7 +1750,7 @@
         "accuracy": 5,
         "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s touches you and the world shifts around you!",
         "hit_dmg_npc": "%1$s touches <npcname> and the world shifts around them!",
         "miss_msg_u": "%s reaches for you but you avoid their touch!",
@@ -1749,7 +1763,7 @@
         "allow_no_target": true,
         "max_range": 12,
         "message": "%1$s vanishes and reappears elsewhere!",
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       }
     ],
     "flags": [
@@ -1817,7 +1831,7 @@
         "accuracy": 6,
         "damage_max_instance": [ { "damage_type": "psi_teleporter_teleporting_damage", "amount": 2, "armor_penetration": 10 } ],
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s touches you and the world warps around you!",
         "hit_dmg_npc": "%1$s touches <npcname> and the world warps around them!",
         "miss_msg_u": "%s reaches for you but you avoid their touch!",
@@ -1828,7 +1842,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_slow_monster", "min_level": 6 },
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s glances at %3$s and the world lurches."
       },
       {
@@ -1836,7 +1850,7 @@
         "type": "spell",
         "spell_data": { "id": "teleport_blink_attack_monster", "min_level": 4 },
         "cooldown": { "math": [ "10 + rand(20)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s touches %3$s and the world around %3$s wavers."
       },
       {
@@ -1846,7 +1860,7 @@
         "allow_no_target": true,
         "max_range": 16,
         "message": "%1$s vanishes and reappears elsewhere!",
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       }
     ],
     "flags": [
@@ -1916,7 +1930,7 @@
         "dodgeable": true,
         "blockable": true,
         "effects": [ { "id": "effect_vitakinetic_health_down", "duration": [ 620000, 1620000 ] } ],
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s touches you and you feel weaker!",
         "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
         "miss_msg_u": "%1$s tries to touch you, but you dodge!",
@@ -1992,7 +2006,7 @@
         ],
         "dodgeable": true,
         "blockable": true,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s touches you and wounds open on your flesh!",
         "hit_dmg_npc": "%1$s touches <npcname> and wounds open on their flesh!",
         "miss_msg_u": "%1$s tries to touch you, but you dodge!",
@@ -2010,7 +2024,7 @@
         "dodgeable": true,
         "blockable": true,
         "effects": [ { "id": "effect_vitakinetic_healing_down", "duration": [ 920000, 2120000 ] } ],
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s touches you and you feel weaker!",
         "hit_dmg_npc": "%1$s touches <npcname> and they flinch!",
         "miss_msg_u": "%1$s tries to touch you, but you dodge!",
@@ -2024,7 +2038,7 @@
         "spell_data": { "id": "vitakinetic_regeneration_monster" },
         "cooldown": { "math": [ "10 + rand(20)" ] },
         "allow_no_target": true,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s closes their eyes and their wounds begin healing at a rapid pace!"
       }
     ],

@@ -58,7 +58,7 @@
     "move_cost_mod": 8,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "BLOCKSDOOR", "PAINFUL", "SHARP", "PERMEABLE", "THIN_OBSTACLE", "SHRUB" ],
     "bash": {
       "str_min": 30,
       "str_max": 80,

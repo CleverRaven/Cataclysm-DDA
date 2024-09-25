@@ -10,6 +10,7 @@
 
 #include "assign.h"
 #include "calendar.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -18,7 +19,9 @@
 #include "iexamine.h"
 #include "iexamine_actors.h"
 #include "item_group.h"
+#include "iteminfo_query.h"
 #include "json.h"
+#include "mod_manager.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -29,6 +32,8 @@
 static furn_id f_null;
 
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
+
+static const skill_id skill_survival( "survival" );
 
 namespace
 {
@@ -258,10 +263,10 @@ std::string enum_to_string<ter_furn_flag>( ter_furn_flag data )
         case ter_furn_flag::TFLAG_MURKY: return "MURKY";
         case ter_furn_flag::TFLAG_AMMOTYPE_RELOAD: return "AMMOTYPE_RELOAD";
         case ter_furn_flag::TFLAG_TRANSPARENT_FLOOR: return "TRANSPARENT_FLOOR";
-        case ter_furn_flag::TFLAG_TOILET_WATER: return "TOILET_WATER";
         case ter_furn_flag::TFLAG_ELEVATOR: return "ELEVATOR";
-		case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
-		case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
+        case ter_furn_flag::TFLAG_ACTIVE_GENERATOR: return "ACTIVE_GENERATOR";
+        case ter_furn_flag::TFLAG_TRANSLUCENT: return "TRANSLUCENT";
+        case ter_furn_flag::TFLAG_NO_FLOOR_WATER: return "NO_FLOOR_WATER";
         case ter_furn_flag::TFLAG_GRAZABLE: return "GRAZABLE";
         case ter_furn_flag::TFLAG_GRAZER_INEDIBLE: return "GRAZER_INEDIBLE";
         case ter_furn_flag::TFLAG_BROWSABLE: return "BROWSABLE";
@@ -661,6 +666,144 @@ const std::set<std::string> &map_data_common_t::get_harvest_names() const
     return hid.is_null() ? null_names : hid->names();
 }
 
+std::vector<std::string> ter_t::extended_description() const
+{
+    std::vector<std::string> ret;
+    ret.emplace_back( get_origin( src ) );
+    ret.emplace_back( "--" );
+
+    std::vector<std::string> tmp = map_data_common_t::extended_description();
+    ret.insert( ret.end(), tmp.begin(), tmp.end() );
+
+    return ret;
+}
+
+std::vector<std::string> furn_t::extended_description() const
+{
+    std::vector<std::string> ret;
+    ret.emplace_back( get_origin( src ) );
+    ret.emplace_back( "--" );
+
+    std::vector<std::string> tmp = map_data_common_t::extended_description();
+    ret.insert( ret.end(), tmp.begin(), tmp.end() );
+
+    // If this furniture has a crafting pseudo item, check for tool qualities and print them
+    if( !crafting_pseudo_item.is_empty() ) {
+        const item pseudo( crafting_pseudo_item );
+        std::vector<iteminfo_parts> quality_part = { iteminfo_parts::QUALITIES };
+        const iteminfo_query quality_query( quality_part );
+        std::vector<iteminfo> info_vec;
+        pseudo.qualities_info( info_vec, &quality_query, 1, false );
+        // A bit of cargo-culting here, pre-imgui printing code was adapted
+        // to split string with line breaks into single-line strings
+        std::string quality_string = format_item_info( info_vec, {} );
+        size_t strpos = 0;
+        while( ( strpos = quality_string.find( '\n' ) ) != std::string::npos ) {
+            // \n character is skipped
+            ret.emplace_back( quality_string.substr( 0, strpos ) );
+            quality_string.erase( 0, strpos + 1 );
+        }
+    }
+
+    return ret;
+}
+
+std::vector<std::string> map_data_common_t::extended_description() const
+{
+    std::vector<std::string> tmp;
+
+    tmp.emplace_back( string_format( _( "<header>That is a %s.</header>" ), name() ) );
+    tmp.emplace_back( description.translated() );
+    bool has_any_harvest = std::any_of( harvest_by_season.begin(), harvest_by_season.end(),
+    []( const harvest_id & hv ) {
+        return !hv.obj().empty();
+    } );
+
+    if( has_any_harvest ) {
+        tmp.emplace_back( "--" );
+        int player_skill = get_player_character().get_greater_skill_or_knowledge_level( skill_survival );
+        tmp.emplace_back( _( "You could harvest the following things from it:" ) );
+        // Group them by identical ids to avoid repeating same blocks of data
+        // First, invert the mapping: season->id to id->seasons
+        std::multimap<harvest_id, season_type> identical_harvest;
+        for( size_t season = SPRING; season <= WINTER; season++ ) {
+            const auto &hv = harvest_by_season[season];
+            if( hv.obj().empty() ) {
+                continue;
+            }
+
+            identical_harvest.insert( std::make_pair( hv, static_cast<season_type>( season ) ) );
+        }
+        // Now print them in order of seasons
+        // TODO: Highlight current season
+        for( size_t season = SPRING; season <= WINTER; season++ ) {
+            const auto range = identical_harvest.equal_range( harvest_by_season[season] );
+            if( range.first == range.second ) {
+                continue;
+            }
+
+            // List the seasons first
+            std::string seasons = enumerate_as_string( range.first, range.second,
+            []( const std::pair<harvest_id, season_type> &pr ) {
+                if( pr.second == season_of_year( calendar::turn ) ) {
+                    return "<good>" + calendar::name_season( pr.second ) + "</good>";
+                }
+
+                return "<dark>" + calendar::name_season( pr.second ) + "</dark>";
+            } );
+            seasons += ":";
+            tmp.emplace_back( seasons );
+            // List the drops
+            // They actually describe what player can get from it now, so it isn't spoily
+            // TODO: Allow spoily listing of everything
+            tmp.emplace_back( range.first->first.obj().describe( player_skill ) );
+            // Remove the range from the multimap so that it isn't listed twice
+            identical_harvest.erase( range.first, range.second );
+        }
+    }
+
+    tmp.emplace_back( "--" );
+    tmp.emplace_back( string_format( _( "Concealment: %d%%" ), coverage ) );
+    if( has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        tmp.emplace_back( _( "Can be <color_green>cut down</color> with the right tools." ) );
+    }
+
+    // todo: generalize, copied from map::features which combines terrain and furniture info
+    std::string result;
+    const auto add = [&]( const std::string & text ) {
+        if( !result.empty() ) {
+            result += " ";
+        }
+        result += text;
+    };
+    const auto add_if = [&]( const bool cond, const std::string & text ) {
+        if( cond ) {
+            add( text );
+        }
+    };
+    add_if( bash.str_max != -1 && !bash.bash_below, _( "Smashable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_DIGGABLE ), _( "Diggable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_PLOWABLE ), _( "Plowable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_ROUGH ), _( "Rough." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_UNSTABLE ), _( "Unstable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_SHARP ), _( "Sharp." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAT ), _( "Flat." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_EASY_DECONSTRUCT ), _( "Simple." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_MOUNTABLE ), _( "Mountable." ) );
+    add_if( has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
+            has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
+            has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD ), _( "Flammable." ) );
+    tmp.emplace_back( result );
+
+    std::vector<std::string> ret;
+    ret.reserve( tmp.size() );
+    for( const std::string &s : tmp ) {
+        ret.emplace_back( replace_colors( s ) );
+    }
+
+    return ret;
+}
+
 void load_furniture( const JsonObject &jo, const std::string &src )
 {
     if( furniture_data.empty() ) {
@@ -679,7 +822,8 @@ void load_terrain( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 {
-    if( !transparent && flag == ter_furn_flag::TFLAG_TRANSPARENT ) {
+    if( !transparent && ( flag == ter_furn_flag::TFLAG_TRANSPARENT ||
+                          flag == ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
         transparent = true;
     }
 
@@ -860,6 +1004,19 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
             for( season_type s : seasons ) {
                 harvest_by_season[ s ] = hl;
             }
+        }
+    }
+
+    if( jo.has_object( "liquid_source" ) ) {
+        JsonObject liquid_source = jo.get_object( "liquid_source" );
+        mandatory( liquid_source, was_loaded, "id", liquid_source_item_id );
+        optional( liquid_source, was_loaded, "min_temp", liquid_source_min_temp );
+        if( liquid_source.has_int( "count" ) ) {
+            mandatory( liquid_source, was_loaded, "count", liquid_source_count.first );
+            mandatory( liquid_source, was_loaded, "count", liquid_source_count.second );
+        } else if( liquid_source.has_array( "count" ) ) {
+            JsonArray ja = liquid_source.get_array( "count" );
+            liquid_source_count = { ja.get_int( 0 ), ja.get_int( 1 ) };
         }
     }
 

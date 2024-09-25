@@ -5,6 +5,7 @@
     "//": "Tools commonly used by blacksmiths",
     "items": [
       [ "anvil", 30 ],
+      [ "anvil_crude", 10 ],
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
@@ -43,7 +44,7 @@
       { "item": "luthier_toolset", "prob": 100 },
       { "item": "tonewood", "prob": 100, "count": [ 1, 6 ] },
       { "item": "tuning_pegs", "prob": 100, "count": [ 5, 15 ] },
-      { "item": "piano_wire", "prob": 100, "count": [ 1, 3 ] },
+      { "item": "qt_wire", "prob": 100, "count": [ 1, 3 ] },
       [ "hand_drill", 20 ],
       { "item": "super_glue", "prob": 100, "count": [ 1, 3 ] },
       [ "chisel", 10 ],
@@ -82,6 +83,7 @@
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
       [ "aluminum_stepladder", 5 ],
+      [ "machete", 10 ],
       { "item": "misc_repairkit", "prob": 25 },
       [ "saw", 60 ],
       { "item": "bow_saw", "prob": 50 },
@@ -231,7 +233,7 @@
       { "item": "mess_kit", "prob": 20 },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       [ "rope_30", 20 ],
       [ "flint_steel", 10 ],
@@ -266,6 +268,7 @@
       [ "scythe", 40 ],
       [ "shovel", 120 ],
       [ "sickle", 40 ],
+      [ "machete", 25 ],
       [ "rake", 20 ],
       [ "rake_plastic", 40 ],
       [ "shovel_snow", 20 ],
@@ -325,7 +328,7 @@
       { "item": "soldering_iron", "prob": 100 },
       { "item": "soldering_iron_portable", "prob": 100, "charges": [ 0, 50 ] },
       [ "magnifying_glass", 100 ],
-      { "item": "voltmeter", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 10 },
       { "item": "multimeter", "prob": 100, "charges": [ 0, 100 ] },
       [ "recharge_station", 10 ],
       [ "vac_mold", 10 ],
@@ -441,7 +444,7 @@
       { "item": "whistle_multitool" },
       { "item": "glowstick", "charges": 1400 },
       { "item": "handflare", "count": 4, "charges": 300 },
-      { "group": "pur_tablets_bottle_plastic_small_15" },
+      { "group": "pur_tablets_bottle_plastic_small_50" },
       { "item": "pocket_survival" }
     ]
   },
@@ -456,7 +459,7 @@
       { "item": "whistle_multitool", "prob": 70 },
       { "item": "glowstick", "charges": 1400, "prob": 60 },
       { "item": "handflare", "count": [ 0, 4 ], "charges": 300 },
-      { "group": "pur_tablets_bottle_plastic_small_0_15" },
+      { "group": "pur_tablets_bottle_plastic_small_0_50" },
       { "item": "pocket_survival", "prob": 40 }
     ]
   },
@@ -564,7 +567,7 @@
       { "item": "bandages", "count": 9 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
-      { "group": "pur_tablets_bottle_plastic_small_0_3" },
+      { "group": "pur_tablets_bottle_plastic_small_0_9" },
       { "item": "gloves_medical" },
       { "item": "scissors_medical" }
     ]
@@ -581,7 +584,7 @@
       { "item": "bandages", "count": [ 0, 9 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
-      { "group": "pur_tablets_bottle_plastic_small_0_3" },
+      { "group": "pur_tablets_bottle_plastic_small_0_9" },
       { "item": "gloves_medical", "prob": 50 },
       { "item": "scissors_medical", "prob": 30 }
     ]
@@ -712,7 +715,7 @@
       [ "balance_small", 5 ],
       [ "cuvettes", 5 ],
       { "item": "ph_meter", "prob": 5, "charges": [ 0, 100 ] },
-      { "item": "voltmeter", "prob": 5, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 5 },
       { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
@@ -854,7 +857,7 @@
       { "item": "camera_pro", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "camera_pro", "container-item": "camera_bag", "prob": 1, "charges": [ 0, 150 ] },
       [ "element", 5 ],
-      [ "light_battery_cell", 10 ],
+      { "group": "batteries" },
       [ "goggles_welding", 20 ],
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "group": "tools_toolbox", "prob": 5 },
@@ -876,6 +879,7 @@
       [ "saw", 50 ],
       { "item": "bow_saw", "prob": 40 },
       [ "ax", 20 ],
+      [ "machete", 15 ],
       [ "hacksaw", 50 ],
       [ "chipper", 60 ],
       [ "boltcutters", 50 ],
@@ -964,19 +968,19 @@
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_15",
+    "id": "pur_tablets_bottle_plastic_small_50",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": 15 } ]
+    "entries": [ { "item": "pur_tablets", "count": 50 } ]
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_0_15",
+    "id": "pur_tablets_bottle_plastic_small_0_50",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 0, 15 ] } ]
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 50 ] } ]
   },
   {
     "type": "item_group",
@@ -1012,11 +1016,11 @@
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_0_3",
+    "id": "pur_tablets_bottle_plastic_small_0_9",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 0, 3 ] } ]
+    "entries": [ { "item": "pur_tablets", "count": [ 0, 9 ] } ]
   },
   {
     "type": "item_group",

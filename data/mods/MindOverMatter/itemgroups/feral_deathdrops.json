@@ -1,5 +1,14 @@
 [
   {
+    "id": "mon_feral_survivalist_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_feral_survivalist_death_drops",
+    "extend": {
+      "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 5 }, { "group": "concentrated_matrix_elixirs", "prob": 1 } ]
+    }
+  },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_bio",
@@ -246,7 +255,8 @@
       { "group": "feral_humans_crystal_drops_clair", "prob": 40 },
       { "group": "feral_humans_crystal_drops_vita", "prob": 25 },
       { "item": "phavian_psionic_martial_power_book", "prob": 8 },
-      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] }
+      { "group": "dist_psionic_shield_belts", "prob": 60, "damage": [ 1, 4 ] },
+      { "item": "psionic_mindsight_glasses", "prob": 2, "damage": [ 1, 4 ] }
     ]
   }
 ]

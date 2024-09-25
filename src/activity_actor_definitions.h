@@ -90,6 +90,7 @@ class aim_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &who ) override;
+        bool check_gun_ability_to_shoot( Character &who, item &it );
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
         void canceled( player_activity &act, Character &who ) override;
@@ -1838,32 +1839,6 @@ class invoke_item_activity_actor : public activity_actor
         std::string method;
 };
 
-class pickup_menu_activity_actor : public activity_actor
-{
-    public:
-        pickup_menu_activity_actor( std::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( where ),
-            selection( std::move( selection ) ) {};
-        activity_id get_type() const override {
-            return activity_id( "ACT_PICKUP_MENU" );
-        }
-
-        void start( player_activity &, Character & ) override {};
-        void do_turn( player_activity &, Character &who ) override;
-        void finish( player_activity &, Character & ) override {};
-
-        std::unique_ptr<activity_actor> clone() const override {
-            return std::make_unique<pickup_menu_activity_actor>( *this );
-        }
-
-        void serialize( JsonOut & ) const override;
-        static std::unique_ptr<activity_actor> deserialize( JsonValue & );
-
-    private:
-        std::optional<tripoint> where;
-        std::vector<drop_location> selection;
-};
-
 class chop_logs_activity_actor : public activity_actor
 {
     public:
@@ -2182,6 +2157,72 @@ class unload_loot_activity_actor : public activity_actor
         int stage;
         std::unordered_set<tripoint> coord_set;
         tripoint placement;
+};
+
+class pulp_activity_actor : public activity_actor
+{
+    public:
+        pulp_activity_actor() = default;
+        explicit pulp_activity_actor( const tripoint_abs_ms placement,
+                                      const bool pulp_acid = false ) : placement( { placement } ),
+        num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        explicit pulp_activity_actor( const std::set<tripoint_abs_ms> &placement,
+                                      const bool pulp_acid = false ) : placement( placement ), num_corpses( 0 ), pulp_acid( pulp_acid ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_PULP" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<pulp_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const pulp_activity_actor &actor = static_cast<const pulp_activity_actor &>( other );
+            return actor.pulp_acid == pulp_acid;
+        }
+        std::set<tripoint_abs_ms> placement;
+        int num_corpses;
+        bool pulp_acid;
+};
+
+class wait_stamina_activity_actor : public activity_actor
+{
+
+    public:
+        // Wait until stamina is at the maximum.
+        wait_stamina_activity_actor() = default;
+
+        // If we're given a threshold, wait until stamina is at least this value.
+        explicit wait_stamina_activity_actor( int stamina_threshold ) : stamina_threshold(
+                stamina_threshold ) {};
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_WAIT_STAMINA" );
+        }
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wait_stamina_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        int stamina_threshold = -1;
+        int initial_stamina = -1;
 };
 
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

@@ -56,6 +56,7 @@
 #include "material.h"
 #include "math_defines.h"
 #include "messages.h"
+#include "mod_manager.h"
 #include "monster.h"
 #include "move_mode.h"
 #include "npc.h"
@@ -1448,7 +1449,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
             }
 
             // 2022-08-27 assuming structure part is on 0th index is questionable but it worked before so...
-            vehicle_part vp_next = parts[ parts_there[ 0 ] ];
+            const vehicle_part &vp_next = parts[ parts_there[ 0 ] ];
 
             if( vp_next.info().location != part_location_structure || // not a structure part
                 vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really a structure
@@ -2762,20 +2763,25 @@ std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     return has_value() ? value().part_with_tool( tool_type ) : std::nullopt;
 }
 
-std::string optional_vpart_position::extended_description() const
+std::vector<std::string> optional_vpart_position::extended_description() const
 {
+    std::vector<std::string> ret;
     if( !has_value() ) {
-        return std::string();
+        return ret;
     }
 
     vehicle &v = value().vehicle();
-    std::string desc = v.name;
+    ret.emplace_back( get_origin( v.type->src ) );
+    ret.emplace_back( "--" );
+
+    ret.emplace_back( string_format( _( "%s (%s)" ), v.name, v.owner->name ) );
+    ret.emplace_back( "--" );
 
     for( int idx : v.parts_at_relative( value().mount(), true ) ) {
-        desc += "\n" + v.part( idx ).name();
+        ret.emplace_back( v.part( idx ).name() );
     }
 
-    return desc;
+    return ret;
 }
 
 int vehicle::part_with_feature( int part, vpart_bitflags flag, bool unbroken,
@@ -4073,7 +4079,7 @@ void vehicle::spew_field( double joules, int part, field_type_id type, int inten
         return;
     }
     intensity = std::max( joules / 10000, static_cast<double>( intensity ) );
-    const tripoint dest = exhaust_dest( part );
+    const tripoint_bub_ms dest = tripoint_bub_ms( exhaust_dest( part ) );
     get_map().mod_field_intensity( dest, type, intensity );
 }
 

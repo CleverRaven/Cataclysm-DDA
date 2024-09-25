@@ -33,6 +33,7 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -170,9 +171,12 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
+static const trait_id trait_GUNSHY( "GUNSHY" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
+
+static const std::string gun_mechanical_simple( "gun_mechanical_simple" );
 
 static const std::set<material_id> ferric = { material_iron, material_steel, material_budget_steel, material_case_hardened_steel, material_high_steel, material_low_steel, material_med_steel, material_tempered_steel };
 
@@ -654,14 +658,6 @@ bool Character::handle_gun_damage( item &it )
     int dirt = it.get_var( "dirt", 0 );
     int dirtadder = 0;
     double dirt_dbl = static_cast<double>( dirt );
-    if( it.has_fault_flag( "JAMMED_GUN" ) ) {
-        add_msg_if_player( m_warning, _( "Your %s can't fire." ), it.tname() );
-        return false;
-    }
-    if( it.has_fault_flag( "RUINED_GUN" ) ) {
-        add_msg_if_player( m_bad, _( "Your %s is little more than an awkward club now." ), it.tname() );
-        return false;
-    }
 
     const auto &curammo_effects = it.ammo_effects();
     const islot_gun &firing = *it.type->gun;
@@ -684,6 +680,57 @@ bool Character::handle_gun_damage( item &it )
         return false;
     }
 
+
+    // i am bad at math, so we will use vibes instead
+    double gun_jam_chance;
+    int gun_damage = it.damage() / 1000.0;
+    switch( gun_damage ) {
+        case 0:
+            gun_jam_chance = 0.0005 * firing.gun_jam_mult;
+            break;
+        case 1:
+            gun_jam_chance = 0.03 * firing.gun_jam_mult;
+            break;
+        case 2:
+            gun_jam_chance = 0.15 * firing.gun_jam_mult;
+            break;
+        case 3:
+            gun_jam_chance = 0.45 * firing.gun_jam_mult;
+            break;
+        case 4:
+            gun_jam_chance = 0.8 * firing.gun_jam_mult;
+            break;
+    }
+
+    int mag_damage;
+    double mag_jam_chance = 0;
+    if( it.magazine_current() ) {
+        mag_damage = it.magazine_current()->damage() / 1000.0;
+        switch( mag_damage ) {
+            case 0:
+                mag_jam_chance = 0.00027 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 1:
+                mag_jam_chance = 0.05 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 2:
+                mag_jam_chance = 0.24 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 3:
+                mag_jam_chance = 0.96 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+            case 4:
+                mag_jam_chance = 2.5 * it.magazine_current()->type->magazine->mag_jam_mult;
+                break;
+        }
+    }
+
+    const double jam_chance = gun_jam_chance + mag_jam_chance;
+
+    add_msg_debug( debugmode::DF_RANGED,
+                   "Gun jam chance: %s\nMagazine jam chance: %s\nGun damage level: %d\nMagazine damage level: %d\nFail to feed chance: %s",
+                   gun_jam_chance, mag_jam_chance, gun_damage, mag_damage, jam_chance );
+
     // Here we check if we're underwater and whether we should misfire.
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
@@ -704,6 +751,16 @@ bool Character::handle_gun_damage( item &it )
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
         return false;
+
+        // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
+    } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
+               it.can_have_fault_type( gun_mechanical_simple ) ) {
+        add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
+                               _( "<npcname>'s %s malfunctions!" ),
+                               it.tname() );
+        it.faults.insert( random_entry( it.faults_potential_of_type( gun_mechanical_simple ) ) );
+        return false;
+
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
         // This is mostly for crappy handmade expedient stuff  or things that rarely receive damage during normal usage.
         // Default chance is 1/10000 unless set via json, damage is proportional to caliber(see below).
@@ -797,6 +854,11 @@ bool Character::handle_gun_damage( item &it )
         // Don't increment until after the message
         it.inc_damage();
     }
+
+    if( it.has_var( "u_know_round_in_chamber" ) ) {
+        it.erase_var( "u_know_round_in_chamber" );
+    }
+
     return true;
 }
 
@@ -853,7 +915,8 @@ bool Character::handle_gun_overheat( item &it )
                                _( "The cooling system of your %s chokes and vents a dense cloud of superheated coolant." ),
                                it.tname() );
             for( int i = 0; i < 3; i++ ) {
-                here.add_field( pos() + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_nuke_gas" ), 3 );
+                here.add_field( pos_bub() + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_nuke_gas" ),
+                                3 );
             }
             it.set_var( "gun_heat", heat - gun_type.cooling_value * 4.0 );
             return false;
@@ -964,11 +1027,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
             gun.reload( you, ammo, 1 );
             you.burn_energy_arms( - gun.get_min_str() * static_cast<int>( 0.006f *
                                   get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
-        }
-        if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
-            mod_moves( -get_speed() * 0.5 );
-            gun.faults.erase( fault_gun_chamber_spent );
-            add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
 
         if( !handle_gun_damage( gun ) ) {
@@ -4117,6 +4175,12 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
         messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    if( you.has_trait( trait_GUNSHY ) ) {
+        messages.push_back( string_format( _( "You're too gun-shy to use this." ),
                                            gmode->tname() ) );
         result = false;
     }

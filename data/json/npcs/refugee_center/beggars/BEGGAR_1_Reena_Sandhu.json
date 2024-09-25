@@ -68,8 +68,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1",
     "dynamic_line": {
-      "u_has_var": "general_recruit_reena_recruited",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_recruit_reena_recruited" } ],
       "yes": {
         "npc_has_effect": "beggar_has_eaten",
         "yes": "So, any luck with convincing the others to come on your crazy adventure yet?",
@@ -90,7 +89,7 @@
     },
     "responses": [
       {
-        "condition": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] },
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUITED"
       },
@@ -180,7 +179,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_reena_recruited", "value": "yes" } } ] },
+        "condition": { "and": [ "u_has_camp", { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_reena_recruited" } ] } } ] },
         "text": "I have a camp of my own, away from here.  You could come there.  There aren't many people left, we could use anyone regardless of skills.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -210,7 +209,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_reena_recruited", "value": "yes" } } ] },
+        "condition": { "and": [ "u_has_camp", { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_reena_recruited" } ] } } ] },
         "text": "I have a camp of my own, away from here.  Maybe you can't scavenge, but we can use any warm bodies that can lift a tool.  You'd be safer and better fed there.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -240,7 +239,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
       },
       {
-        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "general_recruit_reena_recruited", "value": "yes" } } ] },
+        "condition": { "and": [ "u_has_camp", { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_reena_recruited" } ] } } ] },
         "text": "I have a camp of my own, away from here.  Maybe they can't use your skills here, but I could.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },

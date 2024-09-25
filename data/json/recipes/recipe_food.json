@@ -88,12 +88,15 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "water",
+    "result": "water_purifying",
     "category": "CC_FOOD",
-    "id_suffix": "using_water_purifier",
+    "id_suffix": "using_tablets",
     "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "survival",
-    "time": "1 m",
+    "skill_used": "cooking",
+    "time": "5 m",
+    "batch_time_factors": [ 90, 2 ],
+    "charges": 4,
+    "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
     "components": [ [ [ "water_murky", 1 ] ], [ [ "pur_tablets", 1 ] ] ]
   },
@@ -5113,7 +5116,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil",
-    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ], [ [ "any_butter_or_oil", 2, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ], [ [ "any_butter_or_oil", 2, "LIST" ] ] ],
     "charges": 2
   },
   {
@@ -5131,7 +5134,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "salt", 2 ], [ "seasoning_salt", 2 ], [ "pepper", 4 ] ]
     ],
@@ -5152,7 +5155,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "6u for the eggs, 1u for the oil, 2u for the veggy, 1u for the cheese",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [
         [ "mushroom", 1 ],
@@ -5184,7 +5187,7 @@
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil.  no energy is spent cooking the bread, that's already done.",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "condiment", 2, "LIST" ] ]
@@ -5220,7 +5223,7 @@
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "//": "6u for the egg, 1u for the oil, 3u for the cheese and veggy.  no energy is spent cooking the bread, that's already done.",
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 2, "LIST" ] ],
       [
         [ "mushroom", 1 ],
@@ -5254,7 +5257,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
@@ -5274,7 +5277,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
@@ -5295,7 +5298,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [
-      [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "cheese_standard", 1, "LIST" ] ],
       [ [ "veggy_any", 2, "LIST" ] ],
       [ [ "meat_cooked", 1, "LIST" ] ],
@@ -5317,7 +5320,7 @@
     "tools": [ [ [ "water_boiling_heat", 1, "LIST" ] ], [ [ "water", -1 ], [ "water_clean", -1 ] ] ],
     "//": "this is technically cheating on energy, as you need to boil the water longer to really cook the egg.",
     "//1": "However, water that boiled an egg in it doesn't get contaminated and you'd keep putting eggs into the same boiling water, so this recipe uses water as a tool and has lentient energy use.",
-    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ] ]
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -5333,7 +5336,7 @@
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "6u for the egg, meat not needed since it's just diced up and  mixed in",
-    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ], [ [ "meat_cooked", 1, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ], [ [ "meat_cooked", 1, "LIST" ] ] ],
     "charges": 3
   },
   {
@@ -7048,18 +7051,25 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "1 m 45 s",
+    "time": "10 m",
+    "batch_time_factors": [ 80, 2 ],
     "charges": 1,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "//": "80-100g of meat: 7u, 5u for the cornmeal and oil",
     "components": [
-      [ [ "hotdogs_frozen", 1 ], [ "hotdogs_cooked", 1 ], [ "bratwurst_sausage", 1 ], [ "sausage_wasteland", 1 ] ],
+      [
+        [ "hotdogs_frozen", 1 ],
+        [ "homemade_hotdogs", 1 ],
+        [ "hotdogs_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "sausage_wasteland", 1 ]
+      ],
       [ [ "splinter", 1 ] ],
       [ [ "cornmeal", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ]
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ]
     ]
   },
   {
@@ -7190,6 +7200,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "toasterpastry",
+    "id_suffix": "without_toaster",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -7203,6 +7214,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "homemade_toasterpastry",
+    "id_suffix": "without_toaster",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -7216,6 +7228,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "homemade_toasterpastry2",
+    "id_suffix": "without_toaster",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_SNACK",
     "skill_used": "cooking",
@@ -7223,6 +7236,49 @@
     "charges": 1,
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "//": "Toasting a pop-tart takes a minute at most",
+    "components": [ [ [ "toastem4", 1 ] ], [ [ "any_frosting", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "toasterpastry",
+    "id_suffix": "with_toaster",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "charges": 1,
+    "autolearn": true,
+    "tools": [ [ [ "toaster", 5 ] ] ],
+    "components": [ [ [ "toasterpastryfrozen", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "homemade_toasterpastry",
+    "id_suffix": "with_toaster",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "charges": 1,
+    "autolearn": true,
+    "tools": [ [ [ "toaster", 5 ] ] ],
+    "components": [ [ [ "toastem4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "homemade_toasterpastry2",
+    "id_suffix": "with_toaster",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_SNACK",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "charges": 1,
+    "autolearn": true,
+    "tools": [ [ [ "toaster", 5 ] ] ],
     "//": "Toasting a pop-tart takes a minute at most",
     "components": [ [ [ "toastem4", 1 ] ], [ [ "any_frosting", 1, "LIST" ] ] ]
   },
@@ -7510,7 +7566,7 @@
         [ "milk_powder", 1 ],
         [ "con_milk", 1 ]
       ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "eggs_reptile", 2, "LIST" ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "water_clean", 1 ] ]
@@ -8329,7 +8385,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "3u for egg, 2u for milk",
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ], [ "powder_eggs", 1 ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "cinnamon", 2 ] ]
@@ -8350,7 +8406,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "3u for egg, 2u for milk, 1u for alcohol/sugar",
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ], [ "powder_eggs", 1 ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "hard_liquor_chem", 1, "LIST" ] ],

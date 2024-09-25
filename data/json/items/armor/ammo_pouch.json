@@ -8,7 +8,6 @@
     "volume": "500 ml",
     "price": "20 USD",
     "price_postapoc": "6 USD",
-    "to_hit": 1,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -54,7 +53,6 @@
           "308": 60,
           "12mm": 60,
           "8x40mm": 60,
-          "20x66mm": 60,
           "stimpack_ammo": 60,
           "ampoule": 60,
           "300": 60,
@@ -71,8 +69,7 @@
       }
     ],
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
   },
   {
     "id": "ammo_satchel",
@@ -654,7 +651,7 @@
         "volume_encumber_modifier": 0.25
       },
       {
-        "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 },
+        "ammo_restriction": { "410shot": 6, "shot": 6, "signal_flare": 6 },
         "moves": 25,
         "volume_encumber_modifier": 0.2
       }
@@ -1255,7 +1252,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "dark_gray",
-    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
+    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
@@ -1269,7 +1266,7 @@
     "weight": "4210 g",
     "volume": "8 L",
     "price_postapoc": "25 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "kevlar_layered", "nylon" ],
     "symbol": "[",
     "looks_like": "kevlar",
@@ -1302,7 +1299,7 @@
         "specifically_covers": [ "torso_lower" ]
       }
     ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 4 }
   },
   {
     "id": "ammo_satchel_leather",
@@ -1371,7 +1368,6 @@
     "volume": "25 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1390,8 +1386,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_SMALL" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "belt_loop_medium",
@@ -1402,7 +1397,6 @@
     "volume": "50 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1421,8 +1415,7 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_MEDIUM" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   },
   {
     "id": "belt_loop_large",
@@ -1433,7 +1426,6 @@
     "volume": "100 ml",
     "price": "10 USD",
     "price_postapoc": "1 USD",
-    "to_hit": 1,
     "material": [ "nylon" ],
     "symbol": "[",
     "looks_like": "leather_pouch",
@@ -1452,7 +1444,6 @@
       }
     ],
     "flags": [ "CANT_WEAR", "WATER_FRIENDLY", "PALS_LARGE" ],
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ],
-    "melee_damage": { "bash": 1 }
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "torso" ] } ]
   }
 ]

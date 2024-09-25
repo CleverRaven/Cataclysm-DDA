@@ -269,7 +269,7 @@
       [ "silver_nose_ring_stud", 2 ],
       [ "gold_toe_ring", 1 ],
       [ "silver_toe_ring", 2 ],
-      { "group": "mags_pawnshop", "prob": 300 }
+      { "group": "mags_common", "prob": 300 }
     ]
   },
   {
@@ -446,7 +446,7 @@
       [ "chainsaw_off", 7 ],
       { "item": "elec_chainsaw_off", "prob": 4, "charges": [ 0, 500 ] },
       { "item": "elec_chainsaw_cord_off", "prob": 4 },
-      { "item": "carver_off", "prob": 7, "charges": [ 0, 500 ] },
+      { "item": "carver_off", "prob": 7 },
       [ "jackhammer", 2 ],
       [ "elec_jackhammer", 1 ],
       [ "pickaxe", 1 ],
@@ -530,7 +530,6 @@
       [ "atomic_coffeepot", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
-      [ "rm120c", 2 ],
       [ "knee_pads", 10 ],
       { "item": "oxygen_tank", "prob": 10, "charges": 24 },
       { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
@@ -654,12 +653,6 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "mags_pawnshop",
-    "subtype": "distribution",
-    "entries": [ { "group": "mags_obscure", "prob": 10 } ]
-  },
-  {
     "id": "my_precious",
     "type": "item_group",
     "//": "for pawn_shop safe",
@@ -758,7 +751,7 @@
       [ "jacket_army", 40 ],
       [ "helmet_army_outdated", 10 ],
       [ "helmet_soviet_tanker", 1 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
@@ -1784,7 +1777,7 @@
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
       [ "breadboard", 85 ],
-      { "item": "voltmeter", "prob": 80, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 80 },
       { "item": "multimeter", "prob": 80, "charges": [ 0, 100 ] },
       [ "circuit", 35 ],
       [ "small_lcd_screen", 10 ],
@@ -1986,19 +1979,6 @@
     ]
   },
   {
-    "id": "daycare_misc",
-    "type": "item_group",
-    "items": [
-      [ "magnifying_glass", 2 ],
-      { "item": "sewing_kit", "prob": 1, "charges": [ 0, -1 ] },
-      [ "scissors", 1 ],
-      [ "phonebook", 2 ],
-      { "item": "flashlight", "prob": 2, "charges": [ 0, 300 ] },
-      [ "petpack", 1 ],
-      [ "mag_comic", 5 ]
-    ]
-  },
-  {
     "id": "daycare_kitchen",
     "type": "item_group",
     "items": [
@@ -2135,7 +2115,13 @@
     "id": "farm_supply_wire",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "wire", "prob": 80, "count": [ 20, 50 ] }, { "item": "wire_barbed", "prob": 20, "count": [ 20, 50 ] } ]
+    "items": [
+      { "item": "lc_wire", "prob": 50, "count": [ 20, 50 ] },
+      { "item": "mc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "hc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "qt_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "wire_barbed", "prob": 40, "count": [ 20, 50 ] }
+    ]
   },
   {
     "id": "farm_supply_quicklime_and_saltpetre",

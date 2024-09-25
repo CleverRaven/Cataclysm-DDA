@@ -116,8 +116,7 @@
       "math": [ "portal_storm_small_data_sold", ">=", "3" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
-        "npc_has_var": "dialogue_intercom_accepted_nre_recording",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
         "no": "Excellent; this should be enough to work with.  Here's your agreed-upon reward.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
         "yes": "&\"Thank you.\"  The recording changes hands."
       }
@@ -137,8 +136,7 @@
       "math": [ "portal_storm_medium_data_sold", ">=", "15" ],
       "yes": "Extrapolating trends from these recordings has become difficult.  Research has requested we only accept higher quality data from now on.",
       "no": {
-        "npc_has_var": "dialogue_intercom_accepted_nre_recording",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
         "no": "Great!  This looks like a very high-quality recording.  Because this data is much better, we are willing to pay five times what we paid for the base data collected.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
         "yes": "&\"Excellent.\"  The recording changes hands."
       }
@@ -155,8 +153,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_intercom_accepted_nre_recording",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_intercom_accepted_nre_recording" } ],
       "no": "Uh… please allow me a second to check this in.\"  The tray slides shut, and the intercom turns off.  Roughly a minute later, it turns back on.  \"Well, it looks like this is a real treasure trove of information.  In fact, you've made quite an impression on R&D, and probably just saved us a few weeks of research at the least.  They demanded you be given a pretty significant accomplishment bonus, so… well, there you go.\"  The tray slides open, revealing an impressive pile of coins.\n\n\"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
       "yes": "Fantastic.\"  The recording changes hands.  \"At this rate, we'll have some real results soon."
     },
@@ -216,10 +213,7 @@
     "id": "TALK_ROBOFAC_INTERCOM_BUY_RIOT_GEAR_ON_CREDIT_ACCEPT",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "u_pay_back_on_specimens",
-      "type": "dialogue",
-      "context": "intercom",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "npc_dialogue_intercom_u_pay_back_on_specimens" } ],
       "yes": "Well it might be more interesting than straight gear.  Tell us when it's available for inspection.  We expect you back in 20 days or less.",
       "no": "20 days then for payment."
     },
@@ -238,5 +232,185 @@
       },
       { "text": "I'll have to give it some thought.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
+  },
+  {
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS",
+      "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
+      "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
+      "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH",
+      "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_DELTA",
+      "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT_LEG",
+      "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT",
+      "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET",
+      "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS",
+      "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH",
+      "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "Beautiful; please put them into loading area.  We'll issue a reward depending on what you managed to scavenge.",
+    "responses": [
+      {
+        "text": "[Deliver a broken trifacet.]",
+        "condition": { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_yrax_trifacet", "count": 1, "popup": true },
+          { "math": [ "u_broken_yrax_trifacet_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 1 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET"
+      },
+      {
+        "text": "[Deliver a broken triakis drone.]",
+        "condition": { "and": [ { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } } ] },
+        "effect": [
+          { "u_consume_item": "broken_yrax_triakis", "count": 1, "popup": true },
+          { "math": [ "u_broken_yrax_triakis_sold", "++" ] },
+          { "u_spend_cash": -1000 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS"
+      },
+      {
+        "text": "[Deliver a broken monolith.]",
+        "condition": { "and": [ { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } } ] },
+        "effect": [
+          { "u_consume_item": "broken_golden_monolith", "count": 1, "popup": true },
+          { "math": [ "u_broken_golden_monolith_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 7 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH"
+      },
+      {
+        "text": "[Deliver a broken delta drone.]",
+        "condition": { "and": [ { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } } ] },
+        "effect": [
+          { "u_consume_item": "broken_yrax_delta", "count": 1, "popup": true },
+          { "math": [ "u_broken_yrax_delta_sold", "++" ] },
+          { "u_spend_cash": -200 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_BROKEN_YRAX_DELTA"
+      },
+      {
+        "text": "[Drag in broken quadraphract leg.]",
+        "condition": { "u_has_items": { "item": "broken_yrax_quadraphract_leg", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_yrax_quadraphract_leg", "count": 1, "popup": true },
+          { "math": [ "u_broken_yrax_quadraphract_leg_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 5 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT_LEG"
+      },
+      {
+        "text": "[Drag in broken quadraphract.]",
+        "condition": { "u_has_items": { "item": "broken_yrax_quadraphract", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "broken_yrax_quadraphract", "count": 1, "popup": true },
+          { "math": [ "u_broken_yrax_quadraphract_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 25 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT"
+      },
+      {
+        "text": "[Deliver a deactivated trifacet.]",
+        "condition": { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "bot_yrax_trifacet", "count": 1, "popup": true },
+          { "math": [ "u_bot_yrax_trifacet_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 2 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET"
+      },
+      {
+        "text": "[Deliver a deactivated triakis.]",
+        "condition": { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "bot_yrax_triakis", "count": 1, "popup": true },
+          { "math": [ "u_bot_yrax_triakis_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 1 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS"
+      },
+      {
+        "text": "[Deliver a deactivated monolith.]",
+        "condition": { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "bot_golden_monolith", "count": 1, "popup": true },
+          { "math": [ "u_bot_golden_monolith_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 16 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH"
+      },
+      {
+        "text": "[Deliver a deactivated delta.]",
+        "condition": { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } },
+        "effect": [
+          { "u_consume_item": "bot_yrax_delta", "count": 1, "popup": true },
+          { "math": [ "u_bot_yrax_delta_sold", "++" ] },
+          { "u_spawn_item": "RobofacCoin", "count": 1 }
+        ],
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA"
+      },
+      { "text": "That would be all.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIFACET",
+    "type": "talk_topic",
+    "dynamic_line": "We already have a similar model in better condition but this one is useful as a reference.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_TRIAKIS",
+    "type": "talk_topic",
+    "dynamic_line": "We can probably gain some insight from studying this unit, but  it appears seriously damaged.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_GOLDEN_MONOLITH",
+    "type": "talk_topic",
+    "dynamic_line": "That is quite a lot of broken metal, let's hope R&D can at least salvage some materials.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_DELTA",
+    "type": "talk_topic",
+    "dynamic_line": "We don't need all of your glossy scrap.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT_LEG",
+    "type": "talk_topic",
+    "dynamic_line": "We witnessed it as a part of larger construct.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BROKEN_YRAX_QUADRAPHRACT",
+    "type": "talk_topic",
+    "dynamic_line": "I'm impressed you managed to drag it inside.  We gonna need to fix the lift after this one.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIFACET",
+    "type": "talk_topic",
+    "dynamic_line": "I believe we already have similar model already but is nice to have more, it will allow us be more active in our research.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_TRIAKIS",
+    "type": "talk_topic",
+    "dynamic_line": "Oh what an interesting piece.  R&D will have a field day with it.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_GOLDEN_MONOLITH",
+    "type": "talk_topic",
+    "dynamic_line": "I assume you were trying to figure out limits of the hm12.  I guess they are right here.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
+  },
+  {
+    "id": "TALK_ROBOFAC_INTERCOM_SELL_BOT_YRAX_DELTA",
+    "type": "talk_topic",
+    "dynamic_line": "I doubt we can get a lot of information from this drone but thanks.",
+    "speaker_effect": { "effect": [ { "npc_add_var": "dialogue_intercom_accepted_yrax_robot", "value": "yes" } ], "sentinel": "yrax_trade" }
   }
 ]

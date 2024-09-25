@@ -114,6 +114,7 @@
     "color": "green",
     "vision_levels": "forested",
     "see_cost": "spaced_high",
+    "travel_cost_type": "trail",
     "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ],
     "land_use_code": "forest"
   },
@@ -122,6 +123,7 @@
     "id": [ "trailhead", "trailhead_shack_z0", "trailhead_outhouse_z0" ],
     "name": "trailhead",
     "vision_levels": "blends_till_details",
+    "travel_cost_type": "trail",
     "see_cost": "none",
     "sym": "T",
     "color": "brown"

@@ -29,7 +29,10 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "localized_comparator.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
 #include "map.h"
+#include "mongroup.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -48,6 +51,8 @@
 #include "units.h"
 
 static const efftype_id effect_pet( "pet" );
+
+static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 class ui_adaptor;
 
@@ -173,8 +178,8 @@ class wish_mutate_callback: public uilist_callback
 
             ImGui::TableSetColumnIndex( 2 );
 
-            if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < vTraits.size() ) {
-                const mutation_branch &mdata = vTraits[menu->selected].obj();
+            if( menu->hovered >= 0 && static_cast<size_t>( menu->hovered ) < vTraits.size() ) {
+                const mutation_branch &mdata = vTraits[menu->hovered].obj();
 
                 ImGui::TextUnformatted( mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
                 ImGui::NewLine();
@@ -672,7 +677,7 @@ class wish_monster_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->selected;
+                const int entnum = menu->hovered;
                 const bool valid_entnum = entnum >= 0 && static_cast<size_t>( entnum ) < mtypes.size();
                 if( entnum != lastent ) {
                     lastent = entnum;
@@ -713,25 +718,96 @@ class wish_monster_callback: public uilist_callback
         ~wish_monster_callback() override = default;
 };
 
+static void setup_wishmonster( uilist &pick_a_monster, std::vector<const mtype *> &mtypes )
+{
+    pick_a_monster.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
+    pick_a_monster.selected = uistate.wishmonster_selected;
+    int i = 0;
+    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
+        pick_a_monster.addentry( i, true, 0, montype.nname() );
+        pick_a_monster.entries[i].extratxt.txt = montype.sym;
+        pick_a_monster.entries[i].extratxt.color = montype.color;
+        pick_a_monster.entries[i].extratxt.left = 1;
+        ++i;
+        mtypes.push_back( &montype );
+    }
+}
+
+void debug_menu::wishmonstergroup( tripoint_abs_omt &loc )
+{
+    bool population_group = query_yn(
+                                _( "Is this a population-based horde, based on an existing monster group?  Select \"No\" to manually assign monsters." ) );
+    mongroup new_group;
+    // Just in case, we manually set some values
+    new_group.abs_pos = project_to<coords::sm>( loc );
+    new_group.target = new_group.abs_pos.xy();
+    new_group.population = 1; // overwritten if population_group
+    new_group.horde = true;
+    new_group.type = GROUP_ZOMBIE; // overwritten if population_group
+    if( population_group ) {
+        uilist type_selection;
+        std::vector<mongroup_id> possible_groups;
+        int i = 0;
+        for( auto &group_pair : MonsterGroupManager::Get_all_Groups() ) {
+            possible_groups.emplace_back( group_pair.first );
+            type_selection.addentry( i, true, -1, group_pair.first.c_str() );
+            i++;
+        }
+        type_selection.query();
+        int &selected = type_selection.ret;
+        if( selected < 0 || static_cast<size_t>( selected ) >= possible_groups.size() ) {
+            return;
+        }
+        const mongroup_id selected_group( possible_groups[selected] );
+        new_group.type = selected_group;
+        int new_value = 0;
+        query_int( new_value, _( "Set population to what value?  Currently %d" ), new_group.population );
+        overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
+        there.debug_force_add_group( new_group );
+        return; // Don't go to adding individual monsters, they'll override the values we just set
+    }
+
+
+    wishmonstergroup_mon_selection( new_group );
+    overmap &there = overmap_buffer.get( project_to<coords::om>( loc ).xy() );
+    there.debug_force_add_group( new_group );
+}
+
+void debug_menu::wishmonstergroup_mon_selection( mongroup &group )
+{
+
+    std::vector<const mtype *> mtypes;
+    uilist new_mon_selection;
+    setup_wishmonster( new_mon_selection, mtypes );
+    wish_monster_callback cb( mtypes );
+    new_mon_selection.callback = &cb;
+    new_mon_selection.query();
+    int &selected = new_mon_selection.ret;
+    if( selected < 0 || static_cast<size_t>( selected ) >= mtypes.size() ) {
+        return;
+    }
+    const mtype_id &mon_type = mtypes[ selected ]->id;
+    for( int i = 0; i < cb.group; i++ ) {
+        monster new_mon( mon_type );
+        if( cb.friendly ) {
+            new_mon.friendly = -1;
+            new_mon.add_effect( effect_pet, 1_turns, true );
+        }
+        if( cb.hallucination ) {
+            new_mon.hallucination = true;
+        }
+        group.monsters.emplace_back( new_mon );
+    }
+}
+
 void debug_menu::wishmonster( const std::optional<tripoint> &p )
 {
     std::vector<const mtype *> mtypes;
 
     uilist wmenu;
-    wmenu.desired_bounds = { -1.0, -1.0, 1.0, 1.0 };
-    wmenu.selected = uistate.wishmonster_selected;
+    setup_wishmonster( wmenu, mtypes );
     wish_monster_callback cb( mtypes );
     wmenu.callback = &cb;
-
-    int i = 0;
-    for( const mtype &montype : MonsterGenerator::generator().get_all_mtypes() ) {
-        wmenu.addentry( i, true, 0, montype.nname() );
-        wmenu.entries[i].extratxt.txt = montype.sym;
-        wmenu.entries[i].extratxt.color = montype.color;
-        wmenu.entries[i].extratxt.left = 1;
-        ++i;
-        mtypes.push_back( &montype );
-    }
 
     do {
         wmenu.query();
@@ -921,7 +997,7 @@ class wish_item_callback: public uilist_callback
             info_size.x = desired_extra_space_right( );
             ImGui::TableSetColumnIndex( 2 );
             if( ImGui::BeginChild( "monster info", info_size ) ) {
-                const int entnum = menu->selected;
+                const int entnum = menu->hovered;
                 if( entnum >= 0 && static_cast<size_t>( entnum ) < standard_itype_ids.size() ) {
                     item tmp = wishitem_produce( *standard_itype_ids[entnum], flags, false );
 
@@ -1118,8 +1194,8 @@ void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
     uilist skmenu;
-    skmenu.text = change_theory ?
-                  _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
+    skmenu.title = change_theory ?
+                   _( "Select a skill to modify its theory level" ) : _( "Select a skill to modify" );
     skmenu.allow_anykey = true;
     skmenu.additional_actions = {
         { "LEFT", to_translation( "Decrease skill" ) },
@@ -1184,9 +1260,7 @@ void debug_menu::wishskill( Character *you, bool change_theory )
             } else {
                 you->set_skill_level( skill.ident(), skset );
             }
-            skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
-                                      skill.name(),
-                                      get_level( skill ) );
+            skmenu.text = string_format( _( "%s set to %d" ), skill.name(), get_level( skill ) );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                     get_level( skill ),
                     skill.name() );

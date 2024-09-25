@@ -225,6 +225,13 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual int get_total_in_category( const mutation_category_id &, enum mut_count_type ) const {
+            return 0;
+        }
+        virtual int get_total_in_category_char_has( const mutation_category_id &,
+                enum mut_count_type ) const {
+            return 0;
+        }
         virtual bool is_trait_purifiable( const trait_id & ) const {
             return false;
         }
@@ -650,6 +657,9 @@ class talker
         virtual void set_anger( int ) {}
         virtual void set_morale( int ) {}
         virtual int get_friendly() const {
+            return 0;
+        }
+        virtual int get_difficulty() const {
             return 0;
         }
         virtual void set_friendly( int ) {}

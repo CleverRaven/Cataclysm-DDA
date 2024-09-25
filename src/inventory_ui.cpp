@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "input.h"
 #include "item.h"
@@ -40,6 +41,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "ui_iteminfo.h"
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
@@ -382,6 +384,8 @@ void uistatedata::serialize( JsonOut &json ) const
     json.member( "overmap_debug_weather", overmap_debug_weather );
     json.member( "overmap_visible_weather", overmap_visible_weather );
     json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
+    json.member( "overmap_fast_travel", overmap_fast_travel );
+    json.member( "overmap_fast_scroll", overmap_fast_scroll );
     json.member( "distraction_noise", distraction_noise );
     json.member( "distraction_pain", distraction_pain );
     json.member( "distraction_attack", distraction_attack );
@@ -455,6 +459,8 @@ void uistatedata::deserialize( const JsonObject &jo )
     jo.read( "overmap_debug_weather", overmap_debug_weather );
     jo.read( "overmap_visible_weather", overmap_visible_weather );
     jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
+    jo.read( "overmap_fast_travel", overmap_fast_travel );
+    jo.read( "overmap_fast_scroll", overmap_fast_scroll );
     jo.read( "distraction_noise", distraction_noise );
     jo.read( "distraction_pain", distraction_pain );
     jo.read( "distraction_attack", distraction_attack );
@@ -3476,11 +3482,11 @@ void inventory_selector::action_examine( const item_location &sitem )
 
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
-    draw_item_info( [&]() -> catacurses::window {
-        int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
-        int width = std::min( 80, maxwidth );
-        return catacurses::newwin( 0, width, point( maxwidth / 2 - width / 2, 0 ) ); },
-    data ).get_first_input();
+    data.arrow_scrolling = true;
+    int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
+    int width = std::min( 80, maxwidth );
+    iteminfo_window info_window( data, point( maxwidth / 2 - width / 2, -1 ), width, 0 );
+    info_window.execute();
 }
 
 void inventory_selector::highlight()
@@ -3943,9 +3949,9 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( entry.is_selectable() ) {
             size_t const count = entry.chosen_count;
             size_t const max = entry.get_available_count();
-            size_t const newcount = std::clamp<size_t>( 0,
-                                    count + ( input.action == "INCREASE_COUNT" ? +1 : -1 ),
-                                    max );
+            size_t const newcount = input.action == "INCREASE_COUNT"
+                                    ? count < max ? count + 1 : max
+                                    : count > 1 ? count - 1 : 0;
             toggle_entry( entry, newcount );
         }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
@@ -4241,7 +4247,7 @@ bool pickup_selector::wield( int &count )
 
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
-        add_reopen_activity();
+        reopen_menu();
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
@@ -4263,7 +4269,7 @@ bool pickup_selector::wear()
 
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
-        add_reopen_activity();
+        reopen_menu();
         u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
@@ -4273,10 +4279,12 @@ bool pickup_selector::wear()
     return false;
 }
 
-void pickup_selector::add_reopen_activity()
+void pickup_selector::reopen_menu()
 {
-    u.assign_activity( pickup_menu_activity_actor( where, to_use ) );
-    u.activity.auto_resume = true;
+    // copy the member variables to still be valid on call
+    uistate.open_menu = [where = where, to_use = to_use]() {
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+    };
 }
 
 void pickup_selector::remove_from_to_use( item_location &it )

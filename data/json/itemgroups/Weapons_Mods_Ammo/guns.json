@@ -141,7 +141,7 @@
       { "group": "nested_bfr", "prob": 100 },
       { "group": "nested_m1911-460", "prob": 3 },
       { "group": "nested_makarov", "prob": 100 },
-      { "group": "nested_mauser_c96", "prob": 39 },
+      { "group": "nested_mauser_c96", "prob": 39, "contents-group": "c96_mods" },
       { "group": "nested_chiappa_rhino", "prob": 5 },
       { "group": "nested_pistol_flintlock", "prob": 150 },
       { "group": "nested_raging_bull", "prob": 100 },
@@ -161,7 +161,11 @@
     "type": "item_group",
     "id": "guns_pistol_collectible",
     "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally suppressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
-    "items": [ { "item": "mauser_c96", "prob": 50 }, { "item": "colt_navy", "prob": 40 }, { "item": "colt_army", "prob": 40 } ]
+    "items": [
+      { "item": "mauser_c96", "prob": 50, "contents-group": "c96_mods" },
+      { "item": "colt_navy", "prob": 40 },
+      { "item": "colt_army", "prob": 40 }
+    ]
   },
   {
     "type": "item_group",
@@ -399,13 +403,10 @@
       { "group": "nested_m60", "prob": 15 },
       { "group": "nested_rm11b_sniper_rifle", "prob": 1 },
       { "group": "nested_rm51_assault_rifle", "prob": 1 },
-      { "group": "nested_rm614_lmg", "prob": 1 },
-      { "group": "nested_rm88_battle_rifle", "prob": 1 },
       { "group": "nested_scar_l", "prob": 50 },
       { "group": "nested_scar_h", "prob": 50 },
       { "group": "nested_m110a1", "prob": 50 },
-      { "group": "nested_M24", "prob": 15 },
-      { "group": "nested_acr_300blk", "prob": 15 }
+      { "group": "nested_M24", "prob": 15 }
     ]
   },
   {
@@ -437,7 +438,6 @@
       { "group": "nested_arx160", "prob": 40 },
       { "group": "nested_psl", "prob": 10 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
-      { "group": "nested_acr_300blk", "prob": 15 },
       { "group": "nested_type99", "prob": 20 },
       { "group": "nested_type99_sniper", "prob": 5 },
       { "group": "nested_ak308", "prob": 25 },
@@ -465,8 +465,6 @@
       { "group": "modular_m4a1", "prob": 45 },
       { "item": "m14ebr", "prob": 15 },
       { "item": "arx160", "prob": 10 },
-      { "item": "modular_m16_auto_rifle", "variant": "modular_acr", "prob": 25 },
-      { "item": "acr_300blk", "prob": 15 },
       { "item": "hk417_13", "prob": 40 },
       { "item": "m2carbine", "prob": 5 },
       { "item": "ak308", "prob": 10 },
@@ -636,7 +634,6 @@
     "//": "Military shotguns currently in service.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "nested_rm20", "prob": 1 },
       { "group": "nested_remington_870_express", "prob": 50 },
       { "group": "nested_remington_870_breacher", "prob": 20 },
       { "group": "nested_mossberg_590", "prob": 50 },
@@ -1215,6 +1212,13 @@
     "id": "sidearms_cop",
     "items": [
       { "item": "glock_19", "prob": 15, "charges": [ 0, 15 ] },
+      {
+        "item": "glock_19",
+        "variant": "glock_19_cop",
+        "prob": 2,
+        "contents-item": [ "red_dot_sight" ],
+        "charges": [ 0, 15 ]
+      },
       { "item": "glock_22", "prob": 20, "ammo-item": "40sw", "charges": [ 0, 15 ] },
       { "item": "m9", "variant": "m9", "prob": 5, "charges": [ 0, 15 ] },
       { "item": "sig_40", "prob": 20, "charges": [ 0, 12 ] },

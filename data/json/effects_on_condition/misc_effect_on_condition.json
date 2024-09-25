@@ -14,7 +14,7 @@
     "id": "ambient_subway",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "subway_ns" }, { "u_at_om_location": "subway_ew" } ] },
+    "condition": { "u_at_om_location": "subway" },
     "effect": [ { "u_message": "<AMBIENT_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
@@ -22,7 +22,7 @@
     "id": "ambient_lab_subway",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "lab_subway_ns" }, { "u_at_om_location": "lab_subway_ew" } ] },
+    "condition": { "u_at_om_location": "lab_subway" },
     "effect": [ { "u_message": "<AMBIENT_LAB_SUBWAY>", "snippet": true, "sound": true } ]
   },
   {
@@ -30,7 +30,7 @@
     "id": "ambient_sewer",
     "recurrence": [ "1 hours", "2 hours" ],
     "global": true,
-    "condition": { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+    "condition": { "u_at_om_location": "sewer" },
     "effect": [ { "u_message": "<AMBIENT_SEWER>", "snippet": true, "sound": true } ]
   },
   {
@@ -125,6 +125,33 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "yrax_triakis_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_triakis", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile triakis violently unfolds just clear of your hand!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_golden_monolith_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_golden_monolith", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      {
+        "u_message": "You notice a brief lull in the ambient noise around you, but its otherwise impossible to know if you allowed something to happen.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "yrax_delta_activation",
+    "effect": [
+      { "u_spawn_monster": "mon_yrax_delta", "real_count": 1, "min_radius": 1, "max_radius": 2 },
+      { "u_message": "The hostile delta starts flying just as you release it!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "add_effect",
     "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
   },
@@ -133,7 +160,7 @@
     "id": "sewer_morale_debuff",
     "global": false,
     "recurrence": [ "20 minutes", "1 hour" ],
-    "condition": { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+    "condition": { "u_at_om_location": "sewer" },
     "effect": [
       { "u_message": "<SEWER_MORALE_DEBUFF>", "snippet": true },
       {

@@ -336,6 +336,8 @@ asshat
 assistive
 asswagon
 asswipe
+astrodon
+astrodons
 astrolaspis
 astrolaspises
 Aśvaghosa
@@ -539,6 +541,7 @@ BBs
 BCE
 BDSM
 BDU
+Bealtaine
 bearcub
 bearmantle
 bearmantles
@@ -1266,6 +1269,7 @@ Creighton
 creped
 crêpes
 crewmember
+crimsonite
 criniere
 CRISPR
 criss
@@ -1484,6 +1488,9 @@ dex
 Dhamma
 Dhammapada
 dharmachakra
+diaspora
+dichloroisocyanurate
+didn
 Dharmasastra
 dhyâna
 di
@@ -2808,6 +2815,7 @@ imager
 imagers
 Imaginifer
 Imaginifers
+Imbolc
 imbuement
 IMEs
 ImGui
@@ -3491,6 +3499,7 @@ Ludlow
 Ludos
 Ludwig
 Luger
+Lughnasadh
 Luigi
 Luke
 Luliya
@@ -4768,6 +4777,8 @@ polymorphed
 polypous
 polysexual
 Pontius
+pooka
+pookas
 Popol
 populifolia
 Populus
@@ -5255,6 +5266,7 @@ Sambal
 Sambucus
 samghati
 samghatis
+Samhain
 Sâmhita
 Sammarinese
 Sammy
@@ -5404,6 +5416,8 @@ segmentata
 Segway
 Seinerweisen
 seldomly
+selkie
+selkies
 selfie
 Semin
 semirural
@@ -5461,6 +5475,8 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifting
+shapeshifts
 shapeshifter
 Shardspray
 Shardstorm
@@ -6356,6 +6372,7 @@ Trollope
 Troodon
 TropiCataclysm
 Trotsky
+trow
 TRS
 truckstop
 TrueFoodperson

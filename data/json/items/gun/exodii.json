@@ -171,7 +171,7 @@
       [ "underbarrel", 1 ]
     ],
     "barrel_volume": "1200 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiBRmag" ] } ],
     "melee_damage": { "bash": 12 }
   },
@@ -205,7 +205,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "burst", 2 ] ],
     "barrel_volume": "250 ml",
-    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_stovepipe", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "exodiiminimag" ] } ],
     "melee_damage": { "bash": 12 }
   },

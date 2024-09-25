@@ -76,12 +76,7 @@
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "use_action": { "type": "link_up", "cable_length": 30, "charge_rate": "800 W" },
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 2, "cut": 2 }
   },
@@ -298,12 +293,7 @@
     "qualities": [ [ "SCREW", 1 ] ],
     "charged_qualities": [ [ "DRILL", 3 ] ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
@@ -351,12 +341,7 @@
     "qualities": [ [ "WRENCH", 1 ] ],
     "charged_qualities": [ [ "WRENCH", 2 ], [ "WHEEL_FAST", 1 ] ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "uneven" },
     "melee_damage": { "bash": 3, "cut": 1 }
@@ -675,12 +660,7 @@
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 8 }
   },
@@ -1006,12 +986,7 @@
     "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 5, "charge_rate": "1600 W" } ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "neutral" },
     "melee_damage": { "bash": 6 }
@@ -1054,12 +1029,7 @@
     "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "800 W" } ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ],
     "melee_damage": { "bash": 2, "cut": 2 }
   },
@@ -1224,7 +1194,7 @@
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
         "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
+        "default_magazine": "light_battery_cell"
       }
     ]
   },
@@ -1277,12 +1247,7 @@
       }
     ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
-        "default_magazine": "light_disposable_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ],
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "melee_damage": { "stab": 2 }
@@ -1641,14 +1606,6 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "use_action": [ { "type": "link_up", "cable_length": 2, "charge_rate": "1500 W" } ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "200 ml",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
     "melee_damage": { "bash": 7 }
   },
   {

@@ -210,6 +210,7 @@
       { "group": "menstrual_pad_box_used", "prob": 40 },
       [ "disinfectant", 30 ],
       [ "eyedrops", 10 ],
+      [ "steroid_eyedrops", 5 ],
       [ "medical_gauze", 20 ],
       [ "medical_tape", 20 ],
       [ "pepto", 20 ],
@@ -351,6 +352,7 @@
       { "item": "caff_gum", "prob": 10, "count": [ 1, 10 ] },
       { "item": "smoxygen_tank", "prob": 5, "charges": [ 0, 12 ] },
       [ "eyedrops", 35 ],
+      [ "steroid_eyedrops", 15 ],
       { "item": "shavingkit", "prob": 5, "charges": [ 0, 10 ] },
       { "item": "elec_hairtrimmer", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "nic_gum", "prob": 25, "count": [ 1, 10 ] },
@@ -818,5 +820,29 @@
     "id": "pillbox_any_used",
     "subtype": "distribution",
     "groups": [ "pillbox_used", "pillbox_large_used" ]
+  },
+  {
+    "type": "item_group",
+    "id": "codeine_bottle_plastic_pill_painkiller_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_painkiller",
+    "entries": [ { "item": "codeine", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "oxycodone_bottle_plastic_pill_prescription_10",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bottle_plastic_pill_prescription",
+    "entries": [ { "item": "oxycodone", "container-item": "null", "count": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "meth_bag_zipper_6",
+    "subtype": "collection",
+    "//": "This group was created automatically and may contain errors.",
+    "container-item": "bag_zipper",
+    "entries": [ { "item": "meth", "container-item": "null", "count": 6 } ]
   }
 ]

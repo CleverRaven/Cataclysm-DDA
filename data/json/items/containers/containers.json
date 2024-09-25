@@ -209,7 +209,6 @@
     "name": { "str": "plastic bag" },
     "looks_like": "bag_canvas",
     "description": "An open plastic bag.  Essentially trash.",
-    "ascii_picture": "bag_plastic",
     "weight": "5 g",
     "volume": "10 ml",
     "price": "0 cent",
@@ -1892,7 +1891,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "open_container": true,
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
@@ -3444,8 +3442,8 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "100 ml",
-        "max_contains_weight": "230 g",
+        "max_contains_volume": "111 ml",
+        "max_contains_weight": "233 g",
         "max_item_length": "15 cm",
         "moves": 100,
         "watertight": true,

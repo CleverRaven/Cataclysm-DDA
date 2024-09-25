@@ -726,5 +726,37 @@
     "player_display": true,
     "valid": false,
     "flags": [ "TEEPSHIELD" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTOLIXIR_LIGHT",
+    "name": { "str": "Golden Radiance" },
+    "points": 0,
+    "description": "You can make the air around you emit a strong light.",
+    "active": true,
+    "player_display": true,
+    "purifiable": false,
+    "cost": 0,
+    "transform": {
+      "target": "PHOTOLIXIR_LIGHT_active",
+      "msg_transform": "The air around you starts glowing brightly.",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "PHOTOLIXIR_LIGHT_active",
+    "name": { "str": "Golden Radiance (on)" },
+    "description": "The air around you is emitting a bright light.",
+    "copy-from": "PHOTOLIXIR_LIGHT",
+    "valid": false,
+    "transform": {
+      "target": "PHOTOLIXIR_LIGHT",
+      "msg_transform": "The air around you loses its radiance.",
+      "active": false,
+      "moves": 10
+    },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 150 } ] } ]
   }
 ]

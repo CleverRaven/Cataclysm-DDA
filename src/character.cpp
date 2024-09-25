@@ -130,7 +130,6 @@
 class activity_actor;
 struct dealt_projectile_attack;
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
@@ -152,7 +151,6 @@ static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 static const activity_id ACT_TRY_SLEEP( "ACT_TRY_SLEEP" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_VIEW_RECIPE( "ACT_VIEW_RECIPE" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
@@ -400,12 +398,6 @@ static const species_id species_HUMAN( "HUMAN" );
 
 static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
-static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
-static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_pit( "t_pit" );
-static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
-
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -480,15 +472,11 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGBACK( "STRONGBACK" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
-static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
-static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
-static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
-static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const trap_str_id tr_ledge( "tr_ledge" );
 
@@ -1846,7 +1834,7 @@ void Character::forced_dismount()
         set_movement_mode( move_mode_walk );
         if( player_character.is_auto_moving() || player_character.has_destination() ||
             player_character.has_destination_activity() ) {
-            player_character.clear_destination();
+            player_character.abort_automove();
         }
         g->update_map( player_character );
     }
@@ -5118,13 +5106,12 @@ void Character::update_needs( int rate_multiplier )
                     rest_modifier += 1;
                 }
 
-                const comfort_level comfort = base_comfort_value( pos_bub() ).level;
-
-                if( comfort >= comfort_level::very_comfortable ) {
+                const int comfort = get_comfort_at( pos_bub() ).comfort;
+                if( comfort >= comfort_data::COMFORT_VERY_COMFORTABLE ) {
                     rest_modifier *= 3;
-                } else  if( comfort >= comfort_level::comfortable ) {
+                } else if( comfort >= comfort_data::COMFORT_COMFORTABLE ) {
                     rest_modifier *= 2.5;
-                } else if( comfort >= comfort_level::slightly_comfortable ) {
+                } else if( comfort >= comfort_data::COMFORT_SLIGHTLY_COMFORTABLE ) {
                     rest_modifier *= 2;
                 }
 
@@ -5605,178 +5592,6 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
     const units::temperature_delta diff = ( get_part_temp_cur( bp2 ) - get_part_temp_cur( bp1 ) ) *
                                           0.0001; // If bp1 is warmer, it will lose heat
     mod_part_temp_cur( bp1, diff );
-}
-
-Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_ms &p ) const
-{
-    // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
-    // As in the latter also checks for sleepiness and other variables while this function
-    // only looks at the base comfyness of something. It's still subjective, in a sense,
-    // as arachnids who sleep in webs will find most places comfortable for instance.
-    int comfort = 0;
-
-    comfort_response_t comfort_response;
-
-    bool plantsleep = has_trait( trait_CHLOROMORPH );
-    bool fungaloid_cosplay = has_trait( trait_M_SKIN3 );
-    bool websleep = has_trait( trait_WEB_WALKER );
-    bool webforce = has_trait( trait_THRESH_SPIDER ) && ( has_trait( trait_WEB_SPINNER ) ||
-                    has_trait( trait_WEB_WEAVER ) );
-    bool in_shell = has_active_mutation( trait_SHELL2 ) ||
-                    has_active_mutation( trait_SHELL3 );
-    bool watersleep = has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER );
-
-    map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( p );
-    const maptile tile = here.maptile_at( p );
-    const trap &trap_at_pos = tile.get_trap_t();
-    const ter_id ter_at_pos = tile.get_ter();
-    const furn_id furn_at_pos = tile.get_furn();
-
-    int web = here.get_field_intensity( p, fd_web );
-
-    // Some mutants have different comfort needs
-    if( !plantsleep && !webforce ) {
-        if( in_shell ) { // NOLINT(bugprone-branch-clone)
-            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-            // Note: shelled individuals can still use sleeping aids!
-        } else if( vp ) {
-            if( const std::optional<vpart_reference> cargo = vp.cargo() ) {
-                for( const item &items_it : cargo->items() ) {
-                    if( items_it.has_flag( flag_SLEEP_AID ) ) {
-                        // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                        comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                        comfort_response.aid = &items_it;
-                        break; // prevents using more than 1 sleep aid
-                    }
-                    if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
-                        bool found = false;
-                        if( items_it.num_item_stacks() > 1 ) {
-                            // Only one item is allowed, so we don't fill our pillowcase with nails
-                            continue;
-                        }
-                        for( const item *it : items_it.all_items_top() ) {
-                            if( it->has_flag( flag_SLEEP_AID ) ) {
-                                // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                                comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                                comfort_response.aid = &items_it;
-                                found = true;
-                                break; // prevents using more than 1 sleep aid
-                            }
-                        }
-                        // Only 1 sleep aid
-                        if( found ) {
-                            break;
-                        }
-                    }
-                }
-            }
-            int max_boardable_confort = 0;
-            bool boardable = false;
-            for( const vpart_reference board : vp->vehicle().get_all_parts() ) {
-                if( !board.has_feature( "BOARDABLE" ) || board.pos() != p.raw() ) {
-                    continue;
-                }
-                boardable = true;
-                int boardable_comfort = board.info().comfort;
-                if( boardable_comfort > max_boardable_confort ) {
-                    max_boardable_confort = boardable_comfort;
-                }
-            }
-            comfort += boardable ? max_boardable_confort : -here.move_cost( p );
-        }
-        // Not in a vehicle, start checking furniture/terrain/traps at this point in decreasing order
-        else if( furn_at_pos != furn_str_id::NULL_ID() ) {
-            comfort += 0 + furn_at_pos.obj().comfort;
-        }
-        // Web sleepers can use their webs if better furniture isn't available
-        else if( websleep && web >= 3 ) {
-            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-        } else if( !trap_at_pos.is_null() ) {
-            comfort += 0 + trap_at_pos.comfort;
-        } else {
-            // Not a comfortable sleeping spot
-            comfort -= here.move_cost( p );
-            // Include comfort from terrain, if any
-            comfort += ter_at_pos.obj().comfort;
-        }
-
-        if( comfort_response.aid == nullptr ) {
-            const map_stack items = here.i_at( p );
-            for( const item &items_it : items ) {
-                if( items_it.has_flag( flag_SLEEP_AID ) ) {
-                    // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                    comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                    comfort_response.aid = &items_it;
-                    break; // prevents using more than 1 sleep aid
-                }
-                if( items_it.has_flag( flag_SLEEP_AID_CONTAINER ) ) {
-                    bool found = false;
-                    if( items_it.num_item_stacks() > 1 ) {
-                        // Only one item is allowed, so we don't fill our pillowcase with nails
-                        continue;
-                    }
-                    for( const item *it : items_it.all_items_top() ) {
-                        if( it->has_flag( flag_SLEEP_AID ) ) {
-                            // Note: BED + SLEEP_AID = 9 pts, or 1 pt below very_comfortable
-                            comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
-                            comfort_response.aid = &items_it;
-                            found = true;
-                            break; // prevents using more than 1 sleep aid
-                        }
-                    }
-                    // Only 1 sleep aid
-                    if( found ) {
-                        break;
-                    }
-                }
-            }
-        }
-        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, p ) ) ||
-            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ) {
-            comfort += static_cast<int>( comfort_level::very_comfortable );
-        }
-    } else if( plantsleep ) {
-        if( vp || furn_at_pos != furn_str_id::NULL_ID() ) {
-            // Sleep ain't happening in a vehicle or on furniture
-            comfort = static_cast<int>( comfort_level::impossible );
-        } else {
-            // It's very easy for Chloromorphs to get to sleep on soil!
-            const std::unordered_set<ter_str_id> very_comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_pit,  ter_t_pit_shallow };
-            if( very_comfy_ters.find( ter_at_pos.id() ) != very_comfy_ters.end() ) {
-                comfort += static_cast<int>( comfort_level::very_comfortable );
-            }
-            // Not as much if you have to dig through stuff first
-            else if( ter_at_pos == ter_t_grass ) {
-                comfort += static_cast<int>( comfort_level::comfortable );
-            }
-            // Sleep ain't happening
-            else {
-                comfort = static_cast<int>( comfort_level::impossible );
-            }
-        }
-        // Has webforce
-    } else {
-        if( web >= 3 ) {
-            // Thick Web and you're good to go
-            comfort += static_cast<int>( comfort_level::very_comfortable );
-        } else {
-            comfort = static_cast<int>( comfort_level::impossible );
-        }
-    }
-
-    if( comfort > static_cast<int>( comfort_level::comfortable ) ) {
-        comfort_response.level = comfort_level::very_comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::slightly_comfortable ) ) {
-        comfort_response.level = comfort_level::comfortable;
-    } else if( comfort > static_cast<int>( comfort_level::neutral ) ) {
-        comfort_response.level = comfort_level::slightly_comfortable;
-    } else if( comfort == static_cast<int>( comfort_level::neutral ) ) {
-        comfort_response.level = comfort_level::neutral;
-    } else {
-        comfort_response.level = comfort_level::uncomfortable;
-    }
-    return comfort_response;
 }
 
 float Character::get_dodge_base() const
@@ -6274,17 +6089,18 @@ float Character::rest_quality() const
     return rest;
 }
 
-std::string Character::extended_description() const
+std::vector<std::string> Character::extended_description() const
 {
-    std::string ss;
+    std::vector<std::string> tmp;
+    std::string name_str = colorize( get_name(), basic_symbol_color() );
     if( is_avatar() ) {
         // <bad>This is me, <player_name>.</bad>
-        ss += string_format( _( "This is you - %s." ), get_name() );
+        tmp.emplace_back( string_format( _( "This is you - %s." ), name_str ) );
     } else {
-        ss += string_format( _( "This is %s." ), get_name() );
+        tmp.emplace_back( string_format( _( "This is %s." ), name_str ) );
     }
 
-    ss += "\n--\n";
+    tmp.emplace_back( "--" );
 
     const std::vector<bodypart_id> &bps = get_all_body_parts( get_body_part_flags::only_main );
     // Find length of bp names, to align
@@ -6304,33 +6120,46 @@ std::string Character::extended_description() const
         std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
                 false );
 
-        ss += colorize( left_justify( bp_heading, longest ), name_color );
-        ss += colorize( hp_bar.first, hp_bar.second );
+        std::string bp_stat = colorize( left_justify( bp_heading, longest ), name_color );
+        bp_stat += colorize( hp_bar.first, hp_bar.second );
         // Trailing bars. UGLY!
         // TODO: Integrate into get_hp_bar somehow
-        ss += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
-        ss += "\n";
+        bp_stat += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        tmp.emplace_back( bp_stat );
     }
 
-    ss += "--\n";
-    ss += _( "Wielding:" ) + std::string( " " );
+    tmp.emplace_back( "--" );
+    std::string wielding;
     if( weapon.is_null() ) {
-        ss += _( "Nothing" );
+        wielding = _( "Nothing" );
     } else {
-        ss += weapon.tname();
+        wielding = weapon.tname();
     }
 
-    ss += "\n";
-    ss += _( "Wearing:" ) + std::string( " " );
+    tmp.emplace_back( string_format( _( "Wielding: %s" ), colorize( wielding, c_red ) ) );
+    std::string wearing = _( "Wearing:" ) + std::string( " " );
 
     const std::list<item_location> visible_worn_items = get_visible_worn_items();
     std::string worn_string = enumerate_as_string( visible_worn_items.begin(), visible_worn_items.end(),
     []( const item_location & it ) {
         return it.get_item()->tname();
     } );
-    ss += !worn_string.empty() ? worn_string : _( "Nothing" );
+    wearing += !worn_string.empty() ? worn_string : _( "Nothing" );
+    tmp.emplace_back( wearing );
 
-    return replace_colors( ss );
+    int visibility_cap = get_player_character().get_mutation_visibility_cap( this );
+    const std::string trait_str = visible_mutations( visibility_cap );
+    if( !trait_str.empty() ) {
+        tmp.emplace_back( string_format( _( "Traits: %s" ), trait_str ) );
+    }
+
+    std::vector<std::string> ret;
+    ret.reserve( tmp.size() );
+    for( const std::string &s : tmp ) {
+        ret.emplace_back( replace_colors( s ) );
+    }
+
+    return ret;
 }
 
 social_modifiers Character::get_mutation_bionic_social_mods() const
@@ -7275,6 +7104,17 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
+    if( actually_used->is_comestible() &&
+        actually_used->type->use_methods.find( "delayed_transform" ) ==
+        actually_used->type->use_methods.end() ) {
+        // Assume that when activating food that can be transformed, you're trying to transform it.  Otherwise...
+        // Try to eat it.
+        add_msg_if_player( m_info, string_format( "Attempting to eat %s", actually_used->display_name() ) );
+        assign_activity( consume_activity_actor( item_location( *this, actually_used ) ) );
+        // If the character isn't eating, then invoking the item failed somewhere
+        return !activity.is_null();
+    }
+
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
                                       pt, method );
     if( !charges_used.has_value() ) {
@@ -7286,16 +7126,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         // Not really used.
         // The item may also have been deleted
         return false;
-    }
-
-    if( actually_used->is_comestible() ) {
-        const bool ret = consume_effects( *used );
-        const int consumed = used->activation_consume( charges_used.value(), pt, this );
-        if( consumed == 0 ) {
-            // Nothing was consumed from within the item. "Eat" the item itself away.
-            i_rem( actually_used );
-        }
-        return ret;
     }
 
     actually_used->activation_consume( charges_used.value(), pt, this );
@@ -7639,8 +7469,8 @@ tripoint Character::adjacent_tile() const
     int dangerous_fields = 0;
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &p : here.points_in_radius( pos(), 1 ) ) {
-        if( p == pos() ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( p == pos_bub() ) {
             // Don't consider player position
             continue;
         }
@@ -7667,7 +7497,7 @@ tripoint Character::adjacent_tile() const
         }
 
         if( dangerous_fields == 0 ) {
-            ret.push_back( p );
+            ret.push_back( p.raw() );
         }
     }
 
@@ -7960,6 +7790,16 @@ ret_val<void> Character::can_wield( const item &it ) const
         mount->type->mech_weapon && it.typeId() != mount->type->mech_weapon ) {
         return ret_val<void>::make_failure( _( "You cannot wield anything while piloting a mech." ) );
     }
+    if( controlling_vehicle ) {
+        if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
+            return ret_val<void>::make_failure(
+                       _( "Something you are wearing hinders the use of both hands." ) );
+        }
+        if( !has_two_arms_lifting() || it.has_flag( flag_ALWAYS_TWOHAND ) ) {
+            return ret_val<void>::make_failure( _( "You can't wield your %s while driving." ),
+                                                it.tname() );
+        }
+    }
 
     return ret_val<void>::make_success();
 }
@@ -8244,7 +8084,12 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam,
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
 
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
-    get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    if( source ) {
+        cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        get_event_bus().send_with_talker( this, source, e );
+    } else {
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    }
 
     if( !weapon.is_null() && !can_wield( weapon ).success() &&
         can_drop( weapon ).success() ) {
@@ -8459,7 +8304,14 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
-        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+
+        if( source ) {
+            cata::event e = cata::event::make<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+            get_event_bus().send_with_talker( this, source == nullptr ? nullptr : source, e );
+        } else {
+            get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        }
+
     }
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part
@@ -8600,7 +8452,7 @@ void Character::blossoms()
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     map &here = get_map();
-    for( const tripoint &tmp : here.points_in_radius( pos(), 2 ) ) {
+    for( const tripoint_bub_ms &tmp : here.points_in_radius( pos_bub(), 2 ) ) {
         here.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }
 }
@@ -9003,13 +8855,8 @@ void Character::cancel_activity()
         stop_hauling();
     }
     // Clear any backlog items that aren't auto-resume.
-    // but keep only one instance of ACT_ADV_INVENTORY
-    // FIXME: this is required by the legacy code in advanced_inventory::move_all_items()
-    bool has_adv_inv = has_activity( ACT_ADV_INVENTORY );
     for( auto backlog_item = backlog.begin(); backlog_item != backlog.end(); ) {
-        if( backlog_item->auto_resume &&
-            ( !has_adv_inv || backlog_item->id() != ACT_ADV_INVENTORY ) ) {
-            has_adv_inv |= backlog_item->id() == ACT_ADV_INVENTORY;
+        if( backlog_item->auto_resume ) {
             backlog_item++;
         } else {
             backlog_item = backlog.erase( backlog_item );
@@ -9059,6 +8906,9 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
+
+    get_comfort_at( pos_bub() ).add_sleep_msgs( *this );
+
     if( has_bionic( bio_sleep_shutdown ) ) {
         add_msg_if_player( _( "Sleep Mode activated.  Disabling sensory response." ) );
     }
@@ -9225,7 +9075,6 @@ bool Character::can_use_floor_warmth() const
            has_activity( ACT_CONSUME_FOOD_MENU ) ||
            has_activity( ACT_CONSUME_DRINK_MENU ) ||
            has_activity( ACT_CONSUME_MEDS_MENU ) ||
-           has_activity( ACT_VIEW_RECIPE ) ||
            has_activity( ACT_STUDY_SPELL );
 }
 
@@ -9720,7 +9569,7 @@ units::energy Character::consume_ups( units::energy qty, const int radius )
 
     // UPS from nearby map
     if( qty != 0_kJ && radius > 0 ) {
-        qty -= get_map().consume_ups( pos(), radius, qty );
+        qty -= get_map().consume_ups( pos_bub(), radius, qty );
     }
 
     return wanted_qty - qty;
@@ -9760,7 +9609,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } );
 
     if( radius >= 0 ) {
-        get_map().use_charges( pos(), radius, what, qty, return_true<item>, nullptr, in_tools );
+        get_map().use_charges( pos_bub(), radius, what, qty, return_true<item>, nullptr, in_tools );
     }
     if( qty > 0 ) {
         visit_items( [this, &what, &qty, &res, &del, &filter, &in_tools]( item * e, item * ) {
@@ -10595,24 +10444,24 @@ void Character::echo_pulse()
         sounds::sound( this->pos(), 5, sounds::sound_t::movement, _( "chirp." ), true,
                        "none", "none" );
     }
-    for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.sees( pos(), origin, pulse_range, false ) ) {
+    for( tripoint_bub_ms origin : points_in_radius( pos_bub(), pulse_range ) ) {
+        if( here.move_cost( origin ) == 0 && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin ) && here.sees( pos(), origin, pulse_range, false ) ) {
+        } else if( is_obstacle( origin.raw() ) && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
         if( !knows_trap( origin ) && tr.detected_by_echolocation() ) {
-            const std::string direction = direction_name( direction_from( pos(), origin ) );
+            const std::string direction = direction_name( direction_from( pos_bub(), origin ) );
             add_msg_if_player( m_warning, _( "You detect a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( origin, tr );
+            add_known_trap( origin.raw(), tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.sees( pos(), origin, pulse_range, false ) ) {
+        if( critter && here.sees( pos_bub(), origin, pulse_range, false ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
@@ -11162,9 +11011,9 @@ void Character::process_effects()
 
 void Character::gravity_check()
 {
-    if( get_map().tr_at( pos() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
-        get_map().tr_at( pos() ).trigger( pos(), *this );
-        get_map().update_visibility_cache( pos().z );
+    if( get_map().tr_at( pos_bub() ) == tr_ledge && !has_effect_with_flag( json_flag_GLIDING ) ) {
+        get_map().tr_at( pos_bub() ).trigger( pos(), *this );
+        get_map().update_visibility_cache( pos_bub().z() );
     }
 }
 
@@ -11229,43 +11078,6 @@ double Character::vomit_mod()
     return mod;
 }
 
-int Character::sleep_spot( const tripoint_bub_ms &p ) const
-{
-    const int current_stim = get_stim();
-    const comfort_response_t comfort_info = base_comfort_value( p );
-    if( comfort_info.aid != nullptr ) {
-        add_msg_if_player( m_info, _( "You use your %s for comfort." ), comfort_info.aid->tname() );
-    }
-
-    int sleepy = static_cast<int>( comfort_info.level );
-    bool watersleep = has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER );
-
-    if( has_addiction( addiction_sleeping_pill ) ) {
-        sleepy -= 4;
-    }
-
-    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
-
-    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
-        sleepy += 10; //comfy water!
-    }
-
-    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
-        sleepy -= static_cast<int>( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
-    } else {
-        sleepy += static_cast<int>( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
-    }
-
-    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
-        sleepy -= 2 * current_stim;
-    } else {
-        // Make it harder for insomniac to get around the trait
-        sleepy -= current_stim;
-    }
-
-    return sleepy;
-}
-
 bool Character::can_sleep()
 {
     if( has_effect( effect_meth ) ) {
@@ -11288,7 +11100,24 @@ bool Character::can_sleep()
     }
     last_sleep_check = now;
 
-    int sleepy = sleep_spot( pos_bub() );
+    int sleepy = get_comfort_at( pos_bub() ).comfort;
+    if( has_addiction( addiction_sleeping_pill ) ) {
+        sleepy -= 4;
+    }
+    sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
+    if( get_sleepiness() < sleepiness_levels::TIRED + 1 ) {
+        sleepy -= int( ( sleepiness_levels::TIRED + 1 - get_sleepiness() ) / 4 );
+    } else {
+        sleepy += int( ( get_sleepiness() - sleepiness_levels::TIRED + 1 ) / 16 );
+    }
+    const int current_stim = get_stim();
+    if( current_stim > 0 || !has_trait( trait_INSOMNIA ) ) {
+        sleepy -= 2 * current_stim;
+    } else {
+        // Make it harder for insomniac to get around the trait
+        sleepy -= current_stim;
+    }
+
     sleepy += rng( -8, 8 );
     bool result = sleepy > 0;
 
@@ -11302,6 +11131,40 @@ bool Character::can_sleep()
     }
 
     return result;
+}
+
+const comfort_data &Character::get_comfort_data_for( const tripoint &p ) const
+{
+    const comfort_data *worst = nullptr;
+    for( const trait_id trait : get_mutations() ) {
+        for( const comfort_data &data : trait->comfort ) {
+            if( data.are_conditions_true( *this, p ) ) {
+                if( worst == nullptr || worst->base_comfort > data.base_comfort ) {
+                    worst = &data;
+                }
+                break;
+            }
+        }
+    }
+    return worst == nullptr ? comfort_data::human() : *worst;
+}
+
+const comfort_data &Character::get_comfort_data_for( const tripoint_bub_ms &p ) const
+{
+    return get_comfort_data_for( p.raw() );
+}
+
+const comfort_data::response &Character::get_comfort_at( const tripoint &p )
+{
+    if( comfort_cache.last_time == calendar::turn && comfort_cache.last_position == p ) {
+        return comfort_cache;
+    }
+    return comfort_cache = get_comfort_data_for( p ).get_comfort_at( p );
+}
+
+const comfort_data::response &Character::get_comfort_at( const tripoint_bub_ms &p )
+{
+    return get_comfort_at( p.raw() );
 }
 
 void Character::shift_destination( const point &shift )
@@ -11402,8 +11265,8 @@ bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) 
 bool Character::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos(), critter.pos() );
-    if( std::abs( pos().z - critter.pos().z ) > fov_3d_z_range ) {
+    const int dist = rl_dist( pos_bub(), critter.pos_bub() );
+    if( std::abs( pos_bub().z() - critter.pos_bub().z() ) > fov_3d_z_range ) {
         return false;
     }
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
@@ -11414,7 +11277,7 @@ bool Character::sees( const Creature &critter ) const
     }
     // Only players can spot creatures through clairvoyance fields
     if( is_avatar() && field_fd_clairvoyant.is_valid() &&
-        get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
+        get_map().get_field( critter.pos_bub(), field_fd_clairvoyant ) ) {
         return true;
     }
     return Creature::sees( critter );
@@ -11434,6 +11297,14 @@ void Character::clear_destination()
     clear_destination_activity();
     destination_point = std::nullopt;
     next_expected_position = std::nullopt;
+}
+
+void Character::abort_automove()
+{
+    clear_destination();
+    if( g->overmap_data.fast_traveling && is_avatar() ) {
+        ui::omap::force_quit();
+    }
 }
 
 bool Character::has_distant_destination() const
@@ -12901,17 +12772,17 @@ void Character::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( const tripoint &tp : here.points_in_radius( pos(), 5 ) ) {
+    for( const tripoint_bub_ms &tp : here.points_in_radius( pos_bub(), 5 ) ) {
         const trap &tr = here.tr_at( tp );
-        if( tr.is_null() || tp == pos() ) {
+        if( tr.is_null() || tp == pos_bub() ) {
             continue;
         }
         // Note that echolocation and SONAR also do this separately in echo_pulse()
         if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
-            const std::string direction = direction_name( direction_from( pos(), tp ) );
+            const std::string direction = direction_name( direction_from( pos_bub(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
-            add_known_trap( tp, tr );
+            add_known_trap( tp.raw(), tr );
         }
         if( !sees( tp ) ) {
             continue;
@@ -12921,11 +12792,11 @@ void Character::search_surroundings()
             continue;
         }
         // Chance to detect traps we haven't yet seen.
-        if( tr.detect_trap( tp, *this ) ) {
+        if( tr.detect_trap( tp.raw(), *this ) ) {
             if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
-                                                  direction_from( pos(), tp ) );
+                                                  direction_from( pos_bub(), tp ) );
                 practice_proficiency( proficiency_prof_spotting, 1_minutes );
                 // Seeing a trap set properly gives you a little bonus to trapsetting profs.
                 practice_proficiency( proficiency_prof_traps, 10_seconds );
@@ -12933,7 +12804,7 @@ void Character::search_surroundings()
                 add_msg_if_player( _( "You've spotted a %1$s to the %2$s!" ),
                                    tr.name(), direction );
             }
-            add_known_trap( tp, tr );
+            add_known_trap( tp.raw(), tr );
         }
     }
 }

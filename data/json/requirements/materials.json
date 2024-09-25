@@ -354,6 +354,12 @@
     "components": [ [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "rope_natural_short", 5, "LIST" ] ] ]
   },
   {
+    "id": "chain_material",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible, per 1080 g/9 m of rope",
+    "components": [ [ [ "chain", 1 ] ] ]
+  },
+  {
     "id": "rope_natural_short",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope is sensible, per 216 g/180 cm of rope.",
@@ -363,7 +369,7 @@
     "id": "rope_any_short",
     "type": "requirement",
     "//": "Materials used for lashing, when any rope or wire is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "wire", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "any_wire", 1, "LIST" ] ] ]
   },
   {
     "id": "rope_superior",
@@ -406,6 +412,12 @@
     "type": "requirement",
     "//": "Materials for use when forging atypically small items from steel",
     "components": [ [ [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "id": "lc_steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from mild steel",
+    "components": [ [ [ "lc_steel_chunk", 1 ] ] ]
   },
   {
     "id": "bronze_tiny",
@@ -680,5 +692,11 @@
     "type": "requirement",
     "//": "Prevents having to open condoms before crafts",
     "components": [ [ [ "condom", 1 ], [ "condom_sealed", 1 ] ] ]
+  },
+  {
+    "id": "any_wire",
+    "type": "requirement",
+    "//": "All steel wires",
+    "components": [ [ [ "lc_wire", 1 ], [ "mc_wire", 1 ], [ "hc_wire", 1 ], [ "ch_wire", 1 ], [ "qt_wire", 1 ] ] ]
   }
 ]

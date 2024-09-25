@@ -441,23 +441,6 @@
           "weight": 1,
           "items": { "bp_10mm_fmj": 1, "matchhead_10mm_fmj": 1, "10mm reloaded_10mm_fmj": 1 }
         },
-        {
-          "type": "20x66mm",
-          "weight": 1,
-          "items": {
-            "20x66_beanbag": 1,
-            "20x66_bootleg_flechette": 1,
-            "20x66_bootleg_shot": 1,
-            "20x66_bootleg_slug": 1,
-            "20x66_exp": 1,
-            "20x66_flare": 1,
-            "20x66_flechette": 1,
-            "20x66_frag": 1,
-            "20x66_inc": 1,
-            "20x66_shot": 1,
-            "20x66_slug": 1
-          }
-        },
         { "type": "300", "weight": 1, "items": { "300_winmag": 1, "bp_300_winmag": 1, "reloaded_300_winmag": 1 } },
         {
           "type": "303",
@@ -682,8 +665,7 @@
             "colt_ro635": 1,
             "bt_apc9k": 1,
             "calico": 1,
-            "cx4": 1,
-            "feral_m9": 1
+            "cx4": 1
           }
         },
         {
@@ -728,8 +710,7 @@
             "ak556": 1,
             "minidraco556": 1,
             "bren2_556": 1,
-            "rdb_223": 1,
-            "feral_militia_gun": 1
+            "rdb_223": 1
           }
         },
         {
@@ -872,11 +853,7 @@
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "saiga_410": 1, "shotgun_410": 1 } },
-        {
-          "type": "300blk",
-          "weight": 2,
-          "items": { "acr_300blk": 1, "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 }
-        },
+        { "type": "300blk", "weight": 2, "items": { "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 } },
         { "type": "123ln", "weight": 1, "items": { "pamd68": 1, "pamd71z": 1 } },
         {
           "type": "10mm",
@@ -898,9 +875,6 @@
           "type": "other",
           "weight": 114,
           "items": {
-            "rm120c": 1,
-            "rm20": 1,
-            "rm228": 1,
             "m2010": 1,
             "weatherby_5": 1,
             "win70": 1,
@@ -949,8 +923,6 @@
             "rm2000_smg": 1,
             "rm298": 1,
             "rm51_assault_rifle": 1,
-            "rm614_lmg": 1,
-            "rm88_battle_rifle": 1,
             "makarov": 1,
             "skorpion_82": 1,
             "rifle_9x18": 1
@@ -986,7 +958,6 @@
             "draco_micro": 1,
             "draco_mini": 1,
             "emp_frond": 1,
-            "feral_m9": 1,
             "fn1910": 1,
             "fn57": 1,
             "glock_17": 1,
@@ -1034,7 +1005,6 @@
             "raging_bull": 1,
             "remington_870_breacher": 1,
             "rm103a_pistol": 1,
-            "rm228": 1,
             "ruger_57": 1,
             "ruger_charger": 1,
             "ruger_charger_auto": 1,
@@ -1079,7 +1049,6 @@
           "weight": 357,
           "items": {
             "1895sbl": 1,
-            "acr_300blk": 1,
             "ak308": 1,
             "ak47": 1,
             "ak556": 1,
@@ -1195,8 +1164,6 @@
             "rm11b_sniper_rifle": 1,
             "rm298": 1,
             "rm51_assault_rifle": 1,
-            "rm614_lmg": 1,
-            "rm88_battle_rifle": 1,
             "rossi_gallery": 1,
             "ruger_1022": 1,
             "ruger_1022_auto": 1,
@@ -1274,10 +1241,6 @@
             "remington_870": 1,
             "remington_870_express": 1,
             "revolver_shotgun": 1,
-            "rm120c": 1,
-            "rm121aux": 1,
-            "rm121aux_mod": 1,
-            "rm20": 1,
             "saiga_12": 1,
             "saiga_410": 1,
             "shotgun_410": 1,
