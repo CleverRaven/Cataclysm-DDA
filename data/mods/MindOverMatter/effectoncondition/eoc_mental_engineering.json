@@ -12,39 +12,31 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TELEPATH_MENTAL_ENGINEERING_SIDE_EFFECTS",
+    "//": "minimum school sum required in the process of triggering this EOC is 100, making the chance of side effects at most 50%",
     "condition": { "x_in_y_chance": { "x": { "math": [ "max(200 - u_spell_level_sum('school': 'TELEPATH'), 20)" ] }, "y": 200 } },
     "effect": [
-      { "math": [ "u_mentality_picked", "=", "rng(1,37)" ] },
+      { "math": [ "u_mentality_picked", "=", "rng(1,33)" ] },
       {
         "switch": { "math": [ "u_mentality_picked" ] },
         "cases": [
           {
             "case": 1,
             "effect": [
-              { "u_add_trait": "PSYCHOPATH" },
-              { "u_lose_trait": "PACIFIST" },
-              { "u_lose_trait": "NUMB" },
-              { "u_lose_trait": "KILLER" },
+              { "u_mutate_towards": "PSYCHOPATH", "category": "ANY", "use_vitamins": false },
               { "u_message": "You suddenly feel much less empathetic towards others.", "type": "neutral" }
             ]
           },
           {
             "case": 2,
             "effect": [
-              { "u_add_trait": "KILLER" },
-              { "u_lose_trait": "PACIFIST" },
-              { "u_lose_trait": "NUMB" },
-              { "u_lose_trait": "PSYCHOPATH" },
+              { "u_mutate_towards": "KILLER", "category": "ANY", "use_vitamins": false },
               { "u_message": "Your urge to commit violence grows.", "type": "neutral" }
             ]
           },
           {
             "case": 3,
             "effect": [
-              { "u_add_trait": "PACIFIST" },
-              { "u_lose_trait": "PSYCHOPATH" },
-              { "u_lose_trait": "NUMB" },
-              { "u_lose_trait": "KILLER" },
+              { "u_mutate_towards": "PACIFIST", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "You've realized that you're far more empathetic to others.  Even those you may not deserve it.",
                 "type": "neutral"
@@ -54,7 +46,7 @@
           {
             "case": 4,
             "effect": [
-              { "u_add_trait": "NYCTOPHOBIA" },
+              { "u_mutate_towards": "NYCTOPHOBIA", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "There's no way you could possibly even contemplate even moving an inch into the darkness because that's so so so so so so so incredibly uncomfortably terrifyingly horrible.  Please no.",
                 "type": "bad"
@@ -64,7 +56,7 @@
           {
             "case": 5,
             "effect": [
-              { "u_add_trait": "VANITY" },
+              { "u_mutate_towards": "VANITY", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "It's so much easier to recognize how you are just that much more attractive than everyone else.  You need to make sure they know it.",
                 "type": "bad"
@@ -74,7 +66,7 @@
           {
             "case": 6,
             "effect": [
-              { "u_add_trait": "PICKYEATER" },
+              { "u_mutate_towards": "PICKYEATER", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "That stuff you used to eat is completely disgusting.  Going hungry is nowhere near as painful as having to suffer even the slightest taste of that slop!",
                 "type": "bad"
@@ -84,47 +76,21 @@
           {
             "case": 7,
             "effect": [
-              { "u_add_trait": "SOCIAL1" },
-              { "u_lose_trait": "SOCIAL2" },
-              { "u_lose_trait": "ASOCIAL1" },
-              { "u_lose_trait": "ASOCIAL2" },
-              { "u_message": "You feel a lot more sociable than previously.", "type": "good" }
+              { "u_mutate_towards": "SOCIAL2", "category": "ANY", "use_vitamins": false },
+              { "u_message": "You feel an enormous need to interact with others!", "type": "neutral" }
             ]
           },
           {
             "case": 8,
             "effect": [
-              { "u_add_trait": "SOCIAL2" },
-              { "u_lose_trait": "SOCIAL1" },
-              { "u_lose_trait": "ASOCIAL1" },
-              { "u_lose_trait": "ASOCIAL2" },
-              { "u_message": "You feel an enormous need to interact with others!", "type": "neutral" }
+              { "u_mutate_towards": "ASOCIAL2", "category": "ANY", "use_vitamins": false },
+              { "u_message": "You feel an incredible need to avoid others!", "type": "neutral" }
             ]
           },
           {
             "case": 9,
             "effect": [
-              { "u_add_trait": "ASOCIAL1" },
-              { "u_lose_trait": "SOCIAL2" },
-              { "u_lose_trait": "SOCIAL1" },
-              { "u_lose_trait": "ASOCIAL2" },
-              { "u_message": "You feel much more comfortable at not interacting with people .", "type": "good" }
-            ]
-          },
-          {
-            "case": 10,
-            "effect": [
-              { "u_add_trait": "ASOCIAL2" },
-              { "u_lose_trait": "SOCIAL2" },
-              { "u_lose_trait": "ASOCIAL1" },
-              { "u_lose_trait": "SOCIAL1" },
-              { "u_message": "You feel an incredible need to avoid others!", "type": "neutral" }
-            ]
-          },
-          {
-            "case": 11,
-            "effect": [
-              { "u_add_trait": "BRAWLER" },
+              { "u_mutate_towards": "BRAWLER", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "Guns are just too scary.  The loud bang, the thought of them being used on you… despite their utility, there's no way you could get close to one of them.",
                 "type": "bad"
@@ -132,9 +98,9 @@
             ]
           },
           {
-            "case": 12,
+            "case": 10,
             "effect": [
-              { "u_add_trait": "WAYFARER" },
+              { "u_mutate_towards": "WAYFARER", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "There's so much that could go wrong if you ever got behind a wheel.  Cars used to be one of the largest causes of death before the Cataclysm, and there's definitely no need to decrease your odds by getting in one now!",
                 "type": "bad"
@@ -142,32 +108,9 @@
             ]
           },
           {
-            "case": 13,
+            "case": 11,
             "effect": [
-              { "u_add_trait": "NOMAD" },
-              { "u_lose_trait": "NOMAD2" },
-              { "u_lose_trait": "NOMAD3" },
-              { "u_message": "You immediately start considering all the places you haven't seen.", "type": "bad" }
-            ]
-          },
-          {
-            "case": 14,
-            "effect": [
-              { "u_add_trait": "NOMAD2" },
-              { "u_lose_trait": "NOMAD" },
-              { "u_lose_trait": "NOMAD3" },
-              {
-                "u_message": "This place sucks.  You really want to see something else, and you cannot wait to get there.  Onwards!",
-                "type": "bad"
-              }
-            ]
-          },
-          {
-            "case": 15,
-            "effect": [
-              { "u_add_trait": "NOMAD3" },
-              { "u_lose_trait": "NOMAD2" },
-              { "u_lose_trait": "NOMAD" },
+              { "u_mutate_towards": "NOMAD3", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "Keep moving keep moving keep moving keep moving keep moving keep moving!",
                 "type": "bad"
@@ -175,9 +118,9 @@
             ]
           },
           {
-            "case": 16,
+            "case": 12,
             "effect": [
-              { "u_add_trait": "SQUEAMISH" },
+              { "u_mutate_towards": "SQUEAMISH", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "The blood and cuts that come alongside combat is bad enough.  Putting such disgusting clothes on your skin is absolutely not an option.",
                 "type": "bad"
@@ -185,9 +128,9 @@
             ]
           },
           {
-            "case": 17,
+            "case": 13,
             "effect": [
-              { "u_add_trait": "PYROMANIA" },
+              { "u_mutate_towards": "PYROMANIA", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
                 "type": "neutral"
@@ -195,10 +138,9 @@
             ]
           },
           {
-            "case": 18,
+            "case": 14,
             "effect": [
-              { "u_add_trait": "TRUTHTELLER" },
-              { "u_lose_trait": "LIAR" },
+              { "u_mutate_towards": "TRUTHTELLER", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "Thinking about lying to someone just immediately causes you to blush and stutter.  Best not even bother.",
                 "type": "bad"
@@ -206,11 +148,9 @@
             ]
           },
           {
-            "case": 19,
+            "case": 15,
             "effect": [
-              { "u_add_trait": "VEGAN" },
-              { "u_lose_trait": "STRICT_HUMANITARIAN" },
-              { "u_lose_trait": "CANNIBAL" },
+              { "u_mutate_towards": "VEGAN", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "You refuse to even tangentially benefit from the suffering of all those innocent animals!",
                 "type": "bad"
@@ -218,11 +158,9 @@
             ]
           },
           {
-            "case": 20,
+            "case": 16,
             "effect": [
-              { "u_add_trait": "STRICT_HUMANITARIAN" },
-              { "u_lose_trait": "VEGAN" },
-              { "u_lose_trait": "CANNIBAL" },
+              { "u_mutate_towards": "STRICT_HUMANITARIAN", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "Your palette just got a bit bigger.  Admittedly, how often do you actual encounter these creatures?",
                 "type": "good"
@@ -230,11 +168,9 @@
             ]
           },
           {
-            "case": 21,
+            "case": 17,
             "effect": [
-              { "u_add_trait": "CANNIBAL" },
-              { "u_lose_trait": "VEGAN" },
-              { "u_lose_trait": "STRICT_HUMANITARIAN" },
+              { "u_mutate_towards": "CANNIBAL", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "Your fellow survivors just got a lot more attractive.  To your taste buds.",
                 "type": "good"
@@ -242,16 +178,16 @@
             ]
           },
           {
-            "case": 22,
+            "case": 18,
             "effect": [
-              { "u_add_trait": "MOODSWINGS" },
+              { "u_mutate_towards": "MOODSWINGS", "category": "ANY", "use_vitamins": false },
               { "u_message": "You feel that your prior mental balance and peace has ended.", "type": "bad" }
             ]
           },
           {
-            "case": 23,
+            "case": 19,
             "effect": [
-              { "u_add_trait": "SAVANT" },
+              { "u_mutate_towards": "SAVANT", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "It's hard to even understand how you used to think.  There's only one thing that makes sense now.",
                 "type": "neutral"
@@ -259,9 +195,9 @@
             ]
           },
           {
-            "case": 24,
+            "case": 20,
             "effect": [
-              { "u_add_trait": "HOARDER" },
+              { "u_mutate_towards": "HOARDER", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "You NEED to make sure that nothing gets left behind.  Every single thing is important.",
                 "type": "bad"
@@ -269,25 +205,23 @@
             ]
           },
           {
-            "case": 25,
+            "case": 21,
             "effect": [
-              { "u_add_trait": "SCHIZOPHRENIC" },
+              { "u_mutate_towards": "SCHIZOPHRENIC", "category": "ANY", "use_vitamins": false },
               { "u_message": "It's hard to hear yourself think over all of the voices in your head!", "type": "bad" }
             ]
           },
           {
-            "case": 26,
+            "case": 22,
             "effect": [
-              { "u_add_trait": "SLOWREADER" },
-              { "u_lose_trait": "FASTREADER" },
+              { "u_mutate_towards": "SLOWREADER", "category": "ANY", "use_vitamins": false },
               { "u_message": "The words on the page seem more daunting.", "type": "bad" }
             ]
           },
           {
-            "case": 27,
+            "case": 23,
             "effect": [
-              { "u_add_trait": "ADDICTIVE" },
-              { "u_lose_trait": "NONADDICTIVE" },
+              { "u_mutate_towards": "ADDICTIVE", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "Right now, you don't feel any change.  Something tells you that touching drugs or alcohol may have just became a worse idea, however.",
                 "type": "bad"
@@ -295,74 +229,72 @@
             ]
           },
           {
+            "case": 24,
+            "effect": [
+              { "u_mutate_towards": "FORGETFUL", "category": "ANY", "use_vitamins": false },
+              { "u_message": "Your memory seems much worse than before.", "type": "bad" }
+            ]
+          },
+          {
+            "case": 25,
+            "effect": [
+              { "u_mutate_towards": "HATES_BOOKS", "category": "ANY", "use_vitamins": false },
+              { "u_message": "Your desire to read seems lesser.", "type": "bad" }
+            ]
+          },
+          {
+            "case": 26,
+            "effect": [
+              { "u_mutate_towards": "SLOWLEARNER", "category": "ANY", "use_vitamins": false },
+              { "u_message": "Thinking of new ideas just got a good bit harder.", "type": "bad" }
+            ]
+          },
+          {
+            "case": 27,
+            "effect": [
+              { "u_mutate_towards": "DISORGANIZED", "category": "ANY", "use_vitamins": false },
+              { "u_message": "You think it's going to take longer to sort things now.", "type": "bad" }
+            ]
+          },
+          {
             "case": 28,
             "effect": [
-              { "u_add_trait": "FORGETFUL" },
-              { "u_lose_trait": "GOODMEMORY" },
-              { "u_message": "Your memory seems much worse than before.", "type": "bad" }
+              { "u_mutate_towards": "BADTEMPER", "category": "ANY", "use_vitamins": false },
+              { "u_message": "You feel unhappy.", "type": "bad" }
             ]
           },
           {
             "case": 29,
             "effect": [
-              { "u_add_trait": "HATES_BOOKS" },
-              { "u_lose_trait": "LOVES_BOOKS" },
-              { "u_message": "Your desire to read seems lesser.", "type": "bad" }
+              { "u_mutate_towards": "SEASONAL_AFFECTIVE", "category": "ANY", "use_vitamins": false },
+              { "u_message": "You really hope things remain bright and sunny.", "type": "bad" }
             ]
           },
           {
             "case": 30,
             "effect": [
-              { "u_add_trait": "SLOWLEARNER" },
-              { "u_lose_trait": "FASTLEARNER" },
-              { "u_message": "Thinking of new ideas just got a good bit harder.", "type": "bad" }
+              { "u_mutate_towards": "UNOBSERVANT", "category": "ANY", "use_vitamins": false },
+              { "u_message": "Where are you?", "type": "bad" }
             ]
           },
           {
             "case": 31,
             "effect": [
-              { "u_add_trait": "DISORGANIZED" },
-              { "u_lose_trait": "PACKMULE" },
-              { "u_message": "You think it's going to take longer to sort things now.", "type": "bad" }
+              { "u_mutate_towards": "MASOCHIST", "category": "ANY", "use_vitamins": false },
+              { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
             ]
           },
           {
             "case": 32,
             "effect": [
-              { "u_add_trait": "BADTEMPER" },
-              { "u_lose_trait": "OPTIMISTIC" },
-              { "u_lose_trait": "SEASONAL_AFFECTIVE" },
-              { "u_message": "You feel unhappy.", "type": "bad" }
+              { "u_mutate_towards": "TABLEMANNERS", "category": "ANY", "use_vitamins": false },
+              { "u_message": "You better make sure you have a fork.", "type": "bad" }
             ]
           },
           {
             "case": 33,
             "effect": [
-              { "u_add_trait": "SEASONAL_AFFECTIVE" },
-              { "u_lose_trait": "OPTIMISTIC" },
-              { "u_lose_trait": "BADTEMPER" },
-              { "u_message": "You really hope things remain bright and sunny.", "type": "bad" }
-            ]
-          },
-          {
-            "case": 34,
-            "effect": [ { "u_add_trait": "UNOBSERVANT" }, { "u_lose_trait": "EAGLEEYED" }, { "u_message": "Where are you?", "type": "bad" } ]
-          },
-          {
-            "case": 35,
-            "effect": [
-              { "u_add_trait": "MASOCHIST" },
-              { "u_message": "Even pinching your skin feels better than it used to.", "type": "good" }
-            ]
-          },
-          {
-            "case": 36,
-            "effect": [ { "u_add_trait": "TABLEMANNERS" }, { "u_message": "You better make sure you have a fork.", "type": "bad" } ]
-          },
-          {
-            "case": 37,
-            "effect": [
-              { "u_add_trait": "INATTENTIVE" },
+              { "u_mutate_towards": "INATTENTIVE", "category": "ANY", "use_vitamins": false },
               {
                 "u_message": "The emotions on people's faces and movements of animals means nothing to you.  Not in an emotional sense, but because you really don't understand them anymore.",
                 "type": "bad"
