@@ -97,6 +97,7 @@
         "name": "burning air",
         "sym": "&",
         "convection_temperature_mod": 10,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -150,6 +151,7 @@
       {
         "color": "yellow",
         "convection_temperature_mod": 20,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -203,6 +205,7 @@
       {
         "color": "yellow",
         "convection_temperature_mod": 30,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -256,6 +259,7 @@
       {
         "color": "yellow",
         "convection_temperature_mod": 40,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -309,6 +313,7 @@
       {
         "color": "yellow",
         "convection_temperature_mod": 50,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -362,6 +367,7 @@
       {
         "color": "red",
         "convection_temperature_mod": 60,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -415,6 +421,7 @@
       {
         "color": "red",
         "convection_temperature_mod": 70,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -468,6 +475,7 @@
       {
         "color": "red",
         "convection_temperature_mod": 80,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -521,6 +529,7 @@
       {
         "color": "red",
         "convection_temperature_mod": 90,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -574,6 +583,7 @@
       {
         "color": "red",
         "convection_temperature_mod": 100,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -627,6 +637,7 @@
       {
         "color": "magenta",
         "convection_temperature_mod": 110,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
@@ -680,6 +691,7 @@
       {
         "color": "magenta",
         "convection_temperature_mod": 120,
+        "dangerous": true,
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
