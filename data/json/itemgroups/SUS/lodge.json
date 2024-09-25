@@ -52,8 +52,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "guns_shotgun_common", "prob": 30 },
-      { "group": "SUS_hunting_rifle", "prob": 20 },
-      { "group": "guns_smg_rare", "prob": 15 }
+      { "group": "SUS_hunting_rifle", "prob": 20 }
     ]
   },
   {

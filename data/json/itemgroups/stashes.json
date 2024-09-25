@@ -191,8 +191,6 @@
     "subtype": "distribution",
     "//": "a long weapon of some kind.",
     "entries": [
-      { "group": "guns_smg_common", "prob": 10 },
-      { "group": "guns_smg_rare", "prob": 2 },
       { "group": "guns_rifle_common", "prob": 100 },
       { "group": "guns_rifle_rare", "prob": 20 },
       { "group": "guns_shotgun_common", "prob": 2 },

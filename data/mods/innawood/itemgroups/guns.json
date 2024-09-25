@@ -20,40 +20,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_smg_common",
-    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_common_worn",
-    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
-    "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
-    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "guns_smg_common_display",
-    "//": "Empty Semi-auto civilian SMGs owned by citizens and found in many locations.",
-    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_rare",
-    "//": "Less common SMGs including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_obscure",
-    "subtype": "distribution",
-    "//": "Imported or otherwise very obscure SMGs.",
-    "items": [ { "group": "guns_smg_improvised", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
     "items": [ { "group": "archery", "prob": 50 } ]

@@ -152,74 +152,16 @@
   },
   {
     "type": "item_group",
-    "id": "guns_smg_common",
-    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [ { "group": "nested_mp40semi", "prob": 200 }, { "group": "nested_hk_mp5_semi_pistol", "prob": 70 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_common_worn",
-    "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
-    "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
-    "items": [
-      { "item": "mp40semi", "charges": [ 0, 32 ], "prob": 200 },
-      { "item": "hk_mp5_semi_pistol", "charges": [ 0, 30 ], "prob": 70 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "guns_smg_common_display",
-    "//": "Empty Semi-auto civilian SMGs owned by citizens and found in many locations.",
-    "items": [ { "item": "mp40semi", "prob": 70 }, { "item": "hk_mp5_semi_pistol", "prob": 70 }, { "item": "TDI_10", "prob": 70 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_rare",
-    "//": "Less common SMGs including those only used by police/paramilitary forces.",
+    "id": "guns_nfa",
+    "//": "Fully automatic firearms.  Should not spawn anywhere commonly.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "nested_calico", "prob": 30 },
-      { "group": "nested_fn_p90", "prob": 10 },
-      { "group": "nested_mp40", "prob": 185 },
-      { "group": "nested_tommygun", "prob": 70 },
-      { "group": "nested_sten", "prob": 100 },
-      { "group": "nested_uzi", "prob": 100 },
-      { "group": "nested_hk_mp5", "prob": 100 },
-      { "group": "nested_hk_mp5sd", "prob": 5 },
-      { "group": "nested_modular_ump_9", "prob": 10 },
-      { "group": "nested_modular_ump_40", "prob": 10 },
-      { "group": "nested_modular_ump_45", "prob": 10 },
-      { "group": "nested_mac_10", "prob": 40 },
-      { "group": "nested_mac_11", "prob": 20 },
-      { "group": "nested_TDI", "prob": 10 },
-      { "group": "nested_briefcase_smg", "prob": 5 },
-      { "group": "nested_tec9", "prob": 50 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_rare_display",
-    "subtype": "distribution",
-    "//": "Less common full-auto SMGS which are illegal to sell.",
-    "items": [
-      { "item": "calico", "prob": 30 },
-      { "item": "fn_p90", "prob": 10 },
-      { "item": "mp40", "prob": 185 },
-      { "item": "tommygun", "prob": 70 },
-      { "item": "sten", "prob": 100 },
-      { "item": "uzi", "prob": 100 },
-      { "item": "hk_mp5", "prob": 100 },
-      { "item": "hk_mp5sd", "prob": 5 },
-      { "group": "modular_ump_9", "prob": 10 },
-      { "group": "modular_ump_40", "prob": 10 },
-      { "group": "modular_ump_45", "prob": 10 },
-      { "item": "mac_10", "prob": 40 },
-      { "item": "mac_11", "prob": 20 },
-      { "item": "TDI", "prob": 10 },
-      { "item": "briefcase_smg", "prob": 5 },
-      { "item": "tec9", "prob": 50 }
+      { "group": "nested_m2carbine", "prob": 4 },
+      { "group": "nested_hk_mp5", "prob": 5 },
+      { "group": "nested_tommygun", "prob": 5 },
+      { "group": "nested_uzi", "prob": 11 },
+      { "group": "nested_mac_10", "prob": 9 },
+      { "group": "nested_mac_11", "prob": 13 }
     ]
   },
   {
@@ -232,24 +174,6 @@
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },
       { "group": "nested_hk_mp5sd", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_obscure",
-    "subtype": "distribution",
-    "//": "Imported or otherwise very obscure SMGs.",
-    "items": [ { "item": "hk_mp5_10_semi", "prob": 1 }, { "item": "greasegun", "prob": 150 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_smg_display",
-    "subtype": "distribution",
-    "//": "All variations of smgs weighted for rarity, for use in locked gun-safes",
-    "items": [
-      { "group": "guns_smg_obscure", "prob": 10 },
-      { "group": "guns_smg_rare_display", "prob": 30 },
-      { "group": "guns_smg_common_display", "prob": 60 }
     ]
   },
   {
@@ -708,7 +632,6 @@
     "items": [
       { "group": "guns_pistol_common", "prob": 41 },
       { "group": "guns_rifle_common", "prob": 57 },
-      { "group": "guns_smg_common", "prob": 1 },
       { "group": "guns_shotgun_common", "prob": 1 }
     ]
   },
@@ -727,7 +650,6 @@
     "id": "guns_rare",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_smg_rare", "prob": 1 },
       { "group": "guns_rifle_rare", "prob": 57 },
       { "group": "guns_shotgun_rare", "prob": 1 }
     ]
@@ -744,7 +666,6 @@
     "id": "guns_rare_static",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_smg_rare", "prob": 1 },
       { "group": "guns_rifle_rare", "prob": 57 },
       { "group": "guns_shotgun_rare_static", "prob": 1 }
     ]
@@ -754,7 +675,6 @@
     "id": "guns_rare_readied",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_smg_rare", "prob": 1 },
       { "group": "guns_rifle_rare", "prob": 57 },
       { "group": "guns_shotgun_rare_readied", "prob": 1 }
     ]
@@ -777,7 +697,6 @@
     "//": "Imported or otherwise very obscure guns of all types.",
     "items": [
       { "group": "guns_pistol_obscure_display", "prob": 45 },
-      { "group": "guns_smg_obscure", "prob": 1 },
       { "group": "guns_rifle_obscure", "prob": 53 },
       { "group": "guns_shotgun_obscure", "prob": 1 }
     ]

@@ -21,8 +21,7 @@
     "entries": [
       { "group": "guns_pistol_obscure_display", "prob": 15 },
       { "collection": [ { "group": "guns_rifle_obscure_display" } ], "prob": 45 },
-      { "collection": [ { "group": "guns_shotgun_obscure_display" } ], "prob": 1 },
-      { "collection": [ { "group": "guns_smg_display" } ], "prob": 2 }
+      { "collection": [ { "group": "guns_shotgun_obscure_display" } ], "prob": 1 }
     ]
   },
   {

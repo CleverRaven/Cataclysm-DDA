@@ -2513,6 +2513,19 @@
     ]
   },
   {
+    "id": "nested_m2carbine",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "m2carbine", "charges": [ 0, 15 ] },
+      { "item": "m1carbinemag" },
+      { "item": "m1carbinebigmag", "prob": 50 },
+      { "group": "on_hand_30carbine" }
+    ]
+  },
+  {
     "id": "nested_ak556",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

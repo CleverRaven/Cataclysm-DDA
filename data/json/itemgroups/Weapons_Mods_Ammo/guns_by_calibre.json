@@ -485,16 +485,14 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_22",
-    "items": [ { "group": "nested_marlin_9a", "prob": 8 }, { "group": "nested_ruger_1022", "prob": 28 } ]
+    "items": [ { "group": "nested_marlin_9a", "prob": 3 }, { "group": "nested_ruger_1022", "prob": 100 },{ "group": "nested_rossi_gallery", "prob": 11 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common_223",
     "items": [
-      { "group": "nested_ar_pistol", "prob": 1 },
       { "group": "nested_ar15", "prob": 15 },
       { "group": "nested_ruger_mini", "prob": 1 },
-      { "group": "nested_ak556", "prob": 2 },
       { "group": "nested_bren2_556", "prob": 1 },
       { "group": "nested_rdb_223", "prob": 1 },
       { "group": "nested_mdrx", "prob": 1 },
