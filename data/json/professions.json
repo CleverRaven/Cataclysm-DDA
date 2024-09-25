@@ -1030,6 +1030,40 @@
   },
   {
     "type": "profession",
+    "id": "chemist",
+    "name": "Chemist",
+    "description": "Your experience in the field of chemistry is undeniable, owing to all the years you spent in the lab.  With your colleagues presumably dead and all the institutions of science overrun, you wonder if Alchemy will be making its return.",
+    "points": 3,
+    "skills": [ { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_organic_chemistry",
+      "prof_inorganic_chemistry",
+      "prof_intro_chem_synth",
+      "prof_chem_synth",
+      "prof_distilling"
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "pants", "variant": "pants_stone" },
+          { "item": "socks" },
+          { "item": "boots" },
+          { "item": "coat_lab" },
+          { "item": "gloves_rubber" },
+          { "item": "glasses_safety" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
     "id": "engineer_chem",
     "name": "Chemical Engineer",
     "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you.  Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
@@ -3430,6 +3464,34 @@
           { "item": "tool_belt", "contents-item": "hammer" },
           { "item": "tank_top", "variant": "tank_top_generic" },
           { "item": "pants", "variant": "pants_brown" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "tech_maint",
+    "name": "Maintenance Technician",
+    "description": "From heat exchangers to washing machines; if it exists, you've probably gotten your hands on it at least once, working behind the scenes to ensure that the things everyone took for granted worked smoothly and properly.  It barely matters to you how and who screwed up this time, you will get it back in working order in no time.",
+    "points": 5,
+    "proficiencies": [ "prof_plumbing", "prof_elec_soldering", "prof_metalworking", "prof_appliance_repair" ],
+    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "electronics" }, { "level": 5, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "boots_steel" },
+          { "item": "multitool" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "tool_belt", "contents-item": "hammer" },
+          { "item": "hat_hard", "variant": "yellow_hat_hard" },
+          { "item": "glasses_safety" },
+          { "item": "jumpsuit" },
+          { "group": "charged_electrical_measuring" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7765,6 +7827,31 @@
           { "group": "charged_penblack" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "coffee", "container-item": "coffeepot" }
+        ]
+      },
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
+    }
+  },
+  {  
+    "type": "profession",
+    "id": "ittech",
+    "name": "IT Technician",
+    "description": "You were the backbone of any serious office, setting up and maintaining the systems that entire companies relied on to survive.  Now that the offices and the companies that owned them are no more, you start to realize that your skillset just might not be sufficient to solve the one particular problem that is the Cataclysm.",
+    "points": 1,
+    "skills": [ { "level": 5, "name": "computer" } ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "dress_shirt" },
+          { "item": "undershirt" },
+          { "item": "socks" },
+          { "item": "tie_clipon" },
+          { "item": "dress_shoes" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "charged_penblack" },
+          { "item": "pants", "variant": "pants_black" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
