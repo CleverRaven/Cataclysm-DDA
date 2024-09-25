@@ -6036,9 +6036,8 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
 std::vector<item_reference> map::item_network_connections( vehicle *power_grid )
 {
     std::vector<item_reference> result;
-    for( auto iter = submaps_with_active_items.begin(); iter != submaps_with_active_items.end();
-         iter++ ) {
-        tripoint_abs_sm const abs_pos = *iter;
+    for( auto &iter : submaps_with_active_items ) {
+        tripoint_abs_sm const abs_pos = iter;
         const tripoint_rel_sm local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
         std::vector<item_reference> active_items = current_submap->active_items.get_for_processing();
@@ -6047,9 +6046,9 @@ std::vector<item_reference> map::item_network_connections( vehicle *power_grid )
                 continue;
             }
 
-            if( active_item_ref.item_ref.get()->has_link_data() &&
-                active_item_ref.item_ref.get()->link().t_veh &&
-                active_item_ref.item_ref.get()->link().t_veh.get()->pos_bub() == power_grid->pos_bub() ) {
+            if( active_item_ref.item_ref->has_link_data() &&
+                active_item_ref.item_ref->link().t_veh &&
+                active_item_ref.item_ref->link().t_veh.get()->pos_bub() == power_grid->pos_bub() ) {
                 result.emplace_back( active_item_ref );
             }
         }

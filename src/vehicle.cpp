@@ -1923,8 +1923,8 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
             debugmsg( "failed to merge vehicle parts" );
         } else {
             //  Adjust the connections after the change of the power_grid origo.
-            for( item_reference item_ref : network_connections ) {
-                item_ref.item_ref.get()->link().t_mount += ( old_grid_reference - this->pos_bub() ).xy().raw();
+            for( const item_reference &item_ref : network_connections ) {
+                item_ref.item_ref->link().t_mount += ( old_grid_reference - this->pos_bub() ).xy().raw();
             }
 
             //Keep wall wiring sections from losing their flag
