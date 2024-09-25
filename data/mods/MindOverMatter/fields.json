@@ -104,6 +104,46 @@
             "max_duration": "2 seconds",
             "intensity": 1,
             "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 1,
+            "immune_inside_vehicle": true
           }
         ]
       },
@@ -113,6 +153,46 @@
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 2,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
             "min_duration": "1 seconds",
             "max_duration": "2 seconds",
             "intensity": 2,
@@ -130,6 +210,46 @@
             "max_duration": "2 seconds",
             "intensity": 3,
             "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 3,
+            "immune_inside_vehicle": true
           }
         ]
       },
@@ -139,6 +259,46 @@
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 4,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
             "min_duration": "1 seconds",
             "max_duration": "2 seconds",
             "intensity": 4,
@@ -156,6 +316,46 @@
             "max_duration": "2 seconds",
             "intensity": 5,
             "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 5,
+            "immune_inside_vehicle": true
           }
         ]
       },
@@ -165,6 +365,46 @@
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 6,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
             "min_duration": "1 seconds",
             "max_duration": "2 seconds",
             "intensity": 6,
@@ -182,6 +422,46 @@
             "max_duration": "2 seconds",
             "intensity": 7,
             "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 7,
+            "immune_inside_vehicle": true
           }
         ]
       },
@@ -191,6 +471,46 @@
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 8,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
             "min_duration": "1 seconds",
             "max_duration": "2 seconds",
             "intensity": 8,
@@ -208,6 +528,46 @@
             "max_duration": "2 seconds",
             "intensity": 9,
             "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 9,
+            "immune_inside_vehicle": true
           }
         ]
       },
@@ -217,6 +577,46 @@
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 10,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
             "min_duration": "1 seconds",
             "max_duration": "2 seconds",
             "intensity": 10,
@@ -234,6 +634,46 @@
             "max_duration": "2 seconds",
             "intensity": 11,
             "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 11,
+            "immune_inside_vehicle": true
           }
         ]
       },
@@ -243,6 +683,46 @@
         "effects": [
           {
             "effect_id": "effect_pyrokinetic_aura_damage",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "head",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "arm_r",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_l",
+            "min_duration": "1 seconds",
+            "max_duration": "2 seconds",
+            "intensity": 12,
+            "immune_inside_vehicle": true
+          },
+          {
+            "effect_id": "effect_pyrokinetic_aura_damage",
+            "body_part": "leg_r",
             "min_duration": "1 seconds",
             "max_duration": "2 seconds",
             "intensity": 12,
