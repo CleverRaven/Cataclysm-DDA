@@ -128,5 +128,14 @@
     "required_event": "character_ranged_attacks_monster",
     "condition": { "u_has_trait": "iso_bionic_vampire" },
     "effect": [ { "math": [ "u_bionic_in_melee", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ISO_BIONIC_VAMPIRE_POWER_RESTORE",
+    "condition": { "u_has_trait": "iso_bionic_vampire" },
+    "effect": {
+      "if": { "u_has_trait": "iso_bionic_vampire" },
+      "then": [ { "math": [ "u_val('power')", "+=", "500 * 1000000" ] }, { "u_message": "The EoC works" } ]
+    }
   }
 ]
