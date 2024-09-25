@@ -1450,7 +1450,7 @@
     "name": [ "" ],
     "desc": [ "" ],
     "rating": "good",
-    "base_mods": { "hit_mod": [2] }
+    "base_mods": { "hit_mod": [ 2 ] }
   },
   {
     "id": "effect_dispel_magic",
