@@ -146,6 +146,10 @@ static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
 
+static const json_character_flag json_flag_ANIMALDISCORD( "ANIMALDISCORD" );
+static const json_character_flag json_flag_ANIMALDISCORD2( "ANIMALDISCORD2" );
+static const json_character_flag json_flag_ANIMALEMPATH( "ANIMALEMPATH" );
+static const json_character_flag json_flag_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const material_id material_bone( "bone" );
@@ -185,10 +189,6 @@ static const species_id species_nether_player_hate( "nether_player_hate" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
 
-static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
-static const trait_id trait_ANIMALDISCORD2( "ANIMALDISCORD2" );
-static const trait_id trait_ANIMALEMPATH( "ANIMALEMPATH" );
-static const trait_id trait_ANIMALEMPATH2( "ANIMALEMPATH2" );
 static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -1688,38 +1688,32 @@ monster_attitude monster::attitude( const Character *u ) const
             effective_morale -= 10;
         }
 
+        // Check for Discord first so we can apply temporary effects that make animals hate you
         if( has_flag( mon_flag_ANIMAL ) ) {
-            if( u->has_effect( effect_natures_commune ) ) {
-                effective_anger -= 10;
-                if( effective_anger < 10 ) {
-                    effective_morale += 55;
-                }
-            }
-            if( u->has_trait( trait_ANIMALEMPATH ) ) {
-                effective_anger -= 10;
-                if( effective_anger < 10 ) {
-                    effective_morale += 55;
-                }
-            } else if( u->has_trait( trait_ANIMALEMPATH2 ) ) {
-                effective_anger -= 20;
-                if( effective_anger < 20 ) {
-                    effective_morale += 80;
-                }
-            } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
+            } if( u->has_flag( json_character_flag( "ANIMALDISCORD" ) ) ) {
                 if( effective_anger >= 10 ) {
                     effective_anger += 10;
                 }
                 if( effective_anger < 10 ) {
                     effective_morale -= 5;
                 }
-            } else if( u->has_trait( trait_ANIMALDISCORD2 ) ) {
+            } else if( u->has_flag( json_character_flag( "ANIMALDISCORD2" ) ) ) {
                 if( effective_anger >= 20 ) {
                     effective_anger += 20;
                 }
                 if( effective_anger < 20 ) {
                     effective_morale -= 5;
                 }
-            }
+            } else if( u->has_flag( json_character_flag( "ANIMALEMPATH" ) ) ) {
+                effective_anger -= 10;
+                if( effective_anger < 10 ) {
+                    effective_morale += 55;
+                }
+            } else if( u->has_flag( json_character_flag( "ANIMALEMPATH2" ) ) ) {
+                effective_anger -= 20;
+                if( effective_anger < 20 ) {
+                    effective_morale += 80;
+                }
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
