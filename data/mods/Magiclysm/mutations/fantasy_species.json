@@ -429,7 +429,7 @@
     "type": "mutation",
     "id": "ANIMALEMPATH2",
     "copy-from": "ANIMALEMPATH2",
-    "extend": { "category": [ "SPECIES_ELF" ], "threshreq": [ "THRESH_SPECIES_ELF" ] }
+    "extend": { "category": [ "SPECIES_ELF" ] }
   },
   {
     "type": "mutation",
