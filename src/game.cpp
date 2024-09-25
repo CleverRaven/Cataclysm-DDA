@@ -5722,7 +5722,7 @@ bool game::npc_menu( npc &who )
         }
         // TODO: Make NPCs protest when displaced onto dangerous crap
         tripoint oldpos = who.pos();
-        who.move_away_from( u.pos(), true );
+        who.move_away_from( u.pos_bub(), true );
         u.mod_moves( -20 );
         if( oldpos != who.pos() ) {
             add_msg( _( "%s moves out of the way." ), who.get_name() );
@@ -12233,7 +12233,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             crit_name = guy->get_name();
             tripoint old_pos = guy->pos();
             if( !guy->is_enemy() ) {
-                guy->move_away_from( u.pos(), true );
+                guy->move_away_from( u.pos_bub(), true );
                 if( old_pos != guy->pos() ) {
                     add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
                 }

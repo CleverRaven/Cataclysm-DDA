@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
+#include <cmath>
 #include <functional>
 #include <iosfwd>
 #include <iterator>
@@ -925,6 +926,23 @@ template<typename Tripoint>
 Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
 {
     return midpoint( box.p_min, box.p_max );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point<Point, Origin, Scale>
+midpoint_round_to_nearest( std::vector<coords::coord_point_ob<Point, Origin, Scale>> &locs )
+{
+    tripoint mid;
+    for( const auto &loc : locs ) {
+        mid += loc.raw();
+    }
+
+    float num = locs.size();
+    mid.x = std::round( mid.x / num );
+    mid.y = std::round( mid.y / num );
+    mid.z = std::round( mid.z / num );
+
+    return coords::coord_point_ib < Point, Origin, Scale >::make_unchecked( mid );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
