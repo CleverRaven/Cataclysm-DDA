@@ -152,12 +152,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_improvised",
-    "//": "Makeshift or otherwise poor quality pistols.",
-    "items": [ { "item": "ashot", "prob": 1 }, { "item": "2_shot_special", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_smg_common",
     "//": "Semi-auto civilian SMGs owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
@@ -793,7 +787,6 @@
     "id": "guns_improvised",
     "//": "Makeshift or otherwise poor quality guns of all types.",
     "items": [
-      { "group": "guns_pistol_improvised", "prob": 41 },
       { "group": "guns_smg_improvised", "prob": 1 },
       { "group": "guns_rifle_improvised", "prob": 56 },
       { "group": "guns_shotgun_improvised", "prob": 1 }
