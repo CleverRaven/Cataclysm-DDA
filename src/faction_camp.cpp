@@ -728,7 +728,7 @@ void talk_function::start_camp( npc &p )
     const recipe &making = camp_type.obj();
     const std::string colliding_vehicle = run_mapgen_update_func( making.get_blueprint(), omt_pos, {} );
     if( !colliding_vehicle.empty() ) {
-        popup( _( "%1$s failed to start the %2$s basecamp, the %3$s appliance/vehicle seems to be in the way." ),
+        popup( _( "%1$s failed to start the %2$s basecamp, %3$s appliance/vehicle seems to be in the way." ),
                p.disp_name(), making.get_blueprint().str(), colliding_vehicle );
         return;
     }
@@ -3972,7 +3972,7 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
                                           miss_id.mapgen_args, nullptr, true,
                                           mirror_horizontal, mirror_vertical, rotation );
     if( !colliding_vehicle.empty() ) {
-        popup( _( "%1$s failed to build the %2$s upgrade, the %3$s vehicle/appliance seems to be in the way." ),
+        popup( _( "%1$s failed to build the %2$s upgrade, %3$s vehicle/appliance seems to be in the way." ),
                companion_list,
                making.get_blueprint().str(),
                colliding_vehicle );
@@ -4627,7 +4627,7 @@ bool basecamp::survey_return( const mission_id &miss_id )
             expansion_type.str() ), where, {}, nullptr, true,
                                           mirror_horizontal, mirror_vertical, rotation );
     if( !colliding_vehicle.empty() ) {
-        popup( _( "%1$s failed to add the %2$s expansion, the %3$s vehicle/appliance seems to be in the way." ),
+        popup( _( "%1$s failed to add the %2$s expansion, %3$s vehicle/appliance seems to be in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name(),
                colliding_vehicle );

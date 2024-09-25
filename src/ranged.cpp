@@ -1519,7 +1519,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     }
 
     // Throw from the player's position, unless we're blind throwing, in which case
-    // throw from the the blind throw position instead.
+    // throw from the blind throw position instead.
     const tripoint throw_from = blind_throw_from_pos ? *blind_throw_from_pos : pos();
 
     float range = rl_dist( throw_from, target );

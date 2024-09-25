@@ -2738,7 +2738,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 /**
 * Tinymap is a small version of the map which covers a single overmap terrain (OMT) tile,
 * which corresponds to 2 * 2 submaps, or 24 * 24 map tiles. In addition to being smaller
-* than the map, it's also limited to a single Z level (defined the the tripoint_abs_omt
+* than the map, it's also limited to a single Z level (defined the tripoint_abs_omt
 * parameter to the 'load' operation, so it's not tied to the Z = 0 level).
 * The tinymap's natural relative reference system is the tripoint_omt_ms one.
 */
