@@ -7,12 +7,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare",
-    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally suppressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
-    "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_pistol_milspec",
     "//": "US military specification pistols only ever found at military sites. These weapons must be pistols that are still in current inventory, and are still being issued in some capacity to American personnel.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",

@@ -463,65 +463,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare_223",
-    "items": [ { "group": "nested_ar_pistol", "prob": 1 }, { "group": "nested_minidraco556", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_45",
-    "items": [ { "group": "nested_usp_45", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_40",
-    "items": [ { "group": "nested_90two40", "prob": 2 }, { "group": "nested_sig_40", "prob": 10 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_357mag",
-    "items": [ { "group": "nested_chiappa_rhino", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_38",
-    "items": [ { "group": "nested_model_10_revolver", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_44",
-    "items": [ { "group": "nested_sw629", "prob": 40 }, { "group": "nested_colt_anaconda", "prob": 30 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_45colt",
-    "items": [ { "group": "nested_bond_410", "prob": 15 }, { "group": "nested_colt_saa", "prob": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_10mm",
-    "items": [ { "group": "nested_TDI_10", "prob": 1 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_other",
-    "items": [
-      { "group": "nested_m1911a1_38super", "prob": 20 },
-      { "group": "nested_fn57", "prob": 10 },
-      { "group": "nested_sig_p230", "prob": 45 },
-      { "group": "nested_sw_500", "prob": 15 },
-      { "group": "nested_walther_p38", "prob": 15 },
-      { "group": "nested_raging_bull", "prob": 10 },
-      { "group": "nested_m714", "prob": 8 },
-      { "group": "nested_m1911-460", "prob": 5 },
-      { "group": "nested_bfr", "prob": 10 },
-      { "group": "nested_mauser_c96", "prob": 15 },
-      { "group": "nested_makarov", "prob": 15 },
-      { "group": "nested_tokarev", "prob": 15 },
-      { "group": "nested_walther_ppk", "prob": 20 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_pistol_rare_display_9mm",
     "items": [
       { "item": "m9", "variant": "90two", "prob": 5 },
@@ -530,59 +471,6 @@
       { "item": "mauser_c96", "prob": 11 },
       { "item": "mp40semi", "prob": 1 },
       { "item": "tec9", "prob": 1 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_45",
-    "items": [ { "item": "usp_45", "prob": 9 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_40",
-    "items": [ { "item": "90two40", "prob": 2 }, { "item": "sig_40", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_357mag",
-    "items": [ { "item": "chiappa_rhino", "prob": 5 }, { "group": "modular_deagle_357", "prob": 4 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_44",
-    "items": [
-      { "item": "sw629", "prob": 150 },
-      { "group": "modular_deagle_44", "prob": 100 },
-      { "item": "colt_anaconda_8", "prob": 33 },
-      { "item": "colt_anaconda_6", "prob": 50 },
-      { "item": "colt_anaconda_4", "prob": 16 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_45colt",
-    "items": [ { "item": "bond_410", "prob": 10 }, { "item": "colt_saa", "prob": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_pistol_rare_display_other",
-    "items": [
-      { "item": "m1911a1_38super", "prob": 25 },
-      { "item": "fn57", "prob": 3 },
-      { "item": "sig_p230", "prob": 15 },
-      { "item": "sw_500", "prob": 15 },
-      { "item": "walther_p38", "prob": 10 },
-      { "item": "raging_bull", "prob": 10 },
-      { "item": "mauser_m714", "prob": 15 },
-      { "item": "m1911-460", "prob": 10 },
-      { "item": "bfr", "prob": 10 },
-      { "item": "mauser_c96", "prob": 15 },
-      { "item": "makarov", "prob": 8 },
-      { "item": "tokarev", "prob": 5 },
-      { "item": "walther_ppk", "prob": 8 },
-      { "group": "modular_deagle_50", "prob": 4 },
-      { "group": "nested_deagle_with_kits", "prob": 2 },
-      { "group": "modular_deagle_complete", "prob": 1 }
     ]
   },
   {

@@ -2,15 +2,15 @@
   {
     "//": "This file adds Aftershock weapons to vanilla groups. To be deleted once the total conversion gets going.",
     "type": "item_group",
-    "id": "guns_pistol_rare",
-    "copy-from": "guns_pistol_rare",
-    "extend": { "items": [ { "item": "afs_seyfert_84K", "prob": 15, "charges": [ 0, 20 ] } ] }
+    "id": "guns_pistol_common",
+    "copy-from": "guns_pistol_common",
+    "extend": { "items": [ { "item": "afs_seyfert_84K", "prob": 3, "charges": [ 0, 20 ] } ] }
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare_display",
-    "copy-from": "guns_pistol_rare_display",
-    "extend": { "items": [ { "item": "afs_seyfert_84K", "prob": 15, "charges": 0 } ] }
+    "id": "guns_pistol_common_display",
+    "copy-from": "guns_pistol_common_display",
+    "extend": { "items": [ { "item": "afs_seyfert_84K", "prob": 3, "charges": 0 } ] }
   },
   {
     "type": "item_group",

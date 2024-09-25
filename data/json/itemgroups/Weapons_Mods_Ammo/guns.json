@@ -71,39 +71,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare",
-    "//": "Less common or prolific pistols that are still normally acquirable by civilians or that may need an NFA permit, i.e. integrally suppressed or stocked handguns. This includes those weapons used by police and paramilitary forces, and older handguns which are no longer in production but that are still reasonably common to find.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [
-      { "group": "guns_pistol_rare_9mm", "prob": 93 },
-      { "group": "guns_pistol_rare_223", "prob": 1 },
-      { "group": "guns_pistol_rare_45", "prob": 15 },
-      { "group": "guns_pistol_rare_40", "prob": 6 },
-      { "group": "guns_pistol_rare_357mag", "prob": 8 },
-      { "group": "guns_pistol_rare_38", "prob": 1 },
-      { "group": "guns_pistol_rare_44", "prob": 45 },
-      { "group": "guns_pistol_rare_45colt", "prob": 30 },
-      { "group": "guns_pistol_rare_10mm", "prob": 1 },
-      { "group": "guns_pistol_rare_other", "prob": 45 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "guns_pistol_rare_display",
-    "//": "Empty uncommon pistols found exclusively at gun stores.",
-    "items": [
-      { "group": "guns_pistol_rare_display_9mm", "prob": 63 },
-      { "group": "guns_pistol_rare_display_45", "prob": 9 },
-      { "group": "guns_pistol_rare_display_40", "prob": 7 },
-      { "group": "guns_pistol_rare_display_357mag", "prob": 22 },
-      { "group": "guns_pistol_rare_display_44", "prob": 20 },
-      { "group": "guns_pistol_rare_display_45colt", "prob": 18 },
-      { "group": "guns_pistol_rare_display_other", "prob": 176 }
-    ]
-  },
-  {
-    "type": "item_group",
     "subtype": "distribution",
     "id": "guns_pistol_hunting_display",
     "//": "Empty high-caliber pistols and revolvers found within hunting supply stores and related locations.",
@@ -755,7 +722,6 @@
     "id": "guns_rare",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_pistol_rare", "prob": 41 },
       { "group": "guns_smg_rare", "prob": 1 },
       { "group": "guns_rifle_rare", "prob": 57 },
       { "group": "guns_shotgun_rare", "prob": 1 }
@@ -767,7 +733,6 @@
     "subtype": "distribution",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_pistol_rare_display", "prob": 41 },
       { "group": "guns_rifle_rare_display", "prob": 58 },
       { "group": "guns_shotgun_rare_display", "prob": 1 }
     ]
@@ -777,7 +742,6 @@
     "id": "guns_rare_static",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_pistol_rare", "prob": 41 },
       { "group": "guns_smg_rare", "prob": 1 },
       { "group": "guns_rifle_rare", "prob": 57 },
       { "group": "guns_shotgun_rare_static", "prob": 1 }
@@ -788,7 +752,6 @@
     "id": "guns_rare_readied",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
-      { "group": "guns_pistol_rare", "prob": 41 },
       { "group": "guns_smg_rare", "prob": 1 },
       { "group": "guns_rifle_rare", "prob": 57 },
       { "group": "guns_shotgun_rare_readied", "prob": 1 }

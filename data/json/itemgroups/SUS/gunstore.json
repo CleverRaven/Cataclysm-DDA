@@ -80,10 +80,9 @@
     "//2": "This group is for the contents of gunstore displaycases",
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_pistol_common_display", "prob": 60 },
+      { "group": "guns_pistol_common_display", "prob": 90 },
       { "group": "guns_rifle_common_display", "prob": 20 },
       { "group": "guns_shotgun_common_display", "prob": 2 },
-      { "group": "guns_pistol_rare_display", "prob": 30 },
       { "group": "guns_rifle_rare_display", "prob": 10 },
       { "group": "guns_shotgun_rare_display", "prob": 1 }
     ]
