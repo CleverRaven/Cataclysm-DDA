@@ -150,8 +150,22 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_WEATHER_CONTROL_ABOVE_FREEZING_NATURAL_DOWNGRADE",
-    "condition": { "not": { "u_has_effect": "effect_controlling_weather" } },
+    "id": "EOC_WEATHER_CONTROL_LOSE_EFFECT_RESET_VARIABLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_loses_effect",
+    "condition": { "compare_string": [ "effect_controlling_weather", { "context_val": "effect" } ] },
+    "effect": [ { "math": [ "u_weather_change_limit", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEATHER_CONTROL_DOWNGRADE",
+    "condition": { "math": [ "weather('temperature')", ">", "from_fahrenheit( 31 )" ] },
+    "effect": [ { "run_eocs": "EOC_WEATHER_CONTROL_ABOVE_FREEZING_DOWNGRADE" } ],
+    "false_effect": [ { "run_eocs": "EOC_WEATHER_CONTROL_BELOW_FREEZING_DOWNGRADE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WEATHER_CONTROL_ABOVE_FREEZING_DOWNGRADE",
     "effect": [
       {
         "if": { "is_weather": "magic_weather_light_drizzle" },
@@ -182,7 +196,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_LIGHTNINGSTORM_TO_THUNDERSTORM",
-    "condition": { "math": [ "magic_weather_lightning", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_lightning", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "5" ] } ] },
     "//": "Weather slowly decays back to normal",
     "effect": [
       { "math": [ "magic_weather_lightning", "=", "0" ] },
@@ -207,7 +221,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_RAINSTORM",
-    "condition": { "math": [ "magic_weather_thunder", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_thunder", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "4" ] } ] },
     "effect": [
       { "math": [ "magic_weather_thunder", "=", "0" ] },
       { "math": [ "magic_weather_rainstorm", "=", "1" ] },
@@ -231,7 +245,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_RAINSTORM_TO_RAIN",
-    "condition": { "math": [ "magic_weather_rainstorm", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_rainstorm", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "3" ] } ] },
     "effect": [
       { "math": [ "magic_weather_rainstorm", "=", "0" ] },
       { "math": [ "magic_weather_rain", "=", "1" ] },
@@ -255,7 +269,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_RAIN_TO_DRIZZLE",
-    "condition": { "math": [ "magic_weather_rain", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_rain", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "2" ] } ] },
     "effect": [
       { "math": [ "magic_weather_rain", "=", "0" ] },
       { "math": [ "magic_weather_drizzle", "=", "1" ] },
@@ -279,7 +293,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_DRIZZLE_TO_LIGHT_DRIZZLE",
-    "condition": { "math": [ "magic_weather_drizzle", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_drizzle", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "1" ] } ] },
     "effect": [
       { "math": [ "magic_weather_drizzle", "=", "0" ] },
       { "math": [ "magic_weather_light_drizzle", "=", "1" ] },
@@ -303,7 +317,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
-    "condition": { "math": [ "magic_weather_light_drizzle", "==", "1" ] },
+    "condition": {
+      "and": [ { "math": [ "magic_weather_light_drizzle", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "0" ] } ]
+    },
     "effect": [ { "math": [ "magic_weather_light_drizzle", "=", "0" ] }, { "run_eocs": "EOC_CALL_NEXT_WEATHER" } ]
   },
   {
@@ -380,7 +396,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_WEATHER_CONTROL_BELOW_FREEZING_NATURAL_DOWNGRADE",
+    "id": "EOC_WEATHER_CONTROL_BELOW_FREEZING_DOWNGRADE",
     "condition": { "not": { "u_has_effect": "effect_controlling_weather" } },
     "effect": [
       {
@@ -400,7 +416,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_SNOWSTORM_TO_SNOWING",
-    "condition": { "math": [ "magic_weather_snowstorm", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_snowstorm", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "4" ] } ] },
     "effect": [
       { "math": [ "magic_weather_snowstorm", "=", "0" ] },
       { "math": [ "magic_weather_snowing", "=", "1" ] },
@@ -424,7 +440,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_SNOWING_TO_FLURRIES",
-    "condition": { "math": [ "magic_weather_snowing", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_snowing", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "2" ] } ] },
     "effect": [
       { "math": [ "magic_weather_snowing", "=", "0" ] },
       { "math": [ "magic_weather_flurries", "=", "1" ] },
@@ -448,7 +464,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_FLURRIES_TO_NOTHING",
-    "condition": { "math": [ "magic_weather_flurries", "==", "1" ] },
+    "condition": { "and": [ { "math": [ "magic_weather_flurries", "==", "1" ] }, { "math": [ "u_weather_change_limit", "<=", "0" ] } ] },
     "effect": [ { "math": [ "magic_weather_flurries", "=", "0" ] }, { "run_eocs": "EOC_CALL_NEXT_WEATHER" } ]
   }
 ]
