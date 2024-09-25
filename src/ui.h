@@ -170,6 +170,9 @@ struct uilist_entry {
                                          explicit uilist_entry( Enum e, Args && ... args ) :
                                              uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
+
+    std::string _txt_nocolor;   // what it says on the tin
+    std::string _ctxt_nocolor;  // second column text
 };
 
 /**
