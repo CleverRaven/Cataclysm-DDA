@@ -227,8 +227,7 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "guns_pistol_common", "prob": 125 },
-      { "group": "guns_pistol_obscure", "prob": 30 },
+      { "group": "guns_pistol_common", "prob": 155 },
       { "group": "guns_pistol_improvised", "prob": 95 },
       { "group": "guns_shotgun_common", "prob": 75 },
       { "group": "guns_shotgun_rare", "prob": 50 },

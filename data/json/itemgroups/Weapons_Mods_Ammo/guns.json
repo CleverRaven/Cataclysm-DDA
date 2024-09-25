@@ -110,34 +110,45 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_obscure",
-    "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian's, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+    "subtype": "distribution",
+    "id": "guns_pistol_obscure_display",
+	"magazine": 100,
+    "//": "Pistols that are rare and sought after but with little or no historical value.  Think of magnum handguns, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
     "items": [
-      { "group": "nested_bfr", "prob": 100 },
-      { "group": "nested_m1911-460", "prob": 3 },
-      { "group": "nested_makarov", "prob": 100 },
-      { "group": "nested_mauser_c96", "prob": 39 },
-      { "group": "nested_chiappa_rhino", "prob": 5 },
-      { "group": "nested_pistol_flintlock", "prob": 150 },
-      { "group": "nested_raging_bull", "prob": 100 },
-      { "group": "nested_tokarev", "prob": 100 },
-      { "group": "nested_walther_ppk", "prob": 100 },
-      { "group": "guns_pistol_collectible", "prob": 1 }
+      { "item": "colt_python", "prob": 30 },
+      { "item": "chiappa_rhino", "prob": 20 },
+      { "item": "colt_anaconda_4", "prob": 40 },
+      { "item": "colt_anaconda_6", "prob": 20 },
+      { "item": "colt_anaconda_8", "prob": 40 },
+      { "group": "modular_deagle_357", "prob": 4, "charges": 0 },
+      { "group": "modular_deagle_44", "prob": 20, "charges": 0 },
+      { "group": "modular_deagle_50", "prob": 40, "charges": 0 },
+      { "item": "draco", "prob": 10, "charges": 0 },
+      { "item": "draco_mini", "prob": 30, "charges": 0 },
+      { "item": "draco_micro", "prob": 40, "charges": 0 },
+      { "item": "raging_bull", "prob": 20 },
+      { "item": "taurus_judge", "prob": 10 },
+      { "item": "hk_mp5_semi_pistol", "prob": 100, "charges": 0 },
+      { "item": "sw_500", "prob": 50 },
+      { "item": "bfr", "prob": 10 },
+      { "item": "draco_9mm", "prob": 10, "charges": 0 }
     ]
   },
   {
     "type": "item_group",
-    "subtype": "distribution",
-    "id": "guns_pistol_obscure_display",
-    "//": "Very obscure pistols which are illegal to sell.",
-    "items": [ { "group": "guns_pistol_collectible", "prob": 1 }, { "item": "minidraco556", "prob": 30 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_pistol_collectible",
-    "//": "Highly rare or collectable factory-made pistols that are possible for civilians to own; only likely to show up in gun collections, museums or similar.  Pistols that are of historic or collectors value and which fall under NFA regulations, i.e. pistols which are integrally suppressed, have a burst or fully-automatic capability, or have a non-detachable buttstock, can be placed within this item group.  These weapons are always unloaded.",
-    "items": [ { "item": "mauser_c96", "prob": 50 }, { "item": "colt_navy", "prob": 40 }, { "item": "colt_army", "prob": 40 } ]
+    "//": "Pistols that are rare and sought after, and that have historical value, such as Colt SAA, C96.  These weapons are always unloaded.",
+    "items": [
+      { "item": "mauser_c96", "prob": 12 },
+      { "item": "colt_navy", "prob": 2 },
+      { "item": "colt_army", "prob": 6 },
+      { "item": "colt_saa", "variant": "colt_saa", "prob": 50 },
+      { "item": "p08", "prob": 18 },
+      { "item": "m1911", "prob": 65 },
+      { "item": "makarov", "prob": 10 },
+      { "item": "model_10_revolver", "prob": 20 },
+      { "item": "tokarev", "prob": 6 }
+    ]
   },
   {
     "type": "item_group",
@@ -732,10 +743,7 @@
     "id": "guns_rare_display",
     "subtype": "distribution",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [
-      { "group": "guns_rifle_rare_display", "prob": 58 },
-      { "group": "guns_shotgun_rare_display", "prob": 1 }
-    ]
+    "items": [ { "group": "guns_rifle_rare_display", "prob": 58 }, { "group": "guns_shotgun_rare_display", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -774,7 +782,7 @@
     "id": "guns_obscure",
     "//": "Imported or otherwise very obscure guns of all types.",
     "items": [
-      { "group": "guns_pistol_obscure", "prob": 45 },
+      { "group": "guns_pistol_obscure_display", "prob": 45 },
       { "group": "guns_smg_obscure", "prob": 1 },
       { "group": "guns_rifle_obscure", "prob": 53 },
       { "group": "guns_shotgun_obscure", "prob": 1 }
