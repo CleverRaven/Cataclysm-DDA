@@ -414,6 +414,15 @@
   },
   {
     "type": "item_group",
+    "id": "guns_pistol_common_display_57",
+    "items": [
+      { "item": "ruger_57", "prob": 100 },
+      { "item": "fn57", "prob": 13 },
+      { "item": "p50", "prob": 12 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_pistol_common_display_762_39",
     "items": [ { "item": "draco", "prob": 10 }, { "item": "draco_mini", "prob": 5 }, { "item": "draco_micro", "prob": 8 } ]
   },
