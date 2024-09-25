@@ -135,9 +135,10 @@ void uilist_impl::draw_controls()
                             parent.need_to_scroll = true;
                             is_selected = parent.clicked = true;
                         }
+                        bool is_hovered = ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride );
                         bool mouse_moved = ImGui::GetCurrentContext()->HoveredId !=
                                            ImGui::GetCurrentContext()->HoveredIdPreviousFrame;
-                        if( ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride ) && mouse_moved ) {
+                        if( is_hovered && mouse_moved ) {
                             // this row is hovered and the hover state just changed, show context for it
                             parent.hovered = parent.fentries[ i ];
                         }
@@ -149,20 +150,24 @@ void uilist_impl::draw_controls()
                                                           is_selected ? parent.hilight_color : parent.hotkey_color );
                         }
 
+                        std::string &str1 = entry.txt;
+                        std::string &str2 = entry.ctxt;
+                        nc_color color = entry.enabled || entry.force_color ? entry.text_color : parent.disabled_color;
+                        if( is_selected || is_hovered ) {
+                            str1 = entry._txt_nocolor;
+                            str2 = entry._ctxt_nocolor;
+                            color = parent.hilight_color;
+                        }
+
                         ImGui::TableSetColumnIndex( 1 );
-                        nc_color color = ( is_selected ?
-                                           parent.hilight_color :
-                                           ( entry.enabled || entry.force_color ?
-                                             entry.text_color :
-                                             parent.disabled_color ) );
-                        cataimgui::draw_colored_text( entry.txt, color );
+                        cataimgui::draw_colored_text( str1, color );
 
                         ImGui::TableSetColumnIndex( 2 );
                         // Right-align text.
                         ImVec2 curPos = ImGui::GetCursorScreenPos();
                         // Remove the edge padding so that the last pixel just touches the border.
                         ImGui::SetCursorScreenPos( ImVec2( ImMax( 0.0f, curPos.x + style.CellPadding.x ), curPos.y ) );
-                        cataimgui::draw_colored_text( entry.ctxt, color );
+                        cataimgui::draw_colored_text( str2, color );
 
                         ImGui::PopID();
                     }
@@ -228,24 +233,32 @@ uilist_entry::uilist_entry( const std::string &txt )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
     : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const int key )
     : retval( -1 ), enabled( true ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_event> &key )
     : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -253,6 +266,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -261,6 +276,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -268,6 +285,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -275,6 +294,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -283,6 +304,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       desc( desc ), ctxt( column ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
@@ -292,6 +315,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled,
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), ctxt( column ), text_color( c_red_red )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
@@ -300,6 +325,8 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
     : retval( retval ), enabled( enabled ), hotkey( hotkey_from_char( key ) ), txt( txt ),
       hotkey_color( keycolor ), text_color( txtcolor )
 {
+    _txt_nocolor = remove_color_tags( txt );
+    _ctxt_nocolor = remove_color_tags( ctxt );
 }
 
 uilist::size_scalar &uilist::size_scalar::operator=( auto_assign )

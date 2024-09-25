@@ -156,7 +156,6 @@ static const activity_id ACT_MULTIPLE_CHOP_TREES( "ACT_MULTIPLE_CHOP_TREES" );
 static const activity_id ACT_OPEN_GATE( "ACT_OPEN_GATE" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKUP( "ACT_PICKUP" );
-static const activity_id ACT_PICKUP_MENU( "ACT_PICKUP_MENU" );
 static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
 static const activity_id ACT_PRYING( "ACT_PRYING" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -6347,36 +6346,6 @@ std::unique_ptr<activity_actor> invoke_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
-void pickup_menu_activity_actor::do_turn( player_activity &, Character &who )
-{
-    std::optional<tripoint_bub_ms> p( where );
-    std::vector<drop_location> s( selection );
-    who.cancel_activity();
-    who.pick_up( game_menus::inv::pickup( p, s ) );
-}
-
-void pickup_menu_activity_actor::serialize( JsonOut &jsout ) const
-{
-    jsout.start_object();
-
-    jsout.member( "where", where );
-    jsout.member( "selection", selection );
-
-    jsout.end_object();
-}
-
-std::unique_ptr<activity_actor> pickup_menu_activity_actor::deserialize( JsonValue &jsin )
-{
-    pickup_menu_activity_actor actor( {}, {} );
-
-    JsonObject data = jsin.get_object();
-
-    data.read( "where", actor.where );
-    data.read( "selection", actor.selection );
-
-    return actor.clone();
-}
-
 static void chop_single_do_turn( player_activity &act )
 {
     const map &here = get_map();
@@ -8223,7 +8192,6 @@ deserialize_functions = {
     { ACT_OPEN_GATE, &open_gate_activity_actor::deserialize },
     { ACT_OXYTORCH, &oxytorch_activity_actor::deserialize },
     { ACT_PICKUP, &pickup_activity_actor::deserialize },
-    { ACT_PICKUP_MENU, &pickup_menu_activity_actor::deserialize },
     { ACT_PLAY_WITH_PET, &play_with_pet_activity_actor::deserialize },
     { ACT_PRYING, &prying_activity_actor::deserialize },
     { ACT_PULP, &pulp_activity_actor::deserialize },

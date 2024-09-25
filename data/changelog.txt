@@ -149,6 +149,9 @@ Functioning toasters
 Zombies make zombie sounds
 Allow multiple possible loading screens, including from mods
 Grazing animals actually eat grass, and it regrows every season
+New characters get random natural hair color during character generation
+Binoculars now also increase 'detailed' vision range, not only max vision range
+Morphic Sizing flag for summoned/magickal items
 
 
 ## Content:
@@ -313,7 +316,6 @@ Mute very divergent mouth mutations
 Added apiary overmap tile to farm generation
 Add Variable Snippets for Home Pictures
 More detailed sunset/sunrise morale based on actual weather and traits
-More detailed sunset/sunrise morale based on actual weather and traits
 Sand and gravel pit location
 Neutral NPCs may now be shoved.
 Add game screenshots to data/screenshots
@@ -327,6 +329,10 @@ A few new reptiles to populate the world
 A bunch of new mutant arthropods underground
 Make dermatik pregnancy and birth suck significantly more
 Add painkiller eyedrops
+Professions & hobbies know gross anatomy & new butchering profs
+Slightly Expands Hub-01 and Yrax factions
+Adds a new stationary fungal variant.
+adds a new fungus infested mapgen
 
 
 ## Interface:
@@ -422,6 +428,7 @@ rewrite the loading screen to use ImGui
 Custom loading screen the game deserves
 wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
+Toggle between the map and look around
 
 
 ## Mods:
@@ -667,6 +674,11 @@ XE Playable Gracken
 [Magiclysm] Add spell school deficiency traits
 Create the Martial Mastery mod, which allows you to develop your own martial art using a level up system 
 [Xedra Evolved] Add playable changelings
+[Magiclysm] Add feral magus/high magus
+[MoM] The liquid from the black Nether pools is now collectible and drinkable
+[DinoMod] Astrodon 
+[MoM] Add Alien Meadow mutable map special
+[Magiclysm] Fantasy species zombies
 
 
 ## Balance:
@@ -764,6 +776,7 @@ Change Frame, Heavy duty frame, steel plating, sheet metal, and related vehicle 
 Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
+Obsolete and migrate legacy wire in favor of mild steel wire
 
 
 ## Bugfixes:
@@ -1010,6 +1023,8 @@ Fixed segfault when monster tries to grab-drag another monster out of reality bu
 Prevent being teleported beyond OVERMAP_DEPTH
 NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
+Monsters won't be sending immobile targets into flight anymore.
+[XE/Magiclysm] No wizard cats
 
 
 ## Performance:
@@ -1042,6 +1057,7 @@ cache available recipe list in craft menu
 Optimize typed coordinate conversion functions for widespread savings
 NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
+Fix lag examining large stacks of crafted items
 
 
 ## Infrastructure:
@@ -1116,6 +1132,8 @@ JSON-ify sleep-affecting mutations
 Extend/delete support for harvest lists
 Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
+Migrate extended description (`x`->`e`) to imgui
+[DEBUG] Modify hordes through overmap editor
 
 
 ## Build:

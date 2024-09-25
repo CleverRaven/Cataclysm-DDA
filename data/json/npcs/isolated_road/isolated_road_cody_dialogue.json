@@ -292,7 +292,11 @@
     "responses": [
       { "text": "What's with all the weapons and armor?", "topic": "TALK_BLACKSMITH_SHOP_ABOUT" },
       { "text": "Who are you?", "topic": "TALK_BLACKSMITH_ABOUT" },
-      { "text": "Are you and Jay close?", "topic": "TALK_BLACKSMITH_JAY" },
+      {
+        "text": "Are you and Jay close?",
+        "topic": "TALK_BLACKSMITH_JAY",
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_accepted_quest" } ] } }
+      },
       { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
   },

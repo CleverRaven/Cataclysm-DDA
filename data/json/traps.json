@@ -324,7 +324,7 @@
     "symbol": "^",
     "visibility": 5,
     "avoidance": 4,
-    "difficulty": 5,
+    "difficulty": 0,
     "action": "crossbow",
     "drops": [ "string_36", "crossbow", "bolt_steel" ],
     "vehicle_data": {
@@ -350,7 +350,7 @@
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
-    "difficulty": 6,
+    "difficulty": 0,
     "action": "shotgun",
     "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
@@ -375,7 +375,7 @@
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
-    "difficulty": 6,
+    "difficulty": 0,
     "action": "shotgun",
     "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
@@ -401,7 +401,7 @@
     "symbol": "^",
     "visibility": 4,
     "avoidance": 5,
-    "difficulty": 6,
+    "difficulty": 0,
     "action": "shotgun",
     "drops": [ "string_36", "slamfire_shotgun", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
@@ -625,7 +625,7 @@
     "flags": [ "ECHOLOCATION_DETECTABLE" ],
     "visibility": 5,
     "avoidance": 4,
-    "difficulty": 7,
+    "difficulty": 0,
     "action": "boobytrap",
     "drops": [ "boobytrap" ],
     "vehicle_data": {
