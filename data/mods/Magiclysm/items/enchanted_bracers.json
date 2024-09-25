@@ -117,7 +117,7 @@
       "passive_effects": [
         {
           "has": "WORN",
-          "condition": { "u_has_wielded_with_skill": "archery" } ,
+          "condition": { "u_has_wielded_with_skill": "archery" },
           "values": [
             { "value": "RANGED_DAMAGE", "multiply": 0.25 },
             { "value": "RANGE", "multiply": 0.2 },
