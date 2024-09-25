@@ -542,7 +542,8 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
     std::vector<cata_path> files;
     // if give path is a directory
     if( dir_exist( path.get_unrelative_path() ) ) {
-        const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json", "mod_interactions", path, true, false );
+        const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
+                "mod_interactions", path, true, false );
         files.insert( files.end(), dir_files.begin(), dir_files.end() );
         // if given path is an individual file
     } else if( file_exist( path.get_unrelative_path() ) ) {
@@ -561,7 +562,8 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
     }
 }
 
-void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path, const std::string &src )
+void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
+        const std::string &src )
 {
     cata_assert( !finalized &&
                  "Can't load additional data after finalization.  Must be unloaded first." );
@@ -572,17 +574,17 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
     if( dir_exist( path.get_unrelative_path() ) ) {
 
         // obtain folders within mod_interactions to see if they match loaded mod ids
-        const std::vector<cata_path> interaction_folders = get_directories( path, false);
+        const std::vector<cata_path> interaction_folders = get_directories( path, false );
 
-        for (cata_path f : interaction_folders) {
+        for( cata_path f : interaction_folders ) {
             bool is_mod_loaded = false;
-            for (mod_id id: loaded_mods) {
-                if (id.str() == f.get_unrelative_path().filename().string()) {
+            for( mod_id id : loaded_mods ) {
+                if( id.str() == f.get_unrelative_path().filename().string() ) {
                     is_mod_loaded = true;
                 }
             }
             if( is_mod_loaded ) {
-                const std::vector<cata_path> interaction_files = get_files_from_path(".json", f, true, true);
+                const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
                 files.insert( files.end(), interaction_files.begin(), interaction_files.end() );
             }
         }

@@ -3243,7 +3243,8 @@ void game::load_world_modfiles()
 
     // Load additional mods from that world-specific folder
     load_mod_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
-    load_mod_interaction_data_from_dir(PATH_INFO::world_base_save_path_path() / "mods" / "mod_interactions", "custom");
+    load_mod_interaction_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods" /
+                                        "mod_interactions", "custom" );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
@@ -3274,7 +3275,7 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
     for( const auto &e : available ) {
         loading_ui::show( msg, e->name() );
         const MOD_INFORMATION &mod = *e;
-        load_mod_interaction_data_from_dir(mod.path / "mod_interactions", mod.ident.str());
+        load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
     }
 
 
