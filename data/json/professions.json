@@ -7833,7 +7833,7 @@
       "female": { "entries": [ { "item": "panties" }, { "item": "bra" } ] }
     }
   },
-  {  
+  {
     "type": "profession",
     "id": "ittech",
     "name": "IT Technician",
