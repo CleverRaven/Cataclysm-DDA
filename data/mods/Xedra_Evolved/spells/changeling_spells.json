@@ -365,7 +365,7 @@
     "id": "selkie_change_weather_rains_spell",
     "type": "SPELL",
     "name": "Aria of the Rains",
-    "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.   Weave the glamour again to dispel it.",
+    "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.  Weave the glamour again to dispel it.",
     "message": "",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
