@@ -3339,8 +3339,8 @@ void npc::worker_downtime()
         basecamp *temp_camp = *bcp;
         std::vector<tripoint_bub_ms> pts;
         for( const tripoint_bub_ms &elem : here.points_in_radius( here.bub_from_abs(
-                   temp_camp->get_bb_pos() ), 10 ) ) {
-           if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
+                    temp_camp->get_bb_pos() ), 10 ) ) {
+            if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
                 here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, elem ) ||
                 !here.has_floor_or_water( elem ) || g->is_dangerous_tile( elem.raw() ) ) {
                 continue;
@@ -3419,10 +3419,10 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     point_bub_ms pt_min = pos_bub().xy();
     point_bub_ms pt_max = pos_bub().xy();
     for( const sphere &elem : spheres ) {
-        pt_min.x = std::min( pt_min.x(), elem.center.x - elem.radius );
-        pt_min.y = std::min( pt_min.y(), elem.center.y - elem.radius );
-        pt_max.x = std::max( pt_max.x(), elem.center.x + elem.radius );
-        pt_max.y = std::max( pt_max.y(), elem.center.y + elem.radius );
+        pt_min.x() = std::min( pt_min.x(), elem.center.x - elem.radius );
+        pt_min.y() = std::min( pt_min.y(), elem.center.y - elem.radius );
+        pt_max.x() = std::max( pt_max.x(), elem.center.x + elem.radius );
+        pt_max.y() = std::max( pt_max.y(), elem.center.y + elem.radius );
     }
 
     tripoint_bub_ms minp( pt_min, pos_bub().z() );
@@ -3442,8 +3442,8 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     escape_points.end(), [&]( const tripoint_bub_ms & elem ) {
         const int danger = std::accumulate( spheres.begin(), spheres.end(), 0,
         [&]( const int sum, const sphere & s ) {
-           return sum + std::max( s.radius - rl_dist( elem.raw(), s.center ), 0 );
-       } );
+            return sum + std::max( s.radius - rl_dist( elem.raw(), s.center ), 0 );
+        } );
 
         const int distance = rl_dist( pos_bub(), elem );
         const int move_cost = here.move_cost( elem );
