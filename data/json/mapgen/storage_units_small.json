@@ -52,7 +52,7 @@
         "b": "f_bed",
         "r": "f_rubble",
         "t": "f_table",
-        "{": "f_vending_o",
+        "{": [ "f_vending_o", "f_vending_c_off" ],
         "M": [ "f_crate_c", "f_cardboard_box" ]
       },
       "place_loot": [ { "item": "television", "x": 3, "y": 6, "chance": 75 }, { "item": "stepladder", "x": 5, "y": 19, "chance": 100 } ],

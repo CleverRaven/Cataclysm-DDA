@@ -397,6 +397,7 @@
     "type": "GUNMOD",
     "copy-from": "grip",
     "name": { "str": "integrated front grip" },
+    "blacklist_mod": [ "offset_grip" ],
     "flags": [ "PUMP_RAIL_COMPATIBLE", "IRREMOVABLE" ]
   },
   {

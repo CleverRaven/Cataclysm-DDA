@@ -171,6 +171,7 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_throw( "throw" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
+static const trait_id trait_GUNSHY( "GUNSHY" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -753,11 +754,11 @@ bool Character::handle_gun_damage( item &it )
 
         // Chance for the weapon to suffer a failure, caused by the magazine size, quality, or condition
     } else if( x_in_y( jam_chance, 1 ) && !it.has_var( "u_know_round_in_chamber" ) &&
-               faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) != fault_id::NULL_ID() ) {
+               it.can_have_fault_type( gun_mechanical_simple ) ) {
         add_msg_player_or_npc( m_bad, _( "Your %s malfunctions!" ),
                                _( "<npcname>'s %s malfunctions!" ),
                                it.tname() );
-        it.faults.insert( faults::get_random_of_type_item_can_have( it, gun_mechanical_simple ) );
+        it.faults.insert( random_entry( it.faults_potential_of_type( gun_mechanical_simple ) ) );
         return false;
 
         // Here we check for a chance for attached mods to get damaged if they are flagged as 'CONSUMABLE'.
@@ -1049,6 +1050,8 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun, item_loca
 
         for( damage_unit &elem : proj.impact.damage_units ) {
             elem.amount = enchantment_cache->modify_value( enchant_vals::mod::RANGED_DAMAGE, elem.amount );
+            elem.res_pen = enchantment_cache->modify_value( enchant_vals::mod::RANGED_ARMOR_PENETRATION,
+                           elem.res_pen );
         }
 
         dispersion_sources dispersion = total_gun_dispersion( gun, recoil_total(), proj.shot_spread );
@@ -4174,6 +4177,12 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
         messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
+                                           gmode->tname() ) );
+        result = false;
+    }
+
+    if( you.has_trait( trait_GUNSHY ) ) {
+        messages.push_back( string_format( _( "You're too gun-shy to use this." ),
                                            gmode->tname() ) );
         result = false;
     }

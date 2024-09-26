@@ -1146,8 +1146,8 @@
     "shape": "blast",
     "energy_source": "MANA",
     "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
-    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (6000 * enhancement_proficiency_modifier() )" ] },
-    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (800 * enhancement_proficiency_modifier() )" ] }
+    "base_casting_time": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (6000 * (1 / enhancement_proficiency_modifier() ) )" ] },
+    "base_energy_cost": { "math": [ "u_has_trait('EARTHSHAPER_STONE_SLEEP') ? 0 : (800 * (1 / enhancement_proficiency_modifier() ) )" ] }
   },
   {
     "type": "effect_on_condition",
@@ -1191,11 +1191,23 @@
               "max_radius": 0
             },
             {
-              "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
-              "type": "good"
-            },
-            { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
-            { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+              "if": { "map_terrain_id": "t_rock", "loc": { "u_val": "earthshaper_sleep_in_earth" } },
+              "then": [
+                {
+                  "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
+                  "type": "good"
+                },
+                { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" }, "force": true },
+                { "u_add_trait": "EARTHSHAPER_STONE_SLEEP" }
+              ],
+              "else": [
+                {
+                  "u_message": "As you nearly complete the spell, you stop in your tracks.  There's something odd about the ground below you, and sinking into it would be too dangerous.",
+                  "type": "mixed"
+                },
+                { "math": [ "u_val('mana')", "+=", "(800 * (1 / enhancement_proficiency_modifier() ) )" ] }
+              ]
+            }
           ],
           "false_effect": [ { "u_message": "You must be standing on the living earth to sink into the stone!", "type": "bad" } ]
         }

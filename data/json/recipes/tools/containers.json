@@ -979,7 +979,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_carving" } ],
     "components": [
       [ [ "2x4", 2 ] ],
-      [ [ "wire", 1 ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
+      [ [ "any_wire", 1, "LIST" ], [ "scrap", 2 ], [ "copper_scrap_equivalent", 1, "LIST" ] ],
       [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
     ]
   },

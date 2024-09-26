@@ -394,7 +394,7 @@ TEST_CASE( "npc-board-player-vehicle" )
 
             CAPTURE( companion->path );
             if( !companion->path.empty() ) {
-                tripoint &p = companion->path.front();
+                tripoint_bub_ms &p = companion->path.front();
 
                 int part = -1;
                 const vehicle *veh = here.veh_at_internal( p, part );

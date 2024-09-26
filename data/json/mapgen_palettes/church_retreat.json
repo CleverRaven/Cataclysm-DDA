@@ -40,7 +40,6 @@
       "a": "f_trashcan",
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "c": "f_cupboard",
-      "$": "f_vending_o",
       "D": "f_dumpster",
       "R": "f_recycle_bin",
       "e": "f_fridge",
@@ -73,6 +72,7 @@
         [ "f_boulder_large", 1 ]
       ]
     },
+    "vendingmachines": { "$": { "lootable": true } },
     "sealed_item": { "o": { "item": { "item": "seed_potato_raw" }, "furniture": "f_plant_seedling", "chance": 100 } },
     "toilets": { "T": {  } },
     "item": {

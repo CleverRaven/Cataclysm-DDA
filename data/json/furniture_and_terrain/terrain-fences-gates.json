@@ -192,7 +192,7 @@
       "result": "t_strconc_floor",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "lc_wire", "count": [ 8, 22 ] } ]
     },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE" ],
     "connect_groups": "WALL",
@@ -203,7 +203,7 @@
     "oxytorch": {
       "result": "t_strconc_floor",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "lc_wire", "count": [ 8, 22 ] } ]
     },
     "bash": {
       "str_min": 17,
@@ -214,7 +214,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 8, 20 ] },
+        { "item": "lc_wire", "count": [ 8, 20 ] },
         { "item": "chain", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -236,13 +236,13 @@
       "result": "t_strconc_floor",
       "duration": "10 minutes",
       "message": "You finish cutting the metal.",
-      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "lc_wire", "count": [ 8, 22 ] } ]
     },
     "open": "t_retractable_gate_o",
     "oxytorch": {
       "result": "t_strconc_floor",
       "duration": "9 seconds",
-      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "lc_wire", "count": [ 8, 22 ] } ]
     },
     "bash": {
       "str_min": 17,
@@ -253,7 +253,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "chain", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -278,7 +278,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_null",
       "items": [
-        { "item": "wire", "count": [ 6, 15 ] },
+        { "item": "lc_wire", "count": [ 6, 15 ] },
         { "item": "pipe", "count": [ 6, 15 ] },
         { "item": "scrap", "count": [ 0, 12 ] }
       ]
@@ -685,7 +685,7 @@
     "examine_action": "chainfence",
     "deconstruct": {
       "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+      "items": [ { "item": "lc_wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -693,7 +693,7 @@
       "sound": "metal rattling!",
       "sound_fail": "whack!",
       "ter_set": "t_chickenwire_fence_post",
-      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
+      "items": [ { "item": "lc_wire", "count": [ 5, 10 ] } ]
     }
   },
   {

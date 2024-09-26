@@ -33,7 +33,6 @@
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
 #include "coords_fwd.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -68,6 +67,7 @@ class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
@@ -1388,7 +1388,9 @@ class Character : public Creature, public visitable
         int count_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
-
+        /** Returns the vector of all traits in category, good/bad/any */
+        std::vector<trait_id> get_in_category( const mutation_category_id &categ,
+                                               mut_count_type count_type ) const;
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id &, const std::string & = "" );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
@@ -1608,6 +1610,11 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that tree has */
+        int get_total_in_category( const mutation_category_id &categ, mut_count_type count_type ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that character has */
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const;
         /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
         bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */
@@ -2635,7 +2642,7 @@ class Character : public Creature, public visitable
         nc_color symbol_color() const override;
         const std::string &symbol() const override;
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
 
         std::string mutation_name( const trait_id &mut ) const;
         std::string mutation_desc( const trait_id &mut ) const;

@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "output.h"
 #include "path_info.h"
 #include "pimpl.h"
 #include "translations.h"
@@ -47,6 +48,9 @@ struct MOD_INFORMATION {
          */
         std::set<std::string> maintainers;
 
+        /** Full filenames (including extension) of any loading screens this mod may have */
+        std::set<std::string> loading_images;
+
         translation description;
         std::string version;
 
@@ -61,6 +65,17 @@ struct MOD_INFORMATION {
 
         std::pair<int, translation> category = { -1, translation() };
 };
+
+// Enumerates and formats the mod origin
+template<typename src_id>
+std::string get_origin( const std::vector<std::pair<src_id, mod_id>> &src )
+{
+    std::string origin_str = enumerate_as_string( src.begin(),
+    src.end(), []( const std::pair<src_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    return string_format( _( "Origin: %s" ), origin_str );
+}
 
 class mod_manager
 {

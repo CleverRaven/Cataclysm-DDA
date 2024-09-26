@@ -280,16 +280,10 @@
       "ʭ": "f_ladder",
       "5": "f_water_purifier",
       "6": "f_machinery_heavy",
-      "Ö": "f_machinery_light",
-      "3": "f_vending_c",
-      "4": "f_vending_c"
+      "Ö": "f_machinery_light"
     },
-    "items": {
-      "3": { "item": "vending_food", "chance": 90 },
-      "4": { "item": "vending_drink", "chance": 90 },
-      "Q": { "item": "gas_charging_rack", "chance": 30 },
-      "J": [ { "item": "mechanics", "chance": 30 } ]
-    },
+    "items": { "Q": { "item": "gas_charging_rack", "chance": 30 }, "J": [ { "item": "mechanics", "chance": 30 } ] },
+    "vendingmachines": { "3": { "item_group": "vending_drink", "lootable": true }, "4": { "item_group": "vending_food", "lootable": true } },
     "sealed_item": { "]": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } }
   },
   {
@@ -315,18 +309,15 @@
       "ʭ": "f_ladder",
       "ʉ": "f_sandbag_wall",
       "ʋ": "f_sandbag_half",
-      "5": "f_target",
-      "3": "f_vending_c",
-      "4": "f_vending_c"
+      "5": "f_target"
     },
+    "vendingmachines": { "3": { "item_group": "vending_drink", "lootable": true }, "4": { "item_group": "vending_food", "lootable": true } },
     "monster": {
       "0": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
       "ɜ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } },
       "ɛ": { "monster": "mon_turret_rifle", "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 30, 90 ] } ] } }
     },
     "items": {
-      "3": { "item": "vending_food", "chance": 90 },
-      "4": { "item": "vending_drink", "chance": 90 },
       "P": { "item": "lab_files_security", "chance": 50 },
       "U": [
         { "item": "home_hw", "chance": 10, "repeat": [ 1, 2 ] },

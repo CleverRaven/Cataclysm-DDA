@@ -1181,7 +1181,7 @@ class Creature : public viewer
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
-        virtual std::string extended_description() const = 0;
+        virtual std::vector<std::string> extended_description() const = 0;
 
         /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;

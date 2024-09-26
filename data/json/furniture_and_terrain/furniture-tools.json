@@ -281,15 +281,15 @@
   {
     "type": "furniture",
     "id": "f_anvil_crude",
-    "name": "crude anvil",
+    "name": "small anvil",
     "looks_like": "f_anvil",
-    "description": "A heavy anvil-shaped block of steel.  It's used for simple metalworking.",
+    "description": "A small, handcrafted anvil.",
     "symbol": "^",
     "color": "light_red",
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 10,
-    "crafting_pseudo_item": "fake_anvil_crude",
+    "crafting_pseudo_item": "fake_anvil",
     "deconstruct": { "items": [ { "item": "anvil_crude", "count": 1 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
     "bash": {

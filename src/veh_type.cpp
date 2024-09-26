@@ -1394,16 +1394,10 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
     int mount_min_y = 123;
     int mount_max_y = -123;
     // Form a map of existing real parts
-    // Structural parts first
+    // get_all_parts() gets all non-fake parts
+    // The parts are already in installation order
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         const vehicle_part &p = vpr.part();
-        if( p.is_fake ) {
-            continue;
-        }
-        if( p.info().location == part_location_structure ) {
-            vp_map[p.mount].push_front( &p );
-            continue;
-        }
         mount_max_y = mount_max_y < p.mount.y ? p.mount.y : mount_max_y;
         mount_min_y = mount_min_y > p.mount.y ? p.mount.y : mount_min_y;
         vp_map[p.mount].push_back( &p );
@@ -1443,32 +1437,6 @@ void vehicle_prototype::save_vehicle_as_prototype( const vehicle &veh, JsonOut &
         return;
     };
     for( auto &vp_pos : vp_map ) {
-        auto fake = make_shared_fast<vehicle>( vproto_id() );
-        vehicle &fakev = *fake;
-        auto iter = vp_pos.second.begin();
-        // Ensure that the entries in the list can be installed in order.
-        // Might be a infinite loop if debug hammerspace created improper parts combination.
-        // So add a iteration limit to avoid this.
-        int iteration = 0;
-        for( ; iter != vp_pos.second.end(); ) {
-            vehicle_part g = **iter;
-            if( fakev.can_mount( point_zero, g.info() ).success() ) {
-                fakev.install_part( point_zero, std::move( g ) );
-                iter++;
-                continue;
-            }
-            iteration++;
-            auto iter2 = std::next( iter, 1 );
-            vp_pos.second.splice( vp_pos.second.end(), vp_pos.second, iter );
-            iter = iter2;
-            // It's impossible to hit this limit when a single mount point has fewer than 50 parts.
-            // So we can assume only infinite loop hits this limit.
-            if( iteration > 1250 ) {
-                debugmsg( "Error exporting vehicle: mount point (%d,%d) has illegal vehicle part sequence.",
-                          vp_pos.first.x, vp_pos.first.y );
-                return;
-            }
-        }
         json.start_object();
         json.member( "x", vp_pos.first.x );
         json.member( "y", vp_pos.first.y );

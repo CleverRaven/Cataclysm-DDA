@@ -1,0 +1,291 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_grass",
+    "name": "alien grass",
+    "description": "An area of something that vaguely resembles grass, except it's a light reddish color and the stalks are much broader.  Some kind of waxy residue seems to rub off onto your clothes when you walk through it.",
+    "symbol": ".",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_grass_long",
+    "name": "long alien grass",
+    "description": "An area of something that vaguely resembles grass.  Dark red in color and almost waist-high, each stalk splits into two to four other stalks which similarly split on various places along their length, ending in fine fern-like fronds.",
+    "transforms_into": "t_alien_meadow_grass",
+    "symbol": "'",
+    "color": "red",
+    "move_cost": 4,
+    "coverage": 30,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap_roots_long_grass",
+    "//": "Looks exactly the same so it's not obvious unless the player spots the trap",
+    "name": "long alien grass",
+    "description": "An area of something that vaguely resembles grass.  Dark red in color and almost waist-high, each stalk splits into two to four other stalks which similarly split on various places along their length, ending in fine fern-like fronds.",
+    "transforms_into": "t_alien_meadow_grass",
+    "symbol": "'",
+    "color": "red",
+    "move_cost": 4,
+    "coverage": 30,
+    "trap": "tr_alien_tree_trap_roots",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_grass_tall",
+    "name": "tall alien grass",
+    "description": "An area of something that vaguely resembles grass.  Head high and such a dark red as to be nearly black, the ends of the long stalks are a burst of fine fronds all tangled into and around each other, forming a canopy.",
+    "transforms_into": "t_alien_meadow_grass_long",
+    "symbol": "/",
+    "color": "red",
+    "move_cost": 6,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap_roots_tall_grass",
+    "//": "Looks exactly the same so it's not obvious unless the player spots the trap",
+    "name": "tall alien grass",
+    "description": "An area of something that vaguely resembles grass.  Dark red in color and almost waist-high, each stalk splits into two to four other stalks which similarly split on various places along their length, ending in fine fern-like fronds.",
+    "transforms_into": "t_alien_meadow_grass",
+    "symbol": "/",
+    "color": "red",
+    "move_cost": 6,
+    "coverage": 50,
+    "trap": "tr_alien_tree_trap_roots",
+    "flags": [ "TRANSPARENT", "DIGGABLE", "PLOWABLE", "SMALL_HIDE" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_shrub_1",
+    "name": "alien bush",
+    "description": "An alien plant, dark blue-green in color.  The leaves are all interwoven, forming a sphere except for spots where the leaves have been eaten away by some predator or pathogen.  It glows faintly in the dark.",
+    "symbol": "#",
+    "color": "blue",
+    "move_cost": 8,
+    "coverage": 40,
+    "light_emitted": 5,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "alien_leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_shrub_2",
+    "name": "alien bush",
+    "description": "An alien bush, but one that looks very similar to a terrestrial bush despite the dark purple leaves.  There are even clusters of white berries growing from it.",
+    "symbol": "#",
+    "color": "magenta",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_alien_meadow_shrub_2_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "id": "shrub_alien_meadow_shrub_2_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "alien_leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_shrub_2_harvested",
+    "name": "alien bush",
+    "description": "An alien bush, but one that looks very similar to a terrestrial bush despite the dark purple leaves.",
+    "symbol": "#",
+    "color": "magenta_white",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "HARVESTED" ],
+    "transforms_into": "t_alien_meadow_shrub_2",
+    "examine_action": "harvested_plant",
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "alien_leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_shrub_3",
+    "name": "alien shrub",
+    "description": "An alien plant.  The branches split and split again into very fine tendrils with bulbs on the end that float upward, holding its yellow leaves(?) up to the sun.  Every gust of wind makes the entire plant sway.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "alien_leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_1",
+    "name": "alien tree",
+    "description": "An alien tree, a group of individual dark-colored trunks that intertwine to the point whether you can't tell whether it's a single plant or a group of them.  The branches have nodes of dark red leaves interspersed along their lengths.  You're not entirely sure it's moving with the wind.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_2",
+    "name": "alien tree",
+    "description": "An alien tree, looking vaguely like a willow with yellow leaves.  As you look more closely, you see that the branches that touch the ground have put down roots and are forming secondary trunks.",
+    "symbol": "7",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_3",
+    "name": "alien tree",
+    "description": "An alien tree, with the trunk lifted off the ground on a cluster of roots.  Giant dark-red globes the size of watermelons hang from its branches amidst clusters of dark-red leaves.",
+    "//": "These fruit are incubators for the tree's mobile offspring, who root themselves and transform into more trees later in their life cycle.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 80,
+    "transforms_into": "t_alien_meadow_tree_3_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "tree_alien_meadow_tree_3_harv" } ],
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT", "BROWSABLE" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_3_harvested",
+    "name": "alien tree",
+    "description": "An alien tree, with the trunk lifted off the ground on a cluster of roots.  The branches have clusters of long, dark-red leaves.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 80,
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_alien_meadow_tree_3",
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT", "HARVESTED" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap",
+    "name": "alien tree",
+    "description": "An alien tree, a group of thick dark-colored trunks half-fused together.  The drooping branches have nodes of dark red leaves interspersed along their lengths.  You're not entirely sure it's moving with the wind.",
+    "//": "Description deliberately similar to t_alien_meadow_tree_1, as this is the fully mature version.",
+    "symbol": "7",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT", "HARVESTED" ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_tree_trap_roots_obvious",
+    "name": "alien roots",
+    "description": "A cluster of dark roots from an alien tree are visible here.  Did one of them just move?",
+    "symbol": ".",
+    "color": "red",
+    "move_cost": 3,
+    "trap": "tr_alien_tree_trap_roots",
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "DIGGABLE", "FLAT", "PLOWABLE", "ROUGH" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_alien_meadow_pond_goo",
+    "name": "strange pool",
+    "description": "A pool of some very thick, nearly-opaque liquid.  The surface is almost perfectly smooth.",
+    "symbol": "~",
+    "color": "green",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "ROUGH", "PERMEABLE", "SHORT", "UNSTABLE" ]
+  }
+]

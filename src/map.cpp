@@ -148,8 +148,6 @@ static const item_group_id Item_spawn_data_default_zombie_items( "default_zombie
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_water( "water" );
-static const itype_id itype_water_murky( "water_murky" );
 
 static const material_id material_glass( "glass" );
 
@@ -188,7 +186,6 @@ static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
-static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_soil( "t_soil" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
@@ -2440,12 +2437,10 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
         set_seen_cache_dirty( p );
     }
 
-    if( new_t.has_flag( "SPAWN_WITH_WATER" ) ) {
-        itype_id water_type = new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ? itype_water_murky :
-                              itype_water;
-        item water( water_type, calendar::start_of_cataclysm );
-        // TODO: Move all numeric values to json
-        water.charges = rng( 40, 240 );
+    if( !new_t.liquid_source_item_id.empty() && new_t.liquid_source_count != std::make_pair( 0, 0 ) ) {
+
+        item water( new_t.liquid_source_item_id, calendar::start_of_cataclysm );
+        water.charges = rng( new_t.liquid_source_count.first, new_t.liquid_source_count.second );
         add_item( p, water );
     }
 
@@ -5773,43 +5768,22 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
-item map::water_from( const tripoint &p )
+item map::liquid_from( const tripoint &p )
 {
-    return map::water_from( tripoint_bub_ms( p ) );
+    return map::liquid_from( tripoint_bub_ms( p ) );
 }
 
-item map::water_from( const tripoint_bub_ms &p ) const
+item map::liquid_from( const tripoint_bub_ms &p ) const
 {
     weather_manager &weather = get_weather();
-    if( has_flag( ter_furn_flag::TFLAG_SALT_WATER, p ) ) {
-        item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
-                                            temperatures::cold ) );
-        return ret;
-    }
+    ter_t source_terrain = ter( p ).obj();
 
-    if( has_flag( ter_furn_flag::TFLAG_CHOCOLATE, p ) ) {
-        item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
-                                            temperatures::cold ) );
-        return ret;
-    }
+    if( !source_terrain.liquid_source_item_id.empty() &&
+        source_terrain.liquid_source_count == std::make_pair( 0, 0 ) ) {
 
-    const ter_id terrain_id = ter( p );
-    if( terrain_id == ter_t_sewage ) {
-        item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
+        item ret( source_terrain.liquid_source_item_id, calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
-                                            temperatures::cold ) );
-        return ret;
-    }
-
-    // iexamine::water_source requires a valid liquid from this function.
-    if( terrain_id->has_examine( iexamine::water_source ) ||
-        furn( p )->has_examine( iexamine::water_source ) ) {
-        itype_id liquid_id = has_flag( ter_furn_flag::TFLAG_MURKY, p ) ? itype_water_murky : itype_water;
-        item ret( liquid_id, calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( std::max( weather.get_temperature( p.raw() ),
-                                            temperatures::cold ) );
+                                            units::from_celsius( source_terrain.liquid_source_min_temp ) ) );
         return ret;
     }
     return item();
@@ -6074,6 +6048,30 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
     }
 }
 
+std::vector<item_reference> map::item_network_connections( vehicle *power_grid )
+{
+    std::vector<item_reference> result;
+    for( const auto &iter : submaps_with_active_items ) {
+        tripoint_abs_sm const abs_pos = iter;
+        const tripoint_rel_sm local_pos = abs_pos - abs_sub.xy();
+        submap *const current_submap = get_submap_at_grid( local_pos );
+        std::vector<item_reference> active_items = current_submap->active_items.get_for_processing();
+        for( item_reference &active_item_ref : active_items ) {
+            if( !active_item_ref.item_ref ) {
+                continue;
+            }
+
+            if( active_item_ref.item_ref->has_link_data() &&
+                active_item_ref.item_ref->link().t_veh &&
+                active_item_ref.item_ref->link().t_veh->pos_bub() == power_grid->pos_bub() ) {
+                result.emplace_back( active_item_ref );
+            }
+        }
+    }
+
+    return result;
+}
+
 void map::process_items_in_vehicles( submap &current_submap )
 {
     // a copy, important if the vehicle list changes because a
@@ -6278,7 +6276,7 @@ std::list<item> map::use_amount_square( const tripoint_bub_ms &p, const itype_id
 {
     std::list<item> ret;
     // Handle infinite map sources.
-    item water = water_from( p );
+    item water = liquid_from( p );
     if( water.typeId() == type && water.charges == item::INFINITE_CHARGES ) {
         ret.push_back( water );
         quantity = 0;
@@ -6475,7 +6473,7 @@ std::list<item> map::use_charges( const std::vector<tripoint_bub_ms> &reachable_
     // first
     for( const tripoint_bub_ms &p : reachable_pts ) {
         // Handle infinite map sources.
-        item water = water_from( p );
+        item water = liquid_from( p );
         if( water.typeId() == type && water.charges == item::INFINITE_CHARGES ) {
             water.charges = quantity;
             ret.push_back( water );

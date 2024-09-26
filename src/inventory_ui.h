@@ -1057,7 +1057,7 @@ class pickup_selector : public inventory_multiselector
         bool wield( int &count );
         bool wear();
         void remove_from_to_use( item_location &it );
-        void add_reopen_activity();
+        void reopen_menu();
         const std::optional<tripoint> where;
 };
 

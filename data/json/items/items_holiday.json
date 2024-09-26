@@ -108,8 +108,8 @@
   {
     "abstract": "inflatable_decoration",
     "type": "TOOL",
-    "name": { "str": "inflatable" },
-    "description": "A generic inflatable abstract to use for specific items.",
+    "name": { "str": "inflatable", "//~": "NO_I18N" },
+    "description": { "str": "A generic inflatable abstract to use for specific items.", "//~": "NO_I18N" },
     "weight": "3 kg",
     "volume": "5 L",
     "price": "50 USD",
