@@ -1916,9 +1916,17 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
 
     //Make sure the resulting vehicle would not be too large
     if( size.x <= MAX_WIRE_VEHICLE_SIZE && size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+        // Find all item connections to the merging network so they can be updated after merge.
+        std::vector<item_reference> network_connections = get_map().item_network_connections( &veh_target );
+        tripoint_bub_ms old_grid_reference{veh_target.pos_bub()};
         if( !merge_vehicle_parts( &veh_target ) ) {
             debugmsg( "failed to merge vehicle parts" );
         } else {
+            //  Adjust the connections after the change of the power_grid origo.
+            for( const item_reference &item_ref : network_connections ) {
+                item_ref.item_ref->link().t_mount += ( old_grid_reference - this->pos_bub() ).xy().raw();
+            }
+
             //Keep wall wiring sections from losing their flag
             //A grid with only wires needs this flag to count as a powergrid
             //But it's not a problem if a grid without any has this flag, thus we can add it without issue
