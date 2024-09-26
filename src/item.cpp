@@ -674,7 +674,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
     return *this;
 }
 
-item &item::deactivate( const Character *ch, bool alert )
+item &item::deactivate( Character *ch, bool alert )
 {
     if( !active ) {
         return *this; // no-op
@@ -687,6 +687,9 @@ item &item::deactivate( const Character *ch, bool alert )
         convert( *type->revert_to );
         active = false;
 
+        if( ch ) {
+            ch->clear_inventory_search_cache();
+        }
     }
     return *this;
 }
