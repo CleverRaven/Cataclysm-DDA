@@ -1670,6 +1670,19 @@
     ]
   },
   {
+    "id": "nested_mk47",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mk47", "charges": [ 0, 30 ] },
+      { "item": "akmag30" },
+      { "item": "akmag30", "prob": 50 },
+      { "group": "on_hand_762" }
+    ]
+  },
+  {
     "id": "nested_m16_auto_rifle",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2762,7 +2775,7 @@
       { "item": "steyr_scout_mag" },
       { "item": "steyr_scout_mag", "prob": 50 },
       { "item": "steyr_scout_mag", "prob": 50 },
-      { "group": "on_hand_450" }
+      { "group": "on_hand_308" }
     ]
   },
   {

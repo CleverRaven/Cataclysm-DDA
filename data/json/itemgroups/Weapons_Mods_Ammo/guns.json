@@ -14,8 +14,8 @@
       { "group": "guns_pistol_common_38", "prob": 11 },
       { "group": "guns_pistol_common_44", "prob": 1 },
       { "group": "guns_pistol_common_10mm", "prob": 1 },
-      { "group": "guns_pistol_common_762_39", "prob": 1 },
-      { "group": "guns_pistol_common_223", "prob": 17 },
+      { "group": "guns_pistol_common_762_39", "prob": 2 },
+      { "group": "guns_pistol_common_223", "prob": 33 },
       { "group": "guns_pistol_common_300", "prob": 10 },
       { "group": "guns_pistol_common_57", "prob": 2 },
       { "group": "guns_pistol_common_32", "prob": 1 },
@@ -112,7 +112,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "guns_pistol_obscure_display",
-	"magazine": 100,
+    "magazine": 100,
     "//": "Pistols that are rare and sought after but with little or no historical value.  Think of magnum handguns, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
     "items": [
       { "item": "colt_python", "prob": 30 },
@@ -192,15 +192,26 @@
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
-      { "group": "guns_rifle_common_22", "prob": 30 },
-      { "group": "guns_rifle_common_223", "prob": 40 },
-      { "group": "guns_rifle_common_762", "prob": 6 },
-      { "group": "guns_rifle_common_308", "prob": 1 },
-      { "group": "guns_rifle_common_3006", "prob": 1 },
-      { "group": "guns_rifle_common_762R", "prob": 2 },
-      { "group": "guns_rifle_common_270win", "prob": 1 },
-      { "group": "guns_rifle_common_380", "prob": 1 },
-      { "group": "guns_rifle_common_other", "prob": 12 }
+      { "group": "guns_rifle_common_22", "prob": 1760 },
+      { "group": "guns_rifle_common_223", "prob": 1000 },
+      { "group": "guns_rifle_common_308", "prob": 320 },
+      { "group": "guns_rifle_common_45acp", "prob": 271 },
+      { "group": "guns_rifle_common_762", "prob": 230 },
+      { "group": "guns_rifle_common_9mm", "prob": 180 },
+      { "group": "guns_rifle_common_3006", "prob": 149 },
+      { "group": "guns_rifle_common_44", "prob": 81 },
+      { "group": "guns_rifle_common_762R", "prob": 70 },
+      { "group": "guns_rifle_common_270win", "prob": 57 },
+      { "group": "guns_rifle_common_300winmag", "prob": 32 },
+      { "group": "guns_rifle_common_380", "prob": 24 },
+      { "group": "guns_rifle_common_4570", "prob": 18 },
+      { "group": "guns_rifle_common_30carbine", "prob": 17 },
+      { "group": "guns_rifle_common_303", "prob": 16 },
+      { "group": "guns_rifle_common_338", "prob": 14 },
+      { "group": "guns_rifle_common_450", "prob": 3 },
+      { "group": "guns_rifle_common_50beowulf", "prob": 3 },
+      { "group": "guns_rifle_common_57", "prob": 3 },
+      { "group": "guns_rifle_common_7mm_arisaka", "prob": 2 }
     ]
   },
   {
@@ -649,10 +660,7 @@
     "type": "item_group",
     "id": "guns_rare",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [
-      { "group": "guns_rifle_rare", "prob": 57 },
-      { "group": "guns_shotgun_rare", "prob": 1 }
-    ]
+    "items": [ { "group": "guns_rifle_rare", "prob": 57 }, { "group": "guns_shotgun_rare", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -665,19 +673,13 @@
     "type": "item_group",
     "id": "guns_rare_static",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [
-      { "group": "guns_rifle_rare", "prob": 57 },
-      { "group": "guns_shotgun_rare_static", "prob": 1 }
-    ]
+    "items": [ { "group": "guns_rifle_rare", "prob": 57 }, { "group": "guns_shotgun_rare_static", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_readied",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [
-      { "group": "guns_rifle_rare", "prob": 57 },
-      { "group": "guns_shotgun_rare_readied", "prob": 1 }
-    ]
+    "items": [ { "group": "guns_rifle_rare", "prob": 57 }, { "group": "guns_shotgun_rare_readied", "prob": 1 } ]
   },
   {
     "type": "item_group",

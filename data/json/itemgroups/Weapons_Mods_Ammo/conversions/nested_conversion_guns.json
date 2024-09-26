@@ -51,9 +51,9 @@
     "entries": [
       {
         "distribution": [
-          { "group": "ar15_50", "charges": [ 0, 10 ], "prob": 10 },
-          { "group": "ar15_50medium", "charges": [ 0, 10 ], "prob": 8 },
-          { "group": "ar15_50short", "charges": [ 0, 10 ], "prob": 6 }
+          { "group": "ar15_50", "charges": [ 0, 10 ], "prob": 6 },
+          { "group": "ar15_50medium", "charges": [ 0, 10 ], "prob": 1 },
+          { "group": "ar15_50short", "charges": [ 0, 10 ], "prob": 2 }
         ],
         "prob": 100
       },
@@ -72,7 +72,7 @@
     "entries": [
       {
         "distribution": [
-          { "group": "ar15_450", "charges": [ 0, 4 ], "prob": 10 },
+          { "group": "ar15_450", "charges": [ 0, 4 ], "prob": 20 },
           { "group": "ar15_450medium", "charges": [ 0, 4 ], "prob": 8 },
           { "group": "ar15_450short", "charges": [ 0, 4 ], "prob": 6 }
         ],
