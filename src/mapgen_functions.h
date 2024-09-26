@@ -56,14 +56,14 @@ void madd_field( map *m, const point &, field_type_id type, int intensity );
 void mremove_fields( map *m, const tripoint_bub_ms & );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
-// Returns an empty string on success and the name of a colliding "vehicle" on failure.
-std::string run_mapgen_update_func(
+// Return contains the name of a colliding "vehicle" on failure.
+ret_val<void> run_mapgen_update_func(
     const update_mapgen_id &, const tripoint_abs_omt &omt_pos, const mapgen_arguments &,
     mission *miss = nullptr, bool cancel_on_collision = true, bool mirror_horizontal = false,
     bool mirror_vertical = false, int rotation = 0 );
-// Returns an empty string on success and the name of a colliding "vehicle" on failure.
-std::string run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
-                                    bool cancel_on_collision = true );
+// Return contains the name of a colliding "vehicle" on failure.
+ret_val<void> run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
+                                      bool cancel_on_collision = true );
 void set_queued_points();
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,

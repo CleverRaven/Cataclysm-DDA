@@ -2215,7 +2215,7 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
             mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully =
-                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat ).empty();
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat ).success();
             break;
         }
         case map_extra_method::null:
@@ -2253,7 +2253,7 @@ void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_omt 
             mapgendata dat( abs_omt, *m.cast_to_map(), 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully =
-                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat ).empty();
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat ).success();
             break;
         }
         case map_extra_method::null:

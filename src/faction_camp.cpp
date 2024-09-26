@@ -726,10 +726,11 @@ void talk_function::start_camp( npc &p )
         }
     }
     const recipe &making = camp_type.obj();
-    const std::string colliding_vehicle = run_mapgen_update_func( making.get_blueprint(), omt_pos, {} );
-    if( !colliding_vehicle.empty() ) {
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( making.get_blueprint(),
+            omt_pos, {} );
+    if( !has_vehicle_collision.success() ) {
         popup( _( "%1$s failed to start the %2$s basecamp, %3$s appliance/vehicle seems to be in the way." ),
-               p.disp_name(), making.get_blueprint().str(), colliding_vehicle );
+               p.disp_name(), making.get_blueprint().str(), has_vehicle_collision.str() );
         return;
     }
     std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
@@ -3627,10 +3628,10 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                         }
                         farm_json->rotate( 4 - rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
-                        const std::string colliding_vehicle = run_mapgen_update_func( update_id, dat, false );
-                        if( !colliding_vehicle.empty() ) {
+                        const ret_val<void> has_vehicle_collision = run_mapgen_update_func( update_id, dat, false );
+                        if( !has_vehicle_collision.success() ) {
                             debugmsg( "farm_action failed to apply the %1$s map update to %2$s, collision with %3$s vehicle/appliance.",
-                                      provide.first, omt_id, colliding_vehicle );
+                                      provide.first, omt_id, has_vehicle_collision.str() );
                         }
                         farm_json->rotate( rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
@@ -3968,14 +3969,14 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
         return salt_water_pipe_return( miss_id, npc_list );
     }
 
-    const std::string colliding_vehicle = run_mapgen_update_func( making.get_blueprint(), upos,
-                                          miss_id.mapgen_args, nullptr, true,
-                                          mirror_horizontal, mirror_vertical, rotation );
-    if( !colliding_vehicle.empty() ) {
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( making.get_blueprint(), upos,
+            miss_id.mapgen_args, nullptr, true,
+            mirror_horizontal, mirror_vertical, rotation );
+    if( !has_vehicle_collision.success() ) {
         popup( _( "%1$s failed to build the %2$s upgrade, %3$s vehicle/appliance seems to be in the way." ),
                companion_list,
                making.get_blueprint().str(),
-               colliding_vehicle );
+               has_vehicle_collision.str() );
         return false;
     }
 
@@ -4623,14 +4624,14 @@ bool basecamp::survey_return( const mission_id &miss_id )
         }
     }
 
-    const std::string colliding_vehicle = run_mapgen_update_func( update_mapgen_id(
-            expansion_type.str() ), where, {}, nullptr, true,
-                                          mirror_horizontal, mirror_vertical, rotation );
-    if( !colliding_vehicle.empty() ) {
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( update_mapgen_id(
+                expansion_type.str() ), where, {}, nullptr, true,
+            mirror_horizontal, mirror_vertical, rotation );
+    if( !has_vehicle_collision.success() ) {
         popup( _( "%1$s failed to add the %2$s expansion, %3$s vehicle/appliance seems to be in the way." ),
                comp->disp_name(),
                expansion_type->blueprint_name(),
-               colliding_vehicle );
+               has_vehicle_collision.str() );
         if( query_yn(
                 _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked (e.g. after clearing away the obstacle)." ) ) ) {
             finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
