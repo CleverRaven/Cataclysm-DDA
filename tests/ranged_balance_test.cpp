@@ -458,7 +458,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
         shooter->recoil = 0;
         monster &mon = spawn_test_monster( monster_type, monster_pos, false );
         const int prev_HP = mon.get_hp();
-        shooter->fire_gun( monster_pos, 1, *shooter->get_wielded_item() );
+        shooter->fire_gun( tripoint_bub_ms( monster_pos ), 1, *shooter->get_wielded_item() );
         damage.add( prev_HP - mon.get_hp() );
         if( damage.margin_of_error() < 0.05 && damage.n() > 100 ) {
             break;

@@ -2218,7 +2218,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .on_submit( [vppos] {
             add_msg( _( "You carefully peek through the curtains." ) );
-            g->peek( vppos );
+            g->peek( tripoint_bub_ms( vppos ) );
         } );
     }
 

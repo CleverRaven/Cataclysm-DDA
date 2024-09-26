@@ -8,6 +8,7 @@
 
 #include "ammo.h"
 #include "character.h"
+#include "coordinates.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -99,7 +100,7 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             int shots_fired = 0;
             // 3 attempts to fire, to account for possible misfires
             for( int attempt = 0; shots_fired == 0 && attempt < 3; attempt++ ) {
-                shots_fired += qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) );
+                shots_fired += qry.fire( player_character, player_character.pos_bub() + point( qry.range(), 0 ) );
             }
             CHECK( shots_fired > 0 );
 

@@ -3436,7 +3436,7 @@ static void show_sound()
 
     shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         const point offset {
-            player_character.view_offset.xy() + point( POSX - player_character.posx(), POSY - player_character.posy() )
+            player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
         };
         for( const tripoint &sound : sounds_to_draw.first ) {
             mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );

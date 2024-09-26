@@ -45,7 +45,7 @@ class aim_activity_actor : public activity_actor
 {
     private:
         std::optional<item> fake_weapon;
-        std::vector<tripoint> fin_trajectory;
+        std::vector<tripoint_bub_ms> fin_trajectory;
 
     public:
         std::string action;
@@ -56,7 +56,7 @@ class aim_activity_actor : public activity_actor
         /* Item location for RAS weapon reload */
         item_location reload_loc = item_location();
         bool shifting_view = false;
-        tripoint initial_view_offset;
+        tripoint_rel_ms initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
         /** if true abort if no targets are available when re-entering aiming ui after shooting */

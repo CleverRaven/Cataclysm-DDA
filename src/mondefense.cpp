@@ -125,8 +125,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint> pts = closest_points_first( source->pos(), 1 );
-    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
+    std::vector<tripoint_bub_ms> pts = closest_points_first( source->pos_bub(), 1 );
+    pts.erase( std::remove( pts.begin(), pts.end(), m.pos_bub() ), pts.end() );
 
     projectile prj;
     prj.speed = 10;
@@ -135,8 +135,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     prj.impact.add_damage( damage_acid, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
-        const tripoint &target = random_entry( pts );
-        projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
+        const tripoint_bub_ms &target = random_entry( pts );
+        projectile_attack( prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
     }
 
     if( get_player_view().sees( m.pos() ) ) {
@@ -166,7 +166,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const tripoint fire_point = source->pos();
+    const tripoint_bub_ms fire_point = source->pos_bub();
     // If target actually was not damaged by projectile - then do not bother
     // Also it covers potential exploit - peek throwing potentially can be used to exhaust turret ammo
     if( proj != nullptr && proj->dealt_dam.total_damage() == 0 ) {

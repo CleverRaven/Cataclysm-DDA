@@ -60,16 +60,22 @@ TEST_CASE( "line_attack", "[magic]" )
     // set up Character to test with, only need position
     npc &c = spawn_npc( point_zero, "test_talker" );
     clear_character( c );
-    c.setpos( tripoint_zero );
+    c.setpos( tripoint_bub_ms_zero );
 
     // target point 5 tiles east of zero
     tripoint target = tripoint_east * 5;
 
     // Ensure that AOE=0 spell covers the 5 tiles along vector towards target
     SECTION( "aoe=0" ) {
-        const std::set<tripoint> reference( { tripoint_east * 1, tripoint_east * 2, tripoint_east * 3, tripoint_east * 4, tripoint_east * 5 } );
+        const std::set<tripoint_bub_ms> reference( {
+            c.pos_bub() + tripoint_rel_ms_east * 1,
+            c.pos_bub() + tripoint_rel_ms_east * 2,
+            c.pos_bub() + tripoint_rel_ms_east * 3,
+            c.pos_bub() + tripoint_rel_ms_east * 4,
+            c.pos_bub() + tripoint_rel_ms_east * 5,
+        } );
 
-        std::set<tripoint> targets = calculate_spell_effect_area( sp, target, c );
+        std::set<tripoint_bub_ms> targets = calculate_spell_effect_area( sp, target, c );
 
         CHECK( reference == targets );
     }
