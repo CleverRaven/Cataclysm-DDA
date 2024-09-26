@@ -418,9 +418,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         return false;
     }
     if( player_character.has_trait( trait_GUNSHY ) ) {
-        // Check if any turret is a firearm
         player_character.add_msg_if_player(
-            _( "Firing a gun isn't any better, even if it's mounted." ) );
+            _( "You refuse to use a firearm even when it's mounted." ) );
         return false;
     }
 
