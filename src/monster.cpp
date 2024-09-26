@@ -1714,6 +1714,7 @@ monster_attitude monster::attitude( const Character *u ) const
                 if( effective_anger < 20 ) {
                     effective_morale += 80;
                 }
+            }
         }
 
         for( const trait_id &mut : u->get_mutations() ) {
