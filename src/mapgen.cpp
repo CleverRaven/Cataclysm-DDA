@@ -8163,7 +8163,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 }
 
 static const std::string missing_update_operation =
-    _( "missing update operation (not vehicle/appliance)" );
+    "missing update operation (not vehicle/appliance)";
 
 ret_val<void> run_mapgen_update_func(
     const update_mapgen_id &update_mapgen_id, const tripoint_abs_omt &omt_pos,
@@ -8173,7 +8173,7 @@ ret_val<void> run_mapgen_update_func(
     const auto update_function = update_mapgens.find( update_mapgen_id );
 
     if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
-        return ret_val<void>::make_failure( missing_update_operation );
+        return ret_val<void>::make_failure( _( missing_update_operation ) );
     }
     return update_function->second.funcs()[0]->update_map(
                omt_pos, args, tripoint_rel_ms_zero, miss, cancel_on_collision, mirror_horizontal,
@@ -8185,7 +8185,7 @@ ret_val<void> run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, 
 {
     const auto update_function = update_mapgens.find( update_mapgen_id );
     if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
-        return ret_val<void>::make_failure( missing_update_operation );
+        return ret_val<void>::make_failure( _( missing_update_operation ) );
     }
     return update_function->second.funcs()[0]->update_map( dat, tripoint_rel_ms_zero,
             cancel_on_collision );
