@@ -877,10 +877,10 @@
     "type": "item_group",
     "//": "lesser enchanted bracers",
     "subtype": "collection",
-    "items": [ 
-      { "item": "mbracer_defense_lesser", "prob": 10 }, 
-      { "item": "mbracer_lightning_lesser", "prob": 10 }, 
-      { "item": "mbracer_archery", "prob": 5 } 
+    "items": [
+      { "item": "mbracer_defense_lesser", "prob": 10 },
+      { "item": "mbracer_lightning_lesser", "prob": 10 },
+      { "item": "mbracer_archery", "prob": 5 }
     ]
   },
   {
@@ -1904,9 +1904,10 @@
     ]
   },
   {
+    "type": "item_group",
     "id": "SUS_hunting_archery",
     "copy-from": "SUS_hunting_archery",
     "subtype": "collection",
-    "extend": { "items": [ { "mbracer_archery", "prob": 1 } ] }
+    "extend": { "items": [ { "item": "mbracer_archery", "prob": 1 } ] }
   }
 ]

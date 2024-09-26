@@ -315,7 +315,6 @@
   },
   {
     "id": "druid_recurve",
-    "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
