@@ -2,7 +2,7 @@
   {
     "abstract": "40x46mm_grenade",
     "type": "AMMO",
-    "name": { "str": "40x46mm grenade" },
+    "name": { "str": "40x46mm grenade", "//~": "NO_I18N" },
     "volume": "129 ml",
     "weight": "230 g",
     "longest_side": "99 mm",
