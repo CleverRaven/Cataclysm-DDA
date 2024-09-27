@@ -101,7 +101,7 @@ static void test_throwing_player_versus(
         monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );
 
-        dealt_projectile_attack atk = you.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = you.throw_item( mon.pos_bub(), it );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -270,7 +270,7 @@ static void test_player_kills_monster(
             you.mod_moves( you.get_speed() );
             while( you.get_moves() > 0 ) {
                 you.wield( it );
-                you.throw_item( mon.pos(), it );
+                you.throw_item( mon.pos_bub(), it );
                 you.remove_weapon();
                 ++num_items;
             }

@@ -1447,16 +1447,16 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string &name, const tripoint &p )
+void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
 {
-    if( pos() == p ) {
+    if( pos_bub() == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
         return;
     }
 
-    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, 0, 0 );
     Creature *c = nullptr;
-    for( const tripoint &path_p : path ) {
+    for( const tripoint_bub_ms &path_p : path ) {
         c = get_creature_tracker().creature_at( path_p );
         if( c == nullptr && get_map().impassable( path_p ) ) {
             add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );
