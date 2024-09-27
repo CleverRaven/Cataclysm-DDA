@@ -219,17 +219,7 @@
     "id": "guns_rifle_common_worn",
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "//2": "This is for worn items so ammo should be handled elsewhere so that mods can be added directly.",
-    "items": [
-      { "group": "guns_rifle_common_worn_22", "prob": 29 },
-      { "group": "guns_rifle_common_worn_223", "prob": 43 },
-      { "group": "guns_rifle_common_worn_762", "prob": 7 },
-      { "group": "guns_rifle_common_worn_308", "prob": 1 },
-      { "group": "guns_rifle_common_worn_3006", "prob": 1 },
-      { "group": "guns_rifle_common_worn_762R", "prob": 2 },
-      { "group": "guns_rifle_common_worn_270win", "prob": 1 },
-      { "group": "guns_rifle_common_worn_380", "prob": 1 },
-      { "group": "guns_rifle_common_worn_other", "prob": 1 }
-    ]
+    "items": [ { "group": "guns_rifle_common_display", "charges": [ 1, 30 ] } ]
   },
   {
     "type": "item_group",
