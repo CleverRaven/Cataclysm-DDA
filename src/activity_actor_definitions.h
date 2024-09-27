@@ -2156,8 +2156,8 @@ class unload_loot_activity_actor : public activity_actor
         int moves;
         int num_processed;
         int stage;
-        std::unordered_set<tripoint> coord_set;
-        tripoint placement;
+        std::unordered_set<tripoint_abs_ms> coord_set;
+        tripoint_abs_ms placement;
 };
 
 class pulp_activity_actor : public activity_actor
