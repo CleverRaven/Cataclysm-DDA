@@ -2714,7 +2714,7 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
     const item_location &lockpick,
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2726,7 +2726,7 @@ lockpick_activity_actor lockpick_activity_actor::use_item(
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_bionic(
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2962,7 +2962,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_zero );
+    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
