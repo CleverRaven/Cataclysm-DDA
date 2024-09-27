@@ -1212,12 +1212,12 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
     // character_ranged_attacks_character
     const tripoint_bub_ms target_pos = get_avatar().pos_bub() + point_east;
     clear_map();
-    npc &npc_dst_ranged = spawn_npc( target_pos.xy().raw(), "thug" );
+    npc &npc_dst_ranged = spawn_npc( target_pos.xy(), "thug" );
     for( loop = 0; loop < 1000; loop++ ) {
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
         get_avatar().recoil = 0;
-        get_avatar().fire_gun( target_pos.raw(), 1, *get_avatar().get_wielded_item() );
+        get_avatar().fire_gun( target_pos, 1, *get_avatar().get_wielded_item() );
         if( !npc_dst_ranged.get_value( "npctalk_var_test_event_last_event" ).empty() ) {
             break;
         }
@@ -1232,7 +1232,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
 
     // character_ranged_attacks_monster
     clear_map();
-    monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos.raw() );
+    monster &mon_dst_ranged = spawn_test_monster( "mon_zombie", target_pos );
     for( loop = 0; loop < 1000; loop++ ) {
         get_avatar().set_body();
         arm_shooter( get_avatar(), "shotgun_s" );
@@ -1252,7 +1252,7 @@ TEST_CASE( "EOC_combat_event_test", "[eoc]" )
 
     // character_kills_monster
     clear_map();
-    monster &victim = spawn_test_monster( "mon_zombie", target_pos.raw() );
+    monster &victim = spawn_test_monster( "mon_zombie", target_pos );
     victim.die( &get_avatar() );
 
     CHECK( get_avatar().get_value( "npctalk_var_test_event_last_event" ) == "character_kills_monster" );
