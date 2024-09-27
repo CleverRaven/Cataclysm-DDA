@@ -251,41 +251,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_rare",
-    "//": "Less common rifles including those only used by police/paramilitary forces.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [
-      { "group": "guns_rifle_rare_223", "prob": 210 },
-      { "group": "guns_rifle_rare_762", "prob": 15 },
-      { "group": "guns_rifle_rare_308", "prob": 194 },
-      { "group": "guns_rifle_rare_3006", "prob": 35 },
-      { "group": "guns_rifle_rare_44", "prob": 10 },
-      { "group": "guns_rifle_rare_45", "prob": 21 },
-      { "group": "guns_rifle_rare_762R", "prob": 27 },
-      { "group": "guns_rifle_rare_300blk", "prob": 10 },
-      { "group": "guns_rifle_rare_other", "prob": 94 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "distribution",
-    "id": "guns_rifle_rare_display",
-    "//": "Less common rifles found exclusively in gun stores.",
-    "items": [
-      { "group": "guns_rifle_rare_display_22", "prob": 34 },
-      { "group": "guns_rifle_rare_display_223", "prob": 68 },
-      { "group": "guns_rifle_rare_display_762", "prob": 1 },
-      { "group": "guns_rifle_rare_display_308", "prob": 18 },
-      { "group": "guns_rifle_rare_display_3006", "prob": 20 },
-      { "group": "guns_rifle_rare_display_44", "prob": 10 },
-      { "group": "guns_rifle_rare_display_45", "prob": 10 },
-      { "group": "guns_rifle_rare_display_762R", "prob": 17 },
-      { "group": "guns_rifle_rare_display_300blk", "prob": 15 },
-      { "group": "guns_rifle_rare_display_other", "prob": 106 }
-    ]
-  },
-  {
-    "type": "item_group",
     "subtype": "distribution",
     "id": "guns_rifle_hunting_display",
     "//": "Empty civilian hunting rifles found within hunting supply stores and other related locations.",
@@ -662,26 +627,26 @@
     "type": "item_group",
     "id": "guns_rare",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_rifle_rare", "prob": 57 }, { "group": "guns_shotgun_rare", "prob": 1 } ]
+    "items": [ { "group": "guns_shotgun_rare", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_display",
     "subtype": "distribution",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_rifle_rare_display", "prob": 58 }, { "group": "guns_shotgun_rare_display", "prob": 1 } ]
+    "items": [ { "group": "guns_shotgun_rare_display", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_static",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_rifle_rare", "prob": 57 }, { "group": "guns_shotgun_rare_static", "prob": 1 } ]
+    "items": [ { "group": "guns_shotgun_rare_static", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_readied",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_rifle_rare", "prob": 57 }, { "group": "guns_shotgun_rare_readied", "prob": 1 } ]
+    "items": [ { "group": "guns_shotgun_rare_readied", "prob": 1 } ]
   },
   {
     "type": "item_group",

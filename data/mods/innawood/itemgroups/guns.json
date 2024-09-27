@@ -40,12 +40,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_rare",
-    "//": "Less common rifles including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_rifle_improvised", "prob": 22 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_rifle_milspec",
     "//": "Military specification rifles only ever found at military sites.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",

@@ -126,8 +126,7 @@
     "entries": [
       { "group": "guns_pistol_common", "prob": 270 },
       { "group": "guns_smg_improvised", "prob": 90 },
-      { "group": "guns_rifle_common", "prob": 135 },
-      { "group": "guns_rifle_rare", "prob": 40 },
+      { "group": "guns_rifle_common", "prob": 175 },
       { "group": "ammo_pistol_common", "prob": 75 },
       { "group": "ammo_pistol_rare", "prob": 50 },
       { "group": "ammo_pistol_obscure", "prob": 30 },

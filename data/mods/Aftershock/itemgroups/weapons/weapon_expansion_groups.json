@@ -20,16 +20,16 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_rare_display",
-    "copy-from": "guns_rifle_rare_display",
+    "id": "guns_rifle_common_display",
+    "copy-from": "guns_rifle_common_display",
     "extend": {
       "items": [ { "item": "afs_gibrifle", "prob": 1, "charges": 0 }, { "item": "afs_Accipitermg", "prob": 1, "charges": 0 } ]
     }
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_rare",
-    "copy-from": "guns_rifle_rare",
+    "id": "guns_rifle_common",
+    "copy-from": "guns_rifle_common",
     "extend": {
       "items": [
         { "item": "afs_gibrifle", "prob": 25, "charges": [ 0, 30 ] },
