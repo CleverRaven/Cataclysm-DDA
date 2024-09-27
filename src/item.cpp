@@ -7118,7 +7118,7 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
 
     if( flag_id_irreplaceable_consumeable() ) {
         // irreplaceable items are worth more by how many seasons from the cataclysm player is
-        price *= 0.25 + (calendar::turn - calendar::start_of_cataclysm).days() / 90;
+        price *= 0.25 + ( calendar::turn - calendar::start_of_cataclysm ).days() / 90;
     }
 
     for( fault_id fault : faults ) {
