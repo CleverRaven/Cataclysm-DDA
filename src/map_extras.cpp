@@ -1039,7 +1039,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             fungal_effects fe;
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
-                    fe.marlossify( loc.raw() ); // TODO: typify fungal effects.
+                    fe.marlossify( loc );
                 }
             }
             //50% chance to spawn pouf-maker

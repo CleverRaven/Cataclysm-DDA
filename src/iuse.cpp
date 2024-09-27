@@ -1248,11 +1248,11 @@ static void spawn_spores( const Character &p )
     map &here = get_map();
     fungal_effects fe;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
+    for( const tripoint_bub_ms &dest : closest_points_first( p.pos_bub(), 4 ) ) {
         if( here.impassable( dest ) ) {
             continue;
         }
-        float dist = rl_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos_bub() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
@@ -1517,7 +1517,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         map &here = get_map();
         fungal_effects fe;
-        for( const tripoint &nearby_pos : here.points_in_radius( p->pos(), 3 ) ) {
+        for( const tripoint_bub_ms &nearby_pos : here.points_in_radius( p->pos_bub(), 3 ) ) {
             if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
                 !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, nearby_pos ) &&
                 !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, nearby_pos ) ) {

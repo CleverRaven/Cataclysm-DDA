@@ -4724,13 +4724,13 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
             }
             spell sp = fake.get_spell( *caster, 0 );
             if( targeted ) {
-                if( std::optional<tripoint> target = sp.select_target( caster ) ) {
+                if( std::optional<tripoint_bub_ms> target = sp.select_target( caster ) ) {
                     sp.cast_all_effects( *caster, *target );
                     caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
                 }
             } else {
-                const tripoint target_pos = loc_var ?
-                                            get_map().getlocal( get_tripoint_from_var( loc_var, d, is_npc ) ) : caster->pos();
+                const tripoint_bub_ms target_pos = loc_var ?
+                                                   get_map().bub_from_abs( get_tripoint_from_var( loc_var, d, is_npc ) ) : caster->pos_bub();
                 sp.cast_all_effects( *caster, target_pos );
                 caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
             }
@@ -6540,7 +6540,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
-            if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
+            if( teleport::teleport_to_point( *teleporter, get_map().bub_from_abs( target_pos ), true, false,
                                              false, force ) ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
