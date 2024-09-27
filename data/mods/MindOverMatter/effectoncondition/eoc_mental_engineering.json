@@ -373,7 +373,6 @@
           "EOC_TELEPATH_MENTAL_ENGINEERING_PYROMANIA_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_TRUTHTELLER_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_LIAR_01",
-          "EOC_TELEPATH_MENTAL_ENGINEERING_VEGAN_01",
           "EOC_TELEPATH_MENTAL_ENGINEERING_VEGAN_02",
           "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_01",
           "EOC_TELEPATH_MENTAL_ENGINEERING_STRICT_HUMANITARIAN_02",
@@ -445,7 +444,6 @@
           "Lose your Pyromania",
           "Devalue Truth Telling",
           "Become a Liar",
-          "Become a Vegan",
           "Reject Veganism",
           "Be a Strict Humanitarian",
           "Stop being a Strict Humanitarian",
@@ -517,7 +515,6 @@
           "As fun as it is, you can begrudgingly agree that there's better things to do than setting fires.  Put a hypothetical therapist out of business with your psychic powers and fix that.",
           "Being able to lie could be an important part of your life… if there was even anyone to lie to.  You doubt this would help you much.",
           "There's still a couple of survivors around, and being good at lying to them might give you some opportunities you otherwise would lack.  It might also get you in trouble.",
-          "Turn what would normally be a personal decision into a psychically mandated behavior.  You might starve to death, but at least you won't hurt any animals while doing so.",
           "Even the thought of doing this makes you incredibly uncomfortable, but of all the reasons to quite veganism, the complete destruction of your entire world probably qualifies.",
           "Logically speaking, those things that kind of look human really aren't.  It might currently feel uncomfortable, but it's hard to think of a real argument against eating them.  May as well get over your emotions.  Telepathically!",
           "You feel just fine eating those not-humans, but a tiny part of your brain tells you that this might be a slippery slope.  It might not be logical, but you can stop this immediately.",
@@ -1477,7 +1474,7 @@
     "condition": {
       "and": [
         { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "160" ] },
-        { "u_has_item_category": "gun" },
+        { "u_has_item_category": "guns" },
         { "u_has_trait": "BRAWLER" }
       ]
     },
@@ -1639,30 +1636,6 @@
         "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
       },
       { "math": [ "u_mentality_picked", "=", "31" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TELEPATH_MENTAL_ENGINEERING_VEGAN_01",
-    "condition": {
-      "and": [
-        { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "50" ] },
-        { "not": { "u_has_trait": "VEGAN" } },
-        { "not": { "u_has_trait": "HERBIVORE" } },
-        { "not": { "u_has_trait": "SAPIOVORE" } },
-        { "not": { "u_has_trait": "EATDEAD" } },
-        { "not": { "u_has_trait": "VEGETARIAN" } },
-        { "not": { "u_has_trait": "STRICT_HUMANITARIAN" } },
-        { "not": { "u_has_trait": "CANNIBAL" } }
-      ]
-    },
-    "effect": [
-      { "run_eocs": "EOC_TELEPATH_MENTAL_ENGINEERING_MESSAGE" },
-      {
-        "u_assign_activity": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
-        "duration": { "math": [ "28800 - clamp( ( u_spell_level_sum('school': 'TELEPATH') * 135), 0, 27000)" ] }
-      },
-      { "math": [ "u_mentality_picked", "=", "32" ] }
     ]
   },
   {
