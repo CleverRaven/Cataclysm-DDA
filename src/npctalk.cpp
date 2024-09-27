@@ -7618,9 +7618,8 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         if( teleporter ) {
             std::string prefix = map_prefix.evaluate( d );
             if( !prefix.empty() ) {
-                add_msg( MAPBUFFER.get_prefix() );
+                g->save();
                 MAPBUFFER.set_prefix( prefix );
-                add_msg( MAPBUFFER.get_prefix() );
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
                 get_map() = map();
@@ -7630,6 +7629,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 map &here = get_map();
                 // TODO: fix point types
                 here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+                here.invalidate_visibility_cache();
                 get_avatar().move_to( tripoint_abs_ms( tripoint::zero ) );
 
                 get_weather().update_weather();

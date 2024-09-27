@@ -525,12 +525,21 @@
     "//": "shifts the character to a new world",
     "global": true,
     "effect": [
+      {
+        "set_string_var": "",
+        "string_input": {
+          "title": { "i18n": true, "str": "teleport to subworld named:" },
+          "description": { "i18n": true, "str": "empty input returns you to normal world" },
+          "width": 30
+        },
+        "target_var": { "u_val": "destinationWorld" }
+      },
       { "u_location_variable": { "u_val": "tele_test" }, "x_adjust": 1, "y_adjust": 1 },
       {
         "u_teleport": { "u_val": "tele_test" },
-        "map_prefix": "sub_world",
+        "map_prefix": { "u_val": "destinationWorld" },
         "fail_message": "your body doesn't move",
-        "success_message": "All at once your body feels like it's beeing pulled in 1000 different directions."
+        "success_message": "All at once your body feels like it's being pulled in 1000 different directions."
       }
     ]
   }

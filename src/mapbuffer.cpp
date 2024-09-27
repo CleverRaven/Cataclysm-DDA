@@ -60,7 +60,7 @@ static cata_path find_dirname( const tripoint_abs_omt &om_addr, std::string pref
     if( prefix.empty() ) {
         return PATH_INFO::world_base_save_path() / "maps" / segment;
     }
-    return PATH_INFO::world_base_save_path() / "maps" / prefix / segment;
+    return PATH_INFO::world_base_save_path() / "maps" / "worlds" / prefix / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -196,7 +196,7 @@ void mapbuffer::save( bool delete_after_save )
     if( area_prefix.empty() ) {
         assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" );
     } else {
-        assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" / area_prefix );
+        assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" / "worlds" / area_prefix );
     }
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
