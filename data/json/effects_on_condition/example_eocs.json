@@ -539,7 +539,7 @@
         "u_teleport": { "u_val": "tele_test" },
         "map_prefix": { "u_val": "destinationWorld" },
         "fail_message": "your body doesn't move",
-        "success_message": "All at once your body feels like it's being pulled in 1000 different directions."
+        "success_message": "All at once your body feels like it's being pulled in 100 different directions."
       }
     ]
   }
