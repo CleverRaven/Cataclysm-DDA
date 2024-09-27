@@ -136,6 +136,23 @@
     ]
   },
   {
+    "id": "nested_mdrx_retool_223rem_civilian",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "//2": "A distribution that avoids NFA items (barrels under 16 inches)",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [ { "group": "mdrx_223", "charges": [ 0, 30 ], "prob": 4 }, { "group": "mdrx", "charges": [ 0, 30 ], "prob": 5 } ],
+        "prob": 100
+      },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_mdrx_retool_300blk",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

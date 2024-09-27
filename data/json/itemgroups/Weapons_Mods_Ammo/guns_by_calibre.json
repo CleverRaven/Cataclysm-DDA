@@ -484,7 +484,8 @@
     "items": [
       { "group": "nested_marlin_9a", "prob": 3 },
       { "group": "nested_ruger_1022", "prob": 100 },
-      { "group": "nested_rossi_gallery", "prob": 11 }
+      { "group": "nested_rossi_gallery", "prob": 11 },
+      { "group": "nested_ar15_retool_22", "prob": 2 }
     ]
   },
   {
@@ -495,11 +496,10 @@
       { "group": "nested_ruger_mini", "prob": 100 },
       { "group": "nested_bren2_556", "prob": 4 },
       { "group": "nested_rdb_223", "prob": 44 },
-      { "group": "nested_mdrx", "prob": 5 },
-      { "group": "nested_mdrx_223", "prob": 4 },
+      { "group": "nested_mdrx_retool_223rem_civilian", "prob": 9 },
       { "group": "nested_cz600", "prob": 13 },
       { "group": "nested_sl8", "prob": 3 },
-      { "group": "sig_assault_rifle", "prob": 1 }
+      { "group": "nested_sig_assault_rifle", "prob": 1 }
     ]
   },
   {
@@ -528,7 +528,8 @@
       { "group": "nested_sks", "prob": 34 },
       { "group": "nested_aksemi", "prob": 100 },
       { "group": "nested_bren2_762", "prob": 1 },
-      { "group": "nested_mk47", "prob": 26 }
+      { "group": "nested_mk47", "prob": 26 },
+      { "group": "nested_ar15_retool_762", "prob": 5 }
     ]
   },
   {
@@ -703,50 +704,83 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_22",
-    "items": [ { "item": "ruger_1022", "prob": 160 }, { "item": "rossi_gallery", "prob": 18 } ]
+    "items": [
+      { "item": "ruger_1022", "prob": 100 },
+      { "item": "rossi_gallery", "prob": 11 },
+      { "item": "marlin_9a", "prob": 3 },
+      { "group": "ar15_22", "prob": 2 }
+    ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_223",
     "items": [
-      { "item": "ak556", "prob": 15 },
-      { "item": "ak556", "variant": "zpapm90", "prob": 10 },
-      { "item": "bren2_556", "prob": 10 },
-      { "item": "ak556", "variant": "zpapm90", "prob": 10 },
-      { "group": "modular_ar15", "prob": 45 },
-      { "item": "ruger_mini", "prob": 9 },
-      { "group": "mdrx", "prob": 10 },
-      { "group": "cz600", "prob": 10 },
-      { "group": "nested_ar15_with_kits", "prob": 15 },
-      { "group": "nested_mdrx_with_kits", "prob": 10 },
-      { "group": "nested_cz600_with_kits", "prob": 10 },
-      { "item": "rdb_223", "prob": 30 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_common_display_762",
-    "items": [
-      { "item": "sks", "prob": 20 },
-      { "item": "aksemi", "prob": 15 },
-      { "item": "mk47", "prob": 10 },
-      { "item": "bren2_762", "prob": 6 }
+      { "group": "ar15_223long", "prob": 334 },
+      { "item": "ruger_mini", "prob": 100 },
+      { "item": "bren2_556", "prob": 4 },
+      { "item": "rdb_223", "prob": 44 },
+      { "group": "mdrx_223", "prob": 4 },
+      { "group": "mdrx", "prob": 5 },
+      { "group": "cz600", "prob": 13 },
+      { "item": "sl8", "prob": 3 },
+      { "item": "sig_assault_rifle", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_308",
     "items": [
-      { "item": "ar10", "prob": 35 },
-      { "item": "m1a", "prob": 30 },
-      { "item": "M24", "prob": 5 },
-      { "item": "savage_111f", "prob": 10 }
+      { "item": "ar10", "prob": 89 },
+      { "item": "m1a", "prob": 100 },
+      { "item": "rfb_308", "prob": 7 },
+      { "item": "fn_fal_semi", "prob": 5 },
+      { "item": "hk_g3", "prob": 1 },
+      { "item": "ak308", "prob": 20 },
+      { "item": "steyr_scout", "prob": 6 }
     ]
   },
   {
     "type": "item_group",
+    "//": "Currently the only 45 acp rifle we have is quite rare.  Will be fixed soon",
+    "id": "guns_rifle_common_display_45acp",
+    "items": [ { "item": "hk_usc45", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_762",
+    "items": [
+      { "item": "sks", "prob": 34 },
+      { "item": "aksemi", "prob": 100 },
+      { "item": "mk47", "prob": 26 },
+      { "item": "bren2_762", "prob": 1 },
+      { "group": "ar15_762", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_9mm",
+    "items": [ { "item": "ksub2000", "prob": 100 }, { "item": "cx4", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_display_3006",
-    "items": [ { "item": "remington_700", "prob": 45 }, { "item": "ruger_m77", "prob": 10 } ]
+    "items": [
+      { "item": "browning_blr", "prob": 4 },
+      { "item": "remington_700", "prob": 243 },
+      { "item": "ruger_m77", "prob": 62 },
+      { "item": "garand", "prob": 100 },
+      { "item": "m1903", "prob": 26 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_44",
+    "items": [ { "item": "henry_big_boy", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_762R",
+    "items": [ { "item": "mosin44", "prob": 23 }, { "item": "mosin91_30", "prob": 100 }, { "item": "psl", "prob": 13 } ]
   },
   {
     "type": "item_group",
@@ -755,19 +789,55 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common_display_300winmag",
+    "items": [ { "item": "weatherby_5", "prob": 100 }, { "item": "ruger_pr", "prob": 40 }, { "item": "win70", "prob": 27 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_display_380",
     "items": [ { "item": "hpt3895", "prob": 1 } ]
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_common_display_other",
-    "items": [
-      { "item": "ruger_arr", "prob": 10 },
-      { "item": "weatherby_5", "prob": 1 },
-      { "item": "sharps", "prob": 10 },
-      { "item": "varmint_airgun", "prob": 5 },
-      { "item": "savage112", "prob": 10 }
-    ]
+    "id": "guns_rifle_common_display_4570",
+    "items": [ { "item": "sharps", "prob": 100 }, { "item": "1895sbl", "prob": 67 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_30carbine",
+    "items": [ { "item": "m1carbine", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_303",
+    "//": "To-do: convert enfields into variants",
+    "items": [ { "item": "number4_mki", "prob": 100 }, { "item": "smle_mk3", "prob": 56 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_338",
+    "items": [ { "item": "mrad_smr", "prob": 100 }, { "item": "savage112", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_450",
+    "items": [ { "group": "ar15_450", "prob": 100 }, { "item": "ruger_arr", "prob": 97 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_50beowulf",
+    "items": [ { "group": "ar15_50", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_57",
+    "items": [ { "item": "fn_ps90", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_7mm_arisaka",
+    "//": "To-do: Convert sniper into variant",
+    "items": [ { "item": "type99", "prob": 100 }, { "item": "type99_sniper", "prob": 4 } ]
   },
   {
     "type": "item_group",
