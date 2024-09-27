@@ -542,10 +542,10 @@ item_location aim_activity_actor::get_weapon()
 void aim_activity_actor::restore_view() const
 {
     avatar &player_character = get_avatar();
-    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    bool changed_z = player_character.view_offset.z() != initial_view_offset.z();
     player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( player_character.view_offset.z );
+        get_map().invalidate_map_cache( player_character.view_offset.z() );
         g->invalidate_main_ui_adaptor();
     }
 }

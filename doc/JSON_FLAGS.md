@@ -356,6 +356,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```COLDBLOOD3``` For cold-blooded mutations.
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLD_IMMUNE``` You are immune to cold damage.
+- ```CRAFT_IN_DARKNESS``` You can craft anything regardless of light levels.
 - ```CUT_IMMUNE``` You are immune to cutting damage.
 - ```DEAF``` Makes you deaf.
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.  Also protects you from any dangerous effects of portal storms.

@@ -7428,7 +7428,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
     }
 
     avatar &player_character = get_avatar();
-    point p2( player_character.view_offset.xy() );
+    tripoint_rel_ms stored_view_offset( player_character.view_offset );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -7463,8 +7463,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
         }
     }
 
-    player_character.view_offset.x = p2.x;
-    player_character.view_offset.y = p2.y;
+    player_character.view_offset = stored_view_offset;
     return 1;
 }
 

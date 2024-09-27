@@ -251,7 +251,7 @@ class item : public visitable
          * @param alert whether to display any messages
          * @return same instance to allow method chaining
          */
-        item &deactivate( const Character *ch = nullptr, bool alert = true );
+        item &deactivate( Character *ch = nullptr, bool alert = true );
 
         /** Filter converting instance to active state */
         item &activate();
