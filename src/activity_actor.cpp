@@ -7986,7 +7986,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
 
     int moves = 0;
     for( auto pos_iter = placement.cbegin(); pos_iter != placement.end();/*left - out*/ ) {
-        const tripoint &pos = here.getlocal( *pos_iter );
+        const tripoint_bub_ms &pos = here.bub_from_abs( *pos_iter );
         map_stack corpse_pile = here.i_at( pos );
         for( item &corpse : corpse_pile ) {
             if( !corpse.is_corpse() || !corpse.can_revive() ) {
@@ -8014,7 +8014,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                     // Splatter some blood around
                     // Splatter a bit more randomly, so that it looks cooler
                     const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
-                    const tripoint dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
+                    const tripoint_bub_ms dest( pos + point( rng( -radius, radius ), rng( -radius, radius ) ) );
                     const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                      corpse.get_mtype()->gibType() :
                                                      corpse.get_mtype()->bloodType();

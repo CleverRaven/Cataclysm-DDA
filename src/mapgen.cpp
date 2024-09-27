@@ -2021,7 +2021,7 @@ class jmapgen_npc : public jmapgen_piece
                 add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
                 return;
             }
-            tripoint const dst( x.get(), y.get(), dat.zlevel() + z.get() );
+            tripoint_bub_ms const dst( x.get(), y.get(), dat.zlevel() + z.get() );
             // TODO: Make place_npc 3D aware.
             character_id npc_id = dat.m.place_npc( dst.xy(), chosen_id );
             if( get_map().inbounds( dat.m.getglobal( dst ) ) ) {
@@ -2174,7 +2174,7 @@ class jmapgen_graffiti : public jmapgen_piece
                 }
                 graffiti = apply_all_tags( graffiti, cityname );
             }
-            dat.m.set_graffiti( r.raw(), graffiti );
+            dat.m.set_graffiti( r, graffiti );
         }
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
             graffiti = SNIPPET.expand( graffiti );
@@ -3317,7 +3317,7 @@ class jmapgen_computer : public jmapgen_piece
             const tripoint_bub_ms r( x.get(), y.get(), dat.zlevel() + z.get() );
             dat.m.furn_set( r, furn_f_console );
             computer *cpu =
-                dat.m.add_computer( r.raw(), name.translated(),
+                dat.m.add_computer( r, name.translated(),
                                     security );
             for( const computer_option &opt : options ) {
                 cpu->add_option( opt );
@@ -3626,8 +3626,8 @@ class jmapgen_remove_all : public jmapgen_piece
                 dat.m.furn_clear( p );
                 dat.m.i_clear( p );
                 dat.m.remove_trap( p );
-                dat.m.clear_fields( p.raw() );
-                dat.m.delete_graffiti( p.raw() );
+                dat.m.clear_fields( p );
+                dat.m.delete_graffiti( p );
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
                     if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
                         get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
@@ -6176,7 +6176,7 @@ void map::draw_lab( mapgendata &dat )
                             // Create a mostly spread fungal area throughout entire lab.
                             if( !one_in( 5 ) && has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) {
                                 ter_set( point( i, j ), ter_t_fungus_floor_in );
-                                if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, point( i, j ) ) ) {
+                                if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, tripoint_bub_ms( i, j, abs_sub.z() ) ) ) {
                                     furn_set( point( i, j ), furn_f_fungal_clump );
                                 }
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
@@ -6416,7 +6416,7 @@ void map::draw_lab( mapgendata &dat )
                     }
 
                     spawn_item( point_bub_ms( SEEX - 1, 8 ), "id_science" );
-                    tmpcomp = add_computer( tripoint( SEEX,  8, abs_sub.z() ),
+                    tmpcomp = add_computer( { SEEX,  8, abs_sub.z() },
                                             _( "Sub-prime contact console" ), 7 );
                     if( monsters_end ) { //only add these options when there are monsters.
                         tmpcomp->add_option( _( "Terminate Specimens" ), COMPACT_TERMINATE, 2 );
@@ -6471,7 +6471,7 @@ void map::draw_lab( mapgendata &dat )
                           dat.zlevel() );
                     spawn_item( point_bub_ms( SEEX - 4, SEEY - 3 ), "id_science" );
                     furn_set( point_bub_ms( SEEX - 3, SEEY - 3 ), furn_f_console );
-                    tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z() ),
+                    tmpcomp = add_computer( { SEEX - 3,  SEEY - 3, abs_sub.z() },
                                             _( "Bionic access" ), 3 );
                     tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                     tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE, 5 );
@@ -6700,10 +6700,15 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
 
 character_id map::place_npc( const point &p, const string_id<npc_template> &type )
 {
+    return map::place_npc( point_bub_ms( p ), type );
+}
+
+character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template> &type )
+{
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( tripoint_abs_ms( getabs( tripoint( p, abs_sub.z() ) ) ) );
+    temp->spawn_at_precise( getglobal( { p, abs_sub.z() } ) );
     temp->toggle_trait( trait_NPC_STATIC_NPC );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
@@ -7096,18 +7101,18 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
     return veh_to_add;
 }
 
-computer *map::add_computer( const tripoint &p, const std::string &name, int security )
+computer *map::add_computer( const tripoint_bub_ms &p, const std::string &name, int security )
 {
     // TODO: Turn this off?
     furn_set( p, furn_f_console );
     point_sm_ms l;
-    submap *const place_on_submap = get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const place_on_submap = get_submap_at( p, l );
     if( place_on_submap == nullptr ) {
         debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x(), l.y() );
-        static computer null_computer = computer( name, security, p );
+        static computer null_computer = computer( name, security, p.raw() );
         return &null_computer;
     }
-    place_on_submap->set_computer( l, computer( name, security, p ) );
+    place_on_submap->set_computer( l, computer( name, security, p.raw() ) );
     return place_on_submap->get_computer( l );
 }
 
@@ -7400,7 +7405,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 for( int x = p1.x + static_cast<int>( width / 4 ); x < p2.x - static_cast<int>( width / 4 ); x++ ) {
                     m->furn_set( point( x, desk ), furn_f_counter );
                 }
-                computer *tmpcomp = m->add_computer( tripoint( p2.x - static_cast<int>( width / 4 ), desk, z ),
+                computer *tmpcomp = m->add_computer( { p2.x - static_cast<int>( width / 4 ), desk, z },
                                                      _( "Log Console" ), 3 );
                 tmpcomp->add_option( _( "View Research Logs" ), COMPACT_RESEARCH, 0 );
                 tmpcomp->add_option( _( "Download Map Data" ), COMPACT_MAPS, 0 );
@@ -7416,7 +7421,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 for( int y = p1.y + static_cast<int>( width / 4 ); y < p2.y - static_cast<int>( width / 4 ); y++ ) {
                     m->furn_set( point( desk, y ), furn_f_counter );
                 }
-                computer *tmpcomp = m->add_computer( tripoint( desk, p2.y - static_cast<int>( width / 4 ), z ),
+                computer *tmpcomp = m->add_computer( { desk, p2.y - static_cast<int>( width / 4 ), z },
                                                      _( "Log Console" ), 3 );
                 tmpcomp->add_option( _( "View Research Logs" ), COMPACT_RESEARCH, 0 );
                 tmpcomp->add_option( _( "Download Map Data" ), COMPACT_MAPS, 0 );
@@ -7572,7 +7577,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                 bio, z, false, calendar::start_of_cataclysm );
 
                 m->furn_set( tripoint_bub_ms( bio.x, bio.y + 2, z ), furn_f_console );
-                computer *tmpcomp = m->add_computer( tripoint( bio.x,  bio.y + 2, z ), _( "Bionic access" ), 2 );
+                computer *tmpcomp = m->add_computer( { bio.x,  bio.y + 2, z }, _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp->add_failure( COMPFAIL_MANHACKS );
@@ -7591,7 +7596,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                 bio, z, false, calendar::start_of_cataclysm );
 
                 m->furn_set( tripoint_bub_ms( bio.x, bio.y - 2, z ), furn_f_console );
-                computer *tmpcomp2 = m->add_computer( tripoint( bio.x,  bio.y - 2, z ), _( "Bionic access" ), 2 );
+                computer *tmpcomp2 = m->add_computer( { bio.x,  bio.y - 2, z }, _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );
@@ -7611,7 +7616,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                 point_bub_ms( biox, bioy ), z, false, calendar::start_of_cataclysm );
 
                 m->furn_set( tripoint_bub_ms( biox + 2, bioy, z ), furn_f_console );
-                computer *tmpcomp = m->add_computer( tripoint( biox + 2,  bioy, z ), _( "Bionic access" ), 2 );
+                computer *tmpcomp = m->add_computer( { biox + 2,  bioy, z }, _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp->add_failure( COMPFAIL_MANHACKS );
@@ -7630,7 +7635,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                 point_bub_ms( biox, bioy ), z, false, calendar::turn_zero );
 
                 m->furn_set( tripoint_bub_ms( biox - 2, bioy, z ), furn_f_console );
-                computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );
+                computer *tmpcomp2 = m->add_computer( { biox - 2,  bioy, z }, _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
                 tmpcomp2->add_failure( COMPFAIL_MANHACKS );

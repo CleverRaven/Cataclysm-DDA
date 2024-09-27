@@ -608,7 +608,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         }
     }
 
-    const tripoint above_u( you.posx(), you.posy(), you.posz() + 1 );
+    const tripoint_bub_ms above_u( you.pos_bub() + tripoint_above );
     if( m.has_floor_or_support( above_u ) ) {
         add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
         return false;

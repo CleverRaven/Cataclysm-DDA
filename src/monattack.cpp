@@ -2374,7 +2374,7 @@ bool mattack::dogthing( monster *z )
     add_msg( _( "The %s's head explodes in a mass of roiling tentacles!" ),
              z->name() );
 
-    get_map().add_splash( z->bloodType(), z->pos(), 2, 3 );
+    get_map().add_splash( z->bloodType(), z->pos_bub(), 2, 3 );
 
     z->friendly = 0;
     z->poly( mon_headless_dog_thing );
@@ -3937,7 +3937,7 @@ bool mattack::tindalos_teleport( monster *z )
     if( distance_to_target > 5 ) {
         const tripoint_bub_ms oldpos = z->pos_bub();
         for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub(), 4 ) ) {
-            if( here.is_cornerfloor( dest.raw() ) ) {
+            if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( dest );
                     // Not teleporting if it means losing sight of our current target
@@ -3983,7 +3983,7 @@ bool mattack::flesh_tendril( monster *z )
         if( monster *const summoned = g->place_critter_around( spawned, z->pos(), 1 ) ) {
             z->mod_moves( -to_moves<int>( 1_seconds ) );
             summoned->make_ally( *z );
-            get_map().propagate_field( z->pos(), fd_gibs_flesh, 75, 1 );
+            get_map().propagate_field( z->pos_bub(), fd_gibs_flesh, 75, 1 );
             add_msg_if_player_sees( *z, m_warning, _( "A %s struggles to pull itself free from the %s!" ),
                                     summoned->name(), z->name() );
         }

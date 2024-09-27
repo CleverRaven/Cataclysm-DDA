@@ -58,7 +58,7 @@ TEST_CASE( "line_attack", "[magic]" )
     spell sp( spell_test_line_spell );
 
     // set up Character to test with, only need position
-    npc &c = spawn_npc( point_zero, "test_talker" );
+    npc &c = spawn_npc( point_bub_ms_zero, "test_talker" );
     clear_character( c );
     c.setpos( tripoint_bub_ms_zero );
 

@@ -84,8 +84,8 @@ static void test_throwing_player_versus(
     const int min_throws = min_throw_test_iterations,
     int max_throws = max_throw_test_iterations )
 {
-    const tripoint monster_start = { 30 + range, 30, 0 };
-    const tripoint player_start = { 30, 30, 0 };
+    const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
+    const tripoint_bub_ms player_start = { 30, 30, 0 };
     bool hit_thresh_met = false;
     bool dmg_thresh_met = false;
     throw_test_data data;
@@ -93,7 +93,7 @@ static void test_throwing_player_versus(
 
     max_throws = std::max( min_throws, max_throws );
     do {
-        reset_player( you, pstats, player_start );
+        reset_player( you, pstats, player_start.raw() );
         you.set_moves( 1000 );
         you.set_stamina( you.get_stamina_max() );
 
@@ -231,8 +231,8 @@ static void test_player_kills_monster(
     Character &you, const std::string &mon_id, const std::string &item_id, const int range,
     const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
 {
-    const tripoint monster_start = { 30 + range, 30, 0 };
-    const tripoint player_start = { 30, 30, 0 };
+    const tripoint_bub_ms monster_start = { 30 + range, 30, 0 };
+    const tripoint_bub_ms player_start = { 30, 30, 0 };
     int failure_turns = -1;
     int failure_num_items = -1;
     int failure_last_range = -1;
@@ -248,7 +248,7 @@ static void test_player_kills_monster(
         int num_items = 0;
         int last_range = -1;
 
-        reset_player( you, pstats, player_start );
+        reset_player( you, pstats, player_start.raw() );
 
         monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );

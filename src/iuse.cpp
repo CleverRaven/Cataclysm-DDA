@@ -4469,7 +4469,7 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint 
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 12 ) ) {
-        if( here.is_cornerfloor( dest.raw() ) ) {
+        if( here.is_cornerfloor( dest ) ) {
             here.add_field( dest, fd_tindalos_rift, 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }

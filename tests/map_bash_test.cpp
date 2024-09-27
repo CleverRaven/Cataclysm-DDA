@@ -239,7 +239,7 @@ TEST_CASE( "shooting_at_terrain", "[map][bash][ranged]" )
     }
     SECTION( "birdshot through door at monster" ) {
         arm_shooter( shooter, "remington_870", {}, "shot_bird" );
-        spawn_test_monster( "mon_zombie", shooter.pos() + point_east * 2 );
+        spawn_test_monster( "mon_zombie", shooter.pos_bub() + point_east * 2 );
         shoot_at_terrain( shooter, "t_door_c", shooter.pos_bub() + point_east, true,
                           shooter.pos_bub() + point_east * 2 );
     }

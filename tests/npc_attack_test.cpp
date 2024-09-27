@@ -25,8 +25,8 @@ static const string_id<npc_template> npc_template_test_talker( "test_talker" );
 
 static const weather_type_id weather_sunny( "sunny" );
 
-static constexpr point main_npc_start{ 50, 50 };
-static constexpr tripoint main_npc_start_tripoint{ main_npc_start, 0 };
+static constexpr point_bub_ms main_npc_start{ 50, 50 };
+static constexpr tripoint_bub_ms main_npc_start_tripoint{ main_npc_start, 0 };
 
 namespace npc_attack_setup
 {

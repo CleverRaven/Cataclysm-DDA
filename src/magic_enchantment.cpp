@@ -1028,7 +1028,7 @@ void enchant_cache::activate_passive( Character &guy ) const
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
     if( emitter ) {
-        get_map().emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos_bub(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, false, eff.second );
