@@ -51,12 +51,16 @@ static std::string quad_file_name( const tripoint_abs_omt &om_addr )
     return string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
 }
 
-static cata_path find_dirname( const tripoint_abs_omt &om_addr )
+static cata_path find_dirname( const tripoint_abs_omt &om_addr, std::string prefix )
 {
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
-    return PATH_INFO::world_base_save_path() / "maps" / string_format( "%d.%d.%d",
-            segment_addr.x(),
-            segment_addr.y(), segment_addr.z() );
+    std::string segment = string_format( "%d.%d.%d",
+                                         segment_addr.x(),
+                                         segment_addr.y(), segment_addr.z() );
+    if( prefix.empty() ) {
+        return PATH_INFO::world_base_save_path() / "maps" / segment;
+    }
+    return PATH_INFO::world_base_save_path() / "maps" / prefix / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -179,10 +183,21 @@ bool mapbuffer::submap_exists_approx( const tripoint_abs_sm &p )
     return true;
 }
 
+void mapbuffer::set_prefix( std::string prefix )
+{
+    area_prefix = prefix;
+}
+std::string mapbuffer::get_prefix()
+{
+    return area_prefix;
+}
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" );
-
+    if( area_prefix.empty() ) {
+        assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" );
+    } else {
+        assure_dir_exist( PATH_INFO::world_base_save_path() / "maps" / area_prefix );
+    }
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
