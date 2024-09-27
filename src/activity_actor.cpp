@@ -1284,7 +1284,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
-    hotwire_car_activity_actor actor( 0, tripoint_zero );
+    hotwire_car_activity_actor actor( 0, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 

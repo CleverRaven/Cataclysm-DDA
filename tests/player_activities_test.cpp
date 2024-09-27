@@ -1702,7 +1702,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
-    [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().pos() ) ); },
+    [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().get_location() ) ); },
     //player_activity( insert_item_activity_actor() ),
     [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().pos() ) ); },
     //player_activity( longsalvage_activity_actor() ),

@@ -332,7 +332,8 @@ class hotwire_car_activity_actor : public activity_actor
         }
 
     public:
-        hotwire_car_activity_actor( int moves_total, const tripoint &target ): moves_total( moves_total ),
+        hotwire_car_activity_actor( int moves_total,
+                                    const tripoint_abs_ms &target ): moves_total( moves_total ),
             target( target ) {}
 
         activity_id get_type() const override {
