@@ -179,13 +179,14 @@
     "type": "mutation",
     "id": "BORN_ARTISAN",
     "name": { "str": "Earthborn Artisan" },
-    "description": "Born from the living earth, your people are naturally adept at the manipulation of the physical world.",
+    "description": "Born from the living earth, your people are naturally adept at the manipulation of the physical world.  Your crafting speed is 10% faster, and you can even craft in darkness.",
     "points": 3,
     "starting_trait": false,
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "mutation",
@@ -558,9 +559,10 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 1,
-    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human.",
+    "description": "While your reddish eyes have been known to give other people a start, they help you see in the dark.  You have much better night vision than a human, even being able to craft in the dark.",
     "category": [ "SPECIES_GOBLIN" ],
-    "enchantments": [ "ench_goblin_eyes" ]
+    "enchantments": [ "ench_goblin_eyes" ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "mutation",
