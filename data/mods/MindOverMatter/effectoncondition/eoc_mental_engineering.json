@@ -36,7 +36,7 @@
               { "u_lose_trait": "PACIFIST" },
               { "u_lose_trait": "NUMB" },
               { "u_lose_trait": "PSYCHOPATH" },
-              { "u_message": "Your urge to commit violence grows.", "type": "neutral" }
+              { "u_message": "Your urge to commit violence grows.", "type": "bad" }
             ]
           },
           {
@@ -47,8 +47,8 @@
               { "u_lose_trait": "NUMB" },
               { "u_lose_trait": "KILLER" },
               {
-                "u_message": "You've realized that you're far more empathetic to others.  Even those you may not deserve it.",
-                "type": "neutral"
+                "u_message": "You've realized that you're far more empathetic to others.  Even those who may not deserve it.",
+                "type": "bad"
               }
             ]
           },
@@ -89,7 +89,7 @@
               { "u_lose_trait": "SOCIAL1" },
               { "u_lose_trait": "ASOCIAL1" },
               { "u_lose_trait": "ASOCIAL2" },
-              { "u_message": "You feel an enormous need to interact with others!", "type": "neutral" }
+              { "u_message": "You feel an enormous need to interact with others!", "type": "bad" }
             ]
           },
           {
@@ -99,7 +99,7 @@
               { "u_lose_trait": "SOCIAL2" },
               { "u_lose_trait": "ASOCIAL1" },
               { "u_lose_trait": "SOCIAL1" },
-              { "u_message": "You feel an incredible need to avoid others!", "type": "neutral" }
+              { "u_message": "You feel an incredible need to avoid others!", "type": "bad" }
             ]
           },
           {
@@ -150,7 +150,7 @@
               { "u_add_trait": "PYROMANIA" },
               {
                 "u_message": "All that stuff is looking awfully flammable.  Time to get a lighter.  If you have mental powers now, perhaps there's something that will let you cause fires with your mind as well?",
-                "type": "neutral"
+                "type": "bad"
               }
             ]
           },
