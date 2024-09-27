@@ -6506,12 +6506,12 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
 
-    tripoint direction;
+    tripoint_rel_ms direction;
     if( !who.is_npc() &&
         ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
-            if( const std::optional<tripoint> dir = choose_direction(
-                    _( "Select a direction for the tree to fall in." ) ) ) {
+            if( const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
                 direction = *dir;
                 break;
             }
@@ -6552,13 +6552,13 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = tripoint( direc, pos.z() );
+                direction = tripoint_rel_ms( { direc, pos.z() } );
                 break;
             }
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
