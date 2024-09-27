@@ -3416,17 +3416,15 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return;
     }
 
-    point_bub_ms pt_min = pos_bub().xy();
-    point_bub_ms pt_max = pos_bub().xy();
-    for( const sphere &elem : spheres ) {
-        pt_min.x() = std::min( pt_min.x(), elem.center.x - elem.radius );
-        pt_min.y() = std::min( pt_min.y(), elem.center.y - elem.radius );
-        pt_max.x() = std::max( pt_max.x(), elem.center.x + elem.radius );
-        pt_max.y() = std::max( pt_max.y(), elem.center.y + elem.radius );
-    }
+    tripoint_bub_ms minp( pos_bub() );
+    tripoint_bub_ms maxp( pos_bub() );
 
-    tripoint_bub_ms minp( pt_min, pos_bub().z() );
-    tripoint_bub_ms maxp( pt_max, pos_bub().z() );
+    for( const sphere &elem : spheres ) {
+        minp.x() = std::min( minp.x(), elem.center.x - elem.radius );
+        minp.y() = std::min( minp.y(), elem.center.y - elem.radius );
+        maxp.x() = std::max( maxp.x(), elem.center.x + elem.radius );
+        maxp.y() = std::max( maxp.y(), elem.center.y + elem.radius );
+    }
 
     const tripoint_range<tripoint_bub_ms> range( minp, maxp );
 
