@@ -39,6 +39,27 @@
     "condition": { "math": [ "magic_weather_dense_fog", "==", "1" ] }
   },
   {
+    "id": "magic_weather_light_drizzle",
+    "type": "weather_type",
+    "name": "Light Drizzle",
+    "color": "light_blue",
+    "map_color": "h_light_blue",
+    "sym": ".",
+    "ranged_penalty": 0,
+    "sight_penalty": 1.01,
+    "light_modifier": -10,
+    "sun_multiplier": 0.2,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "very_light",
+    "rains": true,
+    "tiles_animation": "weather_rain_drop",
+    "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
+    "sound_category": "drizzle",
+    "priority": 114,
+    "condition": { "math": [ "magic_weather_light_drizzle", "==", "1" ] }
+  },
+  {
     "id": "magic_weather_drizzle",
     "type": "weather_type",
     "name": "Drizzle",

@@ -154,7 +154,10 @@
     "eoc_type": "EVENT",
     "required_event": "character_loses_effect",
     "condition": { "compare_string": [ "effect_controlling_weather", { "context_val": "effect" } ] },
-    "effect": [ { "math": [ "u_weather_change_limit", "=", "0" ] } ]
+    "effect": [
+      { "math": [ "u_weather_change_limit", "=", "0" ] },
+      { "queue_eocs": "EOC_WEATHER_CONTROL_DOWNGRADE", "time_in_future": 3 }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -166,7 +169,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WEATHER_CONTROL_ABOVE_FREEZING_DOWNGRADE",
+    "condition": { "not": { "u_has_effect": "effect_controlling_weather" } },
     "effect": [
+      { "u_lose_effect": "effect_controlling_weather_rains" },
+      { "u_lose_effect": "effect_controlling_weather_rainstorm" },
       {
         "if": { "is_weather": "magic_weather_light_drizzle" },
         "then": { "run_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING" },
@@ -211,8 +217,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_THUNDERSTORM_TO_RAINSTORM",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }
@@ -235,8 +241,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_RAINSTORM_TO_RAIN",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }
@@ -259,8 +265,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_RAIN_TO_DRIZZLE",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }
@@ -283,8 +289,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_DRIZZLE_TO_LIGHT_DRIZZLE",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }
@@ -307,8 +313,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_LIGHT_DRIZZLE_TO_NOTHING",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }
@@ -430,8 +436,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_SNOWING_TO_FLURRIES",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }
@@ -454,8 +460,8 @@
         "else": {
           "queue_eocs": "EOC_WEATHER_CONTROL_FLURRIES_TO_NOTHING",
           "time_in_future": [
-            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5), 1800)" ] },
-            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5), 1800)" ] }
+            { "math": [ "min( (u_weather_stage_up_lower_bound * rng(2,5) ), 1800)" ] },
+            { "math": [ "min( (u_weather_stage_up_upper_bound * rng(2,5) ), 1800)" ] }
           ]
         }
       }

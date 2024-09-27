@@ -352,7 +352,7 @@
     "energy_source": "MANA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 400)"
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 400)"
       ]
     },
     "base_casting_time": {
@@ -364,13 +364,49 @@
   {
     "id": "selkie_change_weather_rains_spell",
     "type": "SPELL",
-    "name": "Aria of the Rains",
+    "name": "Aria of the Droplets",
     "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.  Weave the glamour again to dispel it.",
     "message": "",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 60000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_rainstorm_spell",
+    "type": "SPELL",
+    "name": "Canticle of Rainstorms",
+    "description": "Manipulate the weather, causing the sky to cloud over and heavy rains to fall.  Weave the glamour again to dispel it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
     "shape": "blast",
     "spell_class": "CHANGELING_MAGIC",
     "difficulty": 7,
@@ -388,12 +424,12 @@
     "energy_source": "MANA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 450)"
+        "u_effect_intensity('effect_controlling_weather_rainstorm') > -1 ? 0 : max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 25)), 600)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "max(( 60000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 6000)"
+        "max(( 90000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 9000)"
       ]
     }
   }

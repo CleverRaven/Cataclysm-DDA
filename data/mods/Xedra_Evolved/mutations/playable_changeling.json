@@ -1141,8 +1141,10 @@
     "id": "SELKIE_CHANGE_WEATHER_RAINSTORM",
     "name": { "str": "Canticle of Rainstorms" },
     "points": 3,
-    "description": "Call a rain shower, letting the rains water the earth.",
-    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ]
+    "description": "Call a heavy rainstorm, soaking everything.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAIN" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_rainstorm_spell", 1 ] ]
   },
   {
     "type": "mutation",

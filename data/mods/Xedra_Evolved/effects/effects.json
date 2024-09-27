@@ -2180,6 +2180,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_controlling_weather_fog",
+    "//": "Hidden effect, used to track magical summoned fog",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather_rains",
+    "//": "Hidden effect, used to track magical summoned rain",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather_rainstorm",
+    "//": "Hidden effect, used to track magical summoned rainstorms",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]
