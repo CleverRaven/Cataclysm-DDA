@@ -2201,6 +2201,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_controlling_weather_lightningstorm",
+    "//": "Hidden effect, used to track magical summoned lightning storms",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "called_daffodil",
     "name": [ "Called the daffodil" ],
     "desc": [ "You recently called some daffodils.  You need to wait a day before you can call more." ]

@@ -365,7 +365,7 @@
     "id": "selkie_change_weather_rains_spell",
     "type": "SPELL",
     "name": "Aria of the Droplets",
-    "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.  Weave the glamour again to dispel it.",
+    "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.  Weave the glamour again to dispel it.  You cannot control the weather if the temperature is too cold.",
     "message": "",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
@@ -401,7 +401,7 @@
     "id": "selkie_change_weather_rainstorm_spell",
     "type": "SPELL",
     "name": "Canticle of Rainstorms",
-    "description": "Manipulate the weather, causing the sky to cloud over and heavy rains to fall.  Weave the glamour again to dispel it.",
+    "description": "Manipulate the weather, causing the sky to cloud over and heavy rains to fall.  Weave the glamour again to dispel it.  You cannot control the weather if the temperature is too cold.",
     "message": "",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
@@ -430,6 +430,32 @@
     "base_casting_time": {
       "math": [
         "max(( 90000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 9000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_lightningstorm_spell",
+    "type": "SPELL",
+    "name": "Symphony of Levin",
+    "description": "Manipulate the weather, transforming a rainstorm into a violent lightning storm.  It must already be raining heavily to transform the weather into a lightning storm, and a lightning storm cannot be controlled after the glamour is woven.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "max_level": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_lightningstorm') > -1 ? 50 : max(( 500 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 15)), 200)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('deduction') * 250)), 1000)"
       ]
     }
   }

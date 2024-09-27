@@ -1148,6 +1148,17 @@
   },
   {
     "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "name": { "str": "Symphony of Levin" },
+    "points": 3,
+    "description": "Call a lightning storm, .",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAINSTORM" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_lightningstorm_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SELKIE_BREATHING_WATER",
     "name": { "str": "Breathing Water" },
     "points": 2,

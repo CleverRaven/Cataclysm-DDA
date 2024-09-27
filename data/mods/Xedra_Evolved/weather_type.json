@@ -162,6 +162,6 @@
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "priority": 119,
-    "condition": { "math": [ "magic_weather_lightingstorm", "==", "1" ] }
+    "condition": { "math": [ "magic_weather_lightning", "==", "1" ] }
   }
 ]
