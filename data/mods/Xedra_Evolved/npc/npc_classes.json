@@ -76,5 +76,282 @@
       { "group": "NPC_starting_traits" },
       { "distribution": [ { "group": "trait_group_dreamer_danger" }, { "group": "trait_group_dreamer_hero" } ] }
     ]
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_mugger",
+    "//": "Asks for two liters of blood from your veins.  If you can't or won't give it, acts as a regular mugger.  When it will be possible to make NPC classes that will attempt to start a conversation, make both muggers start the dialogue on their own.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_MUGGER",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_regular",
+    "//": "A regular person if not for the vampirism.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hungry",
+    "//": "A regular person if not for the vampirism and the gnawing thirst for blood.  Needs a custom class so they can receive the trait that checks if they're hungry.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE_HUNGRY",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_unwilling",
+    "//": "They never wanted to be a vampire, and are looking for anything to help them get rid of that curse.",
+    "name_suffix": "vampire",
+    "class": "NC_NPC_XE_VAMPIRE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_UNWILLING",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_mugger_complete",
+    "//": "Asks for two liters of blood from your veins.  If you can't or won't give it, acts as a stronger version of a regular mugger.  Is also much harder to talk down than a regular vampire mugger.",
+    "name_suffix": "ancient vampire",
+    "class": "NC_NPC_XE_VAMPIRE_COMPLETE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_MUGGER_COMPLETE",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_complete",
+    "//": "A regular person if not for having reached the apex of vampirism.",
+    "name_suffix": "ancient vampire",
+    "class": "NC_NPC_XE_VAMPIRE_COMPLETE",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "vampire"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hunter_on_sight",
+    "//": "Maybe there will a hunter faction someday.  For now, there's only the random lone members.",
+    "//2": "This hunter attacks all vampires on sight no matter what.",
+    "//3": "When it will be possible to make NPC classes that will attempt to start a conversation, make all hunters start the dialogue on their own.",
+    "name_suffix": "vampire hunter",
+    "class": "NC_NPC_XE_VAMPIRE_HUNTER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_HUNTER_ON_SIGHT",
+    "faction": "vampire_hunter"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hunter_recruiter",
+    "//": "This hunter attacks all vampires on sight but non-vampires can convince them to go hunt vampires together, eventually allowing to recruit this one.",
+    "name_suffix": "vampire hunter",
+    "class": "NC_NPC_XE_VAMPIRE_HUNTER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_HUNTER_RECRUITER",
+    "mission_offered": "MISSION_KILL_10_VAMPIRES",
+    "faction": "vampire_hunter"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hunter_conspirational",
+    "//": "This hunter attacks all vampires and all post-threshold mutants on sight.",
+    "name_suffix": "vampire hunter",
+    "class": "NC_NPC_XE_VAMPIRE_HUNTER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_HUNTER_CONSPIRATIONAL",
+    "faction": "vampire_hunter"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hunter_negotiator",
+    "//": "This hunter is willing to hear you plead for your life if you're a vampire.",
+    "name_suffix": "vampire hunter",
+    "class": "NC_NPC_XE_VAMPIRE_HUNTER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_HUNTER_NEGOTIATOR",
+    "faction": "vampire_hunter"
+  },
+  {
+    "type": "npc",
+    "id": "xe_vampire_hunter_healer",
+    "//": "This hunter try to convince vampires to take the cure they carry on them.  They do not attack those who refuse, trying to avoid conflict to stay alive and find more that will willingly be cured.",
+    "name_suffix": "vampire hunter",
+    "class": "NC_NPC_XE_VAMPIRE_HUNTER_HEALER",
+    "attitude": 0,
+    "mission": 0,
+    "chat": "TALK_VAMPIRE_HUNTER_HEALER"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE",
+    "name": "Vampire",
+    "job_description": "Someone who needs to drink blood to live.",
+    "common": true,
+    "common_spawn_weight": 0.1,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, 2 ] } ] } ] } }
+    ],
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "bonus_str": { "rng": [ 1, 2 ] },
+    "bonus_dex": { "rng": [ 1, 2 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_tier1_vampire", "prob": 100 },
+      { "group": "trait_group_tier2_vampire", "prob": 95 },
+      { "group": "trait_group_tier3_vampire", "prob": 90 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE_HUNGRY",
+    "name": "Vampire",
+    "job_description": "Someone who needs to drink blood to live.",
+    "common": true,
+    "common_spawn_weight": 0.1,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, 2 ] } ] } ] } }
+    ],
+    "bonus_int": { "rng": [ 1, 2 ] },
+    "bonus_per": { "rng": [ 1, 2 ] },
+    "bonus_str": { "rng": [ 1, 2 ] },
+    "bonus_dex": { "rng": [ 1, 2 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_tier1_vampire", "prob": 100 },
+      { "group": "trait_group_tier2_vampire", "prob": 95 },
+      { "group": "trait_group_tier3_vampire", "prob": 90 },
+      { "trait": "VAMPIRE_HUNGRY", "prob": 100 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE_COMPLETE",
+    "name": "Ancient Vampire",
+    "job_description": "A very old vampire that reached the full potential of their curse.",
+    "common": true,
+    "common_spawn_weight": 0.01,
+    "skills": [ { "skill": "ALL", "level": { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 2, 4 ] } ] } } ],
+    "bonus_int": { "rng": [ 2, 4 ] },
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "bonus_str": { "rng": [ 2, 4 ] },
+    "bonus_dex": { "rng": [ 2, 4 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "trait_group_complete_vampire" }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE_HUNTER",
+    "name": "Vampire Hunter",
+    "job_description": "Someone who hunts vampires.",
+    "//": "They are intended to know how to fight, but they don't have much non-combat expertise.",
+    "common": true,
+    "common_spawn_weight": 0.1,
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 2, 3 ] }, { "constant": -3 } ] } },
+      {
+        "skill": "archery",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      },
+      {
+        "skill": "cutting",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      },
+      { "skill": "dodge", "bonus": { "rng": [ 2, 3 ] } },
+      {
+        "skill": "gun",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      },
+      { "skill": "melee", "bonus": { "rng": [ 2, 3 ] } },
+      {
+        "skill": "rifle",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      }
+    ],
+    "bonus_int": { "rng": [ -2, 3 ] },
+    "bonus_per": { "rng": [ -2, 3 ] },
+    "bonus_str": { "rng": [ -2, 3 ] },
+    "bonus_dex": { "rng": [ -2, 3 ] },
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "BLOOD_OF_SAINTS", "prob": 1 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_XE_VAMPIRE_HUNTER_HEALER",
+    "name": "Vampire Hunter",
+    "job_description": "Someone who tries to cure vampires.",
+    "//": "As the regular healer, but starts with some blood treatment and is a pacifist.",
+    "common": true,
+    "common_spawn_weight": 0.01,
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 2, 3 ] }, { "constant": -3 } ] } },
+      {
+        "skill": "archery",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      },
+      {
+        "skill": "cutting",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      },
+      { "skill": "dodge", "bonus": { "rng": [ 2, 3 ] } },
+      {
+        "skill": "gun",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      },
+      { "skill": "melee", "bonus": { "rng": [ 2, 3 ] } },
+      {
+        "skill": "rifle",
+        "level": { "mul": [ { "one_in": 2 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, 2 ] } ] } ] }
+      }
+    ],
+    "bonus_int": { "rng": [ -2, 3 ] },
+    "bonus_per": { "rng": [ -2, 3 ] },
+    "bonus_str": { "rng": [ -2, 3 ] },
+    "bonus_dex": { "rng": [ -2, 3 ] },
+    "carry_override": "Healer_carry",
+    "traits": [
+      { "group": "Appearance_demographics" },
+      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "NPC_starting_traits" },
+      { "trait": "PACIFIST", "prob": 100 },
+      { "trait": "BLOOD_OF_SAINTS", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "Healer_carry",
+    "subtype": "collection",
+    "entries": [ { "item": "blood_treatment", "count": 3, "container-item": "flask_glass" }, { "item": "grimy_recipe" } ]
   }
 ]

@@ -249,5 +249,56 @@
     "type": "effect_on_condition",
     "id": "EOC_REMOVE_LUNA_MISSION",
     "effect": { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_FOR_VAMPIRE_FOLLOWERS",
+    "//": "This EOC checks if you recently interacted with an allied (not neutral) vampire.  If yes, the hunters will react poorly to you.",
+    "recurrence": [ "1 hour", "1 hour" ],
+    "condition": { "and": [ "u_is_avatar", { "npc_allies": 1 } ] },
+    "effect": [ { "u_cast_spell": { "id": "spell_check_vampire_followers", "hit_self": true } } ]
+  },
+  {
+    "id": "spell_check_vampire_followers",
+    "type": "SPELL",
+    "name": { "str": "Vampire follower check" },
+    "description": "Checks if you have vampire followers",
+    "valid_targets": [ "ally", "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "eoc_check_vampire_followers",
+    "shape": "blast",
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "min_range": 1,
+    "max_range": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "id": "eoc_check_vampire_followers",
+    "type": "effect_on_condition",
+    "condition": { "and": [ "u_is_npc", { "u_has_trait": "VAMPIRE" } ] },
+    "effect": [ { "u_cast_spell": { "id": "spell_confirm_vampire_followers", "hit_self": true } } ]
+  },
+  {
+    "id": "spell_confirm_vampire_followers",
+    "type": "SPELL",
+    "name": { "str": "Vampire follower checking" },
+    "description": "Confirms that you have vampire followers",
+    "valid_targets": [ "ally", "self" ],
+    "effect": "attack",
+    "effect_str": "effect_you_ally_with_vampires",
+    "shape": "blast",
+    "min_duration": 360000,
+    "max_duration": 360000,
+    "min_aoe": 15,
+    "max_aoe": 15,
+    "min_range": 1,
+    "max_range": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_you_ally_with_vampires",
+    "max_duration": "1 h"
   }
 ]

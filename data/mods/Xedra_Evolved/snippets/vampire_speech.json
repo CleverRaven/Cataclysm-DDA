@@ -63,5 +63,32 @@
     ],
     "sound": "\"Why won't you just surrender to the masters' needs!\"",
     "volume": 32
+  },
+  {
+    "type": "snippet",
+    "category": "<done_mugging_blood>",
+    "//": "Said when a vampire NPC completes mugging blood from the player",
+    "text": [
+      "Thanks for the blood, <name_b>!",
+      "So long, <name_b>!",
+      "Thanks a lot, <name_g>!",
+      "Catch you later, <name_g>!",
+      "See you later, <name_b>!",
+      "See you in hell, <name_b>!",
+      "Hasta luego, <name_g>!",
+      "I'm outta here!  <done_mugging>",
+      "Bye bye, <name_b>!",
+      "Thanks, <name_g>!",
+      "Pleasure drinking your blood.",
+      "Nice veins, see you soon.",
+      "What's yours is mine, <name_g>.",
+      "Your blood belongs to me, <name_b>.",
+      "Now beat it, you <name_b>.",
+      "Good stuff.  See you around<punc>",
+      "I need this more than you.",
+      "Thanks for your generosity.",
+      "Your contribution is much appreciated.",
+      "You're helping to feed my kids."
+    ]
   }
 ]
