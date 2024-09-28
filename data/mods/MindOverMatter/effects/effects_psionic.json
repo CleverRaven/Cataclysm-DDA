@@ -560,7 +560,8 @@
           }
         ]
       }
-    ]
+    ],
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
