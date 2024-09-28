@@ -90,8 +90,8 @@
       { "group": "guns_pistol_common", "prob": 162 },
       { "group": "guns_rifle_common", "prob": 36 },
       { "group": "guns_shotgun_common", "prob": 2 },
-      { "group": "guns_pistol_obscure_display", "prob": 81 },
-      { "group": "guns_rifle_obscure", "prob": 18 },
+      { "group": "guns_display_pieces", "prob": 20 },
+      { "group": "guns_collectible", "prob": 2 },
       { "group": "ammo_obscure", "prob": 40 },
       { "group": "mags_common", "prob": 40 }
     ]

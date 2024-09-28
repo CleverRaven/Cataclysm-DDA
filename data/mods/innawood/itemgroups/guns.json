@@ -119,32 +119,18 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rare",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_improvised", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rare_static",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_improvised", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rare_readied",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_improvised", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_milspec",
     "//": "Military specification guns of all types.",
     "items": [ { "group": "guns_improvised", "prob": 100 } ]
   },
   {
     "type": "item_group",
-    "id": "guns_obscure",
-    "//": "Imported or otherwise very obscure guns of all types.",
+    "id": "guns_display_pieces",
+    "items": [ { "group": "guns_improvised", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_collectible",
     "items": [ { "group": "guns_improvised", "prob": 100 } ]
   },
   {

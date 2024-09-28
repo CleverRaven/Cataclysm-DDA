@@ -14,12 +14,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_obscure_display",
-    "copy-from": "guns_pistol_obscure_display",
-    "extend": { "items": [ { "item": "afs_seyfert_84K", "prob": 50, "charges": [ 0 ] } ] }
-  },
-  {
-    "type": "item_group",
     "id": "guns_rifle_common_display",
     "copy-from": "guns_rifle_common_display",
     "extend": {

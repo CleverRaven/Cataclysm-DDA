@@ -207,9 +207,9 @@
     "type": "item_group",
     "id": "pawn_guns",
     "items": [
-      { "group": "guns_common", "prob": 100 },
-      { "group": "guns_rare", "prob": 10 },
-      { "group": "guns_obscure", "prob": 1 }
+      { "group": "guns_common_display", "prob": 100 },
+      { "group": "guns_display_pieces", "prob": 1 },
+      { "group": "guns_collectible", "prob": 1 }
     ]
   },
   {

@@ -192,7 +192,7 @@
         { "chance": 20, "repeat": 2, "item": "book_survival", "x": 8, "y": 15 },
         { "chance": 25, "item": "barbecue", "x": 3, "y": 16 },
         { "chance": 25, "item": "fancyfurs", "x": [ 6, 7 ], "y": 20 },
-        { "chance": 25, "item": "guns_obscure", "x": 21, "y": 7 },
+        { "chance": 25, "item": "guns_common", "x": 21, "y": 7 },
         { "chance": 50, "repeat": 2, "item": "clothing_male", "x": 21, "y": 11 },
         { "chance": 25, "item": "clothing_work_hat", "x": 21, "y": 16 },
         { "chance": 30, "repeat": 2, "item": "female_underwear_top", "x": 5, "y": 18 },

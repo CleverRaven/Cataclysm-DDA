@@ -111,7 +111,7 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "guns_pistol_display",
+    "id": "guns_pistol_display_pieces",
     "magazine": 100,
     "//": "Pistols that are sought after but with little or no historical value.  Think of magnum handguns, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
     "items": [
@@ -254,7 +254,7 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "guns_rifle_display",
+    "id": "guns_rifle_display_pieces",
     "magazine": 100,
     "//": "Rifles that are sought after but with little or no historical value.  Think of AKs, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
     "items": [
@@ -333,57 +333,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_obscure",
-    "subtype": "distribution",
-    "//": "Imported or otherwise very obscure rifles.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [
-      { "group": "nested_ak47", "prob": 100 },
-      { "group": "nested_bfg50", "prob": 5 },
-      { "group": "nested_carbine_flintlock", "prob": 140 },
-      { "group": "nested_m60_semi", "prob": 10 },
-      { "group": "nested_rifle_flintlock", "prob": 180 },
-      { "group": "nested_steyr_aug", "prob": 40 },
-      { "group": "nested_win70_458", "prob": 60 },
-      { "group": "nested_sl8", "prob": 10 },
-      { "group": "nested_arx160", "prob": 40 },
-      { "group": "nested_psl", "prob": 10 },
-      { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
-      { "group": "nested_type99", "prob": 20 },
-      { "group": "nested_type99_sniper", "prob": 5 },
-      { "group": "nested_ak308", "prob": 25 },
-      { "group": "nested_papm77", "prob": 15 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_obscure_display",
-    "//": "Imported or otherwise very obscure rifles, unloaded for storage in gunstore and unavailable for sale",
-    "subtype": "distribution",
-    "items": [
-      { "item": "ak47", "prob": 30 },
-      { "item": "m249_semi", "prob": 5 },
-      { "item": "bfg50", "prob": 1 },
-      { "item": "win70_458", "prob": 5 },
-      { "item": "type99", "variant": "type99", "contents-group": "type99_mods", "prob": 5, "charges": 0 },
-      { "item": "type99_sniper", "contents-item": "arisaka_monopod", "prob": 2, "charges": 0 },
-      { "item": "m60_semi", "prob": 5 },
-      { "item": "steyr_aug", "prob": 5 },
-      { "group": "nested_sl8", "prob": 2 },
-      { "item": "fn_fal_semi", "variant": "fal_dsa", "prob": 40 },
-      { "item": "hk_g3", "prob": 40 },
-      { "item": "m1918", "prob": 30 },
-      { "group": "modular_m4a1", "prob": 45 },
-      { "item": "m14ebr", "prob": 15 },
-      { "item": "arx160", "prob": 10 },
-      { "item": "hk417_13", "prob": 40 },
-      { "item": "m2carbine", "prob": 5 },
-      { "item": "ak308", "prob": 10 },
-      { "item": "ak308", "variant": "papm77", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
     "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "rifle_38", "prob": 30 }, { "item": "rifle_44", "prob": 5 } ]
@@ -406,29 +355,8 @@
     "id": "guns_shotgun_common_worn",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "ammo handled elsewhere so these can be worn.",
-    "items": [
-      { "item": "mossberg_500", "prob": 33, "charges": [ 0, 6 ] },
-      { "item": "remington_870", "prob": 35, "charges": [ 0, 5 ] },
-      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 17, "charges": [ 0, 6 ] },
-      { "item": "remington_870_express", "prob": 18, "charges": [ 0, 6 ] },
-      { "item": "remington_870", "variant": "browning_a5", "prob": 14, "charges": [ 0, 5 ] },
-      { "item": "benelli_sa", "variant": "m2", "prob": 17, "charges": [ 0, 4 ] },
-      { "item": "benelli_sa", "variant": "sbe", "prob": 37, "charges": [ 0, 4 ] },
-      {
-        "item": "benelli_tsa",
-        "variant": "m2_tac",
-        "contents-item": [ "rail_mount" ],
-        "prob": 12,
-        "charges": [ 0, 6 ]
-      },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 6, "charges": [ 0, 9 ] },
-      { "item": "remington_870", "variant": "ithaca37", "prob": 6, "charges": [ 0, 5 ] },
-      { "item": "remington_870", "variant": "remington_1100", "prob": 17, "charges": [ 0, 5 ] },
-      { "item": "mossberg_930", "prob": 15, "charges": [ 0, 6 ] },
-      { "item": "shotgun_410", "prob": 30, "charges": [ 0, 1 ] },
-      { "item": "shotgun_d", "prob": 30, "charges": [ 0, 2 ] },
-      { "item": "shotgun_s", "prob": 30 }
-    ]
+    "items": [ { "group": "guns_shotgun_common_display", "charges": [ 1, 8 ] } ]
+    
   },
   {
     "type": "item_group",
@@ -441,25 +369,6 @@
       { "group": "12_gauge_pump_display", "prob": 34 },
       { "group": "12_gauge_break_display", "prob": 18 },
       { "item": "shotgun_410", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_worn",
-    "//": "Uncommon or rare shotguns in civilian possession.",
-    "//2": "ammo handled elsewhere so these can be worn.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "ksg", "prob": 50, "charges": [ 0, 7 ] },
-      { "item": "srm_1216", "prob": 1, "charges": [ 0, 16 ] },
-      { "item": "ar12_shotgun", "prob": 5, "charges": [ 0, -1 ] },
-      { "item": "gfy_1", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] }, 
-      { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
-      { "item": "shotgun_triple", "prob": 1, "charges": [ 0, 3 ] },
-      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
-      { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
     ]
   },
   {
@@ -561,31 +470,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rare",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rare_display",
-    "subtype": "distribution",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rare_static",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rare_readied",
-    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [  ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_milspec",
     "//": "Military specification guns of all types.",
     "items": [
@@ -598,11 +482,20 @@
   },
   {
     "type": "item_group",
-    "id": "guns_obscure",
-    "//": "Imported or otherwise very obscure guns of all types.",
+    "id": "guns_display_pieces",
+    "//": "Display pieces for guns that are more for decoration than actual purpose.",
     "items": [
-      { "group": "guns_pistol_obscure_display", "prob": 45 },
-      { "group": "guns_rifle_obscure", "prob": 53 }
+      { "group": "guns_pistol_display_pieces", "prob": 80 },
+      { "group": "guns_rifle_display_pieces", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_collectible",
+    "//": "Historical guns that you may find at something like a gunshow.",
+    "items": [
+      { "group": "guns_pistol_collectible", "prob": 80 },
+      { "group": "guns_rifle_collectible", "prob": 20 }
     ]
   },
   {
