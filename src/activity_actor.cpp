@@ -1284,7 +1284,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
-    hotwire_car_activity_actor actor( 0, tripoint_zero );
+    hotwire_car_activity_actor actor( 0, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -2714,7 +2714,7 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
     const item_location &lockpick,
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2726,7 +2726,7 @@ lockpick_activity_actor lockpick_activity_actor::use_item(
 }
 
 lockpick_activity_actor lockpick_activity_actor::use_bionic(
-    const tripoint &target
+    const tripoint_abs_ms &target
 )
 {
     return lockpick_activity_actor {
@@ -2962,7 +2962,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
-    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_zero );
+    lockpick_activity_actor actor( 0, std::nullopt, std::nullopt, tripoint_abs_ms_zero );
 
     JsonObject data = jsin.get_object();
 
@@ -6506,12 +6506,12 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     map &here = get_map();
     const tripoint_bub_ms &pos = here.bub_from_abs( act.placement );
 
-    tripoint direction;
+    tripoint_rel_ms direction;
     if( !who.is_npc() &&
         ( who.backlog.empty() || who.backlog.front().id() != ACT_MULTIPLE_CHOP_TREES ) ) {
         while( true ) {
-            if( const std::optional<tripoint> dir = choose_direction(
-                    _( "Select a direction for the tree to fall in." ) ) ) {
+            if( const std::optional<tripoint_rel_ms> dir = choose_direction_rel_ms(
+                        _( "Select a direction for the tree to fall in." ) ) ) {
                 direction = *dir;
                 break;
             }
@@ -6552,13 +6552,13 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
                 }
             }
             if( !cantuse ) {
-                direction = tripoint( direc, pos.z() );
+                direction = tripoint_rel_ms( { direc, pos.z() } );
                 break;
             }
         }
     }
 
-    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy().raw() );
 
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
@@ -7187,38 +7187,35 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
     }
 
     if( stage == INIT ) {
-        // TODO: fix point types
         coord_set.clear();
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_UNLOAD_ALL, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
-            coord_set.insert( p.raw() );
+            coord_set.insert( p );
         }
 
         for( const tripoint_abs_ms &p :
              mgr.get_near( zone_type_STRIP_CORPSES, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr,
                            fac_id ) ) {
-            coord_set.insert( p.raw() );
+            coord_set.insert( p );
         }
         stage = THINK;
     }
 
     if( stage == THINK ) {
-        //initialize num_processed
+        // initialize num_processed
         num_processed = 0;
-        // TODO: fix point types
         std::vector<tripoint_abs_ms> src_set;
         src_set.reserve( coord_set.size() );
-        for( const tripoint &p : coord_set ) {
+        for( const tripoint_abs_ms &p : coord_set ) {
             src_set.emplace_back( p );
         }
         // sort source tiles by distance
         const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
 
         for( const tripoint_abs_ms &src : src_sorted ) {
-            // TODO: fix point types
-            placement = src.raw();
-            coord_set.erase( src.raw() );
+            placement = src;
+            coord_set.erase( src );
 
             const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
@@ -8018,7 +8015,7 @@ void pulp_activity_actor::do_turn( player_activity &act, Character &you )
                     const field_type_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
                                                      corpse.get_mtype()->gibType() :
                                                      corpse.get_mtype()->bloodType();
-                    here.add_splatter_trail( type_blood, pos, dest );
+                    here.add_splatter_trail( type_blood, pos.raw(), dest.raw() );
                 }
 
                 // mixture of isaac clarke stomps and swinging your weapon

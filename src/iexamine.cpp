@@ -1929,7 +1929,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
