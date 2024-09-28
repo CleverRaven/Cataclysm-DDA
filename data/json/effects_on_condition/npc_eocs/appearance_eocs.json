@@ -8,7 +8,7 @@
     "//4": "For reference starting point, a buzzcut is 0.32 centimeters long.",
     "//5": "1 inch is 2.54 centimeters.",
     "//6": "Currently hair changes traits about every 20 days",
-    "recurrence": { "math": [ "150000" ] },
+    "recurrence": { "math": [ "time('20 d')" ] },
     "global": false,
     "condition": { "or": [ { "u_has_trait": "natural_hair_growth" } ] },
     "effect": [
