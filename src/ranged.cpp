@@ -4180,9 +4180,8 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( you.has_trait( trait_GUNSHY ) ) {
-        messages.push_back( string_format( _( "You're too gun-shy to use this." ),
-                                           gmode->tname() ) );
+    if( you.has_trait( trait_GUNSHY ) && gmode->is_firearm() ) {
+        messages.push_back( string_format( _( "You're too gun-shy to use this." ) ) );
         result = false;
     }
 
