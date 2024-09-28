@@ -2176,7 +2176,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "remington_870", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "remington_870", "variant": "remington_870", "charges": [ 0, 5 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_500_security",
@@ -2185,6 +2185,14 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "benelli_tsa", "variant": "mossberg_500_security", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_winchester_1897",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "winchester_1897", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_remington_870_express",
@@ -2216,7 +2224,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mossberg_930", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "mossberg_930", "variant": "mossberg_930", "charges": [ 0, 6 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_shotgun_410",
@@ -2395,7 +2403,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "mossberg_590", "charges": [ 0, 9 ] }, { "group": "on_hand_shot" } ]
+    "entries": [ { "item": "mossberg_590", "variant": "mossberg_590", "charges": [ 0, 9 ] }, { "group": "on_hand_shot" } ]
   },
   {
     "id": "nested_mossberg_590m",

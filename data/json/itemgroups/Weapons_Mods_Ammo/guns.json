@@ -363,23 +363,12 @@
     "id": "guns_shotgun_common",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
+	"//3": "To-do, add in more 410 shotguns along with 20 gauge",
     "items": [
-      { "group": "nested_mossberg_500", "prob": 33 },
-      { "group": "nested_remington_870", "prob": 35 },
-      { "group": "nested_mossberg_500_security", "prob": 17 },
-      { "group": "nested_remington_870_express", "prob": 18 },
-      { "group": "nested_browning_a5", "prob": 14 },
-      { "group": "nested_benelli_m2", "prob": 17 },
-      { "group": "nested_black_eagle", "prob": 37 },
-      { "group": "nested_benelli_m2_tac", "prob": 12 },
-      { "group": "nested_slp", "prob": 6 },
-      { "group": "nested_ithaca37", "prob": 6 },
-      { "group": "nested_remington_1100", "prob": 17 },
-      { "group": "nested_mossberg_930", "prob": 15 },
-      { "group": "nested_shotgun_410", "prob": 30 },
-      { "group": "nested_shotgun_d", "prob": 30 },
-      { "group": "nested_shotgun_triple", "prob": 2 },
-      { "group": "nested_shotgun_s", "prob": 30 }
+      { "group": "12_gauge_semi", "prob": 48 },
+      { "group": "12_gauge_pump", "prob": 34 },
+      { "group": "12_gauge_break", "prob": 18 },
+      { "group": "nested_shotgun_410", "prob": 5 }
     ]
   },
   {
@@ -416,23 +405,12 @@
     "subtype": "distribution",
     "id": "guns_shotgun_common_display",
     "//": "Shotguns commonly owned by citizens and found in gun stores.",
+	"//2": "To-do, add in more 410 shotguns along with 20 gauge",
     "items": [
-      { "item": "mossberg_500", "prob": 33 },
-      { "item": "remington_870", "prob": 35 },
-      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 17 },
-      { "item": "remington_870_express", "prob": 18 },
-      { "item": "remington_870", "variant": "browning_a5", "prob": 14 },
-      { "item": "benelli_sa", "variant": "m2", "prob": 17 },
-      { "item": "benelli_sa", "variant": "sbe", "prob": 37 },
-      { "item": "benelli_tsa", "variant": "m2_tac", "contents-item": [ "rail_mount" ], "prob": 12 },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 6 },
-      { "item": "mossberg_590m", "prob": 1 },
-      { "item": "remington_870", "variant": "ithaca37", "prob": 6 },
-      { "item": "remington_870", "variant": "remington_1100", "prob": 17 },
-      { "item": "mossberg_930", "prob": 15 },
-      { "item": "shotgun_410", "prob": 30 },
-      { "item": "shotgun_d", "prob": 30 },
-      { "item": "shotgun_s", "prob": 30 }
+      { "group": "12_gauge_semi_display", "prob": 48 },
+      { "group": "12_gauge_pump_display", "prob": 34 },
+      { "group": "12_gauge_break_display", "prob": 18 },
+      { "item": "shotgun_410", "prob": 5 }
     ]
   },
   {
