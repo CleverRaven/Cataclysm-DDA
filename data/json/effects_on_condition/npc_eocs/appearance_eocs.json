@@ -10,7 +10,7 @@
     "//6": "Currently hair changes traits about every 20 days",
     "recurrence": { "math": [ "time('20 d')" ] },
     "global": false,
-    "condition": { "or": [ { "u_has_trait": "natural_hair_growth" } ] },
+    "condition": { "u_has_trait": "natural_hair_growth" },
     "effect": [
       {
         "if": { "u_has_trait": "hair_buzzcut" },
