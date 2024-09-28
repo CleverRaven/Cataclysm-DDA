@@ -1697,7 +1697,7 @@ static void fire()
         add_msg( m_bad, _( "You refuse to use ranged weapons." ) );
         return;
     }
-    if( you.has_trait( trait_GUNSHY ) && weapon->is_firearm() ) {
+    if( you.has_trait( trait_GUNSHY ) && weapon && weapon->is_firearm() ) {
         add_msg( m_bad, _( "You refuse to use firearms." ) );
         return;
     }
