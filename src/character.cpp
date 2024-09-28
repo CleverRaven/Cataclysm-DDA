@@ -11243,12 +11243,12 @@ npc_attitude Character::get_attitude() const
     return NPCATT_NULL;
 }
 
-bool Character::sees( const tripoint &t, bool is_avatar, int range_mod ) const
+bool Character::sees( const tripoint &t, bool, int ) const
 {
-    return sees( tripoint_bub_ms( t ), is_avatar, range_mod );
+    return sees( tripoint_bub_ms( t ) );
 }
 
-bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+bool Character::sees( const tripoint_bub_ms &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos_bub(), t );
     bool can_see = this->is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
