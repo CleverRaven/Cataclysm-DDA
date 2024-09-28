@@ -77,37 +77,9 @@
   },
   {
     "type": "item_group",
-    "id": "guns_shotgun_rare",
-    "//": "Uncommon or rare shotguns in civilian possession.",
-    "subtype": "distribution",
-    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_worn",
-    "//": "Uncommon or rare shotguns in civilian possession.",
-    "//2": "ammo handled elsewhere so these can be worn.",
-    "subtype": "distribution",
-    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_readied",
-    "subtype": "distribution",
-    "items": [ { "group": "guns_shotgun_improvised", "prob": 22 } ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_shotgun_milspec",
     "//": "Military shotguns currently in service.",
     "items": [ { "group": "guns_shotgun_improvised", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_obscure",
-    "//": "Imported or otherwise very obscure shotguns.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [ { "group": "guns_shotgun_improvised", "prob": 50 } ]
   },
   {
     "type": "item_group",

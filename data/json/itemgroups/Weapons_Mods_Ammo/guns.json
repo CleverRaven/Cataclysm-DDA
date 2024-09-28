@@ -415,24 +415,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_shotgun_rare",
-    "//": "Uncommon or rare shotguns in civilian possession.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "nested_ksg", "prob": 50 },
-      { "group": "nested_dp_12", "prob": 3 },
-      { "group": "nested_srm_1216", "prob": 2 },
-      { "group": "nested_ar12_shotgun", "prob": 5 },
-      { "group": "nested_gfy_1", "prob": 2 },
-      { "group": "nested_tavor_12", "prob": 5 },
-      { "group": "nested_m1014", "prob": 10 },
-      { "group": "nested_slp", "prob": 10 },
-      { "group": "nested_mossberg_590m", "prob": 2 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "guns_shotgun_rare_worn",
     "//": "Uncommon or rare shotguns in civilian possession.",
     "//2": "ammo handled elsewhere so these can be worn.",
@@ -442,49 +424,12 @@
       { "item": "srm_1216", "prob": 1, "charges": [ 0, 16 ] },
       { "item": "ar12_shotgun", "prob": 5, "charges": [ 0, -1 ] },
       { "item": "gfy_1", "prob": 2, "charges": [ 0, -1 ] },
-      { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] },
+      { "item": "dp_12", "prob": 2, "charges": [ 0, 14 ] }, 
       { "item": "tavor_12", "prob": 5, "charges": [ 0, 5 ] },
       { "item": "shotgun_triple", "prob": 1, "charges": [ 0, 3 ] },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ] },
       { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10, "charges": [ 0, 9 ] },
       { "item": "mossberg_590m", "prob": 2, "charges": [ 0, 5 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_display",
-    "subtype": "distribution",
-    "//": "Uncommon or rare shotguns found in gun stores.",
-    "entries": [
-      { "item": "ksg", "prob": 25 },
-      { "item": "tavor_12", "prob": 5 },
-      { "item": "srm_1216", "prob": 3 },
-      { "item": "ar12_shotgun", "prob": 5 },
-      { "item": "gfy_1", "prob": 2 },
-      { "item": "dp_12", "prob": 4 },
-      { "item": "mossberg_930", "variant": "m1014", "prob": 10 },
-      { "item": "mossberg_590", "variant": "slp", "contents-item": [ "rail_mount" ], "prob": 10 },
-      { "item": "mossberg_590m", "prob": 2 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_readied",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "guns_shotgun_rare_worn", "prob": 22, "contents-group": "sights_shotgun_readied" },
-      { "item": "winchester_1887", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "winchester_1897", "prob": 7, "charges": [ 0, 6 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_rare_static",
-    "subtype": "distribution",
-    "entries": [
-      { "group": "guns_shotgun_rare_worn", "prob": 22, "contents-group": "sights_shotgun_static" },
-      { "item": "winchester_1887", "prob": 10, "charges": [ 0, 6 ] },
-      { "item": "winchester_1897", "prob": 7, "charges": [ 0, 6 ] }
     ]
   },
   {
@@ -497,25 +442,6 @@
       { "group": "nested_remington_870_breacher", "prob": 20 },
       { "group": "nested_mossberg_590", "prob": 50 },
       { "group": "nested_m1014", "prob": 100 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_obscure",
-    "//": "Imported or otherwise very obscure shotguns.",
-    "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-    "items": [ { "group": "nested_saiga_12", "prob": 50 }, { "group": "nested_saiga_410", "prob": 40 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_shotgun_obscure_display",
-    "subtype": "distribution",
-    "//": "Imported or otherwise very obscure shotguns, unloaded for storage in a gunstore, some violate AWA.",
-    "items": [
-      { "item": "saiga_12", "prob": 25 },
-      { "item": "winchester_1887", "prob": 10 },
-      { "item": "winchester_1897", "prob": 20 },
-      { "item": "saiga_410", "prob": 10 }
     ]
   },
   {
@@ -607,26 +533,26 @@
     "type": "item_group",
     "id": "guns_rare",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_shotgun_rare", "prob": 1 } ]
+    "items": [ ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_display",
     "subtype": "distribution",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_shotgun_rare_display", "prob": 1 } ]
+    "items": [ ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_static",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_shotgun_rare_static", "prob": 1 } ]
+    "items": [ ]
   },
   {
     "type": "item_group",
     "id": "guns_rare_readied",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
-    "items": [ { "group": "guns_shotgun_rare_readied", "prob": 1 } ]
+    "items": [  ]
   },
   {
     "type": "item_group",
@@ -646,8 +572,7 @@
     "//": "Imported or otherwise very obscure guns of all types.",
     "items": [
       { "group": "guns_pistol_obscure_display", "prob": 45 },
-      { "group": "guns_rifle_obscure", "prob": 53 },
-      { "group": "guns_shotgun_obscure", "prob": 1 }
+      { "group": "guns_rifle_obscure", "prob": 53 }
     ]
   },
   {

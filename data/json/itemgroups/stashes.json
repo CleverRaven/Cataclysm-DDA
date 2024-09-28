@@ -192,8 +192,7 @@
     "//": "a long weapon of some kind.",
     "entries": [
       { "group": "guns_rifle_common", "prob": 120 },
-      { "group": "guns_shotgun_common", "prob": 2 },
-      { "group": "guns_shotgun_rare", "prob": 1 }
+      { "group": "guns_shotgun_common", "prob": 3 }
     ]
   },
   {

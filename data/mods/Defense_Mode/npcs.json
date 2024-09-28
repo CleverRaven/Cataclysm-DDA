@@ -228,9 +228,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "guns_pistol_common", "prob": 210 },
-      { "group": "guns_shotgun_common", "prob": 75 },
-      { "group": "guns_shotgun_rare", "prob": 50 },
-      { "group": "guns_shotgun_obscure", "prob": 30 },
+      { "group": "guns_shotgun_common", "prob": 155 },
       { "group": "guns_shotgun_milspec", "prob": 95 },
       { "group": "guns_shotgun_improvised", "prob": 90 },
       { "group": "guns_smg_improvised", "prob": 90 },

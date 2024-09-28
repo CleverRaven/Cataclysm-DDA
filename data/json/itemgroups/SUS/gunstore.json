@@ -19,8 +19,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "guns_pistol_obscure_display", "prob": 15 },
-      { "collection": [ { "group": "guns_rifle_obscure_display" } ], "prob": 45 },
-      { "collection": [ { "group": "guns_shotgun_obscure_display" } ], "prob": 1 }
+      { "collection": [ { "group": "guns_rifle_obscure_display" } ], "prob": 45 }
     ]
   },
   {
@@ -80,8 +79,7 @@
     "entries": [
       { "group": "guns_pistol_common_display", "prob": 90 },
       { "group": "guns_rifle_common_display", "prob": 30 },
-      { "group": "guns_shotgun_common_display", "prob": 2 },
-      { "group": "guns_shotgun_rare_display", "prob": 1 }
+      { "group": "guns_shotgun_common_display", "prob": 3 }
     ]
   },
   {
