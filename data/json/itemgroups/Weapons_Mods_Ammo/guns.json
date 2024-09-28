@@ -212,6 +212,7 @@
       { "group": "guns_rifle_common_450", "prob": 3 },
       { "group": "guns_rifle_common_50beowulf", "prob": 3 },
       { "group": "guns_rifle_common_57", "prob": 3 },
+      { "group": "guns_rifle_common_545", "prob": 3 },
       { "group": "guns_rifle_common_7mm_arisaka", "prob": 2 }
     ]
   },
@@ -248,6 +249,7 @@
       { "group": "guns_rifle_common_display_450", "prob": 3 },
       { "group": "guns_rifle_common_display_50beowulf", "prob": 3 },
       { "group": "guns_rifle_common_display_57", "prob": 3 },
+      { "group": "guns_rifle_common_display_545", "prob": 3 },
       { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 }
     ]
   },

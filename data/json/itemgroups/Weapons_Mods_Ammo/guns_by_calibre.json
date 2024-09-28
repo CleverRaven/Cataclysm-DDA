@@ -632,6 +632,11 @@
   },
   {
     "type": "item_group",
+    "id": "guns_rifle_common_545",
+    "items": [ { "group": "nested_ak74", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "guns_rifle_common_7mm_arisaka",
     "//": "To-do: Convert sniper into variant",
     "items": [ { "group": "nested_type99", "prob": 100 }, { "group": "nested_type99_sniper", "prob": 4 } ]
@@ -773,6 +778,11 @@
     "type": "item_group",
     "id": "guns_rifle_common_display_57",
     "items": [ { "item": "fn_ps90", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "guns_rifle_common_display_545",
+    "items": [ { "item": "ak74_semi", "prob": 100 } ]
   },
   {
     "type": "item_group",
