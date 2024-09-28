@@ -46,5 +46,21 @@
       { "value": "MELEE_DAMAGE", "multiply": 0.15 },
       { "value": "STAMINA_REGEN_MOD", "add": 1 }
     ]
+  },
+  {
+    "type": "enchantment",
+    "id": "iso_bionic_vampire_buff",
+    "name": { "str": "Assassin's Drive" },
+    "description": "Hey man, it's just business.",
+    "condition": {
+      "not": {
+        "or": [
+          { "u_at_om_location": "iso_elevator_safe" },
+          { "u_at_om_location": "iso_hallway_safe" },
+          { "u_at_om_location": "iso_next_level_elevator" }
+        ]
+      }
+    },
+    "values": [ { "value": "POWER_TRICKLE", "add": -5000 } ]
   }
 ]
