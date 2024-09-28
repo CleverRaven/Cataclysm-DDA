@@ -66,7 +66,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
         here.ter_set( pt, ter_id( "t_dirt" ) );
         here.furn_set( pt, furn_id( "f_null" ) );
         REQUIRE_FALSE( creatures.creature_at( pt ) );
-        REQUIRE( here.is_transparent( pt.raw() ) );
+        REQUIRE( here.is_transparent( pt ) );
     }
 
     // Set an obstacle in the way, a chain fence

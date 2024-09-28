@@ -731,9 +731,9 @@ TEST_CASE( "vision_moncam_basic", "[shadowcasting][vision][moncam]" )
     avatar &u = get_avatar();
     REQUIRE( zombie->sees( u ) == !obstructed );
     if( add_moncam ) {
-        REQUIRE( u.sees( zombie->pos(), true ) );
+        REQUIRE( u.sees( zombie->pos_bub(), true ) );
     } else {
-        REQUIRE( !u.sees( zombie->pos(), true ) );
+        REQUIRE( !u.sees( zombie->pos_bub(), true ) );
     }
 }
 
@@ -1167,7 +1167,7 @@ TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
     clear_avatar();
     get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
                     false );
-    get_avatar().sees( tripoint_zero ); // CRASH?
+    get_avatar().sees( tripoint_bub_ms_zero ); // CRASH?
 
     clear_avatar();
 }

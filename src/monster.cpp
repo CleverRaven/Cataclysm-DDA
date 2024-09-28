@@ -2054,7 +2054,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     const bool u_see_me = player_character.sees( *this );
-    const bool u_see_my_spot = player_character.sees( this->pos() );
+    const bool u_see_my_spot = player_character.sees( this->pos_bub() );
     const bool u_see_target = player_character.sees( target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
@@ -2849,7 +2849,7 @@ void monster::process_turn()
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
                                "default" );
                 Character &player_character = get_player_character();
-                if( player_character.sees( pos() ) ) {
+                if( player_character.sees( pos_bub() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
                     player_character.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
@@ -2940,7 +2940,7 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( mon_flag_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const tripoint abssub = ms_to_sm_copy( here.getabs( pos() ) );
+        const tripoint abssub = ms_to_sm_copy( here.getglobal( pos_bub() ).raw() );
         // Do it for overmap above/below too
         for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
             // TODO: fix point types

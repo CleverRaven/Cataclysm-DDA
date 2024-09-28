@@ -178,10 +178,10 @@ player_activity veh_interact::serialize_activity()
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.getabs( p ) );
+        res.coord_set.insert( here.getglobal( p ).raw() );
     }
-    res.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );    // values[0]
-    res.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );    // values[1]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );   // values[0]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );   // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]

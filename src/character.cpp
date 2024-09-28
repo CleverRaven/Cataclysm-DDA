@@ -8134,7 +8134,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && get_player_view().sees( pos() ) ) {
+    if( dam > 0 && get_player_view().sees( pos_bub() ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_avatar() && source ) {
@@ -10568,8 +10568,7 @@ void Character::echo_pulse()
 
 bool Character::knows_trap( const tripoint &pos ) const
 {
-    const tripoint p = get_map().getabs( pos );
-    return known_traps.count( p ) > 0;
+    return Character::knows_trap( tripoint_bub_ms( pos ) );
 }
 
 bool Character::knows_trap( const tripoint_bub_ms &pos ) const
@@ -10580,12 +10579,12 @@ bool Character::knows_trap( const tripoint_bub_ms &pos ) const
 
 void Character::add_known_trap( const tripoint &pos, const trap &t )
 {
-    const tripoint p = get_map().getabs( pos );
+    const tripoint_abs_ms p = get_map().getglobal( pos );
     if( t.is_null() ) {
-        known_traps.erase( p );
+        known_traps.erase( p.raw() );
     } else {
         // TODO: known_traps should map to a trap_str_id
-        known_traps[p] = t.id.str();
+        known_traps[p.raw()] = t.id.str();
     }
 }
 
@@ -11244,10 +11243,15 @@ npc_attitude Character::get_attitude() const
     return NPCATT_NULL;
 }
 
-bool Character::sees( const tripoint &t, bool, int ) const
+bool Character::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 {
-    const int wanted_range = rl_dist( pos(), t );
-    bool can_see = is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
+    return sees( tripoint_bub_ms( t ), is_avatar, range_mod );
+}
+
+bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
+{
+    const int wanted_range = rl_dist( pos_bub(), t );
+    bool can_see = this->is_avatar() ? get_map().pl_sees( t, std::min( sight_max, wanted_range ) ) :
                    Creature::sees( t );
     // Clairvoyance is now pretty cheap, so we can check it early
     if( wanted_range < MAX_CLAIRVOYANCE && wanted_range < clairvoyance() ) {
@@ -11255,11 +11259,6 @@ bool Character::sees( const tripoint &t, bool, int ) const
     }
 
     return can_see;
-}
-
-bool Character::sees( const tripoint_bub_ms &t, bool is_avatar, int range_mod ) const
-{
-    return sees( t.raw(), is_avatar, range_mod );
 }
 
 bool Character::sees( const Creature &critter ) const
@@ -11288,7 +11287,7 @@ void Character::set_destination( const std::vector<tripoint_bub_ms> &route,
 {
     auto_move_route = route;
     set_destination_activity( new_destination_activity );
-    destination_point.emplace( get_map().getabs( route.back() ) );
+    destination_point.emplace( get_map().getglobal( route.back() ).raw() );
 }
 
 void Character::clear_destination()

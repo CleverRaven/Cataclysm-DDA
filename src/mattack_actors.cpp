@@ -684,7 +684,7 @@ bool melee_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
 
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
 
     // Add always-applied self effects
@@ -928,7 +928,7 @@ bool melee_actor::call( monster &z ) const
 void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     if( target.is_avatar() ) {
-        sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
+        sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos_bub() ),
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
@@ -936,7 +936,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  Creature::Attitude::FRIENDLY ?
                                  m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
-    const std::string mon_name = get_player_character().sees( z.pos() ) ?
+    const std::string mon_name = get_player_character().sees( z.pos_bub() ) ?
                                  z.disp_name( false, true ) : _( "Something" );
     target.add_msg_player_or_npc( msg_type, hit_dmg_u,
                                   get_option<bool>( "LOG_MONSTER_ATTACK_MONSTER" ) ? hit_dmg_npc : translation(),

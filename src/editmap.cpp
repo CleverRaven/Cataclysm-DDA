@@ -2117,13 +2117,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getabs( target.xy() ) );
+        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getabs( target.xy() ) );
+            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {

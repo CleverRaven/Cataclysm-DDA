@@ -3781,7 +3781,7 @@ bool mattack::riotbot( monster *z )
 
         std::vector<tripoint_bub_ms> traj = line_to( z->pos_bub(), dest, 0, 0 );
         for( tripoint_bub_ms &elem : traj ) {
-            if( !here.is_transparent( elem.raw() ) ) {
+            if( !here.is_transparent( elem ) ) {
                 break;
             }
             here.add_field( elem, fd_dazzling, 1 );

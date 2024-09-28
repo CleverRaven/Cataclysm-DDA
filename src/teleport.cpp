@@ -61,7 +61,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     Character *const p = critter.as_character();
     const bool c_is_u = p != nullptr && p->is_avatar();
     map &here = get_map();
-    tripoint_abs_ms abs_ms( here.getabs( target ) );
+    tripoint_abs_ms abs_ms( here.getglobal( target ) );
     if( abs_ms.z() > OVERMAP_HEIGHT || abs_ms.z() < -OVERMAP_DEPTH ) {
         debugmsg( "%s cannot teleport to point %s: too high or too deep.", critter.get_name(),
                   abs_ms.to_string() );

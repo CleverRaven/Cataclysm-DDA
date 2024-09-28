@@ -128,17 +128,17 @@ TEST_CASE( "visitable_zone_surface_test" )
     // Some spot checks of our map edits.
     REQUIRE( !here.passable( enclosed_building + point_east ) );
     REQUIRE( !here.passable( door_building + point_south ) );
-    REQUIRE( !here.is_transparent_wo_fields( enclosed_building + point_east ) );
-    REQUIRE( !here.is_transparent_wo_fields( door_building + point_south ) );
+    REQUIRE( !here.is_transparent_wo_fields( tripoint_bub_ms( enclosed_building + point_east ) ) );
+    REQUIRE( !here.is_transparent_wo_fields( tripoint_bub_ms( door_building + point_south ) ) );
 
     REQUIRE( here.passable( open_door ) );
-    REQUIRE( here.is_transparent_wo_fields( open_door ) );
+    REQUIRE( here.is_transparent_wo_fields( tripoint_bub_ms( open_door ) ) );
 
     REQUIRE( !here.passable( closed_door ) );
-    REQUIRE( !here.is_transparent_wo_fields( closed_door ) );
+    REQUIRE( !here.is_transparent_wo_fields( tripoint_bub_ms( closed_door ) ) );
 
     REQUIRE( !here.passable( window ) );
-    REQUIRE( here.is_transparent_wo_fields( window ) );
+    REQUIRE( here.is_transparent_wo_fields( tripoint_bub_ms( window ) ) );
 
     for( std::vector<tripoint> &area : interior_areas ) {
         for( const int &choice : rng_sequence( 2, 0, area.size() - 1 ) ) {

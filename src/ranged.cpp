@@ -3243,10 +3243,11 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 
 void target_ui::set_last_target()
 {
-    if( !you->last_target_pos.has_value() || you->last_target_pos.value() != get_map().getabs( dst ) ) {
+    if( !you->last_target_pos.has_value() ||
+        you->last_target_pos.value() != get_map().getglobal( dst ).raw() ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().getabs( dst );
+    you->last_target_pos = get_map().getglobal( dst ).raw();
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {

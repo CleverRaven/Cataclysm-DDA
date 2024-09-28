@@ -3088,7 +3088,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     const bionic_id bid( act->str_values[cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
     Character &player_character = get_player_character();
-    const bool u_see = player_character.sees( you->pos() ) &&
+    const bool u_see = player_character.sees( you->pos_bub() ) &&
                        ( !player_character.has_effect( effect_narcosis ) ||
                          player_character.has_bionic( bio_painkiller ) ||
                          player_character.has_flag( json_flag_PAIN_IMMUNE ) );

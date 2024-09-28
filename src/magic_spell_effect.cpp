@@ -1672,7 +1672,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     std::vector<tripoint> trajectory;
     trajectory.reserve( trajectory_local.size() );
     for( const tripoint &local_point : trajectory_local ) {
-        trajectory.push_back( here.getabs( local_point ) );
+        trajectory.push_back( here.getglobal( local_point ).raw() );
     }
     avatar *caster_you = caster.as_avatar();
     auto walk_point = trajectory.begin();
