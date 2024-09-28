@@ -98,7 +98,7 @@
       }
     ],
     "armor": [
-      { "encumbrance": [ 4, 8 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER", "BELTED" ] },
+      { "encumbrance": [ 4, 8 ], "coverage": 100, "cover_vitals": 90, "covers": [ "torso" ], "layers": [ "OUTER" ] },
       {
         "encumbrance": [ 4, 4 ],
         "coverage": 100,
