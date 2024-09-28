@@ -6,11 +6,11 @@
     "text": [
       "Yeah sure, want to crack open one of them beers?",
       "Oh definitely, how about one of those beers you got?",
-      "Yeah you share those beers I see you hoarding and then we chat all you like! Only joking, heh.",
+      "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, heh.",
       "Hey <name_g>, I bet a chat would be all the sweeter with a nice, cold beer in hand.",
       "While we chat, what say you we open a beer and just… pretend the world isn't ending.",
       "Pass me one and let's talk, <name_g>.",
-      "Got any cold ones? Let's crack 'em open and have a chat.",
+      "Got any cold ones?  Let's crack 'em open and have a chat.",
       "Let's share a beer and shoot the breeze, <name_g>.",
       "Bring out the brews and let's have a chat.",
       "How about a beer to go with our conversation?",
@@ -23,8 +23,8 @@
       "Open a beer and let's chat like it's old times.",
       "Beer first, then we can talk all you want, <name_g>.",
       "Let's crack open a cold one and have a good chat.",
-      "Beer and conversation, the perfect combo. What do you say?",
-      "Got a beer? Let's make this chat more interesting.",
+      "Beer and conversation, the perfect combo.  What do you say?",
+      "Got a beer?  Let's make this chat more interesting.",
       "Share a beer with me and let's talk."
     ]
   },
