@@ -11648,7 +11648,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( this, *target, this->pos() );
+        target->deactivate( this );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );

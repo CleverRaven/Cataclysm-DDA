@@ -63,7 +63,15 @@
   },
   {
     "type": "connect_group",
+    "id": "SANDPILE"
+  },
+  {
+    "type": "connect_group",
     "id": "SANDGLASS"
+  },
+  {
+    "type": "connect_group",
+    "id": "GRAVELPILE"
   },
   {
     "type": "connect_group",

@@ -879,6 +879,7 @@ Character status value  | Description
 `PHASE_DISTANCE`        | Distance the character is able to teleport through impassible terrain.  Values less than 1 do nothing and the max distance is 48 tiles.
 `POWER_TRICKLE`         | Generates this amount of millijoules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
+`RANGED_ARMOR_PENETRATION` | Adds armor penetration to ranged attacks.
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
 `RANGE_DODGE`           | Chance to dodge projectile attack, no matter of it's speed; Consumes dodges similarly to melee dodges, and fails, if character has no dodges left. `add` and `multiply` behave equally. `add: 0.5` would result in 50% chance to avoid projectile
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
@@ -913,6 +914,7 @@ Character status value  | Description
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
 `WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
+`WEAKPOINT_ACCURACY`    | Increases the coverage of every weakpoint you hit, therefore, increasing chances to hit said weakpoint. Works only if weakpoint has `"is_good": true` (all weakpoints have it true by default)
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 

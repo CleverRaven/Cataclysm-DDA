@@ -1111,7 +1111,7 @@ int gun_actor::get_max_range()  const
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
-    tripoint aim_at;
+    tripoint_bub_ms aim_at;
     bool untargeted = false;
 
     if( has_condition ) {
@@ -1137,10 +1137,10 @@ bool gun_actor::call( monster &z ) const
             }
             return false;
         }
-        aim_at = target->pos();
+        aim_at = target->pos_bub();
     } else {
         target = z.attack_target();
-        aim_at = target ? target->pos() : tripoint_zero;
+        aim_at = target ? target->pos_bub() : tripoint_bub_ms_zero;
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
                 return false;
@@ -1151,11 +1151,11 @@ bool gun_actor::call( monster &z ) const
             if( moving_veh_parts.empty() ) {
                 return false;
             }
-            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() ).raw();
+            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() );
         }
     }
 
-    const int dist = rl_dist( z.pos(), aim_at );
+    const int dist = rl_dist( z.pos_bub(), aim_at );
     if( target ) {
         add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
     } else {
@@ -1220,7 +1220,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
     return true;
 }
 
-bool gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );

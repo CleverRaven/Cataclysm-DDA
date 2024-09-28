@@ -830,7 +830,7 @@
     "abstract": "base_chainmail_arms",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "base chainmail sleeves" },
+    "name": { "str_sp": "base chainmail sleeves", "//~": "NO_I18N" },
     "description": "Customized chainmail arm protection.  Both sleeves have straps to connect them with each other.  They don't cover the hands, making them less cumbersome and allowing them to be worn with gloves.",
     "weight": "2812 g",
     "volume": "750 ml",
@@ -879,7 +879,7 @@
     "abstract": "xl_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
-    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -911,7 +911,7 @@
     "abstract": "xs_chainmail_arms",
     "type": "ARMOR",
     "copy-from": "base_chainmail_arms",
-    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves" },
+    "name": { "str": "pair of chainmail sleeves", "str_pl": "pairs of chainmail sleeves", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {

@@ -235,8 +235,8 @@ class spell_type
         bool teachable;
         // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
-        std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
-                                          const tripoint &source, const tripoint &target )>
+        std::function<std::set<tripoint_bub_ms>( const spell_effect::override_parameters &params,
+                const tripoint &source, const tripoint &target )>
         spell_area_function; // NOLINT(cata-serialize)
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
@@ -518,10 +518,10 @@ class spell
         std::optional<tripoint> select_target( Creature *source );
         // how big is the spell's radius
         int aoe( const Creature &caster ) const;
-        std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
-                                        const tripoint &source, const tripoint &target ) const;
-        std::set<tripoint> effect_area( const tripoint &source, const tripoint &target,
-                                        const Creature &caster ) const;
+        std::set<tripoint_bub_ms> effect_area( const spell_effect::override_parameters &params,
+                                               const tripoint &source, const tripoint &target ) const;
+        std::set<tripoint_bub_ms> effect_area( const tripoint &source, const tripoint &target,
+                                               const Creature &caster ) const;
         // distance spell can be cast
         int range( const Creature &caster ) const;
         /**
@@ -529,7 +529,7 @@ class spell
          *  if the spell can't be cast through walls, does not return anything behind walls
          *  if the spell can't target the ground, can't target unseen locations, etc.
          */
-        std::vector<tripoint> targetable_locations( const Character &source ) const;
+        std::vector<tripoint_bub_ms> targetable_locations( const Character &source ) const;
         // how much energy does the spell cost
         int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
@@ -653,7 +653,7 @@ class spell
         bool ignore_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        std::optional<tripoint> random_valid_target( const Creature &caster,
+        std::optional<tripoint_bub_ms> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
 };
 
@@ -774,12 +774,12 @@ void area_pull( const spell &sp, Creature &caster, const tripoint &center );
 void area_push( const spell &sp, Creature &caster, const tripoint &center );
 void directed_push( const spell &sp, Creature &caster, const tripoint &target );
 
-std::set<tripoint> spell_effect_blast( const override_parameters &params, const tripoint &,
-                                       const tripoint &target );
-std::set<tripoint> spell_effect_cone( const override_parameters &params, const tripoint &source,
-                                      const tripoint &target );
-std::set<tripoint> spell_effect_line( const override_parameters &params, const tripoint &source,
-                                      const tripoint &target );
+std::set<tripoint_bub_ms> spell_effect_blast( const override_parameters &params, const tripoint &,
+        const tripoint &target );
+std::set<tripoint_bub_ms> spell_effect_cone( const override_parameters &params,
+        const tripoint &source, const tripoint &target );
+std::set<tripoint_bub_ms> spell_effect_line( const override_parameters &params,
+        const tripoint &source, const tripoint &target );
 
 void spawn_ethereal_item( const spell &sp, Creature &, const tripoint & );
 void recover_energy( const spell &sp, Creature &, const tripoint &target );
@@ -820,7 +820,7 @@ void effect_on_condition( const spell &sp, Creature &caster, const tripoint &tar
 void none( const spell &sp, Creature &, const tripoint &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
-inline const std::map<spell_shape, std::function<std::set<tripoint>
+inline const std::map<spell_shape, std::function<std::set<tripoint_bub_ms>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
     { spell_shape::blast, spell_effect_blast },
     { spell_shape::line, spell_effect_line },

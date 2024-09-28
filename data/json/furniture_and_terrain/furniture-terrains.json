@@ -1597,6 +1597,8 @@
     "description": "An area of heaped sand, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ] },
     "bash": {
       "str_min": 50,
@@ -1617,6 +1619,8 @@
     "description": "An area of sand heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ], "furn_set": "f_sand_mound_short" },
     "bash": {
       "str_min": 50,
@@ -1639,6 +1643,8 @@
     "description": "An area of sand heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "SANDPILE",
+    "connects_to": "SANDPILE",
     "deconstruct": { "items": [ { "item": "material_sand", "count": 4000 } ], "furn_set": "f_sand_mound_mid" },
     "bash": {
       "str_min": 50,
@@ -1660,6 +1666,8 @@
     "description": "An area of heaped gravel, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ] },
     "bash": {
       "str_min": 50,
@@ -1680,6 +1688,8 @@
     "description": "An area of gravel heaped up to your shoulders, not easily traversable.",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "THIN_OBSTACLE", "PERMEABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_short" },
     "bash": {
       "str_min": 50,
@@ -1702,6 +1712,8 @@
     "description": "An area of gravel heaped well above your head, difficult to climb over.",
     "required_str": -1,
     "flags": [ "NOITEM", "EASY_DECONSTRUCT", "MINEABLE", "PERMEABLE", "CLIMBABLE" ],
+    "connect_groups": "GRAVELPILE",
+    "connects_to": "GRAVELPILE",
     "deconstruct": { "items": [ { "item": "material_gravel", "count": 4000 } ], "furn_set": "f_gravel_mound_mid" },
     "bash": {
       "str_min": 50,

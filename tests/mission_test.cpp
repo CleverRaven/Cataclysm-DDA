@@ -98,7 +98,7 @@ TEST_CASE( "mission_goal_condition_test", "[mission]" )
     }
 
     GIVEN( "with_npc" ) {
-        const character_id guy_id = get_map().place_npc( point( 25, 25 ), npc_template_test_talker );
+        const character_id guy_id = get_map().place_npc( point_bub_ms( 25, 25 ), npc_template_test_talker );
         g->load_npcs();
         WHEN( "mission_origin_start" ) {
             mission *m = mission::reserve_new( mission_TEST_MISSION_GOAL_CONDITION1, guy_id );

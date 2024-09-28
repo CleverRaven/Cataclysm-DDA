@@ -1931,10 +1931,10 @@ bool map::furn_set( const tripoint_bub_ms &p, const furn_id &new_furniture, cons
     set_pathfinding_cache_dirty( p );
 
     // Make sure the furniture falls if it needs to
-    support_dirty( p.raw() );
+    support_dirty( p );
     tripoint_bub_ms above( p.xy(), p.z() + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
-    support_dirty( above.raw() );
+    support_dirty( above );
 
     return result;
 }
@@ -2433,7 +2433,7 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
             ter_furn_flag::TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z() );
         // It's a set, not a flag
-        support_cache_dirty.insert( p.raw() );
+        support_cache_dirty.insert( p );
         set_seen_cache_dirty( p );
     }
 
@@ -2461,7 +2461,7 @@ bool map::ter_set( const tripoint_bub_ms &p, const ter_id &new_terrain, bool avo
 
     tripoint_bub_ms above( p.xy(), p.z() + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
-    support_dirty( above.raw() );
+    support_dirty( above );
 
     return true;
 }
@@ -2835,8 +2835,13 @@ double map::ranged_target_size( const tripoint_bub_ms &p ) const
 
 int map::climb_difficulty( const tripoint &p ) const
 {
-    if( p.z > OVERMAP_HEIGHT || p.z < -OVERMAP_DEPTH ) {
-        debugmsg( "climb_difficulty on out of bounds point: %d, %d, %d", p.x, p.y, p.z );
+    return map::climb_difficulty( tripoint_bub_ms( p ) );
+}
+
+int map::climb_difficulty( const tripoint_bub_ms &p ) const
+{
+    if( p.z() > OVERMAP_HEIGHT || p.z() < -OVERMAP_DEPTH ) {
+        debugmsg( "climb_difficulty on out of bounds point: %d, %d, %d", p.x(), p.y(), p.z() );
         return INT_MAX;
     }
 
@@ -2852,7 +2857,7 @@ int map::climb_difficulty( const tripoint &p ) const
         best_difficulty = 7;
     }
 
-    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &pt : points_in_radius( p, 1 ) ) {
         if( impassable_ter_furn( pt ) ) {
             // TODO: Non-hardcoded climbability
             best_difficulty = std::min( best_difficulty, 10 );
@@ -2874,7 +2879,12 @@ int map::climb_difficulty( const tripoint &p ) const
 
 bool map::has_floor( const tripoint &p ) const
 {
-    if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
+    return map::has_floor( tripoint_bub_ms( p ) );
+}
+
+bool map::has_floor( const tripoint_bub_ms &p ) const
+{
+    if( !zlevels || p.z() < -OVERMAP_DEPTH + 1 || p.z() > OVERMAP_HEIGHT ) {
         return true;
     }
     if( !inbounds( p ) ) {
@@ -2882,11 +2892,6 @@ bool map::has_floor( const tripoint &p ) const
     }
     return !has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) &&
            !has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, p );
-}
-
-bool map::has_floor( const tripoint_bub_ms &p ) const
-{
-    return map::has_floor( p.raw() );
 }
 
 bool map::has_floor_or_water( const tripoint &p ) const
@@ -2907,6 +2912,11 @@ bool map::has_floor_or_water( const tripoint_bub_ms &p ) const
 
 bool map::supports_above( const tripoint &p ) const
 {
+    return map::supports_above( tripoint_bub_ms( p ) );
+}
+
+bool map::supports_above( const tripoint_bub_ms &p ) const
+{
     const const_maptile tile = maptile_at( p );
     const ter_t &ter = tile.get_ter_t();
     if( ter.movecost == 0 ) {
@@ -2926,7 +2936,12 @@ bool map::supports_above( const tripoint &p ) const
 
 bool map::has_floor_or_support( const tripoint &p ) const
 {
-    const tripoint below( p.xy(), p.z - 1 );
+    return map::has_floor_or_support( tripoint_bub_ms( p ) );
+}
+
+bool map::has_floor_or_support( const tripoint_bub_ms &p ) const
+{
+    const tripoint_bub_ms below( p.xy(), p.z() - 1 );
     return !valid_move( p, below, false, true );
 }
 
@@ -2941,7 +2956,7 @@ bool map::has_vehicle_floor( const tripoint_bub_ms &p ) const
            veh_at( p ).part_with_feature( "OBSTACLE", false );
 }
 
-void map::drop_everything( const tripoint &p )
+void map::drop_everything( const tripoint_bub_ms &p )
 {
     if( has_floor_or_water( p ) ) {
         return;
@@ -2953,7 +2968,7 @@ void map::drop_everything( const tripoint &p )
     drop_fields( p );
 }
 
-void map::drop_furniture( const tripoint &p )
+void map::drop_furniture( const tripoint_bub_ms &p )
 {
     const furn_id frn = furn( p );
     if( frn == furn_str_id::NULL_ID() || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
@@ -2973,12 +2988,12 @@ void map::drop_furniture( const tripoint &p )
     // has support below
     // has unsupporting furniture below (bad support, things should "slide" if possible)
     // has no support and thus allows things to fall through
-    const auto check_tile = [this]( const tripoint & pt ) {
+    const auto check_tile = [this]( const tripoint_bub_ms & pt ) {
         if( has_floor_or_water( pt ) ) {
             return SS_FLOOR;
         }
 
-        tripoint below_dest( pt.xy(), pt.z - 1 );
+        tripoint_bub_ms below_dest( pt.xy(), pt.z() - 1 );
         if( supports_above( below_dest ) ) {
             return SS_GOOD_SUPPORT;
         }
@@ -3001,18 +3016,18 @@ void map::drop_furniture( const tripoint &p )
         return SS_NO_SUPPORT;
     };
 
-    tripoint_bub_ms current( point_bub_ms( p.xy() ), p.z + 1 );
+    tripoint_bub_ms current( point_bub_ms( p.xy() ), p.z() + 1 );
     support_state last_state = SS_NO_SUPPORT;
     while( last_state == SS_NO_SUPPORT ) {
         current.z()--;
         // Check current tile
-        last_state = check_tile( current.raw() );
+        last_state = check_tile( current );
     }
 
-    if( current.raw() == p ) {
+    if( current == p ) {
         // Nothing happened
         if( last_state != SS_FLOOR ) {
-            support_dirty( current.raw() );
+            support_dirty( current );
         }
 
         return;
@@ -3048,7 +3063,7 @@ void map::drop_furniture( const tripoint &p )
     }
 
     // TODO: Balance this.
-    int dmg = weight * ( p.z - current.z() );
+    int dmg = weight * ( p.z() - current.z() );
 
     if( last_state == SS_FLOOR ) {
         // Bash the same tile twice - once for furniture, once for the floor
@@ -3096,10 +3111,10 @@ void map::drop_furniture( const tripoint &p )
     }
 
     // Re-queue for another check, in case bash destroyed something
-    support_dirty( current.raw() );
+    support_dirty( current );
 }
 
-void map::drop_items( const tripoint &p )
+void map::drop_items( const tripoint_bub_ms &p )
 {
     if( !has_items( p ) ) {
         return;
@@ -3116,7 +3131,7 @@ void map::drop_items( const tripoint &p )
         max_height_fallen++;
     }
 
-    if( below.raw() == p ) {
+    if( below == p ) {
         return;
     }
 
@@ -3213,24 +3228,24 @@ void map::drop_items( const tripoint &p )
     i_clear( p );
 }
 
-void map::drop_vehicle( const tripoint &p )
+void map::drop_vehicle( const tripoint_bub_ms &p )
 {
     const optional_vpart_position vp = veh_at( p );
     if( !vp ) {
         return;
     }
     vp->vehicle().is_falling = true;
-    set_seen_cache_dirty( tripoint_bub_ms( p ) );
+    set_seen_cache_dirty( p );
 }
 
-void map::drop_fields( const tripoint &p )
+void map::drop_fields( const tripoint_bub_ms &p )
 {
     field &fld = field_at( p );
     if( fld.field_count() == 0 ) {
         return;
     }
 
-    const tripoint below = p + tripoint_below;
+    const tripoint_bub_ms below = p + tripoint_below;
     for( const auto &iter : fld ) {
         const field_entry &entry = iter.second;
         // For now only drop cosmetic fields, which don't warrant per-turn check
@@ -3242,7 +3257,7 @@ void map::drop_fields( const tripoint &p )
     }
 }
 
-void map::support_dirty( const tripoint &p )
+void map::support_dirty( const tripoint_bub_ms &p )
 {
     if( zlevels ) {
         support_cache_dirty.insert( p );
@@ -3260,9 +3275,9 @@ void map::process_falling()
         add_msg_debug( debugmode::DF_MAP, "Checking %d tiles for falling objects",
                        support_cache_dirty.size() );
         // We want the cache to stay constant, but falling can change it
-        std::set<tripoint> last_cache = std::move( support_cache_dirty );
+        std::set<tripoint_bub_ms> last_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
-        for( const tripoint &p : last_cache ) {
+        for( const tripoint_bub_ms &p : last_cache ) {
             drop_everything( p );
         }
     }
@@ -5565,7 +5580,7 @@ std::pair<item *, tripoint_bub_ms> map::_add_item_or_charges( const tripoint_bub
             }
         }
 
-        support_dirty( tile.raw() );
+        support_dirty( tile );
         return add_item( tile, obj, copies );
     };
 
@@ -6031,6 +6046,30 @@ void map::process_items_in_submap( submap &current_submap, const tripoint_rel_sm
                            spoil_multiplier * active_item_ref.spoil_multiplier(),
                            furniture_is_sealed || active_item_ref.has_watertight_container() );
     }
+}
+
+std::vector<item_reference> map::item_network_connections( vehicle *power_grid )
+{
+    std::vector<item_reference> result;
+    for( const auto &iter : submaps_with_active_items ) {
+        tripoint_abs_sm const abs_pos = iter;
+        const tripoint_rel_sm local_pos = abs_pos - abs_sub.xy();
+        submap *const current_submap = get_submap_at_grid( local_pos );
+        std::vector<item_reference> active_items = current_submap->active_items.get_for_processing();
+        for( item_reference &active_item_ref : active_items ) {
+            if( !active_item_ref.item_ref ) {
+                continue;
+            }
+
+            if( active_item_ref.item_ref->has_link_data() &&
+                active_item_ref.item_ref->link().t_veh &&
+                active_item_ref.item_ref->link().t_veh->pos_bub() == power_grid->pos_bub() ) {
+                result.emplace_back( active_item_ref );
+            }
+        }
+    }
+
+    return result;
 }
 
 void map::process_items_in_vehicles( submap &current_submap )
@@ -6745,11 +6784,6 @@ void map::remove_trap( const tripoint_bub_ms &p )
 /*
  * Get wrapper for all fields at xyz
  */
-const field &map::field_at( const tripoint &p ) const
-{
-    return field_at( tripoint_bub_ms( p ) );
-}
-
 const field &map::field_at( const tripoint_bub_ms &p ) const
 {
     if( !inbounds( p ) ) {
@@ -6967,7 +7001,7 @@ bool map::add_field( const tripoint_bub_ms &p, const field_type_id &type_id, int
 
     // Hacky way to force electricity fields to become unlit electricity fields
     const field_type_id &converted_type_id = ( type_id == fd_electricity ||
-            type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p.raw() ) : type_id;
+            type_id == fd_electricity_unlit ) ? get_applicable_electricity_field( p ) : type_id;
     const field_type &fd_type = *converted_type_id;
 
     intensity = std::min( intensity, fd_type.get_max_intensity() );
@@ -7015,7 +7049,7 @@ void map::remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_
     set_field_intensity( p, field_to_remove, 0 );
 }
 
-void map::delete_field( const tripoint &p, const field_type_id &field_to_remove )
+void map::delete_field( const tripoint_bub_ms &p, const field_type_id &field_to_remove )
 {
     submap *current_submap = this->unsafe_get_submap_at( p );
     field &curfield = this->get_field( p );
@@ -7035,14 +7069,14 @@ void map::delete_field( const tripoint &p, const field_type_id &field_to_remove 
     }
 }
 
-void map::clear_fields( const tripoint &p )
+void map::clear_fields( const tripoint_bub_ms &p )
 {
     if( !inbounds( p ) ) {
         return;
     }
 
     point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     current_submap->clear_fields( l );
 }
 
@@ -7065,7 +7099,7 @@ void map::on_field_modified( const tripoint &p, const field_type &fd_type )
 
     // Ensure blood type fields don't hang in the air
     if( zlevels && fd_type.accelerated_decay ) {
-        support_dirty( p );
+        support_dirty( tripoint_bub_ms( p ) );
     }
 }
 
@@ -7096,12 +7130,18 @@ void map::add_splatter( const field_type_id &type, const tripoint_bub_ms &where,
 void map::add_splatter_trail( const field_type_id &type, const tripoint &from,
                               const tripoint &to )
 {
+    map::add_splatter_trail( type, tripoint_bub_ms( from ), tripoint_bub_ms( to ) );
+}
+
+void map::add_splatter_trail( const field_type_id &type, const tripoint_bub_ms &from,
+                              const tripoint_bub_ms &to )
+{
     if( !type.id() ) {
         return;
     }
     const auto trail = line_to( from, to );
     int remainder = trail.size();
-    for( const tripoint &elem : trail ) {
+    for( const tripoint_bub_ms &elem : trail ) {
         add_splatter( type, elem );
         remainder--;
         if( impassable( elem ) ) { // Blood splatters stop at walls.
@@ -7109,12 +7149,6 @@ void map::add_splatter_trail( const field_type_id &type, const tripoint &from,
             return;
         }
     }
-}
-
-void map::add_splash( const field_type_id &type, const tripoint &center, int radius,
-                      int intensity )
-{
-    return map::add_splash( type, tripoint_bub_ms( center ), radius, intensity );
 }
 
 void map::add_splash( const field_type_id &type, const tripoint_bub_ms &center, int radius,
@@ -7146,10 +7180,9 @@ computer *map::computer_at( const tripoint_bub_ms &p )
     return sm->get_computer( l );
 }
 
-bool map::point_within_camp( const tripoint &point_check ) const
+bool map::point_within_camp( const tripoint_abs_ms &point_check ) const
 {
-    // TODO: fix point types
-    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check ) );
+    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check.raw() ) );
     const point_abs_omt p = omt_check.xy();
     for( int x2 = -2; x2 < 2; x2++ ) {
         for( int y2 = -2; y2 < 2; y2++ ) {
@@ -7161,26 +7194,21 @@ bool map::point_within_camp( const tripoint &point_check ) const
     return false;
 }
 
-void map::remove_submap_camp( const tripoint &p )
+void map::remove_submap_camp( const tripoint_bub_ms &p )
 {
     submap *const current_submap = get_submap_at( p );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to remove camp at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
+        debugmsg( "Tried to remove camp at (%d,%d,%d) but the submap is not loaded", p.x(), p.y(), p.z() );
         return;
     }
     current_submap->camp.reset();
 }
 
-void map::remove_submap_camp( const tripoint_bub_ms &p )
-{
-    map::remove_submap_camp( p.raw() );
-}
-
-basecamp map::hoist_submap_camp( const tripoint &p )
+basecamp map::hoist_submap_camp( const tripoint_bub_ms &p )
 {
     submap *const current_submap = get_submap_at( p );
     if( current_submap == nullptr ) {
-        debugmsg( "Tried to hoist camp at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
+        debugmsg( "Tried to hoist camp at (%d,%d,%d) but the submap is not loaded", p.x(), p.y(), p.z() );
         return basecamp();
     }
     basecamp *pcamp = current_submap->camp.get();
@@ -7873,9 +7901,9 @@ bool map::sees( const tripoint_bub_ms &F, const tripoint_bub_ms &T, const int ra
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
-            if( ( has_floor_or_support( { new_point.xy(), max_z } ) ||
+            if( ( has_floor_or_support( { point_bub_ms( new_point.xy() ), max_z } ) ||
                   !( this->*f_transparent )( { new_point.xy(), last_point.z } ) ) &&
-                ( has_floor_or_support( { last_point.xy(), max_z } ) ||
+                ( has_floor_or_support( { point_bub_ms( last_point.xy() ), max_z } ) ||
                   !( this->*f_transparent )( { last_point.xy(), new_point.z } ) ) ) {
                 visible = false;
                 return false;
@@ -8266,14 +8294,14 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         } else {
             bool this_clear = false;
             const int max_z = std::max( new_point.z, last_point.z );
-            if( !has_floor_or_support( {new_point.xy(), max_z} ) ) {
+            if( !has_floor_or_support( {point_bub_ms( new_point.xy() ), max_z} ) ) {
                 const int cost = move_cost( {new_point.xy(), last_point.z} );
                 if( cost > cost_min && cost < cost_max ) {
                     this_clear = true;
                 }
             }
 
-            if( !this_clear && has_floor_or_support( {last_point.xy(), max_z} ) ) {
+            if( !this_clear && has_floor_or_support( {point_bub_ms( last_point.xy() ), max_z} ) ) {
                 const int cost = move_cost( {last_point.xy(), new_point.z} );
                 if( cost > cost_min && cost < cost_max ) {
                     this_clear = true;
@@ -8585,9 +8613,9 @@ void map::shift( const point_rel_sm &sp )
     g->setremoteveh( remoteveh );
 
     if( !support_cache_dirty.empty() ) {
-        std::set<tripoint> old_cache = std::move( support_cache_dirty );
+        std::set<tripoint_bub_ms> old_cache = std::move( support_cache_dirty );
         support_cache_dirty.clear();
-        for( const tripoint &pt : old_cache ) {
+        for( const tripoint_bub_ms &pt : old_cache ) {
             support_cache_dirty.insert( pt + point( -sp.x() * SEEX, -sp.y() * SEEY ) );
         }
     }
@@ -9726,11 +9754,16 @@ small_fake_map::~small_fake_map() = default;
 
 void map::set_graffiti( const tripoint &p, const std::string &contents )
 {
+    map::set_graffiti( tripoint_bub_ms( p ), contents );
+}
+
+void map::set_graffiti( const tripoint_bub_ms &p, const std::string &contents )
+{
     if( !inbounds( p ) ) {
         return;
     }
     point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to set graffiti at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return;
@@ -9740,11 +9773,16 @@ void map::set_graffiti( const tripoint &p, const std::string &contents )
 
 void map::delete_graffiti( const tripoint &p )
 {
+    map::delete_graffiti( tripoint_bub_ms( p ) );
+}
+
+void map::delete_graffiti( const tripoint_bub_ms &p )
+{
     if( !inbounds( p ) ) {
         return;
     }
     point_sm_ms l;
-    submap *const current_submap = unsafe_get_submap_at( tripoint_bub_ms( p ), l );
+    submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to delete graffiti at (%d,%d) but the submap is not loaded", l.x(), l.y() );
         return;
@@ -11062,25 +11100,25 @@ void map::clip_to_bounds( int &x, int &y, int &z ) const
     }
 }
 
-bool map::is_cornerfloor( const tripoint &p ) const
+bool map::is_cornerfloor( const tripoint_bub_ms &p ) const
 {
     if( impassable( p ) ) {
         return false;
     }
-    std::set<tripoint> impassable_adjacent;
-    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
+    std::set<tripoint_bub_ms> impassable_adjacent;
+    for( const tripoint_bub_ms &pt : points_in_radius( p, 1 ) ) {
         if( impassable( pt ) ) {
             impassable_adjacent.insert( pt );
         }
     }
     if( !impassable_adjacent.empty() ) {
         //to check if a floor is a corner we first search if any of its diagonal adjacent points is impassable
-        std::set< tripoint> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
-        for( const tripoint &impassable_diagonal : diagonals ) {
+        std::set< tripoint_bub_ms> diagonals = { p + tripoint_north_east, p + tripoint_north_west, p + tripoint_south_east, p + tripoint_south_west };
+        for( const tripoint_bub_ms &impassable_diagonal : diagonals ) {
             if( impassable_adjacent.count( impassable_diagonal ) != 0 ) {
                 //for every impassable diagonal found, we check if that diagonal terrain has at least two impassable neighbors that also neighbor point p
                 int f = 0;
-                for( const tripoint &l : points_in_radius( impassable_diagonal, 1 ) ) {
+                for( const tripoint_bub_ms &l : points_in_radius( impassable_diagonal, 1 ) ) {
                     if( impassable_adjacent.count( l ) != 0 ) {
                         f++;
                     }

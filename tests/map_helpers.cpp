@@ -149,7 +149,7 @@ void clear_map_and_put_player_underground()
     get_player_character().setpos( tripoint_bub_ms{ 0, 0, -2 } );
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
+monster &spawn_test_monster( const std::string &monster_type, const tripoint_bub_ms &start,
                              const bool death_drops )
 {
     monster *const test_monster_ptr = g->place_critter_at( mtype_id( monster_type ), start );

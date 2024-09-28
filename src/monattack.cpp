@@ -277,7 +277,7 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
     proj.impact.add( dam );
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
 
-    dealt_projectile_attack atk = projectile_attack( proj, z->pos(), target->pos(),
+    dealt_projectile_attack atk = projectile_attack( proj, z->pos_bub(), target->pos_bub(),
                                   dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
@@ -731,8 +731,8 @@ bool mattack::acid( monster *z )
     proj.impact.add_damage( damage_acid, 5 );
     proj.range = 10;
     proj.proj_effects.insert( ammo_effect_NO_OVERSHOOT );
-    dealt_projectile_attack dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 },
-                                    z );
+    dealt_projectile_attack dealt = projectile_attack( proj, z->pos_bub(), target->pos_bub(),
+                                    dispersion_sources{ 5400 }, z );
     const tripoint_bub_ms &hitp = tripoint_bub_ms( dealt.end_point );
     const Creature *hit_critter = dealt.hit_critter;
     if( hit_critter == nullptr && here.hit_with_acid( hitp ) ) {
@@ -956,8 +956,8 @@ bool mattack::pull_metal_weapon( monster *z )
                     proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
                     proj.proj_effects = { { ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET } };
 
-                    dealt_projectile_attack dealt = projectile_attack( proj, foe->pos(), z->pos(), dispersion_sources{ 0 },
-                                                    z );
+                    dealt_projectile_attack dealt = projectile_attack( proj, foe->pos_bub(), z->pos_bub(),
+                                                    dispersion_sources{ 0 }, z );
                     get_map().add_item( dealt.end_point, pulled_weapon );
                     target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
                                                    _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
@@ -1553,7 +1553,7 @@ bool mattack::spit_sap( monster *z )
     proj.range = 12;
     proj.proj_effects.insert( ammo_effect_APPLY_SAP );
     proj.impact.add_damage( damage_acid, rng( 5, 10 ) );
-    projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 150 }, z );
+    projectile_attack( proj, z->pos_bub(), target->pos_bub(), dispersion_sources{ 150 }, z );
 
     return true;
 }
@@ -2374,7 +2374,7 @@ bool mattack::dogthing( monster *z )
     add_msg( _( "The %s's head explodes in a mass of roiling tentacles!" ),
              z->name() );
 
-    get_map().add_splash( z->bloodType(), z->pos(), 2, 3 );
+    get_map().add_splash( z->bloodType(), z->pos_bub(), 2, 3 );
 
     z->friendly = 0;
     z->poly( mon_headless_dog_thing );
@@ -3937,7 +3937,7 @@ bool mattack::tindalos_teleport( monster *z )
     if( distance_to_target > 5 ) {
         const tripoint_bub_ms oldpos = z->pos_bub();
         for( const tripoint_bub_ms &dest : here.points_in_radius( target->pos_bub(), 4 ) ) {
-            if( here.is_cornerfloor( dest.raw() ) ) {
+            if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( dest );
                     // Not teleporting if it means losing sight of our current target
@@ -3983,7 +3983,7 @@ bool mattack::flesh_tendril( monster *z )
         if( monster *const summoned = g->place_critter_around( spawned, z->pos(), 1 ) ) {
             z->mod_moves( -to_moves<int>( 1_seconds ) );
             summoned->make_ally( *z );
-            get_map().propagate_field( z->pos(), fd_gibs_flesh, 75, 1 );
+            get_map().propagate_field( z->pos_bub(), fd_gibs_flesh, 75, 1 );
             add_msg_if_player_sees( *z, m_warning, _( "A %s struggles to pull itself free from the %s!" ),
                                     summoned->name(), z->name() );
         }

@@ -2,8 +2,8 @@
   {
     "abstract": "scrap_worthless",
     "type": "GENERIC",
-    "name": { "str_sp": "worthless scraps" },
-    "description": "A handful of oddly-shaped worthless bits of abstract code.  Seeing this is a bug.",
+    "name": { "str_sp": "worthless scraps", "//~": "NO_I18N" },
+    "description": { "str": "A handful of oddly-shaped worthless bits of abstract code.  Seeing this is a bug.", "//~": "NO_I18N" },
     "category": "other",
     "weight": "1 g",
     "volume": "1 ml",
@@ -17,8 +17,8 @@
   {
     "abstract": "scrap_valuable",
     "type": "GENERIC",
-    "name": { "str_sp": "valuable scraps" },
-    "description": "A handful of oddly-shaped valuable bits of abstract code.  Seeing this is a bug.",
+    "name": { "str_sp": "valuable scraps", "//~": "NO_I18N" },
+    "description": { "str": "A handful of oddly-shaped valuable bits of abstract code.  Seeing this is a bug.", "//~": "NO_I18N" },
     "category": "other",
     "weight": "1 g",
     "volume": "1 ml",

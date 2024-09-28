@@ -674,7 +674,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
     return *this;
 }
 
-item &item::deactivate( const Character *ch, bool alert )
+item &item::deactivate( Character *ch, bool alert )
 {
     if( !active ) {
         return *this; // no-op
@@ -687,6 +687,9 @@ item &item::deactivate( const Character *ch, bool alert )
         convert( *type->revert_to );
         active = false;
 
+        if( ch ) {
+            ch->clear_inventory_search_cache();
+        }
     }
     return *this;
 }
@@ -12616,7 +12619,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
         if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects, 1 );
+            apply_ammo_effects( nullptr, tripoint_bub_ms( p ), type->ammo->ammo_effects, 1 );
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.

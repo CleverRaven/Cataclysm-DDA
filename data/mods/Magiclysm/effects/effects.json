@@ -1444,6 +1444,15 @@
     "flags": [ "CLIMB_FLYING", "LEVITATION" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_plus_two_to_hit",
+    "//": "Self-explanatory",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "base_mods": { "hit_mod": [ 2 ] }
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],

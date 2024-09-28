@@ -780,6 +780,37 @@ bool talker_character_const::wielded_with_weapon_category( const weapon_category
            me_chr_const->get_wielded_item()->typeId()->weapon_category.count( w_cat ) > 0;
 }
 
+bool talker_character_const::wielded_with_weapon_skill( const skill_id &w_skill ) const
+{
+    if( me_chr_const->get_wielded_item() ) {
+        item *it = me_chr_const->get_wielded_item().get_item();
+        skill_id it_skill = it->is_gun() ? it->gun_skill() : it->melee_skill();
+        return it_skill == w_skill;
+    } else {
+        return false;
+    }
+}
+
+bool talker_character_const::wielded_with_item_ammotype( const ammotype &w_ammotype ) const
+{
+    if( !me_chr_const->get_wielded_item() ) {
+        return false;
+    }
+    item *it = me_chr_const->get_wielded_item().get_item();
+    if( it->ammo_types().empty() ) {
+        return false;
+    }
+    std::set<ammotype> it_ammotype = it->ammo_types();
+    bool match = false;
+
+    for( ammotype ammo : it_ammotype ) {
+        if( ammo == w_ammotype ) {
+            match = true;
+        }
+    }
+    return match;
+}
+
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->cache_has_item_with( flag );
