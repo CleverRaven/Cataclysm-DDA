@@ -217,7 +217,7 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape and your eyes return to their usual hue.",
     "rating": "good",
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ],
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
   },
   {
