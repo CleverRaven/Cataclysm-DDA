@@ -323,7 +323,7 @@
     "effect": "spawn_item",
     "effect_str": "rune_druid",
     "shape": "blast",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000, 10)" ] },
+    "base_casting_time": 5000,
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,

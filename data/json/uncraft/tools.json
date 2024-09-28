@@ -17,7 +17,7 @@
     "difficulty": 1,
     "time": "50 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "wire", 4 ] ], [ [ "splinter", 8 ] ] ]
+    "components": [ [ [ "lc_wire", 4 ] ], [ [ "splinter", 8 ] ] ]
   },
   {
     "result": "hose_garden",
@@ -194,7 +194,7 @@
     "difficulty": 1,
     "time": "30 s",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "wire", 1 ] ] ]
+    "components": [ [ [ "plastic_chunk", 4 ] ], [ [ "lens", 1 ] ], [ [ "lc_wire", 1 ] ] ]
   },
   {
     "result": "survivor_scope",
@@ -217,7 +217,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -233,7 +233,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -250,7 +250,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -266,7 +266,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "bismuth", 200 ] ]
     ]
@@ -283,7 +283,7 @@
     "components": [
       [ [ "string_36", 6 ] ],
       [ [ "fishing_hook_basic", 1 ] ],
-      [ [ "wire", 1 ] ],
+      [ [ "qt_wire", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "bismuth", 200 ] ]
     ]

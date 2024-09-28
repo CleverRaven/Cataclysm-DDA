@@ -91,7 +91,7 @@
       { "item": "cu_pipe", "prob": 5 },
       { "item": "scrap", "prob": 20 },
       { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
-      { "item": "wire", "prob": 5 }
+      { "item": "lc_wire", "prob": 5 }
     ]
   },
   {
@@ -136,7 +136,7 @@
       { "group": "tinware", "prob": 5 },
       [ "can_drink", 5 ],
       [ "can_food", 5 ],
-      [ "wire", 5 ],
+      [ "lc_wire", 5 ],
       [ "plastic_sheet", 5 ],
       [ "jug_plastic", 5 ],
       [ "fuel_tin", 1 ],
@@ -331,7 +331,7 @@
       { "item": "brick", "prob": 20, "count": [ 10, 20 ], "damage-min": 0, "damage-max": 3 },
       { "item": "pipe", "prob": 5, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
       { "item": "nail", "prob": 2, "count": [ 0, 1 ], "charges": [ 3, 15 ] },
-      { "item": "wire", "prob": 3, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
+      { "item": "lc_wire", "prob": 3, "count": [ 2, 6 ], "damage-min": 0, "damage-max": 3 },
       { "item": "charcoal", "prob": 3, "charges": [ 3, 7 ] },
       { "item": "scrap_copper", "prob": 2, "count": [ 2, 4 ], "damage-min": 0, "damage-max": 3 },
       { "item": "sheet_metal", "prob": 2, "count": [ 1, 4 ], "damage-min": 0, "damage-max": 3 },

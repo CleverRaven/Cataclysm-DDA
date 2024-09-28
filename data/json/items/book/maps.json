@@ -1,23 +1,5 @@
 [
   {
-    "abstract": "abstractmap",
-    "//": "Match type options in iuse_actor.cpp",
-    "//1": "Add maps/brochures/pamphlets as appropriate to itemgroups/books.json 's groups",
-    "type": "GENERIC",
-    "category": "maps",
-    "name": { "str": "abstract map" },
-    "description": "seeing this is a bug",
-    "weight": "30 g",
-    "volume": "250 ml",
-    "flags": [ "PAPER_SHAPED" ],
-    "price": "10 USD",
-    "price_postapoc": "10 USD",
-    "to_hit": -1,
-    "material": [ "paper" ],
-    "symbol": ";",
-    "color": "light_gray"
-  },
-  {
     "id": "labmap",
     "copy-from": "abstractmap",
     "type": "GENERIC",

@@ -1684,7 +1684,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "looks_like": "link_sheet",
+    "looks_like": "lc_link_sheet",
     "flags": [ "FRAGILE_MELEE" ],
     "melee_damage": { "bash": 2 }
   },
@@ -1814,7 +1814,7 @@
   {
     "type": "COMESTIBLE",
     "abstract": "venom_gland",
-    "name": { "str": "venom gland" },
+    "name": { "str": "venom gland", "//~": "NO_I18N" },
     "category": "chems",
     "comestible_type": "FOOD",
     "spoils_in": "4 hours",

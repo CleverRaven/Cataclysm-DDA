@@ -502,7 +502,7 @@ class Creature : public viewer
          * @param name Name of the implement used to pull the target.
          * @param p Position of the target creature.
         */
-        void longpull( const std::string &name, const tripoint &p );
+        void longpull( const std::string &name, const tripoint_bub_ms &p );
 
         /**
          * If training_level is anything but 0, the check will only train target's skill to that level
@@ -1181,7 +1181,7 @@ class Creature : public viewer
                                           string_format( npc_speech, std::forward<Args>( args )... ) );
         }
 
-        virtual std::string extended_description() const = 0;
+        virtual std::vector<std::string> extended_description() const = 0;
 
         /** Creature symbol background color */
         virtual nc_color symbol_color() const = 0;

@@ -82,7 +82,7 @@
     "//2": "https://blackblum.com/pages/charcoal-water-filter",
     "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.04g, so making it 12:1",
     "autolearn": true,
-    "tools": [ [ [ "water_purifier", 14 ], [ "pur_tablets", 1 ], [ "char_purifier", 12 ], [ "char_purifier_clay", 12 ] ] ],
+    "tools": [ [ [ "water_purifier", 14 ], [ "char_purifier", 12 ], [ "char_purifier_clay", 12 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
@@ -7051,18 +7051,25 @@
     "subcategory": "CSC_FOOD_MEAT",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "1 m 45 s",
+    "time": "10 m",
+    "batch_time_factors": [ 80, 2 ],
     "charges": 1,
     "autolearn": true,
-    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "qualities": [ { "id": "COOK", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "tools": [ [ [ "surface_heat", 12, "LIST" ] ] ],
     "//": "80-100g of meat: 7u, 5u for the cornmeal and oil",
     "components": [
-      [ [ "hotdogs_frozen", 1 ], [ "hotdogs_cooked", 1 ], [ "bratwurst_sausage", 1 ], [ "sausage_wasteland", 1 ] ],
+      [
+        [ "hotdogs_frozen", 1 ],
+        [ "homemade_hotdogs", 1 ],
+        [ "hotdogs_cooked", 1 ],
+        [ "bratwurst_sausage", 1 ],
+        [ "sausage_wasteland", 1 ]
+      ],
       [ [ "splinter", 1 ] ],
       [ [ "cornmeal", 1 ] ],
-      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
-      [ [ "bag_plastic", 1 ], [ "bag_plastic_small", 1 ] ]
+      [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ]
     ]
   },
   {

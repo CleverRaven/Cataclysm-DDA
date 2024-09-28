@@ -17,13 +17,13 @@
     "type": "mutation",
     "id": "DRUID_SHIFTER_BEAR_FORM_TRAITS",
     "name": { "str": "Bear Form" },
-    "points": 99,
+    "points": 98,
     "description": "You are a bear.  This provides the actual effects of bear form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
     "purifiable": false,
     "player_display": false,
-    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74984.  If that bug is fixed, it can be deleted.",
     "enchantments": [
       {
         "condition": "ALWAYS",
@@ -36,8 +36,7 @@
           { "value": "NIGHT_VIS", "add": 5 },
           { "value": "MELEE_DAMAGE", "multiply": 0.4 },
           { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
-          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
-          { "value": "MAX_MANA", "multiply": -1000 }
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "mutations": [ "FANGS", "MUZZLE_BEAR", "TAIL_STUB", "PAWS_LARGE", "URSINE_FUR", "URSINE_EARS", "PRED3" ]
       },
@@ -69,6 +68,70 @@
   },
   {
     "type": "mutation",
+    "id": "DRUID_SHIFTER_COUGAR_FORM",
+    "name": { "str": "Form of the Stalking Hunter" },
+    "points": 0,
+    "description": "You can transform yourself into a cougar and stalk your enemies.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_DRUID_SHIFTER_COUGAR_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_DRUID_SHIFTER_COUGAR_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_COUGAR_FORM_TRAITS",
+    "name": { "str": "Cougar Form" },
+    "points": 98,
+    "description": "You are a cougar.  This provides the actual effects of cougar form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "//": "The second enchantment takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74984.  If that bug is fixed, it can be deleted.",
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.2 },
+          { "value": "RANGE", "multiply": -1 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "NIGHT_VIS", "add": 11 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.2 },
+          { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -0.6 },
+          { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ],
+        "mutations": [ "FANGS", "TAIL_LONG", "PAWS", "FELINE_FUR", "FELINE_EARS", "PRED3", "WHISKERS", "FELINE_LEAP" ]
+      },
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "HEARING_MULT", "multiply": 0.25 },
+          { "value": "COMBAT_CATCHUP", "multiply": 2 },
+          { "value": "DODGE_CHANCE", "add": 5 }
+        ]
+      },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
+      },
+      { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
+      {
+        "condition": "u_has_weapon",
+        "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
+      }
+    ],
+    "flags": [ "MUTE", "NO_SPELLCASTING", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
+    "override_look": { "id": "mon_cougar", "tile_category": "monster" },
+    "integrated_armor": [ "integrated_fangs", "integrated_feline_fur", "integrated_claws" ]
+  },
+  {
+    "type": "mutation",
     "id": "DRUID_SHIFTER_DEER_FORM",
     "name": { "str": "Form of the Swift Runner" },
     "points": 0,
@@ -85,7 +148,7 @@
     "type": "mutation",
     "id": "DRUID_SHIFTER_DEER_FORM_TRAITS",
     "name": { "str": "Deer Form" },
-    "points": 99,
+    "points": 98,
     "description": "You are a deer.  This provides the actual effects of deer form.  Should not be player-visible",
     "valid": false,
     "starting_trait": false,
@@ -100,11 +163,14 @@
           { "value": "MOVE_COST", "multiply": -0.5 },
           { "value": "DEXTERITY", "add": 3 },
           { "value": "NIGHT_VIS", "add": 6 },
-          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
-          { "value": "MAX_MANA", "multiply": -1000 }
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "skills": [ { "value": "dodge", "add": 2 } ],
         "mutations": [ "ANTLERS", "HOOVES" ]
+      },
+      {
+        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
       { "condition": { "u_has_move_mode": "run" }, "values": [ { "value": "MOVE_COST", "multiply": -0.25 } ] },
       {
@@ -146,7 +212,7 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74994.  If that bug is fixed, it can be deleted.",
+    "//": "The second enchantment, as well as bodytemp modifiers, takes into account the effects of the mutations added by the first enchantment, whose own enchantments do not transfer over due to bug #74984.  If that bug is fixed, it can be deleted.",
     "bodytemp_modifiers": [ 300, 800 ],
     "enchantments": [
       {
@@ -158,8 +224,7 @@
           { "value": "DEXTERITY", "add": 8 },
           { "value": "PERCEPTION", "add": 4 },
           { "value": "NIGHT_VIS", "add": 4 },
-          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 },
-          { "value": "MAX_MANA", "multiply": -1000 }
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
         ],
         "ench_effects": [ { "effect": "effect_druid_shifter_raven_form_levitation", "intensity": 1 } ],
         "skills": [ { "value": "dodge", "add": 6 } ],
@@ -182,5 +247,16 @@
     ],
     "flags": [ "LEVITATION", "MUTE", "NO_SPELLCASTING", "TEMPORARY_SHAPESHIFT", "SHAPESHIFT_SIZE_TINY" ],
     "override_look": { "id": "mon_raven", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "DRUID_SHIFTER_MANA_REDUCER",
+    "name": { "str": "Mana Reducer Druid Forms" },
+    "points": 0,
+    "description": "Prevents you from regenerating mana while in druid shapeshifting form.  You should never actually see this.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": -1000 } ] } ]
   }
 ]

@@ -75,7 +75,7 @@ static const trait_id trait_test_trait( "test_trait" );
 static npc &create_test_talker( bool shopkeep = false )
 {
     const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
-    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
+    const character_id model_id = get_map().place_npc( point_bub_ms( 25, 25 ), test_talker );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );

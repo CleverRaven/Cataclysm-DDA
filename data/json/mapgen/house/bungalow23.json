@@ -17,11 +17,11 @@
         ".00---#y¤@@¤ |D###oo###.",
         ".0#o*o#d @@  + |d II P#.",
         ".0#&  |d     |||d h  ¤#.",
-        ".0#~ L|  b  y|z+    @@#.",
+        ".0#f L|  b  y|z+    @@#.",
         "..o   |+||||||D|T   @@#.",
         "..o     xxRRR||||+||||#.",
         "..#$sE             +__o.",
-        "..#s]]]]]   VV ~y  |ZW#.",
+        "..#s]]]]]   VV fy  |ZW#.",
         "..#H]]l]]   ||+||| |||#.",
         "..#H]]l]]  a|S__B|  +Q#.",
         "..#H]]l]]  a|88tB|+|||#.",
@@ -57,16 +57,9 @@
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "₸": "t_floor_noroof",
         "l": "t_carpet_purple",
-        "Q": "t_null",
         "ʭ": "t_region_groundcover_urban"
       },
-      "furniture": {
-        "~": "f_table",
-        "$": "f_speaker_cabinet",
-        "?": "f_piano",
-        "&": "f_rack",
-        "ʭ": [ [ "f_ladder", 1 ], [ "f_null", 5 ] ]
-      },
+      "furniture": { "$": "f_speaker_cabinet", "?": "f_piano", "&": "f_rack", "ʭ": [ [ "f_ladder", 1 ], [ "f_null", 5 ] ] },
       "items": { "~": { "item": "table_foyer", "chance": 50 }, "&": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "stereo", "x": 9, "y": 7, "chance": 100 } ]
     }

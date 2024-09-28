@@ -133,7 +133,7 @@
       "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -169,7 +169,7 @@
       "ter_set": "t_thconc_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -204,7 +204,7 @@
       "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     }
@@ -233,7 +233,7 @@
       "ter_set": "t_thconc_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     }

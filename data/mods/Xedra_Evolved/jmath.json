@@ -130,5 +130,18 @@
     "//": "This is where all newly-added tier five traits should be placed",
     "num_args": 0,
     "return": "u_has_trait('VAMPIRE_MASTER_MORTAL_MIND') + u_has_trait('VAMPIRE_DISTILLATE_INNER_BLOOD') + u_has_trait('VAMPIRE_SHADOW_FORM') + u_has_trait('VAMPIRE_LAST_BREATH_MIST') + u_has_trait('VAMPIRE_IRON_MIND') + u_has_trait('VAMPIRE_BLIND_THE_SUN')"
+  },
+  {
+    "type": "jmath_function",
+    "id": "changeling_common_traits",
+    "//": "This is to make sure no individual changeling has a mutation count twice",
+    "num_args": 0,
+    "return": "(u_has_trait('UNKNOWING_CHANGELING_NOBLE') * u_sum_traits_of_category_char_has('FAIR_FOLK_NOBLE') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_BROWNIE') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_BROWNIE') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_POOKA') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_SELKIE') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') ) + (u_has_trait('UNKNOWING_CHANGELING_COMMONER_TROW') * u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_TROW') )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "pooka_shapeshift_traits",
+    "num_args": 0,
+    "return": "u_has_trait('ANTLERS') + u_has_trait('HORNS_CURLED') + u_has_trait('LUPINE_EARS') + u_has_trait('FELINE_EARS') + u_has_trait('CLAWS') + u_has_trait('CLAWS_ST') + u_has_trait('WINGS_BIRD') + u_has_trait('URSINE_FUR') + u_has_trait('CHITIN2') + u_has_trait('POOKA_QUADRUPED_TRAITS') + u_has_trait('LEAPING_LEGS') + u_has_trait('TAIL_FLUFFY') + u_has_trait('TAIL_LONG')"
   }
 ]

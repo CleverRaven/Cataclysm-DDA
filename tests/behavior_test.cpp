@@ -208,7 +208,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 
 TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 {
-    const tripoint monster_location( 5, 5, 0 );
+    const tripoint_bub_ms monster_location( 5, 5, 0 );
     clear_map();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_locust", monster_location );
@@ -221,7 +221,7 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
         test_monster.reset_special( special_name );
     }
     CHECK( monster_goals.tick( &oracle ) == "idle" );
-    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+    for( const tripoint_bub_ms &near_monster : here.points_in_radius( monster_location, 1 ) ) {
         here.ter_set( near_monster, ter_id( "t_grass" ) );
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }
@@ -237,7 +237,7 @@ TEST_CASE( "check_monster_behavior_tree_locust", "[monster][behavior]" )
 
 TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 {
-    const tripoint monster_location( 5, 5, 0 );
+    const tripoint_bub_ms monster_location( 5, 5, 0 );
     clear_map();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth", monster_location );
@@ -250,7 +250,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
         test_monster.reset_special( special_name );
     }
     CHECK( monster_goals.tick( &oracle ) == "idle" );
-    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+    for( const tripoint_bub_ms &near_monster : here.points_in_radius( monster_location, 1 ) ) {
         here.ter_set( near_monster, ter_id( "t_grass" ) );
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }
@@ -291,7 +291,7 @@ TEST_CASE( "check_monster_behavior_tree_shoggoth", "[monster][behavior]" )
 
 TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][behavior]" )
 {
-    const tripoint monster_location( 5, 5, 0 );
+    const tripoint_bub_ms monster_location( 5, 5, 0 );
     clear_map();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth_flesh_only", monster_location );
@@ -304,7 +304,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
         test_monster.reset_special( special_name );
     }
     CHECK( monster_goals.tick( &oracle ) == "idle" );
-    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+    for( const tripoint_bub_ms &near_monster : here.points_in_radius( monster_location, 1 ) ) {
         here.ter_set( near_monster, ter_id( "t_grass" ) );
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }
@@ -350,7 +350,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_corpse_eater", "[monster][be
 TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior]" )
 {
     // tests a monster with the ABSORB_ITEMS ability but NOT the SPLIT ability
-    const tripoint monster_location( 5, 5, 0 );
+    const tripoint_bub_ms monster_location( 5, 5, 0 );
     clear_map();
     map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_shoggoth_absorb_only", monster_location );
@@ -363,7 +363,7 @@ TEST_CASE( "check_monster_behavior_tree_theoretical_absorb", "[monster][behavior
         test_monster.reset_special( special_name );
     }
     CHECK( monster_goals.tick( &oracle ) == "idle" );
-    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+    for( const tripoint_bub_ms &near_monster : here.points_in_radius( monster_location, 1 ) ) {
         here.ter_set( near_monster, ter_id( "t_grass" ) );
         here.furn_set( near_monster, furn_id( "f_null" ) );
     }

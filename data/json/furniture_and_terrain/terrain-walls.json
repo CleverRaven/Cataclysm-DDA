@@ -2715,7 +2715,7 @@
       "sound_vol": 20,
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "mc_wire", "prob": 20 } ]
     },
     "shoot": {
       "reduce_damage": [ 15, 30 ],
@@ -2748,7 +2748,7 @@
       "ter_set": "t_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },
@@ -2783,7 +2783,7 @@
       "ter_set": "t_floor",
       "items": [
         { "item": "glass_shard", "count": [ 42, 84 ] },
-        { "item": "wire", "prob": 20 },
+        { "item": "mc_wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     },

@@ -1120,16 +1120,16 @@
     "category": "spare_parts",
     "name": { "str": "length of railroad track", "str_pl": "lengths of railroad track" },
     "description": "A heavy one-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Far too heavy to be useful for much as-is, but perhaps could be shaped into something with some metalworking skill, or cut down into an anvil if sawed in half first.",
-    "weight": "60000 g",
-    "//0": "Modern railroad tracks are typically around 60kg per meter.",
-    "volume": "10 L",
+    "weight": "59826 g",
+    "//0": "60E1, 76.7 cm2 of surface area",
+    "volume": "7670 ml",
     "longest_side": "100 cm",
     "price": "100 USD",
     "price_postapoc": "1 USD",
     "material": [ "mc_steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "qualities": [ [ "ANVIL", 1 ] ]
+    "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
     "id": "railroad_track_item_half",
@@ -1137,16 +1137,15 @@
     "category": "spare_parts",
     "name": { "str": "half-meter length of railroad track", "str_pl": "half-meter lengths of railroad track" },
     "description": "A heavy half-meter length of railroad track with a smooth top, liberated from a now-defunct rail line.  Could be used as a makeshift anvil, especially with some modifications, or as spare steel.",
-    "weight": "30000 g",
-    "//0": "Modern railroad tracks are typically around 60kg per meter.",
-    "volume": "5 L",
+    "weight": "29913 g",
+    "volume": "3835 ml",
     "longest_side": "50 cm",
     "price": "50 USD",
     "price_postapoc": "50 cent",
     "material": [ "mc_steel" ],
     "symbol": "=",
     "color": "light_gray",
-    "qualities": [ [ "ANVIL", 1 ] ]
+    "qualities": [ [ "ANVIL", 2 ] ]
   },
   {
     "type": "GENERIC",

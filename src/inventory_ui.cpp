@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
+#include "game_inventory.h"
 #include "inventory.h"
 #include "input.h"
 #include "item.h"
@@ -4246,7 +4247,7 @@ bool pickup_selector::wield( int &count )
 
     if( u.can_wield( *it ).success() ) {
         remove_from_to_use( it );
-        add_reopen_activity();
+        reopen_menu();
         u.assign_activity( wield_activity_actor( it, charges ) );
         return true;
     } else {
@@ -4268,7 +4269,7 @@ bool pickup_selector::wear()
 
     if( u.can_wear( *items.front() ).success() ) {
         remove_from_to_use( items.front() );
-        add_reopen_activity();
+        reopen_menu();
         u.assign_activity( wear_activity_actor( items, quantities ) );
         return true;
     } else {
@@ -4278,10 +4279,12 @@ bool pickup_selector::wear()
     return false;
 }
 
-void pickup_selector::add_reopen_activity()
+void pickup_selector::reopen_menu()
 {
-    u.assign_activity( pickup_menu_activity_actor( where, to_use ) );
-    u.activity.auto_resume = true;
+    // copy the member variables to still be valid on call
+    uistate.open_menu = [where = where, to_use = to_use]() {
+        get_player_character().pick_up( game_menus::inv::pickup( where, to_use ) );
+    };
 }
 
 void pickup_selector::remove_from_to_use( item_location &it )

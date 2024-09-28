@@ -320,7 +320,7 @@ void Creature::reset()
 
 void Creature::bleed() const
 {
-    get_map().add_splatter( bloodType(), pos() );
+    get_map().add_splatter( bloodType(), pos_bub() );
 }
 
 void Creature::reset_bonuses()
@@ -836,9 +836,9 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
     // The square above must have no floor.
     // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
-    const tripoint up = target_above ? target->pos() : pos();
-    const tripoint down = target_above ? pos() : target->pos();
-    const tripoint above{ down.xy(), up.z };
+    const tripoint_bub_ms up = target_above ? target->pos_bub() : pos_bub();
+    const tripoint_bub_ms down = target_above ? pos_bub() : target->pos_bub();
+    const tripoint_bub_ms above{ down.xy(), up.z()};
     return ( !here.has_floor( up ) || here.ter( up )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) &&
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
 }
@@ -1447,16 +1447,16 @@ void Creature::heal_bp( bodypart_id /* bp */, int /* dam */ )
 {
 }
 
-void Creature::longpull( const std::string &name, const tripoint &p )
+void Creature::longpull( const std::string &name, const tripoint_bub_ms &p )
 {
-    if( pos() == p ) {
+    if( pos_bub() == p ) {
         add_msg_if_player( _( "You try to pull yourself together." ) );
         return;
     }
 
-    std::vector<tripoint> path = line_to( pos(), p, 0, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, 0, 0 );
     Creature *c = nullptr;
-    for( const tripoint &path_p : path ) {
+    for( const tripoint_bub_ms &path_p : path ) {
         c = get_creature_tracker().creature_at( path_p );
         if( c == nullptr && get_map().impassable( path_p ) ) {
             add_msg_if_player( m_warning, _( "There's an obstacle in the way!" ) );

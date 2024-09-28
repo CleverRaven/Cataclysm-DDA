@@ -472,7 +472,8 @@ If you need to insert a new field behavior per unit time add a case statement in
 void map::process_fields_in_submap( submap *const current_submap,
                                     const tripoint &submap )
 {
-    const oter_id &om_ter = overmap_buffer.ter( tripoint_abs_omt( sm_to_omt_copy( submap ) ) );
+    const oter_id &om_ter = overmap_buffer.ter( tripoint_abs_omt( sm_to_omt_copy(
+                                abs_sub.raw() + submap ) ) );
     Character &player_character = get_player_character();
     scent_block sblk( submap, get_scent() );
 
@@ -715,7 +716,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
             continue;
         }
         // Skip tiles with intense fields
-        const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( dst.raw() );
+        const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( dst );
         if( field_entry *field = pd.here.get_field( dst, field_type ) ) {
             if( field->get_field_intensity() >= spread_intensity_cap ) {
                 continue;
@@ -783,7 +784,7 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
         tripoint_bub_ms target_point = tripoint_bub_ms( *target_it );
 
         const field_type_str_id &field_type = pd.here.get_applicable_electricity_field(
-                target_point.raw() );
+                target_point );
 
         // Intensify target field if it exists, create a new one otherwise
         if( field_entry *target_field = pd.here.get_field( target_point, field_type ) ) {
@@ -2171,6 +2172,11 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
 
 void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
 {
+    map::emit_field( tripoint_bub_ms( pos ), src, mul );
+}
+
+void map::emit_field( const tripoint_bub_ms &pos, const emit_id &src, float mul )
+{
     if( !src.is_valid() ) {
         return;
     }
@@ -2183,7 +2189,7 @@ void map::emit_field( const tripoint &pos, const emit_id &src, float mul )
     }
 }
 
-void map::propagate_field( const tripoint &center, const field_type_id &type, int amount,
+void map::propagate_field( const tripoint_bub_ms &center, const field_type_id &type, int amount,
                            int max_intensity )
 {
     using gas_blast = std::pair<float, tripoint_bub_ms>;
@@ -2230,10 +2236,10 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                 return;
             }
 
-            static const std::array<int, 8> x_offset = {{ -1, 1,  0, 0,  1, -1, -1, 1  }};
-            static const std::array<int, 8> y_offset = {{  0, 0, -1, 1, -1,  1, -1, 1  }};
+            static const std::array<int, 8> x_offset = { { -1, 1,  0, 0,  1, -1, -1, 1  } };
+            static const std::array<int, 8> y_offset = { {  0, 0, -1, 1, -1,  1, -1, 1  } };
             for( size_t i = 0; i < 8; i++ ) {
-                tripoint_bub_ms pt = gp.second + point( x_offset[ i ], y_offset[ i ] );
+                tripoint_bub_ms pt = gp.second + point( x_offset[i], y_offset[i] );
                 if( closed.count( pt ) > 0 ) {
                     continue;
                 }
@@ -2243,7 +2249,7 @@ void map::propagate_field( const tripoint &center, const field_type_id &type, in
                     continue;
                 }
 
-                open.emplace( static_cast<float>( rl_dist( center, pt.raw() ) ), pt );
+                open.emplace( static_cast<float>( rl_dist( center, pt ) ), pt );
             }
         }
     }
@@ -2341,7 +2347,7 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     return processors;
 }
 
-const field_type_str_id &map::get_applicable_electricity_field( const tripoint &p ) const
+const field_type_str_id &map::get_applicable_electricity_field( const tripoint_bub_ms &p ) const
 {
-    return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
+    return is_transparent( p.raw() ) ? fd_electricity : fd_electricity_unlit;
 }

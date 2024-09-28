@@ -71,8 +71,6 @@
 #   include <SDL_keyboard.h>
 #endif
 
-static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
-
 static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
@@ -1760,24 +1758,20 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ||
         ( spane.container && spane.container.carrier() == player_character.as_character() ) ) {
         const item_location &loc = sitem->items.front();
-        // Setup a "return to AIM" activity. If examining the item creates a new activity
-        // (e.g. reading, reloading, activating), the new activity will be put on top of
-        // "return to AIM". Once the new activity is finished, "return to AIM" comes back
-        // (automatically, see player activity handling) and it re-opens the AIM.
-        // If examining the item did not create a new activity, we have to remove
-        // "return to AIM".
-        do_return_entry();
-        cata_assert( player_character.has_activity( ACT_ADV_INVENTORY ) );
+        // Setup for a "return to AIM" in case examining the item creates a new activity
+        // (e.g. reading, reloading, activating).
+        activity_id last_activity = player_character.activity.id();
         // `inventory_item_menu` may call functions that move items, so we should
         // always recalculate during this period to ensure all item references are valid
         always_recalc = true;
         ret = g->inventory_item_menu( loc, info_startx, info_width,
                                       src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
         always_recalc = false;
-        if( !player_character.has_activity( ACT_ADV_INVENTORY ) || !ui ) {
+        // If examining the item did create a new activity, we have to add "return to AIM".
+        if( last_activity != player_character.activity.id() || !ui ) {
             exit = true;
+            do_return_entry();
         } else {
-            player_character.cancel_activity();
             uistate.transfer_save.exit_code = aim_exit::none;
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
@@ -2388,11 +2382,9 @@ void advanced_inventory::swap_panes()
 
 void advanced_inventory::do_return_entry()
 {
-    Character &player_character = get_player_character();
     // only save pane settings
     save_settings( true );
-    player_character.assign_activity( ACT_ADV_INVENTORY );
-    player_character.activity.auto_resume = true;
+    uistate.open_menu = create_advanced_inv;
     save_state->exit_code = aim_exit::re_entry;
 }
 

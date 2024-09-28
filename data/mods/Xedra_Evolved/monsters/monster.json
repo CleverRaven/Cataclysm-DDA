@@ -555,5 +555,14 @@
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS" ],
     "vision_day": 9,
     "vision_night": 9
+  },
+  {
+    "id": "mon_gracke",
+    "type": "MONSTER",
+    "copy-from": "mon_gracke",
+    "name": { "str": "gracken" },
+    "anger_triggers": [ "HURT" ],
+    "aggro_character": false,
+    "melee_training_cap": 5
   }
 ]

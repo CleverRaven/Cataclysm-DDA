@@ -46,7 +46,7 @@
     "type": "item_group",
     "id": "REFUGEE_Draco_carried",
     "subtype": "collection",
-    "entries": [ { "item": "wire" } ]
+    "entries": [ { "item": "lc_wire" } ]
   },
   {
     "type": "item_group",
