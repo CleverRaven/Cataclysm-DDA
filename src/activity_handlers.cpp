@@ -1452,7 +1452,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     map &here = get_map();
     if( action == butcher_type::DISMEMBER ) {
-        here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
     }
 
     // all action types - yields
@@ -1465,13 +1465,15 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
         target.remove_item();
         act->targets.pop_back();
 
-        here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-        here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+        here.add_splatter( type_blood, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
         for( int i = 1; i <= corpse->size; i++ ) {
-            here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                     corpse->size + 1 ) ) );
-            here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                     corpse->size + 1 ) ) );
+            here.add_splatter_trail( type_gib, you->pos_bub(),
+                                     random_entry( here.points_in_radius( you->pos_bub(),
+                                                   corpse->size + 1 ) ) );
+            here.add_splatter_trail( type_blood, you->pos_bub(),
+                                     random_entry( here.points_in_radius( you->pos_bub(),
+                                                   corpse->size + 1 ) ) );
         }
 
         // Ready to move on to the next item, if there is one
@@ -1510,13 +1512,15 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
                      SNIPPET.random_from_category( success ? "harvest_drop_default_field_dress_success" :
                                                    "harvest_drop_default_field_dress_failed" ).value_or( translation() ).translated() );
             corpse_item.set_flag( success ? flag_FIELD_DRESS : flag_FIELD_DRESS_FAILED );
-            here.add_splatter( type_gib, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
-            here.add_splatter( type_blood, you->pos(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            here.add_splatter( type_gib, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
+            here.add_splatter( type_blood, you->pos_bub(), rng( corpse->size + 2, ( corpse->size + 1 ) * 2 ) );
             for( int i = 1; i <= corpse->size; i++ ) {
-                here.add_splatter_trail( type_gib, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                         corpse->size + 1 ) ) );
-                here.add_splatter_trail( type_blood, you->pos(), random_entry( here.points_in_radius( you->pos(),
-                                         corpse->size + 1 ) ) );
+                here.add_splatter_trail( type_gib, you->pos_bub(),
+                                         random_entry( here.points_in_radius( you->pos_bub(),
+                                                       corpse->size + 1 ) ) );
+                here.add_splatter_trail( type_blood, you->pos_bub(),
+                                         random_entry( here.points_in_radius( you->pos_bub(),
+                                                       corpse->size + 1 ) ) );
             }
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
@@ -3679,7 +3683,7 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
         you->as_avatar()->longpull( act->name );
     } else {
         // TODO: fix point types
-        you->longpull( act->name, get_map().bub_from_abs( act->placement ).raw() );
+        you->longpull( act->name, get_map().bub_from_abs( act->placement ) );
     }
     act->set_to_null();
 }

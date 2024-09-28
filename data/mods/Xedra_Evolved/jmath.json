@@ -142,6 +142,6 @@
     "type": "jmath_function",
     "id": "pooka_shapeshift_traits",
     "num_args": 0,
-    "return": "u_has_trait('ANTLERS') + u_has_trait('LUPINE_EARS') + u_has_trait('CLAWS') + u_has_trait('CLAWS_ST') + u_has_trait('TAIL_FLUFFY') + u_has_trait('TAIL_LONG')"
+    "return": "u_has_trait('ANTLERS') + u_has_trait('HORNS_CURLED') + u_has_trait('LUPINE_EARS') + u_has_trait('FELINE_EARS') + u_has_trait('CLAWS') + u_has_trait('CLAWS_ST') + u_has_trait('WINGS_BIRD') + u_has_trait('URSINE_FUR') + u_has_trait('CHITIN2') + u_has_trait('POOKA_QUADRUPED_TRAITS') + u_has_trait('LEAPING_LEGS') + u_has_trait('TAIL_FLUFFY') + u_has_trait('TAIL_LONG')"
   }
 ]

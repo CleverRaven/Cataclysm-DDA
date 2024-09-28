@@ -531,8 +531,8 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     clear_map();
 
     // Locations for avatar and monster
-    const tripoint dummy_loc = { 60, 60, 0 };
-    const tripoint mummy_loc = { 62, 60, 0 };
+    const tripoint_bub_ms dummy_loc = { 60, 60, 0 };
+    const tripoint_bub_ms mummy_loc = { 62, 60, 0 };
 
     // For tracking spell damage
     int before_hp = 0;
@@ -543,13 +543,13 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
     avatar &dummy = get_avatar();
     clear_character( dummy );
     dummy.setpos( dummy_loc );
-    REQUIRE( dummy.pos() == dummy_loc );
+    REQUIRE( dummy.pos_bub() == dummy_loc );
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
     // Monster/defender
     monster &mummy = spawn_test_monster( "mon_zombie", mummy_loc );
-    REQUIRE( mummy.pos() == mummy_loc );
+    REQUIRE( mummy.pos_bub() == mummy_loc );
     REQUIRE( creatures.creature_at( mummy_loc ) );
     REQUIRE( g->num_creatures() == 2 );
 
@@ -573,7 +573,7 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
 
     // Cast the spell and measure the defender's change in HP
     before_hp = mummy.get_hp();
-    pew_spell.cast_spell_effect( dummy, mummy_loc );
+    pew_spell.cast_spell_effect( dummy, mummy_loc.raw() );
     after_hp = mummy.get_hp();
 
     // Should do approximately the expected damage

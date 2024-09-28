@@ -403,6 +403,28 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_catoblepas_gaze",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 1 ], "hurt_max": [ 3 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_catoblepas_gaze_monster",
+    "name": [ "Rotting Gaze" ],
+    "desc": [ "You flesh is rotting off!" ],
+    "apply_message": "Searing pain fills your body.",
+    "rating": "bad",
+    "max_intensity": 3,
+    "base_mods": { "hurt_min": [ 4 ], "hurt_max": [ 9 ], "hurt_chance": [ 2 ] },
+    "scaling_mods": { "hurt_min": [ 3 ], "hurt_max": [ 6 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "biomancer_visceral_side_effects",
     "name": [ "Visceral Overexertion" ],
     "desc": [ "You feel sickened from overtaxing your body, having extended your influence over such a wide area." ],
@@ -1223,6 +1245,16 @@
     "removes_effects": [ "bleed" ],
     "enchantments": [
       {
+        "condition": {
+          "or": [
+            { "math": [ "u_hp('arm_l')", "<", "u_hp_max('arm_l')" ] },
+            { "math": [ "u_hp('arm_r')", "<", "u_hp_max('arm_r')" ] },
+            { "math": [ "u_hp('leg_l')", "<", "u_hp_max('leg_l')" ] },
+            { "math": [ "u_hp('leg_r')", "<", "u_hp_max('leg_r')" ] },
+            { "math": [ "u_hp('torso')", "<", "u_hp_max('torso')" ] },
+            { "math": [ "u_hp('head')", "<", "u_hp_max('head')" ] }
+          ]
+        },
         "intermittent_activation": { "effects": [ { "frequency": "1 seconds", "spell_effects": [ { "id": "flask_regeneration_effect" } ] } ] }
       }
     ],
@@ -1393,6 +1425,32 @@
     "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
     "name": [ "" ],
     "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_mring_fire_protection",
+    "//": "Hidden effect, used so the ring of fire protection will stop you from being set on fire",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "onfire" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ring_of_flight",
+    "name": [ "Flying" ],
+    "desc": [ "You're flying." ],
+    "rating": "good",
+    "remove_message": "Your magical flight ends.",
+    "flags": [ "CLIMB_FLYING", "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_plus_two_to_hit",
+    "//": "Self-explanatory",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "base_mods": { "hit_mod": [ 2 ] }
   },
   {
     "id": "effect_dispel_magic",
@@ -1610,7 +1668,8 @@
       "gravity_mage_melee",
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
-      "effect_burning_trail"
+      "effect_burning_trail",
+      "effect_ring_of_flight"
     ]
   },
   {

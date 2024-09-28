@@ -188,6 +188,7 @@ Use the `Home` key to return to the top.
       - [`curtain_transform`](#curtain_transform)
       - [`shoot`](#shoot)
       - [`harvest_by_season`](#harvest_by_season)
+      - [`liquid_source`](#liquid_source)
       - [`roof`](#roof)
     - [Common To Furniture And Terrain](#common-to-furniture-and-terrain)
       - [`id`](#id-1)
@@ -458,6 +459,21 @@ order of the entries does not matter.
 ```
 
 Currently, only some JSON values support this syntax (see [here](/doc/TRANSLATING.md#translation) for a list of supported values and more detailed explanation).
+
+The string extractor will extract all encountered strings from JSON for translation. But if some string should not be translated, such as text that is not normally visible to the player (names and descriptions of monster-only effects and spells), then you can write `"NO_I18N"` in the comment for translators:
+
+```JSON
+"name": {
+    "//~": "NO_I18N",
+    "str": "Fake Monster-Only Spell"
+},
+"description": {
+    "//~": "NO_I18N",
+    "str": "Fake Monster-Only Spell Description"
+}
+```
+
+The extractor will skip these two specified strings and only these, extracting the remaining unmarked strings from the same JSON object.
 
 ## Comments
 

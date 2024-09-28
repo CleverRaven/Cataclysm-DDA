@@ -3,7 +3,7 @@
     "abstract": "casing",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "casing from ammunition cartridge" },
+    "name": { "str": "casing from ammunition cartridge", "//~": "NO_I18N" },
     "stackable": true,
     "material": [ "brass" ],
     "symbol": "=",

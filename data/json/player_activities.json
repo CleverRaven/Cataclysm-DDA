@@ -918,15 +918,6 @@
     "can_resume": false
   },
   {
-    "id": "ACT_PICKUP_MENU",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "picking up",
-    "rooted": true,
-    "based_on": "neither",
-    "can_resume": false
-  },
-  {
     "id": "ACT_CONSUME_FOOD_MENU",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

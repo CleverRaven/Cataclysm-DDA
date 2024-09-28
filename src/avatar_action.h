@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "activity_type.h"
+#include "coordinates.h"
 #include "point.h"
 
 class Character;
@@ -74,7 +75,7 @@ bool fire_turret_manual( avatar &you, map &m, turret_data &turret );
 
 // Throw an item  't'
 void plthrow( avatar &you, item_location loc,
-              const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
+              const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
 void unload( avatar &you );
 

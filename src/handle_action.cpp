@@ -150,6 +150,7 @@ static const quality_id qual_CUT( "CUT" );
 static const skill_id skill_melee( "melee" );
 
 static const trait_id trait_BRAWLER( "BRAWLER" );
+static const trait_id trait_GUNSHY( "GUNSHY" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -294,7 +295,7 @@ input_context game::get_player_input( std::string &action )
 
         //x% of the Viewport, only shown on visible areas
         const weather_animation_t weather_info = weather.weather_id->weather_animation;
-        point offset( u.view_offset.xy() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
+        point offset( u.view_offset.xy().raw() + point( -getmaxx( w_terrain ) / 2 + u.posx(),
                       -getmaxy( w_terrain ) / 2 + u.posy() ) );
 
 #if defined(TILES)
@@ -1696,6 +1697,10 @@ static void fire()
         add_msg( m_bad, _( "You refuse to use ranged weapons." ) );
         return;
     }
+    if( you.has_trait( trait_GUNSHY ) && weapon && weapon->is_firearm() ) {
+        add_msg( m_bad, _( "You refuse to use firearms." ) );
+        return;
+    }
     // try firing gun
     if( weapon && weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( you );
@@ -2056,8 +2061,8 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
             break;
 
         case ACTION_CENTER:
-            player_character.view_offset.x = g->driving_view_offset.x;
-            player_character.view_offset.y = g->driving_view_offset.y;
+            player_character.view_offset.x() = g->driving_view_offset.x;
+            player_character.view_offset.y() = g->driving_view_offset.y;
             break;
 
         case ACTION_SHIFT_N:
@@ -3023,6 +3028,8 @@ bool game::handle_action()
         player_character.start_destination_activity();
         return false;
     } else if( uistate.open_menu ) {
+        // make a copy so that uistate.open_menu can be assigned a new function
+        // during the execution of the copied old function
         std::optional<std::function<void()>> open_menu_tmp = std::nullopt;
         std::swap( uistate.open_menu, open_menu_tmp );
         open_menu_tmp.value()();
@@ -3046,7 +3053,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    std::optional<tripoint> mouse_target;
+    std::optional<tripoint_bub_ms> mouse_target;
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
@@ -3122,7 +3129,8 @@ bool game::handle_action()
                 return false;
             }
 
-            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
+            const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(),
+                    true );
             if( !mouse_pos ) {
                 return false;
             }
@@ -3137,12 +3145,12 @@ bool game::handle_action()
                 // setting auto-move destination state in addition to setting
                 // act.
                 // TODO: fix point types
-                if( !try_get_left_click_action( act, tripoint_bub_ms( *mouse_target ) ) ) {
+                if( !try_get_left_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             } else if( act == ACTION_SEC_SELECT ) {
                 // TODO: fix point types
-                if( !try_get_right_click_action( act, tripoint_bub_ms( *mouse_target ) ) ) {
+                if( !try_get_right_click_action( act, *mouse_target ) ) {
                     return false;
                 }
             }
@@ -3189,7 +3197,8 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !player_character.is_dead_state() ) {
-        if( !do_regular_action( act, player_character, mouse_target ) ) {
+        if( !do_regular_action( act, player_character,
+                                mouse_target ? std::make_optional( mouse_target->raw() ) : std::nullopt ) ) {
             return false;
         }
     }

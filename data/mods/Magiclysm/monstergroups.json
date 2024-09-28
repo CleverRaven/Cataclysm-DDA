@@ -17,8 +17,8 @@
       { "monster": "mon_wolf_goblin", "weight": 10, "cost_multiplier": 4 },
       { "monster": "mon_claygolem", "weight": 8, "cost_multiplier": 3 },
       { "monster": "mon_stonegolem", "weight": 4, "cost_multiplier": 5 },
-      { "monster": "mon_yulecat", "weight": 2, "cost_multiplier": 7 },
-      { "monster": "mon_yulecat_cub", "weight": 1, "cost_multiplier": 4 },
+      { "monster": "mon_yulecat", "weight": 2, "cost_multiplier": 7, "event": "christmas" },
+      { "monster": "mon_yulecat_cub", "weight": 1, "cost_multiplier": 4, "event": "christmas" },
       { "monster": "mon_leprechaun", "weight": 5, "cost_multiplier": 7 },
       {
         "monster": "mon_loup_garou",
@@ -50,8 +50,8 @@
       { "monster": "mon_owlbear_zombie", "weight": 7, "cost_multiplier": 10, "starts": "15 days" },
       { "monster": "mon_owlbear_zombie_brute", "weight": 1, "cost_multiplier": 15, "starts": "30 days" },
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
-      { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12 },
-      { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 },
+      { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12, "event": "christmas" },
+      { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25, "event": "christmas" },
       { "monster": "mon_ogre_spider", "weight": 5, "cost_multiplier": 12, "starts": "60 days" },
       {
         "group": "GROUP_FOREST_SPIRIT",
@@ -89,6 +89,7 @@
       { "monster": "mon_null", "weight": 940 },
       { "monster": "mon_black_pudding", "weight": 14, "pack_size": [ 4, 6 ] },
       { "monster": "mon_stirge", "weight": 7, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_catoblepas", "weight": 3, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_wisp", "weight": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragon_black_wyrmling", "weight": 2, "cost_multiplier": 50 },
@@ -122,9 +123,67 @@
         "pack_size": [ 1, 2 ],
         "starts": "30 days"
       },
-      { "monster": "mon_yulecat_zombie_brute", "weight": 5, "cost_multiplier": 30, "starts": "30 days" },
+      {
+        "monster": "mon_yulecat_zombie_brute",
+        "weight": 5,
+        "cost_multiplier": 30,
+        "starts": "30 days",
+        "event": "christmas"
+      },
       { "group": "GROUP_EARTH_SPIRIT_CAVE", "weight": 50 }
     ]
+  },
+  {
+    "name": "GROUP_ZOMBIE_FANTASY_SPECIES",
+    "type": "monstergroup",
+    "//": "same ratio as ferals",
+    "monsters": [
+      { "monster": "mon_zombie_dwarf", "weight": 40 },
+      { "monster": "mon_zombie_elf", "weight": 40 },
+      { "monster": "mon_zombie_goblin", "weight": 20 },
+      { "monster": "mon_zombie_ravenfolk", "weight": 15 },
+      { "monster": "mon_zombie_lizardfolk", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE",
+    "monsters": [
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 4720 },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 10, "cost_multiplier": 20, "pack_size": [ 25, 60 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_GASSTATION",
+    "monsters": [
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 472 },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 1, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
+      { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 1, "cost_multiplier": 20, "pack_size": [ 25, 60 ] }
+    ]
+  },
+  {
+    "name": "GROUP_PARK_DOG",
+    "type": "monstergroup",
+    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 125 } ]
+  },
+  {
+    "name": "GROUP_PARK_PLAYGROUND",
+    "type": "monstergroup",
+    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100 } ]
+  },
+  {
+    "name": "GROUP_PARK_SCENIC",
+    "type": "monstergroup",
+    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100 } ]
+  },
+  {
+    "name": "GROUP_ROOF_ZOMBIE",
+    "type": "monstergroup",
+    "monsters": [ { "group": "GROUP_ZOMBIE_FANTASY_SPECIES", "weight": 100, "pack_size": [ 2, 3 ] } ]
   },
   {
     "type": "monstergroup",

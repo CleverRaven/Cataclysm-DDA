@@ -1269,6 +1269,7 @@ Creighton
 creped
 crêpes
 crewmember
+crimsonite
 criniere
 CRISPR
 criss
@@ -5474,6 +5475,8 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifting
+shapeshifts
 shapeshifter
 Shardspray
 Shardstorm

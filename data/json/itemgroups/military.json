@@ -670,7 +670,6 @@
       { "item": "binoculars", "prob": 20 },
       { "item": "masterkey", "prob": 2 },
       { "item": "m26_mass", "prob": 3 },
-      { "item": "rm121aux", "prob": 1 },
       { "item": "shot_flechette", "prob": 5 },
       { "item": "canteen", "prob": 15 },
       { "item": "2lcanteen", "prob": 10 },

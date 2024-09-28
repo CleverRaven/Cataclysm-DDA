@@ -485,5 +485,39 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
+  },
+  {
+    "copy-from": "mring_gold",
+    "type": "TOOL_ARMOR",
+    "id": "mring_fire_protection",
+    "price_postapoc": "6000 USD",
+    "name": { "str": "ring of fire protection", "str_pl": "rings of fire protection" },
+    "description": "A crimsonite ring with a dappled pattern that protects you from fire.",
+    "replace_materials": { "gold": "crimsonite_metal" },
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ARMOR_HEAT", "multiply": -0.5 } ],
+          "ench_effects": [ { "effect": "effect_mring_fire_protection", "intensity": 1 } ]
+        }
+      ]
+    }
+  },
+  {
+    "copy-from": "mring_platinum",
+    "type": "TOOL_ARMOR",
+    "id": "mring_flying",
+    "price_postapoc": "10000 USD",
+    "name": { "str": "ring of flying", "str_pl": "rings of flying" },
+    "description": "A platinum ring that allows you fly for a short time each day, and prevents fall damage while worn.",
+    "charges_per_use": 1,
+    "relic_data": {
+      "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true },
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -1 } ] } ]
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 1 } } ],
+    "use_action": { "type": "cast_spell", "spell_id": "ring_of_flight_spell", "no_fail": true, "level": 0, "need_worn": true }
   }
 ]

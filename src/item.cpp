@@ -674,7 +674,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
     return *this;
 }
 
-item &item::deactivate( const Character *ch, bool alert )
+item &item::deactivate( Character *ch, bool alert )
 {
     if( !active ) {
         return *this; // no-op
@@ -687,6 +687,9 @@ item &item::deactivate( const Character *ch, bool alert )
         convert( *type->revert_to );
         active = false;
 
+        if( ch ) {
+            ch->clear_inventory_search_cache();
+        }
     }
     return *this;
 }
@@ -2061,6 +2064,16 @@ item::sizing item::get_sizing( const Character &p ) const
             }
         }
 
+        if( has_flag( flag_MORPHIC ) ) {
+            if( big ) {
+                return sizing::big_sized_big_char;
+            } else if( small ) {
+                return sizing::small_sized_small_char;
+            } else {
+                return sizing::human_sized_human_char;
+            }
+        }
+
         // due to the iterative nature of these features, something can fit and be undersized/oversized
         // but that is fine because we have separate logic to adjust encumbrance per each. One day we
         // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
@@ -3045,7 +3058,9 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     std::vector<std::string> fx;
     if( ammo.ammo_effects.count( ammo_effect_RECYCLED ) &&
         parts->test( iteminfo_parts::AMMO_FX_RECYCLED ) ) {
-        fx.emplace_back( _( "This ammo has been <bad>hand-loaded</bad>." ) );
+        fx.emplace_back(
+            _( "This ammo has been <bad>hand-loaded</bad>, "
+               "which resulted in slightly inferior performance compared to factory-produced ammo." ) );
     }
     if( ammo.ammo_effects.count( ammo_effect_MATCHHEAD ) &&
         parts->test( iteminfo_parts::AMMO_FX_BLACKPOWDER ) ) {
@@ -12604,7 +12619,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         const int rounds_exploded = rng( 1, charges_remaining / 2 );
         if( type->ammo->special_cookoff ) {
             // If it has a special effect just trigger it.
-            apply_ammo_effects( nullptr, p, type->ammo->ammo_effects, 1 );
+            apply_ammo_effects( nullptr, tripoint_bub_ms( p ), type->ammo->ammo_effects, 1 );
         }
         if( type->ammo->cookoff ) {
             // If ammo type can burn, then create an explosion proportional to quantity.
@@ -14908,8 +14923,7 @@ std::vector<item_comp> item::get_uncraft_components() const
                 if( component.has_flag( flag_UNRECOVERABLE ) ) {
                     continue;
                 }
-                // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
-                auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
+                auto iter = std::find_if( ret.begin(), ret.end(), [&component]( item_comp & obj ) {
                     return obj.type == component.typeId();
                 } );
 

@@ -447,9 +447,10 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
 {
     clear_map();
     statistics<int> damage;
-    constexpr tripoint shooter_pos{ 60, 60, 0 };
-    const tripoint monster_pos = shooter_pos + ( point_east * range );
-    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter", shooter_pos,
+    constexpr tripoint_bub_ms shooter_pos{ 60, 60, 0 };
+    const tripoint_bub_ms monster_pos = shooter_pos + ( point_east * range );
+    std::unique_ptr<standard_npc> shooter = std::make_unique<standard_npc>( "Shooter",
+                                            shooter_pos.raw(),
                                             std::vector<std::string>(), 5, 10, 10, 10, 10 );
     int other_check_success = 0;
     do {

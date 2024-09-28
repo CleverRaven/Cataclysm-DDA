@@ -137,9 +137,8 @@
   {
     "type": "item_group",
     "id": "guns_pistol_collectible",
-    "//": "Pistols that are sought after, and that have historical value, such as Colt SAA, C96.  These weapons are always unloaded.",
     "items": [
-      { "item": "mauser_c96", "prob": 12 },
+      { "item": "mauser_c96" "prob": 12, "contents-group": "c96_mods" },
       { "item": "colt_navy", "prob": 2 },
       { "item": "colt_army", "prob": 6 },
       { "item": "colt_saa", "variant": "colt_saa", "prob": 50 },

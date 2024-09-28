@@ -117,7 +117,7 @@ void projectile::unset_custom_explosion()
     custom_explosion.reset();
 }
 
-static void foamcrete_build( const tripoint &p )
+static void foamcrete_build( const tripoint_bub_ms &p )
 {
     map &here = get_map();
 
@@ -128,7 +128,7 @@ static void foamcrete_build( const tripoint &p )
     }
 
     if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-        for( const tripoint &ep : here.points_in_radius( p, 1 ) ) {
+        for( const tripoint_bub_ms &ep : here.points_in_radius( p, 1 ) ) {
             if( here.has_flag_ter( ter_furn_flag::TFLAG_SUPPORTS_ROOF, ep ) ) {
                 here.ter_set( p, ter_t_foamcrete_floor );
                 here.add_field( p, field_fd_foamcrete, 1 );
@@ -144,7 +144,7 @@ static void foamcrete_build( const tripoint &p )
     }
 }
 
-void apply_ammo_effects( const Creature *source, const tripoint &p,
+void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
                          const std::set<ammo_effect_str_id> &effects, const int dealt_damage )
 {
     map &here = get_map();
@@ -155,10 +155,10 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             continue;
         }
         if( effects.count( ae.id ) > 0 ) {
-            for( const tripoint_bub_ms &pt : here.points_in_radius( tripoint_bub_ms( p ), ae.aoe_radius,
+            for( const tripoint_bub_ms &pt : here.points_in_radius( p, ae.aoe_radius,
                     ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
-                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt.raw(), ae.aoe_check_sees_radius );
+                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
                     const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
                         here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
@@ -179,13 +179,13 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
                 }
             }
             if( ae.aoe_explosion_data.power > 0 ) {
-                explosion_handler::explosion( source, p, ae.aoe_explosion_data );
+                explosion_handler::explosion( source, p.raw(), ae.aoe_explosion_data );
             }
             if( ae.do_flashbang ) {
-                explosion_handler::flashbang( p );
+                explosion_handler::flashbang( p.raw() );
             }
             if( ae.do_emp_blast ) {
-                explosion_handler::emp_blast( p );
+                explosion_handler::emp_blast( p.raw() );
             }
             if( ae.foamcrete_build ) {
                 foamcrete_build( p );
@@ -205,8 +205,8 @@ void apply_ammo_effects( const Creature *source, const tripoint &p,
             const spell ammo_spell = ae.spell_data.get_spell();
             if( ammo_spell.is_valid() ) {
                 if( ae.always_cast_spell || dealt_damage > 0 ) {
-                    ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
-                    ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
+                    ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p.raw() );
+                    ammo_spell.make_sound( p.raw(), *const_cast<Creature *>( source ) );
                 }
             }
         }

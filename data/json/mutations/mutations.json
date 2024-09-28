@@ -1285,6 +1285,7 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "starting_trait": true,
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
     "enchantments": [ { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": 5 } ] } ]
@@ -5511,7 +5512,7 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
@@ -9988,7 +9989,18 @@
     "points": -4,
     "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "cancels": [ "GUNSHY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GUNSHY",
+    "name": { "str": "Gun-Shy" },
+    "points": -3,
+    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event.  You can still use bows and slings.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "BRAWLER" ]
   },
   {
     "type": "mutation",

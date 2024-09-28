@@ -2257,7 +2257,7 @@ void madd_field( map *m, const point &p, field_type_id type, int intensity )
 
 void mremove_fields( map *m, const tripoint_bub_ms &p )
 {
-    m->clear_fields( p.raw() );
+    m->clear_fields( p );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

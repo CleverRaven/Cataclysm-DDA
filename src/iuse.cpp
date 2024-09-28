@@ -3187,7 +3187,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint &pos 
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().getabs( *target ) ) );
+                         item_location( you, it ), get_map().getglobal( *target ) ) );
     return 1;
 }
 
@@ -4469,7 +4469,7 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint 
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 12 ) ) {
-        if( here.is_cornerfloor( dest.raw() ) ) {
+        if( here.is_cornerfloor( dest ) ) {
             here.add_field( dest, fd_tindalos_rift, 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
@@ -4551,6 +4551,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, const tripoint & )
             }
             p->add_msg_if_player( m_info, _( "…but acidic blood damages the %s!" ), it->tname() );
         }
+        return 1;
     }
 
     if( vampire ) {
@@ -7427,7 +7428,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
     }
 
     avatar &player_character = get_avatar();
-    point p2( player_character.view_offset.xy() );
+    tripoint_rel_ms stored_view_offset( player_character.view_offset );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -7462,8 +7463,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
         }
     }
 
-    player_character.view_offset.x = p2.x;
-    player_character.view_offset.y = p2.y;
+    player_character.view_offset = stored_view_offset;
     return 1;
 }
 

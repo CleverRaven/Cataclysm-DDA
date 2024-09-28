@@ -377,6 +377,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_all_terrain",
+    "name": { "str": "All Terrain" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "You have a persistent sense of how to move around in sharp and rough terrain.  You'll never accidently snag or cut yourself on protrusions from the ground.",
+    "flags": [ "ALL_TERRAIN_NAVIGATION" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_bedtime_reader",
     "name": { "str": "Bedtime Stories" },
     "points": 0,
@@ -1178,5 +1188,41 @@
     "valid": false,
     "description": "Exposure to portal storms and related phenomena causes your body change along predictable lines.  When out in a portal storm without any protection, you periodically have a chance to mutate.",
     "category": [ "perk" ]
+  },
+  {
+    "type": "mutation",
+    "id": "revolvers_are_cool",
+    "name": { "str": "Double Action Action" },
+    "description": "You always knew nothing can beat the good old six shooters.  You have a minor bonus using revolvers.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "and": [ { "u_has_wielded_with_flag": "RELOAD_ONE" }, { "u_has_wielded_with_skill": "pistol" } ] },
+        "values": [
+          { "value": "WEAPON_DISPERSION", "multiply": -0.25 },
+          { "value": "RANGED_DAMAGE", "add": 6 },
+          { "value": "RANGE", "add": 4 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "22_is_cool",
+    "name": { "str": "Rimfire Rebel" },
+    "description": "You always appreciated the size of this little fella named \"Dot Two Two Long Rifle\", but they laughed at you.  Not anymore!  You found that the size of a bullet that small is perfect to hit into little spots between armor or narrow places.  .22 weapons have additional armor penetration and quadrupled chance to hit a weakpoint.",
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": { "u_has_wielded_with_ammotype": "22" },
+        "values": [ { "value": "RANGED_ARMOR_PENETRATION", "add": 5 }, { "value": "WEAKPOINT_ACCURACY", "multiply": 3 } ]
+      }
+    ]
   }
 ]

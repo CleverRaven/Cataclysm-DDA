@@ -7,6 +7,7 @@
 #include "ballistics.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -24,8 +25,8 @@
 static const itype_id itype_308( "308" );
 static const itype_id itype_m1a( "m1a" );
 
-static tripoint projectile_end_point( const std::vector<tripoint> &range, const item &gun,
-                                      int speed, int proj_range )
+static tripoint_bub_ms projectile_end_point( const std::vector<tripoint_bub_ms> &range,
+        const item &gun, int speed, int proj_range )
 {
     projectile test_proj;
     test_proj.speed = speed;
@@ -55,13 +56,17 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     // Ensure that a projectile fired from a gun can pass through a chain link fence
     // First, set up a test area - three tiles in a row
     // One on either side clear, with a chainlink fence in the middle
-    std::vector<tripoint> range = { tripoint_zero, tripoint_east, tripoint( 2, 0, 0 ) };
-    for( const tripoint &pt : range ) {
+    std::vector<tripoint_bub_ms> range = {
+        tripoint_bub_ms_zero,
+        tripoint_bub_ms_zero + tripoint_rel_ms_east,
+        tripoint_bub_ms_zero + tripoint_rel_ms_east * 2
+    };
+    for( const tripoint_bub_ms &pt : range ) {
         REQUIRE( here.inbounds( pt ) );
         here.ter_set( pt, ter_id( "t_dirt" ) );
         here.furn_set( pt, furn_id( "f_null" ) );
         REQUIRE_FALSE( creatures.creature_at( pt ) );
-        REQUIRE( here.is_transparent( pt ) );
+        REQUIRE( here.is_transparent( pt.raw() ) );
     }
 
     // Set an obstacle in the way, a chain fence
