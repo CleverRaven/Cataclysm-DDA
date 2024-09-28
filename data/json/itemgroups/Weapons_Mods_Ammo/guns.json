@@ -111,9 +111,9 @@
   {
     "type": "item_group",
     "subtype": "distribution",
-    "id": "guns_pistol_obscure_display",
+    "id": "guns_pistol_display",
     "magazine": 100,
-    "//": "Pistols that are rare and sought after but with little or no historical value.  Think of magnum handguns, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
+    "//": "Pistols that are sought after but with little or no historical value.  Think of magnum handguns, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
     "items": [
       { "item": "colt_python", "prob": 30 },
       { "item": "chiappa_rhino", "prob": 20 },
@@ -137,7 +137,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_collectible",
-    "//": "Pistols that are rare and sought after, and that have historical value, such as Colt SAA, C96.  These weapons are always unloaded.",
+    "//": "Pistols that are sought after, and that have historical value, such as Colt SAA, C96.  These weapons are always unloaded.",
     "items": [
       { "item": "mauser_c96", "prob": 12 },
       { "item": "colt_navy", "prob": 2 },
@@ -249,6 +249,36 @@
       { "group": "guns_rifle_common_display_50beowulf", "prob": 3 },
       { "group": "guns_rifle_common_display_57", "prob": 3 },
       { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "guns_rifle_display",
+    "magazine": 100,
+    "//": "Rifles that are sought after but with little or no historical value.  Think of AKs, stuff made famous by movies, guns that \"look cool\".  Should all be unloaded, but with magazines as these are display pieces.",
+    "items": [
+      { "item": "sl8", "prob": 20, "charges": 0 },
+      { "item": "win70_458", "prob": 15 },
+      { "item": "sig_assault_rifle", "prob": 4, "charges": 0 },
+      { "item": "aksemi", "prob": 100, "charges": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "guns_rifle_collectible",
+    "//": "Rifles that are sought after, and that have historical value, such as M1 Garand, Mosin Nagant.  These weapons are always unloaded.",
+    "items": [
+      { "item": "type99", "prob": 2 },
+      { "item": "type99_sniper", "prob": 2 },
+      { "item": "smle_mk3", "prob": 16 },
+      { "item": "garand", "prob": 80 },
+      { "item": "m1carbine", "prob": 50 },
+      { "item": "mosin91_30", "prob": 25 },
+      { "item": "mosin44", "prob": 20 },
+      { "item": "m1903", "prob": 60 },
+      { "item": "number4_mki", "prob": 16 }
     ]
   },
   {
