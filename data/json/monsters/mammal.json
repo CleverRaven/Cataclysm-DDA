@@ -2,8 +2,8 @@
   {
     "id": "mon_human",
     "type": "MONSTER",
-    "name": { "str": "human" },
-    "description": "Placeholder for human corpses.  If you see this, it's a bug.",
+    "name": { "str": "human", "//~": "NO_I18N" },
+    "description": { "str": "Placeholder for human corpses.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "harvest": "human",
@@ -16,8 +16,8 @@
   {
     "id": "mon_human_scorched",
     "type": "MONSTER",
-    "name": { "str": "charred human" },
-    "description": "Placeholder for charred human corpses.  If you see this, it's a bug.",
+    "name": { "str": "charred human", "//~": "NO_I18N" },
+    "description": { "str": "Placeholder for charred human corpses.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "bodytype": "human",
     "copy-from": "mon_zombie_scorched",
     "harvest": "human",
@@ -30,8 +30,8 @@
   {
     "id": "mon_child",
     "type": "MONSTER",
-    "name": { "str": "child", "str_pl": "children" },
-    "description": "Placeholder for children corpses.  If you see this, it's a bug.",
+    "name": { "str": "child", "str_pl": "children", "//~": "NO_I18N" },
+    "description": { "str": "Placeholder for children corpses.  If you see this, it's a bug.", "//~": "NO_I18N" },
     "bodytype": "human",
     "copy-from": "mon_zombie_child",
     "symbol": "h",
@@ -1109,8 +1109,11 @@
   {
     "abstract": "mon_dog_small",
     "type": "MONSTER",
-    "name": { "str": "Small dog abstract" },
-    "description": "This is an abstract for small dogs to copy from, so that they are less likely to mess up fields like zombification by accident.",
+    "name": { "str": "small dog abstract", "//~": "NO_I18N" },
+    "description": {
+      "str": "This is an abstract for small dogs to copy from, so that they are less likely to mess up fields like zombification by accident.",
+      "//~": "NO_I18N"
+    },
     "copy-from": "mon_dog",
     "volume": "10 L",
     "weight": "6 kg",
@@ -2228,7 +2231,7 @@
     "abstract": "mon_rabbit_base",
     "type": "MONSTER",
     "name": { "str": "rabbit" },
-    "description": "Rabbit abstract",
+    "description": { "str": "rabbit abstract", "//~": "NO_I18N" },
     "default_faction": "mammal_small",
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
@@ -2268,7 +2271,7 @@
   {
     "abstract": "mon_rabbit_baby_base",
     "type": "MONSTER",
-    "name": { "str": "rabbit kit abstract" },
+    "name": { "str": "rabbit kit abstract", "//~": "NO_I18N" },
     "copy-from": "mon_rabbit_base",
     "volume": "150 ml",
     "weight": "30 g",
