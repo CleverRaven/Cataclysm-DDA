@@ -1929,7 +1929,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -2119,7 +2119,7 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
     } );
     if( choice == 0 ) {
         // Peek
-        g->peek( examp );
+        g->peek( tripoint_bub_ms( examp ) );
         you.add_msg_if_player( _( "You peek through the peephole." ) );
     } else if( choice == 1 ) {
         here.open_door( you, examp, true, false );
@@ -4942,7 +4942,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
 
     if( choice == 0 ) {
         // Peek
-        g->peek( examp );
+        g->peek( tripoint_bub_ms( examp ) );
         you.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
@@ -5538,7 +5538,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 return;
             }
 
-            g->peek( where );
+            g->peek( tripoint_bub_ms( where ) );
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
         }

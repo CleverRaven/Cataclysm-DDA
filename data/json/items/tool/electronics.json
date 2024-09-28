@@ -804,16 +804,9 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": [ "VIBE" ],
-    "flags": [ "WATER_BREAK" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ]
+    "use_action": [ "VIBE", { "type": "link_up", "cable_length": 3, "charge_rate": "10 W" } ],
+    "flags": [ "WATER_BREAK", "NO_UNLOAD", "NO_RELOAD", "ELECTRONIC" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 58 } } ]
   },
   {
     "id": "gas_charger",

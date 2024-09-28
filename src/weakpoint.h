@@ -127,6 +127,8 @@ struct weakpoint {
     translation name;
     // Percent chance of hitting the weakpoint. Can be increased by skill.
     float coverage = 100.0f;
+    // Separate wp that benefit attacker and hurt monster from wp that do not
+    bool is_good = true;
     // Multiplier for existing armor values. Defaults to 1.
     std::unordered_map<damage_type_id, float> armor_mult;
     // Flat penalty to armor values. Applied after the multiplier.

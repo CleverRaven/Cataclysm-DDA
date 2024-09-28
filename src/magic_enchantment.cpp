@@ -90,6 +90,7 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
+			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
@@ -202,6 +203,7 @@ namespace io
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
+            case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -1026,7 +1028,7 @@ void enchant_cache::activate_passive( Character &guy ) const
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
     if( emitter ) {
-        get_map().emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos_bub(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, false, eff.second );

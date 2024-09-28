@@ -1344,7 +1344,7 @@ void computer_session::action_irradiator()
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
-                        here.propagate_field( dest.raw(), fd_nuke_gas, 100, 3 );
+                        here.propagate_field( dest, fd_nuke_gas, 100, 3 );
                         here.translate_radius( ter_t_water_pool, ter_t_sewage, 8.0, dest, true );
                         here.adjust_radiation( dest, rng( 50, 500 ) );
                         for( const tripoint_bub_ms &radorigin : here.points_in_radius( dest, 5 ) ) {

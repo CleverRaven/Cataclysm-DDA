@@ -2556,5 +2556,10 @@
     "id": "WATERWALKING",
     "type": "json_flag",
     "info": "You can walk across the surface of water."
+  },
+  {
+    "id": "CRAFT_IN_DARKNESS",
+    "type": "json_flag",
+    "info": "You can craft at 100% speed in any level of light."
   }
 ]

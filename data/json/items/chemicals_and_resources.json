@@ -1814,7 +1814,7 @@
   {
     "type": "COMESTIBLE",
     "abstract": "venom_gland",
-    "name": { "str": "venom gland" },
+    "name": { "str": "venom gland", "//~": "NO_I18N" },
     "category": "chems",
     "comestible_type": "FOOD",
     "spoils_in": "4 hours",

@@ -961,6 +961,41 @@ check do you wield something with `LONG_SWORDS` weapon category
 { "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
 ```
 
+### `u_has_wielded_with_skill`, `npc_has_wielded_with_skill`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker wield a gun or melee weapon with this skill
+- gun skills are delivered from `skill` field
+- melee weapon skill is delivered from the highest damage type item has
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you wield a gun with `pistol` skill
+```json
+{ "u_has_wielded_with_skill": "pistol" } 
+```
+
+### `u_has_wielded_with_ammotype`, `npc_has_wielded_with_ammotype`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker wield an item that can have this ammo type
+- works with items that allow multiple ammo types
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you wield a gun with `22` ammo type (.22 LR)
+```json
+{ "u_has_wielded_with_ammotype": "22" } 
+```
+
 ### `u_can_see`, `npc_can_see`
 - type: simple string
 - return true if alpha or beta talker can see (not blind)

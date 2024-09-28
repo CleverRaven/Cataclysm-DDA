@@ -546,7 +546,7 @@
     "abstract": "base_chainmail_vest",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "base chainmail vest" },
+    "name": { "str": "base chainmail vest", "//~": "NO_I18N" },
     "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "weight": "6894 g",
     "volume": "1 L",
@@ -599,7 +599,7 @@
   {
     "abstract": "xl_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "chainmail vest" },
+    "name": { "str": "chainmail vest", "//~": "NO_I18N" },
     "copy-from": "base_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -621,7 +621,7 @@
     "abstract": "xs_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "base_chainmail_vest",
-    "name": { "str": "chainmail vest" },
+    "name": { "str": "chainmail vest", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
