@@ -138,7 +138,7 @@
     "type": "item_group",
     "id": "guns_pistol_collectible",
     "items": [
-      { "item": "mauser_c96" "prob": 12, "contents-group": "c96_mods" },
+      { "item": "mauser_c96", "prob": 12, "contents-group": "c96_mods" },
       { "item": "colt_navy", "prob": 2 },
       { "item": "colt_army", "prob": 6 },
       { "item": "colt_saa", "variant": "colt_saa", "prob": 50 },
@@ -343,7 +343,7 @@
     "id": "guns_shotgun_common",
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
-	"//3": "To-do, add in more 410 shotguns along with 20 gauge",
+    "//3": "To-do, add in more 410 shotguns along with 20 gauge",
     "items": [
       { "group": "12_gauge_semi", "prob": 48 },
       { "group": "12_gauge_pump", "prob": 34 },
@@ -357,14 +357,13 @@
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "ammo handled elsewhere so these can be worn.",
     "items": [ { "group": "guns_shotgun_common_display", "charges": [ 1, 8 ] } ]
-    
   },
   {
     "type": "item_group",
     "subtype": "distribution",
     "id": "guns_shotgun_common_display",
     "//": "Shotguns commonly owned by citizens and found in gun stores.",
-	"//2": "To-do, add in more 410 shotguns along with 20 gauge",
+    "//2": "To-do, add in more 410 shotguns along with 20 gauge",
     "items": [
       { "group": "12_gauge_semi_display", "prob": 48 },
       { "group": "12_gauge_pump_display", "prob": 34 },
@@ -485,19 +484,13 @@
     "type": "item_group",
     "id": "guns_display_pieces",
     "//": "Display pieces for guns that are more for decoration than actual purpose.",
-    "items": [
-      { "group": "guns_pistol_display_pieces", "prob": 80 },
-      { "group": "guns_rifle_display_pieces", "prob": 20 }
-    ]
+    "items": [ { "group": "guns_pistol_display_pieces", "prob": 80 }, { "group": "guns_rifle_display_pieces", "prob": 20 } ]
   },
   {
     "type": "item_group",
     "id": "guns_collectible",
     "//": "Historical guns that you may find at something like a gunshow.",
-    "items": [
-      { "group": "guns_pistol_collectible", "prob": 80 },
-      { "group": "guns_rifle_collectible", "prob": 20 }
-    ]
+    "items": [ { "group": "guns_pistol_collectible", "prob": 80 }, { "group": "guns_rifle_collectible", "prob": 20 } ]
   },
   {
     "type": "item_group",

@@ -190,10 +190,7 @@
     "id": "bugout_long_gun",
     "subtype": "distribution",
     "//": "a long weapon of some kind.",
-    "entries": [
-      { "group": "guns_rifle_common", "prob": 120 },
-      { "group": "guns_shotgun_common", "prob": 3 }
-    ]
+    "entries": [ { "group": "guns_rifle_common", "prob": 120 }, { "group": "guns_shotgun_common", "prob": 3 } ]
   },
   {
     "type": "item_group",

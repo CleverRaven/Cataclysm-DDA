@@ -316,10 +316,7 @@
     "type": "item_group",
     "id": "guns_ganger",
     "//": "Guns commonly carried by gangers and underworld types.",
-    "items": [
-      { "group": "guns_pistol_common", "prob": 100 },
-      { "group": "guns_cop", "prob": 5 }
-    ]
+    "items": [ { "group": "guns_pistol_common", "prob": 100 }, { "group": "guns_cop", "prob": 5 } ]
   },
   {
     "id": "crate_sports",
