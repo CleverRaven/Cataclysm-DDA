@@ -71,6 +71,10 @@
   },
   {
     "type": "connect_group",
+    "id": "GRAVELPILE"
+  },
+  {
+    "type": "connect_group",
     "id": "PIT_DEEP"
   },
   {
