@@ -91,7 +91,7 @@ class mapbuffer
             bool delete_after_save );
         submap_map_t submaps; // NOLINT(cata-serialize)
 
-        std::string area_prefix;
+        std::string world_prefix;
 };
 
 extern mapbuffer MAPBUFFER;
