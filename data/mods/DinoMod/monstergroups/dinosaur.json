@@ -7,7 +7,7 @@
       { "group": "GROUP_WILDERNESS_FOREST_DINO", "weight": 250 },
       { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 150 },
       { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 150 },
-      { "group": "GROUP_DINOSAUR_PREDATOR_RIVER", "weight": 150 },
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 150 },
       { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 150 }
     ]
   },
