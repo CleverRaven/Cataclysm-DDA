@@ -533,7 +533,7 @@
         "set_string_var": "",
         "string_input": {
           "title": { "i18n": true, "str": "teleport to subworld named:" },
-          "description": { "i18n": true, "str": "empty input returns you to normal world" },
+          "description": { "i18n": true, "str": "'default' returns you to main world" },
           "width": 30
         },
         "target_var": { "u_val": "destinationWorld" }
