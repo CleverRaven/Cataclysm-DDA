@@ -780,7 +780,6 @@
     "purifiable": false,
     "types": [ "TEETH", "MUZZLE" ],
     "cancels": [ "MOUTH_TENTACLES" ],
-    "prereqs": [ "BEAK" ],
     "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
     "category": [ "SPECIES_RAVENFOLK" ],
     "wet_protection": [ { "part": "mouth", "ignored": 2 } ],
@@ -802,12 +801,6 @@
     "copy-from": "HOLLOW_BONES",
     "description": "Your bones are nearly hollow, a remnant of your people's past as creatures of the air.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
     "category": [ "SPECIES_RAVENFOLK" ]
-  },
-  {
-    "type": "mutation",
-    "id": "BEAK",
-    "copy-from": "BEAK",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
