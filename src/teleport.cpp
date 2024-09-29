@@ -46,9 +46,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
-        int x = origin.x() + rdistance * std::cos( rangle );
-        int y = origin.y() + rdistance * std::sin( rangle );
-        new_pos = tripoint_bub_ms( x, y, new_pos.z() );
+        new_pos.x() = origin.x() + rdistance * std::cos( rangle );
+        new_pos.y() = origin.y() + rdistance * std::sin( rangle );
         tries++;
     } while( here.impassable( new_pos ) && tries < 20 );
     return teleport_to_point( critter, new_pos, safe, add_teleglow );
