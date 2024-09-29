@@ -7,6 +7,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "character.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -39,23 +40,24 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         return false;
     }
     int tries = 0;
-    tripoint origin = critter.pos();
-    tripoint new_pos = origin;
+    tripoint_bub_ms origin = critter.pos_bub();
+    tripoint_bub_ms new_pos = origin;
     map &here = get_map();
     do {
         int rangle = rng( 0, 360 );
         int rdistance = rng( min_distance, max_distance );
-        new_pos.x = origin.x + rdistance * std::cos( rangle );
-        new_pos.y = origin.y + rdistance * std::sin( rangle );
+        int x = origin.x() + rdistance * std::cos( rangle );
+        int y = origin.y() + rdistance * std::sin( rangle );
+        new_pos = tripoint_bub_ms( x, y, new_pos.z() );
         tries++;
     } while( here.impassable( new_pos ) && tries < 20 );
     return teleport_to_point( critter, new_pos, safe, add_teleglow );
 }
 
-bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
+bool teleport::teleport_to_point( Creature &critter, tripoint_bub_ms target, bool safe,
                                   bool add_teleglow, bool display_message, bool force )
 {
-    if( critter.pos() == target ) {
+    if( critter.pos_bub() == target ) {
         return false;
     }
     Character *const p = critter.as_character();
@@ -81,7 +83,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     map tm;
     map *dest = &here;
-    tripoint dest_target = target;
+    tripoint_bub_ms dest_target = target;
     if( !here.inbounds( target ) ) {
         if( c_is_u ) {
             g->place_player_overmap( project_to<coords::omt>( abs_ms ), false );
@@ -90,14 +92,14 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             dest->load( project_to<coords::sm>( abs_ms ), false );
             dest->spawn_monsters( true, true );
         }
-        dest_target = dest->getlocal( abs_ms );
+        dest_target = dest->bub_from_abs( abs_ms );
     }
     //handles teleporting into solids.
     if( dest->impassable( dest_target ) ) {
         if( force ) {
-            const std::optional<tripoint> nt =
+            const std::optional<tripoint_bub_ms> nt =
                 random_point( points_in_radius( dest_target, 5 ),
-            [dest]( const tripoint & el ) {
+            [dest]( const tripoint_bub_ms & el ) {
                 return dest->passable( el );
             } );
             dest_target = nt ? *nt : dest_target;
@@ -121,7 +123,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     }
     //update pos
     abs_ms = dest->getglobal( dest_target );
-    target = here.getlocal( abs_ms );
+    target = here.bub_from_abs( abs_ms );
     //handles telefragging other creatures
     int tfrag_attempts = 5;
     bool collision = false;
@@ -179,7 +181,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 collision_angle = rng( 0, 360 );
                 g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 40, false, true );
                 //spawn a mostly cosmetic explosion for flair.
-                explosion_handler::explosion( &critter, target, 10 );
+                explosion_handler::explosion( &critter, target.raw(), 10 );
                 //if it was grabbed, it isn't anymore.
                 for( const effect &grab : poor_soul->get_effects_with_flag( json_flag_GRAB ) ) {
                     poor_soul->remove_effect( grab.get_id() );

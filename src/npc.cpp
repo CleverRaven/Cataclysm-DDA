@@ -117,6 +117,7 @@ static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 
@@ -1178,7 +1179,8 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         fail_reasons.emplace_back( _( "I can't read!" ) );
     } else if( condition & read_condition_result::NEED_GLASSES ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
-    } else if( condition & read_condition_result::TOO_DARK ) {
+    } else if( condition & read_condition_result::TOO_DARK  &&
+               !has_flag( json_flag_READ_IN_DARKNESS ) ) {
         // Too dark to read only applies if the player can read to himself
         fail_reasons.emplace_back( _( "It's too dark to read!" ) );
         return false;

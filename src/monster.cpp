@@ -2965,10 +2965,10 @@ void monster::die( Creature *nkiller )
         //Not a hallucination, go process the death effects.
         spell death_spell = type->mdeath_effect.sp.get_spell( *this );
         if( killer != nullptr && !type->mdeath_effect.sp.self &&
-            death_spell.is_target_in_range( *this, killer->pos() ) ) {
-            death_spell.cast_all_effects( *this, killer->pos() );
+            death_spell.is_target_in_range( *this, killer->pos_bub() ) ) {
+            death_spell.cast_all_effects( *this, killer->pos_bub() );
         } else if( type->mdeath_effect.sp.self ) {
-            death_spell.cast_all_effects( *this, pos() );
+            death_spell.cast_all_effects( *this, pos_bub() );
         }
     }
 

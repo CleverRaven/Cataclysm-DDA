@@ -177,8 +177,8 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
     double total_potential = 0;
 
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint_bub_ms &potential_target : calculate_spell_effect_area( attack_spell,
-            location.raw(), source ) ) {
+    for( const tripoint_bub_ms &potential_target : calculate_spell_effect_area( attack_spell, location,
+            source ) ) {
         Creature *critter = creatures.creature_at( potential_target );
 
         if( !critter ) {

@@ -272,6 +272,13 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 );
 // Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
+template<typename Point, coords::origin Origin, coords::scale Scale>
+void calc_ray_end( units::angle angle, int range,
+                   const coords::coord_point_ob<Point, Origin, Scale> &p,
+                   coords::coord_point_ob<Point, Origin, Scale> &out )
+{
+    calc_ray_end( angle, range, p.raw(), out.raw() );
+}
 /**
  * Calculates the horizontal angle between the lines from (0,0,0) to @p a and
  * the line from (0,0,0) to @p b.

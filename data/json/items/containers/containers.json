@@ -3729,7 +3729,7 @@
     "name": { "str": "plastic tub" },
     "description": "A big, square plastic bucket usually used for carrying ice cream.",
     "ascii_picture": "plastic_bucket",
-    "weight": "1360 g",
+    "weight": "260 g",
     "volume": "4500 ml",
     "price": "10 cent",
     "price_postapoc": "10 cent",
@@ -3741,7 +3741,6 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "open_container": true,
         "max_contains_volume": "4250 ml",
         "max_contains_weight": "9 kg"
       }
