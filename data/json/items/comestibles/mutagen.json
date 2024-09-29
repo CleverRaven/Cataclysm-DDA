@@ -2,7 +2,7 @@
   {
     "abstract": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "abstract mutagen flavor" },
+    "name": { "str_sp": "abstract mutagen flavor", "//~": "NO_I18N" },
     "description": "A rare substance of uncertain origins.  Causes you to mutate.",
     "price": "2500 USD",
     "price_postapoc": "50 cent",
@@ -28,7 +28,7 @@
     "abstract": "iv_mutagen_flavor",
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
-    "name": { "str_sp": "abstract IV mutagen flavor" },
+    "name": { "str_sp": "abstract IV mutagen flavor", "//~": "NO_I18N" },
     "description": "A processed mutagenic primer.",
     "price": "3000 USD",
     "price_postapoc": "1 USD",

@@ -30,7 +30,7 @@
       {
         "id": "ranged_pull",
         "cooldown": { "math": [ "7 + rand(14)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s growls and a powerful forces seizes your %2$s and drags you in!",
         "hit_dmg_npc": "%1$s growls and <npcname> is dragged towards it!",
         "miss_msg_u": "",
@@ -44,7 +44,7 @@
         "spell_data": { "id": "telekinetic_barrier_monster" },
         "cooldown": 1,
         "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
         },
         "monster_message": "The air around %1$s distorts."
       }
@@ -90,7 +90,7 @@
         "range": 3,
         "dodgeable": false,
         "blockable": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "damage_max_instance": [ { "damage_type": "psi_telepathic_damage", "amount": 10 } ],
         "hit_dmg_u": "%1$s shrieks at you!",
         "hit_dmg_npc": "%1$s shrieks at <npcname>!",
@@ -143,7 +143,7 @@
       {
         "id": "psi_hodag_speed_boost",
         "type": "spell",
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "spell_data": { "id": "biokinetic_speed_boost_monster_01", "min_level": 5 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
         "monster_message": "%1$s moves too quickly for the eye to follow!"
@@ -153,9 +153,7 @@
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": {
-          "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ]
-        },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
       }
     ],
@@ -170,7 +168,7 @@
     "harvest": "mutant_cow_with_skull",
     "dissect": "dissect_cattle_sample_small",
     "families": [ "prof_intro_biology" ],
-    "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_cow_calf" }, "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "EATS", "PATH_AVOID_DANGER", "WARM", "CORNERED_FIGHTER" ],
@@ -206,7 +204,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 6 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s stares and lets out a silent cry!"
       }
     ],
@@ -215,7 +213,7 @@
     "weakpoint_sets": [ "wps_bird_body" ],
     "harvest": "bird_tiny",
     "dissect": "dissect_chimera_sample_small",
-    "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_cockatrice" }, "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "FLIES", "CORNERED_FIGHTER" ]
@@ -269,7 +267,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_fear_blast_monster", "min_level": 2 },
         "cooldown": { "math": [ "9 + rand(18)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$'s third eye opens and it coos!"
       },
       { "id": "pigeon_aura", "type": "spell", "spell_data": { "id": "pigeon_aura", "min_level": 4 }, "cooldown": 200 }
@@ -310,7 +308,7 @@
         "spell_data": { "id": "electrokinetic_power_draining" },
         "cooldown": { "math": [ "5 + rand(45)" ] },
         "allow_no_target": true,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "Sparks flicker over %1$s's fur."
       }
     ],
@@ -348,7 +346,7 @@
     "stomach_size": 1000,
     "harvest": "mutant_mammal_large_fur",
     "dissect": "dissect_lupine_sample_large",
-    "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 270 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_dog_pup" }, "baby_count": 4, "baby_timer": 270 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_dog", "biosig_timer": 6 },
     "families": [ "prof_intro_biology", "prof_physiology" ],
@@ -359,7 +357,7 @@
         "type": "spell",
         "spell_data": { "id": "telepathic_network_monster", "min_level": 5 },
         "cooldown": 50,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "The direhound gazes upon its allies, and lets out a howl!"
       },
       {

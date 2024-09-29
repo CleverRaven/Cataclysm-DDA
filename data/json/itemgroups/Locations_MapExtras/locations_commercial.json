@@ -530,7 +530,6 @@
       [ "atomic_coffeepot", 1 ],
       [ "flaregun", 10 ],
       [ "signal_flare", 15 ],
-      [ "rm120c", 2 ],
       [ "knee_pads", 10 ],
       { "item": "oxygen_tank", "prob": 10, "charges": 24 },
       { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
@@ -752,7 +751,7 @@
       [ "jacket_army", 40 ],
       [ "helmet_army_outdated", 10 ],
       [ "helmet_soviet_tanker", 1 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
@@ -1778,7 +1777,7 @@
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],
       [ "breadboard", 85 ],
-      { "item": "voltmeter", "prob": 80, "charges": [ 0, 100 ] },
+      { "item": "voltmeter", "prob": 80 },
       { "item": "multimeter", "prob": 80, "charges": [ 0, 100 ] },
       [ "circuit", 35 ],
       [ "small_lcd_screen", 10 ],
@@ -1980,19 +1979,6 @@
     ]
   },
   {
-    "id": "daycare_misc",
-    "type": "item_group",
-    "items": [
-      [ "magnifying_glass", 2 ],
-      { "item": "sewing_kit", "prob": 1, "charges": [ 0, -1 ] },
-      [ "scissors", 1 ],
-      [ "phonebook", 2 ],
-      { "item": "flashlight", "prob": 2, "charges": [ 0, 300 ] },
-      [ "petpack", 1 ],
-      [ "mag_comic", 5 ]
-    ]
-  },
-  {
     "id": "daycare_kitchen",
     "type": "item_group",
     "items": [
@@ -2129,7 +2115,13 @@
     "id": "farm_supply_wire",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ { "item": "wire", "prob": 80, "count": [ 20, 50 ] }, { "item": "wire_barbed", "prob": 20, "count": [ 20, 50 ] } ]
+    "items": [
+      { "item": "lc_wire", "prob": 50, "count": [ 20, 50 ] },
+      { "item": "mc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "hc_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "qt_wire", "prob": 5, "count": [ 0, 20 ] },
+      { "item": "wire_barbed", "prob": 40, "count": [ 20, 50 ] }
+    ]
   },
   {
     "id": "farm_supply_quicklime_and_saltpetre",

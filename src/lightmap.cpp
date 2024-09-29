@@ -152,7 +152,8 @@ bool map::build_transparency_cache( const int zlev )
                     // Fields are either transparent or not, however we want some to be translucent
                     value = value * i_level.translucency;
                 }
-                // TODO: [lightmap] Have glass reduce light as well
+                // TODO: [lightmap] Have glass reduce light as well.
+                // Note, binary transluceny is implemented in build_vision_transparency_cache below
                 return std::make_pair( value, value_wo_fields );
             };
 
@@ -208,6 +209,8 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
+    // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
+    // If you change this, also consider creature::sees and map::obstacle_coverage.
     bool is_crouching = player_character.is_crouching();
     bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
                        player_character.is_running();
@@ -226,6 +229,17 @@ bool map::build_vision_transparency_cache( const int zlev )
                 vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
                 dirty = true;
             }
+        }
+    }
+
+    // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    for( const tripoint &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be visible
+            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+        } else if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            dirty = true;
         }
     }
 

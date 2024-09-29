@@ -417,7 +417,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
         if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
-            on_table = here.items_with( valid_location.raw(), [&]( const item & it ) {
+            on_table = here.items_with( valid_location, [&]( const item & it ) {
                 return it.has_flag( flag_NANOFAB_REPAIR );
             } );
             break;
@@ -1929,7 +1929,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -2119,7 +2119,7 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
     } );
     if( choice == 0 ) {
         // Peek
-        g->peek( examp );
+        g->peek( tripoint_bub_ms( examp ) );
         you.add_msg_if_player( _( "You peek through the peephole." ) );
     } else if( choice == 1 ) {
         here.open_door( you, examp, true, false );
@@ -2504,7 +2504,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
-    fungal_effects().create_spores( examp, &you );
+    fungal_effects().create_spores( tripoint_bub_ms( examp ), &you );
     here.furn_set( examp, furn_str_id::NULL_ID() );
     you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 }
@@ -3443,8 +3443,8 @@ void iexamine::fireplace( Character &you, const tripoint &examp )
         add_firestarter( it, firestarters, you, examp );
     }
 
-    for( const tripoint &pos : closest_points_first( you.pos(), PICKUP_RANGE ) ) {
-        if( pos == examp ) {
+    for( const tripoint_bub_ms &pos : closest_points_first( you.pos_bub(), PICKUP_RANGE ) ) {
+        if( pos.raw() == examp ) {
             // stuff in the fireplace can't light or quench itself
             continue;
         }
@@ -4113,8 +4113,9 @@ void iexamine::keg( Character &you, const tripoint &examp )
     if( !liquid_present || has_container_with_liquid ) {
         add_msg( m_info, _( "It is empty." ) );
         // Get list of all drinks
-        auto drinks_inv = you.items_with( []( const item & it ) {
-            return it.made_of( phase_id::LIQUID );
+        auto drinks_inv = you.items_with( [&you]( const item & it ) {
+            item *parent_item = you.find_parent( it );
+            return it.made_of( phase_id::LIQUID ) && ( !parent_item || parent_item->can_unload() ) ;
         } );
         if( drinks_inv.empty() ) {
             add_msg( m_info, _( "You don't have any drinks to fill the %s with." ), keg_name );
@@ -4707,7 +4708,7 @@ void iexamine::part_con( Character &you, tripoint_bub_ms const &examp )
 void iexamine::water_source( Character &, const tripoint &examp )
 {
     map &here = get_map();
-    item water = here.water_from( examp );
+    item water = here.liquid_from( examp );
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
@@ -4810,9 +4811,11 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         int amount_tmp = use_ammotype ?
                          count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
                          count_charges_in_list( ammo, here.i_at( examp ) );
-        if( allow_unload && amount_tmp > 0 ) {
+        if( amount_tmp > 0 ) {
             ammo_loaded = ammo;
             amount_in_furn = amount_tmp;
+        }
+        if( allow_unload && amount_tmp > 0 ) {
             if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                               ammo_itypeID->nname( amount_in_furn ) ) ) {
                 map_stack items = here.i_at( examp );
@@ -4939,7 +4942,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
 
     if( choice == 0 ) {
         // Peek
-        g->peek( examp );
+        g->peek( tripoint_bub_ms( examp ) );
         you.add_msg_if_player( _( "You carefully peek through the curtains." ) );
     } else if( choice == 1 ) {
         // Mr. Gorbachev, tear down those curtains!
@@ -5518,10 +5521,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }
-        /*case ledge_climb_down: {
-            g->climb_down( examp );
-            break;
-        }*/
         case ledge_peek_down: {
             // Peek
             tripoint where = examp;
@@ -5539,7 +5538,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 return;
             }
 
-            g->peek( where );
+            g->peek( tripoint_bub_ms( where ) );
             you.add_msg_if_player( _( "You peek over the ledge." ) );
             break;
         }
@@ -5548,27 +5547,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             here.furn( just_below ).obj().examine( you, just_below );
             break;
         }
-        /*case ledge_cling_down: {
-            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-            if( !you.move_effects( false ) ) {
-                you.mod_moves( -to_moves<int>( 1_seconds ) );
-                return;
-            }
-
-            if( !here.valid_move( you.pos(), examp, false, true ) ) {
-                // Covered with something
-                return;
-            } else {
-                you.setpos( examp );
-                g->vertical_move( -1, false );
-                if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
-                    you.set_underwater( true );
-                    g->water_affect_items( you );
-                    you.add_msg_if_player( _( "You crawl down and dive underwater." ) );
-                }
-            }
-            break;
-        }*/
         case ledge_glide: {
             int glide_distance = 5;
             const weather_manager &weather = get_weather();

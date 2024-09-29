@@ -347,7 +347,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( player_character.view_offset );
     target = player_character.pos_bub() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -507,7 +507,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 void editmap::do_ui_invalidation()
 {
     avatar &player_character = get_avatar();
-    player_character.view_offset = ( target - player_character.pos_bub() ).raw();
+    player_character.view_offset = target - player_character.pos_bub();
     g->invalidate_main_ui_adaptor();
     create_or_get_ui_adaptor()->invalidate_ui();
 }

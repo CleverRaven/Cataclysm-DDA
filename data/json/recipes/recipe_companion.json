@@ -64,7 +64,7 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "wire",
+    "result": "lc_wire",
     "id_suffix": "npc_drop",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

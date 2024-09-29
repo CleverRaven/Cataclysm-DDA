@@ -326,13 +326,15 @@
   {
     "name": "GROUP_RATKIN_LAB",
     "type": "monstergroup",
-    "default": "mon_big_rat",
     "monsters": [
-      { "monster": "mon_big_rat", "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zap_rat", "weight": 280, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_tunnel_rat", "weight": 180, "pack_size": [ 2, 5 ] },
-      { "monster": "mon_teke_mouse", "weight": 160, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_mausketeer", "weight": 90, "pack_size": [ 1, 3 ] }
+      { "monster": "mon_lab_ratkin", "weight": 250, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_black_ratkin", "weight": 200, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_big_rat", "weight": 150, "pack_size": [ 2, 6 ] },
+      { "monster": "mon_zap_rat", "weight": 100, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_tunnel_rat", "weight": 90, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_pack_rat", "weight": 80, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_teke_mouse", "weight": 70, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mausketeer", "weight": 60, "pack_size": [ 1, 3 ] }
     ]
   }
 ]

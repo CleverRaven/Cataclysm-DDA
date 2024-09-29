@@ -179,7 +179,7 @@
       { "item": "metal_tank", "prob": 10 },
       { "item": "metal_tank_little", "prob": 10 },
       { "item": "water_faucet", "prob": 10 },
-      { "item": "wire", "prob": 50 },
+      { "item": "lc_wire", "prob": 50 },
       { "item": "wire_barbed", "prob": 20 },
       { "item": "jerrycan", "prob": 10 },
       { "item": "lawnmower", "prob": 25 },

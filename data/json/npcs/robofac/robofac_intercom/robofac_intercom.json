@@ -320,6 +320,29 @@
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA"
       },
       {
+        "text": "I have found more of those golden robots, can you make anything of them yet?",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "u_has_items": { "item": "broken_yrax_trifacet", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_triakis", "count": 1 } },
+                { "u_has_items": { "item": "broken_golden_monolith", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_delta", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_quadraphract_leg", "count": 1 } },
+                { "u_has_items": { "item": "broken_yrax_quadraphract", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_trifacet", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_triakis", "count": 1 } },
+                { "u_has_items": { "item": "bot_golden_monolith", "count": 1 } },
+                { "u_has_items": { "item": "bot_yrax_delta", "count": 1 } }
+              ]
+            },
+            { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_robofac_intercom_robot_sm_1" } ] }
+          ]
+        },
+        "topic": "TALK_ROBOFAC_INTERCOM_SELL_YRAX_TOYS"
+      },
+      {
         "text": "What the hell were you testing out there?",
         "condition": {
           "and": [

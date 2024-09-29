@@ -1369,10 +1369,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
-                      bool is_computer, bool is_not_conversation )
+                      bool is_computer, bool is_not_conversation, const std::string &debug_topic )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
-    if( !talk_with->will_talk_to_u( *this, has_mind_control ) ) {
+    const bool force_topic = !debug_topic.empty();
+    if( !talk_with->will_talk_to_u( *this, has_mind_control || force_topic ) ) {
         return;
     }
     dialogue d( get_talker_for( *this ), std::move( talk_with ), {} );
@@ -1384,11 +1385,15 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
             d.missions_assigned.push_back( mission );
         }
     }
-    for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
-        d.add_topic( topic_id );
-    }
-    for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
-        d.add_topic( topic_id );
+    if( !force_topic ) {
+        for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
+            d.add_topic( topic_id );
+        }
+        for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
+            d.add_topic( topic_id );
+        }
+    } else {
+        d.add_topic( debug_topic );
     }
     dialogue_window d_win;
     d_win.is_computer = is_computer;
@@ -3757,10 +3762,10 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             int min_target_dist = dov_target_min_radius.evaluate( d );
             std::string cur_search_target = search_target.value().evaluate( d );
             bool found = false;
-            tripoint_range<tripoint> points = here.points_in_radius( here.getlocal( abs_ms ),
-                                              size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
-            for( const tripoint &search_loc : points ) {
-                if( rl_dist( here.bub_from_abs( talker_pos ).raw(), search_loc ) <= min_target_dist ) {
+            tripoint_range<tripoint_bub_ms> points = here.points_in_radius( here.bub_from_abs( abs_ms ),
+                    size_t( dov_target_max_radius.evaluate( d ) ), size_t( 0 ) );
+            for( const tripoint_bub_ms &search_loc : points ) {
+                if( rl_dist( here.bub_from_abs( talker_pos ), search_loc ) <= min_target_dist ) {
                     continue;
                 }
                 if( search_type.value() == "terrain" ) {
@@ -3804,8 +3809,8 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 } else if( search_type.value() == "npc" ) {
                     for( shared_ptr_fast<npc> &person : overmap_buffer.get_npcs_near( project_to<coords::sm>( abs_ms ),
                             1 ) ) {
-                        if( person->pos() == search_loc && ( person->myclass.c_str() == cur_search_target ||
-                                                             cur_search_target.empty() ) ) {
+                        if( person->pos_bub() == search_loc && ( person->myclass.c_str() == cur_search_target ||
+                                cur_search_target.empty() ) ) {
                             target_pos = here.getabs( search_loc );
                             found = true;
                             break;
@@ -4724,13 +4729,13 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
             }
             spell sp = fake.get_spell( *caster, 0 );
             if( targeted ) {
-                if( std::optional<tripoint> target = sp.select_target( caster ) ) {
+                if( std::optional<tripoint_bub_ms> target = sp.select_target( caster ) ) {
                     sp.cast_all_effects( *caster, *target );
                     caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
                 }
             } else {
-                const tripoint target_pos = loc_var ?
-                                            get_map().getlocal( get_tripoint_from_var( loc_var, d, is_npc ) ) : caster->pos();
+                const tripoint_bub_ms target_pos = loc_var ?
+                                                   get_map().bub_from_abs( get_tripoint_from_var( loc_var, d, is_npc ) ) : caster->pos_bub();
                 sp.cast_all_effects( *caster, target_pos );
                 caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
             }
@@ -6419,7 +6424,7 @@ talk_effect_fun_t::func f_field( const JsonObject &jo, std::string_view member,
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
-        for( const tripoint &dest : get_map().points_in_radius( get_map().getlocal( target_pos ),
+        for( const tripoint_bub_ms &dest : get_map().points_in_radius( get_map().bub_from_abs( target_pos ),
                 radius ) ) {
             if( ( !outdoor_only || get_map().is_outside( dest ) ) && ( !indoor_only ||
                     !get_map().is_outside( dest ) ) ) {
@@ -6446,7 +6451,7 @@ talk_effect_fun_t::func f_emit( const JsonObject &jo, std::string_view member,
         if( target_var.has_value() ) {
             target_pos = get_tripoint_from_var( target_var, d, is_npc );
         }
-        tripoint target = get_map().getlocal( target_pos );
+        tripoint_bub_ms target = get_map().bub_from_abs( target_pos );
         get_map().emit_field( target, emit_id( emit.evaluate( d ) ), chance_mult.evaluate( d ) );
     };
 }
@@ -6540,7 +6545,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
-            if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
+            if( teleport::teleport_to_point( *teleporter, get_map().bub_from_abs( target_pos ), true, false,
                                              false, force ) ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
@@ -7666,5 +7671,15 @@ const json_talk_topic *get_talk_topic( const std::string &id )
         return nullptr;
     }
     return &it->second;
+}
+
+std::vector<std::string> get_all_talk_topic_ids()
+{
+    std::vector<std::string> dialogue_ids;
+    dialogue_ids.reserve( json_talk_topics.size() );
+    for( auto &elem : json_talk_topics ) {
+        dialogue_ids.push_back( elem.first );
+    }
+    return dialogue_ids;
 }
 

@@ -358,13 +358,13 @@
   {
     "id": "wheel_caster",
     "type": "vehicle_part",
-    "name": { "str": "casters" },
+    "name": { "str": "small casters" },
     "item": "wheel_caster",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
-    "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair.",
+    "description": "A set of small wheels mounted on pivots, like you'd find on a rolling office chair.",
     "damage_modifier": 50,
     "folded_volume": "1250 ml",
     "breaks_into": [
@@ -381,18 +381,18 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_caster_large",
     "type": "vehicle_part",
-    "name": { "str": "large casters" },
+    "name": { "str": "medium casters" },
     "item": "wheel_caster_large",
     "location": "under",
     "categories": [ "movement" ],
     "color": "dark_gray",
-    "description": "A set of wheels, mounted on pivots, like the ones on a grocery cart.",
+    "description": "A set of medium wheels mounted on pivots, like you'd find on a shopping cart.",
     "durability": 70,
     "damage_modifier": 50,
     "folded_volume": "3150 ml",
@@ -410,7 +410,39 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_10",
+    "type": "vehicle_part",
+    "name": { "str": "large casters" },
+    "item": "wheel_10",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "durability": 120,
+    "description": "A set of large rubber wheels mounted on pivots, like you'd find on small industrial equipment.",
+    "folded_volume": "4000 ml",
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 5 ] },
+      { "item": "scrap", "count": [ 1, 5 ] },
+      { "item": "plastic_chunk", "count": [ 1, 5 ] },
+      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
+      { "item": "chunk_rubber", "count": [ 3, 12 ] },
+      { "item": "shredded_rubber", "charges": [ 12, 30 ] }
+    ],
+    "rolling_resistance": 29.0,
+    "wheel_offroad_rating": 0.7,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
+    "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE" ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
@@ -467,38 +499,6 @@
     "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] }, { "item": "scrap_aluminum", "count": [ 0, 2 ] } ],
     "damage_reduction": { "all": 10 },
     "variants": [ { "symbols": "-", "symbols_broken": "X" } ]
-  },
-  {
-    "id": "wheel_10",
-    "type": "vehicle_part",
-    "name": { "str": "wheels" },
-    "item": "wheel_10",
-    "location": "under",
-    "categories": [ "movement" ],
-    "color": "dark_gray",
-    "durability": 120,
-    "description": "A set of 10\" wheels with tough rubber tires.",
-    "folded_volume": "2500 ml",
-    "breaks_into": [
-      { "item": "steel_lump", "prob": 50 },
-      { "item": "steel_chunk", "count": [ 1, 5 ] },
-      { "item": "scrap", "count": [ 1, 5 ] },
-      { "item": "plastic_chunk", "count": [ 1, 5 ] },
-      { "item": "rubber_tire_chunk", "count": [ 0, 1 ] },
-      { "item": "chunk_rubber", "count": [ 3, 12 ] },
-      { "item": "shredded_rubber", "charges": [ 12, 30 ] }
-    ],
-    "rolling_resistance": 29.0,
-    "wheel_offroad_rating": 0.7,
-    "wheel_terrain_modifiers": { "FLAT": [ 0, 3 ], "ROAD": [ 0, 1 ] },
-    "contact_area": 4,
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "adhesive_rubber", 1 ], [ "tire_rubber", 1 ] ] }
-    },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
-    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
   },
   {
     "id": "wheel_motorbike",

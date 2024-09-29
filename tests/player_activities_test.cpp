@@ -326,10 +326,10 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
         monster *mon;
         if( mon_shearable )
         {
-            mon = &spawn_test_monster( mon_test_shearable.str(), dummy.pos() + tripoint_north );
+            mon = &spawn_test_monster( mon_test_shearable.str(), dummy.pos_bub() + tripoint_north );
         } else
         {
-            mon = &spawn_test_monster( mon_test_non_shearable.str(), dummy.pos() + tripoint_north );
+            mon = &spawn_test_monster( mon_test_non_shearable.str(), dummy.pos_bub() + tripoint_north );
         }
 
         mon->friendly = -1;
@@ -1702,9 +1702,9 @@ static const std::vector<std::function<player_activity()>> test_activities {
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
-    [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().pos() ) ); },
+    [] { return player_activity( hotwire_car_activity_actor( 1, get_avatar().get_location() ) ); },
     //player_activity( insert_item_activity_actor() ),
-    [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().pos() ) ); },
+    [] { return player_activity( lockpick_activity_actor::use_item( 1, item_location(), get_avatar().get_location() ) ); },
     //player_activity( longsalvage_activity_actor() ),
     [] { return player_activity( meditate_activity_actor() ); },
     [] { return player_activity( migration_cancel_activity_actor() ); },
@@ -1784,8 +1784,8 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
         //aiming is excluded from this kind of interruption
         REQUIRE( dummy.activity.id() != ACT_AIM );
 
-        tripoint zombie_pos_near = dummy.pos() + tripoint( 2, 0, 0 );
-        tripoint zombie_pos_far = dummy.pos() + tripoint( 10, 0, 0 );
+        tripoint_bub_ms zombie_pos_near = dummy.pos_bub() + tripoint( 2, 0, 0 );
+        tripoint_bub_ms zombie_pos_far = dummy.pos_bub() + tripoint( 10, 0, 0 );
 
         //to make section names unique
         std::string act = activity.id().str();
@@ -1858,7 +1858,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
         SECTION( act + " interruption by dangerous field" ) {
             cleanup( dummy );
 
-            m.add_field( dummy.pos(), field_fd_smoke );
+            m.add_field( dummy.pos_bub(), field_fd_smoke );
 
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
@@ -1870,7 +1870,7 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
             cleanup( dummy );
 
             spawn_test_monster( mon_zombie.str(), zombie_pos_near );
-            m.add_field( dummy.pos(), field_fd_smoke );
+            m.add_field( dummy.pos_bub(), field_fd_smoke );
             std::map<distraction_type, std::string> dists = dummy.activity.get_distractions();
 
             CHECK( dists.size() == 2 );
