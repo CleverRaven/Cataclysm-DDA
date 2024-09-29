@@ -73,24 +73,17 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "guns_pistol_hunting_display",
-    "//": "Empty high-caliber pistols and revolvers found within hunting supply stores and related locations.",
+    "//": "Handguns used for hunting, anything from bunnies to bison.  Unloaded and without magazines.",
+    "//2": "These numbers are mostly guesses and some scaled-down numbers.  If there's better info on hunting calibers please change",
     "items": [
-      { "item": "glock_20", "variant": "glock_20", "prob": 1 },
-      { "item": "glock_40", "variant": "glock_40", "prob": 1 },
-      { "item": "sw_610", "prob": 1 },
-      { "item": "sw_619", "prob": 40 },
-      { "item": "colt_python", "prob": 40 },
-      { "item": "bfr", "prob": 10 },
-      { "item": "raging_bull", "prob": 15 },
-      { "item": "sw_500", "prob": 10 },
-      { "group": "modular_deagle_357", "prob": 2 },
-      { "group": "modular_deagle_44", "prob": 5 },
-      { "group": "modular_deagle_50", "prob": 1 },
-      { "group": "nested_deagle_with_kits", "prob": 1 },
-      { "item": "sw629", "prob": 30 },
-      { "item": "colt_anaconda_8", "prob": 11 },
-      { "item": "colt_anaconda_6", "prob": 16 },
-      { "item": "colt_anaconda_4", "prob": 5 }
+      { "group": "guns_pistol_common_display_22", "prob": 20 },
+      { "group": "guns_pistol_common_display_44", "prob": 20 },
+      { "group": "guns_pistol_common_display_357mag", "prob": 45 },
+      { "group": "guns_pistol_common_display_10mm", "prob": 4 },
+      { "item": "bfr", "prob": 4 },
+      { "item": "raging_bull", "prob": 4 },
+      { "item": "sw_500", "prob": 7 },
+      { "group": "modular_deagle_50", "prob": 2 }
     ]
   },
   {
@@ -287,12 +280,23 @@
     "subtype": "distribution",
     "id": "guns_rifle_hunting_display",
     "//": "Empty civilian hunting rifles found within hunting supply stores and other related locations.",
+    "//2": "These numbers are mostly guesses and some scaled-down numbers.  If there's better info on hunting calibers please change",
     "items": [
-      { "group": "guns_rifle_hunting_display_22", "prob": 20 },
-      { "group": "guns_rifle_hunting_display_308", "prob": 25 },
-      { "group": "guns_rifle_hunting_display_3006", "prob": 75 },
-      { "group": "guns_rifle_hunting_display_270win", "prob": 30 },
-      { "group": "guns_rifle_hunting_display_other", "prob": 93 }
+      { "group": "guns_rifle_common_display_22", "prob": 176 },
+      { "group": "guns_rifle_common_display_223", "prob": 100 },
+      { "group": "guns_rifle_common_display_308", "prob": 320 },
+      { "group": "guns_rifle_common_display_762", "prob": 115 },
+      { "group": "guns_rifle_common_display_3006", "prob": 149 },
+      { "group": "guns_rifle_common_display_44", "prob": 8 },
+      { "group": "guns_rifle_common_display_762R", "prob": 70 },
+      { "group": "guns_rifle_common_display_270win", "prob": 57 },
+      { "group": "guns_rifle_common_display_300winmag", "prob": 32 },
+      { "group": "guns_rifle_common_display_4570", "prob": 18 },
+      { "group": "guns_rifle_common_display_303", "prob": 16 },
+      { "group": "guns_rifle_common_display_338", "prob": 14 },
+      { "group": "guns_rifle_common_display_450", "prob": 3 },
+      { "group": "guns_rifle_common_display_50beowulf", "prob": 3 },
+      { "group": "guns_rifle_common_display_7mm_arisaka", "prob": 2 }
     ]
   },
   {

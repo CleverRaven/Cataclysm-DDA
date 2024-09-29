@@ -792,41 +792,6 @@
   },
   {
     "type": "item_group",
-    "id": "guns_rifle_hunting_display_22",
-    "items": [ { "item": "ruger_1022", "prob": 20 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_hunting_display_308",
-    "items": [ { "item": "ar10", "prob": 10 }, { "item": "savage_111f", "prob": 10 }, { "item": "steyr_scout", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_hunting_display_3006",
-    "items": [ { "item": "browning_blr", "prob": 10 }, { "item": "remington_700", "prob": 40 }, { "item": "ruger_m77", "prob": 25 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_hunting_display_270win",
-    "items": [ { "item": "remington700_270", "prob": 30 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "guns_rifle_hunting_display_other",
-    "items": [
-      { "item": "ruger_pr", "prob": 10 },
-      { "item": "win70", "prob": 15 },
-      { "item": "1895sbl", "prob": 10 },
-      { "item": "varmint_airgun", "prob": 5 },
-      { "item": "ruger_arr", "prob": 25 },
-      { "item": "weatherby_5", "prob": 1 },
-      { "item": "savage112", "prob": 5 },
-      { "group": "ar15_50", "prob": 10 },
-      { "group": "ar15_450", "prob": 12 }
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "12_gauge_semi",
     "items": [
       { "group": "nested_benelli_m2", "prob": 45 },
