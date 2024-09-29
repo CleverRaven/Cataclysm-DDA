@@ -10,7 +10,7 @@
     "difficulty": 4,
     "time": "3 h",
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 2 } ],
     "components": [ [ [ "wooden_post", 1 ] ] ]
   },
