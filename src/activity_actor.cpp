@@ -233,6 +233,7 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
+static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const morale_type morale_book( "morale_book" );
@@ -1876,7 +1877,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
                  book_type::martial_art : book_type::normal;
     }
 
-    if( who.fine_detail_vision_mod() > 4 ) {
+    if( who.fine_detail_vision_mod() > 4 && !who.has_flag( json_flag_READ_IN_DARKNESS ) ) {
         // It got too dark during the process of reading, bail out.
         act.set_to_null();
         who.add_msg_if_player( m_bad, _( "It's too dark to read!" ) );
