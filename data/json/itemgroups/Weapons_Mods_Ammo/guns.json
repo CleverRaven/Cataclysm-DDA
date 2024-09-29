@@ -2,6 +2,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_common",
+    "magazine": 100,
     "//": "Pistols that are reasonably prolific amongst civilians, commonly owned and reliably obtainable by citizens and that are found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
@@ -28,6 +29,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "guns_pistol_common_everyday_carry",
+    "magazine": 100,
     "//": "pistols with ammo loaded and ready for use but no additional magazines.",
     "items": [
       { "group": "guns_pistol_common_everyday_carry_9mm", "prob": 92 },
@@ -181,6 +183,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common",
+    "magazine": 100,
     "//": "Rifles commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
@@ -345,6 +348,7 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_common",
+    "magazine": 100,
     "//": "Shotguns commonly owned by citizens and found in many locations.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "//3": "To-do, add in more 410 shotguns along with 20 gauge",
