@@ -429,7 +429,7 @@
     "id": "nylon_scabbard",
     "type": "ARMOR",
     "name": { "str": "nylon scabbard" },
-    "description": "A large, adjustable, MOLLE compitable sheath for holding swords and other large blades, made with nylon.  Activate to sheathe/draw a weapon.",
+    "description": "A large, adjustable, MOLLE compatible sheath for holding swords and other large blades, made with nylon.  Activate to sheathe/draw a weapon.",
     "weight": "1360 g",
     "volume": "1750 ml",
     "price": "60 USD",
