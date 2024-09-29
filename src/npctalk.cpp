@@ -6728,22 +6728,26 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         if( teleporter ) {
             std::string prefix = map_prefix.evaluate( d );
             if( !prefix.empty() ) {
+                //unload monsters
+                //CRASHES if the teleport part fails
                 g->save();
-                MAPBUFFER.set_prefix( prefix );
+                //inputting an empty string to the text input EOC fails
+                if (prefix != "default") {
+                    MAPBUFFER.set_prefix( prefix );
+                }else{
+                    MAPBUFFER.set_prefix("");
+                }
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
                 get_map() = map();
                 overmap_special_batch empty_specials( point_abs_om{} );
                 overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
-
                 map &here = get_map();
                 // TODO: fix point types
                 here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-                here.invalidate_visibility_cache();
-                get_avatar().move_to( tripoint_abs_ms( tripoint_zero ) );
-
                 get_weather().update_weather();
-                
+                here.invalidate_visibility_cache();
+                add_msg(prefix);
             }
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
                                              false, force ) ) {
