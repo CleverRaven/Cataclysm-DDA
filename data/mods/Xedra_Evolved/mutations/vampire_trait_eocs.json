@@ -93,9 +93,10 @@
                   ]
                 }
               },
-              { "run_eocs": [
-                {
-                  "id": "EOC_EYEGLEAM_activated_3",
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_EYEGLEAM_activated_3",
                     "condition": {
                       "or": [
                         {
@@ -112,11 +113,10 @@
                         }
                       ]
                     },
-                    "effect": [
-                      { "u_add_effect": "eyegleam_craft_in_darkness", "duration": "PERMANENT" }
-                    ]
-                }
-              ] }
+                    "effect": [ { "u_add_effect": "eyegleam_craft_in_darkness", "duration": "PERMANENT" } ]
+                  }
+                ]
+              }
             ],
             "false_effect": [
               { "u_message": "You don't have enough blood to activate your gleaming eyes.", "type": "bad" },
