@@ -166,6 +166,8 @@
     "hit_dmg_npc": "%1$s swings its massive tail at <npcname>'s %2$s!",
     "no_dmg_msg_u": "%s swings its tail at you, but it's blunted by your armor.",
     "no_dmg_msg_npc": "%s swings its tail at <npcname>, but they appear unharmed.",
+    "throw_msg_u": "The force of the blow sends you flying into the air!",
+    "throw_msg_npc": "The force of the blow sends <npcname> flying into the air!",
     "miss_msg_u": "%s swings its tail at you, but you dodge it!",
     "miss_msg_npc": "%s swings its tail at <npcname>, who dodges it!"
   },
@@ -184,6 +186,8 @@
     "hit_dmg_npc": "%1$s swings its massive tail at <npcname>'s %2$s!",
     "no_dmg_msg_u": "%s swings its tail at you, but it's blunted by your armor.",
     "no_dmg_msg_npc": "%s swings its tail at <npcname>, but they appear unharmed.",
+    "throw_msg_u": "The force of the blow sends you flying into the air!",
+    "throw_msg_npc": "The force of the blow sends <npcname> flying into the air!",
     "miss_msg_u": "%s swings its tail at you, but you dodge it!",
     "miss_msg_npc": "%s swings its tail at <npcname>, who dodges it!"
   },
