@@ -350,18 +350,9 @@
     "//": "a collection of ammo that would be found with a loaded gun.",
     "subtype": "distribution",
     "entries": [
-      { "item": "22_cb", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_fmj", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_cb", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_fmj", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_cb", "prob": 30, "charges": [ 330, 600 ] },
-      { "item": "22_fmj", "prob": 30, "charges": [ 330, 600 ] },
       { "item": "22_lr", "prob": 100, "charges": [ 1, 150 ] },
-      { "item": "22_ratshot", "prob": 100, "charges": [ 1, 150 ] },
       { "item": "22_lr", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_ratshot", "prob": 75, "charges": [ 165, 300 ] },
-      { "item": "22_lr", "prob": 30, "charges": [ 330, 600 ] },
-      { "item": "22_ratshot", "prob": 30, "charges": [ 330, 600 ] }
+      { "item": "22_lr", "prob": 30, "charges": [ 330, 600 ] }
     ]
   },
   {
