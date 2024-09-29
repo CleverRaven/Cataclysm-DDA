@@ -1300,7 +1300,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement. \n\nFading: Your Wither Mage abilities grant you the ability to consume the enemies powers for a short time.",
+    "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.\n\nFading: Your Wither Mage abilities grant you the ability to consume the enemies powers for a short time.",
     "prereqs": [ "DRUID", "MAGUS" ],
     "enchantments": [ { "hit_you_effect": [ { "id": "wither_mage_withering", "hit_self": true, "once_in": 6 } ] } ],
     "spells_learned": [ [ "assassin_strike", 5 ], [ "life_drain", 5 ] ],
