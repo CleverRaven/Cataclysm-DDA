@@ -1470,7 +1470,7 @@ struct fixed_overmap_special_data : overmap_special_data {
 
             if( !oter.is_valid() ) {
                 if( !invalid_terrains.count( oter ) ) {
-                    // Not a huge fan of the the direct id manipulation here, but I don't know
+                    // Not a huge fan of the direct id manipulation here, but I don't know
                     // how else to do this
                     // Because we try to access all the terrains in the finalization,
                     // this is a little redundant, but whatever
