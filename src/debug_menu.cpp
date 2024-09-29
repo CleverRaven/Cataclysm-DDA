@@ -861,7 +861,7 @@ static int spawning_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
-        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'n', _( "Spawn Named NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_NAMED_NPC, true, 'p', _( "Spawn Named NPC" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
@@ -3498,14 +3498,25 @@ static void spawn_npc()
 
 static void spawn_named_npc()
 {
+    const std::string input = string_input_popup()
+                              .title( _( "Enter NPC template" ) )
+                              .width( 20 )
+                              .query_string();
+
+    if( input.empty() ) {
+        return;
+    }
+
+    const npc_template_id npc_template = npc_template_id( input );
+    if( !npc_template.is_valid() ) {
+        popup( "Invalid template id" );
+        return;
+    }
+
     avatar &player_character = get_avatar();
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
-    const npc_class_id npc_class = npc_class_id::from_string( string_input_popup()
-                                   .title( _( "Enter NPC class" ) )
-                                   .width( 20 )
-                                   .query_string() );
-    temp->set_npc_class( npc_class );
+    temp->load_npc_template( npc_template );
     temp->spawn_at_precise( player_character.get_location() + point( -4, -4 ) );
     overmap_buffer.insert_npc( temp );
     temp->form_opinion( player_character );
