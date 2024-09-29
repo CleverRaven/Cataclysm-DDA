@@ -516,7 +516,12 @@
           }
         ]
       }
-    ],
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eyegleam_craft_in_darkness",
+    "rating": "good",
     "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
