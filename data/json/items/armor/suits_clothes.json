@@ -809,7 +809,7 @@
       {
         "id": "beaversuit",
         "name": { "str": "beaver fursuit" },
-        "description": "A full-body fursuit made to resemble a nervous-looking anthropomorphic beaver. It is quite encumbering and has little storage but is very warm.",
+        "description": "A full-body fursuit made to resemble a nervous-looking anthropomorphic beaver.  It is quite encumbering and has little storage but is very warm.",
         "color": "brown",
         "weight": 10
       },
