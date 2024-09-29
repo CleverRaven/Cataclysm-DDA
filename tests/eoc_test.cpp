@@ -1135,7 +1135,7 @@ TEST_CASE( "EOC_event_test", "[eoc]" )
     // character_casts_spell
     spell temp_spell( spell_test_eoc_spell );
     temp_spell.set_level( get_avatar(), 5 );
-    temp_spell.cast_all_effects( get_avatar(), tripoint() );
+    temp_spell.cast_all_effects( get_avatar(), tripoint_bub_ms() );
 
     CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "test_eoc_spell" );
     CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "test_trait" );

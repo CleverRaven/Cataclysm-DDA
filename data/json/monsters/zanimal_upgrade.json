@@ -95,6 +95,7 @@
     "color": "i_brown",
     "melee_skill": 3,
     "bleed_rate": 25,
+    "upgrades": false,
     "armor": { "bash": 2, "cut": 4, "acid": 3, "heat": 15, "bullet": 2, "electric": 3 },
     "extend": { "flags": [ "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
@@ -161,6 +162,7 @@
         "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ]
       }
     ],
+    "upgrades": false,
     "armor": { "stab": 30, "bash": 12, "cut": 30, "acid": 1, "bullet": 24, "electric": 2 }
   },
   {
@@ -182,6 +184,7 @@
     },
     "bleed_rate": 50,
     "special_attacks": [ [ "SMASH", 30 ], { "id": "impale" } ],
+    "upgrades": false,
     "extend": { "flags": [ "GROUP_BASH", "PUSH_VEH", "HIT_AND_RUN" ] }
   },
   {
@@ -199,6 +202,7 @@
     "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "death_drops": "explode_zed_beast",
     "special_attacks": [ { "id": "impale" } ],
+    "upgrades": false,
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
@@ -251,6 +255,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -277,6 +282,7 @@
       { "id": "bite_grab", "move_cost": 150, "cooldown": 5, "min_mul": 1, "max_mul": 1.8 },
       { "id": "scratch", "cooldown": 10, "min_mul": 1, "max_mul": 1.8 }
     ],
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "GRABS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 2, "cut": 17, "stab": 30, "acid": 3, "bullet": 32, "electric": 3 }
   },
@@ -291,6 +297,7 @@
     "bleed_rate": 50,
     "vision_night": 45,
     "harvest": "zombie_fur_shadow",
+    "upgrades": false,
     "flags": [
       "SEES",
       "HEARS",
@@ -328,6 +335,7 @@
       { "id": "bite_grab", "move_cost": 150, "cooldown": 3, "min_mul": 0.75, "max_mul": 1.5 },
       { "id": "scratch" }
     ],
+    "upgrades": false,
     "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ] },
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } }
   },
@@ -345,6 +353,7 @@
     "bleed_rate": 40,
     "harvest": "zombie_animal_acid",
     "special_attacks": [ [ "ACID", 15 ] ],
+    "upgrades": false,
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
       "SEES",
@@ -376,6 +385,7 @@
     "harvest": "zombie_animal",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
     "regenerates": 9,
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES" ]
   },
   {
@@ -388,6 +398,7 @@
     "hp": 75,
     "color": "blue_white",
     "dodge": 3,
+    "upgrades": false,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "POISON", "HARDTOSHOOT", "NO_BREATHE", "REVIVES" ]
@@ -407,6 +418,7 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_zombie", "prof_wp_skeleton" ],
     "harvest": "puppy_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 91, "cooldown": 30 } ],
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "BASHES", "GROUP_BASH", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 5, "electric": 2, "cut": 16, "stab": 30, "acid": 2, "bullet": 24 }
   },
@@ -430,6 +442,7 @@
     "//grab": "Assuming it's grabbing with its mouth a bit grabbier than a zed should be about right",
     "grab_strength": 30,
     "special_attacks": [ { "id": "smash", "throw_strength": 108, "cooldown": 30 }, { "id": "grab", "cooldown": 7 } ],
+    "upgrades": false,
     "flags": [
       "SEES",
       "HEARS",
@@ -468,6 +481,7 @@
     "//grab": "Let's say the thorns make it half again as grabby",
     "grab_strength": 45,
     "special_attacks": [ { "id": "scratch" }, { "id": "grab", "cooldown": 7 }, [ "PARA_STING", 30 ] ],
+    "upgrades": false,
     "flags": [
       "SEES",
       "HEARS",

@@ -1602,8 +1602,12 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
             tripoint_abs_omt omt_pos = you->global_omt_location();
             const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
-            if( !run_mapgen_update_func( regen_mapgen, omt_pos, {}, nullptr, false ) ) {
-                popup( _( "Failed to generate the new map" ) );
+            const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( regen_mapgen, omt_pos, {},
+                    nullptr,
+                    false );
+            if( !has_colliding_vehicle.success() ) {
+                popup( _( "Failed to generate the new map, probably due to collision with %s vehicle/appliance." ),
+                       has_colliding_vehicle.str() );
                 return false;
             }
             set_queued_points();
@@ -1654,8 +1658,8 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
             }
         }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-        trap_spell.cast_all_effects( dummy, p );
-        trap_spell.make_sound( p, get_player_character() );
+        trap_spell.cast_all_effects( dummy, tripoint_bub_ms( p ) );
+        trap_spell.make_sound( tripoint_bub_ms( p ), get_player_character() );
         return true;
     } else {
         map &here = get_map();
@@ -1677,8 +1681,8 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
             }
         }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-        trap_spell.cast_all_effects( dummy, critter->pos() );
-        trap_spell.make_sound( p, get_player_character() );
+        trap_spell.cast_all_effects( dummy, critter->pos_bub() );
+        trap_spell.make_sound( tripoint_bub_ms( p ), get_player_character() );
         return true;
     }
 }

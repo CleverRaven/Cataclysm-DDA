@@ -205,8 +205,8 @@ void apply_ammo_effects( const Creature *source, const tripoint_bub_ms &p,
             const spell ammo_spell = ae.spell_data.get_spell();
             if( ammo_spell.is_valid() ) {
                 if( ae.always_cast_spell || dealt_damage > 0 ) {
-                    ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p.raw() );
-                    ammo_spell.make_sound( p.raw(), *const_cast<Creature *>( source ) );
+                    ammo_spell.cast_all_effects( *const_cast<Creature *>( source ), p );
+                    ammo_spell.make_sound( p, *const_cast<Creature *>( source ) );
                 }
             }
         }

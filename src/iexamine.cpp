@@ -1929,7 +1929,7 @@ void iexamine::locked_object_pickable( Character &you, const tripoint &examp )
         if( you.get_power_level() >= bio_lockpick->power_activate ) {
             you.mod_power_level( -bio_lockpick->power_activate );
             you.add_msg_if_player( m_info, _( "You activate your %s." ), bio_lockpick->name );
-            you.assign_activity( lockpick_activity_actor::use_bionic( here.getabs( examp ) ) );
+            you.assign_activity( lockpick_activity_actor::use_bionic( here.getglobal( examp ) ) );
             return;
         } else {
             you.add_msg_if_player( m_info, _( "You don't have enough power to activate your %s." ),
@@ -2504,7 +2504,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
-    fungal_effects().create_spores( examp, &you );
+    fungal_effects().create_spores( tripoint_bub_ms( examp ), &you );
     here.furn_set( examp, furn_str_id::NULL_ID() );
     you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 }

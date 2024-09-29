@@ -65,7 +65,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "dist_matrix_tools",
-    "items": [ [ "null", 50 ], [ "matrix_channeling_tool", 25 ], [ "matrix_aligning_tool", 10 ] ]
+    "items": [ [ "null", 50 ], [ "matrix_channeling_tool", 25 ], [ "matrix_aligning_tool", 10 ], [ "telepathic_focusing_tool", 4 ] ]
   },
   {
     "type": "item_group",

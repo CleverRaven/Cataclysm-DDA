@@ -1107,6 +1107,58 @@
   },
   {
     "type": "mutation",
+    "id": "SELKIE_FOG_CLOAK",
+    "name": { "str": "Cloak of Fog" },
+    "points": 2,
+    "description": "Surround yourself with a thick fog, obscuring your position.",
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_fog_cloak_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_DENSE_FOG",
+    "name": { "str": "Chant of Concealing Mists" },
+    "points": 3,
+    "description": "Call up a thick mist, shrouding the nearby landscape.",
+    "prereqs": [ "SELKIE_FOG_CLOAK" ],
+    "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_dense_fog_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_RAIN",
+    "name": { "str": "Aria of the Droplets" },
+    "points": 3,
+    "description": "Call a rain shower, letting the rains water the earth.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_DENSE_FOG" ],
+    "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_rains_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_RAINSTORM",
+    "name": { "str": "Canticle of Rainstorms" },
+    "points": 3,
+    "description": "Call a heavy rainstorm, soaking everything.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAIN" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_rainstorm_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "name": { "str": "Symphony of Levin" },
+    "points": 3,
+    "description": "Call a lightning storm, .",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAINSTORM" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ],
+    "spells_learned": [ [ "selkie_change_weather_lightningstorm_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SELKIE_BREATHING_WATER",
     "name": { "str": "Breathing Water" },
     "points": 2,
@@ -1176,6 +1228,17 @@
     "prereqs": [ "SELKIE_BREATHING_WATER", "SELKIE_BREATHING_WATER2" ],
     "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
     "flags": [ "WEBBED_HANDS", "WEBBED_FEET" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SELKIE_CHANGE_WEATHER_MASTER",
+    "name": { "str": "Conductor of Storms" },
+    "points": 6,
+    "description": "You are a master of meteorological enchantments, and your weather manipulations will last much longer.",
+    "prereqs": [ "SELKIE_CHANGE_WEATHER_RAINSTORM" ],
+    "prereqs2": [ "PARACLESIAN_INT_PER_1", "PARACLESIAN_INT_PER_2" ],
+    "category": [ "FAIR_FOLK_COMMONER_SELKIE" ],
+    "threshreq": [ "THRESH_FAIR_FOLK_COMMONER_SELKIE" ]
   },
   {
     "type": "mutation",
