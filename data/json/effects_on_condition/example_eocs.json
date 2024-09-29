@@ -541,7 +541,7 @@
       { "u_location_variable": { "u_val": "tele_test" }, "x_adjust": 1, "y_adjust": 0 },
       {
         "u_teleport": { "u_val": "tele_test" },
-        "map_prefix": { "u_val": "destinationWorld" },
+        "world_prefix": { "u_val": "destinationWorld" },
         "fail_message": "your body doesn't move",
         "success_message": "All at once your body feels like it's being pulled in 100 different directions."
       }

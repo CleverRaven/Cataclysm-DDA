@@ -6715,23 +6715,34 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     } else {
         success_message.str_val = translation();
     }
-    str_or_var map_prefix;
-    if( jo.has_member( "map_prefix" ) ) {
-        map_prefix = get_str_or_var( jo.get_member( "map_prefix" ), "map_prefix", false, "" );
+    str_or_var world_prefix;
+    if( jo.has_member( "world_prefix" ) ) {
+        world_prefix = get_str_or_var( jo.get_member( "world_prefix" ), "world_prefix", false, "" );
     } else {
-        map_prefix.str_val = "";
+        world_prefix.str_val = "";
     }
     bool force = jo.get_bool( "force", false );
-    return [is_npc, target_var, fail_message, success_message, force, map_prefix]( dialogue const & d ) {
+    return [is_npc, target_var, fail_message, success_message, force, world_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
-            std::string prefix = map_prefix.evaluate( d );
+            std::string prefix = world_prefix.evaluate( d );
             if( !prefix.empty() ) {
-                //unload monsters
                 //CRASHES if the teleport part fails
-                g->save();
                 //inputting an empty string to the text input EOC fails
+                map &here = get_map();
+                //unload monsters
+                for( monster &critter : g->all_monsters() ) {
+                    g->despawn_monster( critter );
+                }
+                if( get_avatar().in_vehicle ) {
+                    here.unboard_vehicle( get_avatar().pos_bub() );
+                }
+                for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                    here.clear_vehicle_list( z );
+                }
+                here.save();
+                overmap_buffer.save();
                 if (prefix != "default") {
                     MAPBUFFER.set_prefix( prefix );
                 }else{
@@ -6742,10 +6753,16 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 get_map() = map();
                 overmap_special_batch empty_specials( point_abs_om{} );
                 overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
-                map &here = get_map();
                 // TODO: fix point types
                 here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
+                //load/spawn monsters
+                //do the monsters always get loaded from the same file? EDIT: Yes
+                //here.spawn_monsters( true,true );
                 get_weather().update_weather();
+                here.rebuild_vehicle_level_caches();
+                here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
+                here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
+                g->update_overmap_seen();
                 here.invalidate_visibility_cache();
                 add_msg(prefix);
             }

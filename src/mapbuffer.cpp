@@ -139,18 +139,18 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 
 void mapbuffer::set_prefix( std::string prefix )
 {
-    area_prefix = prefix;
+    world_prefix = prefix;
 }
 std::string mapbuffer::get_prefix()
 {
-    return area_prefix;
+    return world_prefix;
 }
 void mapbuffer::save( bool delete_after_save )
 {
-    if( area_prefix.empty() ) {
+    if( world_prefix.empty() ) {
         assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
     } else {
-        assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps/worlds/" + area_prefix );
+        assure_dir_exist( PATH_INFO::world_base_save_path() + "/worlds/" + world_prefix + "/maps" );
     }
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
@@ -189,7 +189,7 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        const cata_path dirname = find_dirname( om_addr, area_prefix );
+        const cata_path dirname = find_dirname( om_addr, world_prefix );
         const cata_path quad_path = find_quad_path( dirname, om_addr );
 
         bool inside_reality_bubble = here.inbounds( om_addr );
@@ -299,7 +299,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
-    const cata_path dirname = find_dirname( om_addr, area_prefix );
+    const cata_path dirname = find_dirname( om_addr, world_prefix );
     cata_path quad_path = find_quad_path( dirname, om_addr );
 
     if( !file_exist( quad_path ) ) {
