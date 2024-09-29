@@ -576,7 +576,7 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
         // obtain folders within mod_interactions to see if they match loaded mod ids
         const std::vector<cata_path> interaction_folders = get_directories( path, false );
 
-        for( const cata_path f : interaction_folders ) {
+        for( const cata_path &f : interaction_folders ) {
             bool is_mod_loaded = false;
             for( mod_id id : loaded_mods ) {
                 if( id.str() == f.get_unrelative_path().filename().string() ) {
