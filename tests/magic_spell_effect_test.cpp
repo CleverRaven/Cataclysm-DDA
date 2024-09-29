@@ -63,7 +63,7 @@ TEST_CASE( "line_attack", "[magic]" )
     c.setpos( tripoint_bub_ms_zero );
 
     // target point 5 tiles east of zero
-    tripoint target = tripoint_east * 5;
+    tripoint_bub_ms target = c.pos_bub() + tripoint_rel_ms_east * 5;
 
     // Ensure that AOE=0 spell covers the 5 tiles along vector towards target
     SECTION( "aoe=0" ) {
@@ -122,7 +122,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p1, p2, p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, m.getlocal( player_initial_pos ) );
+        spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
@@ -131,7 +131,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p2, p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, m.getlocal( player_initial_pos ) );
+        spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;
@@ -140,7 +140,7 @@ TEST_CASE( "remove_field_fd_fatigue", "[magic]" )
         CHECK( m.getglobal( dummy.pos() ) == player_initial_pos );
         CHECK( count_fields_near( p1, fd_fatigue ) == std::set<tripoint_abs_ms> { p3, p4 } );
 
-        spell_effect::remove_field( sp, dummy, m.getlocal( player_initial_pos ) );
+        spell_effect::remove_field( sp, dummy, m.bub_from_abs( player_initial_pos ) );
         calendar::turn += 1_turns;
         m.process_fields();
         calendar::turn += 1_turns;

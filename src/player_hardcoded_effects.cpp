@@ -241,8 +241,8 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.set_moves( -to_moves<int>( 5_seconds ) );
                 map &here = get_map();
                 fungal_effects fe;
-                for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( sporep == u.pos() ) {
+                for( const tripoint_bub_ms &sporep : here.points_in_radius( u.pos_bub(), 1 ) ) {
+                    if( sporep == u.pos_bub() ) {
                         continue;
                     }
                     fe.fungalize( sporep, &u, 0.25 );

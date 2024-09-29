@@ -2504,7 +2504,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
-    fungal_effects().create_spores( examp, &you );
+    fungal_effects().create_spores( tripoint_bub_ms( examp ), &you );
     here.furn_set( examp, furn_str_id::NULL_ID() );
     you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 }
