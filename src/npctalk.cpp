@@ -1369,10 +1369,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
-                      bool is_computer, bool is_not_conversation )
+                      bool is_computer, bool is_not_conversation, const std::string &debug_topic )
 {
     const bool has_mind_control = has_trait( trait_DEBUG_MIND_CONTROL );
-    if( !talk_with->will_talk_to_u( *this, has_mind_control ) ) {
+    const bool force_topic = !debug_topic.empty();
+    if( !talk_with->will_talk_to_u( *this, has_mind_control || force_topic ) ) {
         return;
     }
     dialogue d( get_talker_for( *this ), std::move( talk_with ), {} );
@@ -1384,11 +1385,15 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
             d.missions_assigned.push_back( mission );
         }
     }
-    for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
-        d.add_topic( topic_id );
-    }
-    for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
-        d.add_topic( topic_id );
+    if( !force_topic ) {
+        for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
+            d.add_topic( topic_id );
+        }
+        for( const std::string &topic_id : d.actor( true )->get_topics( radio_contact ) ) {
+            d.add_topic( topic_id );
+        }
+    } else {
+        d.add_topic( debug_topic );
     }
     dialogue_window d_win;
     d_win.is_computer = is_computer;
@@ -7666,5 +7671,15 @@ const json_talk_topic *get_talk_topic( const std::string &id )
         return nullptr;
     }
     return &it->second;
+}
+
+std::vector<std::string> get_all_talk_topic_ids()
+{
+    std::vector<std::string> dialogue_ids;
+    dialogue_ids.reserve( json_talk_topics.size() );
+    for( auto &elem : json_talk_topics ) {
+        dialogue_ids.push_back( elem.first );
+    }
+    return dialogue_ids;
 }
 
