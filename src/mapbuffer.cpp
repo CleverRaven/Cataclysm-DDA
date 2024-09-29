@@ -45,7 +45,7 @@ static cata_path find_dirname( const tripoint_abs_omt &om_addr, std::string worl
     if( world_prefix.empty() ) {
         return PATH_INFO::world_base_save_path_path() / "maps" / segment;
     }
-    return PATH_INFO::world_base_save_path_path() / "maps" / "worlds" / world_prefix / segment;
+    return PATH_INFO::world_base_save_path_path() / "worlds" /  world_prefix  / "maps" / segment;
 }
 
 mapbuffer MAPBUFFER;

@@ -6742,7 +6742,6 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                     here.clear_vehicle_list( z );
                 }
                 here.save();
-                overmap_buffer.save();
                 if (prefix != "default") {
                     here.set_world_prefix( prefix );
                 }else{
