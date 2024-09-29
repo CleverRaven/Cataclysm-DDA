@@ -37,15 +37,15 @@ static cata_path find_quad_path( const cata_path &dirname, const tripoint_abs_om
     return dirname / string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
 }
 
-static cata_path find_dirname( const tripoint_abs_omt &om_addr, std::string prefix ){
+static cata_path find_dirname( const tripoint_abs_omt &om_addr, std::string world_prefix ){
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
    std::string segment = string_format( "%d.%d.%d",
                                          segment_addr.x(),
-                                         segment_addr.y(), segment_addr.z() );
-    if( prefix.empty() ) {
+                                         segment_addr.y(), segment_addr.z() );     
+    if( world_prefix.empty() ) {
         return PATH_INFO::world_base_save_path_path() / "maps" / segment;
     }
-    return PATH_INFO::world_base_save_path_path() / "maps" / "worlds" / prefix / segment;
+    return PATH_INFO::world_base_save_path_path() / "maps" / "worlds" / world_prefix / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -137,16 +137,9 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
     return true;
 }
 
-void mapbuffer::set_prefix( std::string prefix )
-{
-    world_prefix = prefix;
-}
-std::string mapbuffer::get_prefix()
-{
-    return world_prefix;
-}
 void mapbuffer::save( bool delete_after_save )
 {
+    std::string world_prefix = get_map().get_world_prefix();
     if( world_prefix.empty() ) {
         assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
     } else {
@@ -299,7 +292,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
-    const cata_path dirname = find_dirname( om_addr, world_prefix );
+    const cata_path dirname = find_dirname( om_addr, get_map().get_world_prefix() );
     cata_path quad_path = find_quad_path( dirname, om_addr );
 
     if( !file_exist( quad_path ) ) {

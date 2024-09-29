@@ -65,8 +65,7 @@ class mapbuffer
         // Cheaper version of the above for when you only care about whether the
         // submap exists or not.
         bool submap_exists( const tripoint_abs_sm &p );
-        void set_prefix( std::string prefix );
-        std::string get_prefix();
+
 
     private:
         using submap_map_t = std::map<tripoint_abs_sm, std::unique_ptr<submap>>;
@@ -91,7 +90,6 @@ class mapbuffer
             bool delete_after_save );
         submap_map_t submaps; // NOLINT(cata-serialize)
 
-        std::string world_prefix;
 };
 
 extern mapbuffer MAPBUFFER;

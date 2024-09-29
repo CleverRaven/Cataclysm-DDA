@@ -13788,7 +13788,6 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         }
     }
 }
-
 namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )

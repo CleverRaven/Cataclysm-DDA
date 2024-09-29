@@ -6744,20 +6744,20 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 here.save();
                 overmap_buffer.save();
                 if (prefix != "default") {
-                    MAPBUFFER.set_prefix( prefix );
+                    here.set_world_prefix( prefix );
                 }else{
-                    MAPBUFFER.set_prefix("");
+                    here.set_world_prefix("");
                 }
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
-                get_map() = map();
+                //get_map() = map();
                 overmap_special_batch empty_specials( point_abs_om{} );
                 overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
                 // TODO: fix point types
                 here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
                 //load/spawn monsters
                 //do the monsters always get loaded from the same file? EDIT: Yes
-                //here.spawn_monsters( true,true );
+                here.spawn_monsters( true,true );
                 get_weather().update_weather();
                 here.rebuild_vehicle_level_caches();
                 here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
