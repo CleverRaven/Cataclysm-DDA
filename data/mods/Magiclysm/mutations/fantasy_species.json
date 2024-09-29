@@ -752,6 +752,24 @@
   },
   {
     "type": "mutation",
+    "id": "RAVENFOLK_WINGS",
+    "name": { "str": "Ravenfolk Wings" },
+    "points": 0,
+    "visibility": 6,
+    "ugliness": 2,
+    "purifiable": false,
+    "mixed_effect": true,
+    "description": "You have a pair of large raven wings projecting from your shoulderblades.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
+    "category": [ "SPECIES_RAVENFOLK" ],
+    "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ],
+    "types": [ "WINGS" ],
+    "strict_threshreq": true,
+    "restricts_gear": [ "torso" ],
+    "allow_soft_gear": true,
+    "flags": [ "WINGS_2", "WING_GLIDE" ]
+  },
+  {
+    "type": "mutation",
     "id": "BEAK_RAVEN",
     "name": { "str": "Raven Beak" },
     "points": 0,
@@ -819,12 +837,6 @@
     "id": "EAGLEEYED",
     "copy-from": "EAGLEEYED",
     "extend": { "category": [ "SPECIES_RAVENFOLK" ] }
-  },
-  {
-    "type": "mutation",
-    "id": "WINGS_BIRD",
-    "copy-from": "WINGS_BIRD",
-    "extend": { "category": [ "SPECIES_RAVENFOLK" ], "threshreq": [ "THRESH_SPECIES_RAVENFOLK" ] }
   },
   {
     "type": "mutation",
