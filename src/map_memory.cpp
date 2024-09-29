@@ -20,6 +20,8 @@
 #include "flexbuffer_json.h"
 #include "game_constants.h"
 #include "json_loader.h"
+#include "game.h"
+#include "map.h"
 #include "map_memory.h"
 #include "path_info.h"
 #include "string_formatter.h"
@@ -41,7 +43,11 @@ static tripoint_abs_sm mmr_to_sm_copy( const tripoint &p )
 
 static cata_path find_mm_dir()
 {
-    return PATH_INFO::player_base_save_path() + ".mm1";
+    std::string dimension_prefix = g->get_dimension_prefix();
+    if( dimension_prefix.empty() ) {
+        return PATH_INFO::player_base_save_path() / "mm1";
+    }
+    return PATH_INFO::player_base_save_path() / "dimensionss" /  dimension_prefix / ".mm1";
 }
 
 static std::string find_region_filename( const tripoint &p )

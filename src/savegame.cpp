@@ -69,7 +69,7 @@ extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 36;
+const int savegame_version = 37;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -98,6 +98,7 @@ void game::serialize_json( std::ostream &fout )
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    json.member( "dimension_prefix", g->get_dimension_prefix() );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -244,6 +245,11 @@ void game::unserialize_impl( const JsonObject &data )
     data.read( "calendar_start", tmpcalstart );
     calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                static_cast<int>( SPRING ) ) );
+
+    std::string loaded_dimension_prefix;
+    if( data.read( "dimension_prefix", loaded_dimension_prefix ) ) {
+        dimension_prefix = loaded_dimension_prefix;
+    }
 
     data.read( "auto_travel_mode", auto_travel_mode );
     data.read( "run_mode", tmprun );

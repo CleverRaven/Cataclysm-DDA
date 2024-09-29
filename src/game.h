@@ -326,6 +326,20 @@ class game
          */
         void vertical_move( int z, bool force, bool peeking = false );
         void start_hauling( const tripoint_bub_ms &pos );
+
+        /**
+         * Moves the player to an alternate dimension.
+         * The prefix identifies the dimension and its properties.
+         */
+        bool travel_to_dimension( const std::string &prefix );
+        /**
+         * Retrieve the identifier of the current dimension.
+         * TODO: this should be a dereferencable id that gives properties of the dimension.
+         */
+        std::string get_dimension_prefix() {
+            return dimension_prefix;
+        }
+
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
@@ -1350,6 +1364,13 @@ class game
         bool can_pulp_corpse( const Character &you, const mtype &corpse_mtype );
         bool can_pulp_corpse( const pulp_data &pd );
         bool can_pulp_acid_corpse( const Character &you, const mtype &corpse_mtype );
+
+        //currently used as a hacky workaround for dimension swapping
+        bool swapping_dimensions = false; // NOLINT (cata-serialize)
+    private:
+        // Stores the currently occupoed dimension.
+        // TODO: should be an id instead of a string.
+        std::string dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

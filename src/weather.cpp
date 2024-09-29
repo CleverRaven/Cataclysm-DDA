@@ -998,7 +998,7 @@ units::temperature weather_manager::get_temperature( const tripoint_bub_ms &loca
     units::temperature temp = location.z() < 0 ? units::from_celsius(
                                   get_cur_weather_gen().base_temperature ) : temperature;
 
-    if( !g->new_game ) {
+    if( !g->new_game && !g->swapping_dimensions ) {
         units::temperature_delta temp_mod;
         temp_mod = get_heat_radiation( location );
         temp_mod += get_convection_temperature( location );

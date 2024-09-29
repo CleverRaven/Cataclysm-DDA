@@ -7604,39 +7604,27 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     } else {
         success_message.str_val = translation();
     }
-    str_or_var map_prefix;
-    if( jo.has_member( "map_prefix" ) ) {
-        map_prefix = get_str_or_var( jo.get_member( "map_prefix" ), "map_prefix", false, "" );
+    str_or_var dimension_prefix;
+    if( jo.has_member( "dimension_prefix" ) ) {
+        dimension_prefix = get_str_or_var( jo.get_member( "dimension_prefix" ), "dimension_prefix", false,
+                                           "" );
     } else {
-        map_prefix.str_val = "";
+        dimension_prefix.str_val = "";
     }
     return [is_npc, target_var, fail_message, success_message, force,
-            force_safe, map_prefix]( dialogue const & d ) {
+            force_safe, dimension_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = read_var_value( target_var, d ).tripoint();
-        tripoint_abs_ms target_pos = get_tripoint_ms_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
-            std::string prefix = map_prefix.evaluate( d );
-            if( !prefix.empty() ) {
-                g->save();
-                MAPBUFFER.set_prefix( prefix );
-                MAPBUFFER.clear();
-                overmap_buffer.clear();
-                get_map() = map();
-                overmap_special_batch empty_specials( point_abs_om{} );
-                overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
-
-                map &here = get_map();
-                // TODO: fix point types
-                here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-                here.invalidate_visibility_cache();
-                get_avatar().move_to( tripoint_abs_ms( tripoint::zero ) );
-
-                get_weather().update_weather();
-
+            std::string prefix = dimension_prefix.evaluate( d );
+            bool successful_dimension_swap = false;
+            // Make sure we don't cause a dimension swap on every
+            // short/long range teleport outside the default dimension
+            if( !prefix.empty() && prefix != g->get_dimension_prefix() ) {
+                successful_dimension_swap = g->travel_to_dimension( prefix );
             }
             if( teleport::teleport_to_point( *teleporter, get_map().get_bub( target_pos ), true, false,
-                                             false, force, force_safe ) ) {
+                                             false, force, force_safe ) || successful_dimension_swap ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );
