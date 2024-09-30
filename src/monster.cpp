@@ -111,7 +111,6 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_maimed_arm( "maimed_arm" );
 static const efftype_id effect_monster_armor( "monster_armor" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
-static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_nemesis_buff( "nemesis_buff" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
@@ -1690,26 +1689,26 @@ monster_attitude monster::attitude( const Character *u ) const
 
         // Check for Discord first so we can apply temporary effects that make animals hate you
         if( has_flag( mon_flag_ANIMAL ) ) {
-            if( u->has_flag( json_character_flag( "ANIMALDISCORD" ) ) ) {
+            if( u->has_flag( json_flag_ANIMALDISCORD ) ) {
                 if( effective_anger >= 10 ) {
                     effective_anger += 10;
                 }
                 if( effective_anger < 10 ) {
                     effective_morale -= 5;
                 }
-            } else if( u->has_flag( json_character_flag( "ANIMALDISCORD2" ) ) ) {
+            } else if( u->has_flag( json_flag_ANIMALDISCORD2 ) ) {
                 if( effective_anger >= 20 ) {
                     effective_anger += 20;
                 }
                 if( effective_anger < 20 ) {
                     effective_morale -= 5;
                 }
-            } else if( u->has_flag( json_character_flag( "ANIMALEMPATH" ) ) ) {
+            } else if( u->has_flag( json_flag_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
                     effective_morale += 55;
                 }
-            } else if( u->has_flag( json_character_flag( "ANIMALEMPATH2" ) ) ) {
+            } else if( u->has_flag( json_flag_ANIMALEMPATH2 ) ) {
                 effective_anger -= 20;
                 if( effective_anger < 20 ) {
                     effective_morale += 80;
