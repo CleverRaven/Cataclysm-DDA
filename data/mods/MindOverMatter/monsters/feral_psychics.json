@@ -1492,12 +1492,23 @@
       {
         "id": "psi_telekin3_inertial_barrier",
         "type": "spell",
-        "spell_data": { "id": "telekinetic_barrier_monster" },
+        "spell_data": { "id": "telekinetic_barrier_monster_improved" },
         "cooldown": 1,
         "condition": {
-          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_inertial_barrier" } } ]
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "u_has_effect": "effect_monster_inertial_barrier_improved" } }
+          ]
         },
         "monster_message": "The air around %1$s distorts."
+      },
+      {
+        "id": "psi_telekin3_wreckingball",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_explosion_monster", "min_level": 8 },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s gestures and the ground burst apart!"
       },
       {
         "id": "psi_telekin3_earthshake",
