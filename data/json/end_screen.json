@@ -144,7 +144,7 @@
     "condition": {
     "and": [
 	{ "not": "u_is_alive" },
-	{ "or": [ { "u_has_trait": "THRESH_LIZARD" } } ]
+	{ "or": [ { "u_has_trait": "THRESH_LIZARD" } ] } ]
 	},
     "added_info": [
       [ [ 1, 1 ], "In memory of: <color_green><u_name></color>" ],
