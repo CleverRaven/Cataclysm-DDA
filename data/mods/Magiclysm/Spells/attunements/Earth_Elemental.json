@@ -19,6 +19,7 @@
     "damage_increment": 4.0,
     "max_damage": 160,
     "min_bash_scaling": 1.5,
+    "bash_scaling_increment": -0.007,
     "max_bash_scaling": 1.25,
     "min_aoe": 0,
     "max_aoe": 35,

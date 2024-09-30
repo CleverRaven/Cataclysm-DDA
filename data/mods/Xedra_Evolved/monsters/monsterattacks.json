@@ -204,6 +204,8 @@
     "flags": [ "SILENT", "IGNORE_WALLS", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
     "min_damage": 34,
     "max_damage": 34,
+    "min_bash_scaling": 5.3,
+    "max_bash_scaling": 17.6,
     "min_range": 9,
     "max_range": 9,
     "min_aoe": 50,
