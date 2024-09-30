@@ -463,7 +463,6 @@ class spell
         // alternative cast message
         translation alt_message;
 
-        double min_leveled_bash_scaling( const Creature &caster ) const;
         // minimum damage including levels
         int min_leveled_damage( const Creature &caster ) const;
         int min_leveled_dot( const Creature &caster ) const;

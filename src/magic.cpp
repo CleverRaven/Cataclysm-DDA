@@ -720,31 +720,21 @@ int spell::field_intensity( const Creature &caster ) const
                                        type->field_intensity_increment.evaluate( d ) ) ) );
 }
 
-double spell::min_leveled_bash_scaling( const Creature &caster ) const
-{
-    dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_bash_scaling.evaluate( d ) + get_effective_level() *
-           type->bash_scaling_increment.evaluate( d );
-}
-
 double spell::bash_scaling( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    const double leveled_scaling = min_leveled_bash_scaling( caster );
-
+    const double leveled_scaling = type->min_bash_scaling.evaluate( d ) +  get_effective_level() *
+                              type->bash_scaling_increment.evaluate( d );
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_scaling,
                               static_cast<double>( type->max_bash_scaling.evaluate( d ) ) ),
                     std::max( leveled_scaling,
                               static_cast<double>( type->max_bash_scaling.evaluate( d ) ) ) );
     } else {
-        if( type->min_bash_scaling.evaluate( d ) >= 0 ||
-            type->max_bash_scaling.evaluate( d ) >= type->min_bash_scaling.evaluate( d ) ) {
-            return std::min( leveled_scaling,
-                             static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
-        } else { // if it's negative, min and max work differently
-            return std::max( leveled_scaling,
-                             static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
+        if( type->max_bash_scaling.evaluate( d ) >= type->min_bash_scaling.evaluate( d ) ) {
+            return std::min( leveled_scaling, static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
+        } else {
+            return std::max( leveled_scaling, static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
         }
     }
 }
