@@ -6728,8 +6728,8 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         if( teleporter ) {
             std::string prefix = world_prefix.evaluate( d );
             if( !prefix.empty() ) {
-                //CRASHES if the teleport part fails
-                //inputting an empty string to the text input EOC fails
+                /*inputting an empty string to the text input EOC fails 
+                so i'm using 'default' as empty/main world */
                 map &here = get_map();
                 //unload monsters
                 for( monster &critter : g->all_monsters() ) {
@@ -6750,18 +6750,17 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 }
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
-                overmap_special_batch empty_specials( point_abs_om{} );
-                overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
+                overmap_buffer.get( point_abs_om{});
                 // TODO: fix point types
-                here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-                //load/spawn monsters
-                here.spawn_monsters( true,true );
+                //FIXME toilet mapgen crash
                 get_weather().update_weather();
-                here.rebuild_vehicle_level_caches();
+                here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
                 here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
                 here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
                 g->update_overmap_seen();
                 here.invalidate_visibility_cache();
+                //load/spawn monsters
+                here.spawn_monsters( true,true );
                 add_msg(prefix);
             }
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
