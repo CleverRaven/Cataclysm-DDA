@@ -724,7 +724,7 @@ double spell::bash_scaling( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     const double leveled_scaling = type->min_bash_scaling.evaluate( d ) +  get_effective_level() *
-                              type->bash_scaling_increment.evaluate( d );
+                                   type->bash_scaling_increment.evaluate( d );
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         return rng( std::min( leveled_scaling,
                               static_cast<double>( type->max_bash_scaling.evaluate( d ) ) ),

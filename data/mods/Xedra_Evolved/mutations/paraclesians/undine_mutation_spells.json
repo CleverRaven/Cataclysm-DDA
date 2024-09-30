@@ -813,9 +813,7 @@
     "max_level": { "math": [ "str_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "downed",
-    "extra_effects": [
-      { "id": "undine_tidal_wave_spell_push", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "undine_tidal_wave_spell_push", "hit_self": false } ],
     "shape": "line",
     "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 40) * (scaling_factor(u_val('strength') ) )" ] },
     "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 9) + 100) * (scaling_factor(u_val('strength') ) )" ] },
