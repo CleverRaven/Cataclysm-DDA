@@ -3540,6 +3540,11 @@ void monster::add_item( const item &it )
     inv.push_back( it );
 }
 
+const furn_str_id monster::deactivate_mon()
+{
+    return type->deactivation;
+}
+
 bool monster::is_hallucination() const
 {
     return hallucination;

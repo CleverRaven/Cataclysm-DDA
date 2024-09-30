@@ -1095,6 +1095,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
 
+    optional( jo, was_loaded, "deactivation", deactivation );
+
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
         if( jar.has_string( 0 ) ) { // TEMPORARY until 0.F
