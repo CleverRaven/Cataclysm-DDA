@@ -776,7 +776,7 @@ void vehicle::stop_engines()
     refresh();
 }
 
-void vehicle::start_engines( const bool take_control, const bool autodrive )
+void vehicle::start_engines( Character *driver, const bool take_control, const bool autodrive )
 {
     bool has_engine = std::any_of( engines.begin(), engines.end(), [&]( int idx ) {
         return parts[ idx ].enabled && !parts[ idx ].is_broken();
@@ -814,16 +814,14 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         return;
     }
 
-    Character &player_character = get_player_character();
-    if( take_control && !player_character.controlling_vehicle ) {
-        player_character.controlling_vehicle = true;
-        add_msg( _( "You take control of the %s." ), name );
+    if( take_control && driver && !driver->controlling_vehicle ) {
+        driver->controlling_vehicle = true;
+        driver->add_msg_if_player( _( "You take control of the %s." ), name );
     }
-    if( !autodrive ) {
-        player_character.assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
-        player_character.activity.relative_placement =
-            starting_engine_position - player_character.pos_bub();
-        player_character.activity.values.push_back( take_control );
+    if( !autodrive && driver ) {
+        driver->assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
+        driver->activity.relative_placement = starting_engine_position - driver->pos_bub();
+        driver->activity.values.push_back( take_control );
     }
     refresh();
 }
@@ -994,7 +992,7 @@ void vehicle::transform_terrain()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
-        const tripoint start_pos = vp.pos();
+        const tripoint_bub_ms start_pos = vp.pos_bub();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
@@ -1075,7 +1073,7 @@ void vehicle::operate_planter()
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
-        const tripoint loc = vp.pos();
+        const tripoint_bub_ms loc = vp.pos_bub();
         vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
@@ -1893,7 +1891,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
                 const int moves = to_moves<int>( 6000_seconds / skill );
-                const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
+                const tripoint_abs_ms target = global_square_location() + coord_translate( parts[0].mount );
                 const hotwire_car_activity_actor hotwire_act( moves, target );
                 get_player_character().assign_activity( hotwire_act );
             } );
@@ -1958,7 +1956,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                         stop_engines();
                     } else
                     {
-                        start_engines();
+                        start_engines( &get_player_character() );
                     }
                 } );
             }
@@ -2220,7 +2218,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .on_submit( [vppos] {
             add_msg( _( "You carefully peek through the curtains." ) );
-            g->peek( vppos );
+            g->peek( tripoint_bub_ms( vppos ) );
         } );
     }
 

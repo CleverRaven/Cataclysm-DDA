@@ -367,7 +367,8 @@
         "d": [
           { "item": "office", "chance": 25, "repeat": [ 1, 3 ] },
           { "item": "electronics", "chance": 15 },
-          { "item": "dist_lab_file_phavian_internal", "chance": 3 }
+          { "item": "dist_lab_file_phavian_internal", "chance": 3 },
+          { "item": "collection_mindsight_and_note", "chance": 10 }
         ],
         "H": { "item": "bed", "chance": 15 },
         "i": { "item": "office", "chance": 95 },
@@ -1962,6 +1963,7 @@
         "bs         ",
         "bbb& CSC&  "
       ],
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 0, "y": 10, "chance": 75 } ],
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
@@ -2000,6 +2002,7 @@
         "         sb",
         "  &CSC &bbb"
       ],
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 10, "y": 10, "chance": 75 } ],
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },

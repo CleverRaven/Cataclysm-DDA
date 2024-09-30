@@ -259,7 +259,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_Skywalker",
         "condition": {
           "and": [
-            { "u_has_var": "too_short_to_be_a_stormtrooper", "value": "unclear" },
+            { "compare_string": [ "unclear", { "u_val": "too_short_to_be_a_stormtrooper" } ] },
             {
               "and": [
                 { "not": { "npc_near_om_location": "barry_mi-go_scout_tower_1", "range": 3 } },
@@ -310,7 +310,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_farm",
         "condition": {
           "and": [
-            { "u_has_var": "u_dont_know_about_farm", "type": "general", "context": "knowledge", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_knowledge_u_dont_know_about_farm" } ] },
             { "not": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" } },
             {
               "and": [
@@ -328,7 +328,7 @@
         "topic": "TALK_ISHERWOOD_BARRY_TOWER_farm_directions",
         "condition": {
           "and": [
-            { "u_has_var": "u_thinking_about_farm", "type": "general", "context": "knowledge", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "general_knowledge_u_thinking_about_farm" } ] },
             { "not": { "u_has_mission": "MISSION_ISHERWOOD_BARRY_RETURN_TO_FARM" } },
             {
               "and": [
@@ -407,8 +407,7 @@
               "concatenate": [
                 "*lights up as you approach, but also looks wary.  \"",
                 {
-                  "u_has_var": "too_short_to_be_a_stormtrooper",
-                  "value": "unclear",
+                  "compare_string": [ "unclear", { "u_val": "too_short_to_be_a_stormtrooper" } ],
                   "yes": "Hey, Jedi.\"",
                   "no": "Hey, <name_g>.\""
                 },
@@ -581,7 +580,13 @@
         "search_range": 240
       }
     },
-    "end": { "effect": [ "stop_following", { "math": [ "isherwood_barry_rescued", "=", "1" ] } ] },
+    "end": {
+      "effect": [
+        "stop_following",
+        { "math": [ "isherwood_barry_rescued", "=", "1" ] },
+        { "u_add_var": "u_saved_barry_isherwood", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "//": "Dialogue is handled externally.",
     "dialogue": {

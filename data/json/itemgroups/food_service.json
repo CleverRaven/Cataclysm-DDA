@@ -1354,7 +1354,7 @@
       { "item": "knife_huge", "variant": "knife_butcher", "prob": 30 },
       { "item": "butchering_kit", "prob": 5 },
       { "item": "tongs", "prob": 10 },
-      { "item": "carver_off", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "carver_off", "prob": 5 },
       { "item": "meat", "prob": 1 },
       { "item": "hacksaw", "prob": 10 },
       { "item": "gloves_cut_resistant", "prob": 10 }

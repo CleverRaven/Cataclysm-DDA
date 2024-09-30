@@ -19,6 +19,7 @@
 #include "hash_utils.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "sleep.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -285,6 +286,9 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
 
         struct OverrideLook {
             std::string id;
@@ -560,8 +564,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-int get_total_nonbad_in_category( const mutation_category_id &categ );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

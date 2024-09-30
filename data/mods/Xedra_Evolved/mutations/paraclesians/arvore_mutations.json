@@ -131,6 +131,18 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_SEED_BEARER",
+    "name": { "str": "Seed Bearer" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Arvore with this ability have a seed pocket on their body that over time fills with a set of from this region of the world.  Each time new seeds appear they will all be of the same type, but the types will vary at random.",
+    "category": [ "ARVORE" ],
+    "activated_eocs": [ "EOC_ARVORE_SEED_BEARER_activated" ],
+    "//": "This is currently character creation only, ideally there will be ways to get this later in game."
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_WALL",
     "name": { "str": "The Forest Offers Shelter" },
     "points": 4,
@@ -407,7 +419,11 @@
     "enchantments": [
       {
         "condition": { "and": [ "is_day", "u_is_outside" ] },
-        "values": [ { "value": "REGEN_HP", "multiply": 0.5 }, { "value": "MENDING_MODIFIER", "multiply": 1 } ],
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 }
+        ],
         "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
       }
     ],
@@ -429,6 +445,7 @@
         "condition": { "and": [ "is_day", "u_is_outside" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
           { "value": "REGEN_MANA", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 1 }
         ],
@@ -436,6 +453,35 @@
       }
     ],
     "//": "No messages so you aren't constantly spammed while you're walking in and out of buildings.  Being a fae spirit, the arvore doesn't need uncovered arms or head or anything--simply being in the sun is enough."
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_MOOD_CHANGES_WITH_SEASONS",
+    "name": { "str": "The Eternal Cycle" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Your energy changes with the seasons: in spring and summer, you're more awake and need less sleep, and the reverse is true in autumn and winter.",
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS", "ARVORE_SUN_NUTRIENTS_AND_MANA", "ARVORE_SUN_MANA_BONUS", "ARVORE_SUN_POWER_MANA_STATS" ],
+    "category": [ "ARVORE" ],
+    "enchantments": [
+      {
+        "condition": { "is_season": "spring" },
+        "values": [ { "value": "SLEEPINESS", "multiply": -0.1 }, { "value": "SLEEPINESS_REGEN", "multiply": 0.1 } ]
+      },
+      {
+        "condition": { "is_season": "summer" },
+        "values": [ { "value": "SLEEPINESS", "multiply": -0.25 }, { "value": "SLEEPINESS_REGEN", "multiply": 0.25 } ]
+      },
+      {
+        "condition": { "is_season": "autumn" },
+        "values": [ { "value": "SLEEPINESS", "multiply": 0.1 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.1 } ]
+      },
+      {
+        "condition": { "is_season": "winter" },
+        "values": [ { "value": "SLEEPINESS", "multiply": 0.25 }, { "value": "SLEEPINESS_REGEN", "multiply": -0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -974,6 +1020,7 @@
         "condition": { "and": [ "is_day", "u_is_outside" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
           { "value": "REGEN_MANA", "multiply": 0.5 },
           { "value": "MAX_MANA", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 1 }
@@ -999,6 +1046,7 @@
         "condition": { "and": [ "is_day", "u_is_outside" ] },
         "values": [
           { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 },
           { "value": "REGEN_MANA", "multiply": 0.5 },
           { "value": "MAX_MANA", "multiply": 0.5 },
           { "value": "MENDING_MODIFIER", "multiply": 1 },

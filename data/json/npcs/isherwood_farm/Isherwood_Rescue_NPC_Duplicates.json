@@ -5,10 +5,7 @@
     "dynamic_line": {
       "follower_present": "NC_ISHERWOOD_BARRY",
       "no": {
-        "u_has_var": "barry_following",
-        "type": "general",
-        "context": "meeting",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ],
         "no": [
           "What's up?  Change of plans?",
           "Everything OK?",
@@ -33,7 +30,7 @@
         "condition": {
           "and": [
             { "math": [ "isherwood_family_coming", "==", "1" ] },
-            { "u_has_var": "barry_following", "type": "general", "context": "meeting", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_barry_following" } ] }
           ]
         },
         "effect": [

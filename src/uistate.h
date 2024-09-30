@@ -140,6 +140,8 @@ class uistatedata
         bool overmap_debug_weather = false;
         // draw monster groups on the overmap.
         bool overmap_debug_mongroup = false;
+        bool overmap_fast_travel = false;
+        bool overmap_fast_scroll = false;
 
         // Distraction manager stuff
         bool distraction_noise = true;
@@ -212,6 +214,13 @@ class uistatedata
         std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
         }
+        /**
+         * A function pointer to be run before the player's next action (but after activities conclude).
+         *
+         * Useful for opening a menu with passed arguments.
+         * As it is not serialized it should not be used for any game state logic! Like moving a character.
+         */
+        std::optional<std::function<void()>> open_menu; // NOLINT(cata-serialize)
 
         // nice little convenience function for serializing an array, regardless of amount. :^)
         template<typename T>

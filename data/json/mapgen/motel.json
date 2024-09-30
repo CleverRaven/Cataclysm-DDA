@@ -759,7 +759,7 @@
     "furniture": {
       "d": "f_dumpster",
       "r": "f_chair",
-      "V": "f_vending_o",
+      "V": [ "f_vending_o", "f_vending_c_off" ],
       "s": "f_sofa",
       "t": "f_table",
       "D": "f_dresser",

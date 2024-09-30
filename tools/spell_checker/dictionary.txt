@@ -336,6 +336,8 @@ asshat
 assistive
 asswagon
 asswipe
+astrodon
+astrodons
 astrolaspis
 astrolaspises
 Aśvaghosa
@@ -455,7 +457,8 @@ Bahá
 Baha'i
 Bahá'í
 Baha'is
-Bahamanain
+Bahamanian
+Bahamian
 Baha'u'llah
 Bahá'u'lláh
 Bahman
@@ -538,6 +541,7 @@ BBs
 BCE
 BDSM
 BDU
+Bealtaine
 bearcub
 bearmantle
 bearmantles
@@ -1178,6 +1182,7 @@ coipo
 coipos
 Col
 colada
+Colombian
 Colrain
 Columbia
 Columbian
@@ -1264,6 +1269,7 @@ Creighton
 creped
 crêpes
 crewmember
+crimsonite
 criniere
 CRISPR
 criss
@@ -1482,6 +1488,9 @@ dex
 Dhamma
 Dhammapada
 dharmachakra
+diaspora
+dichloroisocyanurate
+didn
 Dharmasastra
 dhyâna
 di
@@ -1494,6 +1503,8 @@ Didascalia
 Diego
 Diemaco
 dieselpunk
+direhound
+direhounds
 diggable
 Dighton
 DigiMart
@@ -2674,6 +2685,8 @@ Horayot
 horchata
 horks
 Hornblower
+hornero
+horneros
 Horrorpelta
 Horrorpeltas
 hosomaki
@@ -2802,6 +2815,7 @@ imager
 imagers
 Imaginifer
 Imaginifers
+Imbolc
 imbuement
 IMEs
 ImGui
@@ -3156,6 +3170,8 @@ kippahs
 Kippur
 kirpan
 kirpans
+kiskadee
+kiskadees
 Kitáb
 KITT
 kittel
@@ -3483,6 +3499,7 @@ Ludlow
 Ludos
 Ludwig
 Luger
+Lughnasadh
 Luigi
 Luke
 Luliya
@@ -3861,7 +3878,7 @@ Milinda
 milkfat
 Milkor
 Millbury
-millenia
+millennia
 Millie
 Millis
 Millville
@@ -4760,6 +4777,8 @@ polymorphed
 polypous
 polysexual
 Pontius
+pooka
+pookas
 Popol
 populifolia
 Populus
@@ -5030,6 +5049,7 @@ Remington
 remodulator
 Remy
 rended
+René
 renfaire
 renfaires
 renfield
@@ -5246,6 +5266,7 @@ Sambal
 Sambucus
 samghati
 samghatis
+Samhain
 Sâmhita
 Sammarinese
 Sammy
@@ -5395,6 +5416,8 @@ segmentata
 Segway
 Seinerweisen
 seldomly
+selkie
+selkies
 selfie
 Semin
 semirural
@@ -5452,6 +5475,8 @@ shantak
 Shaolin
 shapechangers
 shapeshift
+shapeshifting
+shapeshifts
 shapeshifter
 Shardspray
 Shardstorm
@@ -6236,6 +6261,7 @@ tlatoani
 TNT
 Toby
 tock
+toco
 TODO
 Toffer
 toggleable
@@ -6346,6 +6372,7 @@ Trollope
 Troodon
 TropiCataclysm
 Trotsky
+trow
 TRS
 truckstop
 TrueFoodperson

@@ -461,6 +461,12 @@
         "name": { "str": "trucker cap" },
         "description": "A cotton cap with a broad front and a plastic mesh at the back, allowing better air circulation.  The trucker hat came about in it's true form in the early 1970's as a promotional give-away from US feed or farming supply companies to farmers, truck drivers (hence the name) and other rural workers.  It is perfect for keeping your head cool and the sun out of your eyes.",
         "weight": 2
+      },
+      {
+        "id": "hat_fbi",
+        "name": { "str": "FBI cap" },
+        "description": "A deep blue snapback baseball cap with \"FBI\" embroidered across the front in blocky, yet imposing yellow lettering.  Although very much illegal to impersonate a government official, most zombies tend to let it slide.  It shades your eyes from the sun, provides a little warmth, and makes you feel like an operator.",
+        "weight": 0
       }
     ]
   },
@@ -1440,7 +1446,6 @@
     "volume": "250 ml",
     "price": "85 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -1,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "hat_cotton",

@@ -201,6 +201,7 @@ extern const flag_id flag_MELTS;
 extern const flag_id flag_MESSY;
 extern const flag_id flag_MISSION_ITEM;
 extern const flag_id flag_MODULE_HOLDER;
+extern const flag_id flag_MORPHIC;
 extern const flag_id flag_MOUNTED_GUN;
 extern const flag_id flag_MOUSE;
 extern const flag_id flag_MUNDANE;

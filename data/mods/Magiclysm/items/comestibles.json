@@ -90,15 +90,18 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "name": { "str_sp": "purified meat" },
     "description": "Indistinguishable from pre-Cataclysm lab grown beef.  It should be excellent but somehow it's just edible.",
+    "calories": 402,
     "price": "4 USD"
   },
   {
     "id": "impure_meat",
     "type": "COMESTIBLE",
     "copy-from": "mutant_meat",
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "name": { "str_sp": "impure meat" },
     "description": "Not as tainted as previously and tastes like the real thing.  You do not want to cook this for your friends, though if you do they won't know the difference for a while.",
-    "price": "1 USD"
+    "delete": { "proportional": { "price": 0.2, "calories": 0.5 } },
+    "calories": 201,
+    "price": "1 USD",
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   }
 ]

@@ -1,0 +1,82 @@
+[
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_CHANNELING_SPELLS",
+    "name": "School Deficiency: Channeling",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master channeling spells.  You are unable to cast any spell of the channeling school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_EVOCATION_SPELLS",
+    "name": "School Deficiency: Evocation",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master evocation spells.  You are unable to cast any spell of the evocation school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_CONJURATION_SPELLS",
+    "name": "School Deficiency: Conjuration",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master conjuration spells.  You are unable to cast any spell of the conjuration school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_ENHANCEMENT_SPELLS",
+    "name": "School Deficiency: Enhancement",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master enhancement spells.  You are unable to cast any spell of the enhancement school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_ENERVATION_SPELLS",
+    "name": "School Deficiency: Enervation",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master enervation spells.  You are unable to cast any spell of the enervation school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_CONVEYANCE_SPELLS",
+    "name": "School Deficiency: Conveyance",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master conveyance spells.  You are unable to cast any spell of the conveyance school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_RESTORATION_SPELLS",
+    "name": "School Deficiency: Restoration",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master restoration spells.  You are unable to cast any spell of the restoration school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  },
+  {
+    "type": "mutation",
+    "id": "NO_CASTING_TRANSFORMATION_SPELLS",
+    "name": "School Deficiency: Transformation",
+    "points": -2,
+    "description": "No matter how hard you try, you never managed to master transformation spells.  You are unable to cast any spell of the transformation school.",
+    "starting_trait": true,
+    "purifiable": false,
+    "valid": false
+  }
+]

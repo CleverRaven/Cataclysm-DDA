@@ -766,24 +766,24 @@ TEST_CASE( "UPS_shows_as_a_crafting_component", "[crafting][ups]" )
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
     item_location ups = dummy.i_add( item( "UPS_ON" ) );
     item ups_mag( ups->magazine_default() );
-    ups_mag.ammo_set( ups_mag.ammo_default(), 500 );
+    ups_mag.ammo_set( ups_mag.ammo_default(), 259 );
     ret_val<void> result = ups->put_in( ups_mag, pocket_type::MAGAZINE_WELL );
     INFO( result.c_str() );
     REQUIRE( result.success() );
     REQUIRE( dummy.has_item( *ups ) );
-    REQUIRE( ups->ammo_remaining() == 500 );
-    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 500 );
+    REQUIRE( ups->ammo_remaining() == 259 );
+    REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 259 );
 }
 
 TEST_CASE( "UPS_modded_tools", "[crafting][ups]" )
 {
-    constexpr int ammo_count = 500;
+    constexpr int ammo_count = 259;
     bool const ups_on_ground = GENERATE( true, false );
     CAPTURE( ups_on_ground );
     avatar dummy;
     clear_map();
     clear_character( dummy );
-    tripoint const test_loc = dummy.pos();
+    tripoint_bub_ms const test_loc = dummy.pos_bub();
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item ups = GENERATE( item( "UPS_ON" ), item( "test_ups" ) );
@@ -856,8 +856,8 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             item popcan_stove = tool_with_ammo( "popcan_stove", 60 );
             REQUIRE( popcan_stove.ammo_remaining() == 60 );
             tools.push_back( popcan_stove );
-            item soldering = tool_with_ammo( "soldering_iron_portable", 20 );
-            REQUIRE( soldering.ammo_remaining() == 20 );
+            item soldering = tool_with_ammo( "soldering_iron_portable", 16 );
+            REQUIRE( soldering.ammo_remaining() == 16 );
             tools.push_back( soldering );
 
             THEN( "crafting succeeds, and uses charges from each tool" ) {
@@ -865,7 +865,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
                 CHECK( get_remaining_charges( "popcan_stove" ) == 0 );
-                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 10 );
+                CHECK( get_remaining_charges( "soldering_iron_portable" ) == 6 );
             }
         }
 
@@ -893,7 +893,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
             tools.push_back( plastic_molding );
 
             item UPS( "UPS_off" );
-            item UPS_mag( UPS.magazine_default() );
+            item UPS_mag( "heavy_atomic_battery_cell" );
             UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
             UPS.put_in( UPS_mag, pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
@@ -905,7 +905,7 @@ TEST_CASE( "tools_use_charge_to_craft", "[crafting][charge]" )
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron_portable" ) == 0 );
                 // vacuum molding takes 4 charges
-                CHECK( get_remaining_charges( "UPS_off" ) == 207 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 282 );
             }
         }
 
@@ -2298,10 +2298,10 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
     clear_vehicles();
     clear_avatar();
     avatar &player = get_avatar();
-    player.setpos( tripoint( 60, 58, 0 ) );
-    const tripoint veh_pos( 60, 60, 0 );
-    const tripoint furn1_pos( 60, 57, 0 );
-    const tripoint furn2_pos( 60, 56, 0 );
+    player.setpos( tripoint_bub_ms( 60, 58, 0 ) );
+    const tripoint_bub_ms veh_pos( 60, 60, 0 );
+    const tripoint_bub_ms furn1_pos( 60, 57, 0 );
+    const tripoint_bub_ms furn2_pos( 60, 56, 0 );
 
     const itype_id pseudo_tool = furn_f_smoking_rack.obj().crafting_pseudo_item;
 

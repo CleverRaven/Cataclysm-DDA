@@ -1,6 +1,6 @@
 
 ## United Interstellar Coordination Agency [UICA]
-Formed relatively recently, after the discovery of the new FTL method, the United Interstellar Coordination Agency is a loose confederation of Solar Corporations, Governments, and NGOs dedicated to reclaiming and bringing most extra-solar colonies back under Earth's control. Since most colonies never possessed the technological and industrial base to support themselves on the long term, this goal is usually achieved through relatively peaceful means, even then, UICA fields the largest military in human history for when peaceful reintegration isnt possible.
+Formed relatively recently, after the discovery of the new FTL method, the United Interstellar Coordination Agency is a loose confederation of Solar Corporations, Governments, and NGOs dedicated to reclaiming and bringing most extra-solar colonies back under Earth's control. Since most colonies never possessed the technological and industrial base to support themselves on the long term, this goal is usually achieved through relatively peaceful means, even then, UICA fields the largest military in human history for when peaceful reintegration isn't possible.
 
 While this all nice and noble (as long as you ask an Earthling) this far out in the frontier UICA personnel is either irremediably corrupt and/or incompetent. They will willingly part with valuable military equipment or classified information in exchange for appropriate sums of money or personal favors.
 
@@ -27,7 +27,7 @@ Valid locations that could be added:
 - Small military outposts out in the frozen wastes.
 - Manned infrastructure buildings. (Power plants, radar stations, planetary defenses, smaller spaceports)
 
-Additionaly theres a single UICA space cruiser stationed on polar orbit.
+Additionally there's a single UICA space cruiser stationed in polar orbit.
 
 ### Lore Ideas
 - Is space NATO really a good thing?
@@ -60,7 +60,7 @@ The TSKBEM has no specific goals to achieve within Salus IV
 The industrial fleets that comprise the TSKBEM are too big to ever bother approaching a backwater world like Salus IV.  Contact should be through faction friendly spacers in the main space port or through secret communications (take note that interstellar communications rely on packet ships so these wouldn't ever be live). 
 
 ### Lore Ideas
-- Couldnt build communism on Earth so we'll try space.
+- Couldn't build communism on Earth so we'll try space.
 - These TsKBEM drones never quite worked perfectly but they'll half-work for centuries.
 - I hate AI posadists all my homies hate AI posadists. 
 

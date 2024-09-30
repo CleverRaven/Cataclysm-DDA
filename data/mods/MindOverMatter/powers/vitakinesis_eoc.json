@@ -1,6 +1,69 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_vita_concentrated_healing" },
+        {
+          "or": [
+            { "u_has_effect": "dermatik" },
+            { "u_has_effect": "dermatik_visible" },
+            { "u_has_effect": "dermatik", "bodypart": "head" },
+            { "u_has_effect": "dermatik", "bodypart": "torso" },
+            { "u_has_effect": "dermatik", "bodypart": "arm_r" },
+            { "u_has_effect": "dermatik", "bodypart": "arm_l" },
+            { "u_has_effect": "dermatik", "bodypart": "leg_r" },
+            { "u_has_effect": "dermatik", "bodypart": "leg_l" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK_2",
+            "condition": {
+              "and": [
+                { "x_in_y_chance": { "x": { "math": [ "10 + (u_spell_level('vita_concentrated_healing') * 3)" ] }, "y": 100 } },
+                { "math": [ "u_vitamin('dermatik_larva_size')", "<=", "720" ] },
+                {
+                  "compare_string": [ { "u_val": "latest_concentrated_body_part" }, { "global_val": "IMPREGNATED_BODYPART" } ]
+                }
+              ]
+            },
+            "effect": [
+              { "math": [ "u_vitamin('mutant_toxin')", "+=", "u_vitamin('dermatik_larva_size')" ] },
+              { "u_lose_effect": "dermatik" },
+              { "u_lose_effect": "dermatik_visible" },
+              { "math": [ "u_vitamin('dermatik_larva_size')", "=", "0" ] },
+              { "u_message": "You feel a severe itching sensation.", "type": "mixed" }
+            ],
+            "false_effect": [
+              {
+                "queue_eocs": "EOC_VITAKIN_CONCENTRATED_HEALING_DERMATIK_CHECK",
+                "time_in_future": [
+                  {
+                    "math": [
+                      "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
+                    ]
+                  },
+                  {
+                    "math": [
+                      "3600 - ((u_spell_level('vita_concentrated_healing') * 60) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling)"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
     "condition": {
       "or": [
@@ -972,7 +1035,6 @@
       { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 5)" ] },
       { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 5)" ] },
       { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 5)" ] },
-      { "u_cast_spell": { "id": "vita_pain_split", "hit_self": true } },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
       { "math": [ "u_vitamin('blood')", "=", "0" ] },

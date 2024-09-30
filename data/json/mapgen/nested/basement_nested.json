@@ -1478,13 +1478,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1554,13 +1548,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1630,13 +1618,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 5, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1705,13 +1687,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1807,9 +1783,9 @@
         { "item": "amplifier_head", "x": 1, "y": 5, "chance": 100 },
         { "item": "mixer_music", "x": 6, "y": 2, "chance": 100 },
         { "item": "guitar_stand", "x": 3, "y": 3, "chance": 100 },
-        { "item": "piano_wire", "x": 3, "y": 3, "chance": 20 },
+        { "item": "qt_wire", "x": 3, "y": 3, "chance": 20 },
         { "item": "guitar_stand", "x": 0, "y": 5, "chance": 100 },
-        { "item": "piano_wire", "x": 0, "y": 5, "chance": 20 },
+        { "item": "qt_wire", "x": 0, "y": 5, "chance": 20 },
         { "item": "mic_stand_tall", "x": 5, "y": 5, "chance": 100 },
         { "item": "microphone_xlr_generic", "x": 5, "y": 5, "chance": 100 },
         { "item": "headphones_circumaural", "x": 6, "y": 2, "chance": 100 },
@@ -3378,7 +3354,7 @@
         { "item": "amplifier_head", "x": 6, "y": 5, "chance": 100 },
         { "item": "mixer_music", "x": [ 4, 7 ], "y": 3, "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 7, "y": [ 5, 8 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "piano_wire", "x": 7, "y": 5, "chance": 20 },
+        { "item": "qt_wire", "x": 7, "y": 5, "chance": 20 },
         { "item": "guitar_stand", "x": 4, "y": 7, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 5, "chance": 100 },
         { "item": "mic_stand_tall", "x": 2, "y": 5, "chance": 100 },
@@ -3434,7 +3410,7 @@
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
         { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
         { "item": "mixer_music", "x": [ 4, 7 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
-        { "item": "piano_wire", "x": 4, "y": 6, "chance": 20 },
+        { "item": "qt_wire", "x": 4, "y": 6, "chance": 20 },
         { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
@@ -3493,7 +3469,7 @@
         { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
         { "item": "mixer_music", "x": [ 1, 4 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
-        { "item": "piano_wire", "x": 7, "y": 1, "chance": 20 },
+        { "item": "qt_wire", "x": 7, "y": 1, "chance": 20 },
         { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
         { "item": "mic_stand_tall", "x": 2, "y": 4, "chance": 100 },
@@ -3550,7 +3526,7 @@
         { "item": "amplifier_head", "x": 4, "y": 4, "chance": 100 },
         { "item": "amplifier_head", "x": 6, "y": 4, "chance": 100 },
         { "item": "mixer_music", "x": [ 4, 7 ], "y": 6, "chance": 80, "repeat": [ 1, 4 ] },
-        { "item": "piano_wire", "x": 5, "y": 6, "chance": 20 },
+        { "item": "qt_wire", "x": 5, "y": 6, "chance": 20 },
         { "item": "guitar_stand", "x": 7, "y": [ 1, 4 ], "chance": 70, "repeat": [ 1, 4 ] },
         { "item": "guitar_stand", "x": 4, "y": 2, "chance": 100 },
         { "item": "mic_stand_tall", "x": 7, "y": 4, "chance": 100 },
@@ -3797,13 +3773,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -3888,13 +3858,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -3979,13 +3943,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },
@@ -4070,13 +4028,7 @@
           { "item": "guns_smg_common", "chance": 10, "magazine": 100, "repeat": [ 1, 2 ] },
           { "item": "guns_smg_rare", "chance": 1, "magazine": 100, "repeat": [ 1, 2 ] }
         ],
-        ",": [
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_common", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "mags_smg_common", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "mags_rifle_common", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "mags_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] }
-        ],
+        ",": [ { "item": "mags_common", "chance": 60, "repeat": [ 1, 6 ] } ],
         "=": [
           { "item": "ammo_rifle_reloaded", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "ammo_shotgun_reloaded", "chance": 50, "repeat": [ 1, 2 ] },

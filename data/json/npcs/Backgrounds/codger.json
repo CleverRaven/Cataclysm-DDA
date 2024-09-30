@@ -75,7 +75,7 @@
     "id": "BGSS_CODGER_STORY6",
     "type": "talk_topic",
     "dynamic_line": {
-      "gendered_line": "Anyway, long story short, I were headin' back up to Mount Greenwood to check on th'old ranger station again when I heard them bombs fallin and choppers flyin.  Decided to camp out there to see it all through, but it didn't ever end, now, did it?  So here I am.",
+      "gendered_line": "Anyway, long story short, I were headin' back up to Mount Greenwood to check on th' old ranger station again when I heard them bombs fallin' and choppers flyin'.  Decided to camp out there to see it all through, but it didn't ever end, now, did it?  So here I am.",
       "relevant_genders": [ "npc" ]
     },
     "responses": [

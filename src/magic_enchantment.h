@@ -49,6 +49,7 @@ enum class mod : int {
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
     MUT_INSTABILITY_MOD,
+    RANGE_DODGE,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     REGEN_HP_AWAKE,
@@ -68,9 +69,11 @@ enum class mod : int {
     BONUS_BLOCK,
     MELEE_DAMAGE,
     RANGED_DAMAGE,
+    RANGED_ARMOR_PENETRATION,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
+    VISION_RANGE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
     SIGHT_RANGE_FAE,
@@ -161,6 +164,7 @@ enum class mod : int {
     MOVECOST_SWIM_MOD,
     MOVECOST_OBSTACLE_MOD,
     MOVECOST_FLATGROUND_MOD,
+    PHASE_DISTANCE,
     SHOUT_NOISE_STR_MULT,
     NIGHT_VIS,
     HEARING_MULT,
@@ -176,6 +180,7 @@ enum class mod : int {
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
+    WEAKPOINT_ACCURACY,
     NUM_MOD
 };
 } // namespace enchant_vals

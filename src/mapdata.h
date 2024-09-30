@@ -134,6 +134,7 @@ struct plant_data {
 /*
  * List of known flags, used in both terrain.json and furniture.json.
  * TRANSPARENT - Players and monsters can see through/past it. Also sets ter_t.transparent
+ * TRANSLUCENT - Must be paired with TRANSPARENT. Allows light to pass through, but blocks vision.
  * FLAT - Player can build and move furniture on
  * CONTAINER - Items on this square are hidden until looted by the player
  * PLACE_ITEM - Valid terrain for place_item() to put items on
@@ -201,6 +202,7 @@ struct plant_data {
  */
 enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
+    TFLAG_TRANSLUCENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
@@ -317,7 +319,6 @@ enum class ter_furn_flag : int {
     TFLAG_MURKY,
     TFLAG_AMMOTYPE_RELOAD,
     TFLAG_TRANSPARENT_FLOOR,
-    TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
@@ -513,6 +514,10 @@ struct map_data_common_t {
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = DEFAULT_TILE_VOLUME;
 
+        std::string liquid_source_item_id; // id of a liquid this tile provides
+        double liquid_source_min_temp = 4; // in centigrades, cold water as default value
+        std::pair<int, int> liquid_source_count = { 0, 0 }; // charges of liquid, if it's finite source
+
         translation description;
 
         // The color the sym will draw in on the GUI.
@@ -582,7 +587,7 @@ struct map_data_common_t {
          */
         const std::set<std::string> &get_harvest_names() const;
 
-        std::string extended_description() const;
+        virtual std::vector<std::string> extended_description() const;
 
         bool was_loaded = false;
 
@@ -630,6 +635,8 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+
+    std::vector<std::string> extended_description() const override;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -683,6 +690,8 @@ struct furn_t : map_data_common_t {
     static size_t count();
 
     bool is_movable() const;
+
+    std::vector<std::string> extended_description() const override;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;

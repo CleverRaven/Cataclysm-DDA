@@ -317,7 +317,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             if( i == 0 || tiles.empty() ) {
                 // always place at least one bottle on player tile
                 our++;
-                here.add_item( p.pos(), obj );
+                here.add_item( p.pos_bub(), obj );
             } else {
                 // randomly place bottles on adjacent tiles
                 adj++;

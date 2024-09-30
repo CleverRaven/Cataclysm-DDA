@@ -1,0 +1,84 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gracken_shade_arms",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_GRACKEN",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "30 m",
+    "flags": [ "SECRET" ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 2 ] ], [ [ "sinew", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gracken_strong_arms",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_GRACKEN",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "30 m",
+    "flags": [ "SECRET" ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "sinew", 40 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gracken_long_arms",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_GRACKEN",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "30 m",
+    "flags": [ "SECRET" ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "grappler_sinew", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gracken_shade_hands",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_GRACKEN",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "30 m",
+    "flags": [ "SECRET" ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [
+      [ [ "scrap_dreamdross", 1 ] ],
+      [ [ "scrap_shadowstuff", 2 ] ],
+      [ [ "mutant_meat", 2 ], [ "meat_tainted", 2 ], [ "meat", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gracken_sharp_nails",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_GRACKEN",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "30 m",
+    "flags": [ "SECRET" ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ] ], [ [ "bone", 2 ], [ "bone_tainted", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gracken_dextrous_hands",
+    "category": "CC_XEDRA",
+    "subcategory": "CSC_XEDRA_GRACKEN",
+    "skill_used": "deduction",
+    "difficulty": 1,
+    "time": "30 m",
+    "flags": [ "SECRET" ],
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "components": [ [ [ "scrap_dreamdross", 1 ] ], [ [ "scrap_shadowstuff", 1 ], [ "grappler_sinew", 1 ] ] ]
+  }
+]

@@ -27,8 +27,8 @@
         "id": "smash",
         "attack_upper": true,
         "throw_strength": 40,
-        "cooldown": { "math": [ "5 + rand(13)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+        "cooldown": { "math": [ "5 + rand(10)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
       },
       { "id": "bio_op_takedown", "cooldown": 20, "condition": { "not": { "u_has_effect": "effect_psi_null" } } }
     ]
@@ -58,7 +58,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "diff": 0,
     "dodge": 4,
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
@@ -96,8 +96,8 @@
         "id": "psi_civilian_electrokinetic_zap",
         "type": "spell",
         "spell_data": { "id": "electrokinetic_shock_touch_monster", "min_level": 0 },
-        "cooldown": { "math": [ "5 + rand(13)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s unleashes a burst of sparks!"
       }
     ],
@@ -131,8 +131,8 @@
         "id": "psi_civilian_photokinetic_lightbeam",
         "type": "spell",
         "spell_data": { "id": "photokinetic_light_beam_monster", "min_level": 0 },
-        "cooldown": { "math": [ "5 + rand(13)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s fires a photon beam!"
       }
     ]
@@ -164,8 +164,8 @@
         "id": "psi_civilian_pyrokinetic_flameblast",
         "type": "spell",
         "spell_data": { "id": "pyrokinetic_eruption_monster", "min_level": 0 },
-        "cooldown": { "math": [ "5 + rand(13)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s summons a blast of flame!"
       }
     ]
@@ -195,14 +195,14 @@
       {
         "id": "smash",
         "move_cost": 100,
-        "cooldown": { "math": [ "5 + rand(13)" ] },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
         "damage_max_instance": [ { "damage_type": "bash", "amount": 10, "armor_penetration": 10 } ],
         "hitsize_min": 12,
         "range": 4,
         "throw_strength": 40,
         "blockable": false,
         "effects_require_dmg": false,
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
         "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
         "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
@@ -246,8 +246,8 @@
         "id": "psi_civilian_teleport_blink",
         "type": "spell",
         "spell_data": { "id": "teleport_blink_monster", "min_level": 0 },
-        "cooldown": { "math": [ "2 + rand(7)" ] },
-        "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+        "cooldown": { "math": [ "2 + rand(4)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
         "monster_message": "%1$s suddenly vanishes!"
       }
     ]

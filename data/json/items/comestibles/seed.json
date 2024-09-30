@@ -3,7 +3,7 @@
     "abstract": "seed",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
-    "name": { "str_sp": "seeds" },
+    "name": { "str_sp": "seeds", "//~": "NO_I18N" },
     "category": "seeds",
     "volume": "2 ml",
     "weight": "1 g",
@@ -19,13 +19,13 @@
     "abstract": "seed_fruit",
     "type": "COMESTIBLE",
     "copy-from": "seed",
-    "name": { "str_sp": "fruit seeds" }
+    "name": { "str_sp": "fruit seeds", "//~": "NO_I18N" }
   },
   {
     "abstract": "seed_mushroom_base",
     "type": "COMESTIBLE",
     "copy-from": "seed",
-    "name": { "str_sp": "mushroom spores" },
+    "name": { "str_sp": "mushroom spores", "//~": "NO_I18N" },
     "description": "Some mushroom spores.",
     "color": "green"
   },

@@ -4,7 +4,6 @@
     "copy-from": "shot_bird",
     "type": "AMMO",
     "name": { "str_sp": "birdshot, reloaded" },
-    "description": "Weak shotgun ammunition.  Designed for hunting birds and other small game, its applications in combat are very limited.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -34,7 +33,6 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, reloaded", "str_pl": "flechette shells, reloaded" },
-    "description": "A shotgun shell filled with tiny steel darts.  The spread makes it very accurate at short range.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -44,7 +42,6 @@
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": { "str": "shotgun slug, reloaded", "str_pl": "shotgun slugs, reloaded" },
-    "description": "A heavy metal slug used to give a shotgun the range capabilities of a rifle.  Extremely damaging but rather inaccurate.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -54,7 +51,6 @@
     "copy-from": "shot_bird",
     "type": "AMMO",
     "name": { "str_sp": "birdshot, black powder" },
-    "description": "Weak shotgun ammunition.  Designed for hunting birds and other small game, its applications in combat are very limited.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -64,7 +60,7 @@
     "copy-from": "shot_dragon",
     "type": "AMMO",
     "name": { "str": "dragon's breath shell, black powder", "str_pl": "dragon's breath shells, black powder" },
-    "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel, igniting everything in their path.  This one was made in somebody's garage, and with black gunpowder to boot.  Are you sure you want to shoot this?",
+    "description": "A shotgun shell filled with magnesium pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high-temperature sparks and flames shoot out of the barrel, igniting everything in their path.  This one was made in somebody's garage.  Are you sure you want to shoot this?",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -74,7 +70,7 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": { "str_sp": "00 shot, black powder" },
-    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  SWAT forces probably wouldn't use this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "A shell filled with metal pellets.  Extremely damaging, plus the spread makes it very accurate at short range.  SWAT forces wouldn't use this homebrew shell, but a sovereign citizen looking to fend off SWAT probably would.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -84,7 +80,6 @@
     "copy-from": "shot_flechette",
     "type": "AMMO",
     "name": { "str": "flechette shell, black powder", "str_pl": "flechette shells, black powder" },
-    "description": "A shotgun shell filled with tiny steel darts.  The spread makes it very accurate at short range.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -94,7 +89,6 @@
     "copy-from": "shot_slug",
     "type": "AMMO",
     "name": { "str": "shotgun slug, black powder", "str_pl": "shotgun slugs, black powder" },
-    "description": "A heavy metal slug used to give a shotgun the range capabilities of a rifle.  Extremely damaging but rather inaccurate.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": { "price": 0.6, "damage": { "damage_type": "bullet", "amount": 0.8 }, "dispersion": 1.2 },
     "extend": { "effects": [ "RECYCLED", "MUZZLE_SMOKE", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -102,7 +96,7 @@
   {
     "abstract": "shotshell_abstract",
     "type": "AMMO",
-    "name": "base shotshell",
+    "name": { "str": "base shotshell", "//~": "NO_I18N" },
     "weight": "47 g",
     "volume": "439 ml",
     "longest_side": "88 mm",

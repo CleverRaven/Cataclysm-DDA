@@ -1679,7 +1679,6 @@
       "palettes": [ "mall_palette_2" ],
       "terrain": {
         "3": "t_slot_machine",
-        "Δ": "t_atm",
         "R": "t_carpet_yellow",
         "(": "t_carpet_yellow",
         ")": "t_carpet_yellow",
@@ -1727,6 +1726,7 @@
         "{": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" }
       },
       "furniture": {
+        "Δ": "f_atm_off",
         "%": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "*": "f_trashcan",
         ":": "f_rack_wood",
@@ -1885,11 +1885,11 @@
         "Á": "t_carpet_concrete_yellow",
         "É": "t_carpet_concrete_yellow",
         "Ő": "t_carpet_concrete_yellow",
-        "Δ": "t_atm",
         "1": "t_linoleum_white_no_roof"
       },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_harvest" } },
       "furniture": {
+        "Δ": "f_atm_off",
         "%": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "*": "f_trashcan",
         "!": "f_counter",

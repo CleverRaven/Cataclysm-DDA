@@ -75,6 +75,7 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
+static const std::string type_hair_color( "hair_color" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
@@ -96,7 +97,7 @@ static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
 static const trait_id trait_XXXL( "XXXL" );
 
-// Wether or not to use Outfit (M) at character creation
+// Whether or not use Outfit (M) at character creation
 static bool outfit = true;
 
 // Responsive screen behavior for small terminal sizes
@@ -378,6 +379,11 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles,
                                   const avatar &u )
 {
@@ -393,9 +399,8 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     uilist menu;
     menu.allow_cancel = false;
-    menu.text = string_format( _( "Select a style.\n"
-                                  "\n"
-                                  "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+    menu.title = _( "Select a style.\n" );
+    menu.text = string_format( _( "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
                                   "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                u.get_str(), u.get_dex(), u.get_per(), u.get_int(),
@@ -408,7 +413,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
 
     for( const matype_id &s : styles ) {
         const martialart &style = s.obj();
-        menu.addentry_desc( style.name.translated(), style.description.translated() );
+        menu.addentry_desc( style.name.translated(), wrap60( style.description.translated() ) );
     }
     while( true ) {
         menu.query( true );
@@ -448,7 +453,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
         if( selected_scenario ) {
             set_scenario( selected_scenario );
         } else {
-            debugmsg( "Failed randomizing sceario - no entries matching requirements." );
+            debugmsg( "Failed randomizing scenario - no entries matching requirements." );
         }
     }
 
@@ -596,6 +601,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
 void avatar::randomize_cosmetics()
 {
+    randomize_cosmetic_trait( type_hair_color );
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
     randomize_cosmetic_trait( type_eye_color );

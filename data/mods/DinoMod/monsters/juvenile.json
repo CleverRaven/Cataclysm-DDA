@@ -422,7 +422,7 @@
     "volume": "1000 L",
     "weight": "1000 kg",
     "bodytype": "elephant",
-    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_sauropod_body" ],
     "hp": 200,
     "aggression": -10,
@@ -485,6 +485,13 @@
     "copy-from": "mon_amargasaurus_juvenile",
     "zombify_into": "mon_zrachiosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
+  },
+  {
+    "id": "mon_astrodon_juvenile",
+    "type": "MONSTER",
+    "copy-from": "mon_amargasaurus_juvenile",
+    "zombify_into": "mon_zastrodon_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_astrodon" }
   },
   {
     "id": "mon_alamosaurus_juvenile",

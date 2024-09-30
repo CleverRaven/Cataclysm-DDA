@@ -54,5 +54,12 @@
     "copy-from": "wearable_big_light_on",
     "name": { "str": "heavy-duty headlamp (on)", "str_pl": "heavy-duty headlamps (on)" },
     "extend": { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] }
+  },
+  {
+    "type": "TOOL_ARMOR",
+    "id": "internal_battery_compartment",
+    "copy-from": "internal_battery_compartment",
+    "name": { "str": "internal battery compartment" },
+    "extend": { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] }
   }
 ]

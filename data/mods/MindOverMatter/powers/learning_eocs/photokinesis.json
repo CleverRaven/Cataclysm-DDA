@@ -1,6 +1,38 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LEARNING_LIGHT_UP_ENEMY",
+    "recurrence": [
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },
+      { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_high)" ] }
+    ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "==", "1" ] },
+        { "or": [ { "test_eoc": "EOC_CONDITION_ODDS_OF_RANDOM_TIER_ONE_POWER_INSIGHT" } ] },
+        { "test_eoc": "EOC_PSI_LEARNING_BANNED_EFFECTS" },
+        { "math": [ "u_spell_level('photokinetic_light_up_enemy')", "<=", "0" ] },
+        { "not": { "u_know_recipe": "practice_photokinetic_light_up_enemy" } }
+      ]
+    },
+    "deactivate_condition": {
+      "or": [
+        { "not": { "u_has_trait": "PHOTOKINETIC" } },
+        { "math": [ "u_spell_level('photokinetic_light_up_enemy')", ">=", "1" ] }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
+      { "u_learn_recipe": "practice_photokinetic_light_up_enemy" },
+      {
+        "u_message": "Use of your powers has led to an insight.  Creating light in a single place is easy, but you could outline another being in light, marking their location and making it harder for them to avoid attack, if you can figure out the proper technique.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_LEARNING_SNUFF_LIGHT",
     "recurrence": [
       { "math": [ "jmath_photokinesis_learning_eocs_modifiers(global_tier_one_power_learning_time_low)" ] },

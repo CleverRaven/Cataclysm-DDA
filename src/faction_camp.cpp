@@ -726,9 +726,11 @@ void talk_function::start_camp( npc &p )
         }
     }
     const recipe &making = camp_type.obj();
-    if( !run_mapgen_update_func( making.get_blueprint(), omt_pos, {} ) ) {
-        popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ),
-               p.disp_name(), making.get_blueprint().str() );
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( making.get_blueprint(),
+            omt_pos, {} );
+    if( !has_vehicle_collision.success() ) {
+        popup( _( "%1$s failed to start the %2$s basecamp, %3$s appliance/vehicle seems to be in the way." ),
+               p.disp_name(), making.get_blueprint().str(), has_vehicle_collision.str() );
         return;
     }
     std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
@@ -1998,10 +2000,10 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         }
         if( !equipment.empty() ) {
             map &target_map = get_camp_map();
-            std::vector<tripoint> src_set_pt;
+            std::vector<tripoint_bub_ms> src_set_pt;
             src_set_pt.resize( src_set.size() );
             for( const tripoint_abs_ms &p : src_set ) {
-                src_set_pt.emplace_back( target_map.getlocal( p ) );
+                src_set_pt.emplace_back( target_map.bub_from_abs( p ) );
             }
             for( item *i : equipment ) {
                 int count = i->count();
@@ -3626,9 +3628,10 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                         }
                         farm_json->rotate( 4 - rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
-                        if( !run_mapgen_update_func( update_id, dat, false ) ) {
-                            debugmsg( "farm_action failed to apply the %s map update to %s",
-                                      provide.first, omt_id );
+                        const ret_val<void> has_vehicle_collision = run_mapgen_update_func( update_id, dat, false );
+                        if( !has_vehicle_collision.success() ) {
+                            debugmsg( "farm_action failed to apply the %1$s map update to %2$s, collision with %3$s vehicle/appliance.",
+                                      provide.first, omt_id, has_vehicle_collision.str() );
                         }
                         farm_json->rotate( rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
@@ -3966,11 +3969,14 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
         return salt_water_pipe_return( miss_id, npc_list );
     }
 
-    if( !run_mapgen_update_func( making.get_blueprint(), upos, miss_id.mapgen_args, nullptr, true,
-                                 mirror_horizontal, mirror_vertical, rotation ) ) {
-        popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( making.get_blueprint(), upos,
+            miss_id.mapgen_args, nullptr, true,
+            mirror_horizontal, mirror_vertical, rotation );
+    if( !has_vehicle_collision.success() ) {
+        popup( _( "%1$s failed to build the %2$s upgrade, %3$s vehicle/appliance seems to be in the way." ),
                companion_list,
-               making.get_blueprint().str() );
+               making.get_blueprint().str(),
+               has_vehicle_collision.str() );
         return false;
     }
 
@@ -4618,11 +4624,14 @@ bool basecamp::survey_return( const mission_id &miss_id )
         }
     }
 
-    if( !run_mapgen_update_func( update_mapgen_id( expansion_type.str() ), where, {}, nullptr, true,
-                                 mirror_horizontal, mirror_vertical, rotation ) ) {
-        popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( update_mapgen_id(
+                expansion_type.str() ), where, {}, nullptr, true,
+            mirror_horizontal, mirror_vertical, rotation );
+    if( !has_vehicle_collision.success() ) {
+        popup( _( "%1$s failed to add the %2$s expansion, %3$s vehicle/appliance seems to be in the way." ),
                comp->disp_name(),
-               expansion_type->blueprint_name() );
+               expansion_type->blueprint_name(),
+               has_vehicle_collision.str() );
         if( query_yn(
                 _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked (e.g. after clearing away the obstacle)." ) ) ) {
             finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
@@ -5342,8 +5351,8 @@ bool basecamp::validate_sort_points()
     zone_manager &mgr = zone_manager::get_manager();
     map *here = &get_map();
     const tripoint_abs_ms abspos = get_player_character().get_location();
-    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
-        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
+    if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60, get_owner() ) ||
+        !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60, get_owner() ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
             return set_sort_points();
         } else {
@@ -5357,8 +5366,7 @@ bool basecamp::validate_sort_points()
 
 bool basecamp::set_sort_points()
 {
-    popup( _( "Sorting zones have changed.  Please create some sorting zones.  "
-              "You must create a camp food zone, and a camp storage zone." ) );
+    popup( _( "Please create some sorting zones.  You must create a camp food zone, and a camp storage zone." ) );
     g->zones_manager();
     return validate_sort_points();
 }
@@ -5732,11 +5740,21 @@ static const npc &getAverageJoe()
 }
 
 // mission support
-bool basecamp::distribute_food()
+bool basecamp::distribute_food( bool player_command )
 {
     if( !validate_sort_points() ) {
-        popup( _( "You do not have a camp food zone.  Aborting…" ) );
+        if( player_command ) {
+            popup( _( "You do not have a camp food zone.  Aborting…" ) );
+        } else {
+            debugmsg( "NPC-initiated food distribution at %s failed due to lacking zones", name );
+        }
         return false;
+    }
+
+    bool distribute_vitamins = false; // NPCs only ever distribute food
+    if( player_command ) {
+        distribute_vitamins = query_yn(
+                                  _( "Do you also wish to distribute comestibles without any calorie value (i.e. multivitamins, mutagens)?" ) );
     }
 
     map &here = get_map();
@@ -5746,7 +5764,7 @@ bool basecamp::distribute_food()
     }
     const tripoint_abs_ms &abspos = get_dumping_spot();
     const std::unordered_set<tripoint_abs_ms> &z_food =
-        mgr.get_near( zone_type_CAMP_FOOD, abspos, 60 );
+        mgr.get_near( zone_type_CAMP_FOOD, abspos, 60, nullptr, get_owner() );
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
@@ -5797,11 +5815,12 @@ bool basecamp::distribute_food()
         nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
         // Do this multiplication separately to make sure we're using the *= operator with double argument..
         from_it *= rot_multip( it, container );
-        nutrients_to_add += from_it;
-        if( from_it.kcal() <= 0 ) {
+        // Can distribute COMESTIBLE type items with 0kcal, if they have vitamins and player selected option to do so
+        if( from_it.kcal() <= 0 && ( !distribute_vitamins  || from_it.vitamins().empty() ) ) {
             // can happen if calories is low and rot is high.
             return false;
         }
+        nutrients_to_add += from_it;
         return true;
     };
 
@@ -5840,12 +5859,24 @@ bool basecamp::distribute_food()
         }
     }
 
-    if( nutrients_to_add.kcal() <= 0 ) {
-        popup( _( "No suitable items are located at the drop points…" ) );
+    if( nutrients_to_add.kcal() <= 0 && nutrients_to_add.vitamins().empty() ) {
+        if( player_command ) {
+            popup( _( "No suitable items are located at the drop points…" ) );
+        }
         return false;
     }
 
-    popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
+    std::string popup_msg;
+    if( nutrients_to_add.kcal() > 0 ) {
+        popup_msg = string_format( _( "You distribute %d kcal worth of food to your companions." ),
+                                   nutrients_to_add.kcal() );
+    } else {
+        popup_msg = _( "You distribute vitamins and medicine to your companions." );
+    }
+
+    if( player_command ) {
+        popup( popup_msg );
+    }
     camp_food_supply( nutrients_to_add );
     return true;
 }
