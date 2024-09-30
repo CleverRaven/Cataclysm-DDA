@@ -409,7 +409,7 @@
       { "id": "netherium_warp_grenade_detonation_portal", "max_level": 0 }
     ],
     "shape": "blast",
-    "valid_targets": [ "self", "hostile", "ally" ],
+    "valid_targets": [ "self", "hostile", "ally", "ground" ],
     "min_damage": 1000,
     "max_damage": 1000,
     "min_bash_scaling": 10,
