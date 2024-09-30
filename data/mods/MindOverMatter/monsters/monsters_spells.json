@@ -667,7 +667,7 @@
   {
     "id": "telekinetic_explosion_monster",
     "type": "SPELL",
-    "name": "[Ψ]Wrecking Ball Monster",
+    "name": { "str": "Wrecking Ball Monster", "//~": "NO_I18N" },
     "description": "Create an expanding fireball that catches multiple targets in its wake.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "CONCENTRATE", "LOUD", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_AOE", "NO_HANDS", "NO_LEGS" ],
@@ -693,7 +693,7 @@
   {
     "id": "telekinetic_explosion_monster_bash_terrain_monster",
     "type": "SPELL",
-    "name": "Wrecking Ball Enemy damage",
+    "name": { "str": "Wrecking Ball Enemy damage", "//~": "NO_I18N" },
     "description": "Damages enemies when you use Wrecking Ball on the ground.  If you have this you debugged it in.",
     "valid_targets": [ "ally", "hostile", "item", "ground" ],
     "teachable": false,
@@ -715,7 +715,7 @@
   {
     "type": "SPELL",
     "id": "telekinetic_earthshaker_monster",
-    "name": { "str": "Earthshaker enemy check" },
+    "name": { "str": "Earthshaker enemy check", "//~": "NO_I18N" },
     "description": "Makes sure the target is within range before using Earthshaker",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
@@ -729,7 +729,7 @@
   {
     "id": "telekinetic_earthshaker_monster_real",
     "type": "SPELL",
-    "name": "Earthshaker Monster",
+    "name": { "str": "Earthshaker Monster", "//~": "NO_I18N" },
     "description": "Seize the nearby earth with your powers and *wrench* it, toppling buildings and knocking everyone nearby off their feet.",
     "message": "",
     "teachable": false,
@@ -753,7 +753,7 @@
   {
     "id": "telekinetic_earthshaker_bash_terrain_monster",
     "type": "SPELL",
-    "name": "Earthshaker Monster Bash Terrain",
+    "name": { "str": "Earthshaker Monster Bash Terrain", "//~": "NO_I18N" },
     "description": "Destroy furniture and terrain nearby.",
     "valid_targets": [ "hostile", "ground" ],
     "teachable": false,
@@ -768,7 +768,7 @@
   {
     "id": "telekinetic_earthshaker_spawn_rubble_monster",
     "type": "SPELL",
-    "name": "Earthshaker Monster Rubble",
+    "name": { "str": "Earthshaker Monster Rubble", "//~": "NO_I18N" },
     "description": "Causes rubble to be spawned occasionally.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX", "IGNORE_WALLS" ],
