@@ -240,6 +240,9 @@ const int spell_type::max_duration_default = 0;
 const int spell_type::min_pierce_default = 0;
 const float spell_type::pierce_increment_default = 0.0f;
 const int spell_type::max_pierce_default = 0;
+const float spell_type::min_bash_scaling_default = 0.0f;
+const float spell_type::max_bash_scaling_default = 0.0f;
+const float spell_type::bash_scaling_increment_default = 0.0f;
 const int spell_type::base_energy_cost_default = 0;
 const float spell_type::energy_increment_default = 0.0f;
 const trait_id spell_type::spell_class_default = trait_NONE;
@@ -452,6 +455,17 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
         max_pierce = get_dbl_or_var( jo, "max_pierce", false, max_pierce_default );
     }
 
+    if( !was_loaded || jo.has_member( "min_bash_scaling" ) ) {
+        min_bash_scaling = get_dbl_or_var( jo, "min_bash_scaling", false, min_bash_scaling_default );
+    }
+    if( !was_loaded || jo.has_member( "bash_scaling_increment_default" ) ) {
+        bash_scaling_increment = get_dbl_or_var( jo, "bash_scaling_increment_default", false,
+                                 bash_scaling_increment_default );
+    }
+    if( !was_loaded || jo.has_member( "max_bash_scaling" ) ) {
+        max_bash_scaling = get_dbl_or_var( jo, "max_bash_scaling", false, max_bash_scaling_default );
+    }
+
     if( !was_loaded || jo.has_member( "base_energy_cost" ) ) {
         base_energy_cost = get_dbl_or_var( jo, "base_energy_cost", false,
                                            base_energy_cost_default );
@@ -577,6 +591,12 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "max_pierce", static_cast<int>( max_pierce.min.dbl_val.value() ), max_pierce_default );
     json.member( "pierce_increment", static_cast<float>( pierce_increment.min.dbl_val.value() ),
                  pierce_increment_default );
+    json.member( "min_bash_scaling", static_cast<float>( min_bash_scaling.min.dbl_val.value() ),
+                 min_bash_scaling_default );
+    json.member( "max_bash_scaling", static_cast<float>( max_bash_scaling.min.dbl_val.value() ),
+                 max_bash_scaling_default );
+    json.member( "bash_scaling_increment",
+                 static_cast<float>( bash_scaling_increment.min.dbl_val.value() ), bash_scaling_increment_default );
     json.member( "base_energy_cost", static_cast<int>( base_energy_cost.min.dbl_val.value() ),
                  base_energy_cost_default );
     json.member( "final_energy_cost", static_cast<int>( final_energy_cost.min.dbl_val.value() ),
@@ -698,6 +718,34 @@ int spell::field_intensity( const Creature &caster ) const
     return std::min( static_cast<int>( type->max_field_intensity.evaluate( d ) ),
                      static_cast<int>( type->min_field_intensity.evaluate( d ) + std::round( get_effective_level() *
                                        type->field_intensity_increment.evaluate( d ) ) ) );
+}
+
+double spell::min_leveled_bash_scaling( const Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    return type->min_bash_scaling.evaluate( d ) + std::round( get_effective_level() *
+            type->bash_scaling_increment.evaluate( d ) );
+}
+
+double spell::bash_scaling( const Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    const int leveled_scaling = min_leveled_bash_scaling( caster );
+
+    if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
+        return rng( std::min( leveled_scaling, static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ),
+                    std::max( leveled_scaling,
+                              static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ) ) * temp_bash_scaling_multiplier;
+    } else {
+        if( type->min_bash_scaling.evaluate( d ) >= 0 ||
+            type->max_bash_scaling.evaluate( d ) >= type->min_bash_scaling.evaluate( d ) ) {
+            return std::min( leveled_scaling,
+                             static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ) * temp_bash_scaling_multiplier;
+        } else { // if it's negative, min and max work differently
+            return std::max( leveled_scaling,
+                             static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ) * temp_bash_scaling_multiplier;
+        }
+    }
 }
 
 int spell::min_leveled_damage( const Creature &caster ) const
