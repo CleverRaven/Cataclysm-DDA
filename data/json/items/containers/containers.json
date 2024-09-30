@@ -163,7 +163,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CEMENT_INSTRUCTIONS",
-    "condition": { "and": [ { "u_has_trait": "ILLITERATE" }, { "not": "u_driving" } ] },
+    "condition": { "and": [ { "not": { "u_has_trait": "ILLITERATE" } }, { "not": "u_driving" } ] },
     "effect": [ { "u_learn_recipe": "mortar_build" } ]
   },
   {
