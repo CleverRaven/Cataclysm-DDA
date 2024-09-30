@@ -605,6 +605,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SHOCKSTORM", mattack::shockstorm );
     add_hardcoded_attack( "SHOCKING_REVEAL", mattack::shocking_reveal );
     add_hardcoded_attack( "PULL_METAL_WEAPON", mattack::pull_metal_weapon );
+    add_hardcoded_attack( "PULL_WEAPON", mattack::pull_weapon );
     add_hardcoded_attack( "BOOMER", mattack::boomer );
     add_hardcoded_attack( "BOOMER_GLOW", mattack::boomer_glow );
     add_hardcoded_attack( "RESURRECT", mattack::resurrect );
