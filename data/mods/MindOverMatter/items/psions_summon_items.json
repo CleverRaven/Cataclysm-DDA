@@ -1436,8 +1436,7 @@
       "PORTAL_PROOF",
       "WATER_FRIENDLY",
       "ONLY_ONE",
-      "NO_DROP",
-      "TRANSPARENT"
+      "NO_DROP"
     ]
   },
   {
