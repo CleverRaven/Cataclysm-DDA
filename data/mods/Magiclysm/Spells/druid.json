@@ -619,10 +619,7 @@
     "name": "Cause Rot",
     "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
-    "extra_effects": [
-      { "id": "druid_cause_rot_terrain" },
-      { "id": "eoc_channeling_setup", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "druid_cause_rot_terrain" }, { "id": "eoc_channeling_setup", "hit_self": true } ],
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
