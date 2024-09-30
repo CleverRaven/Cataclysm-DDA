@@ -458,8 +458,8 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     if( !was_loaded || jo.has_member( "min_bash_scaling" ) ) {
         min_bash_scaling = get_dbl_or_var( jo, "min_bash_scaling", false, min_bash_scaling_default );
     }
-    if( !was_loaded || jo.has_member( "bash_scaling_increment_default" ) ) {
-        bash_scaling_increment = get_dbl_or_var( jo, "bash_scaling_increment_default", false,
+    if( !was_loaded || jo.has_member( "bash_scaling_increment" ) ) {
+        bash_scaling_increment = get_dbl_or_var( jo, "bash_scaling_increment", false,
                                  bash_scaling_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_bash_scaling" ) ) {
@@ -723,27 +723,28 @@ int spell::field_intensity( const Creature &caster ) const
 double spell::min_leveled_bash_scaling( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    return type->min_bash_scaling.evaluate( d ) + std::round( get_effective_level() *
-            type->bash_scaling_increment.evaluate( d ) );
+    return type->min_bash_scaling.evaluate( d ) + get_effective_level() *
+           type->bash_scaling_increment.evaluate( d );
 }
 
 double spell::bash_scaling( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    const int leveled_scaling = min_leveled_bash_scaling( caster );
+    const double leveled_scaling = min_leveled_bash_scaling( caster );
 
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
-        return rng( std::min( leveled_scaling, static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ),
+        return rng( std::min( leveled_scaling,
+                              static_cast<double>( type->max_bash_scaling.evaluate( d ) ) ),
                     std::max( leveled_scaling,
-                              static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ) ) * temp_bash_scaling_multiplier;
+                              static_cast<double>( type->max_bash_scaling.evaluate( d ) ) ) );
     } else {
         if( type->min_bash_scaling.evaluate( d ) >= 0 ||
             type->max_bash_scaling.evaluate( d ) >= type->min_bash_scaling.evaluate( d ) ) {
             return std::min( leveled_scaling,
-                             static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ) * temp_bash_scaling_multiplier;
+                             static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
         } else { // if it's negative, min and max work differently
             return std::max( leveled_scaling,
-                             static_cast<int>( type->max_bash_scaling.evaluate( d ) ) ) * temp_bash_scaling_multiplier;
+                             static_cast<double>( type->max_bash_scaling.evaluate( d ) ) );
         }
     }
 }
