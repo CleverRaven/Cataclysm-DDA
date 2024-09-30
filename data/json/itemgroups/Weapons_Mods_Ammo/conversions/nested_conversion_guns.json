@@ -145,7 +145,7 @@
   {
     "id": "nested_ar15_retool_450bushmaster_7",
     "type": "item_group",
-    "//": "This is a distribution for the gun, reasonable number of backup mags, and some ammo to repack.  7 inch rifle barrel, though keep in mind its a pistol.",
+    "//": "This is a distribution for the gun, reasonable number of backup mags, and some ammo to repack.  7 inch rifle barrel, though keep in mind it's a pistol.",
     "subtype": "collection",
     "ammo": 100,
     "entries": [
