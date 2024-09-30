@@ -716,7 +716,7 @@
     "type": "SPELL",
     "id": "telekinetic_earthshaker_monster",
     "name": { "str": "Earthshaker enemy check" },
-    "description": "MAkes sure the target is within range before using Earthshaker",
+    "description": "Makes sure the target is within range before using Earthshaker",
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "valid_targets": [ "hostile" ],
     "max_level": 20,
