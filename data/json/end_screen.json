@@ -113,7 +113,7 @@
   { "u_has_item": "iv_mutagen_flavor" } ] } ] 
 	},
     "added_info": [
-      [ [ 10, 10 ], "Subject: <color_blue><u_name></color>" ],
+      [ [ 10, 10 ], "Subject: <color_green><u_name></color>" ],
       [ [ 15, 11 ], "Survived: <time_survived>" ],
       [ [ 17, 13 ], "Kills: <total_kills>" ]
     ],
@@ -147,7 +147,7 @@
 	{ "or": [ { "u_has_trait": "THRESH_LIZARD" } } ]
 	},
     "added_info": [
-      [ [ 1, 1 ], "In memory of: <color_blue><u_name></color>" ],
+      [ [ 1, 1 ], "In memory of: <color_green><u_name></color>" ],
       [ [ 3, 2 ], "Survived: <time_survived>" ],
       [ [ 5, 3 ], "Kills: <total_kills>" ]
     ],
@@ -164,9 +164,9 @@
 	{	"or": [ { "u_has_trait": "THRESH_BIRD" } ] } ]
 	},
     "added_info": [
-     [ [ 1, 1 ], "In memory of: <color_blue><u_name></color>" ],
-      [ [ 28, 4 ], "Survived: <time_survived>" ],
-      [ [ 5, 14 ], "Kills: <total_kills>" ]
+     [ [ 1, 1 ], "In memory of: <color_light_blue><u_name></color>" ],
+      [ [ 3, 2 ], "Survived: <time_survived>" ],
+      [ [ 5, 3 ], "Kills: <total_kills>" ]
     ],
     "last_words_label": "Last Words:"
   }
