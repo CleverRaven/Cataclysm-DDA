@@ -398,7 +398,6 @@
     "name": "GROUP_BUNKER",
     "monsters": [
       { "monster": "mon_zombie_armored", "weight": 25, "cost_multiplier": 20, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_bio_op", "weight": 150, "cost_multiplier": 10 },
       { "monster": "mon_zombie_soldier", "weight": 600, "cost_multiplier": 3 }
     ]
   },
@@ -463,7 +462,6 @@
       { "monster": "mon_skeleton_hulk" },
       { "monster": "mon_zombie_kevlar_2" },
       { "monster": "mon_zombie_soldier_blackops_1" },
-      { "monster": "mon_zombie_bio_op" },
       { "monster": "mon_zombie_survivor_elite" },
       { "monster": "mon_zombear" },
       { "monster": "mon_zoose" },
