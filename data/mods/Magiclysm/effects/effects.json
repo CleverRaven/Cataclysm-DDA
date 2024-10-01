@@ -1460,6 +1460,13 @@
     "show_in_info": true
   },
   {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer_cooldown",
+    "//": "Longer internal cooldown for feral stormshaper hammer",
+    "name": [ "" ],
+    "desc": [ "" ],
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
