@@ -809,7 +809,6 @@
     "flags": [ "MYOPIC", "CRAFT_IN_DARKNESS" ]
   },
   {
-     
     "type": "effect_type",
     "id": "effect_clair_craft_bonus_blindness",
     "//": "Hidden effect, blinds you while crafting.",
