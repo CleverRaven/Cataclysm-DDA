@@ -509,7 +509,7 @@
     "volume": "240 ml",
     "weight": "120 g",
     "hp": 2,
-    "upgrades": { "age_grow": 91, "into": "GROUP_TADPOLE_BULLFROG" }
+    "upgrades": { "age_grow": 91, "into_group": "GROUP_TADPOLE_BULLFROG" }
   },
   {
     "id": "mon_fowler_tadpole",
