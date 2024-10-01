@@ -271,7 +271,7 @@
       { "item": "solder_wire", "prob": 70 },
       { "item": "processor", "prob": 15 },
       { "item": "RAM", "prob": 22 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, -1 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, -1 ] },
       { "item": "portable_game", "prob": 12, "charges": [ 0, -1 ] },
       { "item": "vibrator", "prob": 10, "charges": [ 0, -1 ] },
       { "item": "mess_kit", "prob": 5 },

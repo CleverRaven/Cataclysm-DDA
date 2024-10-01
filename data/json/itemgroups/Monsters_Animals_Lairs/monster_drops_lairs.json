@@ -275,7 +275,7 @@
       { "item": "ref_lighter", "prob": 1, "charges": [ 0, 50 ] },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "solar_cell", "prob": 5 },
       { "item": "flyer", "prob": 10 },
       { "item": "usb_drive", "prob": 5 },

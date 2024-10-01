@@ -62,7 +62,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "mp3", "prob": 18, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "game_watch", "prob": 2, "charges": [ 0, 50 ] },
       { "item": "umbrella", "prob": 5 },
