@@ -45,7 +45,7 @@ class aim_activity_actor : public activity_actor
 {
     private:
         std::optional<item> fake_weapon;
-        std::vector<tripoint> fin_trajectory;
+        std::vector<tripoint_bub_ms> fin_trajectory;
 
     public:
         std::string action;
@@ -56,7 +56,7 @@ class aim_activity_actor : public activity_actor
         /* Item location for RAS weapon reload */
         item_location reload_loc = item_location();
         bool shifting_view = false;
-        tripoint initial_view_offset;
+        tripoint_rel_ms initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
         /** if true abort if no targets are available when re-entering aiming ui after shooting */
@@ -332,7 +332,8 @@ class hotwire_car_activity_actor : public activity_actor
         }
 
     public:
-        hotwire_car_activity_actor( int moves_total, const tripoint &target ): moves_total( moves_total ),
+        hotwire_car_activity_actor( int moves_total,
+                                    const tripoint_abs_ms &target ): moves_total( moves_total ),
             target( target ) {}
 
         activity_id get_type() const override {
@@ -632,21 +633,21 @@ class lockpick_activity_actor : public activity_actor
             int moves_total,
             const std::optional<item_location> &lockpick,
             const std::optional<item> &fake_lockpick,
-            const tripoint &target
+            const tripoint_abs_ms &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
             target( target ) {}
 
     public:
-        /** Use regular lockpick. 'target' is in global coords */
+        /** Use regular lockpick. */
         static lockpick_activity_actor use_item(
             int moves_total,
             const item_location &lockpick,
-            const tripoint &target
+            const tripoint_abs_ms &target
         );
 
-        /** Use bionic lockpick. 'target' is in global coords */
+        /** Use bionic lockpick. */
         static lockpick_activity_actor use_bionic(
-            const tripoint &target
+            const tripoint_abs_ms &target
         );
 
         activity_id get_type() const override {
@@ -2155,8 +2156,8 @@ class unload_loot_activity_actor : public activity_actor
         int moves;
         int num_processed;
         int stage;
-        std::unordered_set<tripoint> coord_set;
-        tripoint placement;
+        std::unordered_set<tripoint_abs_ms> coord_set;
+        tripoint_abs_ms placement;
 };
 
 class pulp_activity_actor : public activity_actor

@@ -2763,11 +2763,11 @@ void monster::process_turn()
                 if( has_effect( effect_emp ) ) {
                     continue; // don't emit electricity while EMPed
                 } else if( has_effect( effect_supercharged ) ) {
-                    here.emit_field( pos(), emit_emit_shock_cloud_big );
+                    here.emit_field( pos_bub(), emit_emit_shock_cloud_big );
                     continue;
                 }
             }
-            here.emit_field( pos(), emid );
+            here.emit_field( pos_bub(), emid );
         }
     }
 
@@ -2965,10 +2965,10 @@ void monster::die( Creature *nkiller )
         //Not a hallucination, go process the death effects.
         spell death_spell = type->mdeath_effect.sp.get_spell( *this );
         if( killer != nullptr && !type->mdeath_effect.sp.self &&
-            death_spell.is_target_in_range( *this, killer->pos() ) ) {
-            death_spell.cast_all_effects( *this, killer->pos() );
+            death_spell.is_target_in_range( *this, killer->pos_bub() ) ) {
+            death_spell.cast_all_effects( *this, killer->pos_bub() );
         } else if( type->mdeath_effect.sp.self ) {
-            death_spell.cast_all_effects( *this, pos() );
+            death_spell.cast_all_effects( *this, pos_bub() );
         }
     }
 

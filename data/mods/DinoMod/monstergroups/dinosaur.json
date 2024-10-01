@@ -7,7 +7,7 @@
       { "group": "GROUP_WILDERNESS_FOREST_DINO", "weight": 250 },
       { "group": "GROUP_DINOSAUR_SAUROPODS_WILDERNESS", "weight": 150 },
       { "group": "GROUP_DINOSAUR_HADROSAURS_WILDERNESS", "weight": 150 },
-      { "group": "GROUP_DINOSAUR_PREDATOR_RIVER", "weight": 150 },
+      { "group": "GROUP_DINOSAUR_PREDATOR_STREAM", "weight": 150 },
       { "group": "GROUP_DINOSAUR_PREDATOR_SWAMP", "weight": 150 }
     ]
   },
@@ -323,7 +323,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_PREDATOR_RIVER",
+    "name": "GROUP_DINOSAUR_PREDATOR_STREAM",
     "monsters": [
       { "monster": "mon_tawa", "pack_size": [ 4, 8 ] },
       { "monster": "mon_coelophysis", "pack_size": [ 4, 8 ] },
@@ -356,7 +356,7 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_ZREDATOR_RIVER",
+    "name": "GROUP_DINOSAUR_ZREDATOR_STREAM",
     "monsters": [
       { "monster": "mon_zeratosaurus", "cost_multiplier": 35 },
       { "monster": "mon_zorvosaurus", "cost_multiplier": 35 },

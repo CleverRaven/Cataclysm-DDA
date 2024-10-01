@@ -1655,7 +1655,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                 }
                 target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
                 if( !traj.empty() ) {
-                    loc = traj.back();
+                    loc = traj.back().raw();
                 }
             } else if( type == "around" ) {
                 if( !message.empty() ) {

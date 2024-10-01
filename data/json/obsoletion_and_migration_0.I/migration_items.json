@@ -1992,5 +1992,10 @@
     "id": "egg_shift_frog",
     "type": "MIGRATION",
     "replace": "egg_shift_bigfrog"
+  },
+  {
+    "id": "wire_barbed_baseball",
+    "type": "MIGRATION",
+    "replace": "baseball"
   }
 ]

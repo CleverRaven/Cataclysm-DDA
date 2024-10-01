@@ -294,7 +294,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     }
     REQUIRE( bag_plastic.put_in( cookie, pocket_type::CONTAINER ).success() );
 
-    monster &zombo = spawn_test_monster( "mon_zombie", start_loc.raw(), true );
+    monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
     zombo.no_extra_death_drops = true;
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );

@@ -1688,7 +1688,7 @@ void npc::execute_action( npc_action action )
             if( can_use_offensive_cbm() ) {
                 activate_bionic_by_id( bio_hydraulics );
             }
-            reach_attack( tar.raw() );
+            reach_attack( tar );
             break;
         case npc_melee:
             update_path( tar );
@@ -1707,7 +1707,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_aim:
-            aim( Target_attributes( pos(), tar.raw() ) );
+            aim( Target_attributes( pos_bub(), tar ) );
             break;
 
         case npc_shoot: {
@@ -1719,11 +1719,11 @@ void npc::execute_action( npc_action action )
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
             }
-            aim( Target_attributes( pos(), tar.raw() ) );
+            aim( Target_attributes( pos_bub(), tar ) );
             if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
             } else {
-                fire_gun( tar.raw(), mode.qty, *mode );
+                fire_gun( tar, mode.qty, *mode );
                 // "discard" the fake bio weapon after shooting it
                 if( is_using_bionic_weapon() ) {
                     discharge_cbm_weapon();
@@ -3306,7 +3306,7 @@ void npc::worker_downtime()
             for( const tripoint_bub_ms &elem : here.points_in_radius( pos_bub(), 30 ) ) {
                 if( here.has_flag_furn( ter_furn_flag::TFLAG_CAN_SIT, elem ) && !creatures.creature_at( elem ) &&
                     could_move_onto( elem ) &&
-                    here.point_within_camp( here.getabs( elem ) ) ) {
+                    here.point_within_camp( here.getglobal( elem ) ) ) {
                     // this one will do
                     chair_pos = here.getglobal( elem );
                     return;
@@ -3416,17 +3416,15 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         return;
     }
 
-    point pt_min = pos_bub().xy().raw();
-    point pt_max = pos_bub().xy().raw();
-    for( const sphere &elem : spheres ) {
-        pt_min.x = std::min( pt_min.x, elem.center.x - elem.radius );
-        pt_min.y = std::min( pt_min.y, elem.center.y - elem.radius );
-        pt_max.x = std::max( pt_max.x, elem.center.x + elem.radius );
-        pt_max.y = std::max( pt_max.y, elem.center.y + elem.radius );
-    }
+    tripoint_bub_ms minp( pos_bub() );
+    tripoint_bub_ms maxp( pos_bub() );
 
-    tripoint_bub_ms minp( pt_min.x, pt_min.y, pos_bub().z() );
-    tripoint_bub_ms maxp( pt_max.x, pt_max.y, pos_bub().z() );
+    for( const sphere &elem : spheres ) {
+        minp.x() = std::min( minp.x(), elem.center.x - elem.radius );
+        minp.y() = std::min( minp.y(), elem.center.y - elem.radius );
+        maxp.x() = std::max( maxp.x(), elem.center.x + elem.radius );
+        maxp.y() = std::max( maxp.y(), elem.center.y + elem.radius );
+    }
 
     const tripoint_range<tripoint_bub_ms> range( minp, maxp );
 
@@ -4154,7 +4152,7 @@ static void npc_throw( npc &np, item &it, const tripoint_bub_ms &pos )
         it.charges = 1;
     }
     if( !np.is_hallucination() ) { // hallucinations only pretend to throw
-        np.throw_item( pos.raw(), it );
+        np.throw_item( pos, it );
     }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {

@@ -681,9 +681,9 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, const tripoint & )
     }
     if( p->has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) ) {
         effect &eff = p->get_effect( effect_conjunctivitis, bodypart_id( "eyes" ) );
-        if( eff.get_duration() > 2_days ) {
+        if( eff.get_duration() > 1_days ) {
             p->add_msg_if_player( m_good, _( "You wash some of the chemical irritant from your eyes." ) );
-            eff.set_duration( 2_days );
+            eff.set_duration( 1_days );
         }
     }
     return 1;
@@ -1248,11 +1248,11 @@ static void spawn_spores( const Character &p )
     map &here = get_map();
     fungal_effects fe;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
+    for( const tripoint_bub_ms &dest : closest_points_first( p.pos_bub(), 4 ) ) {
         if( here.impassable( dest ) ) {
             continue;
         }
-        float dist = rl_dist( dest, p.pos() );
+        float dist = rl_dist( dest, p.pos_bub() );
         if( x_in_y( 1, dist ) ) {
             fe.marlossify( dest );
         }
@@ -1517,7 +1517,7 @@ std::optional<int> iuse::mycus( Character *p, item *, const tripoint & )
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         map &here = get_map();
         fungal_effects fe;
-        for( const tripoint &nearby_pos : here.points_in_radius( p->pos(), 3 ) ) {
+        for( const tripoint_bub_ms &nearby_pos : here.points_in_radius( p->pos_bub(), 3 ) ) {
             if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
                 !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, nearby_pos ) &&
                 !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, nearby_pos ) ) {
@@ -3187,7 +3187,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, const tripoint &pos 
     }
 
     you.assign_activity( lockpick_activity_actor::use_item( to_moves<int>( duration ),
-                         item_location( you, it ), get_map().getabs( *target ) ) );
+                         item_location( you, it ), get_map().getglobal( *target ) ) );
     return 1;
 }
 
@@ -4469,7 +4469,7 @@ std::optional<int> iuse::call_of_tindalos( Character *p, item *, const tripoint 
 {
     map &here = get_map();
     for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 12 ) ) {
-        if( here.is_cornerfloor( dest.raw() ) ) {
+        if( here.is_cornerfloor( dest ) ) {
             here.add_field( dest, fd_tindalos_rift, 3 );
             add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
         }
@@ -7428,7 +7428,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
     }
 
     avatar &player_character = get_avatar();
-    point p2( player_character.view_offset.xy() );
+    tripoint_rel_ms stored_view_offset( player_character.view_offset );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -7463,8 +7463,7 @@ std::optional<int> iuse::remoteveh( Character *p, item *it, const tripoint &pos 
         }
     }
 
-    player_character.view_offset.x = p2.x;
-    player_character.view_offset.y = p2.y;
+    player_character.view_offset = stored_view_offset;
     return 1;
 }
 

@@ -5802,11 +5802,11 @@ void vehicle::idle( bool on_map )
             continue;
         }
         for( const emit_id &e : pt.info().emissions ) {
-            here.emit_field( global_part_pos3( pt ), e );
+            here.emit_field( bub_part_pos( pt ), e );
         }
         for( const emit_id &e : pt.info().exhaust ) {
             if( exhaust_and_muffle.first == -1 ) {
-                here.emit_field( global_part_pos3( pt ), e );
+                here.emit_field( bub_part_pos( pt ), e );
             } else {
                 here.emit_field( exhaust_dest( exhaust_and_muffle.first ), e );
             }

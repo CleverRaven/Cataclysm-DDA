@@ -351,6 +351,19 @@ static std::tuple<double, double, double> slope_of( const std::vector<tripoint> 
     return std::make_tuple( normDx, normDy, normDz );
 }
 
+// returns the normalized dx, dy, dz for the current line vector.
+// todo: make it templated to work with all tripoint types?
+static std::tuple<double, double, double> slope_of( const std::vector<tripoint_bub_ms> &line )
+{
+    cata_assert( !line.empty() && line.front() != line.back() );
+    const double len = trig_dist( line.front(), line.back() );
+    double normDx = ( line.back().x() - line.front().x() ) / len;
+    double normDy = ( line.back().y() - line.front().y() ) / len;
+    double normDz = ( line.back().z() - line.front().z() ) / len;
+    // slope of <x, y, z>
+    return std::make_tuple( normDx, normDy, normDz );
+}
+
 float get_normalized_angle( const point &start, const point &end )
 {
     // Taking the abs value of the difference puts the values in the first quadrant.
@@ -377,7 +390,26 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
     return res;
 }
 
+tripoint_bub_ms move_along_line( const tripoint_bub_ms &loc,
+                                 const std::vector<tripoint_bub_ms> &line, const int distance )
+{
+    // May want to optimize this, but it's called fairly infrequently as part of specific attack
+    // routines, erring on the side of readability.
+    tripoint_bub_ms res( loc );
+    const auto slope = slope_of( line );
+    res.x() += distance * std::get<0>( slope );
+    res.y() += distance * std::get<1>( slope );
+    res.z() += distance * std::get<2>( slope );
+    return res;
+}
+
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const int distance )
+{
+    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
+}
+
+std::vector<tripoint_bub_ms> continue_line( const std::vector<tripoint_bub_ms> &line,
+        const int distance )
 {
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }

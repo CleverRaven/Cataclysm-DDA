@@ -100,7 +100,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
     GIVEN( "avatar gets conjunctivitis" ) {
         dummy.add_effect( effect_conjunctivitis, 72_hours, bodypart_id( "eyes" ) );
         REQUIRE( dummy.has_effect( effect_conjunctivitis, bodypart_id( "eyes" ) ) );
-        REQUIRE( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) > 48_hours );
+        REQUIRE( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) > 24_hours );
 
         WHEN( "they use eye drops" ) {
             dummy.consume( eyedrops );
@@ -109,7 +109,7 @@ TEST_CASE( "eyedrops", "[iuse][eyedrops]" )
                 CHECK( eyedrops.charges == charges_before - 1 );
 
                 AND_THEN( "it shortens the duration of conjunctivitis" ) {
-                    CHECK( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) <= 48_hours );
+                    CHECK( dummy.get_effect_dur( effect_conjunctivitis, bodypart_id( "eyes" ) ) <= 24_hours );
                 }
             }
         }

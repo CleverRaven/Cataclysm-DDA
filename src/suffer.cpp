@@ -1572,7 +1572,7 @@ void suffer::from_artifact_resonance( Character &you, int amt )
                                            _( "<npcname> attracts the attention of something horrible." ) );
                 map &here = get_map();
                 for( const tripoint_bub_ms &dest : here.points_in_radius( you.pos_bub(), 12 ) ) {
-                    if( here.is_cornerfloor( dest.raw() ) ) {
+                    if( here.is_cornerfloor( dest ) ) {
                         here.add_field( dest, fd_tindalos_rift, 3 );
                         add_msg( m_info, _( "You hear a low-pitched echoing howl." ) );
                     }

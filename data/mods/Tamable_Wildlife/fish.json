@@ -3,7 +3,6 @@
     "id": "mon_crayfish_giant_larva",
     "type": "MONSTER",
     "copy-from": "mon_crayfish_giant_larva",
-    "name": { "str": "giant crayfish larva", "str_pl": "giant crayfish larvae" },
     "petfood": {
       "food": [ "BUGFOOD" ],
       "feed": "The %s seems to… uhh, like you?  Well, as certainly as you could tell a giant crustacean could like you.  It swims around your legs and seems friendly.",
@@ -15,14 +14,12 @@
     "id": "mon_giant_crayfish",
     "type": "MONSTER",
     "copy-from": "mon_giant_crayfish",
-    "name": { "str_sp": "giant crayfish" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_crayfish_mega",
     "type": "MONSTER",
     "copy-from": "mon_crayfish_mega",
-    "name": { "str_sp": "colossal crayfish" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   }
 ]

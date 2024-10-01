@@ -877,7 +877,11 @@
     "type": "item_group",
     "//": "lesser enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_lesser", "prob": 10 }, { "item": "mbracer_lightning_lesser", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_defense_lesser", "prob": 10 },
+      { "item": "mbracer_lightning_lesser", "prob": 10 },
+      { "item": "mbracer_archery", "prob": 5 }
+    ]
   },
   {
     "id": "enchanted_bracers_greater",
@@ -1898,5 +1902,12 @@
       [ "gold_anklet", 20 ],
       [ "silver_anklet", 30 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_hunting_archery",
+    "copy-from": "SUS_hunting_archery",
+    "subtype": "collection",
+    "extend": { "items": [ { "item": "mbracer_archery", "prob": 1 } ] }
   }
 ]

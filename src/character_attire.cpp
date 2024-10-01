@@ -9,6 +9,7 @@
 #include <numeric>
 #include <ostream>
 
+#include "avatar_action.h"
 #include "bodygraph.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -262,6 +263,12 @@ std::optional<std::list<item>::iterator>
 Character::wear( item_location item_wear, bool interactive )
 {
     item to_wear = *item_wear;
+
+    // Need to account for case where we're trying to wear something that belongs to someone else
+    if( !avatar_action::check_stealing( *this, to_wear ) ) {
+        return std::nullopt;
+    }
+
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,

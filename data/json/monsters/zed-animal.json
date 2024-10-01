@@ -160,7 +160,7 @@
     "melee_dice_sides": 4,
     "bleed_rate": 50,
     "vision_day": 30,
-    "upgrades": { "half_life": 42, "into": "mon_dog_zombie_brute" },
+    "upgrades": { "half_life": 42, "into": "mon_zombie_dog_acidic" },
     "fungalize_into": "mon_zombie_dog_fungus"
   },
   {

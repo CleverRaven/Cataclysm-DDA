@@ -138,7 +138,7 @@
     "remove_message": "The darkness of the night rushes in again.",
     "rating": "good",
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",

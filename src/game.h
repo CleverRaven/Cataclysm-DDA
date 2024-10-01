@@ -610,7 +610,7 @@ class game
         void update_overmap_seen(); // Update which overmap tiles we can see
 
         void peek();
-        void peek( const tripoint &p );
+        void peek( const tripoint_bub_ms &p );
         std::optional<tripoint_bub_ms> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
@@ -776,6 +776,7 @@ class game
                         const std::vector<tripoint_bub_ms> &points, bool noreveal = false );
         // TODO: Change to typed when single user is updated.
         void draw_line( const tripoint &p, const std::vector<tripoint> &points );
+        void draw_line( const tripoint_bub_ms &p, const std::vector<tripoint_bub_ms> &points );
         void draw_weather( const weather_printable &wPrint ) const;
         void draw_sct() const;
         void draw_zones( const tripoint_bub_ms &start, const tripoint_bub_ms &end,
