@@ -279,7 +279,7 @@
       { "item": "receiver", "prob": 10 },
       { "item": "transponder", "prob": 5 },
       { "item": "tazer", "prob": 3 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 25 },
       { "item": "manual_electronics", "prob": 20 },
       { "item": "recipe_augs", "prob": 4 },
       { "item": "vac_sealer", "prob": 10 },

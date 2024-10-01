@@ -278,7 +278,7 @@
       { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "solar_cell", "prob": 5 },
       { "item": "flyer", "prob": 10 },
-      { "item": "usb_drive", "prob": 5 },
+      { "item": "usb_drive", "prob": 15 },
       { "item": "lsd", "prob": 1, "count": [ 1, 5 ] },
       { "item": "gum", "prob": 20, "count": [ 1, 10 ] },
       { "item": "caff_gum", "prob": 8, "count": [ 1, 10 ] },
