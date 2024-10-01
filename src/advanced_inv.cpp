@@ -117,12 +117,6 @@ namespace
 std::unique_ptr<advanced_inventory> advinv;
 } // namespace
 
-void kill_advanced_inv()
-{
-    advinv.reset();
-    cancel_aim_processing();
-}
-
 void create_advanced_inv()
 {
     if( !advinv ) {
@@ -131,7 +125,8 @@ void create_advanced_inv()
     advinv->display();
     // keep the UI and its ui_adaptor running if we're returning
     if( uistate.transfer_save.exit_code != aim_exit::re_entry || get_avatar().activity.is_null() ) {
-        kill_advanced_inv();
+        advinv.reset();
+        cancel_aim_processing();
     }
 }
 
