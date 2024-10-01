@@ -57,7 +57,7 @@ static point omt_to_om_remain( int &x, int &y )
     return point( divide( x, OMAPX, x ), divide( y, OMAPY, y ) );
 }
 
-static inline point omt_to_om_remain( point &p )
+static point omt_to_om_remain( point &p )
 {
     return omt_to_om_remain( p.x, p.y );
 }
