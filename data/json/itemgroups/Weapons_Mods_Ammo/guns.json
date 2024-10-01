@@ -68,7 +68,7 @@
       { "group": "guns_pistol_common_display_57", "prob": 2 },
       { "group": "guns_pistol_common_display_32", "prob": 1 },
       { "group": "guns_pistol_common_display_38super", "prob": 1 },
-      { "group": "guns_pistol_common_display_other", "prob": 46 }
+      { "group": "guns_pistol_common_display_other", "prob": 2 }
     ]
   },
   {
