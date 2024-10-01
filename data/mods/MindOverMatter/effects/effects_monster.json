@@ -109,6 +109,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_biokin3_hurricane_blows",
+    "//": "Hidden effect, used to prep for feral biokinetics using Hurricane Blows",
+    "name": [ "" ],
+    "desc": [ "" ],
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ "One Perfect Rock" ],
     "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
