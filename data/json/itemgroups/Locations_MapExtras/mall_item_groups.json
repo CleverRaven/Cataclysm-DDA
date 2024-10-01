@@ -264,8 +264,8 @@
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],
       [ "cable", 60 ],
-      { "item": "cell_phone", "prob": 60, "charges": 150 },
-      { "item": "smart_phone", "prob": 60, "charges": 120 },
+      { "item": "cell_phone", "prob": 30, "charges": 150 },
+      { "item": "smart_phone", "prob": 90, "charges": 120 },
       [ "wristwatch", 60 ],
       [ "memory_card", 10 ],
       [ "fitness_band", 5 ]

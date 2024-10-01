@@ -1464,7 +1464,7 @@
     "items": [
       { "item": "radio", "prob": 30, "charges": [ 0, 100 ] },
       [ "cotton_patchwork", 30 ],
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "mag_mechanics", 20 ],
       [ "manual_mechanics", 10 ],
       [ "jack", 60 ],
@@ -1884,7 +1884,7 @@
     "id": "ic_merch",
     "//": "for cs_internet_cafe",
     "items": [
-      { "item": "cell_phone", "prob": 20, "charges": [ 0, 150 ] },
+      { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
       [ "mag_computer", 20 ],
       { "group": "ammo_pocket_batteries_full", "prob": 20 },
       [ "radio", 20 ],
