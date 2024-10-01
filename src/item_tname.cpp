@@ -7,7 +7,6 @@
 #include "avatar.h"
 #include "cata_utility.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
@@ -292,7 +291,8 @@ std::string location_hint( item const &it, unsigned int /* quantity */,
 {
     if( it.has_var( "spawn_location_omt" ) ) {
         tripoint_abs_omt loc( it.get_var( "spawn_location_omt", tripoint_zero ) );
-        tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs( get_avatar().pos() ) ) );
+        tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+                                         get_avatar().pos_bub() ) ) );
         int dist = rl_dist( player_loc, loc );
         if( dist < 1 ) {
             return _( " (from here)" );

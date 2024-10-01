@@ -25,7 +25,6 @@
 #include "color.h"
 #include "construction.h"
 #include "construction_group.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
@@ -663,7 +662,7 @@ void iexamine::attunement_altar( Character &you, const tripoint & )
 void iexamine::translocator( Character &, const tripoint &examp )
 {
     /// @todo fix point types
-    const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
+    const tripoint_abs_omt omt_loc( coords::project_to<coords::omt>( get_map().getglobal( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
     if( !activated ) {
@@ -1985,7 +1984,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     g->validate_camps();
     map &here = get_map();
     // TODO: fix point types
-    point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
+    point_abs_omt omt( coords::project_to<coords::omt>( here.getglobal( examp ) ).xy() );
     std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;

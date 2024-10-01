@@ -19,7 +19,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -2746,7 +2745,7 @@ static void maybe_shift( tripoint_bub_ms &pos, const point &d )
 
 void npc::shift( const point &s )
 {
-    const point shift = sm_to_ms_copy( s );
+    const point shift = coords::project_to<coords::ms>( point_rel_sm( s ) ).raw();
     // TODO: convert these to absolute coords and get rid of shift()
     maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
     path.clear();

@@ -22,7 +22,6 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -2185,8 +2184,8 @@ void basecamp::abandon_camp()
     known_camps.erase( omt_pos );
     overmap_buffer.remove_camp( *this );
     map &here = get_map();
-    const tripoint sm_pos = omt_to_sm_copy( omt_pos.raw() );
-    const tripoint ms_pos = sm_to_ms_copy( sm_pos );
+    const tripoint_abs_sm sm_pos = coords::project_to<coords::sm>( omt_pos );
+    const tripoint_abs_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
     here.remove_submap_camp( here.bub_from_abs( ms_pos ) );

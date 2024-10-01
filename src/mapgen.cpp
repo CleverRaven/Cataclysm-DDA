@@ -25,7 +25,6 @@
 #include "common_types.h"
 #include "computer.h"
 #include "condition.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -6969,9 +6968,12 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units
     }
 
     std::unique_ptr<vehicle> veh = std::make_unique<vehicle>( type );
-    tripoint p_ms = p;
-    veh->sm_pos = ms_to_sm_remain( p_ms );
-    veh->pos = p_ms.xy();
+    tripoint_bub_ms p_ms( p );
+    tripoint_bub_sm quotient;
+    point_sm_ms remainder;
+    std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( p_ms );
+    veh->sm_pos = quotient.raw();
+    veh->pos = remainder.raw();
     veh->init_state( *this, veh_fuel, veh_status );
     veh->place_spawn_items();
     veh->face.init( dir );

@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <array>
 
-#include "coordinate_conversions.h"
 #include "coords_fwd.h"
 #include "point.h"
 #include "scent_map.h"

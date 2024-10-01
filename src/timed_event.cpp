@@ -10,7 +10,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "character.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "enums.h"
