@@ -1529,7 +1529,8 @@
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
-      "effect_technomancer_pain_ignore"
+      "effect_technomancer_pain_ignore",
+      "effect_feral_stormshaper_stormshammer"
     ]
   },
   {
@@ -1676,7 +1677,8 @@
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
       "effect_burning_trail",
-      "effect_ring_of_flight"
+      "effect_ring_of_flight",
+      "effect_feral_stormshaper_stormshammer"
     ]
   },
   {
