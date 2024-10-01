@@ -6726,11 +6726,12 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
+            map &here = get_map();
             std::string prefix = world_prefix.evaluate( d );
-            if( !prefix.empty() ) {
+            //make sure we don't cause a world swap on every short/long range teleport outside the default world
+            if( !prefix.empty() && prefix != here.get_world_prefix() ) {
                 /*inputting an empty string to the text input EOC fails 
                 so i'm using 'default' as empty/main world */
-                map &here = get_map();
                 //unload monsters
                 for( monster &critter : g->all_monsters() ) {
                     g->despawn_monster( critter );
@@ -6749,11 +6750,12 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                     here.set_world_prefix("");
                 }
                 MAPBUFFER.clear();
+                //in theory if we skipped the next two lines we'd have an exact copy of the overmap from the past world, only with differences noticeable in the local map.
                 overmap_buffer.clear();
                 overmap_buffer.get( point_abs_om{});
-                // TODO: fix point types
                 //FIXME toilet mapgen crash
                 get_weather().update_weather();
+                // TODO: fix point types
                 here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
                 here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
                 here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
