@@ -1947,5 +1947,10 @@
     "id": "acr_300blk",
     "type": "MIGRATION",
     "replace": "sig_mcx_rattler_sbr"
+  },
+  {
+    "id": "wire_barbed_baseball",
+    "type": "MIGRATION",
+    "replace": "baseball"
   }
 ]
