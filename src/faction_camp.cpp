@@ -449,9 +449,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Harvest:
             return dir_abbr + _( " Harvest Fields" );
 
-        case Camp_Chop_Shop:  //  Obsolete removed during 0.E
-            return _( " Chop Shop.  Obsolete.  Can only be recalled" );
-
         //  Actions that won't be used here
         case Scavenging_Patrol_Job:
         case Scavenging_Raid_Job:
@@ -1214,17 +1211,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
     }
 
-    if( has_provides( "dismantling",
-                      dir ) ) {  //  Obsolete (during 0.E), but we still have to be able to process existing missions.
-        const mission_id miss_id = { Camp_Chop_Shop, "", {}, dir };
-        comp_list npc_list = get_mission_workers( miss_id );
-        if( !npc_list.empty() ) {
-            entry = action_of( miss_id.id );
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id,
-                                    dir_abbr + _( " (Finish) Chop Shop" ), entry, avail );
-        }
-    }
     std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
     {
         mission_id miss_id = { Camp_Crafting, "", {}, dir };
@@ -1947,10 +1933,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             } else {
                 start_combat_mission( miss_id.id, BRISK_EXERCISE );
             }
-            break;
-
-        case Camp_Chop_Shop:  //  Removed during 0.E
-            debugmsg( "Obsolete Function.  Use Vehicle Deconstruct zone instead.  Recover your companion with Emergency Recall." );
             break;
 
         case Camp_Plow:
@@ -5923,7 +5905,6 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:
