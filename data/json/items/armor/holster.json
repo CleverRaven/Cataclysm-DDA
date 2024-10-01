@@ -200,7 +200,7 @@
         "min_item_volume": "1000 ml",
         "max_contains_volume": "8 L",
         "max_contains_weight": "8200 g",
-        "max_item_length": "120 cm",
+        "max_item_length": "130 cm",
         "moves": 30
       }
     ],
