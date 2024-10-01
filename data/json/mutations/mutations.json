@@ -606,7 +606,7 @@
     "starting_trait": true,
     "types": [ "CARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
-    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT", "CHIROPTERAN" ],
+    "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT", "CHIROPTERAN", "ALPHA" ],
     "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.3 } ] } ]
   },
   {
@@ -618,8 +618,8 @@
     "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your cardio and stamina.",
     "types": [ "CARDIO" ],
     "prereqs": [ "GOODCARDIO" ],
-    "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
-    "category": [ "MOUSE", "RABBIT" ],
+    "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT", "THRESH_ALPHA" ],
+    "category": [ "MOUSE", "RABBIT", "ALPHA" ],
     "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
