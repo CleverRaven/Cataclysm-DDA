@@ -850,9 +850,9 @@
       {
         "id": "feral_stormshaper_summon_stormhammer",
         "type": "spell",
-        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell" },
+        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 5, "hit_self": true },
         "cooldown": 50,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_feral_stormshaper_stormshammer" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
       },
       {
@@ -952,9 +952,9 @@
       {
         "id": "feral_high_stormshaper_summon_stormhammer",
         "type": "spell",
-        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell" },
+        "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 15, "hit_self": true },
         "cooldown": 40,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_feral_stormshaper_stormshammer" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": { "and": [ { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
       },
       {
