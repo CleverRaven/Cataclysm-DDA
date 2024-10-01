@@ -1453,6 +1453,13 @@
     "base_mods": { "hit_mod": [ 2 ] }
   },
   {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormshammer",
+    "name": [ "Wielding Stormhammer" ],
+    "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
+    "show_in_info": true
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
