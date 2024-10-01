@@ -910,8 +910,8 @@
     "type": "monstergroup",
     "default": "mon_leo_frog",
     "monsters": [
-      { "monster": "mon_leo_frog", "weight": 100 },
-      { "monster": "mon_pattern_frog", "weight": 20 },
+      { "monster": "mon_leo_frog", "weight": 90 },
+      { "monster": "mon_pattern_frog", "weight": 9 },
       { "monster": "mon_leo_worm", "weight": 1 }
     ]
   },
@@ -919,37 +919,37 @@
     "name": "GROUP_TADPOLE_BULLFROG",
     "type": "monstergroup",
     "default": "mon_bullfrog_frog",
-    "monsters": [ { "monster": "mon_bullfrog_frog", "weight": 100 }, { "monster": "mon_strange_frog", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_bullfrog_frog", "weight": 90 }, { "monster": "mon_strange_frog", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_FOWLER",
     "type": "monstergroup",
     "default": "mon_fowler_toad",
-    "monsters": [ { "monster": "mon_fowler_toad", "weight": 100 }, { "monster": "mon_foul_toad", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_fowler_toad", "weight": 90 }, { "monster": "mon_foul_toad", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_FREEDOM",
     "type": "monstergroup",
     "default": "mon_freedom_toad",
-    "monsters": [ { "monster": "mon_freedom_toad", "weight": 100 }, { "monster": "mon_odd_toad", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_freedom_toad", "weight": 90 }, { "monster": "mon_odd_toad", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_PEEPER",
     "type": "monstergroup",
     "default": "mon_peeper_frog",
-    "monsters": [ { "monster": "mon_peeper_frog", "weight": 100 }, { "monster": "mon_vocal_frog", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_peeper_frog", "weight": 90 }, { "monster": "mon_vocal_frog", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_GRAY",
     "type": "monstergroup",
     "default": "mon_gray_frog",
-    "monsters": [ { "monster": "mon_gray_frog", "weight": 100 }, { "monster": "mon_shift_frog", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_gray_frog", "weight": 90 }, { "monster": "mon_shift_frog", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_PICKEREL",
     "type": "monstergroup",
     "default": "mon_pickerel_frog",
-    "monsters": [ { "monster": "mon_pickerel_frog", "weight": 100 }, { "monster": "mon_palette_frog", "weight": 20 } ]
+    "monsters": [ { "monster": "mon_pickerel_frog", "weight": 90 }, { "monster": "mon_palette_frog", "weight": 10 } ]
   },
   {
     "name": "GROUP_TADPOLE_GREEN",
