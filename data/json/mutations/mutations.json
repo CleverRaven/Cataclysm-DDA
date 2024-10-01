@@ -618,8 +618,8 @@
     "description": "Your body's efficiency is like that of a tiny furnace, greatly increasing your cardio and stamina.",
     "types": [ "CARDIO" ],
     "prereqs": [ "GOODCARDIO" ],
-    "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT", "THRESH_ALPHA" ],
-    "category": [ "MOUSE", "RABBIT", "ALPHA" ],
+    "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
+    "category": [ "MOUSE", "RABBIT" ],
     "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
