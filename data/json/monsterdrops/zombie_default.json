@@ -245,7 +245,7 @@
       { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "game_watch", "prob": 1, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },
       { "item": "usb_drive", "prob": 10 },
-      { "item": "memory_card_unread", "prob": 10 },
+      { "item": "memory_card_unread", "prob": 3 },
       { "item": "flyer", "prob": 30 },
       { "item": "multitool", "prob": 5 },
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },

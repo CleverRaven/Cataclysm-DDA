@@ -286,7 +286,7 @@
       { "item": "cell_phone", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "smart_phone", "prob": 55, "charges": [ 0, -1 ] },
       { "item": "eink_tablet_pc", "prob": 15 },
-      { "item": "memory_card_unread", "prob": 40 },
+      { "item": "memory_card_unread", "prob": 15 },
       { "item": "camera", "prob": 15, "charges": [ 0, -1 ] },
       { "item": "camera_pro", "prob": 5, "charges": [ 0, -1 ] },
       { "group": "toy_radio_car", "prob": 3 },
