@@ -57,7 +57,7 @@
         "prob": 50
       },
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
-      { "item": "mp3", "prob": 6, "charges": [ 0, 15 ] },
+      { "item": "mp3", "prob": 18, "charges": [ 0, 15 ] },
       { "item": "portable_game", "prob": 10, "charges": [ 0, 50 ] },
       { "item": "game_watch", "prob": 10, "damage": [ 1, 4 ], "charges": [ 0, 50 ] },
       { "item": "usb_drive", "prob": 10 },
@@ -65,7 +65,7 @@
       { "item": "coke", "prob": 2 },
       { "item": "lsd", "prob": 2 },
       { "item": "heroin", "prob": 2 },
-      { "item": "memory_card_unread", "prob": 3 },
+      { "item": "memory_card_unread", "prob": 10 },
       { "item": "flyer", "prob": 30 },
       { "item": "multitool", "prob": 5 },
       { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
