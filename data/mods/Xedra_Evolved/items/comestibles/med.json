@@ -17,7 +17,7 @@
     "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You take some eXtra strength aspirin.",
+      "activation_message": "You take some %s.",
       "effects": [ { "id": "xtr_str_aspirin", "duration": 720 } ]
     }
   },
