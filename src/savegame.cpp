@@ -98,6 +98,7 @@ void game::serialize( std::ostream &fout )
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    json.member( "world_prefix", m.get_world_prefix() );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -220,6 +221,10 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
 
+        std::string world_prefix;
+        data.read("world_prefix", world_prefix);
+        m.set_world_prefix(world_prefix);
+        
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
