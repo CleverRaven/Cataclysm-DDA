@@ -816,7 +816,7 @@
         "dodgeable": true,
         "blockable": false,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s gestures and sparks impacts your %2$s!",
+        "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
         "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
         "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",
@@ -843,9 +843,9 @@
         "id": "feral_stormshaper_blinding_flash",
         "type": "spell",
         "spell_data": { "id": "blinding_flash", "min_level": 3 },
-        "cooldown": 15,
+        "cooldown": 45,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "monster_message": "%1$s makes a quick gesture and disappears."
+        "monster_message": "%1$s makes a quick gesture and the air erupts into eye-searing light!"
       },
       {
         "id": "feral_stormshaper_summon_stormhammer",
@@ -902,7 +902,7 @@
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "@",
-    "color": "magenta",
+    "color": "yellow",
     "aggression": 30,
     "morale": 100,
     "melee_skill": 4,
@@ -930,7 +930,7 @@
         "dodgeable": true,
         "blockable": false,
         "condition": { "not": { "u_has_flag": "NO_SPELLCASTING" } },
-        "hit_dmg_u": "%1$s gestures and sparks impacts your %2$s!",
+        "hit_dmg_u": "%1$s gestures and sparks impact your %2$s!",
         "hit_dmg_npc": "%1$s gestures and sparks impact <npcname>'s %2$s!",
         "miss_msg_u": "%1$s gestures and you narrowly avoid a shower of sparks!",
         "miss_msg_npc": "%1$s gestures and <npcname> narrowly avoids a shower of sparks!",

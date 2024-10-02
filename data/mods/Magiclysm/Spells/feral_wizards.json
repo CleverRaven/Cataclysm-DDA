@@ -232,7 +232,7 @@
     "flags": [ "SOMATIC", "NO_LEGS" ],
     "shape": "blast",
     "effect": "attack",
-    "effect_str": "effect_feral_stormshaper_stormshammer",
+    "effect_str": "effect_feral_stormshaper_stormhammer",
     "extra_effects": [ { "id": "feral_stormshaper_summon_stormhammer_spell_internal_cooldown", "hit_self": true } ],
     "min_duration": 36000,
     "max_duration": 1080000,
