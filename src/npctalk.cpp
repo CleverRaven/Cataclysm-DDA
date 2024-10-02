@@ -1,4 +1,3 @@
-#include "dialogue.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
@@ -1946,7 +1945,11 @@ int talk_trial::calc_chance( dialogue &d ) const
             chance = d.actor( false )->get_skill_level( skill_id( skill_required ) ) >= difficulty ? 100 : 0;
             break;
         case TALK_TRIAL_CONDITION:
-            chance = condition( d ) ? 100 : 0;
+            if( condition ) {
+                chance = condition( d ) ? 100 : 0;
+            } else {
+                chance = 0;
+            }
             break;
         case TALK_TRIAL_LIE:
             chance += d.actor( false )->trial_chance_mod( "lie" ) + d.actor( true )->trial_chance_mod( "lie" );
@@ -2603,7 +2606,12 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         d_win.add_to_history( challenge, d_win.is_not_conversation ? "" : actor( true )->disp_name(),
                               npc_actor ? npc_actor->basic_symbol_color() : c_red );
     }
-
+    if( debug_mode ) {
+        std::vector<std::string> dynamic_line_debug = build_debug_info( d_win, topic );
+        for( auto &line : dynamic_line_debug ) {
+            d_win.add_to_history( line );
+        }
+    }
     apply_speaker_effects( topic );
 
     if( responses.empty() ) {
@@ -2616,6 +2624,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_DL_CONDITIONAL" );
+    ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
+    ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
     ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
@@ -2649,6 +2661,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     do {
         std::string action;
         do {
+            if( debug_mode ) {
+                d_win.set_responses_debug( build_debug_info( d_win, topic, d_win.sel_response ) );
+                d_win.debug_topic_name = topic.id;
+            }
             ui_manager::redraw();
             input_event evt;
             action = ctxt.handle_input();
@@ -2663,6 +2679,14 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 generate_response_lines();
             } else if( action == "CONFIRM" ) {
                 response_ind = d_win.sel_response;
+            } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
+                d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
+            } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
+                d_win.show_response_conditionals = !d_win.show_response_conditionals;
+            } else if( action == "DEBUG_DIALOGUE_DL_EFFECT" ) {
+                d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
+            } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
+                d_win.show_response_effects = !d_win.show_response_effects;
             } else if( action == "ANY_INPUT" ) {
                 // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
@@ -2740,6 +2764,119 @@ int dialogue::get_best_quit_response()
     return responses.size(); // Didn't find a good option
 }
 
+void get_raw_debug_fields( const JsonObject &jo, std::map<std::string, std::string> &debug_info )
+{
+    //check for object, add raw JSON text to map if exists
+    auto add_to_debug = [&]( const JsonObject & jo, const char *key ) {
+        std::string key_str( key );
+        if( jo.has_string( key_str ) ) {
+            debug_info.emplace( key_str, jo.get_string( key_str ) );
+        } else if( jo.has_object( key_str ) ) {
+            JsonObject json_cond = jo.get_object( key_str );
+            json_cond.allow_omitted_members();
+            debug_info.emplace( key_str, json_cond.str() );
+        } else if( jo.has_array( key_str ) ) {
+            JsonArray json_cond = jo.get_array( key_str );
+            std::string concat;
+            for( JsonValue elem : json_cond ) {
+                if( elem.test_string() ) {
+                    concat += elem.get_string();
+                } else if( elem.test_object() ) {
+                    JsonObject json_obj = elem.get_object();
+                    json_obj.allow_omitted_members();
+                    concat += json_obj.str();
+                }
+            }
+            debug_info.emplace( key_str, concat );
+        }
+    };
+
+    add_to_debug( jo, "condition" );
+    add_to_debug( jo, "effect" );
+    add_to_debug( jo, "trial" );
+    add_to_debug( jo, "success" );
+    add_to_debug( jo, "failure" );
+}
+
+
+std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_win,
+        const talk_topic &topic, int do_response )
+{
+    std::vector<std::string> debug_output;
+    json_talk_topic json_topic = json_talk_topics[topic.id];
+    if( do_response > -1 ) {
+        std::string write_str;
+        std::vector<json_talk_response> json_responses = json_topic.get_responses();
+        if( json_responses.empty() ) {
+            return debug_output;
+        }
+
+        talk_response &actual_response = responses[do_response];
+        std::map<std::string, std::string> &debug_info = actual_response.debug_info;
+        if( d_win.show_response_conditionals ) {
+            if( debug_info.find( "condition" ) != debug_info.end() && actual_response.condition ) {
+                debug_output.emplace_back( std::string( "Conditional: [" ) + ( actual_response.condition(
+                                               *this ) ? colorize( "true", c_light_green ) : colorize( "false",
+                                                       c_light_red ) ) + std::string( "] - " ) + debug_info["condition"] );
+            } else {
+                debug_output.emplace_back( "No conditionals" );
+            }
+        }
+        if( debug_info.find( "trial" ) != debug_info.end() ) {
+            if( d_win.show_response_conditionals ) {
+                if( actual_response.trial.condition ) {
+                    debug_output.emplace_back( std::string( "Trial: [" ) + ( actual_response.trial.condition(
+                                                   *this ) ? colorize( "true", c_light_green ) : colorize( "false",
+                                                           c_light_red ) ) + std::string( "] - " ) + debug_info["trial"] );
+                } else {
+                    debug_output.emplace_back( "Trial: " + debug_info["trial"] );
+                }
+            }
+            if( d_win.show_response_effects ) {
+                debug_output.emplace_back( colorize( "Success: ", c_green ) + debug_info["success"] );
+                debug_output.emplace_back( colorize( "Failure: ", c_red ) + debug_info["failure"] );
+            }
+        }
+        if( d_win.show_response_effects ) {
+            if( debug_info.find( "effect" ) != debug_info.end() ) {
+                debug_output.emplace_back( "Effect: " + debug_info["effect"] );
+            } else {
+                debug_output.emplace_back( "No effects" );
+            }
+        }
+    } else {
+        std::vector<json_dynamic_line_effect> speaker_effects = json_topic.get_speaker_effects();
+        int eff_count = 1;
+        bool added_cond = false;
+        bool added_eff = false;
+        for( json_dynamic_line_effect eff : speaker_effects ) {
+            std::map<std::string, std::string> &debug_info = eff.debug_info;
+            std::string eff_count_str = std::to_string( eff_count );
+            if( debug_info.find( "condition" ) != debug_info.end() && d_win.show_dynamic_line_conditionals ) {
+                debug_output.emplace_back( colorize( "CND" + eff_count_str + std::string( ": [" ),
+                                                     c_yellow ) + ( eff.test_condition(
+                                                             *this ) ? colorize( "true", c_light_green ) : colorize( "false",
+                                                                     c_light_red ) ) + std::string( "] - " ) + colorize( debug_info["condition"], c_yellow ) );
+                added_cond = true;
+            }
+            if( debug_info.find( "effect" ) != debug_info.end() && d_win.show_dynamic_line_effects ) {
+                debug_output.emplace_back( colorize( "EFF" + eff_count_str + ": " + debug_info["effect"],
+                                                     c_yellow ) );
+                added_eff = true;
+            }
+            eff_count++;
+        }
+        if( !added_cond && d_win.show_dynamic_line_conditionals ) {
+            debug_output.emplace_back( colorize( "No conditionals", c_yellow ) );
+        }
+        if( !added_eff && d_win.show_dynamic_line_effects ) {
+            debug_output.emplace_back( colorize( "No effects", c_yellow ) );
+        }
+    }
+
+    return debug_output;
+}
+
 talk_trial::talk_trial( const JsonObject &jo )
 {
     static const std::unordered_map<std::string, talk_trial_type> types_map = { {
@@ -2764,9 +2901,10 @@ talk_trial::talk_trial( const JsonObject &jo )
     if( type == TALK_TRIAL_SKILL_CHECK ) {
         skill_required = jo.get_string( "skill_required" );
     }
-
-    read_condition( jo, "condition", condition, false );
-
+    //condition remains empty instead of adding a default
+    if( jo.has_member( "condition" ) ) {
+        read_condition( jo, "condition", condition, false );
+    }
     if( jo.has_member( "mod" ) ) {
         for( JsonArray jmod : jo.get_array( "mod" ) ) {
             trial_mod this_modifier;
@@ -7133,6 +7271,8 @@ json_talk_response::json_talk_response( const JsonObject &jo, const std::string_
     : actual_response( jo, src )
 {
     load_condition( jo, src );
+    get_raw_debug_fields( jo, actual_response.debug_info );
+    actual_response.condition = condition;
 }
 
 void json_talk_response::load_condition( const JsonObject &jo, const std::string_view )
@@ -7393,6 +7533,7 @@ json_dynamic_line_effect::json_dynamic_line_effect( const JsonObject &jo,
     std::function<bool( dialogue & )> tmp_condition;
     read_condition( jo, "condition", tmp_condition, true );
     talk_effect_t tmp_effect = talk_effect_t( jo, "effect", src );
+    get_raw_debug_fields( jo, debug_info );
     // if the topic has a sentinel, it means implicitly add a check for the sentinel value
     // and do not run the effects if it is set.  if it is not set, run the effects and
     // set the sentinel
@@ -7534,6 +7675,11 @@ cata::flat_set<std::string> json_talk_topic::get_directly_reachable_topics(
     }
 
     return cata::flat_set<std::string>( result.begin(), result.end() );
+}
+
+std::vector<json_talk_response> json_talk_topic::get_responses()
+{
+    return responses;
 }
 
 std::string json_talk_topic::get_dynamic_line( dialogue &d ) const
