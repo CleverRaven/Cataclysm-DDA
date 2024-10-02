@@ -219,6 +219,24 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_monster_inertial_barrier_improved",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -25 },
+          { "value": "ARMOR_BASH", "add": -18 },
+          { "value": "ARMOR_STAB", "add": -32 },
+          { "value": "ARMOR_BULLET", "add": -50 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_riftwalker_teleport",
     "name": [ "Dimensionally Unstable" ],
     "desc": [ "You feel like you're barely part of the world." ],
