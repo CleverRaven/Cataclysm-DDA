@@ -6739,21 +6739,23 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 if( get_avatar().in_vehicle ) {
                     here.unboard_vehicle( get_avatar().pos_bub() );
                 }
+                here.save();
+                overmap_buffer.save();
                 for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
                     here.clear_vehicle_list( z );
                 }
-                here.save();
-                overmap_buffer.save();
                 if (prefix != "default") {
                     here.set_world_prefix( prefix );
                 }else{
                     here.set_world_prefix("");
                 }
                 MAPBUFFER.clear();
+                //FIXME hack to prevent crashes from temperature checks
+                //this returns to false in 'on_turn()' so it should be fine?
+                g->new_game = true;
                 //in theory if we skipped the next two lines we'd have an exact copy of the overmap from the past world, only with differences noticeable in the local map.
                 overmap_buffer.clear();
                 overmap_buffer.get( point_abs_om{});
-                //FIXME toilet mapgen crash
                 get_weather().update_weather();
                 // TODO: fix point types
                 here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
