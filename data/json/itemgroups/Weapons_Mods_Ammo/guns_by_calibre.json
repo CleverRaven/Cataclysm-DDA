@@ -269,7 +269,6 @@
       { "item": "p220_10", "prob": 4, "charges": [ 0, -1 ] },
       { "item": "xd_10", "prob": 9, "charges": [ 0, -1 ] },
       { "item": "witness_10", "prob": 1, "charges": [ 0, -1 ] },
-      { "item": "TDI_10", "prob": 18, "charges": [ 0, -1 ] },
       { "item": "glock_20", "prob": 12, "charges": [ 0, -1 ] },
       { "item": "glock_29", "prob": 62, "charges": [ 0, -1 ] }
     ]
@@ -589,7 +588,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_300blk",
-    "items": [  ]
+    "items": [ { "group": "nested_ar15_retool_300_16", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -741,7 +740,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_common_display_300blk",
-    "items": [  ]
+    "items": [ { "group": "ar15_300", "prob": 100 } ]
   },
   {
     "type": "item_group",
