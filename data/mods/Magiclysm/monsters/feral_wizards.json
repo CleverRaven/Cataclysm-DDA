@@ -852,18 +852,23 @@
         "type": "spell",
         "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 5, "hit_self": true },
         "cooldown": 50,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+          ]
+        },
         "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
       },
       {
         "type": "monster_attack",
         "attack_type": "melee",
-        "id": "feral_stormshaper_spell_lightning_blast",
+        "id": "feral_stormshaper_stormhammer_attack",
         "cooldown": 2,
         "move_cost": 100,
         "accuracy": 4,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
-        "condition": { "u_has_effect": "effect_feral_stormshaper_stormshammer" },
+        "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
         "hit_dmg_u": "%1$s stormhammers your %2$s!",
         "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
         "miss_msg_u": "%1$s tries to stormhammers you, but you dodge!",
@@ -954,18 +959,23 @@
         "type": "spell",
         "spell_data": { "id": "feral_stormshaper_summon_stormhammer_spell", "min_level": 15, "hit_self": true },
         "cooldown": 40,
-        "condition": { "and": [ { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_effect": "effect_feral_stormshaper_stormhammer_cooldown" } },
+            { "not": { "u_has_flag": "NO_SPELLCASTING" } }
+          ]
+        },
         "monster_message": "%1$s snaps an arm out and a hammer made of lightning crackles into existence."
       },
       {
         "type": "monster_attack",
         "attack_type": "melee",
-        "id": "feral_stormshaper_spell_lightning_blast",
+        "id": "feral_high_stormshaper_stormhammer_attack",
         "cooldown": 2,
         "move_cost": 100,
         "accuracy": 7,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 30 }, { "damage_type": "electric", "amount": 15 } ],
-        "condition": { "u_has_effect": "effect_feral_stormshaper_stormshammer" },
+        "condition": { "u_has_effect": "effect_feral_stormshaper_stormhammer" },
         "hit_dmg_u": "%1$s stormhammers your %2$s!",
         "hit_dmg_npc": "%1$s stormhammers <npcname>'s %2$s!",
         "miss_msg_u": "%1$s tries to stormhammer you, but you dodge!",

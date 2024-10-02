@@ -1454,7 +1454,7 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_feral_stormshaper_stormshammer",
+    "id": "effect_feral_stormshaper_stormhammer",
     "name": [ "Wielding Stormhammer" ],
     "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
     "show_in_info": true
@@ -1464,7 +1464,7 @@
     "id": "effect_feral_stormshaper_stormhammer_cooldown",
     "//": "Longer internal cooldown for feral stormshaper hammer",
     "name": [ "" ],
-    "desc": [ "" ],
+    "desc": [ "" ]
   },
   {
     "id": "effect_dispel_magic",
