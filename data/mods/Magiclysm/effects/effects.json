@@ -533,7 +533,8 @@
     "remove_message": "Your communion with Mother Nature fades.",
     "rating": "good",
     "max_duration": "120 m",
-    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] }
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ], "health_tick": [ 30 ] },
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "effect_type",
