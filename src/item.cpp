@@ -14081,11 +14081,11 @@ bool item::process_wet( Character *carrier, const tripoint & /*pos*/ )
     return true;
 }
 
-units::energy item::energy_per_second()
+units::energy item::energy_per_second() const
 {
     units::energy energy_to_burn;
     if( type->tool->turns_per_charge > 0 ) {
-        energy_to_burn += units::from_kilojoule( std::max( ammo_required(),
+        energy_to_burn += units::from_kilojoule( std::max<int64_t>( ammo_required(),
                           1 ) ) / type->tool->turns_per_charge;
     } else if( type->tool->power_draw > 0_mW ) {
         energy_to_burn += type->tool->power_draw * 1_seconds;
