@@ -113,6 +113,7 @@
     "//": "Hidden effect, used to prep for feral biokinetics using Hurricane Blows",
     "name": [ "" ],
     "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 500 } ] } ]
   },
   {
     "type": "effect_type",

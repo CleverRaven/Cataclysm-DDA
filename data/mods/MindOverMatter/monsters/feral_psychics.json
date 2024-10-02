@@ -173,7 +173,9 @@
         "attack_upper": true,
         "throw_strength": 50,
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        }
       },
       {
         "type": "leap",
@@ -181,23 +183,33 @@
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 5,
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        },
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
       {
         "id": "bio_op_takedown",
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        }
       },
       {
         "id": "psi_biokin3_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "u_has_effect": "effect_monster_hardened_skin" } },
+            { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } }
+          ]
+        },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
-      }, 
+      },
       {
         "type": "monster_attack",
         "attack_type": "melee",
@@ -205,29 +217,18 @@
         "cooldown": { "math": [ "15 + rand(30)" ] },
         "move_cost": 100,
         "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
-        "self_effects_always": [ { "id": "effect_psi_biokin3_hurricane_blows", "duration": 1 } ],
-        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ] },
+        "self_effects_always": [ { "id": "effect_psi_biokin3_hurricane_blows", "duration": 0 } ],
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        },
         "dodgeable": false,
         "blockable": false,
-        "no_dmg_msg_npc": "",
-        "no_dmg_msg_u": "",
-        "miss_msg_npc": "",
-        "miss_msg_u": ""
-      },
-      {
-        "type": "monster_attack",
-        "attack_type": "melee",
-        "id": "psi_biokin3_hurricane_blows",
-        "cooldown": 0,
-        "move_cost": 20,
-        "damage_max_instance": [ { "damage_type": "bash", "amount": 15, "armor_penetration": 10 } ],
-        "condition": { "and": [ { "u_has_flag": "NO_PSIONICS" }, { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } ] },
-        "hit_dmg_u": "%1$s hits %2$s in a blur of blows!",
-        "hit_dmg_npc": "%1$s hits <npcname> in a blur of blows!",
-        "miss_msg_u": "%1$s strikes inhumanly quickly, but you dodge!",
-        "miss_msg_npc": "%1$s strikes inhumanly quickly at <npcname>, but they dodge!",
-        "no_dmg_msg_u": "%1$s hits %2$s in a blur of blows, but fails to penetrate your armor.",
-        "no_dmg_msg_npc": "%1$s hits <npcname> in a blur of blows, but fails to penetrate their armor."
+        "hit_dmg_u": "%1$s blurs as they explode into motion!",
+        "hit_dmg_npc": "%1$s blurs as they explode into motion!",
+        "miss_msg_u": "%1$s blurs as they explode into motion!",
+        "miss_msg_npc": "%1$s blurs as they explode into motion!",
+        "no_dmg_msg_u": "%1$s blurs as they explode into motion!",
+        "no_dmg_msg_npc": "%1$s blurs as they explode into motion!"
       }
     ],
     "flags": [
