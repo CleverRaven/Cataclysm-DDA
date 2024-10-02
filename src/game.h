@@ -1314,6 +1314,8 @@ class game
             const tripoint &examp,
             climbing_aid_id aid,
             bool deploy_affordance = false );
+        //currently used as a hacky workaround for world swapping
+        bool swapping_worlds = false;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

@@ -6752,7 +6752,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                 MAPBUFFER.clear();
                 //FIXME hack to prevent crashes from temperature checks
                 //this returns to false in 'on_turn()' so it should be fine?
-                g->new_game = true;
+                g->swapping_worlds = true;
                 //in theory if we skipped the next two lines we'd have an exact copy of the overmap from the past world, only with differences noticeable in the local map.
                 overmap_buffer.clear();
                 overmap_buffer.get( point_abs_om{});
