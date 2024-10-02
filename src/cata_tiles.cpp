@@ -149,6 +149,11 @@ pixel_minimap_mode pixel_minimap_mode_from_string( const std::string &mode )
     return pixel_minimap_mode::solid;
 }
 
+auto simple_point_hash = []( const auto &p )
+{
+    return p.x + p.y * 65536;
+};
+
 } // namespace
 
 static int msgtype_to_tilecolor( const game_message_type type, const bool bOldMsg )
@@ -1232,7 +1237,7 @@ void tileset_cache::loader::load_tile_spritelists( const JsonObject &entry,
     }
 }
 
-static std::map<tripoint, int> display_npc_attack_potential()
+static std::map<tripoint_bub_ms, int> display_npc_attack_potential()
 {
     avatar &you = get_avatar();
     npc avatar_as_npc;
@@ -1243,7 +1248,7 @@ static std::map<tripoint, int> display_npc_attack_potential()
     jsin.read( avatar_as_npc );
     avatar_as_npc.regen_ai_cache();
     avatar_as_npc.evaluate_best_attack( nullptr );
-    std::map<tripoint, int> effectiveness_map;
+    std::map<tripoint_bub_ms, int> effectiveness_map;
     std::vector<npc_attack_rating> effectiveness =
         avatar_as_npc.get_current_attack()->all_evaluations( avatar_as_npc, nullptr );
     for( const npc_attack_rating &effectiveness_at_point : effectiveness ) {
@@ -1404,11 +1409,11 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                would_apply_vision_effects( here.get_visibility( ch.visibility_cache[np.x][np.y],
                                            cache ) );
     };
-    std::map<tripoint, int> npc_attack_rating_map;
+    std::map<tripoint_bub_ms, int> npc_attack_rating_map;
     int max_npc_effectiveness = 0;
     if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
         npc_attack_rating_map = display_npc_attack_potential();
-        for( const std::pair<const tripoint, int> &pair : npc_attack_rating_map ) {
+        for( const std::pair<const tripoint_bub_ms, int> &pair : npc_attack_rating_map ) {
             max_npc_effectiveness = std::max( pair.second, max_npc_effectiveness );
         }
     }
@@ -1448,6 +1453,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                     continue;
                 }
                 for( int zlevel = center.z; zlevel >= draw_min_z; zlevel -- ) {
+                    // todo: conversion slightly simplified, a couple of calls already use pos as tripoint_bub_ms
                     const tripoint pos( temp.value(), zlevel );
                     const tripoint_abs_ms pos_global = here.getglobal( pos );
                     const int &x = pos.x;
@@ -1521,8 +1527,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         }
 
                         if( g->display_overlay_state( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL ) ) {
-                            if( npc_attack_rating_map.count( pos ) ) {
-                                const int val = npc_attack_rating_map.at( pos );
+                            if( npc_attack_rating_map.count( tripoint_bub_ms( pos ) ) ) {
+                                const int val = npc_attack_rating_map.at( tripoint_bub_ms( pos ) );
                                 short color;
                                 if( val <= 0 ) {
                                     color = catacurses::red;
@@ -1888,7 +1894,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
         if( do_draw_async_anim ) {
             draw_async_anim();
         }
-    } else if( you.view_offset != tripoint_zero && !you.in_vehicle ) {
+    } else if( you.view_offset != tripoint_rel_ms_zero && !you.in_vehicle ) {
         // check to see if player is located at ter
         draw_from_id_string( "cursor", TILE_CATEGORY::NONE, empty_string,
                              tripoint( g->ter_view_p.xy(), center.z ), 0, 0, lit_level::LIT,
@@ -2773,10 +2779,6 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         }
     }
 
-    auto simple_point_hash = []( const auto & p ) {
-        return p.x + p.y * 65536;
-    };
-
     // seed the PRNG to get a reproducible random int
     // TODO: faster solution here
     unsigned int seed = 0;
@@ -2826,6 +2828,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         break;
         case TILE_CATEGORY::OVERMAP_WEATHER:
         case TILE_CATEGORY::OVERMAP_TERRAIN:
+        case TILE_CATEGORY::OVERMAP_VISION_LEVEL:
         case TILE_CATEGORY::MAP_EXTRA:
             seed = simple_point_hash( pos );
             break;
@@ -3648,8 +3651,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                         if( fld.id().str() == layer_var.id ) {
 
                             // get the sprite to draw
-                            // roll should be based on the maptile seed to keep visuals consistent
-                            int roll = 1;
+                            // roll is based on the maptile seed to keep visuals consistent
+                            int roll = simple_point_hash( p ) % layer_var.total_weight;
                             std::string sprite_to_draw;
                             for( const auto &sprite_list : layer_var.sprite ) {
                                 roll = roll - sprite_list.second;
@@ -3676,8 +3679,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                             if( fld.id().str() == layer_var.id ) {
 
                                 // get the sprite to draw
-                                // roll should be based on the maptile seed to keep visuals consistent
-                                int roll = 1;
+                                // roll is based on the maptile seed to keep visuals consistent
+                                int roll = simple_point_hash( p ) % layer_var.total_weight;
                                 std::string sprite_to_draw;
                                 for( const auto &sprite_list : layer_var.sprite ) {
                                     roll = roll - sprite_list.second;
@@ -3765,7 +3768,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                             const bool layer_nv = nv_goggles_activated;
 
                             // get the sprite to draw
-                            // roll should be based on the maptile seed to keep visuals consistent
+                            // roll is based on the item seed to keep visuals consistent
                             int roll = i.seed % layer_var.total_weight;
                             std::string sprite_to_draw;
                             for( const auto &sprite_list : layer_var.sprite ) {
@@ -3810,7 +3813,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                                 const bool layer_nv = nv_goggles_activated;
 
                                 // get the sprite to draw
-                                // roll should be based on the maptile seed to keep visuals consistent
+                                // roll is based on the item seed to keep visuals consistent
                                 int roll = i.seed % layer_var.total_weight;
                                 std::string sprite_to_draw;
                                 for( const auto &sprite_list : layer_var.sprite ) {

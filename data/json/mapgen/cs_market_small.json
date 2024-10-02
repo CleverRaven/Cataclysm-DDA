@@ -32,8 +32,15 @@
         "G        ,,,,,,        G"
       ],
       "palettes": [ "open_air_market_palette" ],
-      "terrain": { "Y": "t_tree", "A": "t_atm", "G": "t_region_groundcover_urban", "!": "t_region_groundcover_urban" },
-      "furniture": { "T": "f_table", "b": "f_bench", "g": "f_trashcan", "B": "f_bulletin", "!": [ "f_region_flower", "f_null" ] },
+      "terrain": { "Y": "t_tree", "G": "t_region_groundcover_urban", "!": "t_region_groundcover_urban" },
+      "furniture": {
+        "A": "f_atm_off",
+        "T": "f_table",
+        "b": "f_bench",
+        "g": "f_trashcan",
+        "B": "f_bulletin",
+        "!": [ "f_region_flower", "f_null" ]
+      },
       "items": { "g": { "item": "trash", "chance": 50, "repeat": [ 1, 4 ] }, "B": { "item": "bulletin_public", "chance": 75 } },
       "place_nested": [
         { "chunks": [ { "param": "topleft_market_variant_nests", "fallback": "market_meat" } ], "x": 1, "y": 1 },

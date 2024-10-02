@@ -41,6 +41,12 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
 
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
+    SKIP_LOCATION_NO_ZONE,  // Zone activity but no zone found
+    SKIP_LOCATION_NO_SKILL, // Insufficient npc skill for task.
+    SKIP_LOCATION_BLOCKING, // Something is blocking the target location for companion.
+    SKIP_LOCATION_UNKNOWN_ACTIVITY, // This is probably an error: failed to find matching activity.
+    SKIP_LOCATION_NO_LOCATION, // No candidate locations found
+    SKIP_LOCATION_NO_MATCH, // No matches found
     CAN_DO_LOCATION,
     RETURN_EARLY       //another activity like a fetch activity has been started.
 };
@@ -225,7 +231,6 @@ void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_mop_do_turn( player_activity *act, Character *you );
 void operation_do_turn( player_activity *act, Character *you );
 void pickaxe_do_turn( player_activity *act, Character *you );
-void pulp_do_turn( player_activity *act, Character *you );
 void repair_item_do_turn( player_activity *act, Character *you );
 void robot_control_do_turn( player_activity *act, Character *you );
 void start_fire_do_turn( player_activity *act, Character *you );
@@ -236,8 +241,6 @@ void tree_communion_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
 void vibe_do_turn( player_activity *act, Character *you );
-void view_recipe_do_turn( player_activity *act, Character *you );
-void wait_stamina_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -257,7 +260,6 @@ void operation_finish( player_activity *act, Character *you );
 void pickaxe_finish( player_activity *act, Character *you );
 void plant_seed_finish( player_activity *act, Character *you );
 void pull_creature_finish( player_activity *act, Character *you );
-void pulp_finish( player_activity *act, Character *you );
 void repair_item_finish( player_activity *act, Character *you );
 void robot_control_finish( player_activity *act, Character *you );
 void socialize_finish( player_activity *act, Character *you );
@@ -270,10 +272,8 @@ void toolmod_add_finish( player_activity *act, Character *you );
 void train_finish( player_activity *act, Character *you );
 void vehicle_finish( player_activity *act, Character *you );
 void vibe_finish( player_activity *act, Character *you );
-void view_recipe_finish( player_activity *act, Character *you );
 void wait_finish( player_activity *act, Character *you );
 void wait_npc_finish( player_activity *act, Character *you );
-void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );

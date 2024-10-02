@@ -20,6 +20,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "flood_fill.h"
@@ -740,7 +741,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     }
 
     // don't drive over visible traps
-    if( here.can_see_trap_at( pt.raw(), driver ) ) {
+    if( here.can_see_trap_at( pt, driver ) ) {
         return false;
     }
 
@@ -1376,7 +1377,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
-        driver.add_msg_if_player( _( "Can't see a path forward." ) );
+        driver.add_msg_if_player( m_warning, _( "Can't see a path forward." ) );
         stop_autodriving( false );
         return autodrive_result::abort;
     }

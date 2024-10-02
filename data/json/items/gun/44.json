@@ -37,9 +37,15 @@
     "flags": [ "ALLOWS_BODY_BLOCK", "NO_TURRET" ],
     "//2": "NO_TURRET should be removed once vehicle turrets are capable of mounting guns with mods attached. As it stands, trying to mount this style of weapon would require the player to remove the conversion kit, thus rendering it unusable anyhow.",
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "deaglemag" ] } ],
     "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "stock", 1 ], [ "underbarrel mount", 1 ] ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "melee_damage": { "bash": 12 }
   },
   {
@@ -175,13 +181,13 @@
     "looks_like": "sw_619",
     "type": "GUN",
     "name": { "str": ".44 long barrel hunting revolver" },
-    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-calibre revolver in their line.  This one has an extended 8-inch barrel.",
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "colt_anaconda_8",
         "name": { "str": "Colt Anaconda" },
-        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has an extended 8-inch barrel."
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has an extended 8-inch barrel."
       }
     ],
     "weight": "1672 g",
@@ -223,13 +229,13 @@
     "copy-from": "colt_anaconda_8",
     "type": "GUN",
     "name": { "str": ".44 hunting revolver" },
-    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-calibre revolver in their line.  This one has a 6-inch barrel.",
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "colt_anaconda",
         "name": { "str": "Colt Anaconda" },
-        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has a 6-inch barrel."
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has a 6-inch barrel."
       }
     ],
     "weight": "1499 g",
@@ -246,13 +252,13 @@
     "copy-from": "colt_anaconda_8",
     "type": "GUN",
     "name": { "str": ".44 short barrel hunting revolver" },
-    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-calibre revolver in their line.  This one has a shortened 4-inch barrel.",
+    "description": "A large-frame revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for the manufacturer deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "colt_anaconda",
         "name": { "str": "Colt Anaconda" },
-        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-calibre revolver in their line.  This one has a shortened 4-inch barrel."
+        "description": "A large-frame double-action revolver with a modern plastic handle.  Too large for law enforcement, it was mostly used by sport shooters and hunters, for Colt deemed it to be the most accurate .44-caliber revolver in their line.  This one has a shortened 4-inch barrel."
       }
     ],
     "weight": "1499 g",

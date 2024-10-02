@@ -281,8 +281,8 @@ unload_options::query_unload_result unload_options::query_unload()
     molle = query_yn( _( "Detach MOLLE attached pouches?" ) );
     mods = query_yn(
                _( "Detach mods from weapons?  (Be careful as you may not have the skills to reattach them)" ) );
-    sparse_only = query_yn( _
-                            ( string_format( "Avoid unloading items stacks (not charges) greater than a certain amount?  (Amount defined in next window)" ) ) );
+    sparse_only = query_yn( string_format(
+                                _( "Avoid unloading items stacks (not charges) greater than a certain amount?  (Amount defined in next window)" ) ) );
     if( sparse_only ) {
         int threshold;
         if( query_int( threshold,
@@ -583,6 +583,11 @@ std::optional<std::string> zone_manager::query_name( const std::string &default_
     }
 }
 
+static std::string wrap60( const std::string &text )
+{
+    return string_join( foldstring( text, 60 ), "\n" );
+}
+
 std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 {
     const auto &types = get_manager().get_types();
@@ -609,13 +614,13 @@ std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 
     uilist as_m;
     as_m.desc_enabled = true;
-    as_m.text = _( "Select zone type:" );
+    as_m.title = _( "Select zone type:" );
 
     size_t i = 0;
     for( const auto &pair : types_vec ) {
         const zone_type &type = pair.second;
 
-        as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), type.desc() );
+        as_m.addentry_desc( i++, true, MENU_AUTOASSIGN, type.name(), wrap60( type.desc() ) );
     }
 
     as_m.query();
@@ -666,22 +671,22 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
-                              const bool manual, bool update_avatar, bool skip_cache_update )
+                              const bool manual, bool update_avatar, bool skip_cache_update, bool suppress_display_update )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
         return;
     }
-    bool displayed = is_displayed;
+    bool adjust_display = is_displayed && !suppress_display_update;
 
-    if( displayed ) {
+    if( adjust_display ) {
         toggle_display();
     }
 
     start = position.first;
     end = position.second;
 
-    if( displayed ) {
+    if( adjust_display ) {
         toggle_display();
     }
 
@@ -1502,7 +1507,7 @@ void _rotate_zone( map &target_map, zone_data &zone, int turns )
             target_map.getglobal( tripoint( std::max( z_l_start.x, z_l_end.x ),
                                             std::max( z_l_start.y, z_l_end.y ),
                                             z_end.z ) );
-        zone.set_position( std::make_pair( first.raw(), second.raw() ), false );
+        zone.set_position( std::make_pair( first.raw(), second.raw() ), false, true, false, true );
     }
 }
 

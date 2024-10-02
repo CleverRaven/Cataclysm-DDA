@@ -54,6 +54,17 @@
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
         "transparent": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "moves": 250,
+        "description": "Pocket for a front night vision attachment.",
+        "flag_restriction": [ "HELMET_FRONT_ATTACHMENT" ],
+        "inherits_flags": false
       }
     ]
   },

@@ -87,12 +87,8 @@
     "difficulty": 4,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": {
-      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
-    },
-    "max_duration": {
-      "math": [ "( (u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_bonus_calculate(30000, 200))" ]
-    }
+    "min_duration": { "math": [ "(u_spell_level('druid_water_walking') * 30000) * enhancement_proficiency_modifier()" ] },
+    "max_duration": { "math": [ "(u_spell_level('druid_water_walking') * 30000) + enhancement_proficiency_modifier()" ] }
   },
   {
     "type": "effect_on_condition",
@@ -104,5 +100,16 @@
       { "u_remove_item_with": "aura_druid_waterwalk" },
       { "u_message": "As you leave the water, your spell fades.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_SHIFTER_RAVEN_FORM_ASCEND",
+    "condition": "u_is_outside",
+    "effect": [
+      { "u_location_variable": { "context_val": "raven_form_fly_up_location" }, "z_adjust": 1, "outdoor_only": true },
+      { "u_message": "Your wings carry you upward.", "type": "good" },
+      { "u_teleport": { "context_val": "raven_form_fly_up_location" } }
+    ],
+    "false_effect": [ { "u_message": "You cannot fly up with a ceiling above you!", "type": "bad" } ]
   }
 ]

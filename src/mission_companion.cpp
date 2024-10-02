@@ -212,7 +212,6 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Camp_Recruiting: return "Camp_Recruiting";
         case mission_kind::Camp_Scouting: return "Camp_Scouting";
         case mission_kind::Camp_Combat_Patrol: return "Camp_Combat_Patrol";
-        case mission_kind::Camp_Chop_Shop: return "Camp_Chop_Shop";
         case mission_kind::Camp_Plow: return "Camp_Plow";
         case mission_kind::Camp_Plant: return "Camp_Plant";
         case mission_kind::Camp_Harvest: return "Camp_Harvest";
@@ -367,11 +366,6 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         {
             "Camp_Combat Patrol",
             to_translation( "Patrolling the region.\n" )
-        },
-        {
-            //  Obsolete entry
-            "Camp_Chop_Shop",
-            to_translation( "Working at the chop shop…\n" )
         },
         {
             "Camp_Plow",
@@ -538,8 +532,6 @@ void mission_id::deserialize( const JsonValue &val )
                    camp_upgrade_expansion_npc_string ) { // blueprint + id + dir
             id = Camp_Upgrade;
             parameters = st.substr( 0, id_size - camp_upgrade_expansion_npc_string.length() );
-        } else if( st == "_faction_exp_chop_shop_" ) {        // id + dir
-            id = Camp_Chop_Shop;
         } else if( st == "_faction_exp_kitchen_cooking_" ||   // id + dir
                    st == "_faction_exp_blacksmith_crafting_" ||
                    st == "_faction_exp_farm_crafting_" ) {
@@ -1277,7 +1269,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:

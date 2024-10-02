@@ -492,7 +492,11 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": [ 2, 5 ] }, { "item": "sheet_metal", "count": 1 } ]
+      "items": [
+        { "item": "wooden_post", "count": 1 },
+        { "item": "nail", "charges": [ 2, 5 ] },
+        { "item": "sheet_metal", "count": 1 }
+      ]
     },
     "max_volume": "10 L",
     "bash": {
@@ -501,9 +505,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": 1 },
         { "item": "nail", "charges": [ 1, 5 ] },
-        { "item": "splinter", "count": 2 },
+        { "item": "splinter", "count": [ 4, 16 ] },
         { "item": "sheet_metal_small", "count": [ 6, 10 ] },
         { "item": "scrap", "count": [ 4, 10 ] }
       ]

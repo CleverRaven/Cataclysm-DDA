@@ -159,7 +159,6 @@
         "|": "t_brick_wall",
         "X": "t_door_metal_pickable",
         "#": "t_brick_wall",
-        "!": "t_atm",
         "L": "t_door_locked",
         "D": "t_door_c",
         "W": { "param": "laundromat_wall_type", "fallback": "t_wall" },
@@ -185,6 +184,7 @@
         "&": "t_linoleum_white"
       },
       "furniture": {
+        "!": "f_atm_off",
         ".": "f_null",
         "#": "f_sign",
         "$": "f_counter",
@@ -917,7 +917,7 @@
       "items": {
         ".": { "item": "trash", "chance": 4 },
         "w": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] },
-        "b": { "item": "small_bugout", "chance": 50 }
+        "b": { "item": "guns_pistol_common", "chance": 50 }
       },
       "place_signs": [ { "signage": "FOR LEASE", "x": 10, "y": 21 } ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 8, 14 ], "y": [ 2, 9 ], "repeat": [ 2, 3 ] } ],
@@ -1013,7 +1013,7 @@
         ".": { "item": "trash", "chance": 5 },
         "m": { "item": "bed", "chance": 75 },
         "w": { "item": "stash_wood", "chance": 100, "repeat": [ 2, 3 ] },
-        "T": [ { "item": "bugout_food", "chance": 25 }, { "item": "bugout_small_gun", "chance": 25 } ],
+        "T": [ { "item": "bugout_food", "chance": 25 }, { "item": "guns_pistol_common", "chance": 25 } ],
         "b": [
           { "item": "small_bugout", "chance": 30 },
           { "item": "medium_bugout", "chance": 20 },

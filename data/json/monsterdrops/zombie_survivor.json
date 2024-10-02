@@ -166,7 +166,6 @@
             "distribution": [
               { "group": "guns_pistol_common", "prob": 100 },
               { "group": "guns_rifle_common_worn", "prob": 20, "contents-item": "shoulder_strap" },
-              { "group": "guns_smg_common_worn", "prob": 5, "contents-item": "shoulder_strap" },
               { "group": "guns_shotgun_common_worn", "prob": 40, "contents-item": "shoulder_strap_simple" }
             ],
             "prob": 24
@@ -337,7 +336,7 @@
       [ "pot_helmet", 7 ],
       [ "helmet_army", 4 ],
       [ "hat_hard", 22 ],
-      [ "miner_hat", 9 ],
+      { "group": "hat_hard_flashlight", "prob": 9 },
       [ "firehelmet", 10 ],
       [ "chainmail_junk_hood", 1 ],
       [ "pickelhaube", 1 ]

@@ -12,6 +12,7 @@
 #include "character.h"
 #include "creature.h"
 #include "creature_tracker.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -285,13 +286,13 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         }
     }
 
-    const tripoint target = ( spell_data.self ||
-                              allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
+    const tripoint_bub_ms target = ( spell_data.self ||
+                                     allow_no_target ) ? mon.pos_bub() : mon.attack_target()->pos_bub();
     spell spell_instance = spell_data.get_spell( mon );
     spell_instance.set_message( spell_data.trigger_message );
 
     // Bail out if the target is out of range.
-    if( !spell_data.self && rl_dist( mon.pos(), target ) > spell_instance.range( mon ) ) {
+    if( !spell_data.self && rl_dist( mon.pos_bub(), target ) > spell_instance.range( mon ) ) {
         return false;
     }
 
@@ -300,7 +301,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    add_msg_if_player_sees( target, spell_instance.message(), mon.disp_name(),
+    add_msg_if_player_sees( target.raw(), spell_instance.message(), mon.disp_name(),
                             spell_instance.name(), target_name );
 
     avatar fake_player;
@@ -366,6 +367,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
 
+    optional( obj, was_loaded, "eoc", eoc );
     optional( obj, was_loaded, "hitsize_min", hitsize_min, -1 );
     optional( obj, was_loaded, "hitsize_max", hitsize_max, -1 );
     optional( obj, was_loaded, "attack_upper", attack_upper, true );
@@ -612,8 +614,6 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             std::set<tripoint> intersect;
             std::set_intersection( neighbors.begin(), neighbors.end(), candidates.begin(), candidates.end(),
                                    std::inserter( intersect, intersect.begin() ) );
-            std::set<tripoint>::iterator intersect_iter = intersect.begin();
-            std::advance( intersect_iter, rng( 0, intersect.size() - 1 ) );
             tripoint target_square = random_entry<std::set<tripoint>>( intersect );
             if( z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
@@ -881,7 +881,7 @@ bool melee_actor::call( monster &z ) const
             }
         }
     }
-    if( throw_strength > 0 ) {
+    if( throw_strength > 0 && !target->has_flag( mon_flag_IMMOBILE ) ) {
         if( g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                                throw_strength ) ) {
             target->add_msg_player_or_npc( msg_type, throw_msg_u,
@@ -914,6 +914,14 @@ bool melee_actor::call( monster &z ) const
             }
         }
     }
+
+    //run EoCs
+    for( const effect_on_condition_id &eoc : eoc ) {
+        dialogue d( get_talker_for( z ), get_talker_for( target ) );
+        write_var_value( var_type::context, "npctalk_var_damage", &d, damage_total );
+        eoc->activate( d );
+    }
+
     return true;
 }
 
@@ -1103,7 +1111,7 @@ int gun_actor::get_max_range()  const
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
-    tripoint aim_at;
+    tripoint_bub_ms aim_at;
     bool untargeted = false;
 
     if( has_condition ) {
@@ -1129,10 +1137,10 @@ bool gun_actor::call( monster &z ) const
             }
             return false;
         }
-        aim_at = target->pos();
+        aim_at = target->pos_bub();
     } else {
         target = z.attack_target();
-        aim_at = target ? target->pos() : tripoint_zero;
+        aim_at = target ? target->pos_bub() : tripoint_bub_ms_zero;
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
                 return false;
@@ -1143,11 +1151,11 @@ bool gun_actor::call( monster &z ) const
             if( moving_veh_parts.empty() ) {
                 return false;
             }
-            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() ).raw();
+            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() );
         }
     }
 
-    const int dist = rl_dist( z.pos(), aim_at );
+    const int dist = rl_dist( z.pos_bub(), aim_at );
     if( target ) {
         add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
     } else {
@@ -1212,7 +1220,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
     return true;
 }
 
-bool gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
+bool gun_actor::shoot( monster &z, const tripoint_bub_ms &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );

@@ -122,7 +122,7 @@
       { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
       {
         "text": "Well, today's your lucky day, my metal friend.  I already know the place quite well.",
-        "condition": { "u_has_var": "dialogue_intercom_u_discovered_robofac_intercom", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_u_discovered_robofac_intercom" } ] },
         "topic": "TALK_EXODII_MERCHANT_mission_1_met_hub"
       },
       {
@@ -480,19 +480,34 @@
     "responses": [
       {
         "text": "[Install Air Filtration CBM] I like the look of that air filtration thingy.  Does it come with pine-fresh scent?",
-        "effect": [ { "u_add_bionic": "bio_purifier" }, { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" } ],
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_purifier" }
+        ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
       },
       {
         "text": "[Install Blood Analysis CBM] I've always wondered what's in my veins.  Let's try that blood analysis module.",
-        "effect": [ { "u_add_bionic": "bio_blood_anal" }, { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" } ],
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_blood_anal" }
+        ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
       },
       {
         "text": "[Install Radiation Scrubber CBM] I have nightmares about ending up like Marie Curie.  Radiation scrubber it has to be.",
-        "effect": [ { "u_add_bionic": "bio_radscrubber" }, { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" } ],
+        "effect": [
+          { "u_add_effect": "narcosis", "duration": "30 minutes" },
+          { "u_add_effect": "sleep", "duration": "30 minutes" },
+          { "u_assign_activity": "ACT_CBM_SURGERY", "duration": "30 minutes" },
+          { "u_add_bionic": "bio_radscrubber" }
+        ],
         "opinion": { "trust": 4, "value": 3 },
         "topic": "TALK_DONE"
       },

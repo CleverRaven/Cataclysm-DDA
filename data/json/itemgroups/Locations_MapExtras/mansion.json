@@ -313,7 +313,7 @@
     "id": "dresser_shabby",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "harddrugs", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
+    "groups": [ [ "harddrugs_residential", 10 ], [ "clothing_shabby", 70 ], [ "clothing_shabby", 50 ], [ "clothing_shabby", 40 ] ]
   },
   {
     "id": "dresser_fancy",
@@ -1213,7 +1213,7 @@
       { "item": "gum", "prob": 30, "count": [ 1, 10 ] },
       [ "glass", 20 ],
       [ "bandana", 10 ],
-      { "item": "mp3", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "mp3", "prob": 6, "charges": [ 0, 100 ] },
       { "item": "portable_game", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "cell_phone", "prob": 1, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 5, "charges": [ 0, -1 ] },
@@ -1325,7 +1325,7 @@
       { "item": "sewing_kit", "prob": 10, "charges": [ 0, -1 ] },
       [ "mag_beauty", 10 ],
       [ "mag_glam", 10 ],
-      { "group": "harddrugs", "prob": 5 },
+      { "group": "harddrugs_residential", "prob": 5 },
       [ "hairbrush", 30 ],
       [ "comb_pocket", 15 ],
       [ "curler_hair", 10 ],
@@ -1385,7 +1385,6 @@
       [ "union_suit", 20 ],
       [ "pants_army", 10 ],
       [ "jersey", 40 ],
-      [ "linuxtshirt", 20 ],
       [ "kilt", 3 ],
       [ "gloves_white", 10 ]
     ]
@@ -1620,7 +1619,7 @@
       { "group": "archery_ammo", "prob": 60 },
       { "group": "crossbow_bolts", "prob": 60 },
       { "group": "ammo_reloaded", "prob": 30 },
-      { "group": "mags_obscure", "prob": 30 },
+      { "group": "mags_common", "prob": 30 },
       { "group": "ammo_cannon", "prob": 10 }
     ]
   },

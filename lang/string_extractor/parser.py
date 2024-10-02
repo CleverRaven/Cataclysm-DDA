@@ -241,6 +241,7 @@ parsers = {
     "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
+    "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
     "trait_migration": dummy_parser,
@@ -263,5 +264,5 @@ parsers = {
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
     "wheel": parse_generic,
-    "widget": parse_widget
+    "widget": parse_widget,
 }

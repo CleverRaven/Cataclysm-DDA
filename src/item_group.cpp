@@ -230,6 +230,11 @@ item Single_item_creator::create_single_without_container( const time_point &bir
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.set_flag( flag_FIT );
     }
+
+    if( active.has_value() ) {
+        tmp.active = *active;
+    }
+
     if( components_items ) {
         for( itype_id component_id : *components_items ) {
             if( !component_id.is_valid() ) {
@@ -501,7 +506,15 @@ std::map<const itype *, std::pair<int, int>> Single_item_creator::every_item_min
                                         i->charges_default() : modifier->charges.second;
                 return { std::make_pair( i, std::make_pair( modifier->count.first * min_charges, modifier->count.second * max_charges ) ) };
             }
-            return { std::make_pair( i, modifier->count ) };
+
+            // since modifier is std::optional it might not be present
+            // if not - we return [0,1] if item has probability to spawn less than a hundred
+            // and [1,1] otherwise
+            if( modifier ) {
+                return { std::make_pair( i, modifier->count ) };
+            } else {
+                return { std::make_pair( i, std::make_pair( probability < 100 ? 0 : 1, 1 ) ) };
+            }
         }
         case S_ITEM_GROUP: {
             Item_spawn_data *isd = item_controller->get_group( item_group_id( id ) );

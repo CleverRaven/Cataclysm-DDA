@@ -75,7 +75,7 @@ static const trait_id trait_test_trait( "test_trait" );
 static npc &create_test_talker( bool shopkeep = false )
 {
     const string_id<npc_template> test_talker( shopkeep ? "test_shopkeep" : "test_talker" );
-    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
+    const character_id model_id = get_map().place_npc( point_bub_ms( 25, 25 ), test_talker );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
@@ -818,8 +818,8 @@ TEST_CASE( "npc_talk_vars", "[npc_talk]" )
     effects.apply( d );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
-    CHECK( d.responses[1].text == "This is a u_has_var, u_remove_var test response." );
-    CHECK( d.responses[2].text == "This is a npc_has_var, npc_remove_var test response." );
+    CHECK( d.responses[1].text == "This is a compare_string, u_remove_var test response." );
+    CHECK( d.responses[2].text == "This is a compare_string, npc_remove_var test response." );
     effects = d.responses[1].success;
     effects.apply( d );
     effects = d.responses[2].success;

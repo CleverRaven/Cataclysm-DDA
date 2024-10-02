@@ -25,7 +25,8 @@
     "type": "mutation",
     "id": "DREAMLESS",
     "name": { "str": "Dreamless" },
-    "points": 0,
+    "points": -1,
+    "starting_trait": true,
     "valid": false,
     "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
   },
@@ -395,7 +396,7 @@
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR", "HEMOVORE" ],
     "enchantments": [
       { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 1 } ] },
-      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.8 } ] }
+      { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "METABOLISM", "multiply": -0.2 } ] }
     ]
   },
   {
@@ -470,8 +471,8 @@
     "enchantments": [
       {
         "values": [
-          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
-          { "value": "METABOLISM", "multiply": 0.5 },
+          { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
+          { "value": "METABOLISM", "multiply": -0.5 },
           { "value": "DISINFECTANT_BONUS", "multiply": -1 },
           { "value": "BANDAGE_BONUS", "multiply": -1 }
         ]
@@ -666,7 +667,7 @@
         ]
       },
       {
-        "condition": { "and": [ { "u_has_flag": "QUADRUPED_CROUCH" }, { "u_has_flag": "QUADRUPED_RUN" }, { "not": "u_can_drop_weapon" } ] },
+        "condition": { "and": [ { "not": "u_can_drop_weapon" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.15 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
       },
@@ -676,7 +677,7 @@
         "values": [ { "value": "MELEE_DAMAGE", "multiply": -1 }, { "value": "RANGE", "multiply": -1 } ]
       }
     ],
-    "flags": [ "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TEMPORARY_SHAPESHIFT" ],
+    "flags": [ "MUTE", "PRED3", "QUADRUPED_CROUCH", "QUADRUPED_RUN", "TOUGH_FEET", "TEMPORARY_SHAPESHIFT" ],
     "override_look": { "id": "mon_wolf", "tile_category": "monster" },
     "integrated_armor": [ "integrated_fangs", "integrated_lupine_fur" ]
   },
@@ -729,6 +730,117 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_MASTER_MORTAL_MIND",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Master the Mortal Mind" },
+    "description": "Your ability to influence others has amplified.  You can now spend blood while talking with someone else to make them like you more, with the costliest application of this power being able to turn them into your obsessed servants.  Not all can be influenced by this power, for anger, panic and strong ties to a group that isn't yours will disrupt the process.  Other vampires and the rare saint-blooded are also immune to it."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_DISTILLATE_INNER_BLOOD",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Distillate the Inner Blood" },
+    "description": "Unlike lesser vampires who bloat as they gorge on blood, you concentrate the blood you consume, making it fit nicely in your veins.  This removes the penalties for containing too much blood, but doesn't expand your maximal capacity.",
+    "enchantments": [ "ench_vampire_no_gorge_issues" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SHADOW_FORM",
+    "points": 0,
+    "name": { "str": "Shape of the Shadowed Path" },
+    "description": "You can shroud your body and what you are carrying with shadows, amplifying your combat ability but preventing communication and using other powers until you return to your normal form.  It also costs blood for every second you spend in that state.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_VAMPIRE_SHADOW_FORM_activated" ],
+    "deactivated_eocs": [ "EOC_VAMPIRE_SHADOW_FORM_deactivated" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_SHADOW_FORM_TRAITS",
+    "name": { "str": "Shadow Form" },
+    "points": 0,
+    "description": "You are shrouded in shadows.  This provides the actual effects of Shadow form.  Should not be player-visible.",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "player_display": false,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "SPEED", "multiply": 0.5 },
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "NIGHT_VIS", "add": 50 },
+          { "value": "STAMINA_REGEN_MOD", "add": 0.5 },
+          { "value": "DODGE_CHANCE", "add": 15 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -1000 }
+        ]
+      }
+    ],
+    "flags": [ "MUTE", "NO_SPELLCASTING ", "NO_PSIONICS" ],
+    "override_look": { "id": "mon_darkman", "tile_category": "monster" }
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_LAST_BREATH_MIST",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Last Breath's Mist" },
+    "description": "Your mastery over your mist form has increased to the point that you can now instinctively activate it should you be about to die.  It requires you to have a lot of stolen blood in your body and can't trigger more than once a week but might save your life."
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_IRON_MIND",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Immortal Iron Mind" },
+    "description": "Your vampiric potency has reinforced your mind beyond what a mortal could ever hope.  You are immune to anything that culd negatively impact your mind.",
+    "//": "There is no difference between this and the Ierde version, so I use that one instead of making a new one to avoid duplicates.  The player isn't supposed to see this anyway.",
+    "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "VAMPIRE_BLIND_THE_SUN",
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Blind the Sun" },
+    "description": "You mastery over the shadowed path of blood has become much more potent, allowing you to use your vampiric powers and a massive expense of blood to blot out the sun for a few dozen minutes.",
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_VAMPIRE_BLIND_THE_SUN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RENFIELD",
+    "name": { "str": "Renfield" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "This person is now a renfield, a human obsessed with serving their vampire masters.  This obsession impedes their cognition as they struggle to think about anything but serving said vampire masters.",
+    "mixed_effect": true,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": -4 } ] } ]
   },
   {
     "type": "mutation",
@@ -792,5 +904,15 @@
     "points": -4,
     "description": "You were born with an allergy to iron and, to a lesser extent, steel.  Wearing or touching anything made of iron or steel will cause you pain and discomfort.",
     "starting_trait": true
+  },
+  {
+    "type": "mutation",
+    "id": "FALSE_HOMULLUS_HATRED",
+    "name": { "str": "False Homullus" },
+    "points": -4,
+    "description": "The homullus can sense the stolen power within you and they will not react well to it.",
+    "purifiable": false,
+    "valid": false,
+    "anger_relations": [ [ "HOMULLUS", 100 ] ]
   }
 ]

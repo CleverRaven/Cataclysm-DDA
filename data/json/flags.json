@@ -1205,6 +1205,11 @@
     "//": "This mutation does not count toward thresholds at all."
   },
   {
+    "id": "ROBUST_GENETIC",
+    "type": "json_flag",
+    "//": "Applies robust genetic bonus - mutations give only 1 unit of instability for all traits instead of 1 unit for your current tree, and 2 for any outer tree."
+  },
+  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "craft_inherit": true,
@@ -1532,6 +1537,11 @@
     "id": "INTEGRATED",
     "type": "json_flag",
     "info": "This is <info>integrated into the body</info>."
+  },
+  {
+    "id": "MORPHIC",
+    "type": "json_flag",
+    "info": "This is <info>naturally sized to the body</info>."
   },
   {
     "id": "IR_EFFECT",
@@ -2193,6 +2203,11 @@
     "info": "Allows movement in open air."
   },
   {
+    "id": "ALL_TERRAIN_NAVIGATION",
+    "type": "json_flag",
+    "info": "Allows movement over rough and sharp terrain without penalty."
+  },
+  {
     "id": "EXO_SMALL",
     "type": "json_flag",
     "info": "This is meant for a small exosuit hardpoint."
@@ -2413,6 +2428,11 @@
     "info": "You feel like you would keep all your items if you somehow became incorporeal."
   },
   {
+    "id": "CLIMB_FLYING",
+    "type": "json_flag",
+    "info": "You can ascend straight up even with no physical surface to climb on."
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2426,6 +2446,26 @@
     "id": "ROOTS3",
     "type": "json_flag",
     "info": "The character has extensive roots, which helps with the TREE_COMMUNION mutation."
+  },
+  {
+    "id": "ANIMALDISCORD",
+    "type": "json_flag",
+    "info": "The character is disliked by natural animals."
+  },
+  {
+    "id": "ANIMALDISCORD2",
+    "type": "json_flag",
+    "info": "The character is intensely disliked by natural animals."
+  },
+  {
+    "id": "ANIMALEMPATH",
+    "type": "json_flag",
+    "info": "The character is liked by natural animals."
+  },
+  {
+    "id": "ANIMALEMPATH2",
+    "type": "json_flag",
+    "info": "The character is intensely liked by natural animals."
   },
   {
     "id": "UNDERFED",
@@ -2536,5 +2576,10 @@
     "id": "WATERWALKING",
     "type": "json_flag",
     "info": "You can walk across the surface of water."
+  },
+  {
+    "id": "CRAFT_IN_DARKNESS",
+    "type": "json_flag",
+    "info": "You can craft at 100% speed in any level of light."
   }
 ]

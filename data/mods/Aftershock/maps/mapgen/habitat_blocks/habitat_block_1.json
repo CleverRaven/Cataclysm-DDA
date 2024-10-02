@@ -37,8 +37,7 @@
         "afs_habitat_residential_furnishing",
         "afs_habblock_1_paramter_palette"
       ],
-      "terrain": { "3": "t_atm" },
-      "furniture": { "1": "f_washer", "2": "f_dryer" },
+      "furniture": { "1": "f_washer", "2": "f_dryer", "3": "f_atm" },
       "vendingmachines": { "V": { "item_group": "afs_vending_false_meals", "reinforced": true, "powered": true } },
       "place_nested": [
         { "chunks": [ { "param": "variant", "fallback": "afs_habblock_1_slot1_cafe_a1" } ], "x": 0, "y": 0 },

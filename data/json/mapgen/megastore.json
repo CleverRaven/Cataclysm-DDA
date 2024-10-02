@@ -18,11 +18,11 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "%": "t_gates_mech_control",
-      "@": "t_atm",
       "I": "t_support_l",
       "Y": "t_switchgear_s"
     },
     "furniture": {
+      "@": "f_atm_off",
       "k": "f_rack",
       "K": "f_rack",
       "r": "f_rack",

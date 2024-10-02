@@ -362,7 +362,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
-                you.clear_destination();
+                you.abort_automove();
                 return false;
             }
             if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
@@ -406,7 +406,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto move canceled." ) );
             add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
-            you.clear_destination();
+            you.abort_automove();
             return false;
         }
 
@@ -460,7 +460,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc.raw() ) ) {
             if( you.is_auto_moving() ) {
-                you.clear_destination();
+                you.abort_automove();
             }
             you.mod_moves( -you.get_speed() * 0.2 );
             return false;
@@ -507,6 +507,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( g->walk_move( dest_loc, via_ramp ) ) {
+        return true;
+    }
+    if( g->phasing_move_enchant( dest_loc.raw(), you.calculate_by_enchantment( 0,
+                                 enchant_vals::mod::PHASE_DISTANCE ) ) ) {
         return true;
     }
     if( g->phasing_move( dest_loc.raw() ) ) {
@@ -604,7 +608,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         }
     }
 
-    const tripoint above_u( you.posx(), you.posy(), you.posz() + 1 );
+    const tripoint_bub_ms above_u( you.pos_bub() + tripoint_above );
     if( m.has_floor_or_support( above_u ) ) {
         add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
         return false;
@@ -758,7 +762,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    you.reach_attack( best.pos() );
+    you.reach_attack( best.pos_bub() );
 }
 
 // TODO: Move data/functions related to targeting out of game class
@@ -992,7 +996,7 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const std::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -1130,7 +1134,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     bool use_in_place = false;
 
     if( !loc ) {
-        loc = game_menus::inv::use( you );
+        loc = game_menus::inv::use();
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
