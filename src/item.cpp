@@ -12843,7 +12843,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos, map &
 
         units::temperature_delta temp_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
-        if( !g->new_game ) {
+        if( !g->new_game && !g->swapping_worlds ) {
             temp_mod = get_heat_radiation( pos );
             temp_mod += get_convection_temperature( pos );
             temp_mod += here.get_temperature_mod( pos );
