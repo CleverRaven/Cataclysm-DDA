@@ -710,7 +710,8 @@
             "ak556": 1,
             "minidraco556": 1,
             "bren2_556": 1,
-            "rdb_223": 1
+            "rdb_223": 1,
+            "iwi_tavor_x95_300blk": 1
           }
         },
         {
@@ -853,7 +854,7 @@
         { "type": "762R", "weight": 4, "items": { "mosin44": 1, "mosin91_30": 1, "psl": 1 } },
         { "type": "270win", "weight": 3, "items": { "remington700_270": 1 } },
         { "type": "410shot", "weight": 3, "items": { "saiga_410": 1, "shotgun_410": 1 } },
-        { "type": "300blk", "weight": 2, "items": { "iwi_tavor_x95_300blk": 1, "sig_mcx_rattler_sbr": 1 } },
+        { "type": "300blk", "weight": 2, "items": { "sig_mcx_rattler_sbr": 1 } },
         { "type": "123ln", "weight": 1, "items": { "pamd68": 1, "pamd71z": 1 } },
         {
           "type": "10mm",
