@@ -1415,6 +1415,31 @@
     "qualities": [ [ "JACK", 20 ], [ "LIFT", 20 ] ]
   },
   {
+    "id": "telepath_mind_shield_item",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "[Ψ]telepathic shield" },
+    "description": "Your mind is like a fortress.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "[",
+    "color": "pink",
+    "flags": [
+      "PERSONAL",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS",
+      "INTEGRATED",
+      "PADDED",
+      "SEMITANGIBLE",
+      "PORTAL_PROOF",
+      "WATER_FRIENDLY",
+      "ONLY_ONE",
+      "NO_DROP"
+    ]
+  },
+  {
     "id": "vita_bandage_01",
     "type": "GENERIC",
     "name": { "str": "Vitakinetic Wound Staunching" },
