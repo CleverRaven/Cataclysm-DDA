@@ -219,7 +219,7 @@
     {
       "type": "link_up",
       "cable_length": 5,
-      "charge_rate": 140 W"
+      "charge_rate": "140 W"
     }
     ],
     "armor": [
@@ -278,7 +278,7 @@
       {
       "type": "link_up",
       "cable_length": 5,
-      "charge_rate": 140 W"
+      "charge_rate": "140 W"
       }
     ],
     "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "USE_UPS", "RAINPROOF", "HOOD", "SOFT" ]
