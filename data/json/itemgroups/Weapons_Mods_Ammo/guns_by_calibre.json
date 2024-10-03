@@ -503,7 +503,8 @@
       { "group": "nested_mdrx_retool_223rem_civilian", "prob": 9 },
       { "group": "nested_cz600", "prob": 13 },
       { "group": "nested_sl8", "prob": 3 },
-      { "group": "nested_sig_assault_rifle", "prob": 1 }
+      { "group": "nested_sig_assault_rifle", "prob": 1 },
+      { "group": "nested_iwi_tavor_x95", "prob": 27 }
     ]
   },
   {
@@ -663,7 +664,8 @@
       { "group": "mdrx", "prob": 5 },
       { "group": "cz600", "prob": 13 },
       { "item": "sl8", "prob": 3 },
-      { "item": "sig_assault_rifle", "prob": 1 }
+      { "item": "sig_assault_rifle", "prob": 1 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 27 }
     ]
   },
   {

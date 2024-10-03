@@ -1852,7 +1852,7 @@
     ]
   },
   {
-    "id": "nested_iwi_tavor_x95_300blk",
+    "id": "nested_iwi_tavor_x95",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
@@ -1861,7 +1861,7 @@
       { "item": "iwi_tavor_x95_300blk", "charges": [ 0, 30 ] },
       { "group": "stanag_30_random" },
       { "group": "stanag_30_random", "prob": 50 },
-      { "group": "on_hand_300BLK" }
+      { "group": "on_hand_223" }
     ]
   },
   {
