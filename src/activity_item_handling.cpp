@@ -587,12 +587,12 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
     for( const tripoint &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.getabs( pt ) );
+        you.activity.coord_set.insert( here.getglobal( pt ).raw() );
     }
     // values[0]
-    you.activity.values.push_back( here.getabs( src_loc ).x );
+    you.activity.values.push_back( here.getglobal( src_loc ).x() );
     // values[1]
-    you.activity.values.push_back( here.getabs( src_loc ).y );
+    you.activity.values.push_back( here.getglobal( src_loc ).y() );
     // values[2]
     you.activity.values.push_back( point_zero.x );
     // values[3]
@@ -2970,8 +2970,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                         return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
                     }
                     act_prev.coords.push_back(
-                        here.getabs(
-                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
+                        here.getglobal(
+                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] ).raw()
                     );
                 }
                 act_prev.placement = src;

@@ -748,6 +748,10 @@
     "melee_dice_sides": 7,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
     "hp": 400,
+    "special_attacks": [
+      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ]
+    ],
     "description": "Huge, long-necked, four-legged dinosaur corpse with a long tail.",
     "burn_into": "mon_zaplocanthosaurus_scorched",
     "fungalize_into": "mon_zaplocanthosaurus_fungus",
@@ -757,20 +761,14 @@
     "type": "MONSTER",
     "id": "mon_zamargasaurus",
     "name": { "str_sp": "amargasaurus zombie" },
-    "copy-from": "mon_zapatosaurus",
+    "copy-from": "mon_zaplocanthosaurus",
     "looks_like": "mon_zapatosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
-    "speed": 55,
-    "attack_cost": 55,
-    "melee_dice": 4,
-    "melee_dice_sides": 7,
-    "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
     "hp": 250,
     "description": "Huge, long-necked, four-legged dinosaur corpse with two parallel rows of tall spines down its neck and back and a whip-like tail.",
     "burn_into": "mon_zamargasaurus_scorched",
     "fungalize_into": "mon_zamargasaurus_fungus",
     "upgrades": { "half_life": 30, "into_group": "GROUP_zamargasaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "armor": { "bash": 8, "cut": 8, "bullet": 6 }
   },
   {
@@ -792,7 +790,7 @@
     "hp": 480,
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ]
+      [ "tailsmash_long_DinoMod", 30 ]
     ],
     "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "burn_into": "mon_zapatosaurus_scorched",
@@ -830,7 +828,7 @@
     "melee_dice_sides": 4,
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ]
+      [ "tailsmash_long_DinoMod", 30 ]
     ],
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.",
     "burn_into": "mon_ziplodocus_scorched",

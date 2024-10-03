@@ -666,19 +666,14 @@ float map::ambient_light_at( const tripoint_bub_ms &p ) const
     return get_cache_ref( p.z() ).lm[p.x()][p.y()].max();
 }
 
-bool map::is_transparent( const tripoint &p ) const
+bool map::is_transparent( const tripoint_bub_ms &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
-bool map::is_transparent_wo_fields( const tripoint &p ) const
+bool map::is_transparent_wo_fields( const tripoint_bub_ms &p ) const
 {
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
-}
-
-float map::light_transparency( const tripoint &p ) const
-{
-    return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
+    return get_cache_ref( p.z() ).transparent_cache_wo_fields[p.x()][p.y()];
 }
 
 float map::light_transparency( const tripoint_bub_ms &p ) const
@@ -816,11 +811,6 @@ lit_level map::apparent_light_at( const tripoint_bub_ms &p,
     } else {
         return lit_level::BLANK;
     }
-}
-
-bool map::pl_sees( const tripoint &t, const int max_range ) const
-{
-    return pl_sees( tripoint_bub_ms( t ), max_range );
 }
 
 bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const

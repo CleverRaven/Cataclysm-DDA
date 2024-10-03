@@ -116,13 +116,13 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare",
-    "copy-from": "guns_pistol_rare",
+    "id": "guns_pistol_common",
+    "copy-from": "guns_pistol_common",
     "extend": {
       "items": [
-        { "item": "wand_magic_missile_minor", "prob": 35, "charges": [ 12, 34 ] },
-        { "item": "wand_fireball_minor", "prob": 25, "charges": [ 3, 24 ] },
-        { "item": "m47a1", "prob": 25, "charges": [ 0, 6 ] }
+        { "item": "wand_magic_missile_minor", "prob": 6, "charges": [ 12, 34 ] },
+        { "item": "wand_fireball_minor", "prob": 4, "charges": [ 3, 24 ] },
+        { "item": "m47a1", "prob": 4, "charges": [ 0, 6 ] }
       ]
     }
   },

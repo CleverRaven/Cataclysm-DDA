@@ -74,7 +74,6 @@ enum mission_kind : int {
     Camp_Recruiting,
     Camp_Scouting,
     Camp_Combat_Patrol,
-    Camp_Chop_Shop,  //  Obsolete removed during 0.E
     Camp_Plow,
     Camp_Plant,
     Camp_Harvest,

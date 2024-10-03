@@ -1785,7 +1785,7 @@ class map
                                   const units::mass &burned_mass );
         // See fields.cpp
         void process_fields();
-        void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
+        void process_fields_in_submap( submap *current_submap, const tripoint_bub_sm &submap_pos );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1921,7 +1921,7 @@ class map
     private:
         // Is called when field intensity is changed.
         // Invalidates relevan map caches, such as transparency cache.
-        void on_field_modified( const tripoint &p, const field_type &fd_type );
+        void on_field_modified( const tripoint_bub_ms &p, const field_type &fd_type );
 
         template<typename Map>
         static cata::copy_const<Map, field_entry> *get_field_helper(
@@ -2079,7 +2079,7 @@ class map
         void build_map_cache( int zlev, bool skip_lightmap = false );
         // Unlike the other caches, this populates a supplied cache instead of an internal cache.
         void build_obstacle_cache(
-            const tripoint &start, const tripoint &end,
+            const tripoint_bub_ms &start, const tripoint_bub_ms &end,
             cata::mdarray<fragment_cloud, point_bub_ms> &obstacle_cache );
 
         // this function spawns a vehicle from a blueprint \p type and adds it to this map
@@ -2105,8 +2105,6 @@ class map
                               int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true );
 
         // Light/transparency
-        // TODO: Remove untyped overload
-        float light_transparency( const tripoint &p ) const;
         float light_transparency( const tripoint_bub_ms &p ) const;
         // Assumes 0,0 is light map center
         lit_level light_at( const tripoint &p ) const;
@@ -2115,8 +2113,8 @@ class map
         /**
          * Returns whether the tile at `p` is transparent(you can look past it).
          */
-        bool is_transparent( const tripoint &p ) const;
-        bool is_transparent_wo_fields( const tripoint &p ) const;
+        bool is_transparent( const tripoint_bub_ms &p ) const;
+        bool is_transparent_wo_fields( const tripoint_bub_ms &p ) const;
         // End of light/transparency
 
         /**
@@ -2127,8 +2125,6 @@ class map
          * @param max_range All squares that are further away than this are invisible.
          * Ignored if smaller than 0.
          */
-        // TODO: Get rid of untyped overload.
-        bool pl_sees( const tripoint &t, int max_range ) const;
         bool pl_sees( const tripoint_bub_ms &t, int max_range ) const;
 
         std::set<vehicle *> dirty_vehicle_list;
@@ -2141,20 +2137,10 @@ class map
          * Output is in the same scale, but in global system.
          */
         // TODO: fix point types (remove the first overload)
-        tripoint getabs( const tripoint &p ) const;
-        tripoint getabs( const tripoint_bub_ms &p ) const;
-        // TODO: fix point types (remove the first overload)
         tripoint_abs_ms getglobal( const tripoint &p ) const;
         tripoint_abs_ms getglobal( const tripoint_bub_ms &p ) const;
-        // TODO: Get rid of untyped overload
-        point getabs( const point &p ) const {
-            return getabs( tripoint( p, abs_sub.z() ) ).xy();
-        }
-        point getabs( const point_bub_ms &p ) const {
-            return getabs( tripoint_bub_ms( p, abs_sub.z() ) ).xy();
-        }
         /**
-         * Inverse of @ref getabs
+         * Inverse of @ref getglobal
          */
         // TODO: Get rid of these and use bub_from_abs instead
         tripoint getlocal( const tripoint_abs_ms &p ) const;
@@ -3025,10 +3011,10 @@ class tinymap : private map
         optional_vpart_position veh_at( const tripoint_omt_ms &p ) const {
             return map::veh_at( p.raw() );
         }
-        vehicle *add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
+        vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true ) {
-            return map::add_vehicle( type, p, dir, init_veh_fuel, init_veh_status,
-                                     merge_wrecks ); // TODO: Make it typed
+            return map::add_vehicle( type, rebase_bub( p ), dir, init_veh_fuel, init_veh_status,
+                                     merge_wrecks );
         }
         void add_splatter_trail( const field_type_id &type, const tripoint_omt_ms &from,
                                  const tripoint_omt_ms &to ) {
@@ -3051,8 +3037,8 @@ class tinymap : private map
         tripoint_abs_sm get_abs_sub() const {
             return map::get_abs_sub();    // TODO: Convert to tripoint_abs_omt
         }
-        tripoint getabs( const tripoint &p ) const {
-            return map::getabs( p );    // TODO: Make it typed
+        tripoint_abs_ms getglobal( const tripoint_omt_ms &p ) const {
+            return map::getglobal( rebase_bub( p ) );
         }
         // TODO: Get rid of untyped overload.
         tripoint getlocal( const tripoint_abs_ms &p ) const {

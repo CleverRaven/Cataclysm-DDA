@@ -355,7 +355,7 @@
     "magazine": 100,
     "ammo": 90,
     "items": [
-      { "group": "guns_rare_readied", "prob": 35 },
+      { "group": "guns_common", "prob": 35 },
       { "item": "mask_filter", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 15 },
       { "item": "radio", "prob": 10 },

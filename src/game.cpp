@@ -1178,7 +1178,7 @@ vehicle *game::place_vehicle_nearby(
             // try place vehicle there.
             tinymap target_map;
             target_map.load( goal, false );
-            const tripoint tinymap_center( SEEX, SEEY, goal.z() );
+            const tripoint_omt_ms tinymap_center( SEEX, SEEY, goal.z() );
             static constexpr std::array<units::angle, 4> angles = {{
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
                 }
@@ -1186,7 +1186,7 @@ vehicle *game::place_vehicle_nearby(
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
                                                    rng( 50, 80 ), 0, false );
             if( veh ) {
-                const tripoint_bub_ms abs_local = m.bub_from_abs( target_map.getabs( tinymap_center ) );
+                const tripoint_bub_ms abs_local = m.bub_from_abs( target_map.getglobal( tinymap_center ) );
                 tripoint_bub_sm quotient;
                 point_sm_ms remainder;
                 std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( abs_local );
@@ -5156,7 +5156,7 @@ bool game::spawn_hallucination( const tripoint &p )
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->randomize( NC_HALLU );
-        tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
+        tmp->spawn_at_precise( get_map().getglobal( p ) );
         if( !get_creature_tracker().creature_at( p, true ) ) {
             overmap_buffer.insert_npc( tmp );
             load_npcs();
@@ -5218,7 +5218,7 @@ bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_clas
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->load_npc_template( npc_class );
-    tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
+    tmp->spawn_at_precise( get_map().getglobal( p ) );
     if( !get_creature_tracker().creature_at( p, true ) ) {
         overmap_buffer.insert_npc( tmp );
         for( const trait_id &new_trait : traits ) {
@@ -5430,7 +5430,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &inst
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->load_npc_template( npc_template_cyborg_rescued );
-        tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( couch_pos ) ) );
+        tmp->spawn_at_precise( get_map().getglobal( couch_pos ) );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
         tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
@@ -10652,38 +10652,38 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    tripoint oldpos = u.pos();
-    tripoint old_abs_pos = m.getabs( oldpos );
+    tripoint_bub_ms oldpos = u.pos_bub();
+    tripoint_abs_ms old_abs_pos = m.getglobal( oldpos );
 
-    bool moving = dest_loc != oldpos;
+    bool moving = dest_loc != oldpos.raw();
 
     point submap_shift = place_player( dest_loc );
     point_rel_ms ms_shift = coords::project_to<coords::ms>( point_rel_sm( submap_shift ) );
     oldpos = oldpos - ms_shift.raw();
 
     if( moving ) {
-        cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+        cata_event_dispatch::avatar_moves( old_abs_pos.raw(), u, m );
 
         // Add trail animation when sprinting
         if( get_option<bool>( "ANIMATIONS" ) && u.is_running() ) {
-            if( u.posy() < oldpos.y ) {
-                if( u.posx() < oldpos.x ) {
+            if( u.posy() < oldpos.y() ) {
+                if( u.posx() < oldpos.x() ) {
                     draw_async_anim( oldpos, "run_nw", "\\", c_light_gray );
-                } else if( u.posx() == oldpos.x ) {
+                } else if( u.posx() == oldpos.x() ) {
                     draw_async_anim( oldpos, "run_n", "|", c_light_gray );
                 } else {
                     draw_async_anim( oldpos, "run_ne", "/", c_light_gray );
                 }
-            } else if( u.posy() == oldpos.y ) {
-                if( u.posx() < oldpos.x ) {
+            } else if( u.posy() == oldpos.y() ) {
+                if( u.posx() < oldpos.x() ) {
                     draw_async_anim( oldpos, "run_w", "-", c_light_gray );
                 } else {
                     draw_async_anim( oldpos, "run_e", "-", c_light_gray );
                 }
             } else {
-                if( u.posx() < oldpos.x ) {
+                if( u.posx() < oldpos.x() ) {
                     draw_async_anim( oldpos, "run_sw", "/", c_light_gray );
-                } else if( u.posx() == oldpos.x ) {
+                } else if( u.posx() == oldpos.x() ) {
                     draw_async_anim( oldpos, "run_s", "|", c_light_gray );
                 } else {
                     draw_async_anim( oldpos, "run_se", "\\", c_light_gray );
@@ -10694,7 +10694,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( furniture_move ) {
         // Adjust the grab_point if player has changed z level.
-        u.grab_point.z() -= u.posz() - oldpos.z;
+        u.grab_point.z() -= u.posz() - oldpos.z();
     }
 
     if( grabbed_vehicle ) {
@@ -10713,7 +10713,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     }
 
     if( u.is_hauling() ) {
-        start_hauling( oldpos );
+        start_hauling( oldpos.raw() );
     }
 
     if( u.will_be_cramped_in_vehicle_tile( dest_loc_abs ) ) {
@@ -12213,8 +12213,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    const tripoint old_pos = u.pos();
-    const tripoint old_abs_pos = here.getabs( old_pos );
+    const tripoint_bub_ms old_pos = u.pos_bub();
+    const tripoint_abs_ms old_abs_pos = here.getglobal( old_pos );
     point submap_shift;
     const bool z_level_changed = vertical_shift( z_after );
     if( !force ) {
@@ -12224,22 +12224,22 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // if an NPC or monster is on the stairs when player ascends/descends
     // they may end up merged on the same tile, do some displacement to resolve that.
     creature_tracker &creatures = get_creature_tracker();
-    if( creatures.creature_at<npc>( u.pos(), true ) ||
-        creatures.creature_at<monster>( u.pos(), true ) ) {
+    if( creatures.creature_at<npc>( u.pos_bub(), true ) ||
+        creatures.creature_at<monster>( u.pos_bub(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
         std::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
         if( !displace.has_value() ) {
             // They can always move to the previous location of the player.
-            displace = old_pos;
+            displace = old_pos.raw();
         }
-        npc *guy = creatures.creature_at<npc>( u.pos(), true );
+        npc *guy = creatures.creature_at<npc>( u.pos_bub(), true );
         if( guy ) {
             crit_name = guy->get_name();
-            tripoint old_pos = guy->pos();
+            tripoint_bub_ms old_pos = guy->pos_bub();
             if( !guy->is_enemy() ) {
                 guy->move_away_from( u.pos_bub(), true );
-                if( old_pos != guy->pos() ) {
+                if( old_pos != guy->pos_bub() ) {
                     add_msg( _( "%s moves out of the way for you." ), guy->get_name() );
                 }
             } else {
@@ -12274,7 +12274,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // This ugly check is here because of stair teleport bullshit
     // TODO: Remove stair teleport bullshit
-    if( rl_dist( u.pos(), old_pos ) <= 1 ) {
+    if( rl_dist( u.pos_bub(), old_pos ) <= 1 ) {
         for( monster *m : monsters_following ) {
             m->set_dest( u.get_location() );
         }
@@ -12308,7 +12308,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     u.recoil = MAX_RECOIL;
 
-    cata_event_dispatch::avatar_moves( old_abs_pos, u, m );
+    cata_event_dispatch::avatar_moves( old_abs_pos.raw(), u, m );
 }
 
 void game::start_hauling( const tripoint &pos )
@@ -13778,14 +13778,14 @@ namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 {
-    const tripoint new_pos = u.pos();
-    const tripoint new_abs_pos = m.getabs( new_pos );
+    const tripoint_bub_ms new_pos = u.pos_bub();
+    const tripoint_abs_ms new_abs_pos = m.getglobal( new_pos );
     mtype_id mount_type;
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;
     }
     get_event_bus().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
-            u.current_movement_mode(), u.is_underwater(), new_pos.z );
+            u.current_movement_mode(), u.is_underwater(), new_pos.z() );
 
     // TODO: fix point types
     const tripoint_abs_omt old_abs_omt( coords::project_to<coords::omt>( tripoint_abs_ms(

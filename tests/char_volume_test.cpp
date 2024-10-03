@@ -69,7 +69,7 @@ TEST_CASE( "character_at_volume_will_be_cramped_in_vehicle", "[volume]" )
     Character &you = get_player_character();
     REQUIRE( you.get_mutations().empty() );
 
-    tripoint test_pos = tripoint{10, 10, 0 };
+    tripoint_bub_ms test_pos {10, 10, 0 };
 
 
     clear_vehicles(); // extra safety
