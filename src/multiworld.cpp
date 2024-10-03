@@ -41,7 +41,7 @@ bool multiworld::travel_to_world( std::string worldName )
         here.unboard_vehicle( player.pos_bub() );
     }
     //make sure we don't mess up savedata if for some reason maps can't be saved
-    if (!g->save_maps()){
+    if( !g->save_maps() ) {
         return false;
     }
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
