@@ -10,7 +10,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the tyrant mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_tyrant", 450, 550 ] ]
     }
@@ -25,7 +25,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the tyrant mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_tyrant", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -40,7 +40,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the stego mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_stego", 450, 550 ] ]
     }
@@ -55,7 +55,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the stego mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_stego", 175 ], [ "mutagen", 125 ] ]
     }
   },
@@ -70,7 +70,7 @@
     "healthy": -4,
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the horns mutagenic primer.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "vitamins": [ [ "mutagen_horns", 450, 550 ] ]
     }
@@ -85,7 +85,7 @@
     "price": "5 kUSD",
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You drink the horns mutagen.",
+      "activation_message": "You drink the %s.",
       "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
     }
   }
