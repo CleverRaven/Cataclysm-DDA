@@ -851,7 +851,7 @@ static JsonValue submap_fd_pre_migration = json_loader::from_string( submap_fd_p
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
     // Ensure that the JSON is up to date for our savegame version
-    REQUIRE( savegame_version == 34 );
+    REQUIRE( savegame_version == 35 );
     int version = 0;
     JsonObject sm_json = jsin.get_object();
     if( sm_json.has_member( "version" ) ) {
