@@ -472,7 +472,7 @@ void map::process_fields_in_submap( submap *const current_submap,
                                     const tripoint_bub_sm &submap )
 {
     const oter_id &om_ter = overmap_buffer.ter( coords::project_to<coords::omt>(
-                                abs_sub + submap ) );
+                                abs_sub + rebase_rel( submap ) ) );
     Character &player_character = get_player_character();
     scent_block sblk( submap.raw(), get_scent() );
 
@@ -480,7 +480,7 @@ void map::process_fields_in_submap( submap *const current_submap,
     maptile map_tile( current_submap, point_sm_ms_zero );
     int &locx = map_tile.pos_.x();
     int &locy = map_tile.pos_.y();
-    const point_bub_ms sm_offset = coords::project_to<coords::ms>( point_rel_sm( submap.xy() ) );
+    const point_bub_ms sm_offset = coords::project_to<coords::ms>( submap.xy() );
 
     field_proc_data pd{
         sblk,

@@ -12294,9 +12294,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( u.is_hauling() ) {
-        const tripoint adjusted_pos = old_pos - coords::project_to<coords::ms>( point_rel_sm(
-                                          submap_shift ) ).raw();
-        start_hauling( adjusted_pos );
+        const tripoint_bub_ms adjusted_pos = old_pos - coords::project_to<coords::ms>( point_rel_sm(
+                submap_shift ) ).raw();
+        start_hauling( adjusted_pos.raw() );
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
