@@ -8,6 +8,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_memory.h"
+#include "multiworld.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -20,7 +21,7 @@ static constexpr int MM_SIZE = MAPSIZE * 2;
 
 static cata_path find_mm_dir()
 {
-    std::string world_prefix = get_map().get_world_prefix();
+    std::string world_prefix = MULTIWORLD.get_world_prefix();
     if( world_prefix.empty() ) {
         return PATH_INFO::player_base_save_path_path() / "mm1";
     }

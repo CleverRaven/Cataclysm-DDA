@@ -9,6 +9,7 @@
 
 #include "coords_fwd.h"
 #include "point.h"
+#include "multiworld.h"
 
 class cata_path;
 class JsonArray;
