@@ -1181,8 +1181,9 @@ void avatar_action::use_item( item_location &loc, std::string const &method )
     you.invalidate_crafting_inventory();
 }
 
-void avatar_action::unload( avatar &you )
+void avatar_action::unload()
 {
+    avatar &you = get_avatar();
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );
     if( !ret.first ) {
         add_msg( _( "Never mind." ) );

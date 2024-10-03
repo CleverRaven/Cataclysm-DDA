@@ -11,7 +11,6 @@
 #include "point.h"
 
 class Character;
-class avatar;
 class item;
 class item_location;
 class turret_data;
@@ -72,7 +71,7 @@ void plthrow( item_location loc,
  * Opens up a menu to Unload a container, gun, or tool
  * If it's a gun, some gunmods can also be loaded
  */
-void unload( avatar &you );
+void unload();
 
 // Use item; also tries E,R,W  'a'
 void use_item( item_location &loc, std::string const &method = {} );
