@@ -317,8 +317,8 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs(
-                    player_character.pos() ) ) &&
+        if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
+                    player_character.pos_bub() ).raw() ) &&
             critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
             g->remove_zombie( critter );

@@ -2331,7 +2331,7 @@ bool monster::will_reach( const point &p )
         return true;
     }
 
-    if( can_see() && sees( tripoint( p, posz() ) ) ) {
+    if( can_see() && sees( tripoint_bub_ms( p.x, p.y, posz() ) ) ) {
         return true;
     }
 

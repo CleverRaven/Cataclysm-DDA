@@ -815,8 +815,9 @@ void game::chat()
         // TODO: Get rid of the z-level check when z-level vision gets "better"
         return ( guy.is_npc() || ( guy.is_monster() &&
                                    guy.as_monster()->has_flag( mon_flag_CONVERSATION ) &&
-                                   !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() && u.sees( guy.pos() ) &&
-               rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
+                                   !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() &&
+               u.sees( guy.pos_bub() ) &&
+               rl_dist( u.pos_bub(), guy.pos_bub() ) <= SEEX * 2;
     } );
     const int available_count = available.size();
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
@@ -3878,12 +3879,13 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                             is_npc, type, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override, true_eocs, false_eocs,
                     search_target, search_type, dov_target_min_radius, dov_target_max_radius]( dialogue & d ) {
         talker *target = d.actor( is_npc );
-        tripoint talker_pos = get_map().getabs( target->pos() );
-        tripoint target_pos = talker_pos;
+        tripoint_abs_ms talker_pos = get_map().getglobal( target->pos() );
+        tripoint_abs_ms target_pos = talker_pos;
         if( target_params.has_value() ) {
             const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( target_params.value(), d );
-            target_pos = tripoint( project_to<coords::ms>( omt_pos ).x(), project_to<coords::ms>( omt_pos ).y(),
-                                   project_to<coords::ms>( omt_pos ).z() );
+            target_pos = tripoint_abs_ms( project_to<coords::ms>( omt_pos ).x(),
+                                          project_to<coords::ms>( omt_pos ).y(),
+                                          project_to<coords::ms>( omt_pos ).z() );
         }
         const tripoint_abs_ms abs_ms( target_pos );
         map *here_ptr = &get_map();
@@ -3908,21 +3910,21 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 }
                 if( search_type.value() == "terrain" ) {
                     if( here.ter( search_loc ).id().c_str() == cur_search_target ) {
-                        target_pos = here.getabs( search_loc );
+                        target_pos = here.getglobal( search_loc );
                         found = true;
                         break;
                     }
                 } else if( search_type.value() == "furniture" ) {
                     if( here.furn( search_loc ).id().c_str() == cur_search_target ||
                         ( !here.furn( search_loc ).id().is_null() && cur_search_target.empty() ) ) {
-                        target_pos = here.getabs( search_loc );
+                        target_pos = here.getglobal( search_loc );
                         found = true;
                         break;
                     }
                 } else if( search_type.value() == "field" ) {
                     field &fields_here = get_map().field_at( search_loc );
                     if( fields_here.find_field( field_type_id( cur_search_target ) ) || cur_search_target.empty() ) {
-                        target_pos = here.getabs( search_loc );
+                        target_pos = here.getglobal( search_loc );
                         found = true;
                         break;
                     }
@@ -3930,7 +3932,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                     if( here.tr_at( search_loc ).id.c_str() == cur_search_target ||
                         ( !here.tr_at( search_loc ).is_null() &&
                           cur_search_target.empty() ) ) {
-                        target_pos = here.getabs( search_loc );
+                        target_pos = here.getglobal( search_loc );
                         found = true;
                         break;
                     }
@@ -3939,7 +3941,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                     if( tmp_critter != nullptr && tmp_critter->is_monster() &&
                         ( tmp_critter->as_monster()->type->id.c_str() == cur_search_target ||
                           cur_search_target.empty() ) ) {
-                        target_pos = here.getabs( search_loc );
+                        target_pos = here.getglobal( search_loc );
                         found = true;
                         g->despawn_nonlocal_monsters();
                         break;
@@ -3949,7 +3951,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                             1 ) ) {
                         if( person->pos_bub() == search_loc && ( person->myclass.c_str() == cur_search_target ||
                                 cur_search_target.empty() ) ) {
-                            target_pos = here.getabs( search_loc );
+                            target_pos = here.getglobal( search_loc );
                             found = true;
                             break;
                         }
@@ -3957,7 +3959,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
                 } else if( search_type.value() == "zone" ) {
                     zone_manager &mgr = zone_manager::get_manager();
                     if( mgr.get_zone_at( here.getglobal( search_loc ), zone_type_id( cur_search_target ) ) ) {
-                        target_pos = here.getabs( search_loc );
+                        target_pos = here.getglobal( search_loc );
                         found = true;
                         break;
                     }
@@ -3978,9 +3980,10 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             bool found = false;
             int min_radius = dov_min_radius.evaluate( d );
             for( int attempts = 0; attempts < 25; attempts++ ) {
-                target_pos = talker_pos + tripoint( rng( -max_radius, max_radius ), rng( -max_radius, max_radius ),
-                                                    0 );
-                if( ( !outdoor_only || here.is_outside( target_pos ) ) &&
+                target_pos = talker_pos + tripoint_rel_ms( rng( -max_radius, max_radius ), rng( -max_radius,
+                             max_radius ),
+                             0 );
+                if( ( !outdoor_only || here.is_outside( here.bub_from_abs( target_pos ) ) ) &&
                     ( !passable_only || here.passable( here.bub_from_abs( target_pos ) ) ) &&
                     rl_dist( target_pos, talker_pos ) >= min_radius ) {
                     found = true;
@@ -3997,8 +4000,8 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
         target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ), dov_y_adjust.evaluate( d ), 0 );
 
         if( z_override ) {
-            target_pos = tripoint( target_pos.xy(),
-                                   dov_z_adjust.evaluate( d ) );
+            target_pos = tripoint_abs_ms( target_pos.xy(),
+                                          dov_z_adjust.evaluate( d ) );
         } else {
             target_pos = target_pos + tripoint( 0, 0,
                                                 dov_z_adjust.evaluate( d ) );

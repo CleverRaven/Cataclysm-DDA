@@ -2619,8 +2619,8 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
         // get non-assigned visible followers
         if( player_character.posz() == guy->posz() && !guy->has_companion_mission() &&
             !guy->is_travelling() &&
-            ( rl_dist( player_character.pos(), guy->pos() ) <= SEEX * 2 ) &&
-            player_character.sees( guy->pos() ) ) {
+            ( rl_dist( player_character.pos_bub(), guy->pos_bub() ) <= SEEX * 2 ) &&
+            player_character.sees( guy->pos_bub() ) ) {
             available.push_back( guy );
         } else if( bcp ) {
             basecamp *player_camp = *bcp;

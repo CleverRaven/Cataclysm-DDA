@@ -69,9 +69,9 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
     // an OMT is (2 * SEEX) * (2 * SEEY) in size
     tinymap checker;
     checker.load( omt_pt, true );
-    for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
-            return checker.getabs( p );
+    for( const tripoint_omt_ms &p : checker.omt_points_on_zlevel() ) {
+        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p.raw() ) ) {
+            return checker.getglobal( p ).raw();
         }
     }
     return std::nullopt;

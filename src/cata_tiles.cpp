@@ -1454,10 +1454,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
                 for( int zlevel = center.z; zlevel >= draw_min_z; zlevel -- ) {
                     // todo: conversion slightly simplified, a couple of calls already use pos as tripoint_bub_ms
-                    const tripoint pos( temp.value(), zlevel );
+                    const tripoint_bub_ms pos( point_bub_ms( temp.value() ), zlevel );
                     const tripoint_abs_ms pos_global = here.getglobal( pos );
-                    const int &x = pos.x;
-                    const int &y = pos.y;
+                    const int &x = pos.x();
+                    const int &y = pos.y();
                     const bool is_center_z = zlevel == center.z;
                     const level_cache &ch2 = here.access_cache( zlevel );
 
@@ -1471,12 +1471,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         if( has_memory_at( pos_global ) ) {
                             ll = lit_level::MEMORIZED;
                             invisible[0] = true;
-                        } else if( has_draw_override( pos ) ) {
+                        } else if( has_draw_override( pos.raw() ) ) {
                             ll = lit_level::DARK;
                             invisible[0] = true;
                         } else {
                             if( would_apply_vision_effects( offscreen_type ) ) {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
                                         tile_render_info::vision_effect{ offscreen_type } );
                             }
                             break;
@@ -1500,7 +1500,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         // Add scent type to the overlay_strings list for every visible tile when
                         // displaying scent
                         if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
-                            const scenttype_id scent_type = get_scent().get_type( pos );
+                            const scenttype_id scent_type = get_scent().get_type( pos.raw() );
                             if( !scent_type.is_empty() ) {
                                 here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                                                     formatted_text( scent_type.c_str(),
@@ -1546,7 +1546,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         // Add temperature value to the overlay_strings list for every visible tile when
                         // displaying temperature
                         if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
-                            const units::temperature temp_value = get_weather().get_temperature( pos );
+                            const units::temperature temp_value = get_weather().get_temperature( pos.raw() );
                             const float celsius_temp_value = units::to_celsius( temp_value );
                             short color;
                             const short bold = 8;
@@ -1639,28 +1639,28 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         const visibility_type vis_type = here.get_visibility( ll, cache );
                         if( would_apply_vision_effects( vis_type ) ) {
                             const Creature *critter = creatures.creature_at( pos, true );
-                            if( has_draw_override( pos ) || has_memory_at( pos_global ) ||
+                            if( has_draw_override( pos.raw() ) || has_memory_at( pos_global ) ||
                                 ( critter &&
                                   ( critter->has_flag( mon_flag_ALWAYS_VISIBLE )
                                     || you.sees_with_infrared( *critter )
                                     || you.sees_with_specials( *critter ) ) ) ) {
                                 invisible[0] = true;
                             } else {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
                                         tile_render_info::vision_effect{ vis_type } );
                                 break;
                             }
                         }
                     }
                     for( int i = 0; i < 4; i++ ) {
-                        const tripoint np = pos + neighborhood[i];
-                        invisible[1 + i] = apply_visible( np, ch2, here );
+                        const tripoint_bub_ms np = pos + neighborhood[i];
+                        invisible[1 + i] = apply_visible( np.raw(), ch2, here );
                     }
 
-                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
                             tile_render_info::sprite{ ll, invisible } );
                     // Stop building draw points below when floor reached
-                    if( here.dont_draw_lower_floor( pos ) ) {
+                    if( here.dont_draw_lower_floor( pos.raw() ) ) {
                         break;
                     }
                 }
@@ -2789,7 +2789,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::FIELD:
         case TILE_CATEGORY::LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = simple_point_hash( here.getabs( pos ) );
+            seed = simple_point_hash( here.getglobal( pos ).raw() );
             break;
         case TILE_CATEGORY::VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -2821,7 +2821,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
-                    seed = simple_point_hash( here.getabs( pos ) );
+                    seed = simple_point_hash( here.getglobal( pos ).raw() );
                 }
             }
         }
@@ -2837,7 +2837,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( found_id == "graffiti" ) {
                 seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
             } else if( string_starts_with( found_id, "graffiti" ) ) {
-                seed = simple_point_hash( here.getabs( pos ) );
+                seed = simple_point_hash( here.getglobal( pos ).raw() );
             }
             break;
         case TILE_CATEGORY::ITEM:

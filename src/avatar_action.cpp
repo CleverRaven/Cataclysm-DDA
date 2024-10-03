@@ -686,11 +686,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    tripoint old_abs_pos = m.getabs( you.pos_bub() );
+    tripoint_abs_ms old_abs_pos = m.getglobal( you.pos_bub() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
+    cata_event_dispatch::avatar_moves( old_abs_pos.raw(), you, m );
 
     if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos_bub(), &you );

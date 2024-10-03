@@ -113,7 +113,7 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
                 ret.push_back( it );
                 continue;
             }
-            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getabs( examp ) ).xy() );
+            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getglobal( examp ).raw() ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -131,7 +131,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 
     map &here = get_map();
     if( map_regen ) {
-        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
+        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getglobal( examp ).raw() ) );
         const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
                 false );
         if( !has_colliding_vehicle.success() ) {
@@ -179,7 +179,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
                 break;
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
+            if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
+                        examp ).raw() ) &&
                 critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );

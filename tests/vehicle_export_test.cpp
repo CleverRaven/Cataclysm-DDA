@@ -34,7 +34,7 @@ TEST_CASE( "export_vehicle_test" )
 {
     clear_map();
     // Spawn the vehicle with fuel.
-    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_zero,
+    vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_veh_export_test, tripoint_bub_ms_zero,
                        0_degrees, -1, 0 );
     REQUIRE( veh_ptr != nullptr );
 

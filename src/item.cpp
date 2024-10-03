@@ -1498,8 +1498,8 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
-        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs(
-                                               get_player_character().pos() ) ) );
+        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getglobal(
+                                               get_player_character().pos_bub() ).raw() ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -6653,8 +6653,8 @@ void item::handle_pickup_ownership( Character &c )
                 } else if( as_monster ) {
                     owned_by = is_owned_by( *as_monster );
                 }
-                return &cr != &c && owned_by && rl_dist( cr.pos(), c.pos() ) < MAX_VIEW_DISTANCE &&
-                       cr.sees( c.pos() );
+                return &cr != &c && owned_by && rl_dist( cr.pos_bub(), c.pos_bub() ) < MAX_VIEW_DISTANCE &&
+                       cr.sees( c.pos_bub() );
             };
             const auto sort_criteria = []( const Creature * lhs, const Creature * rhs ) {
                 const npc *const lnpc = lhs->as_npc();
@@ -13829,7 +13829,7 @@ bool item::process_link( map &here, Character *carrier, const tripoint &pos )
         if( !length_check_needed ) {
             return false;
         }
-        link().length = rl_dist( here.getabs( pos ), link().t_abs_pos.raw() ) +
+        link().length = rl_dist( here.getglobal( pos ), link().t_abs_pos ) +
                         link().t_mount.abs().x + link().t_mount.abs().y;
         if( check_length() ) {
             return reset_link( true, carrier );
