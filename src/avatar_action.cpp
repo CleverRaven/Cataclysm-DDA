@@ -1170,8 +1170,6 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     you.invalidate_crafting_inventory();
 }
 
-// Opens up a menu to Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );
