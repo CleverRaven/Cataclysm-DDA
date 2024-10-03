@@ -223,11 +223,9 @@ void game::unserialize( std::istream &fin, const cata_path &path )
                                    static_cast<int>( SPRING ) ) );
 
         std::string world_prefix;
-        if (data.read("world_prefix", world_prefix))
-        {
-            MULTIWORLD.set_world_prefix(world_prefix);
+        if( data.read( "world_prefix", world_prefix ) ) {
+            MULTIWORLD.set_world_prefix( world_prefix );
         }
-    
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );

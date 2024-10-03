@@ -6723,7 +6723,8 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         world_prefix.str_val = "";
     }
     bool force = jo.get_bool( "force", false );
-    return [is_npc, target_var, fail_message, success_message, force, world_prefix]( dialogue const & d ) {
+    return [is_npc, target_var, fail_message, success_message, force,
+            world_prefix]( dialogue const & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
@@ -6731,7 +6732,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
             bool successful_world_swap = false;
             //make sure we don't cause a world swap on every short/long range teleport outside the default world
             if( !prefix.empty() && prefix != MULTIWORLD.get_world_prefix() ) {
-                successful_world_swap = MULTIWORLD.travel_to_world(prefix);
+                successful_world_swap = MULTIWORLD.travel_to_world( prefix );
             }
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
                                              false, force ) || successful_world_swap ) {
