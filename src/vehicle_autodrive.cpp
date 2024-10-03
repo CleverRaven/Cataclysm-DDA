@@ -795,7 +795,7 @@ void vehicle::autodrive_controller::compute_obstacles()
     point_queue ramp_points;
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
-            const tripoint abs_map_pt = data.view_to_map.transform( point( dx, dy ), z );
+            const tripoint_abs_ms abs_map_pt( data.view_to_map.transform( point( dx, dy ), z ) );
             const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
             data.is_obstacle[dx][dy] = !check_drivable( p );
             data.ground_z[dx][dy] = z;

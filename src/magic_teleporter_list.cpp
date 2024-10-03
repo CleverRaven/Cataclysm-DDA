@@ -85,10 +85,11 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
     if( !global_dest ) {
         return false;
     }
-    tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    tripoint_omt_ms local_dest = omt_dest.omt_from_abs( tripoint_abs_ms( *global_dest ) ) + point( 60,
+                                 60 );
     you.add_effect( effect_ignore_fall_damage, 1_seconds, false, 0, true );
     g->place_player_overmap( omt_pt );
-    g->place_player( local_dest );
+    g->place_player( local_dest.raw() );
     return true;
 }
 

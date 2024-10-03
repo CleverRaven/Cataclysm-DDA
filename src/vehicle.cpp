@@ -655,7 +655,7 @@ void vehicle::autopilot_patrol()
             autodrive_local_target = tripoint_zero;
             return;
         }
-        if( !here.inbounds( here.bub_from_abs( autodrive_local_target ) ) ) {
+        if( !here.inbounds( here.bub_from_abs( tripoint_abs_ms( autodrive_local_target ) ) ) ) {
             autodrive_local_target = tripoint_zero;
             is_patrolling = false;
             return;
@@ -824,17 +824,17 @@ bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_pr
     bool stop = false;
     creature_tracker &creatures = get_creature_tracker();
     for( const point &pt_elem : points_to_check ) {
-        point elem = here.getlocal( pt_elem );
+        point_bub_ms elem = here.bub_from_abs( point_abs_ms( pt_elem ) );
         if( stop ) {
             break;
         }
-        const optional_vpart_position ovp = here.veh_at( tripoint_bub_ms( elem.x, elem.y, sm_pos.z ) );
-        if( here.impassable_ter_furn( tripoint_bub_ms( elem.x, elem.y, sm_pos.z ) ) || ( ovp &&
+        const optional_vpart_position ovp = here.veh_at( tripoint_bub_ms( elem.x(), elem.y(), sm_pos.z ) );
+        if( here.impassable_ter_furn( tripoint_bub_ms( elem.x(), elem.y(), sm_pos.z ) ) || ( ovp &&
                 &ovp->vehicle() != this ) ) {
             stop = true;
             break;
         }
-        if( elem == player_character.pos().xy() ) {
+        if( elem == player_character.pos_bub().xy() ) {
             if( follow_protocol || player_character.in_vehicle ) {
                 continue;
             } else {
@@ -843,15 +843,15 @@ bool vehicle::precollision_check( units::angle &angle, map &here, bool follow_pr
             }
         }
         bool its_a_pet = false;
-        if( creatures.creature_at( tripoint( elem, sm_pos.z ) ) ) {
-            npc *guy = creatures.creature_at<npc>( tripoint( elem, sm_pos.z ) );
+        if( creatures.creature_at( tripoint_bub_ms( elem, sm_pos.z ) ) ) {
+            npc *guy = creatures.creature_at<npc>( tripoint_bub_ms( elem, sm_pos.z ) );
             if( guy && !guy->in_vehicle ) {
                 stop = true;
                 break;
             }
             for( const vehicle_part &p : parts ) {
                 monster *mon = get_monster( index_of_part( &p ) );
-                if( mon && mon->pos().xy() == elem ) {
+                if( mon && mon->pos_bub().xy() == elem ) {
                     its_a_pet = true;
                     break;
                 }
@@ -2018,7 +2018,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
         return false;
     }
 
-    const tripoint part_loc = global_part_pos3( vp );
+    const tripoint_bub_ms part_loc = bub_part_pos( vp );
 
     if( !handler.get_map_ref().inbounds( part_loc ) ) {
         debugmsg( "vehicle::remove_part part '%s' at mount %s bub pos %s is out of map "
@@ -2029,11 +2029,11 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
 
     // Unboard any entities standing on removed boardable parts
     if( vpi.has_flag( "BOARDABLE" ) && vp.has_flag( vp_flag::passenger_flag ) ) {
-        handler.unboard( part_loc );
+        handler.unboard( part_loc.raw() );
     }
 
     for( const item &it : vp.tools ) {
-        handler.add_item_or_charges( part_loc, it, false );
+        handler.add_item_or_charges( part_loc.raw(), it, false );
     }
 
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
@@ -2045,7 +2045,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
             return false;
         }
         vehicle_part &vp_dep = parts[dep];
-        handler.add_item_or_charges( part_loc, part_to_item( vp_dep ), false );
+        handler.add_item_or_charges( part_loc.raw(), part_to_item( vp_dep ), false );
         remove_part( vp_dep, handler );
         return true;
     };
@@ -2067,7 +2067,7 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
     // Release any animal held by the part
     if( vp.has_flag( vp_flag::animal_flag ) ) {
         item base = vp.get_base();
-        handler.spawn_animal_from_part( base, part_loc );
+        handler.spawn_animal_from_part( base, part_loc.raw() );
         vp.set_base( std::move( base ) );
         vp.remove_flag( vp_flag::animal_flag );
     }
@@ -2121,13 +2121,13 @@ bool vehicle::remove_part( vehicle_part &vp, RemovePartHandler &handler )
         // Note: this can spawn items on the other side of the wall!
         // TODO: fix this ^^
         if( !magic ) {
-            tripoint dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
+            tripoint_bub_ms dest( part_loc + point( rng( -3, 3 ), rng( -3, 3 ) ) );
             // This new point might be out of the map bounds.  It's not
             // reasonable to try to spawn it outside the currently valid map,
             // so we pass true here to cause such points to be clamped to the
             // valid bounds without printing an error (as would normally
             // occur).
-            handler.add_item_or_charges( dest, i, true );
+            handler.add_item_or_charges( dest.raw(), i, true );
         }
     }
     refresh( false );

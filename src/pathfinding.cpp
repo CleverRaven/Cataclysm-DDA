@@ -559,39 +559,39 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true ) ) {
             path_data_layer &layer = pf.get_layer( cur.z + 1 );
             for( size_t it = 0; it < 8; it++ ) {
-                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                const tripoint_bub_ms above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
                 if( !inbounds( above ) ) {
                     continue;
                 }
                 pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above.raw(), t ),
+                              cur, above.raw() );
             }
         }
         if( cur.z < max.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_UP ) &&
             valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
             path_data_layer &layer = pf.get_layer( cur.z + 1 );
             for( size_t it = 0; it < 8; it++ ) {
-                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                const tripoint_bub_ms above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
                 if( !inbounds( above ) ) {
                     continue;
                 }
                 pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
-                              cur, above );
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above.raw(), t ),
+                              cur, above.raw() );
             }
         }
         if( cur.z > min.z && parent_terrain.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN ) &&
             valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
             path_data_layer &layer = pf.get_layer( cur.z - 1 );
             for( size_t it = 0; it < 8; it++ ) {
-                const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
+                const tripoint_bub_ms below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
                 if( !inbounds( below ) ) {
                     continue;
                 }
                 pf.add_point( layer.gscore[parent_index] + 4,
-                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
-                              cur, below );
+                              layer.score[parent_index] + 4 + 2 * rl_dist( below.raw(), t ),
+                              cur, below.raw() );
             }
         }
 

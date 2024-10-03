@@ -1290,7 +1290,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     map &here = get_map();
     tripoint_abs_ms const old_abs_pos = you.get_location();
     tripoint_abs_omt const this_omt = project_to<coords::omt>( here.getglobal( examp ) );
-    tripoint const sm_orig = here.getlocal( project_to<coords::ms>( this_omt ) );
+    tripoint_bub_ms const sm_orig = here.bub_from_abs( project_to<coords::ms>( this_omt ) );
     std::vector<tripoint> this_elevator;
 
     for( tripoint const &pos : closest_points_first( examp, SEEX - 1 ) ) {
@@ -1311,7 +1311,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
         return;
     }
 
-    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig ) - uilist_positive;
+    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig.raw() ) - uilist_positive;
     if( movez < -OVERMAP_DEPTH ) {
         return;
     }
@@ -1321,14 +1321,14 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     std::vector<tripoint> that_elevator;
     std::transform( this_elevator.begin(), this_elevator.end(), std::back_inserter( that_elevator ),
     [&erot, &sm_orig, &movez]( tripoint const & p ) {
-        return _rotate_point_sm( { p.xy(), movez }, erot, sm_orig );
+        return _rotate_point_sm( { p.xy(), movez }, erot, sm_orig.raw() );
     } );
 
     creature_tracker &creatures = get_creature_tracker();
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
-        tripoint const cr_pos = here.getlocal( critter.get_location() );
-        auto const eit = std::find( that_elevator.cbegin(), that_elevator.cend(), cr_pos );
+        tripoint_bub_ms const cr_pos = here.bub_from_abs( critter.get_location() );
+        auto const eit = std::find( that_elevator.cbegin(), that_elevator.cend(), cr_pos.raw() );
         if( eit != that_elevator.cend() ) {
             for( const tripoint &candidate : closest_points_first( *eit, 10 ) ) {
                 if( !here.has_flag( ter_furn_flag::TFLAG_ELEVATOR, candidate ) &&
@@ -1365,7 +1365,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint const p = _rotate_point_sm( { v->global_pos3().xy(), movez }, erot, sm_orig );
+        tripoint const p = _rotate_point_sm( { v->global_pos3().xy(), movez }, erot, sm_orig.raw() );
         here.displace_vehicle( *v, p - v->global_pos3() );
         v->turn( erot * 90_degrees );
         v->face = tileray( v->turn_dir );

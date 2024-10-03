@@ -1812,10 +1812,11 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
 
 vehicle *vehicle::act_on_map()
 {
-    const tripoint pt = global_pos3();
+    const tripoint_bub_ms pt = pos_bub();
     map &here = get_map();
     if( !here.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x() << "," << pt.y() << "," <<
+                      pt.z() <<
                       ")";
         stop();
         of_turn = 0;
