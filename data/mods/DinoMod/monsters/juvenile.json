@@ -476,13 +476,18 @@
     "id": "mon_camarasaurus_juvenile",
     "type": "MONSTER",
     "copy-from": "mon_amargasaurus_juvenile",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "tailsmash_long_DinoMod", 30 ],
+      [ "EAT_CROP", 5 ]
+    ],
     "zombify_into": "mon_zamarasaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_camarasaurus" }
   },
   {
     "id": "mon_brachiosaurus_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_amargasaurus_juvenile",
+    "copy-from": "mon_camarasaurus_juvenile",
     "zombify_into": "mon_zrachiosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_brachiosaurus" }
   },
@@ -496,7 +501,7 @@
   {
     "id": "mon_alamosaurus_juvenile",
     "type": "MONSTER",
-    "copy-from": "mon_amargasaurus_juvenile",
+    "copy-from": "mon_camarasaurus_juvenile",
     "zombify_into": "mon_zalamosaurus_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_alamosaurus" },
     "armor": { "bash": 7, "cut": 9 }

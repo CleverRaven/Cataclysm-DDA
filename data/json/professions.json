@@ -3415,7 +3415,7 @@
       "prof_carpentry_basic",
       "prof_appliance_repair"
     ],
-    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "traps" } ],
+    "skills": [ { "level": 5, "name": "fabrication" } ],
     "items": {
       "both": {
         "entries": [

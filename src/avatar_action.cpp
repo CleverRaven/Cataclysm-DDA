@@ -608,7 +608,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         }
     }
 
-    const tripoint above_u( you.posx(), you.posy(), you.posz() + 1 );
+    const tripoint_bub_ms above_u( you.pos_bub() + tripoint_above );
     if( m.has_floor_or_support( above_u ) ) {
         add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
         return false;
@@ -762,7 +762,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    you.reach_attack( best.pos() );
+    you.reach_attack( best.pos_bub() );
 }
 
 // TODO: Move data/functions related to targeting out of game class
@@ -996,7 +996,7 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const std::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );

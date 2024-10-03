@@ -394,7 +394,7 @@ TEST_CASE( "npc-board-player-vehicle" )
 
             CAPTURE( companion->path );
             if( !companion->path.empty() ) {
-                tripoint &p = companion->path.front();
+                tripoint_bub_ms &p = companion->path.front();
 
                 int part = -1;
                 const vehicle *veh = here.veh_at_internal( p, part );
@@ -560,7 +560,7 @@ TEST_CASE( "npc_can_target_player" )
     set_time_to_day();
 
     Character &player_character = get_player_character();
-    npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point_south, "thug" );
     REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
@@ -589,7 +589,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
 
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
-    npc &hostile = spawn_npc( player_character.pos().xy() + five_tiles_south, "thug" );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
@@ -622,8 +622,8 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
 
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
-    npc &hostile = spawn_npc( player_character.pos().xy() + five_tiles_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
     item backpack( "debug_backpack" );

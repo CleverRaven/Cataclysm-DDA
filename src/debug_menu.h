@@ -26,6 +26,7 @@ enum class debug_menu_index : int {
     LONG_TELEPORT,
     REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
@@ -113,6 +114,7 @@ enum class debug_menu_index : int {
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
     WRITE_CITY_LIST,
+    TALK_TOPIC,
     last
 };
 

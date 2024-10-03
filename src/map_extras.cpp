@@ -347,7 +347,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
-                    } else if( m.is_bashable( point( x, y ) ) ) {
+                    } else if( m.is_bashable( tripoint_bub_ms( x, y, abs_sub.z ) ) ) {
                         m.destroy( tripoint( x,  y, abs_sub.z ), true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
                             m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
@@ -1039,7 +1039,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             fungal_effects fe;
             for( const tripoint_bub_ms &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
-                    fe.marlossify( loc.raw() ); // TODO: typify fungal effects.
+                    fe.marlossify( loc );
                 }
             }
             //50% chance to spawn pouf-maker
@@ -1892,8 +1892,8 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
-                    m.add_splatter_trail( fd_blood, location.raw(),
-                                          random_entry( m.points_in_radius( location, rng( 1, 4 ) ) ).raw() );
+                    m.add_splatter_trail( fd_blood, location,
+                                          random_entry( m.points_in_radius( location, rng( 1, 4 ) ) ) );
                 }
             }
 
@@ -1905,7 +1905,7 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
             for( int i = 0; i < SEEX * 2; i++ ) {
                 for( int j = 0; j < SEEY * 2; j++ ) {
                     if( one_in( 20 ) ) {
-                        m.spawn_items( point{ i, j }, items );
+                        m.spawn_items( { i, j, abs_sub.z }, items );
                     }
                 }
             }
@@ -1996,8 +1996,8 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                     { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
-                    m.add_splatter_trail( fd_blood, first_loc.raw(),
-                                          random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ).raw() );
+                    m.add_splatter_trail( fd_blood, first_loc,
+                                          random_entry( m.points_in_radius( first_loc, rng( 1, 4 ) ) ) );
                 }
             }
             //Spawn blood and bloody rag at the second location, sometimes trail of blood
@@ -2008,8 +2008,8 @@ static bool mx_casings( map &m, const tripoint &abs_sub )
                     m.spawn_item( bloody_rag_loc, itype_sheet_cotton, 1, 0, calendar::start_of_cataclysm, 0, { json_flag_FILTHY } );
                 }
                 if( one_in( 2 ) ) {
-                    m.add_splatter_trail( fd_blood, second_loc.raw(),
-                                          random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ).raw() );
+                    m.add_splatter_trail( fd_blood, second_loc,
+                                          random_entry( m.points_in_radius( second_loc, rng( 1, 4 ) ) ) );
                 }
             }
             break;
@@ -2037,8 +2037,8 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
         4 ) ), [&]( const tripoint_bub_ms & p ) {
         return m.passable( p );
         } ) ) {
-            m.place_npc( pos_->xy().raw(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
-            m.place_npc( pos_->xy().raw(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
+            m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
+            m.place_npc( pos_->xy(), string_id<npc_template>( one_in( 2 ) ? "thug" : "bandit" ) );
         }
     }
 
@@ -2215,7 +2215,7 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
             mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully =
-                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat ).success();
             break;
         }
         case map_extra_method::null:
@@ -2253,7 +2253,7 @@ void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_omt 
             mapgendata dat( abs_omt, *m.cast_to_map(), 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully =
-                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat ).success();
             break;
         }
         case map_extra_method::null:

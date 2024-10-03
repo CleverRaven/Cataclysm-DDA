@@ -261,6 +261,19 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_SEED_BEARER",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_ON_NATURAL_TERRAIN" },
+        { "test_eoc": "EOC_CONDITION_CHECK_ARVORE_IN_THE_WILD" }
+      ]
+    },
+    "effect": [ { "u_cast_spell": { "id": "arvore_seed_bearer_real" } } ],
+    "false_effect": [ { "u_message": "You must be surrounded by the wild to call forth regional seeds.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_GOBLIN_FRUIT",
     "condition": {
       "and": [

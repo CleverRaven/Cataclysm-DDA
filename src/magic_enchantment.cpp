@@ -90,6 +90,7 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
+			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
@@ -202,6 +203,7 @@ namespace io
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
+            case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -1026,7 +1028,7 @@ void enchant_cache::activate_passive( Character &guy ) const
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
     if( emitter ) {
-        get_map().emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos_bub(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, false, eff.second );
@@ -1036,7 +1038,7 @@ void enchant_cache::activate_passive( Character &guy ) const
         // a random approximation!
         if( one_in( to_seconds<int>( activation.first ) ) ) {
             for( const fake_spell &fake : activation.second ) {
-                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos() );
+                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos_bub() );
             }
         }
     }
@@ -1069,12 +1071,12 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
                                       caster.get_name() );
-        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos() );
+        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
-        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
-            !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
+        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||
+            !spell_lvl.is_target_in_range( caster, trg_crtr.pos_bub() ) ) {
             return;
         }
 
@@ -1083,7 +1085,7 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.npc_trigger_message,
                                       caster.get_name(), trg_crtr.disp_name() );
 
-        spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
+        spell_lvl.cast_all_effects( caster, trg_crtr.pos_bub() );
     }
 }
 

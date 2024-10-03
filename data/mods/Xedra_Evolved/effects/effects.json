@@ -217,7 +217,7 @@
     "apply_message": "Your sight adjusts to the darkness.",
     "remove_message": "The darkness loses its shape and your eyes return to their usual hue.",
     "rating": "good",
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "CRAFT_IN_DARKNESS", "READ_IN_DARKNESS" ],
     "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ]
   },
   {
@@ -517,6 +517,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "eyegleam_craft_in_darkness",
+    "rating": "good",
+    "flags": [ "CRAFT_IN_DARKNESS" ]
   },
   {
     "type": "effect_type",
@@ -2159,6 +2165,52 @@
     "name": [ "Conspicuous" ],
     "desc": [ "People can definitely see you now." ],
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_selkie_fog_cloak",
+    "name": [ "Cloak of Fog" ],
+    "desc": [ "The fog shields you from sight." ],
+    "apply_message": "",
+    "remove_message": "The fog begins to dissipate.",
+    "rating": "good",
+    "max_duration": "30 minutes",
+    "enchantments": [ "enchant_selkie_fog_cloak" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather",
+    "//": "Hidden effect, used to distinguish magical quick weather change from the weather returning to normal",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather_fog",
+    "//": "Hidden effect, used to track magical summoned fog",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather_rains",
+    "//": "Hidden effect, used to track magical summoned rain",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather_rainstorm",
+    "//": "Hidden effect, used to track magical summoned rainstorms",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_controlling_weather_lightningstorm",
+    "//": "Hidden effect, used to track magical summoned lightning storms",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
