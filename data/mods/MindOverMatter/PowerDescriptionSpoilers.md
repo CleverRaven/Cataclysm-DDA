@@ -238,7 +238,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 20 minutes and 15 seconds to 45 minutes, plus 4 minutes and 10 seconds to 10 minutes per level<br />
 *Stamina Cost*: 6500, minus 145 per level to a minimum of 3250<br />
 *Channeling Time*: 500 moves, minus 3 moves per level to a minimum of 300<br />
-*Effects*: Enter a trance and improve the psion's ability to craft, increasing crafting speed by 4% and skill level by 0.25 per 4 power levels. However, the psion's vision will be limited and their movement speed will be slowed while in the trance.<br />
+*Effects*: Enter a trance and improve the psion's ability to craft, increasing crafting speed by 4% and skill level by 0.25 per 4 power levels and allowing them to craft regardless of light levels. However, the psion's vision will be limited and their movement speed will be slowed while in the trance, and they will be blind while actually crafting anything.<br />
 *Prerequisites*: Speed Reader 8, Discern Weakness 4, Premonition 6<br />
 
 ## One Perfect Shot
