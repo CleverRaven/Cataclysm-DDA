@@ -6734,7 +6734,7 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
             if( !prefix.empty() && prefix != MULTIWORLD.get_world_prefix() ) {
                 successful_world_swap = MULTIWORLD.travel_to_world( prefix );
             }
-            if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
+            if( teleport::teleport_to_point( *teleporter, get_map().bub_from_abs( target_pos ), true, false,
                                              false, force ) || successful_world_swap ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
