@@ -189,6 +189,13 @@ struct talk_response {
     //copy of json_talk_response::condition, optional
     std::function<bool( dialogue & )> condition;
 
+    //whether to display this response in normal gameplay even if condition is false
+    bool show_always = false;
+    //appended to response if condition fails or show_always/show_condition
+    std::string show_reason;
+    //show_always, but on given condition
+    std::function<bool( dialogue & )> show_condition;
+
     mission *mission_selected = nullptr;
     skill_id skill = skill_id();
     matype_id style = matype_id();
@@ -198,12 +205,12 @@ struct talk_response {
     talk_effect_t success;
     talk_effect_t failure;
 
-    talk_data create_option_line( dialogue &d, const input_event &hotkey,
+    talk_data create_option_line( dialogue &d, const dialogue_window &d_win, const input_event &hotkey,
                                   bool is_computer = false );
     std::set<dialogue_consequence> get_consequences( dialogue &d ) const;
     // debug: conditional / effect
     std::map<std::string, std::string> debug_info;
-
+    bool show_anyways( dialogue &d ) const;
     talk_response();
     explicit talk_response( const JsonObject &, std::string_view );
 };
@@ -245,8 +252,13 @@ struct dialogue {
         bool by_radio = false;
         /**
          * Possible responses from the player character, filled in @ref gen_responses.
+         * Note: this can include responses with false conditionals.
          */
         std::vector<talk_response> responses;
+        /**
+        * Contains only responses selected to draw on-screen. Safe to select from and draw.
+        */
+        std::vector<talk_response> selected_responses;
         void gen_responses( const talk_topic &topic );
 
         void add_topic( const std::string &topic );

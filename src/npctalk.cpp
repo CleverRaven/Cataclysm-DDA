@@ -2473,7 +2473,8 @@ dialogue::dialogue( std::unique_ptr<talker> alpha_in,
     }
 }
 
-talk_data talk_response::create_option_line( dialogue &d, const input_event &hotkey,
+talk_data talk_response::create_option_line( dialogue &d, const dialogue_window &d_win,
+        const input_event &hotkey,
         const bool is_computer )
 {
     std::string ftext;
@@ -2494,6 +2495,17 @@ talk_data talk_response::create_option_line( dialogue &d, const input_event &hot
         //~ %1$s is translated trial type, %2$d is a number, and %3$s is the translated response text
         ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ),
                                trial.name(), trial.calc_chance( d ), text );
+    }
+
+    if( condition && !condition( d ) ) {
+        if( show_anyways( d ) || ( d_win.show_all_responses && debug_mode ) ) {
+            ftext = colorize( ftext, c_dark_gray );
+            if( !show_reason.empty() ) {
+                ftext += colorize( " -- [" + show_reason + "]", c_light_red );
+            }
+        } else {
+            return talk_data();
+        }
     }
     if( d.actor( true )->get_npc() ) {
         parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(), d,
@@ -2520,6 +2532,11 @@ talk_data talk_response::create_option_line( dialogue &d, const input_event &hot
     results.hotkey_desc = right_justify( hotkey.short_description(), 2 );
     results.text = ftext;
     return results;
+}
+
+bool talk_response::show_anyways( dialogue &d ) const
+{
+    return show_always || ( show_condition && show_condition( d ) );
 }
 
 std::set<dialogue_consequence> talk_response::get_consequences( dialogue &d ) const
@@ -2628,6 +2645,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
     ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
     ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
     ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
@@ -2638,15 +2656,19 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         const hotkey_queue &queue = hotkey_queue::alphabets();
         response_lines.clear();
         response_hotkeys.clear();
+        selected_responses.clear();
         input_event evt = ctxt.first_unassigned_hotkey( queue );
         for( talk_response &response : responses ) {
-            const talk_data &td = response.create_option_line( *this, evt, d_win.is_computer );
-            response_lines.emplace_back( td );
-            response_hotkeys.emplace_back( evt );
+            const talk_data &td = response.create_option_line( *this, d_win, evt, d_win.is_computer );
+            if( !td.text.empty() ) {
+                response_lines.emplace_back( td );
+                response_hotkeys.emplace_back( evt );
+                selected_responses.emplace_back( response );
 #if defined(__ANDROID__)
-            ctxt.register_manual_key( evt.get_first_input(), td.text );
+                ctxt.register_manual_key( evt.get_first_input(), td.text );
 #endif
-            evt = ctxt.next_unassigned_hotkey( queue, evt );
+                evt = ctxt.next_unassigned_hotkey( queue, evt );
+            }
         }
         d_win.set_responses( response_lines );
     };
@@ -2678,7 +2700,12 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 // Reallocate hotkeys as keybindings may have changed
                 generate_response_lines();
             } else if( action == "CONFIRM" ) {
+                //response condition must be reverified since invalid responses can be displayed
                 response_ind = d_win.sel_response;
+                talk_response &check_valid = selected_responses[response_ind];
+                if( ( check_valid.condition && ( !check_valid.condition( *this ) && !debug_mode ) ) ) {
+                    action = "NONE";
+                }
             } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
                 d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
             } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
@@ -2687,6 +2714,10 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
             } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
                 d_win.show_response_effects = !d_win.show_response_effects;
+            } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
+                d_win.show_all_responses = !d_win.show_all_responses;
+                d_win.sel_response = 0;
+                generate_response_lines();
             } else if( action == "ANY_INPUT" ) {
                 // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
@@ -2698,7 +2729,8 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         } while( response_ind >= response_hotkeys.size() ||
                  ( action != "ANY_INPUT" && action != "QUIT" && action != "CONFIRM" ) );
         okay = true;
-        std::set<dialogue_consequence> consequences = responses[response_ind].get_consequences( *this );
+        std::set<dialogue_consequence> consequences = selected_responses[response_ind].get_consequences(
+                    *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {
             okay = query_yn( _( "You may be attacked!  Proceed?" ) );
         } else if( consequences.count( dialogue_consequence::helpless ) > 0 ) {
@@ -2709,7 +2741,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     d_win.add_history_separator();
     d_win.add_to_history( response_lines[response_ind].text, _( "You" ), c_light_blue );
 
-    talk_response chosen = responses[response_ind];
+    talk_response chosen = selected_responses[response_ind];
     if( chosen.mission_selected != nullptr ) {
         actor( true )->select_mission( chosen.mission_selected );
     }
@@ -2811,7 +2843,7 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
             return debug_output;
         }
 
-        talk_response &actual_response = responses[do_response];
+        talk_response &actual_response = selected_responses[do_response];
         std::map<std::string, std::string> &debug_info = actual_response.debug_info;
         if( d_win.show_response_conditionals ) {
             if( debug_info.find( "condition" ) != debug_info.end() && actual_response.condition ) {
@@ -7226,7 +7258,18 @@ talk_response::talk_response( const JsonObject &jo, const std::string_view src )
         JsonObject failure_obj = jo.get_object( "failure" );
         failure = talk_effect_t( failure_obj, "effect", src );
     }
-
+    if( jo.has_member( "show_always" ) ) {
+        show_always = jo.get_bool( "show_always" );
+    }
+    if( jo.has_member( "show_reason" ) ) {
+        show_reason = jo.get_string( "show_reason" );
+    }
+    if( jo.has_member( "show_condition" ) ) {
+        if( show_always ) {
+            jo.throw_error( "show_always and show_condition cannot both be defined" );
+        }
+        read_condition( jo, "show_condition", show_condition, false );
+    }
     // TODO: mission_selected
     // TODO: skill
     // TODO: style
@@ -7302,11 +7345,9 @@ const talk_response &json_talk_response::get_actual_response() const
 bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
 {
     if( !is_switch || !switch_done ) {
-        if( test_condition( d ) ) {
-            d.responses.emplace_back( actual_response );
-            return is_switch && !is_default;
-        } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
-            // build additional talk responses for failed options with an explanation if details are given
+        // if existing condition fails, build additional talk responses for failed options with an explanation if details are given
+        if( ( condition && !condition( d ) ) && ( !failure_explanation.empty() ||
+                !failure_topic.empty() ) ) {
             talk_response tr = talk_response();
             tr.truetext = no_translation(
                               string_format( pgettext( "failure_explanation: actual_response", "*%s: %s" ),
@@ -7317,6 +7358,11 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
             }
             d.responses.emplace_back( tr );
         }
+        d.responses.emplace_back( actual_response );
+        if( condition && !condition( d ) ) {
+            return false;
+        }
+        return is_switch && !is_default;
     }
     return false;
 }
