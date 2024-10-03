@@ -144,6 +144,7 @@ class game
         friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
+        friend class multiworld;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
@@ -880,8 +881,10 @@ class game
         bool save_factions_missions_npcs();
         void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
+    public:
         // returns false if saving failed for whatever reason
         bool save_maps();
+    private:
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif

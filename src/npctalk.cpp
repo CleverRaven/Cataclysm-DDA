@@ -58,6 +58,7 @@
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
+#include "multiworld.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctalk_rules.h"
@@ -6726,46 +6727,10 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
-            map &here = get_map();
             std::string prefix = world_prefix.evaluate( d );
             //make sure we don't cause a world swap on every short/long range teleport outside the default world
-            if( !prefix.empty() && prefix != here.get_world_prefix() ) {
-                /*inputting an empty string to the text input EOC fails 
-                so i'm using 'default' as empty/main world */
-                //unload monsters
-                for( monster &critter : g->all_monsters() ) {
-                    g->despawn_monster( critter );
-                }
-                if( get_avatar().in_vehicle ) {
-                    here.unboard_vehicle( get_avatar().pos_bub() );
-                }
-                here.save();
-                overmap_buffer.save();
-                for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-                    here.clear_vehicle_list( z );
-                }
-                if (prefix != "default") {
-                    here.set_world_prefix( prefix );
-                }else{
-                    here.set_world_prefix("");
-                }
-                MAPBUFFER.clear();
-                //FIXME hack to prevent crashes from temperature checks
-                //this returns to false in 'on_turn()' so it should be fine?
-                g->swapping_worlds = true;
-                //in theory if we skipped the next two lines we'd have an exact copy of the overmap from the past world, only with differences noticeable in the local map.
-                overmap_buffer.clear();
-                overmap_buffer.get( point_abs_om{});
-                get_weather().update_weather();
-                // TODO: fix point types
-                here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
-                here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
-                here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
-                g->update_overmap_seen();
-                here.invalidate_visibility_cache();
-                //load/spawn monsters
-                here.spawn_monsters( true,true );
-                add_msg(prefix);
+            if( !prefix.empty() && prefix != MULTIWORLD.get_world_prefix() ) {
+                MULTIWORLD.travel_to_world(prefix);
             }
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
                                              false, force ) ) {

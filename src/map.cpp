@@ -11135,14 +11135,6 @@ bool map::has_haulable_items( const tripoint_bub_ms &pos )
     }
     return false;
 }
-void map::set_world_prefix( std::string prefix )
-{
-    world_prefix = prefix;
-}
-std::string map::get_world_prefix()
-{
-    return world_prefix;
-}
 std::vector<item_location> map::get_haulable_items( const tripoint &pos )
 {
     return map::get_haulable_items( tripoint_bub_ms( pos ) );

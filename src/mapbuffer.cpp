@@ -139,7 +139,7 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    std::string world_prefix = get_map().get_world_prefix();
+    std::string world_prefix = MULTIWORLD.get_world_prefix();
     if( world_prefix.empty() ) {
         assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
     } else {
@@ -292,7 +292,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
-    const cata_path dirname = find_dirname( om_addr, get_map().get_world_prefix() );
+    const cata_path dirname = find_dirname( om_addr, MULTIWORLD.get_world_prefix() );
     cata_path quad_path = find_quad_path( dirname, om_addr );
 
     if( !file_exist( quad_path ) ) {

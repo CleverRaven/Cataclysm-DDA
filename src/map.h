@@ -2650,11 +2650,6 @@ class map
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;
 #endif
-        /*world_prefix tells the game which world it should load data from*/
-        void set_world_prefix( std::string prefix );
-        std::string get_world_prefix();
-    private:
-        std::string world_prefix;
 };
 
 map &get_map();
