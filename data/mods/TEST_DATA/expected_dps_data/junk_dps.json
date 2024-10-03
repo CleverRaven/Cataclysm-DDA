@@ -1,7 +1,7 @@
 [
   {
     "type": "test_data",
-    "//": "Uncategoried improvised weapons",
+    "//": "Uncategorized improvised weapons",
     "expected_dps": {
       "shock_epee": 5.59,
       "pointy_stick_long": 5.83,

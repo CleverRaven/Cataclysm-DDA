@@ -53,7 +53,7 @@
   {
     "id": "achievement_kill_100_uplifts",
     "type": "achievement",
-    "name": "Escape from the Island of Dr Moreau",
+    "name": "Escape from the Island of Dr. Moreau",
     "hidden_by": [ "achievement_kill_10_uplifts" ],
     "requirements": [ { "event_statistic": "num_avatar_uplift_kills", "is": ">=", "target": 100 } ]
   },
