@@ -201,7 +201,7 @@
       {
         "pocket_type": "MAGAZINE",
         "rigid": true,
-        "ammo_restriction": { "battery": 1500 } }
+        "ammo_restriction": { "battery": 1500 } 
       }
     ],
     "ammo": "battery",
