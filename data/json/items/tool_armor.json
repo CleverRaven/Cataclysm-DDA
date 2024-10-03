@@ -1458,7 +1458,7 @@
     {
       "type": "link_up",
       "cable_length": 5,
-      "charge_rate": 140 W"
+      "charge_rate": "140 W"
     }
     ],
     "warmth": 10,
@@ -1486,7 +1486,7 @@
     {
       "type": "link_up",
       "cable_length": 5,
-      "charge_rate": 140 W"
+      "charge_rate": "140 W"
     }
     ],   
     "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT" ]
@@ -1496,7 +1496,7 @@
     "copy-from": "dimensional_anchor",
     "type": "TOOL_ARMOR",
     "name": { "str": "malfunctioning 5-point anchor" },
-    "description": "A battered, disc-shaped device mounted on a harness.  The inscriptions \"X.E.D.R.A\" and \"5-point anchor\" are barely legible on its radiation-stained front and back.",
+    "description": "A battered, disc-shaped device mounted on a harness.  The inscriptions \"X.E.D.R.A\" and \"5-point anchor\" are barely legible on its radiation-stained front and back.  You definitely don't want to try charging it.",
     "use_action": {
       "type": "transform",
       "msg": "The %s emits a low-pitched clicking alarm as its mounted LED light flashes yellow.",
