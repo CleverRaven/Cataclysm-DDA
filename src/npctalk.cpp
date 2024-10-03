@@ -6728,12 +6728,13 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         Creature *teleporter = d.actor( is_npc )->get_creature();
         if( teleporter ) {
             std::string prefix = world_prefix.evaluate( d );
+            bool successful_world_swap = false;
             //make sure we don't cause a world swap on every short/long range teleport outside the default world
             if( !prefix.empty() && prefix != MULTIWORLD.get_world_prefix() ) {
-                MULTIWORLD.travel_to_world(prefix);
+                successful_world_swap = MULTIWORLD.travel_to_world(prefix);
             }
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
-                                             false, force ) ) {
+                                             false, force ) || successful_world_swap ) {
                 teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
                 teleporter->add_msg_if_player( fail_message.evaluate( d ) );
