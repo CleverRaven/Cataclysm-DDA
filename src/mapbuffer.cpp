@@ -40,7 +40,7 @@ static cata_path find_quad_path( const cata_path &dirname, const tripoint_abs_om
 static cata_path find_dirname( const tripoint_abs_omt &om_addr, std::string world_prefix )
 {
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
-   std::string segment = string_format( "%d.%d.%d",
+    std::string segment = string_format( "%d.%d.%d",
                                          segment_addr.x(),
                                          segment_addr.y(), segment_addr.z() );     
     if( world_prefix.empty() ) {
