@@ -1440,10 +1440,9 @@
     "volume": "4500 ml",
     "pocket_data": [
       {
-        "pocket_type": "MAGAZINE_WELL",
+        "pocket_type": "MAGAZINE",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "ammo_restriction": { "battery": 1500 } } ],
       }
     ],
     "ammo": "battery",
@@ -1457,7 +1456,7 @@
     },
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "SOFT" ],
+    "flags": [ "OVERSIZE", "BELTED", "SOFT", "USE_UPS" ],
     "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
@@ -1476,7 +1475,7 @@
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT", "USE_UPS" ]
   },
   {
     "id": "broken_dimensional_anchor",
