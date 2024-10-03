@@ -199,10 +199,9 @@
         ]
       },
       {
-        "pocket_type": "MAGAZINE_WELL",
+        "pocket_type": "MAGAZINE",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
+        "ammo_restriction": { "battery": 1500 } }
       }
     ],
     "ammo": "battery",
@@ -267,7 +266,7 @@
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
+    "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "USE_UPS", "RAINPROOF", "HOOD", "SOFT" ]
   },
   {
     "id": "robofac_head_rig",
