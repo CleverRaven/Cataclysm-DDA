@@ -215,11 +215,6 @@
       "active": true,
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
-    },
-    {
-      "type": "link_up",
-      "cable_length": 5,
-      "charge_rate": "140 W"
     }
     ],
     "armor": [
@@ -274,13 +269,8 @@
       "menu_text": "Turn off anchor",
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
-      },
-      {
-      "type": "link_up",
-      "cable_length": 5,
-      "charge_rate": "140 W"
       }
-    ],
+    ]
     "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "USE_UPS", "RAINPROOF", "HOOD", "SOFT" ]
   },
   {
