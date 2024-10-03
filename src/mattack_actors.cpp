@@ -142,20 +142,20 @@ bool leap_actor::call( monster &z ) const
     map &here = get_map();
     const tripoint_bub_ms target = here.bub_from_abs( target_abs );
     add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %s",
-                   target.to_string() );
+                   target.to_string_writable() );
 
     std::multimap<int, tripoint_bub_ms> candidates;
     for( const tripoint_bub_ms &candidate : here.points_in_radius( z.pos_bub(), max_range ) ) {
         if( candidate == z.pos_bub() ) {
             add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %s",
-                           candidate.to_string() );
+                           candidate.to_string_writable() );
             continue;
         }
         float leap_dist = trigdist ? trig_dist( z.pos_bub(), candidate ) :
                           square_dist( z.pos_bub(), candidate );
         add_msg_debug( debugmode::DF_MATTACK,
                        "Candidate coordinates %s, distance %.1f, min range %.1f, max range %.1f",
-                       candidate.to_string(), leap_dist, min_range, max_range );
+                       candidate.to_string_writable(), leap_dist, min_range, max_range );
         if( leap_dist > max_range || leap_dist < min_range ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate outside of allowed range, discarded" );

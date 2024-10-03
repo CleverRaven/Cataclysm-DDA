@@ -299,7 +299,7 @@ tripoint_bub_ms npc::good_escape_direction( bool include_pos )
         if( retreat_target && *retreat_target != abs_pos ) {
             add_msg_debug( debugmode::DF_NPC_MOVEAI,
                            "<color_light_gray>%s is </color><color_brown>repositioning</color> to %s", name,
-                           here.bub_from_abs( *retreat_target ).to_string() );
+                           here.bub_from_abs( *retreat_target ).to_string_writable() );
             update_path( here.bub_from_abs( *retreat_target ) );
         }
         if( !path.empty() ) {
