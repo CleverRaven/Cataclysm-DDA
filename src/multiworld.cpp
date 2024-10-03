@@ -52,8 +52,8 @@ bool multiworld::travel_to_world( std::string worldName )
     so i'm using 'default' as empty/main world */
     if( worldName != "default" ) {
         set_world_prefix( worldName );
-    }else{
-        set_world_prefix("");
+    } else {
+        set_world_prefix( "" );
     }
     MAPBUFFER.clear();
     //FIXME hack to prevent crashes from temperature checks
@@ -62,14 +62,14 @@ bool multiworld::travel_to_world( std::string worldName )
     //in theory if we skipped the next two lines we'd have an exact copy of the overmap from the past world, only with differences noticeable in the local map.
     overmap_buffer.clear();
     //load/create new overmap
-    overmap_buffer.get( point_abs_om{});
+    overmap_buffer.get( point_abs_om{} );
     //loads submaps
     here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_dec.reset();
     here.access_cache( here.get_abs_sub().z() ).map_memory_cache_ter.reset();
     here.invalidate_visibility_cache();
     g->load_npcs();
-    here.spawn_monsters( true,true); // Static monsters
+    here.spawn_monsters( true, true ); // Static monsters
     g->update_overmap_seen();
     // update weather now as it could be different on the new location
     get_weather().nextweather = calendar::turn;

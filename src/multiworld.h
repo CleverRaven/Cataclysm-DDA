@@ -19,16 +19,16 @@
 #include "translations.h"
 #include "type_id.h"
 #include "point.h"
-class multiworld 
+class multiworld
 {
-    //allow access to set_world_prefix
-    friend void game::unserialize( std::istream &fin, const cata_path &path );
+        //allow access to set_world_prefix
+        friend void game::unserialize( std::istream &fin, const cata_path &path );
     public:
         multiworld();
         ~multiworld();
         std::string get_world_prefix();
         //currently just the player
-        bool travel_to_world(std::string prefix);
+        bool travel_to_world( std::string prefix );
     private:
         /** @param world_prefix tells the game which world folder it should load data from
          *  @param set_world_prefix sets the current prefix, it shouldn't be used on it's own
