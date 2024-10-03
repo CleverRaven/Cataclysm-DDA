@@ -7198,12 +7198,7 @@
             "charges": 20,
             "container-item": "rad_monitor"
           },
-          {
-            "item": "medium_battery_cell",
-            "ammo-item": "battery",
-            "charges": 20,
-            "container-item": "broken_dimensional_anchor"
-          },
+          { "item": "broken_dimensional_anchor", "charges": 20 },
           { "item": "xedra_seismograph", "custom-flags": [ "auto_wield" ] }
         ]
       }
