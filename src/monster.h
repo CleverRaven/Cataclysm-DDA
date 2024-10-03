@@ -476,6 +476,9 @@ class monster : public Creature
         // Add an item to inventory
         void add_item( const item &it );
 
+        // see mtype::deactivation
+        const furn_str_id deactivate_mon();
+
         /**
         * Consume UPS from mech battery.
         * @param amt amount of energy to consume. Is rounded down to kJ precision. Do not use negative values.

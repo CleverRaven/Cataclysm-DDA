@@ -1,0 +1,26 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_turret_bmg",
+    "name": { "str": "inactive M2HB autonomous CROWS II" },
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  This one is fitted with a .50 caliber M2HB machine gun.  Normally it would have no qualms about blowing your head clean (not really) off, but fortunately for you it's inactive.  On it a bright yellow label says \"AUTONOMOUS SECURITY UNIT DO NOT TAMPER\".",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_turret_rifle",
+    "name": { "str": "inactive M249 autonomous CROWS II" },
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software.  This one is fitted with a 5.56 caliber M249 machine gun.  Normally it would have no qualms about blowing your head clean (not really) off, but fortunately for you it's inactive.  On it a bright yellow label says \"AUTONOMOUS SECURITY UNIT DO NOT TAMPER\".",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE" ]
+  }
+]
