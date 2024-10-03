@@ -50,7 +50,7 @@ bool multiworld::travel_to_world( std::string worldName )
     here.rebuild_vehicle_level_caches();
     /*inputting an empty string to the text input EOC fails 
     so i'm using 'default' as empty/main world */
-    if (worldName != "default") {
+    if( worldName != "default" ) {
         set_world_prefix( worldName );
     }else{
         set_world_prefix("");
