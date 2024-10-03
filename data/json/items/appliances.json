@@ -48,7 +48,7 @@
     "symbol": "U",
     "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Needs to be placed and plugged into a power source.",
     "color": "blue",
-    "name": { "str": "disconnected arc furnace", "str_pl": "disconnected arc furnaces" },
+    "name": { "str": "disconnected arc furnace" },
     "material": [ "budget_steel" ],
     "longest_side": "200 cm",
     "volume": "400 L",
