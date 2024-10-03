@@ -1446,7 +1446,8 @@
       }
     ],
     "ammo": "battery",
-    "use_action": {
+    "use_action": [ 
+      {
       "type": "transform",
       "msg": "An LED light in the %s flickers on.",
       "target": "dimensional_anchor_on",
@@ -1454,9 +1455,15 @@
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
+    {
+      "type": "link_up",
+      "cable_length": 5,
+      "charge_rate": 140 W"
+    }
+    ],
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "BELTED", "SOFT", "USE_UPS" ],
+    "flags": [ "OVERSIZE", "BELTED", "SOFT" ],
     "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "torso" ] } ]
   },
   {
@@ -1468,14 +1475,21 @@
     "description": "The harness' shoulder-mounted LED glows with a soft green hue.  There's no further indication of anything happening.",
     "turns_per_charge": 100,
     "revert_to": "dimensional_anchor",
-    "use_action": {
+    "use_action": [
+    {
       "type": "transform",
       "ammo_scale": 0,
       "menu_text": "Turn off",
       "msg": "The %s LED light flickers off.",
       "target": "dimensional_anchor"
     },
-    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT", "USE_UPS" ]
+    {
+      "type": "link_up",
+      "cable_length": 5,
+      "charge_rate": 140 W"
+    }
+    ],   
+    "flags": [ "DIMENSIONAL_ANCHOR", "OVERSIZE", "BELTED", "PORTAL_PROOF", "SOFT" ]
   },
   {
     "id": "broken_dimensional_anchor",
