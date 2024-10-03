@@ -571,61 +571,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     return false;
 }
 
-bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
-{
-    if( dest_loc.z != you.posz() ) {
-        // No recursive ramp_moves
-        return false;
-    }
-
-    // We're moving onto a tile with no support, check if it has a ramp below
-    if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint_bub_ms below( point_bub_ms( dest_loc.xy() ), dest_loc.z - 1 );
-        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
-            // But we're moving onto one from above
-            const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.xy(), -1 ) );
-            // No penalty for misaligned stairs here
-            // Also cheaper than climbing up
-            return true;
-        }
-
-        return false;
-    }
-
-    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos_bub() ) ||
-        m.passable( dest_loc ) ) {
-        return false;
-    }
-
-    // Try to find an aligned end of the ramp that will make our climb faster
-    // Basically, finish walking on the stairs instead of pulling self up by hand
-    bool aligned_ramps = false;
-    for( const tripoint_bub_ms &pt : m.points_in_radius( you.pos_bub(), 1 ) ) {
-        if( rl_dist( pt.raw(), dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
-            aligned_ramps = true;
-            break;
-        }
-    }
-
-    const tripoint_bub_ms above_u( you.pos_bub() + tripoint_above );
-    if( m.has_floor_or_support( above_u ) ) {
-        add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
-        return false;
-    }
-
-    const tripoint dp = dest_loc - you.pos();
-    const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.xy(), 1 ) );
-    // We can't just take the result of the above function here
-    if( you.pos() != old_pos ) {
-        const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
-        you.mod_moves( -you.get_speed() * total_move_cost );
-    }
-
-    return true;
-}
-
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
