@@ -1454,6 +1454,20 @@
     "base_mods": { "hit_mod": [ 2 ] }
   },
   {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer",
+    "name": [ "Wielding Stormhammer" ],
+    "desc": [ "You are a monster wielding a stormhammer, as this effect indicates." ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_feral_stormshaper_stormhammer_cooldown",
+    "//": "Longer internal cooldown for feral stormshaper hammer",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
     "id": "effect_dispel_magic",
     "type": "effect_type",
     "name": [ "Dispel Magic" ],
@@ -1523,7 +1537,8 @@
       "effect_thorns_electric",
       "effect_stormshaper_loud_voice",
       "effect_technomancer_gain_electronics_computer",
-      "effect_technomancer_pain_ignore"
+      "effect_technomancer_pain_ignore",
+      "effect_feral_stormshaper_stormhammer"
     ]
   },
   {
@@ -1670,7 +1685,8 @@
       "eff_storm_elemental_electric_melee",
       "effect_flame_immunity",
       "effect_burning_trail",
-      "effect_ring_of_flight"
+      "effect_ring_of_flight",
+      "effect_feral_stormshaper_stormhammer"
     ]
   },
   {
