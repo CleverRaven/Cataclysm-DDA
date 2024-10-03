@@ -225,7 +225,7 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         std::string world_prefix;
         if (data.read("world_prefix", world_prefix))
         {
-            MULTIWORLD.travel_to_world(world_prefix);
+            MULTIWORLD.set_world_prefix(world_prefix);
         }
     
         data.read( "auto_travel_mode", auto_travel_mode );

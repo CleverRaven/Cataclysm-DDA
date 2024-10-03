@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include "game.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
@@ -20,6 +21,8 @@
 #include "point.h"
 class multiworld 
 {
+    //allow access to set_world_prefix
+    friend void game::unserialize( std::istream &fin, const cata_path &path );
     public:
         multiworld();
         ~multiworld();
