@@ -17,9 +17,9 @@ player_activity veh_shape::start( const tripoint_bub_ms &pos )
 {
     avatar &you = get_avatar();
     on_out_of_scope cleanup( []() {
-        get_map().invalidate_map_cache( get_avatar().view_offset.z );
+        get_map().invalidate_map_cache( get_avatar().view_offset.z() );
     } );
-    restore_on_out_of_scope<tripoint> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
 
     cursor_allowed.clear();
     for( const vpart_reference &part : veh.get_all_parts() ) {
@@ -34,7 +34,7 @@ player_activity veh_shape::start( const tripoint_bub_ms &pos )
     const auto target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
         const avatar &you = get_avatar();
-        g->draw_cursor_unobscuring( tripoint_bub_ms( you.pos() + you.view_offset ) );
+        g->draw_cursor_unobscuring( you.pos_bub() + you.view_offset );
     } );
     g->add_draw_callback( target_ui_cb );
     ui_adaptor ui;
@@ -106,9 +106,7 @@ std::optional<vpart_reference> veh_shape::select_part_at_cursor(
 
     uilist menu;
     menu.desc_enabled = !extra_description.empty();
-    menu.desc_lines_hint = 1;
     menu.hilight_disabled = true;
-    menu.w_x_setup = TERMX / 8;
 
     for( const vpart_reference &pt : parts ) {
         ret_val<void> predicate_result = predicate( pt );
@@ -201,7 +199,7 @@ bool veh_shape::set_cursor_pos( const tripoint_bub_ms &new_pos )
         get_map().invalidate_map_cache( z );
     }
     cursor_pos = target_pos;
-    you.view_offset = cursor_pos.raw() - you.pos();
+    you.view_offset = cursor_pos - you.pos_bub();
     return true;
 }
 
@@ -217,13 +215,12 @@ bool veh_shape::handle_cursor_movement( const std::string &action )
     } else if( action == "zoom_out" ) {
         g->zoom_out();
     } else if( action == "SELECT" ) {
-        const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( g->w_terrain );
+        const std::optional<tripoint_bub_ms> mouse_pos = ctxt.get_coordinates( g->w_terrain );
         if( !mouse_pos ) {
             return false;
         }
-        const tripoint_bub_ms mp( *mouse_pos );
-        if( get_cursor_pos() != mp ) {
-            set_cursor_pos( mp );
+        if( get_cursor_pos() != *mouse_pos ) {
+            set_cursor_pos( *mouse_pos );
         }
     } else if( action == "LEVEL_UP" ) {
         set_cursor_pos( get_cursor_pos() + tripoint_above );

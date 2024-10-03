@@ -30,7 +30,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "A roar fills your mind and you stagger!",
@@ -51,7 +51,7 @@
   {
     "type": "effect_type",
     "id": "psi_dazed_zap",
-    "//": "Seperate id to change the apply message.",
+    "//": "Separate id to change the apply message.",
     "name": [ "Dazed" ],
     "desc": [ "You're visibly shaken up, and are having a hard time focusing on what's going on around you." ],
     "apply_message": "Your body twitches under the electrical assault!",
@@ -109,6 +109,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_biokin3_hurricane_blows",
+    "//": "Hidden effect, used to prep for feral biokinetics using Hurricane Blows",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 400 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ "One Perfect Rock" ],
     "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
@@ -149,6 +157,18 @@
       [ 1, 5 ],
       [ 1, 1 ]
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_photokinetic_illuminate_enemy",
+    "name": [ "Illuminated" ],
+    "desc": [ "You are glowing slightly." ],
+    "apply_message": "A faint glow springs up around you!",
+    "remove_message": "The faint glow around you fades away.",
+    "rating": "bad",
+    "max_duration": "5 m",
+    "base_mods": { "dodge_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "LUMINATION", "add": 35 } ] } ]
   },
   {
     "type": "effect_type",
@@ -201,6 +221,24 @@
           { "value": "ARMOR_BASH", "add": -10 },
           { "value": "ARMOR_STAB", "add": -20 },
           { "value": "ARMOR_BULLET", "add": -35 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_inertial_barrier_improved",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -25 },
+          { "value": "ARMOR_BASH", "add": -18 },
+          { "value": "ARMOR_STAB", "add": -32 },
+          { "value": "ARMOR_BULLET", "add": -50 }
         ]
       }
     ]
@@ -301,5 +339,12 @@
     "id": "effect_feral_regeneration",
     "name": [ "Feral Regeneration" ],
     "desc": [ "Your wounds are rapidly closing." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_telepath_network_monster_effect",
+    "name": [ "Telepathic Network Monster" ],
+    "desc": [ "You are in constant communication with your allies, looking out for each other in combat." ],
+    "base_mods": { "bash_mod": [ 1.5 ], "cut_mod": [ 1.5 ], "dodge_mod": [ 1.5 ], "hit_mod": [ 1.5 ] }
   }
 ]

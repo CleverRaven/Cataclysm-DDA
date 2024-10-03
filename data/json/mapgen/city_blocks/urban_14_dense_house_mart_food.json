@@ -111,10 +111,10 @@
         "=": "t_carpet_concrete_yellow",
         "_": "t_pavement",
         "[": "t_pavement",
-        "(": "t_pavement",
-        ")": "t_atm"
+        "(": "t_pavement"
       },
       "furniture": {
+        ")": "f_atm_off",
         "1": "f_rack",
         "2": "f_rack",
         "3": "f_rack",

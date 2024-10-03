@@ -101,4 +101,3 @@ int city::get_distance_from( const tripoint_om_omt &p ) const
 {
     return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
 }
-

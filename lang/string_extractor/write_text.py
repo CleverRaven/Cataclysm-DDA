@@ -53,7 +53,7 @@ def write_text(json, origin, context="", comment="",
             else:
                 text_plural = "{}s".format(text)
 
-    if not text:
+    if not text or "NO_I18N" in comments:
         return
 
     format_tag = ""

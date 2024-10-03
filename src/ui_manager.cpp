@@ -75,6 +75,9 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : is_imgui( false ),
 
 ui_adaptor::~ui_adaptor()
 {
+    if( is_shutting_down ) {
+        return;
+    }
     if( is_debug_message_ui ) {
         cata_assert( showing_debug_message );
         showing_debug_message = false;
@@ -177,7 +180,7 @@ void ui_adaptor::record_cursor( const catacurses::window &w )
 
 void ui_adaptor::record_term_cursor()
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     cursor_type = cursor::custom;
     cursor_pos = point( getcurx( catacurses::newscr ), getcury( catacurses::newscr ) );
 #else
@@ -188,7 +191,7 @@ void ui_adaptor::record_term_cursor()
 
 void ui_adaptor::default_cursor()
 {
-#if !defined( TILES )
+#if defined( TUI )
     cursor_type = cursor::last;
 #else
     // Unimplemented
@@ -203,7 +206,7 @@ void ui_adaptor::disable_cursor()
 
 static void restore_cursor( const point &p )
 {
-#if !defined( TILES ) && !defined(_MSC_VER)
+#if defined( TUI )
     wmove( catacurses::newscr, p );
 #else
     static_cast<void>( p );
@@ -304,6 +307,11 @@ void ui_adaptor::reset()
     on_screen_resize( nullptr );
     on_redraw( nullptr );
     position( point_zero, point_zero );
+}
+
+void ui_adaptor::shutdown()
+{
+    is_shutting_down = true;
 }
 
 void ui_adaptor::invalidate( const rectangle<point> &rect, const bool reenable_uis_below )
@@ -483,14 +491,16 @@ void ui_adaptor::screen_resized()
 
 background_pane::background_pane()
 {
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    if( !test_mode ) {
+        ui.on_screen_resize( []( ui_adaptor & ui ) {
+            ui.position_from_window( catacurses::stdscr );
+        } );
         ui.position_from_window( catacurses::stdscr );
-    } );
-    ui.position_from_window( catacurses::stdscr );
-    ui.on_redraw( []( const ui_adaptor & ) {
-        catacurses::erase();
-        wnoutrefresh( catacurses::stdscr );
-    } );
+        ui.on_redraw( []( const ui_adaptor & ) {
+            catacurses::erase();
+            wnoutrefresh( catacurses::stdscr );
+        } );
+    }
 }
 
 namespace ui_manager
@@ -519,6 +529,13 @@ void invalidate_all_ui_adaptors()
 {
     for( ui_adaptor &adaptor : ui_stack ) {
         adaptor.invalidate_ui();
+    }
+}
+
+void reset()
+{
+    for( ui_adaptor &adaptor : ui_stack ) {
+        adaptor.shutdown();
     }
 }
 } // namespace ui_manager

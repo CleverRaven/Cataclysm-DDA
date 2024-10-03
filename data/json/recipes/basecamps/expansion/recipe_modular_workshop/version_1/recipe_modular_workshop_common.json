@@ -46,7 +46,7 @@
     "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmw_northeast" }, { "id": "blacksmith_recipes_2" } ],
     "blueprint_excludes": [ { "id": "fbmw_northeast", "amount": 3 } ],
-    "blueprint_resources": [ "anvil" ],
+    "blueprint_resources": [ "anvil_crude" ],
     "components": [ [ [ "55gal_drum", 1 ] ], [ [ "30gal_drum", 1 ] ] ]
   },
   {

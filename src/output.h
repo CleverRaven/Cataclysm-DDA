@@ -91,6 +91,31 @@ using chtype = int;
 #define LINE_OXXX_UNICODE 0x252C
 #define LINE_XXXX_UNICODE 0x253C
 
+#if defined(USE_PDCURSES)
+#undef LINE_XOXO
+#undef LINE_OXOX
+#undef LINE_XXOO
+#undef LINE_OXXO
+#undef LINE_OOXX
+#undef LINE_XOOX
+#undef LINE_XXXO
+#undef LINE_XXOX
+#undef LINE_XOXX
+#undef LINE_OXXX
+#undef LINE_XXXX
+
+#define LINE_XOXO LINE_XOXO_UNICODE
+#define LINE_OXOX LINE_OXOX_UNICODE
+#define LINE_XXOO LINE_XXOO_UNICODE
+#define LINE_OXXO LINE_OXXO_UNICODE
+#define LINE_OOXX LINE_OOXX_UNICODE
+#define LINE_XOOX LINE_XOOX_UNICODE
+#define LINE_XXXO LINE_XXXO_UNICODE
+#define LINE_XXOX LINE_XXOX_UNICODE
+#define LINE_XOXX LINE_XOXX_UNICODE
+#define LINE_OXXX LINE_OXXX_UNICODE
+#define LINE_XXXX LINE_XXXX_UNICODE
+#endif
 // Supports line drawing
 std::string string_from_int( catacurses::chtype ch );
 
@@ -503,6 +528,8 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 /*@}*/
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare );
+void display_item_info( const std::vector<iteminfo> &vItemDisplay,
+                        const std::vector<iteminfo> &vItemCompare );
 
 // the extra data that item_info needs to draw
 struct item_info_data {
@@ -546,6 +573,7 @@ struct item_info_data {
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;
+        bool arrow_scrolling = false;
         bool any_input = true;
         bool scrollbar_left = true;
         bool use_full_win = false;
@@ -1221,9 +1249,9 @@ class tab_list
 {
     private:
         size_t _index = 0;
-        std::vector<std::string> *_list;
+        const std::vector<std::string> *_list;
     public:
-        explicit tab_list( std::vector<std::string> &_list ) : _list( &_list ) {
+        explicit tab_list( const std::vector<std::string> &_list ) : _list( &_list ) {
         }
 
         void last() {

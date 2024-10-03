@@ -67,6 +67,50 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ETHEREAL_WINGS_INITIATE",
+    "condition": { "not": { "u_has_trait": "ethereal_wings" } },
+    "effect": [
+      { "u_message": "<color_white>Ethereal</color> wings grow from your back.", "type": "good" },
+      { "u_add_trait": "ethereal_wings" },
+      {
+        "queue_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)" ] }
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "ethereal_wings" },
+      { "u_message": "The wings behind you fade out of existence.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ETHEREAL_WINGS_CONTINUE",
+    "condition": { "and": [ { "u_has_trait": "ethereal_wings" }, { "math": [ "u_val('mana')", ">=", "200" ] } ] },
+    "effect": [
+      { "math": [ "u_val('mana')", "-=", "200" ] },
+      {
+        "u_message": "The wings behind you grow slightly more transparent, but they quickly revert back to normal.",
+        "type": "good"
+      },
+      {
+        "queue_eocs": "EOC_ETHEREAL_WINGS_CONTINUE",
+        "time_in_future": { "math": [ "((u_spell_level('spell_ethereal_wings')+1)*500)" ] }
+      },
+      {
+        "math": [
+          "u_spell_exp('spell_ethereal_wings')",
+          "+=",
+          "spell_exp_diff(u_spell_level('spell_ethereal_wings'))/spell_train_factor(200)"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "ethereal_wings" },
+      { "u_message": "The wings behind you fade out of existence.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_KARMA_ARMS_INITIATE",
     "condition": { "not": { "u_has_trait": "karma_arms" } },
     "effect": [

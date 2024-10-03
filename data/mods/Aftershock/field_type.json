@@ -115,17 +115,38 @@
     "decay_amount_factor": 5,
     "percent_spread": 30,
     "outdoor_age_speedup": "3 minutes",
-    "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": {
-      "flags": [ "POISON_IMMUNE" ],
-      "body_part_env_resistance": [ [ "torso", 15 ], [ "leg", 15 ], [ "foot", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ]
-    },
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "torso", 15 ], [ "leg", 15 ], [ "foot", 15 ], [ "mouth", 15 ], [ "sensor", 15 ] ] },
     "priority": 2,
     "half_life": "1 hours",
     "phase": "solid",
     "display_items": true,
     "display_field": true,
     "looks_like": "fd_nuke_gas"
+  },
+  {
+    "id": "fd_rad_glimmer",
+    "type": "field_type",
+    "intensity_levels": [
+      { "name": "radiative glimmer", "color": "light_red_yellow", "sym": "#", "light_emitted": 5, "extra_radiation_max": 1 },
+      { "name": "radiative glimmer", "color": "light_red_yellow", "extra_radiation_max": 2, "concentration": 2 },
+      {
+        "name": "intense radiative glimmer",
+        "color": "light_red_yellow",
+        "light_emitted": 10,
+        "extra_radiation_max": 15,
+        "radiation_hurt_damage_min": 1,
+        "radiation_hurt_damage_max": 2,
+        "radiation_hurt_message": "You feel a painful burning sensation."
+      }
+    ],
+    "description_affix": "illuminated_by",
+    "priority": 4,
+    "half_life": "1 turns",
+    "phase": "plasma",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_laser"
   }
 ]

@@ -7,7 +7,7 @@
       { "text": "I'm sorry.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_End" },
       { "text": "That sounds a little cruel.", "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cruel" },
       {
-        "text": "[Cannibal + Psychopath] Wait, I thought you were having food problems.",
+        "text": "[Cannibal + Uncaring] Wait, I thought you were having food problems.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutGreeting_Cannibal",
         "condition": { "and": [ { "u_has_trait": "CANNIBAL" }, { "u_has_trait": "PSYCHOPATH" } ] }
       }

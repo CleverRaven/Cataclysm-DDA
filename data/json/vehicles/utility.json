@@ -81,7 +81,7 @@
       { "x": 0, "y": 0, "parts": [ "generator_7500w", "wheel_mount_light", "wheel_small" ] },
       { "x": 1, "y": 0, "parts": [ "frame#cross" ] },
       { "x": 1, "y": 0, "parts": [ { "part": "tank_small", "fuel": "gasoline" } ] },
-      { "x": 1, "y": 0, "parts": [ "stowboard#horizontal_rear", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "box", "controls" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [
@@ -100,7 +100,7 @@
       { "x": 0, "y": 0, "parts": [ "generator_7500w", "wheel_mount_light", "wheel_small" ] },
       { "x": 1, "y": 0, "parts": [ "frame#cross" ] },
       { "x": 1, "y": 0, "parts": [ { "part": "tank_small", "fuel": "diesel" } ] },
-      { "x": 1, "y": 0, "parts": [ "stowboard#horizontal_rear", "controls" ] },
+      { "x": 1, "y": 0, "parts": [ "box", "controls" ] },
       { "x": 1, "y": 0, "parts": [ "wheel_mount_light", "wheel_small" ] }
     ],
     "items": [

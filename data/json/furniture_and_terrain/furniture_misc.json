@@ -1,0 +1,122 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_atm",
+    "looks_like": "t_atm",
+    "name": "ATM",
+    "description": "For your banking convenience, this Automated Teller Machine is fully capable of operating autonomously in the event of complete network failure.  You can deposit funds from cash cards and migrate all of your inflation-adjusted earnings to a single card.  This thing has seen better days; there's been a run on the bank, and this machine has the dents and cracks to prove it.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "atm",
+    "deconstruct": {
+      "items": [
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "lc_steel_lump", "count": 77 },
+        { "item": "steel_chunk", "count": 302 },
+        { "item": "sheet_metal", "count": 8 },
+        { "item": "sheet_metal_small", "count": 40 },
+        { "item": "scrap", "count": 890 },
+        { "item": "RAM", "count": 2 },
+        { "item": "cable", "charges": 260 },
+        { "item": "e_scrap", "count": 60 },
+        { "item": "circuit", "count": 10 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": 1 },
+        { "item": "plastic_chunk", "count": 96 },
+        { "item": "money_fifty", "count": [ 0, 299 ] },
+        { "item": "money_twenty", "count": [ 0, 299 ] },
+        { "item": "money_ten", "count": [ 0, 299 ] },
+        { "item": "money_five", "count": [ 0, 299 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 220,
+      "str_max": 800,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "lc_steel_lump", "count": 77 },
+        { "item": "steel_chunk", "count": [ 250, 300 ] },
+        { "item": "sheet_metal", "count": [ 2, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 3, 40 ] },
+        { "item": "scrap", "count": [ 400, 890 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 180, 260 ] },
+        { "item": "e_scrap", "count": [ 20, 60 ] },
+        { "item": "circuit", "count": [ 2, 10 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 40, 96 ] },
+        { "item": "money_fifty", "count": [ 0, 299 ] },
+        { "item": "money_twenty", "count": [ 0, 299 ] },
+        { "item": "money_ten", "count": [ 0, 299 ] },
+        { "item": "money_five", "count": [ 0, 299 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_atm_off",
+    "looks_like": "t_atm",
+    "//": "www.testlinkusa.com/ncr-5870",
+    "name": "ATM",
+    "description": "Designed to withdraw money from your bank account, this machine is completely dead now, both from having no more power, and having no internet connection to do any withdraws.  While you can deconstruct it, it's effectively just a big pile of metal.",
+    "symbol": "&",
+    "bgcolor": "yellow",
+    "required_str": -1,
+    "move_cost_mod": -1,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "ALARMED", "REDUCE_SCENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "lc_steel_lump", "count": 77 },
+        { "item": "steel_chunk", "count": 302 },
+        { "item": "sheet_metal", "count": 8 },
+        { "item": "sheet_metal_small", "count": 40 },
+        { "item": "scrap", "count": 890 },
+        { "item": "RAM", "count": 2 },
+        { "item": "cable", "charges": 260 },
+        { "item": "e_scrap", "count": 60 },
+        { "item": "circuit", "count": 10 },
+        { "item": "power_supply", "count": 1 },
+        { "item": "amplifier", "count": 1 },
+        { "item": "plastic_chunk", "count": 96 },
+        { "item": "money_fifty", "count": [ 0, 299 ] },
+        { "item": "money_twenty", "count": [ 0, 299 ] },
+        { "item": "money_ten", "count": [ 0, 299 ] },
+        { "item": "money_five", "count": [ 0, 299 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 220,
+      "str_max": 800,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "small_lcd_screen", "count": 1 },
+        { "item": "lc_steel_lump", "count": 77 },
+        { "item": "steel_chunk", "count": [ 250, 300 ] },
+        { "item": "sheet_metal", "count": [ 2, 8 ] },
+        { "item": "sheet_metal_small", "count": [ 3, 40 ] },
+        { "item": "scrap", "count": [ 400, 890 ] },
+        { "item": "RAM", "count": [ 0, 2 ] },
+        { "item": "cable", "charges": [ 180, 260 ] },
+        { "item": "e_scrap", "count": [ 20, 60 ] },
+        { "item": "circuit", "count": [ 2, 10 ] },
+        { "item": "power_supply", "count": [ 0, 1 ] },
+        { "item": "amplifier", "count": [ 0, 1 ] },
+        { "item": "plastic_chunk", "count": [ 40, 96 ] },
+        { "item": "money_fifty", "count": [ 0, 299 ] },
+        { "item": "money_twenty", "count": [ 0, 299 ] },
+        { "item": "money_ten", "count": [ 0, 299 ] },
+        { "item": "money_five", "count": [ 0, 299 ] }
+      ]
+    }
+  }
+]

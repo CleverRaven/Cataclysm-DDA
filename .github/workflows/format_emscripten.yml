@@ -40,7 +40,7 @@ jobs:
         with:
           ref: gh-pages
 
-      - uses: actions/download-artifact@v3.1.4
+      - uses: actions/download-artifact@v4
         with:
           name: formatter
 

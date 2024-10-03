@@ -4,6 +4,7 @@
     "//": "Copied from 7.62x54R Clip values.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
+    "category": "ammo",
     "name": { "str": ".30-06 5-round clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five .30-06 rounds into a compatible firearm.",
     "weight": "9 g",

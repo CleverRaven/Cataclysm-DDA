@@ -79,5 +79,12 @@
       { "item": "armguard_scrap", "prob": 40 },
       { "item": "cuirass_lightplate", "prob": 90 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_police_armor",
+    "//": "If specific aftershock police armor is added please add to this group. Until then it refers to civilian armors.",
+    "subtype": "collection",
+    "entries": [ { "group": "afs_armor_spaceship_crew_g", "prob": 60 }, { "group": "civilian_body_armor", "prob": 40 } ]
   }
 ]

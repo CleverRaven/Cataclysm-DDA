@@ -306,7 +306,7 @@ class input_context
         /**
          * Get the coordinates associated with the last mouse click (if any).
          */
-        std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
+        std::optional<tripoint_bub_ms> get_coordinates( const catacurses::window &capture_win_,
                 const point &offset = point_zero, bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.

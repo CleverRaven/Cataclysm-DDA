@@ -12,6 +12,11 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "afs_cheap_drinks",
+    "items": [ [ "afs_h2o", 90 ], [ "afs_calorie_water", 50 ], [ "afs_sundew", 50 ], [ "afs_caffex", 50 ] ]
+  },
+  {
     "id": "afs_spices",
     "type": "item_group",
     "//": "This group is for cupboard, drawer, or rack with spices.",
@@ -88,8 +93,8 @@
     "id": "afs_mealgrub_procesing",
     "entries": [
       { "item": "afs_mealgrub_jelly", "count": [ 5, 20 ] },
-      { "prob": 15, "count": [ 5, 25 ], "group": "afs_mealgrubs_wrapper_pr_5" },
-      { "prob": 5, "count": [ 5, 25 ], "group": "afs_mealgrubs_wrapper_pr_5" },
+      { "prob": 15, "count": [ 5, 25 ], "group": "afs_mealgrubs_afs_foil_bag_5" },
+      { "prob": 5, "count": [ 5, 25 ], "group": "afs_mealgrubs_afs_foil_bag_5" },
       { "item": "water", "prob": 10, "charges": [ 20, 40 ], "container-item": "jerrycan" }
     ]
   },
@@ -137,10 +142,10 @@
   },
   {
     "type": "item_group",
-    "id": "afs_mealgrubs_wrapper_pr_5",
+    "id": "afs_mealgrubs_afs_foil_bag_5",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
-    "container-item": "wrapper_pr",
+    "container-item": "afs_foil_bag",
     "entries": [ { "item": "afs_mealgrubs", "container-item": "null", "count": 5 } ]
   }
 ]

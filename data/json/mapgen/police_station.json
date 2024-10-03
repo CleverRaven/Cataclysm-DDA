@@ -220,10 +220,12 @@
         "t": "f_trashcan",
         "d": "f_desk",
         "F": "f_filing_cabinet",
-        "D": "f_vending_c",
-        "U": "f_vending_c",
         "b": "f_bench",
         "/": "f_flagpole"
+      },
+      "vendingmachines": {
+        "D": { "item_group": "vending_food_items", "lootable": true },
+        "U": { "item_group": "vending_drink_items", "lootable": true }
       },
       "items": {
         "N": { "item": "bulletin_police", "chance": 50, "repeat": [ 1, 3 ] },
@@ -236,9 +238,7 @@
         "}": { "item": "police_armory_any_assaultrifle", "chance": 90 },
         "[": { "item": "police_armory_any_pistol", "chance": 95 },
         "]": { "item": "police_armory_any_shotgun", "chance": 85 },
-        "L": { "item": "cop_evidence", "chance": 60 },
-        "D": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 12 ] },
-        "U": { "item": "vending_drink_items", "chance": 70, "repeat": [ 4, 12 ] }
+        "L": { "item": "cop_evidence", "chance": 60 }
       },
       "item": { "/": { "item": "american_flag" } },
       "toilets": { "&": {  } },

@@ -46,5 +46,13 @@
       }
     ],
     "false_effect": [ { "u_message": "You don't have enough stamina to throw your Wolf Sledge.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RIP_TICKET_REMOVE",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "condition": { "or": [ { "compare_string": [ "rip_ticket", { "context_val": "spell" } ] } ] },
+    "effect": [ { "u_consume_item": "rip_ticket" } ]
   }
 ]

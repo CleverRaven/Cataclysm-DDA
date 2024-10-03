@@ -97,6 +97,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "container-group": "<group-id>",
 "entry-wrapper": "<item-id>",
 "sealed": <boolean>
+"active": <boolean>
 "custom-flags": <array of string>,
 "variant": <string>
 "artifact": <object>
@@ -111,6 +112,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `charges`: Setting only min and not max will make the game calculate the max charges based on container or ammo/magazine capacity. Setting max too high will decrease it to the maximum capacity. Not setting min will set it to 0 when max is set.
 
 `sealed`: If true, a container will be sealed when the item spawns.  Default is `true`.
+
+`active`: If true, item would be spawned activated.  Be sure to use active versions of item, like `flashlight_on` instead of `flashlight`.  Default is `false`
 
 `custom-flags`: An array of flags that will be applied to this item.
 

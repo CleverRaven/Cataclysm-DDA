@@ -168,6 +168,11 @@ int talker_monster_const::get_friendly() const
     return me_mon_const->friendly;
 }
 
+int talker_monster_const::get_difficulty() const
+{
+    return me_mon_const->type->difficulty;
+}
+
 int talker_monster_const::get_size() const
 {
     add_msg_debug( debugmode::DF_TALKER, "Size category of monster %s = %d", me_mon_const->name(),

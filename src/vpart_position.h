@@ -141,7 +141,7 @@ class optional_vpart_position : public std::optional<vpart_position>
         std::optional<vpart_reference> obstacle_at_part() const;
         std::optional<vpart_reference> part_displayed() const;
         std::optional<vpart_reference> part_with_tool( const itype_id &tool_type ) const;
-        std::string extended_description() const;
+        std::vector<std::string> extended_description() const;
 };
 
 /**

@@ -46,7 +46,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "corn", 3 ], [ "cornmeal", 3 ], [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
+      [ [ "corn", 3 ], [ "popcorn_cob", 3 ], [ "cornmeal", 3 ], [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
       [ [ "juniper", 10 ] ]
     ],
     "charges": 3
@@ -82,7 +82,7 @@
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [ [ "water", 15 ], [ "water_clean", 15 ] ],
-      [ [ "cornmeal", 12 ], [ "corn", 2 ] ],
+      [ [ "cornmeal", 12 ], [ "corn", 2 ], [ "popcorn_cob", 2 ] ],
       [ [ "sugar", 100 ] ],
       [ [ "yeast", 2 ] ]
     ],
@@ -280,7 +280,7 @@
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
+      [ [ "corn", 1 ], [ "popcorn_cob", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
     ],
     "charges": 1
   },

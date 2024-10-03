@@ -371,6 +371,22 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "shed_5x5_garden_E_roof",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "-----",
+        "-...-",
+        "-...-",
+        "-...-",
+        "-----"
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "shed_5x5_garden_E",
     "object": {
       "mapgensize": [ 5, 5 ],
@@ -389,7 +405,8 @@
         { "item": "garden_shed", "x": [ 1, 2 ], "y": 1, "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "farming_seeds", "x": [ 2, 3 ], "y": 3, "chance": 70, "repeat": [ 1, 4 ] },
         { "item": "flower_pots", "x": [ 2, 3 ], "y": 3, "chance": 50, "repeat": [ 1, 4 ] }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ "shed_5x5_garden_E_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -529,6 +546,20 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "3x3_shed_trail_supplies_N_roof",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "---",
+        "-.-",
+        "---"
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "3x3_shed_trail_supplies_N",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -548,7 +579,8 @@
           { "item": "ref_matches", "chance": 50, "charges": [ 1, 32 ] },
           { "item": "marshmallow", "chance": 20 }
         ]
-      }
+      },
+      "place_nested": [ { "chunks": [ "3x3_shed_trail_supplies_N_roof" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {

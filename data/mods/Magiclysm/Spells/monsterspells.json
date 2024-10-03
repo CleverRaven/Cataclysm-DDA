@@ -362,5 +362,86 @@
     "shape": "blast",
     "min_duration": 720000,
     "max_duration": 2160000
+  },
+  {
+    "type": "SPELL",
+    "id": "catoblepas_gaze_spell",
+    "name": { "str": "catoblepas gaze" },
+    "description": "Does a big thwack of damage if the target can see the catoblepas",
+    "valid_targets": [ "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CATOBLEPAS_GAZE",
+    "shape": "blast",
+    "message": "",
+    "max_level": 20,
+    "min_range": 15,
+    "max_range": 15,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CATOBLEPAS_GAZE",
+    "condition": {
+      "and": [
+        { "not": { "u_has_flag": "BLIND" } },
+        { "not": { "u_has_effect": "BLIND" } },
+        { "not": { "u_has_worn_with_flag": "BLIND" } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_CATOBLEPAS_GAZE_2",
+            "condition": "u_is_character",
+            "effect": [
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "head",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'head') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "torso",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'torso') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "arm_l",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'arm_l') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "arm_r",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'arm_r') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "leg_l",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'leg_l') + 1" ] }
+              },
+              {
+                "u_add_effect": "effect_catoblepas_gaze",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "target_part": "leg_r",
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze', 'bodypart': 'leg_r') + 1" ] }
+              }
+            ],
+            "false_effect": [
+              {
+                "u_add_effect": "effect_catoblepas_gaze_monster",
+                "duration": { "math": [ "rand(10) + 5" ] },
+                "intensity": { "math": [ "u_effect_intensity('effect_catoblepas_gaze_monster') + 1" ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

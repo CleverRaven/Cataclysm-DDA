@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "platonic_flower",
     "name": { "str": "philosopher's flower" },
-    "//2": "there will be some thoughts about how this alchemy stuff works. the relation are pretty stretchy, because i dont want to make bazillion of plants for each purpose, so dont mind if 'light' related plant will occur in 'darkness' flask effect",
+    "//2": "there will be some thoughts about how this alchemy stuff works. the relation are pretty stretchy, because I don't want to make bazillion of plants for each purpose, so don't mind if 'light' related plant will occur in 'darkness' flask effect",
     "//": "same as barnacle weed, 'duration' and 'sustaining', but not so long and more powerful, for effective and non standard effects like night vision",
     "color": "pink",
     "comestible_type": "FOOD",

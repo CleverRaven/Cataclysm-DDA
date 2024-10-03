@@ -667,6 +667,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lighthouse_small_ground",
+    "name": "Small lighthouse island",
+    "terrain": [ "lighthouse_small_ground" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_military_base_warehouse",
     "name": "Military Base Warehouse",
     "terrain": [ "mil_base_2g" ]

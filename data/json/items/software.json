@@ -63,6 +63,24 @@
     "price_postapoc": "0 cent"
   },
   {
+    "id": "software_encryption_codes",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "encryption codes" },
+    "description": "There are numerous security keys with dates for potential future access to encrypted archived data.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
+    "id": "software_archived_data",
+    "copy-from": "software",
+    "type": "GENERIC",
+    "name": { "str_sp": "archive data" },
+    "description": "Extremely compressed research data, observation and experiment statistics.  The only pattern you manage to recognize is an increase in the amount of report closer to the Cataclysm, but also a reduction in the number of facilities still submitting reports.",
+    "price": "2 USD",
+    "price_postapoc": "0 cent"
+  },
+  {
     "id": "software_electronics_reference",
     "copy-from": "software",
     "type": "GENERIC",

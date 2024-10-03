@@ -14,7 +14,8 @@
         "xe_eater",
         "xe_dreamer",
         "xe_inventor",
-        "xe_dreamsmith"
+        "xe_dreamsmith",
+        "xe_hedge_mage_magic_squares"
       ]
     },
     "id": "heli_crash"
@@ -45,6 +46,26 @@
     "eoc": [ "scenario_paraclesian_birth" ],
     "traits": [ "ELEMENTAL_MANA1", "ELEMENTAL_MANA2" ],
     "reveal_locale": false
+  },
+  {
+    "type": "scenario",
+    "id": "werewolf_native_born",
+    "name": "Werewolf, Natural-born",
+    "flags": [ "LONE_START" ],
+    "points": 0,
+    "description": "You had no idea what was going on the first time it happened, when you woke up with mud on your bare feet and a sour taste in your mouth, but you were soon found.  The People of the Moon, they called themselves, and they said you were one of them.  A werewolf.  You lived out in the wilderness for a while but didn't entirely abandon human civilization, and when the Cataclysm yet you ignored the evacuation warnings and struck it out on their own.  Maybe some of the People are still out there.",
+    "start_name": "Alone",
+    "allowed_locs": [
+      "sloc_shelter_vandalized_a",
+      "sloc_shelter_vandalized_b",
+      "sloc_shelter_vandalized_c",
+      "sloc_hermit_shack",
+      "sloc_cabin",
+      "sloc_house_boarded",
+      "sloc_forest",
+      "sloc_field"
+    ],
+    "forced_traits": [ "NATIVE_SHAPESHIFTER", "WEREWOLF_ANIMAL_FORM", "WEREWOLF_HYBRID_FORM" ]
   },
   {
     "type": "scenario",

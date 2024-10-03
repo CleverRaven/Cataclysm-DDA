@@ -59,18 +59,18 @@
       {
         "text": "How are you doing?",
         "topic": "TALK_lighthouse_man_hay",
-        "condition": { "npc_has_var": "flag_help_helped_lighthouse_man", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "flag_help_helped_lighthouse_man" } ] }
       },
       { "text": "Do you need any help?", "topic": "TALK_MISSION_LIST" },
       {
         "text": "Care to trade?",
         "topic": "TALK_lighthouse_man_1",
-        "condition": { "npc_has_var": "flag_help_helped_lighthouse_man", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "flag_help_helped_lighthouse_man" } ] },
         "effect": "start_trade"
       },
       {
         "text": "Has anyone come recently?",
-        "condition": { "u_has_var": "global_safe_space_lighthouse_fixed", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "global_safe_space_lighthouse_fixed" } ] },
         "trial": { "type": "CONDITION", "condition": { "math": [ "time_since(n_time_survivors_wait)", ">=", "time('14 d')" ] } },
         "success": {
           "topic": "TALK_lighthouse_man_survivors_yes",
@@ -141,7 +141,7 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "1" },
+            { "compare_string": [ "1", { "npc_val": "count_cleaning_lighthouse_man" } ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z1" }
           ]
@@ -153,7 +153,7 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "2" },
+            { "compare_string": [ "2", { "npc_val": "count_cleaning_lighthouse_man" } ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z2" }
           ]
@@ -165,7 +165,7 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "3" },
+            { "compare_string": [ "3", { "npc_val": "count_cleaning_lighthouse_man" } ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z3" }
           ]
@@ -177,7 +177,7 @@
         "topic": "TALK_lighthouse_man_cleaned",
         "condition": {
           "and": [
-            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "4" },
+            { "compare_string": [ "4", { "npc_val": "count_cleaning_lighthouse_man" } ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z4" }
           ]
@@ -188,7 +188,7 @@
         "text": "Yes.  Top floor is clear.",
         "condition": {
           "and": [
-            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "5" },
+            { "compare_string": [ "5", { "npc_val": "count_cleaning_lighthouse_man" } ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_z5" }
           ]
@@ -200,7 +200,7 @@
         "text": "Looks like that's over.",
         "condition": {
           "and": [
-            { "npc_has_var": "count_cleaning_lighthouse_man", "value": "6" },
+            { "compare_string": [ "6", { "npc_val": "count_cleaning_lighthouse_man" } ] },
             "at_safe_space",
             { "npc_at_om_location": "lighthouse_ground" }
           ]
@@ -235,8 +235,8 @@
           "and": [
             { "u_has_mission": "MISSION_lighthouse_man_3" },
             { "not": "mission_complete" },
-            { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" },
-            { "u_has_var": "flag_safe_lighthouse_girl", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_woman" } ] },
+            { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_girl" } ] }
           ]
         },
         "effect": [ "mission_success", { "npc_first_topic": "TALK_lighthouse_man_1" } ]
@@ -247,15 +247,15 @@
         "condition": {
           "and": [
             "mission_complete",
-            { "not": { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" } },
-            { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_woman" } ] } },
+            { "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ] }
           ]
         }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your wife alive…",
         "topic": "TALK_lighthouse_man_fail",
-        "condition": { "and": [ "mission_complete", { "u_has_var": "flag_safe_lighthouse_girl", "value": "yes" } ] }
+        "condition": { "and": [ "mission_complete", { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_girl" } ] } ] }
       },
       {
         "text": "I'm sorry, I failed you… I couldn't bring your daughter alive…",
@@ -263,8 +263,8 @@
         "condition": {
           "and": [
             { "not": "mission_complete" },
-            { "u_has_var": "flag_safe_lighthouse_woman", "value": "yes" },
-            { "u_has_var": "flag_death_lighthouse_girl_dead", "value": "yes" }
+            { "compare_string": [ "yes", { "u_val": "flag_safe_lighthouse_woman" } ] },
+            { "compare_string": [ "yes", { "u_val": "flag_death_lighthouse_girl_dead" } ] }
           ]
         }
       },
@@ -346,7 +346,7 @@
     "name": { "str": "House cleaning" },
     "description": "Clean lighthouse from <zombies> with Mikhail.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "npc_has_var": "count_cleaning_lighthouse_man", "value": "7" },
+    "goal_condition": { "compare_string": [ "7", { "npc_val": "count_cleaning_lighthouse_man" } ] },
     "difficulty": 0,
     "value": 5000,
     "start": {
@@ -454,7 +454,7 @@
     "name": { "str": "Fixing lighthouse" },
     "description": "Mikhail asked you to find someone, who have enough expertise to fix the mechanism of lighthouse.",
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "global_safe_space_lighthouse_fixed", "value": "ready" },
+    "goal_condition": { "compare_string": [ "ready", { "u_val": "global_safe_space_lighthouse_fixed" } ] },
     "difficulty": 0,
     "value": 100000,
     "end": {

@@ -30,7 +30,6 @@
       "h": "f_chair",
       "j": "f_washer",
       "k": "f_desk",
-      "l": "f_vending_c",
       "n": "f_table",
       "o": "f_bookcase",
       "p": "f_pool_table",
@@ -41,6 +40,7 @@
       "t": "f_toilet",
       "u": "f_barricade_road"
     },
+    "vendingmachines": { "l": { "lootable": true } },
     "terrain": {
       "!": "t_bars",
       "#": "t_region_shrub",
@@ -241,13 +241,13 @@
       "h": "f_chair",
       "j": "f_exercise",
       "k": "f_desk",
-      "l": "f_vending_c",
       "n": "f_table",
       "o": "f_bookcase",
       "r": "f_rack",
       "t": "f_toilet",
       "z": "f_crate_c"
     },
+    "vendingmachines": { "l": { "lootable": true } },
     "terrain": {
       " ": "t_metal_floor",
       "!": "t_bars",
@@ -359,7 +359,6 @@
       "h": "f_chair",
       "j": "f_exercise",
       "k": "f_desk",
-      "l": "f_vending_c",
       "n": "f_table",
       "o": "f_bookcase",
       "r": "f_rack",
@@ -368,6 +367,7 @@
       "~": "f_shower",
       "X": "f_rubble"
     },
+    "vendingmachines": { "l": { "lootable": true } },
     "terrain": {
       " ": "t_metal_floor",
       "!": "t_bars",

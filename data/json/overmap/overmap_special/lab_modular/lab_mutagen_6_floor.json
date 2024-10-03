@@ -68,12 +68,15 @@
       { "point": [ -2, -1, 0 ], "overmap": "lab_surface_parking_blockD1_west" },
       { "point": [ -3, -1, 0 ], "overmap": "lab_surface_parking_blockD0_west" },
       { "point": [ -1, -2, 0 ], "overmap": "lab_surface_parking_blockE2_west" },
+      { "point": [ -1, -2, 1 ], "overmap": "lab_surface_parking_blockE2_roof_west" },
       { "point": [ -1, -1, 0 ], "overmap": "lab_security_z0N_north" },
       { "point": [ -1, 0, 0 ], "overmap": "lab_security_z0_north" },
       { "point": [ -1, 1, 0 ], "overmap": "lab_security_z0S_north" },
       { "point": [ -1, 2, 0 ], "overmap": "lab_surface_parking_blockA2_west" },
+      { "point": [ -1, 2, 1 ], "overmap": "lab_surface_parking_blockA2_roof_west" },
       { "point": [ -2, 0, 0 ], "overmap": "lab_surface_parking_blockC1_west" },
       { "point": [ -3, 0, 0 ], "overmap": "lab_surface_parking_blockC0_west" },
+      { "point": [ -3, 0, 1 ], "overmap": "lab_surface_parking_blockC0_roof_west" },
       { "point": [ -2, 1, 0 ], "overmap": "lab_surface_parking_blockB1_west" },
       { "point": [ -3, 1, 0 ], "overmap": "lab_surface_parking_blockB0_west" },
       { "point": [ -2, 2, 0 ], "overmap": "lab_surface_parking_blockA1_west" },
@@ -132,6 +135,6 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE", "MAN_MADE" ]
+    "flags": [ "OVERMAP_UNIQUE", "MAN_MADE" ]
   }
 ]

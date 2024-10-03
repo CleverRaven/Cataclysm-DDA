@@ -55,12 +55,10 @@
     "type": "talk_topic",
     "id": [ "TALK_meteorologist_1" ],
     "dynamic_line": {
-      "npc_has_var": "flag_mission_u_helped_meteorologist",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "flag_mission_u_helped_meteorologist" } ],
       "yes": "Run, I need to run, where to run…",
       "no": {
-        "npc_has_var": "general_meeting_u_met_meteorologist",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_meteorologist" } ],
         "yes": {
           "gendered_line": "Air temperature, precipitation, but what about… oh, I'm sorry, I didn't notice you.  Hello.",
           "relevant_genders": [ "npc" ]
@@ -81,7 +79,7 @@
       {
         "text": "Maybe I can help you with your problem?",
         "topic": "TALK_meteorologist_safety",
-        "condition": { "npc_has_var": "flag_mission_u_helped_meteorologist", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "flag_mission_u_helped_meteorologist" } ] },
         "switch": true
       },
       {

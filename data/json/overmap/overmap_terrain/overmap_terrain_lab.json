@@ -2,149 +2,164 @@
   {
     "type": "overmap_terrain",
     "id": "lab",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_core",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_escape_cells",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_escape_entrance",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ants_lab",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ants_lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_finale",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "cyan",
     "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "see_cost": 5,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab_core",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "light_blue",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 8 ], "chance": 30 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "ice_lab_finale",
+    "vision_levels": "underground_stone",
     "name": "science lab",
     "sym": "L",
     "color": "cyan",
     "spawns": { "group": "GROUP_LAB", "population": [ 4, 12 ], "chance": 90 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "tower_lab",
+    "vision_levels": "large_city_building",
     "name": "science lab tower",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "tower_lab_stairs",
+    "vision_levels": "large_city_building",
     "name": "science lab tower",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "tower_lab_finale",
+    "vision_levels": "large_city_building",
     "name": "science lab tower",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -157,26 +172,29 @@
       "office_tower_lab_b2_roof",
       "office_tower_lab_b3_roof"
     ],
+    "vision_levels": "roof_or_air",
     "name": "science lab tower roof",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "id": "lab_train_depot",
+    "vision_levels": "underground_stone",
     "name": "science train depot",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "extras": "subway",
     "spawns": { "group": "GROUP_LAB", "population": [ 0, 5 ], "chance": 20 },
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_train_depot",
+    "vision_levels": "underground_stone",
     "name": "central train depot",
     "copy-from": "lab_train_depot",
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
@@ -184,31 +202,34 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_entrance",
+    "vision_levels": "forested",
     "name": "forest",
     "looks_like": "forest",
     "land_use_code": "forest",
     "sym": "F",
     "color": "green",
-    "see_cost": 3,
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "NO_ROTATE", "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_shaft",
+    "vision_levels": "underground_stone",
     "name": "access shaft",
     "sym": "0",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",
     "abstract": "generic_central_lab",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ],
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
   {
@@ -229,51 +250,56 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_stairs",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_core",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 7 ], "chance": 40 }
   },
   {
     "type": "overmap_terrain",
     "id": "central_lab_finale",
+    "vision_levels": "underground_stone",
     "name": "central lab",
     "sym": "L",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
   },
   {
     "type": "overmap_terrain",
     "id": [ "lab_surface_brick_basementD1_hidden_lab_stairs", "lab_surface_brick_basementE1" ],
+    "vision_levels": "underground_dirt",
     "name": "lab basement",
     "sym": "L",
     "color": "white",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 1, 5 ], "chance": 50 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -293,21 +319,25 @@
     ],
     "name": "parking lot",
     "//": "parking lot attached to Research facility.",
+    "vision_levels": "large_pavement",
     "sym": "_",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
     "extras": "research_facility_lot",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": [
       "lab_surface_parking_blockA2",
+      "lab_surface_parking_blockA2_roof",
       "lab_surface_parking_blockE2",
+      "lab_surface_parking_blockE2_roof",
       "lab_surface_parking_blockA0",
       "lab_surface_parking_blockB0",
       "lab_surface_parking_blockC0",
+      "lab_surface_parking_blockC0_roof",
       "lab_surface_parking_blockD0",
       "lab_surface_parking_blockE0",
       "lab_surface_parking_blockA1",
@@ -316,12 +346,13 @@
       "lab_surface_parking_blockD1",
       "lab_surface_parking_blockE1"
     ],
+    "vision_levels": "large_pavement",
     "name": "parking lot",
     "//": "parking lot attached to modular mutagen lab.",
     "sym": "_",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 20 ], "chance": 30 },
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
@@ -342,24 +373,26 @@
       "lab_surface_brick_blockE4"
     ],
     "name": "research facility",
+    "vision_levels": "large_building",
     "sym": "l",
     "color": "light_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 10, 25 ], "chance": 60 },
     "extras": "research_facility_interior",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2
   },
   {
     "type": "overmap_terrain",
     "id": "lab_surface_brick_blockC3",
     "name": "research facility entrance",
+    "vision_levels": "large_building",
     "sym": "L",
     "color": "white",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 8, 25 ], "chance": 50 },
     "extras": "research_facility_interior",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "mondensity": 2,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -409,10 +442,11 @@
       "lab_surface_brick_block5E0",
       "lab_surface_brick_block5E1"
     ],
+    "vision_levels": "roof_or_air",
     "name": "open air",
     "sym": ".",
     "color": "blue",
-    "see_cost": 1
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -496,9 +530,10 @@
       "lab_surface_brick_block5E4"
     ],
     "name": "research facility, roof",
+    "vision_levels": "roof_or_air",
     "sym": "l",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": "full_high"
   },
   {
     "type": "overmap_terrain",
@@ -512,20 +547,22 @@
       "lab_2x2_MUT_tier_2_SW",
       "lab_2x2_MUT_tier_2_SE"
     ],
+    "vision_levels": "underground_stone",
     "name": "Lab Research Zone",
     "sym": "L",
     "color": "light_blue",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP", "lab_CORE_2x1_1DN", "lab_CORE_2x1_2DN" ],
     "name": "Lab Recreation Zone",
+    "vision_levels": "underground_stone",
     "sym": "X",
     "color": "white",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -538,12 +575,13 @@
       "lab_security_z-6_final_flr"
     ],
     "name": "Lab Security Zone",
+    "vision_levels": "underground_stone",
     "sym": "S",
     "//": "6 underground levels for a modular security tower.",
     "color": "yellow",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 30 },
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -564,11 +602,12 @@
       "lab_2x2_cargo_SE"
     ],
     "name": "Lab Cargo Zone",
+    "vision_levels": "underground_stone",
     "sym": "C",
     "color": "white",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 3, 15 ], "chance": 70 },
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -589,10 +628,11 @@
       "lab_1x1x2_RES_8_apartments_lower"
     ],
     "name": "Lab Residential Zone",
+    "vision_levels": "underground_stone",
     "sym": "R",
     "color": "green",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
@@ -612,49 +652,54 @@
       "lab_security_z0S"
     ],
     "name": "Trans-Coast Logistics",
+    "vision_levels": "large_building",
     "sym": "F",
     "//": "Front/Fake company entrance for a lab.  Includes main and auxiliary entrances including the start of the security tower.",
     "color": "light_gray",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 15 ], "chance": 30 },
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "full_basic_lab_roof", "lab_security_z0S_roof", "lab_security_z0N_roof" ],
     "name": "Trans-Coast Logistics Roof",
+    "vision_levels": "roof_or_air",
     "sym": "F",
     "color": "light_gray",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "lab_health_z-2_A", "lab_health_z-2_B", "lab_health_z-3_A" ],
     "name": "Lab Health Clinic",
+    "vision_levels": "underground_stone",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB_HOSPITAL", "population": [ 7, 15 ], "chance": 100 },
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "lab_health_z-3_B" ],
     "name": "Lab Health Clinic",
+    "vision_levels": "underground_stone",
     "sym": "M",
     "color": "red",
-    "see_cost": 5,
-    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+    "see_cost": "full_high",
+    "flags": [ "RISK_EXTREME", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
     "type": "overmap_terrain",
     "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
     "name": "Lab Maintenance Zone",
+    "vision_levels": "underground_stone",
     "sym": "M",
     "color": "cyan",
-    "see_cost": 5,
+    "see_cost": "full_high",
     "spawns": { "group": "GROUP_LAB_MAINTENANCE", "population": [ 5, 10 ], "chance": 100 },
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_EXTREME" ]
   }
 ]

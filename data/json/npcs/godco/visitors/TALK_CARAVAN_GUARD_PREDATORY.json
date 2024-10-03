@@ -10,14 +10,14 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_INVESTIGATE_TRADER" },
-            { "not": { "npc_has_var": "general_trade_u_talked_about_records", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_trade_u_talked_about_records" } ] } }
           ]
         },
         "topic": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP"
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "general_trade_u_owe_20", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_u_owe_20" } ] },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 2000,
@@ -28,7 +28,7 @@
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "general_trade_u_owe_50", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_u_owe_50" } ] },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 5000,
@@ -39,7 +39,7 @@
       },
       {
         "text": "I'm back for the records, and I have the money.",
-        "condition": { "npc_has_var": "general_trade_u_owe_150", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "general_trade_u_owe_150" } ] },
         "effect": {
           "u_buy_item": "godcotrader_accounting_records_dirty",
           "cost": 15000,

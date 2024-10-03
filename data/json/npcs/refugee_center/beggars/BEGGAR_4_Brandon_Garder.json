@@ -100,7 +100,7 @@
     },
     "responses": [
       {
-        "condition": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] },
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUITED"
       },
@@ -281,7 +281,7 @@
     "dynamic_line": "That's awful nice of you.  Tell you what: if you can help Dave get himself sorted out, so I don't feel like I've gotta stay here keeping an eye on the poor fella, then I'll come along.",
     "responses": [
       {
-        "condition": { "u_has_var": "general_recruit_dave_happy", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_recruit_dave_happy" } ] },
         "text": "I think I've sorted Dave out pretty well, don't you?  Would you consider coming with me now?",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT2"
       },

@@ -1,0 +1,15 @@
+[
+  {
+    "result": "mask_gas",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [
+      [ [ "filter_port_40mm", 1 ] ],
+      [ [ "inhalation_valve", 1 ] ],
+      [ [ "panoramic_eyepiece", 1 ] ],
+      [ [ "chunk_rubber", 10 ] ]
+    ]
+  }
+]

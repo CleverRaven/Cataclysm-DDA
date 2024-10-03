@@ -61,6 +61,126 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_ZAP_ENEMIES_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_electrokin_zap_enemies" } },
+    "effect": [
+      { "u_message": "Your skin tingles.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_electrokin_zap_enemies", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_zap_enemies') * 80) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_zap_enemies') * 225) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ELECTROKIN_REMOVE_ZAP_ENEMIES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_REMOVE_ZAP_ENEMIES",
+    "condition": { "u_has_effect": "effect_electrokin_zap_enemies" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_electrokin_zap_enemies" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
+    "condition": { "u_has_effect": "effect_electrokin_zap_enemies" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "math": [ "u_spell_exp('electrokinetic_zap_enemies')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_ZAP_ENEMIES_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_zap_enemies') * 80) + 300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_zap_enemies') * 225) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_MELEE_ATTACKS_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_electrokin_melee_attacks" } },
+    "effect": [
+      { "u_message": "Lightning crackles between your fingers!", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_electrokin_melee_attacks", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_melee_attacks') * 55) + 240) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_melee_attacks') * 90) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ELECTROKIN_REMOVE_MELEE_ATTACKS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_REMOVE_MELEE_ATTACKS",
+    "condition": { "u_has_effect": "effect_electrokin_melee_attacks" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_electrokin_melee_attacks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
+    "condition": { "u_has_effect": "effect_electrokin_melee_attacks" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
+      { "math": [ "u_spell_exp('electrokinetic_melee_attacks')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_MELEE_ATTACKS_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_melee_attacks') * 55) + 240) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_melee_attacks') * 90) + 600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_HACKING_INTERFACE_INITIATE",
     "condition": { "not": { "u_has_effect": "effect_electrokin_hacking_interface" } },
     "effect": [
@@ -164,8 +284,8 @@
     "condition": { "not": { "u_has_effect": "effect_electrokin_personal_battery" } },
     "effect": [
       { "u_message": "The hair on your body stands up on end.", "type": "good" },
-      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_PERSONAL_BATTERY_SWITCHER" ] },
       { "u_add_effect": "effect_electrokin_personal_battery", "duration": "PERMANENT" },
+      { "run_eocs": [ "EOC_POWER_MAINTENANCE_PLUS_ONE", "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER" ] },
       {
         "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_DRAIN",
         "time_in_future": [
@@ -188,46 +308,53 @@
     "type": "effect_on_condition",
     "id": "EOC_ELECTROKIN_REMOVE_PERSONAL_BATTERY",
     "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
-    "effect": [
-      { "u_remove_item_with": "electrokinetic_ups_1" },
-      { "u_remove_item_with": "electrokinetic_ups_2" },
-      { "u_remove_item_with": "electrokinetic_ups_3" },
-      { "u_remove_item_with": "electrokinetic_ups_4" },
-      { "u_remove_item_with": "electrokinetic_ups_5" },
-      { "u_remove_item_with": "electrokinetic_ups_6" },
-      { "u_lose_effect": "effect_electrokin_personal_battery" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
-    ]
+    "effect": [ { "u_lose_effect": "effect_electrokin_personal_battery" }, { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_SWITCHER",
-    "effect": {
-      "switch": { "math": [ "u_spell_level('electrokinetic_personal_battery')" ] },
-      "cases": [
-        { "case": 0, "effect": [ { "u_spawn_item": "electrokinetic_ups_1", "suppress_message": true, "force_equip": true } ] },
-        {
-          "case": 4,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_2", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 8,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_3", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 12,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_4", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 16,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_5", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 20,
-          "effect": [ { "u_spawn_item": "electrokinetic_ups_6", "suppress_message": true, "force_equip": true } ]
-        }
-      ]
-    }
+    "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
+    "condition": { "u_has_effect": "effect_electrokin_personal_battery" },
+    "effect": [
+      {
+        "queue_eocs": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER",
+        "time_in_future": [
+          {
+            "math": [
+              "max( ( 60 - ( ( (u_spell_level('electrokinetic_personal_battery') * 2.5 ) * scaling_factor(u_val('intelligence')  ) * u_nether_attunement_power_scaling ) ) ), 5)"
+            ]
+          },
+          {
+            "math": [
+              "max( ( 240 - ( (  (u_spell_level('electrokinetic_personal_battery') * 5 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling ) ) ), 10)"
+            ]
+          }
+        ]
+      },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [
+          { "flags": [ "RECHARGE" ] },
+          { "flags": [ "ELECTRONIC" ] },
+          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
+          { "flags": [ "USE_UPS" ] }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_ELECTROKIN_PERSONAL_BATTERY_INV_SCANNER_CHARGER",
+            "condition": { "math": [ "n_val('power')", "<", "n_val('power_max')" ] },
+            "effect": [
+              {
+                "math": [
+                  "n_val('power')",
+                  "+=",
+                  "1 + ((u_spell_level('electrokinetic_personal_battery') / 5) * scaling_factor(u_val('intelligence') * u_nether_attunement_power_scaling) )"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -312,6 +439,66 @@
           {
             "math": [
               "( (u_spell_level('electrokinetic_reduce_pain') * 280) + 1500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_SPEED_BOOST_INITIATE",
+    "condition": { "not": { "u_has_effect": "effect_electrokinetic_speed_boost" } },
+    "effect": [
+      { "u_message": "You enhance the functioning of your neurons.", "type": "good" },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
+      { "u_add_effect": "effect_electrokinetic_speed_boost", "duration": "PERMANENT" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_speed_boost') * 18) + 81) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_speed_boost') * 57) + 286) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          }
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_ELECTROKIN_REMOVE_SPEED_BOOST" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_REMOVE_SPEED_BOOST",
+    "condition": { "u_has_effect": "effect_electrokinetic_speed_boost" },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }, { "u_lose_effect": "effect_electrokinetic_speed_boost" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
+    "condition": { "u_has_effect": "effect_electrokinetic_speed_boost" },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
+      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
+      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "math": [ "u_spell_exp('electrokinetic_speed_boost')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
+      { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
+      {
+        "queue_eocs": "EOC_ELECTROKIN_SPEED_BOOST_DRAIN",
+        "time_in_future": [
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_speed_boost') * 18) + 81) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+            ]
+          },
+          {
+            "math": [
+              "( (u_spell_level('electrokinetic_speed_boost') * 57) + 286) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
             ]
           }
         ]

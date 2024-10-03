@@ -15,7 +15,6 @@
       { "monster": "mon_bear", "weight": 4, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
       { "monster": "mon_moose", "weight": 4, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
       { "monster": "mon_wolf", "weight": 4, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
-      { "monster": "mon_wolf_mutant_huge", "weight": 1, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
       { "monster": "mon_coyote", "weight": 4, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
       { "monster": "mon_duck", "weight": 4, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },
       { "monster": "mon_goose_canadian", "weight": 4, "cost_multiplier": 1, "pack_size": [ 1, 1 ] },

@@ -660,6 +660,15 @@
     "upgrades": false
   },
   {
+    "id": "mon_zastrodon_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal astrodon zombie" },
+    "description": "Once a gigantic, long-necked, four-legged plant eating dinosaur with a huge nose, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together an enormous shambling mass of mold-covered flesh.",
+    "copy-from": "mon_zapatosaurus_fungus",
+    "proportional": { "hp": 2, "speed": 0.65 },
+    "upgrades": false
+  },
+  {
     "id": "mon_zalamosaurus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal alamosaurus zombie" },

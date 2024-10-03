@@ -366,6 +366,28 @@
     }
   },
   {
+    "id": "warp_waterwalking_stone",
+    "type": "AMMO",
+    "category": "other",
+    "name": { "str_sp": "flotation stone" },
+    "description": "This smooth, whorled stone seems cool and wet to the touch, but when you take your hand off it your skin is perfectly dry.  If you activate it, you will be able to walk on the surface of water for three minutes.",
+    "weight": "5 g",
+    "volume": "5 ml",
+    "count": 1,
+    "stack_size": 100,
+    "looks_like": "spiral_stone",
+    "flags": [ "UNBREAKABLE" ],
+    "material": [ "alien_resin" ],
+    "symbol": ".",
+    "color": "cyan",
+    "ammo_type": "components",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Cross the waters.",
+      "effect_on_conditions": [ "EOC_WARPED_WATERWALKING" ]
+    }
+  },
+  {
     "id": "warptoken",
     "type": "AMMO",
     "category": "other",

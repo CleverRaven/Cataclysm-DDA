@@ -14,8 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_GLOOSCAP",
     "dynamic_line": {
-      "u_has_var": "general_meeting_u_met_glooscap",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_u_met_glooscap" } ],
       "yes": [
         "Good to see you again, how can I help you?",
         {
@@ -37,29 +36,32 @@
     "responses": [
       {
         "text": "Glooscap?  That's a funny name.  Is it foreign?",
-        "condition": { "not": { "u_has_var": "general_meeting_u_met_glooscap", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_glooscap" } ] } },
         "topic": "TALK_GLOOSCAP_WHERE"
       },
       {
         "text": "[INT 11]  Like the Wabanaki myth?",
         "topic": "TALK_GLOOSCAP_MYTH",
         "condition": {
-          "and": [ { "u_has_intelligence": 11 }, { "not": { "u_has_var": "general_meeting_u_accused_malsumis", "value": "yes" } } ]
+          "and": [
+            { "u_has_intelligence": 11 },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_accused_malsumis" } ] } }
+          ]
         }
       },
       {
         "text": "So.  You're dressed like a hunter.  Are you a hunter?",
         "condition": {
           "and": [
-            { "u_has_var": "general_meeting_u_met_glooscap", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_u_befriended_glooscap", "value": "yes" } }
+            { "compare_string": [ "yes", { "u_val": "general_meeting_u_met_glooscap" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_u_befriended_glooscap" } ] } }
           ]
         },
         "topic": "TALK_GLOOSCAP_HUNTER"
       },
       {
         "text": "Have you had any luck out there?",
-        "condition": { "u_has_var": "general_meeting_u_befriended_glooscap", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "general_meeting_u_befriended_glooscap" } ] },
         "effect": "start_trade",
         "topic": "TALK_GLOOSCAP"
       },

@@ -44,16 +44,6 @@
     "martial_art": "style_capoeira"
   },
   {
-    "id": "manual_centipede",
-    "copy-from": "book_martial",
-    "type": "BOOK",
-    "name": { "str": "The Centipede Lu Feng", "str_pl": "copies of The Centipede Lu Feng" },
-    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": "20 USD",
-    "description": "A complete guide to Centipede Kung Fu.",
-    "martial_art": "style_centipede"
-  },
-  {
     "id": "manual_crane",
     "copy-from": "book_martial",
     "type": "BOOK",
@@ -144,16 +134,6 @@
     "martial_art": "style_leopard"
   },
   {
-    "id": "manual_lizard",
-    "copy-from": "book_martial",
-    "type": "BOOK",
-    "name": { "str": "The Lizard Kuo Chui", "str_pl": "copies of The Lizard Kuo Chui" },
-    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": "20 USD",
-    "description": "A complete guide to Lizard Kung Fu.",
-    "martial_art": "style_lizard"
-  },
-  {
     "id": "manual_muay_thai",
     "copy-from": "book_martial",
     "type": "BOOK",
@@ -188,16 +168,6 @@
     "price_postapoc": "20 USD",
     "description": "A complete guide to Pankration.",
     "martial_art": "style_pankration"
-  },
-  {
-    "id": "manual_scorpion",
-    "copy-from": "book_martial",
-    "type": "BOOK",
-    "name": { "str": "The Scorpion Sun Chien", "str_pl": "copies of The Scorpion Sun Chien" },
-    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": "20 USD",
-    "description": "A complete guide to Scorpion Kung Fu.",
-    "martial_art": "style_scorpion"
   },
   {
     "id": "manual_silat",
@@ -243,26 +213,6 @@
     "price_postapoc": "20 USD",
     "description": "A complete guide to Tiger Kung Fu.",
     "martial_art": "style_tiger"
-  },
-  {
-    "id": "manual_toad",
-    "copy-from": "book_martial",
-    "type": "BOOK",
-    "name": { "str": "The Toad Lo Mang", "str_pl": "copies of The Toad Lo Mang" },
-    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": "20 USD",
-    "description": "A complete guide to Toad Kung Fu.",
-    "martial_art": "style_toad"
-  },
-  {
-    "id": "manual_venom_snake",
-    "copy-from": "book_martial",
-    "type": "BOOK",
-    "name": { "str": "The Viper Wei Pai", "str_pl": "copies of The Viper Wei Pai" },
-    "//": "Could be moved to Mythical Martial Arts mod after 0.G.",
-    "price_postapoc": "20 USD",
-    "description": "A complete guide to Viper Kung Fu.",
-    "martial_art": "style_venom_snake"
   },
   {
     "id": "manual_zui_quan",

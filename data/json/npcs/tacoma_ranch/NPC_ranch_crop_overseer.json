@@ -21,7 +21,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
-            { "not": { "npc_has_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_tacoma_ranch_doctor_anesthetic_asked" } ] } }
           ]
         },
         "effect": [ { "npc_add_var": "mission_tacoma_ranch_doctor_anesthetic_asked", "value": "yes" } ]
@@ -38,7 +38,7 @@
         "condition": {
           "and": [
             { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
-            { "not": { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] } }
           ]
         }
       },
@@ -48,7 +48,7 @@
         "condition": {
           "or": [
             { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] }
           ]
         }
       },
@@ -66,8 +66,7 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_CROP_OVERSEER_FIELD",
     "dynamic_line": {
-      "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ],
       "yes": "Back to check on your field?  What can I help you with?",
       "no": {
         "npc_has_trait": "NPC_CONSTRUCTION_LEV_1",
@@ -82,7 +81,7 @@
         "condition": {
           "and": [
             { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" } },
-            { "not": { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] } }
           ]
         }
       },
@@ -94,8 +93,10 @@
             { "and": [ { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" }, { "not": { "npc_has_trait": "NPC_CONSTRUCTION_LEV_2" } } ] },
             {
               "and": [
-                { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" },
-                { "not": { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1_fence", "value": "yes" } }
+                { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] },
+                {
+                  "not": { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1_fence" } ] }
+                }
               ]
             }
           ]
@@ -112,7 +113,7 @@
         "condition": {
           "or": [
             { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] }
           ]
         }
       },
@@ -122,7 +123,7 @@
         "condition": {
           "or": [
             { "npc_has_trait": "NPC_CONSTRUCTION_LEV_1" },
-            { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] }
           ]
         }
       },
@@ -189,8 +190,8 @@
         "topic": "TALK_RANCH_CROP_OVERSEER_UPGRADE_FENCE",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1", "value": "yes" },
-            { "not": { "npc_has_var": "dialogue_tacoma_ranch_purchased_field_1_fence", "value": "yes" } }
+            { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1" } ] },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_tacoma_ranch_purchased_field_1_fence" } ] } }
           ]
         }
       },

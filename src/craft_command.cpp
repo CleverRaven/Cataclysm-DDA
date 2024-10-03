@@ -287,7 +287,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         };
 
         const char *liq_cont_msg = _( "%1$s is not empty.  Continue anyway?" );
-        std::vector<std::pair<const tripoint, item>> map_items;
+        std::vector<std::pair<const tripoint_bub_ms, item>> map_items;
         std::vector<std::pair<const vpart_reference, item>> veh_items;
         std::vector<item> inv_items;
 
@@ -306,9 +306,9 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
         int real_count = ( it.comp.count > 0 ) ? it.comp.count * batch_size : std::abs( it.comp.count );
         for( int i = 0; i < 2 && real_count > 0; i++ ) {
             if( it.use_from & usage_from::map ) {
-                const tripoint &loc = crafter->pos();
+                const tripoint_bub_ms &loc = crafter->pos_bub();
                 for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
-                    for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
+                    for( const tripoint_bub_ms &p : m.points_in_radius( loc, radius ) ) {
                         if( rl_dist( loc, p ) >= radius ) {
                             // "Simulate" consuming items and put them back
                             // not very efficient but should be rare enough not to matter
@@ -383,9 +383,9 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     std::list<item> ret;
     for( int i = 0; i < 2 && real_count > 0; i++ ) {
         if( it.use_from & usage_from::map ) {
-            const tripoint &loc = crafter->pos();
+            const tripoint_bub_ms &loc = crafter->pos_bub();
             for( int radius = 0; radius <= PICKUP_RANGE && real_count > 0; radius++ ) {
-                for( const tripoint &p : m.points_in_radius( loc, radius ) ) {
+                for( const tripoint_bub_ms &p : m.points_in_radius( loc, radius ) ) {
                     if( rl_dist( loc, p ) >= radius ) {
                         std::list<item> tmp = m.use_amount_square( p, it.comp.type, real_count,
                                               i == 0 ? empty_filter : filter );

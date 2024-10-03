@@ -7,8 +7,7 @@
       "no": { "has_reason": { "use_reason": true }, "no": "So, here we are.  What's up?" }
     },
     "responses": [
-      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
-      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      { "text": "[rules] Let's talk about how we'll work together.", "topic": "TALK_DONE", "effect": "npc_rules_menu" },
       {
         "text": "I'd like to know a bit more about your abilities.",
         "topic": "TALK_FRIEND_Luo_Abilities",

@@ -60,11 +60,13 @@
         "S": "f_sink",
         "r": "f_rack",
         "m": "f_manual_tire_changer",
-        "v": "f_vending_c",
-        "V": "f_vending_c",
         "t": "f_table",
         "u": "f_dumpster",
         "x": "f_recycle_bin"
+      },
+      "vendingmachines": {
+        "V": { "item_group": "vending_food_items", "lootable": true },
+        "v": { "item_group": "vending_drink_items", "lootable": true }
       },
       "place_vehicles": [ { "vehicle": "oa_vg_ts_vehicles", "x": 15, "y": 10, "rotation": 270, "chance": 50, "fuel": 10 } ],
       "items": {
@@ -75,11 +77,7 @@
         "A": { "item": "tools_tire", "chance": 100, "repeat": [ 3, 7 ] },
         "C": { "item": "oa_ig_ts_crates", "chance": 50 }
       },
-      "place_loot": [
-        { "group": "vending_food_items", "chance": 60, "repeat": [ 3, 12 ], "x": 13, "y": 18 },
-        { "group": "vending_drink_items", "chance": 60, "repeat": [ 3, 12 ], "x": 14, "y": 18 },
-        { "group": "cash_register_random", "x": 6, "y": 18 }
-      ],
+      "place_loot": [ { "group": "cash_register_random", "x": 6, "y": 18 } ],
       "add": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
       "toilets": { "T": {  } },
       "place_signs": [ { "signage": "Discount Tires", "x": 22, "y": 1 } ]

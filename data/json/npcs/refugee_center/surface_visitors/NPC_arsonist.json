@@ -132,7 +132,7 @@
       },
       {
         "text": "How are you doing these days?",
-        "condition": { "u_has_var": "talk_flag_TALK_ARSONIST_SUPPLIED", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "talk_flag_TALK_ARSONIST_SUPPLIED" } ] },
         "topic": "TALK_ARSONIST_TRADING"
       },
       { "text": "Well, bye.", "topic": "TALK_DONE" }

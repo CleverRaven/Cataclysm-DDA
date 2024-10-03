@@ -115,7 +115,6 @@
     "volume": "250 ml",
     "price": "1 USD",
     "price_postapoc": "50 cent",
-    "to_hit": -2,
     "material": [ "beeswax" ],
     "symbol": ",",
     "color": "white",
@@ -214,7 +213,6 @@
     "material": [ "clay", "stone" ],
     "weight": "969 g",
     "volume": "500 ml",
-    "to_hit": -2,
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You feel a surge of power as the clay tablet crumbles between your fingers.",

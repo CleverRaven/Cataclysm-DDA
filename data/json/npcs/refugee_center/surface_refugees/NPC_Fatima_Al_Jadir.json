@@ -84,7 +84,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
@@ -95,7 +95,7 @@
       {
         "text": "Hey, you free for a bit of teaching?",
         "topic": "TALK_REFUGEE_Fatima_Teach",
-        "condition": { "u_has_var": "knowledge_trade_Fatima_Teacher", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_trade_Fatima_Teacher" } ] }
       },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -165,12 +165,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach",
     "dynamic_line": {
-      "u_has_var": "barter_flag_Fatima_barter_success",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ],
       "yes": "Sure.  As agreed, 3 merch.",
       "no": {
-        "u_has_var": "mission_flag_Fatima_Mission1",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ],
         "no": "Sure, I could teach you the basics, I'll have to charge you though.  Let's say, 5 merch for a teaching session, plus a bit in trade depending on how in-depth you're looking for?",
         "yes": {
           "gendered_line": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?",
@@ -186,8 +184,8 @@
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
-            { "not": { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ] } },
             { "u_has_items": { "item": "FMCNote", "count": 5 } }
           ]
         },
@@ -199,8 +197,8 @@
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
-            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
-            { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" },
+            { "not": { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] } },
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ] },
             { "u_has_items": { "item": "FMCNote", "count": 4 } }
           ]
         },
@@ -212,7 +210,7 @@
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
-            { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" },
+            { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] },
             { "u_has_items": { "item": "FMCNote", "count": 3 } }
           ]
         },
@@ -223,8 +221,8 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
-            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
-            { "not": { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 35 },
@@ -236,8 +234,8 @@
         "condition": {
           "and": [
             { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
-            { "not": { "u_has_var": "barter_flag_Fatima_barter_success", "value": "yes" } },
-            { "u_has_var": "mission_flag_Fatima_Mission1", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "u_val": "barter_flag_Fatima_barter_success" } ] } },
+            { "compare_string": [ "yes", { "u_val": "mission_flag_Fatima_Mission1" } ] }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 15 },
@@ -277,8 +275,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Situation",
     "dynamic_line": {
-      "u_has_var": "mission_completed_Jenny_mission_2",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "mission_completed_Jenny_mission_2" } ],
       "no": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills, or even if I just had a quiet place to pray sometimes.  I feel a bit self-conscious praying in the common areas.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside.",
       "yes": "Things are still tense, but I've been busy lately.  Jenny's had her project going and got me started helping her out with it, and for some reason that seems to have been the tipping point: I'm getting chances to do a lot more welding work now.  It's helping.  I feel a bit self-conscious praying in the common areas, and of course, we don't go outside if we can help it."
     }

@@ -968,6 +968,90 @@
   },
   {
     "type": "relic_procgen_data",
+    "id": "twisted_geometry",
+    "//": "These are the artifacts generated in the distorted level of physics labs.",
+    "//2": "In general, their effects are physics-based, are more impactful than normal artifacts, and cause less resonance (They're from our realm, just twisted), but they're slow to charge and their item types are bulky and hard to lug around.",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 4 ], "power": 10 },
+        "charges_per_use": { "range": [ 1, 2 ], "power": 10 },
+        "max_charges": { "range": [ 1, 4 ], "power": 10 },
+        "recharge_type": "periodic",
+        "time": [ "12 h", "2 d" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AO_FORCE_PULL", "base_power": 200 },
+      { "weight": 100, "spell_id": "AO_TELEPORTITIS", "base_power": -500 },
+      { "weight": 100, "spell_id": "AO_TELEPORT", "base_power": 500 },
+      { "weight": 100, "spell_id": "AO_SLOW", "base_power": -150 },
+      { "weight": 100, "spell_id": "AO_TIME_STOP", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AO_DARKNESS_EFFECT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 150 }
+    ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -5, "max_value": 6, "type": "STRENGTH", "increment": 1, "power_per_increment": 150 },
+      {
+        "weight": 100,
+        "min_value": -5,
+        "max_value": 6,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 150
+      },
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 2,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.3,
+        "power_per_increment": 50
+      },
+      {
+        "weight": 100,
+        "min_value": -0.6,
+        "max_value": 0.4,
+        "type": "MOVE_COST",
+        "increment": 0.2,
+        "power_per_increment": -150
+      },
+      {
+        "weight": 100,
+        "min_value": -0.8,
+        "max_value": 0.8,
+        "type": "ATTACK_SPEED",
+        "increment": 0.2,
+        "power_per_increment": -100
+      },
+      {
+        "weight": 100,
+        "min_value": -35,
+        "max_value": 35,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 150
+      }
+    ],
+    "type_weights": [
+      { "weight": 50, "value": "passive_enchantment_add" },
+      { "weight": 25, "value": "active_enchantment" },
+      { "weight": 50, "value": "passive_enchantment_mult" }
+    ],
+    "items": [
+      { "weight": 75, "item": "art_bomorrean" },
+      { "weight": 100, "item": "art_penrose" },
+      { "weight": 100, "item": "art_trident" },
+      { "weight": 100, "item": "art_klein" },
+      { "weight": 100, "item": "art_tesseract" },
+      { "weight": 100, "item": "art_irrational" }
+    ]
+  },
+  {
+    "type": "relic_procgen_data",
     "id": "portalmancy",
     "charge_types": [
       {

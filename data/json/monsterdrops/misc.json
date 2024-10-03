@@ -2,18 +2,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "jackson_drops",
-    "entries": [
-      { "item": "jacket_leather_red", "prob": 100 },
-      { "item": "jeans_red", "prob": 100 },
-      { "item": "socks", "prob": 100 },
-      { "item": "dance_shoes", "prob": 100 },
-      { "item": "glove_jackson", "prob": 100 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "void_spider_spiderling_skewered_drops",
     "entries": [ { "item": "arrow_meteor", "charges": 1, "prob": 90 } ]
   },

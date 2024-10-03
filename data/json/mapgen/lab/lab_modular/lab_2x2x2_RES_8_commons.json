@@ -111,7 +111,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "combines 2 5x5 mexican restaurant areas and a 6x6 kitchen.",
+    "//": "combines 2 5x5 Mexican restaurant areas and a 6x6 kitchen.",
     "nested_mapgen_id": "lab_17x17_shop",
     "object": {
       "mapgensize": [ 17, 17 ],
@@ -125,7 +125,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "combines 2 5x5 mexican restaurant areas and a 6x6 kitchen.",
+    "//": "combines 2 5x5 Mexican restaurant areas and a 6x6 kitchen.",
     "nested_mapgen_id": "lab_17x17_shop_2",
     "object": {
       "mapgensize": [ 17, 17 ],

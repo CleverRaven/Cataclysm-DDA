@@ -3,8 +3,7 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_SURVIVOR",
     "dynamic_line": {
-      "u_has_var": "dialogue_first_meeting_talked_to_homeless",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_homeless" } ],
       "yes": "Hello there.  Nice to see you again.",
       "no": "Who are you?"
     },
@@ -13,12 +12,12 @@
       {
         "text": "Nice to meet you.",
         "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
-        "condition": { "not": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_homeless" } ] } }
       },
       {
         "text": "Pleasure to see you again.",
         "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO",
-        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_homeless" } ] }
       },
       { "text": "See ya.", "topic": "TALK_DONE" }
     ]
@@ -32,7 +31,7 @@
       {
         "text": "I'd like to ask you a few questions.",
         "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": { "npc_has_var": "dialogue_first_meeting_talked_to_homeless", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_first_meeting_talked_to_homeless" } ] }
       },
       { "text": "Care to trade?", "topic": "TALK_NPC_HOMELESS_SURVIVOR_INTRO", "effect": "start_trade" },
       {

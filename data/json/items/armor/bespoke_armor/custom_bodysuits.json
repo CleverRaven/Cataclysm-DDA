@@ -7,7 +7,6 @@
     "weight": "3600 g",
     "volume": "3500 ml",
     "price_postapoc": "17 USD 50 cent",
-    "to_hit": -3,
     "material": [ "denim", "leather" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -40,7 +39,6 @@
     "volume": "3500 ml",
     "price": "350 USD",
     "price_postapoc": "17 USD 50 cent",
-    "to_hit": -3,
     "material": [ "denim", "leather" ],
     "symbol": "[",
     "looks_like": "touring_suit",
@@ -148,7 +146,7 @@
     "price": "1 kUSD 100 USD",
     "price_postapoc": "50 USD",
     "material": [ "kevlar", "lycra", "nylon" ],
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "symbol": "[",
     "looks_like": "survivor_jumpsuit",
     "color": "green",
@@ -186,7 +184,7 @@
     "warmth": 15,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_lsurvivor_jumpsuit",
@@ -215,7 +213,7 @@
     "price": "1 kUSD 500 USD",
     "price_postapoc": "50 USD",
     "material": [ "kevlar", "lycra", "nylon" ],
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "brown",
@@ -255,7 +253,7 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xlsurvivor_jumpsuit",
@@ -283,7 +281,7 @@
     "volume": "12 L",
     "price": "2 kUSD",
     "price_postapoc": "70 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "kevlar", "qt_steel", "lycra", "nylon" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -309,7 +307,7 @@
     "warmth": 25,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "NORMAL" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_hsurvivor_jumpsuit",
@@ -337,7 +335,7 @@
     "volume": "14 L",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "kevlar", "fur", "lycra" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -362,7 +360,7 @@
     "warmth": 75,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xl_wsurvivor_jumpsuit",
@@ -429,7 +427,7 @@
     "price_postapoc": "50 USD",
     "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "looks_like": "wetsuit",
     "color": "dark_gray",
     "armor": [
@@ -486,7 +484,7 @@
     "warmth": 41,
     "environmental_protection": 12,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xs_h20survivor_jumpsuit",
@@ -515,7 +513,7 @@
     "price_postapoc": "50 USD",
     "material": [ "neoprene", "kevlar" ],
     "symbol": "[",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "looks_like": "wetsuit",
     "color": "dark_gray",
     "armor": [
@@ -572,7 +570,7 @@
     "warmth": 30,
     "environmental_protection": 10,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xs_h20survivor_jumpsuit_light",
@@ -601,7 +599,7 @@
     "price_postapoc": "50 USD",
     "material": [ "neoprene", "nylon", "kevlar" ],
     "symbol": "[",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "looks_like": "wetsuit",
     "color": "dark_gray",
     "armor": [
@@ -658,7 +656,7 @@
     "warmth": 70,
     "environmental_protection": 14,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "WATERPROOF", "STURDY", "SKINTIGHT", "NORMAL" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xs_thick_h20survivor_jumpsuit",
@@ -686,7 +684,7 @@
     "volume": "11500 ml",
     "price": "2 kUSD",
     "price_postapoc": "50 USD",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "uneven" },
     "material": [ "nomex", "kevlar" ],
     "symbol": "[",
     "looks_like": "survivor_suit",
@@ -710,7 +708,7 @@
     "warmth": 15,
     "environmental_protection": 4,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY" ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "xs_fsurvivor_jumpsuit",

@@ -57,6 +57,10 @@ Bathe in the energies of the Nether.
 
 We have such sights to show you. 
 
+Starting characters without psionics have random odds to gain them using these methods, from 50% to less than 1%. There are three traits that can affect this. The first, Latent Psion, raises the odds of gaining initial psionics to 100%. The second, Headblind, prevents a character from ever gaining psionics. The last, Limited Awakening, is designed to be taken by a character who starts with psionics and makes unlocking future paths much harder. Most NPCs are Headblind, and most NPCs who have psionics have Limited Awakening.
+
+Finally, the odds of unlocking future paths are reduced based on the number of paths you already have. This is true for both methods of awakening psionics. There may be other means of awakening that are not subject to these restrictions. 
+
 LEARNING NEW POWERS
 
 New powers are unlocked by leveling existing powers. When particular prerequisites are reached and after a certain amount of time (anywhere from a couple of days to a couple of weeks, depending on power difficulty), you have the chance to unlock the possibility of a new power. Once you’ve done so, you can attempt its contemplation recipe, found in the Practice crafting tab, to attempt to understand the power. If you succeed (success depends on your Metaphysics skill), you’ll unlock the power and it will appear in your powers list. If you fail, you’ll have to try again. You can try repeatedly until you successfully unlock it. 

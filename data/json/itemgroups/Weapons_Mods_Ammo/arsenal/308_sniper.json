@@ -78,6 +78,6 @@
   {
     "id": "scar_mags",
     "type": "item_group",
-    "items": [ { "item": "scarhmag", "prob": 500 }, { "item": "scarhmag_30rd", "prob": 50 }, { "item": "scarhbigmag", "prob": 20 } ]
+    "items": [ { "item": "scarhmag", "prob": 500 }, { "item": "scarhmag_30rd", "prob": 50 } ]
   }
 ]

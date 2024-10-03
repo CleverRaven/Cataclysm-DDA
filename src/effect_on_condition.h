@@ -96,7 +96,7 @@ void load_new_character( Character &you );
 /** Load any new eocs that don't exist in the save. */
 void load_existing_character( Character &you );
 /** Loads an inline eoc */
-effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
+effect_on_condition_id load_inline_eoc( const JsonValue &jv, std::string_view src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
                                 Character &you, const std::unordered_map<std::string, std::string> &context );

@@ -19,6 +19,7 @@
 #include "hash_utils.h"
 #include "memory_fast.h"
 #include "point.h"
+#include "sleep.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -286,6 +287,9 @@ struct mutation_branch {
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
 
+        /** alternate comfort conditions */
+        std::vector<comfort_data> comfort;
+
         struct OverrideLook {
             std::string id;
             std::string tile_category;
@@ -400,7 +404,7 @@ struct mutation_branch {
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void load_trait( const JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
@@ -549,8 +553,10 @@ std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids )
 std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool mutation_is_in_category( const trait_id &mut, const mutation_category_id &cat );
 std::vector<trait_and_var> mutations_var_in_type( const std::string &id );
-bool trait_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
-bool trait_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_var_display_nocolor_sort( const trait_and_var &a, const trait_and_var &b ) noexcept;
+bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
+bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 bool are_conflicting_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool b_is_lower_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
@@ -558,8 +564,6 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
-int get_total_nonbad_in_category( const mutation_category_id &categ );
-
 enum class mutagen_technique : int {
     consumed_mutagen,
     injected_mutagen,

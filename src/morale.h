@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "morale_types.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -78,7 +77,7 @@ class player_morale
         {
             public:
                 explicit morale_point(
-                    const morale_type &type = MORALE_NULL,
+                    const morale_type &type = morale_type::NULL_ID(),
                     const itype *item_type = nullptr,
                     int bonus = 0,
                     int max_bonus = 0,

@@ -89,7 +89,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     map &here = get_map();
     clear_game_and_set_ramp( transition_x, use_ramp, up );
 
-    const tripoint map_starting_point( transition_x + 4, 60, 0 );
+    const tripoint_bub_ms map_starting_point( transition_x + 4, 60, 0 );
     REQUIRE( here.ter( map_starting_point ) == ter_id( "t_pavement" ) );
     if( here.ter( map_starting_point ) != ter_id( "t_pavement" ) ) {
         return;
@@ -111,13 +111,13 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
     Character &player_character = get_player_character();
     player_character.setpos( map_starting_point );
 
-    REQUIRE( player_character.pos() == map_starting_point );
-    if( player_character.pos() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub() == map_starting_point );
+    if( player_character.pos_bub() != map_starting_point ) {
         return;
     }
     get_map().board_vehicle( map_starting_point, &player_character );
-    REQUIRE( player_character.pos() == map_starting_point );
-    if( player_character.pos() != map_starting_point ) {
+    REQUIRE( player_character.pos_bub() == map_starting_point );
+    if( player_character.pos_bub() != map_starting_point ) {
         return;
     }
     const int transition_cycle = 3;
@@ -138,7 +138,7 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         CAPTURE( cycles );
         for( const tripoint &checkpt : vpts ) {
             int partnum = 0;
-            vehicle *check_veh = here.veh_at_internal( checkpt, partnum );
+            vehicle *check_veh = here.veh_at_internal( tripoint_bub_ms( checkpt ), partnum );
             CAPTURE( veh_ptr->global_pos3() );
             CAPTURE( veh_ptr->face.dir() );
             CAPTURE( checkpt );
@@ -172,11 +172,12 @@ static void ramp_transition_angled( const vproto_id &veh_id, const units::angle 
         vpts = veh.get_points();
         cycles++;
     }
-    const std::optional<vpart_reference> vp = here.veh_at( player_character.pos() ).part_with_feature(
+    const std::optional<vpart_reference> vp = here.veh_at(
+                player_character.pos_bub() ).part_with_feature(
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {
-        const int z_change = map_starting_point.z - player_character.pos().z;
+        const int z_change = map_starting_point.z() - player_character.pos_bub().z();
         here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
         player_character.setpos( map_starting_point );
@@ -240,7 +241,7 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
     clear_game_and_set_ramp( 75, drop_pos, false );
     const int start_z = drop_pos ? 1 : 0;
 
-    const tripoint map_starting_point( 60, 60, start_z );
+    const tripoint_bub_ms map_starting_point( 60, 60, start_z );
 
     // Make sure the avatar is out of the way
     Character &player_character = get_player_character();

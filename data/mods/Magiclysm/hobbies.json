@@ -212,6 +212,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_magus_faerie_fire",
+    "name": "Dabbler (Faerie Fire)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Faerie Fire.  Maybe it wasn't a great use of your time, but it was fun at parties and one time when your cat ran off it made it very easy to find her.  Since the Cataclysm, though, your magical powers have become much more useful.",
+    "points": 4,
+    "spells": [ { "id": "magus_light_target", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_magus_far_hand_pull",
     "name": "Dabbler (Sorcerer's Hand)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Sorcerer's Hand.  Alright, fine, you admit it, you learned magic because of laziness.  It seems odd to say, with all the hours after work and late at night, studying until you could make your keys twitch and fall off the table and eventually until you can grab a drink from across the room, but it's true.  You could reach nearly everything without having to get up.  Anyway, you're way more active now, and being able to grab things from across the room has come in handy more than once since the end of the world.",

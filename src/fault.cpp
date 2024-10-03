@@ -32,6 +32,24 @@ const fault_id &faults::random_of_type( const std::string &type )
     return random_entry_ref( typed->second );
 }
 
+const fault_id &faults::random_of_type_item_has( const item &it, const std::string &type )
+{
+    const auto &typed = faults_by_type.find( type );
+    if( typed == faults_by_type.end() ) {
+        debugmsg( "there are no faults with type '%s'", type );
+        return fault_id::NULL_ID();
+    }
+
+    // not actually random
+    for( const fault_id &fid : typed->second ) {
+        if( it.has_fault( fid ) ) {
+            return fid;
+        }
+    }
+
+    return fault_id::NULL_ID();
+}
+
 void faults::load_fault( const JsonObject &jo, const std::string &src )
 {
     fault_factory.load( jo, src );
@@ -164,10 +182,12 @@ const requirement_data &fault_fix::get_requirements() const
 
 void fault_fix::load( const JsonObject &jo, std::string_view )
 {
+    fault_fix f;
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "success_msg", success_msg );
     optional( jo, was_loaded, "time", time );
     optional( jo, was_loaded, "set_variables", set_variables );
+    optional( jo, was_loaded, "adjust_variables_multiply", adjust_variables_multiply );
     optional( jo, was_loaded, "skills", skills );
     optional( jo, was_loaded, "faults_removed", faults_removed );
     optional( jo, was_loaded, "faults_added", faults_added );

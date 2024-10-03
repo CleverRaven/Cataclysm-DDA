@@ -11,7 +11,8 @@
           "name": "sdl2-mixer",
           "features": [ "libflac", "mpg123", "libmodplug" ]
         },
-        "sdl2-ttf"
+        "sdl2-ttf",
+        "pdcurses"
     ],
     "vcpkg-configuration": {
         "overlay-ports": [

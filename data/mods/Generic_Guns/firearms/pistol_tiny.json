@@ -20,7 +20,7 @@
   },
   {
     "id": "pistol_tiny_target",
-    "copy-from": "sw_22",
+    "copy-from": "ruger_mk4",
     "type": "GUN",
     "name": "target pistol",
     "ammo": [ "ammo_pistol_tiny" ],

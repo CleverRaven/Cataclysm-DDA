@@ -1,0 +1,127 @@
+[
+  {
+    "id": "iso_repeating_crossbow",
+    "looks_like": "crossbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": { "str": "repeating crossbow" },
+    "reload_noise_volume": 4,
+    "description": "A crossbow fit with an automatic spanning mechanism that allows for the rapid firing of up to 4 bolts.\n\nIn an age long past, these weapons were issued to expeditions sent to contain a cursing plague in the northern reaches.",
+    "price": "890 USD",
+    "price_postapoc": "80 USD",
+    "material": [ "wood", "bone", "steel" ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "FRAGILE_MELEE", "RELOAD_ONE", "NEVER_JAMS", "NO_UNLOAD", "NO_TURRET", "NON_FOULING" ],
+    "modes": [ [ "DEFAULT", "standard", 1 ], [ "AUTO", "repeat fire", 2 ] ],
+    "skill": "rifle",
+    "min_strength": 6,
+    "ammo": [ "bolt" ],
+    "weight": "4500 g",
+    "volume": "1750 ml",
+    "longest_side": "86 cm",
+    "to_hit": 1,
+    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "range": 16,
+    "loudness": 8,
+    "dispersion": 350,
+    "sight_dispersion": 90,
+    "durability": 6,
+    "clip_size": 4,
+    "reload": 1500,
+    "valid_mod_locations": [ [ "sling", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 4 } } ],
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "iso_crossbow_sling",
+    "type": "ARMOR",
+    "name": { "str": "crossbow sling" },
+    "description": "A complex sling designed to carry a repeating crossbow while keeping it ready for use.  The sling is designed to be worn across the torso and can be quickly adjusted to bring the crossbow to bear.",
+    "weight": "320 g",
+    "volume": "500 ml",
+    "price": "80 USD",
+    "price_postapoc": "5 USD",
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "slingpack",
+    "color": "green",
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "500 ml",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "200 cm",
+        "moves": 50,
+        "flag_restriction": [ "PRIMITIVE_RANGED_WEAPON" ]
+      }
+    ],
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  },
+  {
+    "type": "AMMO",
+    "id": "iso_bolt_blackwood_bodkin",
+    "name": { "str": "blackwood bolt" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A bodkin bolt expertly carved from blessed blackwood.  Traces of its former power still linger.",
+    "copy-from": "bolt_wood_bodkin",
+    "relative": { "dispersion": -40 },
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.75 },
+    "range": 4,
+    "recovery_chance": 100
+  },
+  {
+    "id": "iso_old_cloak",
+    "type": "ARMOR",
+    "copy-from": "cape_sci_fi",
+    "name": { "str": "tattered cloak" },
+    "description": "The cloak of an imperial envoy, depicting a star chart in gold thread.  It's terribly worn and frayed.",
+    "material": [ "wool" ]
+  },
+  {
+    "id": "iso_old_sword",
+    "type": "TOOL",
+    "copy-from": "mc_longsword",
+    "name": { "str": "ancient sword" },
+    "description": "A longsword worn down by countless battles.  It was once finely engraved.",
+    "flags": [ "UNBREAKABLE_MELEE", "CONDUCTIVE", "SHEATH_SWORD" ]
+  },
+  {
+    "id": "iso_old_armor",
+    "type": "TOOL_ARMOR",
+    "copy-from": "armor_lc_plate",
+    "name": { "str": "envoy's armor" },
+    "description": "A suit of armor worn down by an endless journey.  Only its sturdiest parts remain now.",
+    "material": [ "qt_steel", "qt_steel_chain", "leather", "wool" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 0.55 },
+          { "type": "wool", "covered_by_mat": 100, "thickness": 2.8 },
+          { "type": "leather", "covered_by_mat": 5, "thickness": 1.5 }
+        ],
+        "covers": [ "leg_l", "leg_r", "arm_l", "arm_r" ],
+        "layers": [ "NORMAL", "OUTER" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 95, "thickness": 2.8 },
+          { "type": "wool", "covered_by_mat": 100, "thickness": 2.8 },
+          { "type": "leather", "covered_by_mat": 5, "thickness": 1.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "cover_vitals": 60,
+        "layers": [ "NORMAL", "OUTER" ],
+        "encumbrance": 10
+      }
+    ]
+  }
+]

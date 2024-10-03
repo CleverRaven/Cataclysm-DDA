@@ -121,6 +121,14 @@
     "type": "GUN",
     "name": { "str": "PSL rifle" },
     "description": "The Romanian PSL is a designated marksman's rifle developed by Romania after political tensions with Soviet Russia forced them to develop their own alternative to the SVD.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "psl",
+        "name": { "str": "Century Arms PSL 54" },
+        "description": "The PSL is a semi-automatic rifle chambered in 7.62x54mmR, created by Romania due to uneasy tensions arising between the USSR and Romania, which put pressure on Romania to manufacture their own firearms.  While it looks much like a Soviet SVD, mechanically it's akin to a scaled up AK-47.  This one has been imported from Romania by Century Arms."
+      }
+    ],
     "weight": "4100 g",
     "volume": "7339 ml",
     "longest_side": "1150 mm",

@@ -329,7 +329,7 @@ static void check_damage_from_test_fire( const std::string &mon_id, int expected
     for( int i = 0; i < 1000; i++ ) {
         clear_creatures();
         standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-        monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
+        monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint_east );
         REQUIRE( mon.pos() == dude.pos() + tripoint_east );
         REQUIRE( mon.get_armor_type( damage_test_fire, body_part_bp_null ) == expected_resist );
         REQUIRE( mon.is_immune_damage( damage_test_fire ) == is_immune );
@@ -358,7 +358,7 @@ static void check_eocs_from_test_fire( const std::string &mon_id )
     int eoc_total_dmg = 0;
     clear_creatures();
     standard_npc dude( "TestCharacter", dude_pos, {}, 8, 10, 10, 10, 10 );
-    monster &mon = spawn_test_monster( mon_id, dude.pos() + tripoint_east );
+    monster &mon = spawn_test_monster( mon_id, dude.pos_bub() + tripoint_east );
     REQUIRE( mon.pos() == dude.pos() + tripoint_east );
     REQUIRE( mon.get_hp() == mon.get_hp_max() );
     REQUIRE( dude.get_value( "npctalk_var_general_dmg_type_test_test_fire" ).empty() );

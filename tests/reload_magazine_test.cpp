@@ -25,15 +25,15 @@ static const itype_id itype_357mag_fmj( "357mag_fmj" );
 static const itype_id itype_38_special( "38_special" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_9mm( "9mm" );
+static const itype_id itype_debug_modular_m4_carbine( "debug_modular_m4_carbine" );
 static const itype_id itype_glockmag( "glockmag" );
-static const itype_id itype_modular_m4_carbine( "modular_m4_carbine" );
 static const itype_id itype_stanag30( "stanag30" );
 static const itype_id itype_sw_619( "sw_619" );
 
 // NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location] [reload]" )
 {
-    const itype_id gun_id = itype_modular_m4_carbine;
+    const itype_id gun_id = itype_debug_modular_m4_carbine;
     const ammotype gun_ammo = ammo_223;
     const itype_id ammo_id = itype_556; // any type of compatible ammo
     const itype_id alt_ammo = itype_223; // any alternative type of compatible ammo

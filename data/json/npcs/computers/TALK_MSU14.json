@@ -36,7 +36,7 @@
       },
       {
         "text": "Attempt to access System 14.",
-        "condition": { "not": { "u_has_var": "computer_hacking_msu14_hack", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "computer_hacking_msu14_hack" } ] } },
         "trial": { "type": "SKILL_CHECK", "difficulty": 5, "skill_required": "computer" },
         "success": { "topic": "MSU14_UNIT_ACCESS" },
         "failure": { "topic": "MSU14_HACK_FAILURE" }
@@ -65,12 +65,12 @@
       {
         "text": "View and print the Talon Schematics.",
         "topic": "MSU14_DOCS_SUCCESS",
-        "condition": { "not": { "u_has_var": "computer_hacking_msu14_printed_docs", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "computer_hacking_msu14_printed_docs" } ] } }
       },
       {
         "text": "View and print the Talon Schematics.",
         "topic": "MSU14_DOCS_FAILURE",
-        "condition": { "u_has_var": "computer_hacking_msu14_printed_docs", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "computer_hacking_msu14_printed_docs" } ] }
       },
       { "text": "Return.", "topic": "MSU14_MAIN" }
     ]

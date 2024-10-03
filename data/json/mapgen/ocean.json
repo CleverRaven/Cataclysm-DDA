@@ -15,6 +15,31 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ocean_bed" ],
-    "object": { "fill_ter": "t_ocean_bed" }
+    "object": {
+      "fill_ter": "t_ocean_bed",
+      "//": "Should be converted to a region setting entry in #73602/once it merges",
+      "nested": { " ": { "chunks": [ [ "tmp_nest_f_region_ocean_bed", 1 ], [ "null", 99 ] ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tmp_nest_f_region_ocean_bed",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "furniture": {
+        " ": [
+          [ "f_algae_red", 4 ],
+          [ "f_algae_green", 3 ],
+          [ "f_kelp_sugar", 1 ],
+          [ "f_boulder_small", 8 ],
+          [ "f_boulder_medium", 4 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_sea_anemone", 1 ],
+          [ "f_sea_sponge", 1 ]
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   }
 ]

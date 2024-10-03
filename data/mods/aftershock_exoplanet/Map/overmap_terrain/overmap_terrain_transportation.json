@@ -5,7 +5,7 @@
     "name": "road",
     "copy-from": "generic_transportation",
     "color": "dark_gray",
-    "see_cost": 2,
+    "see_cost": "none",
     "extras": "road",
     "flags": [ "LINEAR", "REQUIRES_PREDECESSOR" ]
   },

@@ -4,6 +4,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "coordinate_constants.h"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"
@@ -40,8 +41,8 @@ static const vproto_id vehicle_prototype_wheelchair( "wheelchair" );
 TEST_CASE( "detaching_vehicle_unboards_passengers", "[vehicle]" )
 {
     clear_map();
-    const tripoint test_origin( 60, 60, 0 );
-    const tripoint vehicle_origin = test_origin;
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
+    const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
     Character &player_character = get_player_character();
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees, 0,
@@ -56,23 +57,23 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 {
     GIVEN( "A vehicle grabbed by the player" ) {
         map &here = get_map();
-        const tripoint test_origin( 60, 60, 0 );
+        const tripoint_bub_ms test_origin( 60, 60, 0 );
         avatar &player_character = get_avatar();
         player_character.setpos( test_origin );
-        const tripoint vehicle_origin = test_origin + tripoint_south_east;
+        const tripoint_bub_ms vehicle_origin = test_origin + tripoint_south_east;
         vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees,
                                              0, 0 );
         REQUIRE( veh_ptr != nullptr );
-        tripoint grab_point = test_origin + tripoint_east;
-        player_character.grab( object_type::VEHICLE, tripoint_east );
+        tripoint_bub_ms grab_point = test_origin + tripoint_east;
+        player_character.grab( object_type::VEHICLE, tripoint_rel_ms_east );
         REQUIRE( player_character.get_grab_type() == object_type::VEHICLE );
-        REQUIRE( player_character.grab_point == tripoint_east );
+        REQUIRE( player_character.grab_point == tripoint_rel_ms_east );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
                 CHECK( player_character.get_grab_type() == object_type::NONE );
-                CHECK( player_character.grab_point == tripoint_zero );
+                CHECK( player_character.grab_point == tripoint_rel_ms_zero );
             }
         }
     }
@@ -81,13 +82,13 @@ TEST_CASE( "destroy_grabbed_vehicle_section", "[vehicle]" )
 TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 {
     clear_map();
-    const tripoint test_origin( 60, 60, 0 );
-    const tripoint vehicle_origin = test_origin;
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
+    const tripoint_bub_ms vehicle_origin = test_origin;
     vehicle *veh_ptr = get_map().add_vehicle( vehicle_prototype_bicycle, vehicle_origin, 0_degrees,
                        0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
-    const tripoint pos = vehicle_origin + tripoint_west;
+    const tripoint_bub_ms pos = vehicle_origin + tripoint_west;
     const std::optional<vpart_reference> ovp_cargo = get_map().veh_at( pos ).cargo();
     REQUIRE( ovp_cargo );
     //Must not be broken yet
@@ -104,8 +105,8 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
 TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
 {
     clear_map();
-    const tripoint test_origin( 60, 60, 0 );
-    const tripoint vehicle_origin = test_origin;
+    const tripoint_bub_ms test_origin( 60, 60, 0 );
+    const tripoint_bub_ms vehicle_origin = test_origin;
     map &here = get_map();
     Character &player_character = get_player_character();
     vehicle *veh_ptr = here.add_vehicle( vehicle_prototype_bicycle, vehicle_origin, -90_degrees, 0,
@@ -472,31 +473,33 @@ TEST_CASE( "power_cable_stretch_disconnect" )
         const int max_dist = app1.part( 1 ).get_base().type->maximum_charges();
 
         WHEN( "displacing first appliance to the left" ) {
-            for( int i = 0; rl_dist( m.getabs( app1.pos_bub() ), m.getabs( app2.pos_bub() ) ) <= max_dist &&
+            for( int i = 0;
+                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_west );
+                m.displace_vehicle( app1, tripoint_rel_ms_west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getabs( app1.pos_bub() ) );
-            CAPTURE( m.getabs( app2.pos_bub() ) );
+            CAPTURE( m.getglobal( app1.pos_bub() ) );
+            CAPTURE( m.getglobal( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
-            for( int i = 0; rl_dist( m.getabs( app1.pos_bub() ), m.getabs( app2.pos_bub() ) ) <= max_dist &&
+            for( int i = 0;
+                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_east );
+                m.displace_vehicle( app2, tripoint_rel_ms_east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getabs( app1.pos_bub() ) );
-            CAPTURE( m.getabs( app2.pos_bub() ) );
+            CAPTURE( m.getglobal( app1.pos_bub() ) );
+            CAPTURE( m.getglobal( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -513,31 +516,33 @@ TEST_CASE( "power_cable_stretch_disconnect" )
         const int max_dist = app1.part( 1 ).get_base().type->maximum_charges();
 
         WHEN( "displacing first appliance to the left" ) {
-            for( int i = 0; rl_dist( m.getabs( app1.pos_bub() ), m.getabs( app2.pos_bub() ) ) <= max_dist &&
+            for( int i = 0;
+                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app1, tripoint_west );
+                m.displace_vehicle( app1, tripoint_rel_ms_west );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getabs( app1.pos_bub() ) );
-            CAPTURE( m.getabs( app2.pos_bub() ) );
+            CAPTURE( m.getglobal( app1.pos_bub() ) );
+            CAPTURE( m.getglobal( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
 
         WHEN( "displacing second appliance to the right" ) {
-            for( int i = 0; rl_dist( m.getabs( app1.pos_bub() ), m.getabs( app2.pos_bub() ) ) <= max_dist &&
+            for( int i = 0;
+                 rl_dist( m.getglobal( app1.pos_bub() ), m.getglobal( app2.pos_bub() ) ) <= max_dist &&
                  i < max_displacement; i++ ) {
                 CHECK( app1.part_count() == 2 );
                 CHECK( app2.part_count() == 2 );
-                m.displace_vehicle( app2, tripoint_east );
+                m.displace_vehicle( app2, tripoint_rel_ms_east );
                 app1.part_removal_cleanup();
                 app2.part_removal_cleanup();
             }
-            CAPTURE( m.getabs( app1.pos_bub() ) );
-            CAPTURE( m.getabs( app2.pos_bub() ) );
+            CAPTURE( m.getglobal( app1.pos_bub() ) );
+            CAPTURE( m.getglobal( app2.pos_bub() ) );
             CHECK( app1.part_count() == 1 );
             CHECK( app2.part_count() == 1 );
         }
@@ -738,7 +743,7 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
     REQUIRE_FALSE( player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
 
-    const tripoint map_starting_point( 60, 60, 0 );
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 100, 0, false );
 

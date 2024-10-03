@@ -157,7 +157,7 @@
         ",": "t_thconc_floor",
         "h": "t_thconc_floor",
         "l": "t_thconc_floor",
-        "/": "t_strconc_wall",
+        "/": "t_lixa_wall",
         "w": "t_window_bars",
         "d": [ "t_door_metal_c", "t_door_metal_o" ]
       },
@@ -207,7 +207,7 @@
         "l": "t_thconc_floor",
         "s": "t_thconc_floor",
         "T": "t_thconc_floor",
-        "/": "t_strconc_wall",
+        "/": "t_lixa_wall",
         "w": "t_window_bars",
         "e": "t_gates_mech_control",
         "D": "t_door_metal_locked",
@@ -217,6 +217,41 @@
         "l": [ { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ]
       },
       "signs": { "P": { "signage": "NO TRESPASSING:  By order of the United States Department of Energy" } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "LIXA_road_guard_roof",
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ---------             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  -.......-             ",
+        "  ---------             ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
     }
   },
   {
@@ -310,7 +345,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
     }
   },
   {
@@ -369,7 +404,7 @@
         "                                                ",
         "                                                "
       ],
-      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
+      "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_lixa_wall", "_": "t_open_air" }
     }
   },
   {
@@ -543,7 +578,6 @@
           { "item": "LIXA_lab_postit", "chance": 3, "repeat": 1 },
           { "item": "LIXA_lab_file", "chance": 7, "repeat": 2 },
           { "item": "software_math", "chance": 3, "repeat": 1 },
-          { "item": "software_lab_data", "chance": 2, "repeat": 4 },
           { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
@@ -771,7 +805,7 @@
         "    //________________//",
         "    //________________//"
       ],
-      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+      "terrain": { "_": "t_open_air_rooved", "/": "t_lixa_wall" }
     }
   },
   {
@@ -806,7 +840,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "_": "t_open_air_rooved", "/": "t_strconc_wall" }
+      "terrain": { "_": "t_open_air_rooved", "/": "t_lixa_wall" }
     }
   },
   {

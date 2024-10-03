@@ -25,7 +25,6 @@
     "barrel_length": "165 mm",
     "price": "3 kUSD 100 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -48,7 +47,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "default_mods": [ "folding_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ] } ],
     "melee_damage": { "bash": 9 }
@@ -76,7 +82,6 @@
     "//": "Numbers for weight, volume, and length calculations are based upon weapon without caliber conversion. The difference will be made up for with integrated stats from the installable caliber conversion.",
     "price": "2 kUSD 900 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -100,7 +105,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [
+      "fault_gun_blackpowder",
+      "fault_gun_dirt",
+      "fault_gun_chamber_spent",
+      "fault_fail_to_feed",
+      "fault_stovepipe",
+      "fault_double_feed"
+    ],
     "default_mods": [ "folding_stock" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag" ] } ],
     "melee_damage": { "bash": 11 }
@@ -133,7 +145,6 @@
     "barrel_length": "127 mm",
     "price": "784 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -168,7 +179,6 @@
     "barrel_length": "146 mm",
     "price": "1 kUSD 800 USD",
     "price_postapoc": "25 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -191,7 +201,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -236,8 +246,16 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str": ".45 Luty submachine gun" },
+    "name": { "str": "MAC-10 Luty submachine gun" },
     "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "smg_45",
+        "name": { "str": ".45 Luty submachine gun" },
+        "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using advanced powered hand tools; likely one of the most complex guns that is feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines."
+      }
+    ],
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3520 g",
     "volume": "1110 ml",
@@ -292,7 +310,6 @@
     "barrel_length": "267 mm",
     "price": "4 kUSD 500 USD",
     "price_postapoc": "27 USD 50 cent",
-    "to_hit": -2,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -318,7 +335,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -394,7 +411,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str": "Hi-Point pistol" },
+    "name": { "str": "Model JHP pistol" },
     "description": "A semi-automatic pistol chambered in .45 ACP and accepting Hi-Point magazines.",
     "variant_type": "gun",
     "variants": [
@@ -410,7 +427,6 @@
     "barrel_length": "114 mm",
     "price": "75 USD",
     "price_postapoc": "20 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "45" ],
@@ -444,7 +460,6 @@
     "barrel_length": "117 mm",
     "price": "602 USD",
     "price_postapoc": "26 USD",
-    "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -479,7 +494,6 @@
     "barrel_length": "203 mm",
     "price": "23 kUSD",
     "price_postapoc": "40 USD",
-    "to_hit": -2,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "light_gray",
@@ -501,7 +515,7 @@
       [ "sights mount", 1 ],
       [ "stock", 1 ]
     ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent", "fault_fail_to_feed", "fault_double_feed" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "greasegun30mag" ] } ],
     "melee_damage": { "bash": 9 }
   }

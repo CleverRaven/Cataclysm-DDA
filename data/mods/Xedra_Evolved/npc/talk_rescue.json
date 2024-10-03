@@ -40,7 +40,7 @@
           "not": {
             "or": [
               { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" },
-              { "u_has_var": "mission_completed_antiparasitic", "value": "yes" }
+              { "compare_string": [ "yes", { "u_val": "mission_completed_antiparasitic" } ] }
             ]
           }
         },

@@ -17,7 +17,7 @@
     "material": [ "nut" ],
     "volume": "31 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "iron", 5 ] ],
+    "vitamins": [ [ "iron", 5 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -36,7 +36,7 @@
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -2,
-    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -57,7 +57,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pistachio_roasted",
-    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 1 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -91,7 +91,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "almond_roasted",
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 6 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -110,6 +110,7 @@
     "price": "10 cent",
     "price_postapoc": "50 cent",
     "material": [ "nut" ],
+    "vitamins": [ [ "nut_allergen", 1 ] ],
     "volume": "125 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -8
@@ -144,7 +145,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 12 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -167,7 +168,7 @@
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW", "SMOKABLE" ],
     "smoking_result": "pecan_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -200,7 +201,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 3 ], [ "nut_allergen", 1 ] ],
     "fun": 3,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -221,7 +222,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ] ],
+    "vitamins": [ [ "vitC", 5 ], [ "iron", 9 ], [ "nut_allergen", 1 ] ],
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
   {
@@ -242,7 +243,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "walnut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -264,7 +265,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "butternut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": -1
   },
   {
@@ -306,7 +307,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "chestnut_roasted",
-    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "iron", 1 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -339,7 +340,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "hazelnut_roasted",
-    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ] ],
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ], [ "iron", 7 ], [ "nut_allergen", 1 ] ],
     "fun": -1,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -360,7 +361,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -380,7 +381,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "EATEN_HOT" ],
-    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ] ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 4 ], [ "nut_allergen", 1 ] ],
     "fun": 4
   },
   {
@@ -412,7 +413,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "smoking_result": "hickory_nut_roasted",
-    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ] ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 8 ], [ "nut_allergen", 1 ] ],
     "fun": -10,
     "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_10_1" }
   },
@@ -445,6 +446,7 @@
     "price": "1 USD",
     "price_postapoc": "4 USD",
     "material": [ "nut", "milk" ],
+    "vitamins": [ [ "nut_allergen", 1 ], [ "milk_allergen", 1 ] ],
     "volume": "250 ml",
     "phase": "liquid",
     "charges": 4,
@@ -474,7 +476,7 @@
     "charges": 8,
     "phase": "liquid",
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -507,7 +509,7 @@
     "quench": -2,
     "calories": 190,
     "flags": [ "USE_EAT_VERB" ],
-    "vitamins": [ [ "iron", 6 ] ],
+    "vitamins": [ [ "iron", 6 ], [ "junk_allergen", 1 ], [ "nut_allergen", 1 ] ],
     "fun": 2
   },
   {
@@ -527,7 +529,7 @@
     "material": [ "nut" ],
     "volume": "62 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE", "RAW" ],
-    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ], [ "nut_allergen", 1 ] ],
     "fun": -20
   },
   {

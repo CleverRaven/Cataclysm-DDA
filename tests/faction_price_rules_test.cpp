@@ -29,7 +29,7 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
         seller = &u;
     }
 
-    item m4( "modular_m4_carbine" );
+    item m4( "debug_modular_m4_carbine" );
     item mag( m4.magazine_default() );
     int const ammo_amount = mag.remaining_ammo_capacity();
     item ammo( mag.ammo_default(), calendar::turn, ammo_amount );
@@ -51,7 +51,7 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
     }
 
     trade_selector::entry_t bck_entry{
-        item_location{ map_cursor( tripoint_zero ), &backpack }, 1 };
+        item_location{ map_cursor( tripoint_bub_ms( tripoint_zero ) ), &backpack }, 1 };
 
     int const price_combined = trading_price( *buyer, *seller, bck_entry );
 
@@ -151,7 +151,7 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         int const battery_price = *guy.get_price_rules( battery )->price;
         REQUIRE( battery.price( true ) != battery_price );
         trade_selector::entry_t tbd_entry{
-            item_location{ map_cursor( tripoint_zero ), &tbd }, 1 };
+            item_location{ map_cursor( tripoint_bub_ms( tripoint_zero ) ), &tbd }, 1 };
 
         REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
                  Approx( units::to_cent( tbd.type->price_post ) * 1.25 +

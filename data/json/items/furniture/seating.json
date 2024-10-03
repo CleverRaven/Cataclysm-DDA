@@ -44,8 +44,7 @@
     "longest_side": "45 cm",
     "volume": "17 L",
     "weight": "3 kg",
-    "material": [ "wood" ],
-    "to_hit": -2
+    "material": [ "wood" ]
   },
   {
     "type": "GENERIC",
@@ -60,8 +59,7 @@
     "longest_side": "50 cm",
     "volume": "20 L",
     "weight": "11 kg",
-    "material": [ "wood" ],
-    "to_hit": -2
+    "material": [ "wood" ]
   },
   {
     "type": "GENERIC",
@@ -75,8 +73,7 @@
     "longest_side": "80 cm",
     "volume": "30 L",
     "weight": "7500 g",
-    "material": [ { "type": "steel", "portion": 975 }, { "type": "leather", "portion": 25 } ],
-    "to_hit": -2
+    "material": [ { "type": "steel", "portion": 975 }, { "type": "leather", "portion": 25 } ]
   },
   {
     "type": "GENERIC",

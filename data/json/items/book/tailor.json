@@ -217,22 +217,6 @@
     "melee_damage": { "bash": 4 }
   },
   {
-    "abstract": "exodii_blueprint",
-    "name": "Exodii blueprint abstract",
-    "type": "BOOK",
-    "category": "manuals",
-    "weight": "100 g",
-    "volume": "200 ml",
-    "price": "60 USD",
-    "price_postapoc": "60 USD",
-    "material": [ "paper" ],
-    "symbol": "?",
-    "looks_like": "paper",
-    "required_level": 4,
-    "intelligence": 8,
-    "time": "30 m"
-  },
-  {
     "id": "bp_nomad_cowl",
     "type": "BOOK",
     "name": { "str": "nomad cowl blueprint" },

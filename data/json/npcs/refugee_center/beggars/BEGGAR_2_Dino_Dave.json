@@ -69,7 +69,10 @@
       { "condition": "has_assigned_mission", "text": "About that shopping list of yours…", "topic": "TALK_MISSION_INQUIRE" },
       {
         "condition": {
-          "and": [ { "npc_has_var": "mission_dinodave_cardboard_donor", "value": "yes" }, { "not": "has_no_available_mission" } ]
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "mission_dinodave_cardboard_donor" } ] },
+            { "not": "has_no_available_mission" }
+          ]
         },
         "text": "Is there anything else I can do for you?",
         "topic": "TALK_MISSION_OFFER"
@@ -84,7 +87,10 @@
       },
       {
         "condition": {
-          "and": [ { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" }, { "u_has_var": "mission_Dave_Permission", "value": "yes" } ]
+          "and": [
+            { "u_has_mission": "MISSION_BEGGAR_2_PERMISSION" },
+            { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] }
+          ]
         },
         "text": "We've done it, Dave!  Smokes says you can build yourself a house up on the roof if you want.  You've got to keep it nice and clean, and help out the people down here by looking out for zombies, but you can still use the washrooms and things downstairs when you need to.  What do you say?",
         "topic": "TALK_REFUGEE_BEGGAR_2_PERMISSION"
@@ -210,8 +216,7 @@
       "concatenate": [
         "Well… I had it all pretty together,\u0020",
         {
-          "u_has_var": "general_recruit_beggars_recruited",
-          "value": "yes",
+          "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ],
           "yes": "but the others have left, and\u0020",
           "no": "and I feel bad with all the help you've given me already, but\u0020"
         },
@@ -220,7 +225,7 @@
     },
     "responses": [
       {
-        "condition": { "not": { "u_has_var": "general_recruit_beggars_recruited", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ] } },
         "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
         "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
       },
@@ -381,7 +386,7 @@
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_CONDITION",
-    "goal_condition": { "u_has_var": "mission_Dave_Permission", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "mission_Dave_Permission" } ] },
     "count": 5,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

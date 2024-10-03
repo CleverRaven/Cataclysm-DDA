@@ -182,22 +182,6 @@
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {
-    "id": "car_light_plus_battery_cell",
-    "copy-from": "battery_car",
-    "type": "vehicle_part",
-    "name": { "str": "light battery (high-capacity)" },
-    "item": "light_plus_battery_cell",
-    "location": "on_battery_mount",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
-    },
-    "durability": 20,
-    "folded_volume": "35 ml",
-    "breaks_into": [ { "item": "e_scrap", "prob": 10 } ],
-    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
-  },
-  {
     "id": "car_medium_battery_cell",
     "copy-from": "battery_car",
     "type": "vehicle_part",
@@ -211,22 +195,6 @@
     "durability": 30,
     "folded_volume": "450 ml",
     "breaks_into": [ { "item": "light_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
-    "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
-  },
-  {
-    "id": "car_medium_plus_battery_cell",
-    "copy-from": "battery_car",
-    "type": "vehicle_part",
-    "name": { "str": "medium battery (high-capacity)" },
-    "item": "medium_plus_battery_cell",
-    "location": "on_battery_mount",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] },
-      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "using": [  ] }
-    },
-    "durability": 30,
-    "folded_volume": "525 ml",
-    "breaks_into": [ { "item": "light_plus_battery_cell", "count": [ 0, 3 ] }, { "item": "scrap", "count": [ 1, 4 ] } ],
     "flags": [ "BATTERY", "NEEDS_HANDHELD_BATTERY_MOUNT", "NO_REPAIR" ]
   },
   {

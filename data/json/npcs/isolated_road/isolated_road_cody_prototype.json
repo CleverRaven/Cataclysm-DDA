@@ -8,12 +8,12 @@
     "responses": [
       {
         "text": "Are you and Jay close?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_blacksmith_accepted_quest", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_accepted_quest" } ] } },
         "topic": "TALK_BLACKSMITH_JAY"
       },
       {
         "text": "I'm sure we'll fix things soon!",
-        "condition": { "u_has_var": "dialogue_artisans_blacksmith_accepted_quest", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_accepted_quest" } ] },
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "Alright.", "topic": "TALK_BLACKSMITH_SERVICES" }
@@ -52,12 +52,12 @@
     "responses": [
       {
         "text": "Can you work on one of these projects for me?",
-        "condition": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] },
         "topic": "TALK_BLACKSMITH_BUSY"
       },
       {
         "text": "[Motion to the picture of some kind of rifle.] What's the 'OBREZ'?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
         "topic": "TALK_BLACKSMITH_OBREZ"
       },
       {
@@ -65,7 +65,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('7 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "obrez" }
+            { "compare_string": [ "obrez", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
@@ -75,14 +75,14 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('7 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "obrez" }
+            { "compare_string": [ "obrez", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_OBREZ_COMPLETE"
       },
       {
         "text": "[Motion to the picture of a switchblade.] What's the 'PRESSIN'?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
         "topic": "TALK_BLACKSMITH_PRESSIN"
       },
       {
@@ -90,7 +90,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('7 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "pressin" }
+            { "compare_string": [ "pressin", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
@@ -100,14 +100,14 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('7 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "pressin" }
+            { "compare_string": [ "pressin", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PRESSIN_COMPLETE"
       },
       {
         "text": "[Motion to the picture of a mace styled with fire on the head.] What's the 'LOUVERTURE'?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
         "topic": "TALK_BLACKSMITH_LOUVERTURE"
       },
       {
@@ -115,7 +115,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('14 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "LOUVERTURE" }
+            { "compare_string": [ "LOUVERTURE", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
@@ -125,14 +125,14 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('14 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "LOUVERTURE" }
+            { "compare_string": [ "LOUVERTURE", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_LOUVERTURE_COMPLETE"
       },
       {
         "text": "[Motion to the picture of a sledge hammer with a piston jutting from one face of the head.] What's the 'DISORDER'?",
-        "condition": { "not": { "u_has_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_artisans_blacksmith_crafting" } ] } },
         "topic": "TALK_BLACKSMITH_DISORDER"
       },
       {
@@ -140,7 +140,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", "<", "time('14 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "DISORDER" }
+            { "compare_string": [ "DISORDER", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_PROTOTYPE_ONGOING"
@@ -150,7 +150,7 @@
         "condition": {
           "and": [
             { "math": [ "time_since(u_timer_artisans_u_waiting_on_prototype)", ">", "time('14 d')" ] },
-            { "u_has_var": "dialogue_artisans_u_current_project", "value": "DISORDER" }
+            { "compare_string": [ "DISORDER", { "u_val": "dialogue_artisans_u_current_project" } ] }
           ]
         },
         "topic": "TALK_BLACKSMITH_DISORDER_COMPLETE"

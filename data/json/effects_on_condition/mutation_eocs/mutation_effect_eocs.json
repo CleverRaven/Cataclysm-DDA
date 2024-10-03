@@ -6,6 +6,213 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_MUTE_BIRD_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Slightly dirty category check, since in vanilla both use the same trait.",
+    "condition": {
+      "and": [
+        { "compare_string": [ "BEAK", { "context_val": "trait" } ] },
+        { "math": [ "u_vitamin('mutagen_bird')", ">", "u_vitamin('mutagen_cephalopod')" ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_unmute_bird" }, { "u_add_trait": "MUTE_BIRD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_CEPHALOPOD_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": {
+      "and": [
+        { "compare_string": [ "BEAK", { "context_val": "trait" } ] },
+        { "math": [ "u_vitamin('mutagen_bird')", "<", "u_vitamin('mutagen_cephalopod')" ] }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_unmute_ceph" }, { "u_add_trait": "MUTE_CEPH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_GASTROPOD_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "//": "Automatically gain the mute trait when first mutating rasping tongue, check that we didn't already learn speech from earlier (slightly more complicated logic since harpoon tongues are purifiable)",
+    "condition": {
+      "and": [
+        { "compare_string": [ "GASTROPOD_EXTREMITY2", { "context_val": "trait" } ] },
+        { "not": { "u_has_trait": "MUTE_GASTROPOD_OK" } },
+        { "not": { "u_has_trait": "MUTE_GASTROPOD" } }
+      ]
+    },
+    "effect": [ { "u_learn_recipe": "prac_unmute_gastropod" }, { "u_add_trait": "MUTE_GASTROPOD" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_INSECT_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "PROBOSCIS", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_insect" }, { "u_add_trait": "MUTE_INSECT" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_SLIME_GAIN",
+    "eoc_type": "EVENT",
+    "required_event": "gains_mutation",
+    "condition": { "compare_string": [ "AMORPHOUS", { "context_val": "trait" } ] },
+    "effect": [ { "u_learn_recipe": "prac_unmute_slime" }, { "u_add_trait": "MUTE_SLIME" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_BIRD",
+    "condition": { "math": [ "u_progress_unmute_bird", ">=", "7" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_BIRD" },
+      { "u_add_trait": "MUTE_BIRD_OK" },
+      { "u_message": "What's that made of?  Glass.  That will have to do." },
+      { "u_forget_recipe": "prac_unmute_bird" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_bird", "++" ] },
+      {
+        "u_message": "Restricting your range to the apes' feels demeaning, and you decide to take a break before you start plucking out your feathers in frustration."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_CEPH",
+    "condition": { "math": [ "u_progress_unmute_ceph", ">=", "7" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_CEPH" },
+      { "u_add_trait": "MUTE_CEPH_OK" },
+      {
+        "u_message": "Your sentences are short, and you can't quite control your beak's clicking as you tire.  Still, they will understand, if they want to."
+      },
+      { "u_forget_recipe": "prac_unmute_ceph" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_ceph", "++" ] },
+      {
+        "u_message": "Draw air into your mantle, close your throat, rehearse your sentence, exhale and contort your beak just so."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_GASTROPOD",
+    "condition": { "math": [ "u_progress_unmute_gastropod", ">=", "10" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_GASTROPOD" },
+      { "u_add_trait": "MUTE_GASTROPOD_OK" },
+      {
+        "u_message": "As your tongues files down from use the pitch of the different sounds changes, but you have managed to get a few short, raspy sentences out."
+      },
+      { "u_forget_recipe": "prac_unmute_gastropod" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_gastropod", "++" ] },
+      {
+        "u_message": "If you rub your tongue against your palate like this is makes a `th` - or at least, a `thrksrkkk`, but it's a start.  Ignore the taste of blood, there's work to be done."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_INSECT",
+    "condition": { "math": [ "u_progress_unmute_insect", ">=", "7" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_INSECT" },
+      { "u_add_trait": "MUTE_INSECT_OK" },
+      {
+        "u_message": "You decide on the next few words, cramp your maxillae, and inhale deeply.  With some imagination you can understand the words in the whistling, before your mouthparts fall limp and you need a pause.  Larva steps."
+      },
+      { "u_forget_recipe": "prac_unmute_insect" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_insect", "++" ] },
+      {
+        "u_message": "You have all these new moving parts in your not-mouth, but they are struggling under the strain you put them under."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNMUTE_SLIME",
+    "condition": { "math": [ "u_progress_unmute_slime", ">=", "15" ] },
+    "effect": [
+      { "u_lose_trait": "MUTE_SLIME" },
+      { "u_add_trait": "MUTE_SLIME_OK" },
+      {
+        "u_message": "You realize you don't need to grow anything nearly as complicated as your old insides - one vesicle per word will suffice, but you needed a long time to learn the right rhythm."
+      },
+      { "u_forget_recipe": "prac_unmute_slime" }
+    ],
+    "false_effect": [
+      { "math": [ "u_progress_unmute_slime", "++" ] },
+      {
+        "u_message": "Do you need teeth, lungs?  You fall back into your resting shape in exasperation.  This will take long."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_BEAK_LOSE_1",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "condition": { "and": [ { "compare_string": [ "BEAK", { "context_val": "trait" } ] } ] },
+    "effect": { "queue_eocs": "EOC_MUTE_BEAK_LOSE_2", "time_in_future": 1 }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_BEAK_LOSE_2",
+    "condition": { "not": { "u_has_any_trait": [ "BEAK_HUM", "BEAK_PECK" ] } },
+    "//": "Beaks are purifiable and we need to clean up both possible mutisms (unless we gained a non-purifiable beak in the process)",
+    "effect": [
+      { "u_forget_recipe": "prac_unmute_bird" },
+      { "u_forget_recipe": "prac_unmute_ceph" },
+      { "u_lose_trait": "MUTE_BIRD" },
+      { "u_lose_trait": "MUTE_BIRD_OK" },
+      { "u_lose_trait": "MUTE_CEPH" },
+      { "u_lose_trait": "MUTE_CEPH_OK" },
+      { "math": [ "u_progress_unmute_bird", "=", "0" ] },
+      { "math": [ "u_progress_unmute_ceph", "=", "0" ] },
+      {
+        "u_message": "You grasp at the base of your beak and feel the familiar contours of your old mouth.  You give it a try and your voice sounds almost like before."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_GASTROPOD_LOSE_1",
+    "eoc_type": "EVENT",
+    "required_event": "loses_mutation",
+    "//": "If we lose either trait check if we end up in a mute state via the queued EoC",
+    "condition": {
+      "or": [
+        { "compare_string": [ "GASTROPOD_EXTREMITY2", { "context_val": "trait" } ] },
+        { "compare_string": [ "GASTROPOD_EXTREMITY3", { "context_val": "trait" } ] }
+      ]
+    },
+    "effect": [ { "queue_eocs": "EOC_MUTE_GASTROPOD_LOSE_2", "time_in_future": 1 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MUTE_GASTROPOD_LOSE_2",
+    "//": "If we lost our lower trait and didn't gain the higher one / lost the higher trait without gaining the lower one in the process remove mutism or the compensatory traits (and progress thereof)",
+    "condition": {
+      "and": [ { "not": { "u_has_trait": "GASTROPOD_EXTREMITY3" } }, { "not": { "u_has_trait": "GASTROPOD_EXTREMITY_2" } } ]
+    },
+    "effect": [
+      { "u_forget_recipe": "prac_unmute_gastropod" },
+      { "u_lose_trait": "MUTE_GASTROPOD" },
+      { "u_lose_trait": "MUTE_GASTROPOD_OK" },
+      { "u_message": "You cough up a lot of off-color blood, but you swear in your own old voice again afterwards." },
+      { "math": [ "u_progress_unmute_gastropod", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "mut_eyestalk",
     "recurrence": [ "2 hours 15 minutes", "10 hours 15 minutes" ],
     "condition": {
@@ -364,6 +571,53 @@
         "max_bonus": -15,
         "duration": { "math": [ "rand(432000) + 86400" ] }
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RADIATION_MUTATION",
+    "eoc_type": "EVENT",
+    "required_event": "character_radioactively_mutates",
+    "condition": "u_is_character",
+    "effect": [
+      {
+        "set_string_var": "<radiation_category>",
+        "target_var": { "context_val": "radiation_mutation_category" },
+        "parse_tags": true
+      },
+      { "u_mutate_category": { "context_val": "radiation_mutation_category" }, "use_vitamins": false }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<radiation_category>",
+    "text": [
+      { "text": "CHIMERA" },
+      { "text": "INSECT" },
+      { "text": "ALPHA" },
+      { "text": "URSINE" },
+      { "text": "CHIROPTERAN" },
+      { "text": "BIRD" },
+      { "text": "MEDICAL" },
+      { "text": "LUPINE" },
+      { "text": "RAT" },
+      { "text": "SLIME" },
+      { "text": "PLANT" },
+      { "text": "BATRACHIAN" },
+      { "text": "RAPTOR" },
+      { "text": "MOUSE" },
+      { "text": "CEPHALOPOD" },
+      { "text": "ELFA" },
+      { "text": "FISH" },
+      { "text": "HUMAN" },
+      { "text": "RABBIT" },
+      { "text": "GASTROPOD" },
+      { "text": "BEAST" },
+      { "text": "FELINE" },
+      { "text": "CATTLE" },
+      { "text": "LIZARD" },
+      { "text": "TROGLOBITE" },
+      { "text": "CRUSTACEAN" }
     ]
   },
   {

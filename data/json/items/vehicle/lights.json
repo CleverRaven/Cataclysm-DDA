@@ -43,7 +43,6 @@
     "name": { "str": "reinforced headlight" },
     "description": "A vehicle headlight with a cage built around it to protect it from damage without reducing its effectiveness.",
     "weight": "1200 g",
-    "to_hit": -2,
     "color": "light_cyan",
     "symbol": ",",
     "material": [ "steel", "plastic" ],

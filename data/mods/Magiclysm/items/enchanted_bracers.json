@@ -105,5 +105,27 @@
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -10 } ] } ]
     },
     "use_action": { "type": "cast_spell", "spell_id": "lightning_bolt", "no_fail": true, "level": 15, "need_worn": true }
+  },
+  {
+    "copy-from": "armguard_larmor",
+    "type": "ARMOR",
+    "id": "mbracer_archery",
+    "name": { "str": "pair of bracers of archery", "str_pl": "pairs of bracers of archery" },
+    "price_postapoc": "750 USD",
+    "description": "A set of leather bracers worked with images of arrows in flight and scenes of hunting parties.  Bows you wield will be more accurate and do more damage while you wear these, and you can shoot your arrows farther as well.",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": { "u_has_wielded_with_flag": "SHEATH_BOW" },
+          "values": [
+            { "value": "RANGED_DAMAGE", "multiply": 0.25 },
+            { "value": "RANGE", "multiply": 0.2 },
+            { "value": "WEAPON_DISPERSION", "multiply": -0.33 }
+          ],
+          "ench_effects": [ { "effect": "effect_plus_two_to_hit", "intensity": 1 } ]
+        }
+      ]
+    }
   }
 ]

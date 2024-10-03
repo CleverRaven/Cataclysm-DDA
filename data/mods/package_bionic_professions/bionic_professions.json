@@ -13,6 +13,7 @@
     "points": 5,
     "skills": [ { "level": 3, "name": "swimming" } ],
     "CBMs": [ "bio_str_enhancer", "bio_adrenaline", "bio_hydraulics", "bio_metabolics", "bio_power_storage_mkII" ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "items": {
       "both": {
         "entries": [
@@ -309,7 +310,14 @@
     "points": 6,
     "CBMs": [ "bio_surgical_razor", "bio_flashlight", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 8, "name": "firstaid" } ],
-    "proficiencies": [ "prof_intro_biology", "prof_physiology", "prof_wound_care", "prof_wound_care_expert", "prof_dissect_humans" ],
+    "proficiencies": [
+      "prof_intro_biology",
+      "prof_physiology",
+      "prof_wound_care",
+      "prof_wound_care_expert",
+      "prof_dissect_humans",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
@@ -449,6 +457,7 @@
     "points": 4,
     "skills": [ { "level": 2, "name": "swimming" } ],
     "CBMs": [ "bio_adrenaline", "bio_torsionratchet", "bio_power_storage_mkII", "bio_jointservo" ],
+    "proficiencies": [ "prof_athlete_basic", "prof_athlete_expert" ],
     "items": {
       "both": {
         "entries": [
@@ -481,7 +490,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "CBMs": [
       "bio_eye_enhancer",
@@ -554,7 +564,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "CBMs": [
       "bio_targeting",
@@ -934,7 +945,7 @@
     "points": 5,
     "CBMs": [ "bio_razors", "bio_armor_eyes", "bio_sunglasses", "bio_dex_enhancer", "bio_ears", "bio_carbon" ],
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_claws_familiar", "prof_bionics_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [

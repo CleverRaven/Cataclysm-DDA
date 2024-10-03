@@ -48,7 +48,7 @@
   {
     "type": "furniture",
     "id": "f_afs_shuttle_manuevering_thruster",
-    "name": "Multi-axis manuevering thruster",
+    "name": "Multi-axis maneuvering thruster",
     "looks_like": "f_vent",
     "description": "A set of highly maneuverable chemical thrusters used is small to medium spacecraft.",
     "symbol": "0",
@@ -85,5 +85,32 @@
         { "item": "ammonia_liquid", "prob": 100, "count": [ 4, 8 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_afs_reactor_meltdown",
+    "name": "radioactive slag",
+    "description": "A pile of melted slag from a destroyed spaceship reactor.  Incandescently hot and highly radioactive, you'd need a purposefully armored suit to even approach it.",
+    "looks_like": "t_nuclear_reactor",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "emissions": [ "heavy_rad_glimmer" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SMALL_HIDE",
+      "SHORT",
+      "RUBBLE"
+    ]
   }
 ]

@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "bonuses.h"
 #include "effect_on_condition.h"
 #include "calendar.h"
@@ -163,7 +164,7 @@ class ma_technique
     public:
         ma_technique();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void verify_ma_techniques();
         void check() const;
 
@@ -326,7 +327,7 @@ class martialart
     public:
         martialart();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         void remove_all_buffs( Character &u ) const;
 

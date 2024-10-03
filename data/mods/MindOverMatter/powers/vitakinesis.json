@@ -3,7 +3,7 @@
     "id": "vita_health_power",
     "type": "SPELL",
     "name": "[Ψ]Healthy Glow (C)",
-    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "Your powers can keep you in the bloom of health.  This can also stop or prevent an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Healthy Glow <color_red>cannot be active</color> with Leucocyte Acculumation",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -107,6 +107,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
+    "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
     "effect_str": "vita_bandage_01",
@@ -124,6 +125,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
+    "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
     "effect_str": "vita_bandages_02",
@@ -141,6 +143,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
+    "teachable": false,
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
     "effect": "spawn_item",
     "effect_str": "vita_bandages_03",
@@ -149,6 +152,44 @@
     "max_damage": 1,
     "min_duration": 200,
     "max_duration": 200
+  },
+  {
+    "id": "vita_concentrated_healing",
+    "type": "SPELL",
+    "name": "[Ψ]Leukocyte Accumulation (C)",
+    "description": "By rerouting blood and stem cells from more lightly damaged areas, you can speed the healing of your most grievous wounds at the cost of lessened healing elsewhere.  You may also use this to control an asthma attack.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.  Leucocyte Acculumation <color_red>cannot be active</color> with Healthy Glow",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "VITAKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "difficulty": 2,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_CONCENTRATED_HEALING_INITIATE",
+    "shape": "blast",
+    "min_duration": {
+      "math": [
+        "( (u_spell_level('vita_concentrated_healing') * 7300) + 46300) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( (u_spell_level('vita_concentrated_healing') * 28400) + 103400) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+      ]
+    },
+    "energy_source": "STAMINA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 0 : max((3500 - (u_spell_level('vita_concentrated_healing') * 80)), 1350)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_vita_concentrated_healing') > -1 ? 10 : max((250 -(u_spell_level('vita_concentrated_healing') * 9.5)), 35)"
+      ]
+    }
   },
   {
     "id": "vita_hurt_touch",
@@ -318,29 +359,6 @@
     }
   },
   {
-    "id": "vita_pain_split",
-    "type": "SPELL",
-    "name": "[Ψ]Damage Balancing",
-    "description": "By rerouting blood and stem cells from undamaged areas, you can lessen your most grievous wounds at the cost of weakness elsewhere.  You may also use this to control an asthma attack.",
-    "message": "With a moment's concentration, your worst injuries heal, but you still don't feel well.",
-    "teachable": false,
-    "valid_targets": [ "self" ],
-    "spell_class": "VITAKINETIC",
-    "skill": "metaphysics",
-    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
-    "difficulty": 5,
-    "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "pain_split",
-    "shape": "blast",
-    "energy_source": "STAMINA",
-    "base_energy_cost": 6500,
-    "final_energy_cost": 1750,
-    "energy_increment": -175,
-    "base_casting_time": 200,
-    "final_casting_time": 75,
-    "casting_time_increment": -8
-  },
-  {
     "id": "vita_stop_infection",
     "type": "SPELL",
     "name": "[Ψ]Allay Infection",
@@ -370,6 +388,7 @@
     "name": "[Ψ]SAllay Infection #1",
     "description": "The first of the Allay Infection spells.  This summons a low-power disinfectant/antibiotic--it's a bug if you have it.",
     "valid_targets": [ "self" ],
+    "teachable": false,
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -387,6 +406,7 @@
     "name": "[Ψ]SAllay Infection #2",
     "description": "The second of the Allay Infection spells.  This summons a medium-power disinfectant/antibiotic--it's a bug if you have it.",
     "valid_targets": [ "self" ],
+    "teachable": false,
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -404,6 +424,7 @@
     "name": "[Ψ]SAllay Infection #3",
     "description": "The third of the Allay Infection spells.  This summons a high-power disinfectant/antibiotic--it's a bug if you have it.",
     "valid_targets": [ "self" ],
+    "teachable": false,
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX" ],
@@ -420,7 +441,7 @@
     "type": "SPELL",
     "name": "[Ψ]Revitalizing Meditation",
     "description": "Enter a trance state and heal your injuries many times faster than they would heal naturally.",
-    "message": "You exit your trance and your wounds feel less painful.",
+    "message": "You enter a trance and submerge your awareness into your body.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
@@ -601,6 +622,7 @@
     "name": "Anabolic Rejuvenation Heal",
     "description": "The healing part of Anabolic Rejuvenation.",
     "valid_targets": [ "self" ],
+    "teachable": false,
     "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
     "max_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
     "effect": "attack",
@@ -613,6 +635,7 @@
     "name": "Anabolic Rejuvenation draining",
     "description": "The draining part of Anabolic Rejuvenation.",
     "valid_targets": [ "self" ],
+    "teachable": false,
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITA_SUPER_HEAL_DRAIN",
     "shape": "blast",

@@ -70,7 +70,6 @@
     "copy-from": "22_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".22 LR FMJ, black powder" },
-    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -85,7 +84,6 @@
     "copy-from": "22_lr",
     "type": "AMMO",
     "name": { "str_sp": ".22 LR, black powder" },
-    "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
@@ -100,7 +98,6 @@
     "copy-from": "22_lr",
     "type": "AMMO",
     "name": { "str_sp": ".22 LR, reloaded" },
-    "description": ".22 Long Rifle ammunition with a 40gr unjacketed bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  It is most useful for target practice and hunting small animals.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -110,7 +107,6 @@
     "copy-from": "22_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".22 FMJ, reloaded" },
-    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This type is marginally better at piercing through targets, but deals even less damage as a result.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -121,7 +117,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".22 FMJ, matchhead powder" },
-    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_22_fmj",
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -132,7 +127,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".22 LR, matchhead powder" },
-    "description": ".22 Long Rifle ammunition with a 30gr FMJ bullet.  The .22LR round is extremely weak, with short range and negligible recoil.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_22_lr",
     "extend": { "effects": [ "MATCHHEAD" ] }

@@ -408,8 +408,10 @@ class zone_data
         bool set_name();
         // returns true if type is changed
         bool set_type();
+        // We need to be able to suppress the display of zones when the movement is part of a map rotation, as the underlying
+        // field is automatically rotated by the map rotation itself.
         void set_position( const std::pair<tripoint, tripoint> &position, bool manual = true,
-                           bool update_avatar = true, bool skip_cache_update = false );
+                           bool update_avatar = true, bool skip_cache_update = false, bool suppress_display_update = false );
         void set_enabled( bool enabled_arg );
         void set_temporary_disabled( bool enabled_arg );
         // Displays/removes display fields based on the current is_displayed value.

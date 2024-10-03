@@ -1145,22 +1145,6 @@
         "topic": "TALK_DONE"
       },
       {
-        "text": "Get a mullet.",
-        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
-        "effect": [
-          { "run_eocs": "reset_all_hair_types" },
-          {
-            "u_add_morale": "morale_haircut",
-            "bonus": 3,
-            "max_bonus": 5,
-            "duration": "30 minutes",
-            "decay_start": "30 minutes"
-          },
-          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_mullet" } }
-        ],
-        "topic": "TALK_DONE"
-      },
-      {
         "text": "Get a bun cut.",
         "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
         "effect": [

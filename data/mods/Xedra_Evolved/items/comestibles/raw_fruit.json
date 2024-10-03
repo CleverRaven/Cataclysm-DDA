@@ -17,7 +17,7 @@
     "volume": "170 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_veggy",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 2 ], [ "veggy_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,7 +38,7 @@
     "fun": 0,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ] ]
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 1 ], [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -57,7 +57,8 @@
     "volume": "500 ml",
     "fun": 5,
     "flags": [ "SMOKABLE" ],
-    "smoking_result": "dry_fruit"
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "fruit_allergen", 1 ] ]
   },
   {
     "type": "GENERIC",

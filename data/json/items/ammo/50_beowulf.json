@@ -99,7 +99,6 @@
     "copy-from": "50beowulf_xtp",
     "type": "AMMO",
     "name": { "str_sp": ".50 Beowulf XTP, black powder" },
-    "description": ".50-caliber Beowulf ammunition, loaded with a copper-jacketed 350-grain eXtreme Terminal Performance bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a sporting round before the Cataclysm.  This particular version of the cartridge is coated in a layer of polymer, encouraging commendable terminal ballistics, penetrative capabilities, and overall expansion from its 12.7x42mm projectile.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder: expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
@@ -114,7 +113,6 @@
     "copy-from": "50beowulf_penetrator",
     "type": "AMMO",
     "name": { "str": ".50 Beowulf Xtreme Penetrator, black powder", "str_pl": ".50 Beowulf Xtreme Penetrators, black powder" },
-    "description": ".50-caliber Beowulf ammunition, loaded with a solid-copper 420-grain Xtreme Penetrator bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  With a blunt nose construction for better initial energy transfer, its 12.7mm-wide bullet's solid copper design allows it to punch through entry barriers while resulting in a larger wound column.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder: expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
@@ -129,7 +127,6 @@
     "copy-from": "50beowulf_xtp",
     "type": "AMMO",
     "name": { "str_sp": ".50 Beowulf XTP, reloaded" },
-    "description": ".50-caliber Beowulf ammunition, loaded with a copper-jacketed 350-grain eXtreme Terminal Performance bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  This particular version of the cartridge is coated in a layer of polymer, encouraging commendable terminal ballistics, penetrative capabilities, and overall expansion from its 12.7x42mm projectile.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -139,7 +136,6 @@
     "copy-from": "50beowulf_penetrator",
     "type": "AMMO",
     "name": { "str": ".50 Beowulf Xtreme Penetrator, reloaded", "str_pl": ".50 Beowulf Xtreme Penetrators, reloaded" },
-    "description": ".50-caliber Beowulf ammunition, loaded with a solid-copper 420-grain Xtreme Penetrator bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  With a blunt nose construction for better initial energy transfer, its 12.7mm-wide bullet's solid copper design allows it to punch through entry barriers while resulting in a larger wound column.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

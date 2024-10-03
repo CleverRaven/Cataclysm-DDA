@@ -7,7 +7,6 @@
 #include "character.h"
 #include "item.h"
 #include "morale.h"
-#include "morale_types.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "calendar.h"
@@ -16,6 +15,16 @@
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_took_prozac( "took_prozac" );
+
+static const morale_type morale_book( "morale_book" );
+static const morale_type morale_food_bad( "morale_food_bad" );
+static const morale_type morale_food_good( "morale_food_good" );
+static const morale_type morale_killed_innocent( "morale_killed_innocent" );
+static const morale_type morale_perm_badtemper( "morale_perm_badtemper" );
+static const morale_type morale_perm_constrained( "morale_perm_constrained" );
+static const morale_type morale_perm_masochist( "morale_perm_masochist" );
+static const morale_type morale_perm_optimist( "morale_perm_optimist" );
+static const morale_type morale_wet( "morale_wet" );
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -40,46 +49,46 @@ TEST_CASE( "player_morale_decay", "[player_morale]" )
     player_morale m;
 
     GIVEN( "temporary morale (food)" ) {
-        m.add( MORALE_FOOD_GOOD, 20, 40, 20_turns, 10_turns );
-        m.add( MORALE_FOOD_BAD, -10, -20, 20_turns, 10_turns );
+        m.add( morale_food_good, 20, 40, 20_turns, 10_turns );
+        m.add( morale_food_bad, -10, -20, 20_turns, 10_turns );
 
-        CHECK( m.has( MORALE_FOOD_GOOD ) == 20 );
-        CHECK( m.has( MORALE_FOOD_BAD ) == -10 );
+        CHECK( m.has( morale_food_good ) == 20 );
+        CHECK( m.has( morale_food_bad ) == -10 );
         CHECK( m.get_level() == 10 );
 
         WHEN( "it decays" ) {
             AND_WHEN( "it's just started" ) {
                 m.decay( 10_turns );
-                CHECK( m.has( MORALE_FOOD_GOOD ) == 20 );
-                CHECK( m.has( MORALE_FOOD_BAD ) == -10 );
+                CHECK( m.has( morale_food_good ) == 20 );
+                CHECK( m.has( morale_food_bad ) == -10 );
                 CHECK( m.get_level() == 10 );
             }
             AND_WHEN( "it's halfway there" ) {
                 m.decay( 15_turns );
-                CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
-                CHECK( m.has( MORALE_FOOD_BAD ) == -5 );
+                CHECK( m.has( morale_food_good ) == 10 );
+                CHECK( m.has( morale_food_bad ) == -5 );
                 CHECK( m.get_level() == 5 );
             }
             AND_WHEN( "it's finished" ) {
                 m.decay( 20_turns );
-                CHECK( m.has( MORALE_FOOD_GOOD ) == 0 );
-                CHECK( m.has( MORALE_FOOD_BAD ) == 0 );
+                CHECK( m.has( morale_food_good ) == 0 );
+                CHECK( m.has( morale_food_bad ) == 0 );
                 CHECK( m.get_level() == 0 );
             }
         }
 
         WHEN( "it gets deleted" ) {
             AND_WHEN( "good one gets deleted" ) {
-                m.remove( MORALE_FOOD_GOOD );
+                m.remove( morale_food_good );
                 CHECK( m.get_level() == -10 );
             }
             AND_WHEN( "bad one gets deleted" ) {
-                m.remove( MORALE_FOOD_BAD );
+                m.remove( morale_food_bad );
                 CHECK( m.get_level() == 20 );
             }
             AND_WHEN( "both get deleted" ) {
-                m.remove( MORALE_FOOD_BAD );
-                m.remove( MORALE_FOOD_GOOD );
+                m.remove( morale_food_bad );
+                m.remove( morale_food_good );
                 CHECK( m.get_level() == 0 );
             }
         }
@@ -90,21 +99,21 @@ TEST_CASE( "player_morale_decay", "[player_morale]" )
         }
 
         WHEN( "it's added/subtracted (no cap)" ) {
-            m.add( MORALE_FOOD_GOOD, 10, 40, 20_turns, 10_turns, false );
-            m.add( MORALE_FOOD_BAD, -10, -20, 20_turns, 10_turns, false );
+            m.add( morale_food_good, 10, 40, 20_turns, 10_turns, false );
+            m.add( morale_food_bad, -10, -20, 20_turns, 10_turns, false );
 
-            CHECK( m.has( MORALE_FOOD_GOOD ) == 22 );
-            CHECK( m.has( MORALE_FOOD_BAD ) == -14 );
+            CHECK( m.has( morale_food_good ) == 22 );
+            CHECK( m.has( morale_food_bad ) == -14 );
             CHECK( m.get_level() == 8 );
 
         }
 
         WHEN( "it's added/subtracted (with a cap)" ) {
-            m.add( MORALE_FOOD_GOOD, 5, 10, 20_turns, 10_turns, true );
-            m.add( MORALE_FOOD_BAD, -5, -10, 20_turns, 10_turns, true );
+            m.add( morale_food_good, 5, 10, 20_turns, 10_turns, true );
+            m.add( morale_food_bad, -5, -10, 20_turns, 10_turns, true );
 
-            CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
-            CHECK( m.has( MORALE_FOOD_BAD ) == -10 );
+            CHECK( m.has( morale_food_good ) == 10 );
+            CHECK( m.has( morale_food_bad ) == -10 );
             CHECK( m.get_level() == 0 );
         }
     }
@@ -115,14 +124,14 @@ TEST_CASE( "player_morale_persistent", "[player_morale]" )
     player_morale m;
 
     GIVEN( "persistent morale" ) {
-        m.set_permanent( MORALE_PERM_MASOCHIST, 5 );
+        m.set_permanent( morale_perm_masochist, 5 );
 
-        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 5 );
+        CHECK( m.has( morale_perm_masochist ) == 5 );
 
         WHEN( "it decays" ) {
             m.decay( 100_turns );
             THEN( "nothing happens" ) {
-                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 5 );
+                CHECK( m.has( morale_perm_masochist ) == 5 );
                 CHECK( m.get_level() == 5 );
             }
         }
@@ -135,12 +144,12 @@ TEST_CASE( "player_morale_optimist", "[player_morale]" )
 
     GIVEN( "OPTIMISTIC trait" ) {
         m.on_mutation_gain( trait_OPTIMISTIC );
-        CHECK( m.has( MORALE_PERM_OPTIMIST ) == 9 );
+        CHECK( m.has( morale_perm_optimist ) == 9 );
         CHECK( m.get_level() == 10 );
 
         WHEN( "lost the trait" ) {
             m.on_mutation_loss( trait_OPTIMISTIC );
-            CHECK( m.has( MORALE_PERM_OPTIMIST ) == 0 );
+            CHECK( m.has( morale_perm_optimist ) == 0 );
             CHECK( m.get_level() == 0 );
         }
     }
@@ -152,12 +161,12 @@ TEST_CASE( "player_morale_bad_temper", "[player_morale]" )
 
     GIVEN( "BADTEMPER trait" ) {
         m.on_mutation_gain( trait_BADTEMPER );
-        CHECK( m.has( MORALE_PERM_BADTEMPER ) == -9 );
+        CHECK( m.has( morale_perm_badtemper ) == -9 );
         CHECK( m.get_level() == -10 );
 
         WHEN( "lost the trait" ) {
             m.on_mutation_loss( trait_BADTEMPER );
-            CHECK( m.has( MORALE_PERM_BADTEMPER ) == 0 );
+            CHECK( m.has( morale_perm_badtemper ) == 0 );
             CHECK( m.get_level() == 0 );
         }
     }
@@ -168,7 +177,7 @@ TEST_CASE( "player_morale_killed_innocent_affected_by_prozac", "[player_morale]"
     player_morale m;
 
     GIVEN( "killed an innocent" ) {
-        m.add( MORALE_KILLED_INNOCENT, -100 );
+        m.add( morale_killed_innocent, -100 );
 
         WHEN( "took prozac" ) {
             m.on_effect_int_change( effect_took_prozac, 1 );
@@ -300,22 +309,22 @@ TEST_CASE( "player_morale_masochist", "[player_morale]" )
     GIVEN( "masochist trait" ) {
         m.on_mutation_gain( trait_MASOCHIST );
 
-        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
+        CHECK( m.has( morale_perm_masochist ) == 0 );
 
         WHEN( "in minimal pain" ) {
             m.on_stat_change( "perceived_pain", 10 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 10 );
+            CHECK( m.has( morale_perm_masochist ) == 10 );
         }
 
         WHEN( "in mind pain" ) {
             m.on_stat_change( "perceived_pain", 20 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 20 );
+            CHECK( m.has( morale_perm_masochist ) == 20 );
         }
 
         WHEN( "in an insufferable pain" ) {
             m.on_stat_change( "perceived_pain", 120 );
             THEN( "there's a limit" ) {
-                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 20 );
+                CHECK( m.has( morale_perm_masochist ) == 20 );
             }
         }
     }
@@ -323,53 +332,53 @@ TEST_CASE( "player_morale_masochist", "[player_morale]" )
     GIVEN( "masochist morale table" ) {
         m.on_mutation_gain( trait_MASOCHIST );
 
-        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
+        CHECK( m.has( morale_perm_masochist ) == 0 );
 
         WHEN( "in minimal pain" ) {
             m.on_stat_change( "perceived_pain", 10 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 10 );
         }
 
         WHEN( "in mind pain" ) {
             m.on_stat_change( "perceived_pain", 20 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 20 );
         }
 
         WHEN( "in moderate pain" ) {
             m.on_stat_change( "perceived_pain", 30 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 10 );
         }
 
         WHEN( "in distracting pain" ) {
             m.on_stat_change( "perceived_pain", 40 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == 0 );
         }
 
         WHEN( "in distressing pain" ) {
             m.on_stat_change( "perceived_pain", 50 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -10 );
         }
 
         WHEN( "in unmanagable pain" ) {
             m.on_stat_change( "perceived_pain", 60 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -20 );
         }
 
         WHEN( "in intense pain" ) {
             m.on_stat_change( "perceived_pain", 70 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -30 );
         }
 
         WHEN( "in severe pain" ) {
             m.on_stat_change( "perceived_pain", 80 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
+            CHECK( m.has( morale_perm_masochist ) - ( m.get_perceived_pain() > 20 ? m.get_perceived_pain() -
                     20 : 0 ) == -40 );
         }
     }
@@ -382,19 +391,19 @@ TEST_CASE( "player_morale_cenobite", "[player_morale]" )
     GIVEN( "cenobite trait" ) {
         m.on_mutation_gain( trait_CENOBITE );
 
-        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
+        CHECK( m.has( morale_perm_masochist ) == 0 );
 
         WHEN( "in an insufferable pain" ) {
             m.on_stat_change( "perceived_pain", 120 );
 
             THEN( "there's no limit" ) {
-                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 120 );
+                CHECK( m.has( morale_perm_masochist ) == 120 );
             }
 
             AND_WHEN( "took prozac" ) {
                 m.on_effect_int_change( effect_took_prozac, 1 );
                 THEN( "it spoils all fun" ) {
-                    CHECK( m.has( MORALE_PERM_MASOCHIST ) == 60 );
+                    CHECK( m.has( morale_perm_masochist ) == 60 );
                 }
             }
         }
@@ -410,18 +419,18 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
         m.on_mutation_gain( trait_FLOWERS );
         m.on_mutation_gain( trait_ROOTS1 );
 
-        CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
+        CHECK( m.has( morale_perm_constrained ) == 0 );
 
         WHEN( "wearing a hat" ) {
             const item hat( "tinfoil_hat", calendar::turn_zero );
 
             m.on_item_wear( hat );
             THEN( "the flowers need sunlight" ) {
-                CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -10 );
+                CHECK( m.has( morale_perm_constrained ) == -10 );
 
                 AND_WHEN( "taking it off again" ) {
                     m.on_item_takeoff( hat );
-                    CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
+                    CHECK( m.has( morale_perm_constrained ) == 0 );
                 }
             }
         }
@@ -432,7 +441,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
 
             m.on_item_wear( legpouch );
             THEN( "half of the roots are suffering" ) {
-                CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -5 );
+                CHECK( m.has( morale_perm_constrained ) == -5 );
             }
         }
 
@@ -441,7 +450,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
 
             m.on_item_wear( boots );
             THEN( "all of the roots are suffering" ) {
-                CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -10 );
+                CHECK( m.has( morale_perm_constrained ) == -10 );
             }
 
             AND_WHEN( "even more constrains" ) {
@@ -449,7 +458,7 @@ TEST_CASE( "player_morale_plant", "[player_morale]" )
 
                 m.on_item_wear( hat );
                 THEN( "it can't be worse" ) {
-                    CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -10 );
+                    CHECK( m.has( morale_perm_constrained ) == -10 );
                 }
             }
         }
@@ -642,38 +651,38 @@ TEST_CASE( "player_morale_stacking", "[player_morale]" )
     player_morale m;
 
     GIVEN( "stacking of bonuses" ) {
-        m.add( MORALE_FOOD_GOOD, 10, 40, 20_turns, 10_turns );
-        m.add( MORALE_BOOK, 10, 40, 20_turns, 10_turns );
+        m.add( morale_food_good, 10, 40, 20_turns, 10_turns );
+        m.add( morale_book, 10, 40, 20_turns, 10_turns );
 
-        CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
-        CHECK( m.has( MORALE_BOOK ) == 10 );
+        CHECK( m.has( morale_food_good ) == 10 );
+        CHECK( m.has( morale_book ) == 10 );
         CHECK( m.get_level() == 14 );
 
         WHEN( "a bonus is added" ) {
-            m.set_permanent( MORALE_PERM_MASOCHIST, 50 );
+            m.set_permanent( morale_perm_masochist, 50 );
 
-            CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
-            CHECK( m.has( MORALE_BOOK ) == 10 );
-            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 50 );
+            CHECK( m.has( morale_food_good ) == 10 );
+            CHECK( m.has( morale_book ) == 10 );
+            CHECK( m.has( morale_perm_masochist ) == 50 );
 
             CHECK( m.get_level() == 51 );
         }
 
         WHEN( "a negative bonus is added" ) {
-            m.add( MORALE_WET, -10, -40, 20_turns, 10_turns );
+            m.add( morale_wet, -10, -40, 20_turns, 10_turns );
 
-            CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
-            CHECK( m.has( MORALE_BOOK ) == 10 );
-            CHECK( m.has( MORALE_WET ) == -10 );
+            CHECK( m.has( morale_food_good ) == 10 );
+            CHECK( m.has( morale_book ) == 10 );
+            CHECK( m.has( morale_wet ) == -10 );
 
             CHECK( m.get_level() == 4 );
         }
 
         WHEN( "a bonus is lost" ) {
-            m.remove( MORALE_BOOK );
+            m.remove( morale_book );
 
-            CHECK( m.has( MORALE_FOOD_GOOD ) == 10 );
-            CHECK( m.has( MORALE_BOOK ) == 0 );
+            CHECK( m.has( morale_food_good ) == 10 );
+            CHECK( m.has( morale_book ) == 0 );
 
             CHECK( m.get_level() == 10 );
         }

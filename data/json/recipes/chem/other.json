@@ -17,33 +17,6 @@
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "bone_any", 10, "LIST" ], [ "skewer_bone", 500 ] ] ]
   },
   {
-    "result": "superglue",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_OTHER",
-    "skill_used": "chemistry",
-    "difficulty": 3,
-    "time": "12 m",
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [
-        [ "bone_any", 20, "LIST" ],
-        [ "skewer_bone", 1000 ],
-        [ "cured_hide", 2 ],
-        [ "pine_bough", 10 ],
-        [ "raw_dandelion", 20 ],
-        [ "biollante_bud", 1 ],
-        [ "ant_egg", 1 ],
-        [ "slime_scrap", 1 ]
-      ]
-    ]
-  },
-  {
     "result": "rubber_cement",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",

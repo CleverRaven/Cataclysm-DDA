@@ -96,7 +96,6 @@
     "volume": "250 ml",
     "price": "75 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -2,
     "material": [ "hard_plastic_transp", "leather_treated" ],
     "symbol": "[",
     "looks_like": "glasses_bal",

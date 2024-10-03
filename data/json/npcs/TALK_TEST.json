@@ -628,24 +628,24 @@
         "text": "This is a u_add_var test response.",
         "topic": "TALK_DONE",
         "effect": { "u_add_var": "test_var_test_test", "value": "beer" },
-        "condition": { "not": { "u_has_var": "test_var_test_test", "value": "beer" } }
+        "condition": { "not": { "compare_string": [ "beer", { "u_val": "test_var_test_test" } ] } }
       },
       {
         "text": "This is a npc_add_var test response.",
         "topic": "TALK_DONE",
         "effect": { "npc_add_var": "test_var_test_test", "value": "reeb" },
-        "condition": { "not": { "u_has_var": "test_var_test_test", "value": "beer" } }
+        "condition": { "not": { "compare_string": [ "beer", { "u_val": "test_var_test_test" } ] } }
       },
       {
-        "text": "This is a u_has_var, u_remove_var test response.",
+        "text": "This is a compare_string, u_remove_var test response.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_var": "test_var_test_test", "value": "beer" },
+        "condition": { "compare_string": [ "beer", { "u_val": "test_var_test_test" } ] },
         "effect": { "u_lose_var": "test_var_test_test" }
       },
       {
-        "text": "This is a npc_has_var, npc_remove_var test response.",
+        "text": "This is a compare_string, npc_remove_var test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_has_var": "test_var_test_test", "value": "reeb" },
+        "condition": { "compare_string": [ "reeb", { "npc_val": "test_var_test_test" } ] },
         "effect": { "npc_lose_var": "test_var_test_test" }
       }
     ]

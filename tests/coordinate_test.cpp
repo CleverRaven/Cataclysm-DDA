@@ -18,13 +18,12 @@ static_assert( tripoint_abs_omt::dimension == 3 );
 
 // Out of bounds coords can be implicitly constructed from inbounds ones. This is used
 // to ensure a return type is NOT an inbounds one, before it can be converted.
-template <typename Point, coords::origin Origin, coords::scale Scale, bool InBounds>
-coords::coord_point<Point, Origin, Scale, InBounds> assert_not_ib( const
-        coords::coord_point<Point, Origin, Scale, InBounds> &p )
-{
-    static_assert( !InBounds );
-    return p;
-}
+#define assert_not_ib(p) \
+    (([](auto&& _p) { \
+        using _t = decltype(_p); \
+        static_assert(!std::decay_t<_t>::is_inbounds); \
+        return std::forward<_t>(_p); } \
+     )(p))
 
 TEST_CASE( "coordinate_strings", "[point][coords][nogame]" )
 {

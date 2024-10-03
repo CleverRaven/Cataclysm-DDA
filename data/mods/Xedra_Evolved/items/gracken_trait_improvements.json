@@ -1,0 +1,124 @@
+[
+  {
+    "abstract": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "comestible_type": "INVALID",
+    "category": "MED",
+    "name": { "str": "abstract gracken improvement" },
+    "weight": "2041 g",
+    "volume": "2500 ml",
+    "material": [ "flesh", "shadowstuff" ],
+    "symbol": "!",
+    "color": "light_gray",
+    "price_postapoc": "10 USD",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ]
+  },
+  {
+    "id": "gracken_shade_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Shade Arms" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their arms back to a base state.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back to a base model.",
+      "effect_on_conditions": [
+        {
+          "id": "shade_arms",
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_ARMS" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_strong_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Strong Arms" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their arms to a stronger form.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back for a stronger form factor.",
+      "effect_on_conditions": [
+        {
+          "id": "strong_arms",
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_STRONG_ARMS" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_long_arms",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Long Arms" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their arms to a longer form.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back for a longer form factor.",
+      "effect_on_conditions": [
+        {
+          "id": "long_arms",
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_LONG_ARMS" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_shade_hands",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Shade Hands" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their hands back to a base state.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back to a base model.",
+      "effect_on_conditions": [
+        {
+          "id": "shade_hands",
+          "effect": [ { "u_message": "You exchanged your previous arms for these." }, { "u_add_trait": "SHADE_ARMS" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_sharp_nails",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Sharp Nails" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their hands to a sharper form.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back for a sharper form factor.",
+      "effect_on_conditions": [
+        {
+          "id": "sharp_nails",
+          "effect": [ { "u_message": "You exchanged your previous hands for these." }, { "u_add_trait": "SHADE_SHARP_NAILS" } ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "gracken_dextrous_hands",
+    "copy-from": "gracken_improvement_general",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "Gracken Dextrous Hands" },
+    "looks_like": "offal",
+    "description": "An organ that allows a mature Gracken to convert their hands to a more agile form.",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Exchanged the limb back for a longer form factor.",
+      "effect_on_conditions": [
+        {
+          "id": "dextrous_hands",
+          "effect": [ { "u_message": "You exchanged your previous hands for these." }, { "u_add_trait": "SHADE_DEXTROUS_HANDS" } ]
+        }
+      ]
+    }
+  }
+]

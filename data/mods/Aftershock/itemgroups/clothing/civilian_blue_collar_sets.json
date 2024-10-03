@@ -1,6 +1,19 @@
 [
   {
     "type": "item_group",
+    "//": "Clothes for working in toxic environments.",
+    "id": "afs_civilian_hazard_outfit",
+    "subtype": "collection",
+    "entries": [
+      { "group": "afs_colonist_hazard_accessories", "prob": 50 },
+      { "group": "afs_colonist_outfit_underwear" },
+      { "item": "afs_hazard_suit" },
+      { "group": "afs_hard_hat", "prob": 15 },
+      { "group": "afs_colonist_shirt", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "//": "Clothes for the future blue collar worker.  Just steal costumes from Alien.",
     "id": "afs_colonist_outfit",
     "subtype": "collection",

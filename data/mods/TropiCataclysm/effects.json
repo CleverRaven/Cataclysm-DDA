@@ -3,7 +3,7 @@
     "type": "effect_type",
     "id": "toxic_glue",
     "name": [ "Termite Glue" ],
-    "desc": [ "You're covered in thick toxic glue!" ],
+    "desc": [ "You're covered in thick noxious glue!" ],
     "apply_message": "You're covered in thick noxious glue!",
     "remove_message": "The glue has washed up but it surely left a mark.",
     "miss_messages": [ [ "The glue restricts your movement.", 2 ] ],
@@ -19,7 +19,7 @@
     "max_effective_intensity": 100,
     "int_dur_factor": 18,
     "max_duration": 2250,
-    "//": "30 m to max, 7,5 m overhead, copied from the poisonous wound but with a milder effect so it feels like its burning your skin",
+    "//": "30 m to max, 7.5 m overhead, copied from the poisonous wound but with a milder effect so it feels like its burning your skin",
     "base_mods": {
       "dex_mod": [ -2 ],
       "speed_mod": [ -25 ],

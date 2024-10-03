@@ -1,6 +1,28 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_LIGHT_UP_ENEMY_TARGET",
+    "effect": [
+      { "math": [ "u_photokinesis_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_photokinesis_power_level", "=", "n_spell_level('photokinetic_light_up_enemy')" ] },
+      { "math": [ "u_nether_attunement_photokinesis_scaling", "=", "n_nether_attunement_power_scaling" ] },
+      {
+        "u_add_effect": "effect_photokin_enemy_light",
+        "duration": [
+          {
+            "math": [ "( (u_photokinesis_power_level * 18) + 66) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling" ]
+          },
+          {
+            "math": [
+              "( (u_photokinesis_power_level * 71) + 184) * u_photokinesis_intelligence * u_nether_attunement_photokinesis_scaling"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_HIDE_UGLY_REMOVE_GODCO_VARS",
     "condition": {
       "u_has_any_trait": [

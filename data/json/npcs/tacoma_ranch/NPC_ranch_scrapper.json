@@ -22,7 +22,9 @@
           "and": [
             { "u_has_mission": "MISSION_RANCH_DOCTOR_MEDICAL_ANESTHETIC" },
             { "not": { "u_has_mission": "MISSION_RANCH_SCRAPPER_TOOLS_FOR_SCRAP" } },
-            { "not": { "u_has_var": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped", "value": "yes" } }
+            {
+              "not": { "compare_string": [ "yes", { "u_val": "mission_tacoma_ranch_doctor_anesthetic_scrappers_helped" } ] }
+            }
           ]
         }
       },

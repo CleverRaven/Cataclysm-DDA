@@ -41,14 +41,14 @@ static void clear_game_drag( const ter_id &terrain )
 
     map &here = get_map();
     // hard force a rebuild of caches
-    here.shift( point_south );
-    here.shift( point_north );
+    here.shift( point_rel_sm_south );
+    here.shift( point_rel_sm_north );
 }
 
 static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     clear_vehicles();
-    const tripoint map_starting_point( 60, 60, 0 );
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     vehicle *veh_ptr = get_map().add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );

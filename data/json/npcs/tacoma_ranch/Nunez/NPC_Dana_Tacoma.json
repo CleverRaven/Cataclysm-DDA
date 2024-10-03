@@ -87,7 +87,7 @@
       {
         "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?",
         "topic": "TALK_TACOMA_Dana_Bakery1",
-        "condition": { "u_has_var": "knowledge_tacoma_bakery", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_tacoma_bakery" } ] }
       },
       { "text": "Nice to see you Dana, I'm just checking in.", "topic": "TALK_DONE" }
     ]
@@ -101,7 +101,7 @@
       {
         "text": "Any luck with the pregnancy?",
         "topic": "TALK_TACOMA_Dana_Pregnancy",
-        "condition": { "u_has_var": "knowledge_dana_pregnancy", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_dana_pregnancy" } ] }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -125,7 +125,7 @@
       {
         "text": "Any luck with the pregnancy?",
         "topic": "TALK_TACOMA_Dana_Pregnancy",
-        "condition": { "u_has_var": "knowledge_dana_pregnancy", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_dana_pregnancy" } ] }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -148,7 +148,7 @@
       {
         "text": "Won't you run out of propane?",
         "topic": "TALK_TACOMA_Dana_TrailerPropane",
-        "condition": { "not": { "u_has_var": "knowledge_propane_scavenging", "value": "knows" } }
+        "condition": { "not": { "compare_string": [ "knows", { "u_val": "knowledge_propane_scavenging" } ] } }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]
@@ -163,7 +163,7 @@
       {
         "text": "Any luck with the pregnancy?",
         "topic": "TALK_TACOMA_Dana_Pregnancy",
-        "condition": { "u_has_var": "knowledge_dana_pregnancy", "value": "knows" }
+        "condition": { "compare_string": [ "knows", { "u_val": "knowledge_dana_pregnancy" } ] }
       },
       { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
     ]

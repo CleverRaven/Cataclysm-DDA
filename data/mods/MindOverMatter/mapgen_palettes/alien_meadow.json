@@ -1,0 +1,52 @@
+[
+  {
+    "type": "palette",
+    "id": "alien_meadow_palette",
+    "terrain": {
+      "1": [
+        [ "t_region_soil", 1 ],
+        [ "t_alien_meadow_grass", 2 ],
+        [ "t_alien_meadow_grass_long", 1000 ],
+        [ "t_alien_meadow_grass_tall", 2000 ],
+        [ "t_alien_meadow_shrub_1", 10 ],
+        [ "t_alien_meadow_shrub_2", 10 ],
+        [ "t_alien_meadow_shrub_3", 10 ],
+        [ "t_alien_meadow_tree_1", 15 ],
+        [ "t_alien_meadow_tree_2", 15 ],
+        [ "t_alien_meadow_tree_3", 15 ]
+      ],
+      "2": [
+        [ "t_region_soil", 10 ],
+        [ "t_alien_meadow_grass", 2 ],
+        [ "t_alien_meadow_grass_long", 1500 ],
+        [ "t_alien_meadow_grass_tall", 100 ],
+        [ "t_alien_meadow_shrub_1", 10 ],
+        [ "t_alien_meadow_shrub_2", 10 ],
+        [ "t_alien_meadow_shrub_3", 10 ],
+        [ "t_alien_meadow_tree_1", 15 ],
+        [ "t_alien_meadow_tree_2", 15 ],
+        [ "t_alien_meadow_tree_3", 15 ]
+      ]
+    },
+    "furniture": {
+      "1": [
+        [ "f_null", 2500 ],
+        [ "f_alien_weed_1", 5 ],
+        [ "f_alien_weed_2", 5 ],
+        [ "f_alien_weed_3", 5 ],
+        [ "f_boulder_small", 3 ],
+        [ "f_boulder_medium", 2 ],
+        [ "f_boulder_large", 1 ]
+      ],
+      "2": [
+        [ "f_null", 2500 ],
+        [ "f_alien_weed_1", 5 ],
+        [ "f_alien_weed_2", 5 ],
+        [ "f_alien_weed_3", 5 ],
+        [ "f_boulder_small", 3 ],
+        [ "f_boulder_medium", 2 ],
+        [ "f_boulder_large", 1 ]
+      ]
+    }
+  }
+]

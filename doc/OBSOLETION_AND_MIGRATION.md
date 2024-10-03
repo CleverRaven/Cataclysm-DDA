@@ -44,6 +44,10 @@ Additionally, `COMESTIBLE` items have temperature and rot processing, and are th
 * In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
 * In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
 
+# Vehicle migration
+
+Vehicles do not need any migration, simple deletion is enough
+
 # Vehicle part migration
 Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
 For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.
@@ -160,6 +164,40 @@ Move multiple ids that don't need to be unique any more to a single id
   }
 ```
 
+# Field migration
+
+Field migration replaces the provided id as submaps are loaded. You can use `fd_null` with `to_field` to remove the field entirely without creating errors.
+
+```json
+{
+    "type": "field_type_migration",   // Mandatory. String. Must be "field_type_migration"
+    "from_field": "t_old_field",        // Mandatory. String. Id of the field to replace.
+    "to_field": "f_new_field",      // Mandatory. String. Id of the new field to place.
+},
+```
+
+## Examples
+
+Migrate an id
+
+```json
+  {
+    "type": "field_type_migration",
+    "from_field": "fd_being_migrated_id",
+    "to_field": "fd_new_id"
+  }
+```
+
+Errorlessly obsolete an id
+
+```json
+  {
+    "type": "field_type_migration",
+    "from_field": "fd_being_obsoleted_id",
+    "to_field": "fd_null"
+  }
+```
+
 # Overmap terrain migration
 
 Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
@@ -205,6 +243,11 @@ For EOC/dialogue variables you can use `var_migration`. This currently only migr
     "from": "temp_var"
 }
 ```
+
+# Activity Migration
+See if it is mentioned in `src/savegame_legacy.cpp`.
+
+In `src/savegame_json.cpp` in `player_activity::deserialize( const JsonObject &data )` add to `std::set<std::string> obs_activities` the activity ID with comment to remove it after the next version (after 0.B when in 0.A experimental). There should always be at least one example left.
 
 # Ammo types
 

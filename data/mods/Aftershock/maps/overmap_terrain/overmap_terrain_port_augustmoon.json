@@ -5,7 +5,7 @@
     "name": "Port Augustmoon's orbit",
     "sym": " ",
     "color": "black",
-    "see_cost": 2,
+    "see_cost": "all_clear",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -14,7 +14,7 @@
     "name": "Port Augustmoon",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "SOURCE_SAFETY" ]
   },
   {
@@ -23,7 +23,7 @@
     "name": "Docking Arm Strbd.  2",
     "sym": "i",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "SOURCE_SAFETY" ]
   },
   {
@@ -32,7 +32,7 @@
     "name": "Artificial Feel",
     "sym": "-",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "high",
     "flags": [ "SOURCE_SAFETY" ]
   },
   {
@@ -41,6 +41,6 @@
     "name": "solar array",
     "sym": "+",
     "color": "red",
-    "see_cost": 2
+    "see_cost": "low"
   }
 ]

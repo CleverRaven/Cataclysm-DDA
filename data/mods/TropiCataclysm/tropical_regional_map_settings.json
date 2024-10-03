@@ -33,9 +33,9 @@
           "t_grass_dead": 1000,
           "t_grass_long": 15000,
           "t_grass_tall": 10000,
-          "t_dirt": 1000,
-          "t_shrub": 1000,
-          "t_underbrush": 1000
+          "t_dirt": 950,
+          "t_shrub": 650,
+          "t_underbrush": 650
         },
         "t_region_groundcover_urban": { "t_grass": 20, "t_grass_dead": 3 },
         "t_region_groundcover_forest": { "t_grass_long": 5, "t_grass_tall": 1, "t_moss": 1, "t_grass_dead": 3 },
@@ -256,8 +256,7 @@
           "f_dahlia": 100,
           "f_lily": 100,
           "f_sunflower": 100,
-          "f_mustard": 100,
-          "f_mutcactus_test": 100
+          "f_mustard": 100
         },
         "f_region_plain": {
           "f_dandelion": 600,
@@ -276,8 +275,7 @@
           "f_sunflower": 100,
           "f_jerusalem_artichoke": 100,
           "f_lily": 100,
-          "f_chicory": 100,
-          "f_mutcactus_test": 100
+          "f_chicory": 100
         },
         "f_region_forest": {
           "f_burdock": 2000,
@@ -553,7 +551,6 @@
           "mx_grass": 20,
           "mx_science": 20,
           "mx_toxic_waste": 10,
-          "mx_crater": 10,
           "mx_supplydrop": 8,
           "mx_military": 8,
           "mx_drugdeal": 8,
@@ -589,7 +586,6 @@
           "mx_grass2": 20,
           "mx_fallen_shed": 20,
           "mx_toxic_waste": 15,
-          "mx_crater": 10,
           "mx_grass": 10,
           "mx_military": 8,
           "mx_mass_grave": 5,
@@ -616,7 +612,6 @@
           "mx_science": 50,
           "mx_military": 25,
           "mx_supplydrop": 25,
-          "mx_crater": 20,
           "mx_drugdeal": 20,
           "mx_fallen_shed": 10,
           "mx_casings": 60,
@@ -644,7 +639,6 @@
           "mx_fallen_shed": 200,
           "mx_pond": 200,
           "mx_casings": 200,
-          "mx_crater": 150,
           "mx_nest_wasp": 50,
           "mx_mass_grave": 50,
           "mx_grave": 50,
@@ -675,7 +669,6 @@
           "mx_drugdeal": 300,
           "mx_supplydrop": 100,
           "mx_portal": 50,
-          "mx_crater": 100,
           "mx_portal_in": 40,
           "mx_roadworks": 1000,
           "mx_mayhem": 500,
@@ -699,7 +692,6 @@
           "mx_science": 12,
           "mx_collegekids": 15,
           "mx_portal": 5,
-          "mx_crater": 60,
           "mx_portal_in": 3,
           "mx_point_burned_ground": 5,
           "mx_casings": 30,

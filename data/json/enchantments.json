@@ -44,6 +44,42 @@
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
   },
   {
+    "type": "enchantment",
+    "id": "nvg_great",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see really well in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 14 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_good",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see quite well in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 12 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_normal",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to see in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "nvg_bad",
+    "name": { "str": "Night Vision Goggles" },
+    "description": "You are wearing night vision goggles which allow you to poorly see in the dark.",
+    "condition": "ACTIVE",
+    "has": "WORN",
+    "values": [ { "value": "NIGHT_VIS", "add": 8 } ]
+  },
+  {
     "id": "ench_climate_control_warm",
     "type": "enchantment",
     "name": { "str": "Cold Climate Control" },
@@ -128,7 +164,7 @@
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.15 }, { "value": "CARRY_WEIGHT", "multiply": 0.35 } ],
-    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
+    "ench_effects": [ { "effect": "natural_stance", "intensity": 1 }, { "effect": "quadruped_full", "intensity": 1 } ]
   },
   {
     "id": "ench_quadruped_movement_half",
@@ -143,7 +179,8 @@
         { "not": "u_can_drop_weapon" }
       ]
     },
-    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
+    "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ],
+    "ench_effects": [ { "effect": "quadruped_half", "intensity": 1 } ]
   },
   {
     "id": "combat_exoskeleton_inactive",
@@ -158,11 +195,11 @@
     "id": "combat_exoskeleton_heavy_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.1" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton provides <color_white>significant</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.4 },
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 },
       { "value": "CARRY_WEIGHT", "multiply": 0.8 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
@@ -171,11 +208,11 @@
     "id": "combat_exoskeleton_medium_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.2" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton provides <color_white>moderate</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.6 },
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.3 },
       { "value": "CARRY_WEIGHT", "multiply": 0.6 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
@@ -184,11 +221,11 @@
     "id": "combat_exoskeleton_light_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.3" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton provides <color_white>slight</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.8 },
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.4 },
       { "value": "CARRY_WEIGHT", "multiply": 0.4 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]

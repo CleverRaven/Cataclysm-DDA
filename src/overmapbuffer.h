@@ -25,6 +25,7 @@
 class basecamp;
 class character_id;
 enum class cube_direction : int;
+enum class om_vision_level : int8_t;
 class map_extra;
 class monster;
 class npc;
@@ -194,8 +195,9 @@ class overmapbuffer
         void delete_extra( const tripoint_abs_omt &p );
         bool is_explored( const tripoint_abs_omt &p );
         void toggle_explored( const tripoint_abs_omt &p );
-        bool seen( const tripoint_abs_omt &p );
-        void set_seen( const tripoint_abs_omt &p, bool seen = true );
+        om_vision_level seen( const tripoint_abs_omt &p );
+        bool seen_more_than( const tripoint_abs_omt &p, om_vision_level test );
+        void set_seen( const tripoint_abs_omt &p, om_vision_level seen );
         bool has_camp( const tripoint_abs_omt &p );
         bool has_vehicle( const tripoint_abs_omt &p );
         bool has_horde( const tripoint_abs_omt &p );

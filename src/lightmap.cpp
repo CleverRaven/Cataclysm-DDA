@@ -129,15 +129,15 @@ bool map::build_transparency_cache( const int zlev )
 
             // calculates transparency of a single tile
             // x,y - coords in map local coords
-            auto calc_transp = [&]( const point & p ) {
-                const point sp = p - sm_offset;
+            auto calc_transp = [&]( const point_sm_ms & p ) {
+                const point_sm_ms sp = p - sm_offset;
                 float value = LIGHT_TRANSPARENCY_OPEN_AIR;
 
                 if( !( cur_submap->get_ter( sp ).obj().transparent &&
                        cur_submap->get_furn( sp ).obj().transparent ) ) {
                     return std::make_pair( LIGHT_TRANSPARENCY_SOLID, LIGHT_TRANSPARENCY_SOLID );
                 }
-                if( outside_cache[p.x][p.y] ) {
+                if( outside_cache[p.x()][p.y()] ) {
                     // FIXME: Places inside vehicles haven't been marked as
                     // inside yet so this is incorrectly penalising for
                     // weather in vehicles.
@@ -152,14 +152,15 @@ bool map::build_transparency_cache( const int zlev )
                     // Fields are either transparent or not, however we want some to be translucent
                     value = value * i_level.translucency;
                 }
-                // TODO: [lightmap] Have glass reduce light as well
+                // TODO: [lightmap] Have glass reduce light as well.
+                // Note, binary transluceny is implemented in build_vision_transparency_cache below
                 return std::make_pair( value, value_wo_fields );
             };
 
             if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
-                std::tie( value, dummy ) = calc_transp( sm_offset );
+                std::tie( value, dummy ) = calc_transp( point_sm_ms( sm_offset ) );
                 // if rebuild_all==true all values were already set to LIGHT_TRANSPARENCY_OPEN_AIR
                 if( !rebuild_all || value != LIGHT_TRANSPARENCY_OPEN_AIR ) {
                     bool opaque = value <= LIGHT_TRANSPARENCY_SOLID;
@@ -208,6 +209,8 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
+    // This segment handles vision when the player is crouching or prone. It only checks adjacent tiles.
+    // If you change this, also consider creature::sees and map::obstacle_coverage.
     bool is_crouching = player_character.is_crouching();
     bool low_profile = player_character.has_effect( effect_quadruped_full ) &&
                        player_character.is_running();
@@ -226,6 +229,17 @@ bool map::build_vision_transparency_cache( const int zlev )
                 vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
                 dirty = true;
             }
+        }
+    }
+
+    // This segment handles blocking vision through TRANSLUCENT flagged terrain.
+    for( const tripoint &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
+        if( loc == p ) {
+            // The tile player is standing on should always be visible
+            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+        } else if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
+            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            dirty = true;
         }
     }
 
@@ -508,8 +522,10 @@ void map::generate_lightmap( const int zlev )
             // TODO: [lightmap] Attach natural light brightness to creatures
             // TODO: [lightmap] Allow creatures to have light attacks (i.e.: eyebot)
             // TODO: [lightmap] Allow creatures to have facing and arc lights
-            if( critter.type->luminance > 0 ) {
-                apply_light_source( mp, critter.type->luminance );
+            float critter_luminance = critter.calculate_by_enchantment( critter.type->luminance,
+                                      enchant_vals::mod::LUMINATION, true );
+            if( critter_luminance > 0 ) {
+                apply_light_source( mp, critter_luminance );
             }
         }
     }
@@ -651,19 +667,14 @@ float map::ambient_light_at( const tripoint_bub_ms &p ) const
     return get_cache_ref( p.z() ).lm[p.x()][p.y()].max();
 }
 
-bool map::is_transparent( const tripoint &p ) const
+bool map::is_transparent( const tripoint_bub_ms &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
-bool map::is_transparent_wo_fields( const tripoint &p ) const
+bool map::is_transparent_wo_fields( const tripoint_bub_ms &p ) const
 {
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
-}
-
-float map::light_transparency( const tripoint &p ) const
-{
-    return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
+    return get_cache_ref( p.z() ).transparent_cache_wo_fields[p.x()][p.y()];
 }
 
 float map::light_transparency( const tripoint_bub_ms &p ) const
@@ -801,11 +812,6 @@ lit_level map::apparent_light_at( const tripoint_bub_ms &p,
     } else {
         return lit_level::BLANK;
     }
-}
-
-bool map::pl_sees( const tripoint &t, const int max_range ) const
-{
-    return pl_sees( tripoint_bub_ms( t ), max_range );
 }
 
 bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const

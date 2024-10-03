@@ -18,5 +18,25 @@
     "show_stats": true,
     "effects": [ "PARALYZEPOISON" ],
     "melee_damage": { "bash": 6, "cut": 2 }
+  },
+  {
+    "type": "AMMO",
+    "id": "gene_sting_barb",
+    "price": "4 USD",
+    "name": { "str": "gene sting barb" },
+    "symbol": "=",
+    "color": "cyan",
+    "description": "Tiny droplets of cyan venom trickle out of the sponge-like tissue of this sharp barb.",
+    "material": [ "bone" ],
+    "volume": "250 ml",
+    "weight": "30 g",
+    "ammo_type": "gene_sting",
+    "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": 5 },
+    "effects": [ "GENE_STING_BARB" ],
+    "dispersion": 120,
+    "loudness": 0,
+    "count": 10,
+    "show_stats": true,
+    "melee_damage": { "bash": 6, "cut": 2 }
   }
 ]

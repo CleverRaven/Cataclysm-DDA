@@ -3,8 +3,11 @@
 #define CATA_SRC_CURSESPORT_H
 
 #include <utility>
-#if defined(TILES) || defined(_WIN32)
+#if defined(IMTUI) || !(defined(TILES) || defined(WIN32))
+#   define TUI
+#endif
 
+#ifndef TUI
 #include <array>
 #include <string>
 #include <vector>
@@ -83,6 +86,5 @@ int projected_window_height();
 bool handle_resize( int w, int h );
 void resize_term( int cell_w, int cell_h );
 int get_scaling_factor();
-
-#endif
+#endif // TUI
 #endif // CATA_SRC_CURSESPORT_H

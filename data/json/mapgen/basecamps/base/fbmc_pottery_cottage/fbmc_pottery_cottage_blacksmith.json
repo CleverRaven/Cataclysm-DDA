@@ -1,6 +1,41 @@
 [
   {
     "type": "mapgen",
+    "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_roof_construction_nested",
+    "method": "json",
+    "object": {
+      "parameters": {
+        "fbmc_construction_palette": {
+          "type": "palette_id",
+          "scope": "omt",
+          "default": {
+            "distribution": [
+              "fbmc_concrete_palette",
+              "fbmc_log_palette",
+              "fbmc_metal_palette",
+              "fbmc_migo_resin_palette",
+              "fbmc_rammed_earth_palette",
+              "fbmc_rock_palette",
+              "fbmc_wad_palette",
+              "fbmc_wood_palette"
+            ]
+          }
+        }
+      },
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "rrrrrr",
+        "rrrrrr",
+        "rrrrr ",
+        "rrrrr ",
+        "rrrrr ",
+        "rrrrr "
+      ],
+      "palettes": [ { "param": "fbmc_construction_palette" } ]
+    }
+  },
+  {
+    "type": "mapgen",
     "nested_mapgen_id": "fbmc_pottery_cottage_blacksmith_construction_nested",
     "method": "json",
     "object": {
@@ -32,7 +67,8 @@
         "wwwww "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "palettes": [ { "param": "fbmc_construction_palette" } ]
+      "palettes": [ { "param": "fbmc_construction_palette" } ],
+      "place_nested": [ { "chunks": [ "fbmc_pottery_cottage_blacksmith_roof_construction_nested" ], "x": 0, "y": 0, "z": 1 } ]
     }
   },
   {
@@ -47,9 +83,10 @@
     "method": "json",
     "object": {
       "set": [
-        { "point": "furniture", "id": "f_forge_rock", "x": 9, "y": 20 },
-        { "point": "furniture", "id": "f_workbench", "x": 9, "y": 18 },
-        { "point": "furniture", "id": "f_workbench", "x": 9, "y": 19 }
+        { "point": "furniture", "id": "f_forge_rock", "x": 9, "y": 20, "z": 0 },
+        { "point": "furniture", "id": "f_chimney", "x": 9, "y": 20, "z": 1 },
+        { "point": "furniture", "id": "f_workbench", "x": 9, "y": 18, "z": 0 },
+        { "point": "furniture", "id": "f_workbench", "x": 9, "y": 19, "z": 0 }
       ]
     }
   },

@@ -5,12 +5,10 @@
     "dynamic_line": {
       "u_is_wearing": "foodperson_mask",
       "yes": {
-        "npc_has_var": "dialogue_foodperson_foodperson_has_talked",
-        "value": "yes",
+        "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_has_talked" } ],
         "no": "What sorcery is this?",
         "yes": {
-          "npc_has_var": "dialogue_foodperson_foodperson_meeting_solved",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_meeting_solved" } ],
           "no": { "gendered_line": "So you're back… explain yourself!", "relevant_genders": [ "u" ] },
           "yes": "Greetings friend, it's nice to see you."
         }
@@ -19,12 +17,10 @@
         "u_is_wearing": "foodkid_badge",
         "yes": "Welcome home Foodkid!",
         "no": {
-          "npc_has_var": "dialogue_foodperson_npc_foodperson_impressed",
-          "value": "yes",
+          "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodperson_impressed" } ],
           "yes": "Greetings friend, it's nice to see you.",
           "no": {
-            "npc_has_var": "dialogue_foodperson_foodperson_has_talked",
-            "value": "yes",
+            "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_has_talked" } ],
             "no": "Greeting citizen, what brings you to the FoodLair?",
             "yes": "Still here?  Take your time, it's rough out there."
           }
@@ -38,7 +34,7 @@
           "or": [
             {
               "and": [
-                { "npc_has_var": "dialogue_foodperson_foodperson_has_talked", "value": "yes" },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_has_talked" } ] },
                 {
                   "not": { "or": [ { "u_is_wearing": "foodperson_mask" }, { "u_is_wearing": "foodperson_mask_on" } ] }
                 }
@@ -46,7 +42,7 @@
             },
             {
               "and": [
-                { "npc_has_var": "dialogue_foodperson_foodperson_meeting_solved", "value": "yes" },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_meeting_solved" } ] },
                 {
                   "or": [
                     { "u_has_trait": "PROF_FOODP" },
@@ -63,7 +59,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_foodperson_has_talked", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_has_talked" } ] } },
             {
               "and": [
                 { "not": { "or": [ { "u_is_wearing": "foodperson_mask" }, { "u_is_wearing": "foodperson_mask_on" } ] } },
@@ -78,7 +74,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_foodperson_meeting_solved", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_meeting_solved" } ] } },
             { "not": { "u_has_trait": "PROF_FOODP" } },
             { "or": [ { "u_is_wearing": "foodperson_mask" }, { "u_is_wearing": "foodperson_mask_on" } ] }
           ]
@@ -91,7 +87,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_foodperson_meeting_solved", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_meeting_solved" } ] } },
             { "or": [ { "u_is_wearing": "foodperson_mask" }, { "u_is_wearing": "foodperson_mask_on" } ] },
             { "u_has_trait": "PROF_FOODP" }
           ]
@@ -102,7 +98,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_foodperson_meeting_solved", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_meeting_solved" } ] } },
             { "or": [ { "u_is_wearing": "foodperson_mask" }, { "u_is_wearing": "foodperson_mask_on" } ] },
             { "u_has_trait": "PROF_FOODP" }
           ]
@@ -113,7 +109,7 @@
       {
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_foodperson_meeting_solved", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_foodperson_meeting_solved" } ] } },
             { "or": [ { "u_is_wearing": "foodperson_mask" }, { "u_is_wearing": "foodperson_mask_on" } ] },
             { "not": { "u_has_trait": "PROF_FOODP" } }
           ]
@@ -181,12 +177,12 @@
         "text": "Are you interested in some trading?",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_failed_trade", "value": "yes" } },
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_success_trade", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_failed_trade" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_success_trade" } ] } },
             {
               "not": {
                 "and": [
-                  { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+                  { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
                   {
                     "or": [
                       { "u_has_trait": "PROF_FOODP" },
@@ -206,14 +202,14 @@
         "text": "Let's trade?",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_failed_trade", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_failed_trade" } ] } },
             {
               "or": [
-                { "npc_has_var": "dialogue_foodperson_npc_success_trade", "value": "yes" },
-                { "npc_has_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_success_trade" } ] },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodperson_impressed" } ] },
                 {
                   "and": [
-                    { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+                    { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
                     {
                       "or": [
                         { "u_has_trait": "PROF_FOODP" },
@@ -233,12 +229,12 @@
         "text": "I'm looking for a place to stay.",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_failed_shelter", "value": "yes" } },
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_success_shelter", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_failed_shelter" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_success_shelter" } ] } },
             {
               "not": {
                 "and": [
-                  { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+                  { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
                   {
                     "or": [
                       { "u_has_trait": "PROF_FOODP" },
@@ -258,12 +254,12 @@
         "text": "I want to get stronger.  Please teach me.",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_failed_training", "value": "yes" } },
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_success_training", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_failed_training" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_success_training" } ] } },
             {
               "not": {
                 "and": [
-                  { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+                  { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
                   {
                     "or": [
                       { "u_has_trait": "PROF_FOODP" },
@@ -283,14 +279,14 @@
         "text": "Please share your knowledge.",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_failed_training", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_failed_training" } ] } },
             {
               "or": [
-                { "npc_has_var": "dialogue_foodperson_npc_success_training", "value": "yes" },
-                { "npc_has_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_success_training" } ] },
+                { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodperson_impressed" } ] },
                 {
                   "and": [
-                    { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+                    { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
                     {
                       "or": [
                         { "u_has_trait": "PROF_FOODP" },
@@ -309,13 +305,13 @@
         "text": "I'm building up a team, people with special abilities.",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_failed_team", "value": "yes" } },
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_success_team", "value": "yes" } },
-            { "not": { "npc_has_var": "dialogue_foodperson_npc_foodperson_impressed", "value": "yes" } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_failed_team" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_success_team" } ] } },
+            { "not": { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodperson_impressed" } ] } },
             {
               "not": {
                 "and": [
-                  { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+                  { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
                   {
                     "or": [
                       { "u_has_trait": "PROF_FOODP" },
@@ -337,7 +333,10 @@
       {
         "text": "Can you tell me again about this sidekick offer?",
         "condition": {
-          "and": [ { "npc_has_var": "dialogue_foodperson_npc_sidekick_offer", "value": "yes" }, { "not": "has_assigned_mission" } ]
+          "and": [
+            { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_sidekick_offer" } ] },
+            { "not": "has_assigned_mission" }
+          ]
         },
         "topic": "TALK_FOODPERSON_SIDEKICK"
       },
@@ -345,7 +344,7 @@
         "text": "Alright, I thought about this, what do you say about we team up?",
         "condition": {
           "and": [
-            { "npc_has_var": "dialogue_foodperson_npc_foodpersons_sharing", "value": "yes" },
+            { "compare_string": [ "yes", { "npc_val": "dialogue_foodperson_npc_foodpersons_sharing" } ] },
             {
               "or": [
                 { "u_has_trait": "PROF_FOODP" },

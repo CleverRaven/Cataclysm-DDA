@@ -52,15 +52,21 @@
       <AdditionalOptions>/bigobj /utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\pch;$(MSBuildThisFileDirectory)..\src;$(MSBuildThisFileDirectory)..\src\third-party;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <ForcedIncludeFiles>$(MSBuildThisFileDirectory)..\pch\main-pch.hpp</ForcedIncludeFiles>
       <DisableSpecificWarnings>4661;4819;4146;26495;26444;26451;4068;6319;6237</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;LOCALIZE;USE_VCPKG;IMGUI_DISABLE_OBSOLETE_KEYIO;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;LOCALIZE;USE_VCPKG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>$(MSBuildThisFileDirectory)..\pch\main-pch.hpp</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Condition="$(Configuration.StartsWith(Debug))">
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Condition="$(Configuration.StartsWith(Release))">
       <PreprocessorDefinitions>RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="!$(Configuration.Contains(NoTiles))">
+      <PreprocessorDefinitions>TILES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Condition="$(Configuration.Contains(NoTiles))">
+      <PreprocessorDefinitions>USE_PDCURSES;PDC_NCMOUSE;PDC_WIDE;IMTUI;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Condition="$(_CDDA_BACKTRACE)">
       <PreprocessorDefinitions>BACKTRACE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -69,7 +75,6 @@
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <ForcedIncludeFiles />
       <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Lib Condition="$(_CDDA_ENABLE_THIN_ARCHIVES)">
       <AdditionalOptions>/llvmlibthin $(AdditionalOptions)</AdditionalOptions>
@@ -112,6 +117,7 @@
         mpg123.lib;
         ogg.lib;
         out123.lib;
+        pdcurses.lib;
         SDL2_image-static$(VcpkgLibSuffix).lib;
         SDL2_mixer-static$(VcpkgLibSuffix).lib;
         SDL2_ttf.lib;
@@ -145,12 +151,4 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)..\pch\main-pch.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)stdafx.cpp">
-      <PrecompiledHeader Condition="!$(_CDDA_USE_CCACHE)">Create</PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
 </Project>

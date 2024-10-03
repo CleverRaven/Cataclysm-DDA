@@ -143,7 +143,7 @@ extern const field_type_str_id fd_dazzling;
 extern const field_type_str_id fd_electricity;
 extern const field_type_str_id fd_electricity_unlit;
 extern const field_type_str_id fd_extinguisher;
-extern const field_type_str_id fd_reality_tear;
+extern const field_type_str_id fd_fatigue;
 extern const field_type_str_id fd_fire;
 extern const field_type_str_id fd_fire_vent;
 extern const field_type_str_id fd_flame_burst;

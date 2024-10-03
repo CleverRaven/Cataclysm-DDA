@@ -173,7 +173,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "STUMBLES",
       "NO_BREED",
@@ -198,7 +198,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "STUMBLES",
@@ -234,7 +234,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "STUMBLES",
@@ -414,6 +414,12 @@
     "type": "MONSTER",
     "copy-from": "mon_apatosaurus_hatchling",
     "upgrades": { "age_grow": 50, "into": "mon_brachiosaurus_juvenile" }
+  },
+  {
+    "id": "mon_astrodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_apatosaurus_hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_astrodon_juvenile" }
   },
   {
     "id": "mon_alamosaurus_hatchling",
@@ -730,7 +736,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
-      "PATH_AVOID_DANGER_1",
+      "PATH_AVOID_DANGER",
       "WARM",
       "CANPLAY",
       "STUMBLES",

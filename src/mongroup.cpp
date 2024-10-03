@@ -449,6 +449,11 @@ void MonsterGroupManager::FinalizeMonsterGroups()
     }
 }
 
+std::map<mongroup_id, MonsterGroup> &MonsterGroupManager::Get_all_Groups()
+{
+    return MonsterGroupManager::monsterGroupMap;
+}
+
 void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
 {
     float mon_upgrade_factor = get_option<float>( "MONSTER_UPGRADE_FACTOR" );

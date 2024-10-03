@@ -101,6 +101,7 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="Cataclysm-common.props" />
+    <Import Project="Cataclysm-pch.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -156,13 +157,20 @@
     <EmbedManifest>false</EmbedManifest>
     <TargetName>cataclysm-tiles</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="!$(Configuration.Contains(NoTiles))">
     <ClCompile>
       <PreprocessorDefinitions>_WINDOWS;USE_WINMAIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
     </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="$(Configuration.Contains(NoTiles))">
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup>
     <CustomBuildStep Condition="'$(CDDA_POST_BUILD_JSON_LINT)' != ''">
       <Command>C:\windows\system32\windowspowershell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Unrestricted $(SolutionDir)\style-json.ps1 -FromMSBuild</Command>
       <Message>Linting JSON</Message>

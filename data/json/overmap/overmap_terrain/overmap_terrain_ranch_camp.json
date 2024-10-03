@@ -2,10 +2,11 @@
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_1",
+    "vision_levels": "open_land",
     "name": "ranch field",
     "sym": "┌",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -24,16 +25,18 @@
     ],
     "name": "ranch field",
     "sym": "─",
+    "vision_levels": "open_land",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": [ "ranch_camp_9", "ranch_camp_69" ],
     "name": "ranch field",
+    "vision_levels": "open_land",
     "sym": "┐",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -55,9 +58,10 @@
       "ranch_camp_72"
     ],
     "name": "ranch field",
+    "vision_levels": "open_land",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
@@ -107,130 +111,142 @@
       "ranch_camp_71"
     ],
     "name": "ranch field",
+    "vision_levels": "open_land",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_17",
+    "vision_levels": "single_water",
     "name": "pond",
     "sym": "P",
     "color": "blue",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_57",
+    "vision_levels": "isolated_tower",
     "name": "silo",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_57_silo",
+    "vision_levels": "isolated_tower",
     "name": "silo",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_57_silocap",
+    "vision_levels": "isolated_tower",
     "name": "silo cap",
     "sym": "│",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_65_roof",
+    "vision_levels": "roof_or_air",
     "name": "barn roof",
     "sym": "#",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_66",
+    "vision_levels": "isolated_building",
     "name": "barn",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_66_roof",
+    "vision_levels": "roof_or_air",
     "name": "barn roof",
     "sym": "#",
     "color": "i_brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_67",
+    "vision_levels": "isolated_building",
     "name": "garage",
     "sym": "O",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_67_roof",
+    "vision_levels": "roof_or_air",
     "name": "garage roof",
     "sym": "O",
     "color": "white",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_68",
+    "vision_levels": "isolated_building",
     "name": "ranch",
     "sym": "v",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_68_roof",
+    "vision_levels": "roof_or_air",
     "name": "ranch roof",
     "sym": "v",
     "color": "light_green",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": [ "ranch_camp_75", "ranch_camp_75_roof", "ranch_camp_81" ],
+    "vision_levels": "open_land",
     "name": "ranch field",
     "sym": "┘",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_76",
+    "vision_levels": "large_pavement",
     "name": "lot",
     "sym": "O",
     "color": "dark_gray",
-    "see_cost": 2
+    "see_cost": "none"
   },
   {
     "type": "overmap_terrain",
     "id": "ranch_camp_77",
-    "name": "road",
+    "copy-from": "road_abstract",
     "sym": "│",
-    "color": "dark_gray",
-    "see_cost": 2,
-    "travel_cost_type": "road",
     "extras": "road"
   },
   {
     "type": "overmap_terrain",
     "id": [ "ranch_camp_73", "ranch_camp_78" ],
+    "vision_levels": "open_land",
     "name": "ranch field",
     "sym": "└",
     "color": "brown",
-    "see_cost": 2
+    "see_cost": "none"
   }
 ]

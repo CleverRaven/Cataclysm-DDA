@@ -38,7 +38,6 @@
         "+": "t_door_c",
         "-": "t_wall_w",
         "=": "t_wall_glass",
-        "A": "t_atm",
         "C": "t_thconc_floor",
         "I": "t_door_locked_interior",
         "L": "t_door_locked",
@@ -56,6 +55,7 @@
         "|": "t_wall_w"
       },
       "furniture": {
+        "A": "f_atm_off",
         "#": "f_counter",
         "7": "f_bookcase",
         "C": "f_crate_c",
@@ -326,7 +326,6 @@
         "+": "t_door_boarded",
         "-": "t_wall_w",
         "=": "t_wall_glass",
-        "A": "t_atm",
         "C": "t_thconc_floor",
         "I": "t_door_boarded",
         "L": "t_door_boarded",
@@ -345,6 +344,7 @@
         "Ю": "t_concrete"
       },
       "furniture": {
+        "A": "f_atm_off",
         "#": "f_counter",
         "7": "f_bookcase",
         "C": "f_crate_c",

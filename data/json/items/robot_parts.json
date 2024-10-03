@@ -2,8 +2,8 @@
   {
     "type": "GENERIC",
     "abstract": "robot_module_abstract",
-    "name": { "str": "module template" },
-    "description": "This is a template for robot module.  If found in a game it is a bug.",
+    "name": { "str": "module template", "//~": "NO_I18N" },
+    "description": { "str": "This is a template for robot module.  If found in a game it is a bug.", "//~": "NO_I18N" },
     "symbol": "%",
     "color": "cyan",
     "material": [ "plastic", "steel" ],

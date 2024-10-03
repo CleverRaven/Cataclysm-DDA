@@ -63,7 +63,7 @@
       "terrain": { "G": "t_card_science", "9": "t_reinforced_glass_shutter" },
       "furniture": { "t": "f_counter", "M": "f_server", "A": "f_xedra_antenna", "D": "f_portal_stabilizer" },
       "item": { "m": { "item": "xedra_microphone", "chance": 90 }, "s": { "item": "xedra_seismograph", "chance": 90 } },
-      "fields": { "Q": { "field": "fd_reality_tear", "intensity": 2 } },
+      "fields": { "Q": { "field": "fd_fatigue", "intensity": 2 } },
       "place_monster": [
         { "group": "GROUP_LAB", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 60, "repeat": [ 1, 5 ] },
         { "group": "GROUP_FERAL_TELEPORTER", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 30, "repeat": [ 1, 2 ] },

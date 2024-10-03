@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_metamagic_toggle_quicken",
-    "condition": { "u_has_var": "perk_metamagic_quicken_deactivated", "value": "yes" },
+    "condition": { "compare_string": [ "yes", { "u_val": "perk_metamagic_quicken_deactivated" } ] },
     "effect": [
       { "u_message": "You activate your quicken metamagic" },
       { "u_add_var": "perk_metamagic_quicken_deactivated", "value": "no" }
@@ -20,7 +20,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "perk_metamagic_quicken" },
-        { "not": { "u_has_var": "perk_metamagic_quicken_deactivated", "value": "yes" } }
+        { "not": { "compare_string": [ "yes", { "u_val": "perk_metamagic_quicken_deactivated" } ] } }
       ]
     },
     "effect": [

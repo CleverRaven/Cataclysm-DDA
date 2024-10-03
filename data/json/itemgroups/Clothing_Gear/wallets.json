@@ -256,6 +256,28 @@
     ]
   },
   {
+    "id": "starter_wallet_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wallet",
+    "items": [
+      { "item": "cash_card", "prob": 100, "charges": [ 0, 1000 ] },
+      { "group": "banknotes", "prob": 80, "count": [ 1, 2 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] }
+    ]
+  },
+  {
+    "id": "starter_rich_wallet_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "wallet_stylish",
+    "items": [
+      { "item": "cash_card", "prob": 100, "charges": [ 8000, 12000 ] },
+      { "group": "banknotes", "prob": 80, "count": [ 1, 2 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "banknotes",
     "items": [

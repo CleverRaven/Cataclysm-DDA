@@ -97,8 +97,7 @@
         "Oh, what can I do for you today?"
       ],
       "no": {
-        "u_has_var": "dialogue_ancilla_barkeep_first_meet",
-        "value": "yes",
+        "compare_string": [ "yes", { "u_val": "dialogue_ancilla_barkeep_first_meet" } ],
         "yes": "Feel free to lounge around, and ask if there's anything you need.",
         "no": "Welcome to the Terminal, scavenger, longest standing underground bar in the state.  Feel free to ask if you need something."
       }

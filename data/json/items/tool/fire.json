@@ -4,22 +4,23 @@
     "type": "TOOL",
     "name": { "str": "electric firestarter" },
     "description": "A crudely-made electric firestarter, which can function as an inefficient lighter.",
+    "//": "ultra light battery seems to not have enough power to generate this amount of heat",
     "weight": "14 g",
     "volume": "50 ml",
-    "price": "1 USD",
+    "price": "0 USD",
     "price_postapoc": "10 cent",
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "use_action": { "type": "firestarter" },
     "flags": [ "FIRESTARTER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_MEDIUM" ],
         "default_magazine": "light_battery_cell"
       }
     ]

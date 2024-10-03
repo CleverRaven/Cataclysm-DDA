@@ -210,7 +210,7 @@ void tutorial_game::per_turn()
 
     map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : here.i_at( player_character.pos().xy() ) ) {
+        for( const item &it : here.i_at( player_character.pos_bub().xy() ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -218,7 +218,7 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
         if( here.ter( p ) == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
@@ -246,41 +246,41 @@ void tutorial_game::per_turn()
         }
     }
 
-    if( !here.i_at( point( player_character.posx(), player_character.posy() ) ).empty() ) {
+    if( !here.i_at( point_bub_ms( player_character.posx(), player_character.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 
-    if( here.tr_at( player_character.pos() ) == tr_tutorial_1 ) {
+    if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_1 ) {
         add_message( tut_lesson::LESSON_LOOK );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_2 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_2 ) {
         add_message( tut_lesson::LESSON_MOVEMENT_MODES );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_3 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_3 ) {
         add_message( tut_lesson::LESSON_MONSTER_SIGHTED );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_4 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_4 ) {
         add_message( tut_lesson::LESSON_REACH_ATTACK );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_5 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_5 ) {
         add_message( tut_lesson::LESSON_HOLSTERS_WEAR );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_6 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_6 ) {
         add_message( tut_lesson::LESSON_GUN_LOAD );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_7 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_7 ) {
         add_message( tut_lesson::LESSON_INVENTORY );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_8 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_8 ) {
         add_message( tut_lesson::LESSON_FLASHLIGHT );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_9 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_9 ) {
         add_message( tut_lesson::LESSON_INTERACT );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_10 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_10 ) {
         add_message( tut_lesson::LESSON_REMOTE_USE );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_11 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_11 ) {
         player_character.set_hunger( 100 );
         player_character.stomach.empty();
         add_message( tut_lesson::LESSON_CRAFTING_FOOD );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_12 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_12 ) {
         add_message( tut_lesson::LESSON_CONSTRUCTION );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_13 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_13 ) {
         player_character.set_pain( 20 );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_14 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_14 ) {
         add_message( tut_lesson::LESSON_THROWING );
-    } else if( here.tr_at( player_character.pos() ) == tr_tutorial_15 ) {
+    } else if( here.tr_at( player_character.pos_bub() ) == tr_tutorial_15 ) {
         add_message( tut_lesson::LESSON_FINALE );
     }
 }
@@ -372,6 +372,10 @@ void tutorial_game::post_action( action_id act )
 
         }
         break;
+
+        case ACTION_SAVE:
+            get_weather().forced_temperature.reset();
+            break;
 
         default:
             // TODO: add more actions here

@@ -78,7 +78,8 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
     dummy.set_location( start );
 
     if( in_vehicle ) {
-        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_east, 0_degrees, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, tripoint_bub_ms( tripoint_east ),
+                                   0_degrees, 0, 0 ) );
         vp = here.veh_at( start ).cargo();
         REQUIRE( vp );
         vp->vehicle().set_owner( dummy );
@@ -97,7 +98,7 @@ TEST_CASE( "zone_unloading_ammo_belts", "[zones][items][ammo_belt][activities][u
         if( in_vehicle ) {
             vp->vehicle().add_item( vp->part(), ammo_belt );
         } else {
-            here.add_item_or_charges( tripoint_east, ammo_belt );
+            here.add_item_or_charges( tripoint_bub_ms( tripoint_east ), ammo_belt );
         }
         if( move_act ) {
             dummy.assign_activity( player_activity( ACT_MOVE_LOOT ) );

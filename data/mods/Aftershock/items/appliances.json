@@ -12,5 +12,37 @@
     "volume": "900 L",
     "weight": "50 kg",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "450 L", "max_contains_weight": "400 kg" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_cRTG",
+    "name": { "str": "U-344 RTG (deployed)" },
+    "looks_like": "f_reactor",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_color": "blue",
+    "location": "fuel_source",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A compact radioisotope thermoelectric generator, complying with UASTA 344 standards.  It provides a steady if limited supply of power.",
+    "epower": "50 W",
+    "remove_as": "afs_cRTG",
+    "item": "afs_cRTG",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "APPLIANCE", "PERPETUAL", "REACTOR" ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "count": [ 0, 2 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 60 },
+    "variants": [ { "symbols": "0", "symbols_broken": "#" } ]
   }
 ]

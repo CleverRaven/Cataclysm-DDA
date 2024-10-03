@@ -23,8 +23,7 @@
           { "item": "gloves_tactical" },
           { "item": "ballistic_vest_esapi" },
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "acog_scope", "grip" ]
@@ -138,8 +137,7 @@
           { "item": "gloves_tactical" },
           { "item": "ballistic_vest_esapi" },
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight", "m203" ]

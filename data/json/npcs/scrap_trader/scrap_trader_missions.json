@@ -87,7 +87,7 @@
     "value": 10000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_SCRAPPER_SET_TRADE_ROUTE_BLACKSMITH",
-    "start": { "assign_mission_target": { "om_terrain": "refctr_S3e", "om_special": "evac_center", "reveal_radius": 0 } },
+    "start": { "assign_mission_target": { "om_terrain": "evac_center_18", "om_special": "evac_center", "reveal_radius": 0 } },
     "has_generic_rewards": true,
     "dialogue": {
       "describe": "Go negotiate a trade agreement.",

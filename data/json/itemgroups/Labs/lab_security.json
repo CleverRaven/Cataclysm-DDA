@@ -63,32 +63,9 @@
     "//": "This group is for rare spawns of rivetech matched sets.",
     "subtype": "distribution",
     "entries": [
-      { "group": "SUS_rivtech_20x66", "prob": 40 },
       { "group": "SUS_rivtech_8x40", "prob": 80 },
       { "group": "SUS_rivtech_40mm", "prob": 60 },
       { "group": "SUS_rivtech_misc", "prob": 60 }
-    ]
-  },
-  {
-    "id": "SUS_rivtech_20x66",
-    "type": "item_group",
-    "//": "This group is for rare spawns of rivetech matched sets.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "20x66_10_mag" },
-      {
-        "distribution": [
-          { "item": "20x66_beanbag", "prob": 60, "count": [ 1, 3 ] },
-          { "item": "20x66_exp", "prob": 10, "count": [ 1, 3 ] },
-          { "item": "20x66_flare", "prob": 40, "count": [ 1, 3 ] },
-          { "item": "20x66_frag", "prob": 30, "count": [ 1, 3 ] },
-          { "item": "20x66_shot", "prob": 60, "count": [ 1, 3 ] },
-          { "item": "20x66_slug", "prob": 60, "count": [ 1, 3 ] }
-        ]
-      },
-      {
-        "distribution": [ { "item": "rm120c", "prob": 50 }, { "item": "rm20", "prob": 50 }, { "item": "rm228", "prob": 40 } ]
-      }
     ]
   },
   {
@@ -104,8 +81,6 @@
         "distribution": [
           { "item": "8x40_100_mag", "prob": 10 },
           { "item": "8x40_10_mag", "prob": 80 },
-          { "item": "8x40_250_mag", "prob": 10 },
-          { "item": "8x40_500_mag", "prob": 10 },
           { "item": "8x40_25_mag", "prob": 60 },
           { "item": "8x40_50_mag", "prob": 40 }
         ]
@@ -115,8 +90,6 @@
           { "item": "rm103a_pistol", "prob": 80 },
           { "item": "rm11b_sniper_rifle", "prob": 10 },
           { "item": "rm51_assault_rifle", "prob": 30 },
-          { "item": "rm614_lmg", "prob": 50 },
-          { "item": "rm88_battle_rifle", "prob": 20 },
           { "item": "rm2000_smg", "prob": 60 }
         ]
       }
@@ -146,7 +119,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "recipe_caseless", "prob": 50 },
-      { "item": "rm121aux", "prob": 50 },
       {
         "collection": [ { "item": "rx12_injector" }, { "item": "ampoule", "prob": 60, "count": [ 1, 3 ] } ],
         "prob": 60

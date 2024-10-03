@@ -76,5 +76,21 @@
     "volume": "5 ml",
     "category": "keys",
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "enforcer_master_keycard",
+    "symbol": ",",
+    "color": "blue",
+    "name": { "str": "Enforcer master key" },
+    "description": "Issued only to the highest echelons of Mercurial corporate security, these cards provide unfettered access to all enforcer prefab facilites built before the year 2152.  A lucrative find for any salvor on Salus IV.",
+    "price": "8 kUSD",
+    "flags": [ "OLD_ENFORCER_CARD" ],
+    "price_postapoc": "8 kUSD",
+    "material": [ "plastic" ],
+    "weight": "6 g",
+    "volume": "5 ml",
+    "category": "keys",
+    "to_hit": -3
   }
 ]

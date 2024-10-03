@@ -107,5 +107,110 @@
       ],
       "palettes": [ "roof_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_surface_parking_blockC0_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                  ..... ",
+        "                  ..... ",
+        "                  ..... ",
+        "                  ..... ",
+        "                  ..... ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_surface_parking_blockA2_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "                       .",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "roof_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lab_surface_parking_blockE2_roof" ],
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        ".                       ",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "palettes": [ "roof_palette" ]
+    }
   }
 ]

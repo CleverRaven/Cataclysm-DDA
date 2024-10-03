@@ -3,8 +3,8 @@
     "type": "MONSTER_FACTION",
     "name": "very_small_predator",
     "base_faction": "cat",
-    "by_mood": [ "small_animal", "cat", "very_small_predator" ],
-    "hate": [ "vermin" ]
+    "by_mood": [ "small_animal", "very_small_predator" ],
+    "hate": [ "tiny_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -17,7 +17,7 @@
     "type": "MONSTER_FACTION",
     "name": "medium_predator",
     "base_faction": "wolf",
-    "by_mood": [ "wolf", "medium_predator", "zombie_aquatic", "vermin" ]
+    "by_mood": [ "wolf", "medium_predator", "zombie_aquatic" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -70,7 +70,7 @@
     "base_faction": "very_small_predator",
     "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
     "by_mood": [ "very_small_mixed", "small_fisher" ],
-    "hate": [ "fish", "vermin" ]
+    "hate": [ "fish", "tiny_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -86,13 +86,13 @@
     "base_faction": "small_predator",
     "neutral": [ "fishing_dino", "zombie_aquatic", "mixed_dino" ],
     "by_mood": [ "small_mixed", "small_fisher" ],
-    "hate": [ "fish", "vermin" ]
+    "hate": [ "fish", "tiny_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "medium_mixed",
     "base_faction": "big_cat",
-    "by_mood": [ "big_cat", "medium_mixed", "vermin", "aquatic_predator" ],
+    "by_mood": [ "big_cat", "medium_mixed", "tiny_animal", "aquatic_predator" ],
     "hate": [ "fish" ]
   },
   {

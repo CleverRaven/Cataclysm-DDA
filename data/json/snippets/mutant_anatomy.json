@@ -225,6 +225,50 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_heart_desc",
+    "text": [
+      {
+        "id": "mutant_heart_1",
+        "text": "A chunk of heart from a mutated animal.  Patches of hair and bits of bones are present all over and inside it, making it resemble a giant teratoma.  Despite this, it appears to have functioned as a heart."
+      },
+      {
+        "id": "mutant_heart_2",
+        "text": "A chunk of heart from a mutated animal.  The ventricles are filled with acidic fluids and bits of half-digested food, with the nearby veins and arteries being lined with mucus.  Looking at this macabre fusion of the circulatory and digestive systems, you wonder how such a thing could ever get food to reach the heart without clogging the arteries."
+      },
+      {
+        "id": "mutant_heart_3",
+        "text": "A chunk of heart from a mutated animal.  This cancerous, gangrenous mass of flesh still beats, leaking out more of the foul fluids it used to push through a body.  Beating isn't the only thing it continues to do, as you witness what kept this heart beating: the gangrene eating the cancer as the cancer grows back all over the gangrene, in a sickening ouroboros."
+      },
+      {
+        "id": "mutant_heart_4",
+        "text": "A chunk of heart from a mutated animal.  Despite its stone-like exterior, its inner flesh is much closer to mucus in all aspects.  Upon closer examination, this heart appears vestigial, as the inner flesh turns out to be blood, slowly moving on its own volition."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_heart_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_heart_1",
+        "text": "A cooked chunk of heart from a mutated animal.  The removal of most fluid pockets has made what remains of this heart resemble to a mass of tough leather-like scraps, with a far fouler taste."
+      },
+      {
+        "id": "cooked_mutant_heart_2",
+        "text": "A cooked chunk of heart from a mutated animal.  The heat has turned this heart white and mushy, with a taste and texture reminiscent of eating wet ashes."
+      },
+      {
+        "id": "cooked_mutant_heart_3",
+        "text": "A cooked chunk of heart from a mutated animal.  It has partially melted as it cooked, making it gelatinous yet sinewy, as if the taste and odor weren't enough of a deterrent."
+      },
+      {
+        "id": "cooked_mutant_heart_4",
+        "text": "A cooked chunk of heart from a mutated animal.  Most of it has softened under the heat, giving it a rubbery texture and a taste of cold grease, but the core became akin to a meaty jawbreaker with an unsettling but not revolting taste."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "mutant_kidney_desc",
     "text": [
       {

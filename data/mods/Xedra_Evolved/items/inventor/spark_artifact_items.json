@@ -29,8 +29,7 @@
     "description": "A strange monitor with a variety of knobs and dials.  When you turn it on, it crackles and then begins tracking things that either aren't there or aren't visible to the naked eye.\nIt may have unknown powers; try activating them.",
     "symbol": "O",
     "volume": "35 ml",
-    "weight": "50 g",
-    "to_hit": -2
+    "weight": "50 g"
   },
   {
     "id": "xe_art_mess",
@@ -39,8 +38,7 @@
     "description": "What is it for?  What could it do?\nIt may have unknown powers; try activating them.",
     "symbol": "[",
     "volume": "1 L",
-    "weight": "80 g",
-    "to_hit": -2
+    "weight": "80 g"
   },
   {
     "id": "xe_art_sculpture",
@@ -72,8 +70,7 @@
     "description": "This looks like a musical instrument.  But how would you play it?\nIt may have unknown powers; try activating them.",
     "symbol": "O",
     "volume": "76 ml",
-    "weight": "125 g",
-    "to_hit": -2
+    "weight": "125 g"
   },
   {
     "id": "xe_art_napkin",
@@ -93,7 +90,6 @@
     "symbol": "O",
     "volume": "1 L",
     "weight": "800 g",
-    "to_hit": -2,
     "melee_damage": { "cut": 3 }
   },
   {
@@ -180,7 +176,6 @@
     "description": "The sound of the tide can be heard from this stone, as if it were a miniature moon moving the oceans.\nIt may have unknown powers; try activating them.",
     "symbol": "C",
     "volume": "35 ml",
-    "weight": "50 g",
-    "to_hit": -2
+    "weight": "50 g"
   }
 ]

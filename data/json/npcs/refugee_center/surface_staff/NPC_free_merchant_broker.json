@@ -34,7 +34,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "topic": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1"
@@ -42,12 +42,12 @@
       {
         "text": "Are you able to buy some canning supplies?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_JARS",
-        "condition": { "u_has_var": "mission_flag_FMBroker_Mission1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMBroker_Mission1" } ] }
       },
       {
         "text": "I was told you had work for me?",
         "topic": "TALK_MISSION_LIST",
-        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission5", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission5" } ] }
       },
       { "text": "Who are you?", "topic": "TALK_FREE_MERCHANT_STOCKS_NEW" },
       {
@@ -59,16 +59,16 @@
       {
         "text": "What's the deal with the closed-off areas of the building?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
-        "condition": { "not": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] } }
       },
       {
         "text": "What are you going to do with that back bay area now that I've cleaned it out for you?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED2",
-        "condition": { "u_has_var": "mission_flag_FMShopkeep_Mission1", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "mission_flag_FMShopkeep_Mission1" } ] }
       },
       {
         "text": "Tell me more about that ranch of yours.",
-        "condition": { "u_has_var": "knowledge_flag_tacoma_started", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_flag_tacoma_started" } ] },
         "topic": "TALK_FREE_MERCHANT_STOCKS_RANCH"
       },
       { "text": "What were you saying before that?", "topic": "TALK_NONE" },
@@ -170,8 +170,7 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
     "dynamic_line": {
-      "u_has_var": "general_recruit_beggars_recruited",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_recruit_beggars_recruited" } ],
       "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
       "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies.  These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
     }

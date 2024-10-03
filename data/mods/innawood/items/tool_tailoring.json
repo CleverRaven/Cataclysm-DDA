@@ -54,7 +54,6 @@
     "volume": "500 ml",
     "price": "10 USD",
     "price_postapoc": "10 USD",
-    "to_hit": -2,
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "red",

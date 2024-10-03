@@ -332,8 +332,7 @@
     "copy-from": "mon_shoggoth",
     "type": "MONSTER",
     "regeneration_modifiers": [ [ "effect_vitakin_hurt", -25 ] ],
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
-    "armor": { "bash": 10, "cut": 30, "bullet": 24, "electric": 4, "psi_telekinetic_damage": 20 }
+    "extend": { "flags": [ "TEEP_IMMUNE" ], "armor": { "psi_telekinetic_damage": 20 } }
   },
   {
     "id": "mon_fleshy_shambler",
@@ -387,15 +386,13 @@
     "id": "mon_flaming_eye",
     "copy-from": "mon_flaming_eye",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
-    "armor": { "bash": 4, "psi_telekinetic_damage": 20 }
+    "extend": { "flags": [ "TEEP_IMMUNE" ], "armor": { "psi_telekinetic_damage": 20 } }
   },
   {
     "id": "mon_flying_polyp",
     "copy-from": "mon_flying_polyp",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
-    "armor": { "bash": 8, "electric": 3, "psi_telekinetic_damage": 15 }
+    "extend": { "flags": [ "TEEP_IMMUNE" ], "armor": { "psi_telekinetic_damage": 15 } }
   },
   {
     "id": "mon_headless_dog_thing",
@@ -407,17 +404,22 @@
     "id": "mon_hound_tindalos",
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ] },
-    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ],
-    "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
   },
   {
     "id": "mon_hound_tindalos_afterimage",
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ] },
-    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ],
-    "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
+  },
+  {
+    "id": "mon_tindalos",
+    "copy-from": "mon_tindalos",
+    "type": "MONSTER",
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ], "armor": { "psi_telekinetic_damage": 50 } },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ]
   },
   {
     "id": "mon_hunting_horror",
@@ -495,7 +497,7 @@
     "id": "mon_teke_mouse",
     "copy-from": "mon_teke_mouse",
     "type": "MONSTER",
-    "armor": { "bash": 15, "cut": 3, "bullet": 26, "psi_telekinetic_damage": 25 }
+    "extend": { "armor": { "psi_telekinetic_damage": 25 } }
   },
   {
     "id": "mon_fungaloid_tower",
@@ -525,181 +527,181 @@
     "id": "mon_fungal_hedgerow",
     "copy-from": "mon_fungal_hedgerow",
     "type": "MONSTER",
-    "armor": { "bash": 10, "cut": 10, "bullet": 8, "electric": 4, "psi_telepathic_damage": 15 }
+    "extend": { "armor": { "psi_telepathic_damage": 15 } }
   },
   {
     "id": "mon_fungal_blossom",
     "copy-from": "mon_fungal_blossom",
     "type": "MONSTER",
-    "armor": { "bash": 4, "cut": 4, "bullet": 3, "electric": 4, "psi_telepathic_damage": 10 }
+    "extend": { "armor": { "psi_telepathic_damage": 10 } }
   },
   {
     "id": "mon_fungal_tendril",
     "copy-from": "mon_fungal_tendril",
     "type": "MONSTER",
-    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 4, "psi_telepathic_damage": 10 }
+    "extend": { "armor": { "psi_telepathic_damage": 10 } }
   },
   {
     "id": "mon_fungaloid",
     "copy-from": "mon_fungaloid",
     "type": "MONSTER",
-    "armor": { "bash": 10, "cut": 4, "bullet": 3, "electric": 4, "psi_telepathic_damage": 20 }
+    "extend": { "armor": { "psi_telepathic_damage": 20 } }
   },
   {
     "id": "mon_fungaloid_young",
     "copy-from": "mon_fungaloid_young",
     "type": "MONSTER",
-    "armor": { "bash": 4, "cut": 4, "bullet": 3, "electric": 3, "psi_telepathic_damage": 15 }
+    "extend": { "armor": { "psi_telepathic_damage": 15 } }
   },
   {
     "id": "mon_fungaloid_shambler",
     "copy-from": "mon_fungaloid_shambler",
     "type": "MONSTER",
-    "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3, "psi_telepathic_damage": 30 }
+    "extend": { "armor": { "psi_telepathic_damage": 30 } }
   },
   {
     "id": "mon_ant_fungus",
     "copy-from": "mon_ant_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 1, "cut": 1, "bullet": 1, "electric": 2, "psi_telepathic_damage": 4 }
+    "extend": { "armor": { "psi_telepathic_damage": 4 } }
   },
   {
     "id": "mon_zombie_child_fungus",
     "copy-from": "mon_zombie_child_fungus",
     "type": "MONSTER",
-    "armor": { "electric": 3, "psi_telepathic_damage": 4 }
+    "extend": { "armor": { "psi_telepathic_damage": 4 } }
   },
   {
     "id": "mon_zombie_fungus",
     "copy-from": "mon_zombie_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 3, "electric": 5, "psi_telepathic_damage": 6 }
+    "extend": { "armor": { "psi_telepathic_damage": 6 } }
   },
   {
     "id": "mon_fungal_raptor",
     "copy-from": "mon_fungal_raptor",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 2 }
+    "extend": { "armor": { "psi_telepathic_damage": 2 } }
   },
   {
     "id": "mon_boomer_fungus",
     "copy-from": "mon_boomer_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 2, "electric": 4, "psi_telepathic_damage": 3 }
+    "extend": { "armor": { "psi_telepathic_damage": 3 } }
   },
   {
     "id": "mon_fungal_wretch",
     "copy-from": "mon_fungal_wretch",
     "type": "MONSTER",
-    "armor": { "electric": 1, "psi_telepathic_damage": 4 }
+    "extend": { "armor": { "psi_telepathic_damage": 4 } }
   },
   {
     "id": "mon_spider_fungus",
     "copy-from": "mon_spider_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 2, "cut": 6, "bullet": 5, "electric": 2, "psi_telepathic_damage": 2 }
+    "extend": { "armor": { "psi_telepathic_damage": 2 } }
   },
   {
     "id": "mon_skeleton_hulk_fungus",
     "copy-from": "mon_skeleton_hulk_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8, "psi_telepathic_damage": 50 }
+    "extend": { "armor": { "psi_telepathic_damage": 50 } }
   },
   {
     "id": "mon_skeleton_brute_fungus",
     "copy-from": "mon_skeleton_brute_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 0, "electric": 5, "psi_telepathic_damage": 4 }
+    "extend": { "armor": { "psi_telepathic_damage": 4 } }
   },
   {
     "id": "mon_skeleton_fungus",
     "copy-from": "mon_skeleton_fungus",
     "type": "MONSTER",
-    "armor": { "bash": 0, "electric": 5, "psi_telepathic_damage": 2 }
+    "extend": { "armor": { "psi_telepathic_damage": 2 } }
   },
   {
     "id": "mon_zombie_gasbag_fungus",
     "copy-from": "mon_zombie_gasbag_fungus",
     "type": "MONSTER",
-    "armor": { "electric": 4, "psi_telepathic_damage": 1 }
+    "extend": { "armor": { "psi_telepathic_damage": 1 } }
   },
   {
     "id": "mon_feral_cop_fungal_infected",
     "copy-from": "mon_feral_cop_fungal_infected",
     "type": "MONSTER",
-    "armor": { "bash": 8, "cut": 12, "stab": 9, "bullet": 14, "electric": 2, "psi_telepathic_damage": 10 }
+    "extend": { "armor": { "psi_telepathic_damage": 10 } }
   },
   {
     "id": "mon_feral_human_axe_fungal_infected",
     "copy-from": "mon_feral_human_axe_fungal_infected",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 8 }
+    "extend": { "armor": { "psi_telepathic_damage": 8 } }
   },
   {
     "id": "mon_feral_human_axe_fungal_corpse",
     "copy-from": "mon_feral_human_axe_fungal_corpse",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 8 }
+    "extend": { "armor": { "psi_telepathic_damage": 8 } }
   },
   {
     "id": "mon_feral_human_pipe_fungal_infected",
     "copy-from": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 8 }
+    "extend": { "armor": { "psi_telepathic_damage": 8 } }
   },
   {
     "id": "mon_feral_human_pipe_fungal_corpse",
     "copy-from": "mon_feral_human_pipe_fungal_corpse",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 8 }
+    "extend": { "armor": { "psi_telepathic_damage": 8 } }
   },
   {
     "id": "mon_feral_human_crowbar_fungal_infected",
     "copy-from": "mon_feral_human_crowbar_fungal_infected",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 8 }
+    "extend": { "armor": { "psi_telepathic_damage": 8 } }
   },
   {
     "id": "mon_feral_human_crowbar_fungal_corpse",
     "copy-from": "mon_feral_human_crowbar_fungal_corpse",
     "type": "MONSTER",
-    "armor": { "psi_telepathic_damage": 8 }
+    "extend": { "armor": { "psi_telepathic_damage": 8 } }
   },
   {
     "id": "mon_mi_go",
     "copy-from": "mon_mi_go",
     "type": "MONSTER",
-    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 2, "psi_telepathic_damage": 25 }
+    "extend": { "armor": { "psi_telepathic_damage": 25 } }
   },
   {
     "id": "mon_mi_go_scout",
     "copy-from": "mon_mi_go_scout",
     "type": "MONSTER",
-    "armor": { "bash": 4, "cut": 5, "bullet": 4, "electric": 2, "psi_telepathic_damage": 25 }
+    "extend": { "armor": { "psi_telepathic_damage": 25 } }
   },
   {
     "id": "mon_mi_go_guard",
     "copy-from": "mon_mi_go_guard",
     "type": "MONSTER",
-    "armor": { "bash": 17, "cut": 22, "bullet": 18, "electric": 4, "psi_telepathic_damage": 70 }
+    "extend": { "armor": { "psi_telepathic_damage": 70 } }
   },
   {
     "id": "mon_mi_go_slaver",
     "copy-from": "mon_mi_go_slaver",
     "type": "MONSTER",
-    "armor": { "bash": 4, "cut": 12, "bullet": 10, "electric": 3, "psi_telepathic_damage": 35 }
+    "extend": { "armor": { "psi_telepathic_damage": 35 } }
   },
   {
     "id": "mon_mi_go_surgeon",
     "copy-from": "mon_mi_go_surgeon",
     "type": "MONSTER",
-    "armor": { "bash": 5, "cut": 13, "bullet": 10, "electric": 3, "psi_telepathic_damage": 32 }
+    "extend": { "armor": { "psi_telepathic_damage": 32 } }
   },
   {
     "id": "mon_mi_go_myrmidon",
     "copy-from": "mon_mi_go_myrmidon",
     "type": "MONSTER",
-    "armor": { "bash": 19, "cut": 27, "bullet": 22, "electric": 6, "psi_telepathic_damage": 120 }
+    "extend": { "armor": { "psi_telepathic_damage": 120 } }
   },
   {
     "id": "mon_yrax_delta",
@@ -722,6 +724,12 @@
   {
     "id": "mon_yrax_sphenocorona",
     "copy-from": "mon_yrax_sphenocorona",
+    "type": "MONSTER",
+    "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
+  },
+  {
+    "id": "mon_yrax_triakis",
+    "copy-from": "mon_yrax_triakis",
     "type": "MONSTER",
     "species": [ "ROBOT", "YRAX_CONSTRUCT" ]
   }

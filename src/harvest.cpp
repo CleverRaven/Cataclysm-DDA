@@ -153,6 +153,30 @@ void harvest_entry::deserialize( const JsonObject &jo )
     load( jo );
 }
 
+bool harvest_entry::operator==( const harvest_entry &rhs ) const
+{
+    return drop == rhs.drop;
+}
+
+class harvest_entry_reader : public generic_typed_reader<harvest_entry_reader>
+{
+    public:
+        harvest_entry get_next( const JsonValue &jv ) const {
+            JsonObject jo = jv.get_object();
+            harvest_entry ret;
+            mandatory( jo, false, "drop", ret.drop );
+
+            optional( jo, false, "type", ret.type, harvest_drop_type_id::NULL_ID() );
+            optional( jo, false, "base_num", ret.base_num, { 1.0f, 1.0f } );
+            optional( jo, false, "scale_num", ret.scale_num, { 0.0f, 0.0f } );
+            optional( jo, false, "max", ret.max, 1000 );
+            optional( jo, false, "mass_ratio", ret.mass_ratio, 0.00f );
+            optional( jo, false, "flags", ret.flags );
+            optional( jo, false, "faults", ret.faults );
+            return ret;
+        }
+};
+
 void harvest_list::finalize()
 {
     std::transform( entries_.begin(), entries_.end(), std::inserter( names_, names_.begin() ),
@@ -172,7 +196,7 @@ void harvest_list::finalize_all()
 void harvest_list::load( const JsonObject &obj, const std::string_view )
 {
     mandatory( obj, was_loaded, "id", id );
-    mandatory( obj, was_loaded, "entries", entries_ );
+    mandatory( obj, was_loaded, "entries", entries_, harvest_entry_reader{} );
 
     optional( obj, was_loaded, "butchery_requirements", butchery_requirements_,
               butchery_requirements_default );
@@ -230,22 +254,22 @@ void harvest_list::reset()
     harvest_list_factory.reset();
 }
 
-std::list<harvest_entry>::const_iterator harvest_list::begin() const
+std::vector<harvest_entry>::const_iterator harvest_list::begin() const
 {
     return entries().begin();
 }
 
-std::list<harvest_entry>::const_iterator harvest_list::end() const
+std::vector<harvest_entry>::const_iterator harvest_list::end() const
 {
     return entries().end();
 }
 
-std::list<harvest_entry>::const_reverse_iterator harvest_list::rbegin() const
+std::vector<harvest_entry>::const_reverse_iterator harvest_list::rbegin() const
 {
     return entries().rbegin();
 }
 
-std::list<harvest_entry>::const_reverse_iterator harvest_list::rend() const
+std::vector<harvest_entry>::const_reverse_iterator harvest_list::rend() const
 {
     return entries().rend();
 }

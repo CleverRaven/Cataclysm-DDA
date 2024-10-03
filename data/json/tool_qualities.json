@@ -323,6 +323,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "SNOW_MAKING",
+    "name": { "str": "snow making" }
+  },
+  {
+    "type": "tool_quality",
     "id": "GRIND",
     "name": { "str": "grinding" }
   },

@@ -3,7 +3,7 @@
     "id": "faewild",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "faewild dust" },
+    "name": { "str_sp": "faewild dust" },
     "description": "A shimmering silvery dust.  Narcotic with the street name of Faewild.  Causes the user to see colors not normally visible to the naked human eye.",
     "weight": "1 g",
     "volume": "2 ml",
@@ -85,7 +85,8 @@
       "description": "Inject the treatment.",
       "effect_on_conditions": [ "EOC_CONSUMED_BLOOD_TREATMENT" ]
     },
-    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
+    "flags": [ "NPC_SAFE", "TRADER_AVOID" ],
+    "vitamins": [ [ "meat_allergen", 1 ] ]
   },
   {
     "id": "cthonic_poultice",

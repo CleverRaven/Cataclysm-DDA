@@ -3,8 +3,7 @@
     "id": "TALK_CYBORG_1",
     "type": "talk_topic",
     "dynamic_line": {
-      "npc_has_var": "dialogue_cyborg_cyborg_has_talked",
-      "value": "yes",
+      "compare_string": [ "yes", { "npc_val": "dialogue_cyborg_cyborg_has_talked" } ],
       "no": {
         "gendered_line": "I… I'm free.  *Zzzt* I'm actually free!  *bzzz* Look, you're the first person I've seen in a long time.",
         "relevant_genders": [ "npc" ]
@@ -15,7 +14,7 @@
     "responses": [
       {
         "switch": true,
-        "condition": { "npc_has_var": "dialogue_cyborg_cyborg_has_talked", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "npc_val": "dialogue_cyborg_cyborg_has_talked" } ] },
         "text": "Hey.  Let's chat for a second.",
         "topic": "TALK_STRANGER_NEUTRAL"
       },

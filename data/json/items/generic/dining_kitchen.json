@@ -1,9 +1,9 @@
 [
   {
     "abstract": "base_silverware",
-    "name": { "str_sp": "generic silverware" },
+    "name": { "str_sp": "generic silverware", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
     "price": "1 USD",
@@ -16,9 +16,9 @@
   },
   {
     "abstract": "base_utensil",
-    "name": { "str": "generic utensil" },
+    "name": { "str": "generic utensil", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
     "price": "2 USD",
@@ -31,9 +31,9 @@
   },
   {
     "abstract": "base_plastic_silverware",
-    "name": { "str_sp": "generic silverware" },
+    "name": { "str_sp": "generic plastic silverware", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": ";",
     "color": "light_gray",
     "price": "10 cent",
@@ -41,13 +41,12 @@
     "weight": "28 g",
     "volume": "25 ml",
     "material": [ "plastic" ],
-    "to_hit": -2,
     "melee_damage": { "bash": 1, "cut": 1 }
   },
   {
     "abstract": "base_ceramic_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic ceramic dish", "str_pl": "generic ceramic dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "yellow",
@@ -61,8 +60,8 @@
   },
   {
     "abstract": "base_glass_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic glass dish", "str_pl": "generic glass dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "cyan",
@@ -76,8 +75,8 @@
   },
   {
     "abstract": "base_tin_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic tin dish", "str_pl": "generic tin dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_gray",
@@ -91,8 +90,8 @@
   },
   {
     "abstract": "base_plastic_dish",
-    "name": { "str": "generic dish", "str_pl": "generic dishes" },
-    "description": "generic item template",
+    "name": { "str": "generic plastic dish", "str_pl": "generic plastic dishes", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "color": "light_cyan",
@@ -106,8 +105,8 @@
   },
   {
     "abstract": "base_cookpot",
-    "name": { "str": "generic cook pot" },
-    "description": "generic item template",
+    "name": { "str": "generic cook pot", "//~": "NO_I18N" },
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "type": "GENERIC",
     "symbol": ")",
     "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1054,7 +1053,6 @@
     "weight": "750 g",
     "volume": "3500 ml",
     "longest_side": "23 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
@@ -1157,7 +1155,6 @@
     "longest_side": "35 cm",
     "price": "100 USD",
     "price_postapoc": "3 USD",
-    "to_hit": -2,
     "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
@@ -1216,7 +1213,6 @@
     "weight": "660 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
@@ -1242,7 +1238,6 @@
     "weight": "628 g",
     "volume": "3 L",
     "longest_side": "35 cm",
-    "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",

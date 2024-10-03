@@ -724,6 +724,18 @@ void outfit::sort_armor( Character &guy )
             }
         }
 
+        leftListSize = tmp_worn.size();
+        if( leftListLines > leftListSize ) {
+            leftListOffset = 0;
+        } else if( leftListOffset + leftListLines > leftListSize ) {
+            leftListOffset = leftListSize - leftListLines;
+        }
+        if( leftListOffset > leftListIndex ) {
+            leftListOffset = leftListIndex;
+        } else if( leftListOffset + leftListLines <= leftListIndex ) {
+            leftListOffset = leftListIndex + 1 - leftListLines;
+        }
+
         // Ensure leftListIndex is in bounds
         int new_index_upper_bound = std::max( 0, leftListSize - 1 );
         leftListIndex = std::min( leftListIndex, new_index_upper_bound );
@@ -752,18 +764,6 @@ void outfit::sort_armor( Character &guy )
                          ctxt.get_desc( "CHANGE_SIDE" ),
                          ctxt.get_desc( "USAGE_HELP" ),
                          ctxt.get_desc( "HELP_KEYBINDINGS" ) ), getmaxx( w_sort_cat ) - keyhint_offset ) );
-
-        leftListSize = tmp_worn.size();
-        if( leftListLines > leftListSize ) {
-            leftListOffset = 0;
-        } else if( leftListOffset + leftListLines > leftListSize ) {
-            leftListOffset = leftListSize - leftListLines;
-        }
-        if( leftListOffset > leftListIndex ) {
-            leftListOffset = leftListIndex;
-        } else if( leftListOffset + leftListLines <= leftListIndex ) {
-            leftListOffset = leftListIndex + 1 - leftListLines;
-        }
 
         // Left header
         std:: string storage_header = string_format( _( "Storage (%s)" ), volume_units_abbr() );
@@ -1105,7 +1105,7 @@ void outfit::sort_armor( Character &guy )
                     // wear the item
                     std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
-                    if( new_equip_it ) {
+                    if( new_equip_it && !tmp_worn.empty() ) {
                         // save iterator to cursor's position
                         std::list<item>::iterator cursor_it = tmp_worn[leftListIndex];
                         item &item_to_check = *cursor_it;
@@ -1116,7 +1116,7 @@ void outfit::sort_armor( Character &guy )
                             // reorder `worn` vector to place new item at cursor
                             worn.splice( cursor_it, worn, *new_equip_it );
                         }
-                    } else if( guy.is_npc() ) {
+                    } else if( guy.is_npc() && !tmp_worn.empty() ) {
                         // TODO: Pass the reason here
                         popup( _( "Can't put this on!" ) );
                     }

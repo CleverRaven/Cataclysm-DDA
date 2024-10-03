@@ -14,8 +14,7 @@
     "type": "talk_topic",
     "id": "TALK_COWBOYFR_MAIN",
     "dynamic_line": {
-      "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyfr" } ],
       "yes": "Hello again.",
       "no": "Ayuh, I was thinkin' it's just another monstah skulkin' about.  Who are you?"
     },
@@ -24,27 +23,27 @@
       {
         "text": "Just a survivor, looking around.  What are you doing here?",
         "topic": "TALK_COWBOYFR_INTRODUCTION",
-        "condition": { "not": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" } }
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyfr" } ] } }
       },
       {
         "text": "What did you before all this?",
         "topic": "TALK_COWBOYFR_BACKGROUND",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyfr" } ] }
       },
       {
         "text": "Is there something I can do for you?",
         "topic": "TALK_COWBOYFR_HELP",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyfr" } ] }
       },
       {
         "text": "How about we travel together?",
         "topic": "TALK_COWBOYFR_FOLLOW",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyfr" } ] }
       },
       {
         "text": "What's with the accent?",
         "topic": "TALK_COWBOYFR_ACCENT",
-        "condition": { "u_has_var": "dialogue_first_meeting_talked_to_cowboyfr", "value": "yes" }
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_first_meeting_talked_to_cowboyfr" } ] }
       }
     ]
   },

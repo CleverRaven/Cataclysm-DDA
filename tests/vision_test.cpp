@@ -45,6 +45,7 @@ static const ter_str_id ter_t_flat_roof( "t_flat_roof" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_utility_light( "t_utility_light" );
 static const ter_str_id ter_t_window_frame( "t_window_frame" );
+static const ter_str_id ter_t_window_stained_green( "t_window_stained_green" );
 
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
@@ -125,6 +126,7 @@ static const tile_predicate set_up_tiles_common =
     ifchar( '#', ter_set( ter_t_brick_wall ) + ter_set_flat_roof_above ) ||
     ifchar( '=', ter_set( ter_t_window_frame ) + ter_set_flat_roof_above ) ||
     ifchar( '-', ter_set( ter_t_floor ) + ter_set_flat_roof_above ) ||
+    ifchar( 'G', ter_set( ter_t_window_stained_green ) + ter_set_flat_roof_above ) ||
     fail;
 
 struct vision_test_flags {
@@ -424,6 +426,27 @@ TEST_CASE( "vision_crouching_blocks_vision_but_not_light", "[shadowcasting][visi
     t.test_all();
 }
 
+TEST_CASE( "vision_translucent_blocks_vision_but_not_light", "[shadowcasting][vision]" )
+{
+    vision_test_case t{
+        {
+            "###",
+            "#u#",
+            "#G#",
+            "   ",
+        },
+        {
+            "444",
+            "444",
+            "444",
+            "666",
+        },
+        day_time
+    };
+
+    t.test_all();
+}
+
 TEST_CASE( "vision_see_wall_in_moonlight", "[shadowcasting][vision]" )
 {
     const time_point full_moon = calendar::turn_zero + calendar::season_length() / 6;
@@ -708,9 +731,9 @@ TEST_CASE( "vision_moncam_basic", "[shadowcasting][vision][moncam]" )
     avatar &u = get_avatar();
     REQUIRE( zombie->sees( u ) == !obstructed );
     if( add_moncam ) {
-        REQUIRE( u.sees( zombie->pos(), true ) );
+        REQUIRE( u.sees( zombie->pos_bub(), true ) );
     } else {
-        REQUIRE( !u.sees( zombie->pos(), true ) );
+        REQUIRE( !u.sees( zombie->pos_bub(), true ) );
     }
 }
 
@@ -1144,7 +1167,7 @@ TEST_CASE( "pl_sees-oob-nocrash", "[vision]" )
     clear_avatar();
     get_map().load( project_to<coords::sm>( get_avatar().get_location() ) + point_south_east, false,
                     false );
-    get_avatar().sees( tripoint_zero ); // CRASH?
+    get_avatar().sees( tripoint_bub_ms_zero ); // CRASH?
 
     clear_avatar();
 }

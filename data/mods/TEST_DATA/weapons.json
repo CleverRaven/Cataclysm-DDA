@@ -10,6 +10,8 @@
     "name": { "str": "test melee weapon 1" },
     "description": "Test melee weapon 1.",
     "material": [ "test_material" ],
+    "//": "Intended to be +0",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";"
@@ -20,6 +22,8 @@
     "name": { "str": "test melee weapon 2" },
     "description": "Test melee weapon 2.",
     "material": [ "test_material" ],
+    "//": "Intended to be +0",
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "weight": "1 kg",
     "volume": "1 L",
     "symbol": ";",
@@ -48,6 +52,6 @@
     "reload": 60,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
-    "melee_damage": { "bash": 6 }
+    "melee_damage": { "bash": 3 }
   }
 ]

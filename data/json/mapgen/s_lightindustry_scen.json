@@ -18,7 +18,7 @@
         "#!}}!:  h    h :!!!H#;;#U~~~~~~~U#~~~~d~~~~#ppp#",
         "#!!!!:         :NN!H#M;#U~~~~~~~U#dd&dd~~~~:;q;o",
         "#L!!!:r  hrh   )    ##+##ddddd&d##~~~~~~K~~:;;;#",
-        "#L!!L:rh  r   r:    zz #~~~~~~~~~#~~~~~~9~~:;;M#",
+        "#L!!L:rh  r   r:    zX #~~~~~~~~~#~~~~~~9~~:;;M#",
         "###)##B  P#P hr:       +~~`````~~~~~45~~5~~);;p#",
         "+             u#  B    #~~`~~~`~~~~~~~~~~~~:;qpo",
         "#::):#::):#::):#))#::):#~~`~~~`~~~~~52~~~~~#;;p#",
@@ -74,7 +74,7 @@
         "#r   -rrP-  u#hro=====w#CC~~~~`~~~`~~~o hhhh --#",
         "#--  -----  u# r#=====w#~~~~~~`~~~`~~~#       P#",
         "#rr  -rrP-  u#+##======+~~~~~~`````~~~+      hro",
-        "#Ph  - h -  B# zz======#~~~~~~~~~57~~~#       r#",
+        "#Ph  - h -  B# Xz======#~~~~~~~~~57~~~#       r#",
         "or           +     #####d&d#~~~~~31~~~#B P ##+##",
         "#rh          +     #Y;j#Q~Q#~~~~~~~~~5##+# #B r#",
         "###+##P  #######   +;;k#Q~Q#~52~~~~~~2#;;# # hr#",
@@ -165,7 +165,6 @@
         "L": "f_bookcase",
         "w": "f_sofa",
         "H": "f_sofa",
-        "z": "f_vending_c",
         "Y": "f_trashcan",
         "y": "f_trashcan",
         "B": "f_trashcan",
@@ -178,6 +177,7 @@
         "K": "f_beverly_shear",
         "C": "f_crate_c"
       },
+      "vendingmachines": { "z": { "item_group": "vending_drink", "lootable": true }, "X": { "item_group": "vending_food", "lootable": true } },
       "toilets": { "j": {  } },
       "items": {
         "y": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
@@ -201,10 +201,6 @@
         "~": { "item": "vehicle_scrapped", "chance": 3 }
       },
       "place_loot": [
-        { "group": "vending_food", "chance": 80, "x": 15, "y": 64 },
-        { "group": "vending_drink", "chance": 80, "x": 16, "y": 64 },
-        { "group": "vending_food", "chance": 80, "x": 20, "y": 8 },
-        { "group": "vending_drink", "chance": 80, "x": 21, "y": 8 },
         { "group": "bar_trash", "chance": 50, "repeat": 2, "x": 11, "y": 70 },
         { "group": "tools_blacksmith", "chance": 60, "repeat": 4, "x": 26, "y": [ 68, 70 ] },
         { "group": "tools_mechanic", "chance": 60, "repeat": 2, "x": 26, "y": [ 66, 67 ] },

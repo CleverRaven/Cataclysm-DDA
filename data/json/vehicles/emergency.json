@@ -134,7 +134,7 @@
       { "x": -3, "y": 2, "parts": [ "frame#se", "halfboard#se" ] }
     ],
     "items": [
-      { "x": -2, "y": 1, "chance": 75, "magazine": 100, "ammo": 50, "item_groups": [ "guns_cop" ] },
+      { "x": -2, "y": 1, "chance": 75, "magazine": 100, "ammo": 50, "item_groups": [ "longguns_cop_loaded" ] },
       { "x": -2, "y": 1, "chance": 100, "item_groups": [ "spare_tire_kit_small_jack" ] }
     ]
   },

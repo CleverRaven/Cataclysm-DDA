@@ -109,12 +109,12 @@
     "type": "MONSTER_FACTION",
     "name": "isolated_artisans",
     "copy-from": "isolated_artisans",
-    "extend": { "hate": [ "changeling", "vampire" ] }
+    "extend": { "hate": [ "changeling", "vampire", "nightmares" ] }
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nightmares",
-    "base_faction": "nether",
+    "base_faction": "nether_hate_humans",
     "neutral": [ "fish", "small_animal", "slime" ],
     "by_mood": [ "nether", "changeling", "vampire" ]
   }

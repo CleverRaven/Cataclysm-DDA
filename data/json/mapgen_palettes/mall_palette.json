@@ -45,7 +45,6 @@
       "n": "f_dishwasher",
       "r": "f_wood_keg",
       "s": "f_metal_butcher_rack",
-      "u": [ "f_vending_c", "f_vending_reinforced" ],
       "v": "f_gun_safe_el",
       "w": "f_safe_l",
       "Я": "f_flower_tulip",
@@ -60,6 +59,7 @@
       "?": "f_console_broken",
       "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
     },
+    "vendingmachines": { "u": { "lootable": true } },
     "terrain": {
       "ɔ": "t_pavement_y",
       "Г": "t_sidewalk",

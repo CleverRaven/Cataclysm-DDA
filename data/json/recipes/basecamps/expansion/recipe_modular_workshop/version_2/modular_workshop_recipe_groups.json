@@ -43,7 +43,7 @@
       { "id": "spike", "description": " Craft: Spike" },
       { "id": "caltrops_glass", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk", "description": " Craft: Steel, Chunk" },
-      { "id": "anvil", "description": " Craft: Anvil" },
+      { "id": "anvil_crude", "description": " Craft: Small Anvil" },
       { "id": "steel_lump", "description": " Craft: Steel, Lump" },
       { "id": "lc_steel_lump", "description": " Craft: Mild Steel, Lump" }
     ]
@@ -73,7 +73,6 @@
       { "id": "metalworking_tongs_casting", "description": " Craft: Pair of Flatjaw Tongs" },
       { "id": "hotcut", "description": " Craft: Hotcut (chisel for metal working)" },
       { "id": "nail", "description": " Craft: Nail" },
-      { "id": "wire", "description": " Craft: Wire" },
       { "id": "swage", "description": " Craft: Swage and Die Set" },
       { "id": "lc_wire", "description": " Craft: Mild Steel, Wire" },
       { "id": "lc_chain_link_fabrication", "description": " Craft: Mild Steel, Link" },
@@ -102,9 +101,7 @@
       { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },
       { "id": "mc_wire", "description": " Craft: Medium Steel, Wire" },
       { "id": "mc_chain_link_fabrication", "description": " Craft: Medium Steel, Link" },
-      { "id": "mc_link_sheet", "description": " Craft: Medium Steel, Link Sheet" },
-      { "id": "chain_link_fabrication", "description": " Craft: Steel, Link" },
-      { "id": "link_sheet_fabrication", "description": " Craft: Steel, Link Sheet" }
+      { "id": "mc_link_sheet", "description": " Craft: Medium Steel, Link Sheet" }
     ]
   },
   {
@@ -299,7 +296,6 @@
       { "id": "sheet_metal_npc_drop", "description": " Craft: Sheet Metal, Drop Hammer" },
       { "id": "chain_npc_drop", "description": " Craft: Chain, Drop Hammer" },
       { "id": "nail_npc_drop", "description": " Craft: Nail, Drop Hammer" },
-      { "id": "wire_npc_drop", "description": " Craft: Wire, Drop Hammer" },
       { "id": "pipe_npc_drop", "description": " Craft: Pipe, Drop Hammer" },
       { "id": "rebar_npc_drop", "description": " Craft: Rebar, Drop Hammer" }
     ]

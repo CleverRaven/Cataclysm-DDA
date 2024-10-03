@@ -15,6 +15,7 @@
       { "id": "tool_storage" },
       { "id": "gathering" },
       { "id": "firewood" },
+      { "id": "foraging" },
       { "id": "sorting" },
       { "id": "logging" },
       { "id": "kitchen" },
@@ -137,7 +138,11 @@
       "time": "1 d",
       "skills": [ [ "electronics", 8 ] ],
       "inline": {
-        "tools": [ [ [ "hazmat_suit", -1 ] ], [ [ "mask_gas", 50 ] ], [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ] ] ],
+        "tools": [
+          [ [ "hazmat_suit", -1 ] ],
+          [ [ "mask_gas", 50 ] ],
+          [ [ "soldering_iron", 50 ], [ "soldering_iron_portable", 50 ], [ "integrated_electrokit", 50 ] ]
+        ],
         "qualities": [ [ { "id": "SCREW" } ], [ { "id": "SCREW_FINE" } ], [ { "id": "WRENCH" } ], [ { "id": "WRENCH_FINE" } ] ],
         "components": [
           [ [ "solder_wire", 50 ] ],
@@ -173,7 +178,7 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ], [ "wire", 8 ] ],
+          [ [ "sheet_metal", 2 ], [ "lc_wire", 8 ] ],
           [ [ "pipe", 24 ] ],
           [ [ "processor", 2 ] ],
           [ [ "RAM", 2 ] ],

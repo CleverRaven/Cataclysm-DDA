@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "map.h"
 #include "mapgen_functions.h"
+#include "mapgendata.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "mtype.h"
@@ -16,7 +17,7 @@
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 
-void appliance_convert_examine_actor::load( const JsonObject &jo )
+void appliance_convert_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, false, "furn_set", furn_set );
     optional( jo, false, "ter_set", ter_set );
@@ -112,7 +113,7 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
                 ret.push_back( it );
                 continue;
             }
-            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getabs( examp ) ).xy() );
+            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getglobal( examp ).raw() ).xy() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -130,12 +131,15 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 
     map &here = get_map();
     if( map_regen ) {
-        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
-        if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
-            debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
+        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getglobal( examp ).raw() ) );
+        const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
+                false );
+        if( !has_colliding_vehicle.success() ) {
+            debugmsg( "Failed to apply magen function %s, collision with %s", mapgen_id.str(),
+                      has_colliding_vehicle.str() );
         }
         set_queued_points();
-        here.set_seen_cache_dirty( examp );
+        here.set_seen_cache_dirty( tripoint_bub_ms( examp ) );
         here.set_transparency_cache_dirty( examp.z );
     } else {
         open = false;
@@ -175,7 +179,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
                 break;
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
+            if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
+                        examp ).raw() ) &&
                 critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
@@ -193,7 +198,7 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
     }
 }
 
-void cardreader_examine_actor::load( const JsonObject &jo )
+void cardreader_examine_actor::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, false, "flags", allowed_flags );
     optional( jo, false, "consume_card", consume, true );
@@ -257,10 +262,10 @@ void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
     }
 }
 
-void eoc_examine_actor::load( const JsonObject &jo )
+void eoc_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 }
 

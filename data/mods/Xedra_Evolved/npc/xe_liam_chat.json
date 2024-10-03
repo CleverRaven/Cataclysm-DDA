@@ -32,7 +32,7 @@
       "I still can't decide if our leaders thought Canada was a threat or what?  Why else did they militarize the border patrol up here just as bad it had been on the southern border for decades?",
       "I remember talking to a friend coming back from Vegas a few years back and he mentioned Border Patrol had those big armored Bear Cub vehicles with a roadblock going into one of the canyons outside of Vegas.  Hundreds of miles from any border.  Weird stuff man, I wonder if it's all connected?"
     ],
-    "responses": [ { "text": "(Continue chatting)", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "[Continue chatting.]", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",

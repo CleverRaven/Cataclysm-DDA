@@ -393,6 +393,94 @@
   },
   {
     "type": "snippet",
+    "category": "<sports_teams>",
+    "//": "These were initially made for sports team blankets, please include both a town, team name, and sport if you expand the snippets",
+    "text": [
+      { "id": "team_1", "text": "Abbot Arctic Foxes hockey team" },
+      { "id": "team_2", "text": "Derry Drakes soccer team" },
+      { "id": "team_3", "text": "Eastport University field hockey team" },
+      { "id": "team_4", "text": "Foxborough highschool wrestling team" },
+      { "id": "team_5", "text": "Hudson Fighting Salmon football team" },
+      { "id": "team_6", "text": "Lewiston Crows baseball team" },
+      { "id": "team_7", "text": "Maxfield Moles rugby team" },
+      { "id": "team_8", "text": "New Ashford Wildcats basketball team" },
+      { "id": "team_9", "text": "North Kingston Angels hockey team" },
+      { "id": "team_10", "text": "Osborn University Blobfish soccer team" },
+      { "id": "team_11", "text": "Plainfield Pears highschool wrestling team" },
+      { "id": "team_12", "text": "Salisbury Brahmin football team" },
+      { "id": "team_13", "text": "Torrington Titans baseball team" },
+      { "id": "team_14", "text": "Waitsfield Centurions rugby team" },
+      { "id": "team_15", "text": "Woodford Corgis basketball team" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<geometric_patterns>",
+    "//": "Geometric patterns originally made for blankets, to represent their stitching patterns.",
+    "text": [
+      { "id": "geo_shape_1", "text": "circle" },
+      { "id": "geo_shape_2", "text": "diamond" },
+      { "id": "geo_shape_3", "text": "hexagon" },
+      { "id": "geo_shape_4", "text": "octagon" },
+      { "id": "geo_shape_5", "text": "pentagon" },
+      { "id": "geo_shape_6", "text": "square" },
+      { "id": "geo_shape_7", "text": "triangle" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<flowers>",
+    "//": "Different kinds of flowers, originally intended for use with floral blankets.  Additions should be plurals for this use-case, singular flower names should be made into a new snippet.",
+    "text": [
+      { "id": "flower_1", "text": "carnations" },
+      { "id": "flower_2", "text": "chrysanthemums" },
+      { "id": "flower_3", "text": "daffodil" },
+      { "id": "flower_4", "text": "dahlias" },
+      { "id": "flower_5", "text": "daisies" },
+      { "id": "flower_6", "text": "hybiscus" },
+      { "id": "flower_7", "text": "lilies" },
+      { "id": "flower_8", "text": "orchids" },
+      { "id": "flower_9", "text": "poppies" },
+      { "id": "flower_10", "text": "roses" },
+      { "id": "flower_11", "text": "sunflowers" },
+      { "id": "flower_12", "text": "tulips" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<cartoon_blanket>",
+    "//": "Descriptions of cartoon characters made for the cartoon blanket, probably won't make sense used elsewhere?",
+    "text": [
+      {
+        "id": "cartoon_blanket_1",
+        "text": "the famous Manspider, a quiet, nerdy spider that was bitten by a radioactive human"
+      },
+      {
+        "id": "cartoon_blanket_2",
+        "text": "the infamous pirate captain Iris Crane, the most beautiful, most daring, and most feared woman on the seven seas"
+      },
+      {
+        "id": "cartoon_blanket_3",
+        "text": "the three Mutant Squid Bros™, who live in a culvert by day and fight crime at night.  Rumor had it that a fourth Bro would be added in an upcoming spinoff"
+      },
+      {
+        "id": "cartoon_blanket_4",
+        "text": "the Christmas Ghoul, who taught the world that our looks don't define our passions"
+      },
+      { "id": "cartoon_blanket_5", "text": "the lovely Boston-Chan, the mascot of Boston AnimeCon" },
+      {
+        "id": "cartoon_blanket_6",
+        "text": "a famous man and woman from an anime, dressed in cowboy outfits.  A speech blurb reads \"How y'all doin'?\""
+      },
+      {
+        "id": "cartoon_blanket_7",
+        "text": "a small robot, known only as T6-Zed49, who tackles tough political issues while exploring civilizations across the universe"
+      },
+      { "id": "cartoon_blanket_8", "text": "a cartoon version of Mr. Smile and Laugh, a children's entertainer" }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<dog_name>",
     "text": [
       { "id": "dog_name_0001", "text": "Abby" },
@@ -404,10 +492,10 @@
       { "id": "dog_name_0007", "text": "Archie" },
       { "id": "dog_name_0008", "text": "Ava" },
       { "id": "dog_name_0009", "text": "Bailey" },
-      { "id": "dog_name_0010", "text": "Bandit" },
+      { "id": "dog_name_0010", "text": { "ctxt": "dog_name", "str": "Bandit" } },
       { "id": "dog_name_0011", "text": "Basil" },
       { "id": "dog_name_0012", "text": "Baxter" },
-      { "id": "dog_name_0013", "text": "Bear" },
+      { "id": "dog_name_0013", "text": { "ctxt": "dog_name", "str": "Bear" } },
       { "id": "dog_name_0014", "text": "Beau" },
       { "id": "dog_name_0015", "text": "Bella" },
       { "id": "dog_name_0016", "text": "Benji" },
@@ -441,7 +529,7 @@
       { "id": "dog_name_0044", "text": "Dakota" },
       { "id": "dog_name_0045", "text": "Darcy" },
       { "id": "dog_name_0046", "text": "Dexter" },
-      { "id": "dog_name_0047", "text": "Diesel" },
+      { "id": "dog_name_0047", "text": { "ctxt": "dog_name", "str": "Diesel" } },
       { "id": "dog_name_0048", "text": "Dixie" },
       { "id": "dog_name_0049", "text": "Dolly" },
       { "id": "dog_name_0050", "text": "Dozer" },
@@ -471,8 +559,8 @@
       { "id": "dog_name_0074", "text": "Hazel" },
       { "id": "dog_name_0075", "text": "Henry" },
       { "id": "dog_name_0076", "text": "Holly" },
-      { "id": "dog_name_0077", "text": "Honey" },
-      { "id": "dog_name_0078", "text": "Hunter" },
+      { "id": "dog_name_0077", "text": { "ctxt": "dog_name", "str": "Honey" } },
+      { "id": "dog_name_0078", "text": { "ctxt": "dog_name", "str": "Hunter" } },
       { "id": "dog_name_0079", "text": "Izzy" },
       { "id": "dog_name_0080", "text": "Jack" },
       { "id": "dog_name_0081", "text": "Jackson" },
@@ -580,7 +668,7 @@
       { "id": "dog_name_0183", "text": "Sparky" },
       { "id": "dog_name_0184", "text": "Spud" },
       { "id": "dog_name_0185", "text": "Stella" },
-      { "id": "dog_name_0186", "text": "Sugar" },
+      { "id": "dog_name_0186", "text": { "ctxt": "dog_name", "str": "Sugar" } },
       { "id": "dog_name_0187", "text": "Suki" },
       { "id": "dog_name_0188", "text": "Sully" },
       { "id": "dog_name_0189", "text": "Summer" },
@@ -643,28 +731,31 @@
     "type": "snippet",
     "category": "<given_name_army>",
     "//": "weighted according to <https://en.wikipedia.org/wiki/Women_in_the_United_States_Army>",
-    "text": [ { "text": "<male_given_name>", "weight": 16 }, { "text": "<female_given_name>", "weight": 84 } ]
+    "text": [ { "text": "<male_given_name>", "weight": 84 }, { "text": "<female_given_name>", "weight": 16 } ]
   },
   {
     "type": "snippet",
     "category": "<color>",
     "text": [
-      { "id": "black", "text": "black" },
-      { "id": "white", "text": "white" },
-      { "id": "red", "text": "red" },
-      { "id": "lime", "text": "lime" },
-      { "id": "blue", "text": "blue" },
-      { "id": "yellow", "text": "yellow" },
-      { "id": "cyan", "text": "cyan" },
-      { "id": "magenta", "text": "magenta" },
-      { "id": "silver", "text": "silver" },
-      { "id": "gray", "text": "gray" },
-      { "id": "maroon", "text": "maroon" },
-      { "id": "olive", "text": "olive" },
-      { "id": "green", "text": "green" },
-      { "id": "purple", "text": "purple" },
-      { "id": "teal", "text": "teal" },
-      { "id": "navy", "text": "navy" }
+      { "id": "random_color_pink", "text": { "ctxt": "<color>", "str": "pink" } },
+      { "id": "random_color_red", "text": { "ctxt": "<color>", "str": "red" } },
+      { "id": "random_color_orange", "text": { "ctxt": "<color>", "str": "orange" } },
+      { "id": "random_color_yellow", "text": { "ctxt": "<color>", "str": "yellow" } },
+      { "id": "random_color_maroon", "text": { "ctxt": "<color>", "str": "maroon" } },
+      { "id": "random_color_brown", "text": { "ctxt": "<color>", "str": "brown" } },
+      { "id": "random_color_purple", "text": { "ctxt": "<color>", "str": "purple" } },
+      { "id": "random_color_magenta", "text": { "ctxt": "<color>", "str": "magenta" } },
+      { "id": "random_color_navy", "text": { "ctxt": "<color>", "str": "navy" } },
+      { "id": "random_color_blue", "text": { "ctxt": "<color>", "str": "blue" } },
+      { "id": "random_color_teal", "text": { "ctxt": "<color>", "str": "teal" } },
+      { "id": "random_color_cyan", "text": { "ctxt": "<color>", "str": "cyan" } },
+      { "id": "random_color_green", "text": { "ctxt": "<color>", "str": "green" } },
+      { "id": "random_color_olive", "text": { "ctxt": "<color>", "str": "olive" } },
+      { "id": "random_color_lime", "text": { "ctxt": "<color>", "str": "lime" } },
+      { "id": "random_color_black", "text": { "ctxt": "<color>", "str": "black" } },
+      { "id": "random_color_gray", "text": { "ctxt": "<color>", "str": "gray" } },
+      { "id": "random_color_silver", "text": { "ctxt": "<color>", "str": "silver" } },
+      { "id": "random_color_white", "text": { "ctxt": "<color>", "str": "white" } }
     ]
   }
 ]

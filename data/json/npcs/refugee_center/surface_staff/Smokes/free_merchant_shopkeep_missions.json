@@ -18,7 +18,7 @@
       }
     },
     "end": { "effect": { "math": [ "free_merchants_hub_trade_route", "=", "1" ] } },
-    "goal_condition": { "u_has_var": "dialogue_intercom_completed_free_merchants_hub_delivery_1", "value": "yes" },
+    "goal_condition": { "compare_string": [ "yes", { "u_val": "dialogue_intercom_completed_free_merchants_hub_delivery_1" } ] },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

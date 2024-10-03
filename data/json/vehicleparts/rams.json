@@ -158,7 +158,12 @@
     "broken_color": "light_cyan",
     "durability": 825,
     "breaks_into": "ig_vp_steel_plate",
-    "damage_reduction": { "all": 70 }
+    "damage_reduction": { "all": 70 },
+    "requirements": {
+      "install": {  },
+      "removal": {  },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_lc_steel", 6 ] ] }
+    }
   },
   {
     "id": "ram_wood",

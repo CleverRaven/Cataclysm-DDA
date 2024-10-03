@@ -121,7 +121,7 @@
 
 ### Attack vectors
 
-Attack vectors define which (sub)bodypart is used for the attack in question, allow filtering of eligable bodyparts and apply the relevant worn armor's unarmed damage to the attack. Note for the (sub)part to apply its unarmed damage it needs unrestricted natural attacks.
+Attack vectors define which (sub)bodypart is used for the attack in question, allow filtering of eligible bodyparts and apply the relevant worn armor's unarmed damage to the attack. Note for the (sub)part to apply its unarmed damage it needs unrestricted natural attacks.
 
 ```JSON
 [ 
@@ -132,7 +132,7 @@ Attack vectors define which (sub)bodypart is used for the attack in question, al
     "contact_area": [ "hand_fingers_l", "hand_fingers_r" ],  // List of subbodyparts that can be used as a strike surface in the attack using the sbp's armor or intrinsic unarmed damage
     "strict_limb_definition": false,  // Bool, default false. When true *only* the bodyparts defined above are used for the vector, otherwise similar bodyparts can be used as long as both the contact area and the defined limb are similar, see JSON_INFO.md/Bodyparts for bodypart similarity
     "armor_bonus": true,              // Bool, default true, defines if the vector takes the unarmed damage bonus of the armor worn on the contact area into account
-    "required_limb_flags": [ "foo", "bar" ],  // List of character flags required for the bodypart to be eligable for this vector
+    "required_limb_flags": [ "foo", "bar" ],  // List of character flags required for the bodypart to be eligible for this vector
     "forbidden_limb_flags": [ "foo", "bar" ], // List of character flags that disqualify a limb from being usable by this vector
     "encumbrance_limit": 15,          // Int, default 100, encumbrance of the limb above this will disqualify it from this vector
     "bp_hp_limit": 75 ,                // Int, default 10, percent of bodypart limb HP necessary for the limbs to qualify for this vector. For minor (non-main) bodyparts the corresponding main part HP is taken into account.

@@ -3,27 +3,27 @@
     "type": "region_settings",
     "id": "default",
     "default_oter": [
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "open_air",
-      "solid_earth",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
       "backfloorchamber_north",
-      "solid_earth",
-      "empty_rock",
-      "empty_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock",
-      "deep_rock"
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border",
+      "backroom_border"
     ],
     "default_groundcover": [ [ "t_region_groundcover", 1 ] ],
     "region_terrain_and_furniture": {
@@ -144,14 +144,14 @@
       "trailheads": { "trailhead_basic": 1, "trailhead_outhouse": 1, "trailhead_shack": 1 }
     },
     "map_extras": {
-      "field": {
+      "backrooms": {
         "chance": 40,
         "extras": {
           "mx_teleporter_node": 100,
+          "mx_autodoc_room": 25,
           "mx_casings": 50,
           "mx_corpses": 50,
           "mx_collegekids": 25,
-          "mx_autodoc_room": 25,
           "mx_spider": 20,
           "mx_nest_dermatik": 20,
           "mx_science": 20,
@@ -167,13 +167,7 @@
           "mx_jabberwock": 1,
           "mx_helicopter": 1
         }
-      },
-      "forest_thick": { "chance": 0, "extras": {  } },
-      "forest_water": { "chance": 0, "extras": {  } },
-      "forest": { "chance": 0, "extras": {  } },
-      "road": { "chance": 0, "extras": {  } },
-      "build": { "chance": 0, "extras": {  } },
-      "subway": { "chance": 0, "extras": {  } }
+      }
     },
     "city": {
       "shop_radius": 30,
@@ -193,6 +187,6 @@
       "base_wind_season_variation": 50,
       "weather_black_list": [ "early_portal_storm", "portal_storm" ]
     },
-    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [ "LAB" ], "clear_whitelist": false, "whitelist": [  ] }
+    "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": true, "whitelist": [ "BACKROOMS" ] }
   }
 ]

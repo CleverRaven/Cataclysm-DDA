@@ -64,5 +64,15 @@
     "description": "Your body, lying on the ground while your spirit walks free.  Hopefully nothing happens to it while you're gone.",
     "looks_like": "corpse_generic_human",
     "material": [ "hflesh" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "alien_leaves",
+    "copy-from": "leaves",
+    "name": { "str": "handful of alien leaves", "str_pl": "handfuls of alien leaves" },
+    "looks_like": "withered",
+    "description": "A handful of dry leaves(?) from an alien plant.  Despite their otherworldly origin, they have very few uses and are thus (almost) only good for burning.",
+    "color": "red",
+    "symbol": ","
   }
 ]

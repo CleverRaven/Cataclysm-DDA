@@ -172,7 +172,7 @@
     "use_action": { "type": "message", "message": "You've already pulled the %s's pin, try throwing it instead.", "name": "Pull pin" },
     "countdown_action": {
       "type": "explosion",
-      "fields_type": "fd_nuke_gas",
+      "fields_type": "fd_rad_glimmer",
       "fields_radius": 3,
       "fields_min_intensity": 3,
       "fields_max_intensity": 3,
@@ -207,7 +207,7 @@
     "copy-from": "afs_toxic_grenade",
     "name": "active neurotoxin grenade",
     "looks_like": "grenade_act",
-    "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation..  It's currently active.",
+    "description": "A neurotoxic device that deploys thick swathes of toxic foam upon detonation.  It's currently active.",
     "use_action": { "type": "message", "message": "You've already activated the %s, try throwing it instead." },
     "countdown_action": {
       "type": "explosion",

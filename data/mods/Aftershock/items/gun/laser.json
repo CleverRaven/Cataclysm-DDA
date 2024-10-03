@@ -6,7 +6,6 @@
     "name": { "str": "wrist-stunner" },
     "description": "A severed robotic hand from a Wraitheon Sentinel.  The powerful electro-laser stun gun embed on its wrist is still functional, and can be used when connected to an UPS.",
     "price": "7 kUSD 200 USD",
-    "to_hit": -2,
     "material": [ "superalloy", "plastic" ],
     "color": "cyan",
     "range": 10,
@@ -297,6 +296,14 @@
         "item_restriction": [ "afs_cartridge", "afs_compact_cartridge", "afs_bootleg_cartridge", "afs_archeotech_cartridge" ]
       }
     ]
+  },
+  {
+    "id": "afs_a7_mon",
+    "type": "GUN",
+    "copy-from": "afs_a7",
+    "name": { "str": "mounted a7 laser rifle" },
+    "energy_drain": "0 kJ",
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
     "id": "makeshift_scrambler",

@@ -1,5 +1,6 @@
 #include "cata_catch.h"
 #include "creature_tracker.h"
+#include "cuboid_rectangle.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
@@ -42,7 +43,7 @@ static void place_structures( const std::vector<structure> &spawn_areas,
                     break;
                 }
                 inclusive_cuboid<tripoint> interior{
-                    rectangle{
+                    rectangle<point>{
                         spawn_area.area.p_min.xy() + point_south_east,
                         spawn_area.area.p_max.xy() - point_south_east
                     },
@@ -127,30 +128,30 @@ TEST_CASE( "visitable_zone_surface_test" )
     // Some spot checks of our map edits.
     REQUIRE( !here.passable( enclosed_building + point_east ) );
     REQUIRE( !here.passable( door_building + point_south ) );
-    REQUIRE( !here.is_transparent_wo_fields( enclosed_building + point_east ) );
-    REQUIRE( !here.is_transparent_wo_fields( door_building + point_south ) );
+    REQUIRE( !here.is_transparent_wo_fields( tripoint_bub_ms( enclosed_building + point_east ) ) );
+    REQUIRE( !here.is_transparent_wo_fields( tripoint_bub_ms( door_building + point_south ) ) );
 
     REQUIRE( here.passable( open_door ) );
-    REQUIRE( here.is_transparent_wo_fields( open_door ) );
+    REQUIRE( here.is_transparent_wo_fields( tripoint_bub_ms( open_door ) ) );
 
     REQUIRE( !here.passable( closed_door ) );
-    REQUIRE( !here.is_transparent_wo_fields( closed_door ) );
+    REQUIRE( !here.is_transparent_wo_fields( tripoint_bub_ms( closed_door ) ) );
 
     REQUIRE( !here.passable( window ) );
-    REQUIRE( here.is_transparent_wo_fields( window ) );
+    REQUIRE( here.is_transparent_wo_fields( tripoint_bub_ms( window ) ) );
 
     for( std::vector<tripoint> &area : interior_areas ) {
         for( const int &choice : rng_sequence( 2, 0, area.size() - 1 ) ) {
-            monster &mon = spawn_test_monster( mon_type, area[choice] );
+            monster &mon = spawn_test_monster( mon_type, tripoint_bub_ms( area[choice] ) );
             monsters.push_back( &mon );
         }
     }
     for( const int &choice : rng_sequence( 5, 0, outside_area.size() - 1 ) ) {
-        monster &mon = spawn_test_monster( mon_type, outside_area[choice] );
+        monster &mon = spawn_test_monster( mon_type, tripoint_bub_ms( outside_area[choice] ) );
         monsters.push_back( &mon );
     }
     for( const int &choice : rng_sequence( 5, 0, rooftop_area.size() - 1 ) ) {
-        monster &mon = spawn_test_monster( mon_type, rooftop_area[choice] );
+        monster &mon = spawn_test_monster( mon_type, tripoint_bub_ms( rooftop_area[choice] ) );
         monsters.push_back( &mon );
     }
     std::unordered_map<int, int> count_by_zone;

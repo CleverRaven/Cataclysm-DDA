@@ -16,6 +16,7 @@
 #include "filesystem.h"
 #include "flexbuffer_json-inl.h"
 #include "flexbuffer_json.h"
+#include "imgui/imgui.h"
 #include "input_context.h"
 #include "json.h"
 #include "output.h"
@@ -26,9 +27,12 @@
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
-#if !(defined(TILES) || defined(WIN32))
 #include "cata_imgui.h"
-#endif
+
+nc_color::operator ImVec4()
+{
+    return cataimgui::imvec4_from_color( *this );
+}
 
 void nc_color::serialize( JsonOut &jsout ) const
 {
@@ -988,11 +992,6 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y_setup = [&]( int ) -> int {
-                    return iHeaderHeight + 1 + calc_offset_y();
-                };
-                ui_templates.w_height_setup = 18;
-
                 ui_templates.text = _( "Color templates:" );
 
                 for( const cata_path &file : vFiles ) {
@@ -1023,11 +1022,6 @@ void color_manager::show_gui()
 
             if( !vFiles.empty() ) {
                 uilist ui_templates;
-                ui_templates.w_y_setup = [&]( int ) -> int {
-                    return iHeaderHeight + 1 + calc_offset_y();
-                };
-                ui_templates.w_height_setup = 18;
-
                 ui_templates.text = _( "Color themes:" );
 
                 for( const cata_path &filename : vFiles ) {
@@ -1042,10 +1036,6 @@ void color_manager::show_gui()
             }
         } else if( action == "CONFIRM" ) {
             uilist ui_colors;
-            ui_colors.w_y_setup = [&]( int ) -> int {
-                return iHeaderHeight + 1 + calc_offset_y();
-            };
-            ui_colors.w_height_setup = 18;
 
             const color_manager::color_struct &entry = std::next( name_color_map.begin(),
                     iCurrentLine )->second;
