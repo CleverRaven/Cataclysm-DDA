@@ -836,7 +836,7 @@ conditional_t::func f_is_wearing( const JsonObject &jo, std::string_view member,
     };
 }
 
-conditional_t::func f_in_world( const JsonObject &jo, std::string_view member)
+conditional_t::func f_in_world( const JsonObject &jo, std::string_view member )
 {
     str_or_var world_prefix = get_str_or_var( jo.get_member( member ), member, true );
     //so the compiler doesn't complain about this var being unused
