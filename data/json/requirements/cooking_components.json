@@ -94,7 +94,8 @@
         [ "egg_coot", 1 ],
         [ "egg_cormorant", 1 ],
         [ "egg_moorhen", 1 ],
-        [ "egg_grebe", 1 ]
+        [ "egg_grebe", 1 ],
+        [ "egg_guinea_fowl", 1 ]
       ]
     ]
   },
