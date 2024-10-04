@@ -1852,7 +1852,7 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "2 h",
-    "charges": 3,
+    "charges": 6,
     "autolearn": true,
     "batch_time_factors": [ 75, 2 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
