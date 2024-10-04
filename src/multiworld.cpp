@@ -27,7 +27,7 @@ std::string multiworld::get_world_prefix()
 {
     return world_prefix;
 }
-bool multiworld::travel_to_world( const std::string & prefix )
+bool multiworld::travel_to_world( const std::string &prefix )
 {
     map &here = get_map();
     avatar &player = get_avatar();
