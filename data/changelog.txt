@@ -152,6 +152,10 @@ Grazing animals actually eat grass, and it regrows every season
 New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
+Added check for stealing prior to wearing
+Plastic tub audit
+Adds throwing practice tools
+Debug spawn NPC by class id
 
 
 ## Content:
@@ -333,6 +337,8 @@ Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
+Added more gunmods
+Garter Belt Variants
 
 
 ## Interface:
@@ -429,6 +435,8 @@ Custom loading screen the game deserves
 wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
+Removed descriptions for reloaded and black powder rounds
+improve contrast in uilist menus by not allowing colored text in highlighted menu items
 
 
 ## Mods:
@@ -679,6 +687,21 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [DinoMod] Astrodon 
 [MoM] Add Alien Meadow mutable map special
 [Magiclysm] Fantasy species zombies
+[Magiclysm] Add `UNRESTRICTED` flag to several Magiclysm summoned items
+[Magiclysm] Rapid Regeneration's effect only triggers if you need healing
+[Xedra Evolved] Werewolves only regenerate when they need to
+[MoM] Add remaining matrix elixirs, add more drops
+[MoM] Blazing Aura is an actual aura effect and harms anyone nearby
+Tailor-made Inventor equipment
+[Magiclysm] Goblins and dwarves can craft in the dark
+Magiclysm] Add Bracers of Archery
+[DinoMod] tougher day 3 predators
+[Isolation Protocol] Add Bionic Vampire class
+[MOM] Add Mental Engineering Telepath 'Ritual' recipe
+[Xedra Evolved] Add more Selkie powers
+Create and use READ_IN_DARKNESS and distribute CRAFT_IN_DARKNESS to magic night vision sources
+XE Gracken Big Game Hunter profession
+Prevent Paraclesians from being born with a drivers license
 
 
 ## Balance:
@@ -777,6 +800,8 @@ Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
+Survivor Half Masks no longer protect your eyes from the sun.
+Vibrator now uses an internal battery that can be charged via cable in line with similar electronics
 
 
 ## Bugfixes:
@@ -1025,6 +1050,16 @@ NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
+[Magiclysm] Earthshapers cannot Stone Slumber unsafely
+Audit trap difficulties
+Remove Magiclysm elf threshold requirement on Animal Kinship
+Night vision goggles no longer draw green overlay after their batteries ran out of energy
+Rewords the 'pair of butterfly swords' into a single sword.
+Scrap trader mission no longer generates duplicate refugee center
+Fix gun shy trait
+Linking of 'Heaters' wasn't implemented correctly
+Fix move cost effect of stillsuit
+Fix upgrading of zombie animals, ferrous zombies and some monstergroups tweaks
 
 
 ## Performance:
@@ -1134,6 +1169,8 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
+Replace activity `ACT_PICKUP_MENU` with `uistate.open_menu`
+debug dialogue + talk_topic menus
 
 
 ## Build:
@@ -1165,6 +1202,11 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Omit unnecessary lines from translations
+Dont extract monster guns and spells for translation
+Dont extract abstract names for translation
+Extract blood analysis descs and end screen text
+Dont extract abstract monsters and spells from data/json/monsters/
 
 
 # 0.G (Gaiman)
