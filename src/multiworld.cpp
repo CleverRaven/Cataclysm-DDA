@@ -21,13 +21,13 @@ multiworld MULTIWORLD;
 
 void multiworld::set_world_prefix( std::string prefix )
 {
-    world_prefix = prefix;
+    world_prefix = std::move(prefix);
 }
 std::string multiworld::get_world_prefix()
 {
     return world_prefix;
 }
-bool multiworld::travel_to_world( std::string worldName )
+bool multiworld::travel_to_world( const std::string prefix )
 {
     map &here = get_map();
     avatar &player = get_avatar();
@@ -50,8 +50,8 @@ bool multiworld::travel_to_world( std::string worldName )
     here.rebuild_vehicle_level_caches();
     /*inputting an empty string to the text input EOC fails
     so i'm using 'default' as empty/main world */
-    if( worldName != "default" ) {
-        set_world_prefix( worldName );
+    if( prefix != "default" ) {
+        set_world_prefix( prefix );
     } else {
         set_world_prefix( "" );
     }
