@@ -4,7 +4,6 @@
     "type": "requirement",
     "components": [
       [
-        [ "8mm_bootleg", 1 ],
         [ "8mm_caseless", 1 ],
         [ "8mm_hvp", 1 ],
         [ "8mm_jhp", 1 ],
