@@ -120,7 +120,6 @@
     "type": "TOOL_ARMOR",
     "copy-from": "robofac_armor_rig",
     "name": { "str": "Hub 01 modular defense anchor" },
-    "//": "Due to Hub-01's Modifications, the Poncho can draw power from a UPS in emergency situations.",
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  This one features a hardened skeleton of ceramic plates running up and over the shoulders, and a portion of the front has been raised upwards from the rest.  Lifting the fabric reveals a large disc-shaped device installed into the garment, featureless except for a prominent switch and Hub 01's logo in LED.  In addition to the poncho's usual complement of storage, a battery compartment has been added that wires into this device, featuring very specialized connectors and, perhaps a little disconcertingly, radiation shielding.",
     "weight": "2000 g",
     "volume": "4250 ml",
@@ -202,7 +201,8 @@
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 450 } }
     ],
     "ammo": "battery",
-    "use_action": {
+    "use_action": [
+    {
       "type": "transform",
       "menu_text": "Turn on anchor",
       "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
@@ -211,6 +211,12 @@
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
+    {
+      "type": "link_up",
+      "cable_length": 2,
+      "charge_rate": "140 W"
+    }
+    ],
     "armor": [
       {
         "material": [
@@ -307,6 +313,11 @@
         "active": true,
         "need_charges": 1,
         "need_charges_msg": "The visor's batteries are dead."
+      },
+      {
+       "type": "link_up",
+       "cable_length": 2,
+       "charge_rate": "140 W"
       }
     ],
     "pocket_data": [
