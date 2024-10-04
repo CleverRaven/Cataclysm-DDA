@@ -21,7 +21,7 @@ multiworld MULTIWORLD;
 
 void multiworld::set_world_prefix( std::string prefix )
 {
-    world_prefix = std::move(prefix);
+    world_prefix = std::move( prefix );
 }
 std::string multiworld::get_world_prefix()
 {
