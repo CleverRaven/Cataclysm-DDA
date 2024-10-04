@@ -199,7 +199,7 @@
           "robofac_gun_46"
         ]
       },
-      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } }
+      { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 450 } }
     ],
     "ammo": "battery",
     "use_action": {
