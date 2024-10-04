@@ -237,6 +237,7 @@ Field group | Description | Example
 `effect_str` | The "effect" the spell has (see [EFFECTS_JSON](EFFECTS_JSON.md)).  Varies according to the spell `effect` field. | "effect_str": "zapped", "effect_str": "mon_zombie",
 `max_level` | How much you can train the spell.  Default is 0.  Ignored for monsters and items that cast spells. | "max_level": 10,
 `difficulty` | How hard is to cast the spell.  A high difficulty spell is easier to fail, failing grants spell XP at no resource cost.  It also limits the maximum spellcasting skill that can be gained by casting it (e.g. difficulty 10 will train up to spellcasting lvl 10). | "difficulty": 7,
+`multiple_projectiles` | If value is bigger than one, instead of shooting single spell with damage X, you will shoot `multiple_projectiles` amount of projectiles with damage `damage/multiple_projectiles`, which may damage different body parts (each projectile has 75% chance to hit torso still) | "multiple_projectiles": 2,
 `affected_body_parts` | `body_part` where the `effect_str` will occur.  Set at `torso` by default.  Currently doesn't work. | "affected_body_parts": [ "head" ] 
 `extra_effects` | Allows to cast a secondary spell `id` immediately after the primary spell.  Allows for multiple `id`s. | "extra_effects": [ <br> { <br> "id": "fireball", <br> "hit_self": false, <br> "max_level": 3 <br> }, <br> { "id": "storm_chain_1" } <br>]
 `learn_spells` | Allow user to learn the spell `id` when they reach that spell level  (e.g. `"create_atomic_light": 5` means user will learn create_atomic_light when they reach level 5 of the primary spell).  Allows for multiple `id`s. | "learn_spells": { "create_atomic_light": 5, "megablast": 10 }
@@ -282,7 +283,7 @@ Flag                       | Description
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
 `NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
-`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target.
+`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target. For characters (NPC or Avatar) damage applies to all body parts (damage 10 would deal 10% damage for each limb). Works with both damages and DOTs
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 `PERMANENT_ALL_LEVELS`     | Items spawned with this spell do not disappear even if the spell is not max level.
 `POLYMORPH_GROUP`          | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
@@ -297,6 +298,7 @@ Flag                       | Description
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
 `SPAWN_WITH_DEATH_DROPS`   | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
+`SPLIT_DAMAGE`             | If used, instead of dealing damage to a random body part, damage would be spread evenly across entire body. Works only on characters (NPC or Avatar), monsters do not have limbs
 `SWAP_POS`                 | A projectile spell swaps the positions of the caster and target.
 `TARGET_TELEPORT`          | Teleport spell changes to maximum range target with aoe as variation around target.
 `UNSAFE_TELEPORT`          | Teleport spell risks killing the caster or others.

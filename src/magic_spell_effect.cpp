@@ -564,20 +564,65 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
 
             for( damage_unit &val : atk.proj.impact.damage_units ) {
-                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respecive %
-                    val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
-                }
                 val.amount *= damage_mitigation_multiplier;
             }
-            cr->deal_projectile_attack( &caster, atk, true );
+            if( cr->as_character() != nullptr ) {
+                int multishot = sp.get_amount_of_projectiles( *caster.as_character() );
+                if( multishot > 1 ) {
+                    for( damage_unit &val : atk.proj.impact.damage_units ) {
+                        val.amount = roll_remainder( val.amount / multishot );
+                    }
+                    for( int i = 0; i < multishot; ++i ) {
+                        cr->deal_projectile_attack( cr, atk, true );
+                    }
+                } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
+                    int amount_of_bp = cr->get_all_body_parts( get_body_part_flags::only_main ).size();
+                    for( damage_unit &val : atk.proj.impact.damage_units ) {
+                        val.amount = roll_remainder( val.amount / amount_of_bp );
+                    }
+                    for( bodypart_id bp_id : cr->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        cr->deal_damage( cr, bp_id, atk.proj.impact );
+                    }
+                } else if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                    for( bodypart_id bp_id : cr->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        for( damage_unit &val : atk.proj.impact.damage_units ) {
+                            val.amount = roll_remainder( cr->get_hp( bp_id ) * sp.damage( caster ) / 100.0 );
+                            cr->deal_damage( cr, bp_id, atk.proj.impact );
+                        }
+                    }
+                } else {
+                    cr->deal_projectile_attack( &caster, atk, true );
+                }
+            } else if( cr->as_monster() != nullptr ) {
+                for( damage_unit &val : atk.proj.impact.damage_units ) {
+                    if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                        val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
+                    }
+                }
+                cr->deal_projectile_attack( &caster, atk, true );
+            } else {
+                cr->deal_projectile_attack( &caster, atk, true );
+            }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
             add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),
                                     cr->disp_name( true ) );
         }
-        // TODO: randomize hit location
-        cr->add_damage_over_time( sp.damage_over_time( { body_part_torso }, caster ) );
+
+        // handling DOTs here
+        if( cr->as_character() != nullptr ) {
+            if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                std::vector<bodypart_id> bp_ids_vector = cr->get_all_body_parts( get_body_part_flags::only_main );
+                std::vector<bodypart_str_id> bp_str_ids_vector;
+                for( bodypart_id bp_id : bp_ids_vector ) {
+                    bp_str_ids_vector.push_back( bp_id.id() );
+                }
+                // todo: refactor damage_over_time to use bodypart_id directly
+                cr->add_damage_over_time( sp.damage_over_time( bp_str_ids_vector, caster ) );
+            } else {
+                cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part().id() }, caster ) );
+            }
+        }
     }
 }
 

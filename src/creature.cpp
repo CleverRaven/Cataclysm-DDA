@@ -1090,8 +1090,9 @@ projectile_attack_results Creature::select_body_part_projectile_attack(
     const bool magic = proj.proj_effects.count( ammo_effect_MAGIC ) > 0;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     if( magic ) {
-        // Best possible hit
-        hit_value = -0.5;
+        // We want spells to hit all bodyparts randomly, not only torso
+        // It still gonna be torso mainly
+        hit_value = rng_float( -0.5, 1.5 );
     }
     // Range is -0.5 to 1.5 -> missed_by will be [1, 0], so the rng addition to it
     // will push it to at most 1.5 and at least -0.5

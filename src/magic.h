@@ -51,6 +51,7 @@ enum class spell_flag : int {
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
     PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
+    SPLIT_DAMAGE, // spell apply damage across all limbs. Works only with characters, for monsters do not have limbs
     IGNORE_WALLS, // spell's aoe goes through walls
     NO_PROJECTILE, // spell's original targeting area can be targeted through walls
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
@@ -332,6 +333,9 @@ class spell_type
         // the difficulty of casting a spell
         dbl_or_var difficulty;
 
+        // if projectile should shot more than one projectile
+        dbl_or_var multiple_projectiles;
+
         // max level this spell can achieve
         dbl_or_var max_level;
 
@@ -422,6 +426,7 @@ class spell_type
         static const magic_energy_type energy_source_default;
         static const damage_type_id dmg_type_default;
         static const int difficulty_default;
+        static const int multiple_projectiles_default;
         static const int max_level_default;
         static const int base_casting_time_default;
         static const float casting_time_increment_default;
@@ -549,6 +554,7 @@ class spell
         bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
+        int get_amount_of_projectiles( const Character &guy ) const;
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
