@@ -776,7 +776,6 @@ void DynamicDataLoader::finalize_loaded_data()
         check_consistency();
     }
     finalized = true;
-    loading_ui::done();
 }
 
 void DynamicDataLoader::check_consistency()
@@ -876,5 +875,4 @@ void DynamicDataLoader::check_consistency()
         loading_ui::show( _( "Verifying" ), e.first );
         e.second();
     }
-    loading_ui::done();
 }
