@@ -1,20 +1,19 @@
 [
   {
     "type": "COMESTIBLE",
+    "id": "egg_rhea",
+    "name": { "str": "greater rhea egg" },
+    "spoils_in": "25 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 12, "weight": 12, "calories": 12 },
+    "rot_spawn": { "group": "GROUP_EGG_RHEA" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_quail",
     "name": "quail egg",
     "copy-from": "egg_guinea_fowl",
     "rot_spawn": { "group": "GROUP_EGG_QUAIL" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_rhea",
-    "name": "rhea egg",
-    "copy-from": "egg_guinea_fowl",
-    "volume": "600 ml",
-    "weight": "600 g",
-    "calories": 1000,
-    "rot_spawn": { "group": "GROUP_EGG_RHEA" }
   },
   {
     "type": "COMESTIBLE",
