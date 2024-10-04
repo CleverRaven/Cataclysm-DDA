@@ -28,7 +28,7 @@ class multiworld
         ~multiworld();
         std::string get_world_prefix();
         //currently just the player
-        bool travel_to_world( const & std::string prefix );
+        bool travel_to_world( const std::string & prefix );
     private:
         /** @param world_prefix tells the game which world folder it should load data from
          *  @param set_world_prefix sets the current prefix, it shouldn't be used on it's own
