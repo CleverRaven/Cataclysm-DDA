@@ -3174,13 +3174,13 @@ Vehicle components when installed on a vehicle.
                               // quality and the quality level, that the vehicle part provides.
                               // Only the "LIFT", "JACK", and "SELF_JACK" qualities are valid.
 "transform_terrain": {        // (Optional) This part can transform terrain, like a plow.
-                              // One of "post_terain", "post_furniture", or "post_field" is required.
-  "pre_flags": [ "PLOWABLE" ], // List of flags for the terrain that can be transformed.
-  "post_terrain": "t_dirtmound", // (Optional, default to "t_null") The resulting terrain, if any.
-  "post_furniture": "f_boulder", // (Optional, default to "f_null") The resulting furniture, if any.
-  "post_field": "fd_fire",    // (Optional, default to "fd_null") The resulting field, if any.
-  "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
-  "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
+  "pre_flags": [ "PLOWABLE" ], // (Optional) List of flags for the terrain that can be transformed.
+  "post_terrain": "t_dirtmound", // (Optional*) The resulting terrain.
+  "post_furniture": "f_boulder", // (Optional*) The resulting furniture.
+  "post_field": "fd_fire",    // (Optional*) The resulting field.
+  "post_field_intensity": 10, // (Mandatory if post_field is specified) The field's intensity.
+  "post_field_age": "20 s"    // (Mandatory if post_field is specified) The field's time to live.
+                              // *One of "post_terrain", "post_furniture", or "post_field" is required.
 },
 "variants_bases": [ // variant bases to generate (see below)
   { "id": "scooter", "label": "Scooter" },

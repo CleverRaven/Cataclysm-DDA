@@ -1002,17 +1002,14 @@ void vehicle::transform_terrain()
             }
         }
         if( prereq_fulfilled ) {
-            const ter_id new_ter = ter_id( ttd.post_terrain );
-            if( new_ter != ter_str_id::NULL_ID() ) {
-                here.ter_set( start_pos, new_ter );
+            if( !!ttd.post_terrain ) {
+                here.ter_set( start_pos, *ttd.post_terrain );
             }
-            const furn_id new_furn = furn_id( ttd.post_furniture );
-            if( new_furn != furn_str_id::NULL_ID() ) {
-                here.furn_set( start_pos, new_furn );
+            if( !!ttd.post_furniture ) {
+                here.furn_set( start_pos, *ttd.post_furniture );
             }
-            const field_type_id new_field = field_type_id( ttd.post_field );
-            if( new_field.id() ) {
-                here.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+            if( !!ttd.post_field ) {
+                here.add_field( start_pos, *ttd.post_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
             const int speed = std::abs( velocity );
