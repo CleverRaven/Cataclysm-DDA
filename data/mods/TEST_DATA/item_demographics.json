@@ -598,7 +598,7 @@
         {
           "type": "8x40mm",
           "weight": 1,
-          "items": { "8mm_bootleg": 1, "8mm_caseless": 1, "8mm_civilian": 1, "8mm_fmj": 1, "8mm_hvp": 1, "8mm_inc": 1, "8mm_jhp": 1 }
+          "items": { "8mm_caseless": 1, "8mm_civilian": 1, "8mm_fmj": 1, "8mm_hvp": 1, "8mm_inc": 1, "8mm_jhp": 1 }
         },
         {
           "type": "300blk",
@@ -737,16 +737,7 @@
         {
           "type": "380",
           "weight": 48,
-          "items": {
-            "mac_11": 1,
-            "kp3at": 1,
-            "fn1910": 1,
-            "rugerlcp": 1,
-            "hptcf380": 1,
-            "taurus_spectrum": 1,
-            "rifle_380": 1,
-            "hpt3895": 1
-          }
+          "items": { "mac_11": 1, "kp3at": 1, "rugerlcp": 1, "hptcf380": 1, "taurus_spectrum": 1, "rifle_380": 1, "hpt3895": 1 }
         },
         {
           "type": "40",
@@ -959,7 +950,6 @@
             "draco_micro": 1,
             "draco_mini": 1,
             "emp_frond": 1,
-            "fn1910": 1,
             "fn57": 1,
             "glock_17": 1,
             "glock_18c": 1,
