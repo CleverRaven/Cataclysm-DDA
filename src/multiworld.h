@@ -33,7 +33,7 @@ class multiworld
         /** @param world_prefix tells the game which world folder it should load data from
          *  @param set_world_prefix sets the current prefix, it shouldn't be used on it's own
         */
-        std::string world_prefix = "";
+        std::string world_prefix;
 
         void set_world_prefix( std::string prefix );
 };
