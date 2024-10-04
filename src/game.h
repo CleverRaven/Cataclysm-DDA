@@ -1318,7 +1318,7 @@ class game
             climbing_aid_id aid,
             bool deploy_affordance = false );
         //currently used as a hacky workaround for world swapping
-        bool swapping_worlds = false;
+        bool swapping_worlds = false; // NOLINT (cata-serialize)
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
