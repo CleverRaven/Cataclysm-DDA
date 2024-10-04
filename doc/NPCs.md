@@ -775,14 +775,14 @@ This is an optional condition which can be used to prevent the response under ce
 #### `switch and default`
 The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
 
-#### `show_always`
-An optional key that, if set to true, will allow the response to be displayed even if it has a condition evaluating false. The response will not be selectable unless debug mode is ON.
-
 #### `show_condition`
-An optional key that, if defined, will allow the response to be displayed even if it has a condition evaluating false. The response will not be selectable unless debug mode is ON. Cannot be defined if `show_always: true`. Note: do not confuse `show_condition` with `condition`.
+An optional key that, if defined and evaluates to true, will allow the response to be displayed even if it has a condition evaluating false. The response still will not be selectable if its condition is false, unless debug mode is ON. Cannot be defined if `show_always: true`. Note: do not confuse `show_condition` with `condition`. Empty by default.
+
+#### `show_always`
+Shorthand for "show_condition": takes a boolean instead of a condition. False by default.
 
 #### `show_reason`
-An optional key that, if defined, will append its contents to the end of a response displayed because of `show_always` or `show_condition`.
+An optional key that, if defined, will append its contents to the end of a response displayed because of `show_always` or `show_condition`. Empty by default.
 
 Example:
 ```json

@@ -1363,6 +1363,20 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_TEST_SHOW_ALWAYS3",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "math": [ "1", ">", "0" ] },
+        "text": "You should always see this response and be able to select it.",
+        "show_always": true,
+        "topic": "TALK_DONE"
+      },
+      { "text": "All done", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_TEST_SHOW_ALWAYS2",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
