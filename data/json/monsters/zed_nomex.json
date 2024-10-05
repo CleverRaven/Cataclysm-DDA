@@ -58,7 +58,7 @@
     "id": "mon_zombie_fireproof_brute",
     "type": "MONSTER",
     "name": { "str": "fireproof brute" },
-    "description": "this zombie appears to have once been a firefighter or similar first responder, but the uniform is hardly recognizable at this point, as the thing has grown new flesh and muscle overtop.  Its sinewy body has taken on a composition similar to the uniforms fire-resistant fabric, most of it congealed into a pair of clubs on the ends of its hands.",
+    "description": "This zombie appears to have once been a firefighter or similar first responder, but the uniform is hardly recognizable at this point, as the thing has grown new flesh and muscle overtop.  Its sinewy body has taken on a composition similar to the uniform's fire-resistant fabric, most of it congealed into a pair of clubs on the ends of its hands.",
     "copy-from": "mon_zombie_brute",
     "default_faction": "zombie",
     "symbol": "Z",
