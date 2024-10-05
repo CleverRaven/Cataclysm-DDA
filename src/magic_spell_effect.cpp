@@ -616,7 +616,7 @@ static void damage_targets( const spell &sp, Creature &caster,
             std::vector<bodypart_id> all_bodyparts = cr->get_all_body_parts( get_body_part_flags::only_main );
 
             if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                cr->add_damage_over_time( sp.damage_over_time( all_bodyparts, caster ) ); 
+                cr->add_damage_over_time( sp.damage_over_time( all_bodyparts, caster ) );
             } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                 damage_over_time_data dot_data = sp.damage_over_time( all_bodyparts, caster );
                 dot_data.amount /= all_bodyparts.size();
