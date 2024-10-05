@@ -463,7 +463,7 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage( const Creature &caster ) const;
-        int min_leveled_dot( const Creature &caster ) const;
+        double min_leveled_dot( const Creature &caster ) const;
         // minimum aoe including levels
         int min_leveled_aoe( const Creature &caster ) const;
         // minimum duration including levels (moves)
@@ -511,7 +511,7 @@ class spell
         // how much damage does the spell do
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
-        int damage_dot( const Creature &caster ) const;
+        double damage_dot( const Creature &caster ) const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_id> &bps,
                                                 const Creature &caster ) const;
         dealt_damage_instance get_dealt_damage_instance( Creature &caster ) const;

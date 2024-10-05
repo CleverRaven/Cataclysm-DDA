@@ -768,22 +768,22 @@ int spell::accuracy( Creature &caster ) const
     }
 }
 
-int spell::min_leveled_dot( const Creature &caster ) const
+double spell::min_leveled_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     return type->min_dot.evaluate( d ) + std::round( get_effective_level() *
             type->dot_increment.evaluate( d ) );
 }
 
-int spell::damage_dot( const Creature &caster ) const
+double spell::damage_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    const int leveled_dot = min_leveled_dot( caster );
-    if( type->min_dot.evaluate( d ) >= 0 ||
+    const double leveled_dot = min_leveled_dot( caster );
+    if( type->min_dot.evaluate( d ) >= 0.0 ||
         type->max_dot.evaluate( d ) >= type->min_dot.evaluate( d ) ) {
-        return std::min( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
+        return std::min( leveled_dot, type->max_dot.evaluate( d ) );
     } else { // if it's negative, min and max work differently
-        return std::max( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
+        return std::max( leveled_dot, type->max_dot.evaluate( d ) );
     }
 }
 

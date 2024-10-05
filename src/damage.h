@@ -180,7 +180,7 @@ class damage_over_time_data
         damage_type_id type;
         time_duration duration;
         std::vector<bodypart_id> bps;
-        int amount = 0;
+        double amount = 0.0;
 
         bool was_loaded = false;
 

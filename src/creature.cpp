@@ -3232,11 +3232,11 @@ void Creature::process_damage_over_time()
     for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
         if( DoT->duration > 0_turns ) {
             for( const bodypart_id &bp : DoT->bps ) {
-                const int dmg_amount = DoT->amount;
-                if( dmg_amount < 0 ) {
-                    heal_bp( bp.id(), -dmg_amount );
-                } else if( dmg_amount > 0 ) {
-                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
+                const double dmg_amount = DoT->amount;
+                if( dmg_amount < 0.0 ) {
+                    heal_bp( bp.id(), roll_remainder( -dmg_amount ) );
+                } else if( dmg_amount > 0.0 ) {
+                    deal_damage( nullptr, bp.id(), damage_instance( DoT->type, roll_remainder( dmg_amount ) ) );
                 }
             }
             DoT->duration -= 1_turns;
