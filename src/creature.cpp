@@ -3231,7 +3231,7 @@ void Creature::process_damage_over_time()
 {
     for( auto DoT = damage_over_time_map.begin(); DoT != damage_over_time_map.end(); ) {
         if( DoT->duration > 0_turns ) {
-            for( const bodypart_str_id &bp : DoT->bps ) {
+            for( const bodypart_id &bp : DoT->bps ) {
                 const int dmg_amount = DoT->amount;
                 if( dmg_amount < 0 ) {
                     heal_bp( bp.id(), -dmg_amount );

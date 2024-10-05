@@ -612,15 +612,10 @@ static void damage_targets( const spell &sp, Creature &caster,
         // handling DOTs here
         if( cr->as_character() != nullptr ) {
             if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                std::vector<bodypart_id> bp_ids_vector = cr->get_all_body_parts( get_body_part_flags::only_main );
-                std::vector<bodypart_str_id> bp_str_ids_vector;
-                for( bodypart_id bp_id : bp_ids_vector ) {
-                    bp_str_ids_vector.push_back( bp_id.id() );
-                }
-                // todo: refactor damage_over_time to use bodypart_id directly
-                cr->add_damage_over_time( sp.damage_over_time( bp_str_ids_vector, caster ) );
+                cr->add_damage_over_time( sp.damage_over_time( cr->get_all_body_parts(
+                                              get_body_part_flags::only_main ), caster ) );
             } else {
-                cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part().id() }, caster ) );
+                cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
             }
         }
     }

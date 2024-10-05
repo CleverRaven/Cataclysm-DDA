@@ -512,7 +512,7 @@ class spell
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
         int damage_dot( const Creature &caster ) const;
-        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps,
+        damage_over_time_data damage_over_time( const std::vector<bodypart_id> &bps,
                                                 const Creature &caster ) const;
         dealt_damage_instance get_dealt_damage_instance( Creature &caster ) const;
         dealt_projectile_attack get_projectile_attack( const tripoint_bub_ms &target,

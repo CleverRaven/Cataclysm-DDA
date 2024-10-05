@@ -787,7 +787,7 @@ int spell::damage_dot( const Creature &caster ) const
     }
 }
 
-damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps,
+damage_over_time_data spell::damage_over_time( const std::vector<bodypart_id> &bps,
         const Creature &caster ) const
 {
     damage_over_time_data temp;
