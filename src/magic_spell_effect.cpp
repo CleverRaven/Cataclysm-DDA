@@ -568,6 +568,8 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
             if( cr->as_character() != nullptr ) {
                 int multishot = sp.get_amount_of_projectiles( *caster.as_character() );
+                std::vector<bodypart_id> all_bodyparts = cr->get_all_body_parts( get_body_part_flags::only_main );
+
                 if( multishot > 1 ) {
                     for( damage_unit &val : atk.proj.impact.damage_units ) {
                         val.amount = roll_remainder( val.amount / multishot );
@@ -576,15 +578,15 @@ static void damage_targets( const spell &sp, Creature &caster,
                         cr->deal_projectile_attack( cr, atk, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
-                    int amount_of_bp = cr->get_all_body_parts( get_body_part_flags::only_main ).size();
+                    int amount_of_bp = all_bodyparts.size();
                     for( damage_unit &val : atk.proj.impact.damage_units ) {
                         val.amount = roll_remainder( val.amount / amount_of_bp );
                     }
-                    for( bodypart_id bp_id : cr->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                    for( bodypart_id bp_id : all_bodyparts ) {
                         cr->deal_damage( cr, bp_id, atk.proj.impact );
                     }
                 } else if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    for( bodypart_id bp_id : cr->get_all_body_parts( get_body_part_flags::only_main ) ) {
+                    for( bodypart_id bp_id : all_bodyparts ) {
                         for( damage_unit &val : atk.proj.impact.damage_units ) {
                             val.amount = roll_remainder( cr->get_hp( bp_id ) * sp.damage( caster ) / 100.0 );
                             cr->deal_damage( cr, bp_id, atk.proj.impact );
@@ -611,9 +613,14 @@ static void damage_targets( const spell &sp, Creature &caster,
 
         // handling DOTs here
         if( cr->as_character() != nullptr ) {
+            std::vector<bodypart_id> all_bodyparts = cr->get_all_body_parts( get_body_part_flags::only_main );
+
             if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                cr->add_damage_over_time( sp.damage_over_time( cr->get_all_body_parts(
-                                              get_body_part_flags::only_main ), caster ) );
+                cr->add_damage_over_time( sp.damage_over_time( all_bodyparts, caster ) ); 
+            } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
+                damage_over_time_data dot_data = sp.damage_over_time( all_bodyparts, caster );
+                dot_data.amount /= all_bodyparts.size();
+                cr->add_damage_over_time( dot_data );
             } else {
                 cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
             }

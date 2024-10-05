@@ -283,7 +283,7 @@ Flag                       | Description
 `NO_PROJECTILE`            | The "projectile" portion of the spell phases through walls, the epicenter of the spell effect is exactly where you target it, with no regards to obstacles.
 `NON_MAGICAL`              | Ignores spell resistance when calculating damage mitigation and cannot be blocked by the NO_SPELLCASTING character flag.
 `PAIN_NORESIST`            | Pain altering spells can't be resisted (like with the deadened trait).
-`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target. For characters (NPC or Avatar) damage applies to all body parts (damage 10 would deal 10% damage for each limb). Works with both damages and DOTs
+`PERCENTAGE_DAMAGE`        | The spell deals damage based on the target's current hp.  This means that the spell can't directly kill the target. For characters (NPC or Avatar) damage applies to all body parts (damage 10 would deal 10% damage for each limb). Works with both attacks and DOTs
 `PERMANENT`                | Items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 `PERMANENT_ALL_LEVELS`     | Items spawned with this spell do not disappear even if the spell is not max level.
 `POLYMORPH_GROUP`          | A `targeted_polymorph` spell will transform the target into a random monster from the `monstergroup` in `effect_str`.
@@ -298,7 +298,7 @@ Flag                       | Description
 `SOMATIC`                  | Arm encumbrance affects fail % and casting time (slightly).
 `SPAWN_GROUP`              | Spawn or summon from an `item_group` or `monstergroup`, instead of the specific IDs.
 `SPAWN_WITH_DEATH_DROPS`   | Allows summoned monsters to retain their usual death drops, otherwise they drop nothing.
-`SPLIT_DAMAGE`             | If used, instead of dealing damage to a random body part, damage would be spread evenly across entire body. Works only on characters (NPC or Avatar), monsters do not have limbs
+`SPLIT_DAMAGE`             | If used, instead of dealing damage to a random body part, damage would be spread evenly across entire body. Works only on characters (NPC or Avatar), monsters do not have limbs. Works with both attacks and DOTs
 `SWAP_POS`                 | A projectile spell swaps the positions of the caster and target.
 `TARGET_TELEPORT`          | Teleport spell changes to maximum range target with aoe as variation around target.
 `UNSAFE_TELEPORT`          | Teleport spell risks killing the caster or others.
