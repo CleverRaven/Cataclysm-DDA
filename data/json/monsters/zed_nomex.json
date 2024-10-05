@@ -37,7 +37,7 @@
     "id": "mon_zombie_fireproof_grappler",
     "type": "MONSTER",
     "name": { "str": "fireproof grappler" },
-    "description": "this zombie appears to have once been a firefighter or similar first responder, its body having ripped through and absorbed the majority of its uniform.  Its torso and back are swollen, and its muscles are marbled with knotted growths resembling the nomex fibers of its former gear, feeding into lanky arms that drag on the floor.",
+    "description": "This zombie appears to have once been a firefighter or similar first responder, its body having ripped through and absorbed the majority of its uniform.  Its torso and back are swollen, and its muscles are marbled with knotted growths resembling the Nomex fibers of its former gear, feeding into lanky arms that drag on the floor.",
     "copy-from": "mon_zombie_grappler",
     "default_faction": "zombie",
     "symbol": "Z",
