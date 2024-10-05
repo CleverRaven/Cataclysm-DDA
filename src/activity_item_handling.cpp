@@ -3002,10 +3002,10 @@ static bool generic_multi_activity_do(
           ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
-        iexamine::harvest_plant( you, src_loc.raw(), true );
+        iexamine::harvest_plant( you, src_loc, true );
     } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
                here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
-        iexamine::clear_overgrown( you, src_loc.raw() );
+        iexamine::clear_overgrown( you, src_loc );
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
@@ -3029,7 +3029,7 @@ static bool generic_multi_activity_do(
                 continue;
             }
             // TODO: fix point types
-            iexamine::plant_seed( you, src_loc.raw(), itype_id( seed ) );
+            iexamine::plant_seed( you, src_loc, itype_id( seed ) );
             you.backlog.emplace_front( act_id );
             return false;
         }

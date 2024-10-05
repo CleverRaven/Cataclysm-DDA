@@ -2899,6 +2899,15 @@
   },
   {
     "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE",
+    "name": "Toggle debug dialogue show hidden responses ",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+R" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "r" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "RESET",
     "category": "CALENDAR_UI",
     "name": "Reset time point to initial value",

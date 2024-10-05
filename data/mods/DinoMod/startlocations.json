@@ -13,15 +13,9 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_dinozoo_giftshop",
-    "name": "DinoZoo (Giftshop)",
+    "id": "sloc_dinozoo_cafeteria",
+    "name": "DinoZoo (Cafeteria)",
     "terrain": [ "dinozoo_0_1" ]
-  },
-  {
-    "type": "start_location",
-    "id": "sloc_dinozoo_cages",
-    "name": "DinoZoo (Cages)",
-    "terrain": [ "dinozoo_1_1" ]
   },
   {
     "type": "start_location",
