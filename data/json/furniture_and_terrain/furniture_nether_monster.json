@@ -60,17 +60,11 @@
                   10
                 ],
                 [
-                  {
-                    "id": "admire_3",
-                    "effect": { "u_message": "You bow to the lily, and gain immense satisfaction in having done so." }
-                  },
+                  { "id": "admire_3", "effect": { "u_message": "You bow to the lily, and gain immense satisfaction in having done so." } },
                   5
                 ],
                 [
-                  {
-                    "id": "admire_4",
-                    "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*." }
-                  },
+                  { "id": "admire_4", "effect": { "u_message": "You focus on the lily and realize it truly is perfection *incarnate*." } },
                   2
                 ]
               ]
