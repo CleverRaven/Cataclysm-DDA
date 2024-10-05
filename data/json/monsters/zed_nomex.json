@@ -2,7 +2,7 @@
   {
     "id": "mon_zombie_nomex",
     "type": "MONSTER",
-    "name": { "str": "nomex zombie" },
+    "name": { "str": "Nomex zombie" },
     "description": "this zombie was a firefighter in its past life, still donned in its turnout equipment - said equipment has melded with its flesh, with the tough, flame resistant fibers becoming incorporated into its skin as armor and body mass.",
     "looks_like": "mon_zombie_fireman",
     "copy-from": "mon_zombie_fireman",
