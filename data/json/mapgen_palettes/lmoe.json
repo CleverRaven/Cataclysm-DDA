@@ -34,6 +34,8 @@
       "F": "f_fridge",
       "é": "f_freezer",
       "f": "f_sofa",
+      "g": [ "f_backup_generator", [ "f_generator_broken", 2 ] ],
+      "ʒ": [ "f_backup_generator", [ "f_generator_broken", 6 ] ],
       "G": "f_generator_broken",
       "h": "f_chair",
       "H": "f_water_heater",
