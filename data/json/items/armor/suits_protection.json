@@ -2621,12 +2621,13 @@
     "id": "entry_suit",
     "type": "ARMOR",
     "name": { "str": "entry suit" },
-    "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
-    "weight": "2900 g",
-    "volume": "6 L",
+    "description": "A tough flame-resistant, whole-body garment worn by firefighters as protection against extreme heat.  It includes a SCBA to protect from hazardous gasses and temperatures, with a backpack slot for an air tank.",
+    "//:": "Roughly based on the Newtex X40.",
+    "weight": "11300 g",
+    "volume": "13 L",
     "price": "2 kUSD 405 USD",
     "price_postapoc": "25 USD",
-    "material": [ "nomex", "kevlar" ],
+    "material": [ "zetex" ],
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
@@ -2634,12 +2635,22 @@
     "longest_side": "30 cm",
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
+    "flags": [ "VARSIZE", "WATERPROOF", "IRRITANT_IMMUNE", "RAINPROOF", "STURDY", "OUTER", "REBREATHER", "OVERSIZE", "NO_REPAIR" ],
     "armor": [
       {
         "encumbrance": 50,
         "coverage": 100,
         "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "ammo": "nitrox",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "max_contains_weight": "20 kg",
+        "max_contains_volume": "12 l",
+        "item_restriction": [ "scuba_tank", "small_scuba_tank" ]
       }
     ]
   },
