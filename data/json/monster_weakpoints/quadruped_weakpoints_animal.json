@@ -7,7 +7,8 @@
         "name": "the head",
         "armor_mult": { "physical": 0.75 },
         "crit_mult": { "all": 1.1 },
-        "difficulty": { "melee": 2, "ranged": 5 },
+        "difficulty": { "melee": 2, "ranged": 4 },
+        "damage_mult": { "physical": 1.1 },
         "coverage_mult": { "ranged": 0.75 },
         "coverage": 3,
         "effects": [
@@ -49,6 +50,47 @@
             "chance": 30,
             "message": "The %s's eyes are obliterated!",
             "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the chest",
+        "armor_mult": { "bash": 2 },
+        "difficulty": { "melee": 2, "ranged": 1 },
+        "damage_mult": { "stab": 1.25, "bullet": 1.33 },
+        "coverage": 18
+      },
+      {
+        "name": "the vitals",
+        "armor_mult": { "physical": 0.45 },
+        "difficulty": { "ranged": 4 },
+        "damage_mult": { "physical": 2 },
+        "coverage_mult": { "melee": 0 },
+        "coverage": 7,
+        "effects": [
+          {
+            "effect": "bleed",
+            "intensity": [ 10, 15 ],
+            "duration": [ 10, 20 ],
+            "chance": 75,
+            "message": "The %s is shot in the vitals!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "bleed",
+            "intensity": [ 20, 30 ],
+            "duration": [ 20, 30 ],
+            "chance": 85,
+            "message": "The %s is shot in the vitals!",
+            "damage_required": [ 11, 50 ]
+          },
+          {
+            "effect": "bleed",
+            "intensity": [ 30, 40 ],
+            "duration": [ 30, 40 ],
+            "chance": 95,
+            "message": "The %s is shot in the vitals!",
+            "damage_required": [ 51, 100 ]
           }
         ]
       },
