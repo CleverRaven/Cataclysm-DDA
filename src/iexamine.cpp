@@ -1983,7 +1983,7 @@ void iexamine::bulletin_board( Character &you, const tripoint_bub_ms &examp )
     map &here = get_map();
     // TODO: fix point types
     point_abs_omt omt( coords::project_to<coords::omt>( here.getglobal( examp ) ).xy() );
-   std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         if( !temp_camp->allowed_access_by( you ) ) {
