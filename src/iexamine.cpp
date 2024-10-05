@@ -1310,7 +1310,7 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
         return;
     }
 
-    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig.raw() ) - uilist_positive;
+    int const movez = _choose_elevator_destz( examp, this_omt, sm_orig ) - uilist_positive;
     if( movez < -OVERMAP_DEPTH ) {
         return;
     }
