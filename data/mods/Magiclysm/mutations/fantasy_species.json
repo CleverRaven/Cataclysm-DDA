@@ -767,7 +767,10 @@
     "strict_threshreq": true,
     "restricts_gear": [ "torso" ],
     "allow_soft_gear": true,
-    "flags": [ "WINGS_2", "WING_GLIDE" ]
+    "flags": [ "WINGS_2", "WING_GLIDE" ],
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_RAVENFOLK_LEAP" ]
   },
   {
     "type": "mutation",
