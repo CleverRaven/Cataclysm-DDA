@@ -16,7 +16,7 @@
     "id": "mon_zombie_fireproof",
     "type": "MONSTER",
     "name": { "str": "fireproof zombie" },
-    "description": "this zombie appears to have once been a firefighter or similar first responder, the wilted remains of its turnout gear cling to it like a molted carapace.  Fibrous streaks resembling the fireproof materials of its gear run through its flesh like roots, giving the thing a mottled, off-yellow appearance as it prowls on all fours.",
+    "description": "This zombie appears to have once been a firefighter or similar first responder, the wilted remains of its turnout gear clinging to it like a molted carapace.  Fibrous streaks resembling the fireproof materials of its gear run through its flesh like roots, giving the thing a mottled, off-yellow appearance as it prowls on all fours.",
     "copy-from": "mon_zombie_hunter",
     "default_faction": "zombie",
     "color": "brown_yellow",
