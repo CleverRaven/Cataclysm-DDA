@@ -194,11 +194,14 @@ struct islot_comestible {
             return default_nutrition.kcal() / kcal_per_nutr;
         }
 
-        /** The monster group that is drawn from when the item rots away */
-        mongroup_id rot_spawn = mongroup_id::NULL_ID();
+        /** The monster that is drawn from when the item rots away */
+        mtype_id rot_spawn_monster = mtype_id::NULL_ID();
+        mongroup_id rot_spawn_group = mongroup_id::NULL_ID();
 
-        /** Chance the above monster group spawns*/
+        /** Chance the above monster spawns*/
         int rot_spawn_chance = 10;
+
+        std::pair<int, int> rot_spawn_monster_amount = {1, 1};
 
     private:
         /** effect on morale when consuming */
