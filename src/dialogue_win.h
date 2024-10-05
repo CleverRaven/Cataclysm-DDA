@@ -56,6 +56,8 @@ class dialogue_window
         bool show_dynamic_line_effects = true;
         bool show_response_conditionals = true;
         bool show_response_effects = true;
+        //copy of dialogue::show_all_responses
+        bool show_all_responses = false;
         int sel_response = 0;
         std::string debug_topic_name;
     private:

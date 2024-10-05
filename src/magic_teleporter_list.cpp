@@ -47,7 +47,7 @@ static bool popup_string( std::string &result, std::string &title )
     return true;
 }
 
-bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint & )
+bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms & )
 {
     std::string point_name;
     std::string title = _( "Name this gate." );
@@ -55,7 +55,8 @@ bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const
     return known_teleporters.emplace( omt_pt, point_name ).second;
 }
 
-void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint & )
+void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt,
+        const tripoint_bub_ms & )
 {
     known_teleporters.erase( omt_pt );
 }
@@ -113,7 +114,7 @@ void teleporter_list::translocate( const std::set<tripoint_bub_ms> &targets )
             valid_targets = true;
             if( !place_avatar_overmap( *you, *omt_dest ) ) {
                 add_msg( _( "Failed to teleport.  Teleporter obstructed or destroyed." ) );
-                deactivate_teleporter( *omt_dest, pt.raw() );
+                deactivate_teleporter( *omt_dest, pt );
             }
         }
     }

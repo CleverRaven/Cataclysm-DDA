@@ -283,17 +283,17 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
         }
     }
 
-    for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+    for( const tripoint_bub_ms &target_pos : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }
-        if( source_pos != nullptr && *source_pos == target_pos ) {
+        if( source_pos != nullptr && *source_pos == target_pos.raw() ) {
             continue;
         }
-        const std::string dir = direction_name( direction_from( player_character.pos(), target_pos ) );
+        const std::string dir = direction_name( direction_from( player_character.pos_bub(), target_pos ) );
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir );
         actions.emplace_back( [ &, target_pos]() {
-            target.pos = target_pos;
+            target.pos = target_pos.raw();
             target.dest_opt = LD_KEG;
         } );
     }
@@ -437,7 +437,7 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                 serialize_liquid_target( player_character.activity, target.pos );
             } else {
                 if( target.dest_opt == LD_KEG ) {
-                    iexamine::pour_into_keg( target.pos, liquid );
+                    iexamine::pour_into_keg( tripoint_bub_ms( target.pos ), liquid );
                 } else {
                     here.add_item_or_charges( target.pos, liquid );
                     liquid.charges = 0;
