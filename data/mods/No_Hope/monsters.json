@@ -630,7 +630,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "luminance": 8,
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": {
       "subtype": "collection",

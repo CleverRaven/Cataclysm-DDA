@@ -133,7 +133,7 @@
     "name": { "str_sp": "undying" },
     "description": "An enormous humanoid monster with a yellowish-green skin.  Trolls are renowned for their thick hides and natural regenerative ability.  After death, its pus filled body seems to have much grown stronger, it looks at you ferociously with hunger in its eyes.",
     "default_faction": "zombie",
-    "harvest": "zombie",
+    "harvest": "zombie_humanoid",
     "relative": {
       "hp": 40,
       "speed": -25,
