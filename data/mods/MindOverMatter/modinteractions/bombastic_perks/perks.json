@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mutation",
+    "id": "perk_mastery_of_form",
+    "name": { "str": "Mastery of Form" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your control of your own body has given you control of your own genetics, albeit a subconscious one.  You will be less likely to suffer from negative mutations when taking mutagen.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+  }
+]

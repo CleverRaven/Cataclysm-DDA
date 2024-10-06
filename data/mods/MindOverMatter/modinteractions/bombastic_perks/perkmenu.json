@@ -1,0 +1,34 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_PSIONICS",
+    "dynamic_line": "Psionic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": { "not": { "u_has_trait": "perk_mastery_of_form" } },
+        "text": "Gain [<trait_name:perk_mastery_of_form>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_mastery_of_form>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_mastery_of_form>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_mastery_of_form", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know at least 100 levels of powers between Biokinesis and/or Vitakinesis.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') + u_spell_level_sum('school': 'VITAKINETIC')", ">=", "100" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      { "text": "Back", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]
