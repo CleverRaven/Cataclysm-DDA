@@ -614,8 +614,6 @@ static void damage_targets( const spell &sp, Creature &caster,
                     }
                 }
                 cr->deal_projectile_attack( &caster, atk, true );
-            } else {
-                cr->deal_projectile_attack( &caster, atk, true );
             }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
@@ -639,12 +637,16 @@ static void damage_targets( const spell &sp, Creature &caster,
                 }
 
                 if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
+                    for( bodypart_id bpid : target_bdpts ) {
+                        damage_over_time_data foo = sp.damage_over_time( { bpid }, caster );
+                        foo.amount = cr->get_hp( bpid ) * foo.amount / 100.0;
+                        cr->add_damage_over_time( foo );
+                    }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
                     damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
                     dot_data.amount /= target_bdpts.size();
                     cr->add_damage_over_time( dot_data );
-                } else if( target_bdpts.size() > 0 ) {
+                } else if( !target_bdpts.empty() ) {
                     cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
                 } else {
                     cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
