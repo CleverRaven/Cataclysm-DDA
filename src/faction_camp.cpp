@@ -54,6 +54,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "mission_companion.h"
+#include "mongroup.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "omdata.h"
@@ -4498,27 +4499,55 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
 void basecamp::hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty )
 {
     // corpses do not exist as discrete items, so we use monster groups instead
-    weighted_int_list<mtype_id> hunting_targets;
-    for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING->monsters ) {
-        hunting_targets.add( target.name, target.frequency );
-    }
+    int base_group_chance = GROUP_CAMP_HUNTING->freq_total;
+    int mission_specific_chance = 0;
+    mongroup_id mission_specific_group;
     if( miss_id.id == Camp_Trapping ) {
-        for( const MonsterGroupEntry &target : GROUP_CAMP_TRAPPING->monsters ) {
-            hunting_targets.add( target.name, target.frequency );
-        }
+        mission_specific_group = GROUP_CAMP_TRAPPING;
+        mission_specific_chance += GROUP_CAMP_TRAPPING->freq_total;
     } else if( miss_id.id == Camp_Hunting ) {
-        for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE->monsters ) {
-            hunting_targets.add( target.name, target.frequency );
-        }
+        mission_specific_group = GROUP_CAMP_HUNTING_LARGE;
+        mission_specific_chance += GROUP_CAMP_HUNTING_LARGE->freq_total;
     }
+    const int total_chance = base_group_chance + mission_specific_chance;
+    int successful_hunts = 0;
     for( int i = 0; i < attempts; i++ ) {
         if( skill > rng( 0, difficulty ) ) {
-            // TODO: replace this with MonsterGroupManager::GetResultFromGroup
-            const mtype_id *target = hunting_targets.pick();
-            item result = item::make_corpse( *target, calendar::turn, "" );
-            if( !result.is_null() ) {
+            successful_hunts++;
+        }
+    }
+
+    if( successful_hunts <= 0 ) {
+        return;
+    }
+
+    int results_from_base_group = 0;
+    int results_from_mission_group = 0;
+    for( ; successful_hunts > 0; successful_hunts-- ) {
+        if( x_in_y( base_group_chance, total_chance ) ) {
+            results_from_base_group++;
+        } else {
+            results_from_mission_group++;
+        }
+    }
+
+    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
+                            &results_from_base_group ) );
+    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( mission_specific_group,
+                            &results_from_mission_group ) );
+}
+
+void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
+{
+    for( const MonsterGroupResult &monster : group ) {
+        const mtype_id target = monster.name;
+        item result = item::make_corpse( target, calendar::turn, "" );
+        if( !result.is_null() ) {
+            int num_to_spawn = monster.pack_size;
+            do {
                 place_results( result );
-            }
+                num_to_spawn--;
+            } while( num_to_spawn > 0 );
         }
     }
 }
