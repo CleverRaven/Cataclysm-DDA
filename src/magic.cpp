@@ -173,6 +173,8 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::ENHANCEMENT_SPELL: return "ENHANCEMENT_SPELL";
         case spell_flag::ENERVATION_SPELL: return "ENERVATION_SPELL";
         case spell_flag::CONVEYANCE_SPELL: return "CONVEYANCE_SPELL";
+        case spell_flag::RESTORATION_SPELL: return "RESTORATION_SPELL";
+        case spell_flag::TRANSFORMATION_SPELL: return "TRANSFORMATION_SPELL";
         case spell_flag::LAST: break;
     }
     cata_fatal( "Invalid spell_flag" );
@@ -809,18 +811,17 @@ std::string spell::damage_string( const Character &caster ) const
     return damage_string;
 }
 
-std::optional<tripoint> spell::select_target( Creature *source )
+std::optional<tripoint_bub_ms> spell::select_target( Creature *source )
 {
-    tripoint target = source->pos();
+    tripoint_bub_ms target = source->pos_bub();
     bool target_is_valid = false;
     if( range( *source ) > 0 && !is_valid_target( spell_target::none ) &&
         !has_flag( spell_flag::RANDOM_TARGET ) ) {
         if( source->is_avatar() ) {
             do {
                 avatar &source_avatar = *source->as_avatar();
-                std::vector<tripoint> trajectory = target_handler::mode_spell( source_avatar, *this,
-                                                   true,
-                                                   true );
+                std::vector<tripoint_bub_ms> trajectory = target_handler::mode_spell( source_avatar, *this, true,
+                        true );
                 if( !trajectory.empty() ) {
                     target = trajectory.back();
                     target_is_valid = is_valid_target( source_avatar, target );
@@ -851,10 +852,12 @@ std::optional<tripoint> spell::select_target( Creature *source )
             }
         } // TODO: move monster spell attack targeting here
     } else if( has_flag( spell_flag::RANDOM_TARGET ) ) {
-        const std::optional<tripoint> target_ = random_valid_target( *source, source->pos() );
+        const std::optional<tripoint_bub_ms> target_ = random_valid_target( *source, source->pos_bub() );
         if( !target_ ) {
-            source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
-                                       _( "You can't find a suitable target." ) );
+            if( !type->description.empty() ) {
+                source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
+                                           _( "You can't find a suitable target." ) );
+            }
             return std::nullopt;
         }
         target = *target_;
@@ -888,19 +891,20 @@ int spell::aoe( const Creature &caster ) const
     return return_value * temp_aoe_multiplyer;
 }
 
-std::set<tripoint> spell::effect_area( const spell_effect::override_parameters &params,
-                                       const tripoint &source, const tripoint &target ) const
+std::set<tripoint_bub_ms> spell::effect_area( const spell_effect::override_parameters &params,
+        const tripoint_bub_ms &source, const tripoint_bub_ms &target ) const
 {
     return type->spell_area_function( params, source, target );
 }
 
-std::set<tripoint> spell::effect_area( const tripoint &source, const tripoint &target,
-                                       const Creature &caster ) const
+std::set<tripoint_bub_ms> spell::effect_area( const tripoint_bub_ms &source,
+        const tripoint_bub_ms &target, const Creature &caster ) const
 {
     return effect_area( spell_effect::override_parameters( *this, caster ), source, target );
 }
 
-bool spell::in_aoe( const tripoint &source, const tripoint &target, const Creature &caster ) const
+bool spell::in_aoe( const tripoint_bub_ms &source, const tripoint_bub_ms &target,
+                    const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     if( has_flag( spell_flag::RANDOM_AOE ) ) {
@@ -934,17 +938,17 @@ int spell::range( const Creature &caster ) const
     return std::max( range * temp_range_multiplyer, 0.0f );
 }
 
-std::vector<tripoint> spell::targetable_locations( const Character &source ) const
+std::vector<tripoint_bub_ms> spell::targetable_locations( const Character &source ) const
 {
 
-    const tripoint char_pos = source.pos();
+    const tripoint_bub_ms char_pos = source.pos_bub();
     const bool select_ground = is_valid_target( spell_target::ground );
     const bool ignore_walls = has_flag( spell_flag::NO_PROJECTILE );
     map &here = get_map();
 
     // TODO: put this in a namespace for reuse
-    const auto has_obstruction = [&]( const tripoint & at ) {
-        for( const tripoint &line_point : line_to( char_pos, at ) ) {
+    const auto has_obstruction = [&]( const tripoint_bub_ms & at ) {
+        for( const tripoint_bub_ms &line_point : line_to( char_pos, at ) ) {
             if( here.impassable( line_point ) ) {
                 return true;
             }
@@ -952,8 +956,8 @@ std::vector<tripoint> spell::targetable_locations( const Character &source ) con
         return false;
     };
 
-    std::vector<tripoint> selectable_targets;
-    for( const tripoint &query : here.points_in_radius( char_pos, range( source ) ) ) {
+    std::vector<tripoint_bub_ms> selectable_targets;
+    for( const tripoint_bub_ms &query : here.points_in_radius( char_pos, range( source ) ) ) {
         if( !ignore_walls && has_obstruction( query ) ) {
             // it's blocked somewhere!
             continue;
@@ -1450,7 +1454,7 @@ bool spell::bp_is_affected( const bodypart_str_id &bp ) const
     return type->affected_bps.test( bp );
 }
 
-void spell::create_field( const tripoint &at, Creature &caster ) const
+void spell::create_field( const tripoint_bub_ms &at, Creature &caster ) const
 {
     if( !type->field ) {
         return;
@@ -1485,7 +1489,7 @@ int spell::sound_volume( const Creature &caster ) const
     return std::max( loudness * temp_sound_multiplyer, 0.0f );
 }
 
-void spell::make_sound( const tripoint &target, Creature &caster ) const
+void spell::make_sound( const tripoint_bub_ms &target, Creature &caster ) const
 {
     const int loudness = sound_volume( caster );
     if( loudness > 0 ) {
@@ -1493,7 +1497,7 @@ void spell::make_sound( const tripoint &target, Creature &caster ) const
     }
 }
 
-void spell::make_sound( const tripoint &target, int loudness ) const
+void spell::make_sound( const tripoint_bub_ms &target, int loudness ) const
 {
     sounds::sound( target, loudness, type->sound_type, type->sound_description.translated(),
                    type->sound_ambient, type->sound_id, type->sound_variant );
@@ -1509,9 +1513,9 @@ magic_energy_type spell::energy_source() const
     return type->energy_source;
 }
 
-bool spell::is_target_in_range( const Creature &caster, const tripoint &p ) const
+bool spell::is_target_in_range( const Creature &caster, const tripoint_bub_ms &p ) const
 {
-    return rl_dist( caster.pos(), p ) <= range( caster );
+    return rl_dist( caster.pos_bub(), p ) <= range( caster );
 }
 
 bool spell::is_valid_target( spell_target t ) const
@@ -1519,7 +1523,7 @@ bool spell::is_valid_target( spell_target t ) const
     return type->valid_targets[t];
 }
 
-bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
+bool spell::is_valid_target( const Creature &caster, const tripoint_bub_ms &p ) const
 {
     bool valid = false;
     if( Creature *const cr = get_creature_tracker().creature_at<Creature>( p ) ) {
@@ -1528,8 +1532,8 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
                            is_valid_target( spell_target::hostile ) );
         valid = valid || ( cr_att == Creature::Attitude::FRIENDLY &&
                            is_valid_target( spell_target::ally ) &&
-                           p != caster.pos() );
-        valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos() );
+                           p != caster.pos_bub() );
+        valid = valid || ( is_valid_target( spell_target::self ) && p == caster.pos_bub() );
         valid = valid && target_by_monster_id( p );
         valid = valid && target_by_species_id( p );
         valid = valid && ignore_by_species_id( p );
@@ -1539,7 +1543,7 @@ bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
     return valid;
 }
 
-bool spell::target_by_monster_id( const tripoint &p ) const
+bool spell::target_by_monster_id( const tripoint_bub_ms &p ) const
 {
     if( type->targeted_monster_ids.empty() ) {
         return true;
@@ -1553,7 +1557,7 @@ bool spell::target_by_monster_id( const tripoint &p ) const
     return valid;
 }
 
-bool spell::target_by_species_id( const tripoint &p ) const
+bool spell::target_by_species_id( const tripoint_bub_ms &p ) const
 {
     if( type->targeted_species_ids.empty() ) {
         return true;
@@ -1569,7 +1573,7 @@ bool spell::target_by_species_id( const tripoint &p ) const
     return valid;
 }
 
-bool spell::ignore_by_species_id( const tripoint &p ) const
+bool spell::ignore_by_species_id( const tripoint_bub_ms &p ) const
 {
     if( type->ignored_species_ids.empty() ) {
         return true;
@@ -1825,7 +1829,7 @@ dealt_damage_instance spell::get_dealt_damage_instance( Creature &caster ) const
     return dmg;
 }
 
-dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
+dealt_projectile_attack spell::get_projectile_attack( const tripoint_bub_ms &target,
         Creature &hit_critter, Creature &caster ) const
 {
     projectile bolt;
@@ -1852,7 +1856,7 @@ vproto_id spell::summon_vehicle_id() const
     return vproto_id( type->effect_str );
 }
 
-int spell::heal( const tripoint &target, Creature &caster ) const
+int spell::heal( const tripoint_bub_ms &target, Creature &caster ) const
 {
     creature_tracker &creatures = get_creature_tracker();
     monster *const mon = creatures.creature_at<monster>( target );
@@ -1867,7 +1871,7 @@ int spell::heal( const tripoint &target, Creature &caster ) const
     return -1;
 }
 
-void spell::cast_spell_effect( const tripoint &target ) const
+void spell::cast_spell_effect( const tripoint_bub_ms &target ) const
 {
     avatar fake_avatar;
     fake_avatar.setpos( target );
@@ -1879,7 +1883,7 @@ void spell::cast_spell_effect( const tripoint &target ) const
     type->effect( *this, fake_avatar, target );
 }
 
-void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
+void spell::cast_spell_effect( Creature &source, const tripoint_bub_ms &target ) const
 {
     Character *caster = source.as_character();
     if( caster ) {
@@ -1893,7 +1897,7 @@ void spell::cast_spell_effect( Creature &source, const tripoint &target ) const
     type->effect( *this, source, target );
 }
 
-void spell::cast_all_effects( const tripoint &target ) const
+void spell::cast_all_effects( const tripoint_bub_ms &target ) const
 {
     avatar fake_avatar;
     fake_avatar.setpos( target );
@@ -1925,7 +1929,7 @@ void spell::cast_all_effects( const tripoint &target ) const
     }
 }
 
-void spell::cast_all_effects( Creature &source, const tripoint &target ) const
+void spell::cast_all_effects( Creature &source, const tripoint_bub_ms &target ) const
 {
     if( has_flag( spell_flag::WONDER ) ) {
         const auto iter = type->additional_spells.begin();
@@ -1943,13 +1947,13 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             source.add_msg_if_player( sp.message() );
 
             if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-                if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
-                        _self ? source.pos() : target ) ) {
+                if( const std::optional<tripoint_bub_ms> new_target = sp.random_valid_target( source,
+                        _self ? source.pos_bub() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
                 }
             } else {
                 if( _self ) {
-                    sp.cast_all_effects( source, source.pos() );
+                    sp.cast_all_effects( source, source.pos_bub() );
                 } else {
                     sp.cast_all_effects( source, target );
                 }
@@ -1966,7 +1970,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
     }
 }
 
-void spell::cast_extra_spell_effects( const tripoint &target ) const
+void spell::cast_extra_spell_effects( const tripoint_bub_ms &target ) const
 {
     avatar fake_avatar;
     fake_avatar.setpos( target );
@@ -1976,18 +1980,18 @@ void spell::cast_extra_spell_effects( const tripoint &target ) const
     }
 }
 
-void spell::cast_extra_spell_effects( Creature &source, const tripoint &target ) const
+void spell::cast_extra_spell_effects( Creature &source, const tripoint_bub_ms &target ) const
 {
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp = extra_spell.get_spell( source, get_effective_level() );
         if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-            if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
-                    extra_spell.self ? source.pos() : target ) ) {
+            if( const std::optional<tripoint_bub_ms> new_target = sp.random_valid_target( source,
+                    extra_spell.self ? source.pos_bub() : target ) ) {
                 sp.cast_all_effects( source, *new_target );
             }
         } else {
             if( extra_spell.self ) {
-                sp.cast_all_effects( source, source.pos() );
+                sp.cast_all_effects( source, source.pos_bub() );
             } else {
                 sp.cast_all_effects( source, target );
             }
@@ -1995,16 +1999,16 @@ void spell::cast_extra_spell_effects( Creature &source, const tripoint &target )
     }
 }
 
-std::optional<tripoint> spell::random_valid_target( const Creature &caster,
-        const tripoint &caster_pos ) const
+std::optional<tripoint_bub_ms> spell::random_valid_target( const Creature &caster,
+        const tripoint_bub_ms &caster_pos ) const
 {
     const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
-    std::set<tripoint> valid_area;
+    std::set<tripoint_bub_ms> valid_area;
     spell_effect::override_parameters blast_params( *this, caster );
     // we want to pick a random target within range, not aoe
     blast_params.aoe_radius = range( caster );
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &target : spell_effect::spell_effect_blast(
+    for( const tripoint_bub_ms &target : spell_effect::spell_effect_blast(
              blast_params, caster_pos, caster_pos ) ) {
         if( target != caster_pos && is_valid_target( caster, target ) &&
             ( !ignore_ground || creatures.creature_at<Creature>( target ) ) ) {
@@ -2403,11 +2407,8 @@ static void reflesh_favorite( uilist *menu, std::vector<spell *> known_spells )
 class spellcasting_callback : public uilist_callback
 {
     private:
-        int selected_sp = 0;
-        int scroll_pos = 0;
-        std::vector<std::string> info_txt;
         std::vector<spell *> known_spells;
-        void spell_info_text( const spell &sp, int width );
+        cataimgui::scroll spell_info_scroll = cataimgui::scroll::none;
         void display_spell_info( size_t index );
     public:
         // invlets reserved for special functions
@@ -2443,11 +2444,13 @@ class spellcasting_callback : public uilist_callback
                     get_player_character().magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
-            } else if( action == "SCROLL_UP_SPELL_MENU" || action == "SCROLL_DOWN_SPELL_MENU" ) {
-                scroll_pos += action == "SCROLL_DOWN_SPELL_MENU" ? 1 : -1;
             } else if( action == "SCROLL_FAVORITE" ) {
                 get_player_character().magic->toggle_favorite( known_spells[entnum]->id() );
                 reflesh_favorite( menu, known_spells );
+            } else if( action == "SCROLL_UP_SPELL_MENU" ) {
+                spell_info_scroll = cataimgui::scroll::line_up;
+            } else if( action == "SCROLL_DOWN_SPELL_MENU" ) {
+                spell_info_scroll = cataimgui::scroll::line_down;
             }
             return false;
         }
@@ -2529,6 +2532,12 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     if( has_flag( spell_flag::CONVEYANCE_SPELL ) ) {
         spell_data.emplace_back( _( "is a conveyance spell" ) );
     }
+    if( has_flag( spell_flag::RESTORATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a restoration spell" ) );
+    }
+    if( has_flag( spell_flag::TRANSFORMATION_SPELL ) ) {
+        spell_data.emplace_back( _( "is a transformation spell" ) );
+    }
     if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
         temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
@@ -2563,11 +2572,15 @@ void spellcasting_callback::display_spell_info( size_t index )
     const spell &sp = *known_spells[ index ];
     Character &pc = get_player_character();
 
+    cataimgui::set_scroll( spell_info_scroll );
     ImGui::TextColored( c_yellow, "%s", sp.spell_class() == trait_NONE ? _( "Classless" ) :
                         sp.spell_class()->name().c_str() );
-    ImGui::TextWrapped( "%s", sp.description().c_str() );
+    // we remove 6 characteres from the width because there seems to be issues with wrapping in this menu (even with TextWrapped)
+    // TODO(thePotatomancer): investigate and fix the strange wrapping issues in this menu as well as oth er imgui menus
+    float spell_info_width = ImGui::GetContentRegionAvail().x - ( ImGui::CalcTextSize( " " ).x * 16 );
+    cataimgui::draw_colored_text( sp.description(), spell_info_width );
     ImGui::NewLine();
-    ImGui::TextWrapped( "%s", sp.enumerate_spell_data( pc ).c_str() );
+    cataimgui::draw_colored_text( sp.enumerate_spell_data( pc ), spell_info_width );
     ImGui::NewLine();
 
     // Calculates temp_level_adjust from EoC, saves it to the spell for later use, and prepares to display the result
@@ -2622,10 +2635,11 @@ void spellcasting_callback::display_spell_info( size_t index )
                                       sp.energy_cost_string( pc ).c_str(),
                                       sp.energy_string().c_str(), energy_cur.c_str() ) );
     } else {
-        ImGui::TextColored( c_red, "%s", _( "Not Enough Stamina" ) );
+        ImGui::TextColored( c_red, "%s %s", _( "Not Enough" ), sp.energy_string().c_str() );
         ImGui::SameLine( 0, 0 );
-        ImGui::Text( ": %s %s", sp.energy_cost_string( pc ).c_str(),
-                     sp.energy_string().c_str() );
+        cataimgui::draw_colored_text( string_format( ": %s %s",
+                                      sp.energy_cost_string( pc ).c_str(),
+                                      sp.energy_string().c_str() ) );
     }
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
     std::string psi_cast_time = c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" );
@@ -2761,18 +2775,21 @@ void spellcasting_callback::display_spell_info( size_t index )
     }
 
     // TODO(db48x): rewrite to display via ImGui directly, so that wrapping can be done correctly
+    // TODO(thePotatomancer): once we do rewrite it make sure to pass wrapping info to draw_colored_text or skip it entirely
     float width = ImGui::GetContentRegionAvail().x / ImGui::CalcTextSize( "X" ).x;
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
-                info_txt.emplace_back( line );
+                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
+                cataimgui::draw_colored_text( line );
+                ImGui::NewLine();
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
-                info_txt.emplace_back( line );
+                     width - 6, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
+                cataimgui::draw_colored_text( line );
+                ImGui::NewLine();
             }
         }
     }
@@ -2836,7 +2853,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( Character &guy )
+spell &known_magic::select_spell( Character &guy )
 {
     std::vector<spell *> known_spells_sorted = get_spells();
 
@@ -2929,8 +2946,12 @@ int known_magic::select_spell( Character &guy )
     spell_menu.query( true, 50, true );
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
-
-    return spell_menu.ret;
+    if( spell_menu.ret < 0 ) {
+        static spell null_spell_reference( spell_id::NULL_ID() );
+        return null_spell_reference;
+    }
+    spell *selected_spell = known_spells_sorted[spell_menu.ret];
+    return *selected_spell;
 }
 
 void known_magic::on_mutation_gain( const trait_id &mid, Character &guy )
@@ -2987,7 +3008,6 @@ static std::string color_number( const float num )
         return colorize( "0", c_white );
     }
 }
-
 static void draw_spellbook_info( const spell_type &sp )
 {
     const spell fake_spell( sp.id );

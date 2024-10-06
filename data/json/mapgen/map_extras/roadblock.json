@@ -42,8 +42,8 @@
       ],
       "furniture": { "s": "f_sandbag_half", "g": "f_active_backup_generator", "b": "f_barricade_road" },
       "monster": {
-        "T": { "monster": "mon_turret_riot", "chance": 100 },
-        "t": { "monster": "mon_turret_riot", "chance": 60 },
+        "T": { "monster": "mon_feral_cop", "chance": 100 },
+        "t": { "monster": "mon_feral_cop", "chance": 60 },
         "L": { "monster": "mon_turret_searchlight" }
       },
       "place_vehicles": [

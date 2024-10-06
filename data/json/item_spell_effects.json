@@ -2,8 +2,8 @@
   {
     "id": "dragon_inflatable",
     "type": "SPELL",
-    "name": { "str": "Inflatable Dragon" },
-    "description": "Creates a short-lived inflatable.",
+    "name": { "str": "Inflatable Dragon", "//~": "NO_I18N" },
+    "description": { "str": "Creates a short-lived inflatable.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
@@ -22,8 +22,8 @@
   {
     "id": "ghost_inflatable",
     "type": "SPELL",
-    "name": { "str": "Inflatable Ghost" },
-    "description": "Creates a short-lived inflatable.",
+    "name": { "str": "Inflatable Ghost", "//~": "NO_I18N" },
+    "description": { "str": "Creates a short-lived inflatable.", "//~": "NO_I18N" },
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
@@ -42,8 +42,8 @@
   {
     "id": "fog_machine",
     "type": "SPELL",
-    "name": { "str": "Fog Ex Machina" },
-    "description": "You see fog bubbling out of the device.",
+    "name": { "str": "Fog Ex Machina", "//~": "NO_I18N" },
+    "description": { "str": "You see fog bubbling out of the device.", "//~": "NO_I18N" },
     "effect": "attack",
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],

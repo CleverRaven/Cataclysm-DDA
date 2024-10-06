@@ -241,8 +241,8 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.set_moves( -to_moves<int>( 5_seconds ) );
                 map &here = get_map();
                 fungal_effects fe;
-                for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
-                    if( sporep == u.pos() ) {
+                for( const tripoint_bub_ms &sporep : here.points_in_radius( u.pos_bub(), 1 ) ) {
+                    if( sporep == u.pos_bub() ) {
                         continue;
                     }
                     fe.fungalize( sporep, &u, 0.25 );
@@ -636,9 +636,9 @@ static void eff_fun_teleglow( Character &u, effect &it )
         // 12 teleports
         if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
             creature_tracker &creatures = get_creature_tracker();
-            tripoint dest( 0, 0, u.posz() );
-            int &x = dest.x;
-            int &y = dest.y;
+            tripoint_bub_ms dest( 0, 0, u.posz() );
+            int &x = dest.x();
+            int &y = dest.y();
             int tries = 0;
             do {
                 x = u.posx() + rng( -4, 4 );
@@ -1295,11 +1295,11 @@ void Character::hardcoded_effects( effect &it )
     } else if( id == effect_attention ) {
         if( to_turns<int>( dur ) != 0 && one_in( 100000 / to_turns<int>( dur ) ) &&
             one_in( 100000 / to_turns<int>( dur ) ) && one_in( 250 ) ) {
-            tripoint dest( 0, 0, posz() );
+            tripoint_bub_ms dest( 0, 0, posz() );
             int tries = 0;
             do {
-                dest.x = posx() + rng( -4, 4 );
-                dest.y = posy() + rng( -4, 4 );
+                dest.x() = posx() + rng( -4, 4 );
+                dest.y() = posy() + rng( -4, 4 );
                 tries++;
             } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
@@ -1344,7 +1344,7 @@ void Character::hardcoded_effects( effect &it )
         }
     } else if( id == effect_tindrift ) {
         add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-        for( const tripoint &dest : here.points_in_radius( pos(), 6 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 6 ) ) {
             if( here.is_cornerfloor( dest ) ) {
                 here.add_field( dest, fd_tindalos_rift, 3 );
                 add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );

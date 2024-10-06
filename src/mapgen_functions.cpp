@@ -804,7 +804,8 @@ void mapgen_forest( mapgendata &dat )
     for( int bd_x = 0; bd_x < 2; bd_x++ ) {
         for( int bd_y = 0; bd_y < 2; bd_y++ ) {
             // Use the corners of the overmap tiles as hash seeds.
-            point global_corner = m->getabs( point( bd_x * SEEX * 2, bd_y * SEEY * 2 ) );
+            point global_corner = m->getglobal( tripoint_bub_ms( bd_x * SEEX * 2, bd_y * SEEY * 2,
+                                                m->get_abs_sub().z() ) ).xy().raw();
             uint32_t net_hash = std::hash<uint32_t> {}( global_corner.x ) ^ ( std::hash<int> {}( global_corner.y )
                                 << 1 );
             uint32_t h_hash = net_hash;
@@ -1156,7 +1157,7 @@ void mapgen_forest( mapgendata &dat )
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < self_biome.item_spawn_iterations; i++ ) {
         m->place_items( self_biome.item_group, self_biome.item_group_chance,
-                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
+                        point_bub_ms_zero, point_bub_ms( SEEX * 2 - 1, SEEY * 2 - 1 ), dat.zlevel(), true, dat.when() );
     }
 }
 
@@ -2228,7 +2229,7 @@ void mremove_trap( map *m, const tripoint_bub_ms &p, trap_id type )
 void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( p ) ), true );
+        Creature *c = get_creature_tracker().creature_at( m->getglobal( p ), true );
         if( c ) {
             return;
         }
@@ -2239,25 +2240,25 @@ void mtrap_set( map *m, const tripoint_bub_ms &p, trap_id type, bool avoid_creat
 void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
-        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
-                      m->get_abs_sub().z() ) ) ), true );
+        Creature *c = get_creature_tracker().creature_at( m->getglobal( tripoint_omt_ms( p.x, p.y,
+                      m->get_abs_sub().z() ) ), true );
         if( c ) {
             return;
         }
     }
-    tripoint actual_location( p, m->get_abs_sub().z() );
+    tripoint_omt_ms actual_location( point_omt_ms( p ), m->get_abs_sub().z() );
     m->trap_set( actual_location, type );
 }
 
 void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
-    tripoint actual_location( p, m->get_abs_sub().z() );
+    tripoint_bub_ms actual_location( point_bub_ms( p ), m->get_abs_sub().z() );
     m->add_field( actual_location, type, intensity, 0_turns );
 }
 
 void mremove_fields( map *m, const tripoint_bub_ms &p )
 {
-    m->clear_fields( p.raw() );
+    m->clear_fields( p );
 }
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )

@@ -4571,7 +4571,7 @@
           ],
           "fg": 344
         },
-        { "id": "apartments_con_tower_015", "fg": 196 },
+        { "id": [ "apartments_con_tower_015", "apartments_con_tower_115" ], "fg": 196 },
         { "id": [ "homelesscamp", "homelesscamp_npc" ], "fg": 336 },
         {
           "id": [
@@ -5111,6 +5111,7 @@
         { "id": "lake_surface", "fg": 383 },
         { "id": "lake_water_cube", "fg": 383 },
         { "id": "lake_bed", "fg": 383 },
+        { "id": [ "stream", "stream_corner", "stream_end" ], "fg": 384 },
         { "id": "backfloorchamber", "fg": 200 },
         { "id": "clear", "fg": 331 },
         { "id": [ "portal_storm", "close_portal_storm" ], "fg": 229 },

@@ -184,10 +184,10 @@
       "assign_mission_target": { "om_terrain": "bandit_cabin", "om_special": "bandit_cabin", "reveal_radius": 1, "search_range": 60 },
       "update_mapgen": {
         "set": [
-          { "point": "trap", "id": "tr_landmine_buried", "x": 7, "y": 6 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 5, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 8, "y": 5 },
-          { "point": "trap", "id": "tr_landmine_buried", "x": 0, "y": 11 }
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 7, "y": 6 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 5, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 8, "y": 5 },
+          { "point": "trap", "id": "tr_beartrap_buried", "x": 0, "y": 11 }
         ],
         "place_npcs": [ { "class": "bandit", "x": 12, "y": 12, "target": true } ]
       }

@@ -50,23 +50,6 @@ const fault_id &faults::random_of_type_item_has( const item &it, const std::stri
     return fault_id::NULL_ID();
 }
 
-const fault_id &faults::get_random_of_type_item_can_have( const item &it, const std::string &type )
-{
-    const auto &typed = faults_by_type.find( type );
-    if( typed == faults_by_type.end() ) {
-        debugmsg( "there are no faults with type '%s'", type );
-        return fault_id::NULL_ID();
-    }
-
-    for( const fault_id &fid : typed->second ) {
-        if( it.faults_potential().count( fid ) ) {
-            return fid;
-        }
-    }
-
-    return fault_id::NULL_ID();
-}
-
 void faults::load_fault( const JsonObject &jo, const std::string &src )
 {
     fault_factory.load( jo, src );

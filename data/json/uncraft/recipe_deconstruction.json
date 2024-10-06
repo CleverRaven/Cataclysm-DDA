@@ -2057,7 +2057,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "20 m",
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
+    "components": [ [ [ "scrap", 10 ] ], [ [ "pipe", 8 ] ], [ [ "lc_wire", 8 ] ] ]
   },
   {
     "result": "cell_phone",
@@ -3159,7 +3159,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "3 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap_aluminum", 1 ] ], [ [ "wire", 5 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "scrap_aluminum", 1 ] ], [ [ "lc_wire", 5 ] ] ]
   },
   {
     "result": "lawnmower",
@@ -3671,7 +3671,7 @@
     "time": "15 m",
     "decomp_learn": 3,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "wire", 2 ] ], [ [ "cable", 8 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "scrap", 12 ] ], [ [ "lc_wire", 2 ] ], [ [ "cable", 8 ] ] ]
   },
   {
     "result": "robot_controls",
@@ -4445,14 +4445,6 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
-    "result": "wire",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "wristwatch",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4718,7 +4710,7 @@
       [ [ "steel_lump", 2 ] ],
       [ [ "scrap", 14 ] ],
       [ [ "steel_plate", 3 ] ],
-      [ [ "wire", 2 ] ],
+      [ [ "lc_wire", 2 ] ],
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_small", 1 ] ]
     ]
@@ -5713,7 +5705,7 @@
     "difficulty": 1,
     "time": "5 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 1 ] ], [ [ "element", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 3 ] ], [ [ "motor_micro", 1 ] ], [ [ "cable", 1 ] ], [ [ "element", 1 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "curling_iron",
@@ -5723,7 +5715,7 @@
     "difficulty": 1,
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "element", 1 ] ], [ [ "ceramic_shard", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ], [ [ "wire", 2 ] ] ]
+    "components": [ [ [ "element", 1 ] ], [ [ "ceramic_shard", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 1 ] ], [ [ "lc_wire", 2 ] ] ]
   },
   {
     "result": "string_floss",

@@ -26,5 +26,9 @@
   {
     "type": "effect_on_condition",
     "id": "bile_unstink"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_conjunctivitis_itch"
   }
 ]

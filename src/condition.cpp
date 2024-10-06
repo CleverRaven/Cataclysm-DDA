@@ -1655,7 +1655,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
                 }
                 target_handler::trajectory traj = target_handler::mode_select_only( *you, range.evaluate( d ) );
                 if( !traj.empty() ) {
-                    loc = traj.back();
+                    loc = traj.back().raw();
                 }
             } else if( type == "around" ) {
                 if( !message.empty() ) {
@@ -1943,6 +1943,28 @@ conditional_t::func f_has_wielded_with_weapon_category( const JsonObject &jo,
     };
 }
 
+conditional_t::func f_has_wielded_with_skill( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    // ideally all this "u wield with X" should be moved to some mutator
+    // and a single effect should check mutator applied to the item in your hands
+    str_or_var w_skill = get_str_or_var( jo.get_member( member ), member, true );
+    return [w_skill, is_npc]( dialogue const & d ) {
+
+        return d.actor( is_npc )->wielded_with_weapon_skill( skill_id( w_skill.evaluate( d ) ) );
+    };
+}
+
+conditional_t::func f_has_wielded_with_ammotype( const JsonObject &jo, std::string_view member,
+        bool is_npc )
+{
+    str_or_var w_ammotype = get_str_or_var( jo.get_member( member ), member, true );
+    return [w_ammotype, is_npc]( dialogue const & d ) {
+
+        return d.actor( is_npc )->wielded_with_item_ammotype( ammotype( w_ammotype.evaluate( d ) ) );
+    };
+}
+
 conditional_t::func f_can_see( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -2150,6 +2172,7 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "anger", &talker::get_anger },
     { "bmi_permil", &talker::get_bmi_permil },
     { "cash", &talker::cash },
+    { "difficulty", &talker::get_difficulty },
     { "dexterity_base", &talker::get_dex_max },
     { "dexterity_bonus", &talker::get_dex_bonus },
     { "dexterity", &talker::dex_cur },
@@ -2530,6 +2553,8 @@ parsers = {
     {"u_has_worn_with_flag", "npc_has_worn_with_flag", jarg::member, &conditional_fun::f_has_worn_with_flag },
     {"u_has_wielded_with_flag", "npc_has_wielded_with_flag", jarg::member, &conditional_fun::f_has_wielded_with_flag },
     {"u_has_wielded_with_weapon_category", "npc_has_wielded_with_weapon_category", jarg::member, &conditional_fun::f_has_wielded_with_weapon_category },
+    {"u_has_wielded_with_skill", "npc_has_wielded_with_skill", jarg::member, &conditional_fun::f_has_wielded_with_skill },
+    {"u_has_wielded_with_ammotype", "npc_has_wielded_with_ammotype", jarg::member, &conditional_fun::f_has_wielded_with_ammotype },
     {"u_is_on_terrain", "npc_is_on_terrain", jarg::member, &conditional_fun::f_is_on_terrain },
     {"u_is_on_terrain_with_flag", "npc_is_on_terrain_with_flag", jarg::member, &conditional_fun::f_is_on_terrain_with_flag },
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_fun::f_is_in_field },

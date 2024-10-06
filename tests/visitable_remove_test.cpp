@@ -317,7 +317,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             if( i == 0 || tiles.empty() ) {
                 // always place at least one bottle on player tile
                 our++;
-                here.add_item( p.pos(), obj );
+                here.add_item( p.pos_bub(), obj );
             } else {
                 // randomly place bottles on adjacent tiles
                 adj++;
@@ -426,7 +426,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     GIVEN( "An adjacent vehicle contains several bottles of water" ) {
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
-        tripoint veh = random_entry( tiles );
+        tripoint_bub_ms veh = tripoint_bub_ms( random_entry( tiles ) );
         REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {

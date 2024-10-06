@@ -587,12 +587,12 @@ static bool vehicle_activity( Character &you, const tripoint_bub_ms &src_loc, in
     // for someone else who stored that position at the start of their activity.
     // so we may need to go looking a bit further afield to find it , at activities end.
     for( const tripoint &pt : veh->get_points( true ) ) {
-        you.activity.coord_set.insert( here.getabs( pt ) );
+        you.activity.coord_set.insert( here.getglobal( pt ).raw() );
     }
     // values[0]
-    you.activity.values.push_back( here.getabs( src_loc ).x );
+    you.activity.values.push_back( here.getglobal( src_loc ).x() );
     // values[1]
-    you.activity.values.push_back( here.getabs( src_loc ).y );
+    you.activity.values.push_back( here.getglobal( src_loc ).y() );
     // values[2]
     you.activity.values.push_back( point_zero.x );
     // values[3]
@@ -1371,7 +1371,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         if( p ) {
             item_location to_craft = p->get_item_to_craft();
             if( to_craft && to_craft->is_craft() ) {
-                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+                const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
                 const recipe &r = to_craft->get_making();
                 std::vector<std::vector<item_comp>> item_comp_vector =
                                                      to_craft->get_continue_reqs().get_components();
@@ -1390,7 +1390,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
         // TODO: fix point types
-        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE - 1, false );
+        const inventory &inv = you.crafting_inventory( src_loc.raw(), PICKUP_RANGE, false );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
@@ -2644,7 +2644,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
 
     for( auto it2 = src_set.begin(); it2 != src_set.end(); ) {
         // remove dangerous tiles
-        const tripoint set_pt = here.getlocal( *it2 );
+        const tripoint_bub_ms set_pt = here.bub_from_abs( *it2 );
         if( MOP_ACTIVITY ) {
             if( !here.mopsafe_field_at( set_pt ) ) {
                 it2 = src_set.erase( it2 );
@@ -2657,7 +2657,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
             }
         }
         // remove tiles in darkness, if we aren't lit-up ourselves
-        if( !dark_capable && you.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+        if( !dark_capable && you.fine_detail_vision_mod( set_pt.raw() ) > 4.0 ) {
             it2 = src_set.erase( it2 );
             continue;
         }
@@ -2812,8 +2812,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
             loot_zone_spots.emplace_back( elem );
             combined_spots.emplace_back( elem );
         }
-        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1,
-                PICKUP_RANGE - 1 ) ) {
+        for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE,
+                PICKUP_RANGE ) ) {
             combined_spots.push_back( elem );
         }
         add_basecamp_storage_to_loot_zone_list( mgr, src_loc, you, loot_zone_spots, combined_spots );
@@ -2970,8 +2970,8 @@ static requirement_check_result generic_multi_activity_check_requirement(
                         return requirement_check_result::SKIP_LOCATION_NO_LOCATION;
                     }
                     act_prev.coords.push_back(
-                        here.getabs(
-                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] )
+                        here.getglobal(
+                            candidates[std::max( 0, static_cast<int>( candidates.size() / 2 ) )] ).raw()
                     );
                 }
                 act_prev.placement = src;
@@ -3002,10 +3002,10 @@ static bool generic_multi_activity_do(
           ( reason == do_activity_reason::NEEDS_CUT_HARVESTING ) ) &&
         here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, src_loc ) ) {
         // TODO: fix point types
-        iexamine::harvest_plant( you, src_loc.raw(), true );
+        iexamine::harvest_plant( you, src_loc, true );
     } else if( ( reason == do_activity_reason::NEEDS_CLEARING ) &&
                here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_OVERGROWN, src_loc ) ) {
-        iexamine::clear_overgrown( you, src_loc.raw() );
+        iexamine::clear_overgrown( you, src_loc );
     } else if( reason == do_activity_reason::NEEDS_TILLING &&
                here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
@@ -3029,7 +3029,7 @@ static bool generic_multi_activity_do(
                 continue;
             }
             // TODO: fix point types
-            iexamine::plant_seed( you, src_loc.raw(), itype_id( seed ) );
+            iexamine::plant_seed( you, src_loc, itype_id( seed ) );
             you.backlog.emplace_front( act_id );
             return false;
         }

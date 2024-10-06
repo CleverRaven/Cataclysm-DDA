@@ -992,7 +992,7 @@ void vehicle::transform_terrain()
 {
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
-        const tripoint start_pos = vp.pos();
+        const tripoint_bub_ms start_pos = vp.pos_bub();
         const vpslot_terrain_transform &ttd = *vp.info().transform_terrain_info;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
@@ -1073,7 +1073,7 @@ void vehicle::operate_planter()
     map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
-        const tripoint loc = vp.pos();
+        const tripoint_bub_ms loc = vp.pos_bub();
         vehicle_stack v = get_items( vp.part() );
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
@@ -1832,7 +1832,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         return;
     }
     const vpart_position vp = *ovp;
-    const tripoint vppos = vp.pos();
+    const tripoint_bub_ms vppos = vp.pos_bub();
 
     std::vector<vehicle_part *> vp_parts = get_parts_at( vppos, "", part_status_flag::working );
 
@@ -1891,7 +1891,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
                 const float skill = std::max( 1.0f, get_player_character().get_skill_level( skill_mechanics ) );
                 const int moves = to_moves<int>( 6000_seconds / skill );
-                const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
+                const tripoint_abs_ms target = global_square_location() + coord_translate( parts[0].mount );
                 const hotwire_car_activity_actor hotwire_act( moves, target );
                 get_player_character().assign_activity( hotwire_act );
             } );
@@ -1956,7 +1956,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                         stop_engines();
                     } else
                     {
-                        start_engines();
+                        start_engines( &get_player_character() );
                     }
                 } );
             }
@@ -2027,7 +2027,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "UNLOAD_TURRET" )
         .skip_locked_check()
         .on_submit( [this, vppos] {
-            item_location loc = turret_query( vppos ).base();
+            item_location loc = turret_query( vppos.raw() ).base();
             get_player_character().unload( loc );
         } );
     }
@@ -2037,7 +2037,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .hotkey( "RELOAD_TURRET" )
         .skip_locked_check()
         .on_submit( [this, vppos] {
-            item_location loc = turret_query( vppos ).base();
+            item_location loc = turret_query( vppos.raw() ).base();
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
@@ -2218,7 +2218,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .on_submit( [vppos] {
             add_msg( _( "You carefully peek through the curtains." ) );
-            g->peek( vppos );
+            g->peek( tripoint_bub_ms( vppos ) );
         } );
     }
 
@@ -2301,7 +2301,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         const size_t mc_idx = vp_monster_capture->part_index();
         menu.add( _( "Capture or release a creature" ) )
         .hotkey( "USE_CAPTURE_MONSTER_VEH" )
-        .on_submit( [this, mc_idx, vppos] { use_monster_capture( mc_idx, vppos ); } );
+        .on_submit( [this, mc_idx, vppos] { use_monster_capture( mc_idx, vppos.raw() ); } );
     }
 
     const std::optional<vpart_reference> vp_bike_rack = vp.avail_part_with_feature( "BIKE_RACK_VEH" );
@@ -2314,13 +2314,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         const size_t hn_idx = vp_harness->part_index();
         menu.add( _( "Harness an animal" ) )
         .hotkey( "USE_ANIMAL_CTRL" )
-        .on_submit( [this, hn_idx, vppos] { use_harness( hn_idx, vppos ); } );
+        .on_submit( [this, hn_idx, vppos] { use_harness( hn_idx, vppos.raw() ); } );
     }
 
     if( vp.avail_part_with_feature( "PLANTER" ) ) {
         menu.add( _( "Reload seed drill with seeds" ) )
         .hotkey( "USE_PLANTER" )
-        .on_submit( [this, vppos] { reload_seeds( vppos ); } );
+        .on_submit( [this, vppos] { reload_seeds( vppos.raw() ); } );
     }
 
     const std::optional<vpart_reference> vp_workbench = vp.avail_part_with_feature( "WORKBENCH" );
@@ -2430,7 +2430,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             menu.add( string_format( _( "Check the lock on %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "LOCKPICK" )
             .on_submit( [p] {
-                iexamine::locked_object( get_player_character(), p );
+                iexamine::locked_object( get_player_character(), tripoint_bub_ms( p ) );
             } );
         }
     }

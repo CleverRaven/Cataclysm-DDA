@@ -379,7 +379,7 @@
     "category": "manuals",
     "name": { "str": "The Utility of Mana as an Energy Source", "str_pl": "copies of The Utility of Mana as an Energy Source" },
     "description": "This book details spells that use your mana to recover various physiological effects.",
-    "//": "1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
+    "//": "1 classless, 1 technomancer, 2 animist, 1 druid, 1 earthshaper spell",
     "weight": "728 g",
     "volume": "3 L",
     "price": "50 USD",
@@ -390,6 +390,7 @@
     "use_action": {
       "type": "learn_spell",
       "spells": [
+        "classless_restore_crystal_mana",
         "recover_mana",
         "recover_bionic_power",
         "recover_pain",
@@ -1010,7 +1011,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Limitations of the Mana Economy", "str_pl": "copies of The Limitations of the Mana Economy" },
-    "//": "1 Classless spell",
+    "//": "2 Classless spells",
     "description": "A study of the inherent non-scalability of magical solutions to problems, touching on the difficulty of producing crystallized mana in the quantities needed for industrial use, the long time period necessary for magical materials like orichalcum, mithril, or crimsonite to reach reliability, the way that earthshaping and druidism specifically require wilderness for some of their spells, and the way that an average mage exhausts their mana pool within fifteen minutes of working on any major project without extensive study and training.",
     "weight": "1728 g",
     "volume": "3 L",
@@ -1019,7 +1020,7 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "white",
-    "use_action": { "type": "learn_spell", "spells": [ "crystallize_mana" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "classless_restore_crystal_mana", "crystallize_mana" ] }
   },
   {
     "id": "special_effects_spellbook",

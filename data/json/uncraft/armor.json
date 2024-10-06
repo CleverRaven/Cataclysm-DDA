@@ -133,6 +133,6 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "lc_wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
   }
 ]
