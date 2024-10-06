@@ -56,12 +56,9 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     CAPTURE( test_abs );
 
     // Verify consistency between different implementations
-    CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
     CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
     CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
     CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
-
-    CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
     CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
 
     // Verify round-tripping

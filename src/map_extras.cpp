@@ -371,7 +371,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
 
     vproto_id crashed_hull = VehicleGroup_crashed_helicopters->pick();
 
-    tripoint wreckage_pos;
+    tripoint_bub_ms wreckage_pos;
     {
         // veh should fall out of scope, don't actually use it, create the vehicle so
         // we can rotate it and calculate its bounding box, but don't place it on the map.
@@ -390,7 +390,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
         wreckage_pos = { clamp( c.x + offset.x, min.x, x_max ), clamp( c.y + offset.y, min.y, y_max ), abs_sub.z };
     }
 
-    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos, dir1, rng( 1, 33 ), 1 );
+    vehicle *wreckage = m.add_vehicle( crashed_hull, wreckage_pos.raw(), dir1, rng( 1, 33 ), 1 );
 
     const auto controls_at = []( vehicle * wreckage, const tripoint_bub_ms & pos ) {
         return !wreckage->get_parts_at( pos, "CONTROLS", part_status_flag::any ).empty() ||
@@ -512,7 +512,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn a humvee in the left block
         if( one_in( 2 ) ) {
-            m.add_vehicle( vehicle_prototype_humvee, tripoint( 5, 3, abs_sub.z ), 270_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, tripoint_omt_ms( 5, 3, abs_sub.z ), 270_degrees, 70, -1 );
         }
 
         //Sandbag block at the right edge
@@ -657,8 +657,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
         //50% chance to spawn two humvees blocking the road
         if( one_in( 2 ) ) {
-            m.add_vehicle( vehicle_prototype_humvee, tripoint( 7, 19, abs_sub.z ), 0_degrees, 70, -1 );
-            m.add_vehicle( vehicle_prototype_humvee, tripoint( 15, 20, abs_sub.z ), 180_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, tripoint_omt_ms( 7, 19, abs_sub.z ), 0_degrees, 70, -1 );
+            m.add_vehicle( vehicle_prototype_humvee, tripoint_omt_ms( 15, 20, abs_sub.z ), 180_degrees, 70,
+                           -1 );
         }
 
         //Spawn 6-20 mines in the upper submap.
@@ -733,7 +734,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.add_field( tripoint { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
-            m.add_vehicle( vehicle_prototype_car_fbi, tripoint( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
+            m.add_vehicle( vehicle_prototype_car_fbi, tripoint_omt_ms( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
 
             //Remove tent parts after drive-through
             square_furn( &m, furn_str_id::NULL_ID(), point_omt_ms( 0, 6 ), point_omt_ms( 8, 9 ) );
@@ -851,7 +852,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     if( bridge_at_east && road_at_west ) {
         m.load( abs_omt + point_west, false );
         //Spawn military cargo truck blocking the entry
-        m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint( 15, 11, abs_sub.z ),
+        m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint_omt_ms( 15, 11, abs_sub.z ),
                        270_degrees, 70, 1 );
 
         //Spawn sandbag barricades around the truck

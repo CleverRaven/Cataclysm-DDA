@@ -31,7 +31,6 @@
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
-      { "monster": "mon_zombie_bio_op", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_armored", "weight": 10, "cost_multiplier": 5 },
       { "monster": "mon_feral_soldier", "weight": 15 }
     ]
@@ -58,7 +57,6 @@
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 245 },
       { "monster": "mon_zombie_hazmat", "weight": 25 },
-      { "monster": "mon_zombie_bio_op", "weight": 5 },
       { "monster": "mon_zombie_soldier_blackops_1", "weight": 5 },
       { "monster": "mon_zombie_armored", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scientist", "weight": 20 },
@@ -76,7 +74,6 @@
       { "monster": "mon_zombie_kevlar_1", "weight": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_military_pilot", "weight": 5 },
       { "monster": "mon_zombie_milbase_personnel", "weight": 40 },
-      { "monster": "mon_zombie_bio_op", "weight": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_soldier_blackops_1", "weight": 15, "cost_multiplier": 10 },
       { "monster": "mon_zombie_armored", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scorched", "weight": 25 },

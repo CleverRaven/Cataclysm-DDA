@@ -5216,10 +5216,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     return 0;
 }
 
-bool deploy_tent_actor::check_intact( const tripoint &center ) const
+bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         const furn_id fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {

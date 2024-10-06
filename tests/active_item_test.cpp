@@ -6,6 +6,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "item.h"
+#include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
@@ -41,4 +42,31 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     CHECK( inventory_item->typeId().str() == "chainsaw_off" );
     CHECK( player_character.get_wielded_item()->typeId().str() == "chainsaw_off" );
     CHECK( here.i_at( player_character.pos_bub() ).only_item().typeId().str() == "chainsaw_off" );
+}
+
+TEST_CASE( "tool_power_consumption_rate", "[active_item]" )
+{
+    // Give the flashlight a fully charged battery, 56 kJ
+    item test_battery( "medium_battery_cell" );
+    test_battery.ammo_set( test_battery.ammo_default(), 56 );
+    REQUIRE( test_battery.energy_remaining() == 56_kJ );
+
+    item tool( "flashlight_on" );
+    tool.put_in( test_battery, pocket_type::MAGAZINE_WELL );
+    REQUIRE( tool.energy_remaining() == 56_kJ );
+    tool.active = true;
+
+    // Now process the tool until it runs out of battery power, which should be about 10h.
+    int seconds_of_discharge = 0;
+    map &here = get_map();
+    // Capture now because after the loop the tool will be an inactive tool with no power draw.
+    units::energy minimum_energy = tool.type->tool->power_draw * 1_seconds;
+    do {
+        tool.process( here, nullptr, tripoint_zero );
+        seconds_of_discharge++;
+    } while( tool.active );
+    REQUIRE( tool.energy_remaining() < minimum_energy );
+    // Just a loose check, 9 - 10 hours runtime, based on the product page.
+    CHECK( seconds_of_discharge > to_seconds<int>( 9_hours + 30_minutes ) );
+    CHECK( seconds_of_discharge < to_seconds<int>( 10_hours ) );
 }

@@ -174,7 +174,7 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     int max_dist = target_distance * 1.01;
     clear_game( terrain );
 
-    const tripoint map_starting_point( 60, 60, 0 );
+    const tripoint_bub_ms map_starting_point( 60, 60, 0 );
     map &here = get_map();
     vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90_degrees, 0, 0 );
 

@@ -3,406 +3,348 @@
     "id": "mon_bat",
     "type": "MONSTER",
     "copy-from": "mon_bat",
-    "name": { "str": "bat" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_bear_cub",
     "type": "MONSTER",
     "copy-from": "mon_bear_cub",
-    "name": { "str": "black bear cub" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_bear",
     "type": "MONSTER",
     "copy-from": "mon_bear",
-    "name": { "str": "black bear" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_beaver",
     "type": "MONSTER",
     "copy-from": "mon_beaver",
-    "name": { "str": "beaver" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_black_rat",
     "type": "MONSTER",
     "copy-from": "mon_black_rat",
-    "name": { "str": "black rat" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_boar_wild_piglet",
     "type": "MONSTER",
     "copy-from": "mon_boar_wild_piglet",
-    "name": { "str": "wild boar piglet" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_boar_wild",
     "type": "MONSTER",
     "copy-from": "mon_boar_wild",
-    "name": { "str": "wild boar" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_bobcat",
     "type": "MONSTER",
     "copy-from": "mon_bobcat",
-    "name": { "str": "bobcat" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_chipmunk",
     "type": "MONSTER",
     "copy-from": "mon_chipmunk",
-    "name": { "str": "chipmunk" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_deer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_deer_fawn",
-    "name": { "str": "fawn" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_deer",
     "type": "MONSTER",
     "copy-from": "mon_deer",
-    "name": { "str_sp": "deer" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_fox_gray",
     "type": "MONSTER",
     "copy-from": "mon_fox_gray",
-    "name": { "str": "fox", "str_pl": "foxes" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_fox_red",
     "type": "MONSTER",
     "copy-from": "mon_fox_red",
-    "name": { "str": "fox", "str_pl": "foxes" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_groundhog",
     "type": "MONSTER",
     "copy-from": "mon_groundhog",
-    "name": { "str": "groundhog" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_hare",
     "type": "MONSTER",
     "copy-from": "mon_hare",
-    "name": { "str": "jackrabbit" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_lemming",
     "type": "MONSTER",
     "copy-from": "mon_lemming",
-    "name": { "str": "lemming" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_mink",
     "type": "MONSTER",
     "copy-from": "mon_mink",
-    "name": { "str": "mink" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_moose",
     "type": "MONSTER",
     "copy-from": "mon_moose",
-    "name": { "str_sp": "moose" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_muskrat",
     "type": "MONSTER",
     "copy-from": "mon_muskrat",
-    "name": { "str": "muskrat" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_opossum",
     "type": "MONSTER",
     "copy-from": "mon_opossum",
-    "name": { "str": "opossum" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_otter",
     "type": "MONSTER",
     "copy-from": "mon_otter",
-    "name": { "str": "otter" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_raccoon",
     "type": "MONSTER",
     "copy-from": "mon_raccoon",
-    "name": { "str": "raccoon" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_sewer_rat",
     "type": "MONSTER",
     "copy-from": "mon_sewer_rat",
-    "name": { "str": "sewer rat" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_squirrel",
     "type": "MONSTER",
     "copy-from": "mon_squirrel",
-    "name": { "str": "squirrel" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_squirrel_red",
     "type": "MONSTER",
     "copy-from": "mon_squirrel_red",
-    "name": { "str": "squirrel" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_weasel",
     "type": "MONSTER",
     "copy-from": "mon_weasel",
-    "name": { "str": "weasel" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_wolf",
     "type": "MONSTER",
     "copy-from": "mon_wolf",
-    "name": { "str": "wolf", "str_pl": "wolves" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_wolf_pup",
     "type": "MONSTER",
     "copy-from": "mon_wolf_pup",
-    "name": { "str": "wolf puppy", "str_pl": "wolf puppies" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_reindeer",
     "type": "MONSTER",
     "copy-from": "mon_reindeer",
-    "name": { "str_sp": "reindeer" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_coyote_mutant_shark",
     "type": "MONSTER",
     "copy-from": "mon_coyote_mutant_shark",
-    "name": { "str": "grinning coyote" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_tusked_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_tusked_moose_calf",
-    "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_tusked_moose",
     "type": "MONSTER",
     "copy-from": "mon_tusked_moose",
-    "name": { "str_sp": "tusked moose" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_moose_calf",
-    "name": { "str": "moose calf", "str_pl": "moose calves" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_reindeer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_reindeer_fawn",
-    "name": { "str": "Reindeer fawn" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_crow",
     "type": "MONSTER",
     "copy-from": "mon_crow",
-    "name": { "str": "crow" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_raven",
     "type": "MONSTER",
     "copy-from": "mon_raven",
-    "name": { "str": "raven" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_bluejay",
     "type": "MONSTER",
     "copy-from": "mon_bluejay",
-    "name": { "str": "blue jay" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_cardinal",
     "type": "MONSTER",
     "copy-from": "mon_cardinal",
-    "name": { "str": "cardinal" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_robin",
     "type": "MONSTER",
     "copy-from": "mon_robin",
-    "name": { "str": "robin" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_sparrow",
     "type": "MONSTER",
     "copy-from": "mon_sparrow",
-    "name": { "str": "sparrow" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_duck",
     "type": "MONSTER",
     "copy-from": "mon_duck",
-    "name": { "str": "duck" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_goose_canadian",
     "type": "MONSTER",
     "copy-from": "mon_goose_canadian",
-    "name": { "str": "goose", "str_pl": "geese" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_turkey",
     "type": "MONSTER",
     "copy-from": "mon_turkey",
-    "name": { "str": "turkey" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_pheasant",
     "type": "MONSTER",
     "copy-from": "mon_pheasant",
-    "name": { "str": "pheasant" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_hummingbird",
     "type": "MONSTER",
     "copy-from": "mon_hummingbird",
-    "name": { "str": "hummingbird" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_woodpecker",
     "type": "MONSTER",
     "copy-from": "mon_woodpecker",
-    "name": { "str": "woodpecker" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_coot",
     "type": "MONSTER",
     "copy-from": "mon_coot",
-    "name": { "str": "coot" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_cormorant",
     "type": "MONSTER",
     "copy-from": "mon_coot",
-    "name": { "str": "cormorant" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_moorhen",
     "type": "MONSTER",
     "copy-from": "mon_coot",
-    "name": { "str": "moorhen" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_grebe",
     "type": "MONSTER",
     "copy-from": "mon_coot",
-    "name": { "str": "grebe" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_pattern_bigfrog",
     "type": "MONSTER",
     "copy-from": "mon_pattern_bigfrog",
-    "name": { "str": "staticskin frog" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_pattern_giganfrog",
     "type": "MONSTER",
     "copy-from": "mon_pattern_giganfrog",
-    "name": { "str": "stuntongue" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_strange_bigfrog",
     "type": "MONSTER",
     "copy-from": "mon_strange_bigfrog",
-    "name": { "str": "mutant bullfrog" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_strange_giganfrog",
     "type": "MONSTER",
     "copy-from": "mon_strange_giganfrog",
-    "name": { "str": "giant bullfrog" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_foul_bigfrog",
     "type": "MONSTER",
     "copy-from": "mon_foul_bigfrog",
-    "name": { "str": "greasy stinktoad" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_foul_giganfrog",
     "type": "MONSTER",
     "copy-from": "mon_foul_giganfrog",
-    "name": { "str": "foul hogtoad" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_odd_bigfrog",
     "type": "MONSTER",
     "copy-from": "mon_odd_bigfrog",
-    "name": { "str": "oversized toad" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_odd_giganfrog",
     "type": "MONSTER",
     "copy-from": "mon_odd_giganfrog",
-    "name": { "str": "giant toad" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
@@ -481,42 +423,36 @@
     "id": "mon_rattlesnake_s",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake_s",
-    "name": { "str": "rattlesnake snakelet" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_rattlesnake_big_s",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake_big_s",
-    "name": { "str": "mutant rattlesnake snakelet" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_rattlesnake",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake",
-    "name": { "str": "rattlesnake" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_rattlesnake_big",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake_big",
-    "name": { "str": "mutant rattlesnake" },
     "extend": { "flags": [ "CANPLAY" ] }
   },
   {
     "id": "mon_rattlesnake_giant",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake_giant",
-    "name": { "str": "giant rattlesnake" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
     "id": "mon_rattlesnake_mega",
     "type": "MONSTER",
     "copy-from": "mon_rattlesnake_mega",
-    "name": { "str": "deathrattle serpent" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   }
 ]

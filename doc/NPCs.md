@@ -611,7 +611,7 @@ Speaker effects are useful for setting status variables to indicate that player 
 ---
 
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trials) for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. The "condition" field dictates whether the response will be shown. It can also have a trial object which can be used to either lie, persuade, or intimidate the NPC, or even test another conditional [see below](#trials) for details; different "effect"s can be applied for trial success/failure.
 
 Format:
 ```json
@@ -769,11 +769,20 @@ Similar to `opinion`, but adjusts the NPC's opinion of your character according 
 
 ### Response Availability
 
-#### condition
+#### `condition`
 This is an optional condition which can be used to prevent the response under certain circumstances. If not defined, it defaults to always `true`. If the condition is not met, the response is not included in the list of possible responses. For possible content, [see Dialogue Conditions below](#dialogue-conditions) for details.
 
-#### switch and default
+#### `switch and default`
 The optional boolean keys "switch" and "default" are false by default.  Only the first response with `"switch": true`, `"default": false`, and a valid condition will be displayed, and no other responses with `"switch": true` will be displayed.  If no responses with `"switch": true` and `"default":  false` are displayed, then any and all responses with `"switch": true` and `"default": true` will be displayed.  In either case, all responses that have `"switch": false` (whether or not they have `"default": true` is set) will be displayed as long their conditions are satisfied.
+
+#### `show_condition`
+An optional key that, if defined and evaluates to true, will allow the response to be displayed even if it has a condition evaluating false. The response still will not be selectable if its condition is false, unless debug mode is ON. Cannot be defined if `show_always: true`. Note: do not confuse `show_condition` with `condition`. Empty by default.
+
+#### `show_always`
+Shorthand for "show_condition": takes a boolean instead of a condition. False by default.
+
+#### `show_reason`
+An optional key that, if defined, will append its contents to the end of a response displayed because of `show_always` or `show_condition`. Empty by default.
 
 Example:
 ```json
