@@ -64,6 +64,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "zombie_dusted",
+    "base_faction": "zombie",
+    "neutral": [ "fungus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "science",
     "base_faction": "zombie",
     "neutral": [ "defense_bot", "mech_bot", "passive_machine" ]
@@ -779,7 +785,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "fungus",
-    "neutral": [ "bot", "fish", "passive_machine", "yrax" ],
+    "neutral": [ "bot", "fish", "passive_machine", "yrax", "zombie_dusted" ],
     "hate": [ "triffid" ]
   },
   {
