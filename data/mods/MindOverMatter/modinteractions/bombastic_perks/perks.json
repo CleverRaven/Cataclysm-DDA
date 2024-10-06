@@ -1,6 +1,15 @@
 [
   {
     "type": "mutation",
+    "id": "perk_in_the_zone",
+    "name": { "str": "In the Zone" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Once you get going you just keep rolling.  Your next use of a psionic power within five seconds of channeling one has its Stamina cost reduced by 25%."
+  },
+  {
+    "type": "mutation",
     "id": "perk_mastery_of_form",
     "name": { "str": "Mastery of Form" },
     "points": 0,
