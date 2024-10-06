@@ -4066,12 +4066,12 @@ CBMs can be defined like this:
   { "type": "wheat", "portion": 5 }
 ],
 "primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
-"rot_spawn": {                    // Defines what creature would be spawned when this item gonna rot. Mostly used for eggs
+"rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
   "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
   "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"
-  "amount": 2,                    // if "monster" is used, defines how many of this monster will be spawned; 
+  "amount": 2,                    // if "monster" is used, defines how many instances of this monster will be spawned; 
   "amount": [ 1, 3 ],             // also can be an array, then the game will roll the number between two values
-  "chance": 70                    // chance for animal to spawn from single item
+  "chance": 70                    // chance for the monster to spawn from a single item
 }
 "smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
 "petfood": [ "FUNGALFRUIT", "MIGOFOOD" ] // (Optional) Pet food categories this item is in.
