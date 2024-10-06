@@ -19,6 +19,16 @@
   },
   {
     "type": "mutation",
+    "id": "perk_efficient_slumber",
+    "name": { "str": "Efficient Slumber" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Some part of your Metabolic Hyperefficiency is running even when you sleep.  You can stay awake for 20% longer, and sleep is 20% more restorative.",
+    "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_mastery_of_form",
     "name": { "str": "Mastery of Form" },
     "points": 0,
