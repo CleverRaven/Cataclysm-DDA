@@ -258,7 +258,7 @@
     "name": { "str": "remains of a dreamforged automaton" },
     "description": "A broken robot, still standing and saturated with electricity.  Between the shattered dreamdross plates, the ruined armor and the electrical discharges, you can barely see the remains of the machinery that once animated it, and yet it moves on its two feet, albeit like some sort of puppet.",
     "default_faction": "berserk_bot",
-    "looks_like": "mon_zombie_bio_op",
+    "looks_like": "mon_broken_cyborg",
     "bodytype": "human",
     "species": [ "ROBOT" ],
     "diff": 100,
@@ -555,5 +555,14 @@
     "flags": [ "SEES", "HEARS", "NO_BREATHE", "SMELLS" ],
     "vision_day": 9,
     "vision_night": 9
+  },
+  {
+    "id": "mon_gracke",
+    "type": "MONSTER",
+    "copy-from": "mon_gracke",
+    "name": { "str": "gracken" },
+    "anger_triggers": [ "HURT" ],
+    "aggro_character": false,
+    "melee_training_cap": 5
   }
 ]

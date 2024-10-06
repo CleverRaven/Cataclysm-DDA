@@ -25,7 +25,13 @@
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_humanoid",
     "grab_strength": 20,
-    "special_attacks": [ { "id": "grab" }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      [ "PARROT", 400 ],
+      [ "PARROT_AT_DANGER", 0 ],
+      { "id": "grab" },
+      { "id": "bite_humanoid", "cooldown": 5 },
+      { "id": "scratch_humanoid" }
+    ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -163,7 +169,6 @@
       }
     ],
     "death_drops": "mon_zombie_hazmat_death_drops",
-    "upgrades": false,
     "armor": { "bash": 5, "cut": 4, "bullet": 3, "electric": 5 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_gasmask" ], "families": [ "prof_wp_syn_armored" ], "flags": [ "ACIDPROOF" ] },
     "delete": { "special_attacks": [ "bite_humanoid", "scratch_humanoid" ] }

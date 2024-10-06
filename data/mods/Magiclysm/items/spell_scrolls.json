@@ -1471,7 +1471,7 @@
     "id": "spell_scroll_magus_slowfall",
     "//": "Magus spell",
     "name": { "str": "Scroll of Slowfall", "str_pl": "Scrolls of Slowfall" },
-    "description": "Who's afraid of heights?  Not you, after you learn this spell.",
+    "description": "Who's afraid of heights?  Not you, after you read this scroll.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_slowfall" ] }
   },
   {
@@ -2067,5 +2067,41 @@
     "name": { "str": "Rewritten Scroll" },
     "description": "This scroll has been scribbled over again and again in the handwriting of more than one person.  The notes in the margins imply some sort of departmental competition, but no matter the results you can still make out a functional spell in the mess.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_magic_fissile" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_vocalize",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of The Inner Voice", "str_pl": "Scrolls of The Inner Voice" },
+    "description": "Speak with your soul instead of your voice, allowing casting spells in silence.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_cast_spells_when_silent" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_silence",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Silence", "str_pl": "Scrolls of Silence" },
+    "description": "Shut that pesky enemy wizard right up with this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_silence" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_light_target",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Faerie Fire", "str_pl": "Scrolls of Faerie Fire" },
+    "description": "Limn the target in a soft green or blue light.  Great at parties.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_light_target" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_restore_crystal_mana",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Mana Extraction", "str_pl": "Scrolls of Mana Extraction" },
+    "description": "Turn crystallized mana back into mana you can use.  Doing that repeatedly is a great way to make huge quatities of mana vanish into the Aethereum.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_restore_crystal_mana" ] }
   }
 ]

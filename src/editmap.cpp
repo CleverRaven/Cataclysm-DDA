@@ -347,7 +347,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 std::optional<tripoint_bub_ms> editmap::edit()
 {
     avatar &player_character = get_avatar();
-    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( player_character.view_offset );
     target = player_character.pos_bub() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
@@ -507,7 +507,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 void editmap::do_ui_invalidation()
 {
     avatar &player_character = get_avatar();
-    player_character.view_offset = ( target - player_character.pos_bub() ).raw();
+    player_character.view_offset = target - player_character.pos_bub();
     g->invalidate_main_ui_adaptor();
     create_or_get_ui_adaptor()->invalidate_ui();
 }
@@ -2117,13 +2117,13 @@ void editmap::edit_mapgen()
     map &here = get_map();
 
     do {
-        tc.fromabs( here.getabs( target.xy() ) );
+        tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         point_bub_ms omt_lpos = here.bub_from_abs( point_abs_ms( tc.begin_om_pos() ) );
         tripoint_bub_ms om_ltarget = omt_lpos + tripoint( -1 + SEEX, -1 + SEEY, target.z() );
 
         if( target.x() != om_ltarget.x() || target.y() != om_ltarget.y() ) {
             target = om_ltarget;
-            tc.fromabs( here.getabs( target.xy() ) );
+            tc.fromabs( here.getglobal( { target.xy(), here.abs_sub.z() } ).xy().raw() );
         }
         target_list.clear();
         for( int x = target.x() - SEEX + 1; x < target.x() + SEEX + 1; x++ ) {

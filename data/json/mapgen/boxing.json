@@ -63,13 +63,13 @@
         "i": "f_sink",
         "L": "f_locker",
         "S": "f_shower",
-        "V": "f_vending_c",
         "X": "f_rack",
         "Z": "f_bookcase",
         "^": "f_indoor_plant",
         "f": "f_trashcan"
       },
       "toilets": { "T": {  } },
+      "vendingmachines": { "V": { "item_group": "vending_drink", "lootable": true } },
       "place_items": [
         { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 80, "repeat": [ 3, 5 ] },
         { "item": "boxing_clothes", "x": [ 3, 11 ], "y": [ 18, 18 ], "chance": 40, "repeat": [ 1, 2 ] },

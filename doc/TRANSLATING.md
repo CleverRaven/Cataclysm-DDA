@@ -312,6 +312,16 @@ you also need to update `extract_json_strings.py` and run `lang/update_pot.sh`
 to ensure that the strings are correctly extracted for translation, and run the
 unit test to fix text styling issues reported by the `translation` class.
 
+If a string doesn't need to be translated, you can write `"NO_I18N"` in the
+`"//~"` comment, and this string will not be available to translators (see [here](/doc/JSON_INFO.md#translatable-strings)):
+
+```JSON
+"name": {
+    "//~": "NO_I18N",
+    "str": "Fake Monster-Only Spell"
+}
+```
+
 ### Static string variables
 
 Translation functions should not be called when initializing a static variable.

@@ -278,7 +278,11 @@
         { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 24, 47 ], "repeat": [ 7, 16 ], "density": 0.1 },
         { "monster": "GROUP_MALL", "x": [ 27, 47 ], "y": [ 48, 61 ], "repeat": [ 3, 4 ], "density": 0.1 }
       ],
-      "monster": { "Z": { "monster": "mon_zombie_static" }, "z": { "monster": "mon_zombie" }, "o": { "monster": "mon_zombie" } }
+      "monsters": {
+        "Z": { "monster": "GROUP_VANILLA_NO_FERAL" },
+        "z": { "monster": "GROUP_VANILLA_NO_FERAL" },
+        "o": { "monster": "GROUP_VANILLA_NO_FERAL" }
+      }
     }
   },
   {

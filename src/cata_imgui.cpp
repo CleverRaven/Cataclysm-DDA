@@ -36,8 +36,39 @@ struct pairs {
     short BG;
 };
 
+ImVec4 impalette[256] = {};
 std::array<RGBTuple, color_loader<RGBTuple>::COLOR_NAMES_COUNT> rgbPalette;
-std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
+std::array<pairs, 100> colorpairs;   //storage for paired colors
+
+static ImVec4 compute_color( uint8_t index )
+{
+    if( index < 16 ) {
+        RGBTuple &rgbCol = rgbPalette[index];
+        return { static_cast<float>( rgbCol.Red ) / 255.0f,
+                 static_cast<float>( rgbCol.Green ) / 255.0f,
+                 static_cast<float>( rgbCol.Blue ) / 255.0f,
+                 1.0f };
+    } else if( index < 232 ) {
+        static uint8_t colors[6] = {0, 95, 135, 175, 215, 255};
+        int i = index - 16;
+        int r = i / 36;
+        i -= 36 * r;
+        int g = i / 6;
+        i -= 6 * g;
+        int b = i;
+        return { static_cast<float>( colors[r] ) / 255.0f,
+                 static_cast<float>( colors[g] ) / 255.0f,
+                 static_cast<float>( colors[b] ) / 255.0f,
+                 1.0f };
+    } else {
+        static uint8_t gray[24] = {8, 18, 28, 38, 48, 58, 68, 78, 88, 98, 108, 118,
+                                   128, 138, 148, 158, 168, 178, 188, 198, 208, 218,
+                                   228, 238
+                                  };
+        float level = static_cast<float>( gray[index - 232] ) / 255.0f;
+        return { level, level, level, 1.0f };
+    }
+}
 
 ImVec4 cataimgui::imvec4_from_color( nc_color &color )
 {
@@ -48,11 +79,7 @@ ImVec4 cataimgui::imvec4_from_color( nc_color &color )
     if( color.is_bold() ) {
         palette_index += color_loader<RGBTuple>::COLOR_NAMES_COUNT / 2;
     }
-    RGBTuple &rgbCol = rgbPalette[palette_index];
-    return { static_cast<float>( rgbCol.Red / 255. ),
-             static_cast<float>( rgbCol.Green / 255. ),
-             static_cast<float>( rgbCol.Blue / 255. ),
-             static_cast<float>( 255. ) };
+    return impalette[palette_index];
 }
 
 std::vector<std::pair<int, ImTui::mouse_event>> imtui_events;
@@ -177,8 +204,10 @@ void cataimgui::client::process_input( void *input )
 
 void cataimgui::load_colors()
 {
-
     color_loader<RGBTuple>().load( rgbPalette );
+    for( int i = 0; i < 256; i++ ) {
+        impalette[i] = compute_color( i );
+    }
 }
 
 void cataimgui::init_pair( int p, int f, int b )
@@ -235,6 +264,11 @@ cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Windo
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
+
+    ImGuiStyle &style = ImGui::GetStyle();
+    // Default cellPadding is {4, 2}. We reduce this to {3, 2}.
+    ImGui::PushStyleVar( ImGuiStyleVar_CellPadding, ImVec2( 3, style.CellPadding.y ) );
+
     ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
     ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
 }
@@ -420,6 +454,40 @@ static void PushOrPopColor( const std::string_view seg, int minimumColorStackSiz
             // Do nothing
             break;
     }
+}
+
+/**
+ * Scrolls the current ImGui window by a scroll action
+ *
+ * Setting scroll needs to happen before drawing contents for page scroll to work properly
+ * @param s an enum for the currently pending scroll action
+ */
+void cataimgui::set_scroll( scroll &s )
+{
+    int scroll_px = 0;
+    int line_height = ImGui::GetTextLineHeightWithSpacing();
+    int page_height = ImGui::GetContentRegionAvail().y;
+
+    switch( s ) {
+        case scroll::none:
+            break;
+        case scroll::line_up:
+            scroll_px = -line_height;
+            break;
+        case scroll::line_down:
+            scroll_px = line_height;
+            break;
+        case scroll::page_up:
+            scroll_px = -page_height;
+            break;
+        case scroll::page_down:
+            scroll_px = page_height;
+            break;
+    }
+
+    ImGui::SetScrollY( ImGui::GetScrollY() + scroll_px );
+
+    s = scroll::none;
 }
 
 void cataimgui::draw_colored_text( std::string const &text, const nc_color &color,

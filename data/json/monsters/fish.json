@@ -46,7 +46,7 @@
     "name": { "str_sp": "tiny fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A tiny fish.",
-    "default_faction": "fish",
+    "default_faction": "fish_tiny",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -64,7 +64,7 @@
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "melee_training_cap": 1,
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_tiny",
@@ -77,7 +77,7 @@
     "name": { "str_sp": "small fish" },
     "//": "a default fish type - does not appear in-game",
     "description": "A small fish.",
-    "default_faction": "fish",
+    "default_faction": "fish_small",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -95,7 +95,7 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "melee_training_cap": 1,
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
@@ -107,7 +107,7 @@
     "abstract": "mon_fish_medium",
     "type": "MONSTER",
     "description": "A medium fish.",
-    "default_faction": "fish",
+    "default_faction": "fish_medium",
     "name": { "str_sp": "medium fish" },
     "//": "a default fish type - does not appear in-game",
     "bodytype": "fish",
@@ -127,7 +127,7 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "melee_training_cap": 1,
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_small",
@@ -139,7 +139,7 @@
     "abstract": "mon_fish_large",
     "type": "MONSTER",
     "description": "A large fish.",
-    "default_faction": "fish",
+    "default_faction": "fish_large",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -159,7 +159,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "melee_training_cap": 2,
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fish_large",
@@ -171,7 +171,7 @@
     "abstract": "mon_fish_huge",
     "type": "MONSTER",
     "description": "A huge fish.",
-    "default_faction": "fish",
+    "default_faction": "fish_large",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -190,7 +190,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "fish_large",
@@ -204,7 +204,7 @@
     "name": { "str_sp": "fish fry" },
     "//": "a default fish type - does not appear in-game",
     "description": "A minuscule half-translucent fish larva.  Impossible to identify which species it belongs to.",
-    "default_faction": "fish",
+    "default_faction": "fish_tiny",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -266,7 +266,7 @@
     "description": "A brown trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "18320 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_brown_trout", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_brown_trout" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -284,7 +284,7 @@
     "description": "A brook trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "900 ml",
     "weight": "1650 g",
-    "reproduction": { "baby_egg": "egg_brook_trout", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_brook_trout" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -302,7 +302,7 @@
     "description": "A lake trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "6140 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_lake_trout", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_lake_trout" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -320,7 +320,7 @@
     "description": "A rainbow trout.  A fish made popular by father-son fishing trips, except for the part where you have to gut it.",
     "volume": "10600 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_rainbow_trout", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_rainbow_trout" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -337,7 +337,7 @@
     "description": "An Atlantic salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "10600 ml",
     "weight": "4 kg",
-    "reproduction": { "baby_egg": "egg_salmon", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_salmon" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -355,7 +355,7 @@
     "description": "A Kokanee salmon.  A very fatty, nutritious fish.  Tastes great smoked.",
     "volume": "4470 ml",
     "weight": "3500 g",
-    "reproduction": { "baby_egg": "egg_kokanee_salmon", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_kokanee_salmon" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -372,7 +372,7 @@
     "description": "A lake whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "7730 ml",
     "weight": "2 kg",
-    "reproduction": { "baby_egg": "egg_whitefish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_whitefish" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -390,7 +390,7 @@
     "description": "A round whitefish, closely related to salmon.  One can assume they taste just as nice when smoked.",
     "volume": "850 ml",
     "weight": "355 g",
-    "reproduction": { "baby_egg": "egg_whitefish_round", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_whitefish_round" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ]
   },
   {
@@ -406,7 +406,7 @@
     "name": { "str_sp": "largemouth bass" },
     "description": "A largemouth bass.  Very popular with sport fishermen.",
     "volume": "3140 ml",
-    "reproduction": { "baby_egg": "egg_lbass", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_lbass" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_lbass",
@@ -422,7 +422,7 @@
     "description": "A smallmouth bass.  Infamously intolerant to pollution, the presence of smallmouth bass is a good indicator of how clean a body of water is.",
     "volume": "3140 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_sbass", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_sbass" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_sbass",
@@ -438,7 +438,7 @@
     "description": "A striped bass.  Mostly a saltwater fish, they migrate to fresher water to spawn.",
     "volume": "16080 ml",
     "weight": "6500 g",
-    "reproduction": { "baby_egg": "egg_pbass", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pbass" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pbass",
@@ -455,7 +455,7 @@
     "description": "A small, sprightly perch.  It is a very bony fish, still has some tasty meat on it though.",
     "volume": "220 ml",
     "weight": "150 g",
-    "reproduction": { "baby_egg": "egg_perch", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_perch" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_perch",
@@ -472,7 +472,7 @@
     "description": "A walleye.  A green-brown medium-sized fish with a white belly.",
     "volume": "4950 ml",
     "weight": "3 kg",
-    "reproduction": { "baby_egg": "egg_walleye", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_walleye" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_walleye",
@@ -488,7 +488,7 @@
     "description": "A banded sunfish.  A small fish related to bass and bluegill.",
     "volume": "20 ml",
     "weight": "20 g",
-    "reproduction": { "baby_egg": "egg_sunfish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_sunfish" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_sunfish",
@@ -505,7 +505,7 @@
     "description": "A pumpkinseed sunfish.  A small fish related to bass and bluegill.",
     "volume": "80 ml",
     "weight": "175 g",
-    "reproduction": { "baby_egg": "egg_pumpkinseed", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pumpkinseed" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pumpkinseed",
@@ -521,7 +521,7 @@
     "description": "A bluegill, an invasive species in Japan.  Commonly gutted and cooked whole.",
     "volume": "290 ml",
     "weight": "280 g",
-    "reproduction": { "baby_egg": "egg_bluegill", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bluegill" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_bluegill",
@@ -538,7 +538,7 @@
     "description": "A redbreast sunfish.  A small fish related to bass and bluegill.",
     "volume": "110 ml",
     "weight": "106 g",
-    "reproduction": { "baby_egg": "egg_redbreast", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_redbreast" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_redbreast",
@@ -555,7 +555,7 @@
     "description": "A green sunfish.  A small fish related to bass and bluegill.",
     "volume": "290 ml",
     "weight": "280 g",
-    "reproduction": { "baby_egg": "egg_green_sunfish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_green_sunfish" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_green_sunfish",
@@ -572,7 +572,7 @@
     "description": "A rock bass.  Related to sunfish, this tiny fish has a camouflage-like patterning and red eyes.",
     "volume": "750 ml",
     "weight": "350 g",
-    "reproduction": { "baby_egg": "egg_rock_bass", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_rock_bass" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_rock_bass",
@@ -589,7 +589,7 @@
     "description": "A black crappie.  A medium-sized fish also known as a 'calico bass'.",
     "volume": "900 ml",
     "weight": "400 g",
-    "reproduction": { "baby_egg": "egg_calico_bass", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_calico_bass" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_calico_bass",
@@ -606,7 +606,7 @@
     "description": "A warmouth, similar to a rock bass.  This small fish is related to the sunfish.",
     "volume": "290 ml",
     "weight": "280 g",
-    "reproduction": { "baby_egg": "egg_warmouth", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_warmouth" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_warmouth",
@@ -622,7 +622,7 @@
     "description": "A brown bullhead, a type of catfish.  Delicious when battered and fried.",
     "volume": "340 ml",
     "weight": "650 g",
-    "reproduction": { "baby_egg": "egg_bullhead", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bullhead" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_bullhead",
@@ -639,7 +639,7 @@
     "description": "A yellow bullhead, a type of catfish.  Delicious when battered and fried, though smaller than its brown cousin.",
     "volume": "250 ml",
     "weight": "454 g",
-    "reproduction": { "baby_egg": "egg_bullhead_yellow", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bullhead_yellow" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_bullhead_yellow",
@@ -656,7 +656,7 @@
     "description": "A channel catfish.  It has a forked tail and long whiskers.",
     "volume": "4040 ml",
     "weight": "7 kg",
-    "reproduction": { "baby_egg": "egg_channel_catfish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_channel_catfish" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_channel_catfish",
@@ -673,7 +673,7 @@
     "description": "A white catfish.  A small whiskered fish with a broad head.",
     "volume": "620 ml",
     "weight": "950 g",
-    "reproduction": { "baby_egg": "egg_white_catfish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_white_catfish" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_white_catfish",
@@ -689,7 +689,7 @@
     "description": "A northern pike.  Pike can be pretty aggressive fish, careful around those teeth.",
     "volume": "3630 ml",
     "weight": "1750 g",
-    "reproduction": { "baby_egg": "egg_pike", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pike" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pike",
@@ -705,7 +705,7 @@
     "description": "A chain pickerel.  It looks like a pike, but slightly smaller.",
     "volume": "1620 ml",
     "weight": "1150 g",
-    "reproduction": { "baby_egg": "egg_pickerel", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pickerel" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pickerel",
@@ -721,7 +721,7 @@
     "description": "An American pickerel.  It looks like a pike, but unlike its chain pickerel cousin, this one is way smaller.",
     "volume": "170 ml",
     "weight": "200 g",
-    "reproduction": { "baby_egg": "egg_pickerel_american", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pickerel_american" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pickerel_american",
@@ -738,7 +738,7 @@
     "description": "A muskellunge.  Closely related to pike but even larger, it shares the same aggression and sharp teeth.",
     "volume": "18700 ml",
     "weight": "10 kg",
-    "reproduction": { "baby_egg": "egg_muskellunge", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_muskellunge" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_muskellunge",
@@ -755,7 +755,7 @@
     "description": "A white sucker.  It has a streamlined body with a round mouth.",
     "volume": "2120 ml",
     "weight": "660 g",
-    "reproduction": { "baby_egg": "egg_white_sucker", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_white_sucker" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_white_sucker",
@@ -771,7 +771,7 @@
     "description": "A golden-yellow common carp.  Some people think they don't taste great, but you can't afford to be choosy in the Cataclysm.",
     "volume": "2010 ml",
     "weight": "1 kg",
-    "reproduction": { "baby_egg": "egg_carp", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_carp" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_carp",
@@ -788,7 +788,7 @@
     "description": "A huge grass carp.  A golden, herbivorous fish.",
     "volume": "16080 ml",
     "weight": "15 kg",
-    "reproduction": { "baby_egg": "egg_grass_carp", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_grass_carp" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_grass_carp",
@@ -805,7 +805,7 @@
     "description": "Yes, this is that common pet fish.  Though, given its size and the fact that it's still alive, you can take a wild guess that this one is feral.",
     "volume": "570 ml",
     "weight": "300 g",
-    "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_goldfish" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_goldfish",
@@ -821,7 +821,7 @@
     "description": "A bowfin.  These fish are related to gar but without the huge teeth, skin-rending scales, and aggression.",
     "volume": "4780 ml",
     "weight": "1300 g",
-    "reproduction": { "baby_egg": "egg_bowfin", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bowfin" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_bowfin",
@@ -838,7 +838,7 @@
     "description": "A large ancient type of fish with a mean jaw and poisonous eggs.",
     "volume": "4820 ml",
     "weight": "920 g",
-    "reproduction": { "baby_egg": "egg_gar_longnose", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_gar_longnose" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_gar_longnose",
@@ -854,7 +854,7 @@
     "description": "A relatively large fish that looks like a cross between a catfish and an eel, and is the only freshwater fish from the order that cods hail from.",
     "volume": "1400 ml",
     "weight": "620 g",
-    "reproduction": { "baby_egg": "egg_burbot", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_burbot" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_burbot",
@@ -870,7 +870,7 @@
     "description": "A very large armored bottom-feeder, the lake sturgeon is one of the largest unmutated fish one can find in the freshwater regions of New England.",
     "volume": "20220 ml",
     "weight": "14500 g",
-    "reproduction": { "baby_egg": "egg_sturgeon_lake", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_sturgeon_lake" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_sturgeon_lake",
@@ -887,7 +887,7 @@
     "description": "While the shortnose sturgeon is still large, it is nothing compared to its cousin - the lake sturgeon.  What really sets it apart, however, is its signature shorter snout.",
     "volume": "2720 ml",
     "weight": "980 g",
-    "reproduction": { "baby_egg": "egg_sturgeon_shortnose", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_sturgeon_shortnose" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_sturgeon_shortnose",
@@ -904,7 +904,7 @@
     "description": "A fallfish.  These fish are small cyprinids, related to carp.",
     "volume": "160 ml",
     "weight": "120 g",
-    "reproduction": { "baby_egg": "egg_fallfish", "baby_count": 2, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_fallfish" }, "baby_count": 2, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_fallfish",
@@ -917,7 +917,7 @@
     "type": "MONSTER",
     "name": { "str": "lobster" },
     "description": "A dark greenish crustacean in its natural habitat.  These were once considered pests barely worth eating, then some marketing genius started selling them to people as a delicacy and they took off in popularity… and price.",
-    "default_faction": "fish",
+    "default_faction": "fish_medium",
     "bodytype": "crab",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -936,7 +936,7 @@
     "harvest": "lobster",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "dissect": "dissect_crustacean_single",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 180 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 180 },
     "baby_flags": [ "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
@@ -946,7 +946,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "crayfish" },
     "description": "This crustacean looks like a tiny lobster, but is actually a completely different species.  If you could get ahold of a bunch more of these, a hefty pot of boiling water, and some spicy seasonings…",
-    "default_faction": "fish",
+    "default_faction": "fish_tiny",
     "bodytype": "crab",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -965,7 +965,7 @@
     "harvest": "shellfish",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
     "dissect": "dissect_crustacean_single",
-    "reproduction": { "baby_monster": "mon_fry_crayfish", "baby_count": 3, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_fry_crayfish" }, "baby_count": 3, "baby_timer": 17 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
@@ -984,7 +984,7 @@
     "type": "MONSTER",
     "name": { "str": "American eel" },
     "description": "An American eel.  They used to be quite common in these parts until the dams were built.  They'll get a second chance now that those aren't running.",
-    "default_faction": "fish",
+    "default_faction": "fish_medium",
     "bodytype": "snake",
     "categories": [ "WILDLIFE" ],
     "species": [ "FISH" ],
@@ -1047,7 +1047,7 @@
     "weakpoint_sets": [ "wps_arthropod" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug", "prof_wp_nat_armored" ],
     "dissect": "dissect_crustacean_small",
-    "reproduction": { "baby_monster": "mon_crayfish_giant_larva", "baby_count": 3, "baby_timer": 21 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_crayfish_giant_larva" }, "baby_count": 3, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
@@ -1160,7 +1160,7 @@
     "harvest": "mutant_fish",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 1, "baby_timer": 6 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 1, "baby_timer": 6 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC" ]
   },
@@ -1191,7 +1191,7 @@
     "harvest": "mutant_fish",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_fish_sample_small",
-    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_mutant_salmon" }, "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
     "upgrades": { "age_grow": 30, "into": "mon_mutant_salmon_huge" },
     "anger_triggers": [ "HURT" ],
@@ -1223,7 +1223,7 @@
     "dodge": 4,
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_large",
-    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 3, "baby_timer": 30 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_mutant_salmon" }, "baby_count": 3, "baby_timer": 30 },
     "baby_flags": [ "AUTUMN" ],
     "upgrades": { "age_grow": 42, "into": "mon_mutant_salmon_mega" },
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
@@ -1262,7 +1262,7 @@
     "dodge": 4,
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_large",
-    "reproduction": { "baby_egg": "egg_mutant_salmon", "baby_count": 5, "baby_timer": 50 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_mutant_salmon" }, "baby_count": 5, "baby_timer": 50 },
     "baby_flags": [ "AUTUMN" ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SWIMS", "AQUATIC" ]
@@ -1294,7 +1294,7 @@
     "harvest": "mutant_fish",
     "dissect": "dissect_fish_sample_single",
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
-    "reproduction": { "baby_egg": "egg_fish", "baby_count": 2, "baby_timer": 19 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_fish" }, "baby_count": 2, "baby_timer": 19 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },
     "flags": [ "SEES", "SMELLS", "AQUATIC" ]
@@ -1307,7 +1307,7 @@
     "description": "An Atlantic mackerel, known for its distinctive striped pattern.",
     "volume": "850 ml",
     "weight": "425 g",
-    "reproduction": { "baby_egg": "egg_mackerel", "baby_count": 3, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_mackerel" }, "baby_count": 3, "baby_timer": 20 }
   },
   {
     "id": "mon_fry_mackerel",
@@ -1323,7 +1323,7 @@
     "description": "A flatfish, the summer flounder, also known as a fluke, likes to stay camouflaged against the ocean floor.",
     "volume": "4 L",
     "weight": "1400 g",
-    "reproduction": { "baby_egg": "egg_flounder", "baby_count": 2, "baby_timer": 22 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_flounder" }, "baby_count": 2, "baby_timer": 22 }
   },
   {
     "id": "mon_fry_flounder",
@@ -1339,7 +1339,7 @@
     "description": "A small, robust fish, the black sea bass is known for its dark, mottled color and meaty texture.",
     "volume": "1330 ml",
     "weight": "850 g",
-    "reproduction": { "baby_egg": "egg_blackfish", "baby_count": 2, "baby_timer": 15 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_blackfish" }, "baby_count": 2, "baby_timer": 15 }
   },
   {
     "id": "mon_fry_blackfish",
@@ -1354,7 +1354,7 @@
     "name": { "str_sp": "scup" },
     "description": "Also known as porgy, the scup is a small fish commonly found in Atlantic coastal waters, recognizable by its silver body with blue and purple tinges.",
     "weight": "500 g",
-    "reproduction": { "baby_egg": "egg_porgy", "baby_count": 3, "baby_timer": 16 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_porgy" }, "baby_count": 3, "baby_timer": 16 }
   },
   {
     "id": "mon_fry_porgy",
@@ -1369,7 +1369,7 @@
     "name": { "str_sp": "bluefish" },
     "description": "The bluefish, a moderately proportioned marine fish, is known for its aggressive nature and sharp teeth.  It sports a distinct blue-green coloration.",
     "volume": "6785 ml",
-    "reproduction": { "baby_egg": "egg_bluefish", "baby_count": 2, "baby_timer": 18 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bluefish" }, "baby_count": 2, "baby_timer": 18 }
   },
   {
     "id": "mon_fry_bluefish",
@@ -1385,7 +1385,7 @@
     "description": "A large, white-meat fish known for its mild flavor and flaky texture.  Highly prized in both commercial and recreational fishing.",
     "volume": "31450 ml",
     "weight": "30 kg",
-    "reproduction": { "baby_egg": "egg_cod", "baby_count": 3, "baby_timer": 19 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_cod" }, "baby_count": 3, "baby_timer": 19 }
   },
   {
     "id": "mon_fry_cod",
@@ -1401,7 +1401,7 @@
     "description": "A popular food fish, the haddock is recognized by its dark lateral line and a black blotch above the pectoral fin.",
     "volume": "6785 ml",
     "weight": "1800 g",
-    "reproduction": { "baby_egg": "egg_haddock", "baby_count": 3, "baby_timer": 18 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_haddock" }, "baby_count": 3, "baby_timer": 18 }
   },
   {
     "id": "mon_fry_haddock",
@@ -1417,7 +1417,7 @@
     "description": "One of the largest and fastest fish in the waters of New England, the bluefin tuna is a streamlined predator with a dark blue back and silvery sides.",
     "volume": "250 L",
     "weight": "200 kg",
-    "reproduction": { "baby_egg": "egg_bluefin_tuna", "baby_count": 1, "baby_timer": 22 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_bluefin_tuna" }, "baby_count": 1, "baby_timer": 22 }
   },
   {
     "id": "mon_fry_bluefin_tuna",
@@ -1433,7 +1433,7 @@
     "description": "The largest flatfish in the ocean, known for its dense, firm texture and mild flavor.",
     "volume": "75 L",
     "weight": "25 kg",
-    "reproduction": { "baby_egg": "egg_halibut", "baby_count": 2, "baby_timer": 20 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_halibut" }, "baby_count": 2, "baby_timer": 20 }
   },
   {
     "id": "mon_fry_halibut",
@@ -1450,7 +1450,7 @@
     "description": "A member of the cod family, pollock is a versatile fish known for its white, delicate meat and mild taste.",
     "volume": "6785 ml",
     "weight": "2250 g",
-    "reproduction": { "baby_egg": "egg_pollock", "baby_count": 3, "baby_timer": 17 }
+    "reproduction": { "baby_type": { "baby_egg": "egg_pollock" }, "baby_count": 3, "baby_timer": 17 }
   },
   {
     "id": "mon_fry_pollock",

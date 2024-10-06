@@ -180,7 +180,7 @@ void timed_event::actualize()
 
         case timed_event_type::ROOTS_DIE:
             get_event_bus().send<event_type::destroys_triffid_grove>();
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.bub_points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_root_wall && one_in( 3 ) ) {
                     here.ter_set( p, ter_t_underbrush );
                 }
@@ -190,7 +190,7 @@ void timed_event::actualize()
         case timed_event_type::TEMPLE_OPEN: {
             get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.bub_points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_grate ) {
                     here.ter_set( p, ter_t_stairs_down );
                     if( !saw_grate && player_character.sees( p ) ) {
@@ -208,32 +208,32 @@ void timed_event::actualize()
             bool flooded = false;
 
             cata::mdarray<ter_id, point_bub_ms> flood_buf;
-            for( const tripoint &p : here.points_on_zlevel() ) {
-                flood_buf[p.x][p.y] = here.ter( p );
+            for( const tripoint_bub_ms &p : here.bub_points_on_zlevel() ) {
+                flood_buf[p.x()][p.y()] = here.ter( p );
             }
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.bub_points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_water_sh ) {
                     bool deepen = false;
-                    for( const tripoint &w : points_in_radius( p, 1 ) ) {
+                    for( const tripoint_bub_ms &w : points_in_radius( p, 1 ) ) {
                         if( here.ter( w ) == ter_t_water_dp ) {
                             deepen = true;
                             break;
                         }
                     }
                     if( deepen ) {
-                        flood_buf[p.x][p.y] = ter_t_water_dp;
+                        flood_buf[p.x()][p.y()] = ter_t_water_dp;
                         flooded = true;
                     }
                 } else if( here.ter( p ) == ter_t_rock_floor ) {
                     bool flood = false;
-                    for( const tripoint &w : points_in_radius( p, 1 ) ) {
+                    for( const tripoint_bub_ms &w : points_in_radius( p, 1 ) ) {
                         if( here.ter( w ) == ter_t_water_dp || here.ter( w ) == ter_t_water_sh ) {
                             flood = true;
                             break;
                         }
                     }
                     if( flood ) {
-                        flood_buf[p.x][p.y] = ter_t_water_sh;
+                        flood_buf[p.x()][p.y()] = ter_t_water_sh;
                         flooded = true;
                     }
                 }
@@ -281,7 +281,7 @@ void timed_event::actualize()
         case timed_event_type::DSA_ALRP_SUMMON: {
             const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.bub_from_abs( project_to<coords::ms>( map_point ) ).raw();
+                const tripoint_bub_ms spot = here.bub_from_abs( project_to<coords::ms>( map_point ) );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );

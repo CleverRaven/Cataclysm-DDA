@@ -2,7 +2,8 @@
   {
     "abstract": "270win_fmj",
     "type": "AMMO",
-    "name": { "str_sp": ".270 Winchester abstract" },
+    "name": { "str_sp": ".270 Winchester abstract", "//~": "NO_I18N" },
+    "description": ".270 Winchester ammunition with a 130gr full metal jacket bullet.  It is a powerful round capable of taking down large targets with ease.",
     "//": "This is .270 FMJ.  270 win is so exclusively used for hunting that FMJ ammo basically doesn't exist. This is just here for the BBTI data.",
     "ascii_picture": "270win_jsp",
     "longest_side": "85 mm",
@@ -100,7 +101,6 @@
     "copy-from": "270win_jsp",
     "type": "AMMO",
     "name": { "str_sp": ".270 Winchester JSP, black powder" },
-    "description": ".270 Winchester ammunition with a 130gr soft point bullet.  It is a powerful round capable of taking down large targets with ease, but someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
@@ -115,7 +115,6 @@
     "copy-from": "270win_jsp",
     "type": "AMMO",
     "name": { "str_sp": ".270 Winchester JSP, reloaded" },
-    "description": ".270 Winchester ammunition with a 130gr soft point bullet.  It is a powerful round capable of taking down large targets with ease.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -125,7 +124,6 @@
     "copy-from": "270win_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".270 Winchester FMJ, reloaded" },
-    "description": ".270 Winchester ammunition with a 130gr full metal jacket bullet.  It is a powerful round capable of taking down large targets with ease.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -135,7 +133,6 @@
     "copy-from": "reloaded_270win_fmj",
     "type": "AMMO",
     "name": { "str_sp": ".270 Winchester FMJ, black powder" },
-    "description": ".270 Winchester ammunition with a 130gr full metal jacket bullet.  It is a powerful round capable of taking down large targets with ease, but someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },

@@ -12,7 +12,7 @@ static const ter_str_id ter_t_floor( "t_floor" );
 
 struct tripoint;
 
-static monster &spawn_and_clear( const tripoint &pos, bool set_floor )
+static monster &spawn_and_clear( const tripoint_bub_ms &pos, bool set_floor )
 {
     if( set_floor ) {
         get_map().set( pos, ter_t_floor, furn_str_id::NULL_ID() );

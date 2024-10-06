@@ -92,31 +92,9 @@
     },
     "effect": [
       {
-        "u_run_inv_eocs": "random",
-        "search_data": [ { "wielded_only": true } ],
-        "true_eocs": [
-          {
-            "id": "injured_talk",
-            "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
-            "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_damaged>\"" },
-            "false_effect": {
-              "run_eocs": {
-                "id": "you_injured_talk",
-                "//": "Weapon will be concerned for you if you're significantly injured.",
-                "condition": { "math": [ "(u_hp('ALL') * 1.4)", "<", "u_hp_max('bp_null')" ] },
-                "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
-                "false_effect": {
-                  "run_eocs": {
-                    "id": "monsters_nearby_talk",
-                    "condition": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
-                    "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
-                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" } } }
-                  }
-                }
-              }
-            }
-          }
-        ]
+        "if": "u_has_weapon",
+        "then": { "u_run_inv_eocs": "all", "search_data": [ { "wielded_only": true } ], "true_eocs": [ "item_talks_to_you" ] },
+        "else": { "run_eocs": "minor_hallucinations" }
       },
       {
         "run_eocs": {
@@ -129,6 +107,26 @@
       }
     ],
     "false_effect": { "run_eocs": "minor_hallucinations" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "item_talks_to_you",
+    "effect": [
+      {
+        "if": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
+        "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_damaged>\"" },
+        "else": {
+          "if": { "math": [ "(u_hp('ALL') * 1.4)", "<", "u_hp_max('bp_null')" ] },
+          "//": "Weapon will be concerned for you if you're significantly injured.",
+          "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
+          "else": {
+            "if": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
+            "then": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
+            "else": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" }
+          }
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

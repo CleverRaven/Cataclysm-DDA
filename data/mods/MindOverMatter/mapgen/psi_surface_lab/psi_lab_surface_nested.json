@@ -1963,6 +1963,7 @@
         "bs         ",
         "bbb& CSC&  "
       ],
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 0, "y": 10, "chance": 75 } ],
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },
@@ -2001,6 +2002,7 @@
         "         sb",
         "  &CSC &bbb"
       ],
+      "place_item": [ { "item": "schematics_matrix_crystal_ground", "x": 10, "y": 10, "chance": 75 } ],
       "items": {
         "b": [
           { "item": "tools_science", "chance": 30, "repeat": [ 1, 2 ] },

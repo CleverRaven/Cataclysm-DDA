@@ -1,5 +1,14 @@
 [
   {
+    "id": "mon_feral_survivalist_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_feral_survivalist_death_drops",
+    "extend": {
+      "entries": [ { "group": "concentrated_matrix_elixirs", "prob": 5 }, { "group": "concentrated_matrix_elixirs", "prob": 1 } ]
+    }
+  },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_bio",
@@ -192,6 +201,7 @@
           { "group": "harddrugs", "prob": 25 },
           { "group": "psi_lab", "prob": 65 },
           { "item": "lab_postit_psi", "prob": 15 },
+          { "item": "phavian_psionic_telepathic_mental_engineering_book", "prob": 8 },
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },

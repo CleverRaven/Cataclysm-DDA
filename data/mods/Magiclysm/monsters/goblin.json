@@ -58,7 +58,8 @@
       ]
     },
     "armor": { "bash": 12, "cut": 12, "bullet": 4 },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "GROUP_MORALE", "WIELDED_WEAPON" ]
+    "zombify_into": "mon_zombie_goblin",
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER", "REVIVES", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
@@ -169,6 +170,7 @@
         "uncanny_dodgeable": true,
         "dodgeable": false,
         "blockable": false,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "hit_dmg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns!",
         "hit_dmg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns!",
         "miss_msg_u": "%1$s chatters words of magic and you narrowly avoid a cloud of scratching thorns!",
@@ -181,6 +183,7 @@
         "type": "spell",
         "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
         "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
       },
       {
@@ -188,6 +191,7 @@
         "type": "spell",
         "spell_data": { "id": "monster_ranged_gas_attack", "min_level": 5 },
         "cooldown": 30,
+        "condition": { "and": [ { "not": { "u_has_flag": "MUTE" } }, { "not": { "u_has_flag": "NO_SPELLCASTING" } } ] },
         "monster_message": "%1$s waves their hands and %1$s is surrounded in greenish vapors."
       }
     ],

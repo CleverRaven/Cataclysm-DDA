@@ -1818,7 +1818,7 @@ static bool query_consume_ownership( item &target, Character &p )
         }
         std::vector<npc *> witnesses;
         for( npc &elem : g->all_npcs() ) {
-            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos() ) ) {
+            if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && elem.sees( p.pos_bub() ) ) {
                 witnesses.push_back( &elem );
             }
         }
