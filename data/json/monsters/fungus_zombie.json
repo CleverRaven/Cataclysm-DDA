@@ -13,7 +13,7 @@
     "melee_dice_sides": 6,
     "vision_day": 10,
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungalize" },
-    "fungalize_into": [  ],
+    "fungalize_into": {  },
     "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
