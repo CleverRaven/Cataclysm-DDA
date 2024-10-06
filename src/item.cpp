@@ -5040,7 +5040,7 @@ void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query *part
                          int /*batch*/, bool /*debug*/ ) const
 {
 
-    const std::map<std::string, use_function> &use_methods = type->use_methods;
+    const std::multimap<std::string, use_function> &use_methods = type->use_methods;
     if( use_methods.empty() || !parts->test( iteminfo_parts::ACTIONS ) ) {
         return;
     }

@@ -1236,7 +1236,7 @@ struct itype {
         use_function countdown_action;
 
         /** Actions to take when item is processed */
-        std::map<std::string, use_function> tick_action;
+        std::multimap<std::string, use_function> tick_action;
 
         /**
         * @name Non-negative properties
@@ -1323,7 +1323,7 @@ struct itype {
         material_id default_mat;
 
         /** Actions an instance can perform (if any) indexed by action type */
-        std::map<std::string, use_function> use_methods;
+        std::multimap<std::string, use_function> use_methods;
 
         // @return returns itype_id of first ammo_id or itype_id::NULL_ID if not tool or no ammo defined
         const itype_id &tool_slot_first_ammo() const;

@@ -1458,7 +1458,7 @@ item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
 
 bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
 {
-    const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+    const std::multimap<std::string, use_function> &use_methods = used->type->use_methods;
     const int num_methods = use_methods.size();
 
     const bool has_relic = used->has_relic_activation();

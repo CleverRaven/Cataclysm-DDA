@@ -5201,7 +5201,7 @@ void Item_factory::load_item_group_data( const JsonObject &jsobj, Item_group *ig
 }
 
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &src,
-        const std::string &member, std::map<std::string, use_function> &use_methods,
+        const std::string &member, std::multimap<std::string, use_function> &use_methods,
         std::map<std::string, int> &ammo_scale )
 {
     if( !jo.has_member( member ) ) {
@@ -5256,7 +5256,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
 }
 
 // Helper to safely look up and store iuse actions.
-void Item_factory::emplace_usage( std::map<std::string, use_function> &container,
+void Item_factory::emplace_usage( std::multimap<std::string, use_function> &container,
                                   const std::string &iuse_id )
 {
     use_function fun = usage_from_string( iuse_id );
