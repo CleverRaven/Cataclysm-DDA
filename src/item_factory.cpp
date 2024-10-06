@@ -3446,7 +3446,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
             slot.rot_spawn_group = mongroup_id( jo_rot.get_string( "group" ) );
             slot.rot_spawn_monster = mtype_id::NULL_ID();
         }
-        assign( jo_rot, "chance", slot.rot_spawn_chance, strict, 0 );
+        if( jo_rot.has_int( "chance" ) ) {
+            assign( jo_rot, "chance", slot.rot_spawn_chance, strict, 0, 100 );
+        }
     }
 }
 
