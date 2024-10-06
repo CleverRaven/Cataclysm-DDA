@@ -397,6 +397,17 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_SCAVENGER_EX_PILOT",
+    "name": { "str": "Former Pilot" },
+    "job_description": "I just want to fly away to somewhere better.",
+    "common_spawn_weight": 0.3,
+    "traits": [ { "trait": "BGSS_Lost_Pilot_1" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "proficiencies": [ "prof_helicopter_pilot" ],
+    "skills": [ { "skill": "driving", "bonus": { "rng": [ 3, 5 ] } } ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_HUNTER",
     "name": { "str": "Hunter" },
     "job_description": "I'm tracking game.",

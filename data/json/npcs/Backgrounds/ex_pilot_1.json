@@ -1,0 +1,14 @@
+[
+  {
+    "id": "BGSS_Lost_Pilot_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "gendered_line": "Where was I?  I don't even know, what day do you think it all ended?  When I thought shit was hitting the fan I took some vacation time at the airline.  Next day, somebody bombed them.  No shit, just like Oklahoma city in '95.  Thought that was a good sign to get out so I emailed some family out in the country that I was coming over and got on the road.  Didn't even make it to the interstate before I ran into the cops setting up a roadblock.  I drove off the road and it all gets fuzzy from there.  Next town I got to was already lynching people from the streetlights… I didn't stop for gas.  Lost the car at some point, lost track of the days too.  Not sure I ever got a reply to my email.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

@@ -531,6 +531,12 @@
         "topic": "CWH_GUNG_HO_3_IDEAS1",
         "condition": { "npc_has_trait": "BGSS_Gung_Ho_3" },
         "switch": true
+      },
+      {
+        "text": "<BGSS_intro_question>",
+        "topic": "BGSS_Lost_Pilot_1_STORY1",
+        "condition": { "npc_has_trait": "BGSS_Lost_Pilot_1" },
+        "switch": true
       }
     ]
   },
