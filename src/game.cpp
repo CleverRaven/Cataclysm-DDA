@@ -5577,8 +5577,7 @@ void game::control_vehicle()
                     } else {
                         return;
                     }
-                }
-                if( weapon->is_two_handed( u ) ) {
+                } else if( weapon->is_two_handed( u ) ) {
                     if( query_yn(
                             _( "You can't drive because you have to wield a %s with both hands.\n\nPut it away?" ),
                             weapon->tname() ) ) {
