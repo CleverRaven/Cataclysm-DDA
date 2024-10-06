@@ -5,6 +5,28 @@
     "dynamic_line": "Psionic Perks:\nLevel <u_val:current_level>.\n<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
     "responses": [
       {
+        "condition": { "not": { "u_has_trait": "perk_clear_minded_channeling" } },
+        "text": "Gain [<trait_name:perk_clear_minded_channeling>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_clear_minded_channeling>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_clear_minded_channeling>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_clear_minded_channeling", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know the Basic Concentration proficiency and must not have the Easily Distracted trait.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "u_has_proficiency": "prof_concentration_basic" }, { "not": { "u_has_trait": "CONCENTRATION_BAD" } } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_in_the_zone" } },
         "text": "Gain [<trait_name:perk_in_the_zone>]",
         "effect": [

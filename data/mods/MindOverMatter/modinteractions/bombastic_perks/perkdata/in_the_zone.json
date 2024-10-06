@@ -30,7 +30,8 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
-        { "not": { "u_has_effect": "effect_perk_in_the_zone" } }
+        { "not": { "u_has_effect": "effect_perk_in_the_zone" } },
+        { "u_has_trait": "perk_in_the_zone" }
       ]
     },
     "effect": [ { "u_add_effect": "effect_perk_in_the_zone", "duration": 5 } ]
@@ -57,6 +58,7 @@
             { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
           ]
         },
+        { "u_has_trait": "perk_in_the_zone" },
         { "u_has_effect": "effect_perk_in_the_zone" }
       ]
     },
