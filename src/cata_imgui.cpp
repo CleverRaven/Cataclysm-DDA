@@ -313,7 +313,13 @@ static void load_font( ImGuiIO &io, const std::vector<std::string> &typefaces )
                                   io.Fonts->GetGlyphRangesDefault() );
 }
 
-void cataimgui::client::load_fonts( const Font_Ptr __attribute__( ( unused ) ) &gui_font,
+#if defined(__clang__) || defined(__GNUC__)
+#define UNUSED __attribute__((unused))
+#else
+#define UNUSED
+#endif
+
+void cataimgui::client::load_fonts( UNUSED const Font_Ptr &gui_font,
                                     const Font_Ptr &mono_font,
                                     const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
                                     const std::vector<std::string> &gui_typefaces, const std::vector<std::string> &mono_typefaces )
