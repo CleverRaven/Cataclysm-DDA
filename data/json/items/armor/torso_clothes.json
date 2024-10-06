@@ -673,7 +673,7 @@
         "moves": 75
       }
     ],
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 0.8,
     "snippet_category": [
       { "id": "denim_shirt1", "text": "A long sleeved button-down blue shirt made from denim." },
