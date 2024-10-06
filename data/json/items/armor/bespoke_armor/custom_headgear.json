@@ -7,7 +7,6 @@
     "weight": "470 g",
     "volume": "2500 ml",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
     "material": [ "denim", "leather", "plastic" ],
     "symbol": "[",
     "looks_like": "balclava",
@@ -74,7 +73,6 @@
     "volume": "2 L",
     "price": "580 USD",
     "price_postapoc": "40 USD",
-    "to_hit": -1,
     "material": [ "kevlar_layered", "leather" ],
     "symbol": "[",
     "looks_like": "hood_rain",
@@ -84,8 +82,7 @@
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "hood_wsurvivor",
@@ -97,7 +94,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -1,
     "material": [ "kevlar_layered", "fur" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
@@ -106,8 +102,7 @@
     "material_thickness": 5,
     "environmental_protection": 5,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_wsurvivor",
@@ -151,7 +146,6 @@
     "volume": "750 ml",
     "price": "580 USD",
     "price_postapoc": "30 USD",
-    "to_hit": -1,
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "looks_like": "hood_survivor",
@@ -160,8 +154,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ],
-    "melee_damage": { "bash": 4 }
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "xl_hood_lsurvivor",
@@ -221,7 +214,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -241,7 +233,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -300,7 +291,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -320,7 +310,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -378,7 +367,6 @@
     "volume": "1500 ml",
     "price": "580 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "kevlar", "neoprene", "nylon" ],
     "symbol": "[",
     "looks_like": "wetsuit_hood",
@@ -398,7 +386,6 @@
         "covers": [ "head" ]
       }
     ],
-    "melee_damage": { "bash": 4 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -454,7 +441,6 @@
     "volume": "2500 ml",
     "price": "550 USD",
     "price_postapoc": "35 USD",
-    "to_hit": -3,
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
     "looks_like": "mask_gas",

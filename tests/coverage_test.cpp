@@ -23,9 +23,9 @@ static const flag_id json_flag_FILTHY( "FILTHY" );
 static const mtype_id mon_manhack( "mon_manhack" );
 
 static const int num_iters = 10000;
-static constexpr tripoint dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
-static constexpr tripoint mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
-static constexpr tripoint badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms dude_pos( HALF_MAPSIZE_X + 4, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms mon_pos( HALF_MAPSIZE_X + 3, HALF_MAPSIZE_Y, 0 );
+static constexpr tripoint_bub_ms badguy_pos( HALF_MAPSIZE_X + 1, HALF_MAPSIZE_Y, 0 );
 
 static void check_near( const std::string &subject, float actual, const float expected,
                         const float tolerance )
@@ -47,8 +47,8 @@ static void check_not_near( const std::string &subject, float actual, const floa
 
 static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk = false )
 {
-    monster zed( mon_manhack, mon_pos );
-    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    monster zed( mon_manhack, mon_pos.raw() );
+    standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );
@@ -83,8 +83,8 @@ static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk
 
 static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 {
-    monster zed( mon_manhack, mon_pos );
-    standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+    monster zed( mon_manhack, mon_pos.raw() );
+    standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
     if( infect_risk ) {
         cloth.set_flag( json_flag_FILTHY );
     }
@@ -119,10 +119,10 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
 static float get_avg_bullet_dmg( const std::string &clothing_id )
 {
     clear_map();
-    std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie", badguy_pos,
-                                           std::vector<std::string>(), 0, 8, 8, 8, 8 );
-    std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter", dude_pos,
-                                         std::vector<std::string>(), 0, 8, 8, 8, 8 );
+    std::unique_ptr<standard_npc> badguy = std::make_unique<standard_npc>( "TestBaddie",
+                                           badguy_pos.raw(), std::vector<std::string>(), 0, 8, 8, 8, 8 );
+    std::unique_ptr<standard_npc> dude = std::make_unique<standard_npc>( "TestCharacter",
+                                         dude_pos.raw(), std::vector<std::string>(), 0, 8, 8, 8, 8 );
     item cloth( clothing_id );
     projectile proj;
     proj.speed = 1000;
@@ -243,7 +243,7 @@ TEST_CASE( "Off_Limb_Ghost_ablative_vest", "[coverage]" )
         item full = item( "test_ghost_vest" );
         full.force_insert_item( item( "test_plate_skirt_super" ), pocket_type::CONTAINER );
 
-        standard_npc dude( "TestCharacter", dude_pos, {}, 0, 8, 8, 8, 8 );
+        standard_npc dude( "TestCharacter", dude_pos.raw(), {}, 0, 8, 8, 8, 8 );
         dude.wear_item( full, false );
         damage_instance du_full = damage_instance( damage_bullet, 100.0f );
         dude.absorb_hit( weakpoint_attack(), bodypart_id( "leg_l" ), du_full );

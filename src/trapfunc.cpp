@@ -195,8 +195,8 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
 
         // Messages
         c->add_msg_player_or_npc( m_bad,
-                                  string_format( _( "A bear trap closes on your %s" ), body_part_name_accusative( hit ) ),
-                                  string_format( _( "A bear trap closes on <npcname>'s %s" ), body_part_name( hit ) ) );
+                                  string_format( _( "A bear trap closes on your %s!" ), body_part_name_accusative( hit ) ),
+                                  string_format( _( "A bear trap closes on <npcname>'s %s!" ), body_part_name( hit ) ) );
 
         if( c->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s is caught by a beartrap!" ), c->get_name() );
@@ -217,9 +217,10 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
             }
         }
         c->check_dead_state();
+    } else {
+        here.spawn_item( p, "beartrap" );
     }
 
-    here.spawn_item( p, "beartrap" );
     return true;
 }
 
@@ -1416,9 +1417,9 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
     // Monsters and npcs are completely ignored here, should they?
     if( c->is_avatar() ) {
         add_msg( m_warning, _( "You step on a loose tile, and water starts to flood the room!" ) );
-        tripoint tmp = p;
-        int &i = tmp.x;
-        int &j = tmp.y;
+        tripoint_bub_ms tmp = tripoint_bub_ms( p );
+        int &i = tmp.x();
+        int &j = tmp.y();
         map &here = get_map();
         for( i = 0; i < MAPSIZE_X; i++ ) {
             for( j = 0; j < MAPSIZE_Y; j++ ) {
@@ -1601,8 +1602,12 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
             tripoint_abs_omt omt_pos = you->global_omt_location();
             const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
-            if( !run_mapgen_update_func( regen_mapgen, omt_pos, {}, nullptr, false ) ) {
-                popup( _( "Failed to generate the new map" ) );
+            const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( regen_mapgen, omt_pos, {},
+                    nullptr,
+                    false );
+            if( !has_colliding_vehicle.success() ) {
+                popup( _( "Failed to generate the new map, probably due to collision with %s vehicle/appliance." ),
+                       has_colliding_vehicle.str() );
                 return false;
             }
             set_queued_points();
@@ -1645,7 +1650,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
             // remove all traps in 3-3 area area
             for( int x = p.x - 1; x <= p.x + 1; x++ ) {
                 for( int y = p.y - 1; y <= p.y + 1; y++ ) {
-                    tripoint pt( x, y, p.z );
+                    tripoint_bub_ms pt( x, y, p.z );
                     if( here.tr_at( pt ).loadid == tr.loadid ) {
                         here.remove_trap( pt );
                     }
@@ -1653,8 +1658,8 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
             }
         }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-        trap_spell.cast_all_effects( dummy, p );
-        trap_spell.make_sound( p, get_player_character() );
+        trap_spell.cast_all_effects( dummy, tripoint_bub_ms( p ) );
+        trap_spell.make_sound( tripoint_bub_ms( p ), get_player_character() );
         return true;
     } else {
         map &here = get_map();
@@ -1668,7 +1673,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
             // remove all traps in 3-3 area area
             for( int x = p.x - 1; x <= p.x + 1; x++ ) {
                 for( int y = p.y - 1; y <= p.y + 1; y++ ) {
-                    tripoint pt( x, y, p.z );
+                    tripoint_bub_ms pt( x, y, p.z );
                     if( here.tr_at( pt ).loadid == tr.loadid ) {
                         here.remove_trap( pt );
                     }
@@ -1676,8 +1681,8 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
             }
         }
         // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-        trap_spell.cast_all_effects( dummy, critter->pos() );
-        trap_spell.make_sound( p, get_player_character() );
+        trap_spell.cast_all_effects( dummy, critter->pos_bub() );
+        trap_spell.make_sound( tripoint_bub_ms( p ), get_player_character() );
         return true;
     }
 }

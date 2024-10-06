@@ -632,6 +632,19 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_zastrodon_scorched",
+    "name": { "str": "scorched astrodon zombie" },
+    "copy-from": "mon_zapatosaurus_scorched",
+    "looks_like": "mon_zrachiosaurus",
+    "speed": 40,
+    "attack_cost": 40,
+    "melee_dice": 6,
+    "hp": 270,
+    "fungalize_into": "mon_zastrodon_fungus",
+    "armor": { "acid": 3, "heat": 15, "bash": 10, "cut": 17, "bullet": 10 }
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_zalamosaurus_scorched",
     "name": { "str": "scorched alamosaurus zombie" },
     "copy-from": "mon_zapatosaurus_scorched",

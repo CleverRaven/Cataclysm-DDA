@@ -449,9 +449,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Harvest:
             return dir_abbr + _( " Harvest Fields" );
 
-        case Camp_Chop_Shop:  //  Obsolete removed during 0.E
-            return _( " Chop Shop.  Obsolete.  Can only be recalled" );
-
         //  Actions that won't be used here
         case Scavenging_Patrol_Job:
         case Scavenging_Raid_Job:
@@ -726,9 +723,11 @@ void talk_function::start_camp( npc &p )
         }
     }
     const recipe &making = camp_type.obj();
-    if( !run_mapgen_update_func( making.get_blueprint(), omt_pos, {} ) ) {
-        popup( _( "%s failed to start the %s basecamp, perhaps there is a vehicle in the way." ),
-               p.disp_name(), making.get_blueprint().str() );
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( making.get_blueprint(),
+            omt_pos, {} );
+    if( !has_vehicle_collision.success() ) {
+        popup( _( "%1$s failed to start the %2$s basecamp, %3$s appliance/vehicle seems to be in the way." ),
+               p.disp_name(), making.get_blueprint().str(), has_vehicle_collision.str() );
         return;
     }
     std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
@@ -1212,17 +1211,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
     }
 
-    if( has_provides( "dismantling",
-                      dir ) ) {  //  Obsolete (during 0.E), but we still have to be able to process existing missions.
-        const mission_id miss_id = { Camp_Chop_Shop, "", {}, dir };
-        comp_list npc_list = get_mission_workers( miss_id );
-        if( !npc_list.empty() ) {
-            entry = action_of( miss_id.id );
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id,
-                                    dir_abbr + _( " (Finish) Chop Shop" ), entry, avail );
-        }
-    }
     std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
     {
         mission_id miss_id = { Camp_Crafting, "", {}, dir };
@@ -1947,10 +1935,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             }
             break;
 
-        case Camp_Chop_Shop:  //  Removed during 0.E
-            debugmsg( "Obsolete Function.  Use Vehicle Deconstruct zone instead.  Recover your companion with Emergency Recall." );
-            break;
-
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:
@@ -1998,10 +1982,10 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
         }
         if( !equipment.empty() ) {
             map &target_map = get_camp_map();
-            std::vector<tripoint> src_set_pt;
+            std::vector<tripoint_bub_ms> src_set_pt;
             src_set_pt.resize( src_set.size() );
             for( const tripoint_abs_ms &p : src_set ) {
-                src_set_pt.emplace_back( target_map.getlocal( p ) );
+                src_set_pt.emplace_back( target_map.bub_from_abs( p ) );
             }
             for( item *i : equipment ) {
                 int count = i->count();
@@ -3626,9 +3610,10 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                         }
                         farm_json->rotate( 4 - rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
-                        if( !run_mapgen_update_func( update_id, dat, false ) ) {
-                            debugmsg( "farm_action failed to apply the %s map update to %s",
-                                      provide.first, omt_id );
+                        const ret_val<void> has_vehicle_collision = run_mapgen_update_func( update_id, dat, false );
+                        if( !has_vehicle_collision.success() ) {
+                            debugmsg( "farm_action failed to apply the %1$s map update to %2$s, collision with %3$s vehicle/appliance.",
+                                      provide.first, omt_id, has_vehicle_collision.str() );
                         }
                         farm_json->rotate( rotation );
                         farm_json->mirror( mirror_horizontal, mirror_vertical );
@@ -3966,11 +3951,14 @@ bool basecamp::upgrade_return( const mission_id &miss_id )
         return salt_water_pipe_return( miss_id, npc_list );
     }
 
-    if( !run_mapgen_update_func( making.get_blueprint(), upos, miss_id.mapgen_args, nullptr, true,
-                                 mirror_horizontal, mirror_vertical, rotation ) ) {
-        popup( _( "%s failed to build the %s upgrade, perhaps there is a vehicle in the way." ),
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( making.get_blueprint(), upos,
+            miss_id.mapgen_args, nullptr, true,
+            mirror_horizontal, mirror_vertical, rotation );
+    if( !has_vehicle_collision.success() ) {
+        popup( _( "%1$s failed to build the %2$s upgrade, %3$s vehicle/appliance seems to be in the way." ),
                companion_list,
-               making.get_blueprint().str() );
+               making.get_blueprint().str(),
+               has_vehicle_collision.str() );
         return false;
     }
 
@@ -4618,11 +4606,14 @@ bool basecamp::survey_return( const mission_id &miss_id )
         }
     }
 
-    if( !run_mapgen_update_func( update_mapgen_id( expansion_type.str() ), where, {}, nullptr, true,
-                                 mirror_horizontal, mirror_vertical, rotation ) ) {
-        popup( _( "%s failed to add the %s expansion, perhaps there is a vehicle in the way." ),
+    const ret_val<void> has_vehicle_collision = run_mapgen_update_func( update_mapgen_id(
+                expansion_type.str() ), where, {}, nullptr, true,
+            mirror_horizontal, mirror_vertical, rotation );
+    if( !has_vehicle_collision.success() ) {
+        popup( _( "%1$s failed to add the %2$s expansion, %3$s vehicle/appliance seems to be in the way." ),
                comp->disp_name(),
-               expansion_type->blueprint_name() );
+               expansion_type->blueprint_name(),
+               has_vehicle_collision.str() );
         if( query_yn(
                 _( "Do you want to finish this mission?  If not, the mission remains active and another tile can be checked (e.g. after clearing away the obstacle)." ) ) ) {
             finish_return( *comp, true, abort_msg, skill_construction.str(), 0 );
@@ -5914,7 +5905,6 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:

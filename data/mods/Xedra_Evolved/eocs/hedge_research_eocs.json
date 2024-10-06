@@ -50,6 +50,367 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
+        { "compare_string": [ "spellbook_hedge_farm", { "u_val": "latest_studied_occult_text_name" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_RESEARCH_PROGRESS_FARM_2",
+            "condition": { "math": [ "u_most_recent_hedge_research_time_upper_limit", "<=", "129600" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_PROGRESS_FARM_3",
+                    "condition": { "math": [ "u_most_recent_hedge_research_progress", "<=", "u_most_recent_hedge_research_difficulty" ] },
+                    "effect": [
+                      { "math": [ "u_most_recent_hedge_research_progress", "+=", "u_skill('deduction') + rng(-2,8) + rng(-2,8)" ] },
+                      {
+                        "u_run_inv_eocs": "random",
+                        "search_data": [ { "id": "spellbook_hedge_farm" } ],
+                        "true_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_FARM_WRITE_VALUES",
+                            "effect": [
+                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              {
+                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "if": { "math": [ "u_val('focus')", ">", "5" ] },
+                        "then": { "math": [ "u_val('focus')", "-=", "5" ] }
+                      },
+                      {
+                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_FARM",
+                        "time_in_future": [
+                          { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                          { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+                        ]
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_PROGRESS_FARM_COMPLETION",
+                            "condition": { "math": [ "u_most_recent_hedge_research_progress", ">", "u_most_recent_hedge_research_difficulty" ] },
+                            "effect": [
+                              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+                              {
+                                "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
+                                "popup": true
+                              },
+                              { "math": [ "u_deciphered_spellbook_hedge_farm", "=", "1" ] }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You can't make heads of tails of this work.  You'll have to start over.", "popup": true },
+              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+              {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "id": "spellbook_hedge_farm" } ],
+                "true_eocs": [
+                  { "id": "EOC_HEDGE_RESEARCH_WARD_FARM_VALUES_2", "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
+        { "compare_string": [ "spellbook_hedge_ward_demons", { "u_val": "latest_studied_occult_text_name" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS_2",
+            "condition": { "math": [ "u_most_recent_hedge_research_time_upper_limit", "<=", "252000" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS_3",
+                    "condition": { "math": [ "u_most_recent_hedge_research_progress", "<=", "u_most_recent_hedge_research_difficulty" ] },
+                    "effect": [
+                      { "math": [ "u_most_recent_hedge_research_progress", "+=", "u_skill('deduction') + rng(-2,8) + rng(-2,8)" ] },
+                      {
+                        "u_run_inv_eocs": "random",
+                        "search_data": [ { "id": "spellbook_hedge_ward_demons" } ],
+                        "true_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_WRITE_VALUES",
+                            "effect": [
+                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              {
+                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "if": { "math": [ "u_val('focus')", ">", "5" ] },
+                        "then": { "math": [ "u_val('focus')", "-=", "5" ] }
+                      },
+                      {
+                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS",
+                        "time_in_future": [
+                          { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                          { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+                        ]
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DEMONS_COMPLETION",
+                            "condition": { "math": [ "u_most_recent_hedge_research_progress", ">", "u_most_recent_hedge_research_difficulty" ] },
+                            "effect": [
+                              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+                              {
+                                "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
+                                "popup": true
+                              },
+                              { "math": [ "u_deciphered_spellbook_hedge_ward_demons", "=", "1" ] }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You can't make heads of tails of this work.  You'll have to start over.", "popup": true },
+              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+              {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "id": "spellbook_hedge_doctor_book" } ],
+                "true_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_WARD_DEMONS_WRITE_VALUES_2",
+                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
+        { "compare_string": [ "spellbook_hedge_doctor_book", { "u_val": "latest_studied_occult_text_name" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK_2",
+            "condition": { "math": [ "u_most_recent_hedge_research_time_upper_limit", "<=", "115200" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK_3",
+                    "condition": { "math": [ "u_most_recent_hedge_research_progress", "<=", "u_most_recent_hedge_research_difficulty" ] },
+                    "effect": [
+                      { "math": [ "u_most_recent_hedge_research_progress", "+=", "u_skill('deduction') + rng(-2,8) + rng(-2,8)" ] },
+                      {
+                        "u_run_inv_eocs": "random",
+                        "search_data": [ { "id": "spellbook_hedge_doctor_book" } ],
+                        "true_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_WRITE_VALUES",
+                            "effect": [
+                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              {
+                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "if": { "math": [ "u_val('focus')", ">", "5" ] },
+                        "then": { "math": [ "u_val('focus')", "-=", "5" ] }
+                      },
+                      {
+                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK",
+                        "time_in_future": [
+                          { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                          { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+                        ]
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_PROGRESS_DOCTOR_BOOK_COMPLETION",
+                            "condition": { "math": [ "u_most_recent_hedge_research_progress", ">", "u_most_recent_hedge_research_difficulty" ] },
+                            "effect": [
+                              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+                              {
+                                "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
+                                "popup": true
+                              },
+                              { "math": [ "u_deciphered_spellbook_hedge_doctor_book", "=", "1" ] }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You can't make heads of tails of this work.  You'll have to start over.", "popup": true },
+              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+              {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "id": "spellbook_hedge_doctor_book" } ],
+                "true_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_DOCTOR_BOOK_WRITE_VALUES_2",
+                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_xe_deciphering_hedge_tome" },
+        { "compare_string": [ "spellbook_hedge_blood_book", { "u_val": "latest_studied_occult_text_name" } ] }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK_2",
+            "condition": { "math": [ "u_most_recent_hedge_research_time_upper_limit", "<=", "162000" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK_3",
+                    "condition": { "math": [ "u_most_recent_hedge_research_progress", "<=", "u_most_recent_hedge_research_difficulty" ] },
+                    "effect": [
+                      { "math": [ "u_most_recent_hedge_research_progress", "+=", "u_skill('deduction') + rng(-2,8) + rng(-2,8)" ] },
+                      {
+                        "u_run_inv_eocs": "random",
+                        "search_data": [ { "id": "spellbook_hedge_blood_book" } ],
+                        "true_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_WRITE_VALUES",
+                            "effect": [
+                              { "math": [ "n_most_recent_hedge_research_time", "=", "u_most_recent_hedge_research_time" ] },
+                              {
+                                "math": [ "n_most_recent_hedge_research_progress", "=", "u_most_recent_hedge_research_progress" ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "if": { "math": [ "u_val('focus')", ">", "5" ] },
+                        "then": { "math": [ "u_val('focus')", "-=", "5" ] }
+                      },
+                      {
+                        "queue_eocs": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK",
+                        "time_in_future": [
+                          { "math": [ "3000 / min( scaling_factor(u_val('intelligence') ),2)" ] },
+                          { "math": [ "4200 / min( scaling_factor(u_val('intelligence') ),2)" ] }
+                        ]
+                      }
+                    ],
+                    "false_effect": [
+                      {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_HEDGE_RESEARCH_PROGRESS_BLOOD_BOOK_COMPLETION",
+                            "condition": { "math": [ "u_most_recent_hedge_research_progress", ">", "u_most_recent_hedge_research_difficulty" ] },
+                            "effect": [
+                              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+                              {
+                                "u_message": "You've done it.  All the pieces finally fall into place.  You've unlocked the occult secrets of this work, and can now study the rituals within.",
+                                "popup": true
+                              },
+                              { "math": [ "u_deciphered_spellbook_hedge_blood_book", "=", "1" ] }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "You can't make heads of tails of this work.  You'll have to start over.", "popup": true },
+              { "u_lose_effect": "effect_xe_deciphering_hedge_tome" },
+              {
+                "u_run_inv_eocs": "random",
+                "search_data": [ { "id": "spellbook_hedge_blood_book" } ],
+                "true_eocs": [
+                  {
+                    "id": "EOC_HEDGE_RESEARCH_BLOOD_BOOK_WRITE_VALUES_2",
+                    "effect": [ { "math": [ "n_already_failed_research", "=", "1" ] } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HEDGE_RESEARCH_PROGRESS_WARD_DREAMS",
     "condition": {
       "and": [

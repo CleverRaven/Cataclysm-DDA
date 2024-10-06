@@ -16,7 +16,7 @@
       [ [ "tonewood", 2 ] ],
       [ [ "super_glue", 2 ] ],
       [ [ "wood_panel", 1 ] ],
-      [ [ "piano_wire", 5 ] ],
+      [ [ "qt_wire", 5 ] ],
       [ [ "tuning_pegs", 5 ] ]
     ]
   },
@@ -37,7 +37,7 @@
       [ [ "tonewood", 3 ] ],
       [ [ "super_glue", 2 ] ],
       [ [ "wood_panel", 1 ] ],
-      [ [ "piano_wire", 5 ] ],
+      [ [ "qt_wire", 5 ] ],
       [ [ "tuning_pegs", 5 ] ]
     ]
   },
@@ -58,7 +58,7 @@
       [ [ "tonewood", 2 ] ],
       [ [ "super_glue", 2 ] ],
       [ [ "wood_panel", 1 ] ],
-      [ [ "piano_wire", 6 ] ],
+      [ [ "qt_wire", 6 ] ],
       [ [ "tuning_pegs", 6 ] ]
     ]
   },

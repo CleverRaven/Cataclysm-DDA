@@ -2,7 +2,7 @@
   {
     "abstract": "horse_armor",
     "type": "PET_ARMOR",
-    "name": { "str": "horse armor" },
+    "name": { "str": "horse armor", "//~": "NO_I18N" },
     "symbol": "[",
     "min_pet_vol": "380 L",
     "max_pet_vol": "1000 L",

@@ -31,7 +31,7 @@
     "book_learn": [ [ "mag_electronics", 1 ], [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_electronics", 3 ] ],
     "//": "Some parts are listed as tools so they are not destroyed during crafting, while the components are consumed.",
     "tools": [
-      [ [ "voltmeter", 5 ], [ "multimeter", 5 ], [ "integrated_multimeter", 5 ] ],
+      [ [ "voltmeter", -1 ], [ "multimeter", 1 ], [ "integrated_multimeter", 1 ] ],
       [ [ "antenna", -1 ], [ "circuit", -1 ], [ "element", -1 ], [ "light_bulb", -1 ], [ "motor_micro", -1 ] ]
     ],
     "components": [ [ [ "cable", 10 ] ], [ [ "e_scrap", 5 ] ] ],
@@ -55,7 +55,7 @@
     ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_electronics", 3 ] ],
     "tools": [
-      [ [ "multimeter", 50 ], [ "integrated_multimeter", 50 ] ],
+      [ [ "multimeter", 1 ], [ "integrated_multimeter", 1 ] ],
       [ [ "breadboard", -1 ] ],
       [ [ "power_supply", -1 ] ],
       [ [ "amplifier", -1 ], [ "element", -1 ], [ "receiver", -1 ], [ "transponder", -1 ] ]
@@ -82,7 +82,7 @@
     ],
     "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ], [ "ic_reference_electronics", 3 ] ],
     "tools": [
-      [ [ "multimeter", 100 ], [ "integrated_multimeter", 100 ] ],
+      [ [ "multimeter", 1 ], [ "integrated_multimeter", 1 ] ],
       [ [ "breadboard", -1 ] ],
       [ [ "power_supply", -1 ] ],
       [ [ "processor", -1 ] ],

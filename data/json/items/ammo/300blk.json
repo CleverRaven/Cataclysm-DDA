@@ -76,7 +76,6 @@
     "copy-from": "300blk",
     "type": "AMMO",
     "name": { "str": ".300 AAC Blackout, black powder", "str_pl": ".300 AAC Blackouts, black powder" },
-    "description": "A .300 AAC Blackout round with a 125gr bullet.  .300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -91,7 +90,6 @@
     "copy-from": "300blk",
     "type": "AMMO",
     "name": { "str": ".300 AAC Blackout, reloaded", "str_pl": ".300 AAC Blackouts, reloaded" },
-    "description": "A .300 AAC Blackout round, an intermediate cartridge that achieves ballistics similar to the 7.62x39 but allows use on the AR-15 platform.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -101,7 +99,6 @@
     "copy-from": "300blk_ss",
     "type": "AMMO",
     "name": { "str": ".300 AAC Blackout subsonic, black powder", "str_pl": ".300 AAC Blackouts subsonic, black powder" },
-    "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  When fired with a suppressor, it only emits low noise, making it ideal for silently eliminating your enemies.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -116,7 +113,6 @@
     "copy-from": "300blk_ss",
     "type": "AMMO",
     "name": { "str": ".300 AAC Blackout subsonic, reloaded", "str_pl": ".300 AAC Blackouts subsonic, reloaded" },
-    "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  When fired with a suppressor, it only emits low noise, making it ideal for silently eliminating your enemies.  The round is necked-up from the 5.56mm NATO, but feeds from a STANAG magazine.  It requires a specific barrel, so will not work in a standard M4 or similar carbine.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

@@ -1142,8 +1142,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win, const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
         return std::nullopt;
@@ -1165,7 +1165,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     if( center_cursor ) {
         p -= view_size / 2;
     }
-    return tripoint( p, get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p.x, p.y, get_map().get_abs_sub().z() );
 }
 #endif
 
@@ -1173,9 +1173,9 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
         &capture_win ) const
 {
 #if !defined( TILES )
-    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    std::optional<tripoint_bub_ms> coord3d = get_coordinates( capture_win );
     if( coord3d.has_value() ) {
-        return get_coordinates( capture_win )->xy();
+        return coord3d->xy().raw();
     } else {
         return std::nullopt;
     }

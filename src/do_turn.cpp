@@ -531,10 +531,6 @@ bool do_turn()
     while( u.get_moves() > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
-    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
-    if( !u.activity ) {
-        kill_advanced_inv();
-    }
 
     // Process NPC sound events before they move or they hear themselves talking
     for( npc &guy : g->all_npcs() ) {
@@ -659,13 +655,13 @@ bool do_turn()
         overmap_npc_move();
     }
     if( calendar::once_every( 10_seconds ) ) {
-        for( const tripoint &elem : m.get_furn_field_locations() ) {
+        for( const tripoint_bub_ms &elem : m.get_furn_field_locations() ) {
             const furn_t &furn = *m.furn( elem );
             for( const emit_id &e : furn.emissions ) {
                 m.emit_field( elem, e );
             }
         }
-        for( const tripoint &elem : m.get_ter_field_locations() ) {
+        for( const tripoint_bub_ms &elem : m.get_ter_field_locations() ) {
             const ter_t &ter = *m.ter( elem );
             for( const emit_id &e : ter.emissions ) {
                 m.emit_field( elem, e );

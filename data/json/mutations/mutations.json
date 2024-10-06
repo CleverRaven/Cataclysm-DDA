@@ -1133,7 +1133,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "LUPINE", "ELFA" ],
-    "changes_to": [ "ANIMALEMPATH2" ]
+    "changes_to": [ "ANIMALEMPATH2" ],
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",
@@ -1144,7 +1145,8 @@
     "description": "Something about your presence is calming to animals, and they will treat you with innate trust.  This only applies to natural animals such as woodland creatures.",
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "ELFA" ],
-    "prereqs": [ "ANIMALEMPATH" ]
+    "prereqs": [ "ANIMALEMPATH" ],
+    "flags": [ "ANIMALEMPATH2" ]
   },
   {
     "type": "mutation",
@@ -1285,6 +1287,7 @@
     "points": 1,
     "vitamin_cost": 60,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "starting_trait": true,
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
     "enchantments": [ { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": 5 } ] } ]
@@ -1925,7 +1928,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
-    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ]
+    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD" ]
   },
   {
     "type": "mutation",
@@ -1936,7 +1940,8 @@
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
     "types": [ "ANIMAL_EMPATHY", "PREDATION" ],
     "prereqs": [ "ANIMALDISCORD" ],
-    "category": [ "MOUSE", "RABBIT" ]
+    "category": [ "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD2" ]
   },
   {
     "type": "mutation",
@@ -3132,7 +3137,7 @@
     "vitamin_cost": 210,
     "visibility": 10,
     "ugliness": 12,
-    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to Kevlar.",
+    "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, and bone.",
     "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 }, { "value": "BODYTEMP_SLEEP", "add": 0.25 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 3 },
@@ -3707,8 +3712,7 @@
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
-    "social_modifiers": { "lie": 15, "persuade": 10 },
-    "player_display": false
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -5512,7 +5516,7 @@
     "vitamin_cost": 220,
     "visibility": 4,
     "ugliness": 2,
-    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but you can use them to slow your descent during a fall, and will not take falling damage under any circumstances.",
+    "description": "You have a pair of large, feathered wings.  Your body is too heavy to be able to fly, but if you're not too weighed down, you might be able to glide from a ledge or lessen the impact of a fall.",
     "types": [ "WINGS" ],
     "prereqs": [ "WINGS_STUB" ],
     "prereqs2": [ "HOLLOW_BONES" ],
@@ -9170,17 +9174,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_FBI",
-    "//": "This doesn't do anything at the moment, as I am too scared of breaking C++ things, but it will eventually.",
-    "name": { "str": "Special Agent" },
-    "points": 0,
-    "description": "You are a member of the Federal Bureau of Investigation, also known as the FBI.  You have jurisdiction throughout the remaining 49 States, Indian Country, and any other territories of the USA.  Whether that means anything now is another question.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
     "id": "PROF_CHURL",
     "name": { "str": "Churl" },
     "points": 0,
@@ -10000,7 +9993,18 @@
     "points": -4,
     "description": "Whether from personal choice or childhood trauma, using ranged weapons is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false
+    "valid": false,
+    "cancels": [ "GUNSHY" ]
+  },
+  {
+    "type": "mutation",
+    "id": "GUNSHY",
+    "name": { "str": "Gun-Shy" },
+    "points": -3,
+    "description": "Using a firearm is off limits, due to personal philosophy or a traumatic event.  You can still use bows and slings.",
+    "starting_trait": true,
+    "valid": false,
+    "cancels": [ "BRAWLER" ]
   },
   {
     "type": "mutation",

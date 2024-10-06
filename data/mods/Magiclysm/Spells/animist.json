@@ -65,8 +65,8 @@
     "base_casting_time": 50000,
     "base_energy_cost": 5000,
     "energy_increment": 500.0,
-    "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
-    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "final_energy_cost": 10000
   },
   {
@@ -524,7 +524,7 @@
     "name": "Convert",
     "description": "Kill an allied creature, converting its life energy into a compact rune that you can use afterwards.",
     "valid_targets": [ "ally" ],
-    "flags": [ "CHANNELING_SPELL", "CONCENTRATE", "SOMATIC", "SILENT", "PERCENTAGE_DAMAGE" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "SOMATIC", "SILENT", "PERCENTAGE_DAMAGE" ],
     "effect": "attack",
     "shape": "blast",
     "message": "",
@@ -540,7 +540,7 @@
     "final_casting_time": 1000,
     "casting_time_increment": -200,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "create_rune_animist", "hit_self": true }, { "id": "eoc_channeling_setup", "hit_self": true } ]
+    "extra_effects": [ { "id": "create_rune_animist", "hit_self": true }, { "id": "eoc_transformation_setup", "hit_self": true } ]
   },
   {
     "id": "soulrend",
@@ -682,7 +682,7 @@
     "spell_class": "ANIMIST",
     "difficulty": 2,
     "base_casting_time": 250,
-    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300, 1)" ] },
+    "base_energy_cost": 300,
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 8,
@@ -982,7 +982,7 @@
     "type": "SPELL",
     "name": { "str": "Spirit-Walking" },
     "description": "Transform your body to pure spirit, making you invisible and intangible.  You can move incredibly quickly while the spell is in effect and can pass by enemies unseen, but you will be unable to affect the physical world or cast spells.",
-    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "CONCENTRATE", "VERBAL" ],
     "spell_class": "ANIMIST",
     "effect": "effect_on_condition",
     "effect_str": "EOC_ANIMIST_SPIRIT_WALKING",
@@ -999,7 +999,7 @@
     "base_energy_cost": 1200,
     "final_energy_cost": 850,
     "energy_increment": -17.5,
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ]
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ]
   },
   {
     "type": "effect_on_condition",
@@ -1106,5 +1106,26 @@
     "effect": "emit",
     "effect_str": "emit_rad_leak",
     "shape": "blast"
+  },
+  {
+    "id": "animist_cast_spells_when_silent",
+    "type": "SPELL",
+    "name": "The Inner Voice",
+    "description": "Channel magic through your soul instead of your voice, allowing you to cast spells that require speech even when mute.",
+    "valid_targets": [ "self" ],
+    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "SOMATIC", "NO_LEGS" ],
+    "max_level": 10,
+    "spell_class": "ANIMIST",
+    "effect": "attack",
+    "effect_str": "effect_animist_vocalize",
+    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "shape": "blast",
+    "difficulty": 4,
+    "min_duration": 30000,
+    "max_duration": 300000,
+    "duration_increment": 30000,
+    "energy_source": "MANA",
+    "base_casting_time": 250,
+    "base_energy_cost": 250
   }
 ]

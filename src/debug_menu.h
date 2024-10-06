@@ -12,6 +12,7 @@
 
 class Character;
 class Creature;
+struct mongroup;
 struct tripoint;
 
 template <typename E> struct enum_traits;
@@ -25,6 +26,7 @@ enum class debug_menu_index : int {
     LONG_TELEPORT,
     REVEAL_MAP,
     SPAWN_NPC,
+    SPAWN_NAMED_NPC,
     SPAWN_OM_NPC,
     SPAWN_MON,
     GAME_STATE,
@@ -112,6 +114,7 @@ enum class debug_menu_index : int {
     SIX_MILLION_DOLLAR_SURVIVOR,
     EDIT_FACTION,
     WRITE_CITY_LIST,
+    TALK_TOPIC,
     last
 };
 
@@ -121,6 +124,8 @@ void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishitem( Character *you, const tripoint_bub_ms & );
 void wishmonster( const std::optional<tripoint> &p );
+void wishmonstergroup( tripoint_abs_omt &loc );
+void wishmonstergroup_mon_selection( mongroup &group );
 void wishmutate( Character *you );
 void wishbionics( Character *you );
 /*

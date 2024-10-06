@@ -16,8 +16,8 @@
     "shape": "blast",
     "base_casting_time": 300,
     "base_energy_cost": 800,
-    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
-    "flags": [ "CHANNELING_SPELL", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
+    "flags": [ "RESTORATION_SPELL", "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "energy_source": "MANA"
@@ -32,9 +32,10 @@
     "shape": "blast",
     "base_casting_time": 100,
     "base_energy_cost": 800,
-    "extra_effects": [ { "id": "eoc_channeling_setup", "hit_self": true } ],
+    "//": "This is transformation because it moves wounds around, it does not actually heal anything.",
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "energy_source": "MANA",
-    "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
     "max_level": 1
@@ -55,10 +56,10 @@
     "min_duration": 24000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "difficulty": 6,
     "max_level": 15,
-    "flags": [ "CONJURATION_SPELL", "SOMATIC", "LOUD" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
     "learn_spells": { "vicious_tentacle_plus": 15 },
     "energy_source": "MANA"
@@ -83,10 +84,10 @@
     "min_duration": 360000,
     "max_duration": 2160000,
     "duration_increment": 72000,
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "difficulty": 7,
     "max_level": 25,
-    "flags": [ "CONJURATION_SPELL", "LOUD", "NO_FAIL" ],
+    "flags": [ "TRANSFORMATION_SPELL", "LOUD", "NO_FAIL" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -102,7 +103,7 @@
     "base_casting_time": 100,
     "casting_time_increment": -2.5,
     "final_casting_time": 50,
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
@@ -110,7 +111,7 @@
     "spell_class": "BIOMANCER",
     "difficulty": 6,
     "max_level": 20,
-    "flags": [ "ENHANCEMENT_SPELL", "SOMATIC", "LOUD" ],
+    "flags": [ "TRANSFORMATION_SPELL", "SOMATIC", "LOUD" ],
     "//": "duration is in moves",
     "min_duration": 6000,
     "max_duration": 60000,
@@ -160,10 +161,10 @@
     "min_duration": 360000,
     "max_duration": 9000000,
     "duration_increment": 360000,
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "difficulty": 4,
     "max_level": 20,
-    "flags": [ "CONJURATION_SPELL", "NO_HANDS", "NO_LEGS", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA"
   },
@@ -446,7 +447,7 @@
     "description": "Grow webbing on your hands and feet, making quick swimming a breeze.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_swim_speed",
     "shape": "blast",
@@ -455,7 +456,7 @@
     "min_duration": 120000,
     "max_duration": 360000,
     "duration_increment": 24000,
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "energy_source": "MANA",
     "base_energy_cost": 200,
     "base_casting_time": 1000
@@ -467,7 +468,7 @@
     "description": "Grow to enormous size.  Your clothing and equipment will not grow with you.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "ENHANCEMENT_SPELL", "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "VERBAL", "SOMATIC" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_GIANT_GROWTH_MUTATION",
     "shape": "blast",
@@ -478,7 +479,7 @@
     "duration_increment": 4000,
     "energy_source": "MANA",
     "base_energy_cost": 500,
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_casting_time": 100
   },
   {
@@ -501,7 +502,7 @@
       { "u_add_trait": "BIO_GIANT_GROWTH" },
       {
         "queue_eocs": "EOC_GIANT_GROWTH_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 ) * ( enhancement_proficiency_modifier() )" ] }
+        "time_in_future": { "math": [ "(( u_spell_level('biomancer_giant_growth') * 40 ) + 300 ) * ( transformation_proficiency_modifier() )" ] }
       }
     ],
     "false_effect": [ { "u_message": "You are already enormous--the spell cannot make you any larger!" } ]
@@ -575,7 +576,7 @@
     "description": "Grow a pair of lashing tentacles from your shoulders.  While not as long as the Vicious Tentacle, they will strike anyone in melee with you.  You cannot wear rigid armor that covers the shoulders with them.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_LASHING_TENTACLES_MUTATION",
     "shape": "blast",
@@ -584,7 +585,7 @@
     "min_duration": 7000,
     "max_duration": 30000,
     "duration_increment": 1533,
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "energy_source": "MANA",
     "base_energy_cost": 400,
     "base_casting_time": 500
@@ -598,7 +599,9 @@
       { "u_add_trait": "BIO_LASHING_TENTACLES" },
       {
         "queue_eocs": "EOC_LASHING_TENTACLES_MUTATION_REMOVE",
-        "time_in_future": { "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (summoning_proficiency_modifier() )" ] }
+        "time_in_future": {
+          "math": [ "(( u_spell_level('biomancer_lashing_tentacles') * 15 ) + 70 ) * (transformation_proficiency_modifier() )" ]
+        }
       }
     ],
     "false_effect": [ { "u_message": "You already have a pair of lashing tentacles!" } ]
@@ -618,7 +621,7 @@
     "description": "Cure any minor illnesses you might be suffering from.  This is one of the few biomantic cure spells that is castable on other people.",
     "valid_targets": [ "self", "ally" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_cure_disease_minor",
     "shape": "blast",
@@ -630,7 +633,7 @@
     "max_range": 1,
     "energy_source": "MANA",
     "base_energy_cost": 500,
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_casting_time": 90000,
     "final_casting_time": 30000,
     "casting_time_increment": -6000
@@ -642,7 +645,7 @@
     "description": "Possibly the most powerful of the biomantic healing spells, this causes your flesh to literally knit itself together before your eyes.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "ENHANCEMENT_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "RESTORATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_biomancer_hyper_regeneration",
     "shape": "blast",
@@ -652,7 +655,7 @@
     "max_duration": 13000,
     "duration_increment": 500,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "eoc_enhancement_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_restoration_setup", "hit_self": true } ],
     "base_energy_cost": 900,
     "base_casting_time": 150
   },
@@ -714,7 +717,7 @@
     "description": "Change each of your fingers into a myriad of tiny bone knives, allowing you to cut with surgical precision… or slice your enemies to ribbons.",
     "valid_targets": [ "self" ],
     "spell_class": "BIOMANCER",
-    "flags": [ "CONJURATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "TRANSFORMATION_SPELL", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "difficulty": 5,
     "max_level": 20,
     "effect": "spawn_item",
@@ -724,7 +727,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "eoc_summon_setup", "hit_self": true } ],
+    "extra_effects": [ { "id": "eoc_transformation_setup", "hit_self": true } ],
     "base_energy_cost": 300,
     "base_casting_time": 500
   },

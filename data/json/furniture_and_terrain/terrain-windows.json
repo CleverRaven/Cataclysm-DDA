@@ -1019,6 +1019,7 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
+      "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
     "bash": {
@@ -1051,6 +1052,7 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
+      "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
     "bash": {
@@ -1083,6 +1085,7 @@
       "BLOCK_WIND",
       "REDUCE_SCENT",
       "WINDOW",
+      "TRANSLUCENT",
       "SUPPORTS_ROOF"
     ],
     "bash": {

@@ -42,6 +42,90 @@
     "qty": 20
   },
   {
+    "id": "emit_pyrokinetic_aura_1",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 1,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_2",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 2,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_3",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 3,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_4",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 4,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_5",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 5,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_6",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 6,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_7",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 7,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_8",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 8,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_9",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 9,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_10",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 10,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_11",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 11,
+    "qty": 20
+  },
+  {
+    "id": "emit_pyrokinetic_aura_12",
+    "type": "emit",
+    "field": "fd_pyrokinetic_aura",
+    "intensity": 12,
+    "qty": 20
+  },
+  {
     "id": "emit_cold_nether_water",
     "type": "emit",
     "field": "fd_cold_air2",

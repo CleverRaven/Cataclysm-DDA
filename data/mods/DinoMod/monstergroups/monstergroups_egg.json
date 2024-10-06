@@ -70,6 +70,7 @@
       { "monster": "mon_barosaurus_hatchling", "weight": 20 },
       { "monster": "mon_camarasaurus_hatchling", "weight": 20 },
       { "monster": "mon_brachiosaurus_hatchling", "weight": 20 },
+      { "monster": "mon_astrodon_hatchling", "weight": 20 },
       { "monster": "mon_alamosaurus_hatchling", "weight": 20 }
     ]
   },
@@ -342,6 +343,11 @@
     "name": "GROUP_EGG_brachiosaurus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_brachiosaurus_hatchling" } ]
+  },
+  {
+    "name": "GROUP_EGG_astrodon",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_astrodon_hatchling" } ]
   },
   {
     "name": "GROUP_EGG_alamosaurus",

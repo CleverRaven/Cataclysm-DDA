@@ -70,7 +70,7 @@
     "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
-      "activation_message": "You inject the noetic resilience treatment.",
+      "activation_message": "You inject the %s.",
       "tools_needed": { "syringe": -1 },
       "effects": [ { "id": "effect_noetic_resilience_trigger", "duration": 1 } ]
     }

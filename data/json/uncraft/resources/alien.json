@@ -9,13 +9,7 @@
     "time": "4 m",
     "using": [ [ "soldering_standard", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "exodii_micro_computer", 1 ] ],
-      [ [ "exodii_micro_module", 1 ] ],
-      [ [ "e_scrap", 10 ] ],
-      [ [ "clockworks", 1 ] ],
-      [ [ "solder_wire", 2 ] ]
-    ]
+    "components": [ [ [ "exodii_micro_computer", 1 ] ], [ [ "exodii_micro_module", 1 ] ], [ [ "e_scrap", 10 ] ], [ [ "clockworks", 1 ] ] ]
   },
   {
     "//": "TODO MAKE A RECIPE FOR THIS AND A BOOK",
@@ -27,12 +21,6 @@
     "time": "4 m",
     "using": [ [ "soldering_standard", 4 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "exodii_micro_module", 1 ] ],
-      [ [ "e_scrap", 10 ] ],
-      [ [ "clockworks", 2 ] ],
-      [ [ "solder_wire", 2 ] ],
-      [ [ "pipe", 1 ] ]
-    ]
+    "components": [ [ [ "exodii_micro_module", 1 ] ], [ [ "e_scrap", 10 ] ], [ [ "clockworks", 2 ] ], [ [ "pipe", 1 ] ] ]
   }
 ]

@@ -233,7 +233,7 @@
     "abstract": "base_chainmail_legs",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "base chainmail leggings" },
+    "name": { "str_sp": "base chainmail leggings", "//~": "NO_I18N" },
     "description": "Customized chainmail leggings.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "4212 g",
     "volume": "1500 ml",
@@ -283,7 +283,7 @@
     "abstract": "xl_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_legs",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -315,7 +315,7 @@
     "abstract": "xs_chainmail_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_legs",
-    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings" },
+    "name": { "str": "chainmail leggings", "str_pl": "pairs of chainmail leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -347,7 +347,7 @@
     "abstract": "base_chainmail_half_legs",
     "copy-from": "base_chainmail_legs",
     "type": "ARMOR",
-    "name": { "str_sp": "base chainmail half-leggings" },
+    "name": { "str_sp": "base chainmail half-leggings", "//~": "NO_I18N" },
     "description": "Customized partial chainmail leggings only covering the front and sides of the legs.  The zigzagging lace at the back keeps everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": "3159 g",
     "volume": "1125 ml",
@@ -367,7 +367,7 @@
     "abstract": "xl_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings" },
+    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
       {
@@ -399,7 +399,7 @@
     "abstract": "xs_chainmail_half_legs",
     "type": "ARMOR",
     "copy-from": "base_chainmail_half_legs",
-    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings" },
+    "name": { "str": "chainmail half-leggings", "str_pl": "pairs of chainmail half-leggings", "//~": "NO_I18N" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {

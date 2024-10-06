@@ -109,6 +109,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_psi_biokin3_hurricane_blows",
+    "//": "Hidden effect, used to prep for feral biokinetics using Hurricane Blows",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": 400 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pattern_screamer_rock_thrower",
     "name": [ "One Perfect Rock" ],
     "desc": [ "You are prepared to ruin the player's day with an inhumanly accurate thrown rock." ]
@@ -213,6 +221,24 @@
           { "value": "ARMOR_BASH", "add": -10 },
           { "value": "ARMOR_STAB", "add": -20 },
           { "value": "ARMOR_BULLET", "add": -35 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_monster_inertial_barrier_improved",
+    "name": [ "Inertial Barrier" ],
+    "desc": [ "A barrier of telekinetic force is protecting you." ],
+    "show_in_info": true,
+    "flags": [ "TELEKIN_SHIELD" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_CUT", "add": -25 },
+          { "value": "ARMOR_BASH", "add": -18 },
+          { "value": "ARMOR_STAB", "add": -32 },
+          { "value": "ARMOR_BULLET", "add": -50 }
         ]
       }
     ]

@@ -751,8 +751,8 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &, const point &,
-        bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window &,
+        const point &, bool center_cursor ) const
 {
     // TODO: implement this properly
     return std::nullopt;

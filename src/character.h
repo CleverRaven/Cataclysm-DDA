@@ -33,7 +33,6 @@
 #include "city.h"  // IWYU pragma: keep
 #include "compatibility.h"
 #include "coords_fwd.h"
-#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -68,6 +67,7 @@ class activity_actor;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
+class craft_command;
 class dispersion_sources;
 class effect;
 class effect_source;
@@ -1152,7 +1152,7 @@ class Character : public Creature, public visitable
                                     bool allow_unarmed = true, int forced_movecost = -1 );
 
         /** Handles reach melee attacks */
-        void reach_attack( const tripoint &p, int forced_movecost = -1 );
+        void reach_attack( const tripoint_bub_ms &p, int forced_movecost = -1 );
 
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
@@ -1388,7 +1388,9 @@ class Character : public Creature, public visitable
         int count_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
-
+        /** Returns the vector of all traits in category, good/bad/any */
+        std::vector<trait_id> get_in_category( const mutation_category_id &categ,
+                                               mut_count_type count_type ) const;
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait( const trait_id &, const std::string & = "" );
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
@@ -1608,6 +1610,11 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that tree has */
+        int get_total_in_category( const mutation_category_id &categ, mut_count_type count_type ) const;
+        /** Return sum of all mutation of this category, positive/negative/any, that character has */
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const;
         /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
         bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */
@@ -2635,7 +2642,7 @@ class Character : public Creature, public visitable
         nc_color symbol_color() const override;
         const std::string &symbol() const override;
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
 
         std::string mutation_name( const trait_id &mut ) const;
         std::string mutation_desc( const trait_id &mut ) const;
@@ -2713,7 +2720,7 @@ class Character : public Creature, public visitable
         // Items currently being hauled
         std::vector<item_location> haul_list;
 
-        tripoint view_offset;
+        tripoint_rel_ms view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
@@ -3133,7 +3140,7 @@ class Character : public Creature, public visitable
          *  @return number of shots actually fired
          */
 
-        int fire_gun( const tripoint &target, int shots = 1 );
+        int fire_gun( const tripoint_bub_ms &target, int shots = 1 );
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
@@ -3141,10 +3148,11 @@ class Character : public Creature, public visitable
          *  @param gun item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
-        int fire_gun( const tripoint &target, int shots, item &gun, item_location ammo = item_location() );
+        int fire_gun( const tripoint_bub_ms &target, int shots, item &gun,
+                      item_location ammo = item_location() );
         /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const std::optional<tripoint> &blind_throw_from_pos = std::nullopt );
+        dealt_projectile_attack throw_item( const tripoint_bub_ms &target, const item &to_throw,
+                                            const std::optional<tripoint_bub_ms> &blind_throw_from_pos = std::nullopt );
 
     protected:
         void on_damage_of_type( const effect_source &source, int adjusted_damage,

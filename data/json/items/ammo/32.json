@@ -47,7 +47,6 @@
     "copy-from": "32_acp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP, black powder" },
-    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -62,7 +61,6 @@
     "copy-from": "32_acp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP, reloaded" },
-    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -73,7 +71,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".32 ACP, matchhead powder" },
-    "description": "A jacketed .32 ACP cartridge loaded with a 71 grain bullet.  .32 ACP was once a popular handgun cartridge in the 20th century.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_32_acp",
     "extend": { "effects": [ "MATCHHEAD" ] }
@@ -93,7 +90,6 @@
     "copy-from": "32_acp_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP JHP, black powder" },
-    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -108,7 +104,6 @@
     "copy-from": "32_acp_jhp",
     "type": "AMMO",
     "name": { "str_sp": ".32 ACP JHP, reloaded" },
-    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
@@ -119,7 +114,6 @@
     "type": "AMMO",
     "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
     "name": { "str_sp": ".32 ACP JHP, matchhead powder" },
-    "description": "Jacketed .32 ACP ammunition with a 71gr hollow point bullet, intended for use in self-defense.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
     "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
     "looks_like": "bp_32_acp_jhp",
     "extend": { "effects": [ "MATCHHEAD" ] }
