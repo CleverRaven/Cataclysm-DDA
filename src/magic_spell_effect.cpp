@@ -497,7 +497,7 @@ static void add_effect_to_target( const tripoint_bub_ms &target, const spell &sp
     bool bodypart_effected = false;
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
-            if( sp.bp_is_affected( bp.id() ) ) {
+            if( sp.bp_is_affected( bp ) ) {
                 guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }
@@ -568,7 +568,17 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
             if( cr->as_character() != nullptr ) {
                 int multishot = sp.get_amount_of_projectiles( *caster.as_character() );
-                std::vector<bodypart_id> all_bodyparts = cr->get_all_body_parts( get_body_part_flags::only_main );
+                std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
+
+                if( sp.bps_affected() > 0 ) {
+                    int i = 0;
+                    for( bodypart_id bpid : target_bdpts ) {
+                        if( !sp.bp_is_affected( bpid ) ) {
+                            target_bdpts.erase( target_bdpts.begin() + i );
+                        }
+                        i++;
+                    }
+                }
 
                 if( multishot > 1 ) {
                     for( damage_unit &val : atk.proj.impact.damage_units ) {
@@ -578,15 +588,15 @@ static void damage_targets( const spell &sp, Creature &caster,
                         cr->deal_projectile_attack( cr, atk, true );
                     }
                 } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
-                    int amount_of_bp = all_bodyparts.size();
+                    int amount_of_bp = target_bdpts.size();
                     for( damage_unit &val : atk.proj.impact.damage_units ) {
                         val.amount = roll_remainder( val.amount / amount_of_bp );
                     }
-                    for( bodypart_id bp_id : all_bodyparts ) {
+                    for( bodypart_id bp_id : target_bdpts ) {
                         cr->deal_damage( cr, bp_id, atk.proj.impact );
                     }
                 } else if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    for( bodypart_id bp_id : all_bodyparts ) {
+                    for( bodypart_id bp_id : target_bdpts ) {
                         for( damage_unit &val : atk.proj.impact.damage_units ) {
                             val.amount = roll_remainder( cr->get_hp( bp_id ) * sp.damage( caster ) / 100.0 );
                             cr->deal_damage( cr, bp_id, atk.proj.impact );
@@ -595,7 +605,9 @@ static void damage_targets( const spell &sp, Creature &caster,
                 } else {
                     cr->deal_projectile_attack( &caster, atk, true );
                 }
-            } else if( cr->as_monster() != nullptr ) {
+            }
+
+            if( cr->as_monster() != nullptr ) {
                 for( damage_unit &val : atk.proj.impact.damage_units ) {
                     if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
                         val.amount = cr->get_hp() * sp.damage( caster ) / 100.0;
@@ -613,14 +625,26 @@ static void damage_targets( const spell &sp, Creature &caster,
 
         // handling DOTs here
         if( cr->as_character() != nullptr ) {
-            std::vector<bodypart_id> all_bodyparts = cr->get_all_body_parts( get_body_part_flags::only_main );
+            std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
+
+            if( sp.bps_affected() > 0 ) {
+                int i = 0;
+                for( bodypart_id bpid : target_bdpts ) {
+                    if( !sp.bp_is_affected( bpid ) ) {
+                        target_bdpts.erase( target_bdpts.begin() + i );
+                    }
+                    i++;
+                }
+            }
 
             if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                cr->add_damage_over_time( sp.damage_over_time( all_bodyparts, caster ) );
+                cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
             } else if( sp.has_flag( spell_flag::SPLIT_DAMAGE ) ) {
-                damage_over_time_data dot_data = sp.damage_over_time( all_bodyparts, caster );
-                dot_data.amount /= all_bodyparts.size();
+                damage_over_time_data dot_data = sp.damage_over_time( target_bdpts, caster );
+                dot_data.amount /= target_bdpts.size();
                 cr->add_damage_over_time( dot_data );
+            } else if( target_bdpts.size() > 0 ) {
+                cr->add_damage_over_time( sp.damage_over_time( target_bdpts, caster ) );
             } else {
                 cr->add_damage_over_time( sp.damage_over_time( { cr->get_random_body_part() }, caster ) );
             }

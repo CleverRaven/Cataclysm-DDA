@@ -1463,9 +1463,14 @@ bool spell::is_valid() const
     return type.is_valid();
 }
 
-bool spell::bp_is_affected( const bodypart_str_id &bp ) const
+int spell::bps_affected( ) const
 {
-    return type->affected_bps.test( bp );
+    return type->affected_bps.count();
+}
+
+bool spell::bp_is_affected( const bodypart_id &bp ) const
+{
+    return type->affected_bps.test( bp.id() );
 }
 
 void spell::create_field( const tripoint_bub_ms &at, Creature &caster ) const

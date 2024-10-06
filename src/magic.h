@@ -557,8 +557,9 @@ class spell
         int get_amount_of_projectiles( const Character &guy ) const;
         // is this spell valid
         bool is_valid() const;
+        int bps_affected() const;
         // is the bodypart affected by the effect
-        bool bp_is_affected( const bodypart_str_id &bp ) const;
+        bool bp_is_affected( const bodypart_id &bp ) const;
         // check if the spell has a particular flag
         bool has_flag( const spell_flag &flag ) const;
         bool has_flag( const std::string &flag ) const;
