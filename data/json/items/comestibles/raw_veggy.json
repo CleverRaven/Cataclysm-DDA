@@ -339,7 +339,8 @@
     "price_postapoc": "16 cent",
     "material": [ "veggy" ],
     "volume": "70 ml",
-    "flags": [ "FREEZERBURN", "RAW" ],
+    "smoking_result": "dry_chili",
+    "flags": [ "FREEZERBURN", "RAW", "SMOKABLE" ],
     "vitamins": [ [ "vitC", "64700 μg" ], [ "iron", "500 μg" ], [ "calcium", "6300 μg" ], [ "veggy_allergen", 1 ] ],
     "fun": -2
   },
