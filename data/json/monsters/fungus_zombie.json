@@ -1,5 +1,36 @@
 [
   {
+    "id": "mon_zombie_dusted",
+    "type": "MONSTER",
+    "name": { "str": "dusted zombie" },
+    "description": "This shambling corpse has been heavily dusted with a thick gray powder.",
+    "copy-from": "mon_zombie",
+    "default_faction": "zombie_dusted",
+    "speed": 45,
+    "color": "light_gray",
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "vision_day": 10,
+    "vision_night": 5,
+    "upgrades": { "age_grow": 1, "into": "mon_zombie_fungalize" },
+    "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
+  },
+  {
+    "id": "mon_zombie_fungalize",
+    "type": "MONSTER",
+    "name": { "str": "fungal stalk zombie" },
+    "description": "This writhing corpse has grown a short stalk of gray fungus bursting from the skull.",
+    "copy-from": "mon_zombie_fungus",
+    "diff": 0,
+    "hp": 80,
+    "speed": 20,
+    "bleed_rate": 50,
+    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
+    "upgrades": { "age_grow": 1, "into": "mon_zombie_fungus" },
+    "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
+  },
+  {
     "id": "mon_zombie_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal zombie" },
