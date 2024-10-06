@@ -101,6 +101,29 @@
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
+      {
+        "text": "================== Psionic Playstyle perks are below this line ==================",
+        "topic": "TALK_PERK_MENU_PSIONICS"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_burning_bright" } },
+        "text": "Gain [<trait_name:perk_burning_bright>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_burning_bright>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_burning_bright>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_burning_bright", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Torrential Channeling trait.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
       { "text": "Back", "topic": "TALK_PERK_MENU_MAIN" },
       { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }

@@ -26,5 +26,16 @@
     "valid": false,
     "description": "Your control of your own body has given you control of your own genetics, albeit a subconscious one.  You will be less likely to suffer from negative mutations when taking mutagen.",
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+  },
+  {
+    "//": "Playstyle perks begin here",
+    "type": "mutation",
+    "id": "perk_burning_bright",
+    "name": { "str": "Burning Bright" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Nether energy easily flows through you, causing your power to rise and fall far faster than normal.  You gain far more Nether Attunement from channeling or maintaining your powers, but you lose your Nether Attunement much faster as well.",
+    "vitamin_rates": [ [ "vitamin_psionic_drain", 10 ] ]
   }
 ]
