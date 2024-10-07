@@ -64,7 +64,7 @@
     "bleed_rate": 50,
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "age_grow": 1, "into": "mon_zombie_fungus" },
-    "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_fungus",
