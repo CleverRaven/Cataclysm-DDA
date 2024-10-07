@@ -152,6 +152,15 @@ Grazing animals actually eat grass, and it regrows every season
 New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
+Pet feeding tweaks
+Adds a baseball bat recipe
+Flagify animal empathy/discord traits
+dialogue debug: toggle display of conditionals/effects
+Character randomization sometimes produces 'crossdressing' characters
+dialogue: JSON fields for displaying hidden responses
+Added check for stealing prior to inserting items into container
+Make garlic smokable
+Grazing animals actually eat grass, and it regrows every season
 
 
 ## Content:
@@ -333,6 +342,11 @@ Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
+Adds new end screen for thresh types, and a unique one.
+Overhaul gun spawning
+fungal brute and hulk
+Massive expansion of dialogues and messages for various categories
+Make more zombies wear wedding rings
 
 
 ## Interface:
@@ -679,6 +693,14 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [DinoMod] Astrodon 
 [MoM] Add Alien Meadow mutable map special
 [Magiclysm] Fantasy species zombies
+[DinoMod] longer tail attacks
+[DinoMod] sauropods out of the water
+[Magiclysm] Condense Attunement UI and simplify json code
+[MoM] Add the unstoppable force (final rank feral telekinetic)
+[MoM] Give the human whirlwind (and feral security captain, Ψ Division) the Hurricane Blows power
+[Magiclysm] Add feral stormshapers
+[MoM] Allow Intuitive Artisan to craft in complete darkness (because you close your eyes and let the visions take over)
+[DinoMod] DinoZoo update
 
 
 ## Balance:
@@ -777,6 +799,12 @@ Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
+Remove itch from conjunctivitis and make it even shorter when irrigated
+Electronic devices spawn rate rework
+crashed planes have no ferals
+Replace land mines with bear traps in the bandit cabin
+Human lard less dense
+Ballista is no longer pure magic
 
 
 ## Bugfixes:
@@ -1025,6 +1053,24 @@ NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
+Fixed hair growth and balding issue in appearance_eocs.json
+HUB01 templates' spawn is more predictable
+[MoM] Fix Missing mind shield (0.H Backport)
+Fixes AIM layout #76606
+[Isolation Protocol] Fix trailing spaces
+Cameras can now be charged and they all consume one battery charge per usage
+Change X95 to 556
+Avoid JSON errors on Windows with no sound devices
+Move Zombio Bio Operators to No Hope
+Adjust spawns of .22
+Allow tiny continuous power draw in electronic devices.
+Don't take integrated and no-takeoff items when mugging
+Remove Military Professions mod
+GUI Loading screen shows progress again
+Prevent sidebar crash when trying to divide by zero
+[Xedra Evolved] No werealfs
+Fixed crash on trying to unwield heavy items when trying to drive
+Fixes species of feral wizards and feral butchering
 
 
 ## Performance:
@@ -1058,6 +1104,7 @@ Optimize typed coordinate conversion functions for widespread savings
 NPCs take less time to check for enemies.
 Improve point hash functions to eliminate map overhead in nps los checks and elsewhere
 Fix lag examining large stacks of crafted items
+Backport Don't unnecessarily copy items in a tight loop in get_uncraft_components
 
 
 ## Infrastructure:
@@ -1165,6 +1212,7 @@ Make furniture->lockpick_message translatable
 Add check to ensure translator comments are correctly located and extracted
 Add more English names and their translations to Simplified Chinese and Japanese
 Expand the Russian name list with translated English names
+Audit/NO_I18N effects.json
 
 
 # 0.G (Gaiman)
