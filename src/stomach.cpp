@@ -320,9 +320,9 @@ void stomach_contents::deserialize( const JsonObject &jo )
 }
 
 units::volume stomach_contents::capacity( const Character &owner ) const
-{
-    return owner.enchantment_cache->modify_value( enchant_vals::mod::STOMACH_SIZE_MULTIPLIER,
-            max_volume );
+{ 
+    return std::max( 250_ml, owner.enchantment_cache->modify_value( 
+        enchant_vals::mod::STOMACH_SIZE_MULTIPLIER, max_volume ) );
 }
 
 units::volume stomach_contents::stomach_remaining( const Character &owner ) const
