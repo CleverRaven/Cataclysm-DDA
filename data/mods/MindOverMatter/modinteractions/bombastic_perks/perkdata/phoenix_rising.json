@@ -1,7 +1,7 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_PERK_CLEAR_MINDED_CHANNELING",
+    "id": "EOC_PERK_PHOENIX_RISING",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",
     "condition": {
