@@ -135,12 +135,12 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
-            tripoint const dpoint_here = here.getlocal( dpoint );
+            tripoint_bub_ms const dpoint_here = here.bub_from_abs( dpoint );
             std::optional<vpart_reference> const vp = here.veh_at( dpoint_here ).cargo();
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );
             } else {
-                leftover = _to_map( it, here, dpoint_here );
+                leftover = _to_map( it, here, dpoint_here.raw() );
             }
             if( !leftover ) {
                 break;

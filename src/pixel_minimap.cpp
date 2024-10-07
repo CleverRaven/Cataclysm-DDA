@@ -518,12 +518,12 @@ void pixel_minimap::render_critters( const tripoint &center )
     creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
-            const tripoint p = start + tripoint( x, y, center.z );
+            const tripoint_bub_ms p = start + tripoint_bub_ms( x, y, center.z );
             if( !m.inbounds( p ) ) {
                 // p might be out-of-bounds when peeking at submap boundary. Example: center=(64,59,-5), start=(4,-1) -> p=(4,-1,-5)
                 continue;
             }
-            const lit_level lighting = access_cache.visibility_cache[p.x][p.y];
+            const lit_level lighting = access_cache.visibility_cache[p.x()][p.y()];
 
             if( lighting == lit_level::DARK || lighting == lit_level::BLANK ) {
                 continue;

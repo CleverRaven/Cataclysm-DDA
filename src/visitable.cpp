@@ -508,7 +508,7 @@ VisitResponse map_cursor::visit_items(
         // around that location to do our work.
         tripoint_abs_ms abs_pos = get_map().getglobal( pos() );
         here.load( project_to<coords::omt>( abs_pos ), false );
-        tripoint_omt_ms p = tripoint_omt_ms( here.getlocal( abs_pos ) );
+        tripoint_omt_ms p = here.omt_from_abs( abs_pos );
         return visit_items_internal( here.cast_to_map(), rebase_bub( p ), func );
     }
 }

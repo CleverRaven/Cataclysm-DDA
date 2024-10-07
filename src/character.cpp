@@ -1562,8 +1562,8 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
 {
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
-          !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
+          !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.bub_from_abs( tripoint_abs_ms( act.coords.back() ) ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -11326,7 +11326,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().bub_from_abs( *destination_point );
+           pos_bub() == get_map().bub_from_abs( tripoint_abs_ms( *destination_point ) );
 }
 
 void Character::start_destination_activity()

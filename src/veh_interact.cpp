@@ -3075,7 +3075,7 @@ void veh_interact::complete_vehicle( Character &you )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         for( const tripoint &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.bub_from_abs( pt ) );
+            ovp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( pt ) ) );
             if( ovp ) {
                 break;
             }

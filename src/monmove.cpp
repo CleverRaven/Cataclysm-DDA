@@ -1237,15 +1237,15 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
-        const tripoint local_next_step = here.getlocal( next_step );
+        const tripoint_bub_ms local_next_step = here.bub_from_abs( next_step );
         const bool did_something =
-            ( !pacified && attack_at( local_next_step ) ) ||
+            ( !pacified && attack_at( local_next_step.raw() ) ) ||
             ( !pacified && can_open_doors &&
               here.open_door( *this, local_next_step, !here.is_outside( pos_bub() ) ) ) ||
-            ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination.raw(),
-                     local_next_step ) );
+            ( !pacified && bash_at( local_next_step.raw() ) ) ||
+            ( !pacified && push_to( local_next_step.raw(), 0, 0 ) ) ||
+            move_to( local_next_step.raw(), false, false, get_stagger_adjust( pos(), destination.raw(),
+                     local_next_step.raw() ) );
 
         if( !did_something ) {
             mod_moves( -get_speed() ); // If we don't do this, we'll get infinite loops.
@@ -1311,7 +1311,7 @@ void monster::nursebot_operate( Character *dragged_foe )
     creature_tracker &creatures = get_creature_tracker();
     map &here = get_map();
     if( rl_dist( get_location(), get_dest() ) == 1 &&
-        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.getlocal( get_dest() ) ) &&
+        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.bub_from_abs( get_dest() ) ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( creatures.creature_at( get_dest() ) == nullptr ||
@@ -1329,7 +1329,7 @@ void monster::nursebot_operate( Character *dragged_foe )
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the Autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
-            push_to( here.getlocal( get_dest() ), 4, 0 );
+            push_to( here.bub_from_abs( get_dest() ).raw(), 4, 0 );
         }
     }
     if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
@@ -2326,7 +2326,7 @@ bool monster::will_reach( const point &p )
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( get_map().getlocal( wander_pos ).xy(), p ) <= 2 &&
+    if( can_hear() && wandf > 0 && rl_dist( get_map().bub_from_abs( wander_pos ).xy().raw(), p ) <= 2 &&
         rl_dist( get_location().xy(), wander_pos.xy() ) <= wandf ) {
         return true;
     }
