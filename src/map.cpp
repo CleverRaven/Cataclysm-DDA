@@ -5081,7 +5081,7 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi,
 
     const tripoint_abs_omt abs_omt_p = coords::project_to<coords::omt>( getglobal( p ) );
     for( const tripoint_bub_ms &t : points_on_zlevel() ) {
-        const tripoint_abs_omt abs_omt_t = tripoint_abs_omt( ms_to_omt_copy( getglobal( t ).raw() ) );
+        const tripoint_abs_omt abs_omt_t = coords::project_to<coords::omt>( getglobal( t ) );
         const float radiX = trig_dist( p, t );
         if( ter( t ) == from ) {
             // within distance, and either no submap limitation or same overmap coords.
