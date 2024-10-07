@@ -75,8 +75,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Nether energy easily flows through you, causing your power to rise and fall far faster than normal.  You gain far more Nether Attunement from channeling or maintaining your powers, but you lose your Nether Attunement much faster as well.",
-    "vitamin_rates": [ [ "vitamin_psionic_drain", 10 ] ]
+    "description": "Nether energy easily flows through you, causing your power to rise and fall far faster than normal.  You gain far more Nether Attunement from channeling or maintaining your powers, but you lose your Nether Attunement much faster as well.  You do not lose Nether Attunement at this accelerated rate while maintaining any powers."
   },
   {
     "type": "mutation",
