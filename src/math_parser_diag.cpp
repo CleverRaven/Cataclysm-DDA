@@ -1620,7 +1620,9 @@ std::function<void( dialogue &, double )> calories_ass( char scope,
         std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
 {
     return[beta = is_beta( scope ) ]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_stored_kcal( val );
+        int current_kcal = d.actor( beta )->get_stored_kcal();
+        int difference = val - current_kcal;
+        return d.actor( beta )->mod_stored_kcal( difference, false );
     };
 }
 
