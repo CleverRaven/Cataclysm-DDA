@@ -15,13 +15,40 @@
           },
           { "set_string_var": "perk_clear_minded_channeling", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must know the Basic Concentration proficiency and must not have the Easily Distracted trait.",
+            "set_string_var": "Must know the Concentration (Beginner) proficiency and must not have the Easily Distracted trait.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
             "condition": { "and": [ { "u_has_proficiency": "prof_concentration_basic" }, { "not": { "u_has_trait": "CONCENTRATION_BAD" } } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_concussive_blasts" } },
+        "text": "Gain [<trait_name:perk_concussive_blasts>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_concussive_blasts>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_concussive_blasts>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_concussive_blasts", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must know the Mindhammer or Wrecking Ball powers.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
+                { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] }
+              ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -133,6 +160,28 @@
           {
             "set_condition": "perk_condition",
             "condition": { "math": [ "u_spell_level_sum('school': 'BIOKINETIC') + u_spell_level_sum('school': 'VITAKINETIC')", ">=", "100" ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "MOM_PSYCHIC_VAMPIRE" } },
+        "text": "Gain [<trait_name:MOM_PSYCHIC_VAMPIRE>]",
+        "effect": [
+          { "set_string_var": "<trait_name:MOM_PSYCHIC_VAMPIRE>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:MOM_PSYCHIC_VAMPIRE>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "MOM_PSYCHIC_VAMPIRE", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must be a telepath or a vitakinetic.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "or": [ { "u_has_trait": "TELEPATH" }, { "u_has_trait": "VITAKINETIC" } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"

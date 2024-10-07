@@ -10,12 +10,12 @@
   },
   {
     "type": "mutation",
-    "id": "perk_in_the_zone",
-    "name": { "str": "In the Zone" },
+    "id": "perk_concussive_blasts",
+    "name": { "str": "Concussive Blasts" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Once you get going you just keep rolling.  Your next use of a psionic power within five seconds of channeling one has its stamina cost reduced by 25%."
+    "description": "Your telekinetic attacks really hammer into your target.  Damaging telekinetic powers have a much higher chance to stagger or knock down your targets."
   },
   {
     "type": "mutation",
@@ -34,7 +34,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Happy. In Your Lane. Focused. Flourishing.  Your Intelligence is only penalized 66% of the normal amount from pain, and 33% of normal if you're using the Biokinetic power Overcome Pain, the Electrokinetic power Pain Suppression, or the Telepathic power Mood Stabilization.",
+    "description": "Happy.  In Your Lane.  Focused.  Flourishing.  Your Intelligence is only penalized 66% of the normal amount from pain, and 33% of normal if you're using the Biokinetic power Overcome Pain, the Electrokinetic power Pain Suppression, or the Telepathic power Mood Stabilization.",
     "enchantments": [
       {
         "condition": {
@@ -50,17 +50,16 @@
   },
   {
     "type": "mutation",
-    "id": "perk_mastery_of_form",
-    "name": { "str": "Mastery of Form" },
+    "id": "perk_in_the_zone",
+    "name": { "str": "In the Zone" },
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Your control of your own body has given you control of your own genetics, albeit a subconscious one.  You will be less likely to suffer from negative mutations when taking mutagen.",
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+    "description": "Once you get going you just keep rolling.  Your next use of a psionic power within five seconds of channeling one has its stamina cost reduced by 25%."
   },
   {
     "type": "mutation",
-    "id": "perk_pain_hypersuppression",
+    "id": "perk_mastery_of_form",
     "name": { "str": "Mastery of Form" },
     "points": 0,
     "purifiable": false,
