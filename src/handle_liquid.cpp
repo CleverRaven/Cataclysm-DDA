@@ -221,7 +221,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-    for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
+    for( const tripoint_bub_ms &e : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
         vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
         if( veh ) {
             vehicle_part_range vpr = veh->get_all_parts();

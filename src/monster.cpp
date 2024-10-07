@@ -2455,11 +2455,11 @@ bool monster::move_effects( bool )
         // Pretty hacky, but monsters have no stats
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        const tripoint_range<tripoint> &surrounding = here.points_in_radius( pos(), 1, 0 );
+        const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( pos_bub(), 1, 0 );
         for( const effect &grab : get_effects_with_flag( json_flag_GRAB ) ) {
             // Is our grabber around?
             monster *grabber = nullptr;
-            for( const tripoint loc : surrounding ) {
+            for( const tripoint_bub_ms loc : surrounding ) {
                 monster *mon = creatures.creature_at<monster>( loc );
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
                     add_msg_debug( debugmode::DF_MATTACK, "Grabber %s found", mon->name() );
@@ -2785,7 +2785,7 @@ void monster::process_turn()
     // Persist grabs as long as there's an adjacent target.
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         bool remove = true;
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             const Creature *const you = creatures.creature_at<Creature>( dest );
             if( you && you->has_effect_with_flag( json_flag_GRAB ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Grabbed creature %s found, persisting grab.",
@@ -2895,14 +2895,14 @@ void monster::die( Creature *nkiller )
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect_with_flag( json_flag_GRAB_FILTER ) ) {
         // Need to filter out which limb we were grabbing before death
-        for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint_bub_ms &player_pos : here.points_in_radius( pos_bub(), 1, 0 ) ) {
             Creature *you = creatures.creature_at( player_pos );
             if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
                 continue;
             }
             // ...but if there are no grabbers around we can just skip to the end
             bool grabbed = false;
-            for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
+            for( const tripoint_bub_ms &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = creatures.creature_at<monster>( mon_pos );
                 // No persisting our grabs from beyond the grave, but we also don't get to remove the effect early
                 if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon != this ) {
@@ -3428,7 +3428,7 @@ void monster::process_effects()
     if( has_flag( mon_flag_CORNERED_FIGHTER ) ) {
         map &here = get_map();
         creature_tracker &creatures = get_creature_tracker();
-        for( const tripoint &p : here.points_in_radius( pos(), 2 ) ) {
+        for( const tripoint_bub_ms &p : here.points_in_radius( pos_bub(), 2 ) ) {
             const monster *const mon = creatures.creature_at<monster>( p );
             const Character *const guy = creatures.creature_at<Character>( p );
             if( mon && mon != this && mon->faction->attitude( faction ) != MFA_FRIENDLY &&

@@ -3844,8 +3844,8 @@ void map::decay_fields_and_scent( const time_duration &amount )
 point_bub_ms map::random_outdoor_tile() const
 {
     std::vector<point_bub_ms> options;
-    for( const tripoint &p : points_on_zlevel() ) {
-        if( is_outside( tripoint_bub_ms( p.x, p.y, abs_sub.z() ) ) ) {
+    for( const tripoint_bub_ms &p : points_on_zlevel() ) {
+        if( is_outside( { p.xy(), abs_sub.z() } ) ) {
             const point_bub_ms temp{ p.xy() };
             options.emplace_back( temp );
         }
@@ -5062,7 +5062,7 @@ void map::translate( const ter_id &from, const ter_id &to )
                   from.obj().name() );
         return;
     }
-    for( const tripoint &p : points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : points_on_zlevel() ) {
         if( ter( p ) == from ) {
             ter_set( p, to );
         }
@@ -5080,9 +5080,9 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi,
     }
 
     const tripoint_abs_omt abs_omt_p = coords::project_to<coords::omt>( getglobal( p ) );
-    for( const tripoint &t : points_on_zlevel() ) {
-        const tripoint_abs_omt abs_omt_t = coords::project_to<coords::omt>( getglobal( t ) );
-        const float radiX = trig_dist( p.raw(), t );
+    for( const tripoint_bub_ms &t : points_on_zlevel() ) {
+        const tripoint_abs_omt abs_omt_t = tripoint_abs_omt( ms_to_omt_copy( getglobal( t ).raw() ) );
+        const float radiX = trig_dist( p, t );
         if( ter( t ) == from ) {
             // within distance, and either no submap limitation or same overmap coords.
             if( radiX <= radi && ( !same_submap || abs_omt_t == abs_omt_p ) ) {
@@ -7495,14 +7495,14 @@ void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
 }
 
 // a check to see if the lower floor needs to be rendered in tiles
-bool map::dont_draw_lower_floor( const tripoint &p ) const
+bool map::dont_draw_lower_floor( const tripoint_bub_ms &p ) const
 {
-    if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
+    if( !zlevels || p.z() <= -OVERMAP_DEPTH ) {
         return true;
     } else if( !inbounds( p ) ) {
         return false;
     } else {
-        return get_cache( p.z ).floor_cache[p.x][p.y];
+        return get_cache( p.z() ).floor_cache[p.x()][p.y()];
     }
 }
 
@@ -7994,7 +7994,7 @@ int map::ledge_coverage( const tripoint_bub_ms &viewer_p, const tripoint_bub_ms 
     tripoint ledge_p = high_p.raw();
     bresenham( tripoint( low_p.xy().raw(), high_p.z() ), high_p.raw(), 0, 0, [this,
     &ledge_p]( const tripoint & new_point ) {
-        if( dont_draw_lower_floor( new_point ) ) {
+        if( dont_draw_lower_floor( tripoint_bub_ms( new_point ) ) ) {
             ledge_p = new_point;
             return false;
         }
@@ -9626,51 +9626,37 @@ bool map::inbounds( const tripoint_abs_omt &p ) const
             p.y() <= map_origin.y() + my_HALF_MAPSIZE;
 }
 
-tripoint_range<tripoint> tinymap::points_on_zlevel() const
-{
-    return map::points_on_zlevel();
-}
-
-tripoint_range<tripoint_omt_ms> tinymap::omt_points_on_zlevel() const
+tripoint_range<tripoint_omt_ms> tinymap::points_on_zlevel() const
 {
 
-    const tripoint_range <tripoint_bub_ms> temp = map::bub_points_on_zlevel();
+    const tripoint_range <tripoint_bub_ms> temp = map::points_on_zlevel();
     return tripoint_range <tripoint_omt_ms>( rebase_omt( temp.min() ), rebase_omt( temp.max() ) );
 }
 
-tripoint_range<tripoint> tinymap::points_on_zlevel( int z ) const
+tripoint_range<tripoint_omt_ms> tinymap::points_on_zlevel( int z ) const
 {
-    return map::points_on_zlevel( z );
-}
-
-tripoint_range<tripoint> tinymap::points_in_rectangle(
-    const tripoint &from, const tripoint &to ) const
-{
-    return map::points_in_rectangle( from, to );
+    const tripoint_range<tripoint_bub_ms> temp = map::points_on_zlevel( z );
+    return tripoint_range <tripoint_omt_ms>( rebase_omt( temp.min() ), rebase_omt( temp.max() ) );
 }
 
 tripoint_range<tripoint_omt_ms> tinymap::points_in_rectangle(
     const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const
 {
-    const tripoint_range<tripoint> preliminary_result = map::points_in_rectangle( from.raw(),
-            to.raw() );
-    return tripoint_range<tripoint_omt_ms>( tripoint_omt_ms( preliminary_result.min() ),
-                                            tripoint_omt_ms( preliminary_result.max() ) );
-}
-
-tripoint_range<tripoint> tinymap::points_in_radius(
-    const tripoint &center, size_t radius, size_t radiusz ) const
-{
-    return map::points_in_radius( center, radius, radiusz );
+    const tripoint_range<tripoint_bub_ms> preliminary_result = map::points_in_rectangle( rebase_bub(
+                from ),
+            rebase_bub( to ) );
+    return tripoint_range<tripoint_omt_ms>( rebase_omt( preliminary_result.min() ),
+                                            rebase_omt( preliminary_result.max() ) );
 }
 
 tripoint_range<tripoint_omt_ms> tinymap::points_in_radius(
     const tripoint_omt_ms &center, size_t radius, size_t radiusz ) const
 {
-    const tripoint_range<tripoint> preliminary_result = map::points_in_radius( center.raw(), radius,
+    const tripoint_range<tripoint_bub_ms> preliminary_result = map::points_in_radius( rebase_bub(
+                center ), radius,
             radiusz );
-    return tripoint_range<tripoint_omt_ms>( tripoint_omt_ms( preliminary_result.min() ),
-                                            tripoint_omt_ms( preliminary_result.max() ) );
+    return tripoint_range<tripoint_omt_ms>( rebase_omt( preliminary_result.min() ),
+                                            rebase_omt( preliminary_result.max() ) );
 }
 
 maptile tinymap::maptile_at( const tripoint_omt_ms &p )
@@ -10731,13 +10717,7 @@ tripoint_range<tripoint_bub_ms> map::points_in_radius(
     return tripoint_range<tripoint_bub_ms>( min, max );
 }
 
-tripoint_range<tripoint> map::points_on_zlevel( const int z ) const
-{
-    const tripoint_range<tripoint_bub_ms> temp = map::bub_points_on_zlevel( z );
-    return tripoint_range<tripoint>( temp.min().raw(), temp.max().raw() );
-}
-
-tripoint_range<tripoint_bub_ms> map::bub_points_on_zlevel( const int z ) const
+tripoint_range<tripoint_bub_ms> map::points_on_zlevel( const int z ) const
 {
     if( z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         // TODO: need a default constructor that creates an empty range.
@@ -10748,43 +10728,38 @@ tripoint_range<tripoint_bub_ms> map::bub_points_on_zlevel( const int z ) const
     { 0, 0, z }, { SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1, z } );
 }
 
-tripoint_range<tripoint> map::points_on_zlevel() const
+tripoint_range<tripoint_bub_ms> map::points_on_zlevel() const
 {
     return points_on_zlevel( abs_sub.z() );
-}
-
-tripoint_range<tripoint_bub_ms> map::bub_points_on_zlevel() const
-{
-    return bub_points_on_zlevel( abs_sub.z() );
 
 }
 
 std::list<item_location> map::get_active_items_in_radius(
-    const tripoint &center, int radius )
+    const tripoint_bub_ms &center, int radius )
 {
     return get_active_items_in_radius( center, radius, special_item_type::none );
 }
 
-std::list<item_location> map::get_active_items_in_radius( const tripoint &center, int radius,
+std::list<item_location> map::get_active_items_in_radius( const tripoint_bub_ms &center, int radius,
         special_item_type type )
 {
     std::list<item_location> result;
 
-    const point minp( center.xy() + point( -radius, -radius ) );
-    const point maxp( center.xy() + point( radius, radius ) );
+    const point_bub_ms minp( center.xy() + point( -radius, -radius ) );
+    const point_bub_ms maxp( center.xy() + point( radius, radius ) );
 
-    const point ming( std::max( minp.x / SEEX, 0 ),
-                      std::max( minp.y / SEEY, 0 ) );
-    const point maxg( std::min( maxp.x / SEEX, my_MAPSIZE - 1 ),
-                      std::min( maxp.y / SEEY, my_MAPSIZE - 1 ) );
+    const point_sm_ms ming( std::max( minp.x() / SEEX, 0 ),
+                            std::max( minp.y() / SEEY, 0 ) );
+    const point_sm_ms maxg( std::min( maxp.x() / SEEX, my_MAPSIZE - 1 ),
+                            std::min( maxp.y() / SEEY, my_MAPSIZE - 1 ) );
 
     for( const tripoint_abs_sm &abs_submap_loc : submaps_with_active_items ) {
         const tripoint_rel_sm submap_loc = ( abs_submap_loc - abs_sub.xy() );
-        if( submap_loc.x() < ming.x || submap_loc.y() < ming.y ||
-            submap_loc.x() > maxg.x || submap_loc.y() > maxg.y ) {
+        if( submap_loc.x() < ming.x() || submap_loc.y() < ming.y() ||
+            submap_loc.x() > maxg.x() || submap_loc.y() > maxg.y() ) {
             continue;
         }
-        const point_rel_ms sm_offset( submap_loc.x() * SEEX, submap_loc.y() * SEEY );
+        const point_bub_ms sm_offset( submap_loc.x() * SEEX, submap_loc.y() * SEEY );
 
         submap *sm = get_submap_at_grid( submap_loc );
         if( sm == nullptr ) {
@@ -10795,14 +10770,14 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
         std::vector<item_reference> items = type == special_item_type::none ? sm->active_items.get() :
                                             sm->active_items.get_special( type );
         for( const item_reference &elem : items ) {
-            const tripoint_rel_ms pos( sm_offset + elem.location, submap_loc.z() );
+            const tripoint_bub_ms pos( sm_offset + elem.location, submap_loc.z() );
 
-            if( rl_dist( pos.raw(), center ) > radius ) {
+            if( rl_dist( pos, center ) > radius ) {
                 continue;
             }
 
             if( elem.item_ref ) {
-                result.emplace_back( map_cursor( rebase_bub( pos ) ), elem.item_ref.get() );
+                result.emplace_back( map_cursor( pos ), elem.item_ref.get() );
             }
         }
     }
@@ -10810,13 +10785,13 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
     return result;
 }
 
-std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
+std::list<tripoint_bub_ms> map::find_furnitures_with_flag_in_radius( const tripoint_bub_ms &center,
         size_t radius,
         const std::string &flag,
         size_t radiusz ) const
 {
-    std::list<tripoint> furn_locs;
-    for( const tripoint &furn_loc : points_in_radius( center, radius, radiusz ) ) {
+    std::list<tripoint_bub_ms> furn_locs;
+    for( const tripoint_bub_ms &furn_loc : points_in_radius( center, radius, radiusz ) ) {
         if( has_flag_furn( flag, furn_loc ) ) {
             furn_locs.push_back( furn_loc );
         }
@@ -10824,13 +10799,13 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
     return furn_locs;
 }
 
-std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &center,
+std::list<tripoint_bub_ms> map::find_furnitures_with_flag_in_radius( const tripoint_bub_ms &center,
         size_t radius,
         const ter_furn_flag flag,
         size_t radiusz ) const
 {
-    std::list<tripoint> furn_locs;
-    for( const tripoint &furn_loc : points_in_radius( center, radius, radiusz ) ) {
+    std::list<tripoint_bub_ms> furn_locs;
+    for( const tripoint_bub_ms &furn_loc : points_in_radius( center, radius, radiusz ) ) {
         if( has_flag_furn( flag, furn_loc ) ) {
             furn_locs.push_back( furn_loc );
         }
@@ -10838,12 +10813,12 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
     return furn_locs;
 }
 
-std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
+std::list<Creature *> map::get_creatures_in_radius( const tripoint_bub_ms &center, size_t radius,
         size_t radiusz ) const
 {
     creature_tracker &creatures = get_creature_tracker();
     std::list<Creature *> creature_list;
-    for( const tripoint &loc : points_in_radius( center, radius, radiusz ) ) {
+    for( const tripoint_bub_ms &loc : points_in_radius( center, radius, radiusz ) ) {
         Creature *tmp_critter = creatures.creature_at( loc );
         if( tmp_critter != nullptr ) {
             creature_list.push_back( tmp_critter );
@@ -11163,20 +11138,20 @@ bool map::has_haulable_items( const tripoint_bub_ms &pos )
 
 std::vector<item_location> map::get_haulable_items( const tripoint &pos )
 {
+    return map::get_haulable_items( tripoint_bub_ms( pos ) );
+}
+
+std::vector<item_location> map::get_haulable_items( const tripoint_bub_ms &pos )
+{
     std::vector<item_location> target_items;
     map_stack items = i_at( pos );
     target_items.reserve( items.size() );
     for( item &it : items ) {
         if( is_haulable( it ) ) {
-            target_items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
+            target_items.emplace_back( map_cursor( pos ), &it );
         }
     }
     return target_items;
-}
-
-std::vector<item_location> map::get_haulable_items( const tripoint_bub_ms &pos )
-{
-    return map::get_haulable_items( pos.raw() );
 }
 
 tripoint_bub_ms drawsq_params::center() const

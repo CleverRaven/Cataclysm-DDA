@@ -257,7 +257,7 @@ static bool tally_items( std::unordered_map<itype_id, float> &global_item_count,
                          std::unordered_map<itype_id, int> &item_count, tinymap &tm )
 {
     bool found = false;
-    for( const tripoint &p : tm.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &p : tm.points_on_zlevel() ) {
         for( item &i : tm.i_at( p ) ) {
             std::unordered_map<itype_id, float>::iterator iter = global_item_count.find( i.typeId() );
             if( iter != global_item_count.end() ) {
