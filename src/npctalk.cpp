@@ -214,6 +214,10 @@ struct item_search_data {
             material.emplace_back( get_str_or_var( jo.get_member( "material" ), "material" ) );
         }
 
+        if( jo.has_object( "calories" ) ) {
+            calories = get_dbl_or_var( jo.get_member( "calories" ), "calories", false, 0 );
+        }
+
         if( jo.has_array( "flags" ) ) {
             for( JsonValue jv : jo.get_array( "flags" ) ) {
                 flags.emplace_back( get_str_or_var( jv, "flags" ) );
