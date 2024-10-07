@@ -30,7 +30,7 @@ static int count_fields( const field_type_str_id &field_type )
 {
     map &m = get_map();
     int live_fields = 0;
-    for( const tripoint_bub_ms &cursor : m.bub_points_on_zlevel() ) {
+    for( const tripoint_bub_ms &cursor : m.points_on_zlevel() ) {
         field_entry *entry = m.get_field( cursor, field_type );
         if( entry && entry->is_field_alive() ) {
             live_fields++;
@@ -47,7 +47,7 @@ TEST_CASE( "acid_field_expiry_on_map", "[field]" )
     clear_map();
     map &m = get_map();
     // place a smoke field
-    for( const tripoint_bub_ms &cursor : m.bub_points_on_zlevel() ) {
+    for( const tripoint_bub_ms &cursor : m.points_on_zlevel() ) {
         m.add_field( cursor, field_fd_acid, 1 );
     }
     REQUIRE( count_fields( field_fd_acid ) == 17424 );

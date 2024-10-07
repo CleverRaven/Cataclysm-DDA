@@ -126,9 +126,9 @@ TEST_CASE( "tinymap_bounds_checking" )
                 if( x < 0 || x >= SEEX * 2 ||
                     y < 0 || y >= SEEY * 2 ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_omt_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_omt_ms{ x, y, z } ) );
                 }
             }
         }
