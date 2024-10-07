@@ -49,6 +49,33 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_grace_under_pain" } },
+        "text": "Gain [<trait_name:perk_grace_under_pain>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_grace_under_pain>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_grace_under_pain>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_grace_under_pain", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Electrokinetic power Pain Suppression 5+ or the Telepathic power Mood Stabilization 8+.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "5" ] },
+                { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
+              ]
+            }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_in_the_zone" } },
         "text": "Gain [<trait_name:perk_in_the_zone>]",
         "effect": [
@@ -67,15 +94,15 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "math": [ "u_spell_level_sum('school': 'BIOKINETIC'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'CLAIRSENTIENT'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'PHOTOKINETIC'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'PYROKINETIC'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'TELEPATH'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'TELEKINETIC'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'TELEPORTER'", ">=", "40" ] },
-                { "math": [ "u_spell_level_sum('school': 'VITAKINETIC'", ">=", "40" ] }
+                { "math": [ "u_spell_level_sum('school': 'BIOKINETIC')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'CLAIRSENTIENT')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'ELECTROKINETIC')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'PHOTOKINETIC')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'PYROKINETIC')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEPATH')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEKINETIC')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'TELEPORTER')", ">=", "40" ] },
+                { "math": [ "u_spell_level_sum('school': 'VITAKINETIC')", ">=", "40" ] }
               ]
             }
           }

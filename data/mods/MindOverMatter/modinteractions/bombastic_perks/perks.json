@@ -29,7 +29,38 @@
   },
   {
     "type": "mutation",
+    "id": "perk_grace_under_pain",
+    "name": { "str": "Grace Under Pain" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Happy. In Your Lane. Focused. Flourishing.  Your Intelligence is only penalized 66% of the normal amount from pain, and 33% of normal if you're using the Biokinetic power Overcome Pain, the Electrokinetic power Pain Suppression, or the Telepathic power Mood Stabilization.",
+    "enchantments": [
+      {
+        "condition": {
+          "not": { "u_has_any_effect": [ "effect_biokin_overcome_pain", "effect_electrokin_reduce_pain", "effect_telepathic_morale" ] }
+        },
+        "values": [ { "value": "PAIN_PENALTY_MOD_INT", "multiply": -0.33 } ]
+      },
+      {
+        "condition": { "u_has_any_effect": [ "effect_biokin_overcome_pain", "effect_electrokin_reduce_pain", "effect_telepathic_morale" ] },
+        "values": [ { "value": "PAIN_PENALTY_MOD_INT", "multiply": -0.66 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_mastery_of_form",
+    "name": { "str": "Mastery of Form" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your control of your own body has given you control of your own genetics, albeit a subconscious one.  You will be less likely to suffer from negative mutations when taking mutagen.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MUT_INSTABILITY_MOD", "add": -2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_pain_hypersuppression",
     "name": { "str": "Mastery of Form" },
     "points": 0,
     "purifiable": false,
