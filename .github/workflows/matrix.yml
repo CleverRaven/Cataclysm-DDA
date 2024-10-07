@@ -124,7 +124,6 @@ jobs:
             libbacktrace: 1
             native: linux64
             pch: 1
-            cxxflags: -gsplit-dwarf
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
