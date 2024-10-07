@@ -713,7 +713,7 @@
             "value": "RANGE",
             "add": {
               "math": [
-                "(1 + ( u_spell_level('clair_ranged_enhance') * 0.5 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "(1 + ( u_spell_level('clair_ranged_enhance') * 0.25 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
               ]
             }
           },
@@ -721,7 +721,26 @@
             "value": "WEAPON_DISPERSION",
             "multiply": {
               "math": [
-                "( ( u_spell_level('clair_ranged_enhance') * -0.025) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+                "max((( ( u_spell_level('clair_ranged_enhance') * -0.025) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling),-0.6)"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "u_has_wielded_with_skill": "pistol" },
+            { "u_has_wielded_with_skill": "rifle" },
+            { "u_has_wielded_with_skill": "gun" }
+          ]
+        },
+        "values": [
+          {
+            "value": "WEAKPOINT_ACCURACY",
+            "multiply": {
+              "math": [
+                "min( ( ( ( u_spell_level('clair_ranged_enhance') * 0.08) + 0.10 ) * scaling_factor(u_val('intelligence') )  * u_nether_attunement_power_scaling ), 9 )"
               ]
             }
           }
