@@ -586,6 +586,8 @@ class Character : public Creature, public visitable
 
         const profession *prof;
         std::set<const profession *> hobbies;
+        void randomize_hobbies();
+        void add_random_hobby( std::vector<profession_id> &choices );
 
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint_rel_ms grab_point;
@@ -773,6 +775,7 @@ class Character : public Creature, public visitable
 
         //returns character's profession
         const profession *get_profession() const;
+        void add_profession_items();
         //returns the hobbies
         std::set<const profession *> get_hobbies() const;
 
@@ -2759,7 +2762,8 @@ class Character : public Creature, public visitable
 
         int avg_nat_bpm;
         void randomize_heartrate();
-
+        void randomize( bool random_scenario, bool play_now = false );
+        void randomize_cosmetics();
         int get_focus() const {
             return std::max( 1, focus_pool / 1000 );
         }
