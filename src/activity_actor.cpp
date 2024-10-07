@@ -395,7 +395,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     avatar &you = get_avatar();
 
     item_location weapon = get_weapon();
-    if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
+    if( !weapon || !avatar_action::can_fire_weapon( *weapon ) ) {
         aborted = true;
         act.moves_left = 0;
         return;
@@ -417,7 +417,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     g->temp_exit_fullscreen();
-    target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
+    target_handler::trajectory trajectory = target_handler::mode_fire( *this );
     g->reenter_fullscreen();
 
     if( aborted ) {

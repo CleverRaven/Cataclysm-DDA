@@ -176,8 +176,10 @@ static bool check_water_affect_items( avatar &you )
     return true;
 }
 
-bool avatar_action::move( avatar &you, map &m, const tripoint &d )
+bool avatar_action::move( const tripoint &d )
 {
+    avatar &you = get_avatar();
+    map &m = get_map();
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( ( !g->check_safe_mode_allowed() ) || in_shell ) {
@@ -483,7 +485,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), get_avatar(), dest_loc.raw() );
+            avatar_action::swim( dest_loc.raw() );
         }
 
         g->on_move_effects();
@@ -571,63 +573,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     return false;
 }
 
-bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
+void avatar_action::swim( const tripoint &p )
 {
-    if( dest_loc.z != you.posz() ) {
-        // No recursive ramp_moves
-        return false;
-    }
-
-    // We're moving onto a tile with no support, check if it has a ramp below
-    if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint_bub_ms below( point_bub_ms( dest_loc.xy() ), dest_loc.z - 1 );
-        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
-            // But we're moving onto one from above
-            const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.xy(), -1 ) );
-            // No penalty for misaligned stairs here
-            // Also cheaper than climbing up
-            return true;
-        }
-
-        return false;
-    }
-
-    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos_bub() ) ||
-        m.passable( dest_loc ) ) {
-        return false;
-    }
-
-    // Try to find an aligned end of the ramp that will make our climb faster
-    // Basically, finish walking on the stairs instead of pulling self up by hand
-    bool aligned_ramps = false;
-    for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
-            aligned_ramps = true;
-            break;
-        }
-    }
-
-    const tripoint_bub_ms above_u( you.pos_bub() + tripoint_above );
-    if( m.has_floor_or_support( above_u ) ) {
-        add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
-        return false;
-    }
-
-    const tripoint dp = dest_loc - you.pos();
-    const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.xy(), 1 ) );
-    // We can't just take the result of the above function here
-    if( you.pos() != old_pos ) {
-        const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
-        you.mod_moves( -you.get_speed() * total_move_cost );
-    }
-
-    return true;
-}
-
-void avatar_action::swim( map &m, avatar &you, const tripoint &p )
-{
+    avatar &you = get_avatar();
+    map &m = get_map();
     if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
@@ -728,8 +677,9 @@ static float rate_critter( const Creature &c )
     return m->type->difficulty;
 }
 
-void avatar_action::autoattack( avatar &you, map &m )
+void avatar_action::autoattack()
 {
+    avatar &you = get_avatar();
     const item_location weapon = you.get_wielded_item();
     int reach = weapon ? weapon->reach_range( you ) : 1;
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
@@ -758,7 +708,7 @@ void avatar_action::autoattack( avatar &you, map &m )
 
     const tripoint diff = best.pos() - you.pos();
     if( std::abs( diff.x ) <= 1 && std::abs( diff.y ) <= 1 && diff.z == 0 ) {
-        move( you, m, tripoint( diff.xy(), 0 ) );
+        move( tripoint( diff.xy(), 0 ) );
         return;
     }
 
@@ -766,23 +716,23 @@ void avatar_action::autoattack( avatar &you, map &m )
 }
 
 // TODO: Move data/functions related to targeting out of game class
-bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weapon )
+bool avatar_action::can_fire_weapon( const item &weapon )
 {
     if( !weapon.is_gun() ) {
         debugmsg( "Expected item to be a gun" );
         return false;
     }
 
-    if( !you.try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
-                                  _( "You can't fire your weapon, it's too heavy…" ) ) ) {
+    if( !get_avatar().try_break_relax_gas( _( "Your eyes steel, and you raise your weapon!" ),
+                                           _( "You can't fire your weapon, it's too heavy…" ) ) ) {
         return false;
     }
 
     std::vector<std::string> messages;
 
     for( const std::pair<const gun_mode_id, gun_mode> &mode_map : weapon.gun_all_modes() ) {
-        bool check_common = gunmode_checks_common( you, m, messages, mode_map.second );
-        bool check_weapon = gunmode_checks_weapon( you, m, messages, mode_map.second );
+        bool check_common = gunmode_checks_common( messages, mode_map.second );
+        bool check_weapon = gunmode_checks_weapon( messages, mode_map.second );
         bool can_use_mode = check_common && check_weapon;
         if( can_use_mode ) {
             return true;
@@ -795,8 +745,9 @@ bool avatar_action::can_fire_weapon( avatar &you, const map &m, const item &weap
     return false;
 }
 
-void avatar_action::fire_wielded_weapon( avatar &you )
+void avatar_action::fire_wielded_weapon()
 {
+    avatar &you = get_avatar();
     const item_location weapon = you.get_wielded_item();
 
     if( !weapon ) {
@@ -825,12 +776,12 @@ void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
     you.assign_activity( aim_activity_actor::use_mutation( fake_gun ) );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
+void avatar_action::fire_ranged_bionic( const item &fake_gun )
 {
-    you.assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
+    get_avatar().assign_activity( aim_activity_actor::use_bionic( fake_gun ) );
 }
 
-bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
+bool avatar_action::fire_turret_manual( turret_data &turret )
 {
     if( !turret.base()->is_gun() ) {
         debugmsg( "Expected turret base to be a gun." );
@@ -855,8 +806,8 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
     std::vector<std::string> messages;
     const std::map<gun_mode_id, gun_mode> gunmodes = turret.base()->gun_all_modes();
     if( !std::any_of( gunmodes.begin(), gunmodes.end(),
-    [&you, &m, &messages]( const std::pair<const gun_mode_id, gun_mode> &p ) {
-    return gunmode_checks_common( you, m, messages, p.second );
+    [&messages]( const std::pair<const gun_mode_id, gun_mode> &p ) {
+    return gunmode_checks_common( messages, p.second );
     } ) ) {
         // no gunmode is usable, dump reason messages why not
         for( const std::string &msg : messages ) {
@@ -867,18 +818,18 @@ bool avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret
 
     // all checks passed - start aiming
     g->temp_exit_fullscreen();
-    target_handler::trajectory trajectory = target_handler::mode_turret_manual( you, turret );
+    target_handler::trajectory trajectory = target_handler::mode_turret_manual( turret );
 
     if( !trajectory.empty() ) {
-        turret.fire( you, trajectory.back() );
+        turret.fire( get_avatar(), trajectory.back() );
     }
     g->reenter_fullscreen();
     return true;
 }
 
-void avatar_action::mend( avatar &you, item_location loc )
+void avatar_action::mend( item_location loc )
 {
-
+    avatar &you = get_avatar();
     if( you.fine_detail_vision_mod() > 4 ) {
         add_msg( m_bad, _( "It's too dark to work on mending this." ) );
         return;
@@ -898,8 +849,9 @@ void avatar_action::mend( avatar &you, item_location loc )
     }
 }
 
-bool avatar_action::eat_here( avatar &you )
+bool avatar_action::eat_here()
 {
+    avatar &you = get_avatar();
     map &here = get_map();
     if( ( you.has_active_mutation( trait_RUMINANT ) || you.has_active_mutation( trait_GRAZER ) ) &&
         ( here.has_flag( ter_furn_flag::TFLAG_SHRUB, you.pos_bub() ) &&
@@ -959,22 +911,24 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you, item_location &loc )
+void avatar_action::eat( item_location &loc )
 {
+    avatar &you = get_avatar();
     std::string filter;
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
-    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
+    avatar_action::eat( loc, you.activity.values, you.activity.targets, filter,
                         you.activity.id() );
 }
 
-void avatar_action::eat( avatar &you, item_location &loc,
+void avatar_action::eat( item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter,
                          activity_id type )
 {
+    avatar &you = get_avatar();
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
@@ -986,18 +940,19 @@ void avatar_action::eat( avatar &you, item_location &loc,
     you.last_item = item( *loc ).typeId();
 }
 
-void avatar_action::eat_or_use( avatar &you, item_location loc )
+void avatar_action::eat_or_use( item_location loc )
 {
     if( loc && loc->is_medical_tool() ) {
-        avatar_action::use_item( you, loc, "heal" );
+        avatar_action::use_item( loc, "heal" );
     } else {
-        avatar_action::eat( you, loc );
+        avatar_action::eat( loc );
     }
 }
 
-void avatar_action::plthrow( avatar &you, item_location loc,
+void avatar_action::plthrow( item_location loc,
                              const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
+    avatar &you = get_avatar();
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
     if( in_shell ) {
@@ -1084,7 +1039,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->temp_exit_fullscreen();
 
     item_location weapon = you.get_wielded_item();
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
+    target_handler::trajectory trajectory = target_handler::mode_throw( *weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1117,14 +1072,15 @@ static void update_lum( item_location loc, bool add )
     }
 }
 
-void avatar_action::use_item( avatar &you )
+void avatar_action::use_item()
 {
     item_location loc;
-    avatar_action::use_item( you, loc );
+    avatar_action::use_item( loc );
 }
 
-void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
+void avatar_action::use_item( item_location &loc, std::string const &method )
 {
+    avatar &you = get_avatar();
     if( you.has_effect( effect_incorporeal ) ) {
         you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
         return;
@@ -1227,8 +1183,9 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
 // Opens up a menu to Unload a container, gun, or tool
 // If it's a gun, some gunmods can also be loaded
-void avatar_action::unload( avatar &you )
+void avatar_action::unload()
 {
+    avatar &you = get_avatar();
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );
     if( !ret.first ) {
         add_msg( _( "Never mind." ) );

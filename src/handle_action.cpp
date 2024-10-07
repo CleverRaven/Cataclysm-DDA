@@ -1669,7 +1669,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, you.get_wielded_item() );
+    target_handler::trajectory traj = target_handler::mode_reach( you.get_wielded_item() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1703,13 +1703,13 @@ static void fire()
     }
     // try firing gun
     if( weapon && weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
-        avatar_action::fire_wielded_weapon( you );
+        avatar_action::fire_wielded_weapon();
         return;
     }
     // try firing turrets
     if( const optional_vpart_position ovp = here.veh_at( you.pos_bub() ) ) {
         if( turret_data turret_here = ovp->vehicle().turret_query( you.pos() ) ) {
-            if( avatar_action::fire_turret_manual( you, here, turret_here ) ) {
+            if( avatar_action::fire_turret_manual( turret_here ) ) {
                 return;
             }
         } else if( ovp.part_with_feature( VPFLAG_CONTROLS, true ) ) {
@@ -1897,20 +1897,19 @@ void game::open_consume_item_menu()
     as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
     as_m.query();
 
-    avatar &player_character = get_avatar();
     switch( as_m.ret ) {
         case 0: {
             item_location loc = game_menus::inv::consume_food();
-            avatar_action::eat( player_character, loc );
+            avatar_action::eat( loc );
             break;
         }
         case 1: {
             item_location loc = game_menus::inv::consume_drink();
-            avatar_action::eat( player_character, loc );
+            avatar_action::eat( loc );
             break;
         }
         case 2:
-            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds() );
+            avatar_action::eat_or_use( game_menus::inv::consume_meds() );
             break;
         default:
             break;
@@ -2278,7 +2277,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     }
                     dest_delta = dest_next;
                 }
-                if( !avatar_action::move( player_character, m, dest_delta ) ) {
+                if( !avatar_action::move( tripoint( dest_delta, 0 ) ) ) {
                     // auto-move should be canceled due to a failed move or obstacle
                     player_character.abort_automove();
                 }
@@ -2477,7 +2476,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_USE:
             // Shell-users are presumed to be able to mess with their inventories, etc
             // while in the shell.  Eating, gear-changing, and item use are OK.
-            avatar_action::use_item( player_character );
+            avatar_action::use_item();
             break;
 
         case ACTION_USE_WIELDED:
@@ -2493,13 +2492,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_EAT:
-            if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat_or_use( player_character, game_menus::inv::consume() );
+            if( !avatar_action::eat_here() ) {
+                avatar_action::eat_or_use( game_menus::inv::consume() );
             }
             break;
 
         case ACTION_OPEN_CONSUME:
-            if( !avatar_action::eat_here( player_character ) ) {
+            if( !avatar_action::eat_here() ) {
                 open_consume_item_menu();
             }
             break;
@@ -2530,16 +2529,16 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_UNLOAD:
-            avatar_action::unload( player_character );
+            avatar_action::unload();
             break;
 
         case ACTION_MEND:
-            avatar_action::mend( player_character, item_location() );
+            avatar_action::mend( item_location() );
             break;
 
         case ACTION_THROW: {
             item_location loc;
-            avatar_action::plthrow( player_character, loc );
+            avatar_action::plthrow( loc );
             break;
         }
 
@@ -2555,7 +2554,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( weapon ) {
                 gun_mode_id original_mode = weapon->gun_get_mode_id();
                 if( weapon->gun_set_mode( gun_mode_AUTO ) ) {
-                    avatar_action::fire_wielded_weapon( player_character );
+                    avatar_action::fire_wielded_weapon();
                     weapon->gun_set_mode( original_mode );
                 }
             }
@@ -2997,7 +2996,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_AUTOATTACK:
-            avatar_action::autoattack( player_character, m );
+            avatar_action::autoattack();
             break;
 
         default:

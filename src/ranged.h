@@ -9,12 +9,10 @@
 #include "point.h"
 
 class aim_activity_actor;
-class avatar;
 class Character;
 class gun_mode;
 class item;
 class item_location;
-class map;
 class spell;
 class turret_data;
 class vehicle;
@@ -29,27 +27,27 @@ namespace target_handler
 using trajectory = std::vector<tripoint_bub_ms>;
 
 /** Generic target select without fire something */
-trajectory mode_select_only( avatar &you, int range );
+trajectory mode_select_only( int range );
 
 /**
  * Firing ranged weapon. This mode allows spending moves on aiming.
  */
-trajectory mode_fire( avatar &you, aim_activity_actor &activity );
+trajectory mode_fire( aim_activity_actor &activity );
 
 /** Throwing item */
-trajectory mode_throw( avatar &you, item &relevant, bool blind_throwing );
+trajectory mode_throw( item &relevant, bool blind_throwing );
 
 /** Reach attacking */
-trajectory mode_reach( avatar &you, item_location weapon );
+trajectory mode_reach( item_location weapon );
 
 /** Manually firing vehicle turret */
-trajectory mode_turret_manual( avatar &you, turret_data &turret );
+trajectory mode_turret_manual( turret_data &turret );
 
 /** Selecting target for turrets (when using vehicle controls) */
-trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_part *> &turrets );
+trajectory mode_turrets( vehicle &veh, const std::vector<vehicle_part *> &turrets );
 
 /** Casting a spell */
-trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
+trajectory mode_spell( spell &casting, bool no_fail, bool no_mana );
 } // namespace target_handler
 
 void practice_archery_proficiency( Character &p, const item &relevant );
@@ -61,16 +59,14 @@ int range_with_even_chance_of_good_hit( int dispersion );
  * @param messages Used to store messages describing failed checks
  * @return True if all conditions are true
  */
-bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode );
+bool gunmode_checks_common( std::vector<std::string> &messages, const gun_mode &gmode );
 
 /**
  * Various checks for gunmode when firing a weapon
  * @param messages Used to store messages describing failed checks
  * @return True if all conditions are true
  */
-bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode );
+bool gunmode_checks_weapon( std::vector<std::string> &messages, const gun_mode &gmode );
 
 int throw_cost( const Character &c, const item &to_throw );
 

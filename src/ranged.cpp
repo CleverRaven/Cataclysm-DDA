@@ -448,73 +448,73 @@ class target_ui
         void on_target_accepted( bool harmful ) const;
 };
 
-target_handler::trajectory target_handler::mode_select_only( avatar &you, int range )
+target_handler::trajectory target_handler::mode_select_only( int range )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::SelectOnly;
     ui.range = range;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_fire( avatar &you, aim_activity_actor &activity )
+target_handler::trajectory target_handler::mode_fire( aim_activity_actor &activity )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::Fire;
     ui.activity = &activity;
     ui.relevant = &*activity.get_weapon();
     gun_mode gun = ui.relevant->gun_current_mode();
-    ui.range = gun.target->gun_range( &you );
+    ui.range = gun.target->gun_range( ui.you );
     ui.ammo = gun->ammo_data();
 
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_throw( avatar &you, item &relevant,
-        bool blind_throwing )
+target_handler::trajectory target_handler::mode_throw( item &relevant, bool blind_throwing )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = blind_throwing ? target_ui::TargetMode::ThrowBlind : target_ui::TargetMode::Throw;
     ui.relevant = &relevant;
-    ui.range = you.throw_range( relevant );
+    ui.range = ui.you->throw_range( relevant );
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_reach( avatar &you, item_location weapon )
+target_handler::trajectory target_handler::mode_reach( item_location weapon )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::Reach;
     ui.relevant = weapon.get_item();
-    ui.range = weapon ? weapon->current_reach_range( you ) : 1;
+    ui.range = weapon ? weapon->current_reach_range( *ui.you ) : 1;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_turret_manual( avatar &you, turret_data &turret )
+target_handler::trajectory target_handler::mode_turret_manual( turret_data &turret )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::TurretManual;
     ui.turret = &turret;
     ui.relevant = &*turret.base();
     ui.range = turret.range();
     ui.ammo = turret.ammo_data();
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &veh,
+target_handler::trajectory target_handler::mode_turrets( vehicle &veh,
         const std::vector<vehicle_part *> &turrets )
 {
+    avatar &you = get_avatar();
     // Find radius of a circle centered at u encompassing all points turrets can aim at
     // FIXME: this calculation is fine for square distances, but results in an underestimation
     //        when used with real circles
@@ -542,18 +542,17 @@ target_handler::trajectory target_handler::mode_turrets( avatar &you, vehicle &v
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casting, bool no_fail,
-        bool no_mana )
+target_handler::trajectory target_handler::mode_spell( spell &casting, bool no_fail, bool no_mana )
 {
     target_ui ui = target_ui();
-    ui.you = &you;
+    ui.you = &get_avatar();
     ui.mode = target_ui::TargetMode::Spell;
     ui.casting = &casting;
-    ui.range = casting.range( you );
+    ui.range = casting.range( *ui.you );
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
-    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( you.view_offset );
+    restore_on_out_of_scope<tripoint_rel_ms> view_offset_prev( ui.you->view_offset );
     return ui.run();
 }
 
@@ -3213,14 +3212,14 @@ void target_ui::update_status()
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
-               ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
-                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
+               ( !gunmode_checks_common( msgbuf, relevant->gun_current_mode() ) ||
+                 !gunmode_checks_weapon( msgbuf, relevant->gun_current_mode() ) )
              ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
         // TODO: it might be some other error, but that's highly unlikely to happen, so a catch-all 'Out of ammo' is fine
         status = Status::OutOfAmmo;
     } else if( mode == TargetMode::TurretManual && ( turret->query() != turret_data::status::ready ||
-               !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ) ) {
+               !gunmode_checks_common( msgbuf, relevant->gun_current_mode() ) ) ) {
         status = Status::OutOfAmmo;
     } else if( ( src == dst ) && !( mode == TargetMode::Spell &&
                                     casting->is_valid_target( spell_target::self ) ) ) {
@@ -4171,9 +4170,9 @@ void target_ui::on_target_accepted( bool harmful ) const
     }
 }
 
-bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode )
+bool gunmode_checks_common( std::vector<std::string> &messages, const gun_mode &gmode )
 {
+    avatar &you = get_avatar();
     bool result = true;
     if( you.has_trait( trait_BRAWLER ) ) {
         messages.push_back( string_format( _( "Pfft.  You are a brawler; using this %s is beneath you." ),
@@ -4193,7 +4192,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    const optional_vpart_position vp = m.veh_at( you.pos_bub() );
+    const optional_vpart_position vp = get_map().veh_at( you.pos_bub() );
     if( vp && vp->vehicle().player_in_control( you ) && ( gmode->is_two_handed( you ) ||
             gmode->has_flag( flag_FIRE_TWOHAND ) ) ) {
         messages.push_back( string_format( _( "You can't fire your %s while driving." ),
@@ -4211,9 +4210,10 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
     return result;
 }
 
-bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> &messages,
-                            const gun_mode &gmode )
+bool gunmode_checks_weapon( std::vector<std::string> &messages, const gun_mode &gmode )
 {
+    avatar &you = get_avatar();
+    const map &m = get_map();
     bool result = true;
     if( !gmode->ammo_sufficient( &you ) &&
         !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
