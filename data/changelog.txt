@@ -1,4 +1,24 @@
-# 0.H
+# 0.H (Herbert? Huxley?)
+
+After over a year, we can finally release 0.H, boasting more changes than any previous release.
+
+## Highlights
+
+Oceans! Travel far enough east and you'll be greeted by a sandy shore.
+Furthermore, the map changes as you travel. The farther east you travel, the bigger cities will be. Cities in the west will start to be farther apart. The forest will get more dense the farther north or west you travel.
+Portal storms are no longer engulfing the entire map and will move around while active. Additionally, in the depths of the earth now lurks an otherworldly horror: fight the new void spider boss if you can find its lair.
+New mod: Mind over Matter - adds detailed psionics to the game, along with a variety of new monsters, scenarios and game mechanics.
+New scenario: Friends to the End. Ever wanted a NPC companion that feels more alive? With Liam you get a friend that cares and helps out during key moments.
+Guns have been nerfed and now need more skill to be used efficiently. Feral humans are also more challenging now. Don't get too cocky when encountering those.
+A massive nuclear power plant has been added. Get ready to explore its giant interior with proper gear.
+Accidentally bumping into neutral creatures and angering them is now (mostly) a problem of the past. Just enable safe mode and you will no longer inadvertently slap your clingy pet gracken.
+3D vision has been improved and you can now see the levels below you automatically, even without 3D FOV enabled. Additionally, you can now throw stuff off ledges to damage creatures below.
+Certain monsters can now feast on corpses, graze and browse or gobble up your food and crops. That also means in order for an animal to e.g continue producing milk, it must be fed on a regular basis.
+Some monsters can also hide under furniture now.
+Animals need to be fed to produce milk, eggs and to reproduce. Animals can graze on grass to feed themselves, and grazed grass regrows after season changes.
+You can now find crazed civilians in the cities for the first couple of days. While they can not be turned or "cured" into NPCs, their behavior will make being in a city more dynamic.
+If you have mutations granting you an exoskeleton, you will now molt in regular intervals.
+NPCs can now read E-books and zones can span multiple Z-levels.
 
 # Statistics
 5503 files changed, 12706358 insertions(+), 9312909 deletions(-)
