@@ -783,6 +783,7 @@ class npc : public Character
         void randomize( const npc_class_id &type = npc_class_id::NULL_ID(),
                         const npc_template_id &tem_id = npc_template_id::NULL_ID() );
         void randomize_from_faction( faction *fac );
+        void catchup_skills();
         void apply_ownership_to_inv();
         void clear_personality_traits();
         void generate_personality_traits();

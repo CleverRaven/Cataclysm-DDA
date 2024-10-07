@@ -397,6 +397,12 @@ static const species_id species_HUMAN( "HUMAN" );
 
 static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
+static const std::string type_hair_color( "hair_color" );
+static const std::string type_hair_style( "hair_style" );
+static const std::string type_skin_tone( "skin_tone" );
+static const std::string type_facial_hair( "facial_hair" );
+static const std::string type_eye_color( "eye_color" );
+
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -421,6 +427,7 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
+static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_FAERIECREATURE( "FAERIECREATURE" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
@@ -739,6 +746,19 @@ void Character::randomize_blood()
     }
     my_blood_type = blood_type::blood_AB;
     blood_rh_factor = false;
+}
+void Character::randomize_cosmetics()
+{
+    randomize_cosmetic_trait( type_hair_color );
+    randomize_cosmetic_trait( type_hair_style );
+    randomize_cosmetic_trait( type_skin_tone );
+    randomize_cosmetic_trait( type_eye_color );
+    //arbitrary 50% chance to add beard to male characters
+    if( male && one_in( 2 ) ) {
+        randomize_cosmetic_trait( type_facial_hair );
+    } else {
+        set_mutation( trait_FACIAL_HAIR_NONE );
+    }
 }
 
 field_type_id Character::bloodType() const
