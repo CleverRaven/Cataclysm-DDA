@@ -15,6 +15,7 @@ Accidentally bumping into neutral creatures and angering them is now (mostly) a 
 3D vision has been improved and you can now see the levels below you automatically, even without 3D FOV enabled. Additionally, you can now throw stuff off ledges to damage creatures below.
 Certain monsters can now feast on corpses, graze and browse or gobble up your food and crops. That also means in order for an animal to e.g continue producing milk, it must be fed on a regular basis.
 Some monsters can also hide under furniture now.
+Animals need to be fed to produce milk, eggs and to reproduce. Animals can graze on grass to feed themselves, and grazed grass regrows after season changes.
 You can now find crazed civilians in the cities for the first couple of days. While they can not be turned or "cured" into NPCs, their behavior will make being in a city more dynamic.
 If you have mutations granting you an exoskeleton, you will now molt in regular intervals.
 NPCs can now read E-books and zones can span multiple Z-levels.
