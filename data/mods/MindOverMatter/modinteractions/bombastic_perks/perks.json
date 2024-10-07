@@ -15,7 +15,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Once you get going you just keep rolling.  Your next use of a psionic power within five seconds of channeling one has its Stamina cost reduced by 25%."
+    "description": "Once you get going you just keep rolling.  Your next use of a psionic power within five seconds of channeling one has its stamina cost reduced by 25%."
   },
   {
     "type": "mutation",
@@ -24,7 +24,7 @@
     "points": 0,
     "purifiable": false,
     "valid": false,
-    "description": "Some part of your Metabolic Hyperefficiency is running even when you sleep.  You can stay awake for 20% longer, and sleep is 20% more restorative.",
+    "description": "Some part of your Metabolic Hyperefficiency is running even when you sleep, or perhaps your wakeful meditations have made the process of sleeping more efficient.  You can stay awake for 20% longer, and sleep is 20% more restorative.",
     "enchantments": [ { "values": [ { "value": "SLEEPINESS_REGEN", "multiply": 0.2 }, { "value": "SLEEPINESS", "multiply": -0.2 } ] } ]
   },
   {
@@ -78,5 +78,14 @@
     "valid": false,
     "description": "Nether energy easily flows through you, causing your power to rise and fall far faster than normal.  You gain far more Nether Attunement from channeling or maintaining your powers, but you lose your Nether Attunement much faster as well.",
     "vitamin_rates": [ [ "vitamin_psionic_drain", 10 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_phoenix_rising",
+    "name": { "str": "Phoenix Rising" },
+    "points": 0,
+    "purifiable": false,
+    "valid": false,
+    "description": "Only the phoenix rises and does not descend, but you're going try your hardest.  The stamina cost of your powers is reduced beginning at Nether Attument level 8, reaching 1/3rd of normal by Nether Attunement level 12."
   }
 ]

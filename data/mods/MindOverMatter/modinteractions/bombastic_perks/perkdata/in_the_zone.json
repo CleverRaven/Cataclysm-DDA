@@ -4,7 +4,7 @@
     "id": "effect_perk_in_the_zone",
     "name": [ "In the Zone" ],
     "desc": [
-      "You are one with the Nether and the Nether is with you.  The Stamina cost of channeling your next power is reduced by 25%."
+      "You are one with the Nether and the Nether is with you.  The stamina cost of channeling your next power is reduced by 25%."
     ],
     "apply_message": "",
     "rating": "good",

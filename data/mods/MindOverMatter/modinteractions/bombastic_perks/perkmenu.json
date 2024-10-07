@@ -37,13 +37,18 @@
           },
           { "set_string_var": "perk_efficient_slumber", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Biokinetic power Metabolic Hyperefficiency at level 6+.",
+            "set_string_var": "Must have the Biokinetic power Metabolic Hyperefficiency 6+ or the Vitakinetic power Wakeful Rest 5+.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] }
+            "condition": {
+              "or": [
+                { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "6" ] },
+                { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "5" ] }
+              ]
+            }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -59,7 +64,7 @@
           },
           { "set_string_var": "perk_grace_under_pain", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Must have the Electrokinetic power Pain Suppression 5+ or the Telepathic power Mood Stabilization 8+.",
+            "set_string_var": "Must have the Biokinetic Power Overcome Pain 5+, the Electrokinetic power Pain Suppression 6+ or the Telepathic power Mood Stabilization 8+.",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
@@ -67,7 +72,8 @@
             "set_condition": "perk_condition",
             "condition": {
               "or": [
-                { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "5" ] },
+                { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "5" ] },
+                { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "6" ] },
                 { "math": [ "u_spell_level('telepathic_morale')", ">=", "8" ] }
               ]
             }
@@ -170,6 +176,40 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "u_has_trait": "PSI_TORRENTIAL_CHANNELING" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_phoenix_rising" } },
+        "text": "Gain [<trait_name:perk_phoenix_rising>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_phoenix_rising>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_phoenix_rising>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_phoenix_rising", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have psionic powers.",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": {
+              "u_has_any_trait": [
+                "BIOKINETIC",
+                "CLAIRSENTIENT",
+                "ELECTROKINETIC",
+                "PHOTOKINETIC",
+                "PYROKINETIC",
+                "TELEKINETIC",
+                "TELEPATH",
+                "TELEPORTER",
+                "VITAKINETIC"
+              ]
+            }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
