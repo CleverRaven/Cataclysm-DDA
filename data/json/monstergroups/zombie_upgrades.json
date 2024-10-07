@@ -88,7 +88,7 @@
   {
     "type": "monstergroup",
     "name": "GROUP_FIREMAN_UPGRADE",
-    "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "//": "Masters pick from here when upgrading.",
     "monsters": [
       { "monster": "mon_zombie_fireproof", "weight": 250 },
       { "monster": "mon_zombie_fireproof_brute", "weight": 250 },
