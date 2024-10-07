@@ -2095,7 +2095,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_demihumanleather", 1 ] ]
+      [ [ "raw_leather", 1 ] ]
     ]
   },
   {
@@ -2153,7 +2153,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ], [ "raw_tainted_fur", 1 ] ]
+      [ [ "raw_fur", 1 ], [ "raw_hfur", 1 ] ]
     ]
   },
   {
