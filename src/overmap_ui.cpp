@@ -196,11 +196,12 @@ static void update_note_preview( const std::string_view note,
     print_colored_text( *w_preview_title, point_zero, default_color, note_color, note_text,
                         report_color_error::no );
     int note_text_width = utf8_width( note_text );
-    mvwputch( *w_preview_title, point( note_text_width, 0 ), c_white, LINE_XOXO );
-    for( int i = 0; i < note_text_width; i++ ) {
-        mvwputch( *w_preview_title, point( i, 1 ), c_white, LINE_OXOX );
-    }
-    mvwputch( *w_preview_title, point( note_text_width, 1 ), c_white, LINE_XOOX );
+    wattron( *w_preview_title, c_white );
+    mvwaddch( *w_preview_title, point( note_text_width, 0 ), LINE_XOXO );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwhline( *w_preview_title, point( 0, 1 ), LINE_OXOX, note_text_width );
+    mvwaddch( *w_preview_title, point( note_text_width, 1 ), LINE_XOOX );
+    wattroff( *w_preview_title, c_white );
     wnoutrefresh( *w_preview_title );
 
     const point npm_offset( point_south_east );
@@ -884,27 +885,23 @@ static void draw_ascii(
             maxlen = std::max( maxlen, utf8_width( line.second, true ) );
         }
 
-        mvwputch( w, point_south_east, c_white, LINE_OXXO );
-        for( int i = 0; i <= maxlen; i++ ) {
-            mvwputch( w, point( i + 2, 1 ), c_white, LINE_OXOX );
-        }
-        mvwputch( w, point( 1, corner_text.size() + 2 ), c_white, LINE_XXOO );
-        const std::string spacer( maxlen, ' ' );
+        mvwrectf( w, point( 2, 2 ), c_yellow, ' ', maxlen, corner_text.size() );
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[i];
-            // clear line, print line, print vertical line on each side.
-            mvwputch( w, point( 1, i + 2 ), c_white, LINE_XOXO );
-            mvwprintz( w, point( 2, i + 2 ), c_yellow, spacer );
             nc_color default_color = c_unset;
             print_colored_text( w, point( 2, i + 2 ), default_color, pr.first, pr.second,
                                 report_color_error::no );
-            mvwputch( w, point( maxlen + 2, i + 2 ), c_white, LINE_XOXO );
         }
-        mvwputch( w, point( maxlen + 2, 1 ), c_white, LINE_OOXX );
-        for( int i = 0; i <= maxlen; i++ ) {
-            mvwputch( w, point( i + 2, corner_text.size() + 2 ), c_white, LINE_OXOX );
-        }
-        mvwputch( w, point( maxlen + 2, corner_text.size() + 2 ), c_white, LINE_XOOX );
+        wattron( w, c_white );
+        mvwaddch( w, point_south_east, LINE_OXXO ); // .-
+        mvwhline( w, point( 2, 1 ), LINE_OXOX, maxlen ); // -
+        mvwaddch( w, point( 1, corner_text.size() + 2 ), LINE_XXOO ); // '-
+        mvwvline( w, point( 1, 2 ), LINE_XOXO, corner_text.size() ); // |
+        mvwvline( w, point( maxlen + 2, 2 ), LINE_XOXO, corner_text.size() ); // |
+        mvwaddch( w, point( maxlen + 2, 1 ), LINE_OOXX ); // -.
+        mvwhline( w, point( 2, corner_text.size() + 2 ), LINE_OXOX, maxlen + 1 ); // -
+        mvwaddch( w, point( maxlen + 2, corner_text.size() + 2 ), LINE_XOOX ); // -'
+        wattroff( w, c_white );
     }
 
     if( !sZoneName.empty() && tripointZone.xy() == cursor_pos.xy() ) {
@@ -912,21 +909,22 @@ static void draw_ascii(
         sTemp += " " + sZoneName;
 
         const int length = utf8_width( sTemp );
-        for( int i = 0; i <= length; i++ ) {
-            mvwputch( w, point( i, om_map_height - 2 ), c_white, LINE_OXOX );
-        }
-
         mvwprintz( w, point( 0, om_map_height - 1 ), c_yellow, sTemp );
-        mvwputch( w, point( length, om_map_height - 2 ), c_white, LINE_OOXX );
-        mvwputch( w, point( length, om_map_height - 1 ), c_white, LINE_XOXO );
+        wattron( w, c_white );
+        mvwhline( w, point( 0, om_map_height - 2 ), LINE_OXOX, length + 1 );
+        mvwaddch( w, point( length, om_map_height - 2 ), LINE_OOXX );
+        mvwaddch( w, point( length, om_map_height - 1 ), LINE_XOXO );
+        wattroff( w, c_white );
     }
 
     // draw nice crosshair around the cursor
     if( blink && !uistate.place_terrain && !uistate.place_special ) {
-        mvwputch( w, point( om_half_width - 1, om_half_height - 1 ), c_light_gray, LINE_OXXO );
-        mvwputch( w, point( om_half_width + 1, om_half_height - 1 ), c_light_gray, LINE_OOXX );
-        mvwputch( w, point( om_half_width - 1, om_half_height + 1 ), c_light_gray, LINE_XXOO );
-        mvwputch( w, point( om_half_width + 1, om_half_height + 1 ), c_light_gray, LINE_XOOX );
+        wattron( w, c_light_gray );
+        mvwaddch( w, point( om_half_width - 1, om_half_height - 1 ), LINE_OXXO );
+        mvwaddch( w, point( om_half_width + 1, om_half_height - 1 ), LINE_OOXX );
+        mvwaddch( w, point( om_half_width - 1, om_half_height + 1 ), LINE_XXOO );
+        mvwaddch( w, point( om_half_width + 1, om_half_height + 1 ), LINE_XOOX );
+        wattroff( w, c_light_gray );
     }
     // Done with all drawing!
     wnoutrefresh( w );
@@ -963,16 +961,11 @@ static void draw_om_sidebar( ui_adaptor &ui,
     }
 
     // Draw the vertical line
-    for( int j = 0; j < TERMY; j++ ) {
-        mvwputch( wbar, point( 0, j ), c_white, LINE_XOXO );
-    }
+    mvwvline( wbar, point_zero, c_white, LINE_XOXO, TERMY );
 
     // Clear the legend
-    for( int i = 1; i < getmaxx( wbar ); i++ ) {
-        for( int j = 0; j < TERMY; j++ ) {
-            mvwputch( wbar, point( i, j ), c_black, ' ' );
-        }
-    }
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwrectf( wbar, point( 1, 0 ), c_black, ' ', getmaxx( wbar ), TERMY );
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;

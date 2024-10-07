@@ -916,9 +916,7 @@ void faction_manager::display() const
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_missions );
 
-        for( int i = 3; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-            mvwputch( w_missions, point( 30, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_missions, point( 30, 3 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 4 );
 
         const std::vector<std::pair<tab_mode, std::string>> tabs = {
             { tab_mode::TAB_MYFACTION, _( "YOUR FACTION" ) },
@@ -930,9 +928,11 @@ void faction_manager::display() const
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
 
-        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
+        wattron( w_missions, BORDER_COLOR );
+        mvwaddch( w_missions, point( 30, 2 ),
                   tab == tab_mode::TAB_FOLLOWERS ? ' ' : LINE_OXXX ); // ^|^
-        mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        mvwaddch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), LINE_XXOX ); // _|_
+        wattroff( w_missions, BORDER_COLOR );
         const nc_color col = c_white;
 
         // entries_per_page * page number

@@ -2261,9 +2261,7 @@ void basecamp::worker_assignment_ui()
         // entries_per_page * page number
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
 
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
-            mvwputch( w_followers, point( 45, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_followers, point( 45, 0 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 2 ) ;
         draw_border( w_followers );
         const nc_color col = c_white;
         const std::string no_npcs = _( "You have no companions following you." );
@@ -2352,9 +2350,7 @@ void basecamp::job_assignment_ui()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_jobs );
         const size_t top_of_page = entries_per_page * ( selection / entries_per_page );
-        for( int i = 0; i < FULL_SCREEN_HEIGHT - 2; i++ ) {
-            mvwputch( w_jobs, point( 45, i ), BORDER_COLOR, LINE_XOXO );
-        }
+        mvwvline( w_jobs, point( 45, 0 ), BORDER_COLOR, LINE_XOXO, FULL_SCREEN_HEIGHT - 2 );
         draw_border( w_jobs );
         mvwprintz( w_jobs, point( 46, 1 ), c_white, _( "Job/Priority" ) );
         const nc_color col = c_white;
@@ -4672,7 +4668,7 @@ void talk_function::draw_camp_tabs( const catacurses::window &win,
 {
     werase( win );
     const int width = getmaxx( win );
-    mvwhline( win, point( 0, 2 ), LINE_OXOX, width );
+    mvwhline( win, point( 0, 2 ), BORDER_COLOR, LINE_OXOX, width );
 
     std::vector<std::string> tabs( base_camps::all_directions.size() );
     for( const auto &direction : base_camps::all_directions ) {

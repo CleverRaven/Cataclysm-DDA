@@ -125,9 +125,7 @@ void robot_finds_kitten::show() const
 
     werase( w );
     if( current_ui_state != ui_state::instructions ) {
-        for( int c = 0; c < rfkCOLS; c++ ) {
-            mvwputch( w, point( c, 2 ), BORDER_COLOR, '_' );
-        }
+        mvwhline( w, point( 0, 2 ), BORDER_COLOR, '_', rfkCOLS );
         wmove( w, kitten.pos );
         draw_kitten();
 

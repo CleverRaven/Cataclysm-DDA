@@ -247,17 +247,15 @@ void prof_window::draw_borders()
     const int h = catacurses::getmaxy( w_border );
     draw_border( w_border, c_white, _( "Proficiencies" ), c_yellow );
     // horizontal header separator
-    for( int i = 1; i < w - 1; i++ ) {
-        mvwputch( w_border, point( i, 4 ), c_white, LINE_OXOX );
-    }
-    mvwputch( w_border, point( 0, 4 ), c_white, LINE_XXXO );
-    mvwputch( w_border, point( w - 1, 4 ), c_white, LINE_XOXX );
+    wattron( w_border, c_white );
+    mvwhline( w_border, point( 1, 4 ), LINE_OXOX, w - 2 );
+    mvwaddch( w_border, point( 0, 4 ), LINE_XXXO );
+    mvwaddch( w_border, point( w - 1, 4 ), LINE_XOXX );
     // vertical column separator
-    for( int i = 5; i < h - 1; i++ ) {
-        mvwputch( w_border, point( column_width + 1, i ), c_white, LINE_XOXO );
-    }
-    mvwputch( w_border, point( column_width + 1, 4 ), c_white, LINE_OXXX );
-    mvwputch( w_border, point( column_width + 1, h - 1 ), c_white, LINE_XXOX );
+    mvwvline( w_border, point( column_width + 1, 5 ), LINE_XOXO, h - 6 );
+    mvwaddch( w_border, point( column_width + 1, 4 ), LINE_OXXX );
+    mvwaddch( w_border, point( column_width + 1, h - 1 ), LINE_XXOX );
+    wattroff( w_border, c_white );
 
     scrollbar()
     .border_color( c_white )
