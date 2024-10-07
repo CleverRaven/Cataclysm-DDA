@@ -2610,34 +2610,32 @@ class map
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).
          */
-        // TODO: Get rid of untyped "overload"
-        tripoint_range<tripoint> points_on_zlevel() const;
-        tripoint_range<tripoint_bub_ms> bub_points_on_zlevel() const;
+        tripoint_range<tripoint_bub_ms> points_on_zlevel() const;
         /// Same as above, but uses the specific z-level. If the given z-level is invalid, it
         /// returns an empty range.
-        /// TODO: Get rid of untyped "overload".
-        tripoint_range<tripoint> points_on_zlevel( int z ) const;
-        tripoint_range<tripoint_bub_ms> bub_points_on_zlevel( int z ) const;
+        tripoint_range<tripoint_bub_ms> points_on_zlevel( int z ) const;
 
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius );
-        std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
+        std::list<item_location> get_active_items_in_radius( const tripoint_bub_ms &center, int radius );
+        std::list<item_location> get_active_items_in_radius( const tripoint_bub_ms &center, int radius,
                 special_item_type type );
 
         /**returns positions of furnitures with matching flag in the specified radius*/
-        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+        std::list<tripoint_bub_ms> find_furnitures_with_flag_in_radius( const tripoint_bub_ms &center,
+                size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 ) const;
         /**returns positions of furnitures with matching flag in the specified radius*/
-        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+        std::list<tripoint_bub_ms> find_furnitures_with_flag_in_radius( const tripoint_bub_ms &center,
+                size_t radius,
                 ter_furn_flag flag,
                 size_t radiusz = 0 ) const;
         /**returns creatures in specified radius*/
-        std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
+        std::list<Creature *> get_creatures_in_radius( const tripoint_bub_ms &center, size_t radius,
                 size_t radiusz = 0 ) const;
 
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
-        bool dont_draw_lower_floor( const tripoint &p ) const;
+        bool dont_draw_lower_floor( const tripoint_bub_ms &p ) const;
 
         bool has_haulable_items( const tripoint_bub_ms &pos );
         // TODO: Get rid of untyped overload
@@ -2647,8 +2645,8 @@ class map
 #if defined(TILES)
         bool draw_points_cache_dirty = true;
         std::map<int, std::map<int, std::vector<tile_render_info>>> draw_points_cache;
-        point prev_top_left;
-        point prev_bottom_right;
+        point_rel_ms prev_top_left;
+        point_rel_ms prev_bottom_right;
         point prev_o;
         std::multimap<point, formatted_text> overlay_strings_cache;
         color_block_overlay_container color_blocks_cache;
@@ -2669,7 +2667,7 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 /**
 * Tinymap is a small version of the map which covers a single overmap terrain (OMT) tile,
 * which corresponds to 2 * 2 submaps, or 24 * 24 map tiles. In addition to being smaller
-* than the map, it's also limited to a single Z level (defined the tripoint_abs_omt
+* than the map, it's also limited to a single Z level (defined by the tripoint_abs_omt
 * parameter to the 'load' operation, so it's not tied to the Z = 0 level).
 * The tinymap's natural relative reference system is the tripoint_omt_ms one.
 */
@@ -2681,14 +2679,11 @@ class tinymap : private map
 
         // This operation cannot be used with tinymap due to a lack of zlevel support, but are carried through for use by smallmap.
         void cut_down_tree( tripoint_omt_ms p, point dir ) {
-            map::cut_down_tree( tripoint_bub_ms( p.raw() ), dir );
+            map::cut_down_tree( rebase_bub( p ), dir );
         };
 
     public:
         tinymap() : map( 2, false ) {}
-        bool inbounds( const tripoint &p ) const {
-            return map::inbounds( p );
-        }
         bool inbounds( const tripoint_omt_ms &p ) const {
             return map::inbounds( rebase_bub( p ) );
         }
@@ -2723,30 +2718,22 @@ class tinymap : private map
         }
 
         using map::translate;
+        // TODO: Get rid of untyped overload.
         ter_id ter( const tripoint &p ) const {
-            return map::ter( p );    // TODO: Make it typed
+            return map::ter( tripoint_bub_ms( p ) );
         }
         ter_id ter( const tripoint_omt_ms &p ) const {
-            return map::ter( p.raw() );
+            return map::ter( rebase_bub( p ) );
         }
         // TODO: Get rid of untyped overload.
         bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
-            return map::ter_set( p, new_terrain, avoid_creatures );    // TODO: Make it typed
+            return map::ter_set( p, new_terrain, avoid_creatures );
         }
         bool ter_set( const tripoint_omt_ms &p, const ter_id &new_terrain, bool avoid_creatures = false ) {
             return map::ter_set( rebase_bub( p ), new_terrain, avoid_creatures );
         }
-        bool has_flag_ter( ter_furn_flag flag,
-                           const tripoint &p ) const { // TODO: remove when usages converted
-            return map::has_flag_ter( flag, p );
-        }
         bool has_flag_ter( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
-            return map::has_flag_ter( flag, p.raw() );
-        }
-        // TODO: Get rid of untyped overload.
-        void draw_line_ter( const ter_id &type, const point &p1, const point &p2,
-                            bool avoid_creature = false ) {
-            map::draw_line_ter( type, point_bub_ms( p1 ), point_bub_ms( p2 ), avoid_creature );
+            return map::has_flag_ter( flag, rebase_bub( p ) );
         }
         void draw_line_ter( const ter_id &type, const point_omt_ms &p1, const point_omt_ms &p2,
                             bool avoid_creature = false ) {
@@ -2756,18 +2743,15 @@ class tinymap : private map
                                const point_omt_ms &max, direction dir ) const {
             return map::is_last_ter_wall( no_furn, rebase_bub( p ), rebase_bub( max ), dir );
         }
-        // TODO: Get rid of untyped overload.
-        furn_id furn( const point &p ) const {
-            return map::furn( p );
-        }
         furn_id furn( const point_omt_ms &p ) const {
             return map::furn( rebase_bub( p ) );
         }
+        // TODO: Get rid of untyped overload.
         furn_id furn( const tripoint &p ) const {
-            return map::furn( p );    // TODO: Make it typed
+            return map::furn( tripoint_bub_ms( p ) );
         }
         furn_id furn( const tripoint_omt_ms &p ) const {
-            return map::furn( p.raw() );
+            return map::furn( rebase_bub( p ) );
         }
         // TODO: Get rid of untyped overload.
         bool has_furn( const tripoint &p ) const {
@@ -2779,30 +2763,17 @@ class tinymap : private map
         bool has_furn( const point_omt_ms &p ) const {
             return map::has_furn( rebase_bub( p ) );
         }
-        // TODO: Get rid of untyped overload.
-        void set( const tripoint &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
-            map::set( p, new_terrain, new_furniture );
-        }
         void set( const tripoint_omt_ms &p, const ter_id &new_terrain, const furn_id &new_furniture ) {
             map::set( rebase_bub( p ), new_terrain, new_furniture );
-        }
-        bool furn_set( const point &p, const furn_id &new_furniture,
-                       bool avoid_creatures = false ) { // TODO: Make it typed
-            return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         // TODO: Get rid of untyped overload.
         bool furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false,
                        bool avoid_creatures = false ) {
-            return map::furn_set( p, new_furniture, furn_reset, avoid_creatures );
+            return map::furn_set( tripoint_bub_ms( p ), new_furniture, furn_reset, avoid_creatures );
         }
         bool furn_set( const tripoint_omt_ms &p, const furn_id &new_furniture, bool furn_reset = false,
                        bool avoid_creatures = false ) {
             return map::furn_set( rebase_bub( p ), new_furniture, furn_reset, avoid_creatures );
-        }
-        // TODO: Get rid of untyped overload.
-        void draw_line_furn( const furn_id &type, const point &p1, const point &p2,
-                             bool avoid_creatures = false ) {
-            map::draw_line_furn( type, point_bub_ms( p1 ), point_bub_ms( p2 ), avoid_creatures );
         }
         void draw_line_furn( const furn_id &type, const point_omt_ms &p1, const point_omt_ms &p2,
                              bool avoid_creatures = false ) {
@@ -2812,29 +2783,22 @@ class tinymap : private map
                                bool avoid_creatures = false ) {
             map::draw_square_furn( type, rebase_bub( p1 ), rebase_bub( p2 ), avoid_creatures );
         }
-        bool has_flag_furn( ter_furn_flag flag, const tripoint &p ) const {
-            return map::has_flag_furn( flag, p );    // TODO: Make it typed
+        bool has_flag_furn( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
+            return map::has_flag_furn( flag, rebase_bub( p ) );
         }
         computer *add_computer( const tripoint_omt_ms &p, const std::string &name, int security ) {
             return map::add_computer( rebase_bub( p ), name, security );
         }
-        std::string name( const tripoint &p ) {
-            return map::name( p );    // TODO: Make it typed
+        std::string name( const tripoint_omt_ms &p ) {
+            return map::name( rebase_bub( p ) );
         }
-        bool impassable( const tripoint &p ) const {
-            return map::impassable( p );    // TODO: Make it typed
+        bool impassable( const tripoint_omt_ms &p ) const {
+            return map::impassable( rebase_bub( p ) );
         }
-        // TODO: Get rid of untyped overload.
-        tripoint_range<tripoint> points_on_zlevel() const;
-        tripoint_range<tripoint_omt_ms> omt_points_on_zlevel() const;
-        tripoint_range<tripoint> points_on_zlevel( int z ) const; // TODO: Make it typed
-        tripoint_range<tripoint> points_in_rectangle(
-            const tripoint &from, const tripoint &to ) const; // TODO: Make it typed
+        tripoint_range<tripoint_omt_ms> points_on_zlevel() const;
+        tripoint_range<tripoint_omt_ms> points_on_zlevel( int z ) const;
         tripoint_range<tripoint_omt_ms> points_in_rectangle(
             const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const;
-        tripoint_range<tripoint> points_in_radius(
-            const tripoint &center, size_t radius,
-            size_t radiusz = 0 ) const; // TODO: remove when usages converted.
         tripoint_range<tripoint_omt_ms> points_in_radius(
             const tripoint_omt_ms &center, size_t radius, size_t radiusz = 0 ) const;
         // TODO: Get rid of untyped overload.
@@ -2862,12 +2826,13 @@ class tinymap : private map
             map::spawn_item( rebase_bub( p ), type_id, quantity, charges, birthday, damlevel, flags, variant,
                              faction );
         }
-        void spawn_item( const tripoint &p, const std::string &type_id, // TODO: Make it typed
+        void spawn_item( const tripoint_omt_ms &p, const std::string &type_id, // TODO: Make it typed
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
                          const std::set<flag_id> &flags = {}, const std::string &variant = "",
                          const std::string &faction = "" ) {
-            map::spawn_item( p, type_id, quantity, charges, birthday, damlevel, flags, variant, faction );
+            map::spawn_item( rebase_bub( p ), type_id, quantity, charges, birthday, damlevel, flags, variant,
+                             faction );
         }
         std::vector<item *> spawn_items( const tripoint_omt_ms &p, const std::vector<item> &new_items ) {
             return map::spawn_items( rebase_bub( p ), new_items );
@@ -2907,30 +2872,15 @@ class tinymap : private map
         void i_clear( const tripoint_omt_ms &p ) {
             return map::i_clear( rebase_bub( p ) );
         }
-        bool add_field( const tripoint &p, const field_type_id &type_id, int intensity = INT_MAX,
-                        const time_duration &age = 0_turns, bool hit_player = true ) {
-            return map::add_field( tripoint_bub_ms( p ), type_id, intensity, age,
-                                   hit_player ); // TODO: Make it typed
-        }
         bool add_field( const tripoint_omt_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
                         const time_duration &age = 0_turns, bool hit_player = true ) {
             return map::add_field( rebase_bub( p ), type_id, intensity, age, hit_player );
         }
-        void delete_field( const tripoint &p, const field_type_id &field_to_remove ) {
-            return map::delete_field( tripoint_bub_ms( p ), field_to_remove );  // TODO: Make it typed
-        }
         void delete_field( const tripoint_omt_ms &p, const field_type_id &field_to_remove ) {
             return map::delete_field( rebase_bub( p ), field_to_remove );
         }
-        // TODO: Get rid of untyped overload.
-        bool has_flag( ter_furn_flag flag, const tripoint &p ) const {
-            return map::has_flag( flag, p );
-        }
         bool has_flag( ter_furn_flag flag, const tripoint_omt_ms &p ) const {
             return map::has_flag( flag, rebase_bub( p ) );
-        }
-        bool has_flag( ter_furn_flag flag, const point &p ) const { // TODO: Make it typed
-            return map::has_flag( flag, p );
         }
         void destroy( const tripoint_omt_ms &p, bool silent = false ) {
             return map::destroy( rebase_bub( p ), silent );
@@ -2938,15 +2888,11 @@ class tinymap : private map
         const trap &tr_at( const tripoint_omt_ms &p ) const {
             return map::tr_at( rebase_bub( p ) );
         }
-        // TODO: Get rid of untyped overload.
-        void trap_set( const tripoint &p, const trap_id &type ) {
-            map::trap_set( tripoint_bub_ms( p ), type );
-        }
         void trap_set( const tripoint_omt_ms &p, const trap_id &type ) {
             map::trap_set( rebase_bub( p ), type );
         }
         void set_signage( const tripoint_omt_ms &p, const std::string &message ) {
-            map::set_signage( rebase_bub( p ), message );  // TODO: Make it typed
+            map::set_signage( rebase_bub( p ), message );
         }
         void delete_signage( const tripoint_omt_ms &p ) {
             map::delete_signage( rebase_bub( p ) );
@@ -2954,11 +2900,8 @@ class tinymap : private map
         VehicleList get_vehicles() {
             return map::get_vehicles();
         }
-        optional_vpart_position veh_at( const tripoint &p ) const {
-            return map::veh_at( p );    // TODO: Make it typed
-        }
         optional_vpart_position veh_at( const tripoint_omt_ms &p ) const {
-            return map::veh_at( p.raw() );
+            return map::veh_at( rebase_bub( p ) );
         }
         vehicle *add_vehicle( const vproto_id &type, const tripoint_omt_ms &p, const units::angle &dir,
                               int init_veh_fuel = -1, int init_veh_status = -1, bool merge_wrecks = true ) {
@@ -2969,19 +2912,13 @@ class tinymap : private map
                                  const tripoint_omt_ms &to ) {
             return map::add_splatter_trail( type, rebase_bub( from ), rebase_bub( to ) );
         }
-        // TODO: Get rid of untyped overload.
-        void collapse_at( const tripoint &p, bool silent,
-                          bool was_supporting = false,
-                          bool destroy_pos = true ) {
-            map::collapse_at( tripoint_bub_ms( p ), silent, was_supporting, destroy_pos );
-        }
         void collapse_at( const tripoint_omt_ms &p, bool silent,
                           bool was_supporting = false,
                           bool destroy_pos = true ) {
             map::collapse_at( rebase_bub( p ), silent, was_supporting, destroy_pos );
         }
         tripoint_abs_sm get_abs_sub() const {
-            return map::get_abs_sub();    // TODO: Convert to tripoint_abs_omt
+            return map::get_abs_sub();
         }
         tripoint_abs_ms getglobal( const tripoint_omt_ms &p ) const {
             return map::getglobal( rebase_bub( p ) );
@@ -2989,6 +2926,7 @@ class tinymap : private map
         tripoint_omt_ms omt_from_abs( const tripoint_abs_ms &p ) const {
             return rebase_omt( map::bub_from_abs( p ) );
         };
+        // TODO: Get rid of untyped overload.
         bool is_outside( const tripoint &p ) const {
             return map::is_outside( p );
         }

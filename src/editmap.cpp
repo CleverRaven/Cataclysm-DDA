@@ -693,8 +693,8 @@ void editmap::draw_main_ui_overlay()
 #endif
             hilights["mapgentgt"].draw( *this, true );
             drawsq_params params = drawsq_params().center( tripoint_bub_ms( SEEX - 1, SEEY - 1, target.z() ) );
-            for( const tripoint &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, p, params );
+            for( const tripoint_omt_ms &p : tmpmap.points_on_zlevel() ) {
+                tmpmap.drawsq( g->w_terrain, p.raw(), params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
