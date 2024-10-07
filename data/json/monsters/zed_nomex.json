@@ -73,6 +73,6 @@
       "families": [ "prof_wp_syn_armored", "prof_wp_nat_armored" ],
       "flags": [ "ACIDPROOF", "FIREPROOF", "PUSH_VEH" ]
     },
-    "delete": { "special_attacks": [ "bite_humanoid" ] }
+    "delete": { "special_attacks": [ "bite_humanoid", "grab" ] }
   }
 ]
