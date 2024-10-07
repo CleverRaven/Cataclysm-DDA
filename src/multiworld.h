@@ -1,7 +1,6 @@
 #pragma once
 #ifndef CATA_SRC_MULTIWORLD_H
 #define CATA_SRC_MULTIWORLD_H
-//trans people are so cool :)
 
 #include <climits>
 #include <cstdint>
