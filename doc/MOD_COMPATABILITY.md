@@ -21,7 +21,7 @@ Files located within the mod_interactions folders are always loaded after other 
 
 Currently, this functionality only loads / unloads files based on if other mods are active for the particular world.  It does not suppress any other warnings beyond this function.
 
-In particular, when designing mod compatability content an auther will likely want to redefine certain ids to have new definitions, flags, etc.  If attempting to do this within the same overall mod folder, this will throw a duplicate definition error.  To get around this, instead of a mod redefining its own content within its own mod_interactions folder, the author should redefine its own content using the other mods mod_interaction folder.
+In particular, when designing mod compatability content an author will likely want to redefine certain ids to have new definitions, flags, etc.  If attempting to do this within the same overall mod folder, this will throw a duplicate definition error.  To get around this, instead of a mod redefining its own content within its own mod_interactions folder, the author should redefine its own content using the other mods mod_interaction folder.
 
 Example:
 Mod 1: Mind Over Matter (id:mindovermatter)
