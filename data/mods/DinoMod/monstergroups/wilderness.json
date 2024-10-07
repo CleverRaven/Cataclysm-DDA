@@ -204,19 +204,7 @@
     "type": "monstergroup",
     "name": "GROUP_CAVE",
     "is_animal": true,
-    "monsters": [
-      { "monster": "mon_compsognathus", "weight": 400, "pack_size": [ 4, 12 ] },
-      { "monster": "mon_albertonykus", "weight": 200, "pack_size": [ 1, 2 ], "conditions": [ "WINTER" ] },
-      { "monster": "mon_saurornitholestes", "weight": 150, "pack_size": [ 2, 4 ], "conditions": [ "DAY" ] },
-      { "monster": "mon_stenonychosaurus", "weight": 150, "pack_size": [ 1, 2 ], "conditions": [ "DAY" ] },
-      { "monster": "mon_oryctodromeus", "weight": 150, "pack_size": [ 1, 2 ] },
-      {
-        "monster": "mon_dimorphodon",
-        "weight": 500,
-        "pack_size": [ 2, 4 ],
-        "conditions": [ "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
-      }
-    ]
+    "monsters": [ { "group": "GROUP_DINOSAUR_CAVE", "weight": 200 } ]
   },
   {
     "type": "monstergroup",

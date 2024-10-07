@@ -1757,13 +1757,13 @@ static void spawn_nested_mapgen()
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        const tripoint_bub_ms local_ms = target_map.bub_from_abs( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x, local_ms.y, 0 ), "debug menu" );
+        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x(), local_ms.y(), 0 ), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z() );

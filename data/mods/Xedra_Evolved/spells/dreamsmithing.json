@@ -3,7 +3,7 @@
     "id": "spell_oneiric_hammer",
     "type": "SPELL",
     "name": "Call Oneiric Hammer",
-    "description": "Creates a crystal blacksmith's hammer with which to build a new reality.  You need all your magic force to hold it, and you unable to do any magic while using it.",
+    "description": "Creates a crystal blacksmith's hammer with which to build a new reality.  You need all your magic force to hold it, and you are unable to do any magic while using it.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "PERMANENT_ALL_LEVELS", "NO_FAIL" ],
     "skill": "deduction",

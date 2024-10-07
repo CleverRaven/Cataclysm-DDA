@@ -174,7 +174,7 @@ void map::process_fields()
         for( int x = 0; x < my_MAPSIZE; x++ ) {
             for( int y = 0; y < my_MAPSIZE; y++ ) {
                 if( field_cache[ x + y * MAPSIZE ] ) {
-                    submap *const current_submap = get_submap_at_grid( { x, y, z } );
+                    submap *const current_submap = get_submap_at_grid( tripoint_rel_sm{ x, y, z } );
                     if( current_submap == nullptr ) {
                         debugmsg( "Tried to process field at (%d,%d,%d) but the submap is not loaded", x, y, z );
                         continue;
@@ -1497,7 +1497,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( Character &you )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( you.pos() );
+    field &curfield = get_field( you.pos_bub() );
     // Are we inside?
     bool inside = false;
     // If we are in a vehicle figure out if we are inside (reduces effects usually)

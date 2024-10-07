@@ -1836,7 +1836,7 @@ void activity_handlers::game_do_turn( player_activity *act, Character *you )
 
 void activity_handlers::pickaxe_do_turn( player_activity *act, Character * )
 {
-    const tripoint &pos = get_map().getlocal( act->placement );
+    const tripoint_bub_ms &pos = get_map().bub_from_abs( act->placement );
     sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     // each turn is too much
     if( calendar::once_every( 1_minutes ) ) {
@@ -2115,7 +2115,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
 {
     map &here = get_map();
     //Grab this now, in case the vehicle gets shifted
-    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint( act->values[0],
+    const optional_vpart_position vp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( act->values[0],
                                        act->values[1],
                                        you->posz() ) ) );
     veh_interact::complete_vehicle( *you );
@@ -3102,11 +3102,12 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     time_duration time_left = time_duration::from_moves( act->moves_left );
 
     map &here = get_map();
-    if( autodoc && here.inbounds( you->pos() ) ) {
+    if( autodoc && here.inbounds( you->pos_bub() ) ) {
         const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
                                              ter_furn_flag::TFLAG_AUTODOC );
 
-        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos() ) || autodocs.empty() ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos_bub() ) ||
+            autodocs.empty() ) {
             you->remove_effect( effect_under_operation );
             act->set_to_null();
 
@@ -3453,9 +3454,9 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, Character * )
 {
     map &here = get_map();
     sfx::play_activity_sound( "tool", "jackhammer",
-                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
+                              sfx::get_heard_volume( here.bub_from_abs( act->placement ) ) );
     if( calendar::once_every( 1_minutes ) ) {
-        sounds::sound( here.getlocal( act->placement ), 15, sounds::sound_t::destructive_activity,
+        sounds::sound( here.bub_from_abs( act->placement ), 15, sounds::sound_t::destructive_activity,
                        //~ Sound of a jackhammer at work!
                        _( "TATATATATATATAT!" ) );
     }
@@ -3799,7 +3800,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
     // choose target for spell before continuing
     const std::optional<tripoint_bub_ms> target = act->coords.empty() ? spell_being_cast.select_target(
-                you ) : get_map().bub_from_abs( act->coords.front() );
+                you ) : get_map().bub_from_abs( tripoint_abs_ms( act->coords.front() ) );
     if( target ) {
         // npcs check for target viability
         if( !you->is_npc() || spell_being_cast.is_valid_target( *you, *target ) ) {

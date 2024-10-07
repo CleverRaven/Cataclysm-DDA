@@ -122,7 +122,7 @@ bool leap_actor::call( monster &z ) const
         }
     }
 
-    std::vector<tripoint> options;
+    std::vector<tripoint_bub_ms> options;
     const tripoint_abs_ms target_abs = z.get_dest();
     // Calculate distance to target
     const float best_float = rl_dist( z.get_location(), target_abs );
@@ -140,22 +140,22 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
-    const tripoint target = here.getlocal( target_abs );
-    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %d,%d,%d",
-                   target.x, target.y, target.z );
+    const tripoint_bub_ms target = here.bub_from_abs( target_abs );
+    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %s",
+                   target.to_string_writable() );
 
-    std::multimap<int, tripoint> candidates;
-    for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
-        if( candidate == z.pos() ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %d,%d,%d",
-                           candidate.x, candidate.y, candidate.z );
+    std::multimap<int, tripoint_bub_ms> candidates;
+    for( const tripoint_bub_ms &candidate : here.points_in_radius( z.pos_bub(), max_range ) ) {
+        if( candidate == z.pos_bub() ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %s",
+                           candidate.to_string_writable() );
             continue;
         }
-        float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
-                          square_dist( z.pos(), candidate );
+        float leap_dist = trigdist ? trig_dist( z.pos_bub(), candidate ) :
+                          square_dist( z.pos_bub(), candidate );
         add_msg_debug( debugmode::DF_MATTACK,
-                       "Candidate coordinates %d,%d,%d, distance %.1f, min range %.1f, max range %.1f",
-                       candidate.x, candidate.y, candidate.z, leap_dist, min_range, max_range );
+                       "Candidate coordinates %s, distance %.1f, min range %.1f, max range %.1f",
+                       candidate.to_string_writable(), leap_dist, min_range, max_range );
         if( leap_dist > max_range || leap_dist < min_range ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate outside of allowed range, discarded" );
@@ -167,12 +167,12 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
-        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+        if( !ignore_dest_terrain && !z.will_move_to( candidate.raw() ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate place it can't enter, discarded" );
             continue;
         }
-        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+        if( !ignore_dest_danger && !z.know_danger_at( candidate.raw() ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate with dangerous conditions, discarded" );
             continue;
@@ -181,7 +181,7 @@ bool leap_actor::call( monster &z ) const
     }
     for( const auto &candidate : candidates ) {
         const int &cur_dist = candidate.first;
-        const tripoint &dest = candidate.second;
+        const tripoint_bub_ms &dest = candidate.second;
         if( cur_dist > best && !random_leap ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Distance %d larger than previous best %d, candidate discarded", cur_dist, best );
@@ -196,8 +196,8 @@ bool leap_actor::call( monster &z ) const
         }
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
-        std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( tripoint &i : line ) {
+        std::vector<tripoint_bub_ms> line = here.find_clear_path( z.pos_bub(), dest );
+        for( tripoint_bub_ms &i : line ) {
             if( here.impassable( i ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
@@ -224,7 +224,7 @@ bool leap_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
     viewer &player_view = get_player_view();
-    const tripoint chosen = random_entry( options );
+    const tripoint_bub_ms chosen = random_entry( options );
     bool seen = player_view.sees( z ); // We can see them jump...
     z.setpos( chosen );
     seen |= player_view.sees( z ); // ... or we can see them land

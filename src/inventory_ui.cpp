@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "activity_actor_definitions.h"
+#include "avatar_action.h"
 #include "basecamp.h"
 #include "cata_assert.h"
 #include "cata_utility.h"
@@ -4014,6 +4015,12 @@ drop_locations inventory_drop_selector::execute()
 
         const inventory_input input = get_input();
         if( input.action == "CONFIRM" ) {
+            for( drop_location &stuff : to_use ) {
+                if( !avatar_action::check_stealing( get_player_character(), *stuff.first ) ) {
+                    return drop_locations();
+                }
+            }
+
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );

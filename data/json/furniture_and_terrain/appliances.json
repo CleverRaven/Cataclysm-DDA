@@ -95,6 +95,28 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_arc_furnace",
+    "name": { "str": "arc furnace" },
+    "looks_like": "f_arc_furnace",
+    "color": "blue",
+    "categories": [ "utility" ],
+    "description": "An arc furnace designed to burn a powdery mix of coke and limestone to create calcium carbide.  Plugged in and ready to go.",
+    "broken_color": "yellow_red",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "fake_arc_furnace" } ],
+    "item": "arc_furnace",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "pipe", "count": [ 0, 4 ] }
+    ],
+    "variants": [ { "symbols": "U", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_forge",
     "copy-from": "veh_forge",
     "name": { "str": "electric forge" },

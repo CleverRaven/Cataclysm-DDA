@@ -301,10 +301,11 @@ void map::generate( const tripoint_abs_omt &p, const time_point &when, bool save
         density = density / 100;
 
         // Not sure if we actually have to check all submaps.
-        const bool any_missing = !generated.at( get_nonant( { point_rel_sm_zero, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_south_east, p_sm.z() } ) ) ||
-                                 !generated.at( get_nonant( { point_rel_sm_south, p_sm.z() } ) );
+        const bool any_missing = !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_zero, p_sm.z() } ) )
+                                 ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_south_east, p_sm.z() } ) ) ||
+                                 !generated.at( get_nonant( tripoint_rel_sm{ point_rel_sm_south, p_sm.z() } ) );
 
         mapgendata dat( { p.xy(), gridz}, *this, density, when, nullptr );
         if( ( any_missing || !save_results ) &&
@@ -7249,10 +7250,10 @@ void map::rotate( int turns )
     for( int z_level = bottom_level; z_level <= top_level; z_level++ ) {
         clear_vehicle_list( z_level );
 
-        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( { point_rel_sm_east, z_level } );
-        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
+        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_east, z_level } );
+        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point_zero.x,
                       point_zero.y );
@@ -7343,11 +7344,11 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
 
     for( int z_level = zlevels ? -OVERMAP_DEPTH : abs_sub.z();
          z_level <= ( zlevels ? OVERMAP_HEIGHT : abs_sub.z() ); z_level++ ) {
-        submap *pz = get_submap_at_grid( { point_rel_sm_zero, z_level } );
-        submap *pse = get_submap_at_grid( { point_rel_sm_south_east, z_level } );
-        submap *pe = get_submap_at_grid( {point_rel_sm_east, z_level
-                                         } );
-        submap *ps = get_submap_at_grid( { point_rel_sm_south, z_level } );
+        submap *pz = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_zero, z_level } );
+        submap *pse = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south_east, z_level } );
+        submap *pe = get_submap_at_grid( tripoint_rel_sm{point_rel_sm_east, z_level
+                                                        } );
+        submap *ps = get_submap_at_grid( tripoint_rel_sm{ point_rel_sm_south, z_level } );
         if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
             debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", point_zero.x,
                       point_zero.y, z_level );
@@ -7368,7 +7369,7 @@ void map::mirror( bool mirror_horizontal, bool mirror_vertical )
         for( int j = 0; j < 2; ++j ) {
             for( int i = 0; i < 2; ++i ) {
                 point_rel_sm p( i, j );
-                submap *sm = get_submap_at_grid( { p, z_level } );
+                submap *sm = get_submap_at_grid( tripoint_rel_sm{ p, z_level } );
                 if( sm == nullptr ) {
                     debugmsg( "Tried to mirror map at (%d, %d, %d) but the submap is not loaded", p.x(), p.y(),
                               z_level );

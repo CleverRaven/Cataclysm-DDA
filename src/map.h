@@ -491,7 +491,7 @@ class map
          * @param center The coordinate of the center of the viewport, this can
          *               be different from the player coordinate.
          */
-        void draw( const catacurses::window &w, const tripoint &center );
+        void draw( const catacurses::window &w, const tripoint_bub_ms &center );
 
         /**
          * Draw the map tile at the given coordinate. Called by `map::draw()`.
@@ -1963,7 +1963,7 @@ class map
         // TODO: make it typed.
         void scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &blocks_scent,
                              std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &reduces_scent,
-                             const point &min, const point &max );
+                             const point_bub_ms &min, const point_bub_ms &max );
 
         // Computers
         computer *computer_at( const tripoint_bub_ms &p );
@@ -2142,13 +2142,6 @@ class map
         /**
          * Inverse of @ref getglobal
          */
-        // TODO: Get rid of these and use bub_from_abs instead
-        tripoint getlocal( const tripoint_abs_ms &p ) const;
-        point getlocal( const point &p ) const {
-            return getlocal( tripoint_abs_ms( point_abs_ms( p ), abs_sub.z() ) ).xy();
-        }
-        // TODO: fix point types (remove the first overload)
-        tripoint_bub_ms bub_from_abs( const tripoint &p ) const;
         tripoint_bub_ms bub_from_abs( const tripoint_abs_ms &p ) const;
         point_bub_ms bub_from_abs( const point_abs_ms &p ) const {
             return bub_from_abs( tripoint_abs_ms( p, abs_sub.z() ) ).xy();
@@ -2160,8 +2153,8 @@ class map
             return inbounds( project_to<coords::omt>( p ) );
         }
         bool inbounds( const tripoint_abs_omt &p ) const;
-        bool inbounds( const point &p ) const {
-            return inbounds( tripoint_bub_ms( p.x, p.y, 0 ) );
+        bool inbounds( const point_bub_ms &p ) const {
+            return inbounds( tripoint_bub_ms( p, 0 ) );
         }
 
         bool inbounds_z( const int z ) const {
@@ -2221,7 +2214,7 @@ class map
         * @param item item that is spawning creatures
         * @param p The point on this map where the item is and creature will be
         */
-        void rotten_item_spawn( const item &item, const tripoint &p );
+        void rotten_item_spawn( const item &item, const tripoint_bub_ms &p );
     private:
         // Helper #1 - spawns monsters on one submap
         void spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight,
@@ -2231,8 +2224,8 @@ class map
                                           bool ignore_sight );
 
     protected:
-        void saven( const tripoint &grid );
-        void loadn( const point &grid, bool update_vehicles );
+        void saven( const tripoint_bub_sm &grid );
+        void loadn( const point_bub_sm &grid, bool update_vehicles );
         /**
          * Fast forward a submap that has just been loading into this map.
          * This is used to rot and remove rotten items, grow plants, fill funnels etc.
@@ -2248,25 +2241,25 @@ class map
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.
          */
-        void fill_funnels( const tripoint &p, const time_point &since );
+        void fill_funnels( const tripoint_bub_ms &p, const time_point &since );
         /**
          * Try to grow a harvestable plant to the next stage(s).
          */
-        void grow_plant( const tripoint &p );
+        void grow_plant( const tripoint_bub_ms &p );
         /**
          * Try to grow fruits on static plants (not planted by the player)
          * @param p Place to restock
          * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void restock_fruits( const tripoint &p, const time_duration &time_since_last_actualize );
+        void restock_fruits( const tripoint_bub_ms &p, const time_duration &time_since_last_actualize );
         /**
          * Produce sap on tapped maple trees
          * @param p Location of tapped tree
          * @param time_since_last_actualize Time since this function has been
          * called the last time.
          */
-        void produce_sap( const tripoint &p, const time_duration &time_since_last_actualize );
+        void produce_sap( const tripoint_bub_ms &p, const time_duration &time_since_last_actualize );
     public:
         /**
         * Removes the tree at 'p' and produces a trunk_yield length line of trunks in the 'dir'
@@ -2277,8 +2270,9 @@ class map
         /**
          * Radiation-related plant (and fungus?) death.
          */
-        void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
-        void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
+        void rad_scorch( const tripoint_bub_ms &p, const time_duration &time_since_last_actualize );
+        void decay_cosmetic_fields( const tripoint_bub_ms &p,
+                                    const time_duration &time_since_last_actualize );
 
         void player_in_field( Character &you );
         void monster_in_field( monster &z );
@@ -2286,7 +2280,7 @@ class map
          * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.
          * @param shift The amount shifting in submap, the same as go into @ref shift.
          */
-        void shift_traps( const tripoint &shift );
+        void shift_traps( const point_rel_sm &shift );
 
         void copy_grid( const tripoint_rel_sm &to, const tripoint_rel_sm &from );
         void draw_map( mapgendata &dat );
@@ -2311,7 +2305,7 @@ class map
         void build_floor_caches();
         void seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                                         const array_of_grids_of<const bool> &floor_caches,
-                                        const std::optional<tripoint> &override_p ) const;
+                                        const std::optional<tripoint_bub_ms> &override_p ) const;
 
     protected:
         void generate_lightmap( int zlev );
@@ -2339,8 +2333,6 @@ class map
         void set_abs_sub( const tripoint_abs_sm &p );
 
     private:
-        // TODO: Get rid of untyped overload
-        field &get_field( const tripoint &p );
         field &get_field( const tripoint_bub_ms &p );
 
         /**
@@ -2352,49 +2344,18 @@ class map
          * Get the submap pointer containing the specified position within the reality bubble.
          * (p) must be a valid coordinate, check with @ref inbounds.
          */
-        // TODO: fix point types (remove the first overload)
-        inline submap *unsafe_get_submap_at( const tripoint &p ) {
-            cata_assert( inbounds( p ) );
-            return get_submap_at_grid( tripoint_rel_sm{ p.x / SEEX, p.y / SEEY, p.z } );
-        }
-        inline submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) {
-            return unsafe_get_submap_at( p.raw() );
-        }
-        // TODO: fix point types (remove the first overload)
-        inline const submap *unsafe_get_submap_at( const tripoint &p ) const {
-            cata_assert( inbounds( p ) );
-            return get_submap_at_grid( { p.x / SEEX, p.y / SEEY, p.z } );
-        }
-        inline const submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) const {
-            return unsafe_get_submap_at( p.raw() );
-        }
-        // TODO: Get rid of untyped overload
-        submap *get_submap_at( const tripoint &p );
+        submap *unsafe_get_submap_at( const tripoint_bub_ms &p );
+        const submap *unsafe_get_submap_at( const tripoint_bub_ms &p ) const;
         submap *get_submap_at( const tripoint_bub_ms &p );
         const submap *get_submap_at( const tripoint_bub_ms &p ) const;
-        submap *get_submap_at( const point &p ) {
-            return get_submap_at( tripoint( p, abs_sub.z() ) );
-        }
         /**
          * Get the submap pointer containing the specified position within the reality bubble.
          * The same as other get_submap_at, (p) must be valid (@ref inbounds).
          * Also writes the position within the submap to offset_p
          */
-        // TODO: fix point types (remove the first overload)
-        submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) {
-            offset_p.x = p.x % SEEX;
-            offset_p.y = p.y % SEEY;
-            return unsafe_get_submap_at( p );
-        }
         submap *unsafe_get_submap_at( const tripoint_bub_ms p, point_sm_ms &offset_p ) {
             tripoint_bub_sm sm;
             std::tie( sm, offset_p ) = project_remain<coords::sm>( p );
-            return unsafe_get_submap_at( p );
-        }
-        // TODO: fix point types (remove the first overload)
-        const submap *unsafe_get_submap_at( const tripoint &p, point &offset_p ) const {
-            offset_p.x = p.x % SEEX;
-            offset_p.y = p.y % SEEY;
             return unsafe_get_submap_at( p );
         }
         const submap *unsafe_get_submap_at(
@@ -2407,7 +2368,7 @@ class map
         submap *get_submap_at( const tripoint &p, point &offset_p ) {
             offset_p.x = p.x % SEEX;
             offset_p.y = p.y % SEEY;
-            return get_submap_at( p );
+            return get_submap_at( tripoint_bub_ms( p ) );
         }
         submap *get_submap_at( const tripoint_bub_ms &p, point_sm_ms &offset_p ) {
             offset_p.x() = p.x() % SEEX;
@@ -2427,10 +2388,7 @@ class map
          * be valid: 0 <= x < my_MAPSIZE, same for y.
          * z must be between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
-        submap *get_submap_at_grid( const point &gridp ) {
-            return getsubmap( get_nonant( gridp ) );
-        }
-        const submap *get_submap_at_grid( const point &gridp ) const {
+        submap *get_submap_at_grid( const point_rel_sm &gridp ) {
             return getsubmap( get_nonant( gridp ) );
         }
         submap *get_submap_at_grid( const tripoint_rel_sm &gridp );
@@ -2442,8 +2400,8 @@ class map
          * Version with z-levels checks for z between -OVERMAP_DEPTH and OVERMAP_HEIGHT
          */
         size_t get_nonant( const tripoint_rel_sm &gridp ) const;
-        size_t get_nonant( const point &gridp ) const {
-            return get_nonant( tripoint_rel_sm{ gridp.x, gridp.y, abs_sub.z() } );
+        size_t get_nonant( const point_rel_sm &gridp ) const {
+            return get_nonant( tripoint_rel_sm{ gridp.x(), gridp.y(), abs_sub.z()} );
         }
         /**
          * Set the submap pointer in @ref grid at the give index. This is the inverse of
@@ -2478,15 +2436,15 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, const tripoint &p,
+        bool draw_maptile( const catacurses::window &w, const tripoint_bub_ms &p,
                            const const_maptile &tile, const drawsq_params &params ) const;
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, const tripoint &p,
+        void draw_from_above( const catacurses::window &w, const tripoint_bub_ms &p,
                               const const_maptile &tile, const drawsq_params &params ) const;
 
-        int determine_wall_corner( const tripoint &p ) const;
+        int determine_wall_corner( const tripoint_bub_ms &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
         void apply_light_source( const tripoint_bub_ms &p, float luminance );
         // ...this, which will apply the light after at the end of generate_lightmap, and prevent redundant
@@ -2503,24 +2461,14 @@ class map
 
         // Internal methods used to bash just the selected features
         // Information on what to bash/what was bashed is read from/written to the bash_params struct
-        // TODO: Get rid of untyped overload.
-        void bash_ter_furn( const tripoint &p, bash_params &params );
         void bash_ter_furn( const tripoint_bub_ms &p, bash_params &params );
-        // TODO: Get rid of untyped overload.
-        void bash_items( const tripoint &p, bash_params &params );
         void bash_items( const tripoint_bub_ms &p, bash_params &params );
-        // TODO: Get rid of untyped overload.
-        void bash_vehicle( const tripoint &p, bash_params &params );
         void bash_vehicle( const tripoint_bub_ms &p, bash_params &params );
-        // TODO: Get rid of untyped overload.
-        void bash_field( const tripoint &p, bash_params &params );
         void bash_field( const tripoint_bub_ms &p, bash_params &params );
 
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        // TODO: Get rid of untyped overload.
-        ter_str_id get_roof( const tripoint &p, bool allow_air ) const;
         ter_str_id get_roof( const tripoint_bub_ms &p, bool allow_air ) const;
 
     public:
@@ -2551,7 +2499,7 @@ class map
         */
         /*@{*/
         template<typename Functor>
-        void function_over( const tripoint &start, const tripoint &end, Functor fun ) const;
+        void function_over( const tripoint_bub_ms &start, const tripoint_bub_ms &end, Functor fun ) const;
         /*@}*/
 
         /**
@@ -2632,7 +2580,7 @@ class map
 
         const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
 
-        void update_pathfinding_cache( const tripoint &p ) const;
+        void update_pathfinding_cache( const tripoint_bub_ms &p ) const;
         void update_pathfinding_cache( int zlev ) const;
 
         void update_visibility_cache( int zlev );
@@ -2741,7 +2689,7 @@ class tinymap : private map
             return map::inbounds( p );
         }
         bool inbounds( const tripoint_omt_ms &p ) const {
-            return map::inbounds( p.raw() );
+            return map::inbounds( rebase_bub( p ) );
         }
 
         map *cast_to_map() {
@@ -3031,19 +2979,12 @@ class tinymap : private map
                           bool destroy_pos = true ) {
             map::collapse_at( rebase_bub( p ), silent, was_supporting, destroy_pos );
         }
-        tripoint getlocal( const tripoint &p ) const {
-            return map::getlocal( tripoint_abs_ms( p ) );  // TODO: Make it typed
-        }
         tripoint_abs_sm get_abs_sub() const {
             return map::get_abs_sub();    // TODO: Convert to tripoint_abs_omt
         }
         tripoint_abs_ms getglobal( const tripoint_omt_ms &p ) const {
             return map::getglobal( rebase_bub( p ) );
         }
-        // TODO: Get rid of untyped overload.
-        tripoint getlocal( const tripoint_abs_ms &p ) const {
-            return map::getlocal( p );
-        };
         tripoint_omt_ms omt_from_abs( const tripoint_abs_ms &p ) const {
             return rebase_omt( map::bub_from_abs( p ) );
         };

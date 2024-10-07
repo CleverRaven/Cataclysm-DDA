@@ -113,7 +113,7 @@ bool map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{smx, smy, zlev} );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           zlev );
@@ -448,7 +448,7 @@ void map::generate_lightmap( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{ smx, smy, zlev } );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to generate lightmap at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
                 continue;
@@ -1114,19 +1114,20 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
 }
 
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
-                                     const array_of_grids_of<const bool> &floor_caches, const std::optional<tripoint> &override_p ) const
+                                     const array_of_grids_of<const bool> &floor_caches,
+                                     const std::optional<tripoint_bub_ms> &override_p ) const
 {
     Character &player_character = get_player_character();
     // If override is not given, use player character for calculations
-    const tripoint origin = override_p.value_or( player_character.pos() );
-    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
+    const tripoint_bub_ms origin = override_p.value_or( player_character.pos_bub() );
+    const int min_z = std::max( origin.z() - fov_3d_z_range, -OVERMAP_DEPTH );
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
-                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
+                    for( int sz = origin.z() - 1; sz >= min_z; --sz ) {
                         const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
@@ -1136,7 +1137,8 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                         // Or floor reached
                         if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character, p ) > 100 ) {
+                            if( override_p ? ledge_coverage( origin.raw(), p ) > 100 : ledge_coverage( player_character,
+                                    p ) > 100 ) {
                                 ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
                             }
                             break;

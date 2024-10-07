@@ -123,7 +123,8 @@ TEST_CASE( "mapgen_remove_vehicles" )
     SECTION( "update place then nested remove all on main map" ) {
         tripoint_abs_omt const this_test_omt =
             project_to<coords::omt>( get_map().getglobal( test_loc ) );
-        tripoint const this_test_loc = get_map().getlocal( project_to<coords::ms>( this_test_omt ) );
+        tripoint_bub_ms const this_test_loc = get_map().bub_from_abs( project_to<coords::ms>
+                                              ( this_test_omt ) );
         manual_mapgen( this_test_omt, manual_update_mapgen, update_mapgen_test_update_place_shopping_cart );
         REQUIRE( here.get_vehicles().size() == 2 );
         REQUIRE( here.veh_at( this_test_loc ).has_value() );

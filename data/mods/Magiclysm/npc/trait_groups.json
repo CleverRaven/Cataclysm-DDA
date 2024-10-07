@@ -266,7 +266,7 @@
     "traits": [
       { "trait": "THRESH_SPECIES_RAVENFOLK" },
       { "trait": "RAVENFOLK_BUILD" },
-      { "trait": "WINGS_BIRD" },
+      { "trait": "RAVENFOLK_WINGS" },
       { "trait": "DOWN" },
       { "trait": "BEAK_RAVEN" },
       { "trait": "RAVENFOLK_LEGS" },

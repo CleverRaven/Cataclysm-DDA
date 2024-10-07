@@ -1333,13 +1333,13 @@ static void burned_ground_parser( map &m, const tripoint &loc )
 
     VehicleList vehs = m.get_vehicles();
     std::vector<vehicle *> vehicles;
-    std::vector<tripoint> points;
+    std::vector<tripoint_bub_ms> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
         // Important that this loop excludes fake parts, because those can be
         // outside map bounds
         for( const vpart_reference &vp : vehicle.v->get_all_parts() ) {
-            tripoint t = vp.pos();
+            tripoint_bub_ms t = vp.pos_bub();
             if( m.inbounds( t ) ) {
                 points.push_back( t );
             } else {
@@ -1359,7 +1359,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     for( vehicle *vrem : vehicles ) {
         m.destroy_vehicle( vrem );
     }
-    for( const tripoint &tri : points ) {
+    for( const tripoint_bub_ms &tri : points ) {
         m.furn_set( tri, furn_f_wreckage );
     }
 
