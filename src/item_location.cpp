@@ -90,6 +90,9 @@ class item_location::impl
         }
         virtual tripoint position() const = 0;
         virtual Character *carrier() const = 0;
+        virtual const vehicle_cursor *veh_cursor() const {
+            return nullptr;
+        };
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -487,6 +490,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
 
         Character *carrier() const override {
             return nullptr;
+        }
+
+        const vehicle_cursor *veh_cursor() const override {
+            return &cur;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -1107,6 +1114,11 @@ void item_location::set_should_stack( bool should_stack ) const
 Character *item_location::carrier() const
 {
     return ptr->carrier();
+}
+
+const vehicle_cursor *item_location::veh_cursor() const
+{
+    return ptr->veh_cursor();
 }
 
 bool item_location::held_by( Character const &who ) const
