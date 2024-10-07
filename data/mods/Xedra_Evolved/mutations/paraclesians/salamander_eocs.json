@@ -183,7 +183,7 @@
               "popup": true
             },
             { "run_eocs": [ "EOC_PERENNIAL_REBIRTH_HEAL" ] },
-            { "math": [ "u_calories(`dont_affect_weariness`: true)", "+=", "40000" ] }
+            { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "40000" ] }
           ]
         }
       ]
