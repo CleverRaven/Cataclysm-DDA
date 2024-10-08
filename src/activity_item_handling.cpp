@@ -1823,7 +1823,7 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
                     loot_abspos, zone_src_set );
         // Find the nearest unsorted zone to dump objects at
         for( const tripoint_abs_ms &src_elem : zone_src_sorted ) {
-            if( !here.can_put_items_ter_furn( here.getlocal( src_elem ) ) ) {
+            if( !here.can_put_items_ter_furn( here.bub_from_abs( src_elem ) ) ) {
                 continue;
             }
             loot_src_lot = here.bub_from_abs( src_elem );
@@ -1858,7 +1858,8 @@ static bool fetch_activity(
     const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
     map &here = get_map();
-    if( !here.can_put_items_ter_furn( here.bub_from_abs( you.backlog.front().coords.back() ) ) ) {
+    if( !here.can_put_items_ter_furn( here.bub_from_abs( tripoint_abs_ms(
+                                          you.backlog.front().coords.back() ) ) ) ) {
         return false;
     }
     const std::vector<std::tuple<tripoint_bub_ms, itype_id, int>> mental_map_2 =
@@ -1874,7 +1875,8 @@ static bool fetch_activity(
                 if( std::get<0>( elem ) == src_loc && veh_elem.typeId() == std::get<1>( elem ) ) {
                     if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
                         move_item( you, veh_elem, veh_elem.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                                   here.bub_from_abs( you.backlog.front().coords.back() ), ovp, activity_to_restore );
+                                   here.bub_from_abs( tripoint_abs_ms( you.backlog.front().coords.back() ) ), ovp,
+                                   activity_to_restore );
                         return true;
                     }
                 }
@@ -1889,7 +1891,8 @@ static bool fetch_activity(
                 if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
                                               you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
-                               here.bub_from_abs( you.backlog.front().coords.back() ), ovp, activity_to_restore );
+                               here.bub_from_abs( tripoint_abs_ms( you.backlog.front().coords.back() ) ), ovp,
+                               activity_to_restore );
 
                     return true;
                     // other tasks want the tool picked up
@@ -2047,7 +2050,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
 
             const tripoint_bub_ms src_loc = here.bub_from_abs( src );
             if( !here.inbounds( src_loc ) ) {
-                if( !here.inbounds( you.pos() ) ) {
+                if( !here.inbounds( you.pos_bub() ) ) {
                     // p is implicitly an NPC that has been moved off the map, so reset the activity
                     // and unload them
                     you.cancel_activity();
@@ -2549,11 +2552,11 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     const tripoint_abs_ms abspos = here.getglobal( localpos );
     if( act_id == ACT_TIDY_UP ) {
         dark_capable = true;
-        tripoint unsorted_spot;
+        tripoint_bub_ms unsorted_spot;
         std::unordered_set<tripoint_abs_ms> unsorted_set =
             mgr.get_near( zone_type_LOOT_UNSORTED, abspos, ACTIVITY_SEARCH_DISTANCE, nullptr, _fac_id( you ) );
         if( !unsorted_set.empty() ) {
-            unsorted_spot = here.getlocal( random_entry( unsorted_set ) );
+            unsorted_spot = here.bub_from_abs( random_entry( unsorted_set ) );
         }
         bool found_one_point = false;
         bool found_route = true;
@@ -2590,7 +2593,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
                 }
             }
         }
-        if( src_set.empty() && unsorted_spot != tripoint_zero ) {
+        if( src_set.empty() && unsorted_spot != tripoint_bub_ms_zero ) {
             for( const item *inv_elem : you.inv_dump() ) {
                 if( inv_elem->has_var( "activity_var" ) ) {
                     // we've gone to tidy up all the things lying around, now tidy up the things we picked up.
@@ -3217,7 +3220,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     for( const tripoint_abs_ms &src : src_sorted ) {
         const tripoint_bub_ms &src_loc = here.bub_from_abs( src );
         if( !here.inbounds( src_loc ) && !check_only ) {
-            if( !here.inbounds( you.pos() ) ) {
+            if( !here.inbounds( you.pos_bub() ) ) {
                 // p is implicitly an NPC that has been moved off the map, so reset the activity
                 // and unload them
                 you.assign_activity( activity_to_restore );

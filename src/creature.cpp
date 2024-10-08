@@ -197,7 +197,7 @@ Creature::~Creature() = default;
 
 tripoint Creature::pos() const
 {
-    return get_map().getlocal( location );
+    return Creature::pos_bub().raw();
 }
 
 tripoint_bub_ms Creature::pos_bub() const
@@ -245,7 +245,7 @@ bool Creature::will_be_cramped_in_vehicle_tile( const tripoint_abs_ms &loc ) con
     }
     if( capacity > 0_ml ) {
         // First, we'll try to squeeze in. Open-topped vehicle parts have more room to step over cargo.
-        if( !veh.enclosed_at( here.getlocal( loc ) ) ) {
+        if( !veh.enclosed_at( here.bub_from_abs( loc ).raw() ) ) {
             free_cargo *= 1.2;
         }
         const creature_size size = get_size();

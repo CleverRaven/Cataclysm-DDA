@@ -46,6 +46,10 @@ point_rel_ms rebase_rel( point_bub_ms p )
 {
     return point_rel_ms( p.raw() );
 }
+point_rel_sm rebase_rel( point_bub_sm p )
+{
+    return point_rel_sm( p.raw() );
+}
 point_sm_ms rebase_sm( point_rel_ms p )
 {
     return point_sm_ms( p.raw() );
@@ -57,6 +61,10 @@ point_omt_ms rebase_omt( point_rel_ms p )
 point_bub_ms rebase_bub( point_rel_ms p )
 {
     return point_bub_ms( p.raw() );
+}
+point_bub_sm rebase_bub( point_rel_sm p )
+{
+    return point_bub_sm( p.raw() );
 }
 tripoint_rel_ms rebase_rel( tripoint_sm_ms p )
 {

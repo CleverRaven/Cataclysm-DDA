@@ -269,7 +269,7 @@
     "id": "clair_ranged_enhance",
     "type": "SPELL",
     "name": "[Ψ]Marksman's Eye (C)",
-    "description": "With your enhanced senses, you can increase the effective range and accuracy of your attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
+    "description": "With your enhanced senses, you can increase the effective range and accuracy of your ranged attacks.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
