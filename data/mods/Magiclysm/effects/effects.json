@@ -1452,13 +1452,7 @@
     "rating": "good",
     "apply_message": "Your strikes speed up immensely.",
     "remove_message": "Your quick strikes slow to normal speed.",
-    "enchantments": [
-      {
-        "values": [
-          { "value": "ATTACK_SPEED", "multiply": -0.5 }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
   },
   {
     "type": "effect_type",
