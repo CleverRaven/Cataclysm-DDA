@@ -528,11 +528,11 @@
     "//": "Extremely valuable in the apocalypse.",
     "name": { "str": "ring of sustenance", "str_pl": "rings of sustenance" },
     "description": "A golden ring that greatly reduces your need to eat, drink, or sleep while it is worn.  It will do nothing for feelings of hunger.",
-    "relic_data": { 
-      "passive_effects": [ 
-        { 
-          "has": "WORN", 
-          "condition": "ALWAYS", 
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
           "values": [
             { "value": "THIRST", "multiply": -0.75 }, 
             { "value": "SLEEPINESS_REGEN", "multiply": 3 },
