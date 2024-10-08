@@ -1446,6 +1446,22 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_bracers_of_the_blinding_strike",
+    "name": [ "Blinding Strikes" ],
+    "desc": [ "Your attacks come incredibly quickly." ],
+    "rating": "good",
+    "apply_message": "Your strikes speed up immensely.",
+    "remove_message": "Your quick strikes slow to normal speed.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": -0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_plus_two_to_hit",
     "//": "Self-explanatory",
     "name": [ "" ],
