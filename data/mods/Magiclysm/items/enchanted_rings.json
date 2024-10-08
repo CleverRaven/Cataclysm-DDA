@@ -534,7 +534,7 @@
           "has": "WORN",
           "condition": "ALWAYS",
           "values": [
-            { "value": "THIRST", "multiply": -0.75 }, 
+            { "value": "THIRST", "multiply": -0.75 },
             { "value": "SLEEPINESS_REGEN", "multiply": 3 },
             { "value": "SLEEPINESS", "multiply": -0.375 }
           ] 
