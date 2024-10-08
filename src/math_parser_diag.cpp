@@ -1639,6 +1639,12 @@ std::function<double( dialogue & )> calories_eval( char scope,
         format_value = *kwargs.at( "format" );
     }
 
+    // dummy kwarg, intentionally discarded!
+    diag_value ignore_weariness_val( 0.0 );
+    if( kwargs.count( "dont_affect_weariness" ) != 0 ) {
+        ignore_weariness_val = *kwargs.at( "dont_affect_weariness" );
+    }
+
     return[format_value, beta = is_beta( scope )]( dialogue const & d ) -> double {
         std::string format = format_value.str( d );
         if( format != "raw" && format != "percent" )
@@ -1678,10 +1684,17 @@ std::function<double( dialogue & )> calories_eval( char scope,
 }
 
 std::function<void( dialogue &, double )> calories_ass( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+        std::vector<diag_value> const &/* params */, diag_kwargs const &kwargs )
 {
-    return[beta = is_beta( scope ) ]( dialogue const & d, double val ) {
-        return d.actor( beta )->set_stored_kcal( val );
+    diag_value ignore_weariness_val( 0.0 );
+    if( kwargs.count( "dont_affect_weariness" ) != 0 ) {
+        ignore_weariness_val = *kwargs.at( "dont_affect_weariness" );
+    }
+    return[ignore_weariness_val, beta = is_beta( scope ) ]( dialogue const & d, double val ) {
+        const bool ignore_weariness = is_true( ignore_weariness_val.dbl( d ) );
+        int current_kcal = d.actor( beta )->get_stored_kcal();
+        int difference = val - current_kcal;
+        return d.actor( beta )->mod_stored_kcal( difference, ignore_weariness );
     };
 }
 
