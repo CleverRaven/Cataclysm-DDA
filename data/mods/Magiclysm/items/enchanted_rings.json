@@ -547,10 +547,8 @@
     "id": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE",
     "eoc_type": "EVENT",
     "required_event": "character_wears_item",
-    "condition":{ "compare_string": [ "mring_sustenance", { "context_val": "itype" } ] },
-    "effect": [
-      { "queue_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 }
-    ]
+    "condition": { "compare_string": [ "mring_sustenance", { "context_val": "itype" } ] },
+    "effect": [ { "queue_eocs": "EOC_MAGICLYSM_WEARING_RING_OF_SUSTENANCE_FOLLOW_UP", "time_in_future": 60 } ]
   },
   {
     "type": "effect_on_condition",
