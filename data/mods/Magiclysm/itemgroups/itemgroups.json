@@ -889,7 +889,7 @@
     "type": "item_group",
     "//": "greater enchanted bracers",
     "subtype": "collection",
-    "items": [ 
+    "items": [
       { "item": "mbracer_blinding_strike", "prob": 10 },
       { "item": "mbracer_defense_greater", "prob": 10 },
       { "item": "mbracer_lightning_greater", "prob": 10 }
