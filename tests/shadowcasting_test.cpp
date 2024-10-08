@@ -84,7 +84,7 @@ static void oldCastLight(
  * This is checking whether bresenham visibility checks match shadowcasting (they don't).
  */
 static bool bresenham_visibility_check(
-    const point &offset, const point &p,
+    const point_bub_ms &offset, const point_bub_ms &p,
     const cata::mdarray<float, point_bub_ms> &transparency_cache )
 {
     if( offset == p ) {
@@ -93,8 +93,8 @@ static bool bresenham_visibility_check(
     bool visible = true;
     const int junk = 0;
     bresenham( p, offset, junk,
-    [&transparency_cache, &visible]( const point & new_point ) {
-        if( transparency_cache[new_point.x][new_point.y] <=
+    [&transparency_cache, &visible]( const point_bub_ms & new_point ) {
+        if( transparency_cache[new_point.x()][new_point.y()] <=
             LIGHT_TRANSPARENCY_SOLID ) {
             visible = false;
             return false;
@@ -164,7 +164,7 @@ void print_grid_comparison(
             const bool shadowcasting_disagrees =
                 is_nonzero( control[x][y] ) != is_nonzero( experiment[x][y] );
             const bool bresenham_disagrees =
-                bresenham_visibility_check( offset.raw(), point( x, y ), transparency_cache ) !=
+                bresenham_visibility_check( offset, point_bub_ms( x, y ), transparency_cache ) !=
                 is_nonzero( experiment[x][y] );
 
             if( shadowcasting_disagrees && bresenham_disagrees ) {
@@ -276,7 +276,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     for( int x = 0; test_bresenham && passed && x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
             // Check that both agree on the outcome, but not necessarily the same values.
-            if( bresenham_visibility_check( offset.raw(), point( x, y ), transparency_cache ) !=
+            if( bresenham_visibility_check( offset, point_bub_ms( x, y ), transparency_cache ) !=
                 ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
                 passed = false;
                 break;

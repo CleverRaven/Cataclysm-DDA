@@ -1636,7 +1636,7 @@ units::temperature_delta get_heat_radiation( const tripoint &location )
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
     const field_type_id fd_fire_int = fd_fire.id();
-    for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( tripoint_bub_ms( location ), 6 ) ) {
         int heat_intensity = 0;
 
         maptile mt = here.maptile_at( dest );
@@ -1651,15 +1651,15 @@ units::temperature_delta get_heat_radiation( const tripoint &location )
             // No heat source here
             continue;
         }
-        if( player_character.pos() == location ) {
-            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
+        if( player_character.pos_bub().raw() == location ) {
+            if( !here.clear_path( dest.raw(), location, -1, 1, 100 ) ) {
                 continue;
             }
-        } else if( !here.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest.raw(), -1 ) ) {
             continue;
         }
         // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-        const int fire_dist = std::max( 1, square_dist( dest, location ) );
+        const int fire_dist = std::max( 1, square_dist( dest.raw(), location ) );
         temp_mod += units::from_fahrenheit_delta( 6.f * heat_intensity * heat_intensity / fire_dist );
     }
     return temp_mod;
@@ -1672,7 +1672,7 @@ int get_best_fire( const tripoint &location )
     map &here = get_map();
     // Convert it to an int id once, instead of 139 times per turn
     const field_type_id fd_fire_int = fd_fire.id();
-    for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( tripoint_bub_ms( location ), 6 ) ) {
         int heat_intensity = 0;
 
         maptile mt = here.maptile_at( dest );
@@ -1687,14 +1687,14 @@ int get_best_fire( const tripoint &location )
             // No heat source here
             continue;
         }
-        if( player_character.pos() == location ) {
-            if( !here.clear_path( dest, location, -1, 1, 100 ) ) {
+        if( player_character.pos_bub().raw() == location ) {
+            if( !here.clear_path( dest.raw(), location, -1, 1, 100 ) ) {
                 continue;
             }
-        } else if( !here.sees( location, dest, -1 ) ) {
+        } else if( !here.sees( location, dest.raw(), -1 ) ) {
             continue;
         }
-        if( square_dist( dest, location ) <= 1 ) {
+        if( square_dist( dest.raw(), location ) <= 1 ) {
             // Extend limbs/lean over a single adjacent fire to warm up
             best_fire = std::max( best_fire, heat_intensity );
         }
@@ -2677,8 +2677,8 @@ vehicle *game::remoteveh()
         ( !u.has_active_bionic( bio_remote ) && !u.has_active_item( itype_remotevehcontrol ) ) ) {
         remoteveh_cache = nullptr;
     } else {
-        tripoint vp;
-        remote_veh_string >> vp.x >> vp.y >> vp.z;
+        tripoint_bub_ms vp;
+        remote_veh_string >> vp.x() >> vp.y() >> vp.z();
         vehicle *veh = veh_pointer_or_null( m.veh_at( vp ) );
         if( veh && veh->fuel_left( itype_battery ) > 0 ) {
             remoteveh_cache = veh;
@@ -5599,14 +5599,14 @@ void game::control_vehicle()
     }
     if( !veh ) { // no controls or animal reins under player position, search nearby
         int num_valid_controls = 0;
-        std::optional<tripoint> vehicle_position;
+        std::optional<tripoint_bub_ms> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
         for( const tripoint_bub_ms &elem : m.points_in_radius( get_player_character().pos_bub(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
                 const std::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
                 if( controls ) {
                     num_valid_controls++;
-                    vehicle_position = elem.raw();
+                    vehicle_position = elem;
                     vehicle_controls = controls;
                 }
             }
@@ -5615,9 +5615,11 @@ void game::control_vehicle()
             add_msg( _( "No vehicle controls found." ) );
             return;
         } else if( num_valid_controls > 1 ) {
-            vehicle_position = choose_adjacent( _( "Control vehicle where?" ) );
+            const std::optional<tripoint> temp = choose_adjacent( _( "Control vehicle where?" ) );
             if( !vehicle_position ) {
                 return;
+            } else {
+                vehicle_position.value() = tripoint_bub_ms( temp.value() );
             }
             const optional_vpart_position vp = m.veh_at( *vehicle_position );
             if( vp ) {
@@ -6379,7 +6381,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
 
     // Print the terrain and any furntiure on the tile below and whether it is walkable.
     if( lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
-        tripoint below( lp.xy(), lp.z - 1 );
+        tripoint_bub_ms below( lp + tripoint_below );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
             tile_below += ", " + m.furnname( below );
@@ -10528,7 +10530,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
     }
     // Used to decide whether to print a 'moving is slow message
-    const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
+    const int mcost_from = m.move_cost( u.pos_bub() ); //calculate this _before_ calling grabbed_move
 
     int modifier = 0;
     if( grabbed && u.get_grab_type() == object_type::FURNITURE &&

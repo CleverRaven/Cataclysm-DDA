@@ -423,7 +423,7 @@ TEST_CASE( "Check_folded_item_damage_transfers_to_parts_and_vice_versa", "[item]
 }
 
 // Basically a copy of vehicle::connect() that uses an arbitrary cord type
-static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos,
+static void connect_power_line( const tripoint_bub_ms &src_pos, const tripoint_bub_ms &dst_pos,
                                 const itype_id &itm )
 {
     map &here = get_map();
@@ -447,8 +447,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     const std::optional<item> stand_lamp1( "test_standing_lamp" );
     const std::optional<item> stand_lamp2( "test_standing_lamp" );
 
-    const tripoint app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
-    const tripoint app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
+    const tripoint_bub_ms app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
+    const tripoint_bub_ms app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
 
     place_appliance( app1_pos, vpart_ap_test_standing_lamp, stand_lamp1 );
     place_appliance( app2_pos, vpart_ap_test_standing_lamp, stand_lamp2 );
@@ -551,7 +551,7 @@ TEST_CASE( "power_cable_stretch_disconnect" )
 
 struct rack_activation {
     int racking_vehicle_index; // vehicle with the rack
-    tripoint rack_pos;         // rack to activate
+    tripoint_bub_ms rack_pos;  // rack to activate
     int racked_vehicle_index;  // vehicle to rack on it
     bool expect_failure;       // whether this activation is expected to fail
 };
@@ -561,8 +561,8 @@ struct rack_activation {
 // then unracking activities in unrack_orders are executed
 struct rack_preset {
     std::vector<vproto_id> vehicles;            // vehicles to spawn, index matching positions/facings
-    std::vector<tripoint> positions;            // spawned vehicle position
-    std::vector<point> install_racks;           // install racks on first vehicle at these mounts
+    std::vector<tripoint_bub_ms> positions;     // spawned vehicle position
+    std::vector<point_bub_ms> install_racks;    // install racks on first vehicle at these mounts
     std::vector<units::angle> facings;          // spawned vehicle facing
     std::vector<rack_activation> rack_orders;   // racking orders
     std::vector<rack_activation> unrack_orders; // unracking orders
@@ -593,8 +593,8 @@ static void rack_check( const rack_preset &preset )
         veh_names.push_back( veh_ptr->name );
     }
 
-    for( const point &rack_pos : preset.install_racks ) {
-        vehs[0]->install_part( rack_pos, vpart_bike_rack );
+    for( const point_bub_ms &rack_pos : preset.install_racks ) {
+        vehs[0]->install_part( rack_pos.raw(), vpart_bike_rack );
     }
 
     for( const rack_activation &rack_act : preset.rack_orders ) {
@@ -603,8 +603,9 @@ static void rack_check( const rack_preset &preset )
         vehicle &racking_veh = *vehs[rack_act.racking_vehicle_index];
         vehicle &racked_veh = *vehs[rack_act.racked_vehicle_index];
 
-        const auto rack_parts = racking_veh.get_parts_at( rack_act.rack_pos, "BIKE_RACK_VEH",
-                                part_status_flag::available );
+        const std::vector<vehicle_part *> rack_parts = racking_veh.get_parts_at( rack_act.rack_pos.raw(),
+                "BIKE_RACK_VEH",
+                part_status_flag::available );
         REQUIRE( rack_parts.size() == 1 );
         const int rack_idx = racking_veh.index_of_part( rack_parts[0] );
         REQUIRE( rack_idx >= 0 );
@@ -687,36 +688,37 @@ static void rack_check( const rack_preset &preset )
 // Testing vehicle racking and unracking
 TEST_CASE( "Racking_and_unracking_tests", "[vehicle][bikerack]" )
 {
+    // Very weird logic used. The data is set up using relative data and then setup code moves the whole lot into their proper locations.
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed
         {
             { vehicle_prototype_car, vehicle_prototype_bicycle },
-            { tripoint_zero,         tripoint( -4, 0, 0 ) },
-            { point( -3, -1 ), point( -3, 0 ), point( -3, 1 ), point( -3, 2 ) },
+            { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ) },
+            { point_bub_ms( -3, -1 ), point_bub_ms( -3, 0 ), point_bub_ms( -3, 1 ), point_bub_ms( -3, 2 ) },
             { 0_degrees,             90_degrees },
 
-            { { 0, tripoint( -3, -1, 0 ), 1, false } }, // rack bicycle to car
-            { { 0, tripoint( -3, -1, 0 ), 1, false } }, // unrack bicycle from car
+            { { 0, tripoint_bub_ms( -3, -1, 0 ), 1, false } }, // rack bicycle to car
+            { { 0, tripoint_bub_ms( -3, -1, 0 ), 1, false } }, // unrack bicycle from car
         },
         // rack test probing for #60453 and #52079
         // racking vehicles with same name on ( potentially ) same rack should expect failures
         {
             { vehicle_prototype_car, vehicle_prototype_wheelchair, vehicle_prototype_wheelchair },
-            { tripoint_zero,         tripoint( -4, 0, 0 ),         tripoint( -4, 1, 0 )         },
-            { point( -3, -1 ), point( -3, 0 ), point( -3, 1 ), point( -3, 2 ) },
+            { tripoint_bub_ms_zero,         tripoint_bub_ms( -4, 0, 0 ),         tripoint_bub_ms( -4, 1, 0 )         },
+            { point_bub_ms( -3, -1 ), point_bub_ms( -3, 0 ), point_bub_ms( -3, 1 ), point_bub_ms( -3, 2 ) },
             { 0_degrees,             0_degrees,                    0_degrees                    },
 
             // rack both wheelchairs to car, second rack activation should fail with debugmsg
-            { { 0, tripoint( -3, 0, 0 ), 1, false }, { 0, tripoint( -3, -1, 0 ), 2, true } },
+            { { 0, tripoint_bub_ms( -3, 0, 0 ), 1, false }, { 0, tripoint_bub_ms( -3, -1, 0 ), 2, true } },
             // unrack both wheelchairs from car, second rack activation should fail
-            { { 0, tripoint( -3, 0, 0 ), 1, false }, { 0, tripoint( -3, -1, 0 ), 2, true } },
+            { { 0, tripoint_bub_ms( -3, 0, 0 ), 1, false }, { 0, tripoint_bub_ms( -3, -1, 0 ), 2, true } },
         },
     };
 
     // shift positions to fit map
     for( rack_preset &preset : racking_presets ) {
-        const tripoint offset = { 10, 10, 0 };
-        for( tripoint &pos : preset.positions ) {
+        const tripoint_rel_ms offset = { 10, 10, 0 };
+        for( tripoint_bub_ms &pos : preset.positions ) {
             pos += offset;
         }
         for( rack_activation &rack_act : preset.rack_orders ) {
@@ -764,15 +766,15 @@ static int test_autopilot_moving( const vproto_id &veh_id, const vpart_id &extra
 
     int turns_left = 10;
     int tiles_travelled = 0;
-    const tripoint starting_point = veh.global_pos3();
+    const tripoint_bub_ms starting_point = veh.pos_bub();
     while( veh.engine_on && turns_left > 0 ) {
         turns_left--;
         here.vehmove();
         veh.idle( true );
         // How much it moved
-        tiles_travelled += square_dist( starting_point, veh.global_pos3() );
+        tiles_travelled += square_dist( starting_point, veh.pos_bub() );
         // Bring it back to starting point to prevent it from leaving the map
-        const tripoint displacement = starting_point - veh.global_pos3();
+        const tripoint_rel_ms displacement = starting_point - veh.pos_bub();
         here.displace_vehicle( veh, displacement );
     }
     return tiles_travelled;
