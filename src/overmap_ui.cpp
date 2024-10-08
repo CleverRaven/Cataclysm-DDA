@@ -1960,10 +1960,10 @@ static tripoint_abs_omt display()
             curs += mouse_pos->xy().raw();
         } else if( action == "look" ) {
             tripoint_abs_ms pos = project_combine( curs, g->overmap_data.origin_remainder );
-            tripoint pos_rel = get_map().getlocal( pos );
+            tripoint_bub_ms pos_rel = get_map().bub_from_abs( pos );
             uistate.open_menu = [pos_rel]() {
-                tripoint pos_cpy = pos_rel;
-                g->look_around( true, pos_cpy, pos_rel, false, false, false, false, pos_rel );
+                tripoint_bub_ms pos_cpy = pos_rel;
+                g->look_around( true, pos_cpy.raw(), pos_rel.raw(), false, false, false, false, pos_rel.raw() );
             };
             action = "QUIT";
         } else if( action == "CENTER" ) {

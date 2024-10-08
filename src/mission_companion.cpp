@@ -1581,7 +1581,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
         }
@@ -1621,7 +1621,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     player_character.use_amount( itype_FMCNote, limiting_number );
 
     //Plant the actual seeds
-    for( const tripoint_omt_ms &plot : bay.omt_points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == ter_t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
@@ -1653,7 +1653,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
     bay.load( site, false );
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
             // Can't use item_stack::only_item() since there might be fertilizer
@@ -1700,7 +1700,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
         skillLevel += 2;
     }
 
-    for( const tripoint &plot : bay.points_on_zlevel() ) {
+    for( const tripoint_omt_ms &plot : bay.points_on_zlevel() ) {
         if( bay.furn( plot ) == furn_f_plant_harvest ) {
             // Can't use item_stack::only_item() since there might be fertilizer
             map_stack items = bay.i_at( plot );
@@ -2798,7 +2798,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     bay.load( site, false );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
-    for( const tripoint_omt_ms &p : bay.omt_points_on_zlevel() ) {
+    for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
         const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };

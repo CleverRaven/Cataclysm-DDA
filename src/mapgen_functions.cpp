@@ -2263,7 +2263,7 @@ void mremove_fields( map *m, const tripoint_bub_ms &p )
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat )
 {
-    for( const tripoint &p : dat.m.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : dat.m.points_on_zlevel() ) {
         const ter_id tid_before = dat.m.ter( p );
         const ter_id tid_after = dat.region.region_terrain_and_furniture.resolve( tid_before );
         if( tid_after != tid_before ) {

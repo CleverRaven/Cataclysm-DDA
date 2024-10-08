@@ -122,7 +122,7 @@ bool leap_actor::call( monster &z ) const
         }
     }
 
-    std::vector<tripoint> options;
+    std::vector<tripoint_bub_ms> options;
     const tripoint_abs_ms target_abs = z.get_dest();
     // Calculate distance to target
     const float best_float = rl_dist( z.get_location(), target_abs );
@@ -140,22 +140,22 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
     map &here = get_map();
-    const tripoint target = here.getlocal( target_abs );
-    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %d,%d,%d",
-                   target.x, target.y, target.z );
+    const tripoint_bub_ms target = here.bub_from_abs( target_abs );
+    add_msg_debug( debugmode::DF_MATTACK, "Target at coordinates %s",
+                   target.to_string_writable() );
 
-    std::multimap<int, tripoint> candidates;
-    for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
-        if( candidate == z.pos() ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %d,%d,%d",
-                           candidate.x, candidate.y, candidate.z );
+    std::multimap<int, tripoint_bub_ms> candidates;
+    for( const tripoint_bub_ms &candidate : here.points_in_radius( z.pos_bub(), max_range ) ) {
+        if( candidate == z.pos_bub() ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Monster at coordinates %s",
+                           candidate.to_string_writable() );
             continue;
         }
-        float leap_dist = trigdist ? trig_dist( z.pos(), candidate ) :
-                          square_dist( z.pos(), candidate );
+        float leap_dist = trigdist ? trig_dist( z.pos_bub(), candidate ) :
+                          square_dist( z.pos_bub(), candidate );
         add_msg_debug( debugmode::DF_MATTACK,
-                       "Candidate coordinates %d,%d,%d, distance %.1f, min range %.1f, max range %.1f",
-                       candidate.x, candidate.y, candidate.z, leap_dist, min_range, max_range );
+                       "Candidate coordinates %s, distance %.1f, min range %.1f, max range %.1f",
+                       candidate.to_string_writable(), leap_dist, min_range, max_range );
         if( leap_dist > max_range || leap_dist < min_range ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate outside of allowed range, discarded" );
@@ -167,12 +167,12 @@ bool leap_actor::call( monster &z ) const
                            "Candidate farther from target than optimal path, discarded" );
             continue;
         }
-        if( !ignore_dest_terrain && !z.will_move_to( candidate ) ) {
+        if( !ignore_dest_terrain && !z.will_move_to( candidate.raw() ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate place it can't enter, discarded" );
             continue;
         }
-        if( !ignore_dest_danger && !z.know_danger_at( candidate ) ) {
+        if( !ignore_dest_danger && !z.know_danger_at( candidate.raw() ) ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Candidate with dangerous conditions, discarded" );
             continue;
@@ -181,7 +181,7 @@ bool leap_actor::call( monster &z ) const
     }
     for( const auto &candidate : candidates ) {
         const int &cur_dist = candidate.first;
-        const tripoint &dest = candidate.second;
+        const tripoint_bub_ms &dest = candidate.second;
         if( cur_dist > best && !random_leap ) {
             add_msg_debug( debugmode::DF_MATTACK,
                            "Distance %d larger than previous best %d, candidate discarded", cur_dist, best );
@@ -196,8 +196,8 @@ bool leap_actor::call( monster &z ) const
         }
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
-        std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
-        for( tripoint &i : line ) {
+        std::vector<tripoint_bub_ms> line = here.find_clear_path( z.pos_bub(), dest );
+        for( tripoint_bub_ms &i : line ) {
             if( here.impassable( i ) ) {
                 add_msg_debug( debugmode::DF_MATTACK, "Path blocked, candidate discarded" );
                 blocked_path = true;
@@ -224,7 +224,7 @@ bool leap_actor::call( monster &z ) const
 
     z.mod_moves( -move_cost );
     viewer &player_view = get_player_view();
-    const tripoint chosen = random_entry( options );
+    const tripoint_bub_ms chosen = random_entry( options );
     bool seen = player_view.sees( z ); // We can see them jump...
     z.setpos( chosen );
     seen |= player_view.sees( z ); // ... or we can see them land
@@ -594,38 +594,38 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         int distance = grab_data.drag_distance;
         while( distance > 0 ) {
             // Start with the opposite square
-            tripoint opposite_square = z.pos() - ( target->pos() - z.pos() );
+            tripoint_bub_ms opposite_square = z.pos_bub() - ( target->pos_bub() - z.pos_bub() );
             // Keep track of our neighbors (no leaping)
-            std::set<tripoint> neighbors;
-            for( const tripoint &trp : here.points_in_radius( z.pos(), 1 ) ) {
-                if( trp != z.pos() && trp != target->pos() ) {
+            std::set<tripoint_bub_ms> neighbors;
+            for( const tripoint_bub_ms &trp : here.points_in_radius( z.pos_bub(), 1 ) ) {
+                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
                     neighbors.insert( trp );
                 }
             }
             // Check where we get to consider dragging
-            std::set<tripoint> candidates;
-            for( const tripoint &trp : here.points_in_radius( opposite_square,
+            std::set<tripoint_bub_ms> candidates;
+            for( const tripoint_bub_ms &trp : here.points_in_radius( opposite_square,
                     grab_data.drag_deviation ) ) {
-                if( trp != z.pos() && trp != target->pos() ) {
+                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
                     candidates.insert( trp );
                 }
             }
             // Select a random square from the options
-            std::set<tripoint> intersect;
+            std::set<tripoint_bub_ms> intersect;
             std::set_intersection( neighbors.begin(), neighbors.end(), candidates.begin(), candidates.end(),
                                    std::inserter( intersect, intersect.begin() ) );
-            tripoint target_square = random_entry<std::set<tripoint>>( intersect );
+            tripoint_bub_ms target_square = random_entry<std::set<tripoint_bub_ms>>( intersect );
             if( z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
-                tripoint zpt = z.pos();
-                z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
+                tripoint_bub_ms zpt = z.pos_bub();
+                z.move_to( target_square.raw(), false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
                     return 0;
                 }
-                if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
-                                             zpt.y < HALF_MAPSIZE_Y ||
-                                             zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-                    g->update_map( zpt.x, zpt.y );
+                if( target->is_avatar() && ( zpt.x() < HALF_MAPSIZE_X ||
+                                             zpt.y() < HALF_MAPSIZE_Y ||
+                                             zpt.x() >= HALF_MAPSIZE_X + SEEX || zpt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( zpt.x(), zpt.y() );
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
@@ -752,13 +752,14 @@ bool melee_actor::call( monster &z ) const
         if( target->has_effect_with_flag( json_flag_GRAB ) && grab_data.exclusive_grab ) {
             add_msg_debug( debugmode::DF_MATTACK, "Exclusive grab, begin filtering" );
             map &here = get_map();
-            const tripoint_range<tripoint> &surrounding = here.points_in_radius( target->pos(), 1, 0 );
+            const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( target->pos_bub(), 1,
+                    0 );
             creature_tracker &creatures = get_creature_tracker();
 
             for( const effect &eff : target->get_effects_with_flag( json_flag_GRAB ) ) {
                 monster *grabber = nullptr;
                 // Iterate through the target's surroundings to find the grabber of this grab
-                for( const tripoint loc : surrounding ) {
+                for( const tripoint_bub_ms loc : surrounding ) {
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
                         if( target->is_monster() || ( !target->is_monster() &&

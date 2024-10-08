@@ -2180,7 +2180,7 @@ void inventory_selector::add_nearby_items( int radius )
 void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoint &target )
 {
     map_stack items = remote_map->i_at( target );
-    const std::string name = to_upper_case( remote_map->name( target ) );
+    const std::string name = to_upper_case( remote_map->name( tripoint_omt_ms( target ) ) );
     const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
         return item_location( map_cursor( tripoint_bub_ms( target ) ), &it );

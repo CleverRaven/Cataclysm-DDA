@@ -1757,13 +1757,13 @@ static void spawn_nested_mapgen()
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        const tripoint_bub_ms local_ms = target_map.bub_from_abs( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x, local_ms.y, 0 ), "debug menu" );
+        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x(), local_ms.y(), 0 ), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -3421,12 +3421,12 @@ static void kill_area()
         return;
     }
 
-    const tripoint_range<tripoint> points = get_map().points_in_rectangle(
-            first.position.value(), second.position.value() );
+    const tripoint_range<tripoint_bub_ms> points = get_map().points_in_rectangle(
+                tripoint_bub_ms( first.position.value() ), tripoint_bub_ms( second.position.value() ) );
 
     std::vector<Creature *> creatures = g->get_creatures_if(
     [&points]( const Creature & critter ) -> bool {
-        return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+        return !critter.is_avatar() && points.is_point_inside( critter.pos_bub() );
     } );
 
     for( Creature *critter : creatures ) {
