@@ -29,6 +29,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "visitable.h"
+#include <trait_group.h>
 
 static const achievement_id achievement_achievement_arcade_mode( "achievement_arcade_mode" );
 
@@ -247,6 +248,12 @@ void profession::load( const JsonObject &jo, const std::string_view )
         _description_male = to_translation( "prof_desc_male", desc_male );
         _description_female = to_translation( "prof_desc_female", desc_female );
     }
+    std::string background_group_id;
+    optional( jo, was_loaded, "npc_background", background_group_id, "" );
+    if( !background_group_id.empty() ) {
+        _starting_npc_background = trait_group::Trait_group_tag( background_group_id );
+    }
+
     optional( jo, was_loaded, "age_lower", age_lower, 16 );
     optional( jo, was_loaded, "age_upper", age_upper, 55 );
 
@@ -648,6 +655,15 @@ std::vector<trait_and_var> profession::get_locked_traits() const
 std::set<trait_id> profession::get_forbidden_traits() const
 {
     return _forbidden_traits;
+}
+
+trait_id profession::pick_background() const
+{
+    const trait_group::Trait_list &background = trait_group::traits_from( _starting_npc_background );
+    if( !background.empty() ) {
+        return background.front().trait;
+    }
+    return trait_id();
 }
 
 profession::StartingSkillList profession::skills() const

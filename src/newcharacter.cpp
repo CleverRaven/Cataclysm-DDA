@@ -455,6 +455,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
     }
 
     prof = get_scenario()->weighted_random_profession();
+    zero_all_skills();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     starting_city = std::nullopt;
     world_origin = std::nullopt;
@@ -467,6 +468,10 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     set_body();
     randomize_hobbies();
+    const trait_id background = prof->pick_background();
+    if( !background.is_empty() ) {
+        set_mutation( background );
+    }
 
     int num_gtraits = 0;
     int num_btraits = 0;
@@ -597,7 +602,10 @@ void Character::randomize( const bool random_scenario, bool play_now )
 
     if( is_npc() ) {
         add_profession_items();
+        as_npc()->randomize_personality();
+        as_npc()->generate_personality_traits();
         initialize();
+        as_npc()->catchup_skills();
     }
 }
 

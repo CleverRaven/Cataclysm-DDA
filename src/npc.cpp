@@ -559,18 +559,12 @@ void npc::randomize( const npc_class_id &type, const npc_template_id &tem_id )
     }
     if( type.is_null() || type == NC_NONE ) {
         Character::randomize( false );
-        catchup_skills();
         return;
     }
 
     set_wielded_item( item( "null", calendar::turn_zero ) );
     inv->clear();
-    personality.aggression = rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
-    personality.bravery    = rng( -3, NPC_PERSONALITY_MAX );
-    personality.collector  = rng( -1, NPC_PERSONALITY_MAX );
-    // Normal distribution. Mean = 0, stddev = 3, clamp at NPC_PERSONALITY_MIN and NPC_PERSONALITY_MAX. Rounded to return integer value.
-    personality.altruism   = std::round( std::clamp( normal_roll( 0, 3 ),
-                                         static_cast<double>( NPC_PERSONALITY_MIN ), static_cast<double>( NPC_PERSONALITY_MAX ) ) );
+    randomize_personality();
     moves = 100;
     mission = NPC_MISSION_NULL;
     male = one_in( 2 );
@@ -752,6 +746,16 @@ void npc::generate_personality_traits()
             }
         }
     }
+}
+
+void npc::randomize_personality()
+{
+    personality.aggression = rng( NPC_PERSONALITY_MIN, NPC_PERSONALITY_MAX );
+    personality.bravery = rng( -3, NPC_PERSONALITY_MAX );
+    personality.collector = rng( -1, NPC_PERSONALITY_MAX );
+    // Normal distribution. Mean = 0, stddev = 3, clamp at NPC_PERSONALITY_MIN and NPC_PERSONALITY_MAX. Rounded to return integer value.
+    personality.altruism = std::round( std::clamp( normal_roll( 0, 3 ),
+                                       static_cast<double>( NPC_PERSONALITY_MIN ), static_cast<double>( NPC_PERSONALITY_MAX ) ) );
 }
 
 void npc::learn_ma_styles_from_traits()

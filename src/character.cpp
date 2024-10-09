@@ -3472,6 +3472,13 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when
     return rval;
 }
 
+void Character::zero_all_skills()
+{
+    for( Skill &skill : Skill::skills ) {
+        set_skill_level( skill.ident(), 0 );
+    }
+}
+
 SkillLevelMap Character::get_all_skills() const
 {
     SkillLevelMap skills = *_skills;
