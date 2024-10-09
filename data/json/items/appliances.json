@@ -409,7 +409,7 @@
     "category": "other",
     "id": "glassblowers_crucible",
     "name": { "str": "disconnected glassblower's crucible" },
-    "description": "An electric crucible, powered by your electric grid. Designed for melting large quantities of glass, it needs to be placed and plugged into a power source."",
+    "description": "An electric crucible, powered by your electric grid. Designed for melting large quantities of glass, it needs to be placed and plugged into a power source.",
     "//": "Loosely based off Jen-Ken Kiln - Crucible 1813, but homemade",
     "weight": "50 kg",
     "material": [ "steel", "clay" ],
