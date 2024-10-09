@@ -1069,16 +1069,6 @@ static bool eat( item &food, Character &you, bool force )
         return false;
     }
 
-    int charges_used = 0;
-    if( food.type->has_use() ) {
-        if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( &you, food, you.pos() ).value_or( 0 );
-            if( charges_used <= 0 ) {
-                return false;
-            }
-        }
-    }
-
     // Note: the block below assumes we decided to eat it
     // No coming back from here
 
@@ -1118,16 +1108,7 @@ static bool eat( item &food, Character &you, bool force )
     } else if( spoiled && saprophage ) {
         you.add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
-    if( !you.consume_effects( food ) ) {
-        // Already consumed by using `food.type->invoke`?
-        if( charges_used > 0 ) {
-            if( food.count_by_charges() ) {
-                food.mod_charges( -charges_used );
-            }
-            return true;
-        }
-        return false;
-    }
+
     if( food.count_by_charges() ) {
         food.mod_charges( -1 );
     }
