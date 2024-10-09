@@ -5352,17 +5352,24 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                                     const std::string_view src )
 {
     std::vector<eoc_entry> eocs_entries = load_eoc_vector_id_and_var( jo, member, src );
+    dbl_or_var repeat = get_dbl_or_var( jo, "repeat", false, 1 );
 
     if( eocs_entries.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
-    return [eocs_entries]( dialogue const & d ) {
+    return [eocs_entries, repeat]( dialogue & d ) {
+        int i = 0;
+        int repeat_amount = repeat.evaluate( d );
+
         for( const eoc_entry &entry : eocs_entries ) {
             effect_on_condition_id eoc_id =
                 entry.var ? effect_on_condition_id( entry.var->evaluate( d ) ) : entry.id;
             dialogue newDialog( d );
-            eoc_id->activate( newDialog );
-        };
+            while( i < repeat_amount ) {
+                eoc_id->activate( newDialog );
+                ++i;
+            };
+        }
     };
 }
 
