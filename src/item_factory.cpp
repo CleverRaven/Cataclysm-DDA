@@ -4865,8 +4865,6 @@ bool load_min_max( std::pair<T, T> &pa, const JsonObject &obj, const std::string
         result |= obj.read( name, pa.first );
         result |= obj.read( name, pa.second );
     }
-    result |= obj.read( name + "-min", pa.first );
-    result |= obj.read( name + "-max", pa.second );
     return result;
 }
 
