@@ -3539,6 +3539,7 @@ static void spawn_npc()
                            temp->getID() ) );
     std::string new_fac_id = "solo_";
     new_fac_id += temp->name;
+    new_fac_id += std::to_string( temp->getID().get_value() );
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = g->faction_manager_ptr->add_new_faction( temp->name,
                             faction_id( new_fac_id ), faction_no_faction );

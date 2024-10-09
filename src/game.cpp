@@ -12875,6 +12875,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
 
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;
+    new_fac_id += std::to_string( tmp->getID().get_value() );
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
                             faction_no_faction );
