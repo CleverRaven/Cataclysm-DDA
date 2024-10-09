@@ -2074,7 +2074,7 @@
     "price": "2000 kUSD",
     "price_postapoc": "30 USD",
     "//": "actually worth millions",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2086,7 +2086,7 @@
     "price": "1000 kUSD",
     "price_postapoc": "30 USD",
     "//": "given to HUB 01 for even better armor",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",

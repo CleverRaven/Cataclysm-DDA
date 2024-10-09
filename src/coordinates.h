@@ -761,16 +761,20 @@ using coords::project_bounds;
 point_rel_ms rebase_rel( point_sm_ms );
 point_rel_ms rebase_rel( point_omt_ms p );
 point_rel_ms rebase_rel( point_bub_ms p );
+point_rel_sm rebase_rel( point_bub_sm p );
 point_sm_ms rebase_sm( point_rel_ms p );
 point_omt_ms rebase_omt( point_rel_ms p );
 point_bub_ms rebase_bub( point_rel_ms p );
+point_bub_sm rebase_bub( point_rel_sm p );
 
 tripoint_rel_ms rebase_rel( tripoint_sm_ms p );
 tripoint_rel_ms rebase_rel( tripoint_omt_ms p );
 tripoint_rel_ms rebase_rel( tripoint_bub_ms p );
+tripoint_rel_sm rebase_rel( tripoint_bub_sm p );
 tripoint_sm_ms rebase_sm( tripoint_rel_ms p );
 tripoint_omt_ms rebase_omt( tripoint_rel_ms p );
 tripoint_bub_ms rebase_bub( tripoint_rel_ms p );
+tripoint_bub_sm rebase_bub( tripoint_rel_sm p );
 
 // 'Glue' rebase operations for when a tinymap is using the underlying map operation and when a tinymap
 // has to be cast to a map to access common functionality. Note that this doesn't actually change anything

@@ -63,7 +63,7 @@
           { "item": "fridgesnacks", "chance": 60, "repeat": [ 2, 10 ] }
         ],
         "l": [
-          { "item": "guns_pistol_rare", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "guns_pistol_common", "chance": 10, "repeat": [ 1, 2 ] },
           { "item": "mags_common", "chance": 20, "repeat": 5 },
           { "item": "ammo_pistol_rare", "chance": 20, "repeat": [ 5, 10 ] }
         ]

@@ -178,7 +178,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         clear_avatar();
         clear_map();
 
-        tripoint safe;
+        tripoint_bub_ms safe;
         dummy.setpos( safe + tripoint_east );
 
         map &mp = get_map();
@@ -281,7 +281,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         clear_avatar();
         clear_map();
 
-        tripoint safe;
+        tripoint_bub_ms safe;
         dummy.setpos( safe + tripoint_east );
 
         map &mp = get_map();
@@ -1726,7 +1726,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
         item::reload_option opt( dummy, target, ammo );
         return player_activity( reload_activity_actor( std::move( opt ) ) );
     },
-    [] { return player_activity( safecracking_activity_actor( get_avatar().pos() + tripoint_north ) ); },
+    [] { return player_activity( safecracking_activity_actor( get_avatar().pos_bub() + tripoint_rel_ms_north ) ); },
     [] { return player_activity( shave_activity_actor() ); },
     //player_activity( shearing_activity_actor( north ) ),
     [] { return player_activity( stash_activity_actor() ); },

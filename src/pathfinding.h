@@ -123,7 +123,7 @@ struct pathfinding_cache {
     pathfinding_cache();
 
     bool dirty = false;
-    std::unordered_set<point> dirty_points;
+    std::unordered_set<point_bub_ms> dirty_points;
 
     cata::mdarray<PathfindingFlags, point_bub_ms> special;
 };

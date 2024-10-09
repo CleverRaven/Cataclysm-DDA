@@ -1751,19 +1751,19 @@ static void spawn_nested_mapgen()
         }
 
         map &here = get_map();
-        const tripoint_abs_ms abs_ms( here.getabs( *where ) );
+        const tripoint_abs_ms abs_ms( here.getglobal( *where ) );
         const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
         const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        const tripoint_bub_ms local_ms = target_map.bub_from_abs( abs_ms );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgens[nest_ids[nest_choice]].funcs().pick();
         if( ptr == nullptr ) {
             return;
         }
-        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x, local_ms.y, 0 ), "debug menu" );
+        ( *ptr )->nest( md, tripoint_rel_ms( local_ms.x(), local_ms.y(), 0 ), "debug menu" );
         target_map.save();
         g->load_npcs();
         here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -3050,7 +3050,7 @@ static void debug_menu_spawn_vehicle()
         if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
             // Didn't cancel
             const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-            tripoint dest = player_character.pos();
+            tripoint_bub_ms dest = player_character.pos_bub();
             uilist veh_cond_menu;
             veh_cond_menu.text = _( "Vehicle condition" );
             veh_cond_menu.addentry( 3, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
@@ -3421,12 +3421,12 @@ static void kill_area()
         return;
     }
 
-    const tripoint_range<tripoint> points = get_map().points_in_rectangle(
-            first.position.value(), second.position.value() );
+    const tripoint_range<tripoint_bub_ms> points = get_map().points_in_rectangle(
+                tripoint_bub_ms( first.position.value() ), tripoint_bub_ms( second.position.value() ) );
 
     std::vector<Creature *> creatures = g->get_creatures_if(
     [&points]( const Creature & critter ) -> bool {
-        return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+        return !critter.is_avatar() && points.is_point_inside( critter.pos_bub() );
     } );
 
     for( Creature *critter : creatures ) {

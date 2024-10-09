@@ -20,6 +20,18 @@
 #include "translations.h"
 #include "type_id.h"
 
+/**
+* A brief overview of how dialogues work:
+* json_talk_topic loads talk_topic JSON fields (e.g. from data/json/npcs) into:
+* 1) field-specific containers in json_talk_topic, such as json_talk_response or dynamic_line_t
+* 2) the static map json_talk_topics, keyed by the "id" field
+*
+* dialogue::gen_responses() will call down to json_talk_response::gen_responses to fill dialogue::responses
+* dialogue::dynamic_line() will construct the current talk_topic dynamic line
+* dialogue::responses and dialogue::dynamic_line together are drawn in the dialogue window
+* dialogue::opt will load the data into a dialogue_window UI
+*/
+
 class JsonArray;
 class JsonObject;
 class martialart;
@@ -81,7 +93,10 @@ struct talk_trial {
     talk_trial() = default;
     explicit talk_trial( const JsonObject & );
 };
-
+/**
+* Holds talk_topic id, with optional item data.
+* See json_talk_topic for JSON parsing.
+*/
 struct talk_topic {
     explicit talk_topic( std::string i, itype_id const &it = itype_id::NULL_ID(),
                          std::string r = {} )
@@ -149,7 +164,9 @@ struct talk_effect_t {
 };
 
 /**
- * This defines possible responses from the player character.
+ * Represents a response for a talk_topic.
+ * The parametered constructor is not called directly, but rather from
+ * json_talk_response to read response JSON
  */
 struct talk_response {
     /**
@@ -168,6 +185,20 @@ struct talk_response {
     /**
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      */
+
+    //copy of json_talk_response::condition, optional
+    std::function<bool( dialogue & )> condition;
+
+    //whether to display this response in normal gameplay even if condition is false
+    bool show_always = false;
+    //appended to response if condition fails or show_always/show_condition
+    std::string show_reason;
+    //show_always, but on show_condition being true
+    std::function<bool( dialogue & )> show_condition;
+
+    //flag to hold result of show_anyways (not read from JSON)
+    bool ignore_conditionals = false;
+
     mission *mission_selected = nullptr;
     skill_id skill = skill_id();
     matype_id style = matype_id();
@@ -180,11 +211,16 @@ struct talk_response {
     talk_data create_option_line( dialogue &d, const input_event &hotkey,
                                   bool is_computer = false );
     std::set<dialogue_consequence> get_consequences( dialogue &d ) const;
+    // debug: conditional / effect
+    std::map<std::string, std::string> debug_info;
 
     talk_response();
     explicit talk_response( const JsonObject &, std::string_view );
 };
 
+/**
+* A collection of talk_topics and talk_responses that make up a conversation.
+*/
 struct dialogue {
         /**
          * If true, we are done talking and the dialog ends.
@@ -227,6 +263,10 @@ struct dialogue {
         void add_topic( const talk_topic &topic );
         bool has_beta;
         bool has_alpha;
+
+        bool debug_conditionals = true;
+        bool debug_effects = true;
+        bool debug_ignore_conditionals = false;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
@@ -326,6 +366,15 @@ struct dialogue {
                                      const itype_id &item_type, bool first = false );
 
         int get_best_quit_response();
+
+        /**
+        * Outputs mildly formatted JSON data for either "dynamic_line" or "responses"
+        * @param topic: the current talk_topic
+        * @param responses: true = responses, false = dynamic line
+        * @param do_response: if > -1, which response to get data for
+        */
+        std::vector<std::string> build_debug_info( const dialogue_window &d_win, const talk_topic &topic,
+                int do_response = -1 );
 };
 
 /**
@@ -373,7 +422,6 @@ class json_talk_response
         std::string failure_topic;
 
         void load_condition( const JsonObject &jo, std::string_view src );
-        bool test_condition( dialogue &d ) const;
 
     public:
         json_talk_response() = default;
@@ -383,11 +431,12 @@ class json_talk_response
         bool has_condition() const {
             return has_condition_;
         }
-
+        bool test_condition( dialogue &d ) const;
+        bool show_anyways( dialogue &d ) const;
         /**
          * Callback from @ref json_talk_topic::gen_responses, see there.
          */
-        bool gen_responses( dialogue &d, bool switch_done ) const;
+        bool gen_responses( dialogue &d, bool switch_done );
         bool gen_repeat_response( dialogue &d, const itype_id &item_id, bool switch_done ) const;
 };
 
@@ -415,10 +464,13 @@ class json_dynamic_line_effect
         json_dynamic_line_effect( const JsonObject &jo, const std::string &id, std::string_view src );
         bool test_condition( dialogue &d ) const;
         void apply( dialogue &d ) const;
+        // debug: conditional / effect
+        std::map<std::string, std::string> debug_info;
+
 };
 
 /**
- * Talk topic definitions load from json.
+ * Loads talk_topic JSON objects and their contents; see json_talk_topic::load
  */
 class json_talk_topic
 {
@@ -450,12 +502,15 @@ class json_talk_topic
          * @return true if built in response should excluded (not added). If false, built in
          * responses will be added (behind those added here).
          */
-        bool gen_responses( dialogue &d ) const;
+        bool gen_responses( dialogue &d );
 
         cata::flat_set<std::string> get_directly_reachable_topics( bool only_unconditional ) const;
+
+        std::vector<json_talk_response> get_responses();
 };
 
 void unload_talk_topics();
 void load_talk_topic( const JsonObject &jo, std::string_view src );
+void get_raw_debug_fields( const JsonObject &jo, std::map<std::string, std::string> &debug_info );
 
 #endif // CATA_SRC_DIALOGUE_H

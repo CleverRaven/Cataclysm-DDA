@@ -516,7 +516,7 @@ void milk_source( monster &source_mon )
         std::vector<tripoint> coords{};
         std::vector<std::string> str_values{};
         Character &player_character = get_player_character();
-        coords.push_back( get_map().getabs( source_mon.pos() ) );
+        coords.push_back( get_map().getglobal( source_mon.pos_bub() ).raw() );
         // pin the cow in place if it isn't already
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {

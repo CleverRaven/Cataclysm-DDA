@@ -449,9 +449,6 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
         case Camp_Harvest:
             return dir_abbr + _( " Harvest Fields" );
 
-        case Camp_Chop_Shop:  //  Obsolete removed during 0.E
-            return _( " Chop Shop.  Obsolete.  Can only be recalled" );
-
         //  Actions that won't be used here
         case Scavenging_Patrol_Job:
         case Scavenging_Raid_Job:
@@ -1214,17 +1211,6 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         }
     }
 
-    if( has_provides( "dismantling",
-                      dir ) ) {  //  Obsolete (during 0.E), but we still have to be able to process existing missions.
-        const mission_id miss_id = { Camp_Chop_Shop, "", {}, dir };
-        comp_list npc_list = get_mission_workers( miss_id );
-        if( !npc_list.empty() ) {
-            entry = action_of( miss_id.id );
-            bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_id,
-                                    dir_abbr + _( " (Finish) Chop Shop" ), entry, avail );
-        }
-    }
     std::map<recipe_id, translation> craft_recipes = recipe_deck( dir );
     {
         mission_id miss_id = { Camp_Crafting, "", {}, dir };
@@ -1949,10 +1935,6 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
             }
             break;
 
-        case Camp_Chop_Shop:  //  Removed during 0.E
-            debugmsg( "Obsolete Function.  Use Vehicle Deconstruct zone instead.  Recover your companion with Emergency Recall." );
-            break;
-
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:
@@ -2185,8 +2167,8 @@ void basecamp::abandon_camp()
     known_camps.erase( omt_pos );
     overmap_buffer.remove_camp( *this );
     map &here = get_map();
-    const tripoint sm_pos = omt_to_sm_copy( omt_pos.raw() );
-    const tripoint ms_pos = sm_to_ms_copy( sm_pos );
+    const tripoint_abs_sm sm_pos = coords::project_to<coords::sm>( omt_pos );
+    const tripoint_abs_ms ms_pos = coords::project_to<coords::ms>( sm_pos );
     // We cannot use bb_pos here, because bb_pos may be {0,0,0} if you haven't examined the bulletin board on camp ever.
     // here.remove_submap_camp( here.getlocal( bb_pos ) );
     here.remove_submap_camp( here.bub_from_abs( ms_pos ) );
@@ -2201,9 +2183,9 @@ void basecamp::scan_pseudo_items()
         tinymap expansion_map;
         expansion_map.load( tile, false );
 
-        tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
-        tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
-        for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
+        const tripoint_omt_ms mapmin{ 0, 0, omt_pos.z() };
+        const tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() };
+        for( const tripoint_omt_ms &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
             if( expansion_map.furn( pos ) != furn_str_id::NULL_ID() &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
@@ -3566,10 +3548,10 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
     const auto e_data = expansions.find( dir );
     const tripoint_abs_omt omt_tgt = e_data->second.pos;
 
-    const auto is_dirtmound = []( const tripoint & pos, tinymap & bay1, tinymap & bay2 ) {
+    const auto is_dirtmound = []( const tripoint_omt_ms & pos, tinymap & bay1, tinymap & bay2 ) {
         return ( bay1.ter( pos ) == ter_t_dirtmound ) && ( !bay2.has_furn( pos ) );
     };
-    const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
+    const auto is_unplowed = []( const tripoint_omt_ms & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
         return farm_ter->has_flag( ter_furn_flag::TFLAG_PLOWABLE );
     };
@@ -3638,7 +3620,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                     }
                 }
                 // Needs to be plowed to match json
-                if( is_dirtmound( pos.raw(), *farm_json, farm_map ) && is_unplowed( pos.raw(), farm_map ) ) {
+                if( is_dirtmound( pos, *farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         farm_map.ter_set( pos, ter_t_dirtmound );
@@ -3647,7 +3629,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                 break;
             }
             case farm_ops::plant:
-                if( is_dirtmound( pos.raw(), farm_map, farm_map ) ) {
+                if( is_dirtmound( pos, farm_map, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         if( seed_inv.empty() ) {
@@ -4521,10 +4503,10 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     tinymap target;
     target.load( where, false );
     int mismatch_tiles = 0;
-    tripoint mapmin = tripoint( 0, 0, where.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, where.z() );
+    const tripoint_omt_ms mapmin{ 0, 0, where.z() };
+    const tripoint_omt_ms mapmax = { 2 * SEEX - 1, 2 * SEEY - 1, where.z() };
     const std::unordered_set<ter_str_id> match_terrains = { ter_t_clay, ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_grass_dead, ter_t_grass_golf, ter_t_grass_long, ter_t_grass_tall, ter_t_moss, ter_t_sand };
-    for( const tripoint &p : target.points_in_rectangle( mapmin, mapmax ) ) {
+    for( const tripoint_omt_ms &p : target.points_in_rectangle( mapmin, mapmax ) ) {
         if( match_terrains.find( target.ter( p ).id() ) == match_terrains.end() ) {
             mismatch_tiles++;
         }
@@ -4840,9 +4822,9 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
     target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
-    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+    const tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
+    const tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() };
+    for( const tripoint_omt_ms &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == t && x_in_y( chance, 100 ) ) {
             total++;
             if( estimate ) {
@@ -5923,7 +5905,6 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         case Camp_Recruiting:
         case Camp_Scouting:
         case Camp_Combat_Patrol:
-        case Camp_Chop_Shop:
         case Camp_Plow:
         case Camp_Plant:
         case Camp_Harvest:

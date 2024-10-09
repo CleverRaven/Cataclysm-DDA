@@ -54,7 +54,7 @@ TEST_CASE( "correct_amounts_of_an_item_spawn_inside_a_container", "[item_spawn]"
                         case spawn_type::vehicle: {
                             clear_map();
                             map &here = get_map();
-                            const tripoint vehpos( 0, 0, here.get_abs_sub().z() );
+                            const tripoint_bub_ms vehpos( 0, 0, here.get_abs_sub().z() );
                             vehicle *veh = here.add_vehicle( cs_data.vehicle, vehpos, 0_degrees, 0, 0 );
                             REQUIRE( veh );
                             REQUIRE( here.get_vehicles().size() == 1 );

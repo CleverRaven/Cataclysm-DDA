@@ -118,9 +118,9 @@ void timed_event::actualize()
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
 
             // 50% chance to spawn a dark wyrm near every orifice on the level.
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_id( "t_orifice" ) ) {
-                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                    g->place_critter_around( mon_dark_wyrm, p.raw(), 1 );
                 }
             }
 
@@ -141,9 +141,9 @@ void timed_event::actualize()
         case timed_event_type::AMIGARA: {
             get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            std::optional<tripoint> fault_point;
+            std::optional<tripoint_bub_ms> fault_point;
             bool horizontal = false;
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_fault ) {
                     fault_point = p;
                     horizontal = here.ter( p + tripoint_east ) == ter_t_fault ||
@@ -153,20 +153,20 @@ void timed_event::actualize()
             }
             for( int i = 0; fault_point && i < num_horrors; i++ ) {
                 for( int tries = 0; tries < 10; ++tries ) {
-                    tripoint monp = player_character.pos();
+                    tripoint_bub_ms monp = player_character.pos_bub();
                     if( horizontal ) {
-                        monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
+                        monp.x() = rng( fault_point->x(), fault_point->x() + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( here.ter( point( monp.x, fault_point->y + n ) ) == ter_t_rock_floor ) {
-                                monp.y = fault_point->y + n;
+                            if( here.ter( point_bub_ms( monp.x(), fault_point->y() + n ) ) == ter_t_rock_floor ) {
+                                monp.y() = fault_point->y() + n;
                             }
                         }
                     } else {
                         // Vertical fault
-                        monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
+                        monp.y() = rng( fault_point->y(), fault_point->y() + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( here.ter( point( fault_point->x + n, monp.y ) ) == ter_t_rock_floor ) {
-                                monp.x = fault_point->x + n;
+                            if( here.ter( point_bub_ms( fault_point->x() + n, monp.y() ) ) == ter_t_rock_floor ) {
+                                monp.x() = fault_point->x() + n;
                             }
                         }
                     }
@@ -180,7 +180,7 @@ void timed_event::actualize()
 
         case timed_event_type::ROOTS_DIE:
             get_event_bus().send<event_type::destroys_triffid_grove>();
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_root_wall && one_in( 3 ) ) {
                     here.ter_set( p, ter_t_underbrush );
                 }
@@ -190,7 +190,7 @@ void timed_event::actualize()
         case timed_event_type::TEMPLE_OPEN: {
             get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_grate ) {
                     here.ter_set( p, ter_t_stairs_down );
                     if( !saw_grate && player_character.sees( p ) ) {
@@ -208,32 +208,32 @@ void timed_event::actualize()
             bool flooded = false;
 
             cata::mdarray<ter_id, point_bub_ms> flood_buf;
-            for( const tripoint &p : here.points_on_zlevel() ) {
-                flood_buf[p.x][p.y] = here.ter( p );
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
+                flood_buf[p.x()][p.y()] = here.ter( p );
             }
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_water_sh ) {
                     bool deepen = false;
-                    for( const tripoint &w : points_in_radius( p, 1 ) ) {
+                    for( const tripoint_bub_ms &w : points_in_radius( p, 1 ) ) {
                         if( here.ter( w ) == ter_t_water_dp ) {
                             deepen = true;
                             break;
                         }
                     }
                     if( deepen ) {
-                        flood_buf[p.x][p.y] = ter_t_water_dp;
+                        flood_buf[p.x()][p.y()] = ter_t_water_dp;
                         flooded = true;
                     }
                 } else if( here.ter( p ) == ter_t_rock_floor ) {
                     bool flood = false;
-                    for( const tripoint &w : points_in_radius( p, 1 ) ) {
+                    for( const tripoint_bub_ms &w : points_in_radius( p, 1 ) ) {
                         if( here.ter( w ) == ter_t_water_dp || here.ter( w ) == ter_t_water_sh ) {
                             flood = true;
                             break;
                         }
                     }
                     if( flood ) {
-                        flood_buf[p.x][p.y] = ter_t_water_sh;
+                        flood_buf[p.x()][p.y()] = ter_t_water_sh;
                         flooded = true;
                     }
                 }
@@ -260,8 +260,8 @@ void timed_event::actualize()
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to here
-            for( const tripoint &p : here.points_on_zlevel() ) {
-                here.ter_set( p, flood_buf[p.x][p.y] );
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
+                here.ter_set( p, flood_buf[p.x()][p.y()] );
             }
             get_timed_events().add( timed_event_type::TEMPLE_FLOOD,
                                     calendar::turn + rng( 2_turns, 3_turns ) );
@@ -347,7 +347,7 @@ void timed_event::per_turn()
 
         case timed_event_type::AMIGARA_WHISPERS: {
             bool faults = false;
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_fault ) {
                     faults = true;
                     break;

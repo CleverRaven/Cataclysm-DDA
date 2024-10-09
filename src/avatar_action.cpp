@@ -312,15 +312,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( you.has_effect( effect_amigara ) ) {
         int curdist = INT_MAX;
         int newdist = INT_MAX;
-        const tripoint minp = tripoint( 0, 0, you.posz() );
-        const tripoint maxp = tripoint( MAPSIZE_X, MAPSIZE_Y, you.posz() );
-        for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
+        const tripoint_bub_ms minp{ 0, 0, you.posz() };
+        const tripoint_bub_ms maxp{ MAPSIZE_X, MAPSIZE_Y, you.posz() };
+        for( const tripoint_bub_ms &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == ter_t_fault ) {
-                int dist = rl_dist( pt, you.pos_bub().raw() );
+                int dist = rl_dist( pt, you.pos_bub() );
                 if( dist < curdist ) {
                     curdist = dist;
                 }
-                dist = rl_dist( pt, dest_loc.raw() );
+                dist = rl_dist( pt, dest_loc );
                 if( dist < newdist ) {
                     newdist = dist;
                 }
@@ -601,8 +601,8 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // Try to find an aligned end of the ramp that will make our climb faster
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
-    for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
+    for( const tripoint_bub_ms &pt : m.points_in_radius( you.pos_bub(), 1 ) ) {
+        if( rl_dist( pt.raw(), dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
             aligned_ramps = true;
             break;
         }
@@ -686,11 +686,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    tripoint old_abs_pos = m.getabs( you.pos_bub() );
+    tripoint_abs_ms old_abs_pos = m.getglobal( you.pos_bub() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
+    cata_event_dispatch::avatar_moves( old_abs_pos.raw(), you, m );
 
     if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos_bub(), &you );

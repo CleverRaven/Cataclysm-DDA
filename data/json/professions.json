@@ -55,15 +55,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_300blk",
-    "entries": [
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "army_mags_mp7",
     "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 } ]
   },

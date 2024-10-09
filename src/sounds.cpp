@@ -490,7 +490,7 @@ void sounds::process_sounds()
         int sig_power = get_signal_for_hordes( this_centroid );
         if( sig_power > 0 ) {
 
-            const point abs_ms = get_map().getabs( source.xy() );
+            const point abs_ms = get_map().getglobal( tripoint_bub_ms{ source.x, source.y, get_map().get_abs_sub().z()} ).xy().raw();
             // TODO: fix point types
             const point_abs_sm abs_sm( ms_to_sm_copy( abs_ms ) );
             const tripoint_abs_sm target( abs_sm, source.z );
@@ -582,9 +582,9 @@ void sounds::process_sound_markers( Character *you )
         // copy values instead of making references here to fix use-after-free error
         // sounds_since_last_turn may be inserted with new elements inside the loop
         // so the references may become invalid after the vector enlarged its internal buffer
-        const tripoint pos = sounds_since_last_turn[i].first;
+        const tripoint_bub_ms pos = tripoint_bub_ms( sounds_since_last_turn[i].first );
         const sound_event sound = sounds_since_last_turn[i].second;
-        const int distance_to_sound = sound_distance( you->pos(), pos );
+        const int distance_to_sound = sound_distance( you->pos_bub().raw(), pos.raw() );
         const int raw_volume = sound.volume;
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
@@ -626,7 +626,7 @@ void sounds::process_sound_markers( Character *you )
         const int heard_volume = static_cast<int>( ( raw_volume - weather_vol ) *
                                  volume_multiplier ) - distance_to_sound;
 
-        if( heard_volume <= 0 && pos != you->pos() ) {
+        if( heard_volume <= 0 && pos != you->pos_bub() ) {
             continue;
         }
 
@@ -664,7 +664,7 @@ void sounds::process_sound_markers( Character *you )
         if( you->is_npc() ) {
             if( !sound.ambient ) {
                 npc *guy = dynamic_cast<npc *>( you );
-                guy->handle_sound( sound.category, description, heard_volume, pos );
+                guy->handle_sound( sound.category, description, heard_volume, pos.raw() );
             }
             continue;
         }
@@ -674,7 +674,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // don't print our own noise or things without descriptions
-        if( !sound.ambient && ( pos != you->pos() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
+        if( !sound.ambient && ( pos != you->pos_bub() ) && !get_map().pl_sees( pos, distance_to_sound ) ) {
             if( uistate.distraction_noise &&
                 !you->activity.is_distraction_ignored( distraction_type::noise ) &&
                 !get_safemode().is_sound_safe( sound.description, distance_to_sound, you->controlling_vehicle ) ) {
@@ -685,7 +685,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // skip some sounds to avoid message spam
-        const bool from_player = pos == you->pos() || ( sound.category == sound_t::movement &&
+        const bool from_player = pos == you->pos_bub() || ( sound.category == sound_t::movement &&
                                  distance_to_sound <= 1 );
         if( describe_sound( sound.category, from_player ) ) {
             game_message_type severity = m_info;
@@ -693,12 +693,12 @@ void sounds::process_sound_markers( Character *you )
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
-            if( pos == you->pos() ) {
+            if( pos == you->pos_bub() ) {
                 add_msg( severity, _( "From your position you hear %1$s" ), description );
             } else if( you->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
-                std::string direction = direction_name( direction_from( you->pos(), pos ) );
+                std::string direction = direction_name( direction_from( you->pos_bub(), pos ) );
                 add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
             }
         }
@@ -734,7 +734,7 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // Place footstep markers.
-        if( pos == you->pos() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
+        if( pos == you->pos_bub() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
             // If we are or can see the source, don't draw a marker, except for sonar etc
             continue;
         }
@@ -766,15 +766,15 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // If Z-coordinate is different, draw even when you can see the source
-        const bool diff_z = pos.z != you->posz();
+        const bool diff_z = pos.z() != you->posz();
 
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         // Also show sensory sounds like SONAR even if we can see the point.
         std::vector<tripoint> unseen_points;
-        for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
+        for( const tripoint_bub_ms &newp : get_map().points_in_radius( pos, err_offset ) ) {
             if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
-                unseen_points.emplace_back( newp );
+                unseen_points.emplace_back( newp.raw() );
             }
         }
 

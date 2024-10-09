@@ -111,6 +111,9 @@ class item_location
         /** returns the character whose inventory contains this item, nullptr if none **/
         Character *carrier() const;
 
+        /** returns the character whose inventory contains this item, nullptr if none **/
+        const vehicle_cursor *veh_cursor() const;
+
         /** returns true if the item is in the inventory of the given character **/
         bool held_by( Character const &who ) const;
 
