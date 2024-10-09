@@ -1758,8 +1758,8 @@ void Character::forced_dismount()
         mounted_creature = nullptr;
         mon->mounted_player = nullptr;
     }
-    std::vector<tripoint> valid;
-    for( const tripoint &jk : get_map().points_in_radius( pos(), 1 ) ) {
+    std::vector<tripoint_bub_ms> valid;
+    for( const tripoint_bub_ms &jk : get_map().points_in_radius( pos_bub(), 1 ) ) {
         if( g->is_empty( jk ) ) {
             valid.push_back( jk );
         }
@@ -10323,10 +10323,10 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // TODO: fix it, see above.
     if( bay.furn( fin ) != furn_str_id::NULL_ID() ) {
-        for( const tripoint &p : bay.points_on_zlevel() ) {
+        for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id::NULL_ID() ) {
-                fin.x() = p.x;
-                fin.y() = p.y;
+                fin.x() = p.x();
+                fin.y() = p.y();
             }
         }
     }

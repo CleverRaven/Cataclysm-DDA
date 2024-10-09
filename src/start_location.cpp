@@ -248,7 +248,8 @@ void start_location::prepare_map( tinymap &m ) const
     const int z = m.get_abs_sub().z();
     if( flags().count( "BOARDED" ) > 0 ) {
         m.build_outside_cache( z );
-        board_up( m, m.points_on_zlevel( z ) );
+        const tripoint_range <tripoint_omt_ms> temp = m.points_on_zlevel( z );
+        board_up( m, { temp.min().raw(), temp.max().raw() } );
     } else {
         m.translate( ter_t_window_domestic, ter_t_curtains );
     }
@@ -527,12 +528,12 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     m.build_outside_cache( m.get_abs_sub().z() );
     point player_pos = get_player_character().pos().xy();
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
-    std::vector<tripoint> valid;
-    for( const tripoint &p : m.points_on_zlevel() ) {
+    std::vector<tripoint_omt_ms> valid;
+    for( const tripoint_omt_ms &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ||
                m.has_flag_ter( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) ||
                m.is_outside( p ) ||
-               ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
+               ( p.x() >= u.x - rad && p.x() <= u.x + rad && p.y() >= u.y - rad && p.y() <= u.y + rad ) ) ) {
             if( m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
                 m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );

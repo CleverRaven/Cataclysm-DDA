@@ -2050,9 +2050,9 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint_bub_ms &examp )
 
             // Send in a few wyrms to start things off.
             get_event_bus().send<event_type::awakes_dark_wyrms>();
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_orifice ) {
-                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                    g->place_critter_around( mon_dark_wyrm, p.raw(), 1 );
                 }
             }
 

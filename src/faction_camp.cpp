@@ -2183,9 +2183,9 @@ void basecamp::scan_pseudo_items()
         tinymap expansion_map;
         expansion_map.load( tile, false );
 
-        tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
-        tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
-        for( const tripoint &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
+        const tripoint_omt_ms mapmin{ 0, 0, omt_pos.z() };
+        const tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() };
+        for( const tripoint_omt_ms &pos : expansion_map.points_in_rectangle( mapmin, mapmax ) ) {
             if( expansion_map.furn( pos ) != furn_str_id::NULL_ID() &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.is_valid() &&
                 expansion_map.furn( pos ).obj().crafting_pseudo_item.obj().has_flag( flag_ALLOWS_REMOTE_USE ) ) {
@@ -3548,10 +3548,10 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
     const auto e_data = expansions.find( dir );
     const tripoint_abs_omt omt_tgt = e_data->second.pos;
 
-    const auto is_dirtmound = []( const tripoint & pos, tinymap & bay1, tinymap & bay2 ) {
+    const auto is_dirtmound = []( const tripoint_omt_ms & pos, tinymap & bay1, tinymap & bay2 ) {
         return ( bay1.ter( pos ) == ter_t_dirtmound ) && ( !bay2.has_furn( pos ) );
     };
-    const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
+    const auto is_unplowed = []( const tripoint_omt_ms & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
         return farm_ter->has_flag( ter_furn_flag::TFLAG_PLOWABLE );
     };
@@ -3620,7 +3620,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                     }
                 }
                 // Needs to be plowed to match json
-                if( is_dirtmound( pos.raw(), *farm_json, farm_map ) && is_unplowed( pos.raw(), farm_map ) ) {
+                if( is_dirtmound( pos, *farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         farm_map.ter_set( pos, ter_t_dirtmound );
@@ -3629,7 +3629,7 @@ std::pair<size_t, std::string> basecamp::farm_action( const point &dir, farm_ops
                 break;
             }
             case farm_ops::plant:
-                if( is_dirtmound( pos.raw(), farm_map, farm_map ) ) {
+                if( is_dirtmound( pos, farm_map, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
                         if( seed_inv.empty() ) {
@@ -4503,10 +4503,10 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     tinymap target;
     target.load( where, false );
     int mismatch_tiles = 0;
-    tripoint mapmin = tripoint( 0, 0, where.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, where.z() );
+    const tripoint_omt_ms mapmin{ 0, 0, where.z() };
+    const tripoint_omt_ms mapmax = { 2 * SEEX - 1, 2 * SEEY - 1, where.z() };
     const std::unordered_set<ter_str_id> match_terrains = { ter_t_clay, ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_grass_dead, ter_t_grass_golf, ter_t_grass_long, ter_t_grass_tall, ter_t_moss, ter_t_sand };
-    for( const tripoint &p : target.points_in_rectangle( mapmin, mapmax ) ) {
+    for( const tripoint_omt_ms &p : target.points_in_rectangle( mapmin, mapmax ) ) {
         if( match_terrains.find( target.ter( p ).id() ) == match_terrains.end() ) {
             mismatch_tiles++;
         }
@@ -4822,9 +4822,9 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
     target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
-    for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
+    const tripoint_omt_ms mapmin{ 0, 0, omt_tgt.z() };
+    const tripoint_omt_ms mapmax{ 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() };
+    for( const tripoint_omt_ms &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.ter( p ) == t && x_in_y( chance, 100 ) ) {
             total++;
             if( estimate ) {

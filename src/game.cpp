@@ -607,6 +607,15 @@ void game::load_data_from_dir( const cata_path &path, const std::string &src )
     DynamicDataLoader::get_instance().load_data_from_path( path, src );
 }
 
+void game::load_mod_data_from_dir( const cata_path &path, const std::string &src )
+{
+    DynamicDataLoader::get_instance().load_mod_data_from_path( path, src );
+}
+void game::load_mod_interaction_data_from_dir( const cata_path &path, const std::string &src )
+{
+    DynamicDataLoader::get_instance().load_mod_interaction_files_from_path( path, src );
+}
+
 #if defined(TUI)
 // in ncurses_def.cpp
 extern void check_encoding(); // NOLINT
@@ -3235,7 +3244,9 @@ void game::load_world_modfiles()
     load_packs( _( "Loading files" ), mods );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
+    load_mod_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
+    load_mod_interaction_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods" /
+                                        "mod_interactions", "custom" );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
@@ -3260,8 +3271,15 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_data_from_dir( mod.path, mod.ident.str() );
+        load_mod_data_from_dir( mod.path, mod.ident.str() );
     }
+
+    for( const auto &e : available ) {
+        loading_ui::show( msg, e->name() );
+        const MOD_INFORMATION &mod = *e;
+        load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
+    }
+
 
     std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
@@ -5601,12 +5619,12 @@ void game::control_vehicle()
         int num_valid_controls = 0;
         std::optional<tripoint> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
-        for( const tripoint &elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
+        for( const tripoint_bub_ms &elem : m.points_in_radius( get_player_character().pos_bub(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
                 const std::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
                 if( controls ) {
                     num_valid_controls++;
-                    vehicle_position = elem;
+                    vehicle_position = elem.raw();
                     vehicle_controls = controls;
                 }
             }
@@ -10836,9 +10854,9 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         if( !critter.has_effect( effect_ridden ) ) {
             if( u.is_mounted() ) {
                 std::vector<tripoint> maybe_valid;
-                for( const tripoint &jk : m.points_in_radius( critter.pos(), 1 ) ) {
+                for( const tripoint_bub_ms &jk : m.points_in_radius( critter.pos_bub(), 1 ) ) {
                     if( is_empty( jk ) ) {
-                        maybe_valid.push_back( jk );
+                        maybe_valid.push_back( jk.raw() );
                     }
                 }
                 bool moved = false;

@@ -552,6 +552,7 @@ class talker
             return 0;
         }
         virtual void set_addiction_turns( const addiction_id &, int ) {}
+        virtual void mod_stored_kcal( int, bool ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}

@@ -428,7 +428,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
 
-    const auto active_items = get_map().get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE,
+    const auto active_items = get_map().get_active_items_in_radius( pos_bub(), MAX_VIEW_DISTANCE,
                               special_item_type::explosive );
 
     for( const item_location &elem : active_items ) {
@@ -3938,7 +3938,7 @@ bool npc::find_corpse_to_pulp()
 
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
-        const tripoint around = is_walking_with() ? player_character.pos() : pos();
+        const tripoint_bub_ms around = is_walking_with() ? player_character.pos_bub() : pos_bub();
         for( const item_location &location : here.get_active_items_in_radius( around, range,
                 special_item_type::corpse ) ) {
             corpse = check_tile( location.pos_bub() );

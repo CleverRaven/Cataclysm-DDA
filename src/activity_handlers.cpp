@@ -3103,8 +3103,9 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
 
     map &here = get_map();
     if( autodoc && here.inbounds( you->pos_bub() ) ) {
-        const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                             ter_furn_flag::TFLAG_AUTODOC );
+        const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                    you->pos_bub(), 1,
+                    ter_furn_flag::TFLAG_AUTODOC );
 
         if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, you->pos_bub() ) ||
             autodocs.empty() ) {
@@ -3237,8 +3238,9 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
         if( act->values[1] > 0 ) {
             add_msg( m_good,
                      _( "The Autodoc returns to its resting position after successfully performing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 ter_furn_flag::TFLAG_AUTODOC );
+            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                        you->pos_bub(), 1,
+                        ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a short upbeat jingle: \"Operation successful\"" ), true,
                            "Autodoc",
@@ -3246,8 +3248,9 @@ void activity_handlers::operation_finish( player_activity *act, Character *you )
         } else {
             add_msg( m_bad,
                      _( "The Autodoc jerks back to its resting position after failing the operation." ) );
-            const std::list<tripoint> autodocs = here.find_furnitures_with_flag_in_radius( you->pos(), 1,
-                                                 ter_furn_flag::TFLAG_AUTODOC );
+            const std::list<tripoint_bub_ms> autodocs = here.find_furnitures_with_flag_in_radius(
+                        you->pos_bub(), 1,
+                        ter_furn_flag::TFLAG_AUTODOC );
             sounds::sound( autodocs.front(), 10, sounds::sound_t::music,
                            _( "a sad beeping noise: \"Operation failed\"" ), true,
                            "Autodoc",

@@ -594,38 +594,38 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
         int distance = grab_data.drag_distance;
         while( distance > 0 ) {
             // Start with the opposite square
-            tripoint opposite_square = z.pos() - ( target->pos() - z.pos() );
+            tripoint_bub_ms opposite_square = z.pos_bub() - ( target->pos_bub() - z.pos_bub() );
             // Keep track of our neighbors (no leaping)
-            std::set<tripoint> neighbors;
-            for( const tripoint &trp : here.points_in_radius( z.pos(), 1 ) ) {
-                if( trp != z.pos() && trp != target->pos() ) {
+            std::set<tripoint_bub_ms> neighbors;
+            for( const tripoint_bub_ms &trp : here.points_in_radius( z.pos_bub(), 1 ) ) {
+                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
                     neighbors.insert( trp );
                 }
             }
             // Check where we get to consider dragging
-            std::set<tripoint> candidates;
-            for( const tripoint &trp : here.points_in_radius( opposite_square,
+            std::set<tripoint_bub_ms> candidates;
+            for( const tripoint_bub_ms &trp : here.points_in_radius( opposite_square,
                     grab_data.drag_deviation ) ) {
-                if( trp != z.pos() && trp != target->pos() ) {
+                if( trp != z.pos_bub() && trp != target->pos_bub() ) {
                     candidates.insert( trp );
                 }
             }
             // Select a random square from the options
-            std::set<tripoint> intersect;
+            std::set<tripoint_bub_ms> intersect;
             std::set_intersection( neighbors.begin(), neighbors.end(), candidates.begin(), candidates.end(),
                                    std::inserter( intersect, intersect.begin() ) );
-            tripoint target_square = random_entry<std::set<tripoint>>( intersect );
+            tripoint_bub_ms target_square = random_entry<std::set<tripoint_bub_ms>>( intersect );
             if( z.can_move_to( target_square ) ) {
                 monster *zz = target->as_monster();
-                tripoint zpt = z.pos();
-                z.move_to( target_square, false, false, grab_data.drag_movecost_mod );
+                tripoint_bub_ms zpt = z.pos_bub();
+                z.move_to( target_square.raw(), false, false, grab_data.drag_movecost_mod );
                 if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
                     return 0;
                 }
-                if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
-                                             zpt.y < HALF_MAPSIZE_Y ||
-                                             zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-                    g->update_map( zpt.x, zpt.y );
+                if( target->is_avatar() && ( zpt.x() < HALF_MAPSIZE_X ||
+                                             zpt.y() < HALF_MAPSIZE_Y ||
+                                             zpt.x() >= HALF_MAPSIZE_X + SEEX || zpt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( zpt.x(), zpt.y() );
                 }
                 if( foe != nullptr ) {
                     if( foe->in_vehicle ) {
@@ -752,13 +752,14 @@ bool melee_actor::call( monster &z ) const
         if( target->has_effect_with_flag( json_flag_GRAB ) && grab_data.exclusive_grab ) {
             add_msg_debug( debugmode::DF_MATTACK, "Exclusive grab, begin filtering" );
             map &here = get_map();
-            const tripoint_range<tripoint> &surrounding = here.points_in_radius( target->pos(), 1, 0 );
+            const tripoint_range<tripoint_bub_ms> &surrounding = here.points_in_radius( target->pos_bub(), 1,
+                    0 );
             creature_tracker &creatures = get_creature_tracker();
 
             for( const effect &eff : target->get_effects_with_flag( json_flag_GRAB ) ) {
                 monster *grabber = nullptr;
                 // Iterate through the target's surroundings to find the grabber of this grab
-                for( const tripoint loc : surrounding ) {
+                for( const tripoint_bub_ms loc : surrounding ) {
                     monster *mon = creatures.creature_at<monster>( loc );
                     if( mon && mon->has_effect_with_flag( json_flag_GRAB_FILTER ) && mon->attack_target() == target ) {
                         if( target->is_monster() || ( !target->is_monster() &&

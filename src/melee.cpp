@@ -1671,8 +1671,8 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint &tmp : get_map().points_in_radius( pos(), 1 ) ) {
-            if( tmp == t.pos() ) {
+        for( const tripoint_bub_ms &tmp : get_map().points_in_radius( pos_bub(), 1 ) ) {
+            if( tmp == t.pos_bub() ) {
                 continue;
             }
             monster *const mon = creatures.creature_at<monster>( tmp );

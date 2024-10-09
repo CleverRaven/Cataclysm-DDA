@@ -201,9 +201,9 @@ bool map::build_vision_transparency_cache( const int zlev )
     memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
 
     Character &player_character = get_player_character();
-    const tripoint p = player_character.pos();
+    const tripoint_bub_ms p = player_character.pos_bub();
 
-    if( p.z != zlev ) {
+    if( p.z() != zlev ) {
         return false;
     }
 
@@ -217,28 +217,28 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool is_prone = player_character.is_prone();
     static move_mode_id previous_move_mode = player_character.current_movement_mode();
 
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( ( is_crouching || is_prone || low_profile ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
-            if( vision_transparency_cache[loc.x][loc.y] != LIGHT_TRANSPARENCY_SOLID ||
+            if( vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID ||
                 previous_move_mode != player_character.current_movement_mode() ) {
                 previous_move_mode = player_character.current_movement_mode();
-                vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+                vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
                 dirty = true;
             }
         }
     }
 
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
-    for( const tripoint &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
+    for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
-            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
         }
     }

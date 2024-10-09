@@ -5332,8 +5332,8 @@ ret_val<void> jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
     const auto y2_get = [this, &offset]() {
         return get( y2, offset.y() );
     };
-    const tripoint_rel_ms start = tripoint_rel_ms( x_get(), y_get(), dat.zlevel() + z_get() );
-    tripoint_rel_ms end = start;
+    const tripoint_bub_ms start = tripoint_bub_ms( x_get(), y_get(), dat.zlevel() + z_get() );
+    tripoint_bub_ms end = start;
     switch( op ) {
         case JMAPGEN_SETMAP_TER:
         case JMAPGEN_SETMAP_FURN:
@@ -5357,7 +5357,7 @@ ret_val<void> jmapgen_setmap::has_vehicle_collision( const mapgendata &dat,
         default:
             return ret_val<void>::make_success();
     }
-    for( const tripoint &p : dat.m.points_in_rectangle( start.raw(), end.raw() ) ) {
+    for( const tripoint_bub_ms &p : dat.m.points_in_rectangle( start, end ) ) {
         if( dat.m.veh_at( p ) ) {
             return ret_val<void>::make_failure( dat.m.veh_at( p ).value().vehicle().disp_name() );
         }
@@ -5759,14 +5759,13 @@ void map::draw_lab( mapgendata &dat )
 
             const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
                 if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
-                    const auto predicate = [this]( const tripoint & p ) {
+                    const auto predicate = [this]( const tripoint_bub_ms & p ) {
                         return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                                tr_at( p ).is_null();
                     };
-                    // Can't the tripoint_bub_ms because 'random_point' below only supports the untyped version.
-                    const tripoint_range<tripoint> range =
-                        points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
-                                             tripoint{ SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
+                    const tripoint_range<tripoint_bub_ms> range =
+                        points_in_rectangle( tripoint_bub_ms{ 0, 0, abs_sub.z() },
+                                             tripoint_bub_ms{ SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
 
                     if( const auto p = random_point( range, predicate ) ) {
                         ter_set( *p, t_stair_type );
@@ -6214,12 +6213,11 @@ void map::draw_lab( mapgendata &dat )
                 }
                 // portal with an artifact effect.
                 case 5: {
-                    // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
-                    tripoint_range<tripoint> options =
-                    points_in_rectangle( tripoint{ 6, 6, abs_sub.z() },
+                    tripoint_range<tripoint_bub_ms> options =
+                    points_in_rectangle( tripoint_bub_ms{ 6, 6, abs_sub.z() },
                     { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z() } );
-                    std::optional<tripoint> center = random_point(
-                    options, [&]( const tripoint & p ) {
+                    std::optional<tripoint_bub_ms> center = random_point(
+                    options, [&]( const tripoint_bub_ms & p ) {
                         return tr_at( p ).is_null();
                     } );
                     if( !center ) {
@@ -6241,7 +6239,7 @@ void map::draw_lab( mapgendata &dat )
                         }
                         make_rubble( {p, abs_sub.z() } );
                         ter_set( p, ter_t_thconc_floor );
-                    }, center->xy(), 4 );
+                    }, center->xy().raw(), 4 );
                     furn_set( center->xy(), furn_str_id::NULL_ID() );
                     if( !is_open_air( *center ) ) {
                         trap_set( *center, tr_portal );
@@ -6587,12 +6585,11 @@ void map::draw_lab( mapgendata &dat )
         const auto maybe_insert_stairs = [this]( const oter_id & terrain,
         const ter_str_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
-                const auto predicate = [this]( const tripoint & p ) {
+                const auto predicate = [this]( const tripoint_bub_ms & p ) {
                     return ter( p ) == ter_t_thconc_floor && furn( p ) == furn_str_id::NULL_ID() &&
                            tr_at( p ).is_null();
                 };
-                // Can't use tripoint_bub_ms because 'random_point' below only supports the untyped version.
-                const tripoint_range<tripoint> range = points_in_rectangle( tripoint{ 0, 0, abs_sub.z() },
+                const tripoint_range<tripoint_bub_ms> range = points_in_rectangle( tripoint_bub_ms{ 0, 0, abs_sub.z() },
                 { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z() } );
                 if( const auto p = random_point( range, predicate ) ) {
                     ter_set( *p, t_stair_type );
@@ -6768,7 +6765,7 @@ void map::place_vending( const tripoint_bub_ms &p, const item_group_id &type, bo
     if( lootable &&
         !one_in( std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 4 ) ) {
         bash( p.raw(), 9999 );
-        for( const tripoint &loc : points_in_radius( p.raw(), 1 ) ) {
+        for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
             if( one_in( 4 ) ) {
                 spawn_item( loc, "glass_shard", rng( 1, 25 ) );
             }
@@ -6796,8 +6793,9 @@ character_id map::place_npc( const point_bub_ms &p, const string_id<npc_template
 
 void map::apply_faction_ownership( const point &p1, const point &p2, const faction_id &id )
 {
-    for( const tripoint &p : points_in_rectangle( tripoint( p1, abs_sub.z() ), tripoint( p2,
-            abs_sub.z() ) ) ) {
+    for( const tripoint_bub_ms &p : points_in_rectangle( tripoint_bub_ms( p1.x, p1.y, abs_sub.z() ),
+            tripoint_bub_ms( p2.x, p2.y,
+                             abs_sub.z() ) ) ) {
         map_stack items = i_at( point_bub_ms( p.xy() ) );
         for( item &elem : items ) {
             elem.set_owner( id );
@@ -8247,7 +8245,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         rotation_guard rot( md );
 
         if( update_function->second.funcs()[0]->update_map( fake_md ).success() ) {
-            for( const tripoint &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
+            for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( omt_pos.z() ) ) {
                 if( tmp_map.ter( pos ) != ter_t_grass || tmp_map.has_furn( pos ) ) {
                     if( apply ) {
                         update_tmap.add_field( pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
@@ -8286,7 +8284,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     if( update_function->second.funcs()[0]->update_map( fake_md ).success() ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_DEPTH; z++ ) {
-            for( const tripoint &pos : tmp_map.points_on_zlevel( z ) ) {
+            for( const tripoint_omt_ms &pos : tmp_map.points_on_zlevel( z ) ) {
                 ter_id ter_at_pos = tmp_map.ter( pos );
                 if( ter_at_pos != base_ter ) {
                     terrains[ter_at_pos] += 1;
