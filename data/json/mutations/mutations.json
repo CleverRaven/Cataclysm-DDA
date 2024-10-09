@@ -2715,7 +2715,7 @@
       { "part": "hand_r", "ignored": 4 },
       { "part": "torso", "ignored": 40 }
     ],
-    "armor": [ { "part_types": [ "ALL" ], "cut": 1, "bash": 2 } ]
+    "armor": [ { "part_types": [ "ALL" ], "cut": 1, "bash": 2, "bullet": 1, "stab": 1 } ]
   },
   {
     "type": "mutation",
@@ -2744,7 +2744,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 60 }
     ],
-    "armor": [ { "part_types": [ "ALL" ], "cut": 2, "bash": 3 } ],
+    "armor": [ { "part_types": [ "ALL" ], "cut": 2, "bash": 3, "bullet": 2, "stab": 2 } ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ]
   },
   {
@@ -2772,7 +2772,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 60 }
     ],
-    "armor": [ { "part_types": [ "ALL" ], "cut": 3, "bash": 5 } ],
+    "armor": [ { "part_types": [ "ALL" ], "cut": 3, "bash": 5, "bullet": 3, "stab": 3 } ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.2 } ] } ],
     "comfort": [
       {
