@@ -1286,7 +1286,7 @@
         },
         "monster_message": "The air around %1$s wavers."
       },
-      [ "PULL_METAL_WEAPON", 15 ]
+      [ "PULL_WEAPON", 15 ]
     ],
     "flags": [
       "SEES",
@@ -1407,7 +1407,7 @@
         },
         "monster_message": "The air around %1$s distorts."
       },
-      [ "PULL_METAL_WEAPON", 10 ]
+      [ "PULL_WEAPON", 10 ]
     ],
     "flags": [
       "SEES",
