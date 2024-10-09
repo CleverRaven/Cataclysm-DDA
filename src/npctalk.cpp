@@ -189,6 +189,8 @@ struct item_search_data {
     bool wielded_only;
     bool held_only;
     // todo: add weight, volume
+    std::function<bool( dialogue & )> condition;
+    bool has_condition = false;
 
     explicit item_search_data( const JsonObject &jo ) {
 
@@ -240,6 +242,10 @@ struct item_search_data {
                                          false, "" ) );
         }
 
+        if( jo.has_member( "condition" ) ) {
+            read_condition( jo, "condition", condition, false );
+            has_condition = true;
+        }
         worn_only = jo.get_bool( "worn_only", false );
         wielded_only = jo.get_bool( "wielded_only", false );
         held_only = jo.get_bool( "held_only", false );
@@ -350,6 +356,13 @@ struct item_search_data {
         }
         if( held_only && !( guy->is_worn( *loc ) || guy->is_wielding( *loc ) ) ) {
             return false;
+        }
+
+        if( has_condition ) {
+            dialogue dial( d.actor( true )->clone(), get_talker_for( loc ), condition );
+            if( !condition( dial ) ) {
+                return false;
+            }
         }
 
         return true;
