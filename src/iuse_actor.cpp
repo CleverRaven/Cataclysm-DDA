@@ -2450,7 +2450,7 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
 
     // Spell is being cast from a non-held item
     if( p == nullptr ) {
-        casting.cast_all_effects( pos );
+        casting.cast_all_effects( tripoint_bub_ms( pos ) );
         return 0;
     }
 
@@ -2621,7 +2621,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
 
         // iuse_actor really needs to work with item_location
         item_location item_loc = form_loc( *you, p, it );
-        game_menus::inv::insert_items( *you->as_avatar(), item_loc );
+        game_menus::inv::insert_items( item_loc );
     }
 
     return 0;
@@ -5185,10 +5185,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint center = p->pos() + tripoint( ( radius + 1 ) * direction.x,
-                            ( radius + 1 ) * direction.y, 0 );
+    const tripoint_bub_ms center = p->pos_bub() + tripoint( ( radius + 1 ) * direction.x,
+                                   ( radius + 1 ) * direction.y, 0 );
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return std::nullopt;
@@ -5216,10 +5216,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     return 0;
 }
 
-bool deploy_tent_actor::check_intact( const tripoint &center ) const
+bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         const furn_id fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {

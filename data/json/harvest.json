@@ -2398,6 +2398,12 @@
     "extend": { "entries": [ { "drop": "skull_canis_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
   },
   {
+    "id": "dog_tiny_with_skull_mutant",
+    "type": "harvest",
+    "copy-from": "mutant_tiny",
+    "extend": { "entries": [ { "drop": "skull_canis_small", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 } ] }
+  },
+  {
     "id": "llama_with_skull",
     "type": "harvest",
     "copy-from": "mammal_large_wool",

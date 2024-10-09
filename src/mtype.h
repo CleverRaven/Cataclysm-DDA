@@ -279,11 +279,11 @@ struct mount_item_data {
     itype_id storage;
 };
 
-struct baby_type {
-    mtype_id baby_monster;
-    mongroup_id baby_monster_group;
-    itype_id baby_egg;
-    item_group_id baby_egg_group;
+struct reproduction_type {
+    mtype_id baby_monster = mtype_id::NULL_ID();
+    mongroup_id baby_monster_group = mongroup_id::NULL_ID();
+    itype_id baby_egg = itype_id::NULL_ID();
+    item_group_id baby_egg_group = item_group_id::NULL_ID();
 };
 
 struct mtype {
@@ -317,7 +317,7 @@ struct mtype {
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
-        baby_type baby_type;
+        reproduction_type baby_type;
 
         // Monster biosignature variables
         itype_id biosig_item;

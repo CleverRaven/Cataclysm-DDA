@@ -2,8 +2,8 @@
   {
     "id": "overcharge_yrax",
     "type": "SPELL",
-    "name": { "str": "▙▜▛▘▜▝▞▟▘▜" },
-    "description": " ▘▙▚▛▜▝▞▟",
+    "name": { "str": "▙▜▛▘▜▝▞▟▘▜", "//~": "NO_I18N" },
+    "description": { "str": " ▘▙▚▛▜▝▞▟", "//~": "NO_I18N" },
     "valid_targets": [ "self", "ally", "hostile" ],
     "targeted_monster_ids": [ "mon_yrax_delta", "mon_yrax_quadraphract" ],
     "flags": [ "NO_HANDS", "NO_LEGS" ],
@@ -27,8 +27,8 @@
   {
     "id": "activate_yrax",
     "type": "SPELL",
-    "name": "Base activate Yrax",
-    "description": "Base spell for Yrax (de)activation.",
+    "name": { "str": "Base activate Yrax", "//~": "NO_I18N" },
+    "description": { "str": "Base spell for Yrax (de)activation.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ally", "self" ],
     "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "targeted_polymorph",
@@ -45,8 +45,8 @@
   {
     "type": "SPELL",
     "id": "quadraphract_smoke_mortar",
-    "name": { "str": "Quadraphract Smoke Mortar" },
-    "description": "Throws several smoke bombs in a large area and with high scatter.",
+    "name": { "str": "Quadraphract Smoke Mortar", "//~": "NO_I18N" },
+    "description": { "str": "Throws several smoke bombs in a large area and with high scatter.", "//~": "NO_I18N" },
     "extra_effects": [
       { "id": "quadraphract_smoke_bomb_repeat" },
       { "id": "quadraphract_smoke_bomb_repeat" },
@@ -74,8 +74,8 @@
   {
     "type": "SPELL",
     "id": "quadraphract_smoke_bomb_repeat",
-    "name": { "str": "Quadraphract Smoke Mortar - repeat" },
-    "description": "A single bomblet from the mortar strike.",
+    "name": { "str": "Quadraphract Smoke Mortar - repeat", "//~": "NO_I18N" },
+    "description": { "str": "A single bomblet from the mortar strike.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile", "ground", "self", "ally" ],
     "effect": "attack",
     "shape": "blast",
@@ -97,8 +97,8 @@
   {
     "id": "sphenocorona_active",
     "type": "SPELL",
-    "name": "Activate Sphenocorona",
-    "description": "Golden monoliths to Sphenocoronae.",
+    "name": { "str": "Activate Sphenocorona", "//~": "NO_I18N" },
+    "description": { "str": "Golden monoliths to Sphenocoronae.", "//~": "NO_I18N" },
     "copy-from": "activate_yrax",
     "targeted_monster_ids": [ "mon_yrax_sphenocorona_inert" ],
     "effect_str": "mon_yrax_sphenocorona"
@@ -106,8 +106,8 @@
   {
     "id": "sphenocorona_inactive",
     "type": "SPELL",
-    "name": "Activate Sphenocorona",
-    "description": "Sphenocoronae to Golden monoliths.",
+    "name": { "str": "Activate Sphenocorona", "//~": "NO_I18N" },
+    "description": { "str": "Sphenocoronae to Golden monoliths.", "//~": "NO_I18N" },
     "copy-from": "activate_yrax",
     "targeted_monster_ids": [ "mon_yrax_sphenocorona" ],
     "effect_str": "mon_golden_monolith"
@@ -115,8 +115,8 @@
   {
     "type": "SPELL",
     "id": "release_the_deltas",
-    "name": { "str": "Release the deltas!" },
-    "description": "Summons a varying amount of Yrax deltas.",
+    "name": { "str": "Release the deltas!", "//~": "NO_I18N" },
+    "description": { "str": "Summons a varying amount of Yrax deltas.", "//~": "NO_I18N" },
     "flags": [ "HOSTILE_SUMMON", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
     "//": "make sure to only summon a prime number of deltas or I'll be mad",
@@ -134,8 +134,8 @@
   {
     "id": "quadraphract_control",
     "type": "SPELL",
-    "name": "Quadraphract control",
-    "description": "Quadraphracts control themselves using this one.",
+    "name": { "str": "Quadraphract control", "//~": "NO_I18N" },
+    "description": { "str": "Quadraphracts control themselves using this one.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
@@ -148,8 +148,8 @@
   {
     "type": "SPELL",
     "id": "quadraphract_hurt_self",
-    "name": { "str": "Wretch Hurt Self" },
-    "description": "Hurts yourself.",
+    "name": { "str": "Wretch Hurt Self", "//~": "NO_I18N" },
+    "description": { "str": "Hurts yourself.", "//~": "NO_I18N" },
     "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "min_damage": 1200,
     "max_damage": 1500,

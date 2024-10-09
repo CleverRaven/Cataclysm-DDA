@@ -88,6 +88,10 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int mana_cur() const override;
         int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
+        int get_total_in_category( const mutation_category_id &categ,
+                                   mut_count_type count_type ) const override;
+        int get_total_in_category_char_has( const mutation_category_id &categ,
+                                            mut_count_type count_type ) const override;
         bool is_trait_purifiable( const trait_id &trait_to_check ) const override;
         bool has_recipe( const recipe_id &recipe_to_check ) const override;
         bool has_flag( const json_character_flag &trait_flag_to_check ) const override;
@@ -169,6 +173,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
         bool wielded_with_weapon_category( const weapon_category_id &w_cat ) const override;
+        bool wielded_with_weapon_skill( const skill_id &w_skill ) const override;
+        bool wielded_with_item_ammotype( const ammotype &w_ammotype ) const override;
         bool has_item_with_flag( const flag_id &flag ) const override;
         int item_rads( const flag_id &flag, aggregate_type agg_func ) const override;
 

@@ -333,7 +333,7 @@ static npc *make_companion( const tripoint &npc_pos )
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
     guy->randomize();
-    guy->spawn_at_precise( tripoint_abs_ms( get_map().getabs( npc_pos ) ) );
+    guy->spawn_at_precise( get_map().getglobal( npc_pos ) );
     overmap_buffer.insert_npc( guy );
     g->load_npcs();
     guy->companion_mission_role_id.clear();
@@ -394,7 +394,7 @@ TEST_CASE( "npc-board-player-vehicle" )
 
             CAPTURE( companion->path );
             if( !companion->path.empty() ) {
-                tripoint &p = companion->path.front();
+                tripoint_bub_ms &p = companion->path.front();
 
                 int part = -1;
                 const vehicle *veh = here.veh_at_internal( p, part );
@@ -487,7 +487,7 @@ TEST_CASE( "npc-movement" )
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
                 } while( guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
+                guy->spawn_at_precise( get_map().getglobal( p ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.
@@ -560,7 +560,7 @@ TEST_CASE( "npc_can_target_player" )
     set_time_to_day();
 
     Character &player_character = get_player_character();
-    npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + point_south, "thug" );
     REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
@@ -589,7 +589,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
 
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
-    npc &hostile = spawn_npc( player_character.pos().xy() + five_tiles_south, "thug" );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
     REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
@@ -622,8 +622,8 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
 
     Character &player_character = get_player_character();
     point five_tiles_south = {0, 5};
-    npc &hostile = spawn_npc( player_character.pos().xy() + five_tiles_south, "thug" );
-    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    npc &hostile = spawn_npc( player_character.pos_bub().xy() + five_tiles_south, "thug" );
+    REQUIRE( rl_dist( player_character.pos_bub(), hostile.pos_bub() ) >= 4 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
     item backpack( "debug_backpack" );

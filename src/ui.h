@@ -170,6 +170,9 @@ struct uilist_entry {
                                          explicit uilist_entry( Enum e, Args && ... args ) :
                                              uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
+
+    std::string _txt_nocolor;   // what it says on the tin
+    std::string _ctxt_nocolor;  // second column text
 };
 
 /**
@@ -553,7 +556,6 @@ class pointmenu_cb : public uilist_callback
         void select( uilist *menu ) override;
 };
 
-void kill_advanced_inv();
 void temp_hide_advanced_inv();
 
 /**

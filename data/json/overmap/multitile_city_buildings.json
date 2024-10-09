@@ -5372,5 +5372,14 @@
       { "point": [ 0, 0, 0 ], "overmap": "s_fabricstore_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_fabricstore_roof_north" }
     ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_fungus_01",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_fungus_01_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_fungus_roof_01_north" }
+    ]
   }
 ]

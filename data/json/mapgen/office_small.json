@@ -71,10 +71,10 @@
         "k": "f_dumpster",
         "s": "f_sofa",
         "t": "f_table",
-        "v": "f_vending_o",
         "{": "f_locker"
       },
       "toilets": { "T": {  } },
+      "vendingmachines": { "v": { "lootable": true } },
       "place_items": [
         { "item": "office", "x": 12, "y": 19, "chance": 50 },
         { "item": "office", "x": 8, "y": 17, "chance": 50 },

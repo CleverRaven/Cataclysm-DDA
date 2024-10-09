@@ -1103,6 +1103,13 @@
   },
   {
     "type": "keybinding",
+    "id": "look",
+    "category": "OVERMAP",
+    "name": "Look around",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete note",
@@ -1233,6 +1240,13 @@
     "category": "OVERMAP",
     "name": "Teleport to cursor",
     "bindings": [ { "input_method": "keyboard_any", "key": "d" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MODIFY_HORDE",
+    "category": "OVERMAP",
+    "name": "Modify existing horde or place new one",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
   },
   {
     "type": "keybinding",
@@ -2779,6 +2793,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View map",
+    "id": "map",
+    "bindings": [ { "input_method": "keyboard_any", "key": ";" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Look at the sky",
     "category": "DEFAULTMODE",
     "id": "sky"
@@ -2840,6 +2860,51 @@
     "name": "Debug menu",
     "category": "DEFAULTMODE",
     "id": "debug"
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_DL_CONDITIONAL",
+    "name": "Toggle debug dialogue dynamic_line conditionals",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+C" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "c" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_RESP_CONDITIONAL",
+    "name": "Toggle debug dialogue response conditionals",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+D" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "d" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_DL_EFFECT",
+    "name": "Toggle debug dialogue dynamic_line effects",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+T" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "t" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_RESP_EFFECT",
+    "name": "Toggle debug dialogue response effects",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+Y" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "y" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE",
+    "name": "Toggle debug dialogue show hidden responses ",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "CTRL+R" },
+      { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "r" }
+    ]
   },
   {
     "type": "keybinding",

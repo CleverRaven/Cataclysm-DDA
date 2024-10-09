@@ -34,8 +34,8 @@
     "id": "MISSION_GET_INHALER",
     "type": "mission_definition",
     "name": { "str": "Find Inhaler" },
-    "goal": "MGOAL_FIND_ITEM",
-    "item": "inhaler",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "u_has_item": "inhaler" },
     "difficulty": 2,
     "value": 150000,
     "urgent": true,
@@ -96,7 +96,21 @@
       ]
     },
     "end": {
-      "effect": [ { "npc_lose_effect": "infection" }, "stop_guard", { "set_npc_rule": "investigate_noises" }, "npc_thankful" ]
+      "effect": [
+        { "npc_lose_effect": "infection" },
+        "stop_guard",
+        { "set_npc_rule": "investigate_noises" },
+        "npc_thankful",
+        {
+          "if": { "u_has_item": "antibiotics" },
+          "then": { "u_consume_item": "antibiotics", "popup": true },
+          "else": {
+            "if": { "u_has_item": "strong_antibiotic" },
+            "then": { "u_consume_item": "strong_antibiotic", "popup": true },
+            "else": { "u_consume_item": "panacea", "popup": true }
+          }
+        }
+      ]
     },
     "fail": { "effect": "npc_die" }
   },

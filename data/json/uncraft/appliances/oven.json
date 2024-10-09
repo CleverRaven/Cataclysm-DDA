@@ -31,7 +31,7 @@
       { "id": "HAMMER", "level": 1 },
       { "id": "SAW_M", "level": 1 }
     ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "spring", 1 ] ], [ [ "hinge", 1 ] ], [ [ "wire", 1 ] ], [ [ "e_scrap", 4 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "spring", 1 ] ], [ [ "hinge", 1 ] ], [ [ "lc_wire", 1 ] ], [ [ "e_scrap", 4 ] ] ]
   },
   {
     "result": "oven_cabinet",
@@ -126,7 +126,6 @@
       [ [ "scrap", 2 ] ],
       [ [ "e_scrap", 6 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "solder_wire", 8 ] ],
       [ [ "small_lcd_screen", 1 ] ]
     ]
   }

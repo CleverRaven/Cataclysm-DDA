@@ -16,7 +16,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "mut_skyisland_temperature_adaptation" },
-        { "u_at_om_location": "open_air" },
+        { "or": [ { "u_at_om_location": "open_air" }, { "u_near_om_location": "sky_island_subcore", "range": 1 } ] },
         { "math": [ "u_val('pos_z')", "==", "6" ] }
       ]
     },

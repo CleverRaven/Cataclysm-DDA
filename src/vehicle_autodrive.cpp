@@ -795,7 +795,7 @@ void vehicle::autodrive_controller::compute_obstacles()
     point_queue ramp_points;
     for( int dx = 0; dx < NAV_VIEW_SIZE_X; dx++ ) {
         for( int dy = 0; dy < NAV_VIEW_SIZE_Y; dy++ ) {
-            const tripoint abs_map_pt = data.view_to_map.transform( point( dx, dy ), z );
+            const tripoint_abs_ms abs_map_pt( data.view_to_map.transform( point( dx, dy ), z ) );
             const tripoint_bub_ms p = here.bub_from_abs( abs_map_pt );
             data.is_obstacle[dx][dy] = !check_drivable( p );
             data.ground_z[dx][dy] = z;
@@ -1377,7 +1377,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
-        driver.add_msg_if_player( _( "Can't see a path forward." ) );
+        driver.add_msg_if_player( m_warning, _( "Can't see a path forward." ) );
         stop_autodriving( false );
         return autodrive_result::abort;
     }

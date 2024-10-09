@@ -62,7 +62,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     CHECK( fields_here.find_field( field_type_id( "fd_shadow" ) ) != nullptr );
 
     // place a zombie next to the avatar
-    const tripoint spot( 61, 60, 0 );
+    const tripoint_bub_ms spot( 61, 60, 0 );
     clear_map();
     monster &zombie = spawn_test_monster( "mon_zombie", spot );
 

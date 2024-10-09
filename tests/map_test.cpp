@@ -55,15 +55,6 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     CAPTURE( test_bub );
     CAPTURE( test_abs );
 
-    // Verify consistency between different implementations
-    CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
-    CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-    CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
-
-    CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-
     // Verify round-tripping
     CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
     CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
@@ -135,9 +126,9 @@ TEST_CASE( "tinymap_bounds_checking" )
                 if( x < 0 || x >= SEEX * 2 ||
                     y < 0 || y >= SEEY * 2 ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_omt_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_omt_ms{ x, y, z } ) );
                 }
             }
         }
@@ -294,7 +285,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     }
     REQUIRE( bag_plastic.put_in( cookie, pocket_type::CONTAINER ).success() );
 
-    monster &zombo = spawn_test_monster( "mon_zombie", start_loc.raw(), true );
+    monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
     zombo.no_extra_death_drops = true;
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );

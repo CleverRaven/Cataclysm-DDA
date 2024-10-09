@@ -365,7 +365,11 @@
     ]
   },
   {
-    "id": [ "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING", "TALK_ROBOFAC_INTERCOM_ARMOR_ONGOING" ],
+    "id": [
+      "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ONGOING",
+      "TALK_ROBOFAC_INTERCOM_ARMOR_ONGOING",
+      "TALK_ROBOFAC_INTERCOM_ROBOT_ONGOING"
+    ],
     "//": "default response to any project that isn't completed",
     "type": "talk_topic",
     "dynamic_line": "Work is still ongoing.  These things can take time.",

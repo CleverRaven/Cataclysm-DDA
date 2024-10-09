@@ -908,7 +908,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "wearable camera" },
-    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  Takes conventional batteries.  This one can be worn over your neck.",
+    "description": "A point-and-shoot digital camera with a digital viewfinder, a backup 'iron-sight', and flash.  You can look at your photos on the digital screen, or transfer them with a memory card.  This one can be worn over your neck.",
     "price": "200 USD",
     "price_postapoc": "50 cent",
     "material": [ "plastic", "steel" ],
@@ -917,7 +917,7 @@
     "volume": "500 ml",
     "charges_per_use": 1,
     "ammo": "battery",
-    "use_action": [ "CAMERA" ],
+    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "20 W" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
     "melee_damage": { "bash": 1 }
@@ -929,7 +929,7 @@
     "symbol": "[",
     "color": "blue",
     "name": { "str": "wearable professional camera" },
-    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card; it runs on conventional batteries.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
+    "description": "A 35 mm digital SLR (single-lens reflex) camera with optical and digital viewfinders, a zoom lens with auto-focus and stabilizer, and flash.  You can view your photos on it or transfer them with a memory card.  Before the Cataclysm, you could have taken professional-grade photos using this.  This one can be worn over your neck",
     "price": "8 kUSD",
     "price_postapoc": "1 USD",
     "material": [ "plastic", "steel" ],
@@ -948,7 +948,7 @@
     "volume": "500 ml",
     "charges_per_use": 1,
     "ammo": "battery",
-    "use_action": [ "CAMERA" ],
+    "use_action": [ "CAMERA", { "type": "link_up", "cable_length": 3, "charge_rate": "50 W" } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "armor": [ { "encumbrance": 2, "coverage": 15, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_front" ] } ],
     "melee_damage": { "bash": 1 }
@@ -2276,7 +2276,7 @@
     "warmth": 15,
     "environmental_protection": 4,
     "environmental_protection_with_filter": 15,
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxl",
@@ -2285,7 +2285,7 @@
     "looks_like": "mask_lsurvivor",
     "name": { "str": "survivor half mask" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SUN_GLASSES", "SLEEP_IGNORE", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "SLEEP_IGNORE", "UNRESTRICTED" ]
   },
   {
     "id": "mask_lsurvivorxs",
@@ -2294,7 +2294,7 @@
     "looks_like": "mask_lsurvivor",
     "name": { "str": "survivor half mask" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
+    "flags": [ "VARSIZE", "STURDY", "SLEEP_IGNORE", "UNDERSIZE", "PREFIX_XS", "UNRESTRICTED" ]
   },
   {
     "id": "mask_survivor",

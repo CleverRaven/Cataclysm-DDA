@@ -4,6 +4,7 @@
     "id": "NC_FM_DOCTOR",
     "name": { "str": "Doctor" },
     "job_description": "I'm looking for wounded to help.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_MEDICAL" },
       { "group": "NPC_starting_traits" },

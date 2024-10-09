@@ -44,7 +44,7 @@
           "dodgeable": true,
           "blockable": false,
           "effects": [ { "id": "onfire", "duration": 60, "chance": 50, "affect_hit_bp": true } ],
-          "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "hit_dmg_u": "%1$s waves its fronds and your %2$s is engulfed in flames!",
           "hit_dmg_npc": "%1$s waves its fronds and <npcname>'s %2$s is engulfed in flames!",
           "miss_msg_u": "%1$s waves its fronds and you narrowly avoid a burst of flame!",
@@ -58,7 +58,7 @@
           "spell_data": { "id": "pyrokinetic_quell_flames_monster", "min_level": 10 },
           "allow_no_target": true,
           "cooldown": 1,
-          "condition": { "and": [ { "not": { "u_has_effect": "effect_psi_null" } }, { "u_is_in_field": "fd_fire" } ] },
+          "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "u_is_in_field": "fd_fire" } ] },
           "monster_message": "%1$s waves its fronds and the flames gutter and die."
         },
         {
@@ -68,7 +68,7 @@
           "cooldown": { "math": [ "10 + rand(25)" ] },
           "condition": {
             "and": [
-              { "not": { "u_has_effect": "effect_psi_null" } },
+              { "not": { "u_has_flag": "NO_PSIONICS" } },
               { "not": { "npc_has_effect": "effect_monster_pyrokinetic_fire_immunity" } }
             ]
           },
@@ -91,7 +91,7 @@
           "type": "spell",
           "spell_data": { "id": "teleport_slow_monster", "min_level": 8 },
           "cooldown": { "math": [ "7 + rand(14)" ] },
-          "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s waves its fronds at %3$s."
         },
         {
@@ -100,15 +100,15 @@
           "move_cost": 50,
           "allow_no_target": true,
           "max_range": 10,
-          "message": "%1$s vanishes and reappears elsewhere!",
-          "condition": { "not": { "u_has_effect": "effect_psi_null" } }
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+          "message": "%1$s vanishes and reappears elsewhere!"
         },
         {
           "id": "psi_triffid_teleporter_ally_teleport",
           "type": "spell",
           "spell_data": { "id": "teleporter_triffid_summon_allies", "min_level": 10 },
           "cooldown": { "math": [ "17 + rand(32)" ] },
-          "condition": { "not": { "u_has_effect": "effect_psi_null" } },
+          "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
           "monster_message": "%1$s waves its fronds at %3$s and the air around %3$s solidifies into shapes."
         }
       ]

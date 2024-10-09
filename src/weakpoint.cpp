@@ -414,6 +414,9 @@ void weakpoint::load( const JsonObject &jo )
     assign( jo, "id", id );
     assign( jo, "name", name );
     assign( jo, "coverage", coverage, false, 0.0f, 100.0f );
+    if( jo.has_bool( "is_good" ) ) {
+        assign( jo, "is_good", is_good );
+    }
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_map( jo.get_object( "armor_mult" ) );
     }
@@ -536,8 +539,16 @@ float weakpoint::hit_chance( const weakpoint_attack &attack ) const
     // exceeding the difficulty.
     float diff = attack.wp_skill - difficulty.of( attack );
     float difficulty_mult = 0.5f * ( 1.0f + erf( diff / ( 2.0f * sqrt( 2.0f ) ) ) );
-    // Compute the total value
-    return constant_mult * difficulty_mult * coverage;
+    float final_coverage;
+
+    if( attack.source && attack.source->as_character() && is_good ) {
+        final_coverage = attack.source->as_character()->enchantment_cache->modify_value(
+                             enchant_vals::mod::WEAKPOINT_ACCURACY, coverage );
+    } else {
+        final_coverage = coverage;
+    }
+
+    return constant_mult * difficulty_mult * final_coverage;
 }
 
 // Reweighs the probability distribution of hitting a weakpoint.

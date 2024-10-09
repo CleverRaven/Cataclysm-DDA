@@ -211,7 +211,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 3 minutes and 30 seconds to 10 minutes and 40 seconds, plus 8 seconds to 25 seconds per level<br />
 *Stamina Cost*: 4500, minus 135 per level to a minimum of 2250<br />
 *Channeling Time*: 200 moves, minus 6 moves per level to a minimum of 125<br />
-*Effects*: Increase the psion's range with ranged weapons by 1 square per 2 power levels and reduces weapon dispersion by 2.5% per power level.<br />
+*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 
 ## Clairyovance
@@ -238,7 +238,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 20 minutes and 15 seconds to 45 minutes, plus 4 minutes and 10 seconds to 10 minutes per level<br />
 *Stamina Cost*: 6500, minus 145 per level to a minimum of 3250<br />
 *Channeling Time*: 500 moves, minus 3 moves per level to a minimum of 300<br />
-*Effects*: Enter a trance and improve the psion's ability to craft, increasing crafting speed by 4% and skill level by 0.25 per 4 power levels. However, the psion's vision will be limited and their movement speed will be slowed while in the trance.<br />
+*Effects*: Enter a trance and improve the psion's ability to craft, increasing crafting speed by 4% and skill level by 0.25 per 4 power levels and allowing them to craft regardless of light levels. However, the psion's vision will be limited and their movement speed will be slowed while in the trance, and they will be blind while actually crafting anything.<br />
 *Prerequisites*: Speed Reader 8, Discern Weakness 4, Premonition 6<br />
 
 ## One Perfect Shot
@@ -649,7 +649,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 8 minutes and 30 seconds to 30 minutes, plus 50 seconds to 20 minutes and 40 seconds per level<br />
 *Stamina Cost*: 2500, minus 150 per level to a minimum of 800<br />
 *Channeling Time*: 250 moves, minus 10 moves per level to a minimum of 75 moves<br />
-*Effects*: Summon a controlled fire in the palm of the psion's hand or nearby. The fire sheds a small amount of light and can be used for anything fire can normally be used for; heating food, cooking, lightning other fires, and so on. The banked flame requires more intense concentration and cannot be sustained in combat.<br />
+*Effects*: Summon a controlled fire in the palm of the psion's hand. The fire sheds a small amount of light and can be used for anything fire can normally be used for; heating food, cooking, lightning other fires, and so on. The banked flame requires more intense concentration and cannot be sustained in combat.  In addition, it encumbers one of your hands and prevents you from using any weapon requiring two hands.<br />
 *Prerequisites*: Fountain of Flames 4<br />
 
 ## Quell Fire

@@ -38,6 +38,7 @@
       [ "spell_scroll_classless_watch_spell", 30 ],
       [ "spell_scroll_classless_clean_clothing_and_self", 75 ],
       [ "spell_scroll_classless_easy_sleep_spell", 45 ],
+      [ "spell_scroll_classless_restore_crystal_mana", 35 ],
       [ "spell_scroll_disruption_bolt", 50 ],
       [ "spell_scroll_shocking_lash", 50 ],
       [ "spell_scroll_electric_arts", 50 ],

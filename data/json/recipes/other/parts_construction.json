@@ -572,7 +572,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "wire", 8 ] ] ]
+    "components": [ [ [ "glass_sheet", 1 ] ], [ [ "mc_wire", 8 ] ] ]
   },
   {
     "type": "recipe",

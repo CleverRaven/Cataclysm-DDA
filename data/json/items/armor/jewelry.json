@@ -1966,8 +1966,8 @@
   {
     "abstract": "badge_abstract",
     "type": "ARMOR",
-    "name": { "str": "badge template" },
-    "description": "This is a template for police/medical badges.  If found in a game, it is a bug.",
+    "name": { "str": "badge template", "//~": "NO_I18N" },
+    "description": { "str": "This is a template for police/medical badges.  If found in a game, it is a bug.", "//~": "NO_I18N" },
     "weight": "60 g",
     "volume": "8 ml",
     "price": "50 USD",

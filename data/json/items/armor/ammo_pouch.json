@@ -53,7 +53,6 @@
           "308": 60,
           "12mm": 60,
           "8x40mm": 60,
-          "20x66mm": 60,
           "stimpack_ammo": 60,
           "ampoule": 60,
           "300": 60,
@@ -652,7 +651,7 @@
         "volume_encumber_modifier": 0.25
       },
       {
-        "ammo_restriction": { "410shot": 6, "shot": 6, "20x66mm": 6, "signal_flare": 6 },
+        "ammo_restriction": { "410shot": 6, "shot": 6, "signal_flare": 6 },
         "moves": 25,
         "volume_encumber_modifier": 0.2
       }
@@ -1253,7 +1252,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "dark_gray",
-    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "20x66mm": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
+    "pocket_data": [ { "ammo_restriction": { "410shot": 12, "shot": 12, "signal_flare": 12, "308": 20 }, "moves": 30 } ],
     "material_thickness": 0.5,
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "PALS_MEDIUM" ],
     "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]

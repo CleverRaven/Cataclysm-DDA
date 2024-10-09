@@ -161,7 +161,7 @@ class monster : public Creature
 
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
         // Inverts color if inv==true
         // // Returns true if f is set (see mtype.h)
         bool has_flag( const mon_flag_id &f ) const final;

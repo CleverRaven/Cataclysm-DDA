@@ -8,7 +8,32 @@
       {
         "u_run_inv_eocs": "all",
         "search_data": [ { "wielded_only": true } ],
-        "true_eocs": [ { "id": "_EOC_STATS", "effect": [ { "math": [ "u_perk_mymelee", "=", "n_melee_damage('ALL')" ] } ] } ]
+        "true_eocs": [
+          {
+            "id": "PERK_MELEE_EOC_STATS",
+            "effect": [
+              { "math": [ "u_perk_mymelee", "=", "n_melee_damage('ALL')" ] },
+              { "math": [ "u_perk_mymelee_bash", "=", "n_melee_damage('bash')" ] },
+              { "math": [ "u_perk_mymelee_cut", "=", "n_melee_damage('cut')" ] },
+              { "math": [ "u_perk_mymelee_stab", "=", "n_melee_damage('stab')" ] },
+              { "math": [ "u_perk_insight_cut_scaling", "=", "0" ] },
+              { "math": [ "u_perk_insight_stab_scaling", "=", "0" ] },
+              { "math": [ "u_perk_insight_bash_scaling", "=", "0" ] },
+              {
+                "math": [ "u_perk_mymelee_best_damage", "=", "max( u_perk_mymelee_bash, u_perk_mymelee_cut, u_perk_mymelee_stab)" ]
+              },
+              {
+                "if": { "math": [ "u_perk_mymelee_cut", "==", "u_perk_mymelee_best_damage" ] },
+                "then": [ { "math": [ "u_perk_insight_cut_scaling", "=", "1" ] } ],
+                "else": {
+                  "if": { "math": [ "u_perk_mymelee_stab", "==", "u_perk_mymelee_best_damage" ] },
+                  "then": [ { "math": [ "u_perk_insight_stab_scaling", "=", "1" ] } ],
+                  "else": { "math": [ "u_perk_insight_bash_scaling", "=", "1" ] }
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   },

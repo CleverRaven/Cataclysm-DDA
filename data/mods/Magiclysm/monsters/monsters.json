@@ -895,5 +895,44 @@
     "fear_triggers": [ "BRIGHT_LIGHT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HAS_MIND", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
     "armor": { "bash": 15, "cut": 2, "heat": 10, "necrotic": 5, "poison": 100 }
+  },
+  {
+    "id": "mon_catoblepas",
+    "type": "MONSTER",
+    "name": { "str": "catoblepas", "str_pl": "catoblepases" },
+    "description": "A terrible stench is the first sign of this monster's presence.  It has an ox-like body and warthog-like head, with a neck almost as long as a giraffe's.  It keeps its head low to the ground, but there's something odd about its eyes.",
+    "default_faction": "magical_beast",
+    "bodytype": "bear",
+    "species": [ "MAGICAL_BEAST" ],
+    "volume": "560000 ml",
+    "weight": "500 kg",
+    "hp": 350,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "C",
+    "color": "brown",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "dodge": 1,
+    "vision_night": 5,
+    "path_settings": { "max_dist": 25, "avoid_sharp": true },
+    "harvest": "mutant_mammal_large_fur",
+    "dissect": "dissect_beast_sample_large",
+    "special_attacks": [
+      { "id": "stretch_bite", "cooldown": 1, "range": 2 },
+      {
+        "id": "catoblepas_gaze",
+        "type": "spell",
+        "spell_data": { "id": "catoblepas_gaze_spell", "min_level": 20 },
+        "monster_message": "The catoblepas looks at %3$s!",
+        "cooldown": 15
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "REVIVES", "PATH_AVOID_DANGER", "PATH_AVOID_FIRE", "WARM" ],
+    "zombify_into": "mon_catoblepas_zombie",
+    "armor": { "bash": 4, "cut": 2, "necrotic": 25, "poison": 30 }
   }
 ]

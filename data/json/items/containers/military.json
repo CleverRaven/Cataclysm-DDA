@@ -415,8 +415,8 @@
   {
     "abstract": "ammo_box_1",
     "type": "GENERIC",
-    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
-    "description": "A small, cardboard box for ammo.",
+    "name": { "str": "ammo box", "str_pl": "ammo boxes", "//~": "NO_I18N" },
+    "description": { "str": "A small, cardboard box for ammo.", "//~": "NO_I18N" },
     "category": "container",
     "symbol": "#",
     "color": "brown",
@@ -555,9 +555,9 @@
   {
     "abstract": "ammo_box_3",
     "type": "GENERIC",
-    "name": { "str": "ammo box", "str_pl": "ammo boxes" },
+    "name": { "str": "ammo box", "str_pl": "ammo boxes", "//~": "NO_I18N" },
     "//": "30x223 clips or 50x223 or 20x300",
-    "description": "A small, cardboard box for ammo.",
+    "description": { "str": "A small, cardboard box for ammo.", "//~": "NO_I18N" },
     "category": "container",
     "symbol": "#",
     "color": "brown",

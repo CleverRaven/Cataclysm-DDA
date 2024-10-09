@@ -28,6 +28,20 @@
     "color": "white"
   },
   {
+    "id": "schematics_telepathic_focusing_tool",
+    "type": "BOOK",
+    "name": { "str_sp": "telepathic focusing tool schematics" },
+    "description": "This is a series of technical design documents for a focusing assembly designed to \"enhance the precision of Netherum mathematics\".",
+    "copy-from": "schematics_generic",
+    "skill": "fabrication",
+    "required_level": 4,
+    "max_level": 4,
+    "intelligence": 10,
+    "time": "45 m",
+    "symbol": "ç",
+    "color": "white"
+  },
+  {
     "id": "schematics_matrix_crystal_ground",
     "type": "BOOK",
     "name": { "str_sp": "refined matrix crystal schematics" },

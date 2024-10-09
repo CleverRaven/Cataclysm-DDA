@@ -215,6 +215,18 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+int talker_character_const::get_total_in_category( const mutation_category_id &categ,
+        mut_count_type count_type ) const
+{
+    return me_chr_const->get_total_in_category( categ, count_type );
+}
+
+int talker_character_const::get_total_in_category_char_has( const mutation_category_id &categ,
+        mut_count_type count_type ) const
+{
+    return me_chr_const->get_total_in_category_char_has( categ, count_type );
+}
+
 bool talker_character_const::is_trait_purifiable( const trait_id &trait_to_check ) const
 {
     return me_chr_const->purifiable( trait_to_check );
@@ -770,6 +782,37 @@ bool talker_character_const::wielded_with_weapon_category( const weapon_category
 {
     return me_chr_const->get_wielded_item() &&
            me_chr_const->get_wielded_item()->typeId()->weapon_category.count( w_cat ) > 0;
+}
+
+bool talker_character_const::wielded_with_weapon_skill( const skill_id &w_skill ) const
+{
+    if( me_chr_const->get_wielded_item() ) {
+        item *it = me_chr_const->get_wielded_item().get_item();
+        skill_id it_skill = it->is_gun() ? it->gun_skill() : it->melee_skill();
+        return it_skill == w_skill;
+    } else {
+        return false;
+    }
+}
+
+bool talker_character_const::wielded_with_item_ammotype( const ammotype &w_ammotype ) const
+{
+    if( !me_chr_const->get_wielded_item() ) {
+        return false;
+    }
+    item *it = me_chr_const->get_wielded_item().get_item();
+    if( it->ammo_types().empty() ) {
+        return false;
+    }
+    std::set<ammotype> it_ammotype = it->ammo_types();
+    bool match = false;
+
+    for( ammotype ammo : it_ammotype ) {
+        if( ammo == w_ammotype ) {
+            match = true;
+        }
+    }
+    return match;
 }
 
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const

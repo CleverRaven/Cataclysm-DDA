@@ -25,7 +25,7 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS", "UNRESTRICTED" ],
     "techniques": [ "WBLOCK_3" ],
     "melee_damage": { "bash": 20 }
   },
@@ -106,7 +106,7 @@
     "sided": true,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 14 }
   },
@@ -127,7 +127,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
+    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED", "UNRESTRICTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
     "melee_damage": { "bash": 6 }
   },
@@ -179,7 +179,8 @@
       "TRADER_AVOID",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "MAGIC_FOCUS"
+      "MAGIC_FOCUS",
+      "UNRESTRICTED"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_stormglove" } ] },
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
@@ -282,7 +283,8 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "ZERO_WEIGHT"
+      "ZERO_WEIGHT",
+      "UNRESTRICTED"
     ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
@@ -313,7 +315,6 @@
   },
   {
     "id": "druid_recurve",
-    "//": "Not using copy-from 'reflexbow', since wearability causes druid bow not to be wielded, and ammo / clip type causes it to require real arrows",
     "type": "GUN",
     "symbol": "(",
     "color": "yellow",
@@ -377,7 +378,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -411,7 +412,7 @@
         "moves": 20
       }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE" ],
+    "flags": [ "BELTED", "OVERSIZE", "TRADER_AVOID", "WATER_FRIENDLY", "TARDIS", "ONLY_ONE", "UNRESTRICTED" ],
     "armor": [
       {
         "encumbrance": [ 3, 5 ],
@@ -516,7 +517,8 @@
       "STURDY",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
-      "PADDED"
+      "PADDED",
+      "UNRESTRICTED"
     ],
     "armor": [
       {
@@ -848,7 +850,16 @@
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "every", "balance": "good" },
     "weapon_category": [ "CLAWS" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
+    "flags": [
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "NO_UNWIELD",
+      "MAGIC_FOCUS",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "UNRESTRICTED"
+    ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [

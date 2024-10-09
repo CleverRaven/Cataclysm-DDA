@@ -75,6 +75,7 @@ static const std::string flag_CHALLENGE( "CHALLENGE" );
 static const std::string flag_CITY_START( "CITY_START" );
 static const std::string flag_SECRET( "SECRET" );
 
+static const std::string type_hair_color( "hair_color" );
 static const std::string type_hair_style( "hair_style" );
 static const std::string type_skin_tone( "skin_tone" );
 static const std::string type_facial_hair( "facial_hair" );
@@ -600,6 +601,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
 void avatar::randomize_cosmetics()
 {
+    randomize_cosmetic_trait( type_hair_color );
     randomize_cosmetic_trait( type_hair_style );
     randomize_cosmetic_trait( type_skin_tone );
     randomize_cosmetic_trait( type_eye_color );
@@ -4545,7 +4547,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "RANDOMIZE_CHAR_DESCRIPTION" ) {
             bool gender_selection = one_in( 2 );
             you.male = gender_selection;
-            outfit = gender_selection;
+            if( one_in( 10 ) ) {
+                outfit = !gender_selection;
+            } else {
+                outfit = gender_selection;
+            }
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
                 you.pick_name();
                 no_name_entered = you.name.empty();
@@ -4905,6 +4911,7 @@ void avatar::save_template( const std::string &name, pool_type pool )
         if( !random_start_location ) {
             jsout.member( "start_location", start_location );
         }
+        jsout.member( "outfit_gender", outfit );
         jsout.end_object();
 
         serialize( jsout );
@@ -4936,6 +4943,8 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
 
             random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
+
+            outfit = jobj.get_bool( "outfit_gender", true );
 
             // get_scenario()->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
             for( const class start_location &loc : start_locations::get_all() ) {

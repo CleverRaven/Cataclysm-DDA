@@ -279,7 +279,7 @@
     ],
     "components": [
       [ [ "pipe", 6 ], [ "frame", 1 ], [ "xlframe", 1 ] ],
-      [ [ "wire", 8 ], [ "spike", 8 ], [ "nails", 16, "LIST" ] ],
+      [ [ "lc_wire", 8 ], [ "spike", 8 ], [ "nails", 16, "LIST" ] ],
       [ [ "scrap", 40 ], [ "sheet_metal", 1 ], [ "sheet_metal_small", 20 ] ]
     ],
     "pre_terrain": "t_pit",
@@ -299,7 +299,7 @@
       [ { "id": "DRILL", "level": 1 } ]
     ],
     "components": [
-      [ [ "wire", 16 ], [ "spike", 16 ], [ "nails", 32, "LIST" ] ],
+      [ [ "lc_wire", 16 ], [ "spike", 16 ], [ "nails", 32, "LIST" ] ],
       [ [ "sheet_metal_small", 20 ], [ "scrap", 40 ] ],
       [
         [ "sheet_metal", 4 ],

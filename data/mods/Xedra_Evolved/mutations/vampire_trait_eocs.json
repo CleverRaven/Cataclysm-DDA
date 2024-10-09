@@ -92,6 +92,30 @@
                     "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
                   ]
                 }
+              },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_EYEGLEAM_activated_3",
+                    "condition": {
+                      "or": [
+                        {
+                          "and": [
+                            { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+                            { "math": [ "u_effect_intensity('vampire_virus_ascendant')", "==", "1" ] }
+                          ]
+                        },
+                        {
+                          "and": [
+                            { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
+                            { "math": [ "u_effect_intensity('vampire_virus_post_mortal')", "==", "1" ] }
+                          ]
+                        }
+                      ]
+                    },
+                    "effect": [ { "u_add_effect": "eyegleam_craft_in_darkness", "duration": "PERMANENT" } ]
+                  }
+                ]
               }
             ],
             "false_effect": [
@@ -110,7 +134,8 @@
             "condition": { "u_has_effect": "eyegleam" },
             "effect": [
               { "u_message": "Your eyes lose their reddish glint as the darkness rolls back in.", "type": "neutral" },
-              { "u_lose_effect": "eyegleam" }
+              { "u_lose_effect": "eyegleam" },
+              { "u_lose_effect": "eyegleam_craft_in_darkness" }
             ]
           }
         ]
@@ -151,6 +176,7 @@
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your gleaming eyes.", "type": "bad" },
               { "u_lose_effect": "eyegleam" },
+              { "u_lose_effect": "eyegleam_craft_in_darkness" },
               { "u_deactivate_trait": "EYEGLEAM" }
             ]
           }

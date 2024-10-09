@@ -9,6 +9,7 @@
 #include <numeric>
 #include <ostream>
 
+#include "avatar_action.h"
 #include "bodygraph.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -142,7 +143,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( !it.has_flag( flag_OVERSIZE ) && !it.has_flag( flag_INTEGRATED ) &&
-        !it.has_flag( flag_SEMITANGIBLE ) &&
+        !it.has_flag( flag_SEMITANGIBLE ) && !it.has_flag( flag_MORPHIC ) &&
         !it.has_flag( flag_UNRESTRICTED ) ) {
         for( const trait_id &mut : get_mutations() ) {
             const mutation_branch &branch = mut.obj();
@@ -262,6 +263,12 @@ std::optional<std::list<item>::iterator>
 Character::wear( item_location item_wear, bool interactive )
 {
     item to_wear = *item_wear;
+
+    // Need to account for case where we're trying to wear something that belongs to someone else
+    if( !avatar_action::check_stealing( *this, to_wear ) ) {
+        return std::nullopt;
+    }
+
     if( is_worn( to_wear ) ) {
         if( interactive ) {
             add_msg_player_or_npc( m_info,

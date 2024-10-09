@@ -89,7 +89,7 @@ TEST_CASE( "mapgen_remove_vehicles" )
     map &here = get_map();
     clear_avatar();
     // this position should prevent pointless mapgen
-    tripoint const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
+    tripoint_bub_ms const start_loc( HALF_MAPSIZE_X + SEEX - 2, HALF_MAPSIZE_Y + SEEY - 1, 0 );
     get_avatar().setpos( start_loc );
     clear_map();
     REQUIRE( here.get_vehicles().empty() );
@@ -123,7 +123,8 @@ TEST_CASE( "mapgen_remove_vehicles" )
     SECTION( "update place then nested remove all on main map" ) {
         tripoint_abs_omt const this_test_omt =
             project_to<coords::omt>( get_map().getglobal( test_loc ) );
-        tripoint const this_test_loc = get_map().getlocal( project_to<coords::ms>( this_test_omt ) );
+        tripoint_bub_ms const this_test_loc = get_map().bub_from_abs( project_to<coords::ms>
+                                              ( this_test_omt ) );
         manual_mapgen( this_test_omt, manual_update_mapgen, update_mapgen_test_update_place_shopping_cart );
         REQUIRE( here.get_vehicles().size() == 2 );
         REQUIRE( here.veh_at( this_test_loc ).has_value() );

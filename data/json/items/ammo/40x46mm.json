@@ -2,7 +2,7 @@
   {
     "abstract": "40x46mm_grenade",
     "type": "AMMO",
-    "name": { "str": "40x46mm grenade" },
+    "name": { "str": "40x46mm grenade", "//~": "NO_I18N" },
     "volume": "129 ml",
     "weight": "230 g",
     "longest_side": "99 mm",
@@ -145,7 +145,7 @@
     "copy-from": "40x46mm_m576",
     "type": "AMMO",
     "name": { "str_sp": "40x46mm M199 buckshot, black powder" },
-    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.  The use of black powder instead of smokeless doesn't help either - expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "An improvised 40x46mm buckshot load somewhat resembling M576, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
     "ascii_picture": "40x46mm_improvised",
     "proportional": {
       "price": 0.3,
@@ -161,7 +161,7 @@
     "copy-from": "40x46mm_grenade",
     "type": "AMMO",
     "name": { "str": "40x46mm M118 slug, black powder", "str_pl": "40x46mm M118 slugs, black powder" },
-    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.  The use of black powder instead of smokeless doesn't help either - expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M118 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
     "ascii_picture": "40x46mm_improvised",
     "damage": { "damage_type": "bullet", "amount": 21, "armor_penetration": 1 },
     "weight": "120 g",
@@ -175,7 +175,7 @@
     "copy-from": "bp_40x46mm_slug_m118",
     "type": "AMMO",
     "name": { "str": "40x46mm M199 slug, black powder", "str_pl": "40x46mm M199 slugs, black powder" },
-    "description": "An improvised 40x46mm load resembling an oversized shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
+    "description": "An improvised 40x46mm load resembling a shotgun slug, loaded into a M199 canister.  Due to the limitations of weapons built to fire 40x46mm grenades, it's much less powerful than you'd expect.",
     "ascii_picture": "40x46mm_improvised",
     "casing": "40x46mm_m199_casing"
   },

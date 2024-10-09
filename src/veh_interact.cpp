@@ -178,10 +178,10 @@ player_activity veh_interact::serialize_activity()
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.getabs( p ) );
+        res.coord_set.insert( here.getglobal( p ).raw() );
     }
-    res.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );    // values[0]
-    res.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );    // values[1]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );   // values[0]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );   // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
@@ -201,14 +201,14 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     avatar &player_character = get_avatar();
     // Stash offset and set it to the location of the part so look_around will
     // start there.
-    const tripoint old_view_offset = player_character.view_offset;
-    tripoint offset = veh->global_pos3();
+    const tripoint_rel_ms old_view_offset = player_character.view_offset;
+    tripoint_bub_ms offset = veh->pos_bub();
     // Appliances are one tile so the part placement there is always point_zero
     if( part_placement ) {
         point copied_placement = *part_placement ;
         offset += copied_placement ;
     }
-    player_character.view_offset = offset - player_character.pos();
+    player_character.view_offset = offset - player_character.pos_bub();
 
     point delta;
     do {
@@ -220,7 +220,7 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
         if( !chosen ) {
             continue;
         }
-        delta = ( *chosen - offset ).xy();
+        delta = ( *chosen - offset.raw() ).xy();
         // atan2 only gives reasonable values when delta is not all zero
     } while( delta == point_zero );
 
@@ -3075,7 +3075,7 @@ void veh_interact::complete_vehicle( Character &you )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         for( const tripoint &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.bub_from_abs( pt ) );
+            ovp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( pt ) ) );
             if( ovp ) {
                 break;
             }

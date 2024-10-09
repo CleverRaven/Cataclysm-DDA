@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "messages.h"
 
@@ -78,6 +79,10 @@ void add_msg_if_player_sees( const Creature &, std::string m )
     Messages::add_msg( std::move( m ) );
 }
 void add_msg_if_player_sees( const tripoint &, const game_message_params &, std::string m )
+{
+    Messages::add_msg( std::move( m ) );
+}
+void add_msg_if_player_sees( const tripoint_bub_ms &, const game_message_params &, std::string m )
 {
     Messages::add_msg( std::move( m ) );
 }

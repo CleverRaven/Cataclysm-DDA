@@ -299,7 +299,7 @@
       },
       "item": { "c": [ { "item": "microwave", "chance": 75 }, { "item": "coffeemaker", "chance": 75 } ] },
       "place_monster": [ { "monster": "mon_zombie_scientist", "x": [ 7, 21 ], "y": [ 4, 10 ], "repeat": [ 1, 3 ] } ],
-      "monster": { "@": { "monster": "mon_turret_riot" } }
+      "monster": { "@": { "monster": "mon_feral_labsecurity_9mm" } }
     }
   },
   {

@@ -426,7 +426,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     GIVEN( "An adjacent vehicle contains several bottles of water" ) {
         std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
-        tripoint veh = random_entry( tiles );
+        tripoint_bub_ms veh = tripoint_bub_ms( random_entry( tiles ) );
         REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, veh, 0_degrees, 0, 0 ) );
 
         REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {

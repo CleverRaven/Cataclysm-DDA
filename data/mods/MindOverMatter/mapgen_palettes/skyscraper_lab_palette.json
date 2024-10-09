@@ -67,9 +67,7 @@
       "x": "f_console_broken",
       "X": "f_generator_broken",
       "y": "f_locker",
-      "Y": "f_rack_coat",
-      "Đ": "f_vending_c",
-      "Ƒ": "f_vending_c"
+      "Y": "f_rack_coat"
     },
     "items": {
       "d": [ { "item": "SUS_office_desk", "chance": 50 }, { "item": "homebooks", "chance": 2 } ],
@@ -83,7 +81,12 @@
       "F": { "item": "SUS_office_filing_cabinet", "chance": 70 },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "vendingmachines": {
+      "8": { "item_group": "vending_drink", "lootable": true },
+      "9": { "item_group": "vending_food", "lootable": true },
+      "Đ": { "item_group": "vending_drink", "lootable": true },
+      "Ƒ": { "item_group": "vending_food", "lootable": true }
+    },
     "toilets": { "T": {  } }
   },
   {

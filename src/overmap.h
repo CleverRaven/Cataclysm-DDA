@@ -540,6 +540,7 @@ class overmap
 
         // DEBUG ONLY!
         void debug_force_add_group( const mongroup &group );
+        std::vector<std::reference_wrapper<mongroup>> debug_unsafe_get_groups_at( tripoint_abs_omt &loc );
     private:
         /**
          * Iterate over the overmap and place the quota of specials.

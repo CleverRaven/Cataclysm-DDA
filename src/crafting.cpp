@@ -98,6 +98,7 @@ static const furn_str_id furn_f_ground_crafting_spot( "f_ground_crafting_spot" )
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
 
+static const json_character_flag json_flag_CRAFT_IN_DARKNESS( "CRAFT_IN_DARKNESS" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 
 static const limb_score_id limb_score_manip( "manip" );
@@ -170,6 +171,9 @@ float Character::lighting_craft_speed_multiplier( const recipe &rec, const tripo
     float darkness = fine_detail_vision_mod( p ) - 4.0f;
     if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
+    }
+    if( has_flag( json_flag_CRAFT_IN_DARKNESS ) ) {
+        return 1.0f; // through supernatural means, you can see in the dark and craft without a problem
     }
     bool rec_blind = rec.has_flag( flag_BLIND_HARD ) || rec.has_flag( flag_BLIND_EASY );
     if( darkness > 0 && !rec_blind ) {
@@ -2658,8 +2662,9 @@ bool Character::disassemble( item_location target, bool interactive, bool disass
             if( obj.get_owner() ) {
                 std::vector<npc *> witnesses;
                 for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
+                    if( rl_dist( elem.pos_bub(), player_character.pos_bub() ) < MAX_VIEW_DISTANCE &&
+                        elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( player_character.pos_bub() ) ) {
                         elem.say( "<witnessed_thievery>", 7 );
                         npc *npc_to_add = &elem;
                         witnesses.push_back( npc_to_add );

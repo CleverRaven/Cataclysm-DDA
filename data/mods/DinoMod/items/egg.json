@@ -421,6 +421,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_astrodon",
+    "name": "astrodon egg",
+    "copy-from": "egg_dino_large",
+    "rot_spawn": "GROUP_EGG_astrodon"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_alamosaurus",
     "name": "alamosaurus egg",
     "copy-from": "egg_dino_large",

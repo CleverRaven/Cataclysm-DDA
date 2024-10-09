@@ -319,7 +319,6 @@ enum class ter_furn_flag : int {
     TFLAG_MURKY,
     TFLAG_AMMOTYPE_RELOAD,
     TFLAG_TRANSPARENT_FLOOR,
-    TFLAG_TOILET_WATER,
     TFLAG_ELEVATOR,
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
@@ -493,14 +492,10 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        // TODO: Get rid of untyped overload.
-        bool can_examine( const tripoint &examp ) const;
         bool can_examine( const tripoint_bub_ms &examp ) const;
         bool has_examine( iexamine_examine_function func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_functions func );
-        // TODO: Get rid of untyped overload.
-        void examine( Character &, const tripoint & ) const;
         void examine( Character &, const tripoint_bub_ms & ) const;
 
         int light_emitted = 0;
@@ -514,6 +509,10 @@ struct map_data_common_t {
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
         units::volume max_volume = DEFAULT_TILE_VOLUME;
+
+        std::string liquid_source_item_id; // id of a liquid this tile provides
+        double liquid_source_min_temp = 4; // in centigrades, cold water as default value
+        std::pair<int, int> liquid_source_count = { 0, 0 }; // charges of liquid, if it's finite source
 
         translation description;
 
@@ -584,7 +583,7 @@ struct map_data_common_t {
          */
         const std::set<std::string> &get_harvest_names() const;
 
-        std::string extended_description() const;
+        virtual std::vector<std::string> extended_description() const;
 
         bool was_loaded = false;
 
@@ -632,6 +631,8 @@ struct ter_t : map_data_common_t {
     static size_t count();
 
     bool is_null() const;
+
+    std::vector<std::string> extended_description() const override;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -685,6 +686,8 @@ struct furn_t : map_data_common_t {
     static size_t count();
 
     bool is_movable() const;
+
+    std::vector<std::string> extended_description() const override;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;

@@ -607,6 +607,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         }
     }
 
+    recalculate_enchantment_cache();
+
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_avatar() ) {
@@ -1003,7 +1005,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
-void Character::reach_attack( const tripoint &p, int forced_movecost )
+void Character::reach_attack( const tripoint_bub_ms &p, int forced_movecost )
 {
     static const matec_id no_technique_id( "" );
     matec_id force_technique = no_technique_id;
@@ -1031,9 +1033,9 @@ void Character::reach_attack( const tripoint &p, int forced_movecost )
     float skill = std::min( 10.0f, get_skill_level( skill_melee ) );
     int t = 0;
     map &here = get_map();
-    std::vector<tripoint> path = line_to( pos(), p, t, 0 );
+    std::vector<tripoint_bub_ms> path = line_to( pos_bub(), p, t, 0 );
     path.pop_back(); // Last point is our critter
-    for( const tripoint &path_point : path ) {
+    for( const tripoint_bub_ms &path_point : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = creatures.creature_at( path_point );
         /** @EFFECT_MELEE decreases chance of hitting intervening target on reach attack */
@@ -1669,8 +1671,8 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint &tmp : get_map().points_in_radius( pos(), 1 ) ) {
-            if( tmp == t.pos() ) {
+        for( const tripoint_bub_ms &tmp : get_map().points_in_radius( pos_bub(), 1 ) ) {
+            if( tmp == t.pos_bub() ) {
                 continue;
             }
             monster *const mon = creatures.creature_at<monster>( tmp );
@@ -2860,7 +2862,7 @@ void avatar::steal( npc &target )
         return;
     }
 
-    item_location loc = game_menus::inv::steal( *this, target );
+    item_location loc = game_menus::inv::steal( target );
     if( !loc ) {
         return;
     }

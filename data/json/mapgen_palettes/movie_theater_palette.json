@@ -27,11 +27,10 @@
       "@": "f_sofa",
       "o": "f_oven",
       "r": "f_rack",
-      "F": "f_vending_c",
-      "v": "f_vending_c",
       "Z": "f_console_broken",
       "N": "f_bulletin"
     },
+    "vendingmachines": { "F": { "item_group": "vending_drink", "lootable": true }, "v": { "item_group": "vending_food", "lootable": true } },
     "terrain": {
       "$": "t_carpet_green",
       "#": "t_carpet_purple",
