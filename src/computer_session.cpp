@@ -1051,7 +1051,9 @@ void computer_session::action_blood_anal()
             } else if( items.only_item().legacy_front().typeId() != itype_blood &&
                        items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
-            } else { // Success!
+            } else if( items.only_item().legacy_front().rotten() ) {
+                print_error( _( "ERROR: Please only use fresh blood samples." ) );
+            }  else { // Success!
                 const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {

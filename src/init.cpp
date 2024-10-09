@@ -529,6 +529,79 @@ void DynamicDataLoader::load_data_from_path( const cata_path &path, const std::s
     }
 }
 
+void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+    // We assume that each folder is consistent in itself,
+    // and all the previously loaded folders.
+    // E.g. the core might provide a vpart "frame-x"
+    // the first loaded mode might provide a vehicle that uses that frame
+    // But not the other way round.
+
+    std::vector<cata_path> files;
+    // if give path is a directory
+    if( dir_exist( path.get_unrelative_path() ) ) {
+        const std::vector<cata_path> dir_files = get_files_from_path_with_path_exclusion( ".json",
+                "mod_interactions", path, true, false );
+        files.insert( files.end(), dir_files.begin(), dir_files.end() );
+        // if given path is an individual file
+    } else if( file_exist( path.get_unrelative_path() ) ) {
+        files.emplace_back( path );
+    }
+
+    // iterate over each file
+    for( const cata_path &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
+void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
+        const std::string &src )
+{
+    cata_assert( !finalized &&
+                 "Can't load additional data after finalization.  Must be unloaded first." );
+
+    std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
+    std::vector<cata_path> files;
+
+    if( dir_exist( path.get_unrelative_path() ) ) {
+
+        // obtain folders within mod_interactions to see if they match loaded mod ids
+        const std::vector<cata_path> interaction_folders = get_directories( path, false );
+
+        for( const cata_path &f : interaction_folders ) {
+            bool is_mod_loaded = false;
+            for( mod_id id : loaded_mods ) {
+                if( id.str() == f.get_unrelative_path().filename().string() ) {
+                    is_mod_loaded = true;
+                }
+            }
+            if( is_mod_loaded ) {
+                const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
+                files.insert( files.end(), interaction_files.begin(), interaction_files.end() );
+            }
+        }
+    }
+
+    // iterate over each file
+    for( const cata_path &file : files ) {
+        try {
+            // parse it
+            JsonValue jsin = json_loader::from_path( file );
+            load_all_from_json( jsin, src, path, file );
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( err.what() );
+        }
+    }
+}
+
 void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
         const cata_path &base_path, const cata_path &full_path )
 {
