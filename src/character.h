@@ -589,6 +589,7 @@ class Character : public Creature, public visitable
         void randomize_hobbies();
         void add_random_hobby( std::vector<profession_id> &choices );
 
+
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint_rel_ms grab_point;
 
@@ -2424,6 +2425,9 @@ class Character : public Creature, public visitable
         std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
 
         // --------------- Skill Stuff ---------------
+
+        //sets all skills to 0 so that they're guaranteed to be in the map
+        void zero_all_skills();
         float get_skill_level( const skill_id &ident ) const;
         float get_skill_level( const skill_id &ident, const item &context ) const;
         int get_knowledge_level( const skill_id &ident ) const;

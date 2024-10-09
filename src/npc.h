@@ -787,6 +787,7 @@ class npc : public Character
         void apply_ownership_to_inv();
         void clear_personality_traits();
         void generate_personality_traits();
+        void randomize_personality();
         void learn_ma_styles_from_traits();
         // Faction version number
         int get_faction_ver() const;
