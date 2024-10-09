@@ -2319,7 +2319,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     u.change_side( locThisItem );
                     break;
                 case 'T':
-                    u.takeoff( locThisItem );
+                    u.takeoff( locThisItem.obtain( u ) );
                     break;
                 case 'd':
                     u.drop( locThisItem, u.pos() );
