@@ -381,10 +381,10 @@ void talk_function::goto_location( npc &p )
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
-    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
-    if( !player_character.omt_path.empty() ) {
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My destination" ) );
-    }
+    selection_menu.addentry( i++, p.global_omt_location() != player_character.global_omt_location(),
+                             MENU_AUTOASSIGN, _( "My current location" ) );
+    selection_menu.addentry( i++, !player_character.omt_path.empty(), MENU_AUTOASSIGN,
+                             _( "My destination" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
     selection_menu.selected = 0;
     selection_menu.query();
