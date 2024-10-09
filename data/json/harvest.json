@@ -1567,20 +1567,28 @@
     }
   },
   {
+    "id": "zombie_decay_bone_human_skull_rust",
+    "type": "harvest",
+    "copy-from": "zombie_decay_bone_human_skull",
+    "extend": {
+      "entries": [
+        { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+        { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 }
+      ]
+    }
+  },
+  {
     "id": "zombie_rust",
     "type": "harvest",
-    "entries": [
-      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.175 },
-      { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
-      { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 },
-      { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 },
-      { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.075 },
-      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 }
-    ]
+    "copy-from": "zombie_humanoid",
+    "delete": { "entries": [ { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 } ] },
+    "extend": {
+      "entries": [
+        { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.175 },
+        { "drop": "steel_chunk", "type": "flesh", "mass_ratio": 0.075 },
+        { "drop": "scrap", "type": "flesh", "mass_ratio": 0.025 }
+      ]
+    }
   },
   {
     "id": "zombie_humanoid_headless",
