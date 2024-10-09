@@ -3681,7 +3681,7 @@
         "volume_multiplier": 0.75
       }
     ],
-    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "NO_RELOAD" ]
   },
   {
     "id": "wrapper_pr",
