@@ -259,57 +259,81 @@ struct item_search_data {
         // todo: combine evaluation with actual check
 
         if( !id.empty() ) {
-
             for( str_or_var id_eval : id ) {
                 id_evaluated.emplace_back( id_eval.evaluate( d ) );
             }
-
             match = false;
             for( itype_id id : id_evaluated ) {
-                id == loc->typeId();
-                match = true;
+                if( id == loc->typeId() ) {
+                    match = true;
+                }
             }
-
             if( !id_evaluated.empty() && !match ) {
                 return false;
             }
-
         }
 
-        for( str_or_var category_eval : category ) {
-            category_evaluated.emplace_back( category_eval.evaluate( d ) );
-        }
-
-        for( str_or_var material_eval : material ) {
-            material_evaluated.emplace_back( material_eval.evaluate( d ) );
-        }
-
-        calories_evaluated = calories.evaluate( d );
-
-        for( str_or_var flags_eval : flags ) {
-            flags_evaluated.emplace_back( flags_eval.evaluate( d ) );
-        }
-
-        for( str_or_var excluded_flags_eval : excluded_flags ) {
-            excluded_flags_evaluated.emplace_back( excluded_flags_eval.evaluate( d ) );
-        }
-
-        for( item_category_id category : category_evaluated ) {
-            if( category != loc->get_category_shallow().id ) {
+        if( !category.empty() ) {
+            for( str_or_var category_eval : category ) {
+                category_evaluated.emplace_back( category_eval.evaluate( d ) );
+            }
+            match = false;
+            for( item_category_id category : category_evaluated ) {
+                if( category == loc->get_category_shallow().id ) {
+                    match = true;
+                }
+            }
+            if( !category_evaluated.empty() && !match ) {
                 return false;
             }
         }
 
-        match = false;
-        for( material_id id : material_evaluated ) {
-            loc->made_of( id ) == 0;
-            match = true;
+        if( !material.empty() ) {
+            for( str_or_var material_eval : material ) {
+                material_evaluated.emplace_back( material_eval.evaluate( d ) );
+            }
+            match = false;
+            for( material_id id : material_evaluated ) {
+                if( loc->made_of( id ) > 0 ) {
+                    match = true;
+                }
+            }
+            if( !material_evaluated.empty() && !match ) {
+                return false;
+            }
         }
 
-        if( !material_evaluated.empty() && !match ) {
-            return false;
+        if( !flags.empty() ) {
+            for( str_or_var flags_eval : flags ) {
+                flags_evaluated.emplace_back( flags_eval.evaluate( d ) );
+            }
+            match = false;
+            for( flag_id flag : flags_evaluated ) {
+                if( loc->has_flag( flag ) ) {
+                    match = true;
+                }
+            }
+            if( !flags_evaluated.empty() && !match ) {
+                return false;
+            }
         }
 
+        if( !excluded_flags.empty() ) {
+            for( str_or_var excluded_flags_eval : excluded_flags ) {
+                excluded_flags_evaluated.emplace_back( excluded_flags_eval.evaluate( d ) );
+            }
+            match = false;
+            for( flag_id flag : excluded_flags_evaluated ) {
+                if( loc->has_flag( flag ) ) {
+                    match = true;
+                }
+            }
+            if( !excluded_flags_evaluated.empty() && match ) {
+                return false;
+            }
+        }
+
+        calories_evaluated = calories.evaluate( d );
         if( calories_evaluated > 0 ) {
             // This is very stupid but we need a dummy to calculate nutrients
             npc dummy;
@@ -318,16 +342,6 @@ struct item_search_data {
             }
         }
 
-        for( flag_id flag : flags_evaluated ) {
-            if( !loc->has_flag( flag ) ) {
-                return false;
-            }
-        }
-        for( flag_id flag : excluded_flags_evaluated ) {
-            if( loc->has_flag( flag ) ) {
-                return false;
-            }
-        }
         if( worn_only && !guy->is_worn( *loc ) ) {
             return false;
         }
