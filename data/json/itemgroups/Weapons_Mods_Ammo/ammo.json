@@ -538,13 +538,6 @@
   },
   {
     "type": "item_group",
-    "id": "ammo_shotgun_obscure",
-    "//": "Imported or otherwise very obscure shotgun ammo.",
-    "subtype": "distribution",
-    "entries": [  ]
-  },
-  {
-    "type": "item_group",
     "id": "ammo_shotgun_reloaded",
     "//": "Reloaded shotgun ammo balanced according to rarity.",
     "subtype": "distribution",

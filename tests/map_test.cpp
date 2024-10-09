@@ -55,12 +55,6 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     CAPTURE( test_bub );
     CAPTURE( test_abs );
 
-    // Verify consistency between different implementations
-    CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-    CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-
     // Verify round-tripping
     CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
     CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
@@ -132,9 +126,9 @@ TEST_CASE( "tinymap_bounds_checking" )
                 if( x < 0 || x >= SEEX * 2 ||
                     y < 0 || y >= SEEY * 2 ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_omt_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_omt_ms{ x, y, z } ) );
                 }
             }
         }

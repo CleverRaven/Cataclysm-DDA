@@ -2496,6 +2496,14 @@ talk_data talk_response::create_option_line( dialogue &d, const input_event &hot
         ftext = string_format( pgettext( "talk option", "[%1$s %2$d%%] %3$s" ),
                                trial.name(), trial.calc_chance( d ), text );
     }
+
+    if( ignore_conditionals ) {
+        ftext = colorize( ftext, c_dark_gray );
+        if( !show_reason.empty() ) {
+            ftext += colorize( " -- [" + show_reason + "]", c_light_red );
+        }
+    }
+
     if( d.actor( true )->get_npc() ) {
         parse_tags( ftext, *d.actor( false )->get_character(), *d.actor( true )->get_npc(), d,
                     success.next_topic.item_type );
@@ -2533,6 +2541,12 @@ std::set<dialogue_consequence> talk_response::get_consequences( dialogue &d ) co
     }
 
     return {{ success.get_consequence( d ), failure.get_consequence( d ) }};
+}
+
+bool json_talk_response::show_anyways( dialogue &d ) const
+{
+    return actual_response.show_always || ( actual_response.show_condition &&
+                                            actual_response.show_condition( d ) );
 }
 
 dialogue_consequence talk_effect_t::get_consequence( dialogue const &d ) const
@@ -2629,6 +2643,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     ctxt.register_action( "DEBUG_DIALOGUE_RESP_CONDITIONAL" );
     ctxt.register_action( "DEBUG_DIALOGUE_DL_EFFECT" );
     ctxt.register_action( "DEBUG_DIALOGUE_RESP_EFFECT" );
+    ctxt.register_action( "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" );
     ctxt.register_action( "QUIT" );
     std::vector<talk_data> response_lines;
     std::vector<input_event> response_hotkeys;
@@ -2680,6 +2695,11 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 generate_response_lines();
             } else if( action == "CONFIRM" ) {
                 response_ind = d_win.sel_response;
+                //response condition must be reverified since non-selectable responses can be displayed
+                talk_response &check_valid = responses[response_ind];
+                if( check_valid.condition && ( !check_valid.condition( *this ) && !debug_mode ) ) {
+                    action = "NONE";
+                }
             } else if( action == "DEBUG_DIALOGUE_DL_CONDITIONAL" ) {
                 d_win.show_dynamic_line_conditionals = !d_win.show_dynamic_line_conditionals;
             } else if( action == "DEBUG_DIALOGUE_RESP_CONDITIONAL" ) {
@@ -2688,6 +2708,13 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                 d_win.show_dynamic_line_effects = !d_win.show_dynamic_line_effects;
             } else if( action == "DEBUG_DIALOGUE_RESP_EFFECT" ) {
                 d_win.show_response_effects = !d_win.show_response_effects;
+            } else if( action == "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE" ) {
+                d_win.show_all_responses = !d_win.show_all_responses;
+                if( debug_mode ) {
+                    this->debug_ignore_conditionals = !this->debug_ignore_conditionals;
+                    gen_responses( topic );
+                    generate_response_lines();
+                }
             } else if( action == "ANY_INPUT" ) {
                 // Check real hotkeys
                 const auto hotkey_it = std::find( response_hotkeys.begin(),
@@ -2815,7 +2842,7 @@ std::vector<std::string> dialogue::build_debug_info( const dialogue_window &d_wi
         talk_response &actual_response = responses[do_response];
         std::map<std::string, std::string> &debug_info = actual_response.debug_info;
         if( d_win.show_response_conditionals ) {
-            if( debug_info.find( "condition" ) != debug_info.end() && actual_response.condition ) {
+            if( actual_response.condition && debug_info.find( "condition" ) != debug_info.end() ) {
                 debug_output.emplace_back( std::string( "Conditional: [" ) + ( actual_response.condition(
                                                *this ) ? colorize( "true", c_light_green ) : colorize( "false",
                                                        c_light_red ) ) + std::string( "] - " ) + debug_info["condition"] );
@@ -5201,7 +5228,7 @@ talk_effect_fun_t::func f_activate( const JsonObject &jo, std::string_view membe
                 if( target_var.has_value() ) {
                     tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d, is_npc );
                     if( get_map().inbounds( target_pos ) ) {
-                        guy->invoke_item( it->get_item(), method_str, get_map().getlocal( target_pos ) );
+                        guy->invoke_item( it->get_item(), method_str, get_map().bub_from_abs( target_pos ).raw() );
                         return;
                     }
                 }
@@ -5314,7 +5341,7 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
         } else {
             translated_message = message.evaluate( d );
         }
-        sounds::sound( get_map().getlocal( target_pos ), volume.evaluate( d ), type, translated_message,
+        sounds::sound( get_map().bub_from_abs( target_pos ), volume.evaluate( d ), type, translated_message,
                        ambient );
     };
 }
@@ -5798,10 +5825,10 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
         tripoint_abs_ms target_location = get_tripoint_from_var( loc_var, d, is_npc );
         std::vector<item_location> items;
         map &here = get_map();
-        tripoint center = here.getlocal( target_location );
+        tripoint_bub_ms center = here.bub_from_abs( target_location );
         int max_radius = dov_max_radius.evaluate( d );
         int min_radius = dov_min_radius.evaluate( d );
-        for( const tripoint &pos : here.points_in_radius( center, max_radius ) ) {
+        for( const tripoint_bub_ms &pos : here.points_in_radius( center, max_radius ) ) {
             if( rl_dist( center, pos ) >= min_radius && here.inbounds( pos ) ) {
                 for( item &it : here.i_at( pos ) ) {
                     items.emplace_back( map_cursor( tripoint_bub_ms( pos ) ), &it );
@@ -5817,9 +5844,9 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             inv_s.set_title( title.evaluate( d ) );
             inv_s.set_display_stats( false );
             inv_s.clear_items();
-            for( const tripoint &pos : get_map().points_in_radius( center, max_radius ) ) {
+            for( const tripoint_bub_ms &pos : get_map().points_in_radius( center, max_radius ) ) {
                 if( rl_dist( center, pos ) >= min_radius ) {
-                    inv_s.add_map_items( pos );
+                    inv_s.add_map_items( pos.raw() );
                 }
             }
             if( inv_s.empty() ) {
@@ -5835,9 +5862,9 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
             inv_s.set_title( title.evaluate( d ) );
             inv_s.set_display_stats( false );
             inv_s.clear_items();
-            for( const tripoint &pos : get_map().points_in_radius( center, max_radius ) ) {
+            for( const tripoint_bub_ms &pos : get_map().points_in_radius( center, max_radius ) ) {
                 if( rl_dist( center, pos ) >= min_radius ) {
-                    inv_s.add_map_items( pos );
+                    inv_s.add_map_items( pos.raw() );
                 }
             }
             if( inv_s.empty() ) {
@@ -6348,7 +6375,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d, is_npc ) );
+            target_pos = get_map().bub_from_abs( get_tripoint_from_var( target_var, d, is_npc ) ).raw();
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -6483,7 +6510,7 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
-            target_pos = get_map().getlocal( get_tripoint_from_var( target_var, d, is_npc ) );
+            target_pos = get_map().bub_from_abs( get_tripoint_from_var( target_var, d, is_npc ) ).raw();
         }
         int visible_spawns = 0;
         int spawns = 0;
@@ -7229,7 +7256,18 @@ talk_response::talk_response( const JsonObject &jo, const std::string_view src )
         JsonObject failure_obj = jo.get_object( "failure" );
         failure = talk_effect_t( failure_obj, "effect", src );
     }
-
+    if( jo.has_member( "show_always" ) ) {
+        show_always = jo.get_bool( "show_always" );
+    }
+    if( jo.has_member( "show_reason" ) ) {
+        show_reason = jo.get_string( "show_reason" );
+    }
+    if( jo.has_member( "show_condition" ) ) {
+        if( show_always ) {
+            jo.throw_error( "show_always and show_condition cannot both be defined" );
+        }
+        read_condition( jo, "show_condition", show_condition, false );
+    }
     // TODO: mission_selected
     // TODO: skill
     // TODO: style
@@ -7302,10 +7340,12 @@ const talk_response &json_talk_response::get_actual_response() const
     return actual_response;
 }
 
-bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
+bool json_talk_response::gen_responses( dialogue &d, bool switch_done )
 {
-    if( !is_switch || !switch_done ) {
-        if( test_condition( d ) ) {
+    if( !is_switch || !switch_done || d.debug_ignore_conditionals ) {
+        if( test_condition( d ) || show_anyways( d ) || d.debug_ignore_conditionals ) {
+            actual_response.ignore_conditionals = !test_condition( d ) && ( show_anyways( d ) ||
+                                                  d.debug_ignore_conditionals );
             d.responses.emplace_back( actual_response );
             return is_switch && !is_default;
         } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
@@ -7623,12 +7663,12 @@ void json_talk_topic::load( const JsonObject &jo, const std::string_view src )
                                  replace_built_in_responses );
 }
 
-bool json_talk_topic::gen_responses( dialogue &d ) const
+bool json_talk_topic::gen_responses( dialogue &d )
 {
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
 
     bool switch_done = false;
-    for( const json_talk_response &r : responses ) {
+    for( json_talk_response &r : responses ) {
         switch_done |= r.gen_responses( d, switch_done );
     }
     for( const json_talk_repeat_response &repeat : repeat_responses ) {

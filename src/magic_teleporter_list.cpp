@@ -47,7 +47,7 @@ static bool popup_string( std::string &result, std::string &title )
     return true;
 }
 
-bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint & )
+bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint_bub_ms & )
 {
     std::string point_name;
     std::string title = _( "Name this gate." );
@@ -55,7 +55,8 @@ bool teleporter_list::activate_teleporter( const tripoint_abs_omt &omt_pt, const
     return known_teleporters.emplace( omt_pt, point_name ).second;
 }
 
-void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt, const tripoint & )
+void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt,
+        const tripoint_bub_ms & )
 {
     known_teleporters.erase( omt_pt );
 }
@@ -69,8 +70,8 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
     // an OMT is (2 * SEEX) * (2 * SEEY) in size
     tinymap checker;
     checker.load( omt_pt, true );
-    for( const tripoint_omt_ms &p : checker.omt_points_on_zlevel() ) {
-        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p.raw() ) ) {
+    for( const tripoint_omt_ms &p : checker.points_on_zlevel() ) {
+        if( checker.has_flag_furn( ter_furn_flag::TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getglobal( p ).raw();
         }
     }
@@ -85,10 +86,11 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
     if( !global_dest ) {
         return false;
     }
-    tripoint local_dest = omt_dest.getlocal( *global_dest ) + point( 60, 60 );
+    tripoint_omt_ms local_dest = omt_dest.omt_from_abs( tripoint_abs_ms( *global_dest ) ) + point( 60,
+                                 60 );
     you.add_effect( effect_ignore_fall_damage, 1_seconds, false, 0, true );
     g->place_player_overmap( omt_pt );
-    g->place_player( local_dest );
+    g->place_player( local_dest.raw() );
     return true;
 }
 
@@ -113,7 +115,7 @@ void teleporter_list::translocate( const std::set<tripoint_bub_ms> &targets )
             valid_targets = true;
             if( !place_avatar_overmap( *you, *omt_dest ) ) {
                 add_msg( _( "Failed to teleport.  Teleporter obstructed or destroyed." ) );
-                deactivate_teleporter( *omt_dest, pt.raw() );
+                deactivate_teleporter( *omt_dest, pt );
             }
         }
     }

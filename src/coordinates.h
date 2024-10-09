@@ -761,9 +761,11 @@ using coords::project_bounds;
 point_rel_ms rebase_rel( point_sm_ms );
 point_rel_ms rebase_rel( point_omt_ms p );
 point_rel_ms rebase_rel( point_bub_ms p );
+point_rel_sm rebase_rel( point_bub_sm p );
 point_sm_ms rebase_sm( point_rel_ms p );
 point_omt_ms rebase_omt( point_rel_ms p );
 point_bub_ms rebase_bub( point_rel_ms p );
+point_bub_sm rebase_bub( point_rel_sm p );
 
 tripoint_rel_ms rebase_rel( tripoint_sm_ms p );
 tripoint_rel_ms rebase_rel( tripoint_omt_ms p );

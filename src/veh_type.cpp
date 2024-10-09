@@ -1697,10 +1697,10 @@ void vpart_category::reset()
 void vpart_migration::load( const JsonObject &jo )
 {
     vpart_migration migration;
-    mandatory( jo, /* was_loaded = */ true, "from", migration.part_id_old );
-    mandatory( jo, /* was_loaded = */ true, "to", migration.part_id_new );
-    optional( jo, /* was_loaded = */ true, "variant", migration.variant );
-    optional( jo, /* was_loaded = */ true, "add_veh_tools", migration.add_veh_tools );
+    mandatory( jo, false, "from", migration.part_id_old );
+    mandatory( jo, false, "to", migration.part_id_new );
+    optional( jo, false, "variant", migration.variant );
+    optional( jo, false, "add_veh_tools", migration.add_veh_tools );
     vpart_migrations.emplace( migration.part_id_old, migration );
 }
 

@@ -24,7 +24,7 @@ void appliance_convert_examine_actor::load( const JsonObject &jo, const std::str
     mandatory( jo, false, "item", appliance_item );
 }
 
-void appliance_convert_examine_actor::call( Character &, const tripoint &examp ) const
+void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &examp ) const
 {
     if( !query_yn( _( "Connect %s to grid?" ), item::nname( appliance_item ) ) ) {
         return;
@@ -37,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &, const tripoint &examp )
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp, vpart_appliance_from_item( appliance_item ) );
+    place_appliance( examp.raw(), vpart_appliance_from_item( appliance_item ) );
 }
 
 void appliance_convert_examine_actor::finalize() const
@@ -95,7 +95,7 @@ void cardreader_examine_actor::consume_card( const std::vector<item_location> &c
 }
 
 std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
-        const tripoint &examp )const
+        const tripoint_bub_ms &examp )const
 {
     std::vector<item_location> ret;
 
@@ -125,7 +125,7 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
     return ret;
 }
 
-bool cardreader_examine_actor::apply( const tripoint &examp ) const
+bool cardreader_examine_actor::apply( const tripoint_bub_ms &examp ) const
 {
     bool open = true;
 
@@ -139,12 +139,12 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
                       has_colliding_vehicle.str() );
         }
         set_queued_points();
-        here.set_seen_cache_dirty( tripoint_bub_ms( examp ) );
-        here.set_transparency_cache_dirty( examp.z );
+        here.set_seen_cache_dirty( examp );
+        here.set_transparency_cache_dirty( examp.z() );
     } else {
         open = false;
-        const tripoint_range<tripoint> points = here.points_in_radius( examp, radius );
-        for( const tripoint &tmp : points ) {
+        const tripoint_range<tripoint_bub_ms> points = here.points_in_radius( examp, radius );
+        for( const tripoint_bub_ms &tmp : points ) {
             const auto ter_iter = terrain_changes.find( here.ter( tmp ).id() );
             const auto furn_iter = furn_changes.find( here.furn( tmp ).id() );
             if( ter_iter != terrain_changes.end() ) {
@@ -164,7 +164,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
-void cardreader_examine_actor::call( Character &you, const tripoint &examp ) const
+void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     bool open = false;
     map &here = get_map();
@@ -252,7 +252,7 @@ std::unique_ptr<iexamine_actor> cardreader_examine_actor::clone() const
     return std::make_unique<cardreader_examine_actor>( *this );
 }
 
-void eoc_examine_actor::call( Character &you, const tripoint &examp ) const
+void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) const
 {
     dialogue d( get_talker_for( you ), nullptr );
     d.set_value( "npctalk_var_this", get_map().furn( examp ).id().str() );

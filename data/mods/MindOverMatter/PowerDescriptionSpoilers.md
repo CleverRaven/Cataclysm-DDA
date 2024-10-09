@@ -211,7 +211,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 3 minutes and 30 seconds to 10 minutes and 40 seconds, plus 8 seconds to 25 seconds per level<br />
 *Stamina Cost*: 4500, minus 135 per level to a minimum of 2250<br />
 *Channeling Time*: 200 moves, minus 6 moves per level to a minimum of 125<br />
-*Effects*: Increase the psion's range with ranged weapons by 1 square per 2 power levels and reduces weapon dispersion by 2.5% per power level.<br />
+*Effects*: Increase the psion's range with ranged weapons by 1 square per 4 power levels, reduces weapon dispersion by 2.5% per power level to a maximum of 60%, and increases your chance to hit weakpoints with ranged weapons by 10% plus 8% per power level.<br />
 *Prerequisites*: Discern Weakness 7<br />
 
 ## Clairyovance

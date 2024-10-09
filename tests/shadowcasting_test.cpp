@@ -594,8 +594,8 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
 
     if( fov_3d ) {
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>( seen_squares,
-                transparency_cache, floor_cache, ORIGIN - tripoint( 0, 0, OVERMAP_DEPTH ), 0, 1.0 );
-        get_map().seen_cache_process_ledges( seen_squares, floor_cache, ORIGIN.raw() - tripoint( 0, 0,
+                transparency_cache, floor_cache, ORIGIN - tripoint_rel_ms( 0, 0, OVERMAP_DEPTH ), 0, 1.0 );
+        get_map().seen_cache_process_ledges( seen_squares, floor_cache, ORIGIN - tripoint_rel_ms( 0, 0,
                                              OVERMAP_DEPTH ) );
     } else {
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(

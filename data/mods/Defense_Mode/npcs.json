@@ -238,7 +238,6 @@
       { "group": "ammo_pistol_obscure", "prob": 30 },
       { "group": "ammo_shotgun_common", "prob": 75 },
       { "group": "ammo_shotgun_rare", "prob": 50 },
-      { "group": "ammo_shotgun_obscure", "prob": 30 },
       { "group": "ammo_shotgun_milspec", "prob": 95 },
       { "group": "ammo_shotgun_reloaded", "prob": 90 },
       { "group": "ammo_smg_common", "prob": 70 },

@@ -607,6 +607,15 @@ void game::load_data_from_dir( const cata_path &path, const std::string &src )
     DynamicDataLoader::get_instance().load_data_from_path( path, src );
 }
 
+void game::load_mod_data_from_dir( const cata_path &path, const std::string &src )
+{
+    DynamicDataLoader::get_instance().load_mod_data_from_path( path, src );
+}
+void game::load_mod_interaction_data_from_dir( const cata_path &path, const std::string &src )
+{
+    DynamicDataLoader::get_instance().load_mod_interaction_files_from_path( path, src );
+}
+
 #if defined(TUI)
 // in ncurses_def.cpp
 extern void check_encoding(); // NOLINT
@@ -939,7 +948,7 @@ bool game::start_game()
     load_map( lev, /*pump_events=*/true );
 
     int level = m.get_abs_sub().z();
-    u.setpos( m.getlocal( project_to<coords::ms>( omtstart ) ) );
+    u.setpos( m.bub_from_abs( project_to<coords::ms>( omtstart ) ) );
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Do this after the map cache has been built!
@@ -1238,7 +1247,7 @@ void game::load_npcs()
         add_msg_debug( debugmode::DF_NPC, "game::load_npcs: Spawning static NPC, %s %s",
                        abs_sub.to_string_writable(), sm_loc.to_string_writable() );
         temp->place_on_map();
-        if( !m.inbounds( temp->pos() ) ) {
+        if( !m.inbounds( temp->pos_bub() ) ) {
             continue;
         }
         // In the rare case the npc was marked for death while
@@ -3235,7 +3244,9 @@ void game::load_world_modfiles()
     load_packs( _( "Loading files" ), mods );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
+    load_mod_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods", "custom" );
+    load_mod_interaction_data_from_dir( PATH_INFO::world_base_save_path_path() / "mods" /
+                                        "mod_interactions", "custom" );
 
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
@@ -3260,8 +3271,15 @@ void game::load_packs( const std::string &msg, const std::vector<mod_id> &packs 
         if( mod.ident.str() == "test_data" ) {
             check_plural = check_plural_t::none;
         }
-        load_data_from_dir( mod.path, mod.ident.str() );
+        load_mod_data_from_dir( mod.path, mod.ident.str() );
     }
+
+    for( const auto &e : available ) {
+        loading_ui::show( msg, e->name() );
+        const MOD_INFORMATION &mod = *e;
+        load_mod_interaction_data_from_dir( mod.path / "mod_interactions", mod.ident.str() );
+    }
+
 
     std::unordered_set<mod_id> removed_mods {
         MOD_INFORMATION_Graphical_Overmap // Removed in 0.I
@@ -4134,7 +4152,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 {
     ter_view_p = center;
 
-    m.draw( w_terrain, center );
+    m.draw( w_terrain, tripoint_bub_ms( center ) );
 
     if( draw_sounds ) {
         draw_footsteps( w_terrain, tripoint( -center.x, -center.y, center.z ) + point( POSX, POSY ) );
@@ -5577,8 +5595,7 @@ void game::control_vehicle()
                     } else {
                         return;
                     }
-                }
-                if( weapon->is_two_handed( u ) ) {
+                } else if( weapon->is_two_handed( u ) ) {
                     if( query_yn(
                             _( "You can't drive because you have to wield a %s with both hands.\n\nPut it away?" ),
                             weapon->tname() ) ) {
@@ -5602,12 +5619,12 @@ void game::control_vehicle()
         int num_valid_controls = 0;
         std::optional<tripoint> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
-        for( const tripoint &elem : m.points_in_radius( get_player_character().pos(), 1 ) ) {
+        for( const tripoint_bub_ms &elem : m.points_in_radius( get_player_character().pos_bub(), 1 ) ) {
             if( const optional_vpart_position vp = m.veh_at( elem ) ) {
                 const std::optional<vpart_reference> controls = vp.value().part_with_feature( "CONTROLS", true );
                 if( controls ) {
                     num_valid_controls++;
-                    vehicle_position = elem;
+                    vehicle_position = elem.raw();
                     vehicle_controls = controls;
                 }
             }
@@ -6973,8 +6990,8 @@ void game::zones_manager()
         if( zone_cnt > 0 ) {
             blink = !blink;
             const zone_data &zone = zones[active_index].get();
-            zone_start = m.getlocal( zone.get_start_point() );
-            zone_end = m.getlocal( zone.get_end_point() );
+            zone_start = m.bub_from_abs( zone.get_start_point() ).raw();
+            zone_end = m.bub_from_abs( zone.get_end_point() ).raw();
             ctxt.set_timeout( get_option<int>( "BLINK_SPEED" ) );
         } else {
             blink = false;
@@ -7204,14 +7221,14 @@ void game::zones_manager()
                         static_popup message_pop;
                         message_pop.on_top( true );
                         message_pop.message( "%s", _( "Moving zone." ) );
-                        const tripoint zone_local_start_point = m.getlocal( zone.get_start_point() );
-                        const tripoint zone_local_end_point = m.getlocal( zone.get_end_point() );
+                        const tripoint_bub_ms zone_local_start_point = m.bub_from_abs( zone.get_start_point() );
+                        const tripoint_bub_ms zone_local_end_point = m.bub_from_abs( zone.get_end_point() );
                         // local position of the zone center, used to calculate the u.view_offset,
                         // could center the screen to the position it represents
-                        tripoint view_center = m.getlocal( zone.get_center_point() );
-                        const look_around_result result_local = look_around( false, view_center,
-                                                                zone_local_start_point, false, false,
-                                                                false, true, zone_local_end_point );
+                        tripoint_bub_ms view_center = m.bub_from_abs( zone.get_center_point() );
+                        const look_around_result result_local = look_around( false, view_center.raw(),
+                                                                zone_local_start_point.raw(), false, false,
+                                                                false, true, zone_local_end_point.raw() );
                         if( result_local.position ) {
                             const tripoint_abs_ms new_start_point = m.getglobal( *result_local.position );
                             const tripoint_abs_ms new_end_point = zone.get_end_point() - zone.get_start_point() +
@@ -10503,7 +10520,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     if( !shifting_furniture && !pushing && is_dangerous_tile( dest_loc ) ) {
         std::vector<std::string> harmful_stuff = get_dangerous_tile( dest_loc );
         if( harmful_stuff.size() == 1 && harmful_stuff[0] == "ledge" ) {
-            iexamine::ledge( u, dest_loc );
+            iexamine::ledge( u, tripoint_bub_ms( dest_loc ) );
             return true;
         } else if( get_option<std::string>( "DANGEROUS_TERRAIN_WARNING_PROMPT" ) == "ALWAYS" &&
                    !prompt_dangerous_tile( dest_loc ) ) {
@@ -10837,9 +10854,9 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         if( !critter.has_effect( effect_ridden ) ) {
             if( u.is_mounted() ) {
                 std::vector<tripoint> maybe_valid;
-                for( const tripoint &jk : m.points_in_radius( critter.pos(), 1 ) ) {
+                for( const tripoint_bub_ms &jk : m.points_in_radius( critter.pos_bub(), 1 ) ) {
                     if( is_empty( jk ) ) {
-                        maybe_valid.push_back( jk );
+                        maybe_valid.push_back( jk.raw() );
                     }
                 }
                 bool moved = false;
@@ -10912,7 +10929,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
         if( forage_type != "off" ) {
-            const auto forage = [&]( const tripoint & pos ) {
+            const auto forage = [&]( const tripoint_bub_ms & pos ) {
                 const ter_t &xter_t = *m.ter( pos );
                 const furn_t &xfurn_t = *m.furn( pos );
                 const bool forage_everything = forage_type == "all";
@@ -10939,7 +10956,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             };
 
             for( const direction &elem : adjacentDir ) {
-                forage( u.pos() + displace_XY( elem ) );
+                forage( u.pos_bub() + displace_XY( elem ) );
             }
         }
 
@@ -12782,7 +12799,7 @@ void game::shift_monsters( const tripoint &shift )
             critter.shift( shift.xy() );
         }
 
-        if( m.inbounds( critter.pos() ) ) {
+        if( m.inbounds( critter.pos_bub() ) ) {
             // We're inbounds, so don't despawn after all.
             continue;
         }
@@ -12858,6 +12875,7 @@ void game::perhaps_add_random_npc( bool ignore_spawn_timers_and_rates )
 
     std::string new_fac_id = "solo_";
     new_fac_id += tmp->name;
+    new_fac_id += std::to_string( tmp->getID().get_value() );
     // create a new "lone wolf" faction for this one NPC
     faction *new_solo_fac = faction_manager_ptr->add_new_faction( tmp->name, faction_id( new_fac_id ),
                             faction_no_faction );

@@ -810,7 +810,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     const bool draw_overlays = blink || fast_traveling;
-    o = origin.raw().xy();
+    o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
@@ -3722,10 +3722,12 @@ void catacurses::init_interface()
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
+#if defined(SDL_SOUND)
     // initialize sound set
     if( sound_init_success ) {
         load_soundset();
     }
+#endif // SOUND
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );

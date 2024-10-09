@@ -174,9 +174,9 @@ void dialogue_window::print_header( const std::string &name ) const
     int x_debug = 15 + utf8_width( name );
     const int ymax = getmaxy( d_win );
     const int ybar = ymax - 1 - RESPONSES_LINES - 1;
-    const int flag_count = 4;
-    std::array<bool, flag_count> debug_flags = { show_dynamic_line_conditionals, show_response_conditionals, show_dynamic_line_effects, show_response_effects };
-    std::array<std::string, flag_count> debug_show_toggle = { "DL_COND", "RESP_COND", "DL_EFF", "RESP_EFF" };
+    const int flag_count = 5;
+    std::array<bool, flag_count> debug_flags = { show_dynamic_line_conditionals, show_response_conditionals, show_dynamic_line_effects, show_response_effects, show_all_responses };
+    std::array<std::string, flag_count> debug_show_toggle = { "DL_COND", "RESP_COND", "DL_EFF", "RESP_EFF", "ALL_RESP" };
     if( debug_mode ) {
         for( int i = 0; i < flag_count; i++ ) {
             mvwprintz( d_win, point( x_debug, 1 ), debug_flags[i] ? c_yellow : c_brown, debug_show_toggle[i] );

@@ -792,7 +792,8 @@ static void haul()
     bool hauling = player_character.is_hauling();
     bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
-    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
+    std::vector<item_location> haulable_items = get_map().get_haulable_items(
+                player_character.pos_bub() );
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
@@ -2732,7 +2733,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_WORKOUT:
-            player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
+            player_character.assign_activity( workout_activity_actor( player_character.pos_bub() ) );
             break;
 
         case ACTION_SUICIDE:

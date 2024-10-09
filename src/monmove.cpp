@@ -655,7 +655,7 @@ void monster::plan()
     if( type->has_special_attack( "OPERATE" ) ) {
         if( has_effect( effect_operating ) ) {
             friendly = 100;
-            for( Creature *critter : here.get_creatures_in_radius( pos(), 6 ) ) {
+            for( Creature *critter : here.get_creatures_in_radius( pos_bub(), 6 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon->type->in_species( species_ZOMBIE ) ) {
                     anger = 100;
@@ -671,12 +671,12 @@ void monster::plan()
         if( type->has_special_attack( "OPERATE" ) ) {
 
             bool found_path_to_couch = false;
-            tripoint tmp( pos() + point( 12, 12 ) );
-            tripoint couch_loc;
-            for( const tripoint &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
+            tripoint_bub_ms tmp( pos_bub() + point( 12, 12 ) );
+            tripoint_bub_ms couch_loc;
+            for( const tripoint_bub_ms &couch_pos : here.find_furnitures_with_flag_in_radius( pos_bub(), 10,
                     ter_furn_flag::TFLAG_AUTODOC_COUCH ) ) {
-                if( here.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
-                    if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
+                if( here.clear_path( pos_bub(), couch_pos, 10, 0, 100 ) ) {
+                    if( rl_dist( pos_bub(), couch_pos ) < rl_dist( pos_bub(), tmp ) ) {
                         tmp = couch_pos;
                         found_path_to_couch = true;
                         couch_loc = couch_pos;
@@ -976,8 +976,8 @@ void monster::move()
 
     bool try_to_move = false;
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
             if( can_move_to( dest ) &&
                 creatures.creature_at( dest, true ) == nullptr ) {
                 try_to_move = true;
@@ -1237,15 +1237,15 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
-        const tripoint local_next_step = here.getlocal( next_step );
+        const tripoint_bub_ms local_next_step = here.bub_from_abs( next_step );
         const bool did_something =
-            ( !pacified && attack_at( local_next_step ) ) ||
+            ( !pacified && attack_at( local_next_step.raw() ) ) ||
             ( !pacified && can_open_doors &&
               here.open_door( *this, local_next_step, !here.is_outside( pos_bub() ) ) ) ||
-            ( !pacified && bash_at( local_next_step ) ) ||
-            ( !pacified && push_to( local_next_step, 0, 0 ) ) ||
-            move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination.raw(),
-                     local_next_step ) );
+            ( !pacified && bash_at( local_next_step.raw() ) ) ||
+            ( !pacified && push_to( local_next_step.raw(), 0, 0 ) ) ||
+            move_to( local_next_step.raw(), false, false, get_stagger_adjust( pos(), destination.raw(),
+                     local_next_step.raw() ) );
 
         if( !did_something ) {
             mod_moves( -get_speed() ); // If we don't do this, we'll get infinite loops.
@@ -1311,7 +1311,7 @@ void monster::nursebot_operate( Character *dragged_foe )
     creature_tracker &creatures = get_creature_tracker();
     map &here = get_map();
     if( rl_dist( get_location(), get_dest() ) == 1 &&
-        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.getlocal( get_dest() ) ) &&
+        !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, here.bub_from_abs( get_dest() ) ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( creatures.creature_at( get_dest() ) == nullptr ||
@@ -1329,7 +1329,7 @@ void monster::nursebot_operate( Character *dragged_foe )
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the Autodoc, this patient needs immediate care.\"" ) ) );
             // TODO: Make it able to push NPC/player
-            push_to( here.getlocal( get_dest() ), 4, 0 );
+            push_to( here.bub_from_abs( get_dest() ).raw(), 4, 0 );
         }
     }
     if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
@@ -1484,7 +1484,7 @@ tripoint monster::scent_move()
         sdirection.push_back( pos() );
     } else {
         // Get direction of scent
-        for( const tripoint &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1, SCENT_MAP_Z_REACH ) ) {
             int smell = scents.get( dest );
 
             if( ( !fleeing && smell < bestsmell ) || ( fleeing && smell > bestsmell ) ) {
@@ -1492,10 +1492,10 @@ tripoint monster::scent_move()
             }
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 sdirection.clear();
-                sdirection.push_back( dest );
+                sdirection.push_back( dest.raw() );
                 bestsmell = smell;
             } else if( ( !fleeing && smell == bestsmell ) || ( fleeing && smell == bestsmell ) ) {
-                sdirection.push_back( dest );
+                sdirection.push_back( dest.raw() );
             }
         }
     }
@@ -2181,29 +2181,29 @@ void monster::stumble()
     }
 
     map &here = get_map();
-    std::vector<tripoint> valid_stumbles;
+    std::vector<tripoint_bub_ms> valid_stumbles;
     valid_stumbles.reserve( 11 );
     const bool avoid_water = has_flag( mon_flag_NO_BREATHE ) && !swims() &&
                              !has_flag( mon_flag_AQUATIC );
-    for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
-        if( dest != pos() ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( pos_bub(), 1 ) ) {
+        if( dest != pos_bub() ) {
             if( here.has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy(), dest.z - 1 );
+                valid_stumbles.emplace_back( dest + tripoint_below );
             } else  if( here.has_flag( ter_furn_flag::TFLAG_RAMP_UP, dest ) ) {
-                valid_stumbles.emplace_back( dest.xy(), dest.z + 1 );
+                valid_stumbles.emplace_back( dest + tripoint_above );
             } else {
                 valid_stumbles.push_back( dest );
             }
         }
     }
-    const tripoint below( posx(), posy(), posz() - 1 );
-    if( here.valid_move( pos(), below, false, true ) ) {
+    const tripoint_bub_ms below( pos_bub() + tripoint_below );
+    if( here.valid_move( pos_bub(), below, false, true ) ) {
         valid_stumbles.push_back( below );
     }
 
     creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
-        const tripoint dest = random_entry_removed( valid_stumbles );
+        const tripoint_bub_ms dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
             //Stop zombies and other non-breathing monsters wandering INTO water
             //(Unless they can swim/are aquatic)
@@ -2212,7 +2212,7 @@ void monster::stumble()
                here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos_bub() ) ) &&
             ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
-            if( move_to( dest, true, false ) ) {
+            if( move_to( dest.raw(), true, false ) ) {
                 break;
             }
         }
@@ -2326,7 +2326,7 @@ bool monster::will_reach( const point &p )
         return true;
     }
 
-    if( can_hear() && wandf > 0 && rl_dist( get_map().getlocal( wander_pos ).xy(), p ) <= 2 &&
+    if( can_hear() && wandf > 0 && rl_dist( get_map().bub_from_abs( wander_pos ).xy().raw(), p ) <= 2 &&
         rl_dist( get_location().xy(), wander_pos.xy() ) <= wandf ) {
         return true;
     }
