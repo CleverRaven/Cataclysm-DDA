@@ -19,7 +19,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -2059,7 +2058,7 @@ void editmap::mapgen_retarget()
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            point vec_ms = omt_to_ms_copy( vec->xy() );
+            point_rel_ms vec_ms = coords::project_to<coords::ms>( point_rel_omt( vec->xy() ) );
             tripoint_bub_ms ptarget = target + vec_ms;
             if( get_map().inbounds( ptarget ) &&
                 get_map().inbounds( ptarget + point( SEEX, SEEY ) ) ) {

@@ -18,7 +18,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
@@ -121,7 +120,7 @@ bool map::build_transparency_cache( const int zlev )
                 continue;
             }
 
-            const point sm_offset = sm_to_ms_copy( point( smx, smy ) );
+            const point sm_offset = coords::project_to<coords::ms>( point_rel_sm( smx, smy ) ).raw();
 
             if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
                 continue;

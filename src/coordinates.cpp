@@ -2,6 +2,19 @@
 
 #include <cstdlib>
 
+// Moved from obsolete coordinate_conversions
+static point om_to_omt_copy( const point &p )
+{
+    return point( p.x * OMAPX, p.y * OMAPY );
+}
+
+static point omt_to_ms_copy( const point &p )
+{
+    return point( p.x * 2 * SEEX, p.y * 2 * SEEY );
+}
+
+// End of moved code.
+
 void real_coords::fromabs( const point &abs )
 {
     const point norm( std::abs( abs.x ), std::abs( abs.y ) );
@@ -32,6 +45,12 @@ void real_coords::fromabs( const point &abs )
         om_sub.y = abs_sub.y % subs_in_om;
     }
     om_pos.y = om_sub.y / 2;
+}
+
+void real_coords::fromomap( const point &rel_om, const point &rel_om_pos )
+{
+    const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
+    fromabs( omt_to_ms_copy( a ) );
 }
 
 point_rel_ms rebase_rel( point_sm_ms p )

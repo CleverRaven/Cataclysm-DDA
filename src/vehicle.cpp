@@ -28,7 +28,6 @@
 #include "character.h"
 #include "clzones.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -3494,13 +3493,12 @@ tripoint_abs_omt vehicle::global_omt_location() const
 
 tripoint vehicle::global_pos3() const
 {
-    return sm_to_ms_copy( sm_pos ) + pos;
+    return vehicle::pos_bub().raw();
 }
 
 tripoint_bub_ms vehicle::pos_bub() const
 {
-    // TODO: fix point types
-    return tripoint_bub_ms( global_pos3() );
+    return coords::project_to<coords::ms>( tripoint_bub_sm( sm_pos ) ) + pos;
 }
 
 tripoint vehicle::global_part_pos3( const int &index ) const

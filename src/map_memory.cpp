@@ -17,6 +17,12 @@ static constexpr int MM_SIZE = MAPSIZE * 2;
 
 #define dbg(x) DebugLog((x),D_MMAP) << __FILE__ << ":" << __LINE__ << ": "
 
+// Moved from coordinate_conversions.h to the only file using it.
+static tripoint mmr_to_sm_copy( const tripoint &p )
+{
+    return tripoint( p.x * MM_REG_SIZE, p.y * MM_REG_SIZE, p.z );
+}
+
 static cata_path find_mm_dir()
 {
     return PATH_INFO::player_base_save_path_path() + ".mm1";
@@ -178,9 +184,7 @@ bool memorized_tile::operator==( const memorized_tile &rhs ) const
 
 map_memory::coord_pair::coord_pair( const tripoint_abs_ms &p )
 {
-    loc = point_sm_ms( p.xy().raw() );
-    point pp = ms_to_sm_remain( loc.x(), loc.y() );
-    sm = tripoint_abs_sm( pp.x, pp.y, p.z() );
+    std::tie( sm, loc ) = coords::project_remain<coords::sm>( p );
 }
 
 map_memory::map_memory()

@@ -8,7 +8,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
@@ -119,9 +118,8 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    // TODO: fix point types
-    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getglobal(
-                                        get_player_character().pos_bub() ).raw() ) );
+    const tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( get_map().getglobal(
+                                        get_player_character().pos_bub() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 

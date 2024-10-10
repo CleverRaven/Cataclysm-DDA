@@ -20,7 +20,6 @@
 #include "character_id.h"
 #include "city.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -466,7 +465,7 @@ static void place_trap_if_clear( tinymap &m, const point &target, trap_id trap_t
 
 static bool mx_minefield( map &, const tripoint &abs_sub )
 {
-    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
+    const tripoint_abs_omt abs_omt( coords::project_to<coords::omt>( tripoint_abs_sm( abs_sub ) ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
@@ -1578,7 +1577,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
 
-    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
+    const tripoint_abs_omt abs_omt( coords::project_to<coords::omt>( tripoint_abs_sm( abs_sub ) ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
