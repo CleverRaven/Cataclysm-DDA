@@ -33,8 +33,6 @@
 
 class game;
 // NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
 static cata_path find_quad_path( const cata_path &dirname, const tripoint_abs_omt &om_addr )
