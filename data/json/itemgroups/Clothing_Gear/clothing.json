@@ -4537,7 +4537,6 @@
       { "group": "accessory_cat", "prob": 1 },
       { "group": "accessory_weaponcarry", "prob": 5 },
       { "group": "accessory_sportsgear", "prob": 5 },
-      { "item": "ring_wedding", "prob": 1 },
       { "item": "american_flag", "prob": 1 },
       { "item": "pride_flag", "prob": 1 },
       { "item": "national_flag", "prob": 1 },
