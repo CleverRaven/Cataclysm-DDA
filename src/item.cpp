@@ -2533,6 +2533,8 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( g != nullptr ) {
             info.emplace_back( "BASE", string_format( "itype_id: %s",
                                typeId().str() ) );
+            info.emplace_back( "BASE", string_format( "%s",
+                               debug_trace ) );
             if( !old_owner.is_null() ) {
                 info.emplace_back( "BASE", string_format( _( "Old owner: %s" ),
                                    _( get_old_owner_name() ) ) );

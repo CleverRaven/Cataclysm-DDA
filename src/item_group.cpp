@@ -34,10 +34,10 @@ static const std::string null_item_id( "null" );
 static const itype_id itype_corpse( "corpse" );
 
 std::size_t Item_spawn_data::create( ItemList &list,
-                                     const time_point &birthday, spawn_flags flags ) const
+                                     const time_point &birthday, spawn_flags flags, std::string add_ctxt ) const
 {
     RecursionList rec;
-    return create( list, birthday, rec, flags );
+    return create( list, birthday, rec, flags, context() );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
@@ -125,11 +125,14 @@ static void put_into_container(
     std::shuffle( items.end() - num_items, items.end(), rng_get_engine() );
 
     item ctr( *container_type, birthday );
+    ctr.debug_trace.append( context );
     if( container_variant ) {
         ctr.set_itype_variant( *container_variant );
     }
     Item_spawn_data::ItemList excess;
     for( auto it = items.end() - num_items; it != items.end(); ++it ) {
+        // Extra space at beginning, for readability.
+        it->debug_trace.append( string_format( " spawned inside container %s", ctr.type_name() ) );
         ret_val<void> ret = ctr.can_contain_directly( *it );
         if( ret.success() ) {
             const pocket_type pk_type = guess_pocket_for( ctr, *it );
@@ -179,6 +182,7 @@ Single_item_creator::Single_item_creator( const std::string &_id, Type _type, in
 item Single_item_creator::create_single( const time_point &birthday, RecursionList &rec ) const
 {
     item tmp = create_single_without_container( birthday, rec );
+    tmp.debug_trace.append( context() );
     if( container_item ) {
         tmp = tmp.in_container( *container_item, tmp.count(), sealed,
                                 container_item_variant.value_or( "" ) );
@@ -265,7 +269,7 @@ item Single_item_creator::create_single_without_container( const time_point &bir
 }
 
 std::size_t Single_item_creator::create( ItemList &list,
-        const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
+        const time_point &birthday, RecursionList &rec, spawn_flags flags, std::string add_ctxt ) const
 {
     std::size_t prev_list_size = list.size();
     int cnt = 1;
@@ -282,6 +286,8 @@ std::size_t Single_item_creator::create( ItemList &list,
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             item itm = create_single_without_container( birthday, rec );
+            itm.debug_trace.append( add_ctxt );
+            itm.debug_trace.append( context() );
             if( flags & spawn_flags::use_spawn_rate && !itm.has_flag( STATIC( flag_id( "MISSION_ITEM" ) ) ) &&
                 rng_float( 0, 1 ) > spawn_rate ) {
                 continue;
@@ -301,7 +307,8 @@ std::size_t Single_item_creator::create( ItemList &list,
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return list.size() - prev_list_size;
             }
-            std::size_t tmp_list_size = isd->create( list, birthday, rec, flags );
+            std::size_t tmp_list_size = isd->create( list, birthday, rec, flags,
+                                        add_ctxt + "" + context() + "" );
             cata_assert( list.size() >= tmp_list_size );
             rec.pop_back();
             if( modifier ) {
@@ -889,7 +896,7 @@ void Item_group::finalize( const itype_id &container )
 }
 
 std::size_t Item_group::create( Item_spawn_data::ItemList &list,
-                                const time_point &birthday, RecursionList &rec, spawn_flags flags ) const
+                                const time_point &birthday, RecursionList &rec, spawn_flags flags, std::string add_ctxt ) const
 {
     std::size_t prev_list_size = list.size();
     if( type == G_COLLECTION ) {
@@ -897,7 +904,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
             if( !( flags & spawn_flags::maximized ) && rng( 0, 99 ) >= elem->get_probability( false ) ) {
                 continue;
             }
-            elem->create( list, birthday, rec, flags );
+            elem->create( list, birthday, rec, flags, add_ctxt + "" );
         }
     } else if( type == G_DISTRIBUTION ) {
         int p = rng( 0, sum_prob - 1 );
@@ -909,13 +916,13 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
             if( ( ev_based && prob == 0 ) || p >= 0 ) {
                 continue;
             }
-            elem->create( list, birthday, rec, flags );
+            elem->create( list, birthday, rec, flags, add_ctxt + "" );
             break;
         }
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, container_item_variant, sealed, birthday,
-                        on_overflow, context() );
+                        on_overflow, add_ctxt + "" );
 
     return list.size() - prev_list_size;
 }
@@ -1046,7 +1053,7 @@ item_group::ItemList item_group::items_from( const item_group_id &group_id,
     }
     ItemList result;
     result.reserve( 20 );
-    group->create( result, birthday, flags );
+    group->create( result, birthday, flags, group_id.str() );
     return result;
 }
 

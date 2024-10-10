@@ -152,14 +152,14 @@ class Item_spawn_data
          * @return The number of new items appended to the list
          */
         virtual std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
-                                    spawn_flags = spawn_flags::none ) const = 0;
+                                    spawn_flags = spawn_flags::none, std::string add_ctxt = "" ) const = 0;
         /**
         * Instead of calculating at run-time, give a step to finalize those item_groups that has count-min but not count-max.
         * The reason is
         */
         virtual void finalize( const itype_id & ) = 0;
         std::size_t create( ItemList &list, const time_point &birthday,
-                            spawn_flags = spawn_flags::none ) const;
+                            spawn_flags = spawn_flags::none, std::string add_ctxt = "" ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -339,7 +339,7 @@ class Single_item_creator : public Item_spawn_data
         void inherit_ammo_mag_chances( int ammo, int mag );
 
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
-                            spawn_flags ) const override;
+                            spawn_flags, std::string add_ctxt = "" ) const override;
         void finalize( const itype_id &container = itype_id::NULL_ID() ) override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         item create_single_without_container( const time_point &birthday, RecursionList &rec ) const;
@@ -391,7 +391,7 @@ class Item_group : public Item_spawn_data
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
         void finalize( const itype_id &container = itype_id::NULL_ID() )override;
         std::size_t create( ItemList &list, const time_point &birthday, RecursionList &rec,
-                            spawn_flags ) const override;
+                            spawn_flags, std::string add_ctxt = "" ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( bool actually_spawn ) const override;
         bool remove_item( const itype_id &itemid ) override;
