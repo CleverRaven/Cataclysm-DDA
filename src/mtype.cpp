@@ -101,6 +101,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_IMMOBILE,
             mon_flag_INSECTICIDEPROOF,
             mon_flag_INTERIOR_AMMO,
+            mon_flag_IR_CAMERA,
             mon_flag_KEENNOSE,
             mon_flag_KEEP_DISTANCE,
             mon_flag_LOUDMOVES,
@@ -225,6 +226,7 @@ void set_mon_flag_ids()
     mon_flag_IMMOBILE = mon_flag_id( "IMMOBILE" );
     mon_flag_INSECTICIDEPROOF = mon_flag_id( "INSECTICIDEPROOF" );
     mon_flag_INTERIOR_AMMO = mon_flag_id( "INTERIOR_AMMO" );
+    mon_flag_IR_CAMERA = mon_flag_id( "IR_CAMERA" );
     mon_flag_KEENNOSE = mon_flag_id( "KEENNOSE" );
     mon_flag_KEEP_DISTANCE = mon_flag_id( "KEEP_DISTANCE" );
     mon_flag_LOUDMOVES = mon_flag_id( "LOUDMOVES" );
@@ -593,6 +595,9 @@ void mtype::faction_display( catacurses::window &w, const point &top_left, const
     }
     if( has_flag( mon_flag_SMELLS ) ) {
         senses_str.emplace_back( colorize( _( "smell" ), c_yellow ) );
+    }
+    if( has_flag( mon_flag_IR_CAMERA ) ) {
+        senses_str.emplace_back( colorize( _( "infrared" ), c_yellow ) );
     }
     trim_and_print( w, top_left + point( 0, ++y ), width, c_light_gray,
                     string_format( "%s: %s", colorize( _( "Senses" ), c_white ), enumerate_as_string( senses_str ) ) );

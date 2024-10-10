@@ -408,6 +408,8 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
+static const trait_id trait_COLDBLOOD3( "COLDBLOOD3" );
+static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -769,8 +771,12 @@ bool Character::in_species( const species_id &spec ) const
 
 bool Character::is_warm() const
 {
-    // TODO: is there a mutation (plant?) that makes a npc not warm blooded?
-    return true;
+    // If we are in the upper stages of cold-bloodedness (no longer "heat dependent" but actually "coldblooded") we no longer register as being "warm"
+    if( !has_trait( trait_COLDBLOOD3 ) && !has_trait( trait_COLDBLOOD4 ) ) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 const std::string &Character::symbol() const
