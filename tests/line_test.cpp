@@ -75,11 +75,11 @@ static std::vector <point> canonical_line_to( const point &p1, const point &p2, 
     return ret;
 }
 
-static void check_bresenham( const tripoint &source, const tripoint &destination,
-                             const std::vector<tripoint> &path )
+static void check_bresenham( const tripoint_bub_ms &source, const tripoint_bub_ms &destination,
+                             const std::vector<tripoint_bub_ms> &path )
 {
-    std::vector<tripoint> generated_path;
-    bresenham( source, destination, 0, 0, [&generated_path]( const tripoint & current_point ) {
+    std::vector<tripoint_bub_ms> generated_path;
+    bresenham( source, destination, 0, 0, [&generated_path]( const tripoint_bub_ms & current_point ) {
         generated_path.push_back( current_point );
         return true;
     } );

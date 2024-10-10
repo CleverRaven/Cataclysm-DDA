@@ -65,9 +65,9 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     map &here = get_map();
 
     // check if all tiles within radius are loaded within current submap and passable
-    const auto suitable = [&here]( const tripoint & pos, const int radius ) {
-        std::vector<tripoint> tiles = closest_points_first( pos, radius );
-        return std::all_of( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
+    const auto suitable = [&here]( const tripoint_bub_ms & pos, const int radius ) {
+        std::vector<tripoint_bub_ms> tiles = closest_points_first( pos, radius );
+        return std::all_of( tiles.begin(), tiles.end(), [&here]( const tripoint_bub_ms & e ) {
             if( !here.inbounds( e ) ) {
                 return false;
             }
@@ -81,11 +81,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
     // move player randomly until we find a suitable position
     constexpr int num_trials = 100;
-    for( int i = 0; i < num_trials && !suitable( p.pos(), 1 ); ++i ) {
+    for( int i = 0; i < num_trials && !suitable( p.pos_bub(), 1 ); ++i ) {
         CHECK( !p.in_vehicle );
-        p.setpos( random_entry( closest_points_first( p.pos(), 1 ) ) );
+        p.setpos( random_entry( closest_points_first( p.pos_bub(), 1 ) ) );
     }
-    REQUIRE( suitable( p.pos(), 1 ) );
+    REQUIRE( suitable( p.pos_bub(), 1 ) );
 
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_null ) );
@@ -424,12 +424,12 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     GIVEN( "An adjacent vehicle contains several bottles of water" ) {
-        std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
+        std::vector<tripoint_bub_ms> tiles = closest_points_first( p.pos_bub(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint_bub_ms veh = tripoint_bub_ms( random_entry( tiles ) );
         REQUIRE( here.add_vehicle( vehicle_prototype_shopping_cart, veh, 0_degrees, 0, 0 ) );
 
-        REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
+        REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint_bub_ms & e ) {
             return static_cast<bool>( here.veh_at( e ) );
         } ) == 1 );
 
@@ -444,7 +444,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             v->add_item( vp->part(), obj );
         }
 
-        vehicle_selector sel( p.pos(), 1 );
+        vehicle_selector sel( p.pos_bub().raw(), 1 );
 
         REQUIRE( count_items( sel, container_id ) == count );
         REQUIRE( count_items( sel, liquid_id ) == count );

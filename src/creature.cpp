@@ -699,8 +699,8 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
                 // Hack: trying yo avoid turret LOS blocking by frames bug by trying to see target from vehicle boundary
                 // Or turret wallhack for turret's car
                 // TODO: to visibility checking another way, probably using 3D FOV
-                std::vector<tripoint> path_to_target = line_to( pos(), m->pos() );
-                path_to_target.insert( path_to_target.begin(), pos() );
+                std::vector<tripoint_bub_ms> path_to_target = line_to( pos_bub(), m->pos_bub() );
+                path_to_target.insert( path_to_target.begin(), pos_bub() );
 
                 // Getting point on vehicle boundaries and on line between target and turret
                 bool continueFlag = true;

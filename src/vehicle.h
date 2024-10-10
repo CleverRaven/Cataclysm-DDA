@@ -2437,7 +2437,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         ~DefaultRemovePartHandler() override = default;
 
         void unboard( const tripoint &loc ) override {
-            get_map().unboard_vehicle( loc );
+            get_map().unboard_vehicle( tripoint_bub_ms( loc ) );
         }
         void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             get_map().add_item_or_charges( loc, std::move( it ) );

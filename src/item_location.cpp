@@ -819,7 +819,7 @@ void item_location::deserialize( const JsonObject &obj )
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint pos = tripoint_min;
+    tripoint_bub_ms pos = tripoint_bub_ms_min;
 
     obj.read( "idx", idx );
     obj.read( "pos", pos );

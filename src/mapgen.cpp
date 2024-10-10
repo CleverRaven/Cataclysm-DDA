@@ -3057,7 +3057,7 @@ class jmapgen_furniture : public jmapgen_piece
             if( chosen_id.id().is_null() ) {
                 return;
             }
-            if( !dat.m.furn_set( tripoint( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id ) ) {
+            if( !dat.m.furn_set( tripoint_bub_ms( x.get(), y.get(), dat.zlevel() + z.get() ), chosen_id ) ) {
                 debugmsg( "Problem setting furniture in %s", context );
             }
         }
@@ -3628,15 +3628,15 @@ class jmapgen_remove_vehicles : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y, const jmapgen_int &z,
                     const std::string &/*context*/ ) const override {
 
-            const tripoint start( x.val, y.val, dat.zlevel() + z.get() );
-            const tripoint end( x.valmax, y.valmax, dat.zlevel() + z.get() );
-            const tripoint_range<tripoint> range = tripoint_range<tripoint>( start, end );
-            for( const tripoint &p : range ) {
+            const tripoint_bub_ms start( int( x.val ), int( y.val ), dat.zlevel() + z.get() );
+            const tripoint_bub_ms end( int( x.valmax ), int( y.valmax ), dat.zlevel() + z.get() );
+            const tripoint_range<tripoint_bub_ms> range = tripoint_range<tripoint_bub_ms>( start, end );
+            for( const tripoint_bub_ms &p : range ) {
                 if( optional_vpart_position vp = dat.m.veh_at( p ) ) {
                     const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
                                                 vp->vehicle().type );
                     if( rit != vehicles_to_remove.end() ) {
-                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
+                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z(), end.z() );
                         dat.m.destroy_vehicle( &vp->vehicle() );
                     }
                 }
@@ -5157,30 +5157,33 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mtrap_set( &m, tripoint_bub_ms( i.x, i.y, z_level ), trap_id( val.get() ),
+                    mtrap_set( &m, tripoint_bub_ms( i.x(), i.y(), z_level ), trap_id( val.get() ),
                                dat.has_flag( jmapgen_flags::avoid_creatures ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_TRAP_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
-                    mremove_trap( &m, tripoint_bub_ms( i.x, i.y, z_level ), trap_id( val.get() ).id() );
+                    mremove_trap( &m, tripoint_bub_ms( i.x(), i.y(), z_level ), trap_id( val.get() ).id() );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_CREATURE_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
                     Creature *tmp_critter = get_creature_tracker().creature_at( tripoint_abs_ms( m.getglobal(
-                                                tripoint_bub_ms( i.x, i.y,
+                                                tripoint_bub_ms( i.x(), i.y(),
                                                         z_level ) ) ), true );
                     if( tmp_critter && !tmp_critter->is_avatar() ) {
                         tmp_critter->die( nullptr );
@@ -5189,26 +5192,29 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const tripoint_rel_ms &offset
             }
             break;
             case JMAPGEN_SETMAP_LINE_ITEM_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    m.i_clear( tripoint_bub_ms( i.x, i.y, z_level ) );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
+                    m.i_clear( tripoint_bub_ms( i.x(), i.y(), z_level ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_FIELD_REMOVE: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    mremove_fields( &m, tripoint_bub_ms( i.x, i.y, z_level ) );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
+                    mremove_fields( &m, tripoint_bub_ms( i.x(), i.y(), z_level ) );
                 }
             }
             break;
             case JMAPGEN_SETMAP_LINE_RADIATION: {
-                const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
-                                                0 );
-                for( const point &i : line ) {
-                    m.set_radiation( tripoint_bub_ms( i.x, i.y, z_level ), static_cast<int>( val.get() ) );
+                const std::vector<point_bub_ms> line = line_to( point_bub_ms( x_get(), y_get() ),
+                                                       point_bub_ms( x2_get(), y2_get() ),
+                                                       0 );
+                for( const point_bub_ms &i : line ) {
+                    m.set_radiation( tripoint_bub_ms( i.x(), i.y(), z_level ), static_cast<int>( val.get() ) );
                 }
             }
             break;
@@ -7038,7 +7044,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 
     for( std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++ ) {
-        const tripoint p = veh_to_add->global_part_pos3( *part );
+        const tripoint_bub_ms p = veh_to_add->bub_part_pos( *part );
 
         if( veh_to_add->part( *part ).is_fake ) {
             continue;

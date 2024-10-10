@@ -618,15 +618,15 @@ void computer_session::action_cascade()
         return;
     }
     get_event_bus().send<event_type::causes_resonance_cascade>();
-    tripoint player_pos = get_player_character().pos();
+    tripoint_bub_ms player_pos = get_player_character().pos_bub();
     map &here = get_map();
     std::vector<tripoint> cascade_points;
-    for( const tripoint &dest : here.points_in_radius( player_pos, 10 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( player_pos, 10 ) ) {
         if( here.ter( dest ) == ter_t_radio_tower ) {
-            cascade_points.push_back( dest );
+            cascade_points.push_back( dest.raw() );
         }
     }
-    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos ) );
+    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos.raw() ) );
 }
 
 void computer_session::action_research()

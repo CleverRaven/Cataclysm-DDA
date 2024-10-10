@@ -750,7 +750,7 @@ static void merge_invlet_test( avatar &dummy, inventory_location from )
 TEST_CASE( "Inventory_letter_test", "[.invlet]" )
 {
     avatar &dummy = get_avatar();
-    const tripoint spot( 60, 60, 0 );
+    const tripoint_bub_ms spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );
     get_map().ter_set( spot, ter_id( "t_dirt" ) );

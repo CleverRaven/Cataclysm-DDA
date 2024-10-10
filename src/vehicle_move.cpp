@@ -1666,7 +1666,7 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
         coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
                          wheel_point );
 
-        tripoint wheel_tripoint = global_pos3() + wheel_point;
+        tripoint_bub_ms wheel_tripoint = pos_bub() + wheel_point;
 
         // maximum number of incorrect tiles for this type of turn(diagonal or not)
         const int allowed_incorrect_tiles_diagonal = 1;
@@ -1964,20 +1964,20 @@ vehicle *vehicle::act_on_map()
         mdir = face;
     }
 
-    tripoint dp;
+    tripoint_rel_ms dp;
     if( std::abs( velocity ) >= 20 && !falling_only ) {
         mdir.advance( velocity < 0 ? -1 : 1 );
-        dp.x = mdir.dx();
-        dp.y = mdir.dy();
+        dp.x() = mdir.dx();
+        dp.y() = mdir.dy();
     }
 
     if( should_fall ) {
-        dp.z = -1;
+        dp.z() = -1;
         is_flying = false;
     } else {
-        dp.z = requested_z_change;
+        dp.z() = requested_z_change;
         requested_z_change = 0;
-        if( dp.z > 0 && is_rotorcraft() ) {
+        if( dp.z() > 0 && is_rotorcraft() ) {
             is_flying = true;
         }
     }
@@ -2134,7 +2134,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
     for( const int wheel_idx : veh.wheelcache ) {
         const vehicle_part &vp = veh.part( wheel_idx );
         const vpart_info &vpi = vp.info();
-        const tripoint pp = veh.global_part_pos3( vp );
+        const tripoint_bub_ms pp = veh.bub_part_pos( vp );
         const ter_t &tr = ter( pp ).obj();
         if( tr.has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ||
             tr.has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) ) {
@@ -2189,11 +2189,11 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        const tripoint part_pos = veh.global_part_pos3( ps );
-        if( rider->pos() != part_pos ) {
+        const tripoint_bub_ms part_pos = veh.bub_part_pos( ps );
+        if( rider->pos_bub() != part_pos ) {
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
-                      part_pos.x, part_pos.y, part_pos.z );
+                      part_pos.x(), part_pos.y(), part_pos.z() );
             veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;
         }
@@ -2275,7 +2275,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
             } else {
-                add_msg_if_player_sees( part_pos, m_bad,
+                add_msg_if_player_sees( part_pos.raw(), m_bad,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }

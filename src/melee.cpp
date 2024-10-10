@@ -1835,7 +1835,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
     }
     map &here = get_map();
     if( technique.knockback_dist && !t.has_flag( mon_flag_IMMOBILE ) ) {
-        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
+        const tripoint_bub_ms prev_pos = t.pos_bub(); // track target startpoint for knockback_follow
         const point kb_offset( rng( -technique.knockback_spread, technique.knockback_spread ),
                                rng( -technique.knockback_spread, technique.knockback_spread ) );
         tripoint kb_point( posx() + kb_offset.x, posy() + kb_offset.y, posz() );
@@ -1857,7 +1857,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
 
             // Check if it's possible to move to the new tile
             bool move_issue =
-                g->is_dangerous_tile( prev_pos ) || // Tile contains fire, etc
+                g->is_dangerous_tile( prev_pos.raw() ) || // Tile contains fire, etc
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
@@ -1865,8 +1865,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t,
                 has_effect( effect_amigara ) ||
                 has_flag( json_flag_GRAB );
             if( !move_issue ) {
-                if( t.pos() != prev_pos ) {
-                    g->place_player( prev_pos );
+                if( t.pos_bub() != prev_pos ) {
+                    g->place_player( prev_pos.raw() );
                     g->on_move_effects();
                 }
             }

@@ -3239,7 +3239,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         return false;
     }
 
-    tripoint pbelow = tripoint( p.xy(), p.z - 1 );
+    tripoint_bub_ms pbelow = tripoint_bub_ms( p + tripoint_below );
     nc_color col = c_dark_gray;
 
     const ter_t &curr_ter = here.ter( pbelow ).obj();
@@ -3264,7 +3264,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         col = curr_ter.color();
     }
 
-    draw_square_below( pbelow.xy(), col, sizefactor );
+    draw_square_below( pbelow.xy().raw(), col, sizefactor );
     return true;
 }
 

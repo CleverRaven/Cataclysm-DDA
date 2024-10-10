@@ -2203,7 +2203,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     cpart = part_at( point_zero );
     const point vd = -dd;
     const point q = veh->coord_translate( vd );
-    const tripoint vehp = veh->global_pos3() + q;
+    const tripoint_bub_ms vehp = veh->pos_bub() + q;
     const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
     terrain_here = here.ter( vehp ).obj();
@@ -2252,7 +2252,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     }
 
     /* Update the lifting quality to be the that is available for this newly selected tile */
-    cache_tool_availability_update_lifting( vehp );
+    cache_tool_availability_update_lifting( vehp.raw() );
 }
 
 void veh_interact::display_grid()
@@ -2375,7 +2375,7 @@ void veh_interact::display_veh()
     }
 
     const point pt_disp( getmaxx( w_disp ) / 2, getmaxy( w_disp ) / 2 );
-    const tripoint pos_at_cursor = veh->global_pos3() + veh->coord_translate( -dd );
+    const tripoint_bub_ms pos_at_cursor = veh->pos_bub() + veh->coord_translate( -dd );
     const optional_vpart_position ovp = here.veh_at( pos_at_cursor );
     col_at_cursor = hilite( col_at_cursor );
     if( here.impassable_ter_furn( pos_at_cursor ) || ( ovp && &ovp->vehicle() != veh ) ) {
@@ -3154,7 +3154,7 @@ void veh_interact::complete_vehicle( Character &you )
                 orient_part( &veh, vpinfo, partnum, q );
             }
 
-            const tripoint vehp = veh.global_pos3() + tripoint( q, 0 );
+            const tripoint_bub_ms vehp = veh.pos_bub() + tripoint( q, 0 );
             // TODO: allow boarding for non-players as well.
             Character *const pl = get_creature_tracker().creature_at<Character>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {

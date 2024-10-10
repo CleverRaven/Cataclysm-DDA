@@ -1780,10 +1780,11 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
-static tripoint find_closest_stair( const tripoint &near_this, const ter_furn_flag stair_type )
+static tripoint_bub_ms find_closest_stair( const tripoint_bub_ms &near_this,
+        const ter_furn_flag stair_type )
 {
     map &here = get_map();
-    for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
+    for( const tripoint_bub_ms &candidate : closest_points_first( near_this, 10 ) ) {
         if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
         }
@@ -1800,18 +1801,18 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     const bool z_move = p.z != pos_bub().z();
     const bool going_up = p.z > pos_bub().z();
 
-    tripoint destination = p;
+    tripoint_bub_ms destination( p );
     map &here = get_map();
 
     // This is stair teleportation hackery.
     // TODO: Remove this in favor of stair alignment
     if( going_up ) {
         if( here.has_flag( ter_furn_flag::TFLAG_GOES_UP, pos_bub() ) ) {
-            destination = find_closest_stair( p, ter_furn_flag::TFLAG_GOES_DOWN );
+            destination = find_closest_stair( tripoint_bub_ms( p ), ter_furn_flag::TFLAG_GOES_DOWN );
         }
     } else if( z_move ) {
         if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, pos_bub() ) ) {
-            destination = find_closest_stair( p, ter_furn_flag::TFLAG_GOES_UP );
+            destination = find_closest_stair( tripoint_bub_ms( p ), ter_furn_flag::TFLAG_GOES_UP );
         }
     }
 
@@ -1855,9 +1856,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         // Note: Keep this as float here or else it will cancel valid moves
         const float cost = stagger_adjustment *
                            static_cast<float>( climbs() &&
-                                               here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos(),
-                                                       destination ) : calc_movecost( pos(),
-                                                               destination ) );
+                                               here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ? calc_climb_cost( pos_bub().raw(),
+                                                       destination.raw() ) : calc_movecost( pos_bub().raw(),
+                                                               destination.raw() ) );
         if( cost > 0.0f ) {
             mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {
@@ -1898,13 +1899,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    optional_vpart_position vp_orig = here.veh_at( pos() );
+    optional_vpart_position vp_orig = here.veh_at( pos_bub() );
     if( vp_orig ) {
         vp_orig->vehicle().invalidate_mass();
     }
 
     setpos( destination );
-    footsteps( destination );
+    footsteps( destination.raw() );
     underwater = will_be_water;
     optional_vpart_position vp_dest = here.veh_at( destination );
     if( vp_dest ) {
@@ -2420,19 +2421,19 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
-                const tripoint destination_delta( -nearby_destination + remote_destination );
-                const tripoint shove_destination( clamp( destination_delta.x, -1, 1 ),
-                                                  clamp( destination_delta.y, -1, 1 ),
-                                                  clamp( destination_delta.z, -1, 1 ) );
+                const tripoint_rel_ms destination_delta( -nearby_destination + remote_destination );
+                const tripoint_rel_ms shove_destination( clamp( destination_delta.x(), -1, 1 ),
+                        clamp( destination_delta.y(), -1, 1 ),
+                        clamp( destination_delta.z(), -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
-                if( shove_destination != tripoint_zero ) {
-                    if( shove_destination.z != 0 ) {
-                        veh.vertical_velocity = shove_destination.z < 0 ? -shove_velocity : +shove_velocity;
+                if( shove_destination != tripoint_rel_ms_zero ) {
+                    if( shove_destination.z() != 0 ) {
+                        veh.vertical_velocity = shove_destination.z() < 0 ? -shove_velocity : +shove_velocity;
                     }
                     here.move_vehicle( veh, shove_destination, veh.face );
                 }
-                veh.move = tileray( destination_delta.xy() );
+                veh.move = tileray( destination_delta.xy().raw() );
                 veh.smash( here, shove_damage_min, shove_damage_max, 0.10F );
             }
         }
