@@ -180,6 +180,7 @@ struct sub_effect_parser {
 struct item_search_data {
 
     std::vector<str_or_var> id;
+    std::vector<str_or_var> id_blacklist;
     std::vector<str_or_var> category;
     std::vector<str_or_var> material;
     std::vector<str_or_var> flags;
@@ -200,6 +201,16 @@ struct item_search_data {
         }
         if( jo.has_object( "id" ) || jo.has_string( "id" ) ) {
             id.emplace_back( get_str_or_var( jo.get_member( "id" ), "id", false, "" ) );
+        }
+
+        if( jo.has_array( "id_blacklist" ) ) {
+            for( JsonValue jv : jo.get_array( "id_blacklist" ) ) {
+                id_blacklist.emplace_back( get_str_or_var( jv, "id_blacklist" ) );
+            }
+        }
+        if( jo.has_object( "id_blacklist" ) || jo.has_string( "id_blacklist" ) ) {
+            id_blacklist.emplace_back( get_str_or_var( jo.get_member( "id_blacklist" ), "id_blacklist", false,
+                                       "" ) );
         }
 
         if( jo.has_array( "category" ) ) {
@@ -265,6 +276,22 @@ struct item_search_data {
                 }
             }
             if( !id_evaluated.empty() && !match ) {
+                return false;
+            }
+        }
+
+        if( !id_blacklist.empty() ) {
+            std::vector<itype_id> id_blacklist_evaluated;
+            for( str_or_var id_blacklist_eval : id_blacklist ) {
+                id_blacklist_evaluated.emplace_back( id_blacklist_eval.evaluate( d ) );
+            }
+            match = false;
+            for( itype_id id : id_blacklist_evaluated ) {
+                if( id == loc->typeId() ) {
+                    match = true;
+                }
+            }
+            if( !id_blacklist_evaluated.empty() && match ) {
                 return false;
             }
         }
