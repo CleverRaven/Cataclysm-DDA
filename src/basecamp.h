@@ -264,6 +264,7 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
+        void make_corpse_from_group( const std::vector<MonsterGroupResult> &group );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }
