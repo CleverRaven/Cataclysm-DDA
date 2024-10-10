@@ -19,7 +19,7 @@
     },
     "responses": [
       { "text": "Me?  No, I'm just passing through, how about you?", "topic": "TALK_RC_SURVIVOR_Story" },
-      { "text": "Work here?  No, of course not.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Work here?  No, of course not.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -45,7 +45,7 @@
         "topic": "TALK_RC_SURVIVOR_Join"
       },
       { "text": "You seen anything interesting out there?", "topic": "TALK_RC_SURVIVOR_Tips" },
-      { "text": "Well, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -117,7 +117,7 @@
         "switch": true,
         "default": true
       },
-      { "text": "Actually, I have to go.  Maybe later.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>  <end_talking_later>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -126,7 +126,7 @@
     "dynamic_line": "Sure, here, I'll draw you up a little map.",
     "responses": [
       { "text": "Thanks!  What's your story?", "topic": "TALK_RC_SURVIVOR_Story" },
-      { "text": "Thanks!  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Thanks!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -136,7 +136,7 @@
     "responses": [
       { "text": "They could come along too.", "topic": "TALK_RC_SURVIVOR_Join1" },
       { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
-      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -145,13 +145,13 @@
     "dynamic_line": "It doesn't really work that way.  They're back in safety, and I've got to go check in with them with some supplies.  You know how it is, not everyone is suited to risk travel these days.",
     "responses": [
       { "text": "Why don't I come back to your hideout?", "topic": "TALK_RC_SURVIVOR_Join2" },
-      { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_RC_SURVIVOR_Join2",
     "dynamic_line": "Look, I don't know a better way to put this.  I don't know you, I can't bring some random back with me.  For all I know you're a cannibal psycho or something.  We all saw too much of that during <the_cataclysm>.  Me and mine, we're not looking to expand our tribe just now, OK?",
-    "responses": [ { "text": "Oh well, I'd better get going.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>", "topic": "TALK_DONE" } ]
   }
 ]

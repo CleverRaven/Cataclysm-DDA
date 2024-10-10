@@ -81,7 +81,7 @@
         },
         "failure": { "topic": "TALK_lighthouse_man_survivors_no" }
       },
-      { "text": "Goodbye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

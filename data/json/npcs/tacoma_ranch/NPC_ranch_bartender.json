@@ -138,7 +138,7 @@
           { "u_message": "Thanks for bringing the glass back.", "type": "good", "popup": true }
         ]
       },
-      { "text": "I'll be going…", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {

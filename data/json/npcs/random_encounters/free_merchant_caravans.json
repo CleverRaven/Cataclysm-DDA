@@ -101,7 +101,7 @@
     "responses": [
       { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
       { "text": "What's your deal here?", "topic": "TALK_CARAVAN_MERCHANT_Job" },
-      { "text": "That suits me fine.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "That suits me fine.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -111,7 +111,7 @@
     "responses": [
       { "text": "Sure, let's trade.", "topic": "TALK_CARAVAN_MERCHANT_Trade", "effect": "start_trade" },
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_MERCHANT_Story" },
-      { "text": "That suits me fine.  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "That suits me fine.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -134,7 +134,7 @@
           ]
         }
       },
-      { "text": "Thanks for chatting.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for chatting.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -160,7 +160,7 @@
           ]
         }
       },
-      { "text": "Thanks for chatting.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for chatting.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -174,7 +174,7 @@
         "text": "Can you give me directions to any of these other survivor groups?",
         "topic": "TALK_CARAVAN_MERCHANT_Others"
       },
-      { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for that.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -188,7 +188,7 @@
         "effect": "start_trade"
       },
       { "text": "Thanks.  What were we talking about before?", "topic": "TALK_NONE" },
-      { "text": "Thanks for that.  I'd better go.", "topic": "TALK_DONE" }
+      { "text": "Thanks for that.  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -228,7 +228,7 @@
           ]
         }
       },
-      { "text": "It's a living, eh?  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "It's a living, eh?  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -247,7 +247,7 @@
           ]
         }
       },
-      { "text": "It's a living, eh?  I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "It's a living, eh?  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -265,7 +265,7 @@
           ]
         }
       },
-      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the tip!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -274,8 +274,8 @@
     "dynamic_line": "Sure, I can mark it on your map if you like.  Here.",
     "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" } },
     "responses": [
-      { "text": "Thanks for the tip!  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "Thanks for the tip!  I'll be on my way.", "topic": "TALK_DONE" }
+      { "text": "Thanks for the tip!  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "Thanks for the tip!  <end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
