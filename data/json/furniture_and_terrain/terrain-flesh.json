@@ -21,6 +21,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_ghoul_nest",
+    "name": "nest wall",
+    "description": "Tumorous walls erupt from the living ground in a grotesque protective envelope",
+    "symbol": "LINE_OXOX",
+    "color": "magenta_red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_ghoul_nest_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "looks_like": "t_concrete_wall_flesh",
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_ghoul_nest_floor",
+      "items": [ { "item": "meat_tainted", "count": [ 50, 140 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_ghoul_nest_floor",
+    "name": "nest floor",
+    "description": "A thick bed of spongy flesh.",
+    "symbol": ".",
+    "color": "magenta",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
+    "looks_like": "t_thconc_floor_flesh"
+  },
+  {
+    "type": "terrain",
     "id": "t_concrete_wall_flesh",
     "name": "overgrown wall",
     "description": "A concrete wall overgrown by a grotesque grid of veins and knotted flesh.",
