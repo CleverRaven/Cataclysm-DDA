@@ -82,6 +82,7 @@ static const character_modifier_id character_modifier_solid_consume_mod( "solid_
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_common_cold( "common_cold" );
+static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
@@ -98,6 +99,9 @@ static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_visuals( "visuals" );
 
+static const flag_id json_flag_ALCOHOL( "ALCOHOL" );
+static const flag_id json_flag_ALCOHOL_STRONG( "ALCOHOL_STRONG" );
+static const flag_id json_flag_ALCOHOL_WEAK( "ALCOHOL_WEAK" );
 static const flag_id json_flag_ALLERGEN_CHEESE( "ALLERGEN_CHEESE" );
 static const flag_id json_flag_ALLERGEN_EGG( "ALLERGEN_EGG" );
 static const flag_id json_flag_ALLERGEN_MEAT( "ALLERGEN_MEAT" );
@@ -152,6 +156,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
+static const trait_id trait_ALCMET( "ALCMET" );
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_ANTIJUNK( "ANTIJUNK" );
@@ -163,6 +168,7 @@ static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
+static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_MEATARIAN( "MEATARIAN" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -187,6 +193,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_RABBIT( "THRESH_RABBIT" );
 static const trait_id trait_THRESH_RAT( "THRESH_RAT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
+static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -1055,6 +1062,35 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
+static constexpr time_duration alc_strength( const int strength, const time_duration &weak,
+        const time_duration &medium, const time_duration &strong )
+{
+    return strength == 0 ? weak : strength == 1 ? medium : strong;
+}
+
+static int alcohol( Character &p, const item &it, const int strength )
+{
+    // Weaker characters are cheap drunks
+    /** @EFFECT_STR_MAX reduces drunkenness duration */
+    time_duration duration = alc_strength( strength, 22_minutes, 34_minutes,
+                                           45_minutes ) - ( alc_strength( strength, 36_seconds, 1_minutes, 72_seconds ) * p.str_max );
+    if( p.has_trait( trait_ALCMET ) ) {
+        duration = alc_strength( strength, 6_minutes, 14_minutes, 18_minutes ) - ( alc_strength( strength,
+                   36_seconds, 1_minutes, 1_minutes ) * p.str_max );
+        // Metabolizing the booze improves the nutritional value;
+        // might not be healthy, and still causes Thirst problems, though
+        p.stomach.mod_nutr( -std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) );
+        // Metabolizing it cancels out the depressant
+        p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
+    } else if( p.has_trait( trait_TOLERANCE ) ) {
+        duration -= alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
+    } else if( p.has_trait( trait_LIGHTWEIGHT ) ) {
+        duration += alc_strength( strength, 9_minutes, 16_minutes, 24_minutes );
+    }
+    p.add_effect( effect_drunk, duration );
+    return 1;
+}
+
 /** Eat a comestible.
 *   @return true if item consumed.
 */
@@ -1069,18 +1105,16 @@ static bool eat( item &food, Character &you, bool force )
         return false;
     }
 
-    int charges_used = 0;
-    if( food.type->has_use() ) {
-        if( !food.type->can_use( "PETFOOD" ) ) {
-            charges_used = food.type->invoke( &you, food, you.pos() ).value_or( 0 );
-            if( charges_used <= 0 ) {
-                return false;
-            }
-        }
-    }
-
     // Note: the block below assumes we decided to eat it
     // No coming back from here
+
+    if( food.has_flag( json_flag_ALCOHOL_WEAK ) ) {
+        alcohol( you, food, 0 );
+    } else if( food.has_flag( json_flag_ALCOHOL ) ) {
+        alcohol( you, food, 1 );
+    } else if( food.has_flag( json_flag_ALCOHOL_STRONG ) ) {
+        alcohol( you, food, 2 );
+    }
 
     if( food.is_container() ) {
         food.spill_contents( you );
@@ -1119,13 +1153,6 @@ static bool eat( item &food, Character &you, bool force )
         you.add_msg_if_player( m_good, _( "Mmm, this %s tastes delicious…" ), food.tname() );
     }
     if( !you.consume_effects( food ) ) {
-        // Already consumed by using `food.type->invoke`?
-        if( charges_used > 0 ) {
-            if( food.count_by_charges() ) {
-                food.mod_charges( -charges_used );
-            }
-            return true;
-        }
         return false;
     }
     if( food.count_by_charges() ) {
