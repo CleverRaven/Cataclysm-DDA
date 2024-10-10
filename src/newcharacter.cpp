@@ -34,6 +34,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
+#include "loading_ui.h"
 #include "localized_comparator.h"
 #include "magic.h"
 #include "magic_enchantment.h"
@@ -672,6 +673,7 @@ static int calculate_cumulative_experience( int level )
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
+    loading_ui::done();
     set_wielded_item( item() );
 
     prof = profession::generic();
