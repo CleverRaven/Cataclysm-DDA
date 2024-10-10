@@ -118,7 +118,7 @@ TEST_CASE( "avatar_diving", "[diving]" )
 
     GIVEN( "avatar is underwater at z-2" ) {
         dummy.set_underwater( true );
-        dummy.setpos( test_origin + tripoint( 0, 0, -2 ) );
+        dummy.setpos( test_origin );
         g->vertical_shift( -2 );
 
         WHEN( "avatar dives down" ) {
@@ -261,8 +261,14 @@ struct swim_scenario {
 static int swimming_steps( avatar &swimmer )
 {
     map &here = get_map();
+    // This shouldn't work.
+    CAPTURE( swimmer.pos() );
+    avatar_action::move( swimmer, here, swimmer.pos() + tripoint_west );
+    CAPTURE( swimmer.pos() );
     const tripoint left = swimmer.pos();
     const tripoint right = left + tripoint_east;
+    CAPTURE( left );
+    CAPTURE( right );
     int steps = 0;
     constexpr int STOP_STEPS = 9000;
     int last_moves = swimmer.get_speed();
@@ -272,10 +278,10 @@ static int swimming_steps( avatar &swimmer )
     while( swimmer.get_stamina() > 0 && !swimmer.has_effect( effect_winded ) && steps < STOP_STEPS ) {
         if( steps % 2 == 0 ) {
             REQUIRE( swimmer.pos() == left );
-            REQUIRE( avatar_action::move( swimmer, here, tripoint_east ) );
+            REQUIRE( avatar_action::move( swimmer, here, right ) );
         } else {
             REQUIRE( swimmer.pos() == right );
-            REQUIRE( avatar_action::move( swimmer, here, tripoint_west ) );
+            REQUIRE( avatar_action::move( swimmer, here, left ) );
         }
         ++steps;
         REQUIRE( swimmer.get_moves() < last_moves );
@@ -905,6 +911,7 @@ static std::map<std::string, swim_result> expected_results = {
 
 TEST_CASE( "check_swim_move_cost_and_distance_values", "[swimming][slow]" )
 {
+    clear_avatar();
     setup_test_lake();
 
     avatar &dummy = get_avatar();
