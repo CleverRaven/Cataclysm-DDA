@@ -143,42 +143,28 @@ namespace
 // Used only if AttachConsole() works
 FILE *CONOUT;
 #endif
-void exit_handler( int s )
-{
-    const int old_timeout = inp_mngr.get_timeout();
-    inp_mngr.reset_timeout();
-    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-        deinitDebug();
-
-        int exit_status = 0;
-        g.reset();
-
-        catacurses::endwin();
-
-#if defined(__ANDROID__)
-        // Avoid capturing SIGABRT on exit on Android in crash report
-        // Can be removed once the SIGABRT on exit problem is fixed
-        signal( SIGABRT, SIG_DFL );
-#endif
 
 #if !defined(_WIN32)
-        if( s == 2 ) {
-            struct sigaction sigIntHandler;
-            sigIntHandler.sa_handler = SIG_DFL;
-            sigemptyset( &sigIntHandler.sa_mask );
-            sigIntHandler.sa_flags = 0;
-            sigaction( SIGINT, &sigIntHandler, nullptr );
-            kill( getpid(), s );
-        } else
+extern "C" void sigint_handler( int /* s */ )
+{
+    g->uquit = QUIT_EXIT;
+}
 #endif
-        {
-            imclient.reset();
-            exit( exit_status );
-        }
-    }
-    inp_mngr.set_timeout( old_timeout );
-    ui_manager::redraw_invalidated();
-    catacurses::doupdate();
+
+void exit_handler( int /* s */ )
+{
+    deinitDebug();
+
+    g.reset();
+
+    catacurses::endwin();
+
+#if defined(__ANDROID__)
+    // Avoid capturing SIGABRT on exit on Android in crash report
+    // Can be removed once the SIGABRT on exit problem is fixed
+    signal( SIGABRT, SIG_DFL );
+#endif
+
 }
 
 struct arg_handler {
@@ -836,7 +822,7 @@ int main( int argc, const char *argv[] )
 
 #if !defined(_WIN32)
     struct sigaction sigIntHandler;
-    sigIntHandler.sa_handler = exit_handler;
+    sigIntHandler.sa_handler = sigint_handler;
     sigemptyset( &sigIntHandler.sa_mask );
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
@@ -870,7 +856,11 @@ int main( int argc, const char *argv[] )
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         get_event_bus().send<event_type::game_begin>( getVersionString() );
-        while( !do_turn() ) {}
+        while( !do_turn() ) { }
+
+        if( g->uquit == QUIT_EXIT ) {
+            break;
+        }
     }
 
     exit_handler( -999 );

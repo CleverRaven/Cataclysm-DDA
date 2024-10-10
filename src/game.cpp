@@ -2800,6 +2800,18 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
 
 bool game::is_game_over()
 {
+    if( uquit == QUIT_EXIT ) {
+        const int old_timeout = inp_mngr.get_timeout();
+        inp_mngr.reset_timeout();
+        if( query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+            return true;
+        }
+        inp_mngr.set_timeout( old_timeout );
+        ui_manager::redraw_invalidated();
+        catacurses::doupdate();
+        uquit = QUIT_NO;
+        return false;
+    }
     if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
         events().send<event_type::avatar_dies>();
     }

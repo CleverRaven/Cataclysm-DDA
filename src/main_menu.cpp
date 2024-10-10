@@ -706,6 +706,10 @@ bool main_menu::opening_screen()
 #endif
 
     while( !start ) {
+        if( g->uquit == QUIT_EXIT ) {
+            return false;
+        }
+
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
         input_event sInput = ctxt.get_raw_input();

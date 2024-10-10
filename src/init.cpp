@@ -44,6 +44,7 @@
 #include "field_type.h"
 #include "filesystem.h"
 #include "flag.h"
+#include "game.h"
 #include "gates.h"
 #include "harvest.h"
 #include "input.h"
@@ -102,6 +103,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
+#include "ui_manager.h"
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
@@ -127,6 +129,17 @@ void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &sr
                                      const cata_path &base_path,
                                      const cata_path &full_path )
 {
+    if( g && g->uquit == quit_status::QUIT_EXIT ) {
+        const int old_timeout = inp_mngr.get_timeout();
+        inp_mngr.reset_timeout();
+        if( query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+            exit( 0 );
+        }
+        inp_mngr.set_timeout( old_timeout );
+        ui_manager::redraw_invalidated();
+        catacurses::doupdate();
+        g->uquit = QUIT_NO;
+    }
     const std::string type = jo.get_string( "type" );
     const t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
