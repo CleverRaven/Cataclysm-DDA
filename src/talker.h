@@ -55,7 +55,7 @@ class talker
         virtual item_location *get_item() {
             return nullptr;
         }
-        virtual item_location *get_item() const {
+        virtual item_location const *get_item() const {
             return nullptr;
         }
         virtual monster *get_monster() {

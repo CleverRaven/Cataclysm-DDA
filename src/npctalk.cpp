@@ -182,13 +182,12 @@ struct item_search_data {
     std::vector<str_or_var> id;
     std::vector<str_or_var> category;
     std::vector<str_or_var> material;
-    dbl_or_var calories;
     std::vector<str_or_var> flags;
     std::vector<str_or_var> excluded_flags;
     bool worn_only;
     bool wielded_only;
     bool held_only;
-    // todo: add weight, volume
+
     std::function<bool( dialogue & )> condition;
     bool has_condition = false;
 
@@ -221,8 +220,6 @@ struct item_search_data {
             material.emplace_back( get_str_or_var( jo.get_member( "material" ), "material", false, "" ) );
         }
 
-        calories = get_dbl_or_var( jo, "calories", false, 0 );
-
         if( jo.has_array( "flags" ) ) {
             for( JsonValue jv : jo.get_array( "flags" ) ) {
                 flags.emplace_back( get_str_or_var( jv, "flags" ) );
@@ -246,6 +243,7 @@ struct item_search_data {
             read_condition( jo, "condition", condition, false );
             has_condition = true;
         }
+
         worn_only = jo.get_bool( "worn_only", false );
         wielded_only = jo.get_bool( "wielded_only", false );
         held_only = jo.get_bool( "held_only", false );
@@ -253,18 +251,10 @@ struct item_search_data {
 
     bool check( const Character *guy, const item_location &loc, dialogue d ) {
 
-        std::vector<itype_id> id_evaluated;
-        std::vector<item_category_id> category_evaluated;
-        std::vector<material_id> material_evaluated;
-        int calories_evaluated = 0;
-        std::vector<flag_id> flags_evaluated;
-        std::vector<flag_id> excluded_flags_evaluated;
         bool match;
 
-        // todo: sort from the fastest methods to slowers, for theoretical performance wins
-        // todo: combine evaluation with actual check
-
         if( !id.empty() ) {
+            std::vector<itype_id> id_evaluated;
             for( str_or_var id_eval : id ) {
                 id_evaluated.emplace_back( id_eval.evaluate( d ) );
             }
@@ -280,6 +270,7 @@ struct item_search_data {
         }
 
         if( !category.empty() ) {
+            std::vector<item_category_id> category_evaluated;
             for( str_or_var category_eval : category ) {
                 category_evaluated.emplace_back( category_eval.evaluate( d ) );
             }
@@ -295,6 +286,7 @@ struct item_search_data {
         }
 
         if( !material.empty() ) {
+            std::vector<material_id> material_evaluated;
             for( str_or_var material_eval : material ) {
                 material_evaluated.emplace_back( material_eval.evaluate( d ) );
             }
@@ -310,6 +302,7 @@ struct item_search_data {
         }
 
         if( !flags.empty() ) {
+            std::vector<flag_id> flags_evaluated;
             for( str_or_var flags_eval : flags ) {
                 flags_evaluated.emplace_back( flags_eval.evaluate( d ) );
             }
@@ -325,6 +318,7 @@ struct item_search_data {
         }
 
         if( !excluded_flags.empty() ) {
+            std::vector<flag_id> excluded_flags_evaluated;
             for( str_or_var excluded_flags_eval : excluded_flags ) {
                 excluded_flags_evaluated.emplace_back( excluded_flags_eval.evaluate( d ) );
             }
@@ -335,15 +329,6 @@ struct item_search_data {
                 }
             }
             if( !excluded_flags_evaluated.empty() && match ) {
-                return false;
-            }
-        }
-
-        calories_evaluated = calories.evaluate( d );
-        if( calories_evaluated > 0 ) {
-            // This is very stupid but we need a dummy to calculate nutrients
-            npc dummy;
-            if( dummy.compute_effective_nutrients( *loc.get_item() ).kcal() < calories_evaluated ) {
                 return false;
             }
         }
@@ -359,7 +344,7 @@ struct item_search_data {
         }
 
         if( has_condition ) {
-            dialogue dial( d.actor( true )->clone(), get_talker_for( loc ), condition );
+            dialogue dial( d.actor( false )->clone(), get_talker_for( loc ) );
             if( !condition( dial ) ) {
                 return false;
             }
