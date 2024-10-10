@@ -955,8 +955,9 @@ class game
         void mon_info_update( );    //Update seen monsters information
         void cleanup_dead();     // Delete any dead NPCs/monsters
         bool is_dangerous_tile( const tripoint &dest_loc ) const;
-        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc ) const;
-        bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
+        std::vector<std::string> get_dangerous_tile( const tripoint &dest_loc, size_t max = 0 ) const;
+        bool prompt_dangerous_tile( const tripoint &dest_loc,
+                                    std::vector<std::string> *harmful_stuff = nullptr ) const;
         // Pick up items from the given point
         // TODO: Get rid of untyped overloads.
         void pickup( const tripoint &p );
