@@ -233,9 +233,13 @@
       "Excellent pictures of nature.",
       "Food photos… your stomach rumbles!",
       "Some very interesting travel photos.",
-      "Pictures of a concert of popular band.",
+      "Pictures from a popular band's concert.",
       "Photos of someone's luxurious house.",
-      "You feel nostalgic as you stare at the photo."
+      "You feel nostalgic as you stare at the photo.",
+      "You exhale through your nostrils at a niche meme.",
+      "Some hilarious photos of drunken tomfoolery.",
+      "Some tasteful drawings of an anthropomorphic <animal> .",
+      "Some less-than-tasteful drawings of an anthropomorphic <animal> ."
     ]
   },
   {
@@ -389,7 +393,7 @@
   {
     "type": "snippet",
     "category": "<statue_worthy_act>",
-    "text": [ "provided for our city in a time of need", "founded our great city" ]
+    "text": [ "provided for our city in a time of need", "founded our great city", "was a pillar of our community", "poured their heart and soul into this city" ]
   },
   {
     "type": "snippet",
@@ -476,7 +480,8 @@
         "id": "cartoon_blanket_7",
         "text": "a small robot, known only as T6-Zed49, who tackles tough political issues while exploring civilizations across the universe"
       },
-      { "id": "cartoon_blanket_8", "text": "a cartoon version of Mr. Smile and Laugh, a children's entertainer" }
+      { "id": "cartoon_blanket_8", "text": "a cartoon version of Mr. Smile and Laugh, a children's entertainer" },
+      { "id": "cartoon_blanket_9", "text": "the Feline Five, a group of cats who perform various municipal services" }
     ]
   },
   {
@@ -756,6 +761,33 @@
       { "id": "random_color_gray", "text": { "ctxt": "<color>", "str": "gray" } },
       { "id": "random_color_silver", "text": { "ctxt": "<color>", "str": "silver" } },
       { "id": "random_color_white", "text": { "ctxt": "<color>", "str": "white" } }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<animal>",
+    "//": "For use in anywhere you want a depiction of a random animal to appear.  Feel free to add more.",
+    "text": [    
+      { "id": "random_animal_wolf", "text": { "ctxt": "<animal>", "str": "wolf" } },
+      { "id": "random_animal_horse", "text": { "ctxt": "<animal>", "str": "horse" } },
+      { "id": "random_animal_cat", "text": { "ctxt": "<animal>", "str": "cat" } },
+      { "id": "random_animal_dog", "text": { "ctxt": "<animal>", "str": "dog" } },
+      { "id": "random_animal_unicorn", "text": { "ctxt": "<animal>", "str": "unicorn" } },
+      { "id": "random_animal_fox", "text": { "ctxt": "<animal>", "str": "fox" } },
+      { "id": "random_animal_boar", "text": { "ctxt": "<animal>", "str": "boar" } },
+      { "id": "random_animal_cow", "text": { "ctxt": "<animal>", "str": "cow" } },
+      { "id": "random_animal_bull", "text": { "ctxt": "<animal>", "str": "bull" } },
+      { "id": "random_animal_eagle", "text": { "ctxt": "<animal>", "str": "eagle" } },
+      { "id": "random_animal_bird", "text": { "ctxt": "<animal>", "str": "bird" } },
+      { "id": "random_animal_spider", "text": { "ctxt": "<animal>", "str": "spider" } },
+      { "id": "random_animal_frog", "text": { "ctxt": "<animal>", "str": "frog" } },
+      { "id": "random_animal_insect", "text": { "ctxt": "<animal>", "str": "insect" } },
+      { "id": "random_animal_raven", "text": { "ctxt": "<animal>", "str": "raven" } },
+      { "id": "random_animal_whale", "text": { "ctxt": "<animal>", "str": "whale" } },
+      { "id": "random_animal_fish", "text": { "ctxt": "<animal>", "str": "fish" } },
+      { "id": "random_animal_lion", "text": { "ctxt": "<animal>", "str": "lion" } },
+      { "id": "random_animal_bear", "text": { "ctxt": "<animal>", "str": "bear" } },
+      { "id": "random_animal_armadillo", "text": { "ctxt": "<animal>", "str": "armadillo" } }
     ]
   }
 ]
