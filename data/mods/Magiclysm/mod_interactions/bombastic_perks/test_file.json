@@ -1,0 +1,17 @@
+[
+    {
+        "type": "mutation",
+        "id": "MANA_ADD2",
+        "name": "Mana Efficiency",
+        "points": 3,
+        "description": "You are able to store more mana in your body than usual.",
+        "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
+        "changes_to": [ "MANA_ADD3" ],
+        "types": [ "MANA_ADD" ],
+        "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF" ],
+        "starting_trait": true,
+        "prereqs": [ "MANA_ADD1" ],
+        "flags": [ "NON_THRESH" ],
+        "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
+      }
+]
