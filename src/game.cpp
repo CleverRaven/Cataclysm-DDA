@@ -13298,8 +13298,8 @@ void game::shift_destination_preview( const point &delta )
     }
 }
 
-int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
-                            bool show_chance_messages )
+float game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
+                              bool show_chance_messages )
 {
     if( aid_id.is_null() ) {
         // The NULL climbing aid ID may be passed as a default argument.
@@ -13308,7 +13308,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 
     const climbing_aid &aid = aid_id.obj();
 
-    int slip = 100;
+    float slip = 100.0f;
 
     const bool parkour = u.has_proficiency( proficiency_prof_parkour );
     const bool badknees = u.has_trait( trait_BADKNEES );
@@ -13335,7 +13335,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
         }
     }
 
-    add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after proficiency/trait modifiers %.0f%%", slip );
 
     // Climbing is difficult with wet hands and feet.
     float wet_penalty = 1.0f;
@@ -13374,24 +13374,24 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
     // Apply wetness penalty
     slip *= wet_penalty;
 
-    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after wetness penalty %.0f%%", slip );
 
     ///\EFFECT_DEX decreases chances of slipping while climbing
     ///\EFFECT_STR decreases chances of slipping while climbing
     /// Not using arm strength since lifting score comes into play later
     slip /= std::max( 1, u.dex_cur + u.str_cur );
 
-    add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slip chance after stat modifiers %.0f%%", slip );
 
     // Apply limb score penalties - grip, arm strength and footing are all relevant
     slip /= u.get_modifier( character_modifier_slip_prevent_mod );
-    add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %d%%", slip );
+    add_msg_debug( debugmode::DF_GAME, "Slipping chance after limb scores %.0f%%", slip );
 
     // Being weighed down makes it easier for you to slip.
     double weight_ratio = static_cast<double>( units::to_gram( u.weight_carried() ) ) / units::to_gram(
                               u.weight_capacity() );
     slip += roll_remainder( 8.0 * weight_ratio );
-    add_msg_debug( debugmode::DF_GAME, "Weight ratio %.2f, slip chance %d%%", weight_ratio,
+    add_msg_debug( debugmode::DF_GAME, "Weight ratio %.2f, slip chance %.0f%%", weight_ratio,
                    slip );
 
     // Decreasing stamina makes you slip up more often
@@ -13411,7 +13411,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
             }
         }
     }
-    add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, slip chance %d%%",
+    add_msg_debug( debugmode::DF_GAME, "Stamina ratio %.2f, slip chance %.0f%%",
                    stamina_ratio, slip );
 
     if( show_chance_messages ) {
@@ -13435,7 +13435,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
         }
     }
 
-    add_msg_debug( debugmode::DF_GAME, "After affordance modifier, final slip chance %d%%",
+    add_msg_debug( debugmode::DF_GAME, "After affordance modifier, final slip chance %.0f%%",
                    slip );
 
     return slip;
@@ -13444,7 +13444,7 @@ int game::slip_down_chance( climb_maneuver, climbing_aid_id aid_id,
 bool game::slip_down( climb_maneuver maneuver, climbing_aid_id aid_id,
                       bool show_chance_messages )
 {
-    int slip = slip_down_chance( maneuver, aid_id, show_chance_messages );
+    float slip = slip_down_chance( maneuver, aid_id, show_chance_messages );
 
     if( x_in_y( slip, 100 ) ) {
         add_msg( m_bad, _( "You slip while climbing and fall down." ) );
@@ -13612,7 +13612,7 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
     //   Climb down the rope?
 
     // Calculate chance of slipping.  Prints possible causes to log.
-    int slip_chance = slip_down_chance( climb_maneuver::down, aid_id, true );
+    float slip_chance = slip_down_chance( climb_maneuver::down, aid_id, true );
 
     // Roughly estimate damage if we should fall.
     int damage_estimate = 10 * fall.height;
