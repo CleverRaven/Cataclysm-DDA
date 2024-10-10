@@ -41,8 +41,6 @@
 
 class game;
 // NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
 // NOLINTNEXTLINE(cata-static-declarations)
