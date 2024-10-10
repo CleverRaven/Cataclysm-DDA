@@ -280,7 +280,7 @@
     "type": "TOOL",
     "name": { "str": "glassblower's crucible" },
     "copy-from": "fake_appliance_tool",
-    "symbol": "o", 
+    "symbol": "o",
     "color": "brown",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
   },
