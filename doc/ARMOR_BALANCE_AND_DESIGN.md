@@ -218,6 +218,17 @@ Sided armor is armor that even though it describes covering, both legs, both arm
 #### Further Reading
 lots of holsters. The new plate armor is also sided per piece.
 
+### Seal Integrity
+#### Explanation
+The seal integrity of armor is how tightly the armor is sealed against contaminants like acid or toxic gas, roughly aligned with hazmat suit protection ratings. The levels of seal integrity are (in order):
+* GAS_TIGHT - Provides complete protection against liquids and gasses.
+* LIQUID_TIGHT - Provides complete protection against liquids, including submersion.
+* SPLASH_TIGHT - Provides complete protection against large splashes of liquids, like boomer bile.
+* SPRAY_TIGHT - Provides complete protection against light sprays of liquids, like rain.
+* MODERATE - Provides a small amount of protection against liquids.
+* LOOSE - Better than nothing.
+* OPEN - No protection at all.
+
 ### Basic Materials
 #### Explanation
 Materials inform a lot of the information for an armor. What something is made of determines how likely it is to break, how much it protects you, how well it breaths (when you sweat). Materials can be defined in a number of ways going up in complexity. The simplest way is to specify an array of materials. When you do this it is assumed that each of the given materials is equally represented in the armor meaning if you had a 2mm thick armor and it was 2 materials it would be assumed each material was 1mm thick. You can expand this further and give each a portion value. So if you had 9 portion material A and 1 portion material B for a 1mm thick armor than it would be .9mm A and .1mm B.
