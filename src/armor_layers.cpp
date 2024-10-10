@@ -583,21 +583,23 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     const int win_h = getmaxy( w );
 
     draw_border( w );
+
+    wattron( w, BORDER_COLOR );
     mvwhline( w, point( 1, 2 ), 0, win_w - 2 );
     mvwhline( w, point( left_pane_w + 2, encumb_top - 1 ), 0, mid_pane_w );
     mvwvline( w, point( left_pane_w + 1, 3 ), 0, win_h - 4 );
     mvwvline( w, point( left_pane_w + mid_pane_w + 2, 3 ), 0, win_h - 4 );
 
     // intersections
-    mvwputch( w, point( 0, 2 ), BORDER_COLOR, LINE_XXXO ); // '|-'
-    mvwputch( w, point( win_w - 1, 2 ), BORDER_COLOR, LINE_XOXX ); // '-|'
-    mvwputch( w, point( left_pane_w + 1, encumb_top - 1 ), BORDER_COLOR, LINE_XXXO ); // '|-'
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, encumb_top - 1 ), BORDER_COLOR,
-              LINE_XOXX ); // '-|'
-    mvwputch( w, point( left_pane_w + 1, 2 ), BORDER_COLOR, LINE_OXXX ); // '^|^'
-    mvwputch( w, point( left_pane_w + 1, win_h - 1 ), BORDER_COLOR, LINE_XXOX ); // '_|_'
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, 2 ), BORDER_COLOR, LINE_OXXX ); // '^|^'
-    mvwputch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), BORDER_COLOR, LINE_XXOX ); // '_|_'
+    mvwaddch( w, point( 0, 2 ), LINE_XXXO ); // '|-'
+    mvwaddch( w, point( win_w - 1, 2 ), LINE_XOXX ); // '-|'
+    mvwaddch( w, point( left_pane_w + 1, encumb_top - 1 ), LINE_XXXO ); // '|-'
+    mvwaddch( w, point( left_pane_w + mid_pane_w + 2, encumb_top - 1 ), LINE_XOXX ); // '-|'
+    mvwaddch( w, point( left_pane_w + 1, 2 ), LINE_OXXX ); // '^|^'
+    mvwaddch( w, point( left_pane_w + 1, win_h - 1 ), LINE_XXOX ); // '_|_'
+    mvwaddch( w, point( left_pane_w + mid_pane_w + 2, 2 ), LINE_OXXX ); // '^|^'
+    mvwaddch( w, point( left_pane_w + mid_pane_w + 2, win_h - 1 ), LINE_XXOX ); // '_|_'
+    wattroff( w, BORDER_COLOR );
 
     wnoutrefresh( w );
 }

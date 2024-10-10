@@ -3738,11 +3738,7 @@ void target_ui::draw_ui_window()
     // Clear target window and make it non-transparent.
     int width = getmaxx( w_target );
     int height = getmaxy( w_target );
-    for( int y = 0; y < height; y++ ) {
-        for( int x = 0; x < width; x++ ) {
-            mvwputch( w_target, point( x, y ), c_white, ' ' );
-        }
-    }
+    mvwrectf( w_target, point_zero, c_white, ' ', width, height );
 
     draw_border( w_target );
     draw_window_title();

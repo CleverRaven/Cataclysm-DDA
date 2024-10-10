@@ -128,10 +128,15 @@ int snake_game::start_game()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_snake );
         print_header( w_snake );
+        wattron( w_snake, c_light_gray );
         for( auto it = vSnakeBody.begin(); it != vSnakeBody.end(); ++it ) {
-            const nc_color col = it + 1 == vSnakeBody.end() ? c_white : c_light_gray;
-            mvwputch( w_snake, point( it->second, it->first ), col, '#' );
+            if( it + 1 == vSnakeBody.end() ) {
+                wattroff( w_snake, c_light_gray );
+                wattron( w_snake, c_white );
+            }
+            mvwaddch( w_snake, point( it->second, it->first ), '#' );
         }
+        wattroff( w_snake, c_white );
         if( iFruitPosX != 0 && iFruitPosY != 0 ) {
             mvwputch( w_snake, point( iFruitPosX, iFruitPosY ), c_light_red, '*' );
         }

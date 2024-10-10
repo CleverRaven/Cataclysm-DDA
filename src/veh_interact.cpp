@@ -2260,47 +2260,42 @@ void veh_interact::display_grid()
     // border window
     draw_border( w_border );
 
+    wattron( w_border, BORDER_COLOR );
+
     // match grid lines
     const int y_mode = getmaxy( w_mode ) + 1;
     // |-
-    mvwputch( w_border, point( 0, y_mode ), BORDER_COLOR, LINE_XXXO );
+    mvwaddch( w_border, point( 0, y_mode ), LINE_XXXO );
     // -|
-    mvwputch( w_border, point( TERMX - 1, y_mode ), BORDER_COLOR, LINE_XOXX );
+    mvwaddch( w_border, point( TERMX - 1, y_mode ), LINE_XOXX );
     const int y_list = getbegy( w_list ) + getmaxy( w_list );
     // |-
-    mvwputch( w_border, point( 0, y_list ), BORDER_COLOR, LINE_XXXO );
+    mvwaddch( w_border, point( 0, y_list ), LINE_XXXO );
     // -|
-    mvwputch( w_border, point( TERMX - 1, y_list ), BORDER_COLOR, LINE_XOXX );
+    mvwaddch( w_border, point( TERMX - 1, y_list ), LINE_XOXX );
 
     const int grid_w = getmaxx( w_border ) - 2;
 
     // Two lines dividing the three middle sections.
-    for( int i = 1 + getmaxy( w_mode ); i < ( 1 + getmaxy( w_mode ) + page_size ); ++i ) {
-        // |
-        mvwputch( w_border, point( getmaxx( w_disp ) + 1, i + 1 ), BORDER_COLOR, LINE_XOXO );
-        // |
-        mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), i + 1 ), BORDER_COLOR,
-                  LINE_XOXO );
-    }
+    mvwvline( w_border, point( getmaxx( w_disp ) + 1,                     getmaxy( w_mode ) + 2 ),
+              LINE_XOXO, page_size );
+    mvwvline( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), getmaxy( w_mode ) + 2 ),
+              LINE_XOXO, page_size );
     // Two lines dividing the vertical menu sections.
-    for( int i = 0; i < grid_w; ++i ) {
-        // -
-        mvwputch( w_border, point( i + 1, getmaxy( w_mode ) + 1 ), BORDER_COLOR, LINE_OXOX );
-        // -
-        mvwputch( w_border, point( i + 1, getmaxy( w_mode ) + 2 + page_size ), BORDER_COLOR, LINE_OXOX );
-    }
+    mvwhline( w_border, point( 1,             getmaxy( w_mode ) + 1 ), LINE_OXOX, grid_w );
+    mvwhline( w_border, point( 1, getmaxy( w_mode ) + 2 + page_size ), LINE_OXOX, grid_w );
     // Fix up the line intersections.
-    mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 1 ), BORDER_COLOR,
+    mvwaddch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 1 ), LINE_OXXX );
+    // _|_
+    mvwaddch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 2 + page_size ), LINE_XXOX );
+    mvwaddch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), getmaxy( w_mode ) + 1 ),
               LINE_OXXX );
     // _|_
-    mvwputch( w_border, point( getmaxx( w_disp ) + 1, getmaxy( w_mode ) + 2 + page_size ), BORDER_COLOR,
-              LINE_XXOX );
-    mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ), getmaxy( w_mode ) + 1 ),
-              BORDER_COLOR, LINE_OXXX );
-    // _|_
-    mvwputch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ),
+    mvwaddch( w_border, point( getmaxx( w_disp ) + 2 + getmaxx( w_list ),
                                getmaxy( w_mode ) + 2 + page_size ),
-              BORDER_COLOR, LINE_XXOX );
+              LINE_XXOX );
+
+    wattroff( w_border, BORDER_COLOR );
 
     wnoutrefresh( w_border );
 }
@@ -2326,35 +2321,20 @@ void veh_interact::display_veh()
         const point com_s = ( com + dd ).rotate( 3 ) + h_size;
         const point pivot_s = ( pivot + dd ).rotate( 3 ) + h_size;
 
-        for( int x = 0; x < getmaxx( w_disp ); ++x ) {
-            if( x <= com_s.x ) {
-                mvwputch( w_disp, point( x, com_s.y ), c_green, LINE_OXOX );
-            }
+        mvwhline( w_disp, point( 0, com_s.y ), c_green, LINE_OXOX, std::min( getmaxx( w_disp ),
+                  com_s.x + 1 ) );
+        mvwvline( w_disp, point( com_s.x, 0 ), c_green, LINE_XOXO, std::min( getmaxy( w_disp ),
+                  com_s.y + 1 ) );
 
-            if( x >= pivot_s.x ) {
-                mvwputch( w_disp, point( x, pivot_s.y ), c_red, LINE_OXOX );
-            }
-        }
-
-        for( int y = 0; y < getmaxy( w_disp ); ++y ) {
-            if( y <= com_s.y ) {
-                mvwputch( w_disp, point( com_s.x, y ), c_green, LINE_XOXO );
-            }
-
-            if( y >= pivot_s.y ) {
-                mvwputch( w_disp, point( pivot_s.x, y ), c_red, LINE_XOXO );
-            }
-        }
+        mvwhline( w_disp, point( std::max( 0, pivot_s.x ), pivot_s.y ), c_red, LINE_OXOX,
+                  getmaxx( w_disp ) - std::max( 0, pivot_s.x ) + 1 );
+        mvwvline( w_disp, point( pivot_s.x, std::max( 0, pivot_s.y ) ), c_red, LINE_XOXO,
+                  getmaxy( w_disp ) - std::max( 0, pivot_s.y ) + 1 );
     }
 
     // Draw guidelines to make current selection point more visible.
-    for( int y = 0; y < getmaxy( w_disp ); ++y ) {
-        mvwputch( w_disp, point( h_size.x, y ), c_dark_gray, LINE_XOXO );
-    }
-
-    for( int x = 0; x < getmaxx( w_disp ); ++x ) {
-        mvwputch( w_disp, point( x, h_size.y ), c_dark_gray, LINE_OXOX );
-    }
+    mvwvline( w_disp, point( h_size.x, 0 ), c_dark_gray, LINE_XOXO, getmaxy( w_disp ) );
+    mvwhline( w_disp, point( 0, h_size.y ), c_dark_gray, LINE_OXOX, getmaxx( w_disp ) );
 
     map &here = get_map();
     nc_color col_at_cursor = c_black;
@@ -2794,8 +2774,7 @@ void veh_interact::display_details( const vpart_info *part )
 
     werase( w_details );
 
-    wborder( w_details, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX, LINE_OXXO, LINE_OOXX, LINE_XXOO,
-             LINE_XOOX );
+    draw_border( w_details );
 
     if( part == nullptr ) {
         wnoutrefresh( w_details );

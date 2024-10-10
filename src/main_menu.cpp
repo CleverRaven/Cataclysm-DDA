@@ -352,9 +352,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int window_height = getmaxy( w_open );
 
     // Draw horizontal line
-    for( int i = 1; i < window_width - 1; ++i ) {
-        mvwputch( w_open, point( i, window_height - 4 ), c_white, LINE_OXOX );
-    }
+    mvwhline( w_open, point( 1, window_height - 4 ), c_white, LINE_OXOX, window_width - 2 );
 
     if( iSel == getopt( main_menu_opts::NEWCHAR ) ) {
         center_print( w_open, window_height - 2, c_yellow, vNewGameHints[sel2] );

@@ -3490,12 +3490,16 @@ static void show_sound()
         const point offset {
             player_character.view_offset.xy().raw() + point( POSX - player_character.posx(), POSY - player_character.posy() )
         };
+        wattron( g->w_terrain, c_yellow );
         for( const tripoint &sound : sounds_to_draw.first ) {
-            mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
+            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
         }
+        wattroff( g->w_terrain, c_yellow );
+        wattron( g->w_terrain, c_red );
         for( const tripoint &sound : sounds_to_draw.second ) {
-            mvwputch( g->w_terrain, offset + sound.xy(), c_red, '?' );
+            mvwaddch( g->w_terrain, offset + sound.xy(), '?' );
         }
+        wattroff( g->w_terrain, c_red );
     } );
     g->add_draw_callback( sound_cb );
 

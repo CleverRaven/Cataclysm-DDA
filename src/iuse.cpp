@@ -2105,10 +2105,10 @@ class exosuit_interact
                 current_ui->mark_resize();
                 current_ui->on_redraw( [this]( const ui_adaptor & ) {
                     draw_border( w_border, c_white, suit->tname(), c_light_green );
-                    for( int i = 1; i < height - 1; i++ ) {
-                        mvwputch( w_border, point( width_menu + 1, i ), c_white, LINE_XOXO );
-                    }
-                    mvwputch( w_border, point( width_menu + 1, height - 1 ), c_white, LINE_XXOX );
+                    wattron( w_border, c_white );
+                    mvwvline( w_border, point( width_menu + 1, 1 ), LINE_XOXO, height - 2 );
+                    mvwaddch( w_border, point( width_menu + 1, height - 1 ), LINE_XXOX );
+                    wattroff( w_border, c_white );
                     wnoutrefresh( w_border );
                     draw_menu();
                     draw_iteminfo();
