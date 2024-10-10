@@ -460,7 +460,10 @@ bool do_turn()
         g->gamemode->per_turn();
         calendar::turn += 1_turns;
     }
-
+    //used for world swapping
+    if( g->swapping_worlds ) {
+        g->swapping_worlds = false;
+    }
     play_music( music::get_music_id_string() );
 
     // starting a new turn, clear out temperature cache

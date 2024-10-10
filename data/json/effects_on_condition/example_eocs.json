@@ -522,5 +522,31 @@
       { "math": [ "ITEM_POWER_PERC", "=", "n_val('power_percentage')" ] },
       { "u_message": "<global_val:ITEM_POWER> / <global_val:ITEM_POWER_MAX> (<global_val:ITEM_POWER_PERC>%)" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_world_swap_test",
+    "//": "shifts the character to a new world",
+    "global": true,
+    "effect": [
+      {
+        "set_string_var": "",
+        "string_input": {
+          "title": { "i18n": true, "str": "teleport to subworld named:" },
+          "description": { "i18n": true, "str": "'default' returns you to main world" },
+          "width": 30
+        },
+        "target_var": { "u_val": "destinationWorld" }
+      },
+      { "u_location_variable": { "u_val": "tele_test" }, "x_adjust": 0, "y_adjust": 0 },
+      {
+        "u_teleport": { "u_val": "tele_test" },
+        "world_prefix": { "u_val": "destinationWorld" },
+        "fail_message": "your body doesn't move",
+        "success_message": "This place feels different."
+      },
+      { "u_message": { "u_val": "destinationWorld" } },
+      { "if": { "u_in_world": "" }, "then": { "u_message": "home sweet home" } }
+    ]
   }
 ]

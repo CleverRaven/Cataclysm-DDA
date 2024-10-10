@@ -5379,7 +5379,7 @@ bool game::revive_corpse( const tripoint &p, item &it, int radius )
     }
     // If this is not here, the game may attempt to spawn a monster before the map exists,
     // leading to it querying for furniture, and crashing.
-    if( g->new_game ) {
+    if( g->new_game || g->swapping_worlds ) {
         return false;
     }
     if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
@@ -13788,7 +13788,6 @@ void game::climb_down_using( const tripoint &examp, climbing_aid_id aid_id, bool
         }
     }
 }
-
 namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )

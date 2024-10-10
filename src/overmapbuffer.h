@@ -18,6 +18,7 @@
 #include "enums.h"
 #include "json.h"
 #include "memory_fast.h"
+#include "multiworld.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "type_id.h"

@@ -27,22 +27,22 @@
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 class game;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern std::unique_ptr<game> g;
-// NOLINTNEXTLINE(cata-static-declarations)
-extern const int savegame_version;
 
 static cata_path find_quad_path( const cata_path &dirname, const tripoint_abs_omt &om_addr )
 {
     return dirname / string_format( "%d.%d.%d.map", om_addr.x(), om_addr.y(), om_addr.z() );
 }
 
-static cata_path find_dirname( const tripoint_abs_omt &om_addr )
+static cata_path find_dirname( const tripoint_abs_omt &om_addr, const std::string &world_prefix )
 {
     const tripoint_abs_seg segment_addr = project_to<coords::seg>( om_addr );
-    return PATH_INFO::world_base_save_path_path() / "maps" / string_format( "%d.%d.%d",
-            segment_addr.x(),
-            segment_addr.y(), segment_addr.z() );
+    std::string segment = string_format( "%d.%d.%d",
+                                         segment_addr.x(),
+                                         segment_addr.y(), segment_addr.z() );
+    if( world_prefix.empty() ) {
+        return PATH_INFO::world_base_save_path_path() / "maps" / segment;
+    }
+    return PATH_INFO::world_base_save_path_path() / "worlds" /  world_prefix  / "maps" / segment;
 }
 
 mapbuffer MAPBUFFER;
@@ -136,8 +136,12 @@ bool mapbuffer::submap_exists( const tripoint_abs_sm &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
-
+    std::string world_prefix = MULTIWORLD.get_world_prefix();
+    if( world_prefix.empty() ) {
+        assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
+    } else {
+        assure_dir_exist( PATH_INFO::world_base_save_path() + "/worlds/" + world_prefix + "/maps" );
+    }
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
@@ -175,7 +179,7 @@ void mapbuffer::save( bool delete_after_save )
         // A segment is a chunk of 32x32 submap quads.
         // We're breaking them into subdirectories so there aren't too many files per directory.
         // Might want to make a set for this one too so it's only checked once per save().
-        const cata_path dirname = find_dirname( om_addr );
+        const cata_path dirname = find_dirname( om_addr, world_prefix );
         const cata_path quad_path = find_quad_path( dirname, om_addr );
 
         bool inside_reality_bubble = here.inbounds( om_addr );
@@ -285,7 +289,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
 {
     // Map the tripoint to the submap quad that stores it.
     const tripoint_abs_omt om_addr = project_to<coords::omt>( p );
-    const cata_path dirname = find_dirname( om_addr );
+    const cata_path dirname = find_dirname( om_addr, MULTIWORLD.get_world_prefix() );
     cata_path quad_path = find_quad_path( dirname, om_addr );
 
     if( !file_exist( quad_path ) ) {
