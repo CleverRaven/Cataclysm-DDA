@@ -7606,8 +7606,8 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
     }
     str_or_var dimension_prefix;
     if( jo.has_member( "dimension_prefix" ) ) {
-        dimension_prefix = get_str_or_var( jo.get_member( "dimension_prefix" ), "dimension_prefix", false,
-                                           "" );
+        dimension_prefix = get_str_or_var( jo.get_member( "dimension_prefix" ),
+                                           "dimension_prefix", false, "" );
     } else {
         dimension_prefix.str_val = "";
     }

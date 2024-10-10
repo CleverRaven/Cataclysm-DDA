@@ -13739,6 +13739,20 @@ cata_path PATH_INFO::world_base_save_path()
     return world_generator->active_world->folder_path();
 }
 
+cata_path PATH_INFO::current_dimension_save_path()
+{
+    std::string dimension_prefix = g->get_dimension_prefix();
+    if( !dimension_prefix.empty() ) {
+        return PATH_INFO::world_base_save_path() / "dimensions" / dimension_prefix;
+    }
+    return PATH_INFO::world_base_save_path();
+}
+
+cata_path PATH_INFO::current_dimension_player_save_path()
+{
+    return PATH_INFO::current_dimension_save_path() / base64_encode( get_avatar().get_save_id() );
+}
+
 void game::shift_destination_preview( const point_rel_ms &delta )
 {
     for( tripoint_bub_ms &p : destination_preview ) {
