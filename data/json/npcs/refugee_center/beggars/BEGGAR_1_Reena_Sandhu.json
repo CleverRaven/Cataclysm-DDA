@@ -98,7 +98,12 @@
         "text": "Hey, here, I might have some food for you.  Let me check.",
         "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
       },
-      { "text": "Get away from me.", "topic": "TALK_DONE", "opinion": { "trust": -1, "value": -1, "anger": 1 } },
+      {
+        "text": "Get away from me.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "1", "anger_type": "personal_affront" } },
+        "opinion": { "trust": -1, "value": -1 }
+      },
       { "text": "…", "topic": "TALK_DONE" }
     ]
   },

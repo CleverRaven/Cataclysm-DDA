@@ -339,7 +339,8 @@
       },
       {
         "text": "I guess you guys are a bunch of thieves if you charge that much.",
-        "opinion": { "anger": 2, "like": -2 },
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "2", "anger_type": "personal_affront" } },
+        "opinion": { "like": -2 },
         "topic": "TALK_DONE"
       },
       {

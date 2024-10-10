@@ -149,5 +149,35 @@
     "purifiable": false,
     "player_display": true,
     "personality_score": { "max_altruism": -3 }
+  },
+  {
+    "id": "personality_forgiving",
+    "type": "mutation",
+    "name": { "str": "Forgiving" },
+    "description": "<npc_name> doesn't like to hold much of a grudge.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true
+  },
+  {
+    "id": "personality_neg_forgiving",
+    "type": "mutation",
+    "name": { "str": "Begrudging" },
+    "description": "<npc_name> doesn't let go of slights easily.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true
+  },
+  {
+    "id": "personality_forgiving_plus",
+    "type": "mutation",
+    "name": { "str": "Lenient" },
+    "description": "<npc_name> is incredibly tolerant of slights, and often turns the other cheek.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "player_display": true
   }
 ]

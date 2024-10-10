@@ -159,8 +159,14 @@
         },
         "failure": {
           "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE",
-          "effect": { "u_add_var": "mission_BGSS_prepper_1_asked_about_secrets", "value": "yes" },
-          "opinion": { "trust": -6, "value": -3, "anger": 5 }
+          "effect": [
+            { "u_add_var": "mission_BGSS_prepper_1_asked_about_secrets", "value": "yes" },
+            {
+              "run_eoc_with": "EOC_NPC_FORGIVENESS",
+              "variables": { "anger_increase": "5", "anger_type": "personal_affront" }
+            }
+          ],
+          "opinion": { "trust": -6, "value": -3 }
         }
       },
       { "text": "That's all I wanted to know.", "topic": "TALK_DONE" }
@@ -214,7 +220,7 @@
       {
         "text": "For all I know, you COULD have something to do with this.  Who really knows what happened?",
         "topic": "BGSS_PREPPER_1_SHARELOOTFAILURE2",
-        "opinion": { "anger": 2 }
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "2", "anger_type": "personal_affront" } }
       }
     ]
   },
@@ -226,8 +232,14 @@
       {
         "text": "I just wanted the loot, I'll be honest.",
         "topic": "TALK_DONE",
-        "opinion": { "anger": 5, "value": -5, "trust": -8, "fear": -2 },
-        "effect": "insult_combat"
+        "opinion": { "value": -5, "trust": -8, "fear": -2 },
+        "effect": [
+          "insult_combat",
+          {
+            "run_eoc_with": "EOC_NPC_FORGIVENESS",
+            "variables": { "anger_increase": "5", "anger_type": "personal_affront" }
+          }
+        ]
       },
       {
         "text": "Well… I'm actually a government agent sent to assassinate you.  I just had to find out the location of your secret stash before I took you out!",
@@ -382,13 +394,15 @@
     "responses": [
       {
         "text": "Finders, keepers.",
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "4", "anger_type": "personal_affront" } },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE3_BEMEAN",
-        "opinion": { "anger": 4, "value": -5, "trust": -2 }
+        "opinion": { "value": -5, "trust": -2 }
       },
       {
         "text": "C'mon, you would do the same!  It's life or death out here!",
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "1", "anger_type": "personal_affront" } },
         "topic": "BGSS_PREPPER_1_FOUND_LMOE3_BENICE",
-        "opinion": { "anger": 1, "value": -1, "trust": 1 }
+        "opinion": { "value": -1, "trust": 1 }
       }
     ]
   },
@@ -397,7 +411,12 @@
     "type": "talk_topic",
     "dynamic_line": "I guess I know exactly how much to trust you now.",
     "responses": [
-      { "text": "You sure do.", "topic": "TALK_DONE", "opinion": { "anger": 1, "value": -1, "trust": -1 } },
+      {
+        "text": "You sure do.",
+        "topic": "TALK_DONE",
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "1", "anger_type": "personal_affront" } },
+        "opinion": { "value": -1, "trust": -1 }
+      },
       {
         "text": "This is the world now.  If I didn't take it, someone else would have.",
         "topic": "BGSS_PREPPER_1_FOUND_LMOE3_BENICE"
@@ -450,7 +469,8 @@
       {
         "text": "Well…  I did.  And that's just how it goes.  It wasn't even that difficult.",
         "topic": "TALK_DONE",
-        "opinion": { "anger": 3, "trust": -2 }
+        "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "3", "anger_type": "personal_affront" } },
+        "opinion": { "trust": -2 }
       },
       {
         "text": "I'm sorry.  I guess I just didn't know how to tell you I needed what was in it.",

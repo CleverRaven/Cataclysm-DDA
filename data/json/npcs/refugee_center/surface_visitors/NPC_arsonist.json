@@ -236,7 +236,17 @@
     "responses": [
       {
         "text": "…",
-        "success": { "effect": "end_conversation", "opinion": { "trust": -1, "fear": -2, "value": -1, "anger": 1 }, "topic": "TALK_DONE" }
+        "success": {
+          "effect": [
+            "end_conversation",
+            {
+              "run_eoc_with": "EOC_NPC_FORGIVENESS",
+              "variables": { "anger_increase": "1", "anger_type": "personal_affront" }
+            }
+          ],
+          "opinion": { "trust": -1, "fear": -2, "value": -1 },
+          "topic": "TALK_DONE"
+        }
       }
     ]
   }

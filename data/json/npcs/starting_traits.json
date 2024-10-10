@@ -35,6 +35,7 @@
       { "group": "trait_group_WEAKSCENT", "prob": 10 },
       { "group": "trait_group_PAINRESIST", "prob": 10 },
       { "group": "trait_group_PROJUNK", "prob": 5 },
+      { "group": "trait_group_FORGIVENESS", "prob": 30 },
       { "trait": "DEFT", "prob": 10 },
       { "trait": "DISRESISTANT", "prob": 10 },
       { "trait": "ADRENALINE", "prob": 10 },
@@ -252,5 +253,15 @@
     "id": "trait_group_PROJUNK",
     "subtype": "distribution",
     "traits": [ { "trait": "PROJUNK" }, { "trait": "ANTIJUNK" } ]
+  },
+  {
+    "type": "trait_group",
+    "id": "trait_group_FORGIVENESS",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "personality_forgiving", "prob": 60 },
+      { "trait": "personality_neg_forgiving", "prob": 30 },
+      { "trait": "personality_forgiving_plus", "prob": 10 }
+    ]
   }
 ]

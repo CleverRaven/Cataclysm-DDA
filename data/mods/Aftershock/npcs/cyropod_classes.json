@@ -83,15 +83,27 @@
         "text": "I thawed you out of that pod.  Listen, I could use your help…",
         "trial": { "type": "PERSUADE", "difficulty": 0 },
         "success": { "topic": "TALK_THAWED_FRIENDLY", "opinion": { "trust": 1, "value": 1 } },
-        "failure": { "topic": "TALK_THAWED_WARY", "opinion": { "anger": 1, "fear": 1 } }
+        "failure": {
+          "topic": "TALK_THAWED_WARY",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "1", "anger_type": "minor_offense" } },
+          "opinion": { "fear": 1 }
+        }
       },
       {
         "switch": true,
         "default": true,
         "text": "If you won't help me, I am going to hurt you.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
-        "success": { "topic": "TALK_THAWED_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
-        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
+        "success": {
+          "topic": "TALK_THAWED_FEARFUL",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "4", "anger_type": "intimidation" } },
+          "opinion": { "trust": -4, "fear": 3, "value": -1 }
+        },
+        "failure": {
+          "topic": "TALK_THAWED_BREAKDOWN",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "10", "anger_type": "intimidation" } },
+          "opinion": { "trust": -4, "value": -5 }
+        }
       },
       {
         "switch": true,
@@ -129,8 +141,16 @@
       {
         "text": "I'm being nice for now.  You'd better hope that it lasts.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "AGGRESSION", -2 ], [ "BRAVERY", -2 ] ] },
-        "success": { "topic": "TALK_THAWED_FEARFUL", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
-        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": -4, "value": -5, "anger": 10 } }
+        "success": {
+          "topic": "TALK_THAWED_FEARFUL",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "4", "anger_type": "intimidation" } },
+          "opinion": { "trust": -4, "fear": 3, "value": -1 }
+        },
+        "failure": {
+          "topic": "TALK_THAWED_BREAKDOWN",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "10", "anger_type": "intimidation" } },
+          "opinion": { "trust": -4, "value": -5 }
+        }
       },
       { "text": "Forget it.  Enjoy your freedom.", "topic": "TALK_DONE" }
     ]
@@ -143,8 +163,22 @@
       {
         "text": "Follow me and do my bidding, then.",
         "trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
-        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": -4, "fear": 3, "value": -1, "anger": 4 } },
-        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+        "success": {
+          "topic": "TALK_AGREE_FOLLOW",
+          "effect": [
+            "follow",
+            {
+              "run_eoc_with": "EOC_NPC_FORGIVENESS",
+              "variables": { "anger_increase": "4", "anger_type": "intimidation" }
+            }
+          ],
+          "opinion": { "trust": -4, "fear": 3, "value": -1 }
+        },
+        "failure": {
+          "topic": "TALK_THAWED_BREAKDOWN",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "10", "anger_type": "intimidation" } },
+          "opinion": { "trust": 4, "value": -5 }
+        }
       },
       {
         "text": "Get out of my sight.",
@@ -156,7 +190,11 @@
         "text": "No, *I'm* sorry, I didn't mean that.  Go do what you want.",
         "trial": { "type": "PERSUADE", "difficulty": 10 },
         "success": { "topic": "TALK_DONE", "opinion": { "trust": 1, "value": 1, "anger": -1 } },
-        "failure": { "topic": "TALK_THAWED_BREAKDOWN", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
+        "failure": {
+          "topic": "TALK_THAWED_BREAKDOWN",
+          "effect": { "run_eoc_with": "EOC_NPC_FORGIVENESS", "variables": { "anger_increase": "10", "anger_type": "intimidation" } },
+          "opinion": { "trust": 4, "value": -5 }
+        }
       }
     ]
   },
