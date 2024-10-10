@@ -26,6 +26,7 @@
       "P": "f_bookcase",
       "A": "f_bookcase",
       "Q": "f_bookcase",
+      "E": "f_bookcase",
       "L": "f_locker",
       "D": "f_trashcan"
     },
@@ -42,6 +43,7 @@
       "P": { "item": "SUS_medicine_bookcase", "chance": 60 },
       "A": { "item": "SUS_bushcraft_bookcase", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase", "chance": 70 },
+      "E": { "item": "SUS_martial_bookcase", "chance": 100 },
       "d": { "item": "SUS_office_desk", "chance": 70 },
       "L": { "item": "SUS_janitors_closet", "chance": 100 }
     }
@@ -73,6 +75,7 @@
       "P": "f_bookcase",
       "A": "f_bookcase",
       "Q": "f_bookcase",
+      "E": "f_bookcase",
       "L": "f_locker",
       "D": "f_trashcan"
     },
@@ -89,6 +92,7 @@
       "P": { "item": "SUS_medicine_bookcase_vandalized", "chance": 60 },
       "A": { "item": "SUS_bushcraft_bookcase_vandalized", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase_vandalized", "chance": 70 },
+      "E": { "item": "SUS_martial_bookcase_vandalized", "chance": 70 },
       "d": { "item": "SUS_office_desk", "chance": 70 },
       "L": { "item": "SUS_janitors_closet", "chance": 100 }
     }
