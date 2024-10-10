@@ -19,6 +19,18 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
+    "abstract": "flintlock_base",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "//": "this is the default handling for anything with a flintlock",
+    "handling": 20,
+    "name": { "str": "flintlock gun" },
+    "symbol": "(",
+    "color": "light_gray",
+    "faults": [ "fault_gun_flintlock", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
+  },
+  {
     "abstract": "underbarrel_base",
     "type": "GUN",
     "reload_noise_volume": 10,
