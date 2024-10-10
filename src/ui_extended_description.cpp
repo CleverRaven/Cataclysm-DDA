@@ -60,8 +60,11 @@ static void draw_graffiti_text( const tripoint_bub_ms &p )
     }
 }
 
-void draw_extended_description( const std::vector<std::string> &description, const uint64_t width )
+void draw_extended_description( const std::vector<std::string> &description, const uint64_t width,
+                                cataimgui::scroll &s )
 {
+    cataimgui::set_scroll( s );
+
     for( const std::string &s : description ) {
         if( s == "--" ) {
             ImGui::Separator();
@@ -87,6 +90,10 @@ extended_description_window::extended_description_window( tripoint_bub_ms &p ) :
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.set_timeout( 10 );
 
     const Creature *critter = seen_critter( p );
@@ -140,7 +147,7 @@ void extended_description_window::draw_creature_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::creature;
         if( !creature_description.empty() ) {
-            draw_extended_description( creature_description, str_width_to_pixels( TERMX ) );
+            draw_extended_description( creature_description, str_width_to_pixels( TERMX ), info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You do not see any creature here." ), c_light_gray );
         }
@@ -159,7 +166,7 @@ void extended_description_window::draw_furniture_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::furniture;
         if( !furniture_description.empty() ) {
-            draw_extended_description( furniture_description, str_width_to_pixels( TERMX ) );
+            draw_extended_description( furniture_description, str_width_to_pixels( TERMX ), info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You do not see any furniture here." ), c_light_gray );
         }
@@ -179,7 +186,7 @@ void extended_description_window::draw_terrain_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::terrain;
         if( !terrain_description.empty() ) {
-            draw_extended_description( terrain_description, str_width_to_pixels( TERMX ) );
+            draw_extended_description( terrain_description, str_width_to_pixels( TERMX ), info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You can't see the terrain here." ), c_light_gray );
         }
@@ -199,7 +206,7 @@ void extended_description_window::draw_vehicle_tab()
     if( ImGui::BeginTabItem( title.c_str(), nullptr, flags ) ) {
         cur_target = description_target::vehicle;
         if( !veh_app_description.empty() ) {
-            draw_extended_description( veh_app_description, str_width_to_pixels( TERMX ) );
+            draw_extended_description( veh_app_description, str_width_to_pixels( TERMX ), info_scroll );
         } else {
             cataimgui::draw_colored_text( _( "You can't see vehicles or appliances here." ), c_light_gray );
         }
@@ -223,6 +230,14 @@ void extended_description_window::show()
         } else if( action == "PREV_TAB" ) {
             switch_target = cur_target;
             --switch_target;
+        }  else if( action == "UP" ) {
+            info_scroll = cataimgui::scroll::line_up;
+        }  else if( action == "DOWN" ) {
+            info_scroll = cataimgui::scroll::line_down;
+        }  else if( action == "PAGE_UP" ) {
+            info_scroll = cataimgui::scroll::page_up;
+        }  else if( action == "PAGE_DOWN" ) {
+            info_scroll = cataimgui::scroll::page_down;
         } else if( action == "CREATURE" ) {
             switch_target = description_target::creature;
         } else if( action == "FURNITURE" ) {
