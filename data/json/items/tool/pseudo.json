@@ -69,5 +69,14 @@
     "symbol": "H",
     "color": "light_cyan",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
+  },
+  {
+    "id": "glassblowers_crucible_tool",
+    "type": "TOOL",
+    "name": { "str": "glassblower's crucible" },
+    "copy-from": "fake_item",
+    "symbol": "o",
+    "color": "brown",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
   }
 ]
