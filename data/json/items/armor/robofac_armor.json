@@ -201,12 +201,16 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
-    ],
+        "item_restriction": [
+          "anchor_cell_atomic",
+          "anchor_cell_lithium",
+          "anchor_cell_robofac"
+          ]
+        }
+      ],
     "ammo": "battery",
-    "use_action": {
+    "use_action": [
+      {
       "type": "transform",
       "menu_text": "Turn on anchor",
       "msg": "You activate the anchor, and the Hub 01 logo on your front begins to glow white.",
@@ -215,6 +219,12 @@
       "need_charges": 1,
       "need_charges_msg": "It seems like this device needs power."
     },
+    {
+      "type": "link_up",
+      "cable_length": 10,
+      "charge_rate": "140 W"
+    }
+  ],
     "armor": [
       {
         "material": [
@@ -261,12 +271,19 @@
     "description": "A custom-designed poncho for the true frontier explorer, made with aramid fibers and robust ripstop nylon.  The logo of Hub 01 emblazoned on the chest is glowing white.",
     "turns_per_charge": 100,
     "revert_to": "robofac_armor_anchor",
-    "use_action": {
+    "use_action": [ 
+    {
       "type": "transform",
       "menu_text": "Turn off anchor",
       "msg": "The Hub logo on your front stops glowing.",
       "target": "robofac_armor_anchor"
     },
+    {
+      "type": "link_up",
+      "cable_length": 10,
+      "charge_rate": "140 W"
+    }
+  ],
     "flags": [ "DIMENSIONAL_ANCHOR", "PORTAL_PROOF", "STURDY", "OUTER", "WATERPROOF", "VARSIZE", "RAINPROOF", "HOOD", "SOFT" ]
   },
   {
