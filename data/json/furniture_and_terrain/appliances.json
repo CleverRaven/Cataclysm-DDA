@@ -1082,4 +1082,5 @@
       { "item": "rock", "count": [ 6, 12 ] }
     ],
     "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
-  },
+  }
+]
