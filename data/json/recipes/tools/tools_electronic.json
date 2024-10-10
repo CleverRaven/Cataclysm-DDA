@@ -428,7 +428,6 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 1 ], [ "textbook_anarch", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.125 }, { "proficiency": "prof_elec_circuits" } ],
-    "using": [ [ "soldering_standard", 5 ] ],
     "components": [ [ [ "soldering_iron", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ], [ [ "cable", 5 ] ] ]
   },
   {
