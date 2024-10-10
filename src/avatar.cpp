@@ -1810,43 +1810,6 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
-void avatar::randomize_hobbies()
-{
-    hobbies.clear();
-    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
-    choices.erase( std::remove_if( choices.begin(), choices.end(),
-    [this]( const string_id<profession> &hobby ) {
-        return !prof->allows_hobby( hobby );
-    } ), choices.end() );
-    if( choices.empty() ) {
-        debugmsg( "Why would you blacklist all hobbies?" );
-        choices = profession::get_all_hobbies();
-    };
-
-    int random = rng( 0, 5 );
-
-    if( random >= 1 ) {
-        add_random_hobby( choices );
-    }
-    if( random >= 3 ) {
-        add_random_hobby( choices );
-    }
-    if( random >= 5 ) {
-        add_random_hobby( choices );
-    }
-}
-
-void avatar::add_random_hobby( std::vector<profession_id> &choices )
-{
-    const profession_id hobby = random_entry_removed( choices );
-    hobbies.insert( &*hobby );
-
-    // Add or remove traits from hobby
-    for( const trait_and_var &cur : hobby->get_locked_traits() ) {
-        toggle_trait( cur.trait );
-    }
-}
-
 void avatar::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
