@@ -181,7 +181,7 @@
     "spoils_in": "14 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 0.9, "weight": 0.9, "calories": 0.9 },
-    "rot_spawn": "GROUP_EGG_GUINEA_FOWL"
+    "rot_spawn": { "group": "GROUP_EGG_GUINEA_FOWL" }
   },
   {
     "type": "COMESTIBLE",
