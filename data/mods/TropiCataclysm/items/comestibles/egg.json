@@ -1,14 +1,6 @@
 [
   {
     "type": "COMESTIBLE",
-    "id": "egg_guinea_fowl",
-    "name": "guinea fowl egg",
-    "copy-from": "egg_chicken",
-    "rot_spawn": "GROUP_EGG_GUINEA_FOWL",
-    "rot_spawn_chance": 70
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_quail",
     "name": "quail egg",
     "copy-from": "egg_guinea_fowl",

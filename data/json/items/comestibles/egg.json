@@ -177,6 +177,15 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_guinea_fowl",
+    "name": { "str": "domestic guineafowl egg" },
+    "spoils_in": "14 days",
+    "copy-from": "egg_chicken",
+    "proportional": { "volume": 0.9, "weight": 0.9, "calories": 0.9 },
+    "rot_spawn": "GROUP_EGG_GUINEA_FOWL"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_wormsnake",
     "name": { "str": "worm snake egg" },
     "spoils_in": "23 days",
