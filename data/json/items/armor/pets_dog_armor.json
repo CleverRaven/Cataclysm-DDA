@@ -12,7 +12,6 @@
     "material": [ "kevlar_layered" ],
     "weight": "2150 g",
     "volume": "4500 ml",
-    "to_hit": -1,
     "flags": [ "IS_PET_ARMOR" ],
     "material_thickness": 2.0,
     "max_pet_vol": "60 L",
@@ -47,8 +46,7 @@
         "max_item_length": "20 cm",
         "moves": 200
       }
-    ],
-    "melee_damage": { "bash": 5 }
+    ]
   },
   {
     "type": "PET_ARMOR",
