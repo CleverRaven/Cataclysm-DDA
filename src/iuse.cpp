@@ -5346,6 +5346,11 @@ std::optional<int> iuse::toolmod_attach( Character *p, item *it, const tripoint 
             return false;
         }
 
+        // can't mod integrated tools
+        if( e.has_flag( flag_INTEGRATED ) ) {
+            return false;
+        }
+
         // can only attach to unmodified tools that use compatible ammo
         return std::any_of( it->type->mod->acceptable_ammo.begin(),
         it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
