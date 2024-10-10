@@ -61,8 +61,7 @@
     "condition": { "u_has_effect": "effect_biokin_overcome_pain" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "1" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(1)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_overcome_pain')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -121,8 +120,7 @@
     "condition": { "u_has_effect": "effect_biokin_physical" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_physical_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -187,8 +185,7 @@
     "condition": { "u_has_effect": "effect_biokin_breathe_skin" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "2" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(2)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_breathe_skin')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -247,8 +244,7 @@
     "condition": { "u_has_effect": "effect_biokin_armor_skin" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_armor_skin')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -308,8 +304,7 @@
     "condition": { "u_has_effect": "effect_biokin_climate_control" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_climate_control')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -398,8 +393,7 @@
     "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_enhance_mobility')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -463,8 +457,7 @@
     "condition": { "u_has_effect": "biokin_hammerhand" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_hammerhand')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -523,8 +516,7 @@
     "condition": { "u_has_effect": "effect_biokin_reflex" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_reflex_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -583,8 +575,7 @@
     "condition": { "u_has_effect": "effect_biokin_metabolism_enhance" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(7)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('biokin_metabolism_enhance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "math": [ "u_val('sleep_deprivation')", "-=", "10" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
