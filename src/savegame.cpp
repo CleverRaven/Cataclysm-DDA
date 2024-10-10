@@ -31,7 +31,6 @@
 #include "mission.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "multiworld.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -99,7 +98,7 @@ void game::serialize( std::ostream &fout )
     json.member( "calendar_start", calendar::start_of_cataclysm );
     json.member( "game_start", calendar::start_of_game );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
-    json.member( "world_prefix", MULTIWORLD.get_world_prefix() );
+    json.member( "dimension_prefix", g->get_dimension_prefix() );
     json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
@@ -222,9 +221,9 @@ void game::unserialize( std::istream &fin, const cata_path &path )
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
 
-        std::string world_prefix;
-        if( data.read( "world_prefix", world_prefix ) ) {
-            MULTIWORLD.set_world_prefix( world_prefix );
+        std::string loaded_dimension_prefix;
+        if( data.read( "dimension_prefix", loaded_dimension_prefix ) ) {
+            dimension_prefix = loaded_dimension_prefix;
         }
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );

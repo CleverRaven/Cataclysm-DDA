@@ -460,9 +460,9 @@ bool do_turn()
         g->gamemode->per_turn();
         calendar::turn += 1_turns;
     }
-    //used for world swapping
-    if( g->swapping_worlds ) {
-        g->swapping_worlds = false;
+    //used for dimension swapping
+    if( g->swapping_dimensions ) {
+        g->swapping_dimensions = false;
     }
     play_music( music::get_music_id_string() );
 

@@ -55,7 +55,6 @@
 #include "mission.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "multiworld.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -836,11 +835,11 @@ conditional_t::func f_is_wearing( const JsonObject &jo, std::string_view member,
     };
 }
 
-conditional_t::func f_in_world( const JsonObject &jo, std::string_view member )
+conditional_t::func f_in_dimension( const JsonObject &jo, std::string_view member )
 {
-    str_or_var world_prefix = get_str_or_var( jo.get_member( member ), member, true );
-    return [world_prefix]( dialogue const & d ) {
-        return ( MULTIWORLD.get_world_prefix() == world_prefix.evaluate( d ) );
+    str_or_var dimension_prefix = get_str_or_var( jo.get_member( member ), member, true );
+    return [dimension_prefix]( dialogue const & d ) {
+        return ( g->get_dimension_prefix() == dimension_prefix.evaluate( d ) );
     };
 }
 
@@ -2524,7 +2523,7 @@ parsers = {
     {"u_has_perception", "npc_has_perception", jarg::member | jarg::array, &conditional_fun::f_has_perception },
     {"u_has_part_temp", "npc_has_part_temp", jarg::member | jarg::array, &conditional_fun::f_has_part_temp },
     {"u_is_wearing", "npc_is_wearing", jarg::member, &conditional_fun::f_is_wearing },
-    {"u_in_world", jarg::member, &conditional_fun::f_in_world },
+    {"u_in_dimension", jarg::member, &conditional_fun::f_in_dimension },
     {"u_has_item", "npc_has_item", jarg::member, &conditional_fun::f_has_item },
     {"u_has_item_with_flag", "npc_has_item_with_flag", jarg::member, &conditional_fun::f_has_item_with_flag },
     {"u_has_items", "npc_has_items", jarg::member, &conditional_fun::f_has_items },

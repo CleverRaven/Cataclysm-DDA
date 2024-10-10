@@ -144,7 +144,6 @@ class game
         friend class editmap;
         friend class main_menu;
         friend class exosuit_interact;
-        friend class multiworld;
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
@@ -290,6 +289,18 @@ class game
          * If peeking == true, forbids some exotic movement options
          */
         void vertical_move( int z, bool force, bool peeking = false );
+        /**
+         * Moves the player to an alternate dimension.
+         * The prefix identifies the dimension and its properties.
+         */
+        bool travel_to_dimension( const std::string &prefix );
+        /**
+         * Retrieve the identifier of the current dimension.
+         * TODO: this should be a dereferencable id that gives properties of the dimension.
+         */
+        std::string get_dimension_prefix() {
+            return dimension_prefix;
+        }
         void start_hauling( const tripoint &pos );
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
@@ -881,10 +892,8 @@ class game
         bool save_factions_missions_npcs();
         void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
-    public:
         // returns false if saving failed for whatever reason
         bool save_maps();
-    private:
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
 #endif
@@ -1317,8 +1326,12 @@ class game
             const tripoint &examp,
             climbing_aid_id aid,
             bool deploy_affordance = false );
-        //currently used as a hacky workaround for world swapping
-        bool swapping_worlds = false; // NOLINT (cata-serialize)
+        //currently used as a hacky workaround for dimension swapping
+        bool swapping_dimensions = false; // NOLINT (cata-serialize)
+    private:
+        // Stores the currently occupoed dimension.
+        // TODO: should be an id instead of a string.
+        std::string dimension_prefix;
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

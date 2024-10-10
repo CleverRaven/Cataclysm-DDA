@@ -5,10 +5,10 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
+#include "game.h"
 #include "line.h"
 #include "map.h"
 #include "map_memory.h"
-#include "multiworld.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -21,11 +21,11 @@ static constexpr int MM_SIZE = MAPSIZE * 2;
 
 static cata_path find_mm_dir()
 {
-    std::string world_prefix = MULTIWORLD.get_world_prefix();
-    if( world_prefix.empty() ) {
+    std::string dimension_prefix = g->get_dimension_prefix();
+    if( dimension_prefix.empty() ) {
         return PATH_INFO::player_base_save_path_path() / "mm1";
     }
-    return PATH_INFO::player_base_save_path_path() / "worlds" /  world_prefix / ".mm1";
+    return PATH_INFO::player_base_save_path_path() / "dimensionss" /  dimension_prefix / ".mm1";
 }
 
 static cata_path find_region_path( const cata_path &dirname, const tripoint &p )
