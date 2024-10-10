@@ -92,6 +92,8 @@ cata_path user_keybindings();
 cata_path user_moddir_path();
 cata_path user_sound();
 cata_path world_base_save_path();
+cata_path current_dimension_save_path();
+cata_path current_dimension_player_save_path();
 
 void set_datadir( const std::string &datadir );
 void set_config_dir( const std::string &config_dir );
