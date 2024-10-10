@@ -175,10 +175,11 @@ void exit_handler( int s )
             imclient.reset();
             exit( exit_status );
         }
+    } else {
+        inp_mngr.set_timeout( old_timeout );
+        ui_manager::redraw_invalidated();
+        catacurses::doupdate();
     }
-    inp_mngr.set_timeout( old_timeout );
-    ui_manager::redraw_invalidated();
-    catacurses::doupdate();
 }
 
 struct arg_handler {
