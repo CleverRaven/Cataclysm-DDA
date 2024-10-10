@@ -274,8 +274,6 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
-static const faction_id faction_no_faction( "no_faction" );
-
 static const fault_id fault_bionic_salvaged( "fault_bionic_salvaged" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
@@ -1562,8 +1560,8 @@ bool Character::check_outbounds_activity( const player_activity &act, bool check
 {
     map &here = get_map();
     if( ( act.placement != tripoint_abs_ms() && act.placement != player_activity::invalid_place &&
-          !here.inbounds( here.getlocal( act.placement ) ) ) || ( !act.coords.empty() &&
-                  !here.inbounds( here.bub_from_abs( act.coords.back() ) ) ) ) {
+          !here.inbounds( here.bub_from_abs( act.placement ) ) ) || ( !act.coords.empty() &&
+                  !here.inbounds( here.bub_from_abs( tripoint_abs_ms( act.coords.back() ) ) ) ) ) {
         if( is_npc() && !check_only ) {
             // stash activity for when reloaded.
             stashed_outbounds_activity = act;
@@ -1758,8 +1756,8 @@ void Character::forced_dismount()
         mounted_creature = nullptr;
         mon->mounted_player = nullptr;
     }
-    std::vector<tripoint> valid;
-    for( const tripoint &jk : get_map().points_in_radius( pos(), 1 ) ) {
+    std::vector<tripoint_bub_ms> valid;
+    for( const tripoint_bub_ms &jk : get_map().points_in_radius( pos_bub(), 1 ) ) {
         if( g->is_empty( jk ) ) {
             valid.push_back( jk );
         }
@@ -6120,12 +6118,18 @@ std::vector<std::string> Character::extended_description() const
         nc_color name_color = state_col;
         std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
                 false );
+        std::pair<std::string, nc_color> hp_numbers =
+        { " " + std::to_string( get_part_hp_cur( bp ) ) + "/" + std::to_string( get_part_hp_max( bp ) ), c_white };
 
         std::string bp_stat = colorize( left_justify( bp_heading, longest ), name_color );
-        bp_stat += colorize( hp_bar.first, hp_bar.second );
-        // Trailing bars. UGLY!
-        // TODO: Integrate into get_hp_bar somehow
-        bp_stat += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        if( debug_mode ) {
+            bp_stat += colorize( hp_numbers.first, hp_numbers.second );
+        } else {
+            // Trailing bars. UGLY!
+            // TODO: Integrate into get_hp_bar somehow
+            bp_stat += colorize( hp_bar.first, hp_bar.second );
+            bp_stat += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        }
         tmp.emplace_back( bp_stat );
     }
 
@@ -10323,10 +10327,10 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // TODO: fix it, see above.
     if( bay.furn( fin ) != furn_str_id::NULL_ID() ) {
-        for( const tripoint &p : bay.points_on_zlevel() ) {
+        for( const tripoint_omt_ms &p : bay.points_on_zlevel() ) {
             if( bay.furn( p ) == furn_str_id::NULL_ID() ) {
-                fin.x() = p.x;
-                fin.y() = p.y;
+                fin.x() = p.x();
+                fin.y() = p.y();
             }
         }
     }
@@ -11326,7 +11330,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           pos_bub() == get_map().bub_from_abs( *destination_point );
+           pos_bub() == get_map().bub_from_abs( tripoint_abs_ms( *destination_point ) );
 }
 
 void Character::start_destination_activity()
@@ -11907,7 +11911,7 @@ bool Character::add_faction_warning( const faction_id &id ) const
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_avatar() && fac->id != faction_no_faction ) {
+    if( fac != nullptr && is_avatar() && !fac->lone_wolf_faction ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
         fac->trusts_u -= 1;

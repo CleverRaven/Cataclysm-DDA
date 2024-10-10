@@ -751,12 +751,12 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = vp.next_pos.raw();
-        veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
+        const tripoint_bub_ms dsp = vp.next_pos;
+        veh_collision coll = part_collision( p, dsp.raw(), just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.has_flag( VPFLAG_ROTOR ) ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_info->rotor_diameter / 2.0f ) );
-            for( const tripoint &rotor_point : here.points_in_radius( dsp, radius ) ) {
-                veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
+            for( const tripoint_bub_ms &rotor_point : here.points_in_radius( dsp, radius ) ) {
+                veh_collision rotor_coll = part_collision( p, rotor_point.raw(), just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
                     if( just_detect ) {
@@ -1812,10 +1812,11 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
 
 vehicle *vehicle::act_on_map()
 {
-    const tripoint pt = global_pos3();
+    const tripoint_bub_ms pt = pos_bub();
     map &here = get_map();
     if( !here.inbounds( pt ) ) {
-        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
+        dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x() << "," << pt.y() << "," <<
+                      pt.z() <<
                       ")";
         stop();
         of_turn = 0;

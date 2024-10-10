@@ -1446,6 +1446,26 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_mring_sustenance",
+    "//": "Hidden effect, used as an attunement period for the ring of sustenance",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "max_intensity": 50,
+    "int_decay_step": 1,
+    "int_decay_tick": 3600
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_bracers_of_the_blinding_strike",
+    "name": [ "Blinding Strikes" ],
+    "desc": [ "Your attacks come incredibly quickly." ],
+    "rating": "good",
+    "apply_message": "Your strikes speed up immensely.",
+    "remove_message": "Your quick strikes slow to normal speed.",
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_plus_two_to_hit",
     "//": "Self-explanatory",
     "name": [ "" ],

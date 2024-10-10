@@ -132,6 +132,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::PERMANENT: return "PERMANENT";
         case spell_flag::PERMANENT_ALL_LEVELS: return "PERMANENT_ALL_LEVELS";
         case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
+        case spell_flag::SPLIT_DAMAGE: return "SPLIT_DAMAGE";
         case spell_flag::IGNORE_WALLS: return "IGNORE_WALLS";
         case spell_flag::NO_PROJECTILE: return "NO_PROJECTILE";
         case spell_flag::HOSTILE_SUMMON: return "HOSTILE_SUMMON";
@@ -245,6 +246,7 @@ const float spell_type::energy_increment_default = 0.0f;
 const trait_id spell_type::spell_class_default = trait_NONE;
 const magic_energy_type spell_type::energy_source_default = magic_energy_type::none;
 const damage_type_id spell_type::dmg_type_default = damage_type_id::NULL_ID();
+const int spell_type::multiple_projectiles_default = 0;
 const int spell_type::difficulty_default = 0;
 const int spell_type::max_level_default = 0;
 const int spell_type::base_casting_time_default = 0;
@@ -472,6 +474,10 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     if( !was_loaded || jo.has_member( "difficulty" ) ) {
         difficulty = get_dbl_or_var( jo, "difficulty", false, difficulty_default );
     }
+    if( !was_loaded || jo.has_member( "multiple_projectiles" ) ) {
+        multiple_projectiles = get_dbl_or_var( jo, "multiple_projectiles", false,
+                                               multiple_projectiles_default );
+    }
     if( !was_loaded || jo.has_member( "max_level" ) ) {
         max_level = get_dbl_or_var( jo, "max_level", false, max_level_default );
     }
@@ -588,6 +594,8 @@ void spell_type::serialize( JsonOut &json ) const
                  io::enum_to_string( energy_source_default ) );
     json.member( "damage_type", dmg_type, dmg_type_default );
     json.member( "difficulty", static_cast<int>( difficulty.min.dbl_val.value() ), difficulty_default );
+    json.member( "multiple_projectiles", static_cast<int>( multiple_projectiles.min.dbl_val.value() ),
+                 multiple_projectiles_default );
     json.member( "max_level", static_cast<int>( max_level.min.dbl_val.value() ), max_level_default );
     json.member( "base_casting_time", static_cast<int>( base_casting_time.min.dbl_val.value() ),
                  base_casting_time_default );
@@ -760,26 +768,26 @@ int spell::accuracy( Creature &caster ) const
     }
 }
 
-int spell::min_leveled_dot( const Creature &caster ) const
+double spell::min_leveled_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     return type->min_dot.evaluate( d ) + std::round( get_effective_level() *
             type->dot_increment.evaluate( d ) );
 }
 
-int spell::damage_dot( const Creature &caster ) const
+double spell::damage_dot( const Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
-    const int leveled_dot = min_leveled_dot( caster );
-    if( type->min_dot.evaluate( d ) >= 0 ||
+    const double leveled_dot = min_leveled_dot( caster );
+    if( type->min_dot.evaluate( d ) >= 0.0 ||
         type->max_dot.evaluate( d ) >= type->min_dot.evaluate( d ) ) {
-        return std::min( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
+        return std::min( leveled_dot, type->max_dot.evaluate( d ) );
     } else { // if it's negative, min and max work differently
-        return std::max( leveled_dot, static_cast<int>( type->max_dot.evaluate( d ) ) );
+        return std::max( leveled_dot, type->max_dot.evaluate( d ) );
     }
 }
 
-damage_over_time_data spell::damage_over_time( const std::vector<bodypart_str_id> &bps,
+damage_over_time_data spell::damage_over_time( const std::vector<bodypart_id> &bps,
         const Creature &caster ) const
 {
     damage_over_time_data temp;
@@ -1057,6 +1065,12 @@ bool spell::can_learn( const Character &guy ) const
         return true;
     }
     return guy.has_trait( type->spell_class );
+}
+
+int spell::get_amount_of_projectiles( const Character &guy ) const
+{
+    dialogue d( get_talker_for( guy ), nullptr );
+    return type->multiple_projectiles.evaluate( d );
 }
 
 int spell::energy_cost( const Character &guy ) const
@@ -1449,9 +1463,14 @@ bool spell::is_valid() const
     return type.is_valid();
 }
 
-bool spell::bp_is_affected( const bodypart_str_id &bp ) const
+int spell::bps_affected( ) const
 {
-    return type->affected_bps.test( bp );
+    return type->affected_bps.count();
+}
+
+bool spell::bp_is_affected( const bodypart_id &bp ) const
+{
+    return type->affected_bps.test( bp.id() );
 }
 
 void spell::create_field( const tripoint_bub_ms &at, Creature &caster ) const

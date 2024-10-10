@@ -36,7 +36,7 @@ void run_activities( Character &u, int max_moves )
     while( ( !u.activity.is_null() || u.is_auto_moving() ) && turns < max_moves ) {
         u.set_moves( u.get_speed() );
         if( u.is_auto_moving() ) {
-            u.setpos( get_map().bub_from_abs( *u.destination_point ) );
+            u.setpos( get_map().bub_from_abs( tripoint_abs_ms( *u.destination_point ) ) );
             get_map().build_map_cache( u.pos().z );
             u.start_destination_activity();
         }

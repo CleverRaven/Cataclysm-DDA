@@ -714,6 +714,10 @@ void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
 }
+void talker_character::mod_stored_kcal( int value, bool ignore_weariness )
+{
+    me_chr->mod_stored_kcal( value, ignore_weariness );
+}
 void talker_character::set_thirst( int value )
 {
     me_chr->set_thirst( value );

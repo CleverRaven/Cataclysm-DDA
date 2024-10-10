@@ -3624,7 +3624,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
     }
-    if( mod.loudness_multiplier != 0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
+    if( mod.loudness_multiplier != 1.0 && parts->test( iteminfo_parts::GUNMOD_LOUDNESS_MULTIPLIER ) ) {
         info.emplace_back( "GUNMOD", _( "Loudness multiplier: " ), "",
                            iteminfo::lower_is_better | iteminfo::show_plus,
                            mod.loudness );
@@ -5615,16 +5615,18 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         if( parts->test( iteminfo_parts::DESCRIPTION_MELEEDMG_TYPES ) ) {
             for( const damage_info_order &dio : damage_info_order::get_all(
                      damage_info_order::info_type::MELEE ) ) {
-                // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
-                // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
-                info.emplace_back( "BASE", string_format( "%s: ",
-                                   uppercase_first_letter( dio.dmg_type->name.translated() ) ),
-                                   "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
-                //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
-                //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
-                info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
-                                   dio.dmg_type->name.translated() ),
-                                   "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+                if( non_crit.type_damage( dio.dmg_type ) > 0 || crit.type_damage( dio.dmg_type ) > 0 ) {
+                    // NOTE: Using "BASE" instead of "DESCRIPTION", so numerical formatting will work
+                    // (output.cpp:format_item_info does not interpolate <num> for DESCRIPTION info)
+                    info.emplace_back( "BASE", string_format( "%s: ",
+                                       uppercase_first_letter( dio.dmg_type->name.translated() ) ),
+                                       "<num>", iteminfo::no_newline, non_crit.type_damage( dio.dmg_type ) );
+                    //~ Label used in the melee damage section in the item info screen (ex: "  Critical bash: ")
+                    //~ %1$s = a prepended space, %2$s = the name of the damage type (bash, cut, pierce, etc.)
+                    info.emplace_back( "BASE", string_format( _( "%1$sCritical %2$s: " ), space,
+                                       dio.dmg_type->name.translated() ),
+                                       "<num>", iteminfo::no_flags, crit.type_damage( dio.dmg_type ) );
+                }
             }
         }
         // Moves
@@ -14356,7 +14358,7 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
             process_temperature_rot( insulation, pos, here, carrier, flag, spoil_modifier,
                                      watertight_container ) ) {
             if( is_comestible() ) {
-                here.rotten_item_spawn( *this, pos );
+                here.rotten_item_spawn( *this, tripoint_bub_ms( pos ) );
             }
             if( is_corpse() ) {
                 here.handle_decayed_corpse( *this, here.getglobal( pos ) );

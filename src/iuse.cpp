@@ -719,18 +719,18 @@ std::optional<int> iuse::fungicide( Character *p, item *, const tripoint & )
         p->remove_effect( effect_spores );
         int spore_count = rng( 1, 6 );
         map &here = get_map();
-        for( const tripoint &dest : here.points_in_radius( p->pos(), 1 ) ) {
+        for( const tripoint_bub_ms &dest : here.points_in_radius( p->pos_bub(), 1 ) ) {
             if( spore_count == 0 ) {
                 break;
             }
-            if( dest == p->pos() ) {
+            if( dest == p->pos_bub() ) {
                 continue;
             }
             if( here.passable( dest ) && x_in_y( spore_count, 8 ) ) {
                 if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
                     if( !critter.type->in_species( species_FUNGUS ) ) {
-                        add_msg_if_player_sees( dest, m_warning, _( "The %s is covered in tiny spores!" ),
+                        add_msg_if_player_sees( dest.raw(), m_warning, _( "The %s is covered in tiny spores!" ),
                                                 critter.name() );
                     }
                     if( !critter.make_fungus() ) {
@@ -1775,9 +1775,9 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
     map &here = get_map();
-    std::optional<tripoint> found;
-    for( const tripoint &pnt : here.points_in_radius( p->pos(), 1 ) ) {
-        if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) && good_fishing_spot( pnt, p ) ) {
+    std::optional<tripoint_bub_ms> found;
+    for( const tripoint_bub_ms &pnt : here.points_in_radius( p->pos_bub(), 1 ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) && good_fishing_spot( pnt.raw(), p ) ) {
             found = pnt;
             break;
         }
@@ -1789,7 +1789,7 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, const tripoint & )
     p->add_msg_if_player( _( "You cast your line and wait to hook something…" ) );
     p->assign_activity( ACT_FISH, to_moves<int>( 5_hours ), 0, 0, it->tname() );
     p->activity.targets.emplace_back( *p, it );
-    p->activity.coord_set = g->get_fishable_locations( 60, *found );
+    p->activity.coord_set = g->get_fishable_locations( 60, found->raw() );
     return 0;
 }
 
@@ -2257,10 +2257,10 @@ class exosuit_interact
             for( item *i : c.items_with( filter ) ) {
                 candidates.emplace_back( c, i );
             }
-            for( const tripoint &p : here.points_in_radius( c.pos(), PICKUP_RANGE ) ) {
+            for( const tripoint_bub_ms &p : here.points_in_radius( c.pos_bub(), PICKUP_RANGE ) ) {
                 for( item &i : here.i_at( p ) ) {
                     if( filter( i ) ) {
-                        candidates.emplace_back( map_cursor( tripoint_bub_ms( p ) ), &i );
+                        candidates.emplace_back( map_cursor( p ), &i );
                     }
                 }
             }
@@ -3006,7 +3006,7 @@ std::optional<int> iuse::siphon( Character *p, item *, const tripoint & )
 
     vehicle *v = nullptr;
     bool found_more_than_one = false;
-    for( const tripoint &pos : here.points_in_radius( p->pos(), 1 ) ) {
+    for( const tripoint_bub_ms &pos : here.points_in_radius( p->pos_bub(), 1 ) ) {
         const optional_vpart_position vp = here.veh_at( pos );
         if( !vp ) {
             continue;
@@ -7145,7 +7145,7 @@ std::optional<int> iuse::radiocaron( Character *p, item *it, const tripoint & )
 static void sendRadioSignal( Character &p, const flag_id &signal )
 {
     map &here = get_map();
-    for( const tripoint &loc : here.points_in_radius( p.pos(), 60 ) ) {
+    for( const tripoint_bub_ms &loc : here.points_in_radius( p.pos_bub(), 60 ) ) {
         for( item &it : here.i_at( loc ) ) {
             if( it.has_flag( flag_RADIO_ACTIVATION ) && it.has_flag( signal ) ) {
                 sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
@@ -7172,7 +7172,7 @@ static void sendRadioSignal( Character &p, const flag_id &signal )
                     sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep" ), true, "misc", "beep" );
                     // Invoke to transform a radio-modded explosive into its active form
                     if( itm->has_flag( flag_RADIO_INVOKE_PROC ) ) {
-                        itm->type->invoke( &p, *itm, loc );
+                        itm->type->invoke( &p, *itm, loc.raw() );
                         item_location itm_loc = item_location( map_cursor( tripoint_bub_ms( loc ) ), itm );
                         here.update_lum( itm_loc, true );
                     }
@@ -7505,7 +7505,7 @@ static bool multicooker_hallu( Character &p )
             } else {
                 p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );
 
-                for( const tripoint &pn : get_map().points_in_radius( p.pos(), 1 ) ) {
+                for( const tripoint_bub_ms &pn : get_map().points_in_radius( p.pos_bub(), 1 ) ) {
                     if( monster *const m = g->place_critter_at( mon_hallu_multicooker, pn ) ) {
                         m->hallucination = true;
                     }

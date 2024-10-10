@@ -9,6 +9,7 @@
     "weight": "905 g",
     "volume": "554 ml",
     "longest_side": "250 mm",
+    "barrel_length": "125 mm",
     "price": "650 USD",
     "price_postapoc": "20 USD",
     "material": [ "steel", "plastic" ],
