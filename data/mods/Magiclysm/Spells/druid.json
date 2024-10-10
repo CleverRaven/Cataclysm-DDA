@@ -619,11 +619,7 @@
     "name": "Cause Rot",
     "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew.  For without rot, you cannot have growth.  Affects a huge area, but is indiscriminate; even rusting machines into nothing but dust and slow both in casting and effect.  Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
-    "extra_effects": [
-      { "id": "druid_cause_rot_terrain" },
-      { "id": "druid_cause_rot_terrain_bash" },
-      { "id": "eoc_channeling_setup", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "druid_cause_rot_terrain" }, { "id": "eoc_channeling_setup", "hit_self": true } ],
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
@@ -643,6 +639,8 @@
     "aoe_increment": 1.8,
     "min_damage": 1,
     "max_damage": 1,
+    "min_bash_scaling": 20,
+    "max_bash_scaling": 170,
     "min_dot": 1,
     "max_dot": 5,
     "dot_increment": 0.2,
@@ -665,24 +663,6 @@
     "min_aoe": 5,
     "max_aoe": 50,
     "aoe_increment": 1.8
-  },
-  {
-    "id": "druid_cause_rot_terrain_bash",
-    "type": "SPELL",
-    "name": "Cause Rot Terrain Bash",
-    "description": "The bash terrain effect of the Cause Rot spell.  It's a bug if you have it directly.  It would be nice if this could take effect gradually but that's now how terrain bash works.",
-    "effect": "bash",
-    "shape": "blast",
-    "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "CHANNELING_SPELL", "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL", "IGNORE_WALLS" ],
-    "max_level": 25,
-    "spell_class": "DRUID",
-    "min_aoe": 5,
-    "max_aoe": 50,
-    "aoe_increment": 1.8,
-    "min_damage": 20,
-    "max_damage": 170,
-    "damage_increment": 6
   },
   {
     "id": "druid_healing",
