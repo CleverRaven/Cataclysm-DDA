@@ -1210,7 +1210,7 @@
     {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "glassblower_crucible",
+    "result": "glassblowers_crucible",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1220,26 +1220,14 @@
     "decomp_learn": 4,
     "autolearn": false,
     "book_learn": [
-      [ "glassblowing_book", 5 ],
+      [ "glassblowing_book", 5 ]
     ],
-    "using": [ [ "welding_standard", 100 ],
+    "using": [ [ "welding_standard", 100 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
-    ],
-    "tools": [
-      [
-        [ "welder", 200 ],
-        [ "welding_kit", 200 ],
-        [ "welder_crude", 300 ],
-        [ "integrated_welder", 300 ],
-        [ "soldering_iron", 300 ],
-        [ "soldering_iron_portable", 300 ],
-        [ "integrated_electrokit", 300 ],
-        [ "oxy_torch", 40 ]
-      ]
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_pottery" }],
     "components": [
