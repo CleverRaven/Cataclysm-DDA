@@ -16,8 +16,8 @@
         ],
         "topic": "TALK_EXODII_MERCHANT_Exodized"
       },
-      { "text": "I changed my mind.  What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I changed my mind.  I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "I changed my mind.  <done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "I changed my mind.  <end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -155,7 +155,7 @@
     },
     "responses": [
       {
-        "text": "One thousand units of, uh, anesthetic, coming up.  Can we talk about something else?",
+        "text": "One thousand units of, uh, anesthetic, coming up.  <done_conversation_section>",
         "condition": {
           "not": {
             "or": [
@@ -234,7 +234,7 @@
         ]
       }
     ],
-    "responses": [ { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" } ]
+    "responses": [ { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodized",
@@ -243,8 +243,8 @@
     "speaker_effect": { "effect": { "mapgen_update": "tier1_CBM_shop_update", "om_terrain": "exodii_base_x0y2z1" } },
     "responses": [
       { "text": "So I'm a cyborg now?  I don't really feel much different.", "topic": "TALK_EXODII_MERCHANT_Exodized2" },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Thanks for the brain implants.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  Thanks for the brain implants.  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -260,8 +260,8 @@
         "effect": "start_trade",
         "topic": "TALK_EXODII_MERCHANT_DoneTrade"
       },
-      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
-      { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
+      { "text": "<done_conversation_section>", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "<end_talking_leave>  <end_talking_bye>", "topic": "TALK_DONE" }
     ]
   }
 ]

@@ -361,7 +361,7 @@
         },
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_COMPLETE"
       },
-      { "text": "Let's talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
     ]
   },
   {
@@ -375,7 +375,7 @@
     "dynamic_line": "Work is still ongoing.  These things can take time.",
     "responses": [
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -431,7 +431,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU"
       },
       {
-        "text": "I want to talk about something else.",
+        "text": "<done_conversation_section>",
         "effect": [ { "u_add_var": "dialogue_hub_rnd_u_can_buy_armor", "value": "yes" } ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
@@ -485,7 +485,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_BENEFITS"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -597,7 +597,7 @@
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
       },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -811,7 +811,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -881,7 +881,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -949,7 +949,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_REPAIR_STARTED"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -995,7 +995,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_1_STARTED"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -1044,7 +1044,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_ANCHOR_PT_2_STARTED"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -1114,7 +1114,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_2"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -1145,7 +1145,7 @@
     },
     "responses": [
       { "text": "You seem very… excited about this.", "topic": "TALK_ROBOFAC_INTERCOM_HWP_EXODII_STARTED_1" },
-      { "text": "I want to talk about something else.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },

@@ -155,7 +155,7 @@
         },
         "topic": "TALK_BLACKSMITH_DISORDER_COMPLETE"
       },
-      { "text": "Nevermind.", "topic": "TALK_BLACKSMITH_SERVICES" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_BLACKSMITH_SERVICES" }
     ]
   },
   {
@@ -195,7 +195,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -283,7 +283,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -326,7 +326,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
@@ -374,7 +374,7 @@
         "topic": "TALK_BLACKSMITH_SERVICES"
       },
       { "text": "What about another project?", "topic": "TALK_BLACKSMITH_PROTOTYPE" },
-      { "text": "I want to talk about something else.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      { "text": "<done_conversation_section>", "topic": "TALK_BLACKSMITH_SERVICES" },
       { "text": "I'll check in later.", "topic": "TALK_DONE" }
     ]
   },
