@@ -16,7 +16,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -36,7 +45,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -56,7 +74,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -76,7 +103,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -96,7 +132,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -116,7 +161,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -135,7 +189,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -154,7 +217,16 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_thconc_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 6 ] } ]
+      "items": [
+        {
+          "item": "steel_chunk",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "scrap",
+          "count": [ 3, 6 ]
+        }
+      ]
     }
   },
   {
@@ -175,20 +247,47 @@
       "sound_fail": "whump.",
       "ter_set": "t_dirtfloor",
       "items": [
-        { "item": "rope_6", "count": [ 3, 4 ] },
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 2, 4 ] },
-        { "item": "nuts_bolts", "charges": [ 2, 3 ] },
-        { "item": "block_and_tackle", "count": [ 0, 1 ] }
+        {
+          "item": "rope_6",
+          "count": [ 3, 4 ]
+        },
+        {
+          "item": "2x4",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "splinter",
+          "count": [ 2, 4 ]
+        },
+        {
+          "item": "nuts_bolts",
+          "charges": [ 2, 3 ]
+        },
+        {
+          "item": "block_and_tackle",
+          "count": [ 0, 1 ]
+        }
       ]
     },
     "deconstruct": {
       "ter_set": "t_dirtfloor",
       "items": [
-        { "item": "rope_30", "count": 1 },
-        { "item": "nuts_bolts", "charges": 3 },
-        { "item": "2x4", "count": 8 },
-        { "item": "block_and_tackle", "count": 1 }
+        {
+          "item": "rope_30",
+          "count": 1
+        },
+        {
+          "item": "nuts_bolts",
+          "charges": 3
+        },
+        {
+          "item": "2x4",
+          "count": 8
+        },
+        {
+          "item": "block_and_tackle",
+          "count": 1
+        }
       ]
     }
   },
@@ -209,17 +308,35 @@
       "sound_fail": "whump.",
       "ter_set": "t_null",
       "items": [
-        { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        {
+          "item": "rope_makeshift_6",
+          "count": [ 3, 4 ]
+        },
+        {
+          "item": "2x4",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "splinter",
+          "count": [ 2, 4 ]
+        }
       ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
       "items": [
-        { "item": "rope_makeshift_30", "count": 1 },
-        { "item": "2x4", "count": 8 },
-        { "item": "block_and_tackle", "count": 1 }
+        {
+          "item": "rope_makeshift_30",
+          "count": 1
+        },
+        {
+          "item": "2x4",
+          "count": 8
+        },
+        {
+          "item": "block_and_tackle",
+          "count": 1
+        }
       ]
     }
   },
@@ -241,17 +358,35 @@
       "sound_fail": "whump.",
       "ter_set": "t_null",
       "items": [
-        { "item": "rope_makeshift_6", "count": [ 3, 4 ] },
-        { "item": "2x4", "count": [ 1, 4 ] },
-        { "item": "splinter", "count": [ 2, 4 ] }
+        {
+          "item": "rope_makeshift_6",
+          "count": [ 3, 4 ]
+        },
+        {
+          "item": "2x4",
+          "count": [ 1, 4 ]
+        },
+        {
+          "item": "splinter",
+          "count": [ 2, 4 ]
+        }
       ]
     },
     "deconstruct": {
       "ter_set": "t_dirt",
       "items": [
-        { "item": "rope_makeshift_30", "count": 1 },
-        { "item": "2x4", "count": 8 },
-        { "item": "block_and_tackle_wood", "count": 1 }
+        {
+          "item": "rope_makeshift_30",
+          "count": 1
+        },
+        {
+          "item": "2x4",
+          "count": 8
+        },
+        {
+          "item": "block_and_tackle_wood",
+          "count": 1
+        }
       ]
     }
   },
@@ -274,7 +409,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_concrete_wall",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -298,7 +442,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -328,7 +481,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -358,7 +520,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -389,7 +560,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -413,7 +593,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -468,7 +657,16 @@
       "sound": "crunch!",
       "sound_fail": "whack!",
       "ter_set": "t_card_reader_broken",
-      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+      "items": [
+        {
+          "item": "plastic_chunk",
+          "count": [ 0, 2 ]
+        },
+        {
+          "item": "scrap",
+          "prob": 50
+        }
+      ]
     }
   },
   {
@@ -779,13 +977,38 @@
       "//": "Since these are set into the walls, they ought to have the resilience of metal walls.",
       "ter_set": "t_concrete",
       "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 3 ], "prob": 50 },
-        { "item": "circuit", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 6 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 4 ], "prob": 50 }
+        {
+          "item": "processor",
+          "prob": 25
+        },
+        {
+          "item": "cable",
+          "charges": [ 1, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "small_lcd_screen",
+          "prob": 25
+        },
+        {
+          "item": "e_scrap",
+          "count": [ 1, 3 ],
+          "prob": 50
+        },
+        {
+          "item": "circuit",
+          "prob": 25
+        },
+        {
+          "item": "plastic_chunk",
+          "count": [ 4, 6 ],
+          "prob": 50
+        },
+        {
+          "item": "scrap",
+          "count": [ 2, 4 ],
+          "prob": 50
+        }
       ]
     }
   },
@@ -809,16 +1032,52 @@
       "sound_fail": "whack!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        {
+          "item": "processor",
+          "prob": 25
+        },
+        {
+          "item": "RAM",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "cable",
+          "charges": [ 1, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "small_lcd_screen",
+          "prob": 25
+        },
+        {
+          "item": "e_scrap",
+          "count": [ 1, 4 ],
+          "prob": 50
+        },
+        {
+          "item": "circuit",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "power_supply",
+          "prob": 25
+        },
+        {
+          "item": "amplifier",
+          "prob": 25
+        },
+        {
+          "item": "plastic_chunk",
+          "count": [ 4, 10 ],
+          "prob": 50
+        },
+        {
+          "item": "scrap",
+          "count": [ 2, 6 ],
+          "prob": 50
+        }
       ]
     }
   },
@@ -850,8 +1109,14 @@
           "id": "EOC_ROBOFAC_ELEVATOR_UP",
           "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
           "effect": [
-            { "u_location_variable": { "u_val": "robofac_elevator_up" }, "z_adjust": 1 },
-            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            {
+              "u_location_variable": { "u_val": "robofac_elevator_up" },
+              "z_adjust": 1
+            },
+            {
+              "u_message": "The elevator starts moving before you can touch the panel.",
+              "popup": true
+            },
             { "u_teleport": { "u_val": "robofac_elevator_up" } }
           ],
           "false_effect": {
@@ -868,16 +1133,52 @@
       "sound_fail": "whack!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        {
+          "item": "processor",
+          "prob": 25
+        },
+        {
+          "item": "RAM",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "cable",
+          "charges": [ 1, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "small_lcd_screen",
+          "prob": 25
+        },
+        {
+          "item": "e_scrap",
+          "count": [ 1, 4 ],
+          "prob": 50
+        },
+        {
+          "item": "circuit",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "power_supply",
+          "prob": 25
+        },
+        {
+          "item": "amplifier",
+          "prob": 25
+        },
+        {
+          "item": "plastic_chunk",
+          "count": [ 4, 10 ],
+          "prob": 50
+        },
+        {
+          "item": "scrap",
+          "count": [ 2, 6 ],
+          "prob": 50
+        }
       ]
     }
   },
@@ -900,8 +1201,14 @@
           "id": "EOC_ROBOFAC_ELEVATOR_DOWN",
           "condition": { "u_has_trait": "PROF_HUB01_ANCILLIARY" },
           "effect": [
-            { "u_location_variable": { "u_val": "robofac_elevator_down" }, "z_adjust": -1 },
-            { "u_message": "The elevator starts moving before you can touch the panel.", "popup": true },
+            {
+              "u_location_variable": { "u_val": "robofac_elevator_down" },
+              "z_adjust": -1
+            },
+            {
+              "u_message": "The elevator starts moving before you can touch the panel.",
+              "popup": true
+            },
             { "u_teleport": { "u_val": "robofac_elevator_down" } }
           ],
           "false_effect": {
@@ -918,16 +1225,52 @@
       "sound_fail": "whack!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        {
+          "item": "processor",
+          "prob": 25
+        },
+        {
+          "item": "RAM",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "cable",
+          "charges": [ 1, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "small_lcd_screen",
+          "prob": 25
+        },
+        {
+          "item": "e_scrap",
+          "count": [ 1, 4 ],
+          "prob": 50
+        },
+        {
+          "item": "circuit",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "power_supply",
+          "prob": 25
+        },
+        {
+          "item": "amplifier",
+          "prob": 25
+        },
+        {
+          "item": "plastic_chunk",
+          "count": [ 4, 10 ],
+          "prob": 50
+        },
+        {
+          "item": "scrap",
+          "count": [ 2, 6 ],
+          "prob": 50
+        }
       ]
     }
   },
@@ -950,16 +1293,52 @@
       "sound_fail": "whack!",
       "ter_set": "t_metal_floor",
       "items": [
-        { "item": "processor", "prob": 25 },
-        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "cable", "charges": [ 1, 2 ], "prob": 50 },
-        { "item": "small_lcd_screen", "prob": 25 },
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
-        { "item": "power_supply", "prob": 25 },
-        { "item": "amplifier", "prob": 25 },
-        { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        {
+          "item": "processor",
+          "prob": 25
+        },
+        {
+          "item": "RAM",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "cable",
+          "charges": [ 1, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "small_lcd_screen",
+          "prob": 25
+        },
+        {
+          "item": "e_scrap",
+          "count": [ 1, 4 ],
+          "prob": 50
+        },
+        {
+          "item": "circuit",
+          "count": [ 0, 2 ],
+          "prob": 50
+        },
+        {
+          "item": "power_supply",
+          "prob": 25
+        },
+        {
+          "item": "amplifier",
+          "prob": 25
+        },
+        {
+          "item": "plastic_chunk",
+          "count": [ 4, 10 ],
+          "prob": 50
+        },
+        {
+          "item": "scrap",
+          "count": [ 2, 6 ],
+          "prob": 50
+        }
       ]
     }
   },
@@ -989,7 +1368,12 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 2, 5 ] } ]
+      "items": [
+        {
+          "item": "rock",
+          "count": [ 2, 5 ]
+        }
+      ]
     }
   },
   {
@@ -1009,7 +1393,12 @@
       "sound": "crash!",
       "sound_fail": "whump!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 2, 5 ] } ]
+      "items": [
+        {
+          "item": "rock",
+          "count": [ 2, 5 ]
+        }
+      ]
     }
   },
   {
@@ -1066,5 +1455,20 @@
     "color": "light_green",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_yrax_exposed_wall",
+    "name": "damaged wall",
+    "description": "An identical piece of golden wall with an unusual artificial pattern on it, but this one is heavily damaged and exposes a crystalline structure covered in a network of golden threads.",
+    "//": "Science",
+    "symbol": "6",
+    "color": "yellow",
+    "move_cost": 0,
+    "roof": "t_yrax_roof",
+    "connect_groups": "WALL",
+    "connects_to": "WALL",
+    "flags": [ "NOITEM" ],
+    "examine_action": "sign"
   }
 ]
