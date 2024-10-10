@@ -22,7 +22,7 @@
     "difficulty": 8,
     "max_level": 15,
     "damage_type": "light",
-    "flags": [ "EVOCATION_SPELL", "VERBAL", "LOUD", "NO_HANDS" ],
+    "flags": [ "EVOCATION_SPELL", "VERBAL", "LOUD", "NO_HANDS", "SPLIT_DAMAGE" ],
     "extra_effects": [ { "id": "eoc_evocation_setup", "hit_self": true } ],
     "energy_source": "MANA"
   },
