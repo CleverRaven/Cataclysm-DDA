@@ -431,9 +431,9 @@
       [ [ "forge", 150 ] ],
       [ [ "casting_mold_small", -1 ] ]
     ],
-    "components": [ 
+    "components": [
       [ [ "glass_shard", 13 ], [ "flask_glass", 20 ], [ "test_tube", 27 ], [ "marble", 318 ] ],
-      [ [ "scrap", 1] ],
+      [ [ "scrap", 1 ] ],
       [ [ "chunk_rubber", 1 ] ]
     ]
   },
