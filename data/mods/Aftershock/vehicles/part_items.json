@@ -60,7 +60,7 @@
     "color": "light_cyan",
     "symbol": ":",
     "material": [ "superalloy", "ceramic" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 10000 }, "rigid": true } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 1000 }, "rigid": true } ],
     "volume": "100 L",
     "category": "veh_parts",
     "price": "900 USD",
