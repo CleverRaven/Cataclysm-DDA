@@ -1184,82 +1184,93 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer;
 }
 
+static nc_color get_comparison_color( const iteminfo &i,
+                                      const std::vector<iteminfo> &vItemCompare )
+{
+    nc_color thisColor = c_yellow;
+    for( const iteminfo &k : vItemCompare ) {
+        if( k.sValue != "-999" ) {
+            if( i.sName == k.sName && i.sType == k.sType ) {
+                double iVal = i.dValue;
+                double kVal = k.dValue;
+                if( i.sFmt != k.sFmt ) {
+                    // Different units, compare unit adjusted vals
+                    iVal = i.dUnitAdjustedVal;
+                    kVal = k.dUnitAdjustedVal;
+                }
+                if( iVal > kVal - .01 &&
+                    iVal < kVal + .01 ) {
+                    thisColor = c_light_gray;
+                } else if( iVal > kVal ) {
+                    if( i.bLowerIsBetter ) {
+                        thisColor = c_light_red;
+                    } else {
+                        thisColor = c_light_green;
+                    }
+                } else if( iVal < kVal ) {
+                    if( i.bLowerIsBetter ) {
+                        thisColor = c_light_green;
+                    } else {
+                        thisColor = c_light_red;
+                    }
+                }
+                break;
+            }
+        }
+    }
+    return thisColor;
+}
+
 void display_item_info( const std::vector<iteminfo> &vItemDisplay,
                         const std::vector<iteminfo> &vItemCompare )
 {
-    bool bIsNewLine = true;
-
+    bool bAlreadyHasNewLine = true;
     for( const iteminfo &i : vItemDisplay ) {
         if( i.sType == "DESCRIPTION" ) {
-            // Always start a new line for sType == "DESCRIPTION"
-            if( !bIsNewLine ) {
-                ImGui::NewLine();
-            }
             if( i.bDrawName ) {
-                cataimgui::draw_colored_text( i.sName, c_white );
+                if( i.sName == "--" ) {
+                    if( !bAlreadyHasNewLine ) {
+                        ImGui::NewLine();
+                        bAlreadyHasNewLine = true;
+                    }
+                    ImGui::Separator();
+                } else {
+                    if( i.sName.find( '\n' ) != std::string::npos ) {
+                        std::vector<std::string> lines = string_split( i.sName, '\n' );
+                        for( std::string &line : lines ) {
+                            cataimgui::TextColoredParagraph( c_white, line );
+                            ImGui::NewLine();
+                        }
+                        ImGui::SameLine();
+                    } else {
+                        cataimgui::TextColoredParagraph( c_white, i.sName );
+                    }
+                    bAlreadyHasNewLine = false;
+                }
             }
         } else {
             if( i.bDrawName ) {
-                cataimgui::draw_colored_text( i.sName, c_white );
+                cataimgui::TextColoredParagraph( c_white, i.sName );
+                bAlreadyHasNewLine = false;
             }
 
-            std::string sFmt = i.sFmt;
-            std::string sPost;
-            if( !sFmt.empty() ) {
-                //A bit tricky, find %d and split the string
-                size_t pos = sFmt.find( "<num>" );
-                if( pos != std::string::npos ) {
-                    cataimgui::draw_colored_text( sFmt.substr( 0, pos ), c_white );
-                    sPost = sFmt.substr( pos + 5 );
-                } else {
-                    cataimgui::draw_colored_text( sFmt, c_white );
-                }
-
+            if( !i.sFmt.empty() ) {
+                std::optional<cataimgui::Segment> value = std::nullopt;
                 if( i.sValue != "-999" ) {
-                    nc_color thisColor = c_yellow;
-                    for( const iteminfo &k : vItemCompare ) {
-                        if( k.sValue != "-999" ) {
-                            if( i.sName == k.sName && i.sType == k.sType ) {
-                                double iVal = i.dValue;
-                                double kVal = k.dValue;
-                                if( i.sFmt != k.sFmt ) {
-                                    // Different units, compare unit adjusted vals
-                                    iVal = i.dUnitAdjustedVal;
-                                    kVal = k.dUnitAdjustedVal;
-                                }
-                                if( iVal > kVal - .01 &&
-                                    iVal < kVal + .01 ) {
-                                    thisColor = c_light_gray;
-                                } else if( iVal > kVal ) {
-                                    if( i.bLowerIsBetter ) {
-                                        thisColor = c_light_red;
-                                    } else {
-                                        thisColor = c_light_green;
-                                    }
-                                } else if( iVal < kVal ) {
-                                    if( i.bLowerIsBetter ) {
-                                        thisColor = c_light_green;
-                                    } else {
-                                        thisColor = c_light_red;
-                                    }
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    ImGui::SameLine( 0, 0 );
-                    ImGui::TextColored( thisColor, "%s", i.sValue.c_str() );
+                    value = std::make_optional( cataimgui::Segment( i.sValue, get_comparison_color( i,
+                                                vItemCompare ) ) );
                 }
-                if( !sPost.empty() ) {
-                    ImGui::SameLine( 0, 0 );
-                    cataimgui::draw_colored_text( sPost, c_white );
-                }
+                cataimgui::TextColoredParagraph( c_white, i.sFmt, value );
+                bAlreadyHasNewLine = false;
+            } else if( i.sValue != "-999" ) {
+                cataimgui::TextColoredParagraph( get_comparison_color( i, vItemCompare ),
+                                                 i.sValue );
+                bAlreadyHasNewLine = false;
             }
         }
-
-        // Set bIsNewLine in case the next line should always start in a new line
-        if( !( bIsNewLine = i.bNewLine ) ) {
-            ImGui::SameLine( 0, 0 );
+        if( i.bNewLine && !bAlreadyHasNewLine ) {
+            ImGui::NewLine();
+            bAlreadyHasNewLine = true;
         }
     }
 }

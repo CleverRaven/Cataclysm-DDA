@@ -7,9 +7,6 @@
 #include "output.h"
 #include "imgui/imgui.h"
 
-void draw_item_info_imgui( cataimgui::window &window, item_info_data &data, int width,
-                           cataimgui::scroll &s );
-
 class iteminfo_window : public cataimgui::window
 {
     public:
