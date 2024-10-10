@@ -1207,7 +1207,7 @@
       [ [ "fire_brick", 8 ] ]
     ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "glassblowers_crucible",
@@ -1219,9 +1219,7 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": false,
-    "book_learn": [
-      [ "glassblowing_book", 5 ]
-    ],
+    "book_learn": [ [ "glassblowing_book", 5 ] ],
     "using": [ [ "welding_standard", 100 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -1229,7 +1227,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_pottery" }],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_pottery" } ],
     "components": [
       [ [ "element", 8 ], [ "crude_heating_element", 12 ] ],
       [ [ "pot_canning_clay", 1 ] ],
