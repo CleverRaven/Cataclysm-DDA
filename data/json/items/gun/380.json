@@ -115,12 +115,12 @@
     "looks_like": "cx4",
     "type": "GUN",
     "name": { "str": ".380 ACP pistol-caliber carbine" },
-    "description": "A pistol-caliber carbine chambered in .380 ACP.  It is more powerful and accurate than an equivalent pistol but the .380 ACP round is nonetheless fairly weak.  Accepts 10-round magazines, which are not shared with any .380 ACP pistol unlike many other similar pistol-caliber carbines.",
+    "description": "A pistol-caliber carbine chambered in .380 ACP, designed by Hi-Point Firearms.  Its 16.5\" barrel provides extra stopping power over an equivalent pistol, but .380 is still a relatively weak caliber.  Accepts 10-round magazines, which are notably not interchangeable with those of CF380 pistols.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "hpt3895",
-        "name": { "str": "Hi-Point 3895 carbine" },
+        "name": { "str": "Hi-Point 3895" },
         "description": "A pistol-caliber carbine chambered in .380 ACP, designed by Hi-Point Firearms.  Its 16.5\" barrel provides extra stopping power over an equivalent pistol, but .380 is still a relatively weak caliber.  Accepts 10-round magazines, which are notably not interchangeable with those of CF380 pistols."
       }
     ],

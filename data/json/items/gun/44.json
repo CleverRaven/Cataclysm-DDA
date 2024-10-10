@@ -4,7 +4,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Desert Eagle pistol" },
+    "name": { "str": "Desert Eagle pistol" },
     "description": "An icon of popular culture more than a practical weapon, this massive pistol can shoot a variety of magnum handgun rounds depending on the conversion kit and magazine used.",
     "weight": "1407 g",
     "volume": "671 ml",
@@ -16,13 +16,13 @@
     "variants": [
       {
         "id": "modular_deagle",
-        "name": { "str": "Desert Eagle Mark XIX pistol" },
+        "name": { "str": "Desert Eagle Mark XIX", "str_pl": "Desert Eagles Mark XIX" },
         "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.",
         "weight": 10000
       },
       {
         "id": "modular_deagle_gold",
-        "name": { "str": "golden Desert Eagle Mark XIX pistol" },
+        "name": { "str": "golden Desert Eagle Mark XIX", "str_pl": "golden Desert Eagles Mark XIX" },
         "description": "Needing little introduction, the Desert Eagle's impact on popular culture is almost as massive as the pistol itself.  The newest Mark XIX model introduced a more modern optics rail.  It was sold in multiple hard-hitting magnum calibers and can swap between them using conversion kits and the appropriate magazine.  For maximum style points (or tackiness, depending on taste), this one is plated in what appears to be 24-karat gold."
       }
     ],
@@ -132,12 +132,12 @@
     "variants": [
       {
         "id": "ruger_redhawk",
-        "name": { "str": "Ruger Redhawk revolver" },
+        "name": { "str": "Ruger Redhawk" },
         "description": "One of the most powerful handguns in the world when it was released in 1979, the Redhawk offers very sturdy construction, with an appearance that is reminiscent of \"Wild West\" revolvers."
       },
       {
         "id": "sw629",
-        "name": { "str": "S&W 629 revolver" },
+        "name": { "str": "S&W 629" },
         "description": "A stainless steel, six-shot, double-action revolver with a matte black plastic handle manufactured by Smith & Wesson.  Though hardly the most powerful handgun in the world any more, it could still blow a zombie's head clean off."
       }
     ],

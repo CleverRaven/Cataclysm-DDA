@@ -76,7 +76,7 @@
     "copy-from": "gun_base",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "pipe rifle: .38 Special", "str_pl": "pipe rifles: .38 Special" },
+    "name": { "str": ".38 Special pipe rifle" },
     "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "ascii_picture": "ps_pipe_gun",
     "weight": "2114 g",
@@ -157,7 +157,7 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": ".357 revolver" },
+    "name": { "str": ".357 revolver" },
     "//": "This is the Colt Python 2020 6-inch version.",
     "description": "A six inch revolver chambered in .357 Magnum/.38 Special.  Favorite of sheriffs and post-Cataclysm survivor group leaders.",
     "//s": "omg twd reference :O",
@@ -208,7 +208,7 @@
     "id": "sw_619",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": "7-shots .357 revolver" },
+    "name": { "str": ".357 seven-shooter" },
     "description": "A revolver chambered in .357, with a 6 inch barrel and 7 shots.",
     "ascii_picture": "sw_610",
     "weight": "1280 g",
@@ -248,7 +248,7 @@
     "variants": [
       {
         "id": "sw_619",
-        "name": { "str_sp": "S&W 686 Plus" },
+        "name": { "str": "S&W 686 Plus", "str_pl": "S&W 686s Plus" },
         "description": "Introduced in the 90's, Smith & Wesson's model 686 'Plus' features a robust stainless steel frame, an adjustable front sight and a seventh shot that's sure to save your life."
       }
     ]
@@ -257,8 +257,8 @@
     "id": "chiappa_rhino",
     "copy-from": "pistol_revolver",
     "type": "GUN",
-    "name": { "str_sp": ".357 revolver" },
-    "description": "A revolver chambered in .357, with a 6 inch barrel and 6 shots.",
+    "name": { "str_sp": ".357 bottom barrel revolver" },
+    "description": "A revolver chambered in .357 Magnum/.38 Special, with a 6 inch barrel and 6 shots.",
     "symbol": "(",
     "color": "light_gray",
     "looks_like": "sw_619",
@@ -305,13 +305,13 @@
     "copy-from": "pistol_revolver",
     "looks_like": "sw_619",
     "type": "GUN",
-    "name": { "str_sp": ".357-caliber snub-nosed revolver" },
+    "name": { "str": ".357 snub-nosed revolver" },
     "description": "Short, stout, and compact, this stainless steel revolver is a handy dispenser of .357-magnum, or lower-power .38-caliber, cartridges.  Six rounds fit within the weapon, though its small stature and short barrel ensure that each pull of the trigger is all but a pyrotechnic spectacle: flashy, loud, and jumpy.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "rp63",
-        "name": { "str": "Rossi RP63 revolver" },
+        "name": { "str": "Rossi RP63" },
         "description": "A small frame, stainless-steel Brazilian wheel gun with rubberized grips, a serrated front sight, and a satin finish, boasting a 6-round cylinder of .357-magnum persuasion.  Affordable, before the world collapsed, and confidently asserted by Rossi themselves to be the ideal carry gun for its rounded butt and 3-inch barrel, you aren't wholly sure that such assertions accounted for zombies."
       }
     ],
