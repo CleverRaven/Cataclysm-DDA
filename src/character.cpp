@@ -10236,24 +10236,27 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
         }
     }
 
-    // ROOTS3 does slow you down as your roots are probing around for nutrients,
-    // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
-    // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-    const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
-    bool no_left_shoe = false;
-    bool no_right_shoe = false;
-    if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-        no_left_shoe = true;
-    }
-    if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-        no_right_shoe = true;
-    }
-    if( no_left_shoe && no_right_shoe ) {
-        run_cost_effect_add( 16, _( "No Shoes" ) );
-    } else if( no_left_shoe ) {
-        run_cost_effect_add( 8, _( "No Left Shoe" ) );
-    } else if( no_right_shoe ) {
-        run_cost_effect_add( 8, _( "No Right Shoe" ) );
+    // Additional move cost for moving barefoot only if we're not swimming
+    if( !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos_bub() ) ) {
+        // ROOTS3 does slow you down as your roots are probing around for nutrients,
+        // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
+        // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
+        const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
+        bool no_left_shoe = false;
+        bool no_right_shoe = false;
+        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
+            no_left_shoe = true;
+        }
+        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
+            no_right_shoe = true;
+        }
+        if( no_left_shoe && no_right_shoe ) {
+            run_cost_effect_add( 16, _( "No Shoes" ) );
+        } else if( no_left_shoe ) {
+            run_cost_effect_add( 8, _( "No Left Shoe" ) );
+        } else if( no_right_shoe ) {
+            run_cost_effect_add( 8, _( "No Right Shoe" ) );
+        }
     }
 
     if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
