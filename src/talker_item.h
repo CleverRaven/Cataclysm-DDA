@@ -53,6 +53,14 @@ class talker_item_const: public talker_cloner<talker_item_const>
         int encumbrance_at( bodypart_id & ) const override;
         int get_volume() const override;
         int get_weight() const override;
+        item_location *get_item() override {
+            return nullptr;
+
+        }
+        item_location const *get_item() const override {
+            return me_it_const;
+
+        }
     protected:
         talker_item_const() = default;
         const item_location *me_it_const;
@@ -68,7 +76,7 @@ class talker_item: public talker_cloner<talker_item, talker_item_const>
         item_location *get_item() override {
             return me_it;
         }
-        item_location *get_item() const override {
+        item_location const *get_item() const override {
             return me_it;
         }
 
