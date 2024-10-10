@@ -1066,7 +1066,7 @@
     "name": { "str": "glassblower's crucible" },
     "color": "brown",
     "categories": [ "utility" ],
-    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass, it needs to be placed and plugged into a power source.",
+    "description": "An electric crucible, powered by your electric grid.  Designed for melting large quantities of glass for batch crafting and production of large items, it needs to be placed and plugged into a power source.",
     "broken_color": "yellow_red",
     "damage_modifier": 10,
     "damage_reduction": { "all": 30 },
