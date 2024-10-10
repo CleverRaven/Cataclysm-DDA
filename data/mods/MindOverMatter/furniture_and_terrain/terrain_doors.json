@@ -1,0 +1,43 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_secretdoor_strconcrete_c",
+    "name": "reinforced concrete wall",
+    "description": "An extremely resilient wall, filled with concrete and rebar.  Best suited for supporting multi-level buildings, only serious explosives and high-speed impacts would be capable of damaging this wall.",
+    "symbol": "LINE_OXOX",
+    "looks_like": "t_strconc_wall",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_concrete_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "AUTO_WALL_SYMBOL", "SUPPORTS_ROOF" ],
+    "open": "t_secretdoor_strconcrete_o",
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_secretdoor_strconcrete_o",
+    "name": "open secret door",
+    "looks_like": "t_thconc_floor",
+    "description": "This apparently normal segment of reinforced concrete wall has opened to reveal a secret passage.",
+    "symbol": "'",
+    "color": "light_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_WITH_WALL", "ROAD", "SUPPORTS_ROOF" ],
+    "close": "t_secretdoor_strconcrete_c",
+    "bash": {
+      "str_min": 120,
+      "str_max": 460,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  }
+]
