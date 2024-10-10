@@ -507,8 +507,8 @@
   {
     "id": "electrokinetic_kill_robot_sparks",
     "type": "SPELL",
-    "name": "[Ψ]Short Circuit Lightning Burst",
-    "description": "Cause a burst of sparks near a short circuited target.  It's a bug if you see this.",
+    "name": { "str": "[Ψ]Short Circuit Lightning Burst", "//~": "NO_I18N" },
+    "description": { "str": "Cause a burst of sparks near a short circuited target.  It's a bug if you see this.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ground", "hostile", "ally" ],
@@ -558,8 +558,8 @@
   {
     "id": "electro_spawn_robot_interface",
     "type": "SPELL",
-    "name": "[Ψ]Create Robotic Interface",
-    "description": "Creates a tool used to hack robots.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Create Robotic Interface", "//~": "NO_I18N" },
+    "description": { "str": "Creates a tool used to hack robots.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "spell_class": "ELECTROKINETIC",
     "skill": "metaphysics",
@@ -611,8 +611,8 @@
   {
     "id": "electrokinetic_lightning_aura_spark",
     "type": "SPELL",
-    "name": "[Ψ]Galvanic Aura Sparks",
-    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Galvanic Aura Sparks", "//~": "NO_I18N" },
+    "description": { "str": "Galvanic Aura attacks.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
@@ -629,8 +629,8 @@
     "id": "electrokinetic_lightning_aura_attack_placeholder",
     "//": "Currently galvanic aura successfully calls this spell to attack enemies.  However, it does not 'draw a line' towards the enemy, merely spawning ontop of them.  Still not fully functional.",
     "type": "SPELL",
-    "name": "[Ψ]Galvanic Aura Bolt",
-    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Galvanic Aura Bolt", "//~": "NO_I18N" },
+    "description": { "str": "Galvanic Aura attacks.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ally" ],
@@ -714,8 +714,11 @@
   {
     "id": "electrokinetic_lightning_blast_trail",
     "type": "SPELL",
-    "name": "[Ψ]Ion Blast Trail",
-    "description": "This causes the lightning bolt at the target location.  It's a bug if you have it directly.",
+    "name": { "str": "[Ψ]Ion Blast Trail", "//~": "NO_I18N" },
+    "description": {
+      "str": "This causes the lightning bolt at the target location.  It's a bug if you have it directly.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground", "ally" ],
@@ -790,8 +793,8 @@
   {
     "id": "electrokinetic_revive_charm",
     "type": "SPELL",
-    "name": "[Ψ]Revive Charm",
-    "description": "This turns the revived monster to your side.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Revive Charm", "//~": "NO_I18N" },
+    "description": { "str": "This turns the revived monster to your side.  It's a bug if you have it.", "//~": "NO_I18N" },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile", "ground" ],
@@ -815,8 +818,11 @@
   {
     "id": "electrokinetic_revive_heal",
     "type": "SPELL",
-    "name": "[Ψ]Revive Heal",
-    "description": "This heals the revivified target so it doesn't die basically immediately after rising.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Revive Heal", "//~": "NO_I18N" },
+    "description": {
+      "str": "This heals the revivified target so it doesn't die basically immediately after rising.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -837,8 +843,11 @@
   {
     "id": "electrokinetic_revive_debuff",
     "type": "SPELL",
-    "name": "[Ψ]Revive Debuff",
-    "description": "This puts a debuff on the revived monster that will make sure it eventually dies.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Revive Debuff", "//~": "NO_I18N" },
+    "description": {
+      "str": "This puts a debuff on the revived monster that will make sure it eventually dies.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "ally" ],

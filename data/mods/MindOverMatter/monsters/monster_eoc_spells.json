@@ -2,8 +2,8 @@
   {
     "id": "eater_drain_monster",
     "type": "SPELL",
-    "name": "[Ψ]Essence Drain",
-    "description": "Eater's draining attack.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Essence Drain", "//~": "NO_I18N" },
+    "description": { "str": "Eater's draining attack.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "message": "",
     "flags": [ "CONCENTRATE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
@@ -44,8 +44,8 @@
   {
     "id": "eater_drain_mana",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Mana",
-    "description": "Eater's spell to drain mana.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Mana", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain mana.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
@@ -58,8 +58,8 @@
   {
     "id": "eater_drain_stamina",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Stamina",
-    "description": "Eater's spell to drain stamina.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Stamina", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain stamina.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
@@ -73,8 +73,8 @@
   {
     "id": "eater_drain_sleepiness",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Sleepiness",
-    "description": "Eater's spell to drain sleepiness.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Sleepiness", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain sleepiness.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "recover_energy",
@@ -87,8 +87,8 @@
   {
     "id": "eater_drain_health",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Stamina",
-    "description": "Eater's spell to drain health.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Eater Drain Stamina", "//~": "NO_I18N" },
+    "description": { "str": "Eater's spell to drain health.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "effect": "attack",
@@ -108,8 +108,8 @@
   {
     "id": "null_break_concentration_spell",
     "type": "SPELL",
-    "name": "[Ψ]Breaker end powers",
-    "description": "Breaker's power that ends concentration.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Breaker end powers", "//~": "NO_I18N" },
+    "description": { "str": "Breaker's power that ends concentration.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
@@ -176,8 +176,11 @@
   {
     "id": "clairsentient_discern_weakness_monster",
     "type": "SPELL",
-    "name": "[Ψ]Discern Weakness Triffid",
-    "description": "The triffid lays your weak points bare and shares them with others through the heartmind.  It's a bug if you have this.",
+    "name": { "str": "[Ψ]Discern Weakness Triffid", "//~": "NO_I18N" },
+    "description": {
+      "str": "The triffid lays your weak points bare and shares them with others through the heartmind.  It's a bug if you have this.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
@@ -210,8 +213,11 @@
   {
     "id": "teleporter_triffid_summon_allies",
     "type": "SPELL",
-    "name": "[Ψ]Teleporter Triffid Summon Allies",
-    "description": "The triffid uses its connection to the heartmind to teleport in guards around an intruder.  If you see this, it's a bug.",
+    "name": { "str": "[Ψ]Teleporter Triffid Summon Allies", "//~": "NO_I18N" },
+    "description": {
+      "str": "The triffid uses its connection to the heartmind to teleport in guards around an intruder.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "hostile" ],
@@ -241,8 +247,11 @@
   {
     "id": "electrokinetic_power_draining",
     "type": "SPELL",
-    "name": "[Ψ]Electrokinetic Power Draining Spell",
-    "description": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+    "name": { "str": "[Ψ]Electrokinetic Power Draining Spell", "//~": "NO_I18N" },
+    "description": {
+      "str": "The monster uses its powers to suck the energy out of battery devices.  If you see this, it's a bug.",
+      "//~": "NO_I18N"
+    },
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ally", "hostile" ],
@@ -259,8 +268,8 @@
   {
     "id": "electrokinetic_power_draining_electric_monster",
     "type": "SPELL",
-    "name": "[Ψ]Electrokinetic Power Draining monster attack",
-    "description": "Gremlin's power to damage electric monsters.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Electrokinetic Power Draining monster attack", "//~": "NO_I18N" },
+    "description": { "str": "Gremlin's power to damage electric monsters.  It's a bug if you have it.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX", "RANDOM_DAMAGE" ],
     "effect": "attack",

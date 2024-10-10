@@ -254,7 +254,7 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Illuminate power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked: <spell_name:<u_val:latest_studied_power_name>>.",
                 "popup": true
               },
               { "math": [ "u_spell_level('photokinetic_light_up_enemy')", "=", "1" ] },

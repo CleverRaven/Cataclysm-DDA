@@ -102,8 +102,11 @@
   {
     "id": "vita_stop_bleeding_01",
     "type": "SPELL",
-    "name": "[Ψ]Staunch Wound #1",
-    "description": "The first of the Staunch Wound spells.  This summons a low-power bandage--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Staunch Wound #1", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Staunch Wound spells.  This summons a low-power bandage--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
@@ -120,8 +123,11 @@
   {
     "id": "vita_stop_bleeding_02",
     "type": "SPELL",
-    "name": "[Ψ]Staunch Wound #2",
-    "description": "The first of the Staunch Wound spells.  This summons a medium-power bandage--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Staunch Wound #2", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Staunch Wound spells.  This summons a medium-power bandage--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
@@ -138,8 +144,11 @@
   {
     "id": "vita_stop_bleeding_03",
     "type": "SPELL",
-    "name": "[Ψ]Staunch Wound #3",
-    "description": "The first of the Staunch Wound spells.  This summons a high-power bandage--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Staunch Wound #3", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Staunch Wound spells.  This summons a high-power bandage--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "spell_class": "VITAKINETIC",
     "skill": "metaphysics",
@@ -385,8 +394,11 @@
   {
     "id": "vita_stop_infection_01",
     "type": "SPELL",
-    "name": "[Ψ]SAllay Infection #1",
-    "description": "The first of the Allay Infection spells.  This summons a low-power disinfectant/antibiotic--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Allay Infection #1", "//~": "NO_I18N" },
+    "description": {
+      "str": "The first of the Allay Infection spells.  This summons a low-power disinfectant/antibiotic--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "VITAKINETIC",
@@ -403,8 +415,11 @@
   {
     "id": "vita_stop_infection_02",
     "type": "SPELL",
-    "name": "[Ψ]SAllay Infection #2",
-    "description": "The second of the Allay Infection spells.  This summons a medium-power disinfectant/antibiotic--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Allay Infection #2", "//~": "NO_I18N" },
+    "description": {
+      "str": "The second of the Allay Infection spells.  This summons a medium-power disinfectant/antibiotic--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "VITAKINETIC",
@@ -421,8 +436,11 @@
   {
     "id": "vita_stop_infection_03",
     "type": "SPELL",
-    "name": "[Ψ]SAllay Infection #3",
-    "description": "The third of the Allay Infection spells.  This summons a high-power disinfectant/antibiotic--it's a bug if you have it.",
+    "name": { "str": "[Ψ]Allay Infection #3", "//~": "NO_I18N" },
+    "description": {
+      "str": "The third of the Allay Infection spells.  This summons a high-power disinfectant/antibiotic--it's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "teachable": false,
     "spell_class": "VITAKINETIC",
@@ -554,8 +572,11 @@
   {
     "id": "vita_blood_purge_no_mutagens",
     "type": "SPELL",
-    "name": "[Ψ]Blood Purge Remove Mutagens",
-    "description": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
+    "name": { "str": "[Ψ]Blood Purge Remove Mutagens", "//~": "NO_I18N" },
+    "description": {
+      "str": "Blood purge's additional ability to remove other substances contaminating your bloodstream.  It's a bug if you have it.",
+      "//~": "NO_I18N"
+    },
     "valid_targets": [ "self" ],
     "flags": [ "PSIONIC", "SILENT", "NO_HANDS", "NO_LEGS" ],
     "effect": "effect_on_condition",
@@ -619,8 +640,8 @@
   {
     "id": "vita_super_heal_healing",
     "type": "SPELL",
-    "name": "Anabolic Rejuvenation Heal",
-    "description": "The healing part of Anabolic Rejuvenation.",
+    "name": { "str": "Anabolic Rejuvenation Heal", "//~": "NO_I18N" },
+    "description": { "str": "The healing part of Anabolic Rejuvenation.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "teachable": false,
     "min_damage": { "math": [ "min((-1 * u_nether_attunement_power_scaling), -1)" ] },
@@ -632,8 +653,8 @@
   {
     "id": "vita_super_heal_drain",
     "type": "SPELL",
-    "name": "Anabolic Rejuvenation draining",
-    "description": "The draining part of Anabolic Rejuvenation.",
+    "name": { "str": "Anabolic Rejuvenation draining", "//~": "NO_I18N" },
+    "description": { "str": "The draining part of Anabolic Rejuvenation.", "//~": "NO_I18N" },
     "valid_targets": [ "self" ],
     "teachable": false,
     "effect": "effect_on_condition",
