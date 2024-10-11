@@ -1758,12 +1758,15 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "FINALIZE" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 1;
+            ui_manager::redraw();
         } else if( action == "RESET" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 2;
+            ui_manager::redraw();
         } else if( action == "RANDOMIZE" ) {
             action = "CONFIRM";
             sel_opt = wg_sliders.size() + 3;
+            // no confirmation prompt, no need to redraw the ui
         }
 
         // Handle other inputs
