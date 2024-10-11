@@ -260,13 +260,14 @@ struct item_search_data {
         held_only = jo.get_bool( "held_only", false );
     }
 
-    bool check( const Character *guy, const item_location &loc, dialogue d ) {
+    bool check( const Character *guy, const item_location &loc, const dialogue d ) {
 
         bool match;
 
         if( !id.empty() ) {
             std::vector<itype_id> id_evaluated;
-            for( str_or_var id_eval : id ) {
+            id_evaluated.reserve( id.size() );
+            for( const str_or_var id_eval : id ) {
                 id_evaluated.emplace_back( id_eval.evaluate( d ) );
             }
             match = false;
@@ -282,7 +283,8 @@ struct item_search_data {
 
         if( !id_blacklist.empty() ) {
             std::vector<itype_id> id_blacklist_evaluated;
-            for( str_or_var id_blacklist_eval : id_blacklist ) {
+            id_blacklist_evaluated.reserve( id_blacklist.size() );
+            for( const str_or_var id_blacklist_eval : id_blacklist ) {
                 id_blacklist_evaluated.emplace_back( id_blacklist_eval.evaluate( d ) );
             }
             match = false;
@@ -298,7 +300,8 @@ struct item_search_data {
 
         if( !category.empty() ) {
             std::vector<item_category_id> category_evaluated;
-            for( str_or_var category_eval : category ) {
+            category_evaluated.reserve( category.size() );
+            for( const str_or_var category_eval : category ) {
                 category_evaluated.emplace_back( category_eval.evaluate( d ) );
             }
             match = false;
@@ -314,7 +317,8 @@ struct item_search_data {
 
         if( !material.empty() ) {
             std::vector<material_id> material_evaluated;
-            for( str_or_var material_eval : material ) {
+            material_evaluated.reserve( material.size() );
+            for( const str_or_var material_eval : material ) {
                 material_evaluated.emplace_back( material_eval.evaluate( d ) );
             }
             match = false;
@@ -330,7 +334,8 @@ struct item_search_data {
 
         if( !flags.empty() ) {
             std::vector<flag_id> flags_evaluated;
-            for( str_or_var flags_eval : flags ) {
+            flags_evaluated.reserve( flags.size() );
+            for( const str_or_var flags_eval : flags ) {
                 flags_evaluated.emplace_back( flags_eval.evaluate( d ) );
             }
             match = false;
@@ -346,7 +351,8 @@ struct item_search_data {
 
         if( !excluded_flags.empty() ) {
             std::vector<flag_id> excluded_flags_evaluated;
-            for( str_or_var excluded_flags_eval : excluded_flags ) {
+            excluded_flags_evaluated.reserve( excluded_flags.size() );
+            for( const str_or_var excluded_flags_eval : excluded_flags ) {
                 excluded_flags_evaluated.emplace_back( excluded_flags_eval.evaluate( d ) );
             }
             match = false;
