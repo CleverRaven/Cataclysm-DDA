@@ -96,7 +96,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_1",
     "dynamic_line": {
-      "gendered_line": "*turns to look at you, lifting an enormous cowboy hat off his eyes.  He appears to be in the process of growing out a set of bushy muttonchops and a handlebar moustache.  Bright blue eyes peer out from his wrinkled face.  \"Howdy, pardner.  They call me Clemens.  John Clemens.  I'm an ol' cowhand.\"",
+      "gendered_line": "*turns to look at you, lifting an enormous cowboy hat off his eyes.  He appears to be in the process of growing out a set of bushy muttonchops and a handlebar mustache.  Bright blue eyes peer out from his wrinkled face.  \"Howdy, pardner.  They call me Clemens.  John Clemens.  I'm an ol' cowhand.\"",
       "relevant_genders": [ "u" ]
     },
     "speaker_effect": {
