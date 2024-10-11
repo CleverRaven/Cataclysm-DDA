@@ -28,7 +28,14 @@ template<>
 const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
 {
     const auto &map = world_generator->get_mod_manager().mod_map;
-    const auto iter = map.find( *this );
+    mod_id base_mod_id;
+    size_t split_loc = this->str().find('#');
+    if (split_loc == std::string::npos) {
+        base_mod_id = *this;
+    } else {
+        base_mod_id = mod_id(this->str().substr(0, split_loc) );
+    }
+    const auto iter = map.find( base_mod_id );
     if( iter == map.end() ) {
         debugmsg( "Invalid mod %s requested", str() );
         static const MOD_INFORMATION dummy{};
