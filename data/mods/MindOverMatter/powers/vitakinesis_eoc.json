@@ -235,7 +235,7 @@
     "id": "EOC_VITAKIN_SLEEP_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_wakeful_resting" },
     "effect": [
-      { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] },
+      { "if": { "math": [ "u_val('focus')", ">=", "25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
       { "math": [ "u_spell_exp('vita_sleeping_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
         "queue_eocs": "EOC_VITAKIN_SLEEP_EXPERIENCE",
@@ -358,7 +358,7 @@
     "id": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
     "condition": { "u_has_effect": "effect_vitakin_healing_trance" },
     "effect": [
-      { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] },
+      { "if": { "math": [ "u_val('focus')", ">=", "25" ] }, "then": { "math": [ "u_val('focus')", "-=", "rand(10) + 5" ] } },
       { "math": [ "u_spell_exp('vita_healing_trance')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       {
         "queue_eocs": "EOC_VITAKIN_HEALING_TRANCE_EXPERIENCE",
