@@ -140,6 +140,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```PHOTOGRAPH``` Photographs the player.  Causes a robot attack?
 - ```PLANT``` Fungal spores take seed and grow into a fungaloid.
 - ```PULL_METAL_WEAPON``` Pulls any weapon that's made of iron or steel from the player's hand.
+- ```PULL_WEAPON``` Pulls any object from the player's hand.
 - ```RATKING``` Inflicts disease `rat`.
 - ```RATTLE``` "a sibilant rattling sound!".
 - ```RESURRECT``` Revives the dead (again).

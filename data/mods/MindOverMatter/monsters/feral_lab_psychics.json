@@ -108,7 +108,7 @@
         },
         "monster_message": "The air around %1$s distorts."
       },
-      [ "PULL_METAL_WEAPON", 8 ]
+      [ "PULL_WEAPON", 8 ]
     ],
     "flags": [
       "SEES",

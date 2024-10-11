@@ -977,6 +977,75 @@ bool mattack::pull_metal_weapon( monster *z )
     return true;
 }
 
+bool mattack::pull_weapon( monster *z )
+{
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Constants and Configuration
+
+    // max distance that "pull_weapon" can be applied to the target.
+    constexpr int max_distance = 12;
+
+    // attack movement costs
+    constexpr int att_cost_pull = 150;
+
+    // minimum str to resist "pull_weapon"
+    constexpr int min_str = 4;
+
+    Creature *target = z->attack_target();
+    if( target == nullptr ) {
+        return false;
+    }
+
+    // Can't see/reach target, no attack
+    if( !z->sees( *target ) || !get_map().clear_path( z->pos_bub(), target->pos_bub(),
+            max_distance, 1, 100 ) ) {
+        return false;
+    }
+    Character *foe = dynamic_cast< Character * >( target );
+    if( foe != nullptr ) {
+        const item_location weapon = foe->get_wielded_item();
+        if( weapon && !weapon->has_flag( flag_NO_UNWIELD ) ) {
+            const float wp_skill = foe->get_skill_level( skill_melee );
+            // It takes a while
+            z->mod_moves( -att_cost_pull );
+            int success = 100;
+            ///\Grip strength increases resistance to pull_weapon special attack
+            if( foe->str_cur > min_str ) {
+                ///\EFFECT_MELEE increases resistance to pull_weapon special attack
+                success = std::max( 100 - ( 6 * ( foe->str_cur - 6 ) * foe->get_limb_score(
+                                                limb_score_grip ) ) - ( 6 * wp_skill ),
+                                    0.0f );
+            }
+            game_message_type m_type = foe->is_avatar() ? m_bad : m_neutral;
+            if( rng( 1, 100 ) <= success ) {
+                item pulled_weapon = foe->remove_weapon();
+                projectile proj;
+                proj.speed = 50;
+                proj.impact = damage_instance( damage_bash, pulled_weapon.weight() / 250_gram );
+                // make the projectile stop one tile short to prevent hitting the monster
+                proj.range = rl_dist( foe->pos(), z->pos() ) - 1;
+                proj.proj_effects = { { ammo_effect_NO_ITEM_DAMAGE, ammo_effect_DRAW_AS_LINE, ammo_effect_NO_DAMAGE_SCALING, ammo_effect_JET } };
+
+                dealt_projectile_attack dealt = projectile_attack( proj, foe->pos_bub(), z->pos_bub(),
+                                                dispersion_sources{ 0 }, z );
+                get_map().add_item( dealt.end_point, pulled_weapon );
+                target->add_msg_player_or_npc( m_type, _( "The %s is pulled away from your hands!" ),
+                                               _( "The %s is pulled away from <npcname>'s hands!" ), pulled_weapon.tname() );
+                if( foe->has_activity( ACT_RELOAD ) ) {
+                    foe->cancel_activity();
+                }
+                foe->recoil = MAX_RECOIL;
+            } else {
+                target->add_msg_player_or_npc( m_type,
+                                               _( "The %s unsuccessfully attempts to pull your weapon away." ),
+                                               _( "The %s unsuccessfully attempts to pull <npcname>'s weapon away." ), z->name() );
+            }
+        }
+    }
+
+    return true;
+}
+
 bool mattack::boomer( monster *z )
 {
     if( !z->can_act() ) {
