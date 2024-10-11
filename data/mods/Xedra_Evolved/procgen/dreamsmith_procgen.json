@@ -684,7 +684,7 @@
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
-    "items": [ { "weight": 100, "item": "dreamforged_plate_armor" }, { "weight": 100, "item": "dreamforged_armguard_plate" } ]
+    "items": [ { "weight": 100, "item": "dreamforged_plate_armor" } ]
   },
   {
     "type": "relic_procgen_data",
@@ -865,7 +865,7 @@
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
-    "items": [ { "weight": 100, "item": "dreamforged_plate_armor" }, { "weight": 100, "item": "dreamforged_armguard_plate" } ]
+    "items": [ { "weight": 100, "item": "dreamforged_armguard_plate" } ]
   },
   {
     "type": "relic_procgen_data",
