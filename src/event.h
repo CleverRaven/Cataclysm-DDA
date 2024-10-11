@@ -475,7 +475,7 @@ struct event_spec<event_type::character_takes_damage> {
 
 template<>
 struct event_spec<event_type::monster_takes_damage> {
-    static constexpr std::array<std::pair<const char*, cata_variant_type>, 2> fields = { {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
             { "damage", cata_variant_type::int_ },
             { "dies", cata_variant_type::bool_ },
         }
