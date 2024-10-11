@@ -1313,9 +1313,9 @@ void map::apply_light_arc( const tripoint_bub_ms &p, const units::angle &angle, 
     cata::mdarray<float, point_bub_ms> &transparency_cache =
         cache.transparency_cache;
 
-    // Normalize
     const units::angle wangle = wideangle / 2.0;
-    const units::angle oangle = fmod( angle - wangle, 360_degrees );
+    // Normalize so oangle is between 0 and 360 degrees
+    const units::angle oangle = fmod( fmod( angle - wangle, 360_degrees ) + 360_degrees, 360_degrees );
     const units::angle cangle = oangle + wideangle;
 
     // Sweep over every octant
