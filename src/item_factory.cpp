@@ -2588,7 +2588,7 @@ void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObje
     if( !slotptr ) {
         slotptr = cata::make_value<SlotType>();
     }
-    load( *slotptr, jo, src );
+    load( *slotptr, jo, src, second_src );
 }
 
 template<typename SlotType>
@@ -2809,7 +2809,7 @@ void itype_variant_data::load( const JsonObject &jo )
     optional( jo, false, "expand_snippets", expand_snippets );
 }
 
-void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::string &src, const std::string & )
 {
     bool strict = src == "dda";
     assign( jo, "skill", slot.skill_used, strict );
@@ -3120,7 +3120,7 @@ void islot_pet_armor::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src, const std::string & )
 {
     bool strict = src == "dda";
 
@@ -3167,12 +3167,12 @@ void Item_factory::load_tool( const JsonObject &jo, const std::string &src, cons
     }
 }
 
-void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_view )
+void Item_factory::load( relic &slot, const JsonObject &jo, const std::string_view, const std::string & )
 {
     slot.load( jo );
 }
 
-void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::string &src, const std::string & )
 {
     bool strict = src == "dda";
 
@@ -3281,7 +3281,7 @@ void Item_factory::load_book( const JsonObject &jo, const std::string &src, cons
     }
 }
 
-void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
     bool strict = src == "dda";
 
@@ -3383,7 +3383,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, "replaceThis" ) );
+        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -3484,7 +3484,7 @@ void islot_seed::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src, const std::string & )
 {
     bool strict = src == "dda";
 
@@ -3567,7 +3567,7 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src, co
     }
 }
 
-void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_magazine &slot, const JsonObject &jo, const std::string &src, const std::string & )
 {
     bool strict = src == "dda";
     assign( jo, "ammo_type", slot.type, strict );
@@ -3617,7 +3617,7 @@ void Item_factory::load_battery( const JsonObject &jo, const std::string &src, c
     }
 }
 
-void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src )
+void Item_factory::load( islot_bionic &slot, const JsonObject &jo, const std::string &src, const std::string & )
 {
     bool strict = src == "dda";
 
