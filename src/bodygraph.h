@@ -60,12 +60,12 @@ struct bodygraph {
     nc_color fill_color = c_white;
     bool was_loaded = false;
 
-    static void load_bodygraphs( const JsonObject &jo, const std::string &src );
+    static void load_bodygraphs( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void finalize_all();
     static void check_all();
     static void reset();
     static const std::vector<bodygraph> &get_all();
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
     void finalize();
     void check() const;
 };

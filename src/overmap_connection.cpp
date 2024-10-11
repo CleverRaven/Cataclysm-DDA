@@ -98,7 +98,7 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
     } ) != subtypes.cend();
 }
 
-void overmap_connection::load( const JsonObject &jo, const std::string_view )
+void overmap_connection::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, false, "subtypes", subtypes );
 }
@@ -127,9 +127,9 @@ void overmap_connection::finalize()
     cached_subtypes.resize( overmap_terrains::get_all().size() );
 }
 
-void overmap_connections::load( const JsonObject &jo, const std::string &src )
+void overmap_connections::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    connections.load( jo, src );
+    connections.load( jo, src, second_src );
 }
 
 void overmap_connections::finalize()

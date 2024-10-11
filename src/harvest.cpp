@@ -98,9 +98,9 @@ bool harvest_list::has_entry_type( const harvest_drop_type_id &type ) const
     return false;
 }
 
-void harvest_drop_type::load_harvest_drop_types( const JsonObject &jo, const std::string &src )
+void harvest_drop_type::load_harvest_drop_types( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    harvest_drop_type_factory.load( jo, src );
+    harvest_drop_type_factory.load( jo, src, second_src );
 }
 
 void harvest_drop_type::reset()
@@ -108,7 +108,7 @@ void harvest_drop_type::reset()
     harvest_drop_type_factory.reset();
 }
 
-void harvest_drop_type::load( const JsonObject &jo, const std::string_view )
+void harvest_drop_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     harvest_skills.clear();
     optional( jo, was_loaded, "group", is_group_, false );
@@ -193,7 +193,7 @@ void harvest_list::finalize_all()
     }
 }
 
-void harvest_list::load( const JsonObject &obj, const std::string_view )
+void harvest_list::load( const JsonObject &obj, const std::string_view, const std::string_view )
 {
     mandatory( obj, was_loaded, "id", id );
     mandatory( obj, was_loaded, "entries", entries_, harvest_entry_reader{} );
@@ -204,9 +204,9 @@ void harvest_list::load( const JsonObject &obj, const std::string_view )
     optional( obj, was_loaded, "leftovers", leftovers, itype_ruined_chunks );
 }
 
-void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src )
+void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    harvest_list_factory.load( jo, src );
+    harvest_list_factory.load( jo, src, second_src );
 }
 
 const std::vector<harvest_list> &harvest_list::get_all()

@@ -148,9 +148,9 @@ const std::vector<zone_type> &zone_type::get_all()
     return zone_type_factory.get_all();
 }
 
-void zone_type::load_zones( const JsonObject &jo, const std::string &src )
+void zone_type::load_zones( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    zone_type_factory.load( jo, src );
+    zone_type_factory.load( jo, src, second_src );
 }
 
 void zone_type::reset()
@@ -158,7 +158,7 @@ void zone_type::reset()
     zone_type_factory.reset();
 }
 
-void zone_type::load( const JsonObject &jo, const std::string_view )
+void zone_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "id", id );

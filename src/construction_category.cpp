@@ -53,7 +53,7 @@ const string_id<construction_category> &int_id<construction_category>::id() cons
     return all_construction_categories.convert( *this );
 }
 
-void construction_category::load( const JsonObject &jo, const std::string_view )
+void construction_category::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
 }
@@ -63,9 +63,9 @@ size_t construction_category::count()
     return all_construction_categories.size();
 }
 
-void construction_categories::load( const JsonObject &jo, const std::string &src )
+void construction_categories::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    all_construction_categories.load( jo, src );
+    all_construction_categories.load( jo, src, second_src );
 }
 
 void construction_categories::reset()

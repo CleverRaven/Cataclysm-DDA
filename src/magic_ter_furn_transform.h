@@ -81,8 +81,8 @@ class ter_furn_transform
         void transform( map &m, const tripoint_bub_ms &location ) const;
 
         static void reset();
-        static void load_transform( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, std::string_view );
+        static void load_transform( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load( const JsonObject &jo, std::string_view, const std::string_view );
 
         static const std::vector<ter_furn_transform> &get_all();
         static void reset_all();

@@ -37,14 +37,14 @@ namespace vehicles
 // if part 'id' or 'abstract' fields contain it an error is raised
 constexpr char variant_separator = '#';
 
-void load_prototype( const JsonObject &jo, const std::string &src );
+void load_prototype( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void reset_prototypes();
 void finalize_prototypes();
 const std::vector<vehicle_prototype> &get_all_prototypes();
 
 namespace parts
 {
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void check();
 void reset();
 void finalize();
@@ -241,7 +241,7 @@ class vpart_info
     public:
         vpart_id id;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view );
         void check() const;
         void finalize();
         void handle_inheritance( const vpart_info &copy_from,
@@ -509,7 +509,7 @@ struct vehicle_prototype {
 
         shared_ptr_fast<vehicle> blueprint;
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         static void save_vehicle_as_prototype( const vehicle &veh, JsonOut &json );
     private:
         bool was_loaded = false; // used by generic_factory

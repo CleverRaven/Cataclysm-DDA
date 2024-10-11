@@ -14,7 +14,7 @@
 class JsonObject;
 
 struct construction_group {
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         construction_group_str_id id;
         std::vector<std::pair<construction_group_str_id, mod_id>> src;
@@ -31,7 +31,7 @@ struct construction_group {
 namespace construction_groups
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void reset();
 
 const std::vector<construction_group> &get_all();

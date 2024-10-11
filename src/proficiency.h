@@ -54,9 +54,9 @@ struct proficiency_category {
     translation _description;
     bool was_loaded = false;
 
-    static void load_proficiency_categories( const JsonObject &jo, const std::string &src );
+    static void load_proficiency_categories( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void reset();
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
     static const std::vector<proficiency_category> &get_all();
 };
 
@@ -89,9 +89,9 @@ class proficiency
         std::map<std::string, std::vector<proficiency_bonus>> _bonuses;
 
     public:
-        static void load_proficiencies( const JsonObject &jo, const std::string &src );
+        static void load_proficiencies( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         static const std::vector<proficiency> &get_all();
 

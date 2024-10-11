@@ -23,7 +23,7 @@ class recipe;
 std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &batch_size_out,
         const recipe_id &goto_recipe, Character *crafter, std::string filterstring = "" );
 
-void load_recipe_category( const JsonObject &jsobj, const std::string &src );
+void load_recipe_category( const JsonObject &jsobj, const std::string &src, const std::string &second_src );
 void reset_recipe_categories();
 
 // Returns nullptr if the category does not exist, or a pointer to its vector
@@ -40,7 +40,7 @@ struct crafting_category {
     bool is_wildcard;
     std::vector<std::string> subcategories;
 
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
 };
 
 #endif // CATA_SRC_CRAFTING_GUI_H

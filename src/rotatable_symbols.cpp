@@ -35,7 +35,7 @@ std::vector<rotatable_symbol> symbols;
 namespace rotatable_symbols
 {
 
-void load( const JsonObject &jo, const std::string &src )
+void load( const JsonObject &jo, const std::string &src, const std::string & )
 {
     const std::string tuple_key = "tuple";
     const bool strict = src == "dda";

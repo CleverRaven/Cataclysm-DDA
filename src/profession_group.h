@@ -7,8 +7,8 @@
 
 struct profession_group {
 
-        static void load_profession_group( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string_view & );
+        static void load_profession_group( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load( const JsonObject &jo, const std::string_view &, const std::string_view );
         static const std::vector<profession_group> &get_all();
         static void check_profession_group_consistency();
         bool was_loaded = false;

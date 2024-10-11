@@ -110,7 +110,7 @@ const std::set<std::string> &start_location::flags() const
     return _flags;
 }
 
-void start_location::load( const JsonObject &jo, const std::string &src )
+void start_location::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     const bool strict = src == "dda";
 
@@ -611,9 +611,9 @@ void start_location::surround_with_monsters(
     }
 }
 
-void start_locations::load( const JsonObject &jo, const std::string &src )
+void start_locations::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    all_start_locations.load( jo, src );
+    all_start_locations.load( jo, src, second_src );
 }
 
 void start_locations::finalize_all()

@@ -283,9 +283,9 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( const JsonObject &jo, const std::string &src )
+void mission_type::load_mission_type( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    mission_type_factory.load( jo, src );
+    mission_type_factory.load( jo, src, second_src );
 }
 
 static DynamicDataLoader::deferred_json deferred;
@@ -293,8 +293,9 @@ static DynamicDataLoader::deferred_json deferred;
 void mission_type::reset()
 {
     mission_type_factory.reset();
-    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
-        deferred_json.first.allow_omitted_members();
+    for( std::tuple<JsonObject, std::string, std::string> &deferred_json : deferred ) {
+        std::get<0>(deferred_json).allow_omitted_members();
+        // deferred_json.first.allow_omitted_members();
     }
     deferred.clear();
 }
@@ -313,7 +314,7 @@ void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
-void mission_type::load( const JsonObject &jo, const std::string &src )
+void mission_type::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
     const bool strict = src == "dda";
 
@@ -366,7 +367,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         } else if( jo.has_member( phase ) ) {
             JsonObject j_start = jo.get_object( phase );
             if( !parse_funcs( j_start, src, phase_func ) ) {
-                deferred.emplace_back( jo, src );
+                deferred.emplace_back( jo, src, second_src );
                 jo.allow_omitted_members();
                 j_start.allow_omitted_members();
                 return false;

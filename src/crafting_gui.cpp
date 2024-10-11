@@ -143,12 +143,12 @@ static std::string get_cat_unprefixed( const std::string_view prefixed_name )
     return std::string( prefixed_name.substr( 3, prefixed_name.size() - 3 ) );
 }
 
-void load_recipe_category( const JsonObject &jsobj, const std::string &src )
+void load_recipe_category( const JsonObject &jsobj, const std::string &src, const std::string &second_src )
 {
-    craft_cat_list.load( jsobj, src );
+    craft_cat_list.load( jsobj, src, second_src );
 }
 
-void crafting_category::load( const JsonObject &jo, const std::string_view )
+void crafting_category::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     // Ensure id is correct
     if( id.str().find( "CC_" ) != 0 ) {

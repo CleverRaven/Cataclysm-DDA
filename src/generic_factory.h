@@ -237,7 +237,7 @@ class generic_factory
         * @return true if `jo` is loaded and false if loading is deferred.
         * @throws JsonError If `jo` is both abstract and real. (contains "abstract" and "id" members)
         */
-        bool handle_inheritance( T &def, const JsonObject &jo, const std::string &src ) {
+        bool handle_inheritance( T &def, const JsonObject &jo, const std::string &src, const std::string &second_src ) {
             static const std::string copy_from_member_name( "copy-from" );
             static const std::string abstract_member_name( "abstract" );
             if( jo.has_string( copy_from_member_name ) ) {
@@ -255,7 +255,7 @@ class generic_factory
                         handle_inheritance_on_T( def, base_obj );
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo, src );
+                        deferred.emplace_back( jo, src, second_src );
                         jo.allow_omitted_members();
                         return false;
                     }
@@ -272,7 +272,7 @@ class generic_factory
                 check_plural = check_plural_t::none;
                 const std::string abstract_id =  jo.get_string( abstract_member_name );
                 def.id = string_id<T>( abstract_id );
-                def.load( jo, src );
+                def.load( jo, src, second_src );
                 abstracts[abstract_id] = def;
             }
             return true;
@@ -287,20 +287,20 @@ class generic_factory
          *
          * @throws JsonError If loading fails for any reason (thrown by `T::load`).
          */
-        void load( const JsonObject &jo, const std::string &src ) {
+        void load( const JsonObject &jo, const std::string &src, const std::string &second_src ) {
             bool strict = src == "dda";
 
             static const std::string abstract_member_name( "abstract" );
 
             T def;
 
-            if( !handle_inheritance( def, jo, src ) ) {
+            if( !handle_inheritance( def, jo, src, second_src ) ) {
                 return;
             }
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
                 mod_tracker::assign_src( def, src );
-                def.load( jo, src );
+                def.load( jo, src, second_src );
                 insert( def );
 
                 if( jo.has_member( alias_member_name ) ) {
@@ -316,12 +316,12 @@ class generic_factory
             } else if( jo.has_array( id_member_name ) ) {
                 for( JsonValue e : jo.get_array( id_member_name ) ) {
                     T def;
-                    if( !handle_inheritance( def, jo, src ) ) {
+                    if( !handle_inheritance( def, jo, src, second_src ) ) {
                         break;
                     }
                     def.id = string_id<T>( e );
                     mod_tracker::assign_src( def, src );
-                    def.load( jo, src );
+                    def.load( jo, src, second_src );
                     insert( def );
                 }
                 if( jo.has_member( alias_member_name ) ) {
@@ -332,7 +332,7 @@ class generic_factory
             } else if( jo.has_string( legacy_id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
                 mod_tracker::assign_src( def, src );
-                def.load( jo, src );
+                def.load( jo, src, second_src );
                 insert( def );
 
                 if( jo.has_member( alias_member_name ) ) {
@@ -348,12 +348,12 @@ class generic_factory
             } else if( jo.has_array( legacy_id_member_name ) ) {
                 for( const JsonValue e : jo.get_array( legacy_id_member_name ) ) {
                     T def;
-                    if( !handle_inheritance( def, jo, src ) ) {
+                    if( !handle_inheritance( def, jo, src, second_src ) ) {
                         break;
                     }
                     def.id = string_id<T>( e );
                     mod_tracker::assign_src( def, src );
-                    def.load( jo, src );
+                    def.load( jo, src, second_src );
                     insert( def );
                 }
                 if( jo.has_member( alias_member_name ) ) {
@@ -433,8 +433,9 @@ class generic_factory
          */
         void reset() {
             /* Avoid unvisited member errors when iterating on json */
-            for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
-                deferred_json.first.allow_omitted_members();
+            for( std::tuple<JsonObject, std::string, std::string> &deferred_json : deferred ) {
+                std::get<0>(deferred_json).allow_omitted_members();
+                // deferred_json.first.allow_omitted_members();
             }
             deferred.clear();
             list.clear();

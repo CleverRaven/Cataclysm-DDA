@@ -67,8 +67,8 @@ class move_mode
         translation _name;
 
     public:
-        static void load_move_mode( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, std::string_view src );
+        static void load_move_mode( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         static void finalize();
         static void reset();
 

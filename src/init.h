@@ -61,7 +61,7 @@ class DynamicDataLoader
          * JSON data dependent upon as-yet unparsed definitions
          * first: JSON source location, second: source identifier
          */
-        using deferred_json = std::list<std::pair<JsonObject, std::string>>;
+        using deferred_json = std::list<std::tuple<JsonObject, std::string, std::string>>;
 
     private:
         bool finalized = false;
@@ -77,17 +77,17 @@ class DynamicDataLoader
          */
         using type_string = std::string;
         using t_type_function_map =
-            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>>;
+            std::map<type_string, std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path &, const std::string & )>>;
         using str_vec = std::vector<std::string>;
         t_type_function_map type_function_map;
         void add( const std::string &type, const std::function<void( const JsonObject & )> &f );
         void add( const std::string &type,
-                  const std::function<void( const JsonObject &, const std::string & )> &f );
+                  const std::function<void( const JsonObject &, const std::string &, const std::string & )> &f );
         void add( const std::string &type,
-                  const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                  const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string &, const std::string & )>
                   &f );
         void add( const std::string &type,
-                  const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
+                  const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path &, const std::string & )>
                   &f );
         /**
          * Load all the types from that json data.
@@ -99,7 +99,7 @@ class DynamicDataLoader
          * @throws std::exception on all kind of errors.
          */
         void load_all_from_json( const JsonValue &jsin, const std::string &src,
-                                 const cata_path &base_path, const cata_path &full_path );
+                                 const cata_path &base_path, const cata_path &full_path, const std::string &second_src = "" );
         /**
          * Load a single object from a json object.
          * @param jo The json object to load the C++-object from.
@@ -108,7 +108,7 @@ class DynamicDataLoader
          */
         void load_object( const JsonObject &jo, const std::string &src,
                           const cata_path &base_path = cata_path{},
-                          const cata_path &full_path = cata_path{} );
+                          const cata_path &full_path = cata_path{}, const std::string &second_src = "" );
 
         DynamicDataLoader();
         ~DynamicDataLoader();

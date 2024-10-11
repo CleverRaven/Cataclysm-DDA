@@ -37,9 +37,9 @@ bool string_id<widget>::is_valid() const
     return widget_factory.is_valid( *this );
 }
 
-void widget::load_widget( const JsonObject &jo, const std::string &src )
+void widget::load_widget( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    widget_factory.load( jo, src );
+    widget_factory.load( jo, src, second_src );
 }
 
 void widget::reset()
@@ -385,7 +385,7 @@ nc_color widget_clause::get_color_for_id( const std::string &clause_id, const wi
     return wp == nullptr ? c_white : wp->color;
 }
 
-void widget::load( const JsonObject &jo, const std::string_view )
+void widget::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "width", _width, 0 );
     optional( jo, was_loaded, "height", _height_max, 1 );

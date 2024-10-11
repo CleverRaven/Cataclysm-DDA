@@ -88,9 +88,9 @@ void monfactions::reset()
     faction_factory.reset();
 }
 
-void monfactions::load_monster_faction( const JsonObject &jo, const std::string &src )
+void monfactions::load_monster_faction( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    faction_factory.load( jo, src );
+    faction_factory.load( jo, src, second_src );
 }
 
 bool monfaction::detect_base_faction_cycle() const
@@ -182,7 +182,7 @@ void monfactions::finalize()
     }
 }
 
-void monfaction::load( const JsonObject &jo, const std::string_view )
+void monfaction::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "base_faction", base_faction, mfaction_str_id() );
     optional( jo, was_loaded, "by_mood", _att_by_mood, string_id_reader<monfaction>() );

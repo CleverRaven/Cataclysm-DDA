@@ -54,9 +54,9 @@ bool string_id<character_modifier>::is_valid() const
     return character_modifier_factory.is_valid( *this );
 }
 
-void character_modifier::load_character_modifiers( const JsonObject &jo, const std::string &src )
+void character_modifier::load_character_modifiers( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    character_modifier_factory.load( jo, src );
+    character_modifier_factory.load( jo, src, second_src );
 }
 
 void character_modifier::reset()
@@ -104,7 +104,7 @@ static float load_float_or_maxmovecost( const JsonObject &jo, const std::string 
     return val;
 }
 
-void character_modifier::load( const JsonObject &jo, const std::string_view )
+void character_modifier::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "description", desc );

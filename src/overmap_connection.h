@@ -48,7 +48,7 @@ class overmap_connection
         const subtype *pick_subtype_for( const int_id<oter_t> &ground ) const;
         bool has( const int_id<oter_t> &oter ) const;
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
         void finalize();
 
@@ -72,7 +72,7 @@ class overmap_connection
 namespace overmap_connections
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void finalize();
 void check_consistency();
 void reset();

@@ -10,7 +10,7 @@ class JsonObject;
 namespace rotatable_symbols
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string & );
 void reset();
 
 // Rotate a symbol n times (clockwise).

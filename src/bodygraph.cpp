@@ -62,9 +62,9 @@ bool string_id<bodygraph>::is_valid() const
     return bodygraph_factory.is_valid( *this );
 }
 
-void bodygraph::load_bodygraphs( const JsonObject &jo, const std::string &src )
+void bodygraph::load_bodygraphs( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    bodygraph_factory.load( jo, src );
+    bodygraph_factory.load( jo, src, second_src );
 }
 
 void bodygraph::reset()
@@ -87,7 +87,7 @@ void bodygraph::check_all()
     bodygraph_factory.check();
 }
 
-void bodygraph::load( const JsonObject &jo, const std::string_view )
+void bodygraph::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "parent_bodypart", parent_bp );
     optional( jo, was_loaded, "fill_sym", fill_sym );

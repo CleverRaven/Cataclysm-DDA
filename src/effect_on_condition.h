@@ -74,7 +74,7 @@ struct effect_on_condition {
         bool check_deactivate( dialogue &d ) const;
         bool test_condition( dialogue &d ) const;
         void apply_true_effects( dialogue &d ) const;
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void finalize();
         void check() const;
         effect_on_condition() = default;
@@ -88,7 +88,7 @@ void finalize_all();
 /** Clear all loaded effects on condition (invalidating any pointers) */
 void reset();
 /** Load effect on condition from JSON definition */
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 /** Checks all loaded from JSON are valid */
 void check_consistency();
 /** Sets up the initial queue for a new character */

@@ -21,9 +21,9 @@ using butchery_requirements_id = string_id<butchery_requirements>;
 class harvest_drop_type
 {
     public:
-        static void load_harvest_drop_types( const JsonObject &jo, const std::string &src );
+        static void load_harvest_drop_types( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         static const std::vector<harvest_drop_type> &get_all();
 
         const harvest_drop_type_id &getId() {
@@ -147,8 +147,8 @@ class harvest_list
         static void reset();
 
         bool was_loaded = false;
-        void load( const JsonObject &obj, std::string_view );
-        static void load_harvest_list( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &obj, std::string_view, const std::string_view );
+        static void load_harvest_list( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static const std::vector<harvest_list> &get_all();
 
     private:

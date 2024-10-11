@@ -53,7 +53,7 @@ TEST_CASE( "line_attack", "[magic]" )
                          "    \"flags\": [ \"VERBAL\", \"NO_HANDS\", \"NO_LEGS\" ]\n"
                          "  }\n" );
 
-    spell_type::load_spell( obj, "" );
+    spell_type::load_spell( obj, "", "" );
 
     spell sp( spell_test_line_spell );
 

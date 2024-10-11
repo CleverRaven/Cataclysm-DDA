@@ -31,12 +31,12 @@ bool string_id<ascii_art>::is_valid() const
     return ascii_art_factory.is_valid( *this );
 }
 
-void ascii_art::load_ascii_art( const JsonObject &jo, const std::string &src )
+void ascii_art::load_ascii_art( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    ascii_art_factory.load( jo, src );
+    ascii_art_factory.load( jo, src, second_src );
 }
 
-void ascii_art::load( const JsonObject &jo, const std::string_view )
+void ascii_art::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     assign( jo, "id", id );
 

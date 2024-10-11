@@ -50,14 +50,14 @@ const fault_id &faults::random_of_type_item_has( const item &it, const std::stri
     return fault_id::NULL_ID();
 }
 
-void faults::load_fault( const JsonObject &jo, const std::string &src )
+void faults::load_fault( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    fault_factory.load( jo, src );
+    fault_factory.load( jo, src, second_src );
 }
 
-void faults::load_fix( const JsonObject &jo, const std::string &src )
+void faults::load_fix( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    fault_fixes_factory.load( jo, src );
+    fault_fixes_factory.load( jo, src, second_src );
 }
 
 void faults::reset()
@@ -155,7 +155,7 @@ const std::set<fault_fix_id> &fault::get_fixes() const
     return fixes;
 }
 
-void fault::load( const JsonObject &jo, std::string_view )
+void fault::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "description", description_ );
@@ -180,7 +180,7 @@ const requirement_data &fault_fix::get_requirements() const
     return *requirements;
 }
 
-void fault_fix::load( const JsonObject &jo, std::string_view )
+void fault_fix::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     fault_fix f;
     mandatory( jo, was_loaded, "name", name );

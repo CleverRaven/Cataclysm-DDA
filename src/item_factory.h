@@ -176,22 +176,22 @@ class Item_factory
          * @throw JsonError if the json object contains invalid data.
          */
         /*@{*/
-        void load_ammo( const JsonObject &jo, const std::string &src );
-        void load_gun( const JsonObject &jo, const std::string &src );
-        void load_armor( const JsonObject &jo, const std::string &src );
-        void load_pet_armor( const JsonObject &jo, const std::string &src );
-        void load_tool( const JsonObject &jo, const std::string &src );
-        void load_toolmod( const JsonObject &jo, const std::string &src );
-        void load_tool_armor( const JsonObject &jo, const std::string &src );
-        void load_book( const JsonObject &jo, const std::string &src );
-        void load_comestible( const JsonObject &jo, const std::string &src );
-        void load_engine( const JsonObject &jo, const std::string &src );
-        void load_wheel( const JsonObject &jo, const std::string &src );
-        void load_gunmod( const JsonObject &jo, const std::string &src );
-        void load_magazine( const JsonObject &jo, const std::string &src );
-        void load_battery( const JsonObject &jo, const std::string &src );
-        void load_generic( const JsonObject &jo, const std::string &src );
-        void load_bionic( const JsonObject &jo, const std::string &src );
+        void load_ammo( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_gun( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_armor( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_pet_armor( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_tool( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_toolmod( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_tool_armor( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_book( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_comestible( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_engine( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_wheel( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_gunmod( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_magazine( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_battery( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_generic( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_bionic( const JsonObject &jo, const std::string &src, const std::string &second_src );
         /*@}*/
 
         /**
@@ -297,7 +297,7 @@ class Item_factory
          * Called before creating a new template and handles inheritance via copy-from
          * May defer instantiation of the template if depends on other objects not as-yet loaded
          */
-        bool load_definition( const JsonObject &jo, const std::string &src, itype &def );
+        bool load_definition( const JsonObject &jo, const std::string &src, itype &def, const std::string &second_src );
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
@@ -356,7 +356,7 @@ class Item_factory
         bool load_string( std::vector<std::string> &vec, const JsonObject &obj, std::string_view name );
         void add_entry( Item_group &ig, const JsonObject &obj, const std::string &context );
 
-        void load_basic_info( const JsonObject &jo, itype &def, const std::string &src );
+        void load_basic_info( const JsonObject &jo, itype &def, const std::string &src, const std::string &second_src );
         void set_qualities_from_json( const JsonObject &jo, const std::string &member, itype &def );
         void extend_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );
         void delete_qualities_from_json( const JsonObject &jo, std::string_view member, itype &def );

@@ -42,7 +42,7 @@ struct mod_value {
 };
 
 struct clothing_mod {
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
     float get_mod_val( const clothing_mod_type &type, const item &it ) const;
     bool has_mod_type( const clothing_mod_type &type ) const;
 
@@ -75,7 +75,7 @@ constexpr std::array<clothing_mod_type, 9> all_clothing_mod_types = {{
     }
 };
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void reset();
 
 const std::vector<clothing_mod> &get_all();

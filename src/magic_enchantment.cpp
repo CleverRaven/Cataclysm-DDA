@@ -228,9 +228,9 @@ bool string_id<enchantment>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void enchantment::load_enchantment( const JsonObject &jo, const std::string &src )
+void enchantment::load_enchantment( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    spell_factory.load( jo, src );
+    spell_factory.load( jo, src, second_src );
 }
 
 void enchantment::reset()
@@ -240,7 +240,7 @@ void enchantment::reset()
 
 enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv,
         const std::string_view src,
-        std::string &inline_id )
+        std::string &inline_id, const std::string_view second_src )
 {
     if( jv.test_string() ) {
         return enchantment_id( jv.get_string() );

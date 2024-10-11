@@ -118,7 +118,7 @@ class material_type
     public:
         material_type();
 
-        void load( const JsonObject &jsobj, std::string_view src );
+        void load( const JsonObject &jsobj, std::string_view src, const std::string_view );
         static void finalize_all();
         void check() const;
 
@@ -175,7 +175,7 @@ class material_type
 namespace materials
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void check();
 void reset();
 

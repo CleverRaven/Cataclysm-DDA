@@ -32,11 +32,11 @@ const matec_id tec_none( "tec_none" );
 class weapon_category
 {
     public:
-        static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void load_weapon_categories( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void verify_weapon_categories();
         static void reset();
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
 
         static const std::vector<weapon_category> &get_all();
@@ -94,9 +94,9 @@ struct attack_vector {
 
     bool was_loaded = false;
 
-    static void load_attack_vectors( const JsonObject &jo, const std::string &src );
+    static void load_attack_vectors( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void reset();
-    void load( const JsonObject &jo, std::string_view );
+    void load( const JsonObject &jo, std::string_view, const std::string_view );
 };
 
 struct ma_requirements {
@@ -164,7 +164,7 @@ class ma_technique
     public:
         ma_technique();
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         static void verify_ma_techniques();
         void check() const;
 
@@ -319,7 +319,7 @@ class ma_buff
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 };
 
 class martialart
@@ -327,7 +327,7 @@ class martialart
     public:
         martialart();
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         void remove_all_buffs( Character &u ) const;
 
@@ -455,8 +455,8 @@ class ma_style_callback : public uilist_callback
 };
 
 tech_effect_data load_tech_effect_data( const JsonObject &e );
-void load_technique( const JsonObject &jo, const std::string &src );
-void load_martial_art( const JsonObject &jo, const std::string &src );
+void load_technique( const JsonObject &jo, const std::string &src, const std::string &second_src );
+void load_martial_art( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finalize_martial_arts();

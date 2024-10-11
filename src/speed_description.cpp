@@ -22,9 +22,9 @@ bool speed_description_id::is_valid() const
     return speed_description_factory.is_valid( *this );
 }
 
-void speed_description::load_speed_descriptions( const JsonObject &jo, const std::string &src )
+void speed_description::load_speed_descriptions( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    speed_description_factory.load( jo, src );
+    speed_description_factory.load( jo, src, second_src );
 }
 
 void speed_description::reset()
@@ -32,7 +32,7 @@ void speed_description::reset()
     speed_description_factory.reset();
 }
 
-void speed_description::load( const JsonObject &jo, const std::string_view )
+void speed_description::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "values", values_ );
     std::sort( values_.begin(), values_.end(),

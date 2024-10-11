@@ -89,13 +89,13 @@ class profession
 
         void check_item_definitions( const itypedecvec &items ) const;
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
 
-        static void load_profession( const JsonObject &jo, const std::string &src );
+        static void load_profession( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void load_item_substitutions( const JsonObject &jo );
 
         // these should be the only ways used to get at professions
@@ -173,9 +173,9 @@ struct profession_blacklist {
     std::set<string_id<profession>> professions;
     bool whitelist = false;
 
-    static void load_profession_blacklist( const JsonObject &jo, std::string_view src );
+    static void load_profession_blacklist( const JsonObject &jo, std::string_view src, const std::string &second_src );
     static void reset();
-    void load( const JsonObject &jo, std::string_view );
+    void load( const JsonObject &jo, std::string_view, std::string_view );
     void check_consistency() const;
 };
 

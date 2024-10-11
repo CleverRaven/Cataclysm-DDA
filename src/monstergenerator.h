@@ -46,7 +46,7 @@ struct species_type {
 
     }
 
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
 };
 
 class MonsterGenerator
@@ -63,9 +63,9 @@ class MonsterGenerator
         void reset();
 
         // JSON loading functions
-        void load_monster( const JsonObject &jo, const std::string &src );
-        void load_species( const JsonObject &jo, const std::string &src );
-        void load_monster_attack( const JsonObject &jo, const std::string &src );
+        void load_monster( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_species( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load_monster_attack( const JsonObject &jo, const std::string &src, const std::string & );
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();

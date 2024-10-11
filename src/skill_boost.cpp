@@ -29,12 +29,12 @@ std::optional<skill_boost> skill_boost::get( const std::string &stat_str )
     return std::nullopt;
 }
 
-void skill_boost::load_boost( const JsonObject &jo, const std::string &src )
+void skill_boost::load_boost( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    all_skill_boosts.load( jo, src );
+    all_skill_boosts.load( jo, src, second_src );
 }
 
-void skill_boost::load( const JsonObject &jo, const std::string_view )
+void skill_boost::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "skills", _skills );
     mandatory( jo, was_loaded, "skill_offset", _offset );

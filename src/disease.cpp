@@ -24,12 +24,12 @@ bool string_id<disease_type>::is_valid() const
     return disease_factory.is_valid( *this );
 }
 
-void disease_type::load_disease_type( const JsonObject &jo, const std::string &src )
+void disease_type::load_disease_type( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    disease_factory.load( jo, src );
+    disease_factory.load( jo, src, second_src );
 }
 
-void disease_type::load( const JsonObject &jo, const std::string_view )
+void disease_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     disease_type new_disease;
 

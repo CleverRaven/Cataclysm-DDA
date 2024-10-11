@@ -52,7 +52,7 @@ class global_variables
         void serialize( JsonOut &jsout ) const;
 
         std::map<std::string, std::string> migrations; // NOLINT(cata-serialize)
-        static void load_migrations( const JsonObject &jo, const std::string_view &src );
+        static void load_migrations( const JsonObject &jo, const std::string_view &src, const std::string_view &second_src );
 
     private:
         std::unordered_map<std::string, std::string> global_values;

@@ -86,9 +86,9 @@ const std::vector<option_slider> &option_slider::get_all()
     return option_slider_factory.get_all();
 }
 
-void option_slider::load_option_sliders( const JsonObject &jo, const std::string &src )
+void option_slider::load_option_sliders( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    option_slider_factory.load( jo, src );
+    option_slider_factory.load( jo, src, second_src );
 }
 
 void option_slider::finalize_all()
@@ -106,7 +106,7 @@ void option_slider::check_consistency()
     }
 }
 
-void option_slider::load( const JsonObject &jo, const std::string_view )
+void option_slider::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     optional( jo, was_loaded, "default", _default_level, 0 );

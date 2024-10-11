@@ -170,9 +170,9 @@ bool string_id<oter_vision>::is_valid() const
     return oter_vision_factory.is_valid( *this );
 }
 
-void oter_vision::load_oter_vision( const JsonObject &jo, const std::string &src )
+void oter_vision::load_oter_vision( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    oter_vision_factory.load( jo, src );
+    oter_vision_factory.load( jo, src, second_src );
 }
 
 void oter_vision::reset()
@@ -474,7 +474,7 @@ std::string overmap_land_use_code::get_symbol() const
     return utf32_to_utf8( symbol );
 }
 
-void overmap_land_use_code::load( const JsonObject &jo, const std::string &src )
+void overmap_land_use_code::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     const bool strict = src == "dda";
     assign( jo, "land_use_code", land_use_code, strict );
@@ -502,9 +502,9 @@ void overmap_land_use_code::check() const
 
 }
 
-void overmap_land_use_codes::load( const JsonObject &jo, const std::string &src )
+void overmap_land_use_codes::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    land_use_codes.load( jo, src );
+    land_use_codes.load( jo, src, second_src );
 }
 
 void overmap_land_use_codes::finalize()
@@ -529,15 +529,15 @@ const std::vector<overmap_land_use_code> &overmap_land_use_codes::get_all()
     return land_use_codes.get_all();
 }
 
-void overmap_specials::load( const JsonObject &jo, const std::string &src )
+void overmap_specials::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    specials.load( jo, src );
+    specials.load( jo, src, second_src );
 }
 
-void city_buildings::load( const JsonObject &jo, const std::string &src )
+void city_buildings::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
     // Just an alias
-    overmap_specials::load( jo, src );
+    overmap_specials::load( jo, src, second_src );
 }
 
 void overmap_specials::finalize()
@@ -836,7 +836,7 @@ oter_vision_id oter_vision::get_id() const
     return id;
 }
 
-void oter_vision::load( const JsonObject &jo, std::string_view )
+void oter_vision::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     if( id.str().find( '$' ) != std::string::npos ) {
         jo.throw_error( string_format( "id for vision level %s contains a '$'", id.str() ) );
@@ -874,7 +874,7 @@ void oter_vision::check() const
 }
 
 
-void oter_type_t::load( const JsonObject &jo, const std::string &src )
+void oter_type_t::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     const bool strict = src == "dda";
 
@@ -1186,9 +1186,9 @@ bool oter_t::is_hardcoded() const
     return hardcoded_mapgen.find( get_mapgen_id() ) != hardcoded_mapgen.end();
 }
 
-void overmap_terrains::load( const JsonObject &jo, const std::string &src )
+void overmap_terrains::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    terrain_types.load( jo, src );
+    terrain_types.load( jo, src, second_src );
 }
 
 void overmap_terrains::check_consistency()
@@ -2959,7 +2959,7 @@ mapgen_arguments overmap_special::get_args( const mapgendata &md ) const
     return mapgen_params_.get_args( md, mapgen_parameter_scope::overmap_special );
 }
 
-void overmap_special::load( const JsonObject &jo, const std::string &src )
+void overmap_special::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
@@ -7804,9 +7804,9 @@ std::string oter_get_rotation_string( const oter_id &oter )
     return "";
 }
 
-void overmap_special_migration::load_migrations( const JsonObject &jo, const std::string &src )
+void overmap_special_migration::load_migrations( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    migrations.load( jo, src );
+    migrations.load( jo, src, second_src );
 }
 
 void overmap_special_migration::reset()
@@ -7814,7 +7814,7 @@ void overmap_special_migration::reset()
     migrations.reset();
 }
 
-void overmap_special_migration::load( const JsonObject &jo, const std::string_view )
+void overmap_special_migration::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "new_id", new_id, overmap_special_id() );

@@ -53,7 +53,7 @@ const string_id<construction_group> &int_id<construction_group>::id() const
     return all_construction_groups.convert( *this );
 }
 
-void construction_group::load( const JsonObject &jo, const std::string_view )
+void construction_group::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
 }
@@ -68,9 +68,9 @@ size_t construction_group::count()
     return all_construction_groups.size();
 }
 
-void construction_groups::load( const JsonObject &jo, const std::string &src )
+void construction_groups::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    all_construction_groups.load( jo, src );
+    all_construction_groups.load( jo, src, second_src );
 }
 
 void construction_groups::reset()

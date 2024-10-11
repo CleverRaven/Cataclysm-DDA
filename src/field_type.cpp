@@ -177,7 +177,7 @@ const field_intensity_level &field_type::get_intensity_level( int level ) const
     return intensity_levels[level];
 }
 
-void field_type::load( const JsonObject &jo, const std::string_view )
+void field_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "legacy_enum_id", legacy_enum_id, -1 );
     for( const JsonObject jao : jo.get_array( "intensity_levels" ) ) {
@@ -359,9 +359,9 @@ size_t field_type::count()
     return get_all_field_types().size();
 }
 
-void field_types::load( const JsonObject &jo, const std::string &src )
+void field_types::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    get_all_field_types().load( jo, src );
+    get_all_field_types().load( jo, src, second_src );
 }
 
 void field_types::finalize_all()

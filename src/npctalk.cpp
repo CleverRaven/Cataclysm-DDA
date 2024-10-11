@@ -7753,7 +7753,7 @@ void unload_talk_topics()
     json_talk_topics.clear();
 }
 
-void load_talk_topic( const JsonObject &jo, const std::string_view src )
+void load_talk_topic( const JsonObject &jo, const std::string_view src, const std::string &second_src )
 {
     if( jo.has_array( "id" ) ) {
         for( auto &id : jo.get_string_array( "id" ) ) {

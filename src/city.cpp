@@ -36,9 +36,9 @@ bool string_id<city>::is_valid() const
     return get_city_factory().is_valid( *this );
 }
 
-void city::load_city( const JsonObject &jo, const std::string &src )
+void city::load_city( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    get_city_factory().load( jo, src );
+    get_city_factory().load( jo, src, second_src );
 }
 
 void city::finalize()
@@ -71,7 +71,7 @@ void city::reset()
     get_city_factory().reset();
 }
 
-void city::load( const JsonObject &jo, const std::string_view )
+void city::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
 
     mandatory( jo, was_loaded, "id", id );

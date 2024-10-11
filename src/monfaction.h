@@ -42,7 +42,7 @@ namespace monfactions
 const std::vector<monfaction> &get_all();
 void reset();
 void finalize();
-void load_monster_faction( const JsonObject &jo, const std::string &src );
+void load_monster_faction( const JsonObject &jo, const std::string &src, const std::string &second_src );
 } // namespace monfactions
 
 class monfaction
@@ -91,7 +91,7 @@ class monfaction
         void populate_attitude_vec() const;
 
         /** Load from JSON */
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         friend void monfactions::finalize();
         friend class generic_factory<monfaction>;

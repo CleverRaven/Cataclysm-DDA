@@ -52,10 +52,10 @@ struct damage_type {
                            bodypart_str_id bp, double total_damage = 0.0,
                            double damage_taken = 0.0 ) const;
 
-    static void load_damage_types( const JsonObject &jo, const std::string &src );
+    static void load_damage_types( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void reset();
     static void check();
-    void load( const JsonObject &jo, std::string_view );
+    void load( const JsonObject &jo, std::string_view, const std::string_view );
     static const std::vector<damage_type> &get_all();
 };
 
@@ -89,11 +89,11 @@ struct damage_info_order {
     damage_info_order_entry ablative_info;
     bool was_loaded = false;
 
-    static void load_damage_info_orders( const JsonObject &jo, const std::string &src );
+    static void load_damage_info_orders( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void reset();
     static void finalize_all();
     void finalize();
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
     static const std::vector<damage_info_order> &get_all();
     static const std::vector<damage_info_order> &get_all( info_type sort_by );
 };

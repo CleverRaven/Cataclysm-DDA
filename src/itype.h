@@ -1565,7 +1565,7 @@ struct itype {
         bool is_basic_component() const;
 };
 
-void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
-void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src );
+void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src, std::string_view );
+void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src, std::string_view );
 
 #endif // CATA_SRC_ITYPE_H

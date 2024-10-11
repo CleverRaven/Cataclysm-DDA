@@ -270,9 +270,9 @@ bool string_id<spell_type>::is_valid() const
     return spell_factory.is_valid( *this );
 }
 
-void spell_type::load_spell( const JsonObject &jo, const std::string &src )
+void spell_type::load_spell( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    spell_factory.load( jo, src );
+    spell_factory.load( jo, src, second_src );
 }
 
 static std::string moves_to_string( const int moves )
@@ -284,7 +284,7 @@ static std::string moves_to_string( const int moves )
     }
 }
 
-void spell_type::load( const JsonObject &jo, const std::string_view src )
+void spell_type::load( const JsonObject &jo, const std::string_view src, const std::string_view )
 {
     src_mod = mod_id( src );
     mandatory( jo, was_loaded, "name", name );

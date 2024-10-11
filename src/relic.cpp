@@ -101,9 +101,9 @@ bool string_id<relic_procgen_data>::is_valid() const
     return relic_procgen_data_factory.is_valid( *this );
 }
 
-void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const std::string &src )
+void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    relic_procgen_data_factory.load( jo, src );
+    relic_procgen_data_factory.load( jo, src, second_src );
 }
 
 void relic::add_active_effect( const fake_spell &sp )
@@ -164,7 +164,7 @@ void relic_procgen_data::enchantment_active::deserialize( const JsonObject &jobj
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo, const std::string_view )
+void relic_procgen_data::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     for( const JsonObject jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;

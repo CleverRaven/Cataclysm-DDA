@@ -400,28 +400,28 @@ const std::set<const recipe *> &recipe_subset::of_component( const itype_id &id 
     return iter != component.end() ? iter->second : null_match;
 }
 
-void recipe_dictionary::load_recipe( const JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_recipe( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    load( jo, src, recipe_dict.recipes );
+    load( jo, src, recipe_dict.recipes, second_src );
 }
 
-void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_uncraft( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    load( jo, src, recipe_dict.uncraft );
+    load( jo, src, recipe_dict.uncraft, second_src );
 }
 
-void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_practice( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    load( jo, src, recipe_dict.recipes );
+    load( jo, src, recipe_dict.recipes, second_src );
 }
 
-void recipe_dictionary::load_nested_category( const JsonObject &jo, const std::string &src )
+void recipe_dictionary::load_nested_category( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    load( jo, src, recipe_dict.recipes );
+    load( jo, src, recipe_dict.recipes, second_src );
 }
 
 recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
-                                 std::map<recipe_id, recipe> &out )
+                                 std::map<recipe_id, recipe> &out, const std::string &second_src )
 {
     recipe r;
 
@@ -429,7 +429,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     if( jo.has_string( "copy-from" ) ) {
         recipe_id base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
-            deferred.emplace_back( jo, src );
+            deferred.emplace_back( jo, src, second_src );
             jo.allow_omitted_members();
             return null_recipe;
         }
@@ -721,8 +721,9 @@ void recipe_dictionary::reset()
     recipe_dict.recipes.clear();
     recipe_dict.uncraft.clear();
     recipe_dict.items_on_loops.clear();
-    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
-        deferred_json.first.allow_omitted_members();
+    for( std::tuple<JsonObject, std::string, std::string> &deferred_json : deferred ) {
+        std::get<0>(deferred_json).allow_omitted_members();
+        // deferred_json.first.allow_omitted_members();
     }
     deferred.clear();
 }

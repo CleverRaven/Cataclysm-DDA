@@ -21,8 +21,8 @@ struct jmath_func {
     double eval( dialogue &d ) const;
     double eval( dialogue &d, std::vector<double> const &params ) const;
 
-    void load( const JsonObject &jo, std::string_view src );
-    static void load_func( const JsonObject &jo, std::string const &src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
+    static void load_func( const JsonObject &jo, std::string const &src, const std::string &second_src );
     static void finalize();
     static void reset();
     static const std::vector<jmath_func> &get_all();

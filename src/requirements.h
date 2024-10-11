@@ -49,10 +49,10 @@ struct quality {
 
     std::vector<std::pair<int, std::string>> usages;
 
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
     static void reset();
-    static void load_static( const JsonObject &jo, const std::string &src );
+    static void load_static( const JsonObject &jo, const std::string &src, const std::string &second_src );
 };
 
 struct component {

@@ -53,10 +53,10 @@ class recipe_dictionary
         /** Returns crafting recipe (or null recipe if no match) */
         static const recipe &get_craft( const itype_id &id );
 
-        static void load_recipe( const JsonObject &jo, const std::string &src );
-        static void load_uncraft( const JsonObject &jo, const std::string &src );
-        static void load_practice( const JsonObject &jo, const std::string &src );
-        static void load_nested_category( const JsonObject &jo, const std::string &src );
+        static void load_recipe( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        static void load_uncraft( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        static void load_practice( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        static void load_nested_category( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
         static void finalize();
         static void check_consistency();
@@ -70,7 +70,7 @@ class recipe_dictionary
         static void delete_if( const std::function<bool( const recipe & )> &pred );
 
         static recipe &load( const JsonObject &jo, const std::string &src,
-                             std::map<recipe_id, recipe> &out );
+                             std::map<recipe_id, recipe> &out, const std::string &second_src );
 
     private:
         std::map<recipe_id, recipe> recipes;

@@ -1475,7 +1475,7 @@ class npc_template
         std::optional<int> per;
         std::optional<npc_personality> personality;
 
-        static void load( const JsonObject &jsobj, std::string_view src );
+        static void load( const JsonObject &jsobj, std::string_view src, const std::string &second_src );
         static void reset();
         static void check_consistency();
 };

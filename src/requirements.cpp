@@ -99,12 +99,12 @@ void quality::reset()
     quality_factory.reset();
 }
 
-void quality::load_static( const JsonObject &jo, const std::string &src )
+void quality::load_static( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    quality_factory.load( jo, src );
+    quality_factory.load( jo, src, second_src );
 }
 
-void quality::load( const JsonObject &jo, const std::string_view )
+void quality::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
 

@@ -78,7 +78,7 @@ static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( const JsonObject &jsobj, const std::string_view )
+void material_type::load( const JsonObject &jsobj, const std::string_view, const std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
@@ -363,9 +363,9 @@ const mat_burn_products &material_type::burn_products() const
     return _burn_products;
 }
 
-void materials::load( const JsonObject &jo, const std::string &src )
+void materials::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    material_data.load( jo, src );
+    material_data.load( jo, src, second_src );
 }
 
 void materials::check()

@@ -43,9 +43,9 @@ npc_class::npc_class() : id( npc_class_id::NULL_ID() )
 {
 }
 
-void npc_class::load_npc_class( const JsonObject &jo, const std::string &src )
+void npc_class::load_npc_class( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    npc_class_factory.load( jo, src );
+    npc_class_factory.load( jo, src, second_src );
 }
 
 void npc_class::reset_npc_classes()
@@ -224,7 +224,7 @@ void shopkeeper_item_group::deserialize( const JsonObject &jo )
     }
 }
 
-void npc_class::load( const JsonObject &jo, const std::string_view )
+void npc_class::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "job_description", job_description );

@@ -141,11 +141,11 @@ class npc_class
 
         bool is_common() const;
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         static const npc_class_id &random_common();
 
-        static void load_npc_class( const JsonObject &jo, const std::string &src );
+        static void load_npc_class( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
         static const std::vector<npc_class> &get_all();
 

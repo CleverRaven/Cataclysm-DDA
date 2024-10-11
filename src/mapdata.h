@@ -593,7 +593,7 @@ struct map_data_common_t {
                    has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD );
         }
 
-        virtual void load( const JsonObject &jo, const std::string & );
+        virtual void load( const JsonObject &jo, const std::string &, const std::string_view );
         virtual void check() const {};
 };
 
@@ -634,7 +634,7 @@ struct ter_t : map_data_common_t {
 
     std::vector<std::string> extended_description() const override;
 
-    void load( const JsonObject &jo, const std::string &src ) override;
+    void load( const JsonObject &jo, const std::string &src, const std::string_view ) override;
     void check() const override;
 };
 
@@ -689,12 +689,12 @@ struct furn_t : map_data_common_t {
 
     std::vector<std::string> extended_description() const override;
 
-    void load( const JsonObject &jo, const std::string &src ) override;
+    void load( const JsonObject &jo, const std::string &src, const std::string_view ) override;
     void check() const override;
 };
 
-void load_furniture( const JsonObject &jo, const std::string &src );
-void load_terrain( const JsonObject &jo, const std::string &src );
+void load_furniture( const JsonObject &jo, const std::string &src, const std::string &second_src );
+void load_terrain( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
 void verify_furniture();
 void verify_terrain();

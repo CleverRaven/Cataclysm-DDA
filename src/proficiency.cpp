@@ -68,15 +68,15 @@ std::string enum_to_string<proficiency_bonus_type>( const proficiency_bonus_type
 }
 } // namespace io
 
-void proficiency::load_proficiencies( const JsonObject &jo, const std::string &src )
+void proficiency::load_proficiencies( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    proficiency_factory.load( jo, src );
+    proficiency_factory.load( jo, src, second_src );
 }
 
 void proficiency_category::load_proficiency_categories( const JsonObject &jo,
-        const std::string &src )
+        const std::string &src, const std::string &second_src )
 {
-    proficiency_category_factory.load( jo, src );
+    proficiency_category_factory.load( jo, src, second_src );
 }
 
 void proficiency_bonus::deserialize( const JsonObject &jo )
@@ -95,7 +95,7 @@ void proficiency_category::reset()
     proficiency_category_factory.reset();
 }
 
-void proficiency::load( const JsonObject &jo, const std::string_view )
+void proficiency::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );
@@ -121,7 +121,7 @@ void proficiency::load( const JsonObject &jo, const std::string_view )
     }
 }
 
-void proficiency_category::load( const JsonObject &jo, const std::string_view )
+void proficiency_category::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", _name );
     mandatory( jo, was_loaded, "description", _description );

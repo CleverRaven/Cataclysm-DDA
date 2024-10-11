@@ -481,10 +481,10 @@ class json_flag
         int taste_mod_ = 0;
 
         /** Load flag definition from JSON */
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         /** Load all flags from JSON */
-        static void load_all( const JsonObject &jo, const std::string &src );
+        static void load_all( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
         /** finalize */
         static void finalize_all( );

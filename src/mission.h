@@ -256,13 +256,13 @@ struct mission_type {
         bool test_goal_condition( struct dialogue &d ) const;
 
         static void reset();
-        static void load_mission_type( const JsonObject &jo, const std::string &src );
+        static void load_mission_type( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void finalize();
         static void check_consistency();
 
         bool parse_funcs( const JsonObject &jo, std::string_view src,
                           std::function<void( mission * )> &phase_func );
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
         /**
          * Returns the translated name

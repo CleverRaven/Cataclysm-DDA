@@ -205,7 +205,7 @@ class enchantment
             NUM_CONDITION
         };
 
-        static void load_enchantment( const JsonObject &jo, const std::string &src );
+        static void load_enchantment( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
         void load( const JsonObject &jo, std::string_view src = {},
                    const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
@@ -213,7 +213,7 @@ class enchantment
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
         static enchantment_id load_inline_enchantment( const JsonValue &jv, std::string_view src,
-                std::string &inline_id );
+                std::string &inline_id, const std::string_view second_src );
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;

@@ -4403,7 +4403,7 @@ mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::strin
     return load_internal( jo, src, context, false, true );
 }
 
-void mapgen_palette::load( const JsonObject &jo, const std::string_view src )
+void mapgen_palette::load( const JsonObject &jo, const std::string_view src, const std::string & )
 {
     mapgen_palette ret = load_internal( jo, src, "", true, false );
     if( ret.id.is_empty() ) {

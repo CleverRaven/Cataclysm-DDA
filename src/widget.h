@@ -290,8 +290,8 @@ class widget
         widget_alignment _label_align;
 
         // Load JSON data for a widget (uses generic factory widget_factory)
-        static void load_widget( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, std::string_view src );
+        static void load_widget( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         // Finalize anything that must wait until all widgets are loaded
         static void finalize();
         // Recursively derive _label_width for nested layouts in this widget

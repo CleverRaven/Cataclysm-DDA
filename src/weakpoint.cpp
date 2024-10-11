@@ -55,9 +55,9 @@ bool string_id<weakpoints>::is_valid() const
     return weakpoints_factory.is_valid( *this );
 }
 
-void weakpoints::load_weakpoint_sets( const JsonObject &jo, const std::string &src )
+void weakpoints::load_weakpoint_sets( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    weakpoints_factory.load( jo, src );
+    weakpoints_factory.load( jo, src, second_src );
 }
 
 void weakpoints::reset()
@@ -673,7 +673,7 @@ void weakpoints::remove( const JsonArray &ja )
     }
 }
 
-void weakpoints::load( const JsonObject &jo, const std::string_view )
+void weakpoints::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     load( jo.get_array( "weakpoints" ) );
 }

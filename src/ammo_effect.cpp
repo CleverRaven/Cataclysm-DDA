@@ -62,7 +62,7 @@ int_id<ammo_effect>::int_id( const ammo_effect_str_id &id ) : _id( id.id() )
 {
 }
 
-void ammo_effect::load( const JsonObject &jo, const std::string_view )
+void ammo_effect::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "trigger_chance", trigger_chance, 1 );
 
@@ -152,9 +152,9 @@ size_t ammo_effect::count()
     return get_all_ammo_effects().size();
 }
 
-void ammo_effects::load( const JsonObject &jo, const std::string &src )
+void ammo_effects::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    get_all_ammo_effects().load( jo, src );
+    get_all_ammo_effects().load( jo, src, second_src );
 }
 
 void ammo_effects::finalize_all()

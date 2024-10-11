@@ -192,9 +192,9 @@ static social_modifiers load_mutation_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void mutation_branch::load_trait( const JsonObject &jo, const std::string &src )
+void mutation_branch::load_trait( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    trait_factory.load( jo, src );
+    trait_factory.load( jo, src, second_src );
 }
 
 mut_transform::mut_transform() = default;
@@ -300,7 +300,7 @@ void mutation_variant::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-void mutation_branch::load( const JsonObject &jo, const std::string_view src )
+void mutation_branch::load( const JsonObject &jo, const std::string_view src, const std::string &second_src )
 {
     mandatory( jo, was_loaded, "name", raw_name );
     mandatory( jo, was_loaded, "description", raw_desc );
@@ -439,7 +439,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src )
     int enchant_num = 0;
     for( JsonValue jv : jo.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + id.str() + "_" + std::to_string( enchant_num++ );
-        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name, second_src ) );
     }
 
     optional( jo, was_loaded, "comfort", comfort );

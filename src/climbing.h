@@ -55,11 +55,11 @@ class climbing_aid
             void deserialize( const JsonObject &jo );
         };
 
-        static void load_climbing_aid( const JsonObject &jo, const std::string &src );
+        static void load_climbing_aid( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void finalize();
         static void check_consistency();
         static void reset();
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view, const std::string_view );
 
 
         using lookup = std::vector<std::unordered_multimap<std::string, const climbing_aid *> >;

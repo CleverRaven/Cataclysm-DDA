@@ -71,13 +71,13 @@ class scenario
 
         std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
 
     public:
         //these three aren't meant for external use, but had to be made public regardless
         scenario();
-        static void load_scenario( const JsonObject &jo, const std::string &src );
+        static void load_scenario( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
         // these should be the only ways used to get at scenario
         static const scenario *generic(); // points to the generic, default profession
@@ -162,8 +162,8 @@ struct scen_blacklist {
     std::set<string_id<scenario>> scenarios;
     bool whitelist = false;
 
-    static void load_scen_blacklist( const JsonObject &jo, std::string_view src );
-    void load( const JsonObject &jo, std::string_view );
+    static void load_scen_blacklist( const JsonObject &jo, std::string_view src, const std::string &second_src );
+    void load( const JsonObject &jo, std::string_view, std::string_view );
     void finalize();
 };
 

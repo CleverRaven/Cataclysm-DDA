@@ -76,9 +76,9 @@ const std::vector<climbing_aid> &climbing_aid::get_all()
     return climbing_aid_factory.get_all();
 }
 
-void climbing_aid::load_climbing_aid( const JsonObject &jo, const std::string &src )
+void climbing_aid::load_climbing_aid( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    climbing_aid_factory.load( jo, src );
+    climbing_aid_factory.load( jo, src, second_src );
 }
 
 void climbing_aid::finalize()
@@ -131,7 +131,7 @@ void climbing_aid::reset()
     climbing_aid_default_ptr = nullptr;
 }
 
-void climbing_aid::load( const JsonObject &jo, std::string_view )
+void climbing_aid::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "slip_chance_mod", slip_chance_mod );
     mandatory( jo, was_loaded, "down", down );

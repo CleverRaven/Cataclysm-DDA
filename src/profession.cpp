@@ -86,12 +86,12 @@ bool string_id<profession>::is_valid() const
 static profession_blacklist prof_blacklist;
 
 void profession_blacklist::load_profession_blacklist( const JsonObject &jo,
-        const std::string_view src )
+        const std::string_view src, const std::string &second_src )
 {
-    prof_blacklist.load( jo, src );
+    prof_blacklist.load( jo, src, second_src );
 }
 
-void profession_blacklist::load( const JsonObject &jo, const std::string_view )
+void profession_blacklist::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     if( !professions.empty() ) {
         DebugLog( D_INFO, DC_ALL ) << "Loading profession black with one already loaded, resetting";
@@ -142,9 +142,9 @@ profession::profession()
 {
 }
 
-void profession::load_profession( const JsonObject &jo, const std::string &src )
+void profession::load_profession( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    all_profs.load( jo, src );
+    all_profs.load( jo, src, second_src );
 }
 
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
@@ -201,7 +201,7 @@ class item_reader : public generic_typed_reader<item_reader>
         }
 };
 
-void profession::load( const JsonObject &jo, const std::string_view )
+void profession::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     //If the "name" is an object then we have to deal with gender-specific titles,
     if( jo.has_object( "name" ) ) {

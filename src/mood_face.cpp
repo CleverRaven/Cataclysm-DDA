@@ -28,9 +28,9 @@ bool mood_face_id::is_valid() const
     return mood_face_factory.is_valid( *this );
 }
 
-void mood_face::load_mood_faces( const JsonObject &jo, const std::string &src )
+void mood_face::load_mood_faces( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    mood_face_factory.load( jo, src );
+    mood_face_factory.load( jo, src, second_src );
 }
 
 void mood_face::reset()
@@ -38,7 +38,7 @@ void mood_face::reset()
     mood_face_factory.reset();
 }
 
-void mood_face::load( const JsonObject &jo, const std::string_view )
+void mood_face::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "values", values_ );
     std::sort( values_.begin(), values_.end(),

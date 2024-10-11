@@ -79,9 +79,9 @@ struct sub_body_part_type {
     // Unarmed damage when this subpart is our contact area
     damage_instance unarmed_damage;
 
-    static void load_bp( const JsonObject &jo, const std::string &src );
+    static void load_bp( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
     // combine matching body part strings together for printing
     static std::vector<translation> consolidate( std::vector<sub_bodypart_id> &covered );

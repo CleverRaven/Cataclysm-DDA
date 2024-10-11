@@ -69,7 +69,7 @@ class map_extra
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
     private:
         translation name_;
@@ -90,7 +90,7 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
 void apply_function( const map_extra_id &id, tinymap &m,
                      const tripoint_abs_omt &abs_omt );
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void check_consistency();
 
 void debug_spawn_test();

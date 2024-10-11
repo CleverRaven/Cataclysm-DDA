@@ -184,15 +184,15 @@ struct bionic_data {
 
     itype_id itype() const;
 
-    void load( const JsonObject &obj, std::string_view src );
+    void load( const JsonObject &obj, std::string_view src, const std::string &second_src );
     void finalize();
-    static void load_bionic( const JsonObject &jo, const std::string &src );
+    static void load_bionic( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void finalize_bionic();
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();
 
     static std::map<bionic_id, bionic_id> migrations;
-    static void load_bionic_migration( const JsonObject &jo, std::string_view );
+    static void load_bionic_migration( const JsonObject &jo, std::string_view, std::string_view );
 };
 
 struct bionic {

@@ -75,9 +75,9 @@ bool attack_vector_id::is_valid() const
     return attack_vector_factory.is_valid( *this );
 }
 
-void attack_vector::load_attack_vectors( const JsonObject &jo, const std::string &src )
+void attack_vector::load_attack_vectors( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    attack_vector_factory.load( jo, src );
+    attack_vector_factory.load( jo, src, second_src );
 }
 
 void attack_vector::reset()
@@ -85,7 +85,7 @@ void attack_vector::reset()
     attack_vector_factory.reset();
 }
 
-void attack_vector::load( const JsonObject &jo, const std::string_view )
+void attack_vector::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "weapon", weapon, false );
@@ -113,9 +113,9 @@ bool weapon_category_id::is_valid() const
     return weapon_category_factory.is_valid( *this );
 }
 
-void weapon_category::load_weapon_categories( const JsonObject &jo, const std::string &src )
+void weapon_category::load_weapon_categories( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    weapon_category_factory.load( jo, src );
+    weapon_category_factory.load( jo, src, second_src );
 }
 
 void weapon_category::reset()
@@ -123,7 +123,7 @@ void weapon_category::reset()
     weapon_category_factory.reset();
 }
 
-void weapon_category::load( const JsonObject &jo, const std::string_view )
+void weapon_category::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     optional( jo, was_loaded, "proficiencies", proficiencies_ );
@@ -163,9 +163,9 @@ matype_id martial_art_learned_from( const itype &type )
     return type.book->martial_art;
 }
 
-void load_technique( const JsonObject &jo, const std::string &src )
+void load_technique( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    ma_techniques.load( jo, src );
+    ma_techniques.load( jo, src, second_src );
 }
 
 // To avoid adding empty entries
@@ -261,7 +261,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( const JsonObject &jo, const std::string_view src )
+void ma_technique::load( const JsonObject &jo, const std::string_view src, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, translation() );
@@ -348,7 +348,7 @@ bool string_id<ma_technique>::is_valid() const
     return ma_techniques.is_valid( *this );
 }
 
-void ma_buff::load( const JsonObject &jo, const std::string_view src )
+void ma_buff::load( const JsonObject &jo, const std::string_view src, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -387,9 +387,9 @@ bool string_id<ma_buff>::is_valid() const
     return ma_buffs.is_valid( *this );
 }
 
-void load_martial_art( const JsonObject &jo, const std::string &src )
+void load_martial_art( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    martialarts.load( jo, src );
+    martialarts.load( jo, src, second_src );
 }
 
 class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
@@ -400,12 +400,12 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
                 return mabuff_id( jin.get_string() );
             }
             JsonObject jsobj = jin.get_object();
-            ma_buffs.load( jsobj, "" );
+            ma_buffs.load( jsobj, "", "" );
             return mabuff_id( jsobj.get_string( "id" ) );
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string_view src )
+void martialart::load( const JsonObject &jo, const std::string_view src, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );

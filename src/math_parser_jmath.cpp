@@ -42,12 +42,12 @@ std::vector<jmath_func> const &jmath_func::get_all()
     return get_all_jmath_func().get_all();
 }
 
-void jmath_func::load_func( const JsonObject &jo, std::string const &src )
+void jmath_func::load_func( const JsonObject &jo, std::string const &src, const std::string &second_src )
 {
-    get_all_jmath_func().load( jo, src );
+    get_all_jmath_func().load( jo, src, second_src );
 }
 
-void jmath_func::load( JsonObject const &jo, const std::string_view /*src*/ )
+void jmath_func::load( JsonObject const &jo, const std::string_view /*src*/, const std::string_view )
 {
     optional( jo, was_loaded, "num_args", num_params );
     optional( jo, was_loaded, "return", _str );

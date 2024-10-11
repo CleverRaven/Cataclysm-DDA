@@ -39,9 +39,9 @@ bool string_id<ter_furn_transform>::is_valid() const
     return ter_furn_transform_factory.is_valid( *this );
 }
 
-void ter_furn_transform::load_transform( const JsonObject &jo, const std::string &src )
+void ter_furn_transform::load_transform( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    ter_furn_transform_factory.load( jo, src );
+    ter_furn_transform_factory.load( jo, src, second_src );
 }
 
 void ter_furn_transform::reset_all()
@@ -83,7 +83,7 @@ void ter_furn_data<T>::load( const JsonObject &jo )
     message_good = jo.get_bool( "message_good", true );
 }
 
-void ter_furn_transform::load( const JsonObject &jo, const std::string_view )
+void ter_furn_transform::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     std::string input;
     mandatory( jo, was_loaded, "id", input );

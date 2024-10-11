@@ -8,7 +8,7 @@
 std::vector<mod_tileset> all_mod_tilesets;
 
 void load_mod_tileset( const JsonObject &jsobj, const std::string_view, const cata_path &base_path,
-                       const cata_path &full_path )
+                       const cata_path &full_path, const std::string_view )
 {
     // This function only checks whether mod tileset is compatible.
     // Actual sprites are loaded when the main tileset is loaded.

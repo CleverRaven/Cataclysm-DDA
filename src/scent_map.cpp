@@ -281,12 +281,12 @@ bool string_id<scent_type>::is_valid() const
     return scent_factory.is_valid( *this );
 }
 
-void scent_type::load_scent_type( const JsonObject &jo, const std::string &src )
+void scent_type::load_scent_type( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    scent_factory.load( jo, src );
+    scent_factory.load( jo, src, second_src );
 }
 
-void scent_type::load( const JsonObject &jo, const std::string_view )
+void scent_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     assign( jo, "id", id );
     assign( jo, "receptive_species", receptive_species );

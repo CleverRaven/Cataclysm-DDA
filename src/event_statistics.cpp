@@ -74,9 +74,9 @@ bool string_id<event_transformation>::is_valid() const
     return event_transformation_factory.is_valid( *this );
 }
 
-void event_transformation::load_transformation( const JsonObject &jo, const std::string &src )
+void event_transformation::load_transformation( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    event_transformation_factory.load( jo, src );
+    event_transformation_factory.load( jo, src, second_src );
 }
 
 void event_transformation::check_consistency()
@@ -101,9 +101,9 @@ bool string_id<event_statistic>::is_valid() const
     return event_statistic_factory.is_valid( *this );
 }
 
-void event_statistic::load_statistic( const JsonObject &jo, const std::string &src )
+void event_statistic::load_statistic( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    event_statistic_factory.load( jo, src );
+    event_statistic_factory.load( jo, src, second_src );
 }
 
 void event_statistic::check_consistency()
@@ -128,9 +128,9 @@ bool string_id<score>::is_valid() const
     return score_factory.is_valid( *this );
 }
 
-void score::load_score( const JsonObject &jo, const std::string &src )
+void score::load_score( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    score_factory.load( jo, src );
+    score_factory.load( jo, src, second_src );
 }
 
 void score::check_consistency()
@@ -701,7 +701,7 @@ std::unique_ptr<stats_tracker_state> event_transformation::watch( stats_tracker 
     return impl_->watch( stats );
 }
 
-void event_transformation::load( const JsonObject &jo, const std::string_view )
+void event_transformation::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     std::map<std::string, new_field> new_fields;
     optional( jo, was_loaded, "new_fields", new_fields );
@@ -1217,7 +1217,7 @@ std::unique_ptr<stats_tracker_state> event_statistic::watch( stats_tracker &stat
     return impl_->watch( stats );
 }
 
-void event_statistic::load( const JsonObject &jo, const std::string_view )
+void event_statistic::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     std::string type;
     mandatory( jo, was_loaded, "stat_type", type );
@@ -1297,7 +1297,7 @@ cata_variant score::value( stats_tracker &stats ) const
     return stats.value_of( stat_ );
 }
 
-void score::load( const JsonObject &jo, const std::string_view )
+void score::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "description", description_ );
     mandatory( jo, was_loaded, "statistic", stat_ );

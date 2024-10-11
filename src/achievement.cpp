@@ -401,9 +401,9 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
     return colorize( message, c );
 }
 
-void achievement::load_achievement( const JsonObject &jo, const std::string &src )
+void achievement::load_achievement( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    achievement_factory.load( jo, src );
+    achievement_factory.load( jo, src, second_src );
 }
 
 void achievement::finalize()
@@ -430,7 +430,7 @@ void achievement::reset()
     achievement_factory.reset();
 }
 
-void achievement::load( const JsonObject &jo, const std::string_view )
+void achievement::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
     is_conduct_ = jo.get_string( "type" ) == "conduct";

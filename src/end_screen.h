@@ -13,9 +13,9 @@ class JsonObject;
 
 struct end_screen {
     public:
-        static void load_end_screen( const JsonObject &jo, const std::string &src );
+        static void load_end_screen( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view, const std::string_view );
         static const std::vector<end_screen> &get_all();
         bool was_loaded = false;
 

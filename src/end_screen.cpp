@@ -20,12 +20,12 @@ bool string_id<end_screen>::is_valid() const
     return end_screen_factory.is_valid( *this );
 }
 
-void end_screen::load_end_screen( const JsonObject &jo, const std::string &src )
+void end_screen::load_end_screen( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    end_screen_factory.load( jo, src );
+    end_screen_factory.load( jo, src, second_src );
 }
 
-void end_screen::load( const JsonObject &jo, std::string_view )
+void end_screen::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "picture_id", picture_id );

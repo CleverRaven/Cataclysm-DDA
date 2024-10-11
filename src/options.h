@@ -425,11 +425,11 @@ struct option_slider {
         option_slider_id id;
         bool was_loaded = false;
 
-        static void load_option_sliders( const JsonObject &jo, const std::string &src );
+        static void load_option_sliders( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
         static void finalize_all();
         static void check_consistency();
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
         static const std::vector<option_slider> &get_all();
 

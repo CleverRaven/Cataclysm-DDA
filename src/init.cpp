@@ -125,14 +125,14 @@ DynamicDataLoader &DynamicDataLoader::get_instance()
 
 void DynamicDataLoader::load_object( const JsonObject &jo, const std::string &src,
                                      const cata_path &base_path,
-                                     const cata_path &full_path )
+                                     const cata_path &full_path, const std::string &second_src )
 {
     const std::string type = jo.get_string( "type" );
     const t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
         jo.throw_error_at( "type", "unrecognized JSON object" );
     }
-    it->second( jo, src, base_path, full_path );
+    it->second( jo, src, base_path, full_path, second_src );
 }
 
 struct DynamicDataLoader::cached_streams {
@@ -165,8 +165,10 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
-                const JsonObject &jo = it->first;
-                load_object( jo, it->second );
+                // const JsonObject &jo = it->first;
+                const JsonObject &jo = std::get<0>(*it);
+                // load_object( jo, it->second );
+                load_object( jo, std::get<1>(*it), {}, {}, std::get<2>(*it) );
             } catch( const JsonError &err ) {
                 debugmsg( "(json-error)\n%s", err.what() );
             }
@@ -177,7 +179,8 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         if( data.size() == n ) {
             for( const auto &elem : data ) {
                 try {
-                    elem.first.throw_error( "JSON contains circular dependency, this object is discarded" );
+                    std::get<0>(elem).throw_error( "JSON contains circular dependency, this object is discarded" );
+                    // elem.first.throw_error( "JSON contains circular dependency, this object is discarded" );
                 } catch( const JsonError &err ) {
                     debugmsg( "(json-error)\n%s", err.what() );
                 }
@@ -198,7 +201,7 @@ static void load_ignored_type( const JsonObject &jo )
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path & )>
+                             const std::function<void( const JsonObject &, const std::string &, const cata_path &, const cata_path &, const std::string & )>
                              &f )
 {
     const auto pair = type_function_map.emplace( type, f );
@@ -208,21 +211,21 @@ void DynamicDataLoader::add( const std::string &type,
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string & )>
+                             const std::function<void( const JsonObject &, const std::string &, const std::string &, const std::string &, const std::string & )>
                              &f )
 {
     add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path & base_path,
-    const cata_path & full_path ) {
-        f( obj, src, base_path.generic_u8string(), full_path.generic_u8string() );
+    const cata_path & full_path, const std::string & second_src ) {
+        f( obj, src, base_path.generic_u8string(), full_path.generic_u8string(), second_src );
     } );
 }
 
 void DynamicDataLoader::add( const std::string &type,
-                             const std::function<void( const JsonObject &, const std::string & )> &f )
+                             const std::function<void( const JsonObject &, const std::string &, const std::string & )> &f )
 {
     add( type, [f]( const JsonObject & obj, const std::string & src, const cata_path &,
-    const cata_path & ) {
-        f( obj, src );
+    const cata_path &, const std::string & second_src ) {
+        f( obj, src, second_src );
     } );
 }
 
@@ -230,7 +233,7 @@ void DynamicDataLoader::add( const std::string &type,
                              const std::function<void( const JsonObject & )> &f )
 {
     add( type, [f]( const JsonObject & obj, const std::string_view,  const cata_path &,
-    const cata_path & ) {
+    const cata_path &, const std::string & ) {
         f( obj );
     } );
 }
@@ -303,7 +306,7 @@ void DynamicDataLoader::initialize()
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
-    add( "snippet", []( const JsonObject & jo, const std::string & src ) {
+    add( "snippet", []( const JsonObject & jo, const std::string & src, const std::string & ) {
         SNIPPET.load_snippet( jo, src );
     } );
     add( "item_group", []( const JsonObject & jo ) {
@@ -329,53 +332,53 @@ void DynamicDataLoader::initialize()
     } );
     add( "trap", &trap::load_trap );
 
-    add( "AMMO", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_ammo( jo, src );
+    add( "AMMO", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_ammo( jo, src, second_src );
     } );
-    add( "GUN", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gun( jo, src );
+    add( "GUN", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_gun( jo, src, second_src );
     } );
-    add( "ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_armor( jo, src );
+    add( "ARMOR", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_armor( jo, src, second_src );
     } );
-    add( "PET_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_pet_armor( jo, src );
+    add( "PET_ARMOR", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_pet_armor( jo, src, second_src );
     } );
-    add( "TOOL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool( jo, src );
+    add( "TOOL", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_tool( jo, src, second_src );
     } );
-    add( "TOOLMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_toolmod( jo, src );
+    add( "TOOLMOD", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_toolmod( jo, src, second_src );
     } );
-    add( "TOOL_ARMOR", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_tool_armor( jo, src );
+    add( "TOOL_ARMOR", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_tool_armor( jo, src, second_src );
     } );
-    add( "BOOK", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_book( jo, src );
+    add( "BOOK", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_book( jo, src, second_src );
     } );
-    add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_comestible( jo, src );
+    add( "COMESTIBLE", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_comestible( jo, src, second_src );
     } );
-    add( "ENGINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_engine( jo, src );
+    add( "ENGINE", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_engine( jo, src, second_src );
     } );
-    add( "WHEEL", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_wheel( jo, src );
+    add( "WHEEL", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_wheel( jo, src, second_src );
     } );
-    add( "GUNMOD", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_gunmod( jo, src );
+    add( "GUNMOD", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_gunmod( jo, src, second_src );
     } );
-    add( "MAGAZINE", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_magazine( jo, src );
+    add( "MAGAZINE", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_magazine( jo, src, second_src );
     } );
-    add( "BATTERY", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_battery( jo, src );
+    add( "BATTERY", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_battery( jo, src, second_src );
     } );
-    add( "GENERIC", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_generic( jo, src );
+    add( "GENERIC", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_generic( jo, src, second_src );
     } );
-    add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src ) {
-        item_controller->load_bionic( jo, src );
+    add( "BIONIC_ITEM", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        item_controller->load_bionic( jo, src, second_src );
     } );
 
     add( "ITEM_CATEGORY", &item_category::load_item_cat );
@@ -388,11 +391,11 @@ void DynamicDataLoader::initialize()
     add( "temperature_removal_blacklist", load_temperature_removal_blacklist );
     add( "test_data", &test_data::load );
 
-    add( "MONSTER", []( const JsonObject & jo, const std::string & src ) {
-        MonsterGenerator::generator().load_monster( jo, src );
+    add( "MONSTER", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        MonsterGenerator::generator().load_monster( jo, src, second_src );
     } );
-    add( "SPECIES", []( const JsonObject & jo, const std::string & src ) {
-        MonsterGenerator::generator().load_species( jo, src );
+    add( "SPECIES", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        MonsterGenerator::generator().load_species( jo, src, second_src );
     } );
     add( "monster_flag", &mon_flag::load_mon_flags );
 
@@ -461,14 +464,14 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load );
     add( "overlay_order", &load_overlay_ordering );
-    add( "mission_definition", []( const JsonObject & jo, const std::string & src ) {
-        mission_type::load_mission_type( jo, src );
+    add( "mission_definition", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        mission_type::load_mission_type( jo, src, second_src );
     } );
     add( "butchery_requirement", &butchery_requirements::load_butchery_req );
     add( "harvest_drop_type", &harvest_drop_type::load_harvest_drop_types );
     add( "harvest", &harvest_list::load_harvest_list );
-    add( "monster_attack", []( const JsonObject & jo, const std::string & src ) {
-        MonsterGenerator::generator().load_monster_attack( jo, src );
+    add( "monster_attack", []( const JsonObject & jo, const std::string & src, const std::string & second_src ) {
+        MonsterGenerator::generator().load_monster_attack( jo, src, second_src );
     } );
     add( "palette", mapgen_palette::load );
     add( "rotatable_symbol", &rotatable_symbols::load );
@@ -569,7 +572,8 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
                  "Can't load additional data after finalization.  Must be unloaded first." );
 
     std::vector<mod_id> &loaded_mods = world_generator->active_world->active_mod_order;
-    std::vector<cata_path> files;
+
+    std::vector< std::tuple<std::string, std::vector<cata_path>> > files;
 
     if( dir_exist( path.get_unrelative_path() ) ) {
 
@@ -578,42 +582,44 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
 
         for( const cata_path &f : interaction_folders ) {
             bool is_mod_loaded = false;
+            std::string folder_name = f.get_unrelative_path().filename().string();
             for( mod_id id : loaded_mods ) {
-                if( id.str() == f.get_unrelative_path().filename().string() ) {
+                if( id.str() == folder_name ) {
                     is_mod_loaded = true;
                 }
             }
             if( is_mod_loaded ) {
-                const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
-                files.insert( files.end(), interaction_files.begin(), interaction_files.end() );
+                // stores parent mod id and interaction mod id
+                files.insert( files.end(), { src + "/" + folder_name, get_files_from_path( ".json", f, true, true ) });
             }
         }
     }
 
-    // iterate over each file
-    for( const cata_path &file : files ) {
-        try {
-            // parse it
-            JsonValue jsin = json_loader::from_path( file );
-            load_all_from_json( jsin, src, path, file );
-        } catch( const JsonError &err ) {
-            throw std::runtime_error( err.what() );
+    // iterate over each set of files
+    for( std::tuple<std::string, std::vector<cata_path>> sourced_files : files) {
+        for ( const cata_path &file : std::get<1>(sourced_files)) {
+            try {
+                JsonValue jsin = json_loader::from_path( file );
+                load_all_from_json( jsin, src, path, file, std::get<0>(sourced_files) );
+            } catch( const JsonError &err ) {
+                throw std::runtime_error( err.what() );
+            }
         }
     }
 }
 
 void DynamicDataLoader::load_all_from_json( const JsonValue &jsin, const std::string &src,
-        const cata_path &base_path, const cata_path &full_path )
+        const cata_path &base_path, const cata_path &full_path, const std::string &second_src )
 {
     if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
-        load_object( jo, src, base_path, full_path );
+        load_object( jo, src, base_path, full_path, second_src );
     } else if( jsin.test_array() ) {
         JsonArray ja = jsin.get_array();
         // find type and dispatch each object until array close
         for( JsonObject jo : ja ) {
-            load_object( jo, src, base_path, full_path );
+            load_object( jo, src, base_path, full_path, second_src );
         }
     } else {
         // not an object or an array?

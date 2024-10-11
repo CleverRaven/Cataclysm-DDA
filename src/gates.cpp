@@ -68,7 +68,7 @@ struct gate_data {
     int bash_dmg;
     bool was_loaded;
 
-    void load( const JsonObject &jo, std::string_view src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
     void check() const;
 
     bool is_suitable_wall( const tripoint_bub_ms &pos ) const;
@@ -83,7 +83,7 @@ generic_factory<gate_data> gates_data( "gate type" );
 
 } // namespace
 
-void gate_data::load( const JsonObject &jo, const std::string_view )
+void gate_data::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
@@ -143,9 +143,9 @@ bool gate_data::is_suitable_wall( const tripoint_bub_ms &pos ) const
     return iter != walls.end();
 }
 
-void gates::load( const JsonObject &jo, const std::string &src )
+void gates::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    gates_data.load( jo, src );
+    gates_data.load( jo, src, second_src );
 }
 
 void gates::check()

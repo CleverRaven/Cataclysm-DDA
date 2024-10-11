@@ -22,8 +22,8 @@ struct requirement_data;
 
 namespace faults
 {
-void load_fault( const JsonObject &jo, const std::string &src );
-void load_fix( const JsonObject &jo, const std::string &src );
+void load_fault( const JsonObject &jo, const std::string &src, const std::string &second_src );
+void load_fix( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
 void reset();
 void finalize();
@@ -57,7 +57,7 @@ class fault_fix
 
         void finalize();
     private:
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
         bool was_loaded = false; // used by generic_factory
         friend class generic_factory<fault_fix>;
@@ -78,7 +78,7 @@ class fault
 
         const std::set<fault_fix_id> &get_fixes() const;
     private:
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view, const std::string_view );
         void check() const;
         bool was_loaded = false; // used by generic_factory
         friend class generic_factory<fault>;

@@ -20,12 +20,12 @@ bool string_id<profession_group>::is_valid() const
     return profession_group_factory.is_valid( *this );
 }
 
-void profession_group::load_profession_group( const JsonObject &jo, const std::string &src )
+void profession_group::load_profession_group( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    profession_group_factory.load( jo, src );
+    profession_group_factory.load( jo, src, second_src );
 }
 
-void profession_group::load( const JsonObject &jo, const std::string_view & )
+void profession_group::load( const JsonObject &jo, const std::string_view &, const std::string_view )
 {
     assign( jo, "id", id );
     assign( jo, "professions", profession_list );

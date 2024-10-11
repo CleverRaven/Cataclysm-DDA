@@ -40,7 +40,7 @@ class start_location
         start_location_id id;
         std::vector<std::pair<start_location_id, mod_id>> src;
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view );
         void finalize();
         void check() const;
 
@@ -119,7 +119,7 @@ class start_location
 namespace start_locations
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void finalize_all();
 void check_consistency();
 void reset();

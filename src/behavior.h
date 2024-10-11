@@ -71,7 +71,7 @@ class node_t
         void add_child( const node_t *new_child );
 
         // Loading interface.
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
         string_id<node_t> id;
         std::vector<std::pair<string_id<node_t>, mod_id>> src;
@@ -87,7 +87,7 @@ class node_t
 };
 
 // Deserialization support.
-void load_behavior( const JsonObject &jo, const std::string &src );
+void load_behavior( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
 void reset();
 

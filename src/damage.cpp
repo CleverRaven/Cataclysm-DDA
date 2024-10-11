@@ -65,9 +65,9 @@ bool string_id<damage_info_order>::is_valid() const
     return damage_info_order_factory.is_valid( *this );
 }
 
-void damage_type::load_damage_types( const JsonObject &jo, const std::string &src )
+void damage_type::load_damage_types( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    damage_type_factory.load( jo, src );
+    damage_type_factory.load( jo, src, second_src );
 }
 
 void damage_type::reset()
@@ -80,9 +80,9 @@ const std::vector<damage_type> &damage_type::get_all()
     return damage_type_factory.get_all();
 }
 
-void damage_info_order::load_damage_info_orders( const JsonObject &jo, const std::string &src )
+void damage_info_order::load_damage_info_orders( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    damage_info_order_factory.load( jo, src );
+    damage_info_order_factory.load( jo, src, second_src );
 }
 
 void damage_info_order::reset()
@@ -112,7 +112,7 @@ static damage_info_order::info_disp read_info_disp( const std::string &s )
     }
 }
 
-void damage_type::load( const JsonObject &jo, std::string_view src )
+void damage_type::load( const JsonObject &jo, std::string_view src, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "skill", skill, skill_id::NULL_ID() );
@@ -188,7 +188,7 @@ void damage_info_order::damage_info_order_entry::load( const JsonObject &jo,
     }
 }
 
-void damage_info_order::load( const JsonObject &jo, std::string_view )
+void damage_info_order::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     dmg_type = damage_type_id( id.c_str() );
     bionic_info.load( jo, "bionic_info" );

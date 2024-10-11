@@ -25,10 +25,10 @@ struct add_type {
     public:
         addiction_id id;
         bool was_loaded = false;
-        static void load_add_types( const JsonObject &jo, const std::string &src );
+        static void load_add_types( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
         static void check_add_types();
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, std::string_view );
         static const std::vector<add_type> &get_all();
 
         const translation &get_name() const {

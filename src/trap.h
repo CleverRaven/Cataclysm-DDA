@@ -326,7 +326,7 @@ struct trap {
         /**
          * Loads this specific trap.
          */
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
 
         std::string debug_describe() const;
 
@@ -366,7 +366,7 @@ struct trap {
          * Loads the trap and adds it to the trapmap, and the traplist.
          * @throw JsonError if the json is invalid as usual.
          */
-        static void load_trap( const JsonObject &jo, const std::string &src );
+        static void load_trap( const JsonObject &jo, const std::string &src, const std::string &second_src );
         /**
          * Releases the loaded trap objects in trapmap and traplist.
          */

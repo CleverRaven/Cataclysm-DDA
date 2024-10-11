@@ -412,7 +412,7 @@ const json_flag &json_flag::get( const std::string &id )
     return f_id.is_valid() ? *f_id : null_value;
 }
 
-void json_flag::load( const JsonObject &jo, const std::string_view )
+void json_flag::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     // TODO: mark fields as mandatory where appropriate
     optional( jo, was_loaded, "info", info_ );
@@ -437,9 +437,9 @@ void json_flag::reset()
     json_flags_all.reset();
 }
 
-void json_flag::load_all( const JsonObject &jo, const std::string &src )
+void json_flag::load_all( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    json_flags_all.load( jo, src );
+    json_flags_all.load( jo, src, second_src );
 }
 
 void json_flag::check() const

@@ -181,7 +181,7 @@ struct field_type;
 
 struct field_type {
     public:
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void finalize();
         void check() const;
 
@@ -269,7 +269,7 @@ struct field_type {
 namespace field_types
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void finalize_all();
 void check_consistency();
 void reset();

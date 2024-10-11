@@ -14,7 +14,7 @@ class translation;
 namespace recipe_group
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void check();
 void reset();
 

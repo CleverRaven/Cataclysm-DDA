@@ -98,7 +98,7 @@ void weather_type::check() const
     }
 }
 
-void weather_type::load( const JsonObject &jo, const std::string_view )
+void weather_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "id",  id );
@@ -170,7 +170,7 @@ void weather_types::check_consistency()
     weather_type_factory.check();
 }
 
-void weather_types::load( const JsonObject &jo, const std::string &src )
+void weather_types::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    weather_type_factory.load( jo, src );
+    weather_type_factory.load( jo, src, second_src );
 }

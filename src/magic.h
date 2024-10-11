@@ -367,8 +367,8 @@ class spell_type
         // bitfield of -certain- string flags which are heavily checked
         enum_bitset<spell_flag> spell_tags; // NOLINT(cata-serialize)
 
-        static void load_spell( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, std::string_view src );
+        static void load_spell( const JsonObject &jo, const std::string &src, const std::string &second_src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void serialize( JsonOut &json ) const;
         /**
          * All spells in the game.

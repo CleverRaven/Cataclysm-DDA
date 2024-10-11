@@ -21,7 +21,7 @@ generic_factory<ammo_effect> &get_all_ammo_effects();
 
 struct ammo_effect {
     public:
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, std::string_view );
         void finalize();
         void check() const;
         fake_spell spell_data;
@@ -66,7 +66,7 @@ struct ammo_effect {
 namespace ammo_effects
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void finalize_all();
 void check_consistency();
 void reset();

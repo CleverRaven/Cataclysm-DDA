@@ -343,7 +343,7 @@ class mapgen_palette
          * Load a palette object and adds it to the global set of palettes.
          * If "palette" field is specified, those palettes will be loaded recursively.
          */
-        static void load( const JsonObject &jo, std::string_view src );
+        static void load( const JsonObject &jo, std::string_view src, const std::string & );
 
         /**
          * Returns a palette with given id. If not found, debugmsg and returns a dummy.

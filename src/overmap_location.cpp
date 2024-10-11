@@ -40,7 +40,7 @@ oter_type_id overmap_location::get_random_terrain() const
     return random_entry( terrains );
 }
 
-void overmap_location::load( const JsonObject &jo, const std::string_view )
+void overmap_location::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "terrains", terrains );
@@ -81,9 +81,9 @@ void overmap_location::finalize()
     }
 }
 
-void overmap_locations::load( const JsonObject &jo, const std::string &src )
+void overmap_locations::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    locations.load( jo, src );
+    locations.load( jo, src, second_src );
 }
 
 void overmap_locations::check_consistency()

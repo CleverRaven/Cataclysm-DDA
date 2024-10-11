@@ -692,9 +692,9 @@ void MonsterGenerator::validate_species_ids( mtype &mon )
     }
 }
 
-void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &src )
+void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    mon_templates->load( jo, src );
+    mon_templates->load( jo, src, second_src );
 }
 
 mon_effect_data::mon_effect_data() :
@@ -738,7 +738,7 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 }
 
-void mtype::load( const JsonObject &jo, const std::string &src )
+void mtype::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     bool strict = src == "dda";
 
@@ -1311,12 +1311,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     }
 }
 
-void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )
+void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    mon_species->load( jo, src );
+    mon_species->load( jo, src, second_src );
 }
 
-void species_type::load( const JsonObject &jo, const std::string_view )
+void species_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     optional( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "footsteps", footsteps, to_translation( "footsteps." ) );
@@ -1373,12 +1373,12 @@ void species_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
 }
 
-void mon_flag::load_mon_flags( const JsonObject &jo, const std::string &src )
+void mon_flag::load_mon_flags( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    mon_flags.load( jo, src );
+    mon_flags.load( jo, src, second_src );
 }
 
-void mon_flag::load( const JsonObject &jo, std::string_view )
+void mon_flag::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
 }
@@ -1506,7 +1506,7 @@ void mattack_actor::load( const JsonObject &jo, const std::string &src )
     was_loaded = true;
 }
 
-void MonsterGenerator::load_monster_attack( const JsonObject &jo, const std::string &src )
+void MonsterGenerator::load_monster_attack( const JsonObject &jo, const std::string &src, const std::string & )
 {
     add_attack( create_actor( jo, src ) );
 }

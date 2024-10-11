@@ -64,7 +64,7 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
 
 } // namespace io
 
-void clothing_mod::load( const JsonObject &jo, const std::string_view )
+void clothing_mod::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "flag", flag );
     mandatory( jo, was_loaded, "item", item_string );
@@ -131,9 +131,9 @@ size_t clothing_mod::count()
     return all_clothing_mods.size();
 }
 
-void clothing_mods::load( const JsonObject &jo, const std::string &src )
+void clothing_mods::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    all_clothing_mods.load( jo, src );
+    all_clothing_mods.load( jo, src, second_src );
 }
 
 void clothing_mods::reset()

@@ -61,7 +61,7 @@ TEST_CASE( "export_vehicle_test" )
 
     // To check the exported prototype has up-to-date format and is correct.
     vehicle_prototype vpr;
-    vpr.load( jo, "" );
+    vpr.load( jo, "", "" );
     CHECK( vpr.item_spawns == ( *vehicle_prototype_veh_export_test ).item_spawns );
     CHECK( vpr.zone_defs == ( *vehicle_prototype_veh_export_test ).zone_defs );
     CHECK( vpr.parts == ( *vehicle_prototype_veh_export_test ).parts );

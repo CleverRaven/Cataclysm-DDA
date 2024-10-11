@@ -62,9 +62,9 @@ class zone_type
         bool can_be_personal = false;
         bool hidden = false;
 
-        static void load_zones( const JsonObject &jo, const std::string &src );
+        static void load_zones( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
-        void load( const JsonObject &jo, std::string_view );
+        void load( const JsonObject &jo, std::string_view, const std::string_view );
         /**
          * All zone types in the game.
          */

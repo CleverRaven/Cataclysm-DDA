@@ -13,9 +13,9 @@ class JsonObject;
 template <typename T> class generic_factory;
 
 struct city {
-    void load( const JsonObject &, std::string_view );
+    void load( const JsonObject &, std::string_view, const std::string_view );
     void check() const;
-    static void load_city( const JsonObject &, const std::string & );
+    static void load_city( const JsonObject &, const std::string &, const std::string & );
     static void finalize();
     static void check_consistency();
     static const std::vector<city> &get_all();

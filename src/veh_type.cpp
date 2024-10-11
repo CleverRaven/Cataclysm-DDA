@@ -233,9 +233,9 @@ static void parse_vp_control_reqs( const JsonObject &obj, const vpart_id &id,
     optional( src, false, "proficiencies", req.proficiencies );
 }
 
-void vehicles::parts::load( const JsonObject &jo, const std::string &src )
+void vehicles::parts::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    vpart_info_factory.load( jo, src );
+    vpart_info_factory.load( jo, src, second_src );
 }
 
 void vpart_info::handle_inheritance( const vpart_info &copy_from,
@@ -262,7 +262,7 @@ void vpart_info::handle_inheritance( const vpart_info &copy_from,
     }
 }
 
-void vpart_info::load( const JsonObject &jo, const std::string &src )
+void vpart_info::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     const bool strict = src == "dda";
 
@@ -1240,9 +1240,9 @@ bool string_id<vehicle_prototype>::is_valid() const
     return vehicle_prototype_factory.is_valid( *this );
 }
 
-void vehicles::load_prototype( const JsonObject &jo, const std::string &src )
+void vehicles::load_prototype( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    vehicle_prototype_factory.load( jo, src );
+    vehicle_prototype_factory.load( jo, src, second_src );
 }
 
 const std::vector<vehicle_prototype> &vehicles::get_all_prototypes()
@@ -1263,7 +1263,7 @@ static std::pair<std::string, std::string> get_vpart_str_variant( const std::str
            : std::make_pair( vpid.substr( 0, loc ), vpid.substr( loc + 1 ) );
 }
 
-void vehicle_prototype::load( const JsonObject &jo, std::string_view )
+void vehicle_prototype::load( const JsonObject &jo, std::string_view, const std::string_view )
 {
     vgroups[vgroup_id( id.str() )].add_vehicle( id, 100 );
     optional( jo, was_loaded, "name", name );

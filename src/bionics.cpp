@@ -306,7 +306,7 @@ static social_modifiers load_bionic_social_mods( const JsonObject &jo )
     return ret;
 }
 
-void bionic_data::load( const JsonObject &jsobj, const std::string_view src )
+void bionic_data::load( const JsonObject &jsobj, const std::string_view src, const std::string &second_src )
 {
 
     mandatory( jsobj, was_loaded, "id", id );
@@ -382,7 +382,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string_view src )
     int enchant_num = 0;
     for( JsonValue jv : jsobj.get_array( "enchantments" ) ) {
         std::string enchant_name = "INLINE_ENCH_" + name + "_" + std::to_string( enchant_num++ );
-        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name, second_src ) );
     }
 
     if( jsobj.has_array( "encumbrance" ) ) {
@@ -442,14 +442,14 @@ void bionic_data::finalize()
     }
 }
 
-void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
+void bionic_data::load_bionic( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    bionic_factory.load( jo, src );
+    bionic_factory.load( jo, src, second_src );
 }
 
 std::map<bionic_id, bionic_id> bionic_data::migrations;
 
-void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string_view )
+void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     const bionic_id from( jo.get_string( "from" ) );
     const bionic_id to = jo.has_string( "to" )

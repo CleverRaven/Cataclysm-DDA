@@ -145,9 +145,9 @@ bool string_id<limb_score>::is_valid() const
     return limb_score_factory.is_valid( *this );
 }
 
-void limb_score::load_limb_scores( const JsonObject &jo, const std::string &src )
+void limb_score::load_limb_scores( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    limb_score_factory.load( jo, src );
+    limb_score_factory.load( jo, src, second_src );
 }
 
 void limb_score::reset()
@@ -160,7 +160,7 @@ const std::vector<limb_score> &limb_score::get_all()
     return limb_score_factory.get_all();
 }
 
-void limb_score::load( const JsonObject &jo, const std::string_view )
+void limb_score::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", _name );
@@ -239,9 +239,9 @@ const bodypart_str_id &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-void body_part_type::load_bp( const JsonObject &jo, const std::string &src )
+void body_part_type::load_bp( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
-    body_part_factory.load( jo, src );
+    body_part_factory.load( jo, src, second_src );
 }
 
 body_part_type::type body_part_type::primary_limb_type() const
@@ -287,7 +287,7 @@ const std::vector<body_part_type> &body_part_type::get_all()
     return body_part_factory.get_all();
 }
 
-void body_part_type::load( const JsonObject &jo, const std::string_view )
+void body_part_type::load( const JsonObject &jo, const std::string_view, const std::string_view )
 {
     mandatory( jo, was_loaded, "id", id );
 

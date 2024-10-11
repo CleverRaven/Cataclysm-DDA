@@ -794,20 +794,20 @@ std::vector<std::string> map_data_common_t::extended_description() const
     return ret;
 }
 
-void load_furniture( const JsonObject &jo, const std::string &src )
+void load_furniture( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
     if( furniture_data.empty() ) {
         furniture_data.insert( null_furniture_t() );
     }
-    furniture_data.load( jo, src );
+    furniture_data.load( jo, src, second_src );
 }
 
-void load_terrain( const JsonObject &jo, const std::string &src )
+void load_terrain( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
     if( terrain_data.empty() ) { // TODO: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
-    terrain_data.load( jo, src );
+    terrain_data.load( jo, src, second_src );
 }
 
 void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
@@ -966,7 +966,7 @@ void init_mapdata()
     add_actor( std::make_unique<eoc_examine_actor>() );
 }
 
-void map_data_common_t::load( const JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
     if( jo.has_string( "examine_action" ) ) {
         examine_actor = nullptr;
@@ -1024,9 +1024,9 @@ bool ter_t::is_null() const
     return id == ter_str_id::NULL_ID();
 }
 
-void ter_t::load( const JsonObject &jo, const std::string &src )
+void ter_t::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
-    map_data_common_t::load( jo, src );
+    map_data_common_t::load( jo, src, "" );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "coverage", coverage );
@@ -1204,9 +1204,9 @@ bool furn_t::is_movable() const
     return move_str_req >= 0;
 }
 
-void furn_t::load( const JsonObject &jo, const std::string &src )
+void furn_t::load( const JsonObject &jo, const std::string &src, const std::string_view )
 {
-    map_data_common_t::load( jo, src );
+    map_data_common_t::load( jo, src, "" );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
     optional( jo, was_loaded, "coverage", coverage );

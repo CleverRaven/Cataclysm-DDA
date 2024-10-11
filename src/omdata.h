@@ -140,7 +140,7 @@ class overmap_land_use_code
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view );
         void finalize();
         void check() const;
 };
@@ -271,14 +271,14 @@ class oter_vision
         };
         const level *viewed( om_vision_level ) const;
 
-        static void load_oter_vision( const JsonObject &jo, const std::string &src );
+        static void load_oter_vision( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
         static void check_oter_vision();
         static const std::vector<oter_vision> &get_all();
 
         oter_vision_id get_id() const;
 
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         void check() const;
 
         static blended_omt get_blended_omt_info( const tripoint_abs_omt &omp, om_vision_level vision );
@@ -357,7 +357,7 @@ struct oter_type_t {
             flags.set( flag, value );
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view );
         void check() const;
         void finalize();
 
@@ -691,7 +691,7 @@ class overmap_special
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view );
         void finalize();
         void finalize_mapgen_parameters();
         void check() const;
@@ -713,9 +713,9 @@ class overmap_special
 
 struct overmap_special_migration {
     public:
-        static void load_migrations( const JsonObject &jo, const std::string &src );
+        static void load_migrations( const JsonObject &jo, const std::string &src, const std::string &second_src );
         static void reset();
-        void load( const JsonObject &jo, std::string_view src );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view );
         static void check();
         // Check if the given overmap special should be migrated
         static bool migrated( const overmap_special_id &os_id );
@@ -735,7 +735,7 @@ struct overmap_special_migration {
 namespace overmap_terrains
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void check_consistency();
 void finalize();
 void reset();
@@ -747,7 +747,7 @@ const std::vector<oter_t> &get_all();
 namespace overmap_land_use_codes
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void finalize();
 void check_consistency();
 void reset();
@@ -759,7 +759,7 @@ const std::vector<overmap_land_use_code> &get_all();
 namespace overmap_specials
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 void finalize();
 void finalize_mapgen_parameters();
 void check_consistency();
@@ -778,7 +778,7 @@ overmap_special_id create_building_from( const string_id<oter_type_t> &base );
 namespace city_buildings
 {
 
-void load( const JsonObject &jo, const std::string &src );
+void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
 
 } // namespace city_buildings
 

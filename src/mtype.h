@@ -68,8 +68,8 @@ struct mon_flag {
     mon_flag_str_id id = mon_flag_str_id::NULL_ID();
     bool was_loaded = false;
 
-    void load( const JsonObject &jo, std::string_view src );
-    static void load_mon_flags( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src, const std::string_view );
+    static void load_mon_flags( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void reset();
     static const std::vector<mon_flag> &get_all();
 };
@@ -552,7 +552,7 @@ struct mtype {
         void faction_display( catacurses::window &w, const point &top_left, int width ) const;
 
         // Historically located in monstergenerator.cpp
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view );
 
     private:
 
