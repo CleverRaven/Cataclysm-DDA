@@ -431,7 +431,7 @@
         "item": "dreamforged_armguard_plate",
         "custom-flags": "FIT",
         "artifact": {
-          "procgen_id": "dreamsmith_lottery_def_body",
+          "procgen_id": "dreamsmith_lottery_def_hands",
           "rules": { "power_level": 5000, "max_attributes": 4, "max_negative_power": 0, "resonant": false }
         },
         "prob": 100
