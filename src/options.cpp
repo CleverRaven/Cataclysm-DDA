@@ -1654,7 +1654,7 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "auto_note_opts", to_translation( "Auto notes Options" ),
+    add_option_group( "general", Group( "auto_note_opts", to_translation( "Auto Notes Options" ),
                                         to_translation( "Options regarding auto notes." ) ),
     [&]( const std::string & page_id ) {
         add( "AUTO_NOTES", page_id, to_translation( "Auto notes" ),
