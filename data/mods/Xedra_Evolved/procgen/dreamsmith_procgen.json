@@ -300,6 +300,7 @@
   {
     "type": "relic_procgen_data",
     "id": "dreamsmith_lottery_def_head",
+    "//": "In addition to stats and armor, this pool should related to perception, sight, or vision",
     "passive_add_procgen_values": [
       { "weight": 100, "min_value": -1, "max_value": -20, "type": "ARMOR_ACID", "increment": -1, "power_per_increment": 75 },
       {
@@ -463,33 +464,6 @@
         "increment": 2,
         "power_per_increment": 500,
         "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 10,
-        "type": "REGEN_HP",
-        "increment": 1,
-        "power_per_increment": 300,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 100,
-        "type": "REGEN_MANA",
-        "increment": 10,
-        "power_per_increment": 300,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 1,
-        "max_value": 20,
-        "type": "REGEN_STAMINA",
-        "increment": 1,
-        "power_per_increment": 150,
-        "ench_has": "WORN"
       }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
@@ -498,6 +472,7 @@
   {
     "type": "relic_procgen_data",
     "id": "dreamsmith_lottery_def_body",
+    "//": "In addition to stats and armor, this pool should related to the concept of defense or avoiding attack or environmental protection",
     "passive_add_procgen_values": [
       { "weight": 100, "min_value": -1, "max_value": -20, "type": "ARMOR_ACID", "increment": -1, "power_per_increment": 75 },
       {
@@ -648,9 +623,18 @@
         "weight": 100,
         "min_value": 0.01,
         "max_value": 0.05,
-        "type": "FORCEFIELD",
+        "type": "EVASION",
         "increment": 0.01,
         "power_per_increment": 750,
+        "ench_has": "WORN"
+      },
+      {
+        "weight": 100,
+        "min_value": 1,
+        "max_value": 4,
+        "type": "DODGE_CHANCE",
+        "increment": 1,
+        "power_per_increment": 1000,
         "ench_has": "WORN"
       },
       {
@@ -705,6 +689,7 @@
   {
     "type": "relic_procgen_data",
     "id": "dreamsmith_lottery_def_feet",
+    "//": "In addition to stats and armor, this pool should related to the movement or stealth",
     "passive_add_procgen_values": [
       { "weight": 100, "min_value": -1, "max_value": -20, "type": "ARMOR_ACID", "increment": -1, "power_per_increment": 75 },
       {
@@ -862,20 +847,11 @@
       },
       {
         "weight": 100,
-        "min_value": -1,
-        "max_value": -15,
-        "type": "FALL_DAMAGE",
-        "increment": -1,
-        "power_per_increment": 75,
-        "ench_has": "WORN"
-      },
-      {
-        "weight": 100,
-        "min_value": 0.01,
-        "max_value": 0.05,
-        "type": "EVASION",
-        "increment": 0.01,
-        "power_per_increment": 750,
+        "min_value": 1,
+        "max_value": 25,
+        "type": "STEALTH_MODIFIER",
+        "increment": 1,
+        "power_per_increment": 100,
         "ench_has": "WORN"
       },
       {
