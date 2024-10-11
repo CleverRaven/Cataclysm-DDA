@@ -6118,12 +6118,18 @@ std::vector<std::string> Character::extended_description() const
         nc_color name_color = state_col;
         std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
                 false );
+        std::pair<std::string, nc_color> hp_numbers =
+        { " " + std::to_string( get_part_hp_cur( bp ) ) + "/" + std::to_string( get_part_hp_max( bp ) ), c_white };
 
         std::string bp_stat = colorize( left_justify( bp_heading, longest ), name_color );
-        bp_stat += colorize( hp_bar.first, hp_bar.second );
-        // Trailing bars. UGLY!
-        // TODO: Integrate into get_hp_bar somehow
-        bp_stat += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        if( debug_mode ) {
+            bp_stat += colorize( hp_numbers.first, hp_numbers.second );
+        } else {
+            // Trailing bars. UGLY!
+            // TODO: Integrate into get_hp_bar somehow
+            bp_stat += colorize( hp_bar.first, hp_bar.second );
+            bp_stat += colorize( std::string( 5 - utf8_width( hp_bar.first ), '.' ), c_white );
+        }
         tmp.emplace_back( bp_stat );
     }
 
@@ -7103,17 +7109,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    if( actually_used->is_comestible() &&
-        actually_used->type->use_methods.find( "delayed_transform" ) ==
-        actually_used->type->use_methods.end() ) {
-        // Assume that when activating food that can be transformed, you're trying to transform it.  Otherwise...
-        // Try to eat it.
-        add_msg_if_player( m_info, string_format( "Attempting to eat %s", actually_used->display_name() ) );
-        assign_activity( consume_activity_actor( item_location( *this, actually_used ) ) );
-        // If the character isn't eating, then invoking the item failed somewhere
-        return !activity.is_null();
-    }
-
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
                                       pt, method );
     if( !charges_used.has_value() ) {
@@ -7125,6 +7120,16 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         // Not really used.
         // The item may also have been deleted
         return false;
+    }
+
+    if( actually_used->is_comestible() ) {
+        const bool ret = consume_effects( *used );
+        const int consumed = used->activation_consume( charges_used.value(), pt, this );
+        if( consumed == 0 ) {
+            // Nothing was consumed from within the item. "Eat" the item itself away.
+            i_rem( actually_used );
+        }
+        return ret;
     }
 
     actually_used->activation_consume( charges_used.value(), pt, this );

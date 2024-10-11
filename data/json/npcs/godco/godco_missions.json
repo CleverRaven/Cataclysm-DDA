@@ -674,7 +674,7 @@
         "search_range": 1000,
         "min_distance": 3
       },
-      "update_mapgen": { "place_item": [ { "item": "fert_supplement", "x": 15, "y": 15, "amount": 1 } ] }
+      "update_mapgen": { "place_items": [ { "item": "fertility_supplements", "x": 15, "y": 15 } ] }
     },
     "end": {
       "effect": [ { "u_spawn_item": "icon", "count": 10 }, { "npc_add_var": "mission_meeting_gemma_got_supplements", "value": "yes" } ],
@@ -1389,5 +1389,12 @@
       "success_lie": "If you see this, it's a bug.",
       "failure": "Of course, you have no evidence."
     }
+  },
+  {
+    "type": "item_group",
+    "id": "fertility_supplements",
+    "subtype": "collection",
+    "container-item": "bottle_plastic_pill_supplement",
+    "entries": [ { "item": "fert_supplement", "container-item": "null", "count": 25 } ]
   }
 ]
