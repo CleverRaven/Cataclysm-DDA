@@ -19,15 +19,4 @@ Files located within the mod_interactions folders are always loaded after other 
 
 ## Limitations
 
-Currently, this functionality only loads / unloads files based on if other mods are active for the particular world.  It does not suppress any other warnings beyond this function.
-
-In particular, when designing mod compatability content an author will likely want to redefine certain ids to have new definitions, flags, etc.  If attempting to do this within the same overall mod folder, this will throw a duplicate definition error.  To get around this, instead of a mod redefining its own content within its own mod_interactions folder, the author should redefine its own content using the other mods mod_interaction folder.
-
-Example:
-Mod 1: Mind Over Matter (id:mindovermatter)
-Mod 2: Xedra Evolved (id:xedra_evolved)
-
-If xedra wants an item to have extra damage while Mind Over Matter is loaded, the author should place the new definition in the following:
-MindOverMatter/mod_interactions/xedra_evolved/xedra_compat_data.json
-
-TODO: remove this limitation entirely by adjusting the check to take into account the mod_interaction id source as well
+Individual mod interaction folders can only support a single mod to load / unload.  IE, a folder may be named "mindovermatter", it may not be named "mindovermatter,xedra_evolved" or some other variation.
