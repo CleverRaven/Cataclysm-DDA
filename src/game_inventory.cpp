@@ -2011,7 +2011,7 @@ class repair_inventory_preset: public inventory_selector_preset
 
             append_cell( [actor, &you]( const item_location & loc ) {
                 const int comp_needed = std::max<int>( 1,
-                                                       std::ceil( loc->base_volume() / 250_ml * actor->cost_scaling ) );
+                                                       std::ceil( loc->base_volume() * actor->cost_scaling / 250_ml ) );
                 const inventory &crafting_inv = you.crafting_inventory();
                 std::function<bool( const item & )> filter;
                 if( loc->is_filthy() ) {
