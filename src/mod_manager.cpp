@@ -224,6 +224,10 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
         debugmsg( "there is already a mod with ident %s", m_ident.c_str() );
         return;
     }
+    if (m_ident.str().find( '#' ) != std::string::npos ) {
+        debugmsg( "Mod id %s contains illegal '#' character.", m_ident.str() );
+        return;
+    }
 
     translation m_name;
     jo.read( "name", m_name );
