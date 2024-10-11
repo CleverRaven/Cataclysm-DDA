@@ -261,10 +261,6 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
         break;
     }
 
-    // Force quantity to decrement regardless of whether we found a monster.
-    if( quantity && !monster_found && !is_recursive ) {
-        ( *quantity )--;
-    }
     if( mon_found ) {
         ( *mon_found ) = monster_found;
     }
@@ -273,6 +269,10 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
         spawn_details.emplace_back( group.defaultMonster, 1, spawn_data() );
         if( returned_default ) {
             ( *returned_default ) = true;
+        }
+        // Force quantity to decrement regardless of whether we found a monster.
+        if( quantity ) {
+            ( *quantity )--;
         }
     }
 
