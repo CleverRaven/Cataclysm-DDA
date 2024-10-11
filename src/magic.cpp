@@ -1067,7 +1067,7 @@ bool spell::can_learn( const Character &guy ) const
     return guy.has_trait( type->spell_class );
 }
 
-int spell::get_amount_of_projectiles( const Character &guy ) const
+int spell::get_amount_of_projectiles( const Creature &guy ) const
 {
     dialogue d( get_talker_for( guy ), nullptr );
     return type->multiple_projectiles.evaluate( d );
