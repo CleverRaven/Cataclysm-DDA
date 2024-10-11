@@ -173,6 +173,7 @@ struct mutation_variant {
 struct mutation_branch {
         trait_id id;
         std::vector<std::pair<trait_id, mod_id>> src;
+        std::vector<std::pair<trait_id, mod_id>> second_src;
         bool was_loaded = false;
         // True if this is a valid mutation.
         bool valid = false;

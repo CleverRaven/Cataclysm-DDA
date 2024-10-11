@@ -60,6 +60,7 @@ struct effect_on_condition {
         bool global = false;
         effect_on_condition_id id;
         std::vector<std::pair<effect_on_condition_id, mod_id>> src;
+        std::vector<std::pair<effect_on_condition_id, mod_id>> second_src;
         eoc_type type;
         std::function<bool( dialogue & )> condition;
         std::function<bool( dialogue & )> deactivate_condition;
@@ -96,7 +97,7 @@ void load_new_character( Character &you );
 /** Load any new eocs that don't exist in the save. */
 void load_existing_character( Character &you );
 /** Loads an inline eoc */
-effect_on_condition_id load_inline_eoc( const JsonValue &jv, std::string_view src );
+effect_on_condition_id load_inline_eoc( const JsonValue &jv, std::string_view src, std::string_view second_src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc,
                                 Character &you, const std::unordered_map<std::string, std::string> &context );

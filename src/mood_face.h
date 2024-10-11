@@ -36,6 +36,7 @@ class mood_face
 
         mood_face_id id;
         std::vector<std::pair<mood_face_id, mod_id>> src;
+        std::vector<std::pair<mood_face_id, mod_id>> second_src;
         bool was_loaded = false;
 
         // Always sorted with highest value first

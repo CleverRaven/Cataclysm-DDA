@@ -20,6 +20,7 @@ class morale_type_data
     public:
         morale_type id;
         std::vector<std::pair<morale_type, mod_id>> src;
+        std::vector<std::pair<morale_type, mod_id>> second_src;
         bool was_loaded = false;
 
         /** Describes this morale type, with item type to replace wildcard with. */

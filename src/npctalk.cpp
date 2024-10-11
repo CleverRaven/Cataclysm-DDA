@@ -280,10 +280,10 @@ static std::vector<effect_on_condition_id> load_eoc_vector( const JsonObject &jo
     std::vector<effect_on_condition_id> eocs;
     if( jo.has_array( member ) ) {
         for( JsonValue jv : jo.get_array( member ) ) {
-            eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+            eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, "" ) );
         }
     } else if( jo.has_member( member ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jo.get_member( member ), src ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jo.get_member( member ), src, "" ) );
     }
     return eocs;
 }
@@ -307,7 +307,7 @@ load_eoc_vector_id_and_var(
             }
         }
         if( !entry.var ) {
-            entry.id = effect_on_conditions::load_inline_eoc( jv, src );
+            entry.id = effect_on_conditions::load_inline_eoc( jv, src, "" );
         }
         eocs_entries.push_back( entry );
     };
@@ -5376,7 +5376,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
 talk_effect_fun_t::func f_run_eoc_until( const JsonObject &jo, std::string_view member,
         const std::string_view src )
 {
-    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), src );
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), src, "" );
     std::function<bool( dialogue & )> cond;
     read_condition( jo, "condition", cond, true ); // The default result of this condition is true
 
@@ -5567,7 +5567,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
 talk_effect_fun_t::func f_run_eoc_with( const JsonObject &jo, std::string_view member,
                                         const std::string_view src )
 {
-    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), src );
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), src, "" );
 
     std::unordered_map<std::string, str_translation_or_var> context;
     if( jo.has_object( "variables" ) ) {
@@ -5938,7 +5938,7 @@ talk_effect_fun_t::func f_queue_eocs( const JsonObject &jo, std::string_view mem
 talk_effect_fun_t::func f_queue_eoc_with( const JsonObject &jo, std::string_view member,
         const std::string_view src )
 {
-    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), src );
+    effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), src, "" );
 
     std::unordered_map<std::string, str_translation_or_var> context;
     if( jo.has_object( "variables" ) ) {
@@ -5986,7 +5986,7 @@ talk_effect_fun_t::func f_weighted_list_eocs( const JsonObject &jo,
         } else {
             eoc_weight.min = get_dbl_or_var_part( ja.next_value(), member );
         }
-        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, src ),
+        eoc_pairs.emplace_back( effect_on_conditions::load_inline_eoc( eoc, src, "" ),
                                 eoc_weight );
     }
     return [eoc_pairs]( dialogue & d ) {

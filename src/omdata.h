@@ -129,6 +129,7 @@ class overmap_land_use_code
     public:
         overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
         std::vector<std::pair<overmap_land_use_code_id, mod_id>> src;
+        std::vector<std::pair<overmap_land_use_code_id, mod_id>> second_src;
 
         int land_use_code = 0;
         translation name;
@@ -288,6 +289,7 @@ class oter_vision
         friend struct mod_tracker;
         oter_vision_id id;
         std::vector<std::pair<oter_vision_id, mod_id>> src;
+        std::vector<std::pair<oter_vision_id, mod_id>> second_src;
         bool was_loaded = false;
 
         std::vector<level> levels;
@@ -299,6 +301,7 @@ struct oter_type_t {
 
         string_id<oter_type_t> id;
         std::vector<std::pair<string_id<oter_type_t>, mod_id>> src;
+        std::vector<std::pair<string_id<oter_type_t>, mod_id>> second_src;
     private:
         friend struct oter_t;
         translation name;
@@ -403,6 +406,7 @@ struct oter_t {
     public:
         oter_str_id id;         // definitive identifier.
         std::vector < std::pair < oter_str_id, mod_id>> src;
+        std::vector < std::pair < oter_str_id, mod_id>> second_src;
 
         oter_t();
         explicit oter_t( const oter_type_t &type );
@@ -691,7 +695,7 @@ class overmap_special
 
         // Used by generic_factory
         bool was_loaded = false;
-        void load( const JsonObject &jo, const std::string &src, const std::string_view );
+        void load( const JsonObject &jo, const std::string &src, const std::string_view second_src );
         void finalize();
         void finalize_mapgen_parameters();
         void check() const;
@@ -727,6 +731,7 @@ struct overmap_special_migration {
         bool was_loaded = false;
         overmap_special_migration_id id;
         std::vector<std::pair<overmap_special_migration_id, mod_id>> src;
+        std::vector<std::pair<overmap_special_migration_id, mod_id>> second_src;
         overmap_special_id new_id;
         friend generic_factory<overmap_special_migration>;
         friend struct mod_tracker;

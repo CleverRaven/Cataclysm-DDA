@@ -72,6 +72,7 @@ class material_type
     public:
         material_id id;
         std::vector<std::pair<material_id, mod_id>> src;
+        std::vector<std::pair<material_id, mod_id>> second_src;
         bool was_loaded = false;
 
     private:

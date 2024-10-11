@@ -38,6 +38,7 @@ class scent_type
 
         scenttype_id id;
         std::vector<std::pair<scenttype_id, mod_id>> src;
+        std::vector<std::pair<scenttype_id, mod_id>> second_src;
         std::set<species_id> receptive_species;
         static void reset();
 };

@@ -22,6 +22,7 @@ class ascii_art
 
         ascii_art_id id;
         std::vector<std::pair<ascii_art_id, mod_id>> src;
+        std::vector<std::pair<ascii_art_id, mod_id>> second_src;
         std::vector<std::string> picture;
 };
 

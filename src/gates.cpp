@@ -54,6 +54,7 @@ struct gate_data {
 
     gate_id id;
     std::vector<std::pair<gate_id, mod_id>> src;
+    std::vector<std::pair<gate_id, mod_id>> second_src;
 
     ter_str_id door;
     ter_str_id floor;

@@ -126,6 +126,7 @@ struct limb_score {
     private:
         limb_score_id id;
         std::vector<std::pair<limb_score_id, mod_id>> src;
+        std::vector<std::pair<limb_score_id, mod_id>> second_src;
         translation _name;
         bool wound_affect = true;
         bool encumb_affect = true;
@@ -203,6 +204,7 @@ struct body_part_type {
         };
 
         std::vector<std::pair<bodypart_str_id, mod_id>> src;
+        std::vector<std::pair<bodypart_str_id, mod_id>> second_src;
 
         /** Sub-location of the body part used for encumberance, coverage and determining protection
          */

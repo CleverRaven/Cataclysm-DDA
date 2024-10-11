@@ -30,6 +30,7 @@ struct omt_types_parameters {
 struct recipe_group_data {
     group_id id;
     std::vector<std::pair<group_id, mod_id>> src;
+    std::vector<std::pair<group_id, mod_id>> second_src;
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::vector<omt_types_parameters>> om_terrains;

@@ -77,6 +77,7 @@ struct weather_type {
         bool was_loaded = false;
         weather_type_id id;
         std::vector<std::pair<weather_type_id, mod_id>> src;
+        std::vector<std::pair<weather_type_id, mod_id>> second_src;
         // UI name of weather type.
         translation name;
         // UI color of weather type.

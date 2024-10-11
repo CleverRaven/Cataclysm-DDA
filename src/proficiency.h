@@ -68,6 +68,7 @@ class proficiency
         proficiency_id id;
         proficiency_category_id _category;
         std::vector<std::pair<proficiency_id, mod_id>> src;
+        std::vector<std::pair<proficiency_id, mod_id>> second_src;
         bool was_loaded = false;
 
         bool _can_learn = false;

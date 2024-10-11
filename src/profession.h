@@ -132,6 +132,7 @@ class profession
         int age_upper = 55;
 
         std::vector<std::pair<string_id<profession>, mod_id>> src;
+        std::vector<std::pair<string_id<profession>, mod_id>> second_src;
 
         std::optional<achievement_id> get_requirement() const;
 

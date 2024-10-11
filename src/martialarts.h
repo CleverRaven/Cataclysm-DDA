@@ -59,6 +59,7 @@ class weapon_category
 
         weapon_category_id id;
         std::vector<std::pair<weapon_category_id, mod_id>> src;
+        std::vector<std::pair<weapon_category_id, mod_id>> second_src;
         std::vector<proficiency_id> proficiencies_;
         bool was_loaded = false;
 
@@ -164,12 +165,13 @@ class ma_technique
     public:
         ma_technique();
 
-        void load( const JsonObject &jo, std::string_view src, const std::string_view );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view second_src );
         static void verify_ma_techniques();
         void check() const;
 
         matec_id id;
         std::vector<std::pair<matec_id, mod_id>> src;
+        std::vector<std::pair<matec_id, mod_id>> second_src;
         bool was_loaded = false;
         translation name;
 
@@ -292,6 +294,7 @@ class ma_buff
 
         mabuff_id id;
         std::vector<std::pair<mabuff_id, mod_id>> src;
+        std::vector<std::pair<mabuff_id, mod_id>> second_src;
         bool was_loaded = false;
         translation name;
         translation description;
@@ -327,7 +330,7 @@ class martialart
     public:
         martialart();
 
-        void load( const JsonObject &jo, std::string_view src, const std::string_view );
+        void load( const JsonObject &jo, std::string_view src, const std::string_view second_src );
 
         void remove_all_buffs( Character &u ) const;
 
@@ -392,6 +395,7 @@ class martialart
 
         matype_id id;
         std::vector<std::pair<matype_id, mod_id>> src;
+        std::vector<std::pair<matype_id, mod_id>> second_src;
         bool was_loaded = false;
         translation name;
         translation description;

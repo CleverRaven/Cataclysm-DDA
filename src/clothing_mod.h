@@ -48,6 +48,7 @@ struct clothing_mod {
 
     clothing_mod_id id;
     std::vector<std::pair<clothing_mod_id, mod_id>> src;
+    std::vector<std::pair<clothing_mod_id, mod_id>> second_src;
     bool was_loaded = false;
 
     flag_id flag;

@@ -341,6 +341,7 @@ struct mtype {
 
         /** Mod origin */
         std::vector<std::pair<mtype_id, mod_id>> src;
+        std::vector<std::pair<mtype_id, mod_id>> second_src;
         weakpoint_families families;
     private:
         std::vector<weakpoints_id> weakpoints_deferred;

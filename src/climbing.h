@@ -144,6 +144,7 @@ class climbing_aid
         // Identity of the climbing aid, and index in get_all() list.
         climbing_aid_id id;
         std::vector<std::pair<climbing_aid_id, mod_id>> src;
+        std::vector<std::pair<climbing_aid_id, mod_id>> second_src;
 
         // Every climbing aid is based on one primary requirement without which it can't be used.
         condition base_condition;

@@ -148,7 +148,7 @@ bool recipe::has_flag( const std::string &flag_name ) const
     return flags.count( flag_name );
 }
 
-void recipe::load( const JsonObject &jo, const std::string &src )
+void recipe::load( const JsonObject &jo, const std::string &src, const std::string &second_src )
 {
     bool strict = src == "dda";
 
@@ -158,7 +158,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "result_eocs" ) ) {
         result_eocs.clear();
         for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
-            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
         }
     }
     if( abstract ) {

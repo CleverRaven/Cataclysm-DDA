@@ -2959,7 +2959,7 @@ mapgen_arguments overmap_special::get_args( const mapgendata &md ) const
     return mapgen_params_.get_args( md, mapgen_parameter_scope::overmap_special );
 }
 
-void overmap_special::load( const JsonObject &jo, const std::string &src, const std::string_view )
+void overmap_special::load( const JsonObject &jo, const std::string &src, const std::string_view second_src )
 {
     const bool strict = src == "dda";
     // city_building is just an alias of overmap_special
@@ -2969,7 +2969,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src, const 
     optional( jo, was_loaded, "subtype", subtype_, overmap_special_subtype::fixed );
     optional( jo, was_loaded, "locations", default_locations_ );
     if( jo.has_member( "eoc" ) ) {
-        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src );
+        eoc = effect_on_conditions::load_inline_eoc( jo.get_member( "eoc" ), src, second_src );
         has_eoc_ = true;
     }
     switch( subtype_ ) {
@@ -7689,7 +7689,11 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
 
     overmap_special_id new_id( "FakeSpecial_" + base.str() );
     overmap_special new_special( new_id, ter );
-    mod_tracker::assign_src( new_special, base->src.back().second.str() );
+    if ( !base->second_src.empty() ) {
+        mod_tracker::assign_src( new_special, base->src.back().second.str(), base->second_src.back().second.str() );
+    } else {
+        mod_tracker::assign_src( new_special, base->src.back().second.str(), "" );
+    }
 
     return specials.insert( new_special ).id;
 }

@@ -15,6 +15,7 @@ struct dialogue;
 struct jmath_func {
     jmath_func_id id;
     std::vector<std::pair<jmath_func_id, mod_id>> src;
+    std::vector<std::pair<jmath_func_id, mod_id>> second_src;
     bool was_loaded = false;
     int num_params{};
 

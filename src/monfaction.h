@@ -58,6 +58,7 @@ class monfaction
 
         mfaction_str_id id = mfaction_str_id::NULL_ID();
         std::vector<std::pair<mfaction_str_id, mod_id>> src;
+        std::vector<std::pair<mfaction_str_id, mod_id>> second_src;
         mfaction_str_id base_faction = mfaction_str_id::NULL_ID();
 
     private:

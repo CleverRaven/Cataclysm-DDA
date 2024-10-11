@@ -459,6 +459,7 @@ class vpart_info
     private:
         bool was_loaded = false; // used by generic_factory
         std::vector<std::pair<vpart_id, mod_id>> src;
+        std::vector<std::pair<vpart_id, mod_id>> second_src;
         friend class generic_factory<vpart_info>;
         friend struct mod_tracker;
 };
@@ -506,6 +507,7 @@ struct vehicle_prototype {
         std::vector<vehicle_item_spawn> item_spawns;
         std::vector<zone_def> zone_defs;
         std::vector<std::pair<vproto_id, mod_id>> src;
+        std::vector<std::pair<vproto_id, mod_id>> second_src;
 
         shared_ptr_fast<vehicle> blueprint;
 

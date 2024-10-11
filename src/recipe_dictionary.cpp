@@ -436,8 +436,8 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
         r = out[ base ];
     }
 
-    r.load( jo, src );
-    mod_tracker::assign_src( r, src );
+    r.load( jo, src, second_src );
+    mod_tracker::assign_src( r, src, second_src );
     r.was_loaded = true;
 
     // Check for duplicate recipe_ids before assigning it to the map

@@ -55,6 +55,7 @@ class harvest_drop_type
     private:
         harvest_drop_type_id id;
         std::vector<std::pair<harvest_drop_type_id, mod_id>> src;
+        std::vector<std::pair<harvest_drop_type_id, mod_id>> second_src;
         bool is_group_;
         bool dissect_only_;
         bool was_loaded = false;
@@ -104,6 +105,7 @@ class harvest_list
 
         harvest_id id;
         std::vector<std::pair<harvest_id, mod_id>> src;
+        std::vector<std::pair<harvest_id, mod_id>> second_src;
 
         std::string message() const;
 

@@ -451,7 +451,7 @@ void npc_template::load( const JsonObject &jsobj, const std::string_view src, co
         tem.personality->altruism = personality.get_int( "altruism" );
     }
     for( JsonValue jv : jsobj.get_array( "death_eocs" ) ) {
-        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     npc_templates.emplace( guy.idz, std::move( tem ) );

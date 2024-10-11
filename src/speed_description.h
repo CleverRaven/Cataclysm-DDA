@@ -33,6 +33,7 @@ class speed_description
 
         speed_description_id id;
         std::vector<std::pair<speed_description_id, mod_id>> src;
+        std::vector<std::pair<speed_description_id, mod_id>> second_src;
         bool was_loaded = false;
 
         // Always sorted with highest value first

@@ -261,7 +261,7 @@ void ma_requirements::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
 }
 
-void ma_technique::load( const JsonObject &jo, const std::string_view src, const std::string_view )
+void ma_technique::load( const JsonObject &jo, const std::string_view src, const std::string_view second_src )
 {
     mandatory( jo, was_loaded, "name", name );
     optional( jo, was_loaded, "description", description, translation() );
@@ -305,7 +305,7 @@ void ma_technique::load( const JsonObject &jo, const std::string_view src, const
     optional( jo, was_loaded, "tech_effects", tech_effects, tech_effect_reader{} );
 
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     if( jo.has_member( "condition" ) ) {
@@ -405,7 +405,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string_view src, const std::string_view )
+void martialart::load( const JsonObject &jo, const std::string_view src, const std::string_view second_src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -433,37 +433,37 @@ void martialart::load( const JsonObject &jo, const std::string_view src, const s
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
-        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
-        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
-        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
-        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
-        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
-        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
-        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
-        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
-        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
     for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
-        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );

@@ -233,6 +233,7 @@ class enchantment
         enchantment_id id;
         // NOLINTNEXTLINE(cata-serialize)
         std::vector<std::pair<enchantment_id, mod_id>> src;
+        std::vector<std::pair<enchantment_id, mod_id>> second_src;
 
         bool was_loaded = false;
 

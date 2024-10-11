@@ -156,6 +156,7 @@ class scenario
         const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
         std::vector<std::pair<string_id<scenario>, mod_id>> src;
+        std::vector<std::pair<string_id<scenario>, mod_id>> second_src;
 };
 
 struct scen_blacklist {

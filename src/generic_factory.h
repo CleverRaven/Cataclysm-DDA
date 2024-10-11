@@ -299,7 +299,7 @@ class generic_factory
             }
             if( jo.has_string( id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( id_member_name ) );
-                mod_tracker::assign_src( def, src );
+                mod_tracker::assign_src( def, src, second_src );
                 def.load( jo, src, second_src );
                 insert( def );
 
@@ -320,7 +320,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
-                    mod_tracker::assign_src( def, src );
+                    mod_tracker::assign_src( def, src, second_src );
                     def.load( jo, src, second_src );
                     insert( def );
                 }
@@ -331,7 +331,7 @@ class generic_factory
 
             } else if( jo.has_string( legacy_id_member_name ) ) {
                 def.id = string_id<T>( jo.get_string( legacy_id_member_name ) );
-                mod_tracker::assign_src( def, src );
+                mod_tracker::assign_src( def, src, second_src );
                 def.load( jo, src, second_src );
                 insert( def );
 
@@ -352,7 +352,7 @@ class generic_factory
                         break;
                     }
                     def.id = string_id<T>( e );
-                    mod_tracker::assign_src( def, src );
+                    mod_tracker::assign_src( def, src, second_src );
                     def.load( jo, src, second_src );
                     insert( def );
                 }

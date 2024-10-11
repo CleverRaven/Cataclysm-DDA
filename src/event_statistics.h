@@ -56,6 +56,7 @@ class event_transformation
 
         string_id<event_transformation> id;
         std::vector<std::pair<string_id<event_transformation>, mod_id>> src;
+        std::vector<std::pair<string_id<event_transformation>, mod_id>> second_src;
         bool was_loaded = false;
 
         event_fields_type fields() const;
@@ -82,6 +83,7 @@ class event_statistic
 
         string_id<event_statistic> id;
         std::vector<std::pair<string_id<event_statistic>, mod_id>> src;
+        std::vector<std::pair<string_id<event_statistic>, mod_id>> second_src;
         bool was_loaded = false;
 
         const translation &description() const {
@@ -115,6 +117,7 @@ class score
 
         string_id<score> id;
         std::vector<std::pair<string_id<score>, mod_id>> src;
+        std::vector<std::pair<string_id<score>, mod_id>> second_src;
         bool was_loaded = false;
     private:
         translation description_;

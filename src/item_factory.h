@@ -305,7 +305,7 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                        const std::string &src );
+                        const std::string &src, const std::string &second_src );
 
         /**
          * Load item the item slot if present in json.
@@ -314,7 +314,7 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                 std::string_view member, const std::string &src );
+                                 std::string_view member, const std::string &src, const std::string &second_src );
 
         void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
@@ -331,12 +331,12 @@ class Item_factory
 
         void set_use_methods_from_json( const JsonObject &jo, const std::string &src,
                                         const std::string &member, std::map<std::string, use_function> &use_methods,
-                                        std::map<std::string, int> &ammo_scale );
+                                        std::map<std::string, int> &ammo_scale, const std::string &second_src );
 
         use_function usage_from_string( const std::string &type ) const;
 
         std::pair<std::string, use_function> usage_from_object( const JsonObject &obj,
-                const std::string & );
+                const std::string &, const std::string & );
 
         /**
          * Helper function for Item_group loading

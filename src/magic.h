@@ -214,6 +214,7 @@ class spell_type
         spell_id id;
         // NOLINTNEXTLINE(cata-serialize)
         std::vector<std::pair<spell_id, mod_id>> src;
+        std::vector<std::pair<spell_id, mod_id>> second_src;
         mod_id src_mod;
         // spell name
         translation name;

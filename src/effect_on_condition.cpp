@@ -117,14 +117,14 @@ void effect_on_condition::load( const JsonObject &jo, const std::string_view src
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
-        const std::string_view src )
+        const std::string_view src, const std::string_view second_src )
 {
     if( jv.test_string() ) {
         return effect_on_condition_id( jv.get_string() );
     } else if( jv.test_object() ) {
         effect_on_condition inline_eoc;
         inline_eoc.load( jv.get_object(), src, "" );
-        mod_tracker::assign_src( inline_eoc, src );
+        mod_tracker::assign_src( inline_eoc, src, second_src );
         effect_on_condition_factory.insert( inline_eoc );
         return inline_eoc.id;
     } else {

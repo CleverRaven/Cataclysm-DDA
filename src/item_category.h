@@ -48,6 +48,7 @@ class item_category
         /** Unique ID of this category, used when loading from JSON. */
         item_category_id id;
         std::vector<std::pair<item_category_id, mod_id>> src;
+        std::vector<std::pair<item_category_id, mod_id>> second_src;
 
         item_category() = default;
         /**

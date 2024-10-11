@@ -58,6 +58,7 @@ struct ammo_effect {
         // Used by generic_factory
         ammo_effect_str_id id;
         std::vector<std::pair<ammo_effect_str_id, mod_id>> src;
+        std::vector<std::pair<ammo_effect_str_id, mod_id>> second_src;
         bool was_loaded = false;
 
         static size_t count();

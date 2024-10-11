@@ -48,6 +48,7 @@ class zone_type
 
         zone_type_id id;
         std::vector<std::pair<zone_type_id, mod_id>> src;
+        std::vector<std::pair<zone_type_id, mod_id>> second_src;
         bool was_loaded = false;
 
         zone_type() = default;

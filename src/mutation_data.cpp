@@ -423,15 +423,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string_view src, co
     }
 
     for( JsonValue jv : jo.get_array( "activated_eocs" ) ) {
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     for( JsonValue jv : jo.get_array( "processed_eocs" ) ) {
-        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     for( JsonValue jv : jo.get_array( "deactivated_eocs" ) ) {
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     optional( jo, was_loaded, "activated_is_setup", activated_is_setup, false );

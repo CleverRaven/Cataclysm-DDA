@@ -75,6 +75,7 @@ class node_t
         void check() const;
         string_id<node_t> id;
         std::vector<std::pair<string_id<node_t>, mod_id>> src;
+        std::vector<std::pair<string_id<node_t>, mod_id>> second_src;
         bool was_loaded = false;
     private:
         std::vector<const node_t *> children;

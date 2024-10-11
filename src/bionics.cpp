@@ -368,15 +368,15 @@ void bionic_data::load( const JsonObject &jsobj, const std::string_view src, con
     optional( jsobj, was_loaded, "deactivated_close_ui", deactivated_close_ui, false );
 
     for( JsonValue jv : jsobj.get_array( "activated_eocs" ) ) {
-        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        activated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     for( JsonValue jv : jsobj.get_array( "processed_eocs" ) ) {
-        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        processed_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     for( JsonValue jv : jsobj.get_array( "deactivated_eocs" ) ) {
-        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        deactivated_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, second_src ) );
     }
 
     int enchant_num = 0;

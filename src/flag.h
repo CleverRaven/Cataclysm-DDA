@@ -406,6 +406,7 @@ class json_flag
         // used by generic_factory
         flag_id id = flag_NULL;
         std::vector<std::pair<flag_id, mod_id>> src;
+        std::vector<std::pair<flag_id, mod_id>> second_src;
         bool was_loaded = false;
 
         json_flag() = default;

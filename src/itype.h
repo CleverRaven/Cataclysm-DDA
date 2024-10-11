@@ -1250,6 +1250,7 @@ struct itype {
         units::mass integral_weight = -1_gram;
 
         std::vector<std::pair<itype_id, mod_id>> src;
+        std::vector<std::pair<itype_id, mod_id>> second_src;
 
         // Potential variant items that exist of this type (same stats, different name and desc)
         std::vector<itype_variant_data> variants;

@@ -269,7 +269,7 @@ class recipe
             return reversible;
         }
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string &src, const std::string &second_src );
         void finalize();
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
@@ -309,6 +309,7 @@ class recipe
 
         recipe_id id = recipe_id::NULL_ID();
         std::vector<std::pair<recipe_id, mod_id>> src;
+        std::vector<std::pair<recipe_id, mod_id>> second_src;
 
         /** Abstract recipes can be inherited from but are themselves disposed of at finalization */
         bool abstract = false;

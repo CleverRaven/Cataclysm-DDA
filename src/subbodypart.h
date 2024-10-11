@@ -43,6 +43,7 @@ struct sub_body_part_type {
 
     sub_bodypart_str_id id;
     std::vector<std::pair<sub_bodypart_str_id, mod_id>> src;
+    std::vector<std::pair<sub_bodypart_str_id, mod_id>> second_src;
     sub_bodypart_str_id opposite;
 
     bool was_loaded = false;

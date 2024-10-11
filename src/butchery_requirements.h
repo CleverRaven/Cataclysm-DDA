@@ -27,6 +27,7 @@ class butchery_requirements
         bool was_loaded = false;
         string_id<butchery_requirements> id;
         std::vector<std::pair<string_id<butchery_requirements>, mod_id>> src;
+        std::vector<std::pair<string_id<butchery_requirements>, mod_id>> second_src;
 
         // tries to find the requirement with the highest speed bonus. if it fails it returns std::nullopt
         std::pair<float, requirement_id> get_fastest_requirements(

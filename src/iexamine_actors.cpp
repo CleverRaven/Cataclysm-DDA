@@ -265,7 +265,7 @@ void eoc_examine_actor::call( Character &you, const tripoint_bub_ms &examp ) con
 void eoc_examine_actor::load( const JsonObject &jo, const std::string &src )
 {
     for( JsonValue jv : jo.get_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, src, "" ) );
     }
 }
 

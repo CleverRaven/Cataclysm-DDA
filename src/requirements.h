@@ -45,6 +45,7 @@ struct quality {
     bool was_loaded = false;
     quality_id id;
     std::vector<std::pair<quality_id, mod_id>> src;
+    std::vector<std::pair<quality_id, mod_id>> second_src;
     translation name;
 
     std::vector<std::pair<int, std::string>> usages;

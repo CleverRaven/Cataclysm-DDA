@@ -18,6 +18,7 @@ struct construction_group {
 
         construction_group_str_id id;
         std::vector<std::pair<construction_group_str_id, mod_id>> src;
+        std::vector<std::pair<construction_group_str_id, mod_id>> second_src;
         bool was_loaded = false;
 
         std::string name() const;

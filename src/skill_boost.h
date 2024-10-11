@@ -33,6 +33,7 @@ class skill_boost
         friend struct mod_tracker;
         string_id<skill_boost> id;
         std::vector<std::pair<string_id<skill_boost>, mod_id>> src;
+        std::vector<std::pair<string_id<skill_boost>, mod_id>> second_src;
         bool was_loaded = false;
         std::vector<std::string> _skills;
         int _offset = 0;

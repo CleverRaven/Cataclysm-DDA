@@ -67,6 +67,7 @@ struct field_immunity_data {
 struct field_effect {
     efftype_id id;
     std::vector<std::pair<efftype_id, mod_id>> src;
+    std::vector<std::pair<efftype_id, mod_id>> second_src;
     time_duration min_duration = 0_seconds;
     time_duration max_duration = 0_seconds;
     int intensity = 0;
@@ -188,6 +189,7 @@ struct field_type {
         // Used by generic_factory
         field_type_str_id id;
         std::vector<std::pair<field_type_str_id, mod_id>> src;
+        std::vector<std::pair<field_type_str_id, mod_id>> second_src;
         bool was_loaded = false;
 
         int legacy_enum_id = -1;

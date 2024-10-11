@@ -55,7 +55,7 @@ struct damage_type {
     static void load_damage_types( const JsonObject &jo, const std::string &src, const std::string &second_src );
     static void reset();
     static void check();
-    void load( const JsonObject &jo, std::string_view, const std::string_view );
+    void load( const JsonObject &jo, std::string_view, const std::string_view second_src );
     static const std::vector<damage_type> &get_all();
 };
 

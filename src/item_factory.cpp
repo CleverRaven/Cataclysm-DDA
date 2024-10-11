@@ -1656,7 +1656,7 @@ class iuse_function_wrapper : public iuse_actor
             return std::make_unique<iuse_function_wrapper>( *this );
         }
 
-        void load( const JsonObject &, const std::string & ) override {}
+        void load( const JsonObject &, const std::string &, const std::string & ) override {}
 };
 
 class iuse_function_wrapper_with_info : public iuse_function_wrapper
@@ -2583,7 +2583,7 @@ Item_spawn_data *Item_factory::get_group( const item_group_id &group_tag )
 
 template<typename SlotType>
 void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                              const std::string &src )
+                              const std::string &src, const std::string &second_src )
 {
     if( !slotptr ) {
         slotptr = cata::make_value<SlotType>();
@@ -2593,13 +2593,13 @@ void Item_factory::load_slot( cata::value_ptr<SlotType> &slotptr, const JsonObje
 
 template<typename SlotType>
 void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
-                                       const std::string_view member, const std::string &src )
+                                       const std::string_view member, const std::string &src, const std::string &second_src )
 {
     if( !jo.has_member( member ) ) {
         return;
     }
     JsonObject slotjo = jo.get_object( member );
-    load_slot( slotptr, slotjo, src );
+    load_slot( slotptr, slotjo, src, second_src );
 }
 
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def, const std::string &second_src )
@@ -2858,7 +2858,7 @@ void Item_factory::load_gun( const JsonObject &jo, const std::string &src, const
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.gun, jo, src );
+        load_slot( def.gun, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -3162,7 +3162,7 @@ void Item_factory::load_tool( const JsonObject &jo, const std::string &src, cons
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.tool, jo, src );
+        load_slot( def.tool, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -3214,7 +3214,7 @@ void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src, c
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.mod, jo, src );
+        load_slot( def.mod, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -3225,7 +3225,7 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.tool, jo, src );
+        load_slot( def.tool, jo, src, second_src );
         if( def.was_loaded ) {
             if( def.armor ) {
                 def.armor->was_loaded = true;
@@ -3383,7 +3383,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
+        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src, "replaceThis" ) );
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -3462,7 +3462,7 @@ void Item_factory::load_comestible( const JsonObject &jo, const std::string &src
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
         assign( jo, "stack_size", def.stack_size, src == "dda", 1 );
-        load_slot( def.comestible, jo, src );
+        load_slot( def.comestible, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -3561,8 +3561,8 @@ void Item_factory::load_gunmod( const JsonObject &jo, const std::string &src, co
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.gunmod, jo, src );
-        load_slot( def.mod, jo, src );
+        load_slot( def.gunmod, jo, src, second_src );
+        load_slot( def.mod, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -3583,7 +3583,7 @@ void Item_factory::load_magazine( const JsonObject &jo, const std::string &src, 
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.magazine, jo, src );
+        load_slot( def.magazine, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -3637,7 +3637,7 @@ void Item_factory::load_bionic( const JsonObject &jo, const std::string &src, co
 {
     itype def;
     if( load_definition( jo, src, def, second_src ) ) {
-        load_slot( def.bionic, jo, src );
+        load_slot( def.bionic, jo, src, second_src );
         load_basic_info( jo, def, src, second_src );
     }
 }
@@ -4403,8 +4403,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         }
     }
 
-    set_use_methods_from_json( jo, src, "use_action", def.use_methods, def.ammo_scale );
-    set_use_methods_from_json( jo, src, "tick_action", def.tick_action, def.ammo_scale );
+    set_use_methods_from_json( jo, src, "use_action", def.use_methods, def.ammo_scale, second_src );
+    set_use_methods_from_json( jo, src, "tick_action", def.tick_action, def.ammo_scale, second_src );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "revert_to", def.revert_to, strict );
@@ -4414,7 +4414,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "countdown_action" ) ) {
         JsonObject tmp = jo.get_object( "countdown_action" );
-        use_function fun = usage_from_object( tmp, src ).second;
+        use_function fun = usage_from_object( tmp, src, second_src ).second;
         if( fun ) {
             def.countdown_action = fun;
         }
@@ -4425,7 +4425,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     } else if( jo.has_object( "drop_action" ) ) {
         JsonObject tmp = jo.get_object( "drop_action" );
-        use_function fun = usage_from_object( tmp, src ).second;
+        use_function fun = usage_from_object( tmp, src, second_src ).second;
         if( fun ) {
             def.drop_action = fun;
         }
@@ -4451,13 +4451,13 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "armor_data", def.armor, src == "dda" );
     assign( jo, "pet_armor_data", def.pet_armor, src == "dda" );
     assign( jo, "book_data", def.book, src == "dda" );
-    load_slot_optional( def.gun, jo, "gun_data", src );
-    load_slot_optional( def.bionic, jo, "bionic_data", src );
+    load_slot_optional( def.gun, jo, "gun_data", src, second_src );
+    load_slot_optional( def.bionic, jo, "bionic_data", src, second_src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
     assign( jo, "brewable", def.brewable, src == "dda" );
     assign( jo, "compostable", def.compostable, src == "dda" );
-    load_slot_optional( def.relic_data, jo, "relic_data", src );
+    load_slot_optional( def.relic_data, jo, "relic_data", src, second_src );
     assign( jo, "milling", def.milling_data, src == "dda" );
 
     // optional gunmod slot may also specify mod data
@@ -4465,8 +4465,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         // use the same JsonObject for the two load_slot calls to avoid
         // warnings about unvisited Json members
         JsonObject jo_gunmod = jo.get_object( "gunmod_data" );
-        load_slot( def.gunmod, jo_gunmod, src );
-        load_slot( def.mod, jo_gunmod, src );
+        load_slot( def.gunmod, jo_gunmod, src, second_src );
+        load_slot( def.mod, jo_gunmod, src, second_src );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -4479,7 +4479,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     check_and_create_magazine_pockets( def );
     add_special_pockets( def );
 
-    mod_tracker::assign_src( def, src );
+    mod_tracker::assign_src( def, src, second_src );
 
     if( def.magazines.empty() ) {
         migrate_mag_from_pockets( def );
@@ -5203,7 +5203,7 @@ void Item_factory::load_item_group_data( const JsonObject &jsobj, Item_group *ig
 
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &src,
         const std::string &member, std::map<std::string, use_function> &use_methods,
-        std::map<std::string, int> &ammo_scale )
+        std::map<std::string, int> &ammo_scale, const std::string &second_src )
 {
     if( !jo.has_member( member ) ) {
         return;
@@ -5218,7 +5218,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 emplace_usage( use_methods, type );
             } else if( entry.test_object() ) {
                 JsonObject obj = entry.get_object();
-                std::pair<std::string, use_function> fun = usage_from_object( obj, src );
+                std::pair<std::string, use_function> fun = usage_from_object( obj, src, second_src );
                 if( fun.second ) {
                     use_methods.insert( fun );
                     if( obj.has_int( "ammo_scale" ) ) {
@@ -5242,7 +5242,7 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             emplace_usage( use_methods, type );
         } else if( jo.has_object( member ) ) {
             JsonObject obj = jo.get_object( member );
-            std::pair<std::string, use_function> fun = usage_from_object( obj, src );
+            std::pair<std::string, use_function> fun = usage_from_object( obj, src, second_src );
             if( fun.second ) {
                 use_methods.insert( fun );
                 if( obj.has_int( "ammo_scale" ) ) {
@@ -5267,7 +5267,7 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
 }
 
 std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj,
-        const std::string &src )
+        const std::string &src, const std::string &second_src )
 {
     std::string type = obj.get_string( "type" );
 
@@ -5285,7 +5285,7 @@ std::pair<std::string, use_function> Item_factory::usage_from_object( const Json
         return std::make_pair( type, use_function() );
     }
 
-    method.get_actor_ptr()->load( obj, src );
+    method.get_actor_ptr()->load( obj, src, second_src );
     return std::make_pair( type, method );
 }
 

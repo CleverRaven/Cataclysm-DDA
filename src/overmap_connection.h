@@ -54,6 +54,7 @@ class overmap_connection
 
         string_id<overmap_connection> id;
         std::vector<std::pair<string_id<overmap_connection>, mod_id>> src;
+        std::vector<std::pair<string_id<overmap_connection>, mod_id>> second_src;
         bool was_loaded = false;
 
     private:

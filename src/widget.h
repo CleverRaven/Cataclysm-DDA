@@ -215,6 +215,7 @@ class widget
 
         widget_id id;
         std::vector<std::pair<widget_id, mod_id>> src;
+        std::vector<std::pair<widget_id, mod_id>> second_src;
         bool was_loaded = false;
         const widget_clause *get_clause( const std::string &clause_id = "" ) const;
         std::vector<const widget_clause *> get_clauses() const;

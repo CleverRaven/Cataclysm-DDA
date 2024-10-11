@@ -180,6 +180,7 @@ struct mission_type {
         // Matches it to a mission_type_id above
         mission_type_id id = mission_type_id( "MISSION_NULL" );
         std::vector<std::pair<mission_type_id, mod_id>> src;
+        std::vector<std::pair<mission_type_id, mod_id>> second_src;
         bool was_loaded = false;
     private:
         // The untranslated name of the mission

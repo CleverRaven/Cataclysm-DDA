@@ -76,6 +76,7 @@ class ter_furn_transform
 
         ter_furn_transform_id id;
         std::vector<std::pair<ter_furn_transform_id, mod_id>> src;
+        std::vector<std::pair<ter_furn_transform_id, mod_id>> second_src;
         bool was_loaded = false;
 
         void transform( map &m, const tripoint_bub_ms &location ) const;
