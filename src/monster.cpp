@@ -16,7 +16,6 @@
 #include "cata_imgui.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
@@ -2291,6 +2290,14 @@ void monster::apply_damage( Creature *source, bodypart_id /*bp*/, int dam,
     // Ensure we can try to get at what hit us.
     reset_pathfinding_cd();
     hp -= dam;
+
+    cata::event e = cata::event::make<event_type::monster_takes_damage>( dam, hp < 1 );
+    if( source ) {
+        get_event_bus().send_with_talker( this, source, e );
+    } else {
+        get_event_bus().send( e );
+    }
+
     if( hp < 1 ) {
         set_killer( source );
     } else if( dam > 0 ) {
@@ -2934,11 +2941,11 @@ void monster::die( Creature *nkiller )
     if( !is_hallucination() && has_flag( mon_flag_QUEEN ) ) {
         // The submap coordinates of this monster, monster groups coordinates are
         // submap coordinates.
-        const tripoint abssub = ms_to_sm_copy( here.getglobal( pos_bub() ).raw() );
+        const tripoint_abs_sm abssub = coords::project_to<coords::sm>( here.getglobal( pos_bub() ) );
         // Do it for overmap above/below too
-        for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
+        for( const tripoint_abs_sm &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
             // TODO: fix point types
-            for( mongroup *&mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
+            for( mongroup *&mgp : overmap_buffer.groups_at( p ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }

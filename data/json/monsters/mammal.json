@@ -1282,7 +1282,7 @@
     "copy-from": "mon_dog",
     "type": "MONSTER",
     "name": { "str": "boxer mastiff" },
-    "description": "An ordinary breed full of affection, the boxer mastiff doesn't otherwise stand out amongst other dogs with its capabilities.",
+    "description": "An ordinary breed full of affection, the boxer mastiff doesn't otherwise stand out among other dogs with its capabilities.",
     "hp": 29,
     "aggression": -8,
     "weight": "27500 g",

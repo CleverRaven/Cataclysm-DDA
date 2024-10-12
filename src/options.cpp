@@ -1686,8 +1686,8 @@ void options_manager::add_options_general()
 
     add_empty_line();
 
-    add_option_group( "general", Group( "misc_general_opts", to_translation( "Misc options" ),
-                                        to_translation( "Miscellaneous Options." ) ),
+    add_option_group( "general", Group( "misc_general_opts", to_translation( "Misc Options" ),
+                                        to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
         add( "CIRCLEDIST", page_id, to_translation( "Circular distances" ),
              to_translation( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If false, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),

@@ -853,7 +853,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
-            here.ter_set( you.pos(), ter_t_grass );
+            here.ter_set( you.pos_bub(), ter_t_grass );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;

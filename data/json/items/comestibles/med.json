@@ -296,7 +296,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "chewing tobacco" },
-    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite amongst baseball players, cowboys, and other macho types.",
+    "description": "Mint-flavored chewing tobacco.  While absolutely terrible for your health, it was once a favorite among baseball players, cowboys, and other macho types.",
     "weight": "4 g",
     "volume": "4 ml",
     "price": "33 cent",

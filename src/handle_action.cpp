@@ -2064,6 +2064,7 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x;
             player_character.view_offset.y() = g->driving_view_offset.y;
+            player_character.view_offset.z() = 0;
             break;
 
         case ACTION_SHIFT_N:

@@ -1498,8 +1498,8 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
-        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getglobal(
-                                               get_player_character().pos_bub() ).raw() ) );
+        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+                                               get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
