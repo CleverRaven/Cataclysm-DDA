@@ -135,7 +135,7 @@
     "id": "egg_duck_domestic",
     "name": { "str": "domestic duck egg" },
     "copy-from": "egg_duck",
-    "rot_spawn": { "monster": "mon_duck_domestic_chick", "chance": 70 }
+    "rot_spawn": { "monster": "mon_duck_domestic_chick" }
   },
   {
     "type": "COMESTIBLE",
