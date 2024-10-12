@@ -66,6 +66,18 @@
     "components": [ [ [ "meal_bone", 1 ], [ "meal_bone_tainted", 1 ] ] ]
   },
   {
+    "id": "skull_small",
+    "type": "requirement",
+    "//": "Small skulls",
+    "components": [ [ [ "skull_feline_small", 1 ], [ "skull_canis_small", 1 ], [ "skull_opossum", 1 ], [ "skull_skunk", 1 ] ] ]
+  },
+  {
+    "id": "skull_medium",
+    "type": "requirement",
+    "//": "Medium skulls",
+    "components": [ [ [ "skull_feline_medium", 1 ], [ "skull_canis_medium", 1 ], [ "skull_raccoon", 1 ], [ "skull_rabbit", 1 ] ] ]
+  },
+  {
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
