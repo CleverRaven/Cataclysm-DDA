@@ -12,6 +12,7 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
+#include "mod_manager.h"
 #include "mongroup.h"
 #include "mtype.h"
 #include "enums.h"
@@ -586,7 +587,7 @@ std::function<void( dialogue &, double )> spellcasting_adjustment_ass( char scop
             case scope_mod: {
                 const mod_id target_mod_id( filter_str );
                 for( spell *spellIt : d.actor( beta )->get_character()->magic->get_spells() ) {
-                    if( spellIt->get_src() == target_mod_id
+                    if( get_base_id(spellIt->get_src()) == target_mod_id
                         && ( whitelist.str( d ).empty() || spellIt->has_flag( whitelist.str( d ) ) )
                         && ( blacklist.str( d ).empty() || !spellIt->has_flag( blacklist.str( d ) ) )
                       ) {
