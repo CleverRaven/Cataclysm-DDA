@@ -1687,7 +1687,7 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add_option_group( "general", Group( "misc_general_opts", to_translation( "Misc Options" ),
-                                        to_translation( "Miscellaneous Options." ) ),
+                                        to_translation( "Miscellaneous options." ) ),
     [&]( const std::string & page_id ) {
         add( "CIRCLEDIST", page_id, to_translation( "Circular distances" ),
              to_translation( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If false, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
@@ -1715,7 +1715,7 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add_option_group( "general", Group( "soundpacks_opts", to_translation( "Soundpack Options" ),
-                                        to_translation( "Options regarding Soundpack." ) ),
+                                        to_translation( "Options regarding soundpack." ) ),
     [&]( const std::string & page_id ) {
         add( "SOUND_ENABLED", page_id, to_translation( "Sound enabled" ),
              to_translation( "If true, music and sound are enabled." ),
