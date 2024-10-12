@@ -30,7 +30,6 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinate_constants.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "coords_fwd.h"
 #include "creature.h"
@@ -287,7 +286,7 @@ void map::set_transparency_cache_dirty( const int zlev )
 void map::set_transparency_cache_dirty( const tripoint_bub_ms &p, bool field )
 {
     if( inbounds( p ) ) {
-        const tripoint_bub_ms smp = tripoint_bub_ms( ms_to_sm_copy( p.raw() ) );
+        const tripoint_bub_sm smp = coords::project_to<coords::sm>( p );
         get_cache( smp.z() ).transparency_cache_dirty.set( smp.x() * MAPSIZE + smp.y() );
         if( !field ) {
             get_creature_tracker().invalidate_reachability_cache();
@@ -5009,9 +5008,9 @@ void map::translate_radius( const ter_id &from, const ter_id &to, float radi,
         return;
     }
 
-    const tripoint_abs_omt abs_omt_p = tripoint_abs_omt( ms_to_omt_copy( getglobal( p ).raw() ) );
+    const tripoint_abs_omt abs_omt_p = coords::project_to<coords::omt>( getglobal( p ) );
     for( const tripoint_bub_ms &t : points_on_zlevel() ) {
-        const tripoint_abs_omt abs_omt_t = tripoint_abs_omt( ms_to_omt_copy( getglobal( t ).raw() ) );
+        const tripoint_abs_omt abs_omt_t = coords::project_to<coords::omt>( getglobal( t ) );
         const float radiX = trig_dist( p, t );
         if( ter( t ) == from ) {
             // within distance, and either no submap limitation or same overmap coords.
@@ -5631,17 +5630,18 @@ item &map::add_item( const tripoint_bub_ms &p, item new_item, int copies )
     }
 
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getglobal( p ).raw() ) );
+        new_item.set_var( "reveal_map_center_omt",
+                          coords::project_to<coords::omt>( getglobal( p ) ).raw() );
     }
 
     if( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
         !new_item.has_var( "spawn_location_omt" ) ) {
-        new_item.set_var( "spawn_location_omt", ms_to_omt_copy( getglobal( p ).raw() ) );
+        new_item.set_var( "spawn_location_omt", coords::project_to<coords::omt>( getglobal( p ) ).raw() );
     }
     for( item *const it : new_item.all_items_top( pocket_type::CONTAINER ) ) {
         if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
             !it->has_var( "spawn_location_omt" ) ) {
-            it->set_var( "spawn_location_omt", ms_to_omt_copy( getglobal( p ).raw() ) );
+            it->set_var( "spawn_location_omt", coords::project_to<coords::omt>( getglobal( p ) ).raw() );
         }
     }
 
@@ -6806,7 +6806,7 @@ int map::get_field_intensity( const tripoint_bub_ms &p, const field_type_id &typ
 
 bool map::has_field_at( const tripoint_bub_ms &p, bool check_bounds ) const
 {
-    const tripoint_bub_sm sm = tripoint_bub_sm( ms_to_sm_copy( p.raw() ) );
+    const tripoint_bub_sm sm = coords::project_to<coords::sm>( p );
     return ( !check_bounds || inbounds( p ) ) &&
            get_cache( p.z() ).field_cache[sm.x() + sm.y() * MAPSIZE];
 }
@@ -7086,7 +7086,7 @@ computer *map::computer_at( const tripoint_bub_ms &p )
 
 bool map::point_within_camp( const tripoint_abs_ms &point_check ) const
 {
-    const tripoint_abs_omt omt_check( ms_to_omt_copy( point_check.raw() ) );
+    const tripoint_abs_omt omt_check( coords::project_to<coords::omt>( point_check ) );
     const point_abs_omt p = omt_check.xy();
     for( int x2 = -2; x2 < 2; x2++ ) {
         for( int y2 = -2; y2 < 2; y2++ ) {
@@ -9134,7 +9134,7 @@ void map::actualize( const tripoint_rel_sm &grid )
     explosion_handler::process_explosions();
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
-            const tripoint_bub_ms pnt = tripoint_bub_ms( sm_to_ms_copy( grid.raw() ) + point( x, y ) );
+            const tripoint_bub_ms pnt =  rebase_bub( coords::project_to<coords::ms>( grid ) + point( x, y ) );
             const point_sm_ms p( x, y );
             const furn_t &furn = *this->furn( pnt );
             const ter_t &terr = *this->ter( pnt );
@@ -9395,7 +9395,7 @@ void map::spawn_monsters_submap( const tripoint_rel_sm &gp, bool ignore_sight, b
                   gp.z() );
         return;
     }
-    const tripoint_bub_ms gp_ms = tripoint_bub_ms( sm_to_ms_copy( gp.raw() ) );
+    const tripoint_bub_ms gp_ms = rebase_bub( coords::project_to<coords::ms>( gp ) );
 
     creature_tracker &creatures = get_creature_tracker();
 

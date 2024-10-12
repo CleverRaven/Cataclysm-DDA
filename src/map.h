@@ -26,7 +26,6 @@
 #include "cata_type_traits.h"
 #include "cata_utility.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "coords_fwd.h"
 #include "creature.h"
 #include "enums.h"

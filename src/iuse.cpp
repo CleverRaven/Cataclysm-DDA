@@ -33,7 +33,6 @@
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -1751,7 +1750,7 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
     // isolated little body of water with no definite fish population
     // TODO: fix point types
     const oter_id &cur_omt =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getglobal( pos ).raw() ) ) );
+        overmap_buffer.ter( coords::project_to<coords::omt>( here.getglobal( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
@@ -6429,7 +6428,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_
     }
 
     // TODO: fix point types
-    tripoint_abs_omt omp( ms_to_omt_copy( here.getglobal( aim_point ).raw() ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.getglobal( aim_point ) ) );
     const oter_id &cur_ter = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),

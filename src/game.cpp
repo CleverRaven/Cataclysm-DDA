@@ -73,7 +73,6 @@
 #include "construction.h"
 #include "construction_group.h"
 #include "contents_change_handler.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cuboid_rectangle.h"
@@ -1196,9 +1195,12 @@ vehicle *game::place_vehicle_nearby(
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ),
                                                    rng( 50, 80 ), 0, false );
             if( veh ) {
-                tripoint abs_local = m.bub_from_abs( target_map.getglobal( tinymap_center ) ).raw();
-                veh->sm_pos =  ms_to_sm_remain( abs_local );
-                veh->pos = abs_local.xy();
+                const tripoint_bub_ms abs_local = m.bub_from_abs( target_map.getglobal( tinymap_center ) );
+                tripoint_bub_sm quotient;
+                point_sm_ms remainder;
+                std::tie( quotient, remainder ) = coords::project_remain<coords::sm>( abs_local );
+                veh->sm_pos = quotient.raw();
+                veh->pos = remainder.raw();
 
                 veh->unlock();          // always spawn unlocked
                 veh->toggle_tracking(); // always spawn tracked
@@ -7348,7 +7350,7 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
 {
     // get global area info according to look_around caret position
     // TODO: fix point types
-    tripoint_abs_omt omp( ms_to_omt_copy( m.getglobal( lp ).raw() ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( m.getglobal( lp ) ) );
     const oter_id &cur_ter_m = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     // we only need the area name and then pass it to print_all_tile_info() function below
@@ -10675,8 +10677,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     bool moving = dest_loc != oldpos.raw();
 
     point submap_shift = place_player( dest_loc );
-    point ms_shift = sm_to_ms_copy( submap_shift );
-    oldpos = oldpos - ms_shift;
+    point_rel_ms ms_shift = coords::project_to<coords::ms>( point_rel_sm( submap_shift ) );
+    oldpos = oldpos - ms_shift.raw();
 
     if( moving ) {
         cata_event_dispatch::avatar_moves( old_abs_pos.raw(), u, m );
@@ -12311,8 +12313,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( u.is_hauling() ) {
-        const tripoint adjusted_pos = old_pos.raw() - sm_to_ms_copy( submap_shift );
-        start_hauling( adjusted_pos );
+        const tripoint_bub_ms adjusted_pos = old_pos - coords::project_to<coords::ms>( point_rel_sm(
+                submap_shift ) ).raw();
+        start_hauling( adjusted_pos.raw() );
     }
 
     here.invalidate_map_cache( here.get_abs_sub().z() );
@@ -12668,7 +12671,7 @@ point game::update_map( int &x, int &y, bool z_level_changed )
 
     // Shift monsters
     shift_monsters( tripoint( shift, 0 ) );
-    const point shift_ms = sm_to_ms_copy( shift );
+    const point shift_ms = coords::project_to<coords::ms>( point_rel_sm( shift ) ).raw();
     u.shift_destination( -shift_ms );
 
     // Shift NPCs
@@ -13805,8 +13808,10 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
             u.current_movement_mode(), u.is_underwater(), new_pos.z() );
 
     // TODO: fix point types
-    const tripoint_abs_omt old_abs_omt( ms_to_omt_copy( old_abs_pos ) );
-    const tripoint_abs_omt new_abs_omt( ms_to_omt_copy( new_abs_pos.raw() ) );
+    const tripoint_abs_omt old_abs_omt( coords::project_to<coords::omt>( tripoint_abs_ms(
+                                            old_abs_pos ) ) );
+    const tripoint_abs_omt new_abs_omt( coords::project_to<coords::omt>( tripoint_abs_ms(
+                                            new_abs_pos ) ) );
     if( old_abs_omt != new_abs_omt ) {
         const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
         const oter_id &past_ter = overmap_buffer.ter( old_abs_omt );

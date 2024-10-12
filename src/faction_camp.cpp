@@ -22,7 +22,6 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"

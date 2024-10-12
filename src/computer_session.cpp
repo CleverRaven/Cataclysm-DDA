@@ -16,7 +16,6 @@
 #include "colony.h"
 #include "color.h"
 #include "computer.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -317,8 +316,9 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
-                    player_character.pos_bub() ).raw() ) &&
+        if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
+            coords::project_to<coords::omt>( here.getglobal(
+                    player_character.pos_bub() ) ) &&
             critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
             g->remove_zombie( critter );
