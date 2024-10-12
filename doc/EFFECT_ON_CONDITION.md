@@ -2274,7 +2274,7 @@ Used if you need to check if specific furniture or terrain is around
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_map_run_eocs", "npc_map_run_eocs" | **mandatory** | string, [variable object](#variable-object) or array | EoC or EoCs that would be run |
-| "store_coordinates_in" | optional | [variable object](#variable-object) | variable, where testet coordinate is stored | 
+| "store_coordinates_in" | optional | [variable object](#variable-object) | variable, where tested coordinate is stored | 
 | "condition" | optional | condition | condition that would be checked if eoc need to be run or not. Can (and intended to) use variable from `store_coordinates_in`. Default true (run always) | 
 | "target_var" | optional | [variable object](#variable-object) | location variable, around which the game should scan; if omitted, sticks to `u_` or `npc_` position | 
 | "range" | optional | int or [variable object](#variable-object) | how big the search radius should be; default 1 ( 3x3 square with character in the middle ) | 
