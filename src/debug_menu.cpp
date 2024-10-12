@@ -4070,8 +4070,12 @@ void debug()
             debugmsg( "Test debugmsg" );
             break;
         case debug_menu_index::CRASH_GAME:
-            static_cast<void>( raise( SIGSEGV ) );
-            break;
+            if( query_yn( _( "Are you sure you wan't to crash the game?" ) ) ) {
+                if( query_yn( _( "Are you REALLY sure you wan't to crash the game?" ) ) ) {
+                    static_cast<void>( raise( SIGSEGV ) );
+                    break;
+                };
+            }
         case debug_menu_index::ACTIVATE_EOC: {
             run_eoc_menu();
         }
