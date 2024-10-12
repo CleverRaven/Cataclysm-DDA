@@ -423,7 +423,7 @@ void Character::randomize( const bool random_scenario, bool play_now )
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     if( is_avatar() ) {
-        *this = avatar();
+        *this->as_avatar() = avatar();
     }
 
     bool gender_selection = one_in( 2 );
@@ -454,7 +454,8 @@ void Character::randomize( const bool random_scenario, bool play_now )
         }
     }
 
-    prof = get_scenario()->weighted_random_profession();
+    const scenario *scenario_from = is_avatar() ? get_scenario() : scenario::generic();
+    prof = scenario_from->weighted_random_profession();
     zero_all_skills();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
     starting_city = std::nullopt;

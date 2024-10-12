@@ -265,6 +265,13 @@
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" } ]
   },
   {
+    "//": "This group is for NPCs that were prisoners before the Cataclysm.",
+    "type": "trait_group",
+    "id": "BG_survival_story_PRISONER",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Prisoner_1" } ]
+  },
+  {
     "//": "This group is for Cyborgs rescued down in the Lab.",
     "type": "trait_group",
     "id": "BG_survival_story_CYBORG",
