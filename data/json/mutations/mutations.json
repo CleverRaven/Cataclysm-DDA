@@ -3454,7 +3454,6 @@
     "visibility": 10,
     "ugliness": 9,
     "description": "Instead of your right hand, you now have a giant claw resembling ones found on crabs.  It encumbers you greatly, but you can use it in melee combat to deal massive damage.",
-    "valid": true,
     "cancels": [ "NAILS", "CLAWS", "TALONS", "WEBBED", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
     "prereqs": [ "CRUSTACEAN_CARAPACE" ],
     "integrated_armor": [ "integrated_giant_pincer" ],
