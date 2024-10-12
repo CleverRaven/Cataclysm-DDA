@@ -80,9 +80,9 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 
 static const construction_category_id construction_category_ALL( "ALL" );
 static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
+static const construction_category_id construction_category_DECORATE( "DECORATE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
-static const construction_category_id construction_category_DECORATE( "DECORATE" );
 
 static const construction_str_id construction_constr_veh( "constr_veh" );
 
@@ -243,17 +243,15 @@ static bool has_pre_terrain( const construction &con, const tripoint_bub_ms &p )
     map &here = get_map();
     if( con.pre_is_furniture ) {
         furn_id f = here.furn( p );
-        for( auto pre_terrain = con.pre_terrain.begin(); pre_terrain != con.pre_terrain.end();
-             pre_terrain++ ) {
-            if( f == furn_id( *pre_terrain ) ) {
+        for( const auto &pre_terrain : con.pre_terrain ) {
+            if( f == furn_id( pre_terrain ) ) {
                 return true;
             }
         }
     } else {
         ter_id t = here.ter( p );
-        for( auto pre_terrain = con.pre_terrain.begin(); pre_terrain != con.pre_terrain.end();
-             pre_terrain++ ) {
-            if( t == ter_id( *pre_terrain ) ) {
+        for( const auto &pre_terrain : con.pre_terrain ) {
+            if( t == ter_id( pre_terrain ) ) {
                 return true;
             }
         }
@@ -677,17 +675,17 @@ construction_id construction_menu( const bool blueprint )
                 // Example: First step of dig pit could say something about
                 // requiring diggable ground.
                 if( !current_con->pre_terrain.empty() ) {
-                    std::vector<std::string> require_names;
-                    require_names.reserve( current_con->pre_terrain.size() );
+                    // C++20 will allow this to be generated on demand with a std::ranges::views::transform
+                    std::vector<std::string> require_names( current_con->pre_terrain.size() );
                     if( current_con->pre_is_furniture ) {
-                        std::for_each( current_con->pre_terrain.cbegin(), current_con->pre_terrain.cend(),
-                        [&require_names]( std::string pre_terrain ) {
-                            require_names.push_back( furn_str_id( pre_terrain )->name() );
+                        std::transform( current_con->pre_terrain.cbegin(), current_con->pre_terrain.cend(),
+                        require_names.begin(), []( std::string pre_terrain ) {
+                            return furn_str_id( pre_terrain )->name();
                         } );
                     } else {
-                        std::for_each( current_con->pre_terrain.cbegin(), current_con->pre_terrain.cend(),
-                        [&require_names]( std::string pre_terrain ) {
-                            require_names.push_back( ter_str_id( pre_terrain )->name() );
+                        std::transform( current_con->pre_terrain.cbegin(), current_con->pre_terrain.cend(),
+                        require_names.begin(), []( std::string pre_terrain ) {
+                            return ter_str_id( pre_terrain )->name();
                         } );
                     }
                     nc_color pre_color = has_pre_terrain( *current_con ) ? c_green : c_red;
@@ -2415,13 +2413,13 @@ void check_constructions()
         }
 
         if( !c.pre_terrain.empty() ) {
-            for( auto pre_terrain = c.pre_terrain.begin(); pre_terrain != c.pre_terrain.end(); pre_terrain++ ) {
+            for( const auto &pre_terrain : c.pre_terrain ) {
                 if( c.pre_is_furniture ) {
-                    if( !furn_str_id( *pre_terrain ).is_valid() ) {
-                        debugmsg( "Unknown pre_terrain (furniture) %s in %s", *pre_terrain, display_name );
+                    if( !furn_str_id( pre_terrain ).is_valid() ) {
+                        debugmsg( "Unknown pre_terrain (furniture) %s in %s", pre_terrain, display_name );
                     }
-                } else if( !ter_str_id( *pre_terrain ).is_valid() ) {
-                    debugmsg( "Unknown pre_terrain (terrain) %s in %s", *pre_terrain, display_name );
+                } else if( !ter_str_id( pre_terrain ).is_valid() ) {
+                    debugmsg( "Unknown pre_terrain (terrain) %s in %s", pre_terrain, display_name );
                 }
             }
         }
@@ -2583,7 +2581,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                       build.str_id.str() );
             return;
         }
-        std::string build_pre_ter = build.pre_terrain.empty() ? "" : *( build.pre_terrain.begin() );
+        std::string build_pre_ter = build.pre_terrain.empty() ? "" : *build.pre_terrain.begin();
         while( !build_pre_ter.empty() ) {
             bool found_pre = false;
             // only consider DECORATE constructions if there's no other way to build the target
@@ -2599,7 +2597,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
                         continue;
                     }
                     std::string pre_build_pre_terrain = pre_build.pre_terrain.empty() ? "" : *
-                                                        ( pre_build.pre_terrain.begin() );
+                                                        pre_build.pre_terrain.begin();
                     if( ( pre_build.post_terrain.empty() ||
                           ( !pre_build.post_is_furniture &&
                             ter_id( pre_build.post_terrain ) != base_ter ) ) &&
