@@ -1649,7 +1649,9 @@ int worldfactory::show_worldgen_basic( WORLD *world )
 
         if( all_sliders_drawn && y <= content_height ) {
             int opt_num = wg_sliders.size() + 1;
-            nc_color acc_clr, acc_clr2, base_clr;
+            nc_color acc_clr;
+            nc_color acc_clr2;
+            nc_color base_clr;
             std::string btn_txt;
             auto add_button = [&]( const char *action, const char *label, int x ) {
                 const bool hi = sel_opt == opt_num;
