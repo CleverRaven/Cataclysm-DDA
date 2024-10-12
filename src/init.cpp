@@ -578,12 +578,13 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
 
         for( const cata_path &f : interaction_folders ) {
             const mod_id associated_mod = mod_id( f.get_unrelative_path().filename().string() );
-            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(), associated_mod ) != loaded_mods.end();
+            bool is_mod_loaded = std::find( loaded_mods.begin(), loaded_mods.end(),
+                                            associated_mod ) != loaded_mods.end();
 
             if( is_mod_loaded ) {
                 const std::vector<cata_path> interaction_files = get_files_from_path( ".json", f, true, true );
-                for (const cata_path &path : interaction_files ) {
-                    files.emplace (associated_mod, path);
+                for( const cata_path &path : interaction_files ) {
+                    files.emplace( associated_mod, path );
                 }
             }
         }

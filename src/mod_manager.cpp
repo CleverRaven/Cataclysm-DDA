@@ -24,13 +24,14 @@ static const mod_id MOD_INFORMATION_user_default( "user:default" );
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
-mod_id get_base_id( mod_id full_id ) {
+mod_id get_base_id( mod_id full_id )
+{
     mod_id base_mod_id;
-    size_t split_loc = full_id.str().find('#');
-    if (split_loc == std::string::npos) {
+    size_t split_loc = full_id.str().find( '#' );
+    if( split_loc == std::string::npos ) {
         return full_id;
     } else {
-        return mod_id(full_id.str().substr(0, split_loc) );
+        return mod_id( full_id.str().substr( 0, split_loc ) );
     }
 }
 
@@ -38,7 +39,7 @@ template<>
 const MOD_INFORMATION &string_id<MOD_INFORMATION>::obj() const
 {
     const auto &map = world_generator->get_mod_manager().mod_map;
-    const auto iter = map.find( get_base_id(*this) );
+    const auto iter = map.find( get_base_id( *this ) );
     if( iter == map.end() ) {
         debugmsg( "Invalid mod %s requested", str() );
         static const MOD_INFORMATION dummy{};
@@ -234,7 +235,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
         debugmsg( "there is already a mod with ident %s", m_ident.c_str() );
         return;
     }
-    if (m_ident.str().find( '#' ) != std::string::npos ) {
+    if( m_ident.str().find( '#' ) != std::string::npos ) {
         debugmsg( "Mod id %s contains illegal '#' character.", m_ident.str() );
         return;
     }
