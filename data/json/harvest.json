@@ -1712,21 +1712,31 @@
   },
   {
     "id": "zombie_humanoid_mushroom",
-    "//": "humanoid moldy zombie - fungus chunks instead of innards",
+    "//": "moldy humanoid zombie - fungus chunks replace a part of the innards",
     "type": "harvest",
     "copy-from": "zombie_humanoid",
     "message": "<zombie_humanoid_mushroom_harvest>",
     "delete": { "entries": [ { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 } ] },
-    "extend": { "entries": [ { "drop": "veggy_tainted", "type": "offal", "mass_ratio": 0.15 } ] }
+    "extend": {
+      "entries": [
+        { "drop": "veggy_tainted", "type": "offal", "mass_ratio": 0.07 },
+        { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.08 }
+      ]
+    }
   },
   {
     "id": "zombie_animal_mushroom",
-    "//": "animal moldy zombie - fungus chunks instead of innards",
+    "//": "moldy animal zombie - fungus chunks replace a part of the innards",
     "type": "harvest",
     "copy-from": "zombie_animal",
     "message": "<zombie_animal_mushroom_harvest>",
     "delete": { "entries": [ { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.15 } ] },
-    "extend": { "entries": [ { "drop": "veggy_tainted", "type": "offal", "mass_ratio": 0.15 } ] }
+    "extend": {
+      "entries": [
+        { "drop": "veggy_tainted", "type": "offal", "mass_ratio": 0.07 },
+        { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.08 }
+      ]
+    }
   },
   {
     "id": "zombie_humanoid_shadow",
