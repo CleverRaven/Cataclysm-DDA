@@ -3487,7 +3487,7 @@ void monster::process_effects()
         }
     }
 
-    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos() ) ) ) {
+    if( !will_be_cramped_in_vehicle_tile( get_map().getglobal( pos_bub() ) ) ) {
         remove_effect( effect_cramped_space );
     }
 
