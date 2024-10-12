@@ -567,7 +567,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                 val.amount *= damage_mitigation_multiplier;
             }
             if( cr->as_character() != nullptr ) {
-                int multishot = sp.get_amount_of_projectiles( *caster.as_character() );
+                int multishot = sp.get_amount_of_projectiles( caster );
                 std::vector<bodypart_id> target_bdpts = cr->get_all_body_parts( get_body_part_flags::only_main );
 
                 if( sp.bps_affected() > 0 ) {
