@@ -336,8 +336,8 @@ void aim_activity_actor::start( player_activity &act, Character &who )
     item &it = *weapon.get_item();
 
     if( !check_gun_ability_to_shoot( who, it ) ) {
-        aborted = true; // why doesn't interrupt?
-        act.set_to_null();
+        aborted = true;
+        finish( act, who );
     }
 
     // Time spent on aiming is determined on the go by the player
