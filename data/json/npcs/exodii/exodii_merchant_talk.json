@@ -623,7 +623,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "This one can't be saved too much brain rotted but i can salvage bits from them or repurpose them for walker, or just cut out rot and neural interface so you can bury them proper",
-      "str": "This 'unwon't be twitching', too much gray lost to dead.  But ye can salvage bits from 'em or born 'em for a walker, or just cut out the rot 'n gray link so ya can miss 'em proper."
+      "str": "This 'unwon't be twitching', too much grey lost to dead.  But ye can salvage bits from 'em or born 'em for a walker, or just cut out the rot 'n grey link so ya can miss 'em proper."
     },
     "responses": [
       {
@@ -1265,7 +1265,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Spread, yes, through the portals, but we don't know how.  After the world is down to dust, I'm long gone.  Once or twice we've send back a probe to the deadlands we left behind, but none have returned.  As far as I know, there's only one way it goes from here.",
-      "str": "Spread, aye, through the wibbles, but we ain't ken on how.  After the green an' brown be to gray and black, so t'speak, Rubik be long gone.  On a moment, we folk've sent back a lover's robe or so t'the deadlands what left, but narry have returned.  An I'm ken, there be only one course from here."
+      "str": "Spread, aye, through the wibbles, but we ain't ken on how.  After the green an' brown be to grey and black, so t'speak, Rubik be long gone.  On a moment, we folk've sent back a lover's robe or so t'the deadlands what left, but narry have returned.  An I'm ken, there be only one course from here."
     },
     "speaker_effect": { "effect": { "u_add_var": "knowledge_probes_dont_return_u_knows_exodiilore", "value": "yes" } },
     "//": "The probes don't return variable is not yet used but we should store it for when players might be offered the option to try going to previous deadlands, so they can object if they want.",
