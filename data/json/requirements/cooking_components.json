@@ -119,20 +119,13 @@
     "components": [
       [
         [ "egg_leo_frog", 1 ],
-        [ "egg_pattern_frog", 1 ],
         [ "egg_bullfrog_frog", 1 ],
-        [ "egg_strange_frog", 1 ],
         [ "egg_fowler_toad", 1 ],
-        [ "egg_foul_toad", 1 ],
         [ "egg_freedom_toad", 1 ],
-        [ "egg_odd_toad", 1 ],
         [ "egg_peeper_frog", 1 ],
-        [ "egg_vocal_frog", 1 ],
         [ "egg_gray_frog", 1 ],
-        [ "egg_shift_frog", 1 ],
         [ "egg_mink_frog", 1 ],
         [ "egg_pickerel_frog", 1 ],
-        [ "egg_palette_frog", 1 ],
         [ "egg_green_frog", 1 ],
         [ "egg_wood_frog", 1 ],
         [ "egg_spade_frog", 1 ]
