@@ -521,17 +521,17 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
     if( grab_data.pull_chance > -1 && x_in_y( grab_data.pull_chance, 100 ) ) {
         add_msg_debug( debugmode::DF_MATTACK, "Pull chance roll succeeded" );
 
-        int pull_range = std::min( range, rl_dist( z.pos(), target->pos() ) + 1 );
-        tripoint pt = target->pos();
+        int pull_range = std::min( range, rl_dist( z.pos_bub(), target->pos_bub() ) + 1 );
+        tripoint_bub_ms pt = target->pos_bub();
         while( pull_range > 0 ) {
             // Recalculate the ray each step
             // We can't depend on either the target position being constant (obviously),
             // but neither on z pos staying constant, because we may want to shift the map mid-pull
-            const units::angle dir = coord_to_angle( target->pos(), z.pos() );
+            const units::angle dir = coord_to_angle( target->pos_bub(), z.pos_bub() );
             tileray tdir( dir );
             tdir.advance();
-            pt.x = target->posx() + tdir.dx();
-            pt.y = target->posy() + tdir.dy();
+            pt.x() = target->posx() + tdir.dx();
+            pt.y() = target->posy() + tdir.dy();
             //Cancel the grab if the space is occupied by something
             if( !g->is_empty( pt ) ) {
                 break;
@@ -542,9 +542,9 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
                     here.unboard_vehicle( foe->pos_bub() );
                 }
 
-                if( foe->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
-                                          pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
-                    g->update_map( pt.x, pt.y );
+                if( foe->is_avatar() && ( pt.x() < HALF_MAPSIZE_X || pt.y() < HALF_MAPSIZE_Y ||
+                                          pt.x() >= HALF_MAPSIZE_X + SEEX || pt.y() >= HALF_MAPSIZE_Y + SEEY ) ) {
+                    g->update_map( pt.x(), pt.y() );
                 }
             }
 

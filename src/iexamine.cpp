@@ -1238,8 +1238,9 @@ int _choose_elevator_destz( tripoint_bub_ms const &examp, tripoint_abs_omt const
     choice.title = _( "Select destination floor" );
     for( int z = OVERMAP_HEIGHT; z >= -OVERMAP_DEPTH; z-- ) {
         tripoint_abs_omt const that_omt( this_omt.xy(), z );
-        tripoint const zp =
-            _rotate_point_sm( { examp.xy().raw(), z}, _get_rot_delta( this_omt, that_omt ), sm_orig.raw() );
+        tripoint_bub_ms const zp =
+            tripoint_bub_ms( _rotate_point_sm( { examp.xy().raw(), z}, _get_rot_delta( this_omt, that_omt ),
+                                               sm_orig.raw() ) );
 
         if( here.ter( zp )->has_examine( iexamine::elevator ) ) {
             std::string const omt_name = overmap_buffer.ter_existing( that_omt )->get_name(
@@ -1365,8 +1366,9 @@ void iexamine::elevator( Character &you, const tripoint_bub_ms &examp )
     }
 
     for( vehicle *v : vehs.v ) {
-        tripoint const p = _rotate_point_sm( { v->global_pos3().xy(), movez }, erot, sm_orig.raw() );
-        here.displace_vehicle( *v, p - v->global_pos3() );
+        tripoint_bub_ms const p = tripoint_bub_ms( _rotate_point_sm( { v->global_pos3().xy(), movez }, erot,
+                                  sm_orig.raw() ) );
+        here.displace_vehicle( *v, p - v->pos_bub() );
         v->turn( erot * 90_degrees );
         v->face = tileray( v->turn_dir );
         v->precalc_mounts( 0, v->turn_dir, v->pivot_anchor[0] );
@@ -2137,10 +2139,10 @@ void iexamine::fswitch( Character &you, const tripoint_bub_ms &examp )
     }
     ter_id terid = here.ter( examp );
     you.mod_moves( -to_moves<int>( 1_seconds ) );
-    tripoint tmp;
-    tmp.z = examp.z();
-    for( tmp.y = examp.y(); tmp.y <= examp.y() + 5; tmp.y++ ) {
-        for( tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++ ) {
+    tripoint_bub_ms tmp;
+    tmp.z() = examp.z();
+    for( tmp.y() = examp.y(); tmp.y() <= examp.y() + 5; tmp.y()++ ) {
+        for( tmp.x() = 0; tmp.x() < MAPSIZE_X; tmp.x()++ ) {
             const ter_id &nearby_ter = here.ter( tmp );
             if( terid == ter_t_switch_rg ) {
                 if( nearby_ter == ter_t_rock_red ) {
@@ -2173,7 +2175,7 @@ void iexamine::fswitch( Character &you, const tripoint_bub_ms &examp )
                     here.ter_set( tmp, ter_t_rock_red );
                 }
             } else if( terid == ter_t_switch_even ) {
-                if( ( tmp.y - examp.y() ) % 2 == 1 ) {
+                if( ( tmp.y() - examp.y() ) % 2 == 1 ) {
                     if( nearby_ter == ter_t_rock_red ) {
                         here.ter_set( tmp, ter_t_floor_red );
                     } else if( nearby_ter == ter_t_floor_red ) {
@@ -5445,28 +5447,28 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
     };
 
     map &here = get_map();
-    tripoint jump_target( you.posx() + 2 * sgn( examp.x() - you.posx() ),
-                          you.posy() + 2 * sgn( examp.y() - you.posy() ),
-                          you.posz() );
+    tripoint_bub_ms jump_target( you.posx() + 2 * sgn( examp.x() - you.posx() ),
+                                 you.posy() + 2 * sgn( examp.y() - you.posy() ),
+                                 you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
-    point jd( examp.xy().raw() + point( -you.posx(), -you.posy() ) );
+    point_rel_ms jd( examp.xy() - you.pos_bub().xy() );
     int jump_direction = 0;
 
-    if( jd.y > 0 && jd.x == 0 ) {
+    if( jd.y() > 0 && jd.x() == 0 ) {
         jump_direction = 0; //south
-    } else if( jd.y > 0 && jd.x < 0 ) {
+    } else if( jd.y() > 0 && jd.x() < 0 ) {
         jump_direction = 1; //southwest
-    } else if( jd.y == 0 && jd.x < 0 ) {
+    } else if( jd.y() == 0 && jd.x() < 0 ) {
         jump_direction = 2; //west
-    } else if( jd.y < 0 && jd.x < 0 ) {
+    } else if( jd.y() < 0 && jd.x() < 0 ) {
         jump_direction = 3; //northwest
-    } else if( jd.y < 0 && jd.x == 0 ) {
+    } else if( jd.y() < 0 && jd.x() == 0 ) {
         jump_direction = 4; //north
-    } else if( jd.y < 0 && jd.x > 0 ) {
+    } else if( jd.y() < 0 && jd.x() > 0 ) {
         jump_direction = 5; //northeast
-    } else if( jd.y == 0 && jd.x > 0 ) {
+    } else if( jd.y() == 0 && jd.x() > 0 ) {
         jump_direction = 6; //east
-    } else if( jd.y > 0 && jd.x > 0 ) {
+    } else if( jd.y() > 0 && jd.x() > 0 ) {
         jump_direction = 7; //southeast
     }
 
@@ -5510,7 +5512,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
-            } else if( !here.valid_move( examp.raw(), jump_target, false, true ) ) {
+            } else if( !here.valid_move( examp, jump_target, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
             } else if( creatures.creature_at( jump_target ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
@@ -5520,7 +5522,7 @@ void iexamine::ledge( Character &you, const tripoint_bub_ms &examp )
             } else {
                 add_msg( m_info, _( "You jump over an obstacle." ) );
                 you.set_activity_level( BRISK_EXERCISE );
-                g->place_player( jump_target );
+                g->place_player( jump_target.raw() );
             }
             break;
         }

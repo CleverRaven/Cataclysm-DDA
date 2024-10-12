@@ -2164,9 +2164,9 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         }
     }
 
-    const maptile remove_tile = maptile_at( removepoint.raw() );
-    const maptile remove_tile2 = maptile_at( removepoint2.raw() );
-    const maptile remove_tile3 = maptile_at( removepoint3.raw() );
+    const maptile remove_tile = maptile_at( removepoint );
+    const maptile remove_tile2 = maptile_at( removepoint2 );
+    const maptile remove_tile3 = maptile_at( removepoint3 );
     return std::make_tuple( remove_tile, remove_tile2, remove_tile3 );
 }
 

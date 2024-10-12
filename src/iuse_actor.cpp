@@ -1081,16 +1081,16 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     if( p->cant_do_mounted() ) {
         return ret_val<tripoint>::make_failure( pos );
     }
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
+    tripoint_bub_ms pnt( pos );
+    if( pos == p->pos_bub().raw() ) {
         if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
-            pnt = *pnt_;
+            pnt = tripoint_bub_ms( *pnt_ );
         } else {
             return ret_val<tripoint>::make_failure( pos );
         }
     }
 
-    if( pnt == p->pos() ) {
+    if( pnt == p->pos_bub() ) {
         return ret_val<tripoint>::make_failure( pos,
                                                 _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
@@ -1141,7 +1141,7 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
         }
     }
 
-    return ret_val<tripoint>::make_success( pnt );
+    return ret_val<tripoint>::make_success( pnt.raw() );
 }
 
 std::optional<int> deploy_furn_actor::use( Character *p, item &it,
@@ -1185,7 +1185,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ) );
+    place_appliance( tripoint_bub_ms( suitable.value() ), vpart_appliance_from_item( appliance_base ) );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -3798,8 +3798,8 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
 static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
     map &here = get_map();
-    const tripoint a = pos + tripoint( offset, 0 );
-    const tripoint b = pos - tripoint( offset, 0 );
+    const tripoint_bub_ms a = tripoint_bub_ms( pos ) + tripoint( offset, 0 );
+    const tripoint_bub_ms b = tripoint_bub_ms( pos ) - tripoint( offset, 0 );
     return here.move_cost( a ) != 2 && here.move_cost( b ) != 2;
 }
 

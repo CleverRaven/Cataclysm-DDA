@@ -7,6 +7,7 @@
 #include <set>
 #include <vector>
 
+#include "coordinates.h"
 #include "point.h"
 #include "type_id.h"
 #include "pocket_type.h"
@@ -53,9 +54,9 @@ struct pocket_mod_test_data {
 
 struct npc_boarding_test_data {
     vproto_id veh_prototype;
-    tripoint player_pos;
-    tripoint npc_pos;
-    tripoint npc_target;
+    tripoint_bub_ms player_pos;
+    tripoint_bub_ms npc_pos;
+    tripoint_bub_ms npc_target;
 
     void deserialize( const JsonObject &jo );
 };
