@@ -372,7 +372,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_guard_food_future_plans",
     "dynamic_line": [
-      "I don't know anymore, to tell you the truth.  I was planning on settling down and having kids, but now that everyone's dead and the judgement of God has come to pass, I'll seek His truth and try to keep on living.  One day, when this is all over, I'll fly away to Heaven's pearly gates and be with the angels.  As for the Earth, I'd rather not think about the things that have come to pass."
+      "I don't know anymore, to tell you the truth.  I was planning on settling down and having kids, but now that everyone's dead and the judgment of God has come to pass, I'll seek His truth and try to keep on living.  One day, when this is all over, I'll fly away to Heaven's pearly gates and be with the angels.  As for the Earth, I'd rather not think about the things that have come to pass."
     ],
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
