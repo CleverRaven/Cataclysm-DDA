@@ -4066,8 +4066,13 @@ CBMs can be defined like this:
   { "type": "wheat", "portion": 5 }
 ],
 "primary_material": "meat",       // What the primary material ID is. Materials determine specific heat.
-"rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
-"rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
+"rot_spawn": {                    // Defines what creature would be spawned when this item rots away. Primarily used for eggs
+  "group": "GROUP_EGG_CHICKEN",   // id of monster group that would be spawned. Cannot be used with "monster"
+  "monster": "mon_moose_calf",    // id of a monster that would be spawned. Cannot be used with "group"
+  "amount": 2,                    // if "monster" is used, defines how many instances of this monster will be spawned; 
+  "amount": [ 1, 3 ],             // also can be an array, then the game will roll the number between two values
+  "chance": 70                    // chance for the monster to spawn from a single item
+}
 "smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
 "petfood": [ "FUNGALFRUIT", "MIGOFOOD" ] // (Optional) Pet food categories this item is in.
 ```
@@ -4773,6 +4778,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 },
 "use_action": {
   "type": "effect_on_conditions",          // Activate effect_on_conditions
+  "menu_text": "Infuse saline",            // (optional) Text displayed in the activation screen. Defaults to "Activate item"
   "description": "This debugs the game",   // Usage description
   "effect_on_conditions": [ "test_cond" ]  // IDs of the effect_on_conditions to activate
 },

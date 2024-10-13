@@ -19,7 +19,6 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clzones.h"
-#include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -117,6 +116,7 @@ static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_READ_IN_DARKNESS( "READ_IN_DARKNESS" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 
@@ -1178,7 +1178,8 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
         fail_reasons.emplace_back( _( "I can't read!" ) );
     } else if( condition & read_condition_result::NEED_GLASSES ) {
         fail_reasons.emplace_back( _( "I can't read without my glasses." ) );
-    } else if( condition & read_condition_result::TOO_DARK ) {
+    } else if( condition & read_condition_result::TOO_DARK  &&
+               !has_flag( json_flag_READ_IN_DARKNESS ) ) {
         // Too dark to read only applies if the player can read to himself
         fail_reasons.emplace_back( _( "It's too dark to read!" ) );
         return false;
@@ -1327,7 +1328,7 @@ void npc::stow_item( item &it )
         return;
     }
 
-    bool avatar_sees = get_player_view().sees( pos() );
+    bool avatar_sees = get_player_view().sees( pos_bub() );
     if( wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
         if( avatar_sees ) {
@@ -1391,7 +1392,7 @@ bool npc::wield( item &it )
     cata::event e = cata::event::make<event_type::character_wields_item>( getID(), weapon->typeId() );
     get_event_bus().send_with_talker( this, &weapon, e );
 
-    if( get_player_view().sees( pos() ) ) {
+    if( get_player_view().sees( pos_bub() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon->tname() );
     }
     invalidate_range_cache();
@@ -1569,7 +1570,7 @@ void npc::mutiny()
     if( !my_fac || !is_player_ally() ) {
         return;
     }
-    const bool seen = get_player_view().sees( pos() );
+    const bool seen = get_player_view().sees( pos_bub() );
     if( seen ) {
         add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
     }
@@ -1642,7 +1643,7 @@ void npc::make_angry()
     }
 
     // Make associated faction, if any, angry at the player too.
-    if( my_fac && my_fac->id != faction_no_faction && my_fac->id != faction_amf ) {
+    if( my_fac && !my_fac->lone_wolf_faction && my_fac->id != faction_amf ) {
         my_fac->likes_u = std::min( -15, my_fac->likes_u - 5 );
         my_fac->respects_u = std::min( -15, my_fac->respects_u - 5 );
         my_fac->trusts_u = std::min( -15, my_fac->trusts_u - 5 );
@@ -1780,10 +1781,10 @@ int npc::indoor_voice() const
     // But we'll assume people normally want to project their voice about 6 meters away.
     int wanted_volume = 6;
     Character &player = get_player_character();
-    const int distance_to_player = rl_dist( pos(), player.pos() );
+    const int distance_to_player = rl_dist( pos_bub(), player.pos_bub() );
     if( is_following() || is_ally( player ) ) {
         wanted_volume = distance_to_player;
-    } else if( is_enemy() && sees( player.pos() ) ) {
+    } else if( is_enemy() && sees( player.pos_bub() ) ) {
         // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
         wanted_volume = max_volume;
     }
@@ -1799,7 +1800,7 @@ int npc::indoor_voice() const
             continue;
         }
         if( char_buddy->has_effect( effect_sleep ) ) {
-            int distance_to_sleeper = rl_dist( pos(), char_buddy->pos() );
+            int distance_to_sleeper = rl_dist( pos_bub(), char_buddy->pos_bub() );
             if( wanted_volume >= distance_to_sleeper ) {
                 // Speak just quietly enough to not disturb anyone
                 wanted_volume = distance_to_sleeper - 1;
@@ -2472,8 +2473,8 @@ void npc::npc_dismount()
                        disp_name() );
         return;
     }
-    std::optional<tripoint> pnt;
-    for( const tripoint &elem : get_map().points_in_radius( pos(), 1 ) ) {
+    std::optional<tripoint_bub_ms> pnt;
+    for( const tripoint_bub_ms &elem : get_map().points_in_radius( pos_bub(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
             break;
@@ -2744,7 +2745,7 @@ static void maybe_shift( tripoint_bub_ms &pos, const point &d )
 
 void npc::shift( const point &s )
 {
-    const point shift = sm_to_ms_copy( s );
+    const point shift = coords::project_to<coords::ms>( point_rel_sm( s ) ).raw();
     // TODO: convert these to absolute coords and get rid of shift()
     maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
     path.clear();

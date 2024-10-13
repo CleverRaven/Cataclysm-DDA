@@ -3085,12 +3085,9 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "MUNDANE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "MUNDANE", "ONLY_ONE" ],
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 } ] },
-        { "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] }
-      ]
+      "passive_effects": [ { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 }, { "value": "MOVE_COST", "multiply": 0.1 } ] } ]
     },
     "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },

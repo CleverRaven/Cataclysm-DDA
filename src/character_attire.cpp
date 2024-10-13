@@ -262,7 +262,7 @@ Character::wear( int pos, bool interactive )
 std::optional<std::list<item>::iterator>
 Character::wear( item_location item_wear, bool interactive )
 {
-    item to_wear = *item_wear;
+    item &to_wear = *item_wear;
 
     // Need to account for case where we're trying to wear something that belongs to someone else
     if( !avatar_action::check_stealing( *this, to_wear ) ) {

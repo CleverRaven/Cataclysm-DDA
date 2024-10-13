@@ -3105,15 +3105,15 @@ bool target_ui::set_cursor_pos( const tripoint_bub_ms &new_pos )
         switch( casting->shape() ) {
             case spell_shape::blast:
                 spell_aoe = spell_effect::spell_effect_blast(
-                                spell_effect::override_parameters( *casting, get_player_character() ), src.raw(), dst.raw() );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::cone:
                 spell_aoe = spell_effect::spell_effect_cone(
-                                spell_effect::override_parameters( *casting, get_player_character() ), src.raw(), dst.raw() );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::line:
                 spell_aoe = spell_effect::spell_effect_line(
-                                spell_effect::override_parameters( *casting, get_player_character() ), src.raw(), dst.raw() );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             default:
                 spell_aoe.clear();
@@ -3195,7 +3195,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint_bub_ms &new_dst )
     }
 
     // Try to re-acquire target tile or tile where the target creature used to be
-    tripoint_bub_ms local_lt = get_map().bub_from_abs( *you->last_target_pos );
+    tripoint_bub_ms local_lt = get_map().bub_from_abs( tripoint_abs_ms( *you->last_target_pos ) );
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
@@ -3243,10 +3243,11 @@ int target_ui::dist_fn( const tripoint_bub_ms &p )
 
 void target_ui::set_last_target()
 {
-    if( !you->last_target_pos.has_value() || you->last_target_pos.value() != get_map().getabs( dst ) ) {
+    if( !you->last_target_pos.has_value() ||
+        you->last_target_pos.value() != get_map().getglobal( dst ).raw() ) {
         you->aim_cache_dirty = true;
     }
-    you->last_target_pos = get_map().getabs( dst );
+    you->last_target_pos = get_map().getglobal( dst ).raw();
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -3411,7 +3412,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos_bub();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = get_map().bub_from_abs( *you->last_target_pos );
+        curr_recoil_pos = get_map().bub_from_abs( tripoint_abs_ms( *you->last_target_pos ) );
     } else {
         curr_recoil_pos = src;
     }
@@ -4095,7 +4096,7 @@ void target_ui::panel_spell_info( int &text_y )
                                           _( "Line width: %s" ), aoes );
             } else {
                 text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
-                                          _( "Effective Spell Radius: %s%s" ), aoes, casting->in_aoe( src.raw(), dst.raw(),
+                                          _( "Effective Spell Radius: %s%s" ), aoes, casting->in_aoe( src, dst,
                                                   get_player_character() ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
             }
         }

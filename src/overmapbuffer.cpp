@@ -18,7 +18,6 @@
 #include "city.h"
 #include "color.h"
 #include "common_types.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -47,6 +46,12 @@ class map_extra;
 
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
 static const oter_type_str_id oter_type_bridgehead_ramp( "bridgehead_ramp" );
+
+// Moved from obsolete coordinate_conversions.h to its only remaining user.
+static int omt_to_sm_copy( int a )
+{
+    return 2 * a;
+}
 
 overmapbuffer overmap_buffer;
 
@@ -1588,13 +1593,13 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p, bool spawn_nonlocal
     [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
         monster &this_monster = monster_entry.second;
         const map &here = get_map();
-        const tripoint local = here.bub_from_abs( this_monster.get_location() ).raw();
+        const tripoint_bub_ms local = here.bub_from_abs( this_monster.get_location() );
         // The monster position must be local to the main map when added to the game
         if( !spawn_nonlocal ) {
             cata_assert( here.inbounds( local ) );
         }
         monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
-                                local, 0, true );
+                                local.raw(), 0, true );
         if( placed ) {
             placed->on_load();
         }

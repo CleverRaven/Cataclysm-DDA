@@ -1366,8 +1366,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     }
 
     //invalidate draw_points_cache if viewport dimensions have changed
-    point top_left( min_col, min_row );
-    point bottom_right( max_col, max_row );
+    point_rel_ms top_left( min_col, min_row );
+    point_rel_ms bottom_right( max_col, max_row );
     if( top_left != here.prev_top_left || bottom_right != here.prev_bottom_right || o != here.prev_o ) {
         set_draw_cache_dirty();
     }
@@ -1454,10 +1454,10 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                 }
                 for( int zlevel = center.z; zlevel >= draw_min_z; zlevel -- ) {
                     // todo: conversion slightly simplified, a couple of calls already use pos as tripoint_bub_ms
-                    const tripoint pos( temp.value(), zlevel );
+                    const tripoint_bub_ms pos( point_bub_ms( temp.value() ), zlevel );
                     const tripoint_abs_ms pos_global = here.getglobal( pos );
-                    const int &x = pos.x;
-                    const int &y = pos.y;
+                    const int &x = pos.x();
+                    const int &y = pos.y();
                     const bool is_center_z = zlevel == center.z;
                     const level_cache &ch2 = here.access_cache( zlevel );
 
@@ -1471,12 +1471,12 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         if( has_memory_at( pos_global ) ) {
                             ll = lit_level::MEMORIZED;
                             invisible[0] = true;
-                        } else if( has_draw_override( pos ) ) {
+                        } else if( has_draw_override( pos.raw() ) ) {
                             ll = lit_level::DARK;
                             invisible[0] = true;
                         } else {
                             if( would_apply_vision_effects( offscreen_type ) ) {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
                                         tile_render_info::vision_effect{ offscreen_type } );
                             }
                             break;
@@ -1500,7 +1500,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         // Add scent type to the overlay_strings list for every visible tile when
                         // displaying scent
                         if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
-                            const scenttype_id scent_type = get_scent().get_type( pos );
+                            const scenttype_id scent_type = get_scent().get_type( pos.raw() );
                             if( !scent_type.is_empty() ) {
                                 here.overlay_strings_cache.emplace( player_to_screen( point( x, y ) ) + half_tile,
                                                                     formatted_text( scent_type.c_str(),
@@ -1546,7 +1546,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         // Add temperature value to the overlay_strings list for every visible tile when
                         // displaying temperature
                         if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
-                            const units::temperature temp_value = get_weather().get_temperature( pos );
+                            const units::temperature temp_value = get_weather().get_temperature( pos.raw() );
                             const float celsius_temp_value = units::to_celsius( temp_value );
                             short color;
                             const short bold = 8;
@@ -1639,25 +1639,25 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                         const visibility_type vis_type = here.get_visibility( ll, cache );
                         if( would_apply_vision_effects( vis_type ) ) {
                             const Creature *critter = creatures.creature_at( pos, true );
-                            if( has_draw_override( pos ) || has_memory_at( pos_global ) ||
+                            if( has_draw_override( pos.raw() ) || has_memory_at( pos_global ) ||
                                 ( critter &&
                                   ( critter->has_flag( mon_flag_ALWAYS_VISIBLE )
                                     || you.sees_with_infrared( *critter )
                                     || you.sees_with_specials( *critter ) ) ) ) {
                                 invisible[0] = true;
                             } else {
-                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                                here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
                                         tile_render_info::vision_effect{ vis_type } );
                                 break;
                             }
                         }
                     }
                     for( int i = 0; i < 4; i++ ) {
-                        const tripoint np = pos + neighborhood[i];
-                        invisible[1 + i] = apply_visible( np, ch2, here );
+                        const tripoint_bub_ms np = pos + neighborhood[i];
+                        invisible[1 + i] = apply_visible( np.raw(), ch2, here );
                     }
 
-                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos, 0 },
+                    here.draw_points_cache[zlevel][row].emplace_back( tile_render_info::common{ pos.raw(), 0},
                             tile_render_info::sprite{ ll, invisible } );
                     // Stop building draw points below when floor reached
                     if( here.dont_draw_lower_floor( pos ) ) {
@@ -1756,7 +1756,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                             } else if( f == &cata_tiles::draw_critter_at ) {
                                 // Draw
                                 if( !( this->*f )( p.com.pos, ll, p.com.height_3d, invisible, false ) && do_draw_shadow &&
-                                    here.dont_draw_lower_floor( p.com.pos ) ) {
+                                    here.dont_draw_lower_floor( tripoint_bub_ms( p.com.pos ) ) ) {
                                     // Draw shadow of flying critters on bottom-most tile if no other critter drawn
                                     draw_critter_above( p.com.pos, ll, p.com.height_3d, invisible );
                                 }
@@ -2551,7 +2551,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
 
     if( !tt ) {
         // Use fog overlay as fallback for transparent terrain
-        if( category == TILE_CATEGORY::TERRAIN && !here.dont_draw_lower_floor( pos ) ) {
+        if( category == TILE_CATEGORY::TERRAIN && !here.dont_draw_lower_floor( tripoint_bub_ms( pos ) ) ) {
             draw_zlevel_overlay( pos, ll, height_3d );
 
             // t_open_air is plentiful at high z-levels
@@ -2789,7 +2789,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         case TILE_CATEGORY::FIELD:
         case TILE_CATEGORY::LIGHTING:
             // stationary map tiles, seed based on map coordinates
-            seed = simple_point_hash( here.getabs( pos ) );
+            seed = simple_point_hash( here.getglobal( pos ).raw() );
             break;
         case TILE_CATEGORY::VEHICLE_PART:
             // vehicle parts, seed based on coordinates within the vehicle
@@ -2821,7 +2821,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( fid.is_valid() ) {
                 const furn_t &f = fid.obj();
                 if( !f.is_movable() ) {
-                    seed = simple_point_hash( here.getabs( pos ) );
+                    seed = simple_point_hash( here.getglobal( pos ).raw() );
                 }
             }
         }
@@ -2837,7 +2837,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             if( found_id == "graffiti" ) {
                 seed = std::hash<std::string> {}( here.graffiti_at( pos ) );
             } else if( string_starts_with( found_id, "graffiti" ) ) {
-                seed = simple_point_hash( here.getabs( pos ) );
+                seed = simple_point_hash( here.getglobal( pos ).raw() );
             }
             break;
         case TILE_CATEGORY::ITEM:
@@ -3235,11 +3235,11 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     const auto low_override = draw_below_override.find( tripoint_bub_ms( p ) );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second :
-        ( invisible[0] || here.dont_draw_lower_floor( p ) ) ) {
+        ( invisible[0] || here.dont_draw_lower_floor( tripoint_bub_ms( p ) ) ) ) {
         return false;
     }
 
-    tripoint pbelow = tripoint( p.xy(), p.z - 1 );
+    tripoint_bub_ms pbelow = tripoint_bub_ms( p + tripoint_below );
     nc_color col = c_dark_gray;
 
     const ter_t &curr_ter = here.ter( pbelow ).obj();
@@ -3264,7 +3264,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
         col = curr_ter.color();
     }
 
-    draw_square_below( pbelow.xy(), col, sizefactor );
+    draw_square_below( pbelow.xy().raw(), col, sizefactor );
     return true;
 }
 
@@ -3899,7 +3899,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     const auto low_override = draw_below_override.find( tripoint_bub_ms( p ) );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            get_map().dont_draw_lower_floor( p ) ) ) {
+            get_map().dont_draw_lower_floor( tripoint_bub_ms( p ) ) ) ) {
         return false;
     }
     tripoint pbelow( p.xy(), p.z - 1 );
@@ -4019,7 +4019,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     const auto low_override = draw_below_override.find( tripoint_bub_ms( p ) );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            get_map().dont_draw_lower_floor( p ) ) ) {
+            get_map().dont_draw_lower_floor( tripoint_bub_ms( p ) ) ) ) {
         return false;
     }
 
@@ -4178,15 +4178,16 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
         return false;
     }
 
-    tripoint scan_p( p.xy(), p.z + 1 );
+    tripoint_bub_ms scan_p( p + tripoint_above );
     map &here = get_map();
     Character &you = get_player_character();
     const Creature *pcritter = nullptr;
     // Search for a creature above
-    while( pcritter == nullptr && scan_p.z <= OVERMAP_HEIGHT && !here.dont_draw_lower_floor( scan_p ) &&
-           scan_p.z - you.pos().z <= fov_3d_z_range ) {
+    while( pcritter == nullptr && scan_p.z() <= OVERMAP_HEIGHT &&
+           !here.dont_draw_lower_floor( scan_p ) &&
+           scan_p.z() - you.pos_bub().z() <= fov_3d_z_range ) {
         pcritter = get_creature_tracker().creature_at( scan_p, true );
-        scan_p.z++;
+        scan_p.z()++;
     }
 
     // Abort if no creature found
@@ -4197,7 +4198,7 @@ bool cata_tiles::draw_critter_above( const tripoint &p, lit_level ll, int &heigh
 
     // Draw shadow
     if( draw_from_id_string( "shadow", TILE_CATEGORY::NONE, empty_string, p,
-                             0, 0, ll, false, height_3d ) && scan_p.z - 1 > you.pos().z && you.sees( critter ) ) {
+                             0, 0, ll, false, height_3d ) && scan_p.z() - 1 > you.pos_bub().z() && you.sees( critter ) ) {
 
         bool is_player = false;
         bool sees_player = false;

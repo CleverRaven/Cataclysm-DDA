@@ -278,6 +278,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void remove_items_with( const std::function<bool( const item & )> &filter ) override;
 
         void set_stored_kcal( int value ) override;
+        void mod_stored_kcal( int value, bool ignore_weariness ) override;
         void set_thirst( int value ) override;
 
         // speaking

@@ -1696,8 +1696,7 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
         return;
     }
 
-    // TODO: fix point types
-    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 270_degrees, 0, 0 );
+    vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 270_degrees, 0, 0 );
 
     if( !veh ) {
         debugmsg( "constructing failed: add_vehicle returned null" );
@@ -1718,7 +1717,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     get_map().partial_con_remove( p );
 
-    place_appliance( p.raw(), vpart_from_item( itype_wall_wiring ) );
+    place_appliance( p, vpart_from_item( itype_wall_wiring ) );
 }
 
 void construct::done_appliance( const tripoint_bub_ms &p, Character & )
@@ -1742,8 +1741,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
     const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
-    // TODO: fix point types
-    place_appliance( p.raw(), vpart, base );
+    place_appliance( p, vpart, base );
 }
 
 void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_character )

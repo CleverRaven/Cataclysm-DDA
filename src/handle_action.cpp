@@ -792,7 +792,8 @@ static void haul()
     bool hauling = player_character.is_hauling();
     bool autohaul = player_character.is_autohauling();
     std::vector<item_location> &haul_list = player_character.haul_list;
-    std::vector<item_location> haulable_items = get_map().get_haulable_items( player_character.pos() );
+    std::vector<item_location> haulable_items = get_map().get_haulable_items(
+                player_character.pos_bub() );
     int haul_qty = haul_list.size();
     std::string &haul_filter = player_character.hauling_filter;
 
@@ -1869,7 +1870,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
         }
     }
     if( target ) {
-        spell_act.coords.emplace_back( get_map().getabs( *target ) );
+        spell_act.coords.emplace_back( get_map().getglobal( *target ).raw() );
     }
     assign_activity( spell_act );
     return true;
@@ -2063,6 +2064,7 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
         case ACTION_CENTER:
             player_character.view_offset.x() = g->driving_view_offset.x;
             player_character.view_offset.y() = g->driving_view_offset.y;
+            player_character.view_offset.z() = 0;
             break;
 
         case ACTION_SHIFT_N:
@@ -2732,7 +2734,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_WORKOUT:
-            player_character.assign_activity( workout_activity_actor( player_character.pos() ) );
+            player_character.assign_activity( workout_activity_actor( player_character.pos_bub() ) );
             break;
 
         case ACTION_SUICIDE:

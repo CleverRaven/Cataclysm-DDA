@@ -1250,7 +1250,7 @@ bool Character::deactivate_bionic( bionic &bio, bool eff_only )
         if( bio.get_uid() == get_weapon_bionic_uid() ) {
             bio.set_weapon( *get_wielded_item() );
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
-            if( get_player_view().sees( pos() ) ) {
+            if( get_player_view().sees( pos_bub() ) ) {
                 if( male ) {
                     add_msg_if_npc( m_info, _( "<npcname> withdraws his %s." ), weapon.tname() );
                 } else {
@@ -2414,7 +2414,7 @@ float Character::env_surgery_bonus( int radius ) const
 {
     float bonus = 1.0f;
     map &here = get_map();
-    for( const tripoint &cell : here.points_in_radius( pos(), radius ) ) {
+    for( const tripoint_bub_ms &cell : here.points_in_radius( pos_bub(), radius ) ) {
         if( here.furn( cell )->surgery_skill_multiplier ) {
             bonus = std::max( bonus, *here.furn( cell )->surgery_skill_multiplier );
         }

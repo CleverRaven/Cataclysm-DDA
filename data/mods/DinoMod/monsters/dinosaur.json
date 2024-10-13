@@ -1460,13 +1460,20 @@
     "hp": 250,
     "zombify_into": "mon_zaplocanthosaurus",
     "description": "Massive, long-necked, four-legged dinosaur with a whip-like tail and tall shoulders.",
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ],
+      [ "EAT_CROP", 40 ],
+      [ "BROWSE", 60 ],
+      [ "GRAZE", 60 ]
+    ],
     "reproduction": { "baby_type": { "baby_egg": "egg_haplocanthosaurus" }, "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
     "id": "mon_amargasaurus",
     "name": { "str_sp": "amargasaurus" },
-    "copy-from": "mon_apatosaurus",
+    "copy-from": "mon_haplocanthosaurus",
     "//": "When large weights and volumes are fixed this should be 2500 L and 2500 kg",
     "stomach_size": 50000,
     "speed": 100,
@@ -1505,7 +1512,7 @@
     "zombify_into": "mon_zapatosaurus",
     "special_attacks": [
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "tailsmash_DinoMod", 30 ],
+      [ "tailsmash_long_DinoMod", 30 ],
       [ "EAT_CROP", 40 ],
       [ "BROWSE", 60 ],
       [ "GRAZE", 60 ]
@@ -1618,7 +1625,6 @@
     "name": { "str": "astrodon" },
     "copy-from": "mon_apatosaurus",
     "//": "When large weights and volumes are fixed this should be 20000 L and 20000 kg",
-    "stomach_size": 400000,
     "speed": 50,
     "attack_cost": 50,
     "melee_dice": 6,

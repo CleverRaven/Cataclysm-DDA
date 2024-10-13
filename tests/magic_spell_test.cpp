@@ -573,7 +573,7 @@ TEST_CASE( "spell_effect_-_target_attack", "[magic][spell][effect][target_attack
 
     // Cast the spell and measure the defender's change in HP
     before_hp = mummy.get_hp();
-    pew_spell.cast_spell_effect( dummy, mummy_loc.raw() );
+    pew_spell.cast_spell_effect( dummy, mummy_loc );
     after_hp = mummy.get_hp();
 
     // Should do approximately the expected damage
@@ -587,7 +587,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 
     // Avatar/spellcaster and summoned mummy locations
     const tripoint dummy_loc = { 60, 60, 0 };
-    const tripoint mummy_loc = { 61, 60, 0 };
+    const tripoint_bub_ms mummy_loc = { 61, 60, 0 };
 
     avatar &dummy = get_avatar();
     creature_tracker &creatures = get_creature_tracker();
@@ -680,7 +680,7 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
 
         // Cast montage spell on avatar
         spell montage_spell( montage_id );
-        montage_spell.cast_spell_effect( dummy, dummy.pos() );
+        montage_spell.cast_spell_effect( dummy, dummy.pos_bub() );
 
         // Get stamina back equal to min_damage (at level 0)
         CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage.min.dbl_val.value() );
@@ -702,13 +702,13 @@ TEST_CASE( "spell_effect_-_recover_energy", "[magic][spell][effect][recover_ener
         dummy.set_pain( 5 );
         REQUIRE( dummy.get_pain() == 5 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 4 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 3 );
 
-        kiss_spell.cast_spell_effect( dummy, dummy.pos() );
+        kiss_spell.cast_spell_effect( dummy, dummy.pos_bub() );
         CHECK( dummy.get_pain() == 2 );
     }
 }

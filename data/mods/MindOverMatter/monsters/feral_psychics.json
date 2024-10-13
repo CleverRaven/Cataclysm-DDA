@@ -173,7 +173,9 @@
         "attack_upper": true,
         "throw_strength": 50,
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        }
       },
       {
         "type": "leap",
@@ -181,22 +183,52 @@
         "move_cost": 50,
         "allow_no_target": true,
         "max_range": 5,
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        },
         "message": "%1$s moves so quickly your eyes can barely follow them!"
       },
       [ "BIO_OP_DISARM", 10 ],
       {
         "id": "bio_op_takedown",
         "cooldown": { "math": [ "5 + rand(10)" ] },
-        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } }
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        }
       },
       {
         "id": "psi_biokin3_hardened_skin",
         "type": "spell",
         "spell_data": { "id": "biokinetic_hardened_skin_monster" },
         "cooldown": 1,
-        "condition": { "and": [ { "u_has_flag": "NO_PSIONICS" }, { "not": { "u_has_effect": "effect_monster_hardened_skin" } } ] },
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "u_has_effect": "effect_monster_hardened_skin" } },
+            { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } }
+          ]
+        },
         "monster_message": "%1$s's skin takes on a slightly waxen appearance."
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "psi_biokin3_hurricane_blows_probe",
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "move_cost": 100,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 0 } ],
+        "self_effects_always": [ { "id": "effect_psi_biokin3_hurricane_blows", "duration": 0 } ],
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_psi_biokin3_hurricane_blows" } } ]
+        },
+        "dodgeable": false,
+        "blockable": false,
+        "hit_dmg_u": "%1$s blurs as they explode into motion!",
+        "hit_dmg_npc": "%1$s blurs as they explode into motion!",
+        "miss_msg_u": "%1$s blurs as they explode into motion!",
+        "miss_msg_npc": "%1$s blurs as they explode into motion!",
+        "no_dmg_msg_u": "%1$s blurs as they explode into motion!",
+        "no_dmg_msg_npc": "%1$s blurs as they explode into motion!"
       }
     ],
     "flags": [
@@ -1169,7 +1201,6 @@
     "type": "MONSTER",
     "name": "feral PKer",
     "description": "Though they still have a maniacal expression, this feral human is distinguished by the rocks floating in the around around them.",
-    "//": "I'm making an assumption here that feral psychics have access to powers that survivor psychics don't, because their lack of mental inhibitions due to their feral state means their powers are less constrained.  That's why feral telekinetics do more damage despite not having weapons.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -1277,7 +1308,7 @@
     "id": "mon_feral_human_telekin2",
     "type": "MONSTER",
     "name": "feral mindhand",
-    "description": "Hovering half a meter off the ground, this feral human is surrounded by a whirling cloud of rock, dust, splintered wood, and various household objects.",
+    "description": "This feral human moves quickly across uneven terrain and, when you look more closely, you see that they are floating just above the ground.  The air around them is distorted strangely, like looking through the surface of water.",
     "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
@@ -1293,7 +1324,7 @@
     "morale": 100,
     "melee_skill": 6,
     "melee_dice": 1,
-    "melee_dice_sides": 8,
+    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
@@ -1310,6 +1341,7 @@
       "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": true },
       "message": "As the %1$s dies, a wave of force explodes outward!"
     },
+    "upgrades": { "half_life": 45, "into": "mon_feral_human_telekin3" },
     "special_attacks": [
       {
         "id": "psi_telekin2_telegrab",
@@ -1376,6 +1408,147 @@
         "monster_message": "The air around %1$s distorts."
       },
       [ "PULL_METAL_WEAPON", 10 ]
+    ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER",
+      "PATH_AVOID_FIRE",
+      "PRIORITIZE_TARGETS",
+      "CLIMBS",
+      "PUSH_VEH",
+      "PUSH_MON",
+      "TELEKIN_IMMUNE"
+    ]
+  },
+  {
+    "id": "mon_feral_human_telekin3",
+    "type": "MONSTER",
+    "name": "unstoppable force",
+    "description": "Hovering half a meter off the ground, this feral human is surrounded by a whirling cloud of rock, dust, splintered wood, and various household objects.  As they move, the ground occasionally shakes.",
+    "default_faction": "zombie",
+    "looks_like": "chud",
+    "bodytype": "human",
+    "species": [ "FERAL", "TELEKIN_PUSHPULL_NULL" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 84,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "color": "yellow",
+    "symbol": "@",
+    "aggression": 30,
+    "morale": 100,
+    "melee_skill": 7,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "bash", "amount": 8 } ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
+    "dodge": 3,
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
+    "vision_day": 45,
+    "vision_night": 3,
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": "feral_humans_death_drops_telekin",
+    "zombify_into": "mon_zombie_survivor",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
+    "death_function": {
+      "effect": { "id": "death_telekeinetic_hit_oneinthree", "hit_self": true },
+      "message": "As the %1$s dies, a wave of force explodes outward!"
+    },
+    "special_attacks": [
+      {
+        "id": "psi_telekin3_telegrab",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_pull_monster", "min_level": 6 },
+        "cooldown": { "math": [ "5 + rand(10)" ] },
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "monster_message": "%1$s stares at %3$s and %3$s is lifted up and pulled towards them!"
+      },
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_telekinetic3_mindhammer",
+        "cooldown": { "math": [ "6 + rand(12)" ] },
+        "move_cost": 80,
+        "range": 11,
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 35 } ],
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
+        "blockable": false,
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
+        "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
+        "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
+        "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
+        "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
+      },
+      {
+        "id": "smash",
+        "move_cost": 80,
+        "cooldown": { "math": [ "4 + rand(8)" ] },
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25, "armor_penetration": 10 } ],
+        "hitsize_min": 12,
+        "range": 11,
+        "throw_strength": 50,
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
+        "blockable": false,
+        "condition": { "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "npc_has_flag": "TELEKIN_SHIELD" } } ] },
+        "hit_dmg_u": "%1$s stares at you and a powerful force hurls you through the air!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and a powerful force hurls them through the air!",
+        "miss_msg_u": "%s stares at you, and you feel a crushing pressure for a moment before the feeling vanishes!",
+        "miss_msg_npc": "%s stares at <npcname> but nothing happens!"
+      },
+      {
+        "id": "psi_telekin3_momentum_alteration",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_momentum_monster" },
+        "cooldown": 1,
+        "condition": {
+          "and": [ { "not": { "u_has_flag": "NO_PSIONICS" } }, { "not": { "u_has_effect": "effect_monster_momentum_alteration" } } ]
+        },
+        "monster_message": "The air around %1$s wavers."
+      },
+      {
+        "id": "psi_telekin3_inertial_barrier",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_barrier_monster_improved" },
+        "cooldown": 1,
+        "condition": {
+          "and": [
+            { "not": { "u_has_flag": "NO_PSIONICS" } },
+            { "not": { "u_has_effect": "effect_monster_inertial_barrier_improved" } }
+          ]
+        },
+        "monster_message": "The air around %1$s distorts."
+      },
+      {
+        "id": "psi_telekin3_wreckingball",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_explosion_monster", "min_level": 8 },
+        "cooldown": { "math": [ "7 + rand(14)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s gestures and the ground burst apart!"
+      },
+      {
+        "id": "psi_telekin3_earthshake",
+        "type": "spell",
+        "spell_data": { "id": "telekinetic_earthshaker_monster", "min_level": 5 },
+        "cooldown": { "math": [ "15 + rand(30)" ] },
+        "condition": { "not": { "u_has_flag": "NO_PSIONICS" } },
+        "monster_message": "%1$s closes their eyes and the ground shakes!"
+      },
+      [ "PULL_METAL_WEAPON", 5 ]
     ],
     "flags": [
       "SEES",

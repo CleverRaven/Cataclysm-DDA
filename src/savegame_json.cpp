@@ -4629,8 +4629,8 @@ void field_type_migrations::load( const JsonObject &jo )
 {
     field_type_str_id from_field;
     field_type_str_id to_field;
-    mandatory( jo, true, "from_field", from_field );
-    mandatory( jo, true, "to_field", to_field );
+    mandatory( jo, false, "from_field", from_field );
+    mandatory( jo, false, "to_field", to_field );
     field_migrations.insert( std::make_pair( from_field, to_field ) );
 }
 

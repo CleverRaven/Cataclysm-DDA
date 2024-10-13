@@ -1038,7 +1038,7 @@ void enchant_cache::activate_passive( Character &guy ) const
         // a random approximation!
         if( one_in( to_seconds<int>( activation.first ) ) ) {
             for( const fake_spell &fake : activation.second ) {
-                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos() );
+                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos_bub() );
             }
         }
     }
@@ -1071,12 +1071,12 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
                                       caster.get_name() );
-        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos() );
+        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
-        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
-            !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
+        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||
+            !spell_lvl.is_target_in_range( caster, trg_crtr.pos_bub() ) ) {
             return;
         }
 
@@ -1085,7 +1085,7 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.npc_trigger_message,
                                       caster.get_name(), trg_crtr.disp_name() );
 
-        spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
+        spell_lvl.cast_all_effects( caster, trg_crtr.pos_bub() );
     }
 }
 

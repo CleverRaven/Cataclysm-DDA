@@ -37,8 +37,7 @@
     "condition": { "u_has_effect": "effect_telekinetic_momentum" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "3" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(3)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -178,8 +177,7 @@
     "condition": { "u_has_effect": "effect_telekinetic_lifting_field" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "4" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(4)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_lifting_field')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -238,8 +236,7 @@
     "condition": { "u_has_effect": "effect_telekinetic_strength" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "5" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(5)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -298,8 +295,7 @@
     "condition": { "u_has_effect": "effect_telekinetic_armor" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_shield')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -468,8 +464,7 @@
     "condition": { "u_has_effect": "effect_telekinetic_vehicle_lift" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "6" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(6)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {
@@ -531,8 +526,7 @@
     "condition": { "u_has_effect": "effect_telekinetic_levitation" },
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "7" ] },
-      { "run_eocs": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2" },
-      { "math": [ "u_calories()", "-=", "psionics_kcal_cost(7)" ] },
+      { "run_eocs": [ "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2", "EOC_PSI_MAINTENANCE_CALORIE_COST_CALCULATOR" ] },
       { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "(maintenance_exp_factor(u_val('focus')))" ] },
       { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" },
       {

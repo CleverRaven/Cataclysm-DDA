@@ -301,7 +301,7 @@
   {
     "type": "mutation",
     "id": "HUMAN_ACCLIMATIZATION",
-    "name": { "str": "Human ACCLIMATIZATION" },
+    "name": { "str": "Human Acclimatization" },
     "points": 0,
     "player_display": false,
     "dummy": true,
@@ -1133,7 +1133,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "LUPINE", "ELFA" ],
-    "changes_to": [ "ANIMALEMPATH2" ]
+    "changes_to": [ "ANIMALEMPATH2" ],
+    "flags": [ "ANIMALEMPATH" ]
   },
   {
     "type": "mutation",
@@ -1144,7 +1145,8 @@
     "description": "Something about your presence is calming to animals, and they will treat you with innate trust.  This only applies to natural animals such as woodland creatures.",
     "types": [ "ANIMAL_EMPATHY" ],
     "category": [ "ELFA" ],
-    "prereqs": [ "ANIMALEMPATH" ]
+    "prereqs": [ "ANIMALEMPATH" ],
+    "flags": [ "ANIMALEMPATH2" ]
   },
   {
     "type": "mutation",
@@ -1926,7 +1928,8 @@
     "starting_trait": true,
     "types": [ "ANIMAL_EMPATHY" ],
     "changes_to": [ "ANIMALDISCORD2" ],
-    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ]
+    "category": [ "BEAST", "RAPTOR", "INSECT", "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD" ]
   },
   {
     "type": "mutation",
@@ -1937,7 +1940,8 @@
     "description": "Natural animals like dogs and wolves see you as prey, and are liable to attack you on sight.",
     "types": [ "ANIMAL_EMPATHY", "PREDATION" ],
     "prereqs": [ "ANIMALDISCORD" ],
-    "category": [ "MOUSE", "RABBIT" ]
+    "category": [ "MOUSE", "RABBIT" ],
+    "flags": [ "ANIMALDISCORD2" ]
   },
   {
     "type": "mutation",
@@ -3670,7 +3674,7 @@
     "vitamin_cost": 210,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
+    "description": "Your body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],

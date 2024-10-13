@@ -131,6 +131,18 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_SEED_BEARER",
+    "name": { "str": "Seed Bearer" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Arvore with this ability have a seed pocket on their body that over time fills with a set of from this region of the world.  Each time new seeds appear they will all be of the same type, but the types will vary at random.",
+    "category": [ "ARVORE" ],
+    "activated_eocs": [ "EOC_ARVORE_SEED_BEARER_activated" ],
+    "//": "This is currently character creation only, ideally there will be ways to get this later in game."
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_WALL",
     "name": { "str": "The Forest Offers Shelter" },
     "points": 4,
