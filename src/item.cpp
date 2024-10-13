@@ -10868,26 +10868,25 @@ units::energy item::energy_remaining( const Character *carrier, bool ignoreExter
     units::energy ret = 0_kJ;
 
     // Magazine in the item
-    const item* mag = magazine_current();
-    if ( mag ) {
+    const item *mag = magazine_current();
+    if( mag ) {
         ret += mag->energy_remaining( carrier );
     }
 
-    if ( !ignoreExternalSources )
-    {
+    if( !ignoreExternalSources ) {
 
         // Future energy based batteries
-        if ( is_vehicle_battery() ) {
+        if( is_vehicle_battery() ) {
             ret += energy;
         }
 
         // Power from bionic
-        if ( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
             ret += carrier->get_power_level();
         }
 
         // Extra power from UPS
-        if ( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
             ret += carrier->available_ups();
         }
     };
