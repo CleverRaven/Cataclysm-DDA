@@ -6,7 +6,7 @@ Mods are capable of dynamically loading directories based on if other mods are l
 
 ## Guide
 
-In order to dynamically load mod content, files must be placed within subdirectories named after other mod ids (capitalization is checked) within the mod_interactions folder.
+In order to dynamically load mod content, files must be placed within subdirectories named after other mod ids within the mod_interactions folder.
 
 Example:
 Mod 1: Mind Over Matter (id:mindovermatter)
@@ -19,15 +19,10 @@ Files located within the mod_interactions folders are always loaded after other 
 
 ## Limitations
 
-Currently, this functionality only loads / unloads files based on if other mods are active for the particular world.  It does not suppress any other warnings beyond this function.
+Multi-mod interaction folders are not supported (ie. "mindovermatter/xedra_evolved").
 
-In particular, when designing mod compatability content an author will likely want to redefine certain ids to have new definitions, flags, etc.  If attempting to do this within the same overall mod folder, this will throw a duplicate definition error.  To get around this, instead of a mod redefining its own content within its own mod_interactions folder, the author should redefine its own content using the other mods mod_interaction folder.
+## Technical Summary
 
-Example:
-Mod 1: Mind Over Matter (id:mindovermatter)
-Mod 2: Xedra Evolved (id:xedra_evolved)
+When mods are loaded, they are loaded while ignoring every file that is within the "mod_interactions" folder.  After all mods are finished loading then the mod_interaction folder content is loaded is the same order as the initial mods.  Within the mod interaction folders, only folders with names matching loaded mod ids (case sensitive) will be loaded.
 
-If xedra wants an item to have extra damage while Mind Over Matter is loaded, the author should place the new definition in the following:
-MindOverMatter/mod_interactions/xedra_evolved/xedra_compat_data.json
-
-TODO: remove this limitation entirely by adjusting the check to take into account the mod_interaction id source as well
+When a definition from the mod interaction folder is loaded, the src is saved as a combination of the base mod id, a hashtag, and the interaction mod id.  For example a combined id may be "xedra_evolved#mindovermatter".
