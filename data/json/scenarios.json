@@ -817,7 +817,7 @@
     "id": "wilderness",
     "name": "Wilderness",
     "points": 0,
-    "description": "You find yourself amongst trees.  The screaming and moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
+    "description": "You find yourself among trees.  The screaming and moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Wilderness",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_campsite", "sloc_campground", "sloc_desert_island", "sloc_river" ],
     "flags": [ "LONE_START" ]

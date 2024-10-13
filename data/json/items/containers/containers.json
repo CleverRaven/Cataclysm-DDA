@@ -3078,7 +3078,7 @@
       {
         "id": "pinhead_case",
         "name": { "str": "Hellraiser smartphone case" },
-        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-grey, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
+        "description": "The design of this case is inspired by the gruesome Cenobite creatures from the 'Hellraiser' horror movie series.  It features a graphic of the infamous puzzle box with a bloody-gray, aged texture and small comic-like graphic symbols that are seen in the movie scenes.  The design layout also presents a reflection of the Cenobites and their leader, Pinhead, in the background, giving it a truly creepy vibe.",
         "weight": 5
       },
       {
@@ -3210,13 +3210,13 @@
       {
         "id": "pa_case",
         "name": { "str": "Paranormal Activity smartphone case" },
-        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-grey color throughout, symbolizing the film's eeriness and supernatural horror.",
+        "description": "This waterproof smartphone case features a graphic of the Ouija board, with the film's title at the bottom, and a spooky blue-gray color throughout, symbolizing the film's eeriness and supernatural horror.",
         "weight": 5
       },
       {
         "id": "cloverfield_case",
         "name": { "str": "Cloverfield Monster smartphone case" },
-        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a grey-green background, with a scratchy film reel aesthetic found throughout the case.",
+        "description": "The design of this waterproof smartphone case features the Cloverfield monster's claw marks on an eroded statue-like surface against a gray-green background, with a scratchy film reel aesthetic found throughout the case.",
         "weight": 5
       },
       {
@@ -3990,8 +3990,8 @@
     "id": "stand_flyer",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "flyer stand" },
-    "description": "A small stand made to show off various flyers.",
+    "name": { "str": "flier stand" },
+    "description": "A small stand made to show off various fliers.",
     "ascii_picture": "stand_flyer",
     "weight": "326 g",
     "volume": "5962 ml",

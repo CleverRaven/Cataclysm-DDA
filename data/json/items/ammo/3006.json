@@ -3,7 +3,7 @@
     "id": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 FMJ" },
-    "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.",
+    "description": "Jacketed .30-06 Springfield M2 Ball ammunition with a 150gr spitzer bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "ascii_picture": "3006",
     "weight": "25 g",
     "volume": "192 ml",
@@ -87,7 +87,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 JSP" },
-    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.",
+    "description": ".30-06 Springfield ammunition with a 165gr soft point bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
   },
   {
@@ -127,7 +127,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str_sp": ".30-06 M2 AP" },
-    "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today amongst collectors and hunters for its range, versatility, and power.",
+    "description": "Armor piercing .30-06 M2 ammunition with a 166gr hardened steel core bullet.  The .30-06 cartridge was adopted in 1906 by the US military, where it served for some 50 years, and it remains popular today among collectors and hunters for its range, versatility, and power.",
     "material": [ "brass", "steel", "lead", "powder" ],
     "ascii_picture": "3006fmj",
     "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }

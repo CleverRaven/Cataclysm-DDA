@@ -117,7 +117,7 @@
   {
     "abstract": "mon_generic_chick_tiny",
     "type": "MONSTER",
-    "name": { "str": "grey chick" },
+    "name": { "str": "gray chick" },
     "description": "A tiny dull-colored chick, it could be from a number of different species.",
     "copy-from": "mon_generic_chick",
     "looks_like": "mon_generic_chick_tiny",
