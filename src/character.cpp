@@ -292,9 +292,9 @@ static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_down_mattress( "down_mattress" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_fire( "fire" );
-static const itype_id itype_mattress( "mattress" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
+static const itype_id itype_mattress( "mattress" );
 static const itype_id itype_null( "null" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 
@@ -485,8 +485,8 @@ static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const trap_str_id tr_ledge( "tr_ledge" );
+static const trap_str_id tr_down_mattress("tr_down_mattress");
 static const trap_str_id tr_mattress( "tr_mattress" );
-static const trap_str_id tr_down_mattress( "tr_down_mattress" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
 static const vitamin_id vitamin_iron( "iron" );
@@ -12442,6 +12442,18 @@ float Character::fall_damage_mod() const
     return std::max( 0.0f, ret );
 }
 
+float adjust_effective_force_for_soft_landing(float effective_force) {
+    if (effective_force < 10.0) {
+        return 0.0f;  // If less than 10, reduce it to 0
+    }
+    else if (effective_force < 25.0f) {
+        return effective_force / 3.0f;  // If less than 25 but greater than or equal to 10, reduce by 3
+    }
+    else {
+        return effective_force * 0.75f;  // Otherwise, reduce by 0.75
+    }
+}
+
 // force is maximum damage to hp before scaling
 int Character::impact( const int force, const tripoint &p )
 {
@@ -12508,13 +12520,7 @@ int Character::impact( const int force, const tripoint &p )
                 here.furn( p ) == furn_f_bed_down ||
                 here.furn( p ) == furn_f_down_mattress ||
                 here.furn( p ) == furn_f_floor_mattress ) {
-                if( effective_force < 10.0 ) {
-                    effective_force = 0.0;  // If less than 10, reduce it to 0
-                } else if( effective_force < 25.0f ) {
-                    effective_force /= 3.0f;  // If less than 25 but greater than or equal to 10, reduce by 3
-                } else {
-                    effective_force *= 0.75f;  // Otherwise, reduce by half
-                }
+                effective_force = adjust_effective_force_for_soft_landing(effective_force);
             } else {
                 //if furniture breakable it breaks and slighly reduces damage
                 if( here.is_bashable_furn( p ) && here.furn( p )->bash.str_max <= effective_force ) {
@@ -12532,36 +12538,15 @@ int Character::impact( const int force, const tripoint &p )
         } else if( !here.items_with( p, [&]( item const & it ) {
         return it.typeId() == itype_mattress ||
                    it.typeId() == itype_down_mattress;
-        } ).empty() ) {
-            if( effective_force < 10.0 ) {
-                effective_force = 0.0;  // If less than 10, reduce it to 0
-            } else if( effective_force < 25.0f ) {
-                effective_force /= 3.0f;  // If less than 25 but greater than or equal to 10, reduce by 3
-            } else {
-                effective_force *= 0.75f;  // Otherwise, reduce by half
-            }
-        } else if( here.tr_at( p ).id == tr_mattress ||
-                   here.tr_at( p ).id == tr_down_mattress ) {
-
-            if( effective_force < 10.0 ) {
-                effective_force = 0.0;  // If less than 10, reduce it to 0
-            } else if( effective_force < 25.0f ) {
-                effective_force /= 3.0f;  // If less than 25 but greater than or equal to 10, reduce by 3
-            } else {
-                effective_force *= 0.75f;  // Otherwise, reduce by half
-            }
+        } ).empty() || here.tr_at(p).id == tr_mattress ||
+            here.tr_at(p).id == tr_down_mattress ) {
+            effective_force = adjust_effective_force_for_soft_landing(effective_force);
         }
     }
     if( !here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
         ( weapon.typeId() == itype_mattress ||
           weapon.typeId() == itype_down_mattress ) ) {
-        if( effective_force < 10.0 ) {
-            effective_force = 0.0;  // If less than 10, reduce it to 0
-        } else if( effective_force < 25.0f ) {
-            effective_force /= 3.0f;  // If less than 25 but greater than or equal to 10, reduce by 3
-        } else {
-            effective_force *= 0.75f;  // Otherwise, reduce by half
-        }
+        effective_force = adjust_effective_force_for_soft_landing(effective_force);
     }
     // Rescale for huge force
     // At >30 force, proper landing is impossible and armor helps way less
