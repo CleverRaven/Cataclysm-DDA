@@ -301,7 +301,7 @@
   {
     "type": "mutation",
     "id": "HUMAN_ACCLIMATIZATION",
-    "name": { "str": "Human ACCLIMATIZATION" },
+    "name": { "str": "Human Acclimatization" },
     "points": 0,
     "player_display": false,
     "dummy": true,
