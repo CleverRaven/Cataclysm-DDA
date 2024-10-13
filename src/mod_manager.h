@@ -26,7 +26,7 @@ const std::vector<std::pair<std::string, translation>> &get_mod_list_categories(
 const std::vector<std::pair<std::string, translation>> &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
-mod_id get_base_id( mod_id full_mod_id );
+mod_id get_base_id( mod_id full_id );
 
 struct MOD_INFORMATION {
     private:
