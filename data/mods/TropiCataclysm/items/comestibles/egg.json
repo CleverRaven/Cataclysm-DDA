@@ -6,7 +6,7 @@
     "spoils_in": "25 days",
     "copy-from": "egg_chicken",
     "proportional": { "volume": 12, "weight": 12, "calories": 12 },
-    "rot_spawn": { "group": "GROUP_EGG_RHEA" }
+    "rot_spawn": { "monster": "mon_rhea_chick" }
   },
   {
     "type": "COMESTIBLE",
@@ -21,7 +21,7 @@
     "name": { "str": "toco toucan egg" },
     "spoils_in": "9 days",
     "copy-from": "egg_crow",
-    "rot_spawn": { "group": "GROUP_EGG_TOUCAN" }
+    "rot_spawn": { "monster": "mon_toucan_chick" }
   },
   {
     "type": "COMESTIBLE",
@@ -29,7 +29,7 @@
     "name": { "str": "white-eyed parakeet egg" },
     "spoils_in": "13 days",
     "copy-from": "egg_bluejay",
-    "rot_spawn": { "group": "GROUP_EGG_PARROT" }
+    "rot_spawn": { "monster": "mon_parrot_chick" }
   },
   {
     "type": "COMESTIBLE",
@@ -37,28 +37,28 @@
     "name": { "str": "blue-and-yellow macaw egg" },
     "spoils_in": "13 days",
     "copy-from": "egg_crow",
-    "rot_spawn": { "group": "GROUP_EGG_MACAW" }
+    "rot_spawn": { "monster": "mon_macaw_chick" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_finch_saffron",
     "name": { "str": "saffron finch egg" },
     "copy-from": "egg_waxwing",
-    "rot_spawn": { "group": "GROUP_EGG_FINCH_SAFFRON" }
+    "rot_spawn": { "monster": "mon_finch_saffron_chick" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_great_kiskadee",
     "name": { "str": "great kiskadee egg" },
     "copy-from": "egg_bluejay",
-    "rot_spawn": { "group": "GROUP_EGG_GREAT_KISKADEE" }
+    "rot_spawn": { "monster": "mon_great_kiskadee_chick" }
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_rufous_hornero",
     "name": { "str": "rufous hornero egg" },
     "copy-from": "egg_waxwing",
-    "rot_spawn": { "group": "GROUP_EGG_RUFOUS_HORNERO" }
+    "rot_spawn": { "monster": "mon_rufous_hornero_chick" }
   },
   {
     "type": "COMESTIBLE",
