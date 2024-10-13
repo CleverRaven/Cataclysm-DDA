@@ -111,6 +111,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
+    "calories": 6,
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": [ "HEAT_SOLID_ITEMS" ]
   },
