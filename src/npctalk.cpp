@@ -5425,14 +5425,14 @@ dialogue generate_new_dialogue( dialogue &d, bool has_alpha_var, bool has_beta_v
         Creature *beta_guy = get_talker( beta_var, is_beta_loc, beta_invalid );
         if( alpha_invalid || beta_invalid || ( alpha_guy == nullptr && beta_guy == nullptr ) ) {
             run_eoc_vector( false_eocs, d );
-            return newDialog;
         } else {
-            return newDialog = dialogue( ( alpha_guy == nullptr ) ? nullptr : get_talker_for( alpha_guy ),
-                                         ( beta_guy == nullptr ) ? nullptr : get_talker_for( beta_guy ),
-                                         d.get_conditionals(),
-                                         d.get_context() );
+            newDialog = dialogue( ( alpha_guy == nullptr ) ? nullptr : get_talker_for( alpha_guy ),
+                                  ( beta_guy == nullptr ) ? nullptr : get_talker_for( beta_guy ),
+                                  d.get_conditionals(),
+                                  d.get_context() );
         }
-    }
+    };
+    return newDialog;
 }
 
 talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view member,
