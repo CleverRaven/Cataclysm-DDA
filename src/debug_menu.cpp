@@ -4073,9 +4073,9 @@ void debug()
             if( query_yn( _( "Are you sure you want to crash the game?" ) ) ) {
                 if( query_yn( _( "Are you REALLY sure you want to crash the game?" ) ) ) {
                     static_cast<void>( raise( SIGSEGV ) );
-                    break;
                 };
             }
+            break;
         case debug_menu_index::ACTIVATE_EOC: {
             run_eoc_menu();
         }
