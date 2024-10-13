@@ -6280,8 +6280,7 @@ talk_effect_fun_t::func f_give_equipment( const JsonObject &jo, std::string_view
 }
 
 
-talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view member,
-                                       const std::string_view src, bool is_npc )
+talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view member, bool is_npc )
 {
     str_or_var dmg_type = get_str_or_var( jo.get_member( member ), member );
     dbl_or_var dmg_amount = get_dbl_or_var( jo, "amount", false, 0 );
