@@ -6112,21 +6112,45 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
     dbl_or_var unc_arpen_mult = get_dbl_or_var( jo, "unc_arpen_mult", false, 1 );
     dbl_or_var unc_dmg_mult = get_dbl_or_var( jo, "unc_dmg_mult", false, 1 );
 
+    dbl_or_var dbl_min_hit = get_dbl_or_var( jo, "min_hit", false, -1 );
+    dbl_or_var dbl_max_hit = get_dbl_or_var( jo, "max_hit", false, -1 );
+    dbl_or_var dbl_hit_roll = get_dbl_or_var( jo, "hit_roll", false, 0 );
+    bool can_attack_high = jo.get_bool( "can_attack_high", true );
+
+
     str_or_var bodypart;
 
     if( jo.has_member( "bodypart" ) ) {
-        bodypart = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", false, "bp_null" );
+        bodypart = get_str_or_var( jo.get_member( "bodypart" ), "bodypart", false, "RANDOM" );
     } else {
-        bodypart.str_val = "bp_null";
+        bodypart.str_val = "RANDOM";
     }
 
     return [is_npc, dmg_type, dmg_amount, bodypart, arpen, arpen_mult, dmg_mult, unc_arpen_mult,
-            unc_dmg_mult]( dialogue & d ) {
+            unc_dmg_mult, dbl_min_hit, dbl_max_hit, dbl_hit_roll, can_attack_high]( dialogue & d ) {
 
         damage_instance dmg_inst;
-        std::string const bp_str = bodypart.evaluate( d );
-        bodypart_id const bp = bp_str.empty() ? bodypart_str_id::NULL_ID() : bodypart_id( bp_str );
         damage_type_id damage_type = damage_type_id( dmg_type.evaluate( d ) );
+        std::string const bp_str = bodypart.evaluate( d );
+        bodypart_id bp;
+
+        if( d.actor( is_npc )->get_character() ) {
+            if( bp_str == "RANDOM" ) {
+                Character &guy = *d.actor( is_npc )->get_character();
+                int min_hit = dbl_min_hit.evaluate( d );
+                int max_hit = dbl_max_hit.evaluate( d );
+                int hit_roll = dbl_hit_roll.evaluate( d );
+
+                if( max_hit == -1 ) {
+                    max_hit = guy.get_max_hitsize_bodypart()->hit_size;
+                }
+                bp = guy.select_body_part( min_hit, max_hit, can_attack_high, hit_roll );
+            }
+        }
+
+        if( d.actor( is_npc )->get_monster() ) {
+            bp = bodypart_id( "bp_null" );
+        }
 
         dmg_inst.add_damage( damage_type, dmg_amount.evaluate( d ), arpen.evaluate( d ),
                              arpen_mult.evaluate( d ), dmg_mult.evaluate( d ),
