@@ -1,11 +1,6 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "AAAAAAAAAAAAAAAAAAAA",
-    "effect": [ { "u_deal_damage": "biological", "amount": 20, "bodypart": "torso" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_nether_glass_event",
     "recurrence": "10 seconds",
     "condition": {
