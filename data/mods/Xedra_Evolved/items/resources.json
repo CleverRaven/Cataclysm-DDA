@@ -341,7 +341,6 @@
     "to_hit": -1,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
     "melee_damage": { "stab": 3 },
-    "color": "black",
     "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work."
   },
   {
