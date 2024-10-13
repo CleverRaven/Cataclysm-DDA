@@ -1416,7 +1416,7 @@
     "type": "keybinding",
     "id": "TOGGLE_UNLOAD_RAS_WEAPON",
     "category": "TARGET",
-    "name": "Whether to unload your bow etc after canceling a shot",
+    "name": "Whether to unload your bow etc. after canceling a shot",
     "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
@@ -1615,7 +1615,7 @@
     "type": "keybinding",
     "id": "CHANGE_START_OF_CATACLYSM",
     "category": "NEW_CHAR_DESCRIPTION",
-    "name": "Change cataclysm start date",
+    "name": "Change Cataclysm start date",
     "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
   },
   {
@@ -2900,7 +2900,7 @@
   {
     "type": "keybinding",
     "id": "DEBUG_DIALOGUE_SHOW_ALL_RESPONSE",
-    "name": "Toggle debug dialogue show hidden responses ",
+    "name": "Toggle debug dialogue show hidden responses",
     "bindings": [
       { "input_method": "keyboard_char", "key": "CTRL+R" },
       { "input_method": "keyboard_code", "mod": [ "ctrl" ], "key": "r" }
@@ -2931,7 +2931,7 @@
   },
   {
     "type": "keybinding",
-    "name": "View temperature map (using Map font)",
+    "name": "View temperature map (using map font)",
     "category": "DEFAULTMODE",
     "id": "debug_temp"
   },
@@ -3234,7 +3234,7 @@
   {
     "type": "keybinding",
     "id": "cast_spell",
-    "name": "Supernatural Abilities",
+    "name": "Supernatural abilities",
     "category": "DEFAULTMODE",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
@@ -4609,7 +4609,7 @@
     "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "SCROLL_DESC_DOWN",
-    "name": "Scroll item description Down",
+    "name": "Scroll item description down",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
