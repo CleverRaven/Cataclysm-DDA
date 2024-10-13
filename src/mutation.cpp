@@ -26,6 +26,7 @@
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -378,8 +379,9 @@ bool Character::can_power_mutation( const trait_id &mut ) const
     bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
     bool thirst = mut->thirst && get_thirst() >= 260;
     bool sleepiness = mut->sleepiness && get_sleepiness() >= sleepiness_levels::EXHAUSTED;
+    bool mana = mut->mana && magic->available_mana() >= mut->cost;
 
-    return !hunger && !sleepiness && !thirst;
+    return !hunger && !sleepiness && !thirst && !mana;
 }
 
 void Character::mutation_reflex_trigger( const trait_id &mut )
@@ -821,6 +823,9 @@ void Character::activate_mutation( const trait_id &mut )
         }
         if( mdata.sleepiness ) {
             mod_sleepiness( cost );
+        }
+        if (mdata.mana) {
+            magic->mod_mana( *this, -cost );
         }
         tdata.powered = true;
         recalc_sight_limits();
