@@ -824,7 +824,7 @@ void Character::activate_mutation( const trait_id &mut )
         if( mdata.sleepiness ) {
             mod_sleepiness( cost );
         }
-        if (mdata.mana) {
+        if( mdata.mana ) {
             magic->mod_mana( *this, -cost );
         }
         tdata.powered = true;
