@@ -301,7 +301,7 @@
   {
     "type": "mutation",
     "id": "HUMAN_ACCLIMATIZATION",
-    "name": { "str": "Human ACCLIMATIZATION" },
+    "name": { "str": "Human Acclimatization" },
     "points": 0,
     "player_display": false,
     "dummy": true,
@@ -3674,7 +3674,7 @@
     "vitamin_cost": 210,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
+    "description": "Your body has begun moving nutrients via the evaporation of water.  This increases your thirst when it's hot, but reduces it when it's cold.",
     "prereqs": [ "PLANTSKIN", "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "prereqs2": [ "LEAVES" ],
     "threshreq": [ "THRESH_PLANT" ],

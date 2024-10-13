@@ -1669,7 +1669,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
-| "repeat" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Default 1 |
+| "repeat" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Eocs are repeated in order; having `"run_eocs": [ "A", "B" ], "repeat": 3` would look like `A, B, A, B, A, B`. Default 1 |
 
 
 ##### Valid talkers:

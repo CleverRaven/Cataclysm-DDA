@@ -928,7 +928,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of steeltoed sneakers", "str_pl": "pairs of steeltoed sneakers" },
-    "description": "A descendant of the classic steeltoed boot, this modern footwear has become popular amongst working class people over the last couple of decades.",
+    "description": "A descendant of the classic steeltoed boot, this modern footwear has become popular among working class people over the last couple of decades.",
     "weight": "900 g",
     "volume": "1500 ml",
     "longest_side": "254 mm",

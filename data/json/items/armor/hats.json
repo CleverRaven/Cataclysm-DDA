@@ -772,8 +772,8 @@
       },
       {
         "id": "grey_hat_hard",
-        "name": { "str": "grey hard hat" },
-        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "name": { "str": "gray hard hat" },
+        "description": "It's colored gray, commonly used by visitors to any worksite.",
         "color": "light_gray",
         "weight": 5,
         "append": true
@@ -965,8 +965,8 @@
       },
       {
         "id": "grey_hat_hard",
-        "name": { "str": "grey summer hard hat" },
-        "description": "It's colored grey, commonly used by visitors to any worksite.",
+        "name": { "str": "gray summer hard hat" },
+        "description": "It's colored gray, commonly used by visitors to any worksite.",
         "color": "light_gray",
         "weight": 5,
         "append": true

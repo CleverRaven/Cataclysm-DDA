@@ -142,7 +142,7 @@
     "dynamic_line": {
       "compare_string": [ "yes", { "u_val": "u_met_John_Bailey" } ],
       "yes": "*looks up at you, taking a moment to place your face, then grins broadly.  He looks about the same as when you last saw him, perhaps a little more fit.  \"So, you're still playing on the 'living' team, huh?  Glad to see you're still kicking around.  Always good to run into a familiar face nowadays.\"",
-      "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair greying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
+      "no": "*glances your way, then makes eye contact as you move closer to speak.  He is a strong-looking man in his mid forties, his hair graying and his face flecked with stubble and travel dust.  The clothes he's wearing are clearly scavenged, though they fit well, and he has the build of someone who until recently had the luxury of carrying a few extra pounds.  \"Hi there.\"  He presents his hand to shake.  \"You don't look like you belong here.  Name's Bailey, John Bailey.\""
     },
     "speaker_effect": {
       "effect": [
