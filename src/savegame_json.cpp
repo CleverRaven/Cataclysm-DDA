@@ -3158,8 +3158,8 @@ void vehicle_part::deserialize( const JsonObject &data )
         variant = info().variant_default;
     }
 
-    data.read( "mount_dx", mount.x );
-    data.read( "mount_dy", mount.y );
+    data.read( "mount_dx", mount.x() );
+    data.read( "mount_dy", mount.y() );
     data.read( "open", open );
     int direction_int;
     data.read( "direction", direction_int );
@@ -3173,8 +3173,8 @@ void vehicle_part::deserialize( const JsonObject &data )
         if( std::abs( z_offset ) > 10 ) {
             data.throw_error_at( "z_offset", "z_offset out of range" );
         }
-        precalc[0].z = z_offset;
-        precalc[1].z = z_offset;
+        precalc[0].z() = z_offset;
+        precalc[1].z() = z_offset;
     }
 
     JsonArray ja_carried = data.get_array( "carried_stack" );
@@ -3214,8 +3214,8 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "variant", variant );
     }
     json.member( "base", base );
-    json.member( "mount_dx", mount.x );
-    json.member( "mount_dy", mount.y );
+    json.member( "mount_dx", mount.x() );
+    json.member( "mount_dy", mount.y() );
     json.member( "open", open );
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
@@ -3233,8 +3233,8 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
-    if( precalc[0].z ) {
-        json.member( "z_offset", precalc[0].z );
+    if( precalc[0].z() ) {
+        json.member( "z_offset", precalc[0].z() );
     }
     json.member( "items", items );
     json.member( "tools", tools );
@@ -3259,9 +3259,9 @@ void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
 {
     data.read( "veh_name", veh_name );
     face_dir = units::from_degrees( data.get_int( "face_dir" ) );
-    data.read( "mount_x", mount.x );
-    data.read( "mount_y", mount.y );
-    data.read( "mount_z", mount.z );
+    data.read( "mount_x", mount.x() );
+    data.read( "mount_y", mount.y() );
+    data.read( "mount_z", mount.z() );
 }
 
 void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
@@ -3269,9 +3269,9 @@ void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "veh_name", veh_name );
     json.member( "face_dir", std::lround( to_degrees( face_dir ) ) );
-    json.member( "mount_x", mount.x );
-    json.member( "mount_y", mount.y );
-    json.member( "mount_z", mount.z );
+    json.member( "mount_x", mount.x() );
+    json.member( "mount_y", mount.y() );
+    json.member( "mount_z", mount.z() );
     json.end_object();
 }
 

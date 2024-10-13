@@ -1775,12 +1775,12 @@ void game::validate_linked_vehicles()
 {
     for( wrapped_vehicle &veh : m.get_vehicles() ) {
         vehicle *v = veh.v;
-        if( v->tow_data.other_towing_point != tripoint_zero ) {
+        if( v->tow_data.other_towing_point != tripoint_bub_ms_zero ) {
             vehicle *other_v = veh_pointer_or_null( m.veh_at( v->tow_data.other_towing_point ) );
             if( other_v ) {
                 // the other vehicle is towing us.
                 v->tow_data.set_towing( other_v, v );
-                v->tow_data.other_towing_point = tripoint_zero;
+                v->tow_data.other_towing_point = tripoint_bub_ms_zero;
             }
         }
     }

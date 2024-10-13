@@ -390,13 +390,13 @@ void veh_app_interact::refill()
         act = player_activity( ACT_VEHICLE, 1000, static_cast<int>( 'f' ) );
         act.targets.push_back( target );
         act.str_values.push_back( pt->info().id.str() );
-        const point q = veh->coord_translate( pt->mount );
+        const point_rel_ms q = veh->coord_translate( pt->mount );
         map &here = get_map();
         for( const tripoint &p : veh->get_points( true ) ) {
             act.coord_set.insert( here.getglobal( p ).raw() );
         }
-        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );
-        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x() );
+        act.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y() );
         act.values.push_back( a_point.x );
         act.values.push_back( a_point.y );
         act.values.push_back( -a_point.x );

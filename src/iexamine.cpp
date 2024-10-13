@@ -1266,7 +1266,7 @@ elevator_vehicles _get_vehicles_on_elevator( std::vector<tripoint_bub_ms> const 
         bool inbounds = true;
         bool can_block = false;
         for( const vpart_reference &vp : v.v->get_all_parts() ) {
-            tripoint_bub_ms const p = tripoint_bub_ms( v.pos + vp.part().precalc[0] );
+            tripoint_bub_ms const p = tripoint_bub_ms( v.pos ) + vp.part().precalc[0];
             auto const eit = std::find( elevator.cbegin(), elevator.cend(), p );
             inbounds &= eit != elevator.cend();
             if( !inbounds ) {

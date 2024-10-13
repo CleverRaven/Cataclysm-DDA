@@ -1541,7 +1541,10 @@ class item : public visitable
          * @param link_type What type of connection to make. If set to link_state::automatic, will automatically determine which type to use. Defaults to link_state::no_link.
          * @return true if the item was successfully connected.
          */
+        // TODO: Get rid of untyped overload.
         ret_val<void> link_to( vehicle &veh, const point &mount,
+                               link_state link_type = link_state::no_link );
+        ret_val<void> link_to( vehicle &veh, const point_rel_ms &mount,
                                link_state link_type = link_state::no_link );
 
         /**
