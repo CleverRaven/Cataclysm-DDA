@@ -561,7 +561,7 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
         }
     }
 }
- 
+
 void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
         const std::string &src )
 {
@@ -589,7 +589,6 @@ void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &p
             }
         }
     }
-
     // iterate over each file
     for( const std::pair<const mod_id, cata_path> &file : files ) {
         try {
