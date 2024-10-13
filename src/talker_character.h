@@ -70,6 +70,8 @@ class talker_character_const: public talker_cloner<talker_character_const>
         int int_cur() const override;
         int per_cur() const override;
         int attack_speed() const override;
+        dealt_damage_instance deal_damage( Creature *source, bodypart_id bp,
+                                           const damage_instance &dam ) const override;
         int pain_cur() const override;
         int perceived_pain_cur() const override;
         double armor_at( damage_type_id &dt, bodypart_id &bp ) const override;
