@@ -2490,8 +2490,9 @@ bool vehicle::split_vehicles( map &here,
     std::vector<std::vector<point_rel_ms>> temp;
     for( const std::vector<point> &sub : new_mounts ) {
         std::vector<point_rel_ms> temp2;
+        temp2.reserve( sub.size() );
         for( const point pt : sub ) {
-            temp2.emplace_back( point_rel_ms( pt ) );
+            temp2.emplace_back( point_rel_ms{ pt } );
         }
         temp.emplace_back( temp2 );
     }
