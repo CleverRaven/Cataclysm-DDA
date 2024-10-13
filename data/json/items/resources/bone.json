@@ -99,7 +99,7 @@
     "price_postapoc": "1 cent"
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "skewer_bone",
     "symbol": ",",
     "color": "white",
@@ -107,7 +107,8 @@
     "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
     "category": "other",
     "material": [ "bone" ],
-    "flags": [ "TRADER_AVOID" ],
+    "comestible_type": "FOOD",
+    "flags": [ "TRADER_AVOID", "RAW", "INEDIBLE" ],
     "weight": "10 g",
     "volume": "25 ml",
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
