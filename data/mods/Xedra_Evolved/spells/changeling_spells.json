@@ -262,6 +262,7 @@
     "type": "SPELL",
     "name": "Friend to Birds and Beasts",
     "description": "You have learned to speak the secret tongues of birds and beasts and may use it to ask them for aid.  Casting this spell on a mammal or a bird will ally them with you, causing them to defend you against your enemies.",
+    "message": "You whisper a few words in the language of beasts.",
     "valid_targets": [ "ally", "hostile" ],
     "flags": [ "VERBAL", "RECHARM", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_FAIL", "NO_PROJECTILE", "SILENT" ],
     "effect": "charm_monster",
@@ -289,5 +290,173 @@
       "math": [ "max(( 200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_POOKA') * 4) - (u_skill('deduction') * 8)), 50)" ]
     },
     "targeted_monster_species": [ "MAMMAL", "BIRD" ]
+  },
+  {
+    "id": "selkie_fog_cloak_spell",
+    "type": "SPELL",
+    "name": "Cloak of Fog",
+    "description": "Call a thick fog from the surrounding air, breaking line of sight with your enemies and obscuring your presence.  Weave the glamour again to dispel it.",
+    "message": "Thick fog billows up around you.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_FOG_CLOAK",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 3,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 560) + (u_skill('deduction') * 5120) + 13540) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1380) + (u_skill('deduction') * 12305) + 49850) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_selkie_fog_cloak') > -1 ? 0 : max(( 450 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 5) - (u_skill('deduction') * 15)), 100)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [ "max(( 100 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 3)), 40)" ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_dense_fog_spell",
+    "type": "SPELL",
+    "name": "Chant of Obscuring Mists",
+    "description": "Manipulate the weather, pulling the water from the air and cause a thick fog to form and blanket the countryside.  Weave the glamour again to dispel it.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_DENSE_FOG",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 5,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 980) + (u_skill('deduction') * 3453) + 20310) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 2415) + (u_skill('deduction') * 10275) + 74775) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_fog') > -1 ? 50 : max(( 750 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 400)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 30000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 25) - (u_skill('deduction') * 500)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_rains_spell",
+    "type": "SPELL",
+    "name": "Aria of the Droplets",
+    "description": "Manipulate the weather, causing the sky to cloud over and rain to fall.  Weave the glamour again to dispel it.  You cannot control the weather if the temperature is too cold.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_RAINS",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 6,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rains') > -1 ? 0 : max(( 950 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 3) - (u_skill('deduction') * 25)), 450)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 60000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 6000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_rainstorm_spell",
+    "type": "SPELL",
+    "name": "Canticle of Rainstorms",
+    "description": "Manipulate the weather, causing the sky to cloud over and heavy rains to fall.  Weave the glamour again to dispel it.  You cannot control the weather if the temperature is too cold.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_RAINSTORM",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 7,
+    "max_level": 1,
+    "min_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 1715) + (u_skill('deduction') * 6043) + 35543) * selkie_has_weather_mastery()"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "((u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4226) + (u_skill('deduction') * 17981) + 123379) * selkie_has_weather_mastery()"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_rainstorm') > -1 ? 0 : max(( 1200 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 4) - (u_skill('deduction') * 25)), 600)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 90000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 45) - (u_skill('deduction') * 1000)), 9000)"
+      ]
+    }
+  },
+  {
+    "id": "selkie_change_weather_lightningstorm_spell",
+    "type": "SPELL",
+    "name": "Symphony of Levin",
+    "description": "Manipulate the weather, transforming a rainstorm into a violent lightning storm.  It must already be raining heavily to transform the weather into a lightning storm, and a lightning storm cannot be controlled after the glamour is woven.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "RANDOM_DURATION", "NO_FAIL" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_SELKIE_CHANGE_WEATHER_LIGHTNINGSTORM",
+    "shape": "blast",
+    "spell_class": "CHANGELING_MAGIC",
+    "difficulty": 9,
+    "max_level": 1,
+    "energy_source": "MANA",
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_controlling_weather_lightningstorm') > -1 ? 50 : max(( 500 - u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') - (u_skill('deduction') * 15)), 200)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "max(( 9000 - (u_sum_traits_of_category_char_has('FAIR_FOLK_COMMONER_SELKIE') * 10) - (u_skill('deduction') * 250)), 1000)"
+      ]
+    }
   }
 ]

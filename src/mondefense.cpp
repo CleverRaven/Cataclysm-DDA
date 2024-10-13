@@ -75,7 +75,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( get_player_view().sees( source->pos() ) ) {
+    if( get_player_view().sees( source->pos_bub() ) ) {
         const game_message_type msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
@@ -125,8 +125,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint> pts = closest_points_first( source->pos(), 1 );
-    pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
+    std::vector<tripoint_bub_ms> pts = closest_points_first( source->pos_bub(), 1 );
+    pts.erase( std::remove( pts.begin(), pts.end(), m.pos_bub() ), pts.end() );
 
     projectile prj;
     prj.speed = 10;
@@ -135,11 +135,11 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     prj.proj_effects.insert( ammo_effect_NO_DAMAGE_SCALING );
     prj.impact.add_damage( damage_acid, rng( 1, 3 ) );
     for( size_t i = 0; i < num_drops; i++ ) {
-        const tripoint &target = random_entry( pts );
-        projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
+        const tripoint_bub_ms &target = random_entry( pts );
+        projectile_attack( prj, m.pos_bub(), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( get_player_view().sees( m.pos() ) ) {
+    if( get_player_view().sees( m.pos_bub() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }
@@ -166,7 +166,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const tripoint fire_point = source->pos();
+    const tripoint_bub_ms fire_point = source->pos_bub();
     // If target actually was not damaged by projectile - then do not bother
     // Also it covers potential exploit - peek throwing potentially can be used to exhaust turret ammo
     if( proj != nullptr && proj->dealt_dam.total_damage() == 0 ) {

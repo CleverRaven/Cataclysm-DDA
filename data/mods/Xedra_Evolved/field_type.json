@@ -225,5 +225,33 @@
     "phase": "gas",
     "display_items": false,
     "display_field": true
+  },
+  {
+    "id": "fd_obscuring_fog",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "thick fog",
+        "sym": "~",
+        "dangerous": false,
+        "transparent": false,
+        "translucency": 8,
+        "color": "light_gray",
+        "scent_neutralization": 3
+      },
+      { "name": "very thick fog", "translucency": 12, "color": "light_gray", "scent_neutralization": 6 },
+      { "name": "impenetrable fog", "translucency": 0, "color": "dark_gray", "scent_neutralization": 9 }
+    ],
+    "decay_amount_factor": 15,
+    "gas_absorption_factor": 5,
+    "percent_spread": 35,
+    "dirty_transparency_cache": true,
+    "has_fume": true,
+    "priority": 8,
+    "half_life": "7 minutes",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_smoke"
   }
 ]

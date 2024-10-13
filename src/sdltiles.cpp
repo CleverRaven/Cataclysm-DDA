@@ -123,7 +123,6 @@ static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
 static bool need_invalidate_framebuffers = false;
-
 palette_array windowsPalette;
 
 static Font_Ptr font;
@@ -811,7 +810,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     std::unordered_set<tripoint_abs_omt> &revealed_highlights = get_avatar().map_revealed_omts;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
     const bool draw_overlays = blink || fast_traveling;
-    o = origin.raw().xy();
+    o = origin.xy().raw();
 
     const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
         // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
@@ -3723,8 +3722,12 @@ void catacurses::init_interface()
     color_loader<SDL_Color>().load( windowsPalette );
     init_colors();
 
+#if defined(SDL_SOUND)
     // initialize sound set
-    load_soundset();
+    if( sound_init_success ) {
+        load_soundset();
+    }
+#endif // SOUND
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
@@ -3992,8 +3995,8 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
-        const point &offset, const bool center_cursor ) const
+std::optional<tripoint_bub_ms> input_context::get_coordinates( const catacurses::window
+        &capture_win_, const point &offset, const bool center_cursor ) const
 {
     // This information is required by curses, but is not (currently) used in SDL
     ( void ) center_cursor;
@@ -4024,7 +4027,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
                                screen_pos, dim.scaled_font_size, win_size,
                                point_bub_ms( offset ), use_isometric );
 
-    return tripoint( p.raw(), get_map().get_abs_sub().z() );
+    return tripoint_bub_ms( p, get_map().get_abs_sub().z() );
 }
 
 int get_terminal_width()

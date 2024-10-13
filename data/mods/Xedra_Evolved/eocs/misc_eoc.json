@@ -249,5 +249,10 @@
     "type": "effect_on_condition",
     "id": "EOC_REMOVE_LUNA_MISSION",
     "effect": { "remove_active_mission": "MISSION_KILL_LUNA_ATTUNED" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALL_NEXT_WEATHER",
+    "effect": [ "next_weather" ]
   }
 ]

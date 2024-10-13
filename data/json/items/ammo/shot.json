@@ -96,7 +96,7 @@
   {
     "abstract": "shotshell_abstract",
     "type": "AMMO",
-    "name": "base shotshell",
+    "name": { "str": "base shotshell", "//~": "NO_I18N" },
     "weight": "47 g",
     "volume": "439 ml",
     "longest_side": "88 mm",

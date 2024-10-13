@@ -552,6 +552,7 @@ class talker
             return 0;
         }
         virtual void set_addiction_turns( const addiction_id &, int ) {}
+        virtual void mod_stored_kcal( int, bool ) {}
         virtual void set_stored_kcal( int ) {}
         virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
@@ -608,6 +609,12 @@ class talker
             return false;
         }
         virtual bool wielded_with_weapon_category( const weapon_category_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_weapon_skill( const skill_id & ) const {
+            return false;
+        }
+        virtual bool wielded_with_item_ammotype( const ammotype & ) const {
             return false;
         }
         virtual bool has_item_with_flag( const flag_id & ) const {

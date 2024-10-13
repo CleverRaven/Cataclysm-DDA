@@ -49,12 +49,23 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "special_forest", "special_forest_isherwood", "lab_subway_vent_shaft_surface" ],
+    "id": [ "special_forest", "special_forest_isherwood" ],
     "copy-from": "generic_forest",
     "name": "forest",
     "sym": "F",
     "color": "green",
     "looks_like": "forest",
+    "see_cost": "spaced_high",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
+    "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lab_subway_vent_shaft_surface",
+    "name": "Lab access shaft",
+    "sym": "L",
+    "color": "blue",
+    "vision_levels": "forested",
     "see_cost": "spaced_high",
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 3 ], "chance": 13 },
     "flags": [ "NO_ROTATE", "SOURCE_FORAGE" ]

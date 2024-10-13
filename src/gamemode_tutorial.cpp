@@ -373,6 +373,10 @@ void tutorial_game::post_action( action_id act )
         }
         break;
 
+        case ACTION_SAVE:
+            get_weather().forced_temperature.reset();
+            break;
+
         default:
             // TODO: add more actions here
             break;

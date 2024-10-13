@@ -31,5 +31,15 @@
     "verb": "attuning to area",
     "rooted": true,
     "based_on": "time"
+  },
+  {
+    "id": "ACT_PSI_TELEPATH_ADJUSTING_MENTALITY",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "adjusting mentality",
+    "rooted": true,
+    "based_on": "time",
+    "can_resume": false,
+    "completion_eoc": "ACT_PSI_TELEPATH_MENTAL_ENGINEERING_FINISH"
   }
 ]

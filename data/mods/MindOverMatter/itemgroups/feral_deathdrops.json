@@ -201,6 +201,7 @@
           { "group": "harddrugs", "prob": 25 },
           { "group": "psi_lab", "prob": 65 },
           { "item": "lab_postit_psi", "prob": 15 },
+          { "item": "phavian_psionic_telepathic_mental_engineering_book", "prob": 8 },
           { "group": "electronics", "prob": 40 },
           { "group": "radio", "prob": 15 },
           { "group": "textbooks", "prob": 25 },

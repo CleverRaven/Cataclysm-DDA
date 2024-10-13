@@ -96,7 +96,7 @@ TEST_CASE( "dining_with_table_and_chair", "[food][modify_morale][table][chair]" 
     map &here = get_map();
     avatar dummy;
     dummy.set_body();
-    const tripoint avatar_pos( 60, 60, 0 );
+    const tripoint_bub_ms avatar_pos( 60, 60, 0 );
     dummy.setpos( avatar_pos );
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 

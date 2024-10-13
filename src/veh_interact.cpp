@@ -178,10 +178,10 @@ player_activity veh_interact::serialize_activity()
     const vehicle_part *vpt = pt ? pt : &veh->part( 0 );
     map &here = get_map();
     for( const tripoint &p : veh->get_points( true ) ) {
-        res.coord_set.insert( here.getabs( p ) );
+        res.coord_set.insert( here.getglobal( p ).raw() );
     }
-    res.values.push_back( here.getabs( veh->global_pos3() ).x + q.x );    // values[0]
-    res.values.push_back( here.getabs( veh->global_pos3() ).y + q.y );    // values[1]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).x() + q.x );   // values[0]
+    res.values.push_back( here.getglobal( veh->pos_bub() ).y() + q.y );   // values[1]
     res.values.push_back( dd.x );   // values[2]
     res.values.push_back( dd.y );   // values[3]
     res.values.push_back( -dd.x );   // values[4]
@@ -201,14 +201,14 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
     avatar &player_character = get_avatar();
     // Stash offset and set it to the location of the part so look_around will
     // start there.
-    const tripoint old_view_offset = player_character.view_offset;
-    tripoint offset = veh->global_pos3();
+    const tripoint_rel_ms old_view_offset = player_character.view_offset;
+    tripoint_bub_ms offset = veh->pos_bub();
     // Appliances are one tile so the part placement there is always point_zero
     if( part_placement ) {
         point copied_placement = *part_placement ;
         offset += copied_placement ;
     }
-    player_character.view_offset = offset - player_character.pos();
+    player_character.view_offset = offset - player_character.pos_bub();
 
     point delta;
     do {
@@ -220,7 +220,7 @@ void orient_part( vehicle *veh, const vpart_info &vpinfo, int partnum,
         if( !chosen ) {
             continue;
         }
-        delta = ( *chosen - offset ).xy();
+        delta = ( *chosen - offset.raw() ).xy();
         // atan2 only gives reasonable values when delta is not all zero
     } while( delta == point_zero );
 
@@ -2203,7 +2203,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     cpart = part_at( point_zero );
     const point vd = -dd;
     const point q = veh->coord_translate( vd );
-    const tripoint vehp = veh->global_pos3() + q;
+    const tripoint_bub_ms vehp = veh->pos_bub() + q;
     const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
     terrain_here = here.ter( vehp ).obj();
@@ -2252,7 +2252,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     }
 
     /* Update the lifting quality to be the that is available for this newly selected tile */
-    cache_tool_availability_update_lifting( vehp );
+    cache_tool_availability_update_lifting( vehp.raw() );
 }
 
 void veh_interact::display_grid()
@@ -2375,7 +2375,7 @@ void veh_interact::display_veh()
     }
 
     const point pt_disp( getmaxx( w_disp ) / 2, getmaxy( w_disp ) / 2 );
-    const tripoint pos_at_cursor = veh->global_pos3() + veh->coord_translate( -dd );
+    const tripoint_bub_ms pos_at_cursor = veh->pos_bub() + veh->coord_translate( -dd );
     const optional_vpart_position ovp = here.veh_at( pos_at_cursor );
     col_at_cursor = hilite( col_at_cursor );
     if( here.impassable_ter_furn( pos_at_cursor ) || ( ovp && &ovp->vehicle() != veh ) ) {
@@ -3075,7 +3075,7 @@ void veh_interact::complete_vehicle( Character &you )
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         for( const tripoint &pt : you.activity.coord_set ) {
-            ovp = here.veh_at( here.bub_from_abs( pt ) );
+            ovp = here.veh_at( here.bub_from_abs( tripoint_abs_ms( pt ) ) );
             if( ovp ) {
                 break;
             }
@@ -3154,7 +3154,7 @@ void veh_interact::complete_vehicle( Character &you )
                 orient_part( &veh, vpinfo, partnum, q );
             }
 
-            const tripoint vehp = veh.global_pos3() + tripoint( q, 0 );
+            const tripoint_bub_ms vehp = veh.pos_bub() + tripoint( q, 0 );
             // TODO: allow boarding for non-players as well.
             Character *const pl = get_creature_tracker().creature_at<Character>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {

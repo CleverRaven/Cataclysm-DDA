@@ -55,15 +55,6 @@ TEST_CASE( "map_coordinate_conversion_functions" )
     CAPTURE( test_bub );
     CAPTURE( test_abs );
 
-    // Verify consistency between different implementations
-    CHECK( here.getabs( test_bub ) == here.getabs( test_bub.raw() ) );
-    CHECK( here.getglobal( test_bub ) == here.getglobal( test_bub.raw() ) );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-    CHECK( here.bub_from_abs( test_abs ) == here.bub_from_abs( test_abs.raw() ) );
-
-    CHECK( here.getabs( test_bub ) == here.getglobal( test_bub ).raw() );
-    CHECK( here.getlocal( test_abs ) == here.bub_from_abs( test_abs ).raw() );
-
     // Verify round-tripping
     CHECK( here.getglobal( here.bub_from_abs( test_abs ) ) == test_abs );
     CHECK( here.bub_from_abs( here.getglobal( test_point ) ).raw() == test_point );
@@ -74,10 +65,10 @@ TEST_CASE( "destroy_grabbed_furniture" )
     clear_map();
     avatar &player_character = get_avatar();
     GIVEN( "Furniture grabbed by the player" ) {
-        const tripoint test_origin( 60, 60, 0 );
+        const tripoint_bub_ms test_origin( 60, 60, 0 );
         map &here = get_map();
         player_character.setpos( test_origin );
-        const tripoint grab_point = test_origin + tripoint_east;
+        const tripoint_bub_ms grab_point = test_origin + tripoint_east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
         player_character.grab( object_type::FURNITURE, tripoint_rel_ms_east );
         REQUIRE( player_character.get_grab_type() == object_type::FURNITURE );
@@ -108,9 +99,9 @@ TEST_CASE( "map_bounds_checking" )
                 if( x < 0 || x >= MAPSIZE_X ||
                     y < 0 || y >= MAPSIZE_Y ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_bub_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_bub_ms{ x, y, z } ) );
                 }
             }
         }
@@ -135,9 +126,9 @@ TEST_CASE( "tinymap_bounds_checking" )
                 if( x < 0 || x >= SEEX * 2 ||
                     y < 0 || y >= SEEY * 2 ||
                     z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
-                    CHECK( !m.ter( tripoint{ x, y, z } ) );
+                    CHECK( !m.ter( tripoint_omt_ms{ x, y, z } ) );
                 } else {
-                    CHECK( m.ter( tripoint{ x, y, z } ) );
+                    CHECK( m.ter( tripoint_omt_ms{ x, y, z } ) );
                 }
             }
         }
@@ -294,7 +285,7 @@ TEST_CASE( "active_monster_drops", "[active_item][map]" )
     }
     REQUIRE( bag_plastic.put_in( cookie, pocket_type::CONTAINER ).success() );
 
-    monster &zombo = spawn_test_monster( "mon_zombie", start_loc.raw(), true );
+    monster &zombo = spawn_test_monster( "mon_zombie", start_loc, true );
     zombo.no_extra_death_drops = true;
     zombo.inv.emplace_back( bag_plastic );
     calendar::turn += time_duration::from_seconds( cookie.processing_speed() + 1 );

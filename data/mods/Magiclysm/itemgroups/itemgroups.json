@@ -116,13 +116,13 @@
   },
   {
     "type": "item_group",
-    "id": "guns_pistol_rare",
-    "copy-from": "guns_pistol_rare",
+    "id": "guns_pistol_common",
+    "copy-from": "guns_pistol_common",
     "extend": {
       "items": [
-        { "item": "wand_magic_missile_minor", "prob": 35, "charges": [ 12, 34 ] },
-        { "item": "wand_fireball_minor", "prob": 25, "charges": [ 3, 24 ] },
-        { "item": "m47a1", "prob": 25, "charges": [ 0, 6 ] }
+        { "item": "wand_magic_missile_minor", "prob": 6, "charges": [ 12, 34 ] },
+        { "item": "wand_fireball_minor", "prob": 4, "charges": [ 3, 24 ] },
+        { "item": "m47a1", "prob": 4, "charges": [ 0, 6 ] }
       ]
     }
   },
@@ -735,6 +735,7 @@
       { "item": "mring_protection_6", "prob": 10 },
       { "item": "storage_ring_greater", "prob": 10 },
       { "item": "mring_fire_protection", "prob": 10 },
+      { "item": "mring_sustenance", "prob": 10 },
       { "item": "mring_wizardry_moderate", "prob": 5 }
     ]
   },
@@ -877,14 +878,22 @@
     "type": "item_group",
     "//": "lesser enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_lesser", "prob": 10 }, { "item": "mbracer_lightning_lesser", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_defense_lesser", "prob": 10 },
+      { "item": "mbracer_lightning_lesser", "prob": 10 },
+      { "item": "mbracer_archery", "prob": 5 }
+    ]
   },
   {
     "id": "enchanted_bracers_greater",
     "type": "item_group",
     "//": "greater enchanted bracers",
     "subtype": "collection",
-    "items": [ { "item": "mbracer_defense_greater", "prob": 10 }, { "item": "mbracer_lightning_greater", "prob": 10 } ]
+    "items": [
+      { "item": "mbracer_blinding_strike", "prob": 10 },
+      { "item": "mbracer_defense_greater", "prob": 10 },
+      { "item": "mbracer_lightning_greater", "prob": 10 }
+    ]
   },
   {
     "id": "enchanted_bracelets",
@@ -1898,5 +1907,12 @@
       [ "gold_anklet", 20 ],
       [ "silver_anklet", 30 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "SUS_hunting_archery",
+    "copy-from": "SUS_hunting_archery",
+    "subtype": "collection",
+    "extend": { "items": [ { "item": "mbracer_archery", "prob": 1 } ] }
   }
 ]

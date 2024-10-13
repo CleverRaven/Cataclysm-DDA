@@ -961,6 +961,41 @@ check do you wield something with `LONG_SWORDS` weapon category
 { "u_has_wielded_with_weapon_category": "LONG_SWORDS" }
 ```
 
+### `u_has_wielded_with_skill`, `npc_has_wielded_with_skill`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker wield a gun or melee weapon with this skill
+- gun skills are delivered from `skill` field
+- melee weapon skill is delivered from the highest damage type item has
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you wield a gun with `pistol` skill
+```json
+{ "u_has_wielded_with_skill": "pistol" } 
+```
+
+### `u_has_wielded_with_ammotype`, `npc_has_wielded_with_ammotype`
+- type: string or [variable object](#variable-object)
+- return true if alpha or beta talker wield an item that can have this ammo type
+- works with items that allow multiple ammo types
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
+
+#### Examples
+check do you wield a gun with `22` ammo type (.22 LR)
+```json
+{ "u_has_wielded_with_ammotype": "22" } 
+```
+
 ### `u_can_see`, `npc_can_see`
 - type: simple string
 - return true if alpha or beta talker can see (not blind)
@@ -1321,7 +1356,8 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | character_ranged_attacks_monster | | { "attacker", `character_id` },<br/> { "weapon", `itype_id` },<br/> { "victim_type", `mtype_id` }, | character / monster |
 | character_smashes_tile | | { "character", `character_id` },<br/> { "terrain", `ter_str_id` },  { "furniture", `furn_str_id` }, | character / NONE |
 | character_starts_activity | Triggered when character starts or resumes activity | { "character", `character_id` },<br/> { "activity", `activity_id` },<br/> { "resume", `bool` } | character / NONE |
-| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` }, | character / attackerm if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
+| character_takes_damage | triggers when character gets any damage from any creature | { "character", `character_id` },<br/> { "damage", `int` }, | character / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
+| monster_takes_damage | triggers when monster gets any damage from any creature. Includes damages from effects like bleeding | { "damage", `int` },<br/> { "dies", `bool` }, | monster / attacker if exists, otherwise NONE(character or monster) | use `has_beta` conditon before interacting with beta talker
 | character_triggers_trap | | { "character", `character_id` },<br/> { "trap", `trap_str_id` }, | character / NONE |
 | character_wakes_up | triggers in the moment player lost it's sleep effect and wakes up | { "character", `character_id` }, | character / NONE |
 | character_attempt_to_fall_asleep | triggers in the moment character tries to fall asleep, after confirming and setting an alarm, but before "you lie down" | { "character", `character_id` }, | character / NONE |
@@ -1633,6 +1669,8 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
+| "repeat" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Eocs are repeated in order; having `"run_eocs": [ "A", "B" ], "repeat": 3` would look like `A, B, A, B, A, B`. Default 1 |
+
 
 ##### Valid talkers:
 

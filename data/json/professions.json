@@ -55,15 +55,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "army_mags_300blk",
-    "entries": [
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "army_mags_mp7",
     "entries": [ { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 }, { "item": "hk46mag", "ammo-item": "46mm", "charges": 20 } ]
   },
@@ -3415,7 +3406,7 @@
       "prof_carpentry_basic",
       "prof_appliance_repair"
     ],
-    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "traps" } ],
+    "skills": [ { "level": 5, "name": "fabrication" } ],
     "items": {
       "both": {
         "entries": [
@@ -5169,7 +5160,7 @@
     "id": "national_guard",
     "name": "National Guardsman",
     "requirement": "achievement_reach_military_bunker",
-    "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
+    "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone among the dead.",
     "points": 4,
     "skills": [
       { "level": 4, "name": "gun" },

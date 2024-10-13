@@ -315,7 +315,7 @@
     "phase": "liquid",
     "color": "white",
     "name": { "str_sp": "superglue" },
-    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favourite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
+    "description": "Cyanoacrylate, more commonly known as superglue, is a strong, quick curing glue with many applications.  It was a favorite of many post-Cataclysm hobbyists, but has become a sought-after trade good due to its wide applications, and the fact it has become essentially impossible to manufacture.",
     "price": "1 USD",
     "price_postapoc": "1 USD",
     "material": [ "plastic" ],
@@ -2074,7 +2074,7 @@
     "price": "2000 kUSD",
     "price_postapoc": "30 USD",
     "//": "actually worth millions",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2086,7 +2086,7 @@
     "price": "1000 kUSD",
     "price_postapoc": "30 USD",
     "//": "given to HUB 01 for even better armor",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "MISSION_ITEM" ]
   },
   {
     "type": "GENERIC",
@@ -2701,8 +2701,11 @@
     "abstract": "bark_abstract",
     "symbol": ",",
     "color": "brown",
-    "name": { "str": "piece of abstract bark", "str_pl": "pieces of abstract bark" },
-    "description": "A sheet of bark from a hypothetical tree.  Useful for making adding new bark items slightly simpler.",
+    "name": { "str": "piece of abstract bark", "str_pl": "pieces of abstract bark", "//~": "NO_I18N" },
+    "description": {
+      "str": "A sheet of bark from a hypothetical tree.  Useful for making adding new bark items slightly simpler.",
+      "//~": "NO_I18N"
+    },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "wood" ],
@@ -3260,8 +3263,8 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "cyan",
-    "name": { "str": "abstract plastic card" },
-    "description": "A generic plastic card item template with numbers based off a credit card.",
+    "name": { "str": "abstract plastic card", "//~": "NO_I18N" },
+    "description": { "str": "A generic plastic card item template with numbers based off a credit card.", "//~": "NO_I18N" },
     "price": "0 cent",
     "price_postapoc": "0 cent",
     "material": [ "plastic" ],

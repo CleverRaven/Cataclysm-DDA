@@ -92,6 +92,30 @@
                     "rng(0.75,1.25) * (1000 + (vampire_total_tier_one_traits() * 100) + (vampire_total_tier_two_traits() * 225) + (vampire_total_tier_three_traits() * 350) + (vampire_total_tier_four_traits_plus_potence() * 500) + (vampire_total_tier_five_traits() * 750))"
                   ]
                 }
+              },
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_EYEGLEAM_activated_3",
+                    "condition": {
+                      "or": [
+                        {
+                          "and": [
+                            { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+                            { "math": [ "u_effect_intensity('vampire_virus_ascendant')", "==", "1" ] }
+                          ]
+                        },
+                        {
+                          "and": [
+                            { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
+                            { "math": [ "u_effect_intensity('vampire_virus_post_mortal')", "==", "1" ] }
+                          ]
+                        }
+                      ]
+                    },
+                    "effect": [ { "u_add_effect": "eyegleam_craft_in_darkness", "duration": "PERMANENT" } ]
+                  }
+                ]
               }
             ],
             "false_effect": [
@@ -110,7 +134,8 @@
             "condition": { "u_has_effect": "eyegleam" },
             "effect": [
               { "u_message": "Your eyes lose their reddish glint as the darkness rolls back in.", "type": "neutral" },
-              { "u_lose_effect": "eyegleam" }
+              { "u_lose_effect": "eyegleam" },
+              { "u_lose_effect": "eyegleam_craft_in_darkness" }
             ]
           }
         ]
@@ -151,6 +176,7 @@
             "false_effect": [
               { "u_message": "You don't have enough blood to maintain your gleaming eyes.", "type": "bad" },
               { "u_lose_effect": "eyegleam" },
+              { "u_lose_effect": "eyegleam_craft_in_darkness" },
               { "u_deactivate_trait": "EYEGLEAM" }
             ]
           }
@@ -1031,7 +1057,7 @@
               { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "600" ] },
               { "u_add_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_add_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "/=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "/=", "4" ] },
               {
                 "u_message": "Your fingers lengthen as flaps of skin grow between them and as your legs shorten, you take to the air.",
                 "type": "good"
@@ -1057,7 +1083,7 @@
               { "u_message": "Your wings recede and you land on now-humanoid legs.", "type": "neutral" },
               { "u_lose_trait": "VAMPIRE_BAT_FORM_TRAITS" },
               { "u_lose_trait": "ECHOLOCATION" },
-              { "math": [ "u_calories()", "*=", "4" ] },
+              { "math": [ "u_calories('dont_affect_weariness': true)", "*=", "4" ] },
               { "math": [ "u_spell_level('vampire_bat_form_fly_upward')", "=", "-1" ] }
             ]
           }
@@ -1270,12 +1296,12 @@
     "condition": {
       "and": [
         { "math": [ "u_vitamin('human_blood_vitamin')", ">", "500" ] },
-        { "math": [ "u_calories()", "<", "u_calories_needed" ] }
+        { "math": [ "u_calories('dont_affect_weariness': true)", "<", "u_calories_needed" ] }
       ]
     },
     "effect": [
       { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] },
-      { "math": [ "u_calories()", "+=", "500" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "+=", "500" ] },
       {
         "u_message": "Some of your stolen blood is consumed by your body, making it a little less gaunt.",
         "type": "good"

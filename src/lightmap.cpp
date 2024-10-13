@@ -18,7 +18,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
-#include "coordinate_conversions.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "field.h"
@@ -114,14 +113,14 @@ bool map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{smx, smy, zlev} );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
                           zlev );
                 continue;
             }
 
-            const point sm_offset = sm_to_ms_copy( point( smx, smy ) );
+            const point sm_offset = coords::project_to<coords::ms>( point_rel_sm( smx, smy ) ).raw();
 
             if( !rebuild_all && !map_cache.transparency_cache_dirty[smx * MAPSIZE + smy] ) {
                 continue;
@@ -201,9 +200,9 @@ bool map::build_vision_transparency_cache( const int zlev )
     memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
 
     Character &player_character = get_player_character();
-    const tripoint p = player_character.pos();
+    const tripoint_bub_ms p = player_character.pos_bub();
 
-    if( p.z != zlev ) {
+    if( p.z() != zlev ) {
         return false;
     }
 
@@ -217,28 +216,28 @@ bool map::build_vision_transparency_cache( const int zlev )
     bool is_prone = player_character.is_prone();
     static move_mode_id previous_move_mode = player_character.current_movement_mode();
 
-    for( const tripoint &loc : points_in_radius( p, 1 ) ) {
+    for( const tripoint_bub_ms &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( ( is_crouching || is_prone || low_profile ) && coverage( loc ) >= 30 ) {
             // If we're crouching or prone behind an obstacle, we can't see past it.
-            if( vision_transparency_cache[loc.x][loc.y] != LIGHT_TRANSPARENCY_SOLID ||
+            if( vision_transparency_cache[loc.x()][loc.y()] != LIGHT_TRANSPARENCY_SOLID ||
                 previous_move_mode != player_character.current_movement_mode() ) {
                 previous_move_mode = player_character.current_movement_mode();
-                vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+                vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
                 dirty = true;
             }
         }
     }
 
     // This segment handles blocking vision through TRANSLUCENT flagged terrain.
-    for( const tripoint &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
+    for( const tripoint_bub_ms &loc : points_in_radius( p, MAX_VIEW_DISTANCE ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
-            vision_transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
+            vision_transparency_cache[p.x()][p.y()] = LIGHT_TRANSPARENCY_OPEN_AIR;
         } else if( map::ter( loc ).obj().has_flag( ter_furn_flag::TFLAG_TRANSLUCENT ) ) {
-            vision_transparency_cache[loc.x][loc.y] = LIGHT_TRANSPARENCY_SOLID;
+            vision_transparency_cache[loc.x()][loc.y()] = LIGHT_TRANSPARENCY_SOLID;
             dirty = true;
         }
     }
@@ -449,7 +448,7 @@ void map::generate_lightmap( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( tripoint_rel_sm{ smx, smy, zlev } );
             if( cur_submap == nullptr ) {
                 debugmsg( "Tried to generate lightmap at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
                 continue;
@@ -667,19 +666,14 @@ float map::ambient_light_at( const tripoint_bub_ms &p ) const
     return get_cache_ref( p.z() ).lm[p.x()][p.y()].max();
 }
 
-bool map::is_transparent( const tripoint &p ) const
+bool map::is_transparent( const tripoint_bub_ms &p ) const
 {
     return light_transparency( p ) > LIGHT_TRANSPARENCY_SOLID;
 }
 
-bool map::is_transparent_wo_fields( const tripoint &p ) const
+bool map::is_transparent_wo_fields( const tripoint_bub_ms &p ) const
 {
-    return get_cache_ref( p.z ).transparent_cache_wo_fields[p.x][p.y];
-}
-
-float map::light_transparency( const tripoint &p ) const
-{
-    return get_cache_ref( p.z ).transparency_cache[p.x][p.y];
+    return get_cache_ref( p.z() ).transparent_cache_wo_fields[p.x()][p.y()];
 }
 
 float map::light_transparency( const tripoint_bub_ms &p ) const
@@ -817,11 +811,6 @@ lit_level map::apparent_light_at( const tripoint_bub_ms &p,
     } else {
         return lit_level::BLANK;
     }
-}
-
-bool map::pl_sees( const tripoint &t, const int max_range ) const
-{
-    return pl_sees( tripoint_bub_ms( t ), max_range );
 }
 
 bool map::pl_sees( const tripoint_bub_ms &t, const int max_range ) const
@@ -1125,19 +1114,20 @@ void map::build_seen_cache( const tripoint_bub_ms &origin, const int target_z, i
 }
 
 void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
-                                     const array_of_grids_of<const bool> &floor_caches, const std::optional<tripoint> &override_p ) const
+                                     const array_of_grids_of<const bool> &floor_caches,
+                                     const std::optional<tripoint_bub_ms> &override_p ) const
 {
     Character &player_character = get_player_character();
     // If override is not given, use player character for calculations
-    const tripoint origin = override_p.value_or( player_character.pos() );
-    const int min_z = std::max( origin.z - fov_3d_z_range, -OVERMAP_DEPTH );
+    const tripoint_bub_ms origin = override_p.value_or( player_character.pos_bub() );
+    const int min_z = std::max( origin.z() - fov_3d_z_range, -OVERMAP_DEPTH );
     // For each tile
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Iterate down z-levels starting from 1 level below origin
-                    for( int sz = origin.z - 1; sz >= min_z; --sz ) {
+                    for( int sz = origin.z() - 1; sz >= min_z; --sz ) {
                         const tripoint p( sx + smx * SEEX, sy + smy * SEEY, sz );
                         const int cache_z = sz + OVERMAP_DEPTH;
                         // Until invisible tile reached
@@ -1147,7 +1137,8 @@ void map::seen_cache_process_ledges( array_of_grids_of<float> &seen_caches,
                         // Or floor reached
                         if( ( *floor_caches[cache_z] ) [p.x][p.y] ) {
                             // In which case check if it should be obscured by a ledge
-                            if( override_p ? ledge_coverage( origin, p ) > 100 : ledge_coverage( player_character, p ) > 100 ) {
+                            if( override_p ? ledge_coverage( origin.raw(), p ) > 100 : ledge_coverage( player_character,
+                                    p ) > 100 ) {
                                 ( *seen_caches[cache_z] )[p.x][p.y] = 0.0f;
                             }
                             break;

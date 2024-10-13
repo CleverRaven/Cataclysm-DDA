@@ -125,14 +125,9 @@ void create_advanced_inv()
     advinv->display();
     // keep the UI and its ui_adaptor running if we're returning
     if( uistate.transfer_save.exit_code != aim_exit::re_entry || get_avatar().activity.is_null() ) {
-        kill_advanced_inv();
+        advinv.reset();
+        cancel_aim_processing();
     }
-}
-
-void kill_advanced_inv()
-{
-    advinv.reset();
-    cancel_aim_processing();
 }
 
 void temp_hide_advanced_inv()
@@ -2309,7 +2304,7 @@ void advanced_inventory::draw_minimap()
     tripoint pc = {getmaxx( minimap ) / 2, getmaxy( minimap ) / 2, 0};
     Character &player_character = get_player_character();
     // draw the 3x3 tiles centered around player
-    get_map().draw( minimap, player_character.pos() );
+    get_map().draw( minimap, player_character.pos_bub() );
     for( const side s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {

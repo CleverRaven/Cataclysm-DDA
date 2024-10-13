@@ -251,7 +251,7 @@ class item : public visitable
          * @param alert whether to display any messages
          * @return same instance to allow method chaining
          */
-        item &deactivate( const Character *ch = nullptr, bool alert = true );
+        item &deactivate( Character *ch = nullptr, bool alert = true );
 
         /** Filter converting instance to active state */
         item &activate();
@@ -2458,6 +2458,7 @@ class item : public visitable
 
 
     private:
+        units::energy energy_per_second() const;
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
     public:
@@ -2555,7 +2556,7 @@ class item : public visitable
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not have a magazine for a specific ammo type */
         std::set<ammotype> ammo_types( bool conversion = true ) const;
-        /** Default ammo for the the item magazine pocket, if item has ammo_types().
+        /** Default ammo for the item magazine pocket, if item has ammo_types().
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;

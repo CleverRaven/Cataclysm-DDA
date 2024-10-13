@@ -721,7 +721,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     bool guy_has_radio = cache_has_item_with_flag( json_flag_TWO_WAY_RADIO, true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
+        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos_bub() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             if( !( player_character.pos().z >= 0 && pos().z >= 0 ) &&
                 !( player_character.pos().z == pos().z ) ) {

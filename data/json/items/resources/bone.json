@@ -117,8 +117,8 @@
   {
     "type": "GENERIC",
     "abstract": "skull_abstract",
-    "name": { "str": "abstract skull" },
-    "description": "This is a dummy item.  If you see it something went wrong.",
+    "name": { "str": "abstract skull", "//~": "NO_I18N" },
+    "description": { "str": "This is a dummy item.  If you see it something went wrong.", "//~": "NO_I18N" },
     "flags": [ "TRADER_AVOID" ],
     "category": "other",
     "weight": "1 kg",

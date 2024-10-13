@@ -2,7 +2,7 @@
   {
     "abstract": "45colt_fmj",
     "type": "AMMO",
-    "name": { "str_sp": ".45 +P Colt FMJ abstract" },
+    "name": { "str_sp": ".45 +P Colt FMJ abstract", "//~": "NO_I18N" },
     "weight": "25 g",
     "volume": "190 ml",
     "longest_side": "41 mm",

@@ -673,7 +673,7 @@
         "moves": 75
       }
     ],
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 0.8,
     "snippet_category": [
       { "id": "denim_shirt1", "text": "A long sleeved button-down blue shirt made from denim." },
@@ -928,6 +928,89 @@
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": 4 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 6 }
+    ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "hoodie_red",
+        "name": { "str": "red cropped hoodie" },
+        "description": "This one is colored red.",
+        "color": "red",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_blue",
+        "name": { "str": "blue cropped hoodie" },
+        "color": "blue",
+        "description": "This one is colored blue.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_yellow",
+        "name": { "str": "yellow cropped hoodie" },
+        "color": "yellow",
+        "description": "This one is colored yellow.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_green",
+        "name": { "str": "green cropped hoodie" },
+        "color": "green",
+        "description": "This one is colored green.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_purple",
+        "name": { "str": "purple cropped hoodie" },
+        "color": "magenta",
+        "description": "This one is colored purple.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_pink",
+        "name": { "str": "pink cropped hoodie" },
+        "color": "magenta",
+        "description": "This one is colored pink.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_cyan",
+        "name": { "str": "cyan cropped hoodie" },
+        "color": "cyan",
+        "description": "This one is colored cyan.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_black",
+        "name": { "str": "black cropped hoodie" },
+        "color": "dark_gray",
+        "description": "This one is colored black.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_white",
+        "name": { "str": "white cropped hoodie" },
+        "color": "light_gray",
+        "description": "This one is colored white.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "hoodie_brown",
+        "name": { "str": "brown cropped hoodie" },
+        "color": "brown",
+        "description": "This one is colored brown.",
+        "append": true,
+        "weight": 1
+      }
     ]
   },
   {

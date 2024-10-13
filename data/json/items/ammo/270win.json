@@ -2,7 +2,7 @@
   {
     "abstract": "270win_fmj",
     "type": "AMMO",
-    "name": { "str_sp": ".270 Winchester abstract" },
+    "name": { "str_sp": ".270 Winchester abstract", "//~": "NO_I18N" },
     "description": ".270 Winchester ammunition with a 130gr full metal jacket bullet.  It is a powerful round capable of taking down large targets with ease.",
     "//": "This is .270 FMJ.  270 win is so exclusively used for hunting that FMJ ammo basically doesn't exist. This is just here for the BBTI data.",
     "ascii_picture": "270win_jsp",
