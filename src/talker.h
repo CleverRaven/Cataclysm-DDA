@@ -590,7 +590,8 @@ class talker
         virtual int attack_speed() const {
             return 0;
         }
-        virtual dealt_damage_instance deal_damage( Creature *, bodypart_id, const damage_instance & ) const {
+        virtual dealt_damage_instance deal_damage( Creature *, bodypart_id,
+                const damage_instance & ) const {
             return dealt_damage_instance();
         };
         virtual double armor_at( damage_type_id &, bodypart_id & ) const {
