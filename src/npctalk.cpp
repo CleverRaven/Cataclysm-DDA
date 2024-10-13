@@ -6280,15 +6280,14 @@ talk_effect_fun_t::func f_give_equipment( const JsonObject &jo, std::string_view
 }
 
 
-talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view member, bool is_npc )
+talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view member,
+                                       const std::string_view, bool is_npc )
 {
     str_or_var dmg_type = get_str_or_var( jo.get_member( member ), member );
     dbl_or_var dmg_amount = get_dbl_or_var( jo, "amount", false, 0 );
     dbl_or_var arpen = get_dbl_or_var( jo, "arpen", false, 0 );
     dbl_or_var arpen_mult = get_dbl_or_var( jo, "arpen_mult", false, 1 );
     dbl_or_var dmg_mult = get_dbl_or_var( jo, "dmg_mult", false, 1 );
-    dbl_or_var unc_arpen_mult = get_dbl_or_var( jo, "unc_arpen_mult", false, 1 );
-    dbl_or_var unc_dmg_mult = get_dbl_or_var( jo, "unc_dmg_mult", false, 1 );
 
     dbl_or_var dbl_min_hit = get_dbl_or_var( jo, "min_hit", false, -1 );
     dbl_or_var dbl_max_hit = get_dbl_or_var( jo, "max_hit", false, -1 );
@@ -6304,8 +6303,8 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
         bodypart.str_val = "RANDOM";
     }
 
-    return [is_npc, dmg_type, dmg_amount, bodypart, arpen, arpen_mult, dmg_mult, unc_arpen_mult,
-            unc_dmg_mult, dbl_min_hit, dbl_max_hit, dbl_hit_roll, can_attack_high]( dialogue & d ) {
+    return [is_npc, dmg_type, dmg_amount, bodypart, arpen, arpen_mult, dmg_mult, dbl_min_hit,
+            dbl_max_hit, dbl_hit_roll, can_attack_high]( dialogue & d ) {
 
         damage_instance dmg_inst;
         damage_type_id damage_type = damage_type_id( dmg_type.evaluate( d ) );
@@ -6331,8 +6330,7 @@ talk_effect_fun_t::func f_deal_damage( const JsonObject &jo, std::string_view me
         }
 
         dmg_inst.add_damage( damage_type, dmg_amount.evaluate( d ), arpen.evaluate( d ),
-                             arpen_mult.evaluate( d ), dmg_mult.evaluate( d ),
-                             unc_arpen_mult.evaluate( d ), unc_dmg_mult.evaluate( d ) );
+                             arpen_mult.evaluate( d ), dmg_mult.evaluate( d ), 1, 1 );
         d.actor( is_npc )->deal_damage( d.actor( is_npc )->get_creature(), bp, dmg_inst );
     };
 }

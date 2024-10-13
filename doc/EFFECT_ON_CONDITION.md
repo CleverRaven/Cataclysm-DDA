@@ -2609,7 +2609,7 @@ A loop of 10 iterations.
 
 #### `u_deal_damage`, `npc_deal_damage`
 
-Deal damage, the same way melee attack deals damage
+Deal damage, the same way melee attack deals damage; it can't be dodged, but it can be mitigated by armor
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
@@ -2619,8 +2619,6 @@ Deal damage, the same way melee attack deals damage
 | "arpen" | optional | int or [variable object](#variable-object) | Armor penetration of attack; Default 0 |
 | "arpen_mult" | optional | int or [variable object](#variable-object) | Multiplier for armor penetration; Default 1 | 
 | "dmg_mult" | optional | int or [variable object](#variable-object) | Multiplier for damage amount. Default 1 | 
-| "unc_arpen_mult" | optional | int or [variable object](#variable-object) | Multiplier for unconditional armor penetration (no, i also don't know what it means, ping @GuardianDll if you know the answer). Default 1 | 
-| "unc_dmg_mult" | optional | int or [variable object](#variable-object) | Multiplier for unconditional damage. Default 1 | 
 | "min_hit" | optional | int or [variable object](#variable-object) | If bodypart is RANDOM, limit body part only to bodyparts that has `hit_size` bigger than this; default -1 |
 | "max_hit" | optional | int or [variable object](#variable-object) | If bodypart is RANDOM, limit body part only to bodyparts that has `hit_size` smaller than this; default the size of your biggest body part |
 | "can_attack_high" | optional | bool | If true, can attack limbs with flag LIMB_UPPER, if false, such limbs are discarded; Default true |
