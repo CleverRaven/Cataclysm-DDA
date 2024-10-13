@@ -323,7 +323,7 @@ void avatar::power_mutations()
                     resource_unit += _( " sleepiness" );
                 }
                 if( md.mana ) {
-                    resource_unit += _(" mana");
+                    resource_unit += _( " mana" );
                     number_of_resource++;
                 }
                 mut_desc += mutation_name( md.id );
