@@ -5523,8 +5523,9 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                 }
             }
         } else {
-            while( i >= iteration_amount ) {
+            while( i < iteration_amount ) {
                 run_eoc_once( eocs, d, newDialog, dov_time, random_time );
+                ++i;
             }
         }
     };
