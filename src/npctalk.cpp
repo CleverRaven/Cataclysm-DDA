@@ -260,7 +260,7 @@ struct item_search_data {
         held_only = jo.get_bool( "held_only", false );
     }
 
-    bool check( const Character *guy, const item_location &loc, const dialogue &d ) { 
+    bool check( const Character *guy, const item_location &loc, const dialogue &d ) {
 
         bool match;
 
