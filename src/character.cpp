@@ -484,8 +484,8 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
-static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_down_mattress("tr_down_mattress");
+static const trap_str_id tr_ledge( "tr_ledge" );
 static const trap_str_id tr_mattress( "tr_mattress" );
 
 static const vitamin_id vitamin_calcium( "calcium" );
@@ -12442,7 +12442,7 @@ float Character::fall_damage_mod() const
     return std::max( 0.0f, ret );
 }
 
-float adjust_effective_force_for_soft_landing(float effective_force) {
+static float adjust_effective_force_for_soft_landing(float effective_force) {
     if (effective_force < 10.0) {
         return 0.0f;  // If less than 10, reduce it to 0
     }
