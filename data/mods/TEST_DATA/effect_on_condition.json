@@ -110,7 +110,7 @@
     "type": "effect_on_condition",
     "id": "run_eocs_5",
     "//": "run_eocs_5 should be 4 - we run eocs until run_eocs_5 would be 4",
-    "effect": [ { "run_eocs": [ "EOC_I", "EOC_J" ], "condition": { "math": [ "run_eocs_5 =< 3" ] } } ]
+    "effect": [ { "run_eocs": [ "EOC_I", "EOC_J" ], "condition": { "math": [ "run_eocs_5 <= 3" ] } } ]
   },
   {
     "type": "effect_on_condition",
