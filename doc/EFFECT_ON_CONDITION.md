@@ -2618,7 +2618,7 @@ Deal damage, the same way melee attack deals damage
 | "bodypart" | optional | string or [variable object](#variable-object) | Bodypart that take the damage. Reminder that only characters can have limbs. Default is RANDOM | 
 | "arpen" | optional | int or [variable object](#variable-object) | Armor penetration of attack; Default 0 |
 | "arpen_mult" | optional | int or [variable object](#variable-object) | Multiplier for armor penetration; Default 1 | 
-| "dmg_mult" | optional | int or [variable object](#variable-object) | Mltiplier for damage amount. Default 1 | 
+| "dmg_mult" | optional | int or [variable object](#variable-object) | Multiplier for damage amount. Default 1 | 
 | "unc_arpen_mult" | optional | int or [variable object](#variable-object) | Multiplier for unconditional armor penetration (no, i also don't know what it means, ping @GuardianDll if you know the answer). Default 1 | 
 | "unc_dmg_mult" | optional | int or [variable object](#variable-object) | Multiplier for unconditional damage. Default 1 | 
 | "min_hit" | optional | int or [variable object](#variable-object) | If bodypart is RANDOM, limit body part only to bodyparts that has `hit_size` bigger than this; default -1 |
