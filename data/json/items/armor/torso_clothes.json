@@ -2084,7 +2084,7 @@
     "variants": [
       {
         "id": "generic_tshirt",
-        "name": { "str": "t-shirt" },
+        "name": { "str": "crop top" },
         "description": "A short-sleeved cotton shirt, cropped to expose the stomach.",
         "weight": 1
       },
