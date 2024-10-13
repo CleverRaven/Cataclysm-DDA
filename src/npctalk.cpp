@@ -5373,8 +5373,15 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
     }
 
     dbl_or_var iteration = get_dbl_or_var( jo, "iteration", false, -1 );
+    bool has_cond = false;
     std::function<bool( dialogue & )> cond;
-    read_condition( jo, "condition", cond, true );
+    if( jo.has_object( "condition" ) ) {
+        read_condition( jo, "condition", cond, true );
+        has_cond = true;
+    } else {
+        read_condition( jo, "condition", cond, true );
+    }
+
     duration_or_var dov_time = get_duration_or_var( jo, "time_in_future", false, 0_seconds );
     bool random_time = jo.get_bool( "randomize_time_in_future", false );
 
@@ -5416,7 +5423,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
 
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs", src );
 
-    return [eocs, cond, iteration, dov_time, random_time, alpha_var, beta_var, is_alpha_loc,
+    return [eocs, cond, has_cond, iteration, dov_time, random_time, alpha_var, beta_var, is_alpha_loc,
           is_beta_loc, has_alpha_var, has_beta_var, false_eocs, context]( dialogue & d ) {
         dialogue newDialog( d );
 
@@ -5491,7 +5498,14 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
                 }
             };
             ++i;
-            if( i >= iteration_amount || iteration_amount == 0 ) {
+
+            // very smart boolean logic should be here, but you got me instead
+
+            if( iteration_amount == -1 || !has_cond ) {
+                break;
+            }
+
+            if( i >= iteration_amount || !has_cond ) {
                 break;
             }
         }
