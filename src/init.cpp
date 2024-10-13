@@ -561,7 +561,7 @@ void DynamicDataLoader::load_mod_data_from_path( const cata_path &path, const st
         }
     }
 }
-
+ 
 void DynamicDataLoader::load_mod_interaction_files_from_path( const cata_path &path,
         const std::string &src )
 {
