@@ -9635,6 +9635,39 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE",
+    "name": { "str": "Debug Mana Furnace" },
+    "points": 99,
+    "valid": false,
+    "description": "Using mana to incinerate all bugs, activate to start burning",
+    "active": true,
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE_active",
+      "msg_transform": "You start using mana to burning bugs.",
+      "active": true,
+      "moves": 0
+    },
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_MANA_FURNACE_active",
+    "name": { "str": "Debug Mana Furnace (ON) " },
+    "description": "You're burning mana like crazy to burn of all bugs, also making you glow softly",
+    "copy-from": "DEBUG_MANA_FURNACE",
+    "cost": 100,
+    "time": "1 s",
+    "mana": true,
+    "lumination": [ [ "torso", 8 ] ],
+    "transform": {
+      "target": "DEBUG_MANA_FURNACE",
+      "msg_transform": "You stop incinerate bugs with mana.",
+      "active": false,
+      "moves": 0
+    }
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NOTEMP",
     "name": { "str": "Debug HVAC" },
     "points": 99,
