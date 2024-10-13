@@ -443,7 +443,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
     // Check for duplicate recipe_ids before assigning it to the map
     auto duplicate = out.find( r.ident() );
     if( duplicate != out.end() ) {
-        mod_tracker::check_duplicate_entries(r, duplicate->second);
+        mod_tracker::check_duplicate_entries( r, duplicate->second );
     }
 
     return out[ r.ident() ] = std::move( r );
