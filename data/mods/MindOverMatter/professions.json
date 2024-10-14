@@ -253,7 +253,7 @@
       { "level": 3, "name": "firstaid" },
       { "level": 3, "name": "throw" },
       { "level": 2, "name": "survival" },
-      { "level": 2, "name": "swimming" }
+      { "level": 2, "name": "swimming" },
       { "level": 3, "name": "driving" },
       { "level": 2, "name": "metaphysics" }
     ],
