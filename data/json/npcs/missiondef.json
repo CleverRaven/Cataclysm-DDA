@@ -995,7 +995,10 @@
     "required_event": "game_start",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+      {
+        "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE",
+        "deadline": { "math": [ "time('now') + time_between_succession" ] }
+      }
     ]
   },
   {
@@ -1005,7 +1008,10 @@
     "required_event": "game_avatar_new",
     "effect": [
       { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" },
-      { "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }
+      {
+        "assign_mission": "MISSION_CAMP_LEADERSHIP_CHANGE",
+        "deadline": { "math": [ "time('now') + time_between_succession" ] }
+      }
     ]
   },
   {
