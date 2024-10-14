@@ -17,11 +17,14 @@
       ]
     },
     "effect": [
+      { "math": [ "u_telepathy_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_telepathy_mesmer_power_level", "=", "n_spell_level('telepathic_mesmerize')" ] },
+      { "math": [ "u_nether_attunement_telepathy_scaling", "=", "n_nether_attunement_power_scaling" ] },
       {
         "math": [
           "u_telepath_mesmerism_duration",
           "=",
-          "rng((( (u_spell_level('telepathic_mesmerize') * 2) + 8) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling),(( (u_spell_level('telepathic_mesmerize') * 5) + 20) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling))"
+          "rng((( (u_telepathy_mesmer_power_level * 2) + 8) * u_telepathy_intelligence * u_nether_attunement_telepathy_scaling),(( (u_telepathy_mesmer_power_level * 5) + 20) * u_telepathy_mesmer_power_level * u_nether_attunement_telepathy_scaling))"
         ]
       },
       {

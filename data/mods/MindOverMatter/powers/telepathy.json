@@ -116,7 +116,7 @@
     "description": "Hypnotize a target, causing them to stand in a trance or wander around in a small area.  Any damage taken will snap the target out of their trance.  Some targets are more resistant to mesmerism than others.",
     "message": "",
     "teachable": false,
-    "valid_targets": [ "hostile" ],
+    "valid_targets": [ "hostile", "ally" ],
     "spell_class": "TELEPATH",
     "skill": "metaphysics",
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE", "NO_PROJECTILE", "IGNORE_WALLS" ],
