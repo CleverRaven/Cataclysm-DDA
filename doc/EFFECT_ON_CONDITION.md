@@ -1668,8 +1668,15 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCS that would be run |
-| "repeat" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Eocs are repeated in order; having `"run_eocs": [ "A", "B" ], "repeat": 3` would look like `A, B, A, B, A, B`. Default 1 |
+| "run_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object)) or array of eocs | EoC or EoCs that would be run |
+| "iterations" | optional | int or [variable object](#variable-object)) | if used, all eocs in run_eocs would be repeated this amount of times. Eocs are repeated in order; having `"run_eocs": [ "A", "B" ], "repeat": 3` would look like `A, B, A, B, A, B`. Default 1 |
+| "condition" | optional | int or [variable object](#variable-object)) | if used, eoc would be run as long as this condition will return true. if "condition" is used, "iterations" can be used to limit amount of runs to specific amount (default is 100 runs until terminated) |
+| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | if used, EoC would be activated this amount of time in future; default 0, meaning it would run instantly. If eoc is global, the avatar will be u and npc will be invalid. If eoc is not global, it will be queued for the current alpha if they are a character (avatar or npc) and not be queued otherwise. Works with "iterations", doesn't work with "condition" | 
+| "randomize_time_in_future" | optional | bool | used with time_in_future, and if "iterations" is bigger than 1; if false, entire eoc array would run at the exact same moment; if true, each eoc in array would pick it's own time again and again | 
+| "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | Allows to swap talker by defining `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
+| "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored, same for beta.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or result of [u_set_talker](#u_set_talkernpc_set_talker) ), or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
+| "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
+| "variables" | optional | pair of `"variable_name": "variable"` | context variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used inside running eoc to ensure every variable exist before the EoC is run | 
 
 
 ##### Valid talkers:
@@ -1679,6 +1686,7 @@ Runs another EoC. It can be a separate EoC, or an inline EoC inside `run_eocs` e
 | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ##### Examples
+
 Run `EOC_DO_GOOD_THING` EoC
 ```json
 { "run_eocs": [ "EOC_DO_GOOD_THING" ] }
@@ -1724,76 +1732,18 @@ if it's bigger, `are_you_super_strong` effect is run, that checks is your str is
 }
 ```
 
-Use Context Variable as a eoc (A trick for loop)
+EOC_until_nested will run 10 times
 ```json
   {
     "type": "effect_on_condition",
-    "id": "debug_eoc_for_loop",
-    "effect": [ { "run_eoc_with": "eoc_for_loop", "variables": { "i": "0", "length": "10", "eoc": "eoc_msg_hello_world" } } ]
+    "id": "EOC_run_until",
+    "effect": { "run_eocs": "EOC_until_nested", "iterations": 10 }
   },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_msg_hello_world",
-    "effect": [ { "u_message": "hello world" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "eoc_for_loop",
-    "condition": { "and": [ { "expects_vars": [ "i", "length", "eoc" ] }, { "math": [ "_i", "<", "_length" ] } ] },
-    "effect": [ { "run_eocs": [ { "context_val": "eoc" } ] }, { "math": [ "_i", "++" ] }, { "run_eocs": "eoc_for_loop" } ],
-    "//": "Checks i is lesser than length, and if true, runs EoC, stored in context val 'eoc', increment i, and runs itself again; all context variables would be saved and passed to the next iteration"
-  }
-```
-#### `u_set_talker`, `npc_set_talker`
-Store the character_id of You or NPC into a variable object
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "u_set_talker" / "npc_set_talker" | **mandatory** | [variable object](#variable-object) | the variable object to store the character_id |
-
-##### Examples
-
-```json
-{
-  "effect": [ 
-    { "u_set_talker": { "global_val": "u_character_id" } }, 
-    { "u_message": "Your character id is <global_val:u_character_id>" }
-  ]
-}
-```
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-#### `run_eoc_with`
-Same as `run_eocs`, but runs the specific EoC with provided variables as context variables
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "run_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC or EoCS that would be run |
-| "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
-| "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or [u_set_talker](#u_set_talkernpc_set_talker) ) or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
-| "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
-| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-##### Examples
-Run `EOC_BOOM` EoC; completely same as `run_eocs`
-```json
-{ "run_eoc_with": "EOC_BOOM" }
 ```
 
 Run `EOC_BOOM` EoC at `where_my_enemy_is` location variable
 ```json
-{ "run_eoc_with": "EOC_BOOM", "beta_loc": { "global_val": "where_my_enemy_is" } },
+{ "run_eocs": "EOC_BOOM", "beta_loc": { "global_val": "where_my_enemy_is" } },
 ```
 
 The first EoC `EOC_I_NEED_AN_AR15` run another `EOC_GIVE_A_GUN` EoC, and give it two variables: variable `gun_name` with value `ar15_223medium` and variable `amount_of_guns` with value `5`;
@@ -1805,7 +1755,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
   "id": "EOC_I_NEED_AN_AR15",
   "effect": [
     {
-      "run_eoc_with": "EOC_GIVE_A_GUN",
+      "run_eocs": "EOC_GIVE_A_GUN",
       "variables": {
         "gun_name": "ar15_223medium",
         "amount_of_guns": "5"
@@ -1818,7 +1768,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
   "id": "EOC_I_NEED_AN_AK47",
   "effect": [
     {
-      "run_eoc_with": "EOC_GIVE_A_GUN",
+      "run_eocs": "EOC_GIVE_A_GUN",
       "variables": {
         "gun_name": "ak47",
         "amount_of_guns": "3"
@@ -1838,6 +1788,7 @@ Second EoC `EOC_I_NEED_AN_AK47` aslo run `EOC_GIVE_A_GUN` with the same variable
   ]
 }
 ```
+
 Control a NPC and return to your original body.
 By using `EOC_control_npc`, you can gain control of an NPC, and your original body's character_id will be stored in the global variable `"player_id"`.
 Then, by using `EOC_return_to_player`, you can return to your original body.
@@ -1851,7 +1802,7 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
     {
       "if": { "u_query_tile": "anywhere", "target_var": { "context_val": "loc" }, "message": "Select point" },
       "then": {
-        "run_eoc_with": {
+        "run_eocs": {
           "id": "_EOC_control_npc_do",
           "effect": [
             {
@@ -1873,7 +1824,7 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
   "id": "EOC_return_to_player",
   "effect": [
     {
-      "run_eoc_with": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
+      "run_eocs": { "id": "_EOC_return_to_player_do", "effect": [ "follow", "take_control" ] },
       "alpha_talker": "avatar",
       "beta_talker": { "global_val": "player_id" },
       "false_eocs": { "id": "_EOC_return_to_player_fail_msg", "effect": { "message": "Unable to locate your original body." } }
@@ -1882,50 +1833,43 @@ Then, by using `EOC_return_to_player`, you can return to your original body.
 }
 ```
 
-#### `queue_eocs`
-  Same as `run_eocs`, but instead of running EoCs right now, put it in queue and run it in some future
-
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "queue_eocs" | **mandatory** | string (eoc id or inline eoc) or [variable object](#variable-object) or array of eocs | EoCs, that would be added into queue; Could be an inline EoC |
-| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 | 
-
-##### Valid talkers:
-If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-run `EOC_BOOM_RIGHT_NOW` instantly
-```json
-{ "queue_eocs": "EOC_BOOM_RIGHT_NOW" }
-```
-
 run `EOC_BOOM_RANDOM` randomly in 20-30 seconds
 ```json
-{ "queue_eocs": "EOC_BOOM_RANDOM", "time_in_future": [ "20 seconds", "30 seconds" ] },
+{ "run_eocs": "EOC_BOOM_RANDOM", "time_in_future": [ "20 seconds", "30 seconds" ] },
 ```
 
-#### `queue_eoc_with`
-Combination of `run_eoc_with` and `queue_eocs` - Put EoC into queue and run into some future, with provided variables as context variables
+EoCs `EOC_K`and `EOC_L` will run 10 times total, 5 times each, at exactly same second (for example, 17 seconds in future)
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_6",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_K", "EOC_L" ],
+        "time_in_future": [ "0 seconds", "20 seconds" ],
+        "randomize_time_in_future": false,
+        "iterations": 5
+      }
+    ]
+  },
+```
 
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "queue_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC, that would be added into queue; Could be an inline EoC |
-| "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 |
-| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+EoCs `EOC_K`and `EOC_L` will run 10 times total, 5 times each, randomly; for example, `EOC_K` gonna run 0 seconds in the future, 3 seconds, 9 seconds, 19 seconds and 20 seconds; `EOC_L` gonna run, for example, 4 seconds, 5 seconds, 9 seconds, 14 secodns and 17 seconds in the future
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "run_eocs_6",
+    "effect": [
+      {
+        "run_eocs": [ "EOC_K", "EOC_L" ],
+        "time_in_future": [ "0 seconds", "20 seconds" ],
+        "randomize_time_in_future": false,
+        "iterations": 5
+      }
+    ]
+  },
+```
 
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ❌ | ❌ | ❌ |
-
-##### Examples
-see a detailed example in `run_eoc_with`
 In three hours, you will be given five AR-15
 ```json
 {
@@ -1933,7 +1877,7 @@ In three hours, you will be given five AR-15
   "id": "EOC_I_NEED_AN_AR15_BUT_NOT_NOW",
   "effect": [
     {
-      "queue_eoc_with": "EOC_GIVE_A_GUN",
+      "run_eocs": "EOC_GIVE_A_GUN",
       "time_in_future": "3 h",
       "variables": {
         "gun_name": "ar15_223medium",
@@ -1951,6 +1895,49 @@ In three hours, you will be given five AR-15
       "u_spawn_item": { "context_val": "gun_name" },
       "count": { "context_val": "amount_of_guns" }
     }
+  ]
+}
+```
+
+`EOC_until_nested` is run until `my_variable` hit 10; in this case 10 times
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until",
+    "effect": [
+      { "run_eocs": "EOC_until_nested", "condition": { "math": [ "my_variable", "<", "10" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+  }
+```
+
+runs `EOC_POWER_TOGGLE_REMOVE_EFFECTS`, but current beta talker would be made alpha talker
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
+    "effect": [ { "run_eocs": "EOC_POWER_TOGGLE_REMOVE_EFFECTS", "alpha_talker": "npc" } ]
+  },
+```
+
+#### `u_set_talker`, `npc_set_talker`
+Store the character_id of You or NPC into a variable object
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_set_talker" / "npc_set_talker" | **mandatory** | [variable object](#variable-object) | the variable object to store the character_id |
+
+##### Examples
+
+```json
+{
+  "effect": [ 
+    { "u_set_talker": { "global_val": "u_character_id" } }, 
+    { "u_message": "Your character id is <global_val:u_character_id>" }
   ]
 }
 ```
@@ -2180,7 +2167,7 @@ Monsters run EoCs, provided by this effect; only works inside reality bubble
 
 Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
 ```json
-  { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+  { "run_eocs": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
 ```
 ...
 ```json
@@ -2558,51 +2545,6 @@ you can pick one of four options from `Choose your destiny` list;
     "Gives you twice as bad, but condition is not met, so you can't pick it up"
   ]
 }
-```
-
-#### `run_eoc_until`
-Run EoC multiple times, until specific condition would be met
-
-| Syntax | Optionality | Value  | Info |
-| --- | --- | --- | --- | 
-| "run_eoc_until" | **mandatory** | string or [variable object](#variable-object) | EoC that would be run multiple times |
-| "condition" | optional | [dialogue condition](#dialogue-conditions) | default a condition that always return true; **condition should return "false" to terminate the loop** | 
-| "iteration" | optional | int or [variable object](#variable-object) | default 100; max amount of iteration, that is allowed to run; if the condition always returns true, the EOC will run for this number of iterations.| 
-
-##### Valid talkers:
-
-| Avatar | Character | NPC | Monster |  Furniture | Item |
-| ------ | --------- | --------- | ---- | ------- | --- | 
-| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
-
-##### Examples
-`EOC_until_nested` is run until `my_variable` hit 10; in this case 10 times
-```json
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_run_until",
-    "effect": [
-      { "run_eoc_until": "EOC_until_nested", "condition": { "math": [ "my_variable", "<", "10" ] } }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_until_nested",
-    "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
-  }
-```
-A loop of 10 iterations.
-```json
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_run_until",
-    "effect": { "run_eoc_until": "EOC_until_nested", "iteration": 10 }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_until_nested",
-    "effect": { "u_message": "!!!" }
-  }
 ```
 
 ## Character effects
