@@ -152,6 +152,9 @@ Grazing animals actually eat grass, and it regrows every season
 New characters get random natural hair color during character generation
 Binoculars now also increase 'detailed' vision range, not only max vision range
 Morphic Sizing flag for summoned/magickal items
+Make chilis smokable
+EOCs modifying calories track spent calories (mostly relevant for MoM)
+Reduce the weight and volume of jika-tabi sneakers
 
 
 ## Content:
@@ -333,6 +336,9 @@ Professions & hobbies know gross anatomy & new butchering profs
 Slightly Expands Hub-01 and Yrax factions
 Adds a new stationary fungal variant.
 adds a new fungus infested mapgen
+Add Ravenfolk specific wings mutation with long leap ability, remove duplicate beak and wing stubs from Ravenfolk
+Add a random NPC class that knows how to fly. Yes you CAN recruit them, switch to them, and then fly a helicopter with their skills.
+fungalize stages for zombies
 
 
 ## Interface:
@@ -429,6 +435,12 @@ Custom loading screen the game deserves
 wrap the descriptions in the zone menu so that it doesn’t have a ridiculous width
 Map UI: hint custom keybind for `CHOOSE_DESTINATION`
 Toggle between the map and look around
+Only list non-zero damage types on melee weapons
+Misc. improvements to NPC goto-location options
+Use sentence case in options descriptions consistently
+Change "Weapon categories" to sentence case in initialization string
+Make the option groups sentence case
+Change Human Acclimatization mutation name from all caps to title case
 
 
 ## Mods:
@@ -679,6 +691,21 @@ Create the Martial Mastery mod, which allows you to develop your own martial art
 [DinoMod] Astrodon 
 [MoM] Add Alien Meadow mutable map special
 [Magiclysm] Fantasy species zombies
+[MoM] Add Attunement meter to Spacebar UI
+[MoM] Two bugfixes
+[MoM] Marksman's Eye edits (lower range bonus, makes hitting weakpoints more likely)
+[Sky Island] Add side storage (or whatever) rooms
+[Magiclysm/Xedra Evolved] Magiclysm/xe updates for #76890
+[MoM/XE Interaction] Ierde and powerful vampires are immune to telepathy
+[MoM] Reduce psionics calorie costs by 20%, remove Nether Attunement adjustment
+[MoM/CrazyCata Interaction] Rename Metaphysics to "woo woo"
+[Magiclysm] Add one ring and one set of bracers
+[Bombastic Perks/MoM] Add MoM-specific perks
+[MoM] Centralize calorie EoC in one place and refer to it elsewhere
+Adds dreamforged nail as one of the things dreamsmith can dream smith.
+[Sky Island] Add tokens to warp floor into new floor types
+[MoM] Wakeful Rest and Revitalizing Meditation now grant XP, drain focus while using them
+[Xedra Evolved] Dreamsmithing procgen expansion (enchants)
 
 
 ## Balance:
@@ -777,6 +804,9 @@ Wielded items behave the same as ranged weapons when driving
 Small changes to Quenching and tempering proficiency
 Battery tools sanification
 Obsolete and migrate legacy wire in favor of mild steel wire
+Made denim shirts and gloves less warm
+Made Armored Jean Jackets and Leather Vests less warm
+Make lab access shafts normally visible once spotted
 
 
 ## Bugfixes:
@@ -1025,6 +1055,31 @@ NPC flee from being run over by vehicles
 fix the crash in select_language by building the font atlas first
 Monsters won't be sending immobile targets into flight anymore.
 [XE/Magiclysm] No wizard cats
+Fix consume activity creation from liquid handler
+Cabin in Safe Place scenario is now actually safe
+Remove tainted/human leather recipe
+Removed High Adrenaline as a background trait for Fire Performing hobby
+[MoM] Portal storm awakening EoC fix
+Rotten blood can't be analyzed on centrifuge
+Fix the Mosin battle rifle barrel length
+Add barrel length to Taurus Spectrum
+[MoM] NPCs can awaken in portal storms
+Fix crash when pickaxe expires during mining
+Fixing display of loudness multiplier of gunmods
+Add barrel length to Beretta 90-two
+Spend time when taking off items via 'T' in item examine menu
+Repair some id and name mismatch in Terraforming series boardgame item.
+Mutation UI help text uses correct hotkey for examine
+Now it's possible to complete Gemma Johnstone's 'Retrieve the fertility supplements' mission
+Start of cataclysm day and start of game day now respect season length
+Fixes #76414, Can't activate item - character instead tries to eat it.
+Forbid modding integrated tools
+No longer able to wear already worn items
+Faulty guns don't lock your view
+Don't apply additional move cost for moving barefoot in deep water
+Fixed a crash when using the 'set of clothes' item
+Fix Britishisms in the JSON files.
+Fix non-battery charge consumption of active items
 
 
 ## Performance:
@@ -1134,6 +1189,8 @@ Migrate ACT_PULP to the new activity actor system.
 Migrate ACT_WAIT_STAMINA to an activity_actor
 Migrate extended description (`x`->`e`) to imgui
 [DEBUG] Modify hordes through overmap editor
+Mod Compatibility: Only load files within "mod_interactions" if requisite mod is loaded
+Remove dead code
 
 
 ## Build:
