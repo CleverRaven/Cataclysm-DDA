@@ -585,6 +585,10 @@ std::list<item> item::remove_items_with( const std::function<bool( const item &e
     // but no way to determine where something got removed here
     update_modified_pockets();
 
+    if( !res.empty() ) {
+        on_contents_changed();
+    }
+
     return res;
 }
 
