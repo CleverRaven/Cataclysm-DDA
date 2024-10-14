@@ -37,7 +37,7 @@ void appliance_convert_examine_actor::call( Character &, const tripoint_bub_ms &
         here.ter_set( examp, *ter_set );
     }
 
-    place_appliance( examp.raw(), vpart_appliance_from_item( appliance_item ) );
+    place_appliance( examp, vpart_appliance_from_item( appliance_item ) );
 }
 
 void appliance_convert_examine_actor::finalize() const
@@ -113,7 +113,8 @@ std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
                 ret.push_back( it );
                 continue;
             }
-            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getglobal( examp ).raw() ).xy() );
+            int dist = rl_dist( cardloc.xy(),
+                                coords::project_to<coords::omt>( get_map().getglobal( examp ) ).xy().raw() );
             if( dist > *omt_allowed_radius ) {
                 continue;
             }
@@ -131,7 +132,7 @@ bool cardreader_examine_actor::apply( const tripoint_bub_ms &examp ) const
 
     map &here = get_map();
     if( map_regen ) {
-        tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getglobal( examp ).raw() ) );
+        tripoint_abs_omt omt_pos( coords::project_to<coords::omt>( here.getglobal( examp ) ) );
         const ret_val<void> has_colliding_vehicle = run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr,
                 false );
         if( !has_colliding_vehicle.success() ) {
@@ -179,8 +180,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint_bub_ms &exam
                 break;
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
-            if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
-                        examp ).raw() ) &&
+            if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
+                coords::project_to<coords::omt>( here.getglobal( examp ) ) &&
                 critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );

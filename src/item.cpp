@@ -1498,8 +1498,8 @@ bool _stacks_location_hint( item const &lhs, item const &rhs )
     if( this_loc == that_loc ) {
         return true;
     } else if( this_loc.raw() != tripoint_max && that_loc.raw() != tripoint_max ) {
-        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getglobal(
-                                               get_player_character().pos_bub() ).raw() ) );
+        const tripoint_abs_omt player_loc( coords::project_to<coords::omt>( get_map().getglobal(
+                                               get_player_character().pos_bub() ) ) );
         const int this_dist = rl_dist( player_loc, this_loc );
         const int that_dist = rl_dist( player_loc, that_loc );
         static const auto get_bucket = []( const int dist ) {
@@ -10858,8 +10858,25 @@ int item::ammo_remaining( const bool include_linked ) const
     return ammo_remaining( nullptr, include_linked );
 }
 
+bool item::uses_energy() const
+{
+    if( is_vehicle_battery() ) {
+        return true;
+    }
+    const item *mag = magazine_current();
+    if( mag && mag->uses_energy() ) {
+        return true;
+    }
+    return has_flag( flag_USES_BIONIC_POWER ) ||
+           has_flag( flag_USE_UPS ) ||
+           ( is_magazine() && ammo_capacity( ammo_battery ) > 0 );
+}
+
 units::energy item::energy_remaining( const Character *carrier ) const
 {
+    if( !uses_energy() ) {
+        return 0_kJ;
+    }
     units::energy ret = 0_kJ;
 
     // Future energy based batteries
@@ -14103,8 +14120,9 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
     }
 
     // if insufficient available charges shutdown the tool
-    if( ( type->tool->turns_per_charge > 0 || type->tool->power_draw > 0_W ) &&
-        energy_remaining( carrier ) < energy_per_second() ) {
+    if( ( type->tool->power_draw > 0_W || type->tool->turns_per_charge > 0 ) &&
+        ( ( uses_energy() && energy_remaining( carrier ) < energy_per_second() ) ||
+          ( !uses_energy() && ammo_remaining( carrier, true ) == 0 ) ) ) {
         if( carrier && has_flag( flag_USE_UPS ) ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }

@@ -509,8 +509,8 @@ TEST_CASE( "suffering_from_asphyxiation", "[char][suffer][oxygen][grab]" )
 
         map &here = get_map();
         WHEN( "crushed against two walls by two grabbers" ) {
-            here.ter_set( dummy.pos() + tripoint_south, ter_t_rock_wall );
-            here.ter_set( dummy.pos() + tripoint_north, ter_t_rock_wall );
+            here.ter_set( dummy.pos_bub() + tripoint_south, ter_t_rock_wall );
+            here.ter_set( dummy.pos_bub() + tripoint_north, ter_t_rock_wall );
             REQUIRE( here.impassable( dummy.pos_bub() + tripoint_south ) );
             REQUIRE( here.impassable( dummy.pos_bub() + tripoint_north ) );
 

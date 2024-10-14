@@ -16,7 +16,6 @@
 #include "colony.h"
 #include "color.h"
 #include "computer.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -317,8 +316,9 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( ms_to_omt_copy( here.getglobal( critter.pos_bub() ).raw() ) == ms_to_omt_copy( here.getglobal(
-                    player_character.pos_bub() ).raw() ) &&
+        if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
+            coords::project_to<coords::omt>( here.getglobal(
+                    player_character.pos_bub() ) ) &&
             critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
             g->remove_zombie( critter );
@@ -618,15 +618,15 @@ void computer_session::action_cascade()
         return;
     }
     get_event_bus().send<event_type::causes_resonance_cascade>();
-    tripoint player_pos = get_player_character().pos();
+    tripoint_bub_ms player_pos = get_player_character().pos_bub();
     map &here = get_map();
     std::vector<tripoint> cascade_points;
-    for( const tripoint &dest : here.points_in_radius( player_pos, 10 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( player_pos, 10 ) ) {
         if( here.ter( dest ) == ter_t_radio_tower ) {
-            cascade_points.push_back( dest );
+            cascade_points.push_back( dest.raw() );
         }
     }
-    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos ) );
+    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos.raw() ) );
 }
 
 void computer_session::action_research()

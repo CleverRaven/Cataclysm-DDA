@@ -33,7 +33,6 @@
 #include "character_martial_arts.h"
 #include "city.h"
 #include "color.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -1371,7 +1370,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         }
 
         p.set_mutation( trait_THRESH_MARLOSS );
-        get_map().ter_set( p.pos(), ter_t_marloss );
+        get_map().ter_set( p.pos_bub(), ter_t_marloss );
         get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
@@ -1751,7 +1750,7 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
     // isolated little body of water with no definite fish population
     // TODO: fix point types
     const oter_id &cur_omt =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getglobal( pos ).raw() ) ) );
+        overmap_buffer.ter( coords::project_to<coords::omt>( here.getglobal( pos ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         // this is a ridiculous way to find a good fishing spot, but I'm just trying
@@ -3076,13 +3075,13 @@ static std::optional<int> dig_tool( Character *p, item *it, const tripoint &pos,
         return std::nullopt;
     }
 
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
+    tripoint_bub_ms pnt( pos );
+    if( pos == p->pos_bub().raw() ) {
         const std::optional<tripoint> pnt_ = choose_adjacent( prompt );
         if( !pnt_ ) {
             return std::nullopt;
         }
-        pnt = *pnt_;
+        pnt = tripoint_bub_ms( *pnt_ );
     }
 
     map &here = get_map();
@@ -6429,7 +6428,7 @@ static item::extended_photo_def photo_def_for_camera_point( const tripoint &aim_
     }
 
     // TODO: fix point types
-    tripoint_abs_omt omp( ms_to_omt_copy( here.getglobal( aim_point ).raw() ) );
+    tripoint_abs_omt omp( coords::project_to<coords::omt>( here.getglobal( aim_point ) ) );
     const oter_id &cur_ter = overmap_buffer.ter( omp );
     om_vision_level vision = overmap_buffer.seen( omp );
     std::string overmap_desc = string_format( _( "In the background you can see a %s." ),

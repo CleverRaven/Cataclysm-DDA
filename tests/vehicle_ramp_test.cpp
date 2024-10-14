@@ -54,24 +54,24 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
         for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
             for( int x = 0; x < transit_x; x++ ) {
                 const int mid = up ? upper_zlevel : lower_zlevel;
-                here.ter_set( tripoint( x, y, mid - 2 ), ter_id( "t_rock" ) );
-                here.ter_set( tripoint( x, y, mid - 1 ), ter_id( "t_rock" ) );
-                here.ter_set( tripoint( x, y, mid ), ter_id( "t_pavement" ) );
-                here.ter_set( tripoint( x, y, mid + 1 ), ter_id( "t_open_air" ) );
-                here.ter_set( tripoint( x, y, mid + 2 ), ter_id( "t_open_air" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid - 2 ), ter_id( "t_rock" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid - 1 ), ter_id( "t_rock" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid ), ter_id( "t_pavement" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid + 1 ), ter_id( "t_open_air" ) );
+                here.ter_set( tripoint_bub_ms( x, y, mid + 2 ), ter_id( "t_open_air" ) );
             }
-            const tripoint ramp_up_low = tripoint( lowx, y, lower_zlevel );
-            const tripoint ramp_up_high = tripoint( highx, y, lower_zlevel );
-            const tripoint ramp_down_low = tripoint( lowx, y, upper_zlevel );
-            const tripoint ramp_down_high = tripoint( highx, y, upper_zlevel );
+            const tripoint_bub_ms ramp_up_low = tripoint_bub_ms( lowx, y, lower_zlevel );
+            const tripoint_bub_ms ramp_up_high = tripoint_bub_ms( highx, y, lower_zlevel );
+            const tripoint_bub_ms ramp_down_low = tripoint_bub_ms( lowx, y, upper_zlevel );
+            const tripoint_bub_ms ramp_down_high = tripoint_bub_ms( highx, y, upper_zlevel );
             here.ter_set( ramp_up_low, ter_id( "t_ramp_up_low" ) );
             here.ter_set( ramp_up_high, ter_id( "t_ramp_up_high" ) );
             here.ter_set( ramp_down_low, ter_id( "t_ramp_down_low" ) );
             here.ter_set( ramp_down_high, ter_id( "t_ramp_down_high" ) );
             for( int x = transit_x + 2; x < SEEX * MAPSIZE; x++ ) {
-                here.ter_set( tripoint( x, y, 1 ), ter_id( "t_open_air" ) );
-                here.ter_set( tripoint( x, y, 0 ), ter_id( "t_pavement" ) );
-                here.ter_set( tripoint( x, y, -1 ), ter_id( "t_rock" ) );
+                here.ter_set( tripoint_bub_ms( x, y, 1 ), ter_id( "t_open_air" ) );
+                here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_id( "t_pavement" ) );
+                here.ter_set( tripoint_bub_ms( x, y, -1 ), ter_id( "t_rock" ) );
             }
         }
     }
@@ -299,8 +299,8 @@ static void level_out( const vproto_id &veh_id, const bool drop_pos )
 
     for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
         for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-            here.ter_set( tripoint( x, y, 1 ), ter_id( "t_open_air" ) );
-            here.ter_set( tripoint( x, y, 0 ), ter_id( "t_pavement" ) );
+            here.ter_set( tripoint_bub_ms( x, y, 1 ), ter_id( "t_open_air" ) );
+            here.ter_set( tripoint_bub_ms( x, y, 0 ), ter_id( "t_pavement" ) );
         }
     }
 

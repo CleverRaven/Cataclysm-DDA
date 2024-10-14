@@ -328,7 +328,7 @@ static void check_npc_movement( const tripoint &origin )
     }
 }
 
-static npc *make_companion( const tripoint &npc_pos )
+static npc *make_companion( const tripoint_bub_ms &npc_pos )
 {
     shared_ptr_fast<npc> guy = make_shared_fast<npc>();
     guy->normalize();
@@ -352,7 +352,7 @@ TEST_CASE( "npc-board-player-vehicle" )
     for( std::pair<const std::string, npc_boarding_test_data> &given : test_data::npc_boarding_data ) {
         GIVEN( given.first ) {
             npc_boarding_test_data &data = given.second;
-            g->place_player( data.player_pos );
+            g->place_player( data.player_pos.raw() );
             clear_map();
             map &here = get_map();
             Character &pc = get_player_character();
@@ -376,7 +376,7 @@ TEST_CASE( "npc-board-player-vehicle" )
             */
 
             int turns = 0;
-            while( turns++ < 100 && companion->pos() != data.npc_target ) {
+            while( turns++ < 100 && companion->pos_bub() != data.npc_target ) {
                 companion->set_moves( 100 );
                 /* Uncommment for extra debug info
                 tripoint npc_pos = companion->pos();
@@ -424,7 +424,7 @@ TEST_CASE( "npc-board-player-vehicle" )
                     }
                 }
             }
-            CHECK( companion->pos() == data.npc_target );
+            CHECK( companion->pos_bub() == data.npc_target );
         }
     }
 }

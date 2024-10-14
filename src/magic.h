@@ -554,7 +554,8 @@ class spell
         bool can_cast( const Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
-        int get_amount_of_projectiles( const Character &guy ) const;
+        // if spell shoots more than one projectile
+        int get_amount_of_projectiles( const Creature &guy ) const;
         // is this spell valid
         bool is_valid() const;
         int bps_affected() const;

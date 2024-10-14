@@ -336,8 +336,8 @@ void aim_activity_actor::start( player_activity &act, Character &who )
     item &it = *weapon.get_item();
 
     if( !check_gun_ability_to_shoot( who, it ) ) {
-        aborted = true; // why doesn't interrupt?
-        act.set_to_null();
+        aborted = true;
+        finish( act, who );
     }
 
     // Time spent on aiming is determined on the go by the player
@@ -5641,6 +5641,15 @@ std::unique_ptr<activity_actor> reel_cable_activity_actor::deserialize( JsonValu
 
 void outfit_swap_actor::start( player_activity &act, Character &who )
 {
+    if( !who.is_wielding( *outfit_item ) && !who.wield( *outfit_item ) ) {
+        who.add_msg_if_player( m_warning,
+                               _( "You'll need the outfit in your hands before you can change outfits." ) );
+        act.set_to_null();
+        return;
+    }
+    if( !outfit_item ) { // if we wielded it in the last if, it's invalidated and reacquired here
+        outfit_item = who.get_wielded_item();
+    }
     item fake_storage( outfit_item->typeId() );
     for( const item_location &worn_item : who.get_visible_worn_items() ) {
         act.moves_total += who.item_handling_cost( *worn_item ); // Cost of taking it off

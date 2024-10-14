@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "cata_inline.h"
-#include "coordinate_conversions.h"
 #include "coords_fwd.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -1019,10 +1018,7 @@ struct real_coords {
     void fromabs( const point &abs );
 
     // specifically for the subjective position returned by overmap::draw
-    void fromomap( const point &rel_om, const point &rel_om_pos ) {
-        const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
-        fromabs( omt_to_ms_copy( a ) );
-    }
+    void fromomap( const point &rel_om, const point &rel_om_pos );
 
     point_abs_omt abs_omt() const {
         return project_to<coords::omt>( point_abs_sm( abs_sub ) );
