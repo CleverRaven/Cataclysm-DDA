@@ -30,6 +30,7 @@
     "dynamic_line": "I love just standing around, it's what I was made for.",
     "responses": [
       { "text": "I need you to come with me.", "topic": "TALK_FRIEND_Luo", "effect": "stop_guard" },
+      { "text": "Let's talk.", "topic": "TALK_FRIEND_Luo" },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },
