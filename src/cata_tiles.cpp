@@ -332,7 +332,7 @@ tile_type &tileset::create_tile_type( const std::string &id, tile_type &&new_til
 }
 
 void cata_tiles::load_tileset( const std::string &tileset_id, const bool precheck,
-                               const bool force, const bool pump_events )
+                               const bool force, const bool pump_events, const bool terrain )
 {
     if( tileset_ptr && tileset_ptr->get_tileset_id() == tileset_id && !force ) {
         return;
@@ -341,7 +341,7 @@ void cata_tiles::load_tileset( const std::string &tileset_id, const bool prechec
     // reset the overlay ordering from the previous loaded tileset
     tileset_mutation_overlay_ordering.clear();
 
-    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events );
+    tileset_ptr = cache.load_tileset( tileset_id, renderer, precheck, force, pump_events, terrain );
 
     set_draw_scale( 16 );
 
@@ -625,7 +625,7 @@ void cata_tiles::set_draw_scale( int scale )
 }
 
 void tileset_cache::loader::load( const std::string &tileset_id, const bool precheck,
-                                  const bool pump_events )
+                                  const bool pump_events, const bool terrain )
 {
     std::string json_conf;
     std::string layering;
@@ -765,8 +765,9 @@ void tileset_cache::loader::load( const std::string &tileset_id, const bool prec
         }
     }
 
-    if( !ts.find_tile_type( "unknown" ) ) {
-        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+    if( !ts.find_tile_type( terrain ? "unknown_terrain" : "unknown" ) ) {
+        dbg( D_ERROR ) << "The tileset you're using has no '" << ( terrain ? "unknown_terrain" : "unknown" )
+                       << "' tile defined!";
     }
     ensure_default_item_highlight();
 
@@ -4411,14 +4412,15 @@ bool cata_tiles::draw_item_highlight( const tripoint &pos, int &height_3d )
 }
 
 std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &tileset_id,
-        const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events )
+        const SDL_Renderer_Ptr &renderer, const bool precheck, const bool force, const bool pump_events,
+        const bool terrain )
 {
     const auto get_or_create_tileset = [&]() {
         const auto it = tilesets_.find( tileset_id );
         if( it == tilesets_.end() || it->second.expired() ) {
             std::shared_ptr<tileset> new_ts = std::make_shared<tileset>();
             loader loader( *new_ts, renderer );
-            loader.load( tileset_id, precheck, pump_events );
+            loader.load( tileset_id, precheck, pump_events, terrain );
             tilesets_.emplace( tileset_id, new_ts );
             return new_ts;
         }
@@ -4429,7 +4431,7 @@ std::shared_ptr<const tileset> tileset_cache::load_tileset( const std::string &t
 
     if( force || ( ts->get_tileset_id().empty() && !precheck ) ) {
         loader loader( *ts, renderer );
-        loader.load( tileset_id, precheck, pump_events );
+        loader.load( tileset_id, precheck, pump_events, terrain );
     }
     return ts;
 }
