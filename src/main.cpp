@@ -169,6 +169,8 @@ void exit_handler( int s )
             sigIntHandler.sa_flags = 0;
             sigaction( SIGINT, &sigIntHandler, nullptr );
             kill( getpid(), s );
+            imclient.reset();
+            return;
         } else
 #endif
         {
