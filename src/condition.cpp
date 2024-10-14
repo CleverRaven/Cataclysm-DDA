@@ -2210,8 +2210,6 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "strength_bonus", &talker::get_str_bonus },
     { "strength", &talker::str_cur },
     { "thirst", &talker::get_thirst },
-    { "volume", &talker::get_volume },
-    { "weight", &talker::get_weight },
     { "count", &talker::get_count }
 };
 } // namespace
