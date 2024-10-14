@@ -559,6 +559,13 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_eolambia",
+    "name": "eolambia egg",
+    "copy-from": "egg_dino",
+    "rot_spawn": { "group": "GROUP_EGG_eolambia" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_hadrosaurus",
     "name": "hadrosaurus egg",
     "copy-from": "egg_dino",
