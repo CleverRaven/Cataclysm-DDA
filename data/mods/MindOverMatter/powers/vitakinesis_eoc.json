@@ -1006,7 +1006,7 @@
     "type": "effect_on_condition",
     "id": "EOC_VITA_SUPER_HEAL_DRAIN",
     "effect": [
-      { "math": [ "u_calories()", "-=", "rng( 150,650 )" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "-=", "rng( 150,650 )" ] },
       { "math": [ "u_vitamin('iron')", "-=", "rng( 50,200 )" ] },
       { "math": [ "u_vitamin('calcium')", "-=", "rng( 100,200 )" ] },
       { "math": [ "u_vitamin('vitC')", "-=", "rng( 20,80 )" ] },
@@ -1028,13 +1028,13 @@
     "id": "EOC_VITAKINESIS_RETURN_FROM_DEATH_START",
     "condition": { "u_has_effect": "effect_vita_return_from_death" },
     "effect": [
-      { "math": [ "u_calories()", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
-      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 5)" ] },
-      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 5)" ] },
-      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 5)" ] },
-      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 5)" ] },
-      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 5)" ] },
-      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 5)" ] },
+      { "math": [ "u_calories('dont_affect_weariness': true)", "=", "u_vitakin_return_from_death_kcal * 0.8" ] },
+      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 10)" ] },
+      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 10)" ] },
+      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 10)" ] },
+      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 10)" ] },
+      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 10)" ] },
+      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 10)" ] },
       { "math": [ "u_vitamin('redcells')", "=", "0" ] },
       { "math": [ "u_vitamin('bad_food')", "=", "0" ] },
       { "math": [ "u_vitamin('blood')", "=", "0" ] },
@@ -1046,8 +1046,11 @@
       { "u_lose_effect": "sap" },
       { "u_lose_effect": "nausea" },
       { "u_lose_effect": "bleed" },
+      { "u_lose_effect": "blind" },
+      { "u_lose_effect": "deaf" },
       { "u_lose_effect": "effect_vita_return_from_death" },
-      { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" }
+      { "u_add_effect": "effect_vita_super_heal_return_from_death", "duration": "20 seconds" },
+      { "u_add_effect": "effect_vita_super_heal_pain_allayed", "duration": "300 seconds" }
     ]
   }
 ]
