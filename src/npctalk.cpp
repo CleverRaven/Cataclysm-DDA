@@ -5443,7 +5443,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         jo.throw_error( "Invalid input for run_eocs" );
     }
 
-    dbl_or_var iteration = get_dbl_or_var( jo, "iteration", false, 1 );
+    dbl_or_var iterations = get_dbl_or_var( jo, "iterations", false, 1 );
     bool has_cond = false;
     std::function<bool( dialogue & )> cond;
     if( jo.has_object( "condition" ) ) {
@@ -5494,7 +5494,7 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
 
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs", src );
 
-    return [eocs, cond, has_cond, iteration, dov_time, random_time, alpha_var, beta_var, is_alpha_loc,
+    return [eocs, cond, has_cond, iterations, dov_time, random_time, alpha_var, beta_var, is_alpha_loc,
           is_beta_loc, has_alpha_var, has_beta_var, false_eocs, context]( dialogue & d ) {
 
         dialogue newDialog = generate_new_dialogue( d, has_alpha_var, has_beta_var, alpha_var, beta_var,
@@ -5505,25 +5505,25 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
         }
 
         int i = 0;
-        int iteration_amount = iteration.evaluate( d );
+        int iterations_amount = iterations.evaluate( d );
 
         // there was 'd.amend_callstack( "EOC: " + eoc->id.str() )' in f_run_eoc_until
         // but because i don't know it's purpose nor it's effect, i'll left it here as comment
 
         if( has_cond ) {
-            // if it's a loop, we will use iteration_amount as limit to amount of loops allowed
+            // if it's a loop, we will use iterations_amount as limit to amount of loops allowed
             // and bump it to 100 as default value
-            iteration_amount = iteration_amount == 1 ? 100 : iteration_amount;
+            iterations_amount = iterations_amount == 1 ? 100 : iterations_amount;
 
             while( cond( d ) ) {
                 run_eoc_once( eocs, d, newDialog, dov_time, random_time );
                 ++i;
-                if( i >= iteration_amount ) {
+                if( i >= iterations_amount ) {
                     break;
                 }
             }
         } else {
-            while( i < iteration_amount ) {
+            while( i < iterations_amount ) {
                 run_eoc_once( eocs, d, newDialog, dov_time, random_time );
                 ++i;
             }
