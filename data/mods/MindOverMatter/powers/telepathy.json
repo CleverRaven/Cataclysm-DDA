@@ -137,24 +137,13 @@
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 2500,
+    "base_energy_cost": 3500,
     "final_energy_cost": 750,
     "energy_increment": -75,
     "base_casting_time": 100,
     "final_casting_time": 35,
     "casting_time_increment": -5,
-    "ignored_monster_species": [
-      "ZOMBIE",
-      "ROBOT",
-      "ROBOT_FLYING",
-      "NETHER",
-      "NETHER_EMANATION",
-      "LEECH_PLANT",
-      "WORM",
-      "FUNGUS",
-      "SLIME",
-      "PSI_NULL"
-    ]
+    "ignored_monster_species": [ "ZOMBIE", "ROBOT", "ROBOT_FLYING", "NETHER_EMANATION", "LEECH_PLANT", "WORM", "FUNGUS", "SLIME", "PSI_NULL" ]
   },
   {
     "id": "telepathic_morale",

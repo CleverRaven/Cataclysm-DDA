@@ -54,7 +54,12 @@
             "false_effect": [
               {
                 "if": {
-                  "and": [ { "x_in_y_chance": { "x": 1, "y": 2 } }, { "or": [ { "u_has_species": "MIGO" }, { "u_has_species": "PLANT" } ] } ]
+                  "and": [
+                    { "x_in_y_chance": { "x": 1, "y": 2 } },
+                    {
+                      "or": [ { "u_has_species": "MIGO" }, { "u_has_species": "NETHER" }, { "u_has_species": "PLANT" } ]
+                    }
+                  ]
                 },
                 "then": [
                   { "u_add_effect": "psi_stunned", "duration": { "math": [ "u_telepath_mesmerism_duration" ] } },
@@ -83,7 +88,8 @@
                   "and": [
                     { "not": { "u_has_species": "FERAL" } },
                     { "not": { "u_has_species": "MIGO" } },
-                    { "not": { "u_has_species": "PLANT" } }
+                    { "not": { "u_has_species": "PLANT" } },
+                    { "not": { "u_has_species": "NETHER" } }
                   ]
                 },
                 "then": [
