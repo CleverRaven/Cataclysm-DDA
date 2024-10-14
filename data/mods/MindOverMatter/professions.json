@@ -271,16 +271,22 @@
         "entries": [
           { "item": "pants_army" },
           { "item": "gloves_tactical" },
-          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "boots_combat" },
+          { "item": "jacket_army_phavian" },
           { "item": "socks" },
+          { "item": "hat_field" },
+          { "group": "charged_two_way_radio" },
+          { "group": "loaded_webbing_belt" },
+          { "group": "army_mags_m17" },
+          { "item": "wristwatch" },
+          { "item": "m17", "ammo-item": "9mm", "container-item": "nylon_holster", "charges": 17 },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "knife_combat_army", "container-item": "sheath" },
           { "item": "matrix_crystal_drained" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
-      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     }
   },
   {
