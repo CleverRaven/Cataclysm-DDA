@@ -72,7 +72,7 @@
                 "else": { "npc_message": "Your target resists the mesmerism!", "type": "bad" }
               },
               {
-                "if": { "and": [ { "x_in_y_chance": { "x": 9, "y": 10 } }, { "u_has_species": "FERAL" } ] },
+                "if": { "and": [ { "x_in_y_chance": { "x": 19, "y": 20 } }, { "u_has_species": "FERAL" } ] },
                 "then": [
                   { "u_add_effect": "psi_stunned", "duration": { "math": [ "u_telepath_mesmerism_duration" ] } },
                   {
