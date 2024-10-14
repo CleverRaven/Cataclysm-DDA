@@ -969,6 +969,8 @@
     "description": "You have some time left until you can transfer control to your companions, provided you have <color_yellow>established a Basecamp</color> and <color_yellow>have at least 1 NPC companion</color>.",
     "difficulty": 0,
     "value": 0,
+    "deadline_low": { "math": [ "time_between_succession" ] },
+    "deadline_high": { "math": [ "time_between_succession" ] },
     "invisible_on_complete": true,
     "start": {
       "effect": [
@@ -982,7 +984,7 @@
     "id": "EOC_FACTION_SUCCESSION_CHECK",
     "recurrence": [ "5 minutes", "20 minutes" ],
     "global": true,
-    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time('90 d')" ] },
+    "condition": { "math": [ "time_since(u_timer_time_of_last_succession)", ">", "time_between_succession" ] },
     "effect": [ { "remove_active_mission": "MISSION_CAMP_LEADERSHIP_CHANGE" }, { "u_lose_var": "time_of_last_succession" } ],
     "deactivate_condition": { "not": { "compare_string": [ "yes", { "u_val": "time_of_last_succession" } ] } }
   },
@@ -1007,10 +1009,23 @@
     ]
   },
   {
+    "//": "DUMB HACK ALERT! We need to check during both game_start and game_begin, because game_start runs first. If we only listen during game_begin then EOC_FACTION_SUCCESSION_CHANGE_INIT finds the variable doesn't exist when it runs during game_start, substituting a value of 0 turns. Double assigning the same value is harmless, just stupid. It shouldn't be necessary to make two EOCs for this. Oh well, what can you do",
     "type": "effect_on_condition",
-    "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMEBEGIN_CHECK",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
+    "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN_GAMESTART_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "effect": [ { "run_eocs": "EOC_FACTION_SUCCESSION_COOLDOWN" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FACTION_SUCCESSION_COOLDOWN",
     "effect": [ { "math": [ "time_between_succession", "=", "time(' 3 d')" ] } ]
   },
   {

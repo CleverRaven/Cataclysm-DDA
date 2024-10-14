@@ -193,8 +193,8 @@ struct mission_type {
         // Value; determines rewards and such
         int value = 0;
         // Low and high deadlines
-        time_duration deadline_low = 0_turns;
-        time_duration deadline_high = 0_turns;
+        duration_or_var deadline_low;
+        duration_or_var deadline_high;
         // If true, the NPC will press this mission!
         bool urgent = false;
         // If the mission has generic rewards, so that the completion dialogue knows whether to offer them.
@@ -370,6 +370,7 @@ class mission
         /**
          * Simple setters, no checking if the values is performed. */
         /*@{*/
+        void set_deadline( time_point new_deadline );
         void set_target( const tripoint_abs_omt &p );
         void set_target_npc_id( const character_id &npc_id );
         void set_assigned_player_id( const character_id &char_id );

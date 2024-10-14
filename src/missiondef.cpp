@@ -384,8 +384,8 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
         return;
     }
 
-    assign( jo, "deadline_low", deadline_low, false, 1_days );
-    assign( jo, "deadline_high", deadline_high, false, 1_days );
+    deadline_low = get_duration_or_var( jo, "deadline_low", false );
+    deadline_high = get_duration_or_var( jo, "deadline_high", false );
 
     if( jo.has_member( "followup" ) ) {
         follow_up = mission_type_id( jo.get_string( "followup" ) );
