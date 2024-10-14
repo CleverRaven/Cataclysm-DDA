@@ -31,7 +31,6 @@
 #include "units.h"
 
 static const std::string null_item_id( "null" );
-static const itype_id itype_corpse( "corpse" );
 
 std::size_t Item_spawn_data::create( ItemList &list,
                                      const time_point &birthday, spawn_flags flags ) const
