@@ -36,7 +36,7 @@
                   "not": {
                     "x_in_y_chance": {
                       "x": { "math": [ "min((u_val('intelligence') + u_val('perception')), 30) + (rand(9) + 1) + (rand(9) + 1)" ] },
-                      "y": 36
+                      "y": 40
                     }
                   }
                 },
