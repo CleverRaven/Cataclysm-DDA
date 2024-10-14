@@ -1714,7 +1714,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::UPS, _stacks_ups( *this, rhs ) );
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal" };
+    static const std::set<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt", "ethereal", "last_act_by_char_id" };
     bits.set( tname::segments::VARS, map_equal_ignoring_keys( item_vars, rhs.item_vars, ignore_keys ) );
     bits.set( tname::segments::ETHEREAL, _stacks_ethereal( *this, rhs ) );
     bits.set( tname::segments::LOCATION_HINT, _stacks_location_hint( *this, rhs ) );
