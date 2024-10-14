@@ -934,6 +934,15 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damage and most telepathy-related effects while this power is active.<br />
 *Prerequisites*: Concentration Trance 5<br />
 
+## Mesmerize (C)
+*Difficulty*: 3<br />
+*Target*: Self<br />
+*Duration*: 3 minutes to 12 minutes, plus 15 to 36 seconds per power level<br />
+*Stamina Cost*: 2500, minus 125 per level to a minimum of 500<br />
+*Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 10<br />
+*Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damage and most telepathy-related effects while this power is active.<br />
+*Prerequisites*: Concentration Trance 5<br />
+
 ## Mood Stabilization (C)
 *Difficulty*: 3<br />
 *Target*: Self or one within 3 squares plus 1.1 squares per power level<br />
