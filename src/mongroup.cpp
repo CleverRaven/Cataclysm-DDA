@@ -237,27 +237,29 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
             // Check for monsters within subgroup
             for( int i = 0; i < pack_size; i++ ) {
                 std::vector<MonsterGroupResult> tmp_grp =
-                    GetResultFromGroup( entry.group, quantity, mon_found, true );
+                    GetResultFromGroup( entry.group, quantity, &monster_found, true );
                 spawn_details.insert( spawn_details.end(), tmp_grp.begin(), tmp_grp.end() );
             }
-        } else if( use_pack_size ) {
-            for( int i = 0; i < pack_size; i++ ) {
-                spawn_details.emplace_back( entry.name, pack_size, entry.data );
-                // And if a quantity pointer with remaining value was passed, will modify the external
-                // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
-                if( quantity ) {
-                    *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
-                }
-            }
         } else {
-            spawn_details.emplace_back( entry.name, pack_size, entry.data );
-            // And if a quantity pointer with remaining value was passed, will modify the external
-            // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
-            if( quantity ) {
-                *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
-            }
+          if( use_pack_size ) {
+              for( int i = 0; i < pack_size; i++ ) {
+                  spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                  // And if a quantity pointer with remaining value was passed, will modify the external
+                  // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+                  if( quantity ) {
+                      *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
+                  }
+              }
+          } else {
+              spawn_details.emplace_back( entry.name, pack_size, entry.data );
+              // And if a quantity pointer with remaining value was passed, will modify the external
+              // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+              if( quantity ) {
+                  *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
+              }
+          }
+          monster_found = true;
         }
-        monster_found = true;
         break;
     }
 
@@ -265,7 +267,7 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
         ( *mon_found ) = monster_found;
     }
 
-    if( !is_recursive && spawn_details.empty() ) {
+    if( !is_recursive && !monster_found ) {
         spawn_details.emplace_back( group.defaultMonster, 1, spawn_data() );
         if( returned_default ) {
             ( *returned_default ) = true;
