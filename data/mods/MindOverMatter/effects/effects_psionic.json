@@ -1342,7 +1342,7 @@
     "type": "effect_type",
     "id": "effect_pyrokinetic_fire_tool",
     "name": [ "Banked Flames" ],
-    "desc": [ "A firm is burning over one of your palms." ],
+    "desc": [ "A flame is burning over one of your palms." ],
     "rating": "good",
     "max_duration": "7 days"
   },
