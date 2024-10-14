@@ -1041,6 +1041,7 @@
       { "u_lose_effect": "corroding" },
       { "u_lose_effect": "onfire" },
       { "u_lose_effect": "dazed" },
+      { "u_lose_effect": "downed" },
       { "u_lose_effect": "stunned" },
       { "u_lose_effect": "venom_blind" },
       { "u_lose_effect": "sap" },
