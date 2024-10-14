@@ -241,24 +241,24 @@ std::vector<MonsterGroupResult> MonsterGroupManager::GetResultFromGroup(
                 spawn_details.insert( spawn_details.end(), tmp_grp.begin(), tmp_grp.end() );
             }
         } else {
-          if( use_pack_size ) {
-              for( int i = 0; i < pack_size; i++ ) {
-                  spawn_details.emplace_back( entry.name, pack_size, entry.data );
-                  // And if a quantity pointer with remaining value was passed, will modify the external
-                  // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
-                  if( quantity ) {
-                      *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
-                  }
-              }
-          } else {
-              spawn_details.emplace_back( entry.name, pack_size, entry.data );
-              // And if a quantity pointer with remaining value was passed, will modify the external
-              // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
-              if( quantity ) {
-                  *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
-              }
-          }
-          monster_found = true;
+            if( use_pack_size ) {
+                for( int i = 0; i < pack_size; i++ ) {
+                    spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                    // And if a quantity pointer with remaining value was passed, will modify the external
+                    // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+                    if( quantity ) {
+                        *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
+                    }
+                }
+            } else {
+                spawn_details.emplace_back( entry.name, pack_size, entry.data );
+                // And if a quantity pointer with remaining value was passed, will modify the external
+                // value as a side effect.  We will reduce it by the spawn rule's cost multiplier.
+                if( quantity ) {
+                    *quantity -= std::max( 1, entry.cost_multiplier * pack_size );
+                }
+            }
+            monster_found = true;
         }
         break;
     }
