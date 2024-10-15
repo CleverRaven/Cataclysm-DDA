@@ -600,7 +600,7 @@
     "abstract": "generic_highway_road",
     "copy-from": "generic_highway",
     "color": "light_gray",
-    "travel_cost_type": "highway"
+    "travel_cost_type": "road"
   },
   {
     "type": "overmap_terrain",
