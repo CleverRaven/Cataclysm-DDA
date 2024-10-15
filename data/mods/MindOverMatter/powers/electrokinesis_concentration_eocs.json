@@ -329,10 +329,7 @@
       {
         "u_run_inv_eocs": "all",
         "search_data": [
-          { "flags": [ "RECHARGE" ] },
-          { "flags": [ "ELECTRONIC" ] },
-          { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-          { "flags": [ "USE_UPS" ] }
+          { "uses_energy": true }
         ],
         "true_eocs": [
           {

@@ -290,10 +290,7 @@
                     "effect": {
                       "u_run_inv_eocs": "random",
                       "search_data": [
-                        { "flags": [ "RECHARGE" ] },
-                        { "flags": [ "ELECTRONIC" ] },
-                        { "flags": [ "ELECTROKINETIC_CHARGEABLE" ] },
-                        { "flags": [ "USE_UPS" ] }
+                        { "uses_energy": true }
                       ],
                       "true_eocs": [
                         {

@@ -185,6 +185,7 @@ struct item_search_data {
     std::vector<str_or_var> material;
     std::vector<str_or_var> flags;
     std::vector<str_or_var> excluded_flags;
+    std::vector<bool> uses_energy;
     bool worn_only;
     bool wielded_only;
     bool held_only;
@@ -249,10 +250,12 @@ struct item_search_data {
             excluded_flags.emplace_back( get_str_or_var( jo.get_member( "excluded_flags" ), "excluded_flags",
                                          false, "" ) );
         }
-
         if( jo.has_member( "condition" ) ) {
             read_condition( jo, "condition", condition, false );
             has_condition = true;
+        }
+        if( jo.has_member( "uses_energy" ) ) {
+            uses_energy.emplace_back( jo.get_member( "uses_energy" ) );
         }
 
         worn_only = jo.get_bool( "worn_only", false );
@@ -364,6 +367,10 @@ struct item_search_data {
             if( !excluded_flags_evaluated.empty() && match ) {
                 return false;
             }
+        }
+
+        if (!uses_energy.empty() && loc->uses_energy() != uses_energy.front()) {
+            return false;
         }
 
         if( worn_only && !guy->is_worn( *loc ) ) {
