@@ -1359,8 +1359,6 @@
     "type": "effect_on_condition",
     "//": "EoC to summon because summoned comestibles don't have timers",
     "id": "EOC_DRUID_GOODBERRY",
-    "effect": [
-       { "u_spawn_item": "item_druid_goodberry", "count": 1 }
-    ]
+    "effect": [ { "u_spawn_item": "item_druid_goodberry", "count": 1 } ]
   }
 ]
