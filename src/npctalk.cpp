@@ -5364,8 +5364,8 @@ void process_eoc( const effect_on_condition_id &eoc, dialogue &d,
     }
 }
 
-void run_eoc_once( std::vector<eoc_entry> eocs, dialogue &d, dialogue newDialog,
-                   duration_or_var dov_time, bool random_time )
+void run_eoc_once( const std::vector<eoc_entry> &eocs, dialogue &d, dialogue newDialog,
+                   const duration_or_var &dov_time, bool random_time )
 {
     time_duration time_in_future = dov_time.evaluate( d );
 
@@ -5385,8 +5385,8 @@ void run_eoc_once( std::vector<eoc_entry> eocs, dialogue &d, dialogue newDialog,
 }
 
 dialogue generate_new_dialogue( dialogue &d, bool has_alpha_var, bool has_beta_var,
-                                str_or_var alpha_var, str_or_var beta_var, bool is_alpha_loc, bool is_beta_loc,
-                                std::vector<effect_on_condition_id> false_eocs )
+                                const str_or_var &alpha_var, const str_or_var &beta_var, bool is_alpha_loc, bool is_beta_loc,
+                                const std::vector<effect_on_condition_id> &false_eocs )
 {
     // to generate new dialogue from existing one, and possibly swap talkers
 
