@@ -180,7 +180,7 @@
     "name": "salamander eruption",
     "sym": "E",
     "color": "red_cyan",
-    "see_cost": high,
+    "see_cost": "high",
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -189,7 +189,7 @@
     "name": "salamander eruption roof",
     "sym": "E",
     "color": "red_cyan",
-    "see_cost": high,
+    "see_cost": "high",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -198,7 +198,7 @@
     "name": "salamander tunnels entrance",
     "sym": "O",
     "color": "red_cyan",
-    "see_cost": high,
+    "see_cost": "high",
     "flags": [ "KNOWN_UP", "KNOWN_DOWN", "NO_ROTATE" ]
   },
   {
@@ -206,7 +206,7 @@
     "id": "salamander_tunnel",
     "name": "salamander tunnels",
     "color": "red_cyan",
-    "see_cost": high,
+    "see_cost": "high",
     "spawns": { "group": "GROUP_SALAMANDER_ERUPTION", "population": [ 1, 2 ], "chance": 100 },
     "flags": [ "LINEAR" ]
   },
@@ -216,7 +216,7 @@
     "name": "salamander tunnels",
     "sym": "E",
     "color": "red_cyan",
-    "see_cost": high
+    "see_cost": "high"
   },
   {
     "type": "overmap_terrain",
