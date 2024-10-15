@@ -4929,7 +4929,7 @@ void overmap::place_highways()
         const tripoint_om_omt nw_center( x, y, 0 );
         tripoint_om_omt zero_point = nw_center;
         // TODO: Add a const private array of center points in game_constants.h to handle non even OMAPX/OMAPY and reduce floor( OMAPX / 2.0 ) and displacement needed and allow the disgusting water check to just iterate the array?
-        switch (dir){
+        switch( dir ) {
             case om_direction::type::east:
                 zero_point = zero_point + tripoint_east;
                 break;
@@ -4947,7 +4947,9 @@ void overmap::place_highways()
             place_special( *special, zero_point, dir, invalid_city, false,
                            false );
         } else {
-            if( is_water_body( ter( nw_center ) ) || is_water_body( ter( nw_center + tripoint_east ) ) || is_water_body( ter( nw_center + tripoint_east + tripoint_south ) ) || is_water_body( ter( nw_center + tripoint_south ) ) ){
+            if( is_water_body( ter( nw_center ) ) || is_water_body( ter( nw_center + tripoint_east ) ) ||
+                is_water_body( ter( nw_center + tripoint_east + tripoint_south ) ) ||
+                is_water_body( ter( nw_center + tripoint_south ) ) ) {
                 special = settings->overmap_highway.fallback_intersection_supports;
                 if( can_place_special( *special, zero_point, dir, false ) ) {
                     place_special( *special, zero_point, dir, invalid_city, false, false );
@@ -5042,7 +5044,7 @@ void overmap::finalize_highways()
         // TODO: Might be able to make a highway_reserved flag and just check the highway flag instead
         if( is_highway( ter( point ) ) ) {
             ret = { 0, 0 };
-        // Check for the reserved terrain instead
+            // Check for the reserved terrain instead
         } else if( is_water_body_or( point, offset ) ) {
             ret = { 3, 0 };
         } else if( is_in_city_or( point, offset ) ) {
