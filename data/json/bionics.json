@@ -69,8 +69,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -119,9 +117,6 @@
       "WINGS_STUB",
       "WINGS_BAT",
       "WINGS_BUTTERFLY",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ARM_FEATHERS",
@@ -155,14 +150,11 @@
       "SLIME_SPRAY",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -189,8 +181,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -231,9 +221,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -290,14 +277,11 @@
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "WIDE_MOUTH",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -316,8 +300,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -361,9 +343,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -397,14 +376,11 @@
       "GASTROPOD_BALANCE",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
@@ -419,8 +395,6 @@
     "//": "cant_remove_reason removed for now as these are presently functionally obsolete and characters should be able to remove them to get with the times.",
     "canceled_mutations": [ "VINES1", "VINES2", "VINES3" ],
     "mutation_conflicts": [
-      "THICKSKIN",
-      "THINSKIN",
       "M_SKIN",
       "M_SKIN2",
       "M_SKIN3",
@@ -464,9 +438,6 @@
       "SMALL",
       "SMALL2",
       "SMALL_OK",
-      "PALE",
-      "SPOTS",
-      "SUNBURN",
       "SORES",
       "CHLOROMORPH",
       "ACIDPROOF",
@@ -490,14 +461,11 @@
       "INSECT_RESERVOIR",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
-      "SKIN_SMOOTH",
-      "SKIN_RASHY",
       "CHITIN_MOLTED",
       "CHITIN2_MOLTED",
       "CHITIN3_MOLTED",
       "CRUSTACEAN_CARAPACE_MOLTED",
-      "SPARSE_SCALES",
-      "SKIN_PEELING"
+      "SPARSE_SCALES"
     ]
   },
   {
