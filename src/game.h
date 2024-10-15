@@ -1329,9 +1329,9 @@ class game
         //currently used as a hacky workaround for dimension swapping
         bool swapping_dimensions = false; // NOLINT (cata-serialize)
     private:
-        // Stores the currently occupoed dimension.
+        // Stores the currently occupied dimension.
         // TODO: should be an id instead of a string.
-        std::string dimension_prefix;
+        std::string dimension_prefix; // NOLINT(cata-serialize)
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources
