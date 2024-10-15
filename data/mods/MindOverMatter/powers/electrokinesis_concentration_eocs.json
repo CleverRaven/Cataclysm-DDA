@@ -375,7 +375,7 @@
                   "math": [
                     "n_electrokin_charging_value_counter",
                     "+=",
-                    "( ( (u_spell_level('electrokinetic_personal_battery') / 3) + 2) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) / u_electrokin_personal_battery_count"
+                    "( ( (u_spell_level('electrokinetic_personal_battery') / 5) + 1) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling) / u_electrokin_personal_battery_count"
                   ]
                 }
               }
@@ -387,38 +387,23 @@
             "effect": [
               {
                 "if": { "math": [ "n_electrokin_charging_value_counter", ">=", "5" ] },
-                "then": [ 
-                  { "math": [ "n_val('power')", "+=", "5" ] },
-                  { "math": [ "n_electrokin_charging_value_counter", "-=", "5" ] }
-                ],
+                "then": [ { "math": [ "n_val('power')", "+=", "5" ] }, { "math": [ "n_electrokin_charging_value_counter", "-=", "5" ] } ],
                 "else": [
                   {
                     "if": { "math": [ "n_electrokin_charging_value_counter", ">=", "4" ] },
-                    "then": [ 
-                      { "math": [ "n_val('power')", "+=", "4" ] },
-                      { "math": [ "n_electrokin_charging_value_counter", "-=", "4" ] }
-                    ],
+                    "then": [ { "math": [ "n_val('power')", "+=", "4" ] }, { "math": [ "n_electrokin_charging_value_counter", "-=", "4" ] } ],
                     "else": [
                       {
                         "if": { "math": [ "n_electrokin_charging_value_counter", ">=", "3" ] },
-                        "then": [ 
-                          { "math": [ "n_val('power')", "+=", "3" ] },
-                          { "math": [ "n_electrokin_charging_value_counter", "-=", "3" ] }
-                        ],
+                        "then": [ { "math": [ "n_val('power')", "+=", "3" ] }, { "math": [ "n_electrokin_charging_value_counter", "-=", "3" ] } ],
                         "else": [
                           {
                             "if": { "math": [ "n_electrokin_charging_value_counter", ">=", "2" ] },
-                            "then": [ 
-                              { "math": [ "n_val('power')", "+=", "2" ] },
-                              { "math": [ "n_electrokin_charging_value_counter", "-=", "2" ] }
-                            ],
+                            "then": [ { "math": [ "n_val('power')", "+=", "2" ] }, { "math": [ "n_electrokin_charging_value_counter", "-=", "2" ] } ],
                             "else": [
                               {
                                 "if": { "math": [ "n_electrokin_charging_value_counter", ">=", "1" ] },
-                                "then": [ 
-                                  { "math": [ "n_val('power')", "+=", "1" ] },
-                                  { "math": [ "n_electrokin_charging_value_counter", "-=", "1" ] }
-                                ]
+                                "then": [ { "math": [ "n_val('power')", "+=", "1" ] }, { "math": [ "n_electrokin_charging_value_counter", "-=", "1" ] } ]
                               }
                             ]
                           }
