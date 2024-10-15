@@ -193,6 +193,7 @@ const flag_id flag_MELTS( "MELTS" );
 const flag_id flag_MESSY( "MESSY" );
 const flag_id flag_MISSION_ITEM( "MISSION_ITEM" );
 const flag_id flag_MODULE_HOLDER( "MODULE_HOLDER" );
+const flag_id flag_MORPHIC( "MORPHIC" );
 const flag_id flag_MOUNTED_GUN( "MOUNTED_GUN" );
 const flag_id flag_MOUSE( "MOUSE" );
 const flag_id flag_MUNDANE( "MUNDANE" );

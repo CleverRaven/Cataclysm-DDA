@@ -1,9 +1,9 @@
 [
   {
     "abstract": "base_toiletries",
-    "name": { "str_sp": "generic grooming" },
+    "name": { "str_sp": "generic grooming", "//~": "NO_I18N" },
     "type": "GENERIC",
-    "description": "generic item template",
+    "description": { "str": "generic item template", "//~": "NO_I18N" },
     "symbol": "+",
     "color": "blue",
     "price": "2 USD",
@@ -412,7 +412,6 @@
     ],
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": 1,
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_cyan",

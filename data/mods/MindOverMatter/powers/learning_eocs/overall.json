@@ -30,7 +30,7 @@
       { "u_assign_activity": "ACT_PSI_STUDYING_POWER", "duration": "24 hours" },
       { "queue_eocs": "EOC_PSI_STUDYING_POWER_METAPHYSICS_GAIN", "time_in_future": [ "30 seconds", "5 minutes" ] }
     ],
-    "false_effect": [ { "u_message": "You are too exhausted to contemplate anything", "type": "bad" } ]
+    "false_effect": [ { "u_message": "You are too exhausted to contemplate anything.", "type": "bad" } ]
   },
   {
     "type": "effect_on_condition",

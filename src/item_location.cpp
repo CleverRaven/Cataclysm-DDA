@@ -90,6 +90,9 @@ class item_location::impl
         }
         virtual tripoint position() const = 0;
         virtual Character *carrier() const = 0;
+        virtual const vehicle_cursor *veh_cursor() const {
+            return nullptr;
+        };
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
         virtual units::volume volume_capacity() const = 0;
@@ -489,6 +492,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             return nullptr;
         }
 
+        const vehicle_cursor *veh_cursor() const override {
+            return &cur;
+        }
+
         std::string describe( const Character *ch ) const override {
             const vpart_position part_pos( cur.veh, cur.part );
             std::string res;
@@ -812,7 +819,7 @@ void item_location::deserialize( const JsonObject &obj )
     std::string type = obj.get_string( "type" );
 
     int idx = -1;
-    tripoint pos = tripoint_min;
+    tripoint_bub_ms pos = tripoint_bub_ms_min;
 
     obj.read( "idx", idx );
     obj.read( "pos", pos );
@@ -841,8 +848,13 @@ void item_location::deserialize( const JsonObject &obj )
         item_location parent;
         obj.read( "parent", parent );
         if( !parent.ptr->valid() ) {
+            if( parent == nowhere ) {
+                debugmsg( "parent location doesn't exist.  Item_location has lost its target over a save/load cycle." );
+                ptr.reset( new impl::nowhere );
+                return;
+            }
             debugmsg( "parent location does not point to valid item" );
-            ptr.reset( new impl::item_on_map( map_cursor( tripoint_bub_ms( pos ) ), idx ) ); // drop on ground
+            ptr.reset( new impl::item_on_map( map_cursor( parent.pos_bub() ), idx ) ); // drop on ground
             return;
         }
         const std::list<item *> parent_contents = parent->all_items_top();
@@ -1102,6 +1114,11 @@ void item_location::set_should_stack( bool should_stack ) const
 Character *item_location::carrier() const
 {
     return ptr->carrier();
+}
+
+const vehicle_cursor *item_location::veh_cursor() const
+{
+    return ptr->veh_cursor();
 }
 
 bool item_location::held_by( Character const &who ) const

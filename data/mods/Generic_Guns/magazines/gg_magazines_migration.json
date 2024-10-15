@@ -201,13 +201,20 @@
       "mosquitomag",
       "ruger1022bigmag",
       "ruger1022mag",
+      "ruger1022mag_15",
+      "ruger1022mag_30",
+      "ruger1022mag_32",
+      "ruger1022mag_55",
+      "ruger1022mag_70",
+      "ruger1022mag_110",
       "sw22mag",
       "j22mag",
       "wp22mag",
       "kp32mag",
       "cp33_mag",
       "cp33_mag_50",
-      "ruger_mk4_mag"
+      "ruger_mk4_mag",
+      "1911_22_mag"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_mag"
@@ -307,7 +314,9 @@
       "m1carbinebigmag",
       "zpap85mag",
       "papm77mag",
-      "papm77mag_10rd"
+      "papm77mag_10rd",
+      "22_ar15mag_10",
+      "22_ar15mag_28"
     ],
     "type": "MIGRATION",
     "replace": "rifle_mag"
@@ -380,6 +389,9 @@
       "saiga10mag",
       "saiga30mag",
       "srm_1216_mag_16",
+      "mka_1919_5",
+      "mka_1919_10",
+      "mka_1919_20",
       "afs_raketa30mag",
       "afs_shot_speedloader8",
       "USAS10mag",

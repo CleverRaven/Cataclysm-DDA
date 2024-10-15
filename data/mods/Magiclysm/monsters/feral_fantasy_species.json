@@ -29,7 +29,8 @@
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "zombify_into": "mon_zombie_elf",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
@@ -64,7 +65,8 @@
     "vision_day": 15,
     "vision_night": 20,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "zombify_into": "mon_zombie_dwarf",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ]
   },
   {
     "id": "mon_feral_elf_crowbar",
@@ -94,7 +96,8 @@
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "zombify_into": "mon_zombie_elf",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
@@ -127,7 +130,8 @@
     "vision_day": 15,
     "vision_night": 20,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "zombify_into": "mon_zombie_dwarf",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ]
   },
   {
     "id": "mon_feral_elf_axe",
@@ -140,7 +144,8 @@
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "zombify_into": "mon_zombie_elf",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
@@ -156,7 +161,8 @@
     "vision_day": 15,
     "vision_night": 20,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "zombify_into": "mon_zombie_dwarf",
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ]
   },
   {
     "id": "mon_feral_goblin",
@@ -180,7 +186,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_demihuman", "prof_wp_child" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_child" ],
     "dodge": 3,
     "harvest": "demihuman",
     "grab_strength": 20,
@@ -199,11 +205,23 @@
     "vision_night": 25,
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_goblin_death_drops",
-    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "zombify_into": "mon_zombie",
+    "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_GOBLIN_UPGRADE" },
+    "zombify_into": "mon_zombie_goblin",
     "fungalize_into": "mon_feral_human_axe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GRABS", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GRABS",
+      "GROUP_BASH",
+      "HUMAN",
+      "REVIVES",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER"
+    ]
   },
   {
     "id": "mon_feral_ravenfolk",
@@ -238,7 +256,7 @@
         "coverage": 12
       }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_demihuman", "prof_wp_basic_bird" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman", "prof_wp_basic_bird" ],
     "dodge": 3,
     "harvest": "demihuman",
     "grab_strength": 20,
@@ -272,10 +290,10 @@
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_ravenfolk_death_drops",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "zombify_into": "mon_zombie",
+    "zombify_into": "mon_zombie_ravenfolk",
     "fungalize_into": "mon_feral_human_axe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "REVIVES", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
   },
   {
     "id": "mon_feral_lizardfolk",
@@ -299,7 +317,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_wp_demihuman" ],
     "dodge": 1,
     "armor": { "bash": 3, "cut": 4, "stab": 4, "bullet": 2 },
     "harvest": "lizardfolk",
@@ -334,9 +352,20 @@
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "death_drops": "feral_lizardfolk_death_drops",
     "upgrades": { "half_life": 90, "into_group": "GROUP_ZOMBIE_UPGRADE" },
-    "zombify_into": "mon_zombie",
+    "zombify_into": "mon_zombie_lizardfolk",
     "fungalize_into": "mon_feral_human_axe_fungal_infected",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "SWIMS", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "BASHES",
+      "SWIMS",
+      "GROUP_BASH",
+      "REVIVES",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER"
+    ]
   }
 ]

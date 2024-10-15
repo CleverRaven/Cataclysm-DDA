@@ -319,7 +319,7 @@
   {
     "type": "COMESTIBLE",
     "id": "candy5",
-    "name": { "str_sp": "gummy candy" },
+    "name": { "str_sp": "vegan gummy candy" },
     "weight": "33 g",
     "color": "light_green",
     "spoils_in": "360 days",

@@ -443,5 +443,21 @@
     "effect_str": "EOC_BLOODHASTE_activated",
     "shape": "blast",
     "base_casting_time": 200
+  },
+  {
+    "id": "vampire_bat_form_fly_upward",
+    "type": "SPELL",
+    "name": "(Bat Form) Ascend",
+    "description": "Flap your wings and fly upward.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VAMPIRE_BAT_FORM_ASCEND",
+    "shape": "blast",
+    "flags": [ "NO_HANDS", "SILENT", "NO_FAIL" ],
+    "spell_class": "VAMPIRE",
+    "skill": "deduction",
+    "base_casting_time": 75
   }
 ]

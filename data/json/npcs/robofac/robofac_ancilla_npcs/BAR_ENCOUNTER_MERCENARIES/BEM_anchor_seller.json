@@ -3,8 +3,7 @@
     "id": [ "BEM_ANCHOR_SELLER_1", "BEM_ANCHOR_SELLER_ASK" ],
     "type": "talk_topic",
     "dynamic_line": {
-      "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal" } ],
       "yes": { "gendered_line": "Sorry I'd rather be left alone right now.", "relevant_genders": [ "npc" ] },
       "no": {
         "gendered_line": "&A grim expression and deep sunken eyes imply some malady that can't be simply drowned with alcohol alone.  They interrupt you just as you were about to introduce yourself.  \"This anchor I'm wearing, I don't think I'll be needing it any more.  I-I'm just looking for someone to rid me of it",
@@ -14,22 +13,22 @@
     "responses": [
       {
         "text": "Offer to buy the anchor for 1 HGC.",
-        "condition": { "not": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal" } ] } },
         "topic": "BEM_ANCHOR_SELLER_2"
       },
       {
         "text": "Well, what's that thing for anyways?",
-        "condition": { "not": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal" } ] } },
         "topic": "BEM_ANCHOR_SELLER_ASK"
       },
       {
         "text": "Sorry, I don't think I can help you.",
-        "condition": { "not": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal" } ] } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Alright, see you around then.",
-        "condition": { "u_has_var": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "dialogue_BEM_ANCHOR_SELLER_ANCHOR_SELLER_paranormal" } ] },
         "topic": "TALK_DONE"
       }
     ]

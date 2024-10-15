@@ -110,7 +110,7 @@ void avatar::power_mutations()
         // New mutations are initialized with no key at all, so we have to do this here.
         if( mut.second.key == ' ' ) {
             for( const char &letter : mutation_chars ) {
-                if( trait_by_invlet( letter ).is_null() ) {
+                if( trait_by_invlet( letter ).is_null() && mut.first->activated ) {
                     mut.second.key = letter;
                     break;
                 }
@@ -343,7 +343,12 @@ void avatar::power_mutations()
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
-            std::vector<std::string> desc = foldstring( mutation_desc( examine_id.value() ), WIDTH - 2 );
+            std::string description = mutation_desc( examine_id.value() );
+            if( !purifiable( examine_id.value() ) ) {
+                description +=
+                    _( "\n<color_yellow>This trait is an intrinsic part of you now, purifier won't be able to remove it.</color>" );
+            }
+            std::vector<std::string> desc = foldstring( description, WIDTH - 2 );
             const int winh = catacurses::getmaxy( w_description );
             const bool do_scroll = desc.size() > static_cast<unsigned>( std::abs( winh ) );
             const int fline = do_scroll ? examine_pos % ( desc.size() + 1 - winh ) : 0;
@@ -441,8 +446,8 @@ void avatar::power_mutations()
                             }
                         } else {
                             popup( _( "You cannot activate %1$s!  To read a description of "
-                                      "%1$s, press '!', then '%2$c'." ),
-                                   mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                      "%1$s, press '%2$s', then '%3$c'." ),
+                                   mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ), my_mutations[mut_id].key );
                         }
                         break;
                     }
@@ -614,8 +619,8 @@ void avatar::power_mutations()
                                 }
                             } else {
                                 popup( _( "You cannot activate %1$s!  To read a description of "
-                                          "%1$s, press '!', then '%2$c'." ),
-                                       mutation_name( mut_data.id ), my_mutations[mut_id].key );
+                                          "%1$s, press '%2$s'." ),
+                                       mutation_name( mut_data.id ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
                             }
                             break;
                         }

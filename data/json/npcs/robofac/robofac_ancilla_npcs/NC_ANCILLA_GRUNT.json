@@ -57,14 +57,6 @@
     "type": "item_group",
     "id": "NC_ANCILLA_GRUNT_wield",
     "subtype": "collection",
-    "items": [
-      {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
-        "ammo-item": "556",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "suppressor" ]
-      }
-    ]
+    "items": [ { "group": "modular_m4a1", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap", "suppressor" ] } ]
   }
 ]

@@ -22,7 +22,7 @@
     "type": "effect_on_condition",
     "id": "EOC_traveler_random_destination_direction",
     "//": "Picks a random direction for the NPC in question to be going in.  Used for dialogue checks.",
-    "condition": { "not": { "u_has_var": "dialogue_travel_direction_picked_direction", "value": "yes" } },
+    "condition": { "not": { "compare_string": [ "yes", { "u_val": "dialogue_travel_direction_picked_direction" } ] } },
     "effect": [
       {
         "weighted_list_eocs": [
@@ -94,7 +94,7 @@
     "method": "json",
     "update_mapgen_id": "nest_RandEnc_campervan_traveler_remove",
     "object": {
-      "remove_npcs": [ { "class": "FM_caravan_merchant_random", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "remove_npcs": [ { "class": "traveler_camper_van", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "remove_vehicles": [ { "vehicles": [ "traveler_van_motorhome" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
     }
   }

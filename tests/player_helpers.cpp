@@ -228,7 +228,7 @@ void process_activity( Character &dummy )
     } while( dummy.activity );
 }
 
-npc &spawn_npc( const point &p, const std::string &npc_class )
+npc &spawn_npc( const point_bub_ms &p, const std::string &npc_class )
 {
     const string_id<npc_template> test_guy( npc_class );
     const character_id model_id = get_map().place_npc( p, test_guy );

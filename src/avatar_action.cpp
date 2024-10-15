@@ -312,15 +312,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( you.has_effect( effect_amigara ) ) {
         int curdist = INT_MAX;
         int newdist = INT_MAX;
-        const tripoint minp = tripoint( 0, 0, you.posz() );
-        const tripoint maxp = tripoint( MAPSIZE_X, MAPSIZE_Y, you.posz() );
-        for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
+        const tripoint_bub_ms minp{ 0, 0, you.posz() };
+        const tripoint_bub_ms maxp{ MAPSIZE_X, MAPSIZE_Y, you.posz() };
+        for( const tripoint_bub_ms &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == ter_t_fault ) {
-                int dist = rl_dist( pt, you.pos_bub().raw() );
+                int dist = rl_dist( pt, you.pos_bub() );
                 if( dist < curdist ) {
                     curdist = dist;
                 }
-                dist = rl_dist( pt, dest_loc.raw() );
+                dist = rl_dist( pt, dest_loc );
                 if( dist < newdist ) {
                     newdist = dist;
                 }
@@ -362,7 +362,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( you.is_auto_moving() ) {
                 add_msg( m_warning, _( "Monster in the way.  Auto move canceled." ) );
                 add_msg( m_info, _( "Move into the monster to attack." ) );
-                you.clear_destination();
+                you.abort_automove();
                 return false;
             }
             if( !you.try_break_relax_gas( _( "Your willpower asserts itself, and so do you!" ),
@@ -406,7 +406,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto move canceled." ) );
             add_msg( m_info, _( "Move into the NPC to interact or attack." ) );
-            you.clear_destination();
+            you.abort_automove();
             return false;
         }
 
@@ -460,7 +460,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( is_riding ) {
         if( !you.check_mount_will_move( dest_loc.raw() ) ) {
             if( you.is_auto_moving() ) {
-                you.clear_destination();
+                you.abort_automove();
             }
             you.mod_moves( -you.get_speed() * 0.2 );
             return false;
@@ -507,6 +507,10 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( g->walk_move( dest_loc, via_ramp ) ) {
+        return true;
+    }
+    if( g->phasing_move_enchant( dest_loc.raw(), you.calculate_by_enchantment( 0,
+                                 enchant_vals::mod::PHASE_DISTANCE ) ) ) {
         return true;
     }
     if( g->phasing_move( dest_loc.raw() ) ) {
@@ -565,61 +569,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         add_msg( _( "That door is locked!" ) );
     }
     return false;
-}
-
-bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
-{
-    if( dest_loc.z != you.posz() ) {
-        // No recursive ramp_moves
-        return false;
-    }
-
-    // We're moving onto a tile with no support, check if it has a ramp below
-    if( !m.has_floor_or_support( dest_loc ) ) {
-        tripoint_bub_ms below( point_bub_ms( dest_loc.xy() ), dest_loc.z - 1 );
-        if( m.has_flag( ter_furn_flag::TFLAG_RAMP, below ) ) {
-            // But we're moving onto one from above
-            const tripoint dp = dest_loc - you.pos();
-            move( you, m, tripoint( dp.xy(), -1 ) );
-            // No penalty for misaligned stairs here
-            // Also cheaper than climbing up
-            return true;
-        }
-
-        return false;
-    }
-
-    if( !m.has_flag( ter_furn_flag::TFLAG_RAMP, you.pos_bub() ) ||
-        m.passable( dest_loc ) ) {
-        return false;
-    }
-
-    // Try to find an aligned end of the ramp that will make our climb faster
-    // Basically, finish walking on the stairs instead of pulling self up by hand
-    bool aligned_ramps = false;
-    for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( ter_furn_flag::TFLAG_RAMP_END, pt ) ) {
-            aligned_ramps = true;
-            break;
-        }
-    }
-
-    const tripoint above_u( you.posx(), you.posy(), you.posz() + 1 );
-    if( m.has_floor_or_support( above_u ) ) {
-        add_msg( m_warning, _( "You can't climb here - there's a ceiling above." ) );
-        return false;
-    }
-
-    const tripoint dp = dest_loc - you.pos();
-    const tripoint old_pos = you.pos();
-    move( you, m, tripoint( dp.xy(), 1 ) );
-    // We can't just take the result of the above function here
-    if( you.pos() != old_pos ) {
-        const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
-        you.mod_moves( -you.get_speed() * total_move_cost );
-    }
-
-    return true;
 }
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
@@ -682,11 +631,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
             return;
         }
     }
-    tripoint old_abs_pos = m.getabs( you.pos_bub() );
+    tripoint_abs_ms old_abs_pos = m.getglobal( you.pos_bub() );
     you.setpos( p );
     g->update_map( you );
 
-    cata_event_dispatch::avatar_moves( old_abs_pos, you, m );
+    cata_event_dispatch::avatar_moves( old_abs_pos.raw(), you, m );
 
     if( m.veh_at( you.pos_bub() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos_bub(), &you );
@@ -758,7 +707,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         return;
     }
 
-    you.reach_attack( best.pos() );
+    you.reach_attack( best.pos_bub() );
 }
 
 // TODO: Move data/functions related to targeting out of game class
@@ -904,7 +853,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos_bub() )->name() );
             return true;
         } else {
-            here.ter_set( you.pos(), ter_t_grass );
+            here.ter_set( you.pos_bub(), ter_t_grass );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
@@ -992,7 +941,7 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const std::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint_bub_ms> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -1130,7 +1079,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     bool use_in_place = false;
 
     if( !loc ) {
-        loc = game_menus::inv::use( you );
+        loc = game_menus::inv::use();
 
         if( !loc ) {
             add_msg( _( "Never mind." ) );
@@ -1221,8 +1170,6 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     you.invalidate_crafting_inventory();
 }
 
-// Opens up a menu to Unload a container, gun, or tool
-// If it's a gun, some gunmods can also be loaded
 void avatar_action::unload( avatar &you )
 {
     std::pair<item_location, bool> ret = game_menus::inv::unload( you );

@@ -1225,6 +1225,15 @@
     ]
   },
   {
+    "id": "fbi_armor_vest",
+    "type": "ARMOR",
+    "copy-from": "soft_3a_vest",
+    "name": { "str": "FBI ballistic vest" },
+    "//": "Based on the exact model; https://www.tyrtactical.com/shop/tyr-tactical-male-epic-federal-outer-carrier/",
+    "description": "A ranger green soft ballistic vest with MOLLE rigging used by federal law enforcement agencies.  Soft armor plates inside the vest provide solid defense against shrapnel and small-caliber rounds.  \"FBI\" is emblazoned across the front and back in large, yellow lettering, and it includes a pocket for storing evidence.  Use it to attach or detach pouches.",
+    "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ]
+  },
+  {
     "id": "level_3_vest",
     "type": "ARMOR",
     "category": "armor",

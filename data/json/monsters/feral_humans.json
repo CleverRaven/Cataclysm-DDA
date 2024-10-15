@@ -21,7 +21,7 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 1,
     "harvest": "human",
     "dissect": "dissect_human_sample_single",
@@ -101,7 +101,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
-    "families": [ "prof_intro_biology", "prof_physiology" ],
+    "families": [ "prof_gross_anatomy", "prof_intro_biology", "prof_physiology" ],
     "dodge": 4,
     "vision_night": 15,
     "special_attacks": [ { "id": "scratch", "min_mul": 0.5, "cooldown": 10 }, { "type": "bite", "min_mul": 0.7, "cooldown": 15 } ],
@@ -174,6 +174,7 @@
     "id": "mon_feral_human_pipe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
+    "speed": 90,
     "upgrades": { "age_grow": 4, "into": "mon_feral_human_pipe_fungal_corpse" },
     "burn_into": "mon_starer_pipe",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
@@ -182,6 +183,7 @@
     "id": "mon_feral_human_crowbar_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_crowbar",
+    "speed": 90,
     "upgrades": { "age_grow": 4, "into": "mon_feral_human_crowbar_fungal_corpse" },
     "burn_into": "mon_starer_crowbar",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
@@ -190,6 +192,7 @@
     "id": "mon_feral_human_axe_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_axe",
+    "speed": 90,
     "upgrades": { "age_grow": 4, "into": "mon_feral_human_axe_fungal_corpse" },
     "burn_into": "mon_starer_axe",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
@@ -563,6 +566,7 @@
     "id": "mon_feral_cop_fungal_infected",
     "type": "MONSTER",
     "copy-from": "mon_feral_cop",
+    "speed": 85,
     "description": "A maddened and crazed police officer infected by the fungus.  Their body armor is overgrown with fungal matter.  Though obviously in pain they don't seem any less keen to batter you to death with their baton.",
     "extend": { "flags": [ "NO_FUNG_DMG" ], "species": [ "FUNGUS" ] }
   },
@@ -570,7 +574,7 @@
     "id": "mon_feral_human_archaeologist",
     "type": "MONSTER",
     "name": "feral archaeologist",
-    "description": "Judging by looks, this poor individual was probably an archeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
+    "description": "Judging by looks, this poor individual was probably an archaeologist in their former life.  Rabid and bloodshot, they now seem intent to make you a part of their collection as they come at you with a shovel in hand.",
     "copy-from": "mon_feral_human_pipe",
     "special_attacks": [
       {

@@ -48,6 +48,14 @@ enum class dialog_result {
     NoClicked
 };
 
+enum class scroll : int {
+    none = 0,
+    line_up,
+    line_down,
+    page_up,
+    page_down
+};
+
 class client
 {
         std::vector<int> cata_input_trail;
@@ -60,8 +68,9 @@ class client
 #else
         client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
                 const GeometryRenderer_Ptr &sdl_geometry );
-        void load_fonts( const std::unique_ptr<Font> &cata_font,
-                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette );
+        void load_fonts( const std::unique_ptr<Font> &cata_fonts,
+                         const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette,
+                         const std::vector<std::string> &typeface );
 #endif
         ~client();
 
@@ -86,6 +95,18 @@ void imvec2_to_point( ImVec2 *src, point *dest );
 
 ImVec4 imvec4_from_color( nc_color &color );
 
+void set_scroll( scroll &s );
+
+void draw_colored_text( std::string const &text, const nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( std::string const &text, nc_color &color,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+void draw_colored_text( std::string const &text,
+                        float wrap_width = 0.0F, bool *is_selected = nullptr,
+                        bool *is_focused = nullptr, bool *is_hovered = nullptr );
+
 class window
 {
         std::unique_ptr<class window_impl> p_impl;
@@ -96,15 +117,6 @@ class window
     public:
         explicit window( const std::string &id_, int window_flags = 0 );
         virtual ~window();
-        void draw_colored_text( std::string const &text, const nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
-        void draw_colored_text( std::string const &text, nc_color &color,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
-        void draw_colored_text( std::string const &text,
-                                float wrap_width = 0.0F, bool *is_selected = nullptr,
-                                bool *is_focused = nullptr, bool *is_hovered = nullptr );
         bool action_button( const std::string &action, const std::string &text );
         bool has_button_action();
         std::string get_button_action();

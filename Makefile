@@ -962,11 +962,11 @@ SOURCES += $(THIRD_PARTY_SOURCES)
 IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 
 ifeq ($(SDL), 1)
-	OTHERS += -DIMGUI_DISABLE_OBSOLETE_KEYIO
+	DEFINES += -DIMGUI_DISABLE_OBSOLETE_KEYIO
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_impl_sdl2.cpp $(IMGUI_DIR)/imgui_impl_sdlrenderer2.cpp
 else
 	IMGUI_SOURCES += $(IMTUI_DIR)/imtui-impl-ncurses.cpp $(IMTUI_DIR)/imtui-impl-text.cpp
-  OTHERS += -DIMTUI
+	DEFINES += -DIMTUI
 endif
 
 SOURCES += $(IMGUI_SOURCES)
@@ -1330,7 +1330,7 @@ ctags: $(ASTYLE_SOURCES)
 
 etags: $(ASTYLE_SOURCES)
 	etags $^
-	./tools/json_tools/cddatags.py
+	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 ifneq ($(IS_WINDOWS_HOST),1)
 # Parallel astyle for posix hosts where fork and filesystem are cheap.

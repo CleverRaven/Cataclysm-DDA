@@ -818,5 +818,31 @@
     "effect_str": "EOC_FORGE_RETURN_TELEPORT",
     "shape": "blast",
     "base_casting_time": 30000
+  },
+  {
+    "id": "ring_of_flight_spell",
+    "type": "SPELL",
+    "name": "Flight",
+    "description": "You can fly.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_ring_of_flight",
+    "shape": "blast",
+    "min_duration": 90000,
+    "max_duration": 90000
+  },
+  {
+    "id": "mbracer_blinding_strike_spell",
+    "type": "SPELL",
+    "name": "The Blinding Strike",
+    "description": "Your attacks are much faster.",
+    "message": "",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "effect_bracers_of_the_blinding_strike",
+    "shape": "blast",
+    "min_duration": 1500,
+    "max_duration": 1500
   }
 ]

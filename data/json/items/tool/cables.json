@@ -118,7 +118,7 @@
       "targets": [ "no_link", "vehicle_tow" ]
     },
     "qualities": [ [ "ROPE", 2 ] ],
-    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE" ],
+    "flags": [ "CABLE_SPOOL", "TOW_CABLE", "SINGLE_USE", "NO_SALVAGE" ],
     "melee_damage": { "bash": 6 }
   },
   {

@@ -382,7 +382,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "foodperson_mask",
-    "entries": [ { "item": "medium_disposable_cell" } ]
+    "entries": [ { "item": "medium_battery_cell" } ]
   },
   {
     "id": "foodperson_outfit",
@@ -461,7 +461,7 @@
         "E": "f_entertainment_center",
         "H": "f_rack_coat"
       },
-      "item": { "L": { "item": "medium_disposable_cell", "chance": 100, "repeat": [ 1, 2 ] } },
+      "item": { "L": { "item": "medium_battery_cell", "chance": 100, "repeat": [ 1, 2 ] } },
       "items": {
         "F": { "item": "SUS_fridge_breakroom", "chance": 100 },
         "x": { "item": "trash", "chance": 100, "repeat": [ 2, 4 ] },

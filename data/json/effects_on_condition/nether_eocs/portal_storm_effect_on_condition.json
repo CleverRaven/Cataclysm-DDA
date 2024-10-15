@@ -657,7 +657,9 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_YRAX_ATTENTION",
-    "condition": { "and": [ "u_is_outside", { "u_has_var": "u_met_apeirohedra", "value": "yes" }, { "one_in_chance": 400 } ] },
+    "condition": {
+      "and": [ "u_is_outside", { "compare_string": [ "yes", { "u_val": "u_met_apeirohedra" } ] }, { "one_in_chance": 400 } ]
+    },
     "effect": [
       { "u_message": "An alien construct emerges from the storm.", "type": "neutral" },
       { "u_spawn_monster": "mon_yrax_quadraphract", "real_count": 1, "min_radius": 10, "max_radius": 15 }

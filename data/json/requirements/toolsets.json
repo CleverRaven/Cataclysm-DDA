@@ -207,6 +207,26 @@
     ]
   },
   {
+    "id": "repair_welding_lc_steel",
+    "type": "requirement",
+    "//": "Repair of mild steel items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "integrated_welder", 300 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
+    "components": [
+      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
+      [ [ "lc_steel_tiny", 1, "LIST" ] ]
+    ]
+  },
+  {
     "id": "repair_welding_alloys",
     "type": "requirement",
     "//": "Repair of aluminum items - per 10 cm of weld (100 seconds each), done this way to use 1 chunk of steel per 10 cm",

@@ -151,6 +151,7 @@ class monster : public Creature
         void get_HP_Bar( nc_color &color, std::string &text ) const;
         std::pair<std::string, nc_color> get_attitude() const;
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
+        void print_info_imgui() const;
 
         // Information on how our symbol should appear
         nc_color basic_symbol_color() const override;
@@ -160,7 +161,7 @@ class monster : public Creature
 
         nc_color color_with_effects() const; // Color with fire, beartrapped, etc.
 
-        std::string extended_description() const override;
+        std::vector<std::string> extended_description() const override;
         // Inverts color if inv==true
         // // Returns true if f is set (see mtype.h)
         bool has_flag( const mon_flag_id &f ) const final;

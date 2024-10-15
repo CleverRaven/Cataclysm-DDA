@@ -9,18 +9,27 @@
       "TALK_GODCO_Julian_Mood"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_GODCO_Julian_Story" },
+      {
+        "text": "What's your story?",
+        "topic": "TALK_GODCO_Julian_Story",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       { "text": "How are things here?", "topic": "TALK_GODCO_Julian_Mood" },
       { "text": "What are the advantages of being a dorm leader?", "topic": "TALK_GODCO_Julian_Leader" },
-      { "text": "Why did you join the Church?", "topic": "TALK_GODCO_Julian_Church" },
+      {
+        "text": "Why did you join the Church?",
+        "topic": "TALK_GODCO_Julian_Church",
+        "condition": { "math": [ "n_npc_value()", ">=", "3" ] }
+      },
       {
         "text": "I want to join the community.",
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "math": [ "n_npc_value()", ">=", "3" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         }
       },
@@ -29,9 +38,9 @@
         "topic": "TALK_GODCO_Julian_Mutant_Join",
         "condition": {
           "and": [
-            { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         }
       }
@@ -41,14 +50,16 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_1",
     "dynamic_line": {
-      "u_has_var": "dialogue_godco_godco_notalk_to_u",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ],
       "yes": "Hey…  I'm Julian, the guy in charge of this room.  Are you… planning on sticking around or somethin'?",
       "no": {
-        "npc_has_var": "general_meeting_u_met_godco_julian",
-        "value": "yes",
-        "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again <u_name>." ],
-        "no": "Hey, a new face.  I'm Julian, the guy in charge of this room.  You're planning on sticking around or somethin'?"
+        "math": [ "n_npc_anger()", ">=", "5" ],
+        "yes": "Why are you still around, don't you have someone else to bother?",
+        "no": {
+          "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ],
+          "yes": [ "Praise the Lord.", "Hey, <name_g>.", "Good to see you again <u_name>." ],
+          "no": "Hey, a new face.  I'm Julian, the guy in charge of this room.  You're planning on sticking around or somethin'?"
+        }
       }
     },
     "responses": [
@@ -57,9 +68,9 @@
         "topic": "TALK_GODCO_Julian_Leave",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
@@ -69,9 +80,9 @@
         "topic": "TALK_GODCO_Julian_Join",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
@@ -81,9 +92,9 @@
         "topic": "TALK_GODCO_Julian_2",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
-            { "not": { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" } },
-            { "u_has_var": "general_meeting_godco_joinee", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] } },
+            { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
@@ -93,9 +104,9 @@
         "topic": "TALK_GODCO_Julian_Mutant_Join",
         "condition": {
           "and": [
-            { "not": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" } },
-            { "not": { "u_has_var": "general_meeting_godco_joinee", "value": "yes" } },
-            { "u_has_var": "dialogue_godco_godco_notalk_to_u", "value": "yes" }
+            { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] } },
+            { "not": { "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ] } },
+            { "compare_string": [ "yes", { "u_val": "dialogue_godco_godco_notalk_to_u" } ] }
           ]
         },
         "effect": { "npc_add_var": "general_meeting_u_met_godco_julian", "value": "yes" }
@@ -103,7 +114,22 @@
       {
         "text": "Hey, good to see you again.",
         "topic": "TALK_GODCO_Julian_2",
-        "condition": { "npc_has_var": "general_meeting_u_met_godco_julian", "value": "yes" }
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", "<", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
+          ]
+        }
+      },
+      {
+        "text": "Nope, just me and you pal.  What's the attitude about?",
+        "topic": "TALK_GODCO_Julian_Angry",
+        "condition": {
+          "and": [
+            { "math": [ "n_npc_anger()", ">=", "5" ] },
+            { "compare_string": [ "yes", { "npc_val": "general_meeting_u_met_godco_julian" } ] }
+          ]
+        }
       },
       { "text": "Hello, Julian.  I can't stay to talk.", "topic": "TALK_DONE" }
     ]
@@ -112,8 +138,7 @@
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_2",
     "dynamic_line": {
-      "u_has_var": "general_meeting_godco_joinee",
-      "value": "yes",
+      "compare_string": [ "yes", { "u_val": "general_meeting_godco_joinee" } ],
       "yes": [ "If you have complaints, please don't tell anyone.", "You're still staying here, joinee?", "Need anything, joinee?" ],
       "no": [ "Need anything?", "Go on…" ]
     },
@@ -160,7 +185,7 @@
     "responses": [
       {
         "text": "How did you make it out?",
-        "condition": { "not": { "npc_has_var": "general_meeting_told_backstory", "value": "yes" } },
+        "condition": { "not": { "compare_string": [ "yes", { "npc_val": "general_meeting_told_backstory" } ] } },
         "trial": { "type": "PERSUADE", "difficulty": 30 },
         "failure": { "topic": "TALK_GODCO_Julian_NoChat" },
         "success": { "topic": "TALK_GODCO_Julian_Riots" }
@@ -216,5 +241,11 @@
     "id": "TALK_GODCO_Julian_NoChat",
     "dynamic_line": "I'd rather not talk about it.",
     "responses": [ { "text": "Yeah, I can understand.  See ya later.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_Julian_Angry",
+    "dynamic_line": "&\"You've messed me over a good bit, and I've had enough.  Goodbye.\"  Julian goes back to his business and ignores you.",
+    "responses": [ { "text": "See ya later <name_b>.", "topic": "TALK_DONE" } ]
   }
 ]

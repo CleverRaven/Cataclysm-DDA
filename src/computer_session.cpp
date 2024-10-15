@@ -16,7 +16,6 @@
 #include "colony.h"
 #include "color.h"
 #include "computer.h"
-#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -103,6 +102,8 @@ static const mtype_id mon_secubot( "mon_secubot" );
 
 static const oter_type_str_id oter_type_sewer( "sewer" );
 static const oter_type_str_id oter_type_subway( "subway" );
+
+static const overmap_special_id overmap_special_Crater( "Crater" );
 
 static const skill_id skill_computer( "computer" );
 
@@ -315,8 +316,9 @@ static void remove_submap_turrets()
     map &here = get_map();
     for( monster &critter : g->all_monsters() ) {
         // Check 1) same overmap coords, 2) turret, 3) hostile
-        if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs(
-                    player_character.pos() ) ) &&
+        if( coords::project_to<coords::omt>( here.getglobal( critter.pos_bub() ) ) ==
+            coords::project_to<coords::omt>( here.getglobal(
+                    player_character.pos_bub() ) ) &&
             critter.has_flag( mon_flag_CONSOLE_DESPAWN ) &&
             critter.attitude_to( player_character ) == Creature::Attitude::HOSTILE ) {
             g->remove_zombie( critter );
@@ -396,7 +398,7 @@ bool computer_session::can_activate( computer_action action )
         case COMPACT_TERMINATE: {
             map &here = get_map();
             creature_tracker &creatures = get_creature_tracker();
-            for( const tripoint &p : here.points_on_zlevel() ) {
+            for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
                 monster *const mon = creatures.creature_at<monster>( p );
                 if( !mon ) {
                     continue;
@@ -496,7 +498,7 @@ void computer_session::action_toll()
         reset_terminal();
     } else {
         comp.next_attempt = calendar::turn + 1_minutes;
-        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::alarm,
                        //~ the sound of a church bell ringing
                        _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
 
@@ -508,7 +510,7 @@ void computer_session::action_sample()
 {
     get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     map &here = get_map();
-    for( const tripoint_bub_ms &p : here.bub_points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.ter( p ) != ter_t_sewage_pump ) {
             continue;
         }
@@ -574,7 +576,7 @@ void computer_session::action_terminate()
     Character &player_character = get_player_character();
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &p : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         monster *const mon = creatures.creature_at<monster>( p );
         if( !mon ) {
             continue;
@@ -593,9 +595,9 @@ void computer_session::action_portal()
 {
     get_event_bus().send<event_type::opens_portal>();
     map &here = get_map();
-    for( const tripoint &tmp : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &tmp : here.points_on_zlevel() ) {
         int numtowers = 0;
-        for( const tripoint &tmp2 : here.points_in_radius( tmp, 2 ) ) {
+        for( const tripoint_bub_ms &tmp2 : here.points_in_radius( tmp, 2 ) ) {
             if( here.ter( tmp2 ) == ter_t_radio_tower ) {
                 numtowers++;
             }
@@ -616,15 +618,15 @@ void computer_session::action_cascade()
         return;
     }
     get_event_bus().send<event_type::causes_resonance_cascade>();
-    tripoint player_pos = get_player_character().pos();
+    tripoint_bub_ms player_pos = get_player_character().pos_bub();
     map &here = get_map();
     std::vector<tripoint> cascade_points;
-    for( const tripoint &dest : here.points_in_radius( player_pos, 10 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( player_pos, 10 ) ) {
         if( here.ter( dest ) == ter_t_radio_tower ) {
-            cascade_points.push_back( dest );
+            cascade_points.push_back( dest.raw() );
         }
     }
-    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos ) );
+    explosion_handler::resonance_cascade( random_entry( cascade_points, player_pos.raw() ) );
 }
 
 void computer_session::action_research()
@@ -693,7 +695,7 @@ void computer_session::action_map_sewer()
             const oter_id &oter = overmap_buffer.ter( center + offset );
             if( ( oter->get_type_id() == oter_type_sewer ) ||
                 is_ot_match( "sewage", oter, ot_match_type::prefix ) ) {
-                overmap_buffer.set_seen( center + offset, true );
+                overmap_buffer.set_seen( center + offset, om_vision_level::details );
             }
         }
     }
@@ -712,7 +714,7 @@ void computer_session::action_map_subway()
             const oter_id &oter = overmap_buffer.ter( center + offset );
             if( ( oter->get_type_id() == oter_type_subway ) ||
                 is_ot_match( "lab_train_depot", oter, ot_match_type::contains ) ) {
-                overmap_buffer.set_seen( center + offset, true );
+                overmap_buffer.set_seen( center + offset, om_vision_level::details );
             }
         }
     }
@@ -754,15 +756,15 @@ void computer_session::action_miss_launch()
     }
 
     //Put some smoke gas and explosions at the nuke location.
-    const tripoint nuke_location = { get_player_character().pos() - point( 12, 0 ) };
-    for( const tripoint &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
+    const tripoint_bub_ms nuke_location = { get_player_character().pos_bub() - point( 12, 0 ) };
+    for( const tripoint_bub_ms &loc : get_map().points_in_radius( nuke_location, 5, 0 ) ) {
         if( one_in( 4 ) ) {
             get_map().add_field( loc, fd_smoke, rng( 1, 9 ) );
         }
     }
 
     //Only explode once. But make it large.
-    explosion_handler::explosion( &get_player_character(), nuke_location, 2000, 0.7, true );
+    explosion_handler::explosion( &get_player_character(), nuke_location.raw(), 2000, 0.7, true );
 
     //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
     // For each level between here and the surface, remove the missile
@@ -779,16 +781,8 @@ void computer_session::action_miss_launch()
         tmpmap.save();
     }
 
-    for( const tripoint_abs_omt &p : points_in_radius( target, 2 ) ) {
-        // give it a nice rounded shape
-        if( !( p.x() == target.x() - 2 && p.y() == target.y() - 2 ) &&
-            !( p.x() == target.x() - 2 && p.y() == target.y() + 2 ) &&
-            !( p.x() == target.x() + 2 && p.y() == target.y() - 2 ) &&
-            !( p.x() == target.x() + 2 && p.y() == target.y() + 2 ) ) {
-            overmap_buffer.ter_set( p, oter_id( "field" ) );
-        }
-    }
-    explosion_handler::nuke( target );
+    overmap_buffer.place_special( *overmap_special_Crater, target, om_direction::type::north, false,
+                                  true );
 
     activate_failure( COMPFAIL_SHUTDOWN );
 }
@@ -799,7 +793,7 @@ void computer_session::action_list_bionics()
     std::vector<std::string> names;
     int more = 0;
     map &here = get_map();
-    for( const tripoint_bub_ms &p : here.bub_points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         for( item &elem : here.i_at( p ) ) {
             if( elem.is_bionic() ) {
                 if( static_cast<int>( names.size() ) < TERMY - 8 ) {
@@ -853,8 +847,6 @@ void computer_session::action_list_mutations()
 
         uilist wmenu;
 
-        wmenu.w_x_setup = 30;
-
         for( const trait_id &traits_iter : category_mutations ) {
             wmenu.addentry( -1, true, -2, traits_iter.obj().name() );
         }
@@ -889,7 +881,7 @@ void computer_session::action_list_mutations()
 void computer_session::action_elevator_on()
 {
     map &here = get_map();
-    for( const tripoint &p : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == ter_t_elevator_control_off ) {
             here.ter_set( p, ter_t_elevator_control );
         }
@@ -1059,7 +1051,9 @@ void computer_session::action_blood_anal()
             } else if( items.only_item().legacy_front().typeId() != itype_blood &&
                        items.only_item().legacy_front().typeId() != itype_blood_tainted ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
-            } else { // Success!
+            } else if( items.only_item().legacy_front().rotten() ) {
+                print_error( _( "ERROR: Please only use fresh blood samples." ) );
+            }  else { // Success!
                 const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
@@ -1229,10 +1223,10 @@ void computer_session::action_srcf_seal()
     print_line( _( "Evacuate Immediately" ) );
     add_msg( m_warning, _( "Evacuate Immediately!" ) );
     map &here = get_map();
-    for( const tripoint &p : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == ter_t_elevator || here.ter( p ) == ter_t_vat ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
-            explosion_handler::explosion( &get_player_character(), p, 40, 0.7, true );
+            explosion_handler::explosion( &get_player_character(), p.raw(), 40, 0.7, true );
         }
         if( here.ter( p ) == ter_t_wall_glass ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
@@ -1243,7 +1237,7 @@ void computer_session::action_srcf_seal()
         }
         if( here.ter( p ) == ter_t_sewage_pump ) {
             here.make_rubble( p, furn_f_rubble_rock, true );
-            explosion_handler::explosion( &get_player_character(), p, 50, 0.7, true );
+            explosion_handler::explosion( &get_player_character(), p.raw(), 50, 0.7, true );
         }
     }
     comp.options.clear(); // Disable the terminal.
@@ -1254,21 +1248,21 @@ void computer_session::action_srcf_elevator()
 {
     Character &player_character = get_player_character();
     map &here = get_map();
-    tripoint surface_elevator;
-    tripoint underground_elevator;
+    tripoint_bub_ms surface_elevator;
+    tripoint_bub_ms underground_elevator;
     bool is_surface_elevator_on = false;
     bool is_surface_elevator_exist = false;
     bool is_underground_elevator_on = false;
     bool is_underground_elevator_exist = false;
 
-    for( const tripoint &p : here.points_on_zlevel( 0 ) ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel( 0 ) ) {
         if( here.ter( p ) == ter_t_elevator_control_off || here.ter( p ) == ter_t_elevator_control ) {
             surface_elevator = p;
             is_surface_elevator_on = here.ter( p ) == ter_t_elevator_control;
             is_surface_elevator_exist = true;
         }
     }
-    for( const tripoint &p : here.points_on_zlevel( -2 ) ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel( -2 ) ) {
         if( here.ter( p ) == ter_t_elevator_control_off || here.ter( p ) == ter_t_elevator_control ) {
             underground_elevator = p;
             is_underground_elevator_on = here.ter( p ) == ter_t_elevator_control;
@@ -1352,7 +1346,7 @@ void computer_session::action_irradiator()
                                        "alarm" );
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
-                        here.propagate_field( dest.raw(), fd_nuke_gas, 100, 3 );
+                        here.propagate_field( dest, fd_nuke_gas, 100, 3 );
                         here.translate_radius( ter_t_water_pool, ter_t_sewage, 8.0, dest, true );
                         here.adjust_radiation( dest, rng( 50, 500 ) );
                         for( const tripoint_bub_ms &radorigin : here.points_in_radius( dest, 5 ) ) {
@@ -1539,7 +1533,7 @@ void computer_session::action_deactivate_shock_vent()
     player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     bool has_vent = false;
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( player_character.pos_bub(), 10 ) ) {
         if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
         }
@@ -1594,7 +1588,7 @@ void computer_session::failure_shutdown()
 {
     bool found_tile = false;
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
+    for( const tripoint_bub_ms &p : here.points_in_radius( get_player_character().pos_bub(), 1 ) ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_f_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
@@ -1604,7 +1598,7 @@ void computer_session::failure_shutdown()
     if( found_tile ) {
         return;
     }
-    for( const tripoint &p : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_f_console_broken );
             add_msg( m_bad, _( "The console shuts down." ) );
@@ -1661,10 +1655,10 @@ void computer_session::failure_pump_explode()
 {
     add_msg( m_warning, _( "The pump explodes!" ) );
     map &here = get_map();
-    for( const tripoint &p : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.ter( p ) == ter_t_sewage_pump ) {
             here.make_rubble( p );
-            explosion_handler::explosion( &get_player_character(), p, 10 );
+            explosion_handler::explosion( &get_player_character(), p.raw(), 10 );
         }
     }
 }
@@ -1673,13 +1667,13 @@ void computer_session::failure_pump_leak()
 {
     add_msg( m_warning, _( "Sewage leaks!" ) );
     map &here = get_map();
-    for( const tripoint &p : here.points_on_zlevel() ) {
+    for( const tripoint_bub_ms &p : here.points_on_zlevel() ) {
         if( here.ter( p ) != ter_t_sewage_pump ) {
             continue;
         }
         const int leak_size = rng( 4, 10 );
         for( int i = 0; i < leak_size; i++ ) {
-            std::vector<tripoint> next_move;
+            std::vector<tripoint_bub_ms> next_move;
             if( here.passable( p + point_north ) ) {
                 next_move.push_back( p + point_north );
             }

@@ -11,7 +11,7 @@
     "name": "LMOE shelter",
     "sym": "+",
     "color": "red",
-    "see_cost": 2,
+    "see_cost": "full_high",
     "flags": [ "KNOWN_UP", "SOURCE_PEOPLE", "SOURCE_SAFETY", "SOURCE_GUN", "SOURCE_AMMO", "SOURCE_FOOD" ]
   }
 ]

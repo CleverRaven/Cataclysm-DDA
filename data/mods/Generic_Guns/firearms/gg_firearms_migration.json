@@ -56,7 +56,17 @@
     "replace": "pistol_machine"
   },
   {
-    "id": [ "deagle_44", "modular_deagle", "modular_deagle_357", "modular_deagle_44", "modular_deagle_50", "m1911-460", "draco" ],
+    "id": [
+      "deagle_44",
+      "modular_deagle",
+      "modular_deagle_357",
+      "modular_deagle_44",
+      "modular_deagle_50",
+      "m1911-460",
+      "draco",
+      "draco_mini",
+      "draco_micro"
+    ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_automag"
   },
@@ -91,7 +101,6 @@
     "id": [
       "p320_357sig",
       "kp3at",
-      "fn1910",
       "rugerlcp",
       "hptcf380",
       "taurus_spectrum",
@@ -153,7 +162,7 @@
     "replace": "pistol_medium"
   },
   {
-    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895" ],
+    "id": [ "cx4", "hk_mp5_semi_pistol", "ksub2000", "calico", "hk_mp5_10_semi", "TDI_10", "mp40semi", "hpt3895", "draco_9mm" ],
     "type": "MIGRATION",
     "replace": "pistol_pcc"
   },
@@ -206,7 +215,10 @@
       "walther_ppk",
       "pressin",
       "cp33",
-      "ruger_mk4"
+      "ruger_mk4",
+      "rough_rider_pistol",
+      "rough_rider_pistol_9",
+      "1911_22"
     ],
     "type": "MIGRATION",
     "replace": "pistol_tiny_target"
@@ -219,7 +231,6 @@
   {
     "id": [
       "m1918",
-      "acr_300blk",
       "hk417_13",
       "modular_m16a4",
       "m16a4",
@@ -343,7 +354,7 @@
       "ar15_450medium",
       "ar15_450short",
       "ar15_762",
-      "ar_pistol",
+      "modular_ar_pistol",
       "rifle_223",
       "ruger_mini",
       "sig_assault_rifle",
@@ -404,7 +415,7 @@
     "replace": "rocket_recoilless"
   },
   {
-    "id": [ "lever_shotgun", "shotgun_d", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
+    "id": [ "lever_shotgun", "shotgun_d", "shotgun_triple", "shotgun_s", "winchester_1887", "pipe_shotgun", "winchester_1897" ],
     "type": "MIGRATION",
     "replace": "shot_double"
   },
@@ -424,6 +435,9 @@
       "tavor_12",
       "dp_12",
       "srm_1216",
+      "shotgun_triple",
+      "ar12_shotgun",
+      "gfy_1",
       "aa_12",
       "benelli_tsa",
       "bigun",
@@ -442,8 +456,7 @@
       "mossberg_590",
       "mossberg_930",
       "remington_870",
-      "remington_870_express",
-      "streetsweeper"
+      "remington_870_express"
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
@@ -462,20 +475,5 @@
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
     "replace": "small_shotgun"
-  },
-  {
-    "id": [ "feral_militia_gun" ],
-    "type": "MIGRATION",
-    "replace": "feral_rifle"
-  },
-  {
-    "id": [ "feral_jackboot_gun" ],
-    "type": "MIGRATION",
-    "replace": "feral_shotgun"
-  },
-  {
-    "id": [ "feral_m9" ],
-    "type": "MIGRATION",
-    "replace": "feral_pistol"
   }
 ]

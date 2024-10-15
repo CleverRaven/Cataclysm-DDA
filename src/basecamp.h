@@ -260,7 +260,7 @@ class basecamp
         item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
-        bool distribute_food();
+        bool distribute_food( bool player_command = true );
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );

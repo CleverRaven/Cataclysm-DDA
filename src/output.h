@@ -528,6 +528,8 @@ inline void full_screen_popup( const char *mes, Args &&... args )
 /*@}*/
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare );
+void display_item_info( const std::vector<iteminfo> &vItemDisplay,
+                        const std::vector<iteminfo> &vItemCompare );
 
 // the extra data that item_info needs to draw
 struct item_info_data {
@@ -571,6 +573,7 @@ struct item_info_data {
         bool without_getch = false;
         bool without_border = false;
         bool handle_scrolling = false;
+        bool arrow_scrolling = false;
         bool any_input = true;
         bool scrollbar_left = true;
         bool use_full_win = false;

@@ -347,10 +347,23 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The Sylph learns how to use surround a single target with buffeting winds, slowing their movements and knocking them off-balance.",
+    "description": "The Sylph learns how to surround a single target with buffeting winds, slowing their movements and knocking them off-balance.",
     "prereqs": [ "PUSHING_WIND" ],
     "category": [ "SYLPH" ],
     "spells_learned": [ [ "sylph_hindering_wind_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CLEAR_THE_AIR",
+    "name": { "str": "Purifying the Air" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph can remove contaminants from the air such as smoke or pollen and leave only pure air behind.",
+    "prereqs": [ "SYLPH_PER_BONUS_1" ],
+    "prereqs2": [ "PUSHING_WIND" ],
+    "category": [ "SYLPH" ],
+    "spells_learned": [ [ "sylph_clear_the_air", 1 ] ]
   },
   {
     "type": "mutation",

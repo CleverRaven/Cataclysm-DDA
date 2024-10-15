@@ -451,6 +451,9 @@ struct vehicle_part {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
+        /** temporarily held projected position */
+        tripoint_bub_ms next_pos = tripoint_bub_ms( -1, -1, 0 ); // NOLINT(cata-serialize)
+
         /** current part health with range [0,durability] */
         int hp() const;
 
@@ -634,7 +637,7 @@ class turret_data
          * Check if target is in range of this turret (considers current ammo)
          * Assumes this turret's status is 'ready'
          */
-        bool in_range( const tripoint &target ) const;
+        bool in_range( const tripoint_bub_ms &target ) const;
 
         /**
          * Prepare the turret for firing, called by firing function.
@@ -657,7 +660,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( Character &c, const tripoint &target );
+        int fire( Character &c, const tripoint_bub_ms &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -925,9 +928,11 @@ class vehicle
          */
         bool mod_hp( vehicle_part &pt, int qty );
 
-        // check if given player controls this vehicle
+        // check if given character controls this vehicle
         bool player_in_control( const Character &p ) const;
-        // check if player controls this vehicle remotely
+        // check if the *player* character controls this vehicle
+        bool player_is_driving_this_veh() const;
+        // check if the given character controls this vehicle remotely
         bool remote_controlled( const Character &p ) const;
 
         // initializes parts and fuel state for randomly generated vehicle and calls refresh()
@@ -1012,7 +1017,8 @@ class vehicle
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
-        void start_engines( bool take_control = false, bool autodrive = false );
+        void start_engines( Character *driver = nullptr, bool take_control = false,
+                            bool autodrive = false );
 
         // Engine backfire, making a loud noise
         void backfire( const vehicle_part &vp ) const;
@@ -1391,6 +1397,9 @@ class vehicle
         bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
+        bool has_driver() const;
+        // get character that is currently controlling the vehicle's motion
+        Character *get_driver() const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 
@@ -1962,6 +1971,12 @@ class vehicle
         // Update the set of occupied points and return a reference to it
         const std::set<tripoint> &get_points( bool force_refresh = false, bool no_fake = false ) const;
 
+        // calculate the new projected points for all vehicle parts to move to
+        void part_project_points( const tripoint &dp );
+
+        // get all vehicle parts' projected points
+        std::set<tripoint_bub_ms> get_projected_part_points() const;
+
         /**
         * Consumes specified charges (or fewer) from the vehicle part
         * @param what specific type of charge required, e.g. 'battery'
@@ -2422,7 +2437,7 @@ class DefaultRemovePartHandler : public RemovePartHandler
         ~DefaultRemovePartHandler() override = default;
 
         void unboard( const tripoint &loc ) override {
-            get_map().unboard_vehicle( loc );
+            get_map().unboard_vehicle( tripoint_bub_ms( loc ) );
         }
         void add_item_or_charges( const tripoint &loc, item it, bool /*permit_oob*/ ) override {
             get_map().add_item_or_charges( loc, std::move( it ) );

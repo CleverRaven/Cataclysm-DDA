@@ -205,7 +205,7 @@
     "looks_like": "shovel",
     "type": "TOOL",
     "name": { "str": "snow shovel" },
-    "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.  It was useful before the cataclysm, but now it's useless.",
+    "description": "A sturdy metal shovel used for picking up snow and moving it somewhere else.  It was useful before the Cataclysm, but now it's useless.",
     "weight": "2000 g",
     "volume": "4000 ml",
     "longest_side": "150 cm",
@@ -224,7 +224,7 @@
     "looks_like": "shovel",
     "type": "TOOL",
     "name": { "str": "plastic snow shovel" },
-    "description": "A cheap plastic shovel used for picking up snow and moving it somewhere else.  It was useful before the cataclysm, but now it's useless.",
+    "description": "A cheap plastic shovel used for picking up snow and moving it somewhere else.  It was useful before the Cataclysm, but now it's useless.",
     "weight": "1500 g",
     "volume": "3500 ml",
     "longest_side": "150 cm",
@@ -391,6 +391,7 @@
     "revert_to": "trimmer_off",
     "use_action": {
       "type": "effect_on_conditions",
+      "ammo_scale": 0,
       "menu_text": "Turn off",
       "effect_on_conditions": [
         {

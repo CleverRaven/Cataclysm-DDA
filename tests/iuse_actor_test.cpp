@@ -34,7 +34,7 @@
 static const ammotype ammo_battery( "battery" );
 
 static const itype_id itype_bot_manhack( "bot_manhack" );
-static const itype_id itype_light_battery_cell( "light_battery_cell" );
+static const itype_id itype_medium_battery_cell( "medium_battery_cell" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 
@@ -89,8 +89,8 @@ TEST_CASE( "tool_transform_when_activated", "[iuse][tool][transform]" )
 
     GIVEN( "flashlight with a charged battery installed" ) {
         item flashlight( "flashlight" );
-        item bat_cell( "light_battery_cell" );
-        REQUIRE( flashlight.can_reload_with( item( itype_light_battery_cell ), true ) );
+        item bat_cell( "medium_battery_cell" );
+        REQUIRE( flashlight.can_reload_with( item( itype_medium_battery_cell ), true ) );
 
         // Charge the battery
         const int bat_charges = bat_cell.ammo_capacity( ammo_battery );
@@ -151,7 +151,7 @@ static void cut_up_yields( const std::string &target )
 
     units::mass cut_up_target_mass = cut_up_target.weight();
     item &spawned_item = here.add_item_or_charges( guy.pos_bub(), cut_up_target );
-    item_location item_loc( map_cursor( guy.pos_bub() ), &spawned_item );
+    item_location item_loc( map_cursor( guy.get_location() ), &spawned_item );
 
     REQUIRE( smallest_yield_mass <= cut_up_target_mass );
 

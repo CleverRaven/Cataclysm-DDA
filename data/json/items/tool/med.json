@@ -40,7 +40,6 @@
     "volume": "3250 ml",
     "price": "10 USD",
     "price_postapoc": "15 USD",
-    "to_hit": -1,
     "material": [ "glass" ],
     "symbol": "!",
     "color": "cyan",
@@ -257,13 +256,13 @@
     "longest_side": "13 cm",
     "price": "10 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ], [ "FABRIC_CUT", 1 ] ],
     "flags": [ "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
-    "melee_damage": { "cut": 7 },
+    "melee_damage": { "cut": 4 },
     "weapon_category": [ "SHIVS" ]
   },
   {
@@ -276,7 +275,7 @@
     "longest_side": "22 cm",
     "price": "40 USD",
     "price_postapoc": "2 USD 50 cent",
-    "to_hit": -3,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -315,7 +314,6 @@
     "volume": "25 ml",
     "price": "1 USD",
     "price_postapoc": "10 cent",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "ascii_picture": "thermometer",
     "symbol": ";",
@@ -333,7 +331,7 @@
     "longest_side": "42 cm",
     "price": "60 USD",
     "price_postapoc": "5 USD",
-    "to_hit": -4,
+    "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
@@ -355,7 +353,6 @@
     "volume": "262 ml",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -3,
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_cyan",
@@ -368,8 +365,7 @@
         "max_contains_volume": "250 ml",
         "max_contains_weight": "500 g"
       }
-    ],
-    "melee_damage": { "stab": 6 }
+    ]
   },
   {
     "id": "wrapped_rad_badge",
@@ -401,7 +397,7 @@
     "longest_side": "14 cm",
     "price": "7 USD",
     "price_postapoc": "20 cent",
-    "to_hit": -1,
+    "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",

@@ -43,6 +43,7 @@ from .parsers.nested_category import parse_nested_category
 from .parsers.npc import parse_npc
 from .parsers.npc_class import parse_npc_class
 from .parsers.option_slider import parse_option_slider
+from .parsers.oter_vision import parse_oter_vision
 from .parsers.overmap_terrain import parse_overmap_terrain
 from .parsers.palette import parse_palette
 from .parsers.profession import parse_profession
@@ -192,6 +193,7 @@ parsers = {
     "npc": parse_npc,
     "npc_class": parse_npc_class,
     "oter_id_migration": dummy_parser,
+    "oter_vision": parse_oter_vision,
     "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,
@@ -239,6 +241,7 @@ parsers = {
     "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
+    "ter_furn_migration": dummy_parser,
     "trait_blacklist": dummy_parser,
     "trait_group": dummy_parser,
     "trait_migration": dummy_parser,
@@ -261,5 +264,5 @@ parsers = {
     "weapon_category": parse_weapon_category,
     "weather_type": parse_weather_type,
     "wheel": parse_generic,
-    "widget": parse_widget
+    "widget": parse_widget,
 }

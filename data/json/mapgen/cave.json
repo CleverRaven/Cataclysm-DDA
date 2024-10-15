@@ -809,7 +809,7 @@
       { "item": "chipper", "prob": 75 },
       { "item": "g_shovel", "prob": 75 },
       { "item": "stepladder", "prob": 50 },
-      { "item": "miner_hat", "prob": 75 }
+      { "group": "hat_hard_flashlight", "prob": 75 }
     ]
   }
 ]

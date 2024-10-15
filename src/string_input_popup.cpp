@@ -149,22 +149,6 @@ void string_input_popup::show_history( utf8_wrapper &ret )
     if( !hmenu.entries.empty() ) {
         hmenu.selected = hmenu.entries.size() - 1;
 
-        hmenu.w_height_setup = [&]() -> int {
-            // number of lines that make up the menu window: 2*border+entries
-            int height = 2 + hmenu.entries.size();
-            if( getbegy( w_full ) < height )
-            {
-                height = std::max( getbegy( w_full ), 4 );
-            }
-            return height;
-        };
-        hmenu.w_x_setup = [&]( int ) -> int {
-            return getbegx( w_full );
-        };
-        hmenu.w_y_setup = [&]( const int height ) -> int {
-            return std::max( getbegy( w_full ) - height, 0 );
-        };
-
         bool finished = false;
         do {
             hmenu.query();
@@ -683,4 +667,32 @@ void string_input_popup::add_callback( const std::string &action,
 void string_input_popup::add_callback( int input, const std::function<bool()> &callback_func )
 {
     callbacks.emplace_back( "", input, callback_func );
+}
+
+string_input_params string_input_params::parse_string_input_params( const JsonObject &jo )
+{
+    string_input_params p;
+    if( jo.has_member( "title" ) ) {
+        const JsonValue &jv_title = jo.get_member( "title" );
+        p.title = get_str_translation_or_var( jv_title, "" );
+    }
+    if( jo.has_member( "description" ) ) {
+        const JsonValue &jv_description = jo.get_member( "description" );
+        p.description = get_str_translation_or_var( jv_description, "" );
+    }
+    if( jo.has_member( "default_text" ) ) {
+        const JsonValue &jv_default_text = jo.get_member( "default_text" );
+        p.default_text = get_str_translation_or_var( jv_default_text, "" );
+    }
+    if( jo.has_int( "width" ) ) {
+        p.width = jo.get_int( "width" );
+    }
+    if( jo.has_member( "identifier" ) ) {
+        const JsonValue &jv_identifier = jo.get_member( "identifier" );
+        p.identifier = get_str_or_var( jv_identifier, "" );
+    }
+    if( jo.has_bool( "only_digits" ) ) {
+        p.only_digits = jo.get_bool( "only_digits" );
+    }
+    return p;
 }

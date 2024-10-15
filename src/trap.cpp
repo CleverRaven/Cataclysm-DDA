@@ -401,7 +401,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
     }
-    for( const tripoint &dest : m.points_in_radius( p, trap_radius ) ) {
+    for( const tripoint_bub_ms &dest : m.points_in_radius( tripoint_bub_ms( p ), trap_radius ) ) {
         m.remove_trap( dest );
     }
 }

@@ -8,14 +8,6 @@
     "flags": [ "BLACKPOWDER_FOULING_DAMAGE", "NO_DIRTYING" ]
   },
   {
-    "id": "fault_gun_chamber_spent",
-    "type": "fault",
-    "name": { "str": "Spent casing in chamber" },
-    "description": "This gun currently has an empty casing chambered.  It will have to be removed before firing.",
-    "item_prefix": "jammed",
-    "flags": [ "JAMMED_GUN" ]
-  },
-  {
     "id": "fault_gun_unlubricated",
     "type": "fault",
     "name": { "str": "Unlubricated" },
@@ -54,6 +46,42 @@
     "type": "fault",
     "name": { "str": "Overheat safety" },
     "description": "This weapon will attempt to enter a cooling cycle when overheated.",
-    "flags": [ "JAMMED_GUN" ]
+    "flags": [ "OVERHEATED_GUN" ]
+  },
+  {
+    "id": "fault_fail_to_feed",
+    "type": "fault",
+    "//": "gun_mechanical_simple can be fixed on the fly",
+    "fault_type": "gun_mechanical_simple",
+    "name": { "str": "Fail to feed" },
+    "description": "This gun did not load the round in the chamber properly.",
+    "item_prefix": "jammed"
+  },
+  {
+    "id": "fault_gun_chamber_spent",
+    "//": "aka fail to extract",
+    "type": "fault",
+    "fault_type": "gun_mechanical_simple",
+    "name": { "str": "Spent casing in chamber" },
+    "description": "This gun currently has an empty casing in the chamber.",
+    "item_prefix": "jammed"
+  },
+  {
+    "id": "fault_stovepipe",
+    "//": "only closed bolt",
+    "type": "fault",
+    "fault_type": "gun_mechanical_simple",
+    "name": { "str": "Stovepipe" },
+    "description": "The casing of the cartridge is stuck in the ejection port without being properly ejected, forming an exhaust pipe shape.",
+    "item_prefix": "jammed"
+  },
+  {
+    "id": "fault_double_feed",
+    "//": "only magazine-fed firearms",
+    "type": "fault",
+    "fault_type": "gun_mechanical_simple",
+    "name": { "str": "Double feed" },
+    "description": "Magazine of the gun tried to put two rounds in the chamber at once.",
+    "item_prefix": "jammed"
   }
 ]

@@ -4,6 +4,7 @@
     "id": "NC_FM_DOCTOR",
     "name": { "str": "Doctor" },
     "job_description": "I'm looking for wounded to help.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_MEDICAL" },
       { "group": "NPC_starting_traits" },
@@ -43,7 +44,7 @@
       { "text": "Heard anything about the outside world?", "topic": "TALK_SCIENCE_REP_WORLD" },
       { "text": "Can I trade for supplies?", "topic": "TALK_SCIENCE_REP_ASK_TRADE" },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
-      { "text": "Well, bye.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_bye>", "topic": "TALK_DONE" }
     ]
   },
   {

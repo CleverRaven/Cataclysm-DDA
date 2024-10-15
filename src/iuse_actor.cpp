@@ -66,6 +66,7 @@
 #include "music.h"
 #include "mutation.h"
 #include "output.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -1080,16 +1081,16 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
     if( p->cant_do_mounted() ) {
         return ret_val<tripoint>::make_failure( pos );
     }
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
+    tripoint_bub_ms pnt( pos );
+    if( pos == p->pos_bub().raw() ) {
         if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
-            pnt = *pnt_;
+            pnt = tripoint_bub_ms( *pnt_ );
         } else {
             return ret_val<tripoint>::make_failure( pos );
         }
     }
 
-    if( pnt == p->pos() ) {
+    if( pnt == p->pos_bub() ) {
         return ret_val<tripoint>::make_failure( pos,
                                                 _( "You attempt to become one with the %s.  It doesn't work." ), it.tname() );
     }
@@ -1140,7 +1141,7 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
         }
     }
 
-    return ret_val<tripoint>::make_success( pnt );
+    return ret_val<tripoint>::make_success( pnt.raw() );
 }
 
 std::optional<int> deploy_furn_actor::use( Character *p, item &it,
@@ -1184,7 +1185,7 @@ std::optional<int> deploy_appliance_actor::use( Character *p, item &it, const tr
     }
 
     it.spill_contents( suitable.value() );
-    place_appliance( suitable.value(), vpart_appliance_from_item( appliance_base ), it );
+    place_appliance( tripoint_bub_ms( suitable.value() ), vpart_appliance_from_item( appliance_base ) );
     p->mod_moves( -to_moves<int>( 2_seconds ) );
     return 1;
 }
@@ -1221,7 +1222,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
     for( const tripoint_abs_omt &place : places ) {
-        if( !overmap_buffer.seen( place ) ) {
+        if( overmap_buffer.seen( place ) != om_vision_level::full ) {
             // Should be replaced with the character using the item passed as an argument if NPCs ever learn to use maps
             get_avatar().map_revealed_omts.emplace( place );
         }
@@ -2350,11 +2351,9 @@ std::optional<int> learn_spell_actor::use( Character *p, item &, const tripoint 
     }
 
     spellbook_uilist.entries = uilist_initializer;
-    spellbook_uilist.w_height_setup = 24;
-    spellbook_uilist.w_width_setup = 80;
+    spellbook_uilist.desired_bounds = { -1.0, -1.0, 80 * ImGui::CalcTextSize( "X" ).x, 24 * ImGui::GetTextLineHeightWithSpacing() };
     spellbook_uilist.callback = &sp_cb;
     spellbook_uilist.title = _( "Study a spell:" );
-    spellbook_uilist.pad_left_setup = 38;
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
@@ -2436,7 +2435,7 @@ std::string cast_spell_actor::get_name() const
     return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
-std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint & ) const
+std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint &pos ) const
 {
     if( need_worn && !p->is_worn( it ) ) {
         p->add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
@@ -2448,6 +2447,12 @@ std::optional<int> cast_spell_actor::use( Character *p, item &it, const tripoint
     }
 
     spell casting = spell( spell_id( item_spell ) );
+
+    // Spell is being cast from a non-held item
+    if( p == nullptr ) {
+        casting.cast_all_effects( tripoint_bub_ms( pos ) );
+        return 0;
+    }
 
     player_activity cast_spell( ACT_SPELLCASTING, casting.casting_time( *p ) );
     // [0] this is used as a spell level override for items casting spells
@@ -2616,7 +2621,7 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
 
         // iuse_actor really needs to work with item_location
         item_location item_loc = form_loc( *you, p, it );
-        game_menus::inv::insert_items( *you->as_avatar(), item_loc );
+        game_menus::inv::insert_items( item_loc );
     }
 
     return 0;
@@ -3793,8 +3798,8 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
 static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
     map &here = get_map();
-    const tripoint a = pos + tripoint( offset, 0 );
-    const tripoint b = pos - tripoint( offset, 0 );
+    const tripoint_bub_ms a = tripoint_bub_ms( pos ) + tripoint( offset, 0 );
+    const tripoint_bub_ms b = tripoint_bub_ms( pos ) - tripoint( offset, 0 );
     return here.move_cost( a ) != 2 && here.move_cost( b ) != 2;
 }
 
@@ -5180,10 +5185,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    const tripoint center = p->pos() + tripoint( ( radius + 1 ) * direction.x,
-                            ( radius + 1 ) * direction.y, 0 );
+    const tripoint_bub_ms center = p->pos_bub() + tripoint( ( radius + 1 ) * direction.x,
+                                   ( radius + 1 ) * direction.y, 0 );
     creature_tracker &creatures = get_creature_tracker();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return std::nullopt;
@@ -5211,10 +5216,10 @@ std::optional<int> deploy_tent_actor::use( Character *p, item &it, const tripoin
     return 0;
 }
 
-bool deploy_tent_actor::check_intact( const tripoint &center ) const
+bool deploy_tent_actor::check_intact( const tripoint_bub_ms &center ) const
 {
     map &here = get_map();
-    for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
+    for( const tripoint_bub_ms &dest : here.points_in_radius( center, radius ) ) {
         const furn_id fid = here.furn( dest );
         if( dest == center && floor_center ) {
             if( fid != *floor_center ) {
@@ -5429,7 +5434,6 @@ std::optional<int> sew_advanced_actor::use( Character *p, item &it, const tripoi
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
-    tmenu.textwidth = 80;
     tmenu.desc_enabled = true;
     tmenu.query();
     const int choice = tmenu.ret;

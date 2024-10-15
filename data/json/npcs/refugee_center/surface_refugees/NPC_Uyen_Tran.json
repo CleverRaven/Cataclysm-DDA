@@ -83,7 +83,7 @@
         "condition": {
           "and": [
             { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
-            { "not": { "npc_has_var": "mission_Boris_mission_1_cleanup_asked", "value": "yes" } }
+            { "not": { "compare_string": [ "yes", { "npc_val": "mission_Boris_mission_1_cleanup_asked" } ] } }
           ]
         },
         "trial": { "type": "PERSUADE", "difficulty": 10 },
@@ -94,7 +94,7 @@
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Uyen_Situation" },
       {
         "text": "Could you teach me a bit about first aid?",
-        "condition": { "u_has_var": "knowledge_flag_Uyen_teach", "value": "yes" },
+        "condition": { "compare_string": [ "yes", { "u_val": "knowledge_flag_Uyen_teach" } ] },
         "topic": "TALK_REFUGEE_Uyen_Teach"
       },
       { "text": "What do you think happened to the world?", "topic": "TALK_REFUGEE_Uyen_World" },
@@ -189,7 +189,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_Training",
-    "dynamic_line": "I'm going to sound like a massive stereotype here, I know, but my parents always pushed hard for me to go into medicine and be a doctor.  I was still thinking it over when, well,\" she gestures expansively around her.  \"Things got complicated.  Honestly though, if the pay were better for being a paramedic I don't know if I'd want to change at all.  I hear there's a lot of burnout after a while, but I haven't seen it yet.  I really liked the work.\"",
+    "dynamic_line": "I'm going to sound like a massive stereotype here, I know, but my parents always pushed hard for me to go into medicine and be a doctor.  I was still thinking it over when, well,\" she gestures expansively around her.  \"Things got complicated.  Honestly though, if the pay were better for being a paramedic I don't know if I'd want to change at all.  I hear there's a lot of burnout after a while, but I haven't seen it yet.  I really liked the work.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
@@ -251,17 +251,16 @@
     "id": "TALK_REFUGEE_Uyen_Situation",
     "dynamic_line": {
       "concatenate": [
-        "\"We've got it okay, I guess",
+        "We've got it okay, I guess",
         {
           "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "6" ],
           "yes": ".  Things have been getting better.  I wasn't even sure it was possible",
           "no": ", as long as this doesn't last too long."
         },
         {
-          "u_has_var": "mission_completed_Boris_mission_1",
-          "value": "yes",
-          "yes": ".  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.\"",
-          "no": ".  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy.\""
+          "compare_string": [ "yes", { "u_val": "mission_completed_Boris_mission_1" } ],
+          "yes": ".  With the back room cleared, we've had some chances to come and go, and spread out a bit.  It's made a huge difference to morale.\"  She looks around at the other refugees.  \"We'll have to see what the future holds.",
+          "no": ".  The situation is pretty tight, though.\"  She glances around at the huddled crowds of people in the room.  \"If we're stuck here for too long people are going to start getting a bit stir crazy."
         }
       ]
     }

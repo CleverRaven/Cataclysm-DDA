@@ -2424,6 +2424,7 @@
       { "point": [ 0, 0, 5 ], "overmap": "apartments_con_tower_002_south" },
       { "point": [ 1, 1, 6 ], "overmap": "apartments_con_tower_114_south" },
       { "point": [ 0, 1, 6 ], "overmap": "apartments_con_tower_014_south" },
+      { "point": [ 1, 1, 7 ], "overmap": "apartments_con_tower_115_south" },
       { "point": [ 0, 1, 7 ], "overmap": "apartments_con_tower_015_south" },
       { "point": [ 1, 0, 6 ], "overmap": "apartments_con_tower_104_south" },
       { "point": [ 0, 0, 6 ], "overmap": "apartments_con_tower_004_south" }
@@ -5370,6 +5371,15 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_fabricstore_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_fabricstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "house_fungus_01",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "house_fungus_01_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "house_fungus_roof_01_north" }
     ]
   }
 ]

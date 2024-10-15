@@ -14,6 +14,23 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "holster_glock19_fed",
+    "entries": [ { "item": "glock_19", "variant": "glock_19_cop", "charges": 15, "contents-item": [ "red_dot_sight" ] } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "glock17_mags",
+    "entries": [
+      { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+      { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+      { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
+      { "item": "glockmag", "ammo-item": "9mm", "charges": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "army_grenades_40x46",
     "entries": [ { "item": "40x46mm_m433", "charges": 4 } ]
   },
@@ -33,15 +50,6 @@
     "entries": [
       { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mmfmj", "charges": 17 },
       { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mmfmj", "charges": 17 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "army_mags_300blk",
-    "entries": [
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 },
-      { "item": "stanag30", "ammo-item": "300blk_ss", "charges": 30 }
     ]
   },
   {
@@ -96,33 +104,26 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_cell_phone",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
+    "entries": [ { "item": "cell_phone", "charges": 150 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_laptop",
-    "entries": [ { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "laptop" } ]
+    "entries": [ { "item": "laptop", "charges": 600 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_soldering_iron",
-    "entries": [
-      {
-        "item": "light_plus_battery_cell",
-        "ammo-item": "battery",
-        "charges": 150,
-        "container-item": "soldering_iron_portable"
-      }
-    ]
+    "entries": [ { "item": "soldering_iron_portable", "charges": 150 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_electrical_measuring",
     "entries": [
-      { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "voltmeter" },
+      { "item": "voltmeter" },
       { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "multimeter" }
     ]
   },
@@ -136,25 +137,25 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_flashlight",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "flashlight" } ]
+    "entries": [ { "item": "flashlight", "charges": 300 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_heavy_flashlight",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "heavy_flashlight" } ]
+    "entries": [ { "item": "heavy_flashlight", "charges": 300 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_mp3",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "mp3" } ]
+    "entries": [ { "item": "mp3", "charges": 150 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_two_way_radio",
-    "entries": [ { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "two_way_radio" } ]
+    "entries": [ { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "two_way_radio" } ]
   },
   {
     "type": "item_group",
@@ -166,7 +167,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_tazer",
-    "entries": [ { "item": "medium_disposable_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
+    "entries": [ { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 1200, "container-item": "tazer" } ]
   },
   {
     "type": "item_group",
@@ -698,6 +699,7 @@
           { "group": "can_o_beans" },
           { "item": "pockknife" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
@@ -724,6 +726,7 @@
           { "item": "water_clean" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" }
         ]
       },
@@ -751,6 +754,7 @@
           { "item": "wearable_camera" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_laptop" },
           { "group": "charged_matches" }
         ]
@@ -789,6 +793,7 @@
           { "item": "water_clean" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "tshirt", "variant": "generic_tshirt" }
@@ -867,6 +872,7 @@
           { "item": "sf_watch" },
           { "item": "hairpin" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tailors_kit", "ammo-item": "thread", "charges": 100 },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -888,7 +894,9 @@
       "prof_baking",
       "prof_baking_desserts_1",
       "prof_frying",
-      "prof_knives_familiar"
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
     ],
     "items": {
       "both": {
@@ -914,13 +922,26 @@
     "description": "You spent most of your adult life in a butcher shop.  Your trusty knife has seen many different creatures and you know how to butcher them.",
     "points": 2,
     "skills": [ { "name": "cutting", "level": 2 }, { "name": "cooking", "level": 2 }, { "name": "survival", "level": 2 } ],
-    "proficiencies": [ "prof_food_prep", "prof_knife_skills", "prof_intro_biology", "prof_wp_basic_bird", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_food_prep",
+      "prof_knife_skills",
+      "prof_intro_biology",
+      "prof_gross_anatomy",
+      "prof_wp_basic_bird",
+      "prof_wp_ungulate",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_butchering_adv",
+      "prof_skinning_basic",
+      "prof_skinning_adv"
+    ],
     "items": {
       "both": {
         "entries": [
           { "item": "socks" },
           { "item": "sneakers" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "knife_huge", "variant": "knife_butcher", "container-item": "sheath" },
           { "item": "hat_chef", "variant": "white_hat_chef" },
           { "item": "jacket_chef", "variant": "white_jacket_chef" },
@@ -990,11 +1011,39 @@
           { "item": "glasses_safety" },
           { "item": "wristwatch" },
           { "item": "pants", "variant": "pants_stone" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "engineer_chem",
+    "name": "Chemical Engineer",
+    "description": "You know your way around the periodic table and can name ten different industrial processes that involve any given chemical, but that did not prevent the prospect of employment from looking bleak for you.  Fortunately, the Cataclysm might just be the thing to save you from a dead end job.",
+    "points": 2,
+    "skills": [ { "level": 5, "name": "chemistry" } ],
+    "proficiencies": [
+      "prof_intro_chemistry",
+      "prof_intro_chem_synth",
+      "prof_organic_chemistry",
+      "prof_inorganic_chemistry",
+      "prof_chemical_engineering"
+    ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "socks", "boots", "coat_lab", "gloves_rubber", "glasses_safety", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "pants", "variant": "pants_stone" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -1019,11 +1068,29 @@
           { "item": "mag_cars" },
           { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "wrench", "container-item": "tool_belt" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "engineer_mech",
+    "name": "Mechanical Engineer",
+    "description": "You've always loved machines, and have extensively incorporated them into your career.  Not long after receiving your degree, you seem to be the one being subjected to a stress test, and it remains unclear if you will retain your structural integrity.",
+    "proficiencies": [ "prof_basic_engines", "prof_high_pressure_systems", "prof_pneumatics" ],
+    "points": 2,
+    "skills": [ { "level": 5, "name": "mechanics" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "jeans", "socks", "boots_steel", "wristwatch" ],
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
@@ -1055,6 +1122,7 @@
           { "item": "wristwatch" },
           { "item": "picklocks" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "lighter", "charges": 100 }
         ]
       },
@@ -1083,6 +1151,7 @@
           { "item": "honey_bottled" },
           { "item": "honey_bottled" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "honey_scraper", "container-item": "sheath" }
         ]
       },
@@ -1115,6 +1184,7 @@
           { "item": "sports_drink" },
           { "item": "gum" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
@@ -1128,7 +1198,7 @@
     "type": "profession",
     "id": "basketball_player",
     "name": "Basketball Player",
-    "description": "Your first major game was abruptly cancelled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
+    "description": "Your first major game was abruptly canceled when zombies stormed the court.  Quick feet and good reflexes meant you were among the lucky few to escape the stadium alive.",
     "points": 2,
     "skills": [ { "level": 5, "name": "dodge" }, { "level": 5, "name": "throw" }, { "level": 4, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic" ],
@@ -1143,7 +1213,8 @@
           { "item": "sports_drink" },
           { "item": "runner_bag" },
           { "item": "jersey", "snippets": [ "basin" ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -1178,6 +1249,7 @@
           { "item": "sports_drink" },
           { "item": "jersey", "snippets": [ "endsville" ] },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
         ]
       },
@@ -1207,7 +1279,7 @@
           { "item": "chestguard_hard" },
           { "item": "boots_rubber" },
           {
-            "item": "medium_disposable_cell",
+            "item": "medium_battery_cell",
             "ammo-item": "battery",
             "charges": 1200,
             "container-item": "foodperson_mask"
@@ -1243,7 +1315,8 @@
           { "item": "wristwatch" },
           { "item": "fanny" },
           { "item": "fancy_sunglasses" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -1286,6 +1359,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17, "count": 2 },
+          { "group": "starter_rich_wallet_full" },
           { "item": "militarymap" }
         ]
       },
@@ -1306,6 +1380,7 @@
       "prof_gunsmithing_basic",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1334,6 +1409,7 @@
           { "item": "diving_watch" },
           { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "military_ballistic_vest_pristine" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "apants_MARPAT" },
@@ -1396,6 +1472,7 @@
           { "item": "boots" },
           { "item": "diving_watch" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "wrench_large" },
@@ -1421,6 +1498,7 @@
       "prof_gunsmithing_basic",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1448,6 +1526,7 @@
           { "item": "diving_watch" },
           { "group": "full_rebreather_mask" },
           { "group": "charged_heavy_flashlight" },
+          { "group": "starter_wallet_full" },
           { "item": "barometer" },
           { "item": "hygrometer" },
           { "item": "diveknife", "container-item": "sheath" }
@@ -1485,6 +1564,7 @@
           { "item": "sneakers" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -1534,14 +1614,14 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1588,6 +1668,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "us_ballistic_vest_pristine" },
+          { "group": "starter_wallet_full" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "wrench" },
           { "item": "lug_wrench" },
@@ -1639,6 +1720,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1692,6 +1774,7 @@
           { "item": "diving_watch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -1752,14 +1835,14 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1782,6 +1865,7 @@
       "prof_wound_care",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1812,6 +1896,7 @@
           { "item": "boots_combat" },
           { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_powered_earmuffs" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -1840,6 +1925,7 @@
       "prof_wound_care",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar",
       "prof_auto_pistols_familiar"
     ],
@@ -1869,6 +1955,7 @@
           { "item": "boots_combat" },
           { "group": "loaded_webbing_belt" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_powered_earmuffs" },
           { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "pants_army", "variant": "mil_pants_navy" },
@@ -1905,6 +1992,7 @@
       "prof_spotting",
       "prof_gun_cleaning",
       "prof_knives_familiar",
+      "prof_gross_anatomy",
       "prof_auto_rifles_familiar"
     ],
     "skills": [
@@ -1935,6 +2023,7 @@
           { "item": "diving_watch" },
           { "item": "single_sling" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
@@ -1957,7 +2046,12 @@
     "proficiencies": [ "prof_food_prep", "prof_closures", "prof_knife_skills", "prof_knives_familiar" ],
     "items": {
       "both": {
-        "entries": [ { "item": "pocketwatch" }, { "item": "knife_small", "variant": "knife_steak" }, { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "pocketwatch" },
+          { "item": "knife_small", "variant": "knife_steak" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
       },
       "male": {
         "entries": [
@@ -2023,14 +2117,10 @@
           { "item": "vest" },
           { "item": "wristwatch" },
           { "item": "bracelet_friendship" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "knife_combat", "container-item": "sheath" },
-          {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
-            "ammo-item": "556",
-            "charges": 30,
-            "contents-item": "shoulder_strap"
-          },
+          { "group": "modular_m4a1", "ammo-item": "556", "charges": 30, "contents-item": "shoulder_strap" },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
           { "item": "stanag30", "ammo-item": "556", "charges": 30 },
@@ -2077,6 +2167,7 @@
           { "item": "stethoscope" },
           { "item": "pants", "variant": "pants_blue" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "full_1st_aid" }
         ]
       },
@@ -2122,7 +2213,12 @@
           "stethoscope",
           "scalpel"
         ],
-        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" },
+          { "group": "full_1st_aid" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2194,7 +2290,12 @@
             "entry-wrapper": "bottle_plastic_pill_prescription"
           }
         ],
-        "entries": [ { "item": "pants", "variant": "pants_blue" }, { "group": "charged_smart_phone" }, { "group": "full_1st_aid" } ]
+        "entries": [
+          { "item": "pants", "variant": "pants_blue" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "group": "full_1st_aid" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -2208,7 +2309,7 @@
     "requirement": "achievement_kill_100_monsters",
     "description": "The boss always said he could rely on you to pull through on the tough jobs.  Shame he got himself smoked.  No problem; the world's always got a place for someone with your kind of talents.",
     "points": 4,
-    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar" ],
+    "proficiencies": [ "prof_knives_familiar", "prof_unarmed_familiar", "prof_shivs_familiar", "prof_gross_anatomy" ],
     "skills": [
       { "level": 3, "name": "gun" },
       { "level": 3, "name": "pistol" },
@@ -2234,6 +2335,7 @@
           { "item": "gold_watch" },
           { "item": "gold_ring" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "holster", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
           { "item": "glockmag", "ammo-item": "9mm", "charges": 15 },
@@ -2268,6 +2370,7 @@
           { "item": "wristwatch" },
           { "item": "leather_belt" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "soft_3a_vest", "variant": "security_armor_vest" },
@@ -2306,6 +2409,7 @@
           { "item": "sneakers" },
           { "item": "pants_cargo" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "g_shovel" },
           { "item": "scabbard", "contents-item": "machete" }
         ]
@@ -2339,6 +2443,7 @@
           { "item": "pudding" },
           { "item": "pants", "variant": "pants_white" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
@@ -2392,6 +2497,7 @@
           { "item": "diving_watch" },
           { "item": "canteen" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "lighter", "charges": 100 },
           { "group": "knife_rambo_full", "container-item": "scabbard" },
@@ -2417,6 +2523,7 @@
           { "group": "can_o_beans" },
           { "item": "pockknife" },
           { "group": "charged_matches" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_grey" }
         ]
       },
@@ -2443,6 +2550,7 @@
           { "item": "wristwatch" },
           { "item": "fancy_sunglasses" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] }
         ]
       },
@@ -2483,6 +2591,7 @@
           { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
@@ -2499,7 +2608,7 @@
     "id": "horse_cop",
     "name": "Mounted Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The cataclysm is upon you, but at least you have each other.",
+    "description": "You have spent many long years forging a bond with your equine companion, from running down common thugs, to entertaining kids when you ride on by.  The Cataclysm is upon you, but at least you have each other.",
     "points": 5,
     "skills": [
       { "level": 5, "name": "survival" },
@@ -2528,6 +2637,7 @@
           { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "holster_supp_usp9", "container-item": "XL_holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp9" },
           { "item": "sheriffshirt", "variant": "sheriff" }
@@ -2558,6 +2668,7 @@
           { "item": "petpack" },
           { "item": "pet_carrier" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mbag", "contents-group": "dog_lover_bag" }
         ]
       },
@@ -2603,6 +2714,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "catfood_dry", "count": 10, "container-item": "null", "entry-wrapper": "bag_plastic" }
         ]
@@ -2640,6 +2752,7 @@
           { "item": "wristwatch" },
           { "item": "baton" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -2677,6 +2790,7 @@
           { "item": "dress_shoes" },
           { "group": "charged_cigs" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
           { "item": "pants", "variant": "pants_stone" },
@@ -2734,6 +2848,7 @@
           { "item": "single_sling" },
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "sheriffshirt", "variant": "swat_shirt" },
           { "group": "army_mags_mp5" },
           { "group": "army_mags_usp9" },
@@ -2774,7 +2889,8 @@
       "prof_batons_pro",
       "prof_unarmed_familiar",
       "prof_unarmed_pro",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "items": {
       "both": {
@@ -2790,6 +2906,7 @@
           { "item": "knee_pads" },
           { "group": "swat_ballistic_vest_pristine" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "sheriffshirt", "variant": "swat_shirt" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "bandolier_shotgun", "contents-group": "bandolier_swat_cqc1" },
@@ -2816,7 +2933,8 @@
       "prof_spotting",
       "prof_gun_cleaning",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 7, "name": "gun" },
@@ -2843,6 +2961,7 @@
           { "item": "wristwatch" },
           { "item": "tacvest" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "item": "glasses_bal", "custom-flags": [ "no_auto_equip" ] },
           { "group": "charged_powered_earmuffs" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -2874,7 +2993,7 @@
       { "level": 3, "name": "swimming" }
     ],
     "traits": [ "PROF_POLICE" ],
-    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_spotting", "prof_gun_cleaning", "prof_batons_familiar", "prof_gross_anatomy", "prof_auto_pistols_familiar" ],
     "items": {
       "both": {
         "entries": [
@@ -2889,6 +3008,7 @@
           { "item": "wristwatch" },
           { "item": "gasbomb" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "full_gasmask" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
@@ -2933,6 +3053,7 @@
           { "item": "baton" },
           { "item": "leather_police_jacket", "variant": "leather_police_jacket" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
@@ -2961,7 +3082,8 @@
           { "item": "dress_shoes" },
           { "item": "gold_watch" },
           { "item": "money_strap_fifty" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "citrine_gold_cufflinks" } ] },
@@ -2989,6 +3111,7 @@
           { "item": "diving_watch" },
           { "item": "caff_gum" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "rashguard", "variant": "black_rashguard_shirt" },
           { "item": "takedown_recurbow", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver_takedown_bow", "contents-group": "quiver_modern_archer" }
@@ -3005,7 +3128,15 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_bowyery", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_bowyery",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [
       { "level": 4, "name": "gun" },
       { "level": 4, "name": "archery" },
@@ -3025,6 +3156,7 @@
           { "item": "hat_hunting" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "compbow_low", "custom-flags": [ "no_auto_equip" ] },
           { "item": "quiver", "contents-group": "quiver_bow_hunter" },
           { "item": "sheath", "contents-item": "knife_hunting" },
@@ -3042,7 +3174,15 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along, though most of your bolts were lost during the escape.",
     "points": 3,
-    "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_bow_basic",
+      "prof_gunsmithing_spring",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [
       { "level": 4, "name": "rifle" },
       { "level": 4, "name": "gun" },
@@ -3060,6 +3200,7 @@
           { "item": "hat_hunting" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           {
             "item": "compcrossbow",
             "ammo-item": "bolt_steel",
@@ -3083,7 +3224,15 @@
     "name": "Shotgun Hunter",
     "description": "Ever since you were a child you loved hunting, and one year you got a shotgun for your birthday.  Why, if the world ended, there's nothing you'd want at your side more than your trusty shotgun.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_gun_cleaning", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_wp_basic_bird",
+      "prof_wp_ungulate"
+    ],
     "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "shotgun" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
@@ -3097,6 +3246,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
             "item": "remington_870",
@@ -3121,7 +3271,14 @@
     "name": "Rifle Hunter",
     "description": "Ever since you were a child you loved hunting, and you fancy yourself a crack shot.  Why, if the world ended, there's nothing you'd want at your side more than your trusty rifle.  So, when it did, you made sure to bring it along.",
     "points": 3,
-    "proficiencies": [ "prof_gun_cleaning", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
@@ -3135,6 +3292,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
             "item": "remington700_270",
@@ -3159,7 +3317,14 @@
     "name": "Big-Bore Hunter",
     "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
     "points": 3,
-    "proficiencies": [ "prof_gun_cleaning", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_gun_cleaning",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate"
+    ],
     "skills": [ { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" }, { "level": 3, "name": "survival" } ],
     "items": {
       "both": {
@@ -3174,6 +3339,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           {
             "group": "ar15_50",
@@ -3216,6 +3382,7 @@
           { "item": "jacket_flannel" },
           { "item": "slingpack" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "shot_00", "charges": 25 },
           { "item": "beer", "count": 6 },
           { "item": "remington_870", "ammo-item": "shot_00", "charges": 5, "contents-item": "shoulder_strap_simple" }
@@ -3239,7 +3406,7 @@
       "prof_carpentry_basic",
       "prof_appliance_repair"
     ],
-    "skills": [ { "level": 5, "name": "fabrication" }, { "level": 5, "name": "traps" } ],
+    "skills": [ { "level": 5, "name": "fabrication" } ],
     "items": {
       "both": {
         "entries": [
@@ -3248,6 +3415,7 @@
           { "item": "multitool" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
           { "item": "nail", "charges": 180 },
           { "item": "tool_belt", "contents-item": "hammer" },
@@ -3278,6 +3446,7 @@
           { "item": "gloves_work" },
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_stone" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
@@ -3304,7 +3473,8 @@
           { "item": "longshirt" },
           { "item": "wristwatch" },
           { "item": "water_clean" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -3356,6 +3526,7 @@
           { "item": "adrenaline_injector" },
           { "group": "full_1st_aid" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
@@ -3390,6 +3561,7 @@
           { "item": "hammer" },
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_electrical_measuring" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -3418,6 +3590,7 @@
           { "item": "water_clean" },
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -3457,6 +3630,7 @@
           { "item": "baton" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
@@ -3503,6 +3677,7 @@
           { "item": "wristwatch" },
           { "item": "water_clean" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_KABAR", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
@@ -3552,6 +3727,7 @@
           { "item": "water_clean" },
           { "item": "whistle_multitool" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "group": "charged_two_way_radio" },
           { "group": "full_1st_aid" },
@@ -3622,6 +3798,7 @@
           { "item": "socks" },
           { "item": "knife_small", "variant": "knife_steak" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -3650,6 +3827,7 @@
           { "item": "mbag" },
           { "item": "solder_wire" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "group": "charged_soldering_iron" },
           { "group": "charged_electrical_measuring" }
@@ -3657,6 +3835,33 @@
       },
       "male": { "entries": [ { "item": "boxer_briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "engineer_ee",
+    "name": "Electrical Engineer",
+    "description": "Fresh out of college, you were quite eager to get some practical engineering experience and leave your mark on the world, one solder joint at a time.  Now, you are not even sure if the complete failure of the power grid makes your field obsolete or all the more necessary.",
+    "points": 2,
+    "proficiencies": [
+      "prof_elec_soldering",
+      "prof_elec_circuits",
+      "prof_elec_integrated_circuits",
+      "prof_electromagnetics",
+      "prof_elec_semiconductors"
+    ],
+    "skills": [ { "level": 5, "name": "electronics" } ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "socks", "dress_shoes", "wristwatch", "file" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
+          { "item": "pants", "variant": "pants_black" }
+        ]
+      },
+      "male": [ "boxer_briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -3669,7 +3874,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "mbag" },
@@ -3677,14 +3882,10 @@
           { "item": "caff_gum", "count": 3 },
           { "item": "memory_card" },
           { "item": "usb_drive" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "portable_game"
-          },
+          { "item": "portable_game", "charges": 150 },
           { "item": "pants", "variant": "pants_stone" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_laptop" }
         ]
       },
@@ -3710,6 +3911,7 @@
           { "item": "wristwatch" },
           { "item": "fun_survival" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -3736,6 +3938,7 @@
           { "item": "story_book" },
           { "item": "howto_computer" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "jeans" }
         ]
@@ -3776,6 +3979,7 @@
           { "item": "wristwatch" },
           { "item": "multitool" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "sheath", "contents-item": "knife_trench" },
           { "item": "leg_bag", "variant": "black_leg_bag" }
         ]
@@ -3793,7 +3997,13 @@
     "skills": [ { "level": 3, "name": "dodge" } ],
     "items": {
       "both": {
-        "entries": [ { "item": "socks" }, { "item": "knit_scarf" }, { "item": "dance_shoes" }, { "group": "charged_smart_phone" } ]
+        "entries": [
+          { "item": "socks" },
+          { "item": "knit_scarf" },
+          { "item": "dance_shoes" },
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
+        ]
       },
       "male": { "entries": [ { "item": "briefs" }, { "item": "tux" }, { "item": "tourmaline_silver_cufflinks" } ] },
       "female": {
@@ -3822,6 +4032,7 @@
           { "item": "sneakers" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -3863,7 +4074,8 @@
           { "item": "knit_scarf" },
           { "item": "coat_lab" },
           { "item": "glasses_safety" },
-          { "item": "wristwatch" }
+          { "item": "wristwatch" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -3891,7 +4103,15 @@
     "description": "You spent most of your life trapping with your father.  Both of you made a decent living selling your catches and running trapping tutorials.  Hopefully, your skills will come in useful against less conventional game.",
     "points": 3,
     "skills": [ { "level": 6, "name": "traps" }, { "level": 4, "name": "survival" } ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_traps", "prof_trapsetting", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_fibers",
+      "prof_fibers_rope",
+      "prof_traps",
+      "prof_trapsetting",
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "recipes": [ "beartrap" ],
     "items": {
       "both": {
@@ -3907,6 +4127,7 @@
           { "group": "rolling_cigs" },
           { "item": "backpack" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "knife_hunting", "container-item": "sheath" }
         ]
@@ -3934,7 +4155,8 @@
           { "item": "fire_gauntlets" },
           { "item": "wristwatch" },
           { "item": "hammer" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -3959,7 +4181,8 @@
           { "item": "wristwatch" },
           { "item": "apron_leather" },
           { "item": "chisel" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -3982,6 +4205,7 @@
           { "item": "clownshoes" },
           { "item": "airhorn" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "balloon", "count": 20 }
         ]
       },
@@ -4030,6 +4254,7 @@
           { "item": "bellyband" },
           { "item": "dentures" },
           { "group": "charged_ref_lighter" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] }
         ]
       },
@@ -4046,7 +4271,7 @@
     "type": "profession",
     "id": "otaku",
     "name": "Otaku",
-    "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
+    "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is canceled!  At least you were ready in case your costume tore.",
     "points": 0,
     "skills": [ { "level": 2, "name": "tailor" } ],
     "items": {
@@ -4060,12 +4285,8 @@
           { "item": "mag_animecon" },
           { "item": "cheeseburger" },
           { "group": "charged_smart_phone" },
-          {
-            "item": "light_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 150,
-            "container-item": "eink_tablet_pc"
-          },
+          { "group": "starter_wallet_full" },
+          { "item": "eink_tablet_pc", "charges": 150 },
           {
             "item": "light_minus_battery_cell",
             "ammo-item": "battery",
@@ -4086,7 +4307,7 @@
     "description": "The Cataclysm struck on the big day and you escaped with nothing but your wedding attire.  Cold feet?  You'd just like to keep your feet attached!",
     "points": -1,
     "items": {
-      "both": { "entries": [ { "item": "ring_wedding" }, { "group": "charged_smart_phone" } ] },
+      "both": { "entries": [ { "item": "ring_wedding" }, { "group": "charged_smart_phone" }, { "group": "starter_wallet_full" } ] },
       "male": {
         "entries": [
           { "item": "tux" },
@@ -4133,6 +4354,7 @@
           { "group": "rolling_cigs" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_mp3" },
           { "group": "charged_ref_lighter" },
           { "item": "onyx_silver_earring", "variant": "dark_earring" },
@@ -4177,6 +4399,7 @@
           { "item": "nomex_hood" },
           { "item": "firehelmet" },
           { "item": "pocketwatch" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "halligan", "container-item": "fireman_belt" }
         ]
@@ -4202,6 +4425,7 @@
           { "group": "rolling_cigs" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_mp3" },
           { "group": "charged_ref_lighter" }
         ]
@@ -4233,7 +4457,8 @@
           { "item": "letter", "container-item": "envelope" },
           { "item": "letter", "container-item": "envelope" },
           { "item": "postcard", "container-item": "envelope" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -4245,6 +4470,18 @@
     "id": "convict",
     "name": "Convict",
     "description": "Your trial was contentious, but ultimately you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
+    "points": -1,
+    "items": {
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks" ],
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "hardened_convict",
+    "name": "Hardened Convict",
+    "description": "Most of your adult life has been spent in prison doing hard time.  It's been rough but you've learned a few tricks to keep them on their toes.  Time to see how tough these zombies are.",
     "points": 0,
     "proficiencies": [ "prof_unarmed_familiar", "prof_shivs_familiar" ],
     "skills": [
@@ -4257,7 +4494,8 @@
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": { "entries": [ { "item": "briefs" } ] },
       "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
-    }
+    },
+    "age_lower": 25
   },
   {
     "type": "profession",
@@ -4286,7 +4524,14 @@
       { "level": 3, "name": "unarmed" },
       { "level": 3, "name": "dodge" }
     ],
-    "proficiencies": [ "prof_knives_familiar", "prof_knives_pro", "prof_unarmed_familiar", "prof_unarmed_pro", "prof_shivs_familiar" ],
+    "proficiencies": [
+      "prof_knives_familiar",
+      "prof_knives_pro",
+      "prof_unarmed_familiar",
+      "prof_unarmed_pro",
+      "prof_shivs_familiar",
+      "prof_gross_anatomy"
+    ],
     "traits": [ "PROF_ASSASSIN_CONVICT" ],
     "items": {
       "both": {
@@ -4405,6 +4650,7 @@
           { "item": "boltcutters" },
           { "item": "stethoscope" },
           { "item": "picklocks" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black_camo" }
         ]
       },
@@ -4432,7 +4678,8 @@
           { "item": "briefcase" },
           { "item": "money_strap_fifty" },
           { "item": "file", "count": [ 1, 4 ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -4453,6 +4700,7 @@
           { "item": "dress_shoes" },
           { "item": "holybook_bible1" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "general_necklace" }
         ]
       },
@@ -4476,6 +4724,7 @@
           { "item": "dress_shoes" },
           { "item": "holybook_bible4" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "catholic_necklace" }
         ]
       },
@@ -4518,6 +4767,7 @@
           { "item": "geta" },
           { "item": "holybook_kojiki" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "shinto_necklace" },
           { "item": "pants", "variant": "pants_white" }
         ]
@@ -4542,6 +4792,7 @@
           { "item": "flip_flops" },
           { "item": "holybook_sutras" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "buddhist_necklace" }
         ]
       },
@@ -4566,6 +4817,7 @@
           { "item": "lowtops" },
           { "item": "holybook_quran" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "holy_symbol", "variant": "muslim_necklace" },
           { "item": "pants", "variant": "pants_white" }
@@ -4594,6 +4846,7 @@
           { "item": "dress_shoes" },
           { "item": "holybook_talmud" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holy_symbol", "variant": "jewish_necklace1" },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -4623,6 +4876,7 @@
           { "item": "holy_symbol" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4650,6 +4904,7 @@
           { "item": "flyer" },
           { "item": "holy_symbol" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_laptop" },
           { "item": "holy_symbol", "variant": "general_necklace" },
           { "item": "pants", "variant": "pants_black" }
@@ -4709,7 +4964,7 @@
       "style_wingchun",
       "style_zui_quan"
     ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_gross_anatomy" ],
     "skills": [
       { "level": 4, "name": "melee" },
       { "level": 4, "name": "unarmed" },
@@ -4748,7 +5003,7 @@
       "style_wingchun",
       "style_zui_quan"
     ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_unarmed_master", "prof_gross_anatomy" ],
     "skills": [
       { "level": 8, "name": "melee" },
       { "level": 8, "name": "unarmed" },
@@ -4782,6 +5037,7 @@
           { "item": "wristwatch" },
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4817,6 +5073,7 @@
           { "item": "wristwatch" },
           { "item": "spiral_stone" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "speedloaders_s&w619_special" },
           { "item": "sw_619", "ammo-item": "38_special", "charges": 7, "container-item": "holster" },
           { "item": "pants", "variant": "generic_pants" }
@@ -4850,6 +5107,7 @@
           { "item": "newest_newspaper", "count": [ 5, 10 ] },
           { "item": "folded_bicycle" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
         ]
       },
@@ -4889,6 +5147,7 @@
           { "item": "seed_sugar_beet" },
           { "item": "seed_tomato" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -4901,7 +5160,7 @@
     "id": "national_guard",
     "name": "National Guardsman",
     "requirement": "achievement_reach_military_bunker",
-    "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone amongst the dead.",
+    "description": "The government activated your National Guard unit to deal with the growing epidemics.  Despite your best efforts, you were unable to form up before all communications ceased and you found yourself alone among the dead.",
     "points": 4,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -4921,6 +5180,7 @@
           { "item": "lowtops" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "personal_gobag", "custom-flags": [ "FIT" ] },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
@@ -4942,7 +5202,10 @@
       "prof_knitting",
       "prof_closures",
       "prof_long_swords_familiar",
-      "prof_auto_rifles_familiar"
+      "prof_auto_rifles_familiar",
+      "prof_gross_anatomy",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
     ],
     "skills": [
       { "level": 4, "name": "gun" },
@@ -4974,7 +5237,8 @@
           { "item": "wristwatch" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "scar_h", "ammo-item": "762_51", "contents-item": "shoulder_strap" },
-          { "item": "katana", "container-item": "scabbard" }
+          { "item": "katana", "container-item": "scabbard" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5026,12 +5290,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
-          {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
-            "ammo-item": "556",
-            "contents-item": "shoulder_strap"
-          },
+          { "group": "modular_m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -5059,6 +5318,7 @@
           { "item": "wristwatch" },
           { "item": "leather_belt" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "group": "charged_tazer" },
           { "item": "pants", "variant": "pants_urban" },
@@ -5102,7 +5362,9 @@
       "prof_bow_expert",
       "prof_fletching",
       "prof_carving",
-      "prof_knives_familiar"
+      "prof_knives_familiar",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
     ],
     "items": {
       "both": {
@@ -5138,7 +5400,7 @@
     "description": "You spent most of your days fishing in the swamp, getting by quietly on your catch.  You found the buzzing of insects enjoyable, but recently they've gotten bigger and meaner.  Now their horrible noises have you spooked - you just hope the fish aren't as nasty.",
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" }, { "level": 2, "name": "swimming" } ],
-    "proficiencies": [ "prof_fibers", "prof_knives_familiar" ],
+    "proficiencies": [ "prof_fibers", "prof_knives_familiar", "prof_butchering_basic" ],
     "items": {
       "both": {
         "entries": [
@@ -5153,6 +5415,7 @@
           { "item": "backpack" },
           { "item": "jacket_flannel" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "fish_trap", "ammo-item": "fish_bait", "charges": 5 },
           { "item": "fish_bait", "charges": 15 },
           { "item": "lighter", "charges": 100 },
@@ -5209,6 +5472,7 @@
           { "item": "vinegar", "container-item": "bottle_plastic_small" },
           { "item": "lamp_oil", "container-item": "bottle_plastic_small" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" }
         ]
       }
@@ -5250,6 +5514,7 @@
           { "item": "needle_wood", "ammo-item": "thread", "charges": 200 },
           { "item": "oil_lamp", "charges": 750 },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" }
         ]
       }
@@ -5279,6 +5544,7 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
         ]
@@ -5314,6 +5580,7 @@
           { "item": "wristwatch" },
           { "item": "sports_drink" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
         ]
@@ -5356,6 +5623,7 @@
           { "item": "marble" },
           { "item": "slingshot" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
@@ -5397,6 +5665,7 @@
           { "item": "wristwatch" },
           { "item": "whistle" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "full_1st_aid" },
           { "group": "charged_flashlight" },
           { "item": "tshirt", "variant": "generic_tshirt" }
@@ -5426,6 +5695,7 @@
           { "item": "slingpack" },
           { "item": "juice" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -5454,6 +5724,7 @@
           { "item": "basic_chemistry" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" }
         ]
       },
@@ -5473,7 +5744,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "linuxtshirt" },
+          { "item": "tshirt", "variant": "tux" },
           { "item": "jacket_light" },
           { "item": "jeans" },
           { "item": "socks" },
@@ -5482,7 +5753,8 @@
           { "item": "backpack" },
           { "item": "mag_electronics" },
           { "item": "wristwatch" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -5510,6 +5782,7 @@
           { "item": "poetry_book" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "permanent_marker", "charges": 500 },
           { "item": "pants", "variant": "pants_black" }
         ]
@@ -5535,7 +5808,8 @@
           { "item": "wristwatch" },
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
+          { "group": "starter_wallet_full" },
+          { "item": "camera_pro", "charges": 300 },
           { "item": "pants", "variant": "pants_black" }
         ]
       },
@@ -5568,6 +5842,7 @@
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -5598,10 +5873,11 @@
           { "group": "charged_matches" },
           { "group": "full_gasmask" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "jackhammer", "charges": 0 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
-          { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
+          { "group": "hat_hard_flashlight" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5632,7 +5908,8 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "dynamite", "count": 8 },
           { "item": "dynamite", "count": 4 },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5658,6 +5935,7 @@
           { "item": "runner_bag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" }
         ]
@@ -5687,7 +5965,8 @@
           { "item": "touristmap" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera" },
+          { "group": "starter_rich_wallet_full" },
+          { "item": "camera", "charges": 300 },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "tshirt_cropped" },
           { "item": "pants", "variant": "pants_black" }
@@ -5702,6 +5981,7 @@
     "id": "naked",
     "name": "Naked and Afraid",
     "description": "The apocalypse has caught you completely naked!  Maybe you were robbed, maybe you were at a nudist beach, or maybe you just enjoy the feeling of liberation brought by the wind touching your skin.  Whatever the reason, you lack clothes in a time when everyone wants a piece of you.",
+    "flags": [ "NO_BONUS_ITEMS" ],
     "points": -1
   },
   {
@@ -5724,7 +6004,8 @@
           { "item": "bucket" },
           { "item": "shovel" },
           { "item": "wristwatch" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5767,7 +6048,7 @@
       { "level": 6, "name": "dodge" },
       { "level": 4, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro" ],
+    "proficiencies": [ "prof_fencing_weapons_familiar", "prof_fencing_weapons_pro", "prof_gross_anatomy" ],
     "starting_styles": [ "style_fencing" ],
     "items": {
       "both": {
@@ -5782,7 +6063,8 @@
           { "item": "fencing_epee" },
           { "item": "duffelbag" },
           { "item": "fencing_mask", "custom-flags": [ "no_auto_equip" ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "female": { "entries": [ { "item": "plastron_plastic" } ] }
@@ -5809,7 +6091,8 @@
           { "item": "file" },
           { "item": "cigar" },
           { "group": "charged_ref_lighter" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" }, { "item": "opal_platinum_cufflinks" } ] },
@@ -5824,6 +6107,7 @@
     "description": "Taking care of cows, horses, and other animals is your passion, but the ways things are going, this isn't going to be just another day at the ranch.",
     "points": 2,
     "skills": [ { "level": 5, "name": "survival" } ],
+    "proficiencies": [ "prof_gross_anatomy", "prof_wp_ungulate" ],
     "items": {
       "both": {
         "entries": [
@@ -5843,7 +6127,8 @@
           { "item": "cattlefodder" },
           { "group": "charged_cigs" },
           { "item": "rope_30" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5867,7 +6152,7 @@
       "both": {
         "entries": [
           { "item": "jacket_jean" },
-          { "item": "tshirt_tour" },
+          { "item": "tshirt", "variant": "power" },
           { "item": "jeans" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -5876,6 +6161,7 @@
           { "item": "gloves_work" },
           { "item": "mbag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_matches" },
           { "group": "charged_soldering_iron" }
         ]
@@ -5897,7 +6183,7 @@
         "magazine": 100,
         "entries": [
           { "item": "mbag" },
-          { "item": "tshirt_tour" },
+          { "item": "tshirt", "variant": "power" },
           { "item": "shorts_cargo" },
           { "item": "socks" },
           { "item": "sneakers" },
@@ -5910,7 +6196,8 @@
           { "item": "plectrum" },
           { "item": "joint" },
           { "item": "towel", "custom-flags": [ "no_auto_equip" ] },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5931,8 +6218,10 @@
           { "item": "jeans" },
           { "item": "longshirt" },
           { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
           { "item": "mbag" },
-          { "group": "full_survival_kit" }
+          { "group": "full_survival_kit" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -5968,6 +6257,7 @@
           { "item": "badge_deputy" },
           { "item": "novel_western" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "whiskey", "container-item": "bottle_glass" },
           {
@@ -6001,7 +6291,8 @@
           { "group": "charged_cigs" },
           { "item": "mag_porn" },
           { "group": "charged_ref_lighter" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_rich_wallet_full" }
         ]
       },
       "male": {
@@ -6044,7 +6335,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 4, "name": "gun" },
@@ -6073,6 +6365,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m110" },
@@ -6129,6 +6422,7 @@
           { "item": "pockknife" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           {
@@ -6188,6 +6482,7 @@
           { "item": "wristwatch" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "legpouch_large", "contents-group": "army_mags_m4" },
@@ -6198,8 +6493,7 @@
             "contents-item": [ "shoulder_strap_simple", "holo_sight" ]
           },
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -6258,6 +6552,7 @@
           { "item": "molle_pack" },
           { "item": "hammer_sledge" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 6, "contents-item": [ "shoulder_strap" ] },
@@ -6284,7 +6579,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "skills": [
       { "level": 7, "name": "gun" },
@@ -6314,6 +6610,7 @@
           { "item": "molle_pack" },
           { "item": "cloak" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "army_mags_m2010" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6381,6 +6678,7 @@
           { "item": "multitool" },
           { "item": "single_sling" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "army_mags_mp7" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6429,6 +6727,7 @@
           { "item": "pockknife" },
           { "item": "diving_watch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "holster", "contents-group": "holster_supp_57" },
           { "item": "suppressor" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -6466,13 +6765,14 @@
           { "item": "boots_combat" },
           { "item": "wristwatch" },
           { "item": "gloves_tactical" },
-          { "item": "flight_helmet", "ammo-item": "light_plus_battery_cell", "charges": 150 },
+          { "item": "flight_helmet", "ammo-item": "light_battery_cell", "charges": 150 },
           { "item": "mil_flight_suit" },
           { "item": "chestrig" },
           { "group": "loaded_webbing_belt" },
           { "item": "legpouch_large" },
           { "group": "charged_matches" },
           { "group": "charged_flashlight" },
+          { "group": "starter_wallet_full" },
           { "item": "handflare", "count": 2, "charges": 200 },
           { "item": "whistle" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6494,7 +6794,7 @@
     "description": "You were responding to a call with your partner before you got separated.  Now all you have is your trusty ambulance, ready to transport patients through the apocalypse.",
     "points": 3,
     "skills": [ { "level": 5, "name": "firstaid" }, { "level": 4, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
-    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver" ],
+    "proficiencies": [ "prof_wound_care", "prof_intro_biology", "prof_physiology", "prof_burn_care", "prof_driver", "prof_gross_anatomy" ],
     "traits": [ "PROF_MED" ],
     "vehicle": "ambulance",
     "items": {
@@ -6510,6 +6810,7 @@
           { "item": "adrenaline_injector" },
           { "item": "adhesive_bandages", "count": 8 },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_blue" }
         ]
       },
@@ -6530,7 +6831,8 @@
       "prof_intro_biology",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -6549,6 +6851,7 @@
           { "item": "morphine" },
           { "item": "adrenaline_injector" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "full_1st_aid" },
           { "item": "pants", "variant": "pants_blue" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
@@ -6577,7 +6880,6 @@
       { "level": 2, "name": "survival" },
       { "level": 2, "name": "swimming" }
     ],
-    "traits": [ "PROF_MED" ],
     "proficiencies": [
       "prof_spotting",
       "prof_wound_care",
@@ -6589,7 +6891,8 @@
       "prof_gun_cleaning",
       "prof_knives_familiar",
       "prof_auto_rifles_familiar",
-      "prof_auto_pistols_familiar"
+      "prof_auto_pistols_familiar",
+      "prof_gross_anatomy"
     ],
     "items": {
       "both": {
@@ -6614,6 +6917,7 @@
           { "item": "pepto" },
           { "item": "molle_pack" },
           { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
           { "group": "us_ballistic_vest_pristine" },
           { "group": "full_ifak" },
           { "item": "water_clean", "container-item": "canteen" },
@@ -6623,8 +6927,7 @@
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat_army", "variant": "m9bayonet", "container-item": "sheath" },
           {
-            "item": "modular_m4_carbine",
-            "variant": "modular_m4a1",
+            "group": "modular_m4a1",
             "ammo-item": "556_mk262",
             "charges": 30,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -6658,7 +6961,8 @@
           { "item": "granola" },
           { "item": "granola" },
           { "item": "granola" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -6685,7 +6989,8 @@
           { "item": "motorbike_boots" },
           { "item": "gloves_leather" },
           { "item": "wristwatch" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       }
     }
@@ -6703,7 +7008,8 @@
       "prof_intro_biology",
       "prof_physiology",
       "prof_burn_care",
-      "prof_dissect_humans"
+      "prof_dissect_humans",
+      "prof_gross_anatomy"
     ],
     "traits": [ "PROF_MED" ],
     "items": {
@@ -6717,6 +7023,7 @@
           { "item": "glasses_safety" },
           { "item": "scalpel" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_filter", "ammo-item": "gasfilter_sm", "charges": 100 }
         ]
       },
@@ -6749,6 +7056,7 @@
           { "item": "gloves_medical" },
           { "item": "switchblade" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "crack", "count": 25, "container-item": "null", "entry-wrapper": "bag_zipper" }
         ]
       },
@@ -6772,7 +7080,7 @@
       { "level": 3, "name": "unarmed" },
       { "level": 3, "name": "dodge" }
     ],
-    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_auto_pistols_familiar" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_unarmed_pro", "prof_auto_pistols_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -6785,6 +7093,7 @@
           { "item": "cigar_cutter" },
           { "item": "gold_bracelet" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "container-item": "null", "count": 2 },
           { "group": "modular_deagle_44", "ammo-item": "44fmj", "container-item": "XL_holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
@@ -6818,6 +7127,7 @@
           { "item": "glasses_safety" },
           { "item": "camera_bag" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_flashlight" },
           { "item": "pants", "variant": "pants_stone" },
           {
@@ -6827,8 +7137,8 @@
             "container-item": "rad_monitor"
           },
           { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "radio" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "camera_pro" },
-          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "emf_detector" }
+          { "item": "camera_pro", "charges": 300 },
+          { "item": "emf_detector", "charges": 100 }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -6852,6 +7162,7 @@
           { "item": "mbag" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "binoculars" }
         ]
       },
@@ -6879,7 +7190,7 @@
             "container-item": "rad_monitor"
           },
           {
-            "item": "medium_atomic_battery_cell",
+            "item": "medium_battery_cell",
             "ammo-item": "battery",
             "charges": 20,
             "container-item": "broken_dimensional_anchor"
@@ -6904,7 +7215,7 @@
       { "level": 4, "name": "throw" },
       { "level": 2, "name": "swimming" }
     ],
-    "proficiencies": [ "prof_long_swords_familiar" ],
+    "proficiencies": [ "prof_long_swords_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": {
         "entries": [
@@ -6916,6 +7227,7 @@
           { "item": "gloves_wraps" },
           { "item": "bellywrap" },
           { "item": "katana", "container-item": "scabbard" },
+          { "group": "starter_wallet_full" },
           { "item": "grenadebandolier", "contents-group": "ninja_grenade_pouch" }
         ]
       },
@@ -6961,12 +7273,13 @@
           { "item": "socks" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_dust", "variant": "flag_mask_dust" }
         ]
       },
       "male": {
         "entries": [
-          { "item": "flag_shirt" },
+          { "item": "tshirt", "variant": "flag_shirt" },
           { "item": "sneakers" },
           { "item": "flag_swimsuit", "variant": "flag_swimsuit" },
           { "item": "pants", "variant": "pants_flag" }
@@ -7000,6 +7313,7 @@
           { "item": "american_flag" },
           { "item": "slippers" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "mask_dust", "variant": "flag_mask_dust" },
           { "item": "chestrig", "variant": "flag_chestrig", "contents-group": "mags_ruger_arr" },
           { "item": "cowboy_hat", "variant": "flag_cowboy_hat" },
@@ -7046,6 +7360,7 @@
           { "item": "sunglasses" },
           { "item": "rope_30" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sw_619", "ammo-item": "357mag_jhp", "charges": 7 },
           { "item": "western_holster", "contents-group": "bandolier_cowboy" }
@@ -7074,6 +7389,7 @@
             "variant": "black_smart_phone_case",
             "contents-group": "charged_smart_phone"
           },
+          { "group": "starter_rich_wallet_full" },
           { "item": "towel", "custom-flags": [ "no_auto_equip" ] },
           { "item": "flip_flops", "custom-flags": [ "no_auto_equip" ] }
         ]
@@ -7185,7 +7501,8 @@
             "item": "waterproof_smart_phone_case",
             "variant": "black_smart_phone_case",
             "contents-group": "charged_smart_phone"
-          }
+          },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "swim_briefs" } ] },
@@ -7220,7 +7537,8 @@
       "prof_auto_pistols_familiar",
       "prof_auto_pistols_pro",
       "prof_unarmed_familiar",
-      "prof_unarmed_pro"
+      "prof_unarmed_pro",
+      "prof_gross_anatomy"
     ],
     "items": {
       "both": {
@@ -7233,6 +7551,7 @@
           { "item": "suppressor" },
           { "item": "tele_sight_pistol" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
           { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
         ]
@@ -7283,7 +7602,14 @@
       { "level": 5, "name": "dodge" },
       { "level": 4, "name": "speech" }
     ],
-    "proficiencies": [ "prof_spotting", "prof_wp_syn_armored", "prof_knives_familiar", "prof_knives_pro", "prof_knives_master" ],
+    "proficiencies": [
+      "prof_spotting",
+      "prof_wp_syn_armored",
+      "prof_knives_familiar",
+      "prof_knives_pro",
+      "prof_knives_master",
+      "prof_gross_anatomy"
+    ],
     "items": {
       "both": {
         "entries": [
@@ -7294,6 +7620,7 @@
           { "item": "polaroid_photo" },
           { "item": "switchblade" },
           { "group": "charged_cell_phone" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "knife_combat", "container-item": "gartersheath1" },
           { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }
         ]
@@ -7358,6 +7685,7 @@
           { "item": "beret" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
+          { "group": "starter_rich_wallet_full" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m1a", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap_simple" ] }
@@ -7384,21 +7712,17 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "hoodie" },
-          { "item": "tshirt_text" },
+          { "item": "tshirt" },
           { "item": "crowbar" },
           { "item": "camera_bag" },
           { "item": "slingpack" },
           { "item": "leather_belt" },
           { "item": "urbexmap" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "pants", "variant": "pants_black" },
-          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" },
-          {
-            "item": "light_disposable_cell",
-            "ammo-item": "battery",
-            "charges": 300,
-            "container-item": "wearable_light"
-          }
+          { "item": "camera_pro", "charges": 300 },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 300, "container-item": "wearable_light" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
@@ -7428,6 +7752,7 @@
           { "item": "tie_clipon" },
           { "item": "dress_shoes" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "group": "charged_penblack" },
           { "item": "pants", "variant": "pants_black" },
           { "item": "coffee", "container-item": "coffeepot" }
@@ -7443,7 +7768,14 @@
     "name": "RV Hunter",
     "description": "Ever since you were a child you loved hunting and traveling; so when you scraped enough money, you bought yourself an old RV, a gun, and hit the road.  You've been all over the country, hunting for good game.  Unfortunately the country is all over this time, and even more unfortunately you've lost your ol' reliable in the chaos.  Now you gotta find a new reliable.",
     "points": 4,
-    "proficiencies": [ "prof_driver", "prof_knives_familiar" ],
+    "proficiencies": [
+      "prof_driver",
+      "prof_knives_familiar",
+      "prof_gross_anatomy",
+      "prof_wp_ungulate",
+      "prof_butchering_basic",
+      "prof_skinning_basic"
+    ],
     "skills": [
       { "level": 3, "name": "rifle" },
       { "level": 3, "name": "gun" },
@@ -7465,6 +7797,7 @@
           { "item": "wristwatch" },
           { "item": "back_holster" },
           { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" },
           { "item": "sheath", "contents-item": "knife_hunting" },
           { "item": "tank_top", "variant": "tank_top_camo" }
         ]
@@ -7493,7 +7826,8 @@
           { "item": "socks" },
           { "item": "sneakers" },
           { "item": "hammer" },
-          { "group": "charged_smart_phone" }
+          { "group": "charged_smart_phone" },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7546,7 +7880,8 @@
           { "item": "EOD_hotstick", "custom-flags": [ "auto_wield" ] },
           { "item": "water_clean", "container-item": "camelbak" },
           { "item": "multitool", "container-item": "sheath" },
-          { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 }
+          { "item": "m18", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+          { "group": "starter_wallet_full" }
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
@@ -7572,12 +7907,54 @@
       "style_wingchun"
     ],
     "starting_styles_choices_amount": 3,
-    "proficiencies": [ "prof_unarmed_familiar" ],
+    "proficiencies": [ "prof_unarmed_familiar", "prof_gross_anatomy" ],
     "items": {
       "both": { "entries": [ { "item": "gloves_fingerless" }, { "item": "b_shorts" }, { "item": "mouthpiece" } ] },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
     "missions": [ "MISSION_BLACK_BELT_GOAL" ]
+  },
+  {
+    "type": "profession",
+    "id": "FBI",
+    "name": "FBI Special Agent",
+    "description": "As a member of the FBI, you dealt with crime that crossed state lines.  You had gotten the go-ahead to make the biggest bust of your career; before you kicked down the door, you yelled \"FBI, open up!\" and then the sky broke open.",
+    "points": 4,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_gun_cleaning", "prof_auto_pistols_familiar", "prof_batons_familiar" ],
+    "skills": [
+      { "level": 5, "name": "gun" },
+      { "level": 3, "name": "rifle" },
+      { "level": 5, "name": "pistol" },
+      { "level": 3, "name": "shotgun" },
+      { "level": 3, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "dodge" },
+      { "level": 1, "name": "throw" },
+      { "level": 3, "name": "swimming" }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "socks" },
+          { "item": "police_belt" },
+          { "item": "boots_combat" },
+          { "item": "gloves_tactical" },
+          { "item": "badge_fbi" },
+          { "item": "diving_watch" },
+          { "item": "pants_tactical", "variant": "tactical_pants_black" },
+          { "item": "tshirt" },
+          { "item": "fbi_armor_vest" },
+          { "item": "jacket_windbreaker", "variant": "windbreaker_fbi" },
+          { "item": "hat_ball", "variant": "hat_fbi" },
+          { "group": "charged_two_way_radio" },
+          { "group": "starter_wallet_full" },
+          { "group": "holster_glock19_fed", "container-item": "holster" },
+          { "group": "glock17_mags" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+    }
   }
 ]

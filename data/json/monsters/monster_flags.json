@@ -310,11 +310,6 @@
     "//": "Monster dies quietly and doesn't display a message."
   },
   {
-    "id": "VERMIN",
-    "type": "monster_flag",
-    "//": "Obsolete flag labeling \"nuisance\" or \"scenery\" monsters, now used to prevent loading the same"
-  },
-  {
     "id": "NOGIB",
     "type": "monster_flag",
     "//": "Creature won't leave gibs / meat chunks when killed with huge damage"

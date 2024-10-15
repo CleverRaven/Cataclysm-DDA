@@ -98,8 +98,7 @@
       "tec_aikido_blockdisarm",
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
-    ],
-    "weapon_category": [ "CLAWS" ]
+    ]
   },
   {
     "type": "martial_art",
@@ -537,7 +536,7 @@
       "tec_eskrima_low",
       "tec_eskrima_combination"
     ],
-    "weapon_category": [ "KNIVES", "BATONS", "SHORT_SWORDS", "CLAWS", "SHIVS" ]
+    "weapon_category": [ "KNIVES", "BATONS", "SHORT_SWORDS", "SHIVS" ]
   },
   {
     "type": "martial_art",
@@ -699,8 +698,7 @@
         ]
       }
     ],
-    "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapon_category": [ "CLAWS" ]
+    "techniques": [ "tec_judo_backthrow", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ]
   },
   {
     "type": "martial_art",

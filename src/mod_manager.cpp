@@ -267,6 +267,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     assign( jo, "dependencies", modfile.dependencies );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
+    assign( jo, "loading_images", modfile.loading_images );
 
     if( std::find( modfile.dependencies.begin(), modfile.dependencies.end(),
                    modfile.ident ) != modfile.dependencies.end() ) {

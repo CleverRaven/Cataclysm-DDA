@@ -33,7 +33,7 @@
               "or": [
                 { "test_eoc": "EOC_CONDITION_HOMULLUS_NEAR_FACTION" },
                 { "u_near_om_location": "FACTION_CAMP_ANY", "range": 2 },
-                { "map_in_city": { "mutator": "loc_relative_u", "target": "(0,0,0)" } }
+                { "map_in_city": { "mutator": "u_loc_relative", "target": "(0,0,0)" } }
               ]
             },
             "effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]

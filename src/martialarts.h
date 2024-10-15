@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "bonuses.h"
 #include "effect_on_condition.h"
 #include "calendar.h"

@@ -9,7 +9,7 @@ class vehicle;
 class ui_adaptor;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
-void place_appliance( const tripoint &p, const vpart_id &vpart,
+void place_appliance( const tripoint_bub_ms &p, const vpart_id &vpart,
                       const std::optional<item> &base = std::nullopt );
 
 /**

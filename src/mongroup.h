@@ -224,6 +224,9 @@ class MonsterGroupManager
 
         static bool is_animal( const mongroup_id &group );
 
+        // Public getter for private monsterGroupMap, do not use if you don't know what you're doing.
+        static std::map<mongroup_id, MonsterGroup> &Get_all_Groups();
+
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
         using t_string_set = std::set<std::string>;

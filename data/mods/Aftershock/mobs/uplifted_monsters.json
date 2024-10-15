@@ -52,7 +52,7 @@
     "harvest": "demihuman_large_fur",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "reproduction": { "baby_monster": "mon_uplifted_bear_cub", "baby_count": 1, "baby_timer": 700 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_uplifted_bear_cub" }, "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "ANIMAL", "PATH_AVOID_DANGER", "WARM", "BASHES", "ATTACKMON" ],
     "armor": { "bash": 2 }
@@ -166,7 +166,7 @@
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
-    "reproduction": { "baby_monster": "mon_uplifted_octopus_spawn", "baby_count": 1, "baby_timer": 700 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_uplifted_octopus_spawn" }, "baby_count": 1, "baby_timer": 700 },
     "baby_flags": [ "SPRING" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "HAS_MIND", "SWIMS", "PATH_AVOID_DANGER", "WARM", "ATTACKMON" ],
     "armor": { "bash": 2 }

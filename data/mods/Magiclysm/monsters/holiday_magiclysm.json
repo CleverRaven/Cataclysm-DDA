@@ -25,7 +25,7 @@
     "path_settings": { "max_dist": 21, "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mutant_mammal_fur",
     "dissect": "dissect_feline_sample_huge",
-    "reproduction": { "baby_monster": "mon_yulecat_cub", "baby_count": 6, "baby_timer": 234 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_yulecat_cub" }, "baby_count": 6, "baby_timer": 234 },
     "baby_flags": [ "WINTER" ],
     "grab_strength": 50,
     "special_attacks": [ { "id": "bite_grab", "cooldown": 10 }, [ "scratch", 6 ] ],

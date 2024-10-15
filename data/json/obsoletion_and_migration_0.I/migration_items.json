@@ -10,9 +10,19 @@
     "replace": "combat_exoskeleton_armor_head_light"
   },
   {
+    "id": "streetsweeper",
+    "type": "MIGRATION",
+    "replace": "dp_12"
+  },
+  {
     "id": "power_armor_frame",
     "type": "MIGRATION",
     "replace": "qt_steel_chunk"
+  },
+  {
+    "id": "fake_anvil_crude",
+    "type": "MIGRATION",
+    "replace": "fake_anvil"
   },
   {
     "id": "power_armor_generator",
@@ -86,6 +96,29 @@
     "contents": [ { "id": "steel_lump", "count": 6 } ]
   },
   {
+    "id": "tshirt_text",
+    "type": "MIGRATION",
+    "replace": "tshirt"
+  },
+  {
+    "id": "flag_shirt",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "flag_shirt"
+  },
+  {
+    "id": "linuxtshirt",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "tux"
+  },
+  {
+    "id": "tshirt_tour",
+    "type": "MIGRATION",
+    "replace": "tshirt",
+    "variant": "death"
+  },
+  {
     "id": "fridge",
     "type": "MIGRATION",
     "replace": "apartment_fridge"
@@ -109,6 +142,18 @@
     "id": "ksg_aux_shotgun",
     "type": "MIGRATION",
     "replace": "m26_mass"
+  },
+  {
+    "id": "miner_hat",
+    "type": "MIGRATION",
+    "replace": "hat_hard",
+    "contents": [ { "id": "flashlight", "count": 1 } ]
+  },
+  {
+    "id": "miner_hat_on",
+    "type": "MIGRATION",
+    "replace": "hat_hard",
+    "contents": [ { "id": "flashlight", "count": 1 } ]
   },
   {
     "id": "ts12_aux_shotgun",
@@ -953,6 +998,61 @@
     "replace": "bread"
   },
   {
+    "id": "light_minus_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_minus_disposable_cell"
+  },
+  {
+    "id": "light_plus_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "light_dry_cell",
+    "type": "MIGRATION",
+    "replace": "light_battery_cell"
+  },
+  {
+    "id": "medium_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_plus_battery_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_atomic_battery_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "medium_dry_cell",
+    "type": "MIGRATION",
+    "replace": "medium_battery_cell"
+  },
+  {
+    "id": "heavy_disposable_cell",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "heavy_dry_cell",
+    "type": "MIGRATION",
+    "replace": "heavy_plus_battery_cell"
+  },
+  {
     "id": "scrap_cap1",
     "type": "MIGRATION",
     "replace": "hat_ball"
@@ -1612,17 +1712,17 @@
   {
     "id": "plr16",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "oa93",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "m231pfw",
     "type": "MIGRATION",
-    "replace": "ar_pistol"
+    "replace": "rdb_223"
   },
   {
     "id": "moss_brownie",
@@ -1791,5 +1891,111 @@
     "id": "g36mag_100rd",
     "type": "MIGRATION",
     "replace": "stanag100drum"
+  },
+  {
+    "id": "superglue",
+    "type": "MIGRATION",
+    "replace": "small_squeeze_tube",
+    "contents": [ { "id": "super_glue", "count": 40 } ]
+  },
+  {
+    "id": "egg_goose_golden",
+    "type": "MIGRATION",
+    "replace": "egg_goose"
+  },
+  {
+    "id": "egg_reptile",
+    "type": "MIGRATION",
+    "replace": "egg_turtle_painted"
+  },
+  {
+    "id": "ar_pistol",
+    "type": "MIGRATION",
+    "replace": "rdb_223"
+  },
+  {
+    "id": "stabilizer",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
+  },
+  {
+    "id": "stabilizer_mod",
+    "type": "MIGRATION",
+    "replace": "rail_laser_sight"
+  },
+  {
+    "id": "wire",
+    "type": "MIGRATION",
+    "replace": "lc_wire"
+  },
+  {
+    "id": "piano_wire",
+    "type": "MIGRATION",
+    "replace": "qt_wire"
+  },
+  {
+    "id": "chain_link",
+    "type": "MIGRATION",
+    "replace": "lc_chain_link"
+  },
+  {
+    "id": "link_sheet",
+    "type": "MIGRATION",
+    "replace": "lc_link_sheet"
+  },
+  {
+    "id": "acr_300blk",
+    "type": "MIGRATION",
+    "replace": "sig_mcx_rattler_sbr"
+  },
+  {
+    "id": "egg_pattern_frog",
+    "type": "MIGRATION",
+    "replace": "egg_leo_frog"
+  },
+  {
+    "id": "egg_strange_frog",
+    "type": "MIGRATION",
+    "replace": "egg_bullfrog_frog"
+  },
+  {
+    "id": "egg_foul_toad",
+    "type": "MIGRATION",
+    "replace": "egg_fowler_toad"
+  },
+  {
+    "id": "egg_odd_toad",
+    "type": "MIGRATION",
+    "replace": "egg_freedom_toad"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_peeper_frog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_gray_frog"
+  },
+  {
+    "id": "egg_palette_frog",
+    "type": "MIGRATION",
+    "replace": "egg_pickerel_frog"
+  },
+  {
+    "id": "egg_vocal_frog",
+    "type": "MIGRATION",
+    "replace": "egg_vocal_bigfrog"
+  },
+  {
+    "id": "egg_shift_frog",
+    "type": "MIGRATION",
+    "replace": "egg_shift_bigfrog"
+  },
+  {
+    "id": "wire_barbed_baseball",
+    "type": "MIGRATION",
+    "replace": "baseball"
   }
 ]

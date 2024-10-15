@@ -89,7 +89,7 @@
         "Ŗ": { "item": "uzimag", "chance": 100 },
         "Ř": { "item": "9mm", "chance": 100 },
         "$": { "item": "backpack", "chance": 100 },
-        "@": [ { "item": "light_disposable_cell", "chance": 100 }, { "item": "flashlight", "chance": 100 } ],
+        "@": [ { "item": "light_battery_cell", "chance": 100 }, { "item": "flashlight", "chance": 100 } ],
         "%": { "item": "helmet_ball", "chance": 100 },
         "^": { "item": "mask_dust", "chance": 100 },
         "*": { "item": "paint_brush", "chance": 100 },

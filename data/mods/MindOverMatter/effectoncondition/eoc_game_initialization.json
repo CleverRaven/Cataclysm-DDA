@@ -1,6 +1,65 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS",
+    "recurrence": [ "1 minutes", "1 minutes" ],
+    "condition": { "math": [ "u_has_initial_awakening_countup_set", "!=", "1" ] },
+    "deactivate_condition": { "math": [ "u_has_initial_awakening_countup_set", "==", "1" ] },
+    "effect": [ { "run_eocs": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GAMESTART_RANDOMIZE_AWAKENING_ODDS_2",
+    "condition": {
+      "or": [
+        {
+          "and": [
+            {
+              "not": {
+                "u_has_any_trait": [
+                  "BIOKINETIC",
+                  "CLAIRSENTIENT",
+                  "ELECTROKINETIC",
+                  "PHOTOKINETIC",
+                  "PYROKINETIC",
+                  "TELEKINETIC",
+                  "TELEPATH",
+                  "TELEPORTER",
+                  "VITAKINETIC"
+                ]
+              }
+            },
+            { "not": { "u_has_trait": "ALWAYS_GAIN_PSIONICS" } }
+          ]
+        },
+        {
+          "and": [
+            {
+              "u_has_any_trait": [
+                "BIOKINETIC",
+                "CLAIRSENTIENT",
+                "ELECTROKINETIC",
+                "PHOTOKINETIC",
+                "PYROKINETIC",
+                "TELEKINETIC",
+                "TELEPATH",
+                "TELEPORTER",
+                "VITAKINETIC"
+              ]
+            },
+            { "u_has_trait": "LIMITED_PSIONICS" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_awakening_countup", "+=", "rand(8) + 1" ] },
+      { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] }
+    ],
+    "false_effect": [ { "math": [ "u_has_initial_awakening_countup_set", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CHECK_GAMESTART_BIOKIN",
     "eoc_type": "EVENT",
     "required_event": "game_start",

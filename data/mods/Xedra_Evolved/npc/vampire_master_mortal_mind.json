@@ -1,0 +1,89 @@
+[
+  {
+    "id": [
+      "TALK_FRIEND",
+      "TALK_STRANGER_NEUTRAL",
+      "TALK_STRANGER_FRIENDLY",
+      "TALK_STRANGER_SCARED",
+      "TALK_STRANGER_WARY",
+      "TALK_MISSION_DESCRIBE_URGENT",
+      "TALK_NC_FARMER",
+      "TALK_SURVIVOR_CHEF",
+      "TALK_homeless_survivor",
+      "TALK_shelter_survivors",
+      "TALK_GUN_STORE_SURVIVOR",
+      "TALK_NPC_MOONSHINER",
+      "TALK_NPC_PREPPER_SURVIVOR",
+      "TALK_CYBORG_1",
+      "TALK_meteorologist_1",
+      "TALK_NPC_HOMELESS_SURVIVOR",
+      "TALK_NPC_APARTMENT_SURVIVOR",
+      "TALK_NPC_CAMPER",
+      "TALK_CITY_COP_INTRO"
+    ],
+    "//": "This should include all NPCs the player can immediately ask to follow them for free, and those who already follow.",
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "[Use your powers to affect their mind]",
+        "topic": "TALK_MASTER_MORTAL_MIND",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_trait": "BLOOD_OF_SAINTS" } },
+            { "not": { "npc_has_trait": "RENFIELD" } },
+            { "not": { "npc_has_trait": "VAMPIRE" } },
+            { "u_has_trait": "VAMPIRE_MASTER_MORTAL_MIND" }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MASTER_MORTAL_MIND",
+    "dynamic_line": "[You ponder your options and think about the blood you have in you]\n\nYou could spend a little blood to slightly influence their opinion of you.\n\nYou could spend more blood to make them your friend.\n\nOr you could spend a massive amount of blood to turn them into a renfield, a human obsessed with serving their vampire masters.  In this case the master is you.",
+    "responses": [
+      {
+        "text": "[Spend a little blood to make them like you a bit more]",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] },
+        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "100" ] } ],
+        "opinion": { "trust": 1, "value": 1 }
+      },
+      {
+        "text": "[Spend a moderate amount of blood to make them your friend]",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] },
+        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "500" ] } ],
+        "opinion": { "trust": 3, "value": 3, "anger": -2, "fear": -1 }
+      },
+      {
+        "text": "[Spend a massive amount of blood to make them your renfield]",
+        "topic": "TALK_YOUR_NEW_RENFIELD",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] },
+        "effect": [ { "math": [ "u_vitamin('human_blood_vitamin')", "-=", "3000" ] }, { "npc_add_trait": "RENFIELD" }, "follow" ],
+        "opinion": { "trust": 30, "value": 30, "anger": -30, "fear": -5 }
+      },
+      {
+        "text": "[Don't spend any blood]",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", ">", "-501" ] }
+      },
+      {
+        "text": "[You do not have enough blood in you to manipulate someone's mind]",
+        "topic": "TALK_NONE",
+        "condition": { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-501" ] }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_YOUR_NEW_RENFIELD",
+    "dynamic_line": "[As your blood is consumed to reshape who they are, you see something die in their eyes, replaced by an obsession to follow your orders]",
+    "responses": [
+      { "text": "I want to discuss with you.", "topic": "TALK_FRIEND" },
+      { "text": "Just follow me and my orders for now.", "topic": "TALK_DONE" }
+    ]
+  }
+]

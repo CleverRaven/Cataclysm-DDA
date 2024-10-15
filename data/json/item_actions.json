@@ -737,7 +737,7 @@
   {
     "type": "item_action",
     "id": "RADIO_ON",
-    "name": { "str": "scan" }
+    "name": { "str": "Scan" }
   },
   {
     "type": "item_action",
@@ -852,6 +852,11 @@
   {
     "type": "item_action",
     "id": "WATER_PURIFIER",
+    "name": { "str": "Purify some water" }
+  },
+  {
+    "type": "item_action",
+    "id": "WATER_TABLETS",
     "name": { "str": "Purify some water" }
   },
   {

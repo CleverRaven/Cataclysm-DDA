@@ -263,5 +263,15 @@
     "name": "GROUP_EGG_COCKATRICE",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_cockatrice_chick", "weight": 5 }, { "monster": "mon_chicken_chick", "weight": 1 } ]
+  },
+  {
+    "name": "GROUP_ALIEN_MEADOW",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_nether_unviable_butterfly", "weight": 5 } ]
+  },
+  {
+    "name": "GROUP_ALIEN_TRAP_TREE",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_nether_unviable_butterfly", "weight": 5 } ]
   }
 ]

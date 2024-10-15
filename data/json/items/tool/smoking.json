@@ -9,7 +9,6 @@
     "volume": "100 ml",
     "price": "50 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -1,
     "material": [ "steel" ],
     "symbol": "!",
     "color": "white",
@@ -36,11 +35,12 @@
     "volume": "80 ml",
     "price": "0 cent",
     "price_postapoc": "10 cent",
-    "to_hit": -10,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "pipe_glass",
@@ -51,7 +51,7 @@
     "volume": "80 ml",
     "price": "20 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -10,
+    "to_hit": { "grip": "none", "length": "hand", "surface": "any", "balance": "neutral" },
     "material": [ "glass" ],
     "symbol": ",",
     "color": "cyan",
@@ -68,11 +68,9 @@
     "longest_side": "15 cm",
     "price": "30 USD",
     "price_postapoc": "1 USD",
-    "to_hit": -10,
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
-    "qualities": [ [ "SMOKE_PIPE", 1 ] ],
-    "melee_damage": { "bash": 1 }
+    "qualities": [ [ "SMOKE_PIPE", 1 ] ]
   }
 ]

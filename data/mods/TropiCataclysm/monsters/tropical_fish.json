@@ -22,7 +22,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "harvest": "shellfish",
     "dissect": "dissect_gastropod_sample_single",
-    "reproduction": { "baby_monster": "mon_crab_manca", "baby_count": 1, "baby_timer": 21 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_crab_manca" }, "baby_count": 1, "baby_timer": 21 },
     "baby_flags": [ "AUTUMN" ],
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
@@ -43,7 +43,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_crab",
     "name": { "str": "pancora crab" },
-    "reproduction": { "baby_monster": "mon_pancora_manca", "baby_count": 1, "baby_timer": 21 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_pancora_manca" }, "baby_count": 1, "baby_timer": 21 },
     "description": "A crustacean belonging to the Aeglidae family.  They are among the only living freshwater anomurans, being restricted solely to South America."
   },
   {
@@ -82,7 +82,7 @@
     "dodge": 4,
     "harvest": "fish_large",
     "zombify_into": "mon_zhark",
-    "reproduction": { "baby_monster": "mon_shark_pup", "baby_count": 8, "baby_timer": 364 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_shark_pup" }, "baby_count": 8, "baby_timer": 364 },
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ],
     "armor": { "bash": 5, "cut": 1, "bullet": 1 }
   },
@@ -104,7 +104,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "lungfish" },
-    "reproduction": { "baby_egg": "egg_lungfish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_lungfish" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A lungfish.  This strange fish has relatives in both Africa and Australia, all of them can breathe air and some consider them living fossils."
   },
   {
@@ -121,7 +121,7 @@
     "name": { "str": "electric eel" },
     "description": "An electric eel.  A strange elongated fish known for its ability to use electricity to hunt prey, despite their name they are not actually eels.",
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "reproduction": { "baby_egg": "egg_eel_electric", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_eel_electric" }, "baby_count": 2, "baby_timer": 17 },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
   },
   {
@@ -136,7 +136,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str": "pacu" },
-    "reproduction": { "baby_egg": "egg_pacu", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pacu" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A pacu.  There are several species of these piranha relatives in the rivers of South America, they are usually small to medium size."
   },
   {
@@ -151,7 +151,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "tambaqui" },
-    "reproduction": { "baby_egg": "egg_tambaqui", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_tambaqui" }, "baby_count": 2, "baby_timer": 17 },
     "description": "Also known as black or giant pacu.  This is the largest member of the family and the most known worldwide."
   },
   {
@@ -186,7 +186,7 @@
     "vision_day": 1,
     "vision_night": 30,
     "harvest": "fish_small",
-    "reproduction": { "baby_egg": "egg_piranha", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_piranha" }, "baby_count": 2, "baby_timer": 17 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "path_settings": { "max_dist": 5 },
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
@@ -203,7 +203,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "arowana" },
-    "reproduction": { "baby_egg": "egg_arowana", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_arowana" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A member of the Osteoglossidade family.  These fishes can be found on South America, Asia and Australia."
   },
   {
@@ -218,7 +218,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
     "name": { "str": "arapaima" },
-    "reproduction": { "baby_egg": "egg_arapaima", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_arapaima" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A member of the Arapaimidae family.  These fishes can be found on South America and Africa, some species can grow to truly huge sizes."
   },
   {
@@ -233,7 +233,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
     "name": { "str": "piraiba" },
-    "reproduction": { "baby_egg": "egg_piraiba", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_piraiba" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A huge species of South American catfish native to the Amazon and Orinoco rivers, they can reach almost 3 meters in length."
   },
   {
@@ -248,7 +248,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str": "pleco" },
-    "reproduction": { "baby_egg": "egg_pleco", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_pleco" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A catfish species native to South America, Panama and even Costa Rica.  They are distinguished by their bony spines and suction adapted mouths."
   },
   {
@@ -284,7 +284,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "reproduction": { "baby_monster": "mon_fry_stingray", "baby_count": 8, "baby_timer": 364 },
+    "reproduction": { "baby_type": { "baby_monster": "mon_fry_stingray" }, "baby_count": 8, "baby_timer": 364 },
     "harvest": "fish_small",
     "dissect": "dissect_fish_sample_single",
     "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "BADVENOM" ]
@@ -306,7 +306,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_huge",
     "name": { "str": "gar" },
-    "reproduction": { "baby_egg": "egg_gar", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_gar" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A fish belonging to the Lepisosteidae family.  These enormous fishes can be found from North America to the Caribbean and are well known for their prehistoric appearance."
   },
   {
@@ -321,7 +321,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "tucunaré", "str_pl": "tucunarés" },
-    "reproduction": { "baby_egg": "egg_tucunare", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_tucunare" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A vicious predatory cichlid found along the northern tributaries of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
   },
   {
@@ -336,7 +336,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str": "discus", "str_pl": "discuses" },
-    "reproduction": { "baby_egg": "egg_discus", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_discus" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to maintain in captivity."
   },
   {
@@ -351,7 +351,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_tiny",
     "name": { "str_sp": "angelfish" },
-    "reproduction": { "baby_egg": "egg_angelfish", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_angelfish" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi-aggressive in captivity."
   },
   {
@@ -366,7 +366,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str_sp": "koi" },
-    "reproduction": { "baby_egg": "egg_koi", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_koi" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
   },
   {
@@ -381,7 +381,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_medium",
     "name": { "str": "tilapia" },
-    "reproduction": { "baby_egg": "egg_tilapia", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_tilapia" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adaptable herbivorous fishes that can survive well even in salt water."
   },
   {
@@ -396,7 +396,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_large",
     "name": { "str": "sabalo" },
-    "reproduction": { "baby_egg": "egg_sabalo", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_sabalo" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A fish belonging to the Prochilodontidae family.  They are native to South America and most species can be found feeding on detritus."
   },
   {
@@ -411,7 +411,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str": "oscar" },
-    "reproduction": { "baby_egg": "egg_oscar", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_oscar" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A species of omnivorous cichlid native to South America.  Quite popular in aquariums with several different colored breeds."
   },
   {
@@ -426,7 +426,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str": "guapote" },
-    "reproduction": { "baby_egg": "egg_guapote", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_guapote" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A genus of cichlids found in Central America.  All of the species are predatory with different coloration and sizes."
   },
   {
@@ -441,7 +441,7 @@
     "type": "MONSTER",
     "copy-from": "mon_fish_small",
     "name": { "str": "mayaheros", "str_pl": "mayaheri" },
-    "reproduction": { "baby_egg": "egg_mayaheros", "baby_count": 2, "baby_timer": 17 },
+    "reproduction": { "baby_type": { "baby_egg": "egg_mayaheros" }, "baby_count": 2, "baby_timer": 17 },
     "description": "A genus of adaptable cichlids native to Central America.  They can survive in marine environments with some populations even reaching Florida."
   },
   {

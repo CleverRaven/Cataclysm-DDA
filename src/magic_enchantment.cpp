@@ -75,6 +75,8 @@ namespace io
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
+            case enchant_vals::mod::MUT_INSTABILITY_MOD: return "MUT_INSTABILITY_MOD";
+            case enchant_vals::mod::RANGE_DODGE: return "RANGE_DODGE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
@@ -88,12 +90,14 @@ namespace io
             case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
+			case enchant_vals::mod::RANGED_ARMOR_PENETRATION: return "RANGED_ARMOR_PENETRATION";
             case enchant_vals::mod::DODGE_CHANCE: return "DODGE_CHANCE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
+            case enchant_vals::mod::VISION_RANGE: return "VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
             case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
             case enchant_vals::mod::SIGHT_RANGE_FAE: return "SIGHT_RANGE_FAE";
@@ -183,6 +187,7 @@ namespace io
             case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
             case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
             case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
+            case enchant_vals::mod::PHASE_DISTANCE: return "PHASE_DISTANCE";
             case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
             case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
             case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
@@ -193,9 +198,12 @@ namespace io
             case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
             case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
             case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
+            case enchant_vals::mod::THROW_STR: return "THROW_STR";
+            case enchant_vals::mod::THROW_DAMAGE: return "THROW_DAMAGE";
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
+            case enchant_vals::mod::WEAKPOINT_ACCURACY: return "WEAKPOINT_ACCURACY";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -321,7 +329,9 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
@@ -340,7 +350,9 @@ bool enchantment::is_monster_relevant() const
             pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
             pair_values.first == enchant_vals::mod::ARMOR_STAB ||
             pair_values.first == enchant_vals::mod::REGEN_HP ||
-            pair_values.first == enchant_vals::mod::SPEED ) {
+            pair_values.first == enchant_vals::mod::VISION_RANGE ||
+            pair_values.first == enchant_vals::mod::SPEED ||
+            pair_values.first == enchant_vals::mod::LUMINATION ) {
             return true;
         }
     }
@@ -1016,7 +1028,7 @@ void enchant_cache::activate_passive( Character &guy ) const
                                             guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
     if( emitter ) {
-        get_map().emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos_bub(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, false, eff.second );
@@ -1026,7 +1038,7 @@ void enchant_cache::activate_passive( Character &guy ) const
         // a random approximation!
         if( one_in( to_seconds<int>( activation.first ) ) ) {
             for( const fake_spell &fake : activation.second ) {
-                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos() );
+                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos_bub() );
             }
         }
     }
@@ -1059,12 +1071,12 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
                                       caster.get_name() );
-        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos() );
+        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos_bub() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
         const spell &spell_lvl = sp.get_spell( caster, sp.level );
-        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
-            !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
+        if( !spell_lvl.is_valid_target( caster, trg_crtr.pos_bub() ) ||
+            !spell_lvl.is_target_in_range( caster, trg_crtr.pos_bub() ) ) {
             return;
         }
 
@@ -1073,7 +1085,7 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.npc_trigger_message,
                                       caster.get_name(), trg_crtr.disp_name() );
 
-        spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
+        spell_lvl.cast_all_effects( caster, trg_crtr.pos_bub() );
     }
 }
 

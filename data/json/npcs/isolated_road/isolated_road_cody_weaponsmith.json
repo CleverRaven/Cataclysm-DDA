@@ -1,0 +1,240 @@
+[
+  {
+    "id": "EOC_blacksmith_weapon_cleanup",
+    "type": "effect_on_condition",
+    "effect": [
+      { "u_lose_var": "general_artisans_blacksmith_weapon" },
+      { "u_lose_var": "general_artisans_blacksmith_weapon_type" },
+      { "u_lose_var": "number_artisans_blacksmith_weapon_wait" },
+      { "u_lose_var": "number_artisans_blacksmith_weapon_cost" },
+      { "u_lose_var": "timer_artisans_u_waiting_on_weapon" }
+    ]
+  },
+  {
+    "id": "EOC_blacksmith_weapon_choose_type",
+    "type": "effect_on_condition",
+    "condition": { "expects_vars": [ "name", "cost", "wait" ] },
+    "effect": [
+      { "run_eocs": [ "EOC_blacksmith_weapon_cleanup" ] },
+      {
+        "set_string_var": { "context_val": "name" },
+        "target_var": { "u_val": "general_artisans_blacksmith_weapon_type" }
+      },
+      { "math": [ "u_number_artisans_blacksmith_weapon_cost", "=", "_cost" ] },
+      { "math": [ "u_number_artisans_blacksmith_weapon_wait", "=", "_wait" ] }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_WEAPONSMITH",
+    "//": "this is all the dialogue related to working on weapon with Cody",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "compare_string": [ "", { "u_val": "general_artisans_blacksmith_weapon" } ],
+      "yes": {
+        "gendered_line": "Sure.  After what you've done for me, I'll forge you the finest work of art.  The price and waiting time depend on the size of the weapon in question, but it will take me a fair amount of money to buy the quality steel I need from the scavengers, and even forging a short blade will take a few days.\n\nI can also temper your weapon, but that will cost an additional 50 merch and take an additional 2 days, but I assure you, it's worth it.",
+        "relevant_genders": [ "u" ]
+      },
+      "no": "Do you still want to order your <item_name:<u_val:general_artisans_blacksmith_weapon>> or would you like to choose something else?"
+    },
+    "responses": [
+      { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
+      {
+        "text": "Yes, I want to order it.",
+        "condition": { "not": { "compare_string": [ "", { "u_val": "general_artisans_blacksmith_weapon" } ] } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_PAYMENT"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a mace.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "mace", "cost": "200", "wait": "3" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a steelshod quarterstaff.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "steel_staff", "cost": "200", "wait": "3" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a battle axe.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "battleaxe", "cost": "250", "wait": "4" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a longsword.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "longsword", "cost": "250", "wait": "4" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a nodachi.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "nodachi", "cost": "250", "wait": "4" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need a zweihander.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "zweihander", "cost": "250", "wait": "4" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need an arming sword.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "arming_sword", "cost": "200", "wait": "3" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a broadsword.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "broadsword", "cost": "200", "wait": "3" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a cavalry saber.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "cavalry_sabre", "cost": "200", "wait": "3" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a cutlass.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "cutlass", "cost": "200", "wait": "3" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a katana.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "katana", "cost": "200", "wait": "3" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[170 merch, 3 days] I need a wakizashi.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "wakizashi", "cost": "170", "wait": "3" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[150 merch, 2 days] I need a kukri.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "kukri", "cost": "150", "wait": "2" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[250 merch, 4 days] I need an estoc.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "estoc", "cost": "250", "wait": "4" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[200 merch, 3 days] I need a rapier.",
+        "effect": { "run_eoc_with": "EOC_blacksmith_weapon_choose_type", "variables": { "name": "rapier", "cost": "200", "wait": "3" } },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      },
+      {
+        "text": "[70 merch, 2 days] I need a trench knife.",
+        "effect": {
+          "run_eoc_with": "EOC_blacksmith_weapon_choose_type",
+          "variables": { "name": "knife_trench", "cost": "70", "wait": "2" }
+        },
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_STEEL"
+      }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_WEAPONSMITH_STEEL",
+    "//": "this is all the dialogue related to working on weapon with Cody",
+    "type": "talk_topic",
+    "dynamic_line": "Okay.  What about the steel grade?  Tempering will make your weapon much more durable and a little sharper.",
+    "responses": [
+      {
+        "text": "No, high carbon steel is fine.",
+        "effect": [
+          {
+            "set_string_var": "hc_<u_val:general_artisans_blacksmith_weapon_type>",
+            "target_var": { "u_val": "general_artisans_blacksmith_weapon" },
+            "parse_tags": true
+          }
+        ],
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_PAYMENT"
+      },
+      {
+        "text": "[+50 merch, +2 days] Yes, tempered steel would be excellent.",
+        "effect": [
+          {
+            "set_string_var": "qt_<u_val:general_artisans_blacksmith_weapon_type>",
+            "target_var": { "u_val": "general_artisans_blacksmith_weapon" },
+            "parse_tags": true
+          },
+          { "math": [ "u_number_artisans_blacksmith_weapon_cost", "+=", "50" ] },
+          { "math": [ "u_number_artisans_blacksmith_weapon_wait", "+=", "2" ] }
+        ],
+        "topic": "TALK_BLACKSMITH_WEAPONSMITH_PAYMENT"
+      },
+      { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_WEAPONSMITH_PAYMENT",
+    "//": "this is all the dialogue related to working on weapon with Cody",
+    "type": "talk_topic",
+    "dynamic_line": "Great, so I can make your <item_name:<u_val:general_artisans_blacksmith_weapon>> for <u_val:number_artisans_blacksmith_weapon_cost> merch and in <u_val:number_artisans_blacksmith_weapon_wait> days.  Deal?",
+    "responses": [
+      {
+        "text": "[<u_val:number_artisans_blacksmith_weapon_cost> merch] Deal.  See you in <u_val:number_artisans_blacksmith_weapon_wait> days.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": { "u_val": "number_artisans_blacksmith_weapon_cost" } } },
+        "switch": true,
+        "effect": [
+          { "u_sell_item": "FMCNote", "count": { "u_val": "number_artisans_blacksmith_weapon_cost" } },
+          { "u_add_var": "dialogue_artisans_u_current_project", "value": "weapon" },
+          { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "yes" },
+          { "math": [ "u_timer_artisans_u_waiting_on_weapon", "=", "time('now')" ] }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Um… wait, I don't have that kind of money right now.",
+        "switch": true,
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" }
+    ]
+  },
+  {
+    "id": "TALK_BLACKSMITH_WEAPON_READY",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "math": [ "time_since(u_timer_artisans_u_waiting_on_weapon, 'unit':'days')", ">=", "u_number_artisans_blacksmith_weapon_wait" ],
+      "yes": "It's all done!  Sorry for the long wait; hopefully it's worth it.",
+      "no": "Still working on it."
+    },
+    "responses": [
+      {
+        "text": "Thanks.",
+        "condition": {
+          "math": [ "time_since(u_timer_artisans_u_waiting_on_weapon, 'unit':'days')", ">=", "u_number_artisans_blacksmith_weapon_wait" ]
+        },
+        "switch": true,
+        "effect": [
+          { "u_add_var": "dialogue_artisans_blacksmith_crafting", "value": "no" },
+          { "u_add_var": "dialogue_artisans_u_current_project", "value": "none" },
+          { "u_spawn_item": { "u_val": "general_artisans_blacksmith_weapon" } },
+          { "run_eocs": [ "EOC_blacksmith_weapon_cleanup" ] }
+        ],
+        "topic": "TALK_BLACKSMITH_SERVICES"
+      },
+      { "text": "See you when it's done.", "switch": true, "topic": "TALK_DONE" }
+    ]
+  }
+]

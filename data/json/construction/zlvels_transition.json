@@ -134,16 +134,7 @@
     "tools": [
       [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
       [ [ "tool_rope_long", 1, "LIST" ] ],
-      [
-        "miner_hat",
-        "hat_hard",
-        "firehelmet",
-        "helmet_ball",
-        "helmet_army",
-        "helmet_riot",
-        "tac_helmet",
-        "miner_hat_on"
-      ]
+      [ "hat_hard", "firehelmet", "helmet_ball", "helmet_army", "helmet_riot", "tac_helmet" ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],

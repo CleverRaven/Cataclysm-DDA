@@ -80,5 +80,21 @@
         }
       ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAVENFOLK_LEAP",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "2500",
+          "prep_time": "1",
+          "spell_to_cast": "spell_ravenfolk_leap",
+          "message_success": { "i18n": true, "str": "You launch yourself into a powerful wing-assisted leap." },
+          "message_fail": { "i18n": true, "str": "You're too tired to leap." }
+        }
+      }
+    ]
   }
 ]

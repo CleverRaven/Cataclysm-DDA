@@ -614,6 +614,16 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_STONE_MEDITATIONS",
+    "name": { "str": "Stone Meditations" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "[ WIP Does nothing ]The Ierde meditates on the nature of stone and removes themselves from the highs and lows of mortal emotions.",
+    "category": [ "IERDE" ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_TUNNEL_TRANSLOCATION",
     "name": { "str": "Traveling the Veins of the Earth" },
     "points": 10,

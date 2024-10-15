@@ -32,9 +32,10 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_exterior", "afs_habitat_residential_furnishing" ],
-      "terrain": { "1": "t_door_metal_locked", "5": "t_atm" },
+      "terrain": { "1": "t_door_metal_locked" },
       "//": "An Electronic safe would be prefered but the gunsafe furniture is hardcoded to say do you want to hack this gunsafe?",
       "furniture": {
+        "5": "f_atm",
         "â": "f_bookcase",
         "á": "f_display_fridge",
         "ä": "f_rack",

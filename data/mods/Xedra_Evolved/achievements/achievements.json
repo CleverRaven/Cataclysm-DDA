@@ -190,6 +190,20 @@
     ]
   },
   {
+    "id": "avchievement_gains_vampire5_trait",
+    "type": "achievement",
+    "name": "Fully walked the shadowed path of blood.",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_gains_mutation",
+        "is": "==",
+        "target": [ "trait_id", "BLOOD_DRINKER" ],
+        "description": "You reached the final state of vampirism, becoming worthy of the title of ruler of the night.",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
     "id": "achievement_lvl_1_deduction",
     "type": "achievement",
     "name": { "str": "Inspector Lestrade" },

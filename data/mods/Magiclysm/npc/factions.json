@@ -59,7 +59,7 @@
         "knows your voice": true
       }
     },
-    "description": "The spellcrafters of old.  Hidden from the world until the cataclysm, they have their own agenda and care little for you or yours."
+    "description": "The spellcrafters of old.  Hidden from the world until the Cataclysm, they have their own agenda and care little for you or yours."
   },
   {
     "type": "faction",
@@ -120,7 +120,7 @@
         "knows your voice": true
       }
     },
-    "description": "A collection of those cursed by the cataclysm.  They have sworn to rid this world of its curse and will stop at nothing to accomplish their task."
+    "description": "A collection of those cursed by the Cataclysm.  They have sworn to rid this world of its curse and will stop at nothing to accomplish their task."
   },
   {
     "type": "faction",

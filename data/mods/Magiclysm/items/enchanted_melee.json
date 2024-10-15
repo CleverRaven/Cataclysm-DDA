@@ -226,7 +226,7 @@
   {
     "type": "GENERIC",
     "id": "mace_plus_one",
-    "copy-from": "mace",
+    "copy-from": "qt_mace",
     "name": { "str": "mace +1", "str_pl": "maces +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -234,7 +234,7 @@
   {
     "type": "GENERIC",
     "id": "mace_plus_two",
-    "copy-from": "mace",
+    "copy-from": "qt_mace",
     "name": { "str": "mace +2", "str_pl": "maces +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -338,7 +338,7 @@
   {
     "type": "GENERIC",
     "id": "battleaxe_plus_one",
-    "copy-from": "battleaxe",
+    "copy-from": "qt_battleaxe",
     "name": { "str": "battle axe +1", "str_pl": "battle axes +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -346,7 +346,7 @@
   {
     "type": "GENERIC",
     "id": "battleaxe_plus_two",
-    "copy-from": "battleaxe",
+    "copy-from": "qt_battleaxe",
     "name": { "str": "battle axe +2", "str_pl": "battle axes +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -434,7 +434,7 @@
   {
     "type": "GENERIC",
     "id": "knife_rambo_plus_one",
-    "copy-from": "knife_rambo",
+    "copy-from": "qt_knife_rambo",
     "name": { "str": "survival knife +1", "str_pl": "survival knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -442,7 +442,7 @@
   {
     "type": "GENERIC",
     "id": "knife_rambo_plus_two",
-    "copy-from": "knife_rambo",
+    "copy-from": "qt_knife_rambo",
     "name": { "str": "survival knife +2", "str_pl": "survival knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -450,7 +450,7 @@
   {
     "type": "GENERIC",
     "id": "knife_trench_plus_one",
-    "copy-from": "knife_trench",
+    "copy-from": "qt_knife_trench",
     "name": { "str": "trench knife +1", "str_pl": "trench knives +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -458,7 +458,7 @@
   {
     "type": "GENERIC",
     "id": "knife_trench_plus_two",
-    "copy-from": "knife_trench",
+    "copy-from": "qt_knife_trench",
     "name": { "str": "trench knife +2", "str_pl": "trench knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
@@ -482,7 +482,7 @@
   {
     "type": "GENERIC",
     "id": "kukri_plus_one",
-    "copy-from": "kukri",
+    "copy-from": "qt_kukri",
     "name": { "str": "kukri +1", "str_pl": "kukris +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
@@ -490,7 +490,7 @@
   {
     "type": "GENERIC",
     "id": "kukri_plus_two",
-    "copy-from": "kukri",
+    "copy-from": "qt_kukri",
     "name": { "str": "kukri +2", "str_pl": "kukris +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }

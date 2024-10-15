@@ -33,6 +33,7 @@ git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 .\bootstrap-vcpkg.bat -disableMetrics
 .\vcpkg integrate install
+git checkout 66444e13a86da7087ee24c342f91801cc6eb9877
 ```
 In a Git Bash shell, the commands are almost the same except the filesystem path separator is `/` instead of `\`.
 ```cmd
@@ -41,6 +42,7 @@ git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
 ./bootstrap-vcpkg.bat -disableMetrics
 ./vcpkg.exe integrate install
+git checkout 66444e13a86da7087ee24c342f91801cc6eb9877
 ```
 
 ## Cloning and compilation:

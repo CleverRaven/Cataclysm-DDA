@@ -195,11 +195,11 @@
     "id": "combat_exoskeleton_heavy_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.1" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton provides <color_white>significant</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.4 },
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.2 },
       { "value": "CARRY_WEIGHT", "multiply": 0.8 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
@@ -208,11 +208,11 @@
     "id": "combat_exoskeleton_medium_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.2" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton provides <color_white>moderate</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.6 },
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.3 },
       { "value": "CARRY_WEIGHT", "multiply": 0.6 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]
@@ -221,11 +221,11 @@
     "id": "combat_exoskeleton_light_active",
     "type": "enchantment",
     "name": { "str": "Active combat exoskeleton mk.3" },
-    "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance.",
+    "description": "Now powered, the exoskeleton provides <color_white>slight</color> improvements to your carry weight and movement exertion while the life support system shields you against harmful gas, cools you down, and dampens harmful sounds.",
     "has": "WORN",
     "condition": "ACTIVE",
     "values": [
-      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": 0.8 },
+      { "value": "MOVEMENT_EXERTION_MODIFIER", "multiply": -0.4 },
       { "value": "CARRY_WEIGHT", "multiply": 0.4 },
       { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
     ]

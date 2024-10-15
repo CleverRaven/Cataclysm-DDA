@@ -4657,8 +4657,8 @@
         {
           "id": [
             "knife_combat",
-            "knife_steak",
-            "knife_butcher",
+            "knife_small_var_knife_steak",
+            "knife_huge_var_knife_butcher",
             "diveknife",
             "makeshift_knife",
             "primitive_knife",
@@ -9656,7 +9656,6 @@
         { "id": "welding_wire_alloy", "fg": 1918 },
         { "id": "welding_wire_steel", "fg": 1919 },
         { "id": "well_pump", "fg": 1920 },
-        { "id": "wire_barbed_baseball", "fg": 1922 },
         { "id": "wood_block", "fg": 1924 },
         { "id": "wooden_post", "fg": 1926 },
         { "id": "wooden_post_short", "fg": 1927 },
@@ -11751,13 +11750,12 @@
         {
           "id": [
             "overlay_female_wielded_knife_rambo",
-            "overlay_female_wielded_knife_butcher",
+            "overlay_female_wielded_knife_huge_var_knife_butcher",
             "overlay_female_wielded_kris",
             "overlay_female_wielded_knife_hunting",
             "overlay_female_wielded_knife_rm42"
           ],
-          "fg": 5589,
-          "rotates": false
+          "fg": 5589
         },
         { "id": [ "overlay_female_wielded_ksg", "overlay_female_wielded_ksg-25" ], "fg": 5527, "rotates": false },
         {
@@ -12238,13 +12236,12 @@
         {
           "id": [
             "overlay_male_wielded_knife_rambo",
-            "overlay_male_wielded_knife_butcher",
+            "overlay_male_wielded_knife_huge_var_knife_butcher",
             "overlay_male_wielded_kris",
             "overlay_male_wielded_knife_hunting",
             "overlay_male_wielded_knife_rm42"
           ],
-          "fg": 5657,
-          "rotates": false
+          "fg": 5657
         },
         { "id": [ "overlay_male_wielded_ksg", "overlay_male_wielded_ksg-25" ], "fg": 5441, "rotates": false },
         {

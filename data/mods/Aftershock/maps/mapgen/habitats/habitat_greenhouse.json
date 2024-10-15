@@ -77,7 +77,7 @@
         "í": { "item": "afs_tools_agricultural_hazardous", "chance": 90 },
         "t": { "item": "farming_tools", "chance": 60, "repeat": [ 2, 3 ] }
       },
-      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true } }
+      "vendingmachines": { "V": { "item_group": "afs_vending_medicine", "reinforced": true, "powered": true } }
     }
   },
   {

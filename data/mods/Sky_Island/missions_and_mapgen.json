@@ -21,7 +21,7 @@
       { "u_add_trait": "awayfromhome" },
       { "math": [ "timeawayfromhome", "=", "0 - bonuspulses" ] },
       { "u_add_effect": "warpsickness", "intensity": 6, "duration": "PERMANENT" },
-      { "run_eocs": [ "EOC_create_slaughter" ] },
+      { "run_eocs": [ "EOC_create_slaughter", "EOC_SKY_ISLAND_CLIMATE_RESET" ] },
       {
         "switch": { "math": [ "bonusmissions" ] },
         "cases": [

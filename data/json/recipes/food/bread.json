@@ -144,6 +144,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "toast",
+    "id_suffix": "without_toaster",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
     "skill_used": "cooking",
@@ -155,6 +156,20 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 1, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "bread_toastable", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "toast",
+    "id_suffix": "with_toaster",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "autolearn": true,
+    "charges": 1,
+    "time": "1 m",
+    "tools": [ [ [ "toaster", 5 ] ] ],
     "components": [ [ [ "bread_toastable", 1, "LIST" ] ] ]
   },
   {
@@ -202,7 +217,7 @@
     "//": "bread: 1u, oil: 1u, egg: 3u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_frying" } ],
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ],
+      [ [ "eggs_bird", 1, "LIST" ], [ "eggs_reptile", 1, "LIST" ] ],
       [ [ "bread_sandwich", 1, "LIST" ], [ "toast", 1 ], [ "buttered_toast", 1 ] ],
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]

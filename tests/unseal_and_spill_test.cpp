@@ -454,7 +454,7 @@ void test_scenario::run()
         }
         case container_location::ground: {
             item &added = here.add_item( guy.pos_bub(), it );
-            it_loc = item_location( map_cursor( guy.pos_bub() ), &added );
+            it_loc = item_location( map_cursor( guy.get_location() ), &added );
             break;
         }
         default: {
@@ -862,7 +862,7 @@ void test_scenario::run()
         REQUIRE( !it_loc );
     }
     INFO( "checking ground items" );
-    match( map_cursor( guy.pos_bub() ), here.i_at( guy.pos_bub() ), ground );
+    match( map_cursor( guy.get_location() ), here.i_at( guy.pos_bub() ), ground );
     INFO( "checking vehicle items" );
     std::optional<vpart_reference> vp = here.veh_at( guy.pos_bub() )
                                         .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );

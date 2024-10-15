@@ -514,7 +514,7 @@
     "category": "armor",
     "looks_like": "cuirass_lightplate",
     "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
-    "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
+    "description": "This piece of armor hearkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
     "weight": "4200 g",
     "volume": "6 L",
     "price": "3 kUSD",

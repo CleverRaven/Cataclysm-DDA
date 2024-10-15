@@ -47,7 +47,6 @@
 #include "get_version.h"
 #include "help.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
 #include "memory_fast.h"
@@ -807,9 +806,8 @@ int main( int argc, const char *argv[] )
         }
         if( cli.check_mods ) {
             init_colors();
-            loading_ui ui( false );
             const std::vector<mod_id> mods( cli.opts.begin(), cli.opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
+            exit( g->check_mod_data( mods ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -851,6 +849,8 @@ int main( int argc, const char *argv[] )
 
 #if defined(LOCALIZE)
     if( get_option<std::string>( "USE_LANG" ).empty() && !SystemLocale::Language().has_value() ) {
+        imclient->new_frame(); // we have to prime the pump, because of reasons
+        imclient->end_frame();
         const std::string lang = select_language();
         get_options().get_option( "USE_LANG" ).setValue( lang );
         set_language_from_options();

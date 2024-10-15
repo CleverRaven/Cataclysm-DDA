@@ -132,14 +132,15 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COMPLETED_VAMPIRE4",
-    "effect": {
-      "u_message": "You can advance no further without more guidance from your mentor [fourth wall tier 5 and its content do not exist yet]"
-    }
+    "effect": { "u_message": "You can advance no further without more guidance from your mentor." }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_SUCCESFUL_ROLL_REMAINDER",
-    "effect": { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+    "effect": [
+      { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." },
+      { "run_eocs": "EOC_MIST_FORM_BEFORE_LAST_BREATH" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -300,43 +301,74 @@
               "false_effect": [ { "run_eocs": "EOC_COMPLETED_VAMPIRE3" } ]
             }
           }
-        }
-      ]
-    }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_VAMPVIRUS3",
-    "condition": { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
-    "effect": {
-      "run_eocs": {
-        "id": "eoc_vampvirus_4_math_checker",
-        "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
-        "effect": {
-          "run_eocs": {
-            "id": "eoc_vampvirus_4_trait",
-            "condition": { "u_has_trait": "VAMPIRE4" },
-            "effect": [
-              {
-                "u_roll_remainder": [
-                  "TRUE_VAMPIRE_POWER",
-                  "VAMPIRE_TORPOR",
-                  "VAMPIRE_DOMINATE",
-                  "VAMPIRE_NO_BREATHE",
-                  "VAMPIRE_NO_ILLNESS",
-                  "VAMPIRE_BAT_FORM",
-                  "VAMPIRE_WOLF_FORM",
-                  "VAMPIRE_MIST_FORM"
-                ],
-                "type": "mutation",
-                "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
-                "false_eocs": [ "EOC_COMPLETED_VAMPIRE4" ]
+        },
+        {
+          "id": "EOC_VAMPVIRUS3",
+          "condition": { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_4_math_checker",
+              "condition": { "math": [ "vampire_total_tier_four_traits()", "<", "4" ] },
+              "effect": {
+                "run_eocs": {
+                  "id": "eoc_vampvirus_4_trait",
+                  "condition": { "u_has_trait": "VAMPIRE4" },
+                  "effect": [
+                    {
+                      "u_roll_remainder": [
+                        "TRUE_VAMPIRE_POWER",
+                        "VAMPIRE_TORPOR",
+                        "VAMPIRE_DOMINATE",
+                        "VAMPIRE_NO_BREATHE",
+                        "VAMPIRE_NO_ILLNESS",
+                        "VAMPIRE_BAT_FORM",
+                        "VAMPIRE_WOLF_FORM",
+                        "VAMPIRE_MIST_FORM"
+                      ],
+                      "type": "mutation",
+                      "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                      "false_eocs": [ "EOC_COMPLETED_VAMPIRE4" ]
+                    }
+                  ],
+                  "false_effect": [ { "run_eocs": "EOC_COMPLETED_VAMPIRE4" } ]
+                }
               }
-            ],
-            "false_effect": [ { "run_eocs": "EOC_COMPLETED_VAMPIRE4" } ]
+            }
+          }
+        },
+        {
+          "id": "EOC_VAMPVIRUS4",
+          "condition": { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
+          "effect": {
+            "run_eocs": {
+              "id": "eoc_vampvirus_5_math_checker",
+              "condition": { "math": [ "vampire_total_tier_five_traits()", "<", "4" ] },
+              "effect": {
+                "run_eocs": {
+                  "id": "eoc_vampvirus_5_trait",
+                  "condition": { "u_has_trait": "BLOOD_DRINKER" },
+                  "effect": [
+                    {
+                      "u_roll_remainder": [
+                        "VAMPIRE_MASTER_MORTAL_MIND",
+                        "VAMPIRE_DISTILLATE_INNER_BLOOD",
+                        "VAMPIRE_SHADOW_FORM",
+                        "VAMPIRE_LAST_BREATH_MIST",
+                        "VAMPIRE_IRON_MIND",
+                        "VAMPIRE_BLIND_THE_SUN"
+                      ],
+                      "type": "mutation",
+                      "true_eocs": [ "EOC_SUCCESFUL_ROLL_REMAINDER" ],
+                      "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS" ]
+                    }
+                  ],
+                  "false_effect": [ { "run_eocs": "EOC_COMPLETED_ROLL_REMAINDER_VAMPVIRUS" } ]
+                }
+              }
+            }
           }
         }
-      }
+      ]
     }
   },
   {

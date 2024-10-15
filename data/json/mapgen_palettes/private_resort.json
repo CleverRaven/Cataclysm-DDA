@@ -66,6 +66,7 @@
     "id": "p_resort_palette_main_floor",
     "palettes": [ "p_resort_palette_main" ],
     "furniture": {
+      "A": "f_atm_off",
       "d": "f_dishwasher",
       "{": "f_cupboard",
       "g": "f_dumpster",
@@ -109,7 +110,6 @@
       "n": "t_carpet_green",
       "q": "t_window_bars",
       "Q": "t_window_stained_red",
-      "A": "t_atm",
       "@": "t_slot_machine",
       "9": "t_carpet_red",
       "C": "t_carpet_red",

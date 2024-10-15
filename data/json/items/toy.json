@@ -773,7 +773,7 @@
         "id": "toy_figure_caiman",
         "name": { "str": "lizardman figurine" },
         "description": "An expensive figurine of a buff man in streetwear with a lizard head, holding a pair of knives in his hands.",
-        "//": "yes this is a dorohedoro reference"
+        "//": "yes this is a Dorohedoro reference"
       },
       {
         "id": "toy_figure_anime",
@@ -783,7 +783,7 @@
       {
         "id": "toy_figure_heavyweapons",
         "name": { "str": "video game figurine" },
-        "description": "A large figurine of a videogame character, holding a massive gatling gun in his giant arms."
+        "description": "A large figurine of a video game character, holding a massive Gatling gun in his giant arms."
       },
       {
         "id": "toy_figurine_smoker",
