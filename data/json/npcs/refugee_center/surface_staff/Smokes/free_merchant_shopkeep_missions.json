@@ -379,7 +379,7 @@
         "text": "He wants permission to build himself a little shelter outside of your lobby, somewhere out of the way.  He'd need access to your washrooms and things, but you could clear him out of this space.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission2"
       },
-      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -391,7 +391,7 @@
         "text": "What about the rooftop?  There's a stair access there, I can see it from outside, and he'd probably be able to do a bit of a lookout job.",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_DavePermission3"
       },
-      { "text": "Forget I said anything.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
