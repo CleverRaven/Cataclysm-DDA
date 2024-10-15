@@ -62,7 +62,7 @@
     "type": "effect_on_condition",
     "id": "run_eocs_2",
     "//": "run_eocs_2 should be 20",
-    "effect": [ { "run_eocs": [ "EOC_C", "EOC_D" ], "iteration": 10 } ]
+    "effect": [ { "run_eocs": [ "EOC_C", "EOC_D" ], "iterations": 10 } ]
   },
   {
     "type": "effect_on_condition",
@@ -94,7 +94,7 @@
     "type": "effect_on_condition",
     "id": "run_eocs_4",
     "//": "in 2 seconds, run_eocs_4 should be 10 - we shove 10 eocs to run in two seconds",
-    "effect": [ { "run_eocs": [ "EOC_G", "EOC_H" ], "time_in_future": "2 seconds", "iteration": 5 } ]
+    "effect": [ { "run_eocs": [ "EOC_G", "EOC_H" ], "time_in_future": "2 seconds", "iterations": 5 } ]
   },
   {
     "type": "effect_on_condition",
@@ -131,7 +131,7 @@
         "run_eocs": [ "EOC_K", "EOC_L" ],
         "time_in_future": [ "0 seconds", "10 seconds" ],
         "randomize_time_in_future": true,
-        "iteration": 5
+        "iterations": 5
       }
     ]
   },
@@ -154,7 +154,7 @@
         "run_eocs": [ "EOC_M", "EOC_N" ],
         "time_in_future": [ "0 seconds", "10 seconds" ],
         "randomize_time_in_future": true,
-        "iteration": 5,
+        "iterations": 5,
         "variables": { "test_context_key_M": "test_context_value_M", "test_context_key_N": "test_context_value_N" }
       }
     ]
