@@ -162,7 +162,6 @@
     "price_postapoc": "30 USD",
     "to_hit": -1,
     "material": [ "kevlar", "cotton" ],
-
     "symbol": "[",
     "looks_like": "hood_survivor",
     "color": "green",
