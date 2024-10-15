@@ -1483,7 +1483,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
         ui_adaptor ui;
         ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            w_editor = catacurses::newwin( 15, 27, point( TERMX - 27, 3 ) );
+            w_editor = catacurses::newwin( 15, OVERMAP_LEGEND_WIDTH - 1,
+                                           point( TERMX - OVERMAP_LEGEND_WIDTH + 1, 10 ) );
 
             ui.position_from_window( w_editor );
         } );
@@ -1534,12 +1535,8 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, "                         " );
             mvwprintz( w_editor, point( 1, 3 ), c_light_gray, _( "Rotation: %s %s" ), rotation,
                        can_rotate ? "" : _( "(fixed)" ) );
-            mvwprintz( w_editor, point( 1, 5 ), c_red, _( "Highlighted regions" ) );
-            mvwprintz( w_editor, point( 1, 6 ), c_red, _( "already have map content" ) );
-            // NOLINTNEXTLINE(cata-text-style): single space after period for compactness
-            mvwprintz( w_editor, point( 1, 7 ), c_red, _( "generated. Their overmap" ) );
-            mvwprintz( w_editor, point( 1, 8 ), c_red, _( "id will change, but not" ) );
-            mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );
+            fold_and_print( w_editor, point( 1, 5 ), getmaxx( w_editor ) - 2, c_red,
+                            _( "Highlighted regions already have map content generated.  Their overmap id will change, but not their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                 ( !terrain && uistate.place_special->is_rotatable() ) ) {
                 mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
