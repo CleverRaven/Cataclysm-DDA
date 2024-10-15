@@ -12,8 +12,8 @@
     "object": {
       "fallback_predecessor_mapgen": "open_air",
       "place_nested": [
-        { "chunks": [ "24x24_highway_road_flat" ], "x": 0, "y": 0, "z": [ 0 ] },
-        { "chunks": [ "24x24_highway_bridge_road" ], "x": 0, "y": 0, "z": [ 1 ] }
+        { "chunks": [ "24x24_highway_road_flat" ], "x": 0, "y": 0, "check_z": [ 0 ] },
+        { "chunks": [ "24x24_highway_bridge_road" ], "x": 0, "y": 0, "check_z": [ 1 ] }
       ]
     }
   },

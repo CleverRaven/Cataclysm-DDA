@@ -37,7 +37,7 @@
           "chunks": [ "24x24_highway_fallback_intersection_grass" ],
           "x": 0,
           "y": 0,
-          "z": [ 0 ],
+          "check_z": [ 0 ],
           "flags_any": { "north": [ "HIGHWAY" ], "west": [ "HIGHWAY" ] }
         },
         {
