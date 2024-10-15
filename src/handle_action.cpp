@@ -772,6 +772,9 @@ static void grab()
             add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
+        if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+            return; // player declined to mess with faction's stuff
+        }
         you.grab( object_type::FURNITURE, grabp - you.pos_bub() );
         if( !here.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), here.furnname( grabp ) );
@@ -928,6 +931,10 @@ static void smash()
         return;
     }
     tripoint_bub_ms smashp = tripoint_bub_ms( *smashp_ );
+
+    if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+        return; // player declined to smash faction's stuff
+    }
 
     bool smash_floor = false;
     if( smashp.z() != player_character.posz() ) {
@@ -1356,6 +1363,10 @@ static void sleep()
         g->quicksave();
     } else if( as_m.ret == 2 || as_m.ret < 0 ) {
         return;
+    }
+
+    if( !g->warn_player_maybe_anger_local_faction( false, true ) ) {
+        return; // player declined to annoy locals by illegally sleeping in their territory
     }
 
     time_duration try_sleep_dur = 24_hours;
@@ -2656,6 +2667,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
             } else {
+                if( !g->warn_player_maybe_anger_local_faction( true ) ) {
+                    break; // player declined to mess with faction's stuff
+                }
                 construction_menu( false );
             }
             break;

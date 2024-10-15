@@ -813,13 +813,12 @@
     "max_level": { "math": [ "str_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "downed",
-    "extra_effects": [
-      { "id": "undine_tidal_wave_spell_bash", "hit_self": false },
-      { "id": "undine_tidal_wave_spell_push", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "undine_tidal_wave_spell_push", "hit_self": false } ],
     "shape": "line",
     "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 40) * (scaling_factor(u_val('strength') ) )" ] },
     "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 9) + 100) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_bash_scaling": 1.14,
+    "max_bash_scaling": 1.25,
     "damage_type": "bash",
     "min_duration": 200,
     "max_duration": 900,
@@ -838,29 +837,6 @@
     "base_casting_time": 250,
     "final_casting_time": 50,
     "casting_time_increment": -12
-  },
-  {
-    "id": "undine_tidal_wave_spell_bash",
-    "type": "SPELL",
-    "name": "Tidal Wave Bash",
-    "description": "The Bash effect of the Tidal Wave spell.  It's a bug if you have it directly.",
-    "teachable": false,
-    "valid_targets": [ "ground", "hostile" ],
-    "spell_class": "UNDINE",
-    "flags": [ "LOUD", "RANDOM_DAMAGE" ],
-    "max_level": { "math": [ "str_to_level(1)" ] },
-    "effect": "bash",
-    "shape": "line",
-    "min_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 3) + 35) * (scaling_factor(u_val('strength') ) )" ] },
-    "max_damage": { "math": [ "( (u_spell_level('undine_tidal_wave_spell') * 7) + 80) * (scaling_factor(u_val('strength') ) )" ] },
-    "min_range": {
-      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.75) + 4) * (scaling_factor(u_val('strength') ) )), 30)" ]
-    },
-    "max_range": 50,
-    "min_aoe": {
-      "math": [ "min( (( (u_spell_level('undine_tidal_wave_spell') * 0.3) + 2) * (scaling_factor(u_val('strength') ) )), 6)" ]
-    },
-    "max_aoe": 6
   },
   {
     "id": "undine_tidal_wave_spell_push",

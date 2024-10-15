@@ -200,7 +200,7 @@
         "topic": "TALK_DONE",
         "effect": "npc_rules_menu"
       },
-      { "text": "Never mind.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -315,7 +315,7 @@
         "condition": { "compare_string": [ "yes", { "u_val": "general_robofac_merc_1_has_gold_deal" } ] },
         "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION_QUERY"
       },
-      { "text": "Well, I should get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_leave>", "topic": "TALK_DONE" }
     ]
   },
   {
