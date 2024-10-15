@@ -452,7 +452,7 @@
     "type": "TOOL_ARMOR",
     "//": "I based these changes on the OKZK cap, as a general design but with a few changes and considerations. I removed the ballistic kevlar primarily due to it being unsuitable for headwear",
     "name": { "str": "mercenary cowl" },
-    "description": "A sturdy canvas hat and cowl extending down to the neck, fitted with a shade brim, plastic eye visor and integrated filter cartridge intake built into the mouth section. Provides smoke protection, and is cleverly designed to be relatively unencumbering and protective.",
+    "description": "A sturdy canvas hat and cowl extending down to the neck, fitted with a shade brim, plastic eye visor and integrated filter cartridge intake built into the mouth section.  Provides smoke protection, and is cleverly designed to be relatively unencumbering and protective.",
     "weight": "695 g",
     "volume": "2500 ml",
     "price": "550 USD",
