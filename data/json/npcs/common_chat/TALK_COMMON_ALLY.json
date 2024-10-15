@@ -60,7 +60,7 @@
         "topic": "TALK_ALLY_DEBUG"
       },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -117,7 +117,7 @@
       },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
       { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -231,7 +231,7 @@
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
       { "text": "Let's talk about the camp.", "topic": "TALK_CAMP" },
       { "text": "Change your martial arts style.", "topic": "TALK_DONE", "effect": "pick_style" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
+      { "text": "<lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -245,8 +245,8 @@
         "success": { "topic": "TALK_TRAIN" },
         "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
       },
-      { "text": "Never mind then.", "topic": "TALK_NONE" },
-      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_nevermind>  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -260,8 +260,8 @@
         "success": { "topic": "TALK_TRAIN_SEMINAR" },
         "failure": { "topic": "TALK_DENY_PERSONAL", "effect": { "npc_add_effect": "asked_to_train", "duration": 21600 } }
       },
-      { "text": "Never mind then.", "topic": "TALK_NONE" },
-      { "text": "Forget it, let's get going.", "topic": "TALK_DONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" },
+      { "text": "<end_talking_nevermind>  <lets_go>", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -269,7 +269,12 @@
     "type": "talk_topic",
     "dynamic_line": "You're really leaving?",
     "responses": [
-      { "text": "Yeah, I'm sure.  Bye.", "topic": "TALK_DONE", "effect": "leave", "opinion": { "trust": -2, "anger": 1 } },
+      {
+        "text": "Yeah, I'm sure.  <end_talking_bye>",
+        "topic": "TALK_DONE",
+        "effect": "leave",
+        "opinion": { "trust": -2, "anger": 1 }
+      },
       { "text": "Nah, I'm just kidding.", "topic": "TALK_NONE" }
     ]
   },
@@ -462,7 +467,7 @@
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
-      { "text": "Never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -471,7 +476,7 @@
     "dynamic_line": { "gendered_line": "Are you sure?", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Yes, I'm sure.", "topic": "TALK_DONE", "effect": "abandon_camp" },
-      { "text": "Actually, never mind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   },
   {
@@ -551,7 +556,7 @@
       },
       { "text": "Train me.", "topic": "TALK_TRAIN" },
       { "text": "Do a seminar.", "topic": "TALK_TRAIN_SEMINAR" },
-      { "text": "Nevermind.", "topic": "TALK_NONE" }
+      { "text": "<end_talking_nevermind>", "topic": "TALK_NONE" }
     ]
   }
 ]

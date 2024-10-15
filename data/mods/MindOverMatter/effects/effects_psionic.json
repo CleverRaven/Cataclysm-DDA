@@ -2344,7 +2344,9 @@
     "name": [ "Enervating Touch" ],
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
     "rating": "bad",
-    "max_duration": "1 minutes"
+    "max_duration": "1 minutes",
+    "base_mods": { "hit_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {
     "type": "effect_type",

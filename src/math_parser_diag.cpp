@@ -1672,7 +1672,7 @@ std::function<double( dialogue & )> calories_eval( char scope,
             if( d.actor( beta )->get_character() ) {
                 return d.actor( beta )->get_stored_kcal();
             }
-            item_location *it = d.actor( beta )->get_item();
+            item_location const *it = static_cast<talker const *>( d.actor( beta ) )->get_item();
             if( it && *it ) {
                 npc dummy;
                 return dummy.compute_effective_nutrients( *it->get_item() ).kcal();

@@ -5364,7 +5364,7 @@ void cata_tiles::get_tile_values_with_ter(
 
 void cata_tiles::do_tile_loading_report()
 {
-    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << get_option<std::string>( "TILES" );
+    DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << tileset_ptr->get_tileset_id();
 
     if( !g->is_core_data_loaded() ) {
         // There's nothing to do anymore without the core data.

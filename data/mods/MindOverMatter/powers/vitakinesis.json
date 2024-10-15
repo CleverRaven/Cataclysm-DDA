@@ -208,8 +208,16 @@
     "effect_str": "effect_vitakin_hurt",
     "shape": "blast",
     "damage_type": "biological",
-    "min_dot": 1,
-    "max_dot": 1,
+    "min_dot": {
+      "math": [
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+      ]
+    },
+    "max_dot": {
+      "math": [
+        "min( ( ( (u_spell_level('vita_hurt_touch') * 0.01) + 0.05) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 0.33)"
+      ]
+    },
     "min_range": 1,
     "min_duration": {
       "math": [
